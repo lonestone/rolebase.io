@@ -11,7 +11,3 @@ export interface RoleEntry extends Role {
 
 export type RoleCreate = Role
 export type RoleUpdate = Partial<Role>
-
-export function getRoleById(roles: RoleEntry[], id: string) {
-  return roles.find((role) => role.id === id) || { id, name: '?' }
-}

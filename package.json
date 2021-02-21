@@ -17,7 +17,6 @@
     "d3-hierarchy": "^2.0.0",
     "firebase": "^8.2.7",
     "framer-motion": "^3.3.0",
-    "nanoid": "^3.1.20",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-firebase-hooks": "^2.2.0",
