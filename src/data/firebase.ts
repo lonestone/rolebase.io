@@ -5,8 +5,8 @@ import settings from '../settings'
 export const firebaseApp = firebase.initializeApp(settings.firebase)
 export const firestore = firebaseApp.firestore()
 
-export type FirebaseHookReturn<DocData> = [
-  members: DocData[] | undefined,
+export type FirebaseHookReturn<Data> = [
+  data: Data | undefined,
   loading: boolean,
   error: Error | undefined
 ]

@@ -1,22 +1,15 @@
+import { ChakraProvider, Flex } from '@chakra-ui/react'
 import React from 'react'
-import { useMembers } from '../data/members'
+import Circles from './Circles'
+import Members from './Members'
 
-function App() {
-  const [members, loading, error] = useMembers()
-
+export default function App() {
   return (
-    <div className="App">
-      {error && <strong>Error: {JSON.stringify(error)}</strong>}
-      {loading && <span>Loading...</span>}
-      {members && (
-        <ul>
-          {members.map((person) => (
-            <li key={person.name}>{person.name}</li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <ChakraProvider>
+      <Flex minHeight="100vh">
+        <Members />
+        <Circles />
+      </Flex>
+    </ChakraProvider>
   )
 }
-
-export default App
