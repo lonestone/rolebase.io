@@ -17,51 +17,94 @@ export const circlesMock: CircleEntry[] = [
     id: '1',
     roleId: '5',
     parentId: null,
-    membersIds: [],
+    members: [],
   },
   // Secrétaire
-  { id: '2', roleId: '1', parentId: '1', membersIds: ['CXKUBbf1MCNEZ0IADdLa'] },
+  {
+    id: '2',
+    roleId: '1',
+    parentId: '1',
+    members: [
+      { id: '2-CXKUBbf1MCNEZ0IADdLa', memberId: 'CXKUBbf1MCNEZ0IADdLa' },
+    ],
+  },
   // Facilitateur
-  { id: '3', roleId: '2', parentId: '1', membersIds: ['9YSM9K1DNf19lZinjIsW'] },
+  {
+    id: '3',
+    roleId: '2',
+    parentId: '1',
+    members: [
+      { id: '3-9YSM9K1DNf19lZinjIsW', memberId: '9YSM9K1DNf19lZinjIsW' },
+    ],
+  },
   // Agence / Account Manager
   {
     id: '4',
     roleId: '3',
     parentId: '1',
-    membersIds: ['CXKUBbf1MCNEZ0IADdLa', 'rcmpUX74F4UGWtkOkosf'],
+    members: [
+      { id: '4-CXKUBbf1MCNEZ0IADdLa', memberId: 'CXKUBbf1MCNEZ0IADdLa' },
+      { id: '4-rcmpUX74F4UGWtkOkosf', memberId: 'rcmpUX74F4UGWtkOkosf' },
+    ],
   },
   // Agence / Développeur
-  { id: '5', roleId: '4', parentId: '1', membersIds: ['9YSM9K1DNf19lZinjIsW'] },
+  {
+    id: '5',
+    roleId: '4',
+    parentId: '1',
+    members: [
+      { id: '5-9YSM9K1DNf19lZinjIsW', memberId: '9YSM9K1DNf19lZinjIsW' },
+      { id: '5-CXKUBbf1MCNEZ0IADdLa', memberId: 'CXKUBbf1MCNEZ0IADdLa' },
+    ],
+  },
   // Agence / Direction technique
   {
     id: '6',
     roleId: '7',
     parentId: '1',
-    membersIds: [],
+    members: [],
   },
   // Agence / Direction technique / Secrétaire
-  { id: '7', roleId: '1', parentId: '6', membersIds: ['9YSM9K1DNf19lZinjIsW'] },
+  {
+    id: '7',
+    roleId: '1',
+    parentId: '6',
+    members: [
+      { id: '7-9YSM9K1DNf19lZinjIsW', memberId: '9YSM9K1DNf19lZinjIsW' },
+    ],
+  },
   // Agence / Direction technique / Facilitateur
-  { id: '8', roleId: '2', parentId: '6', membersIds: ['CXKUBbf1MCNEZ0IADdLa'] },
+  {
+    id: '8',
+    roleId: '2',
+    parentId: '6',
+    members: [
+      { id: '8-CXKUBbf1MCNEZ0IADdLa', memberId: 'CXKUBbf1MCNEZ0IADdLa' },
+    ],
+  },
   // Studio
   {
     id: '9',
     roleId: '6',
     parentId: null,
-    membersIds: [],
+    members: [],
   },
-  // Agence / Direction technique / Secrétaire
+  // Studio / Secrétaire
   {
     id: '10',
     roleId: '1',
     parentId: '9',
-    membersIds: ['9YSM9K1DNf19lZinjIsW'],
+    members: [
+      { id: '10-9YSM9K1DNf19lZinjIsW', memberId: '9YSM9K1DNf19lZinjIsW' },
+    ],
   },
-  // Agence / Direction technique / Facilitateur
+  // Studio / Facilitateur
   {
     id: '11',
     roleId: '2',
     parentId: '9',
-    membersIds: ['CXKUBbf1MCNEZ0IADdLa'],
+    members: [
+      { id: '11-CXKUBbf1MCNEZ0IADdLa', memberId: 'CXKUBbf1MCNEZ0IADdLa' },
+    ],
   },
 ]

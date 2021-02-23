@@ -1,7 +1,7 @@
 export interface Circle {
   roleId: string
   parentId: string | null
-  membersIds: string[]
+  members: CircleMemberEntry[]
 }
 
 export interface CircleEntry extends Circle {
@@ -10,3 +10,12 @@ export interface CircleEntry extends Circle {
 
 export type CircleCreate = Circle
 export type CircleUpdate = Partial<Circle>
+
+// Circle member
+export interface CircleMember {
+  memberId: string
+}
+
+export interface CircleMemberEntry extends CircleMember {
+  id: string
+}

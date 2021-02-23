@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import { BaseType, D3DragEvent, HierarchyCircularNode, Selection } from 'd3'
-import { CircleEntry } from '../data/circles'
+import { CircleEntry, CircleMemberEntry } from '../data/circles'
 import { MemberEntry } from '../data/members'
 import { RoleEntry } from '../data/roles'
 
@@ -23,14 +23,18 @@ const circlesSettings = {
     circle: 50,
     member: 1,
   },
-  duration: {
-    highlight: 150,
-    move: 500,
+  highlight: {
+    duration: 150,
+    increaseRadius: 5,
+  },
+  move: {
+    duration: 500,
   },
 }
 
 interface Data {
   id: string
+  memberId?: string
   parentCircleId: string | null
   name: string
   type: NodeType
@@ -64,8 +68,8 @@ function circlesToD3Data(
       )
 
       // Add members in a circle to group them
-      if (circle.membersIds.length !== 0 || children.length === 0) {
-        children.push(memberstoD3Data(members, circle.id, circle.membersIds))
+      if (circle.members.length !== 0 || children.length === 0) {
+        children.push(memberstoD3Data(members, circle.id, circle.members))
       }
 
       // Set children if there is at least one
@@ -79,7 +83,7 @@ function circlesToD3Data(
 function memberstoD3Data(
   members: MemberEntry[],
   circleId: string,
-  membersIds: string[]
+  circleMembers: CircleMemberEntry[]
 ): Data {
   const node: Data = {
     id: `${circleId}-members`,
@@ -87,13 +91,14 @@ function memberstoD3Data(
     name: '',
     type: NodeType.MembersCircle,
   }
-  if (membersIds.length === 0) {
+  if (circleMembers.length === 0) {
     node.value = circlesSettings.memberValue
   } else {
-    node.children = membersIds.map((memberId) => ({
-      id: memberId,
+    node.children = circleMembers.map((entry) => ({
+      id: entry.id,
+      memberId: entry.memberId,
       parentCircleId: circleId,
-      name: members.find((member) => member.id === memberId)?.name || '?',
+      name: members.find((member) => member.id === entry.memberId)?.name || '?',
       value: circlesSettings.memberValue,
       type: NodeType.Member,
     }))
@@ -138,8 +143,8 @@ function highlightCircle(
   const circle = selection
     .select('circle')
     .transition()
-    .duration(circlesSettings.duration.highlight)
-    .attr('r', (d) => d.r * 1.05)
+    .duration(circlesSettings.highlight.duration)
+    .attr('r', (d) => d.r + circlesSettings.highlight.increaseRadius)
   if (fade) {
     circle.attr('opacity', 0.7)
   }
@@ -157,7 +162,7 @@ function unhighlightCircle(selection: NodesSelection, instant?: boolean) {
   } else {
     circle
       .transition()
-      .duration(instant ? 0 : circlesSettings.duration.highlight)
+      .duration(instant ? 0 : circlesSettings.highlight.duration)
       .attr('r', (d) => d.r)
       .attr('opacity', 1)
       .attr('stroke', 'none')
@@ -225,7 +230,7 @@ interface DragParams {
   onMemberMove?(
     memberId: string,
     parentCircleId: string,
-    targetCircleId: string
+    targetCircleId: string | null
   ): boolean
 }
 
@@ -392,11 +397,11 @@ export function updateGraph(
                     if (
                       dragNode.data.type === NodeType.Member &&
                       dragNode.data.parentCircleId &&
-                      targetCircleId
+                      dragNode.data.memberId
                     ) {
                       moved =
                         onMemberMove?.(
-                          dragNode.data.id,
+                          dragNode.data.memberId,
                           dragNode.data.parentCircleId,
                           targetCircleId
                         ) || false
@@ -433,16 +438,17 @@ export function updateGraph(
       (nodeUpdate) => {
         nodeUpdate
           .transition()
-          .duration(circlesSettings.duration.move)
+          .duration(circlesSettings.move.duration)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
         // Update circle
         nodeUpdate
           .select('circle')
           .transition()
-          .duration(circlesSettings.duration.move)
+          .duration(circlesSettings.move.duration)
           .attr('r', (d) => d.r)
           .attr('fill', getNodeColor)
+          .attr('stroke', 'none')
 
         // Update circle name
         nodeUpdate
@@ -450,7 +456,7 @@ export function updateGraph(
           .select('text')
           .text((d) => d.data.name)
           .transition()
-          .duration(circlesSettings.duration.move)
+          .duration(circlesSettings.move.duration)
           .attr('y', (d) => -d.r + 17)
 
         // Update member name

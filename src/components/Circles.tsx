@@ -12,7 +12,6 @@ interface Props {
 
 const StyledSVG = styled.svg`
   font: 10px sans-serif;
-  transition: all 0.5s ease-in-out;
 `
 
 export default function Circles({ domId = 'circles' }: Props) {
@@ -24,7 +23,7 @@ export default function Circles({ domId = 'circles' }: Props) {
   const [count, setCount] = useState(0)
 
   const handleCircleMove = useCallback(
-    (circleId: string, targetCircleId: string): boolean => {
+    (circleId: string, targetCircleId: string | null): boolean => {
       const circle = circlesMock.find((circle) => circle.id === circleId)
       if (circle) {
         // Change parent circle
@@ -41,7 +40,7 @@ export default function Circles({ domId = 'circles' }: Props) {
     (
       memberId: string,
       parentCircleId: string,
-      targetCircleId: string
+      targetCircleId: string | null
     ): boolean => {
       const currentCircle = circlesMock.find(
         (circle) => circle.id === parentCircleId
@@ -49,18 +48,37 @@ export default function Circles({ domId = 'circles' }: Props) {
       const targetCircle = circlesMock.find(
         (circle) => circle.id === targetCircleId
       )
-      if (currentCircle && targetCircle) {
+      if (!currentCircle) return false
+
+      const index = currentCircle.members.findIndex(
+        (entry) => entry.memberId === memberId
+      )
+
+      if (targetCircleId === null) {
+        // Remove member from circle
+        if (index !== -1) {
+          currentCircle.members.splice(index, 1)
+          setCount((c) => c + 1)
+          return true
+        }
+      }
+      if (targetCircle) {
         // Do nothing if member already in target circle
-        if (targetCircle.membersIds.includes(memberId)) return false
+        if (
+          targetCircle.members.findIndex(
+            (entry) => entry.memberId === memberId
+          ) !== -1
+        ) {
+          return false
+        }
 
         // Add member to target circle and remove from current circle
-        currentCircle.membersIds = currentCircle.membersIds.filter(
-          (id) => id !== memberId
-        )
-        targetCircle.membersIds.push(memberId)
-
-        setCount((c) => c + 1)
-        return true
+        if (index !== -1) {
+          targetCircle.members.push(currentCircle.members[index])
+          currentCircle.members.splice(index, 1)
+          setCount((c) => c + 1)
+          return true
+        }
       }
       return false
     },
