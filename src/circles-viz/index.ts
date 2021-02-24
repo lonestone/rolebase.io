@@ -1,224 +1,14 @@
 import * as d3 from 'd3'
-import { BaseType, D3DragEvent, HierarchyCircularNode, Selection } from 'd3'
-import { CircleEntry, CircleMemberEntry } from '../data/circles'
+import { CircleEntry } from '../data/circles'
 import { MemberEntry } from '../data/members'
 import { RoleEntry } from '../data/roles'
-
-// https://observablehq.com/@d3/circle-packing
-// https://observablehq.com/@d3/zoomable-circle-packing
-// https://wattenberger.com/blog/react-and-d3
-
-enum NodeType {
-  Circle = 'Circle',
-  MembersCircle = 'MembersCircle',
-  Member = 'Member',
-}
-
-type NodeData = HierarchyCircularNode<Data>
-type NodesSelection = Selection<SVGGElement, NodeData, BaseType, unknown>
-
-const circlesSettings = {
-  memberValue: 10,
-  padding: {
-    circle: 50,
-    member: 1,
-  },
-  highlight: {
-    duration: 150,
-    increaseRadius: 5,
-  },
-  move: {
-    duration: 500,
-  },
-}
-
-interface Data {
-  id: string
-  memberId?: string
-  parentCircleId: string | null
-  name: string
-  type: NodeType
-  value?: number
-  children?: Array<Data>
-}
-
-function circlesToD3Data(
-  circles: CircleEntry[],
-  roles: RoleEntry[],
-  members: MemberEntry[],
-  parentId: string | null = null
-): Data[] {
-  return circles
-    .filter((circle) => circle.parentId == parentId)
-    .map((circle) => {
-      // Define circle data with role name
-      const data: Data = {
-        id: circle.id,
-        parentCircleId: circle.parentId,
-        name: roles.find((role) => role.id === circle.roleId)?.name || '?',
-        type: NodeType.Circle,
-      }
-
-      // Add sub-circles to children
-      const children: Data[] = circlesToD3Data(
-        circles,
-        roles,
-        members,
-        circle.id
-      )
-
-      // Add members in a circle to group them
-      if (circle.members.length !== 0 || children.length === 0) {
-        children.push(memberstoD3Data(members, circle.id, circle.members))
-      }
-
-      // Set children if there is at least one
-      if (children.length !== 0) {
-        data.children = children
-      }
-      return data
-    })
-}
-
-function memberstoD3Data(
-  members: MemberEntry[],
-  circleId: string,
-  circleMembers: CircleMemberEntry[]
-): Data {
-  const node: Data = {
-    id: `${circleId}-members`,
-    parentCircleId: circleId,
-    name: '',
-    type: NodeType.MembersCircle,
-  }
-  if (circleMembers.length === 0) {
-    node.value = circlesSettings.memberValue
-  } else {
-    node.children = circleMembers.map((entry) => ({
-      id: entry.id,
-      memberId: entry.memberId,
-      parentCircleId: circleId,
-      name: members.find((member) => member.id === entry.memberId)?.name || '?',
-      value: circlesSettings.memberValue,
-      type: NodeType.Member,
-    }))
-  }
-  return node
-}
-
-function packData(data: Data, width: number, height: number) {
-  const hierarchyNode = d3
-    .hierarchy(data)
-    .sum((d) => d.value || 0)
-    .sort((a, b) => (b.value || 0) - (a.value || 0))
-  return d3
-    .pack<Data>()
-    .size([width, height])
-    .padding((d) =>
-      d.data.type === NodeType.Circle
-        ? circlesSettings.padding.circle
-        : circlesSettings.padding.member
-    )(hierarchyNode)
-}
-
-function isPointInsideCircle(
-  pointX: number,
-  pointY: number,
-  centerX: number,
-  centerY: number,
-  radius: number
-) {
-  return (
-    (pointX - centerX) * (pointX - centerX) +
-      (pointY - centerY) * (pointY - centerY) <
-    radius * radius
-  )
-}
-
-function highlightCircle(
-  selection: NodesSelection,
-  fade = false,
-  stroke = false
-) {
-  const circle = selection
-    .select('circle')
-    .transition()
-    .duration(circlesSettings.highlight.duration)
-    .attr('r', (d) => d.r + circlesSettings.highlight.increaseRadius)
-  if (fade) {
-    circle.attr('opacity', 0.7)
-  }
-  if (stroke) {
-    circle.attr('stroke', 'rgba(1,1,1,0.5)')
-  }
-}
-function unhighlightCircle(selection: NodesSelection, instant?: boolean) {
-  const circle = selection.select('circle')
-  if (instant) {
-    circle
-      .attr('r', (d) => d.r)
-      .attr('opacity', 1)
-      .attr('stroke', 'none')
-  } else {
-    circle
-      .transition()
-      .duration(instant ? 0 : circlesSettings.highlight.duration)
-      .attr('r', (d) => d.r)
-      .attr('opacity', 1)
-      .attr('stroke', 'none')
-  }
-}
-
-function getTargetNodeData(
-  nodes: NodesSelection,
-  event: D3DragEvent<SVGGElement, Data, Element>
-): NodeData | null {
-  // Get circles under the mouse
-  const currentTargets = nodes.filter(
-    (node) =>
-      node.data.type === NodeType.Circle &&
-      isPointInsideCircle(
-        event.sourceEvent.offsetX,
-        event.sourceEvent.offsetY,
-        node.x,
-        node.y,
-        node.r
-      )
-  )
-
-  // Get last descendants under the mouse
-  return (
-    currentTargets
-      .data()
-      .reduce<{ max: number; node?: NodeData }>(
-        (acc, node) =>
-          !node || node.depth > acc.max ? { max: node.depth, node } : acc,
-        { max: 0 }
-      ).node || null
-  )
-}
-
-function getNodeColor(node: NodeData) {
-  if (node.data.type === NodeType.Circle) return color(node.depth.toString())
-  if (node.data.type === NodeType.MembersCircle) return 'transparent'
-  return 'white'
-}
-
-const color = d3.scaleOrdinal(d3.schemeSet3)
-
-export function initGraph(svgElement: SVGSVGElement) {
-  const svg = d3.select(svgElement)
-  const svgId = svg.attr('id')
-
-  // Shadow filter
-  svg
-    .append('filter')
-    .attr('id', `${svgId}-shadow`)
-    .append('feDropShadow')
-    .attr('flood-opacity', 0.3)
-    .attr('dx', 0)
-    .attr('dy', 1)
-}
+import { circlesToD3Data } from './data'
+import { getNodeColor } from './getNodeColor'
+import { getTargetNodeData } from './getTargetNodeData'
+import { highlightCircle, unhighlightCircle } from './highlightCircle'
+import { packData } from './packData'
+import settings from './settings'
+import { Data, NodeData, NodesSelection, NodeType } from './types'
 
 interface DragParams {
   circles: CircleEntry[]
@@ -438,14 +228,14 @@ export function updateGraph(
       (nodeUpdate) => {
         nodeUpdate
           .transition()
-          .duration(circlesSettings.move.duration)
+          .duration(settings.move.duration)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
         // Update circle
         nodeUpdate
           .select('circle')
           .transition()
-          .duration(circlesSettings.move.duration)
+          .duration(settings.move.duration)
           .attr('r', (d) => d.r)
           .attr('fill', getNodeColor)
           .attr('stroke', 'none')
@@ -456,7 +246,7 @@ export function updateGraph(
           .select('text')
           .text((d) => d.data.name)
           .transition()
-          .duration(circlesSettings.move.duration)
+          .duration(settings.move.duration)
           .attr('y', (d) => -d.r + 17)
 
         // Update member name
