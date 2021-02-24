@@ -212,7 +212,11 @@ export function updateGraph(
 
                 // Reset circles positions
                 if (dragNodes && !moved) {
-                  dragNodes.attr('transform', (d) => `translate(${d.x},${d.y})`)
+                  dragNodes
+                    .transition()
+                    .duration(settings.move.duration)
+                    .ease(d3.easeCubicInOut)
+                    .attr('transform', (d) => `translate(${d.x},${d.y})`)
                 }
 
                 dragNodes = undefined
@@ -226,18 +230,23 @@ export function updateGraph(
 
       // Update Circle
       (nodeUpdate) => {
-        nodeUpdate
-          .transition()
+        const transition = d3
+          .transition<Data>()
           .duration(settings.move.duration)
+          .ease(d3.easeCubicInOut)
+
+        // Update position
+        nodeUpdate
+          .transition(transition as any)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
-        // Update circle
+        // Update circle style
         nodeUpdate
           .select('circle')
-          .transition()
-          .duration(settings.move.duration)
+          .transition(transition as any)
           .attr('r', (d) => d.r)
           .attr('fill', getNodeColor)
+          .attr('opacity', 1)
           .attr('stroke', 'none')
 
         // Update circle name
@@ -245,8 +254,7 @@ export function updateGraph(
           .filter((d) => d.data.type === NodeType.Circle)
           .select('text')
           .text((d) => d.data.name)
-          .transition()
-          .duration(settings.move.duration)
+          .transition(transition as any)
           .attr('y', (d) => -d.r + 17)
 
         // Update member name

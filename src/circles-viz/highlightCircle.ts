@@ -1,3 +1,4 @@
+import * as d3 from 'd3'
 import settings from './settings'
 import { NodesSelection } from './types'
 
@@ -6,16 +7,17 @@ export function highlightCircle(
   fade = false,
   stroke = false
 ) {
-  const circle = selection
+  const transition = selection
     .select('circle')
     .transition()
     .duration(settings.highlight.duration)
+    .ease(d3.easeCircleOut)
     .attr('r', (d) => d.r + settings.highlight.increaseRadius)
   if (fade) {
-    circle.attr('opacity', 0.7)
+    transition.attr('opacity', 0.7)
   }
   if (stroke) {
-    circle.attr('stroke', 'rgba(1,1,1,0.5)')
+    transition.attr('stroke', 'rgba(1,1,1,0.5)')
   }
 }
 export function unhighlightCircle(
@@ -32,6 +34,7 @@ export function unhighlightCircle(
     circle
       .transition()
       .duration(instant ? 0 : settings.highlight.duration)
+      .ease(d3.easeCircleOut)
       .attr('r', (d) => d.r)
       .attr('opacity', 1)
       .attr('stroke', 'none')
