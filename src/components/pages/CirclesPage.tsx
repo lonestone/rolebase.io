@@ -2,8 +2,8 @@ import { Box, Center, Spinner, useDisclosure } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import useComponentSize from '@rehooks/component-size'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { updateGraph } from '../../circles-viz'
 import { initGraph } from '../../circles-viz/initGraph'
+import { updateGraph } from '../../circles-viz/updateGraph'
 import {
   addMemberToCircle,
   moveCircle,
