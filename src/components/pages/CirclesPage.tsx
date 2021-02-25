@@ -6,6 +6,7 @@ import { initGraph } from '../../circles-viz/initGraph'
 import { updateGraph } from '../../circles-viz/updateGraph'
 import {
   addMemberToCircle,
+  copyCircle,
   moveCircle,
   moveCircleMember,
   useCircles,
@@ -90,12 +91,15 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
         members,
         width,
         height,
-        onCircleClick,
-        onCircleMemberClick,
-        onCircleMove: moveCircle,
-        onMemberMove: moveCircleMember,
-        onCircleAdd,
-        onMemberAdd: addMemberToCircle,
+        events: {
+          onCircleClick,
+          onCircleMemberClick,
+          onCircleMove: moveCircle,
+          onCircleCopy: copyCircle,
+          onMemberMove: moveCircleMember,
+          onCircleAdd,
+          onMemberAdd: addMemberToCircle,
+        },
       })
     }
   }, [

@@ -37,13 +37,18 @@ export function useCircle(id: string): FirebaseHookReturn<CircleEntry> {
   return useDocumentData(collection.doc(id), { idField: 'id' })
 }
 
-export async function createCircle(roleId: string, parentId: string | null) {
+export async function createCircle(
+  roleId: string,
+  parentId: string | null
+): Promise<CircleEntry | undefined> {
   const circle: Circle = {
     roleId,
     parentId,
     members: [],
   }
-  await collection.add(circle)
+  const doc = await collection.add(circle)
+  const snapshot = await doc.get()
+  return { ...snapshot.data(), id: doc.id } as CircleEntry | undefined
 }
 
 export async function updateCircle(id: string, data: CircleUpdate) {
@@ -52,6 +57,12 @@ export async function updateCircle(id: string, data: CircleUpdate) {
 
 export async function deleteCircle(id: string) {
   await collection.doc(id).delete()
+
+  // Delete sub-circles
+  const subCircles = await collection.where('parentId', '==', id).get()
+  subCircles.forEach((subCircle) => {
+    deleteCircle(subCircle.id)
+  })
 }
 
 // Change parent circle
@@ -63,6 +74,30 @@ export async function moveCircle(
   const snapshot = await doc.get()
   if (!snapshot.exists) return false
   doc.set({ parentId: targetCircleId }, { merge: true })
+  return true
+}
+
+export async function copyCircle(
+  circleId: string,
+  targetCircleId: string | null
+): Promise<boolean> {
+  const doc = collection.doc(circleId)
+  const snapshot = await doc.get()
+  if (!snapshot.exists) return false
+  const circle = snapshot.data() as Circle
+
+  // Create new circle
+  const { id } = await collection.add({
+    parentId: targetCircleId,
+    roleId: circle.roleId,
+    members: circle.members,
+  } as Circle)
+
+  // Create sub-circles
+  const subCircles = await collection.where('parentId', '==', circleId).get()
+  subCircles.forEach((subCircle) => {
+    copyCircle(subCircle.id, id)
+  })
   return true
 }
 

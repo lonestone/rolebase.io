@@ -2,16 +2,19 @@ import * as d3 from 'd3'
 import { MemberEntry } from '../data/members'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
-import { highlightCircle, unhighlightCircle } from './highlightCircle'
-import settings from './settings'
+import {
+  getHighlightTransition,
+  highlightCircle,
+  unhighlightCircle,
+} from './highlightCircle'
 import { NodeData, NodesSelection, NodeType } from './types'
+import { GraphEvents } from './updateGraph'
 
 const newCircleId = 'new-circle'
 
 interface AddMenuParams {
   members: MemberEntry[]
-  onCircleAdd?(targetCircleId: string | null): void
-  onMemberAdd?(memberId: string, targetCircleId: string): void
+  events: GraphEvents
 }
 
 function getNodeType(data: MemberEntry) {
@@ -20,7 +23,7 @@ function getNodeType(data: MemberEntry) {
 
 export default function updateAddMenu(
   svgElement: SVGSVGElement,
-  { members, onCircleAdd, onMemberAdd }: AddMenuParams
+  { members, events }: AddMenuParams
 ) {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -40,7 +43,7 @@ export default function updateAddMenu(
         const nodeGroup = nodeEnter
           .append('g')
           .attr('class', 'add-placeholder')
-          .attr('transform', (d, i) => `translate(50,${20 + i * 70})`)
+          .attr('transform', (d, i) => `translate(40,${40 + i * 55})`)
 
         // Add circle shape
         nodeGroup
@@ -87,9 +90,12 @@ export default function updateAddMenu(
                   const targetData = getTargetNodeData(dragTargets, event)
 
                   if (targetData !== dragTarget) {
+                    const transition = getHighlightTransition()
+
                     // Unhighlight previously targeted circle
                     unhighlightCircle(
-                      dragTargets.filter((node) => node === dragTarget)
+                      dragTargets.filter((node) => node === dragTarget),
+                      { transition }
                     )
                     // Highlight newly targeted circle
                     highlightCircle(
@@ -97,14 +103,13 @@ export default function updateAddMenu(
                       {
                         fade: false,
                         stroke: true,
+                        transition,
                       }
                     )
                     // Change color of dragged circle
                     selection
                       .select('circle')
-                      .transition()
-                      .duration(settings.highlight.duration)
-                      .ease(settings.highlight.transition)
+                      .transition(transition as any)
                       .attr('fill', (d) =>
                         getNodeColor(
                           getNodeType(d),
@@ -121,16 +126,16 @@ export default function updateAddMenu(
 
                   // Add to a circle
                   if (dragNode.id === newCircleId) {
-                    onCircleAdd?.(targetCircleId) || false
+                    events.onCircleAdd?.(targetCircleId) || false
                   } else if (targetCircleId) {
-                    onMemberAdd?.(dragNode.id, targetCircleId)
+                    events.onMemberAdd?.(dragNode.id, targetCircleId)
                   }
 
                   // Unhighlight target circle
                   if (dragTarget) {
                     unhighlightCircle(
                       dragTargets.filter((node) => node === dragTarget),
-                      true
+                      { instant: true }
                     )
                   }
                 }
@@ -138,7 +143,7 @@ export default function updateAddMenu(
                 // Reset moved circle
                 d3.select(this).attr(
                   'transform',
-                  (d, i) => `translate(50,${20 + i * 70})`
+                  (d, i) => `translate(40,${40 + i * 55})`
                 )
 
                 dragTargets = undefined
@@ -152,7 +157,7 @@ export default function updateAddMenu(
       // Update placeholder
       (nodeUpdate) => {
         // Update position
-        nodeUpdate.attr('transform', (d, i) => `translate(50,${20 + i * 70})`)
+        nodeUpdate.attr('transform', (d, i) => `translate(40,${40 + i * 55})`)
 
         // Update style
         nodeUpdate.select('circle').attr('r', 25).attr('opacity', 1)

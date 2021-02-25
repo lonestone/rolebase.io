@@ -5,10 +5,15 @@ import { RoleEntry } from '../data/roles'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
-import { highlightCircle, unhighlightCircle } from './highlightCircle'
+import {
+  getHighlightTransition,
+  highlightCircle,
+  unhighlightCircle,
+} from './highlightCircle'
 import { packData } from './packData'
 import settings from './settings'
 import { Data, NodeData, NodesSelection, NodeType } from './types'
+import { GraphEvents } from './updateGraph'
 
 interface CirclesParams {
   circles: CircleEntry[]
@@ -16,29 +21,12 @@ interface CirclesParams {
   members: MemberEntry[]
   width: number
   height: number
-  onCircleClick?(circleId: string): void
-  onCircleMemberClick?(circleId: string, memberId: string): void
-  onCircleMove?(circleId: string, targetCircleId: string | null): void
-  onMemberMove?(
-    memberId: string,
-    parentCircleId: string,
-    targetCircleId: string | null
-  ): void
+  events: GraphEvents
 }
 
 export default function updateCircles(
   svgElement: SVGSVGElement,
-  {
-    circles,
-    roles,
-    members,
-    width,
-    height,
-    onCircleClick,
-    onCircleMemberClick,
-    onCircleMove,
-    onMemberMove,
-  }: CirclesParams
+  { circles, roles, members, width, height, events }: CirclesParams
 ) {
   // Pack data with d3.pack
   const data: Data = {
@@ -133,6 +121,10 @@ export default function updateCircles(
           .call(
             d3
               .drag<SVGGElement, NodeData>()
+              .filter(function () {
+                // Allow Ctrl+drag
+                return true
+              })
               .on('start', function (event, dragNode) {
                 // Register mouse position
                 dragOrigin.x = event.x
@@ -164,21 +156,22 @@ export default function updateCircles(
                   const targetData = getTargetNodeData(dragTargets, event)
 
                   if (targetData !== dragTarget) {
+                    const transition = getHighlightTransition()
+
                     // Unhighlight previously targeted circle
                     unhighlightCircle(
-                      dragTargets.filter((node) => node === dragTarget)
+                      dragTargets.filter((node) => node === dragTarget),
+                      { transition }
                     )
                     // Highlight newly targeted circle
                     highlightCircle(
                       dragTargets.filter((node) => node === targetData),
-                      { fade: false, stroke: true }
+                      { fade: false, stroke: true, transition }
                     )
                     // Change color of dragged circle
                     dragNodes
                       .select('circle')
-                      .transition()
-                      .duration(settings.highlight.duration)
-                      .ease(settings.highlight.transition)
+                      .transition(transition as any)
                       .attr('fill', (d) =>
                         getNodeColor(
                           d.data.type,
@@ -193,15 +186,20 @@ export default function updateCircles(
                 }
               })
               .on('end', function (event, dragNode) {
+                const { ctrlKey } = event.sourceEvent
+                const clicked =
+                  dragOrigin.x === event.x && dragOrigin.y === event.y
+                const transition = getHighlightTransition()
+
                 // Click
-                if (dragOrigin.x === event.x && dragOrigin.y === event.y) {
+                if (clicked) {
                   if (dragNode.data.type === NodeType.Circle) {
-                    onCircleClick?.(dragNode.data.id)
+                    events.onCircleClick?.(dragNode.data.id)
                   } else if (
                     dragNode.data.type === NodeType.Member &&
                     dragNode.data.parentCircleId
                   ) {
-                    onCircleMemberClick?.(
+                    events.onCircleMemberClick?.(
                       dragNode.data.parentCircleId,
                       dragNode.data.id
                     )
@@ -209,26 +207,40 @@ export default function updateCircles(
                 }
 
                 // Drag end
-                let moved = false
-                if (dragTargets && dragTarget !== undefined) {
+                let actionMoved = false
+                if (dragTargets && dragTarget !== undefined && !clicked) {
                   const targetCircleId = dragTarget?.data.id || null
 
                   // Move to another circle
-                  if (dragNode.data.parentCircleId !== targetCircleId) {
-                    if (dragNode.data.type === NodeType.Circle) {
-                      onCircleMove?.(dragNode.data.id, targetCircleId)
-                      moved = true
-                    } else if (
-                      dragNode.data.type === NodeType.Member &&
-                      dragNode.data.parentCircleId &&
-                      dragNode.data.memberId
-                    ) {
-                      onMemberMove?.(
+                  const differentParent =
+                    dragNode.data.parentCircleId !== targetCircleId
+                  if (dragNode.data.type === NodeType.Circle) {
+                    if (ctrlKey) {
+                      events.onCircleCopy?.(dragNode.data.id, targetCircleId)
+                    } else if (differentParent) {
+                      events.onCircleMove?.(dragNode.data.id, targetCircleId)
+                      actionMoved = true
+                    }
+                  } else if (
+                    dragNode.data.type === NodeType.Member &&
+                    dragNode.data.parentCircleId &&
+                    dragNode.data.memberId &&
+                    differentParent
+                  ) {
+                    if (ctrlKey) {
+                      if (targetCircleId) {
+                        events.onMemberAdd?.(
+                          dragNode.data.memberId,
+                          targetCircleId
+                        )
+                      }
+                    } else {
+                      events.onMemberMove?.(
                         dragNode.data.memberId,
                         dragNode.data.parentCircleId,
                         targetCircleId
                       )
-                      moved = true
+                      actionMoved = true
                     }
                   }
 
@@ -236,20 +248,21 @@ export default function updateCircles(
                   if (dragTarget) {
                     unhighlightCircle(
                       dragTargets.filter((node) => node === dragTarget),
-                      moved
+                      { instant: actionMoved, transition }
                     )
                   }
                 }
 
                 // Reset moved circle
-                unhighlightCircle(d3.select(this), moved)
+                unhighlightCircle(d3.select(this), {
+                  transition,
+                  instant: actionMoved,
+                })
 
                 // Reset dragged circles
-                if (dragNodes && !moved) {
+                if (dragNodes && !actionMoved) {
                   dragNodes
-                    .transition()
-                    .duration(settings.move.duration)
-                    .ease(settings.move.transition)
+                    .transition(transition as any)
                     .attr('transform', (d) => `translate(${d.x},${d.y})`)
                     .select('circle')
                     .attr('fill', (d) => getNodeColor(d.data.type, d.depth))

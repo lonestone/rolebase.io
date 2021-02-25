@@ -4,6 +4,7 @@ import {
 } from 'react-firebase-hooks/firestore'
 import * as yup from 'yup'
 import { FirebaseHookReturn, firestore } from './firebase'
+import { nameSchema } from './schemas'
 
 export interface Role {
   name: string
@@ -29,14 +30,16 @@ export function useRole(id: string): FirebaseHookReturn<RoleEntry> {
   return useDocumentData(collection.doc(id), { idField: 'id' })
 }
 
-export async function createRole(name: string) {
+export async function createRole(name: string): Promise<RoleEntry | undefined> {
   const role: Role = {
     name,
     purpose: '',
     domain: '',
     accountabilities: '',
   }
-  await collection.add(role)
+  const doc = await collection.add(role)
+  const snapshot = await doc.get()
+  return { ...snapshot.data(), id: doc.id } as RoleEntry | undefined
 }
 
 export async function updateRole(id: string, data: RoleUpdate) {
@@ -47,14 +50,12 @@ export async function deleteRole(id: string) {
   await collection.doc(id).delete()
 }
 
-const name = yup.string().required().min(3)
-
 export const roleCreateSchema = yup.object().shape({
-  name,
+  name: nameSchema,
 })
 
 export const roleUpdateSchema = yup.object().shape({
-  name,
+  name: nameSchema,
   purpose: yup.string(),
   domain: yup.string(),
   accountabilities: yup.string(),

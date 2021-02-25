@@ -4,6 +4,7 @@ import {
 } from 'react-firebase-hooks/firestore'
 import * as yup from 'yup'
 import { FirebaseHookReturn, firestore } from './firebase'
+import { nameSchema } from './schemas'
 
 export interface Member {
   name: string
@@ -26,11 +27,15 @@ export function useMember(id: string): FirebaseHookReturn<MemberEntry> {
   return useDocumentData(collection.doc(id), { idField: 'id' })
 }
 
-export async function createMember(name: string) {
+export async function createMember(
+  name: string
+): Promise<MemberEntry | undefined> {
   const member: Member = {
     name,
   }
-  await collection.add(member)
+  const doc = await collection.add(member)
+  const snapshot = await doc.get()
+  return { ...snapshot.data(), id: doc.id } as MemberEntry | undefined
 }
 
 export async function updateMember(id: string, data: MemberUpdate) {
@@ -41,12 +46,10 @@ export async function deleteMember(id: string) {
   await collection.doc(id).delete()
 }
 
-const name = yup.string().required().min(3)
-
 export const memberCreateSchema = yup.object().shape({
-  name,
+  name: nameSchema,
 })
 
 export const memberUpdateSchema = yup.object().shape({
-  name,
+  name: nameSchema,
 })

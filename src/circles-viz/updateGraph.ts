@@ -4,15 +4,20 @@ import { RoleEntry } from '../data/roles'
 import updateAddMenu from './updateAddMenu'
 import updateCircles from './updateCircles'
 
-interface GraphParams {
+export interface GraphParams {
   circles: CircleEntry[]
   roles: RoleEntry[]
   members: MemberEntry[]
   width: number
   height: number
+  events: GraphEvents
+}
+
+export interface GraphEvents {
   onCircleClick?(circleId: string): void
   onCircleMemberClick?(circleId: string, memberId: string): void
   onCircleMove?(circleId: string, targetCircleId: string | null): void
+  onCircleCopy?(circleId: string, targetCircleId: string | null): void
   onMemberMove?(
     memberId: string,
     parentCircleId: string,
@@ -24,19 +29,7 @@ interface GraphParams {
 
 export function updateGraph(
   svgElement: SVGSVGElement,
-  {
-    circles,
-    roles,
-    members,
-    width,
-    height,
-    onCircleClick,
-    onCircleMemberClick,
-    onCircleMove,
-    onMemberMove,
-    onCircleAdd,
-    onMemberAdd,
-  }: GraphParams
+  { circles, roles, members, width, height, events }: GraphParams
 ) {
   updateCircles(svgElement, {
     circles,
@@ -44,10 +37,7 @@ export function updateGraph(
     members,
     width,
     height,
-    onCircleClick,
-    onCircleMemberClick,
-    onCircleMove,
-    onMemberMove,
+    events,
   })
-  updateAddMenu(svgElement, { members, onCircleAdd, onMemberAdd })
+  updateAddMenu(svgElement, { members, events })
 }

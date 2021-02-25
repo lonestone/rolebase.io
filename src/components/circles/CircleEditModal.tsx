@@ -1,5 +1,7 @@
 import {
   Button,
+  FormControl,
+  FormLabel,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -7,12 +9,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Spinner,
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { CircleUpdate, updateCircle, useCircle } from '../../data/circles'
+import { useRoles } from '../../data/roles'
 import TextError from '../TextError'
 import CircleDeleteModal from './CircleDeleteModal'
 
@@ -24,6 +28,7 @@ interface Props {
 
 export default function CircleEditModal({ id, isOpen, onClose }: Props) {
   const [data, loading, error] = useCircle(id)
+  const [roles, rolesLoading, rolesError] = useRoles()
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
@@ -42,8 +47,8 @@ export default function CircleEditModal({ id, isOpen, onClose }: Props) {
     }
   }, [data, isOpen])
 
-  const onSubmit = handleSubmit((values) => {
-    updateCircle(id, values)
+  const onSubmit = handleSubmit(({ roleId }) => {
+    updateCircle(id, { roleId })
     onClose()
   })
 
@@ -59,7 +64,22 @@ export default function CircleEditModal({ id, isOpen, onClose }: Props) {
               <ModalHeader>Editer un cercle</ModalHeader>
               <ModalCloseButton />
 
-              <ModalBody></ModalBody>
+              <ModalBody>
+                <FormControl>
+                  <FormLabel htmlFor="roleId">Rôle</FormLabel>
+                  {rolesError && <TextError error={rolesError} />}
+                  {rolesLoading && <Spinner />}
+                  {roles && (
+                    <Select name="roleId" ref={register()} autoFocus>
+                      {roles?.map((role) => (
+                        <option key={role.id} value={role.id}>
+                          {role.name}
+                        </option>
+                      ))}
+                    </Select>
+                  )}
+                </FormControl>
+              </ModalBody>
 
               <ModalFooter>
                 <Button
