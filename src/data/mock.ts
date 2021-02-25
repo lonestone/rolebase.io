@@ -2,13 +2,43 @@ import { CircleEntry } from './circles'
 import { RoleEntry } from './roles'
 
 export const rolesMock: RoleEntry[] = [
-  { id: '1', name: 'Secrétaire' },
-  { id: '2', name: 'Facilitateur' },
-  { id: '3', name: 'Account Manager' },
-  { id: '4', name: 'Développeur' },
-  { id: '5', name: 'Agence' },
-  { id: '6', name: 'Studio' },
-  { id: '7', name: 'Direction technique' },
+  {
+    id: '1',
+    name: 'Secrétaire',
+    purpose: '',
+    domain: '',
+    accountabilities: '',
+  },
+  {
+    id: '2',
+    name: 'Facilitateur',
+    purpose: '',
+    domain: '',
+    accountabilities: '',
+  },
+  {
+    id: '3',
+    name: 'Account Manager',
+    purpose: '',
+    domain: '',
+    accountabilities: '',
+  },
+  {
+    id: '4',
+    name: 'Développeur',
+    purpose: '',
+    domain: '',
+    accountabilities: '',
+  },
+  { id: '5', name: 'Agence', purpose: '', domain: '', accountabilities: '' },
+  { id: '6', name: 'Studio', purpose: '', domain: '', accountabilities: '' },
+  {
+    id: '7',
+    name: 'Direction technique',
+    purpose: '',
+    domain: '',
+    accountabilities: '',
+  },
 ]
 
 export const circlesMock: CircleEntry[] = [

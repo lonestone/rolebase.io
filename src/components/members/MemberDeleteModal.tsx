@@ -10,8 +10,8 @@ import {
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
-import { deleteMember, useMember } from '../data/members'
-import TextError from './TextError'
+import { deleteMember, useMember } from '../../data/members'
+import TextError from '../TextError'
 
 interface Props {
   id: string
@@ -52,7 +52,7 @@ export default function MemberDeleteModal({
             {loading && <Spinner />}
             {data && (
               <Text>
-                Êtes-vous sûr de vouloir supprimer le membre {data?.name} ?
+                Êtes-vous sûr de vouloir supprimer le membre {data.name} ?
               </Text>
             )}
           </AlertDialogBody>

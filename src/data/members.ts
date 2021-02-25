@@ -27,9 +27,10 @@ export function useMember(id: string): FirebaseHookReturn<MemberEntry> {
 }
 
 export async function createMember(name: string) {
-  await collection.add({
+  const member: Member = {
     name,
-  } as Member)
+  }
+  await collection.add(member)
 }
 
 export async function updateMember(id: string, data: MemberUpdate) {

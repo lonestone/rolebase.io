@@ -4,6 +4,16 @@ import { RoleEntry } from '../data/roles'
 import settings from './settings'
 import { Data, NodeType } from './types'
 
+// Move lost circles to root
+export function fixLostCircles(circles: CircleEntry[]) {
+  return circles.map((circle) => {
+    if (!circles.find((c) => c.id === circle.parentId)) {
+      return { ...circle, parentId: null }
+    }
+    return circle
+  })
+}
+
 export function circlesToD3Data(
   circles: CircleEntry[],
   roles: RoleEntry[],

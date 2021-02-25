@@ -22,9 +22,9 @@ import {
   memberUpdateSchema,
   updateMember,
   useMember,
-} from '../data/members'
+} from '../../data/members'
+import TextError from '../TextError'
 import MemberDeleteModal from './MemberDeleteModal'
-import TextError from './TextError'
 
 interface Props {
   id: string

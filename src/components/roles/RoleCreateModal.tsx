@@ -16,17 +16,17 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { createMember, MemberCreate, memberCreateSchema } from '../data/members'
+import { createRole, RoleCreate, roleCreateSchema } from '../../data/roles'
 
 interface Props extends UseModalProps {}
 
-export default function MemberCreateModal(props: Props) {
-  const { handleSubmit, errors, register } = useForm<MemberCreate>({
-    resolver: yupResolver(memberCreateSchema),
+export default function RoleCreateModal(props: Props) {
+  const { handleSubmit, errors, register } = useForm<RoleCreate>({
+    resolver: yupResolver(roleCreateSchema),
   })
 
   const onSubmit = handleSubmit(({ name }) => {
-    createMember(name)
+    createRole(name)
     props.onClose()
   })
 
@@ -35,7 +35,7 @@ export default function MemberCreateModal(props: Props) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Ajouter un membre</ModalHeader>
+          <ModalHeader>Ajouter un rôle</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>

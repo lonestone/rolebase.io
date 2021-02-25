@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 import { CircleEntry } from '../data/circles'
 import { MemberEntry } from '../data/members'
 import { RoleEntry } from '../data/roles'
-import { circlesToD3Data } from './data'
+import { circlesToD3Data, fixLostCircles } from './data'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
 import { highlightCircle, unhighlightCircle } from './highlightCircle'
@@ -16,12 +16,16 @@ interface DragParams {
   members: MemberEntry[]
   width: number
   height: number
-  onCircleMove?(circleId: string, targetCircleId: string | null): boolean
+  onCircleClick?(circleId: string): void
+  onCircleMemberClick?(circleId: string, memberId: string): void
+  onCircleMove?(circleId: string, targetCircleId: string | null): void
   onMemberMove?(
     memberId: string,
     parentCircleId: string,
     targetCircleId: string | null
-  ): boolean
+  ): void
+  onCircleAdd?(targetCircleId: string | null): void
+  onMemberAdd?(memberId: string, targetCircleId: string): void
 }
 
 export function updateGraph(
@@ -32,8 +36,12 @@ export function updateGraph(
     members,
     width,
     height,
+    onCircleClick,
+    onCircleMemberClick,
     onCircleMove,
     onMemberMove,
+    onCircleAdd,
+    onMemberAdd,
   }: DragParams
 ) {
   // Pack data with d3.pack
@@ -42,7 +50,7 @@ export function updateGraph(
     parentCircleId: null,
     type: NodeType.Circle,
     name: '',
-    children: circlesToD3Data(circles, roles, members),
+    children: circlesToD3Data(fixLostCircles(circles), roles, members),
   }
   const root = packData(data, width, height)
   const svg = d3.select(svgElement)
@@ -50,7 +58,6 @@ export function updateGraph(
 
   // Variables for dragging circles and members
   const dragOrigin = { x: 0, y: 0 }
-  let dragNode: NodeData | undefined
   let dragNodes: NodesSelection | undefined
   let dragTarget: NodeData | null | undefined
   let dragTargets: NodesSelection | undefined
@@ -73,7 +80,7 @@ export function updateGraph(
           .filter((d) => d.data.type === NodeType.MembersCircle)
           .attr('pointer-events', 'none')
 
-        // Add circle shapes
+        // Add circle shape
         nodeGroup
           .append('circle')
           .attr('r', (d) => d.r)
@@ -94,7 +101,6 @@ export function updateGraph(
         nodeGroup
           .filter((d) => d.data.type === NodeType.Member)
           .append('text')
-          .attr('x', 0)
           .attr('y', '0.5em')
           .text((d) => d.data.name)
           .attr('pointer-events', 'none')
@@ -107,23 +113,17 @@ export function updateGraph(
           )
           // Hover
           .on('mouseover', function () {
-            d3.select(this) //.attr('stroke', '#000')
-              .attr('filter', `url(#${svgId}-shadow)`)
+            d3.select(this).attr('filter', `url(#${svgId}-shadow)`)
           })
           .on('mouseout', function () {
-            d3.select(this) //.attr('stroke', null)
-              .attr('filter', `none`)
+            d3.select(this).attr('filter', `none`)
           })
-
-          // Click
-          .on('click', (event, d) => console.log(event, d))
 
           // Drag
           .call(
             d3
               .drag<SVGGElement, NodeData>()
               .on('start', function (event, d) {
-                dragNode = d
                 // Register mouse position
                 dragOrigin.x = event.x
                 dragOrigin.y = event.y
@@ -169,32 +169,39 @@ export function updateGraph(
                 }
               })
               .on('end', function (event, d) {
-                let moved = false
+                // Click
+                if (dragOrigin.x === event.x && dragOrigin.y === event.y) {
+                  if (d.data.type === NodeType.Circle) {
+                    onCircleClick?.(d.data.id)
+                  } else if (
+                    d.data.type === NodeType.Member &&
+                    d.data.parentCircleId
+                  ) {
+                    onCircleMemberClick?.(d.data.parentCircleId, d.data.id)
+                  }
+                }
 
+                // Drag end
+                let moved = false
                 if (dragTargets && dragTarget !== undefined) {
                   const targetCircleId = dragTarget?.data.id || null
 
                   // Move to another circle
-                  if (
-                    dragNode &&
-                    dragNode.data.parentCircleId !== targetCircleId
-                  ) {
-                    if (dragNode.data.type === NodeType.Circle) {
-                      moved =
-                        onCircleMove?.(dragNode.data.id, targetCircleId) ||
-                        false
-                    }
-                    if (
-                      dragNode.data.type === NodeType.Member &&
-                      dragNode.data.parentCircleId &&
-                      dragNode.data.memberId
+                  if (d.data.parentCircleId !== targetCircleId) {
+                    if (d.data.type === NodeType.Circle) {
+                      onCircleMove?.(d.data.id, targetCircleId)
+                      moved = true
+                    } else if (
+                      d.data.type === NodeType.Member &&
+                      d.data.parentCircleId &&
+                      d.data.memberId
                     ) {
-                      moved =
-                        onMemberMove?.(
-                          dragNode.data.memberId,
-                          dragNode.data.parentCircleId,
-                          targetCircleId
-                        ) || false
+                      onMemberMove?.(
+                        d.data.memberId,
+                        d.data.parentCircleId,
+                        targetCircleId
+                      )
+                      moved = true
                     }
                   }
 
@@ -208,7 +215,7 @@ export function updateGraph(
                 }
 
                 // Reset moved circle
-                unhighlightCircle(d3.select<SVGGElement, NodeData>(this), moved)
+                unhighlightCircle(d3.select(this), moved)
 
                 // Reset circles positions
                 if (dragNodes && !moved) {
@@ -268,6 +275,131 @@ export function updateGraph(
       },
 
       // Remove Circle
+      (nodeExit) => nodeExit.remove()
+    )
+
+  // Menu to add circles and members
+  const addMenuData = [{ id: 'new-circle', name: 'Cercle' }, ...members]
+  svg
+    .selectAll('.add-placeholder')
+    .data(addMenuData, (d: any) => d.id)
+    .join(
+      // Create placeholder
+      (nodeEnter) => {
+        const nodeGroup = nodeEnter
+          .append('g')
+          .attr('class', 'add-placeholder')
+          .attr('transform', (d, i) => `translate(50,${20 + i * 70})`)
+
+        // Add circle shape
+        nodeGroup
+          .append('circle')
+          .attr('r', 25)
+          .attr('opacity', 1)
+          .attr('fill', 'yellow')
+          .attr('cursor', 'pointer')
+
+        // Add member name
+        nodeGroup
+          .append('text')
+          .attr('y', '0.5em')
+          .text((d) => d.name)
+          .attr('pointer-events', 'none')
+
+        // Add events
+        nodeGroup
+          // Hover
+          .on('mouseover', function () {
+            d3.select(this).attr('filter', `url(#${svgId}-shadow)`)
+          })
+          .on('mouseout', function () {
+            d3.select(this).attr('filter', `none`)
+          })
+
+          // Drag
+          .call(
+            d3
+              .drag<SVGGElement, MemberEntry>()
+              .on('start', function (event, d) {
+                d3.select(this).raise()
+                // Register selection of all circles
+                dragTargets = svg.selectAll<SVGGElement, NodeData>('.circle')
+              })
+              .on('drag', function (event, d) {
+                if (dragTargets) {
+                  // Move circle and its descendants
+                  d3.select(this).attr(
+                    'transform',
+                    `translate(${event.x},${event.y})`
+                  )
+
+                  const targetData = getTargetNodeData(dragTargets, event)
+
+                  if (targetData !== dragTarget) {
+                    // Unhighlight previously targeted circle
+                    unhighlightCircle(
+                      dragTargets.filter((node) => node === dragTarget)
+                    )
+                    // Highlight newly targeted circle
+                    highlightCircle(
+                      dragTargets.filter((node) => node === targetData),
+                      false,
+                      true
+                    )
+                    dragTarget = targetData
+                  }
+                }
+              })
+              .on('end', function (event, d) {
+                if (dragTargets && dragTarget !== undefined) {
+                  const targetCircleId = dragTarget?.data.id || null
+
+                  // Add to a circle
+                  if (d.id === 'new-circle') {
+                    onCircleAdd?.(targetCircleId) || false
+                  } else if (targetCircleId) {
+                    onMemberAdd?.(d.id, targetCircleId)
+                  }
+
+                  // Unhighlight target circle
+                  if (dragTarget) {
+                    unhighlightCircle(
+                      dragTargets.filter((node) => node === dragTarget),
+                      true
+                    )
+                  }
+                }
+
+                // Reset moved circle
+                d3.select(this).attr(
+                  'transform',
+                  (d, i) => `translate(50,${20 + i * 70})`
+                )
+
+                dragTargets = undefined
+                dragTarget = undefined
+              })
+          )
+
+        return nodeGroup
+      },
+
+      // Update placeholder
+      (nodeUpdate) => {
+        // Update position
+        nodeUpdate.attr('transform', (d, i) => `translate(50,${20 + i * 70})`)
+
+        // Update style
+        nodeUpdate.select('circle').attr('r', 25).attr('opacity', 1)
+
+        // Update  name
+        nodeUpdate.select('text').text((d) => d.name)
+
+        // Update position
+        return nodeUpdate
+      },
+
+      // Remove placeholder
       (nodeExit) => nodeExit.remove()
     )
 }

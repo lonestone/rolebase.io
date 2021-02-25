@@ -11,14 +11,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { useMembers } from '../data/members'
-import MemberCreateModal from './MemberCreateModal'
-import MemberEditModal from './MemberEditModal'
-import TextError from './TextError'
+import { useRoles } from '../../data/roles'
+import RoleCreateModal from '../roles/RoleCreateModal'
+import RoleEditModal from '../roles/RoleEditModal'
+import TextError from '../TextError'
 
-export default function Members() {
-  const [members, loading, error] = useMembers()
-  const [editMemberId, setEditMemberId] = useState<string | undefined>()
+export default function RolesPage() {
+  const [roles, loading, error] = useRoles()
+  const [editRoleId, setEditRoleId] = useState<string | undefined>()
   const {
     isOpen: isAddOpen,
     onOpen: onAddOpen,
@@ -31,7 +31,7 @@ export default function Members() {
   } = useDisclosure()
 
   const handleOpenEdit = (id: string) => {
-    setEditMemberId(id)
+    setEditRoleId(id)
     onEditOpen()
   }
 
@@ -39,37 +39,37 @@ export default function Members() {
     <Box width={200} p={5} borderRadius={3} boxShadow="0 0 5px rgb(0,0,0,0.3)">
       <Flex alignItems="center">
         <Heading as="h2" size="sm">
-          Membres
+          Rôles
         </Heading>
         <Spacer />
         <IconButton
-          aria-label="Add member"
+          aria-label="Ajouter un rôle"
           icon={<AddIcon />}
           onClick={onAddOpen}
         />
       </Flex>
       {error && <TextError error={error} />}
       {loading && <Spinner />}
-      {members && (
+      {roles && (
         <Stack direction="column" marginX="-1rem">
-          {members.map((member) => (
+          {roles.map((role) => (
             <Button
               variant="ghost"
-              key={member.name}
+              key={role.name}
               justifyContent="left"
-              onClick={() => handleOpenEdit(member.id)}
+              onClick={() => handleOpenEdit(role.id)}
             >
-              {member.name}
+              {role.name}
             </Button>
           ))}
         </Stack>
       )}
 
-      <MemberCreateModal isOpen={isAddOpen} onClose={onAddClose} />
+      <RoleCreateModal isOpen={isAddOpen} onClose={onAddClose} />
 
-      {editMemberId && (
-        <MemberEditModal
-          id={editMemberId}
+      {editRoleId && (
+        <RoleEditModal
+          id={editRoleId}
           isOpen={isEditOpen}
           onClose={onEditClose}
         />
