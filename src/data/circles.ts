@@ -124,9 +124,9 @@ export async function moveCircleMember(
   const entry = circle.members.find((member) => member.memberId === memberId)
   if (!entry) return false
 
-  // Member is already in target circle
-  if (targetCircle.members.some((member) => member.memberId === memberId)) {
-    // Remove member from its circle
+  // Member is not already in target circle
+  if (!targetCircle.members.some((member) => member.memberId === memberId)) {
+    // Add member to target circle
     targetDoc.set(
       {
         members: targetCircle.members.concat(entry),
@@ -135,7 +135,7 @@ export async function moveCircleMember(
     )
   }
 
-  // Add member to target circle
+  // Remove member from its circle
   doc.set(
     {
       members: circle.members.filter((member) => member.memberId !== memberId),
