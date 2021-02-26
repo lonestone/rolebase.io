@@ -11,6 +11,7 @@ import {
   unhighlightCircle,
 } from './highlightCircle'
 import { packData } from './packData'
+import selectAppend from './selectAppend'
 import settings from './settings'
 import { Data, NodeData, NodesSelection, NodeType } from './types'
 import { GraphEvents } from './updateGraph'
@@ -48,7 +49,8 @@ export default function updateCircles(
 
   // Add circle groups
   const nodesMap = root.descendants().slice(1)
-  svg
+
+  selectAppend(svg, 'g', 'circles')
     .selectAll('.circle')
     .data(nodesMap, (d: any) => d.data.id)
     .join(

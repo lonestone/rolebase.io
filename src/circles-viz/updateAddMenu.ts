@@ -7,6 +7,7 @@ import {
   highlightCircle,
   unhighlightCircle,
 } from './highlightCircle'
+import selectAppend from './selectAppend'
 import { NodeData, NodesSelection, NodeType } from './types'
 import { GraphEvents } from './updateGraph'
 
@@ -34,7 +35,9 @@ export default function updateAddMenu(
 
   // Menu to add circles and members
   const addMenuData = [{ id: newCircleId, name: 'Cercle' }, ...members]
-  svg
+
+  selectAppend(svg, 'g', 'add-menu')
+    .raise()
     .selectAll('.add-placeholder')
     .data(addMenuData, (d: any) => d.id)
     .join(
