@@ -9,12 +9,15 @@ import {
   unhighlightCircle,
 } from './highlightCircle'
 import selectAppend from './selectAppend'
+import settings from './settings'
 import { NodeData, NodesSelection, NodeType, Zoom } from './types'
 
 const newCircleId = 'new-circle'
 
 interface AddMenuParams {
   members: MemberEntry[]
+  width: number
+  height: number
   events: GraphEvents
   zoom: Zoom
 }
@@ -25,7 +28,7 @@ function getNodeType(data: MemberEntry) {
 
 export default function updateAddMenu(
   svgElement: SVGSVGElement,
-  { members, events, zoom }: AddMenuParams
+  { members, width, height, events, zoom }: AddMenuParams
 ) {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -34,11 +37,59 @@ export default function updateAddMenu(
   let dragTarget: NodeData | null | undefined
   let dragTargets: NodesSelection | undefined
 
+  function getNodeTransform(data: MemberEntry) {
+    const index = members.indexOf(data) + 1
+    return `translate(${
+      settings.addMenu.padding + settings.addMenu.placeholderRadius
+    },${
+      settings.addMenu.padding +
+      settings.addMenu.placeholderRadius +
+      index *
+        (settings.addMenu.placeholderRadius * 2 + settings.addMenu.spacing)
+    })`
+  }
+
+  function getTotalHeight(members: MemberEntry[]) {
+    return (
+      settings.addMenu.padding * 2 +
+      members.length *
+        (settings.addMenu.placeholderRadius * 2 + settings.addMenu.spacing)
+    )
+  }
+
   // Menu to add circles and members
   const addMenuData = [{ id: newCircleId, name: 'Cercle' }, ...members]
 
-  selectAppend(svg, 'g', 'add-menu')
-    .raise()
+  const addMenu = selectAppend(svg, 'g', 'add-menu').raise()
+
+  // Scroll
+  const scrollHeight = getTotalHeight(members) - height
+  let scrollY = 0
+  addMenu.on('mousewheel', function (event) {
+    event.stopPropagation()
+    scrollY -= event.deltaY
+    if (scrollY > 0) scrollY = 0
+    if (scrollY < -scrollHeight) scrollY = -scrollHeight
+    addMenuScroll
+      .transition()
+      .duration(150)
+      .attr('transform', `translate(0,${scrollY})`)
+  })
+
+  // Rect shape behind
+  selectAppend(addMenu, 'rect')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr(
+      'width',
+      settings.addMenu.padding * 2 + settings.addMenu.placeholderRadius * 2
+    )
+    .attr('height', height)
+    .attr('fill', 'rgba(255,255,255,0.4)')
+
+  const addMenuScroll = selectAppend(addMenu, 'g', 'add-menu-scroll')
+
+  addMenuScroll
     .selectAll('.add-placeholder')
     .data(addMenuData, (d: any) => d.id)
     .join(
@@ -47,12 +98,12 @@ export default function updateAddMenu(
         const nodeGroup = nodeEnter
           .append('g')
           .attr('class', 'add-placeholder')
-          .attr('transform', (d, i) => `translate(40,${40 + i * 55})`)
+          .attr('transform', getNodeTransform)
 
         // Add circle shape
         nodeGroup
           .append('circle')
-          .attr('r', 25)
+          .attr('r', settings.addMenu.placeholderRadius)
           .attr('opacity', 1)
           .attr('fill', 'yellow')
           .attr('fill', (d) => getNodeColor(getNodeType(d)))
@@ -145,9 +196,9 @@ export default function updateAddMenu(
                 }
 
                 // Reset moved circle
-                d3.select(this).attr(
+                d3.select<SVGGElement, MemberEntry>(this).attr(
                   'transform',
-                  (d, i) => `translate(40,${40 + i * 55})`
+                  getNodeTransform
                 )
 
                 dragTargets = undefined
@@ -161,10 +212,13 @@ export default function updateAddMenu(
       // Update placeholder
       (nodeUpdate) => {
         // Update position
-        nodeUpdate.attr('transform', (d, i) => `translate(40,${40 + i * 55})`)
+        nodeUpdate.attr('transform', getNodeTransform)
 
         // Update style
-        nodeUpdate.select('circle').attr('r', 25).attr('opacity', 1)
+        nodeUpdate
+          .select('circle')
+          .attr('r', settings.addMenu.placeholderRadius)
+          .attr('opacity', 1)
 
         // Update  name
         nodeUpdate.select('text').text((d) => d.name)

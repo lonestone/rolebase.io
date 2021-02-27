@@ -25,4 +25,9 @@ export default {
     transition: d3.easeQuadIn,
     duration: 150,
   },
+  addMenu: {
+    padding: 10,
+    spacing: 5,
+    placeholderRadius: 25,
+  },
 }

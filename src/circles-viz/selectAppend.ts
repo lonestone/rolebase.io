@@ -9,13 +9,15 @@ export default function selectAppend<
 >(
   selection: Selection<GElement, Datum, PElement, PDatum>,
   tagName: TagName,
-  className: string
+  className?: string
 ): Selection<ElementTagNameMap[TagName], Datum, PElement, PDatum> {
   const groupSelection = selection.select<ElementTagNameMap[TagName]>(
-    '.' + className
+    className ? '.' + className : tagName
   )
   if (groupSelection.node()) {
     return groupSelection
   }
-  return selection.append(tagName).attr('class', className)
+  const newSelection = selection.append(tagName)
+  if (className) newSelection.attr('class', className)
+  return newSelection
 }

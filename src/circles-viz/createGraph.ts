@@ -57,7 +57,7 @@ export function createGraph(
         events,
         zoom,
       })
-      updateAddMenu(svg, { members, events, zoom })
+      updateAddMenu(svg, { members, width, height, events, zoom })
     },
   }
 }
