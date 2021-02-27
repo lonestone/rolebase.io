@@ -1,16 +1,21 @@
 import * as d3 from 'd3'
+import settings from './settings'
 import { Zoom } from './types'
 
 interface InitParams {
-  zoom: Zoom
   width: number
   height: number
 }
 
+interface GraphReturn {
+  zoom: Zoom
+  removeListeners: () => void
+}
+
 export function initGraph(
   svgElement: SVGSVGElement,
-  { width, height, zoom }: InitParams
-): () => void {
+  { width, height }: InitParams
+): GraphReturn {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
 
@@ -26,22 +31,47 @@ export function initGraph(
   // Zoom
   const zoomG = svg.append('g').attr('class', 'panzoom')
 
-  svg.call(
-    d3
-      .zoom<SVGSVGElement, any>()
-      .filter((event) => true)
-      .translateExtent([
-        [0, 0],
-        [width, height],
+  const zoomBehaviour = d3
+    .zoom<SVGSVGElement, any>()
+    .filter((event) => true)
+    .scaleExtent(settings.zoom.scaleExtent as [number, number])
+    .on('zoom', (event) => {
+      zoom.x = event.transform.x
+      zoom.y = event.transform.y
+      zoom.scale = event.transform.k
+      zoomG.attr('transform', event.transform)
+    })
+  svg.call(zoomBehaviour)
+
+  const zoom: Zoom = {
+    x: 0,
+    y: 0,
+    scale: 1,
+    spaceKey: false,
+    changeExtent(w, h) {
+      zoomBehaviour.translateExtent([
+        [-w / 2, -h / 2],
+        [(w * 3) / 2, (h * 3) / 2],
       ])
-      .scaleExtent([1, 8])
-      .on('zoom', (event) => {
-        zoom.x = event.transform.x
-        zoom.y = event.transform.y
-        zoom.scale = event.transform.k
-        zoomG.attr('transform', event.transform)
-      })
-  )
+    },
+    to(x, y, radius, instant) {
+      const scale = Math.min(
+        settings.zoom.scaleExtent[1],
+        Math.min(width, height) / (radius * 2)
+      )
+      svg
+        .transition()
+        .duration(instant ? 0 : settings.zoom.duration)
+        .ease(settings.zoom.transition)
+        .call(
+          zoomBehaviour.transform,
+          d3.zoomIdentity
+            .translate(-x * scale + width / 2, -y * scale + height / 2)
+            .scale(scale)
+        )
+    },
+  }
+  // zoom.changeExtent(width, height)
 
   // Handle space key to prevent dragging circles during pan/zoom
   const handleSpaceKey = (toggle: boolean) => (event: KeyboardEvent) => {
@@ -54,9 +84,11 @@ export function initGraph(
   document.addEventListener('keydown', handleSpaceKeyDown)
   document.addEventListener('keyup', handleSpaceKeyUp)
 
-  // removeListeners
-  return () => {
-    document.removeEventListener('keydown', handleSpaceKeyDown)
-    document.removeEventListener('keyup', handleSpaceKeyUp)
+  return {
+    zoom,
+    removeListeners() {
+      document.removeEventListener('keydown', handleSpaceKeyDown)
+      document.removeEventListener('keyup', handleSpaceKeyUp)
+    },
   }
 }

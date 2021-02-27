@@ -2,9 +2,15 @@ import * as d3 from 'd3'
 
 export default {
   memberValue: 10,
+  fontSize: 10,
   padding: {
     circle: 50,
     member: 1,
+  },
+  zoom: {
+    scaleExtent: [0.1, 2],
+    transition: d3.easeCubicInOut,
+    duration: 500,
   },
   highlight: {
     transition: d3.easeCircleOut,

@@ -41,6 +41,7 @@ export default function updateCircles(
   const root = packData(data, width, height)
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
+  const firstDraw = !svg.select('.circles').node()
 
   // Variables for dragging circles and members
   const dragOrigin = { x: 0, y: 0 }
@@ -51,11 +52,34 @@ export default function updateCircles(
   // Add circle once in panzoom
   const groupSelection = selectAppend(svg.select('.panzoom'), 'g', 'circles')
 
+  // Get all nodes under root and rescale them
+  const nodesMap = root.descendants()
+  const minRadius = nodesMap.reduce(
+    (min, node) => (node.r < min ? node.r : min),
+    Infinity
+  )
+  const nodeScale = 30 / minRadius
+  for (const node of nodesMap) {
+    node.r *= nodeScale
+    node.x *= nodeScale
+    node.y *= nodeScale
+  }
+  const maxDepth = nodesMap.reduce(
+    (max, node) => (node.depth > max ? node.depth : max),
+    0
+  )
+  const getCircleFontSize = (node: NodeData) =>
+    settings.fontSize + (maxDepth / node.depth) * 2
+
+  // Zoom on root circle at first draw
+  if (firstDraw) {
+    zoom.to(root.x, root.y, root.r, true)
+  }
+
   // Add circle groups
-  const nodesMap = root.descendants().slice(1)
   groupSelection
     .selectAll('.circle')
-    .data(nodesMap, (d: any) => d.data.id)
+    .data(nodesMap.slice(1), (d: any) => d.data.id)
     .join(
       // Create Circle
       (nodeEnter) => {
@@ -95,12 +119,14 @@ export default function updateCircles(
           .attr('y', 0)
           .transition(transition as any)
           .attr('opacity', 1)
-          .attr('y', (d) => -d.r + 17)
+          .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
+          .attr('y', (d) => -d.r - 10)
 
         // Add member name
         nodeGroup
           .filter((d) => d.data.type === NodeType.Member)
           .append('text')
+          .attr('font-size', `${settings.fontSize}px`)
           .attr('opacity', 0)
           .attr('y', '0.5em')
           .text((d) => d.data.name)
@@ -202,12 +228,17 @@ export default function updateCircles(
 
                 // Click
                 if (clicked) {
+                  // Zoom to node
+                  zoom.to(dragNode.x, dragNode.y, dragNode.r * 1.2)
+
                   if (dragNode.data.type === NodeType.Circle) {
+                    // Click on circle
                     events.onCircleClick?.(dragNode.data.id)
                   } else if (
                     dragNode.data.type === NodeType.Member &&
                     dragNode.data.parentCircleId
                   ) {
+                    // Click on member
                     events.onCircleMemberClick?.(
                       dragNode.data.parentCircleId,
                       dragNode.data.id
@@ -313,12 +344,14 @@ export default function updateCircles(
           .select('text')
           .text((d) => d.data.name)
           .transition(transition as any)
-          .attr('y', (d) => -d.r + 17)
+          .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
+          .attr('y', (d) => -d.r * 1.05)
 
         // Update member name
         nodeUpdate
           .filter((d) => d.data.type === NodeType.Member)
           .select('text')
+          .attr('font-size', `${settings.fontSize}px`)
           .text((d) => d.data.name)
 
         // Update position

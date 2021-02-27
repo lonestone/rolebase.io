@@ -28,4 +28,6 @@ export interface Zoom {
   y: number
   scale: number
   spaceKey: boolean // True when space key is pressed
+  to(x: number, y: number, radius: number, instant?: boolean): void
+  changeExtent(width: number, height: number): void
 }

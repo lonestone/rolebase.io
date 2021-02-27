@@ -7,6 +7,7 @@ import updateAddMenu from './updateAddMenu'
 import updateCircles from './updateCircles'
 
 export interface Graph {
+  zoom: Zoom
   removeListeners(): void
   update(params: UpdateGraphParams): void
 }
@@ -41,10 +42,10 @@ export function createGraph(
   svg: SVGSVGElement,
   { width, height, events }: GraphParams
 ): Graph {
-  const zoom: Zoom = { x: 0, y: 0, scale: 1, spaceKey: false }
-  const removeListeners = initGraph(svg, { width, height, zoom })
+  const { zoom, removeListeners } = initGraph(svg, { width, height })
 
   return {
+    zoom,
     removeListeners,
     update({ circles, roles, members }: UpdateGraphParams) {
       updateCircles(svg, {

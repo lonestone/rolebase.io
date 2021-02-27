@@ -21,6 +21,7 @@ interface Props {
 }
 
 const StyledSVG = styled.svg`
+  position: absolute;
   font: 10px sans-serif;
 `
 
@@ -80,6 +81,7 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
       roles &&
       circles
     ) {
+      // Init Graph
       if (!graphRef.current) {
         graphRef.current = createGraph(svgRef.current, {
           width,
@@ -95,6 +97,8 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
           },
         })
       }
+
+      // (Re)-draw graph
       graphRef.current.update({
         circles,
         roles,
@@ -123,7 +127,7 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
   )
 
   return (
-    <Box flex={1} ref={boxRef}>
+    <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
       {
         // Loading
         membersLoading || circlesLoading || rolesLoading ? (
@@ -143,8 +147,8 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
           <StyledSVG
             ref={svgRef}
             id={domId}
-            width="100%"
-            height="100%"
+            width={width}
+            height={height}
             viewBox={`0 0 ${width} ${height}`}
             textAnchor="middle"
           ></StyledSVG>
