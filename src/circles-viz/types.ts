@@ -22,3 +22,10 @@ export interface Data {
   value?: number
   children?: Array<Data>
 }
+
+export interface Zoom {
+  x: number
+  y: number
+  scale: number
+  spaceKey: boolean // True when space key is pressed
+}

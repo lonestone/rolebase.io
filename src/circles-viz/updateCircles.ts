@@ -2,6 +2,7 @@ import * as d3 from 'd3'
 import { CircleEntry } from '../data/circles'
 import { MemberEntry } from '../data/members'
 import { RoleEntry } from '../data/roles'
+import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
@@ -13,8 +14,7 @@ import {
 import { packData } from './packData'
 import selectAppend from './selectAppend'
 import settings from './settings'
-import { Data, NodeData, NodesSelection, NodeType } from './types'
-import { GraphEvents } from './updateGraph'
+import { Data, NodeData, NodesSelection, NodeType, Zoom } from './types'
 
 interface CirclesParams {
   circles: CircleEntry[]
@@ -23,11 +23,12 @@ interface CirclesParams {
   width: number
   height: number
   events: GraphEvents
+  zoom: Zoom
 }
 
 export default function updateCircles(
   svgElement: SVGSVGElement,
-  { circles, roles, members, width, height, events }: CirclesParams
+  { circles, roles, members, width, height, events, zoom }: CirclesParams
 ) {
   // Pack data with d3.pack
   const data: Data = {
@@ -47,10 +48,12 @@ export default function updateCircles(
   let dragTarget: NodeData | null | undefined
   let dragTargets: NodesSelection | undefined
 
+  // Add circle once in panzoom
+  const groupSelection = selectAppend(svg.select('.panzoom'), 'g', 'circles')
+
   // Add circle groups
   const nodesMap = root.descendants().slice(1)
-
-  selectAppend(svg, 'g', 'circles')
+  groupSelection
     .selectAll('.circle')
     .data(nodesMap, (d: any) => d.data.id)
     .join(
@@ -123,9 +126,13 @@ export default function updateCircles(
           .call(
             d3
               .drag<SVGGElement, NodeData>()
-              .filter(function () {
-                // Allow Ctrl+drag
-                return true
+              .filter(function (event) {
+                return (
+                  // Disable drag when space key is pressed
+                  !zoom.spaceKey &&
+                  // Disable when mousewheel is pressed
+                  event.button !== 1
+                )
               })
               .on('start', function (event, dragNode) {
                 // Register mouse position
@@ -155,7 +162,7 @@ export default function updateCircles(
                     (d) => `translate(${d.x + dX},${d.y + dY})`
                   )
 
-                  const targetData = getTargetNodeData(dragTargets, event)
+                  const targetData = getTargetNodeData(dragTargets, event, zoom)
 
                   if (targetData !== dragTarget) {
                     const transition = getHighlightTransition()

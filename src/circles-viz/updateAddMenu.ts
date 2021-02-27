@@ -1,5 +1,6 @@
 import * as d3 from 'd3'
 import { MemberEntry } from '../data/members'
+import { GraphEvents } from './createGraph'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
 import {
@@ -8,14 +9,14 @@ import {
   unhighlightCircle,
 } from './highlightCircle'
 import selectAppend from './selectAppend'
-import { NodeData, NodesSelection, NodeType } from './types'
-import { GraphEvents } from './updateGraph'
+import { NodeData, NodesSelection, NodeType, Zoom } from './types'
 
 const newCircleId = 'new-circle'
 
 interface AddMenuParams {
   members: MemberEntry[]
   events: GraphEvents
+  zoom: Zoom
 }
 
 function getNodeType(data: MemberEntry) {
@@ -24,7 +25,7 @@ function getNodeType(data: MemberEntry) {
 
 export default function updateAddMenu(
   svgElement: SVGSVGElement,
-  { members, events }: AddMenuParams
+  { members, events, zoom }: AddMenuParams
 ) {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -90,7 +91,7 @@ export default function updateAddMenu(
                     .select<SVGGElement, MemberEntry>(this)
                     .attr('transform', `translate(${event.x},${event.y})`)
 
-                  const targetData = getTargetNodeData(dragTargets, event)
+                  const targetData = getTargetNodeData(dragTargets, event, zoom)
 
                   if (targetData !== dragTarget) {
                     const transition = getHighlightTransition()

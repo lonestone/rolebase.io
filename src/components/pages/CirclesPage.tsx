@@ -2,8 +2,7 @@ import { Box, Center, Spinner, useDisclosure } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import useComponentSize from '@rehooks/component-size'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { initGraph } from '../../circles-viz/initGraph'
-import { updateGraph } from '../../circles-viz/updateGraph'
+import { createGraph, Graph } from '../../circles-viz/createGraph'
 import {
   addMemberToCircle,
   copyCircle,
@@ -34,7 +33,7 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
   // Viz
   const boxRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
-  const svgInitRef = useRef<boolean>(false)
+  const graphRef = useRef<Graph>()
   const { width, height } = useComponentSize(boxRef)
 
   // Add circle
@@ -81,25 +80,25 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
       roles &&
       circles
     ) {
-      if (!svgInitRef.current) {
-        svgInitRef.current = true
-        initGraph(svgRef.current)
+      if (!graphRef.current) {
+        graphRef.current = createGraph(svgRef.current, {
+          width,
+          height,
+          events: {
+            onCircleClick,
+            onCircleMemberClick,
+            onCircleMove: moveCircle,
+            onCircleCopy: copyCircle,
+            onMemberMove: moveCircleMember,
+            onCircleAdd,
+            onMemberAdd: addMemberToCircle,
+          },
+        })
       }
-      updateGraph(svgRef.current, {
-        circles, // : circlesMock,
-        roles, // : rolesMock,
+      graphRef.current.update({
+        circles,
+        roles,
         members,
-        width,
-        height,
-        events: {
-          onCircleClick,
-          onCircleMemberClick,
-          onCircleMove: moveCircle,
-          onCircleCopy: copyCircle,
-          onMemberMove: moveCircleMember,
-          onCircleAdd,
-          onMemberAdd: addMemberToCircle,
-        },
       })
     }
   }, [
@@ -112,6 +111,16 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
     onCircleMemberClick,
     onCircleAdd,
   ])
+
+  // Remove SVG listeners on unmount
+  useEffect(
+    () => () => {
+      if (graphRef.current) {
+        graphRef.current.removeListeners()
+      }
+    },
+    []
+  )
 
   return (
     <Box flex={1} ref={boxRef}>
