@@ -26,6 +26,7 @@ export default {
     duration: 150,
   },
   addMenu: {
+    marginTop: 56,
     padding: 10,
     spacing: 5,
     placeholderRadius: 25,

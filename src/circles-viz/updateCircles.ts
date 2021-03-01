@@ -107,6 +107,14 @@ export default function updateCircles(
           .attr('opacity', 1)
           .attr('fill', (d) => getNodeColor(d.data.type, d.depth))
           .attr('cursor', 'pointer')
+          // Hover
+          .on('mouseover', function () {
+            d3.select(this).attr('filter', `url(#${svgId}-shadow)`)
+          })
+          .on('mouseout', function () {
+            d3.select(this).attr('filter', `none`)
+          })
+          // Animate radius
           .transition(transition as any)
           .attr('r', (d) => d.r)
 
@@ -162,13 +170,6 @@ export default function updateCircles(
             (d) =>
               d.data.type === NodeType.Circle || d.data.type === NodeType.Member
           )
-          // Hover
-          .on('mouseover', function () {
-            d3.select(this).attr('filter', `url(#${svgId}-shadow)`)
-          })
-          .on('mouseout', function () {
-            d3.select(this).attr('filter', `none`)
-          })
 
           // Drag
           .call(
@@ -364,10 +365,10 @@ export default function updateCircles(
         nodeUpdate
           .filter((d) => d.data.type === NodeType.Circle)
           .select('text')
-          .text((d) => getFirstname(d.data.name))
+          .text((d) => d.data.name)
           .transition(transition as any)
           .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
-          .attr('y', (d) => -d.r * 1.05)
+          .attr('y', (d) => -d.r - 10)
 
         // Update member name
         const nodeUpdateMembers = nodeUpdate.filter(

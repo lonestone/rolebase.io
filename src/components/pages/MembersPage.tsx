@@ -1,16 +1,22 @@
 import { AddIcon } from '@chakra-ui/icons'
 import {
-  Box,
+  Avatar,
   Button,
-  Flex,
+  CloseButton,
+  Container,
   Heading,
+  HStack,
   IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
   Spacer,
   Spinner,
-  Stack,
   useDisclosure,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useMembers } from '../../data/members'
 import MemberCreateModal from '../members/MemberCreateModal'
 import MemberEditModal from '../members/MemberEditModal'
@@ -18,12 +24,16 @@ import TextError from '../TextError'
 
 export default function MembersPage() {
   const [members, loading, error] = useMembers()
-  const [editMemberId, setEditMemberId] = useState<string | undefined>()
+
+  // Add modal
   const {
     isOpen: isAddOpen,
     onOpen: onAddOpen,
     onClose: onAddClose,
   } = useDisclosure()
+
+  // Edit modal
+  const [editMemberId, setEditMemberId] = useState<string | undefined>()
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -35,34 +45,71 @@ export default function MembersPage() {
     onEditOpen()
   }
 
+  // Search
+  const [searchText, setSearchText] = useState('')
+
+  // Sort and filter members
+  const sortedMembers = useMemo(
+    () => members?.slice().sort((a, b) => (a.name < b.name ? -1 : 1)),
+    [members]
+  )
+  const filteredMembers = useMemo(() => {
+    const text = searchText.toLowerCase()
+    return sortedMembers?.filter(
+      (member) => member.name.toLowerCase().indexOf(text) !== -1
+    )
+  }, [sortedMembers, searchText])
+
   return (
-    <Box width={200} p={5} borderRadius={3} boxShadow="0 0 5px rgb(0,0,0,0.3)">
-      <Flex alignItems="center">
-        <Heading as="h2" size="sm">
+    <Container maxW="xl">
+      <HStack spacing={10} margin="30px 0">
+        <Heading as="h2" size="md">
           Membres
         </Heading>
-        <Spacer />
         <IconButton
           aria-label="Ajouter un membre"
           icon={<AddIcon />}
           onClick={onAddOpen}
         />
-      </Flex>
+        <Spacer />
+        <InputGroup>
+          <Input
+            type="text"
+            placeholder="Rechercher..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <InputRightElement
+            children={
+              <CloseButton
+                colorScheme="gray"
+                size="sm"
+                onClick={() => setSearchText('')}
+              />
+            }
+          />
+        </InputGroup>
+      </HStack>
+
       {error && <TextError error={error} />}
-      {loading && <Spinner />}
-      {members && (
-        <Stack direction="column" marginX="-1rem">
-          {members.map((member) => (
-            <Button
-              variant="ghost"
-              key={member.name}
-              justifyContent="left"
-              onClick={() => handleOpenEdit(member.id)}
-            >
-              {member.name}
-            </Button>
+      {loading && <Spinner size="xl" />}
+      {filteredMembers && (
+        <Wrap spacing={5}>
+          {filteredMembers.map((member) => (
+            <WrapItem key={member.id}>
+              <Button onClick={() => handleOpenEdit(member.id)}>
+                <Avatar
+                  name={member.name}
+                  src={member.picture || undefined}
+                  size="md"
+                  marginLeft="-25px"
+                  marginRight={2}
+                />
+                {member.name}
+              </Button>
+            </WrapItem>
           ))}
-        </Stack>
+        </Wrap>
       )}
 
       <MemberCreateModal isOpen={isAddOpen} onClose={onAddClose} />
@@ -74,6 +121,6 @@ export default function MembersPage() {
           onClose={onEditClose}
         />
       )}
-    </Box>
+    </Container>
   )
 }

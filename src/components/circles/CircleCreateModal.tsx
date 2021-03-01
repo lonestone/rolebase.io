@@ -17,6 +17,7 @@ import {
   Spinner,
   Stack,
   UseModalProps,
+  VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useEffect } from 'react'
@@ -104,58 +105,60 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
           <ModalCloseButton />
 
           <ModalBody>
-            <FormControl>
-              <Controller
-                name="roleAction"
-                control={control}
-                render={({ onChange, value }) => (
-                  <RadioGroup
-                    value={value}
-                    onChange={onChange}
-                    marginBottom="1rem"
-                  >
-                    <Stack>
-                      <Radio value={RoleAction.ReUse}>
-                        Utiliser un rôle existant
-                      </Radio>
-                      <Radio value={RoleAction.New}>
-                        Créer un nouveau rôle
-                      </Radio>
-                    </Stack>
-                  </RadioGroup>
-                )}
-              />
-            </FormControl>
-
-            {roleAction === RoleAction.ReUse ? (
+            <VStack spacing={3}>
               <FormControl>
-                <FormLabel htmlFor="roleId">Rôle à utiliser</FormLabel>
-                {rolesError && <TextError error={rolesError} />}
-                {rolesLoading && <Spinner />}
-                {roles && (
-                  <Select name="roleId" ref={register()} autoFocus>
-                    {roles?.map((role) => (
-                      <option key={role.id} value={role.id}>
-                        {role.name}
-                      </option>
-                    ))}
-                  </Select>
-                )}
-              </FormControl>
-            ) : (
-              <FormControl isInvalid={!!errors.roleName}>
-                <FormLabel htmlFor="roleName">Nom du rôle</FormLabel>
-                <Input
-                  name="roleName"
-                  placeholder="Nom..."
-                  ref={register}
-                  autoFocus
+                <Controller
+                  name="roleAction"
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <RadioGroup
+                      value={value}
+                      onChange={onChange}
+                      marginBottom="1rem"
+                    >
+                      <Stack>
+                        <Radio value={RoleAction.ReUse}>
+                          Utiliser un rôle existant
+                        </Radio>
+                        <Radio value={RoleAction.New}>
+                          Créer un nouveau rôle
+                        </Radio>
+                      </Stack>
+                    </RadioGroup>
+                  )}
                 />
-                <FormErrorMessage>
-                  {errors.roleName && errors.roleName.message}
-                </FormErrorMessage>
               </FormControl>
-            )}
+
+              {roleAction === RoleAction.ReUse ? (
+                <FormControl>
+                  <FormLabel htmlFor="roleId">Rôle à utiliser</FormLabel>
+                  {rolesError && <TextError error={rolesError} />}
+                  {rolesLoading && <Spinner />}
+                  {roles && (
+                    <Select name="roleId" ref={register()} autoFocus>
+                      {roles?.map((role) => (
+                        <option key={role.id} value={role.id}>
+                          {role.name}
+                        </option>
+                      ))}
+                    </Select>
+                  )}
+                </FormControl>
+              ) : (
+                <FormControl isInvalid={!!errors.roleName}>
+                  <FormLabel htmlFor="roleName">Nom du rôle</FormLabel>
+                  <Input
+                    name="roleName"
+                    placeholder="Nom..."
+                    ref={register}
+                    autoFocus
+                  />
+                  <FormErrorMessage>
+                    {errors.roleName && errors.roleName.message}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            </VStack>
           </ModalBody>
 
           <ModalFooter>

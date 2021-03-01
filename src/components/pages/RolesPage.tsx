@@ -1,29 +1,38 @@
 import { AddIcon } from '@chakra-ui/icons'
 import {
-  Box,
   Button,
-  Flex,
+  CloseButton,
+  Container,
   Heading,
+  HStack,
   IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
   Spacer,
   Spinner,
   Stack,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useRoles } from '../../data/roles'
 import RoleCreateModal from '../roles/RoleCreateModal'
 import RoleEditModal from '../roles/RoleEditModal'
 import TextError from '../TextError'
 
 export default function RolesPage() {
-  const [roles, loading, error] = useRoles()
-  const [editRoleId, setEditRoleId] = useState<string | undefined>()
+  const [roles, rolesLoading, rolesError] = useRoles()
+  const [circles, circlesLoading, circlesError] = useRoles()
+
+  // Add modal
   const {
     isOpen: isAddOpen,
     onOpen: onAddOpen,
     onClose: onAddClose,
   } = useDisclosure()
+
+  // Edit modal
+  const [editRoleId, setEditRoleId] = useState<string | undefined>()
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -35,24 +44,65 @@ export default function RolesPage() {
     onEditOpen()
   }
 
+  // Search
+  const [searchText, setSearchText] = useState('')
+
+  // Sort and filter members
+  const sortedRoles = useMemo(
+    () => roles?.slice().sort((a, b) => (a.name < b.name ? -1 : 1)),
+    [roles]
+  )
+  const filteredRoles = useMemo(() => {
+    const text = searchText.toLowerCase()
+    return sortedRoles?.filter(
+      (role) => role.name.toLowerCase().indexOf(text) !== -1
+    )
+  }, [sortedRoles, searchText])
+
   return (
-    <Box width={200} p={5} borderRadius={3} boxShadow="0 0 5px rgb(0,0,0,0.3)">
-      <Flex alignItems="center">
-        <Heading as="h2" size="sm">
+    <Container maxW="xl">
+      <HStack spacing={10} margin="30px 0">
+        <Heading as="h2" size="md">
           Rôles
         </Heading>
-        <Spacer />
         <IconButton
           aria-label="Ajouter un rôle"
           icon={<AddIcon />}
           onClick={onAddOpen}
         />
-      </Flex>
-      {error && <TextError error={error} />}
-      {loading && <Spinner />}
-      {roles && (
+        <Spacer />
+        <InputGroup>
+          <Input
+            type="text"
+            placeholder="Rechercher..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <InputRightElement
+            children={
+              <CloseButton
+                colorScheme="gray"
+                size="sm"
+                onClick={() => setSearchText('')}
+              />
+            }
+          />
+        </InputGroup>
+      </HStack>
+
+      {rolesLoading || circlesLoading ? (
+        <Spinner size="xl" />
+      ) : [rolesError, circlesError].some(Boolean) ? (
+        <>
+          {[rolesError, circlesError]
+            .filter(Boolean)
+            .map((error, i) =>
+              error ? <TextError key={i} error={error} /> : null
+            )}
+        </>
+      ) : (
         <Stack direction="column" marginX="-1rem">
-          {roles.map((role) => (
+          {filteredRoles?.map((role) => (
             <Button
               variant="ghost"
               key={role.name}
@@ -74,6 +124,6 @@ export default function RolesPage() {
           onClose={onEditClose}
         />
       )}
-    </Box>
+    </Container>
   )
 }

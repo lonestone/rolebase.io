@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { Transition } from 'd3'
 import { MemberEntry } from '../data/members'
 import { GraphEvents } from './createGraph'
 import { getFirstname } from './getFirstname'
@@ -27,6 +28,14 @@ function getNodeType(data: MemberEntry) {
   return data.id === newCircleId ? NodeType.Circle : NodeType.Member
 }
 
+function getTotalHeight(membersNumber: number) {
+  return (
+    settings.addMenu.padding * 2 +
+    membersNumber *
+      (settings.addMenu.placeholderRadius * 2 + settings.addMenu.spacing)
+  )
+}
+
 export default function updateAddMenu(
   svgElement: SVGSVGElement,
   { members, width, height, events, zoom }: AddMenuParams
@@ -43,19 +52,12 @@ export default function updateAddMenu(
     return `translate(${
       settings.addMenu.padding + settings.addMenu.placeholderRadius
     },${
+      settings.addMenu.marginTop +
       settings.addMenu.padding +
       settings.addMenu.placeholderRadius +
       index *
         (settings.addMenu.placeholderRadius * 2 + settings.addMenu.spacing)
     })`
-  }
-
-  function getTotalHeight(members: MemberEntry[]) {
-    return (
-      settings.addMenu.padding * 2 +
-      members.length *
-        (settings.addMenu.placeholderRadius * 2 + settings.addMenu.spacing)
-    )
   }
 
   // Menu to add circles and members
@@ -64,17 +66,26 @@ export default function updateAddMenu(
   const addMenu = selectAppend(svg, 'g', 'add-menu').raise()
 
   // Scroll
-  const scrollHeight = getTotalHeight(members) - height
+  const scrollHeight =
+    getTotalHeight(addMenuData.length) - height + settings.addMenu.marginTop
   let scrollY = 0
+  let scrollTransition:
+    | Transition<SVGGElement, unknown, null, undefined>
+    | undefined
   addMenu.on('mousewheel', function (event) {
     event.stopPropagation()
     scrollY -= event.deltaY
     if (scrollY > 0) scrollY = 0
     if (scrollY < -scrollHeight) scrollY = -scrollHeight
-    addMenuScroll
-      .transition()
-      .duration(150)
+    if (!scrollTransition) {
+      scrollTransition = addMenuScroll
+        .transition()
+        .duration(150)
+        .ease(d3.easeLinear)
+    }
+    scrollTransition
       .attr('transform', `translate(0,${scrollY})`)
+      .call(() => (scrollTransition = undefined))
   })
 
   // Rect shape behind
@@ -85,7 +96,7 @@ export default function updateAddMenu(
       'width',
       settings.addMenu.padding * 2 + settings.addMenu.placeholderRadius * 2
     )
-    .attr('height', height)
+    .attr('height', height - settings.addMenu.marginTop)
     .attr('fill', 'rgba(255,255,255,0.4)')
 
   const addMenuScroll = selectAppend(addMenu, 'g', 'add-menu-scroll')
@@ -128,7 +139,7 @@ export default function updateAddMenu(
           .attr('height', settings.addMenu.placeholderRadius * 2)
           .attr('width', settings.addMenu.placeholderRadius * 2)
 
-        // Add member name
+        // Add name
         nodeGroup
           .append('text')
           .attr('pointer-events', 'none')
@@ -137,6 +148,8 @@ export default function updateAddMenu(
           .attr('y', '0.5em')
           .attr('font-weight', (d) => (d.picture ? 'bold' : 'normal'))
           .attr('opacity', (d) => (d.picture ? 0 : 1))
+          // Stroke on member name
+          .filter((d) => d.id !== newCircleId)
           .attr('paint-order', 'stroke')
           .attr('stroke', 'white')
           .attr('stroke-width', '2px')

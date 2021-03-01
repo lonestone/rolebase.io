@@ -4,6 +4,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  HStack,
   Input,
   Modal,
   ModalBody,
@@ -14,6 +15,7 @@ import {
   ModalOverlay,
   Spinner,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useEffect, useState } from 'react'
@@ -91,29 +93,33 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
               <ModalCloseButton />
 
               <ModalBody>
-                <FormControl isInvalid={!!errors.name}>
-                  <FormLabel htmlFor="name">Nom</FormLabel>
-                  <Input
-                    name="name"
-                    placeholder="Nom..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                  </FormErrorMessage>
-                </FormControl>
+                <VStack spacing={3}>
+                  <FormControl isInvalid={!!errors.name}>
+                    <FormLabel htmlFor="name">Nom</FormLabel>
+                    <Input
+                      name="name"
+                      placeholder="Nom..."
+                      ref={register}
+                      autoFocus
+                    />
+                    <FormErrorMessage>
+                      {errors.name && errors.name.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                <FormControl isInvalid={!!errors.pictureFiles}>
-                  <FormLabel htmlFor="avatar">Photo</FormLabel>
-                  {picture && (
-                    <Avatar name={data.name} src={picture} size="lg" />
-                  )}
-                  <Input name="pictureFiles" type="file" ref={register} />
-                  <FormErrorMessage>
-                    {errors.pictureFiles && errors.pictureFiles.message}
-                  </FormErrorMessage>
-                </FormControl>
+                  <FormControl isInvalid={!!errors.pictureFiles}>
+                    <FormLabel htmlFor="pictureFiles">Photo</FormLabel>
+                    <HStack spacing={3}>
+                      {picture && (
+                        <Avatar name={data.name} src={picture} size="lg" />
+                      )}
+                      <Input name="pictureFiles" type="file" ref={register} />
+                    </HStack>
+                    <FormErrorMessage>
+                      {errors.pictureFiles && errors.pictureFiles.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </VStack>
               </ModalBody>
 
               <ModalFooter>

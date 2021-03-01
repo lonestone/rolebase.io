@@ -1,24 +1,26 @@
-import { Flex, Link, Wrap, WrapItem } from '@chakra-ui/react'
+import { Button, Flex, Wrap, WrapItem } from '@chakra-ui/react'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 const HeaderLink: React.FC<{ to: string }> = ({ to, children }) => (
   <WrapItem>
-    <Link to={to} as={ReachLink} colorScheme="blue" onClick={() => {}}>
-      {children}
-    </Link>
+    <ReachLink to={to}>
+      <Button colorScheme="gray">{children}</Button>
+    </ReachLink>
   </WrapItem>
 )
 
 const Header: React.FC = () => (
   <Flex
+    position="absolute"
+    zIndex="1"
+    top="0"
+    left="0"
     width="100%"
-    height="46px"
-    background="#e8f4ff"
     alignItems="center"
-    paddingLeft="20px"
+    padding={2}
   >
-    <Wrap spacing="20px">
+    <Wrap spacing={2}>
       <HeaderLink to="/">Cercles</HeaderLink>
       <HeaderLink to="/members">Membres</HeaderLink>
       <HeaderLink to="/roles">Rôles</HeaderLink>

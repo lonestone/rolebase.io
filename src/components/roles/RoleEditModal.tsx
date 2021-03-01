@@ -13,6 +13,7 @@ import {
   ModalOverlay,
   Spinner,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useEffect } from 'react'
@@ -75,59 +76,62 @@ export default function RoleEditModal({ id, isOpen, onClose }: Props) {
               <ModalCloseButton />
 
               <ModalBody>
-                <FormControl isInvalid={!!errors.name}>
-                  <FormLabel htmlFor="name">Nom du rôle</FormLabel>
-                  <Input
-                    name="name"
-                    placeholder="Nom..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                  </FormErrorMessage>
-                </FormControl>
+                <VStack spacing={3}>
+                  <FormControl isInvalid={!!errors.name}>
+                    <FormLabel htmlFor="name">Nom du rôle</FormLabel>
+                    <Input
+                      name="name"
+                      placeholder="Nom..."
+                      ref={register}
+                      autoFocus
+                    />
+                    <FormErrorMessage>
+                      {errors.name && errors.name.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                <FormControl isInvalid={!!errors.purpose}>
-                  <FormLabel htmlFor="purpose">Raison d'être</FormLabel>
-                  <Input
-                    name="purpose"
-                    placeholder="But qu'il poursuit..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.purpose && errors.purpose.message}
-                  </FormErrorMessage>
-                </FormControl>
+                  <FormControl isInvalid={!!errors.purpose}>
+                    <FormLabel htmlFor="purpose">Raison d'être</FormLabel>
+                    <Input
+                      name="purpose"
+                      placeholder="But qu'il poursuit..."
+                      ref={register}
+                      autoFocus
+                    />
+                    <FormErrorMessage>
+                      {errors.purpose && errors.purpose.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                <FormControl isInvalid={!!errors.domain}>
-                  <FormLabel htmlFor="domain">Domaine</FormLabel>
-                  <Input
-                    name="domain"
-                    placeholder="Ce qu'il est seul à pouvoir faire..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.domain && errors.domain.message}
-                  </FormErrorMessage>
-                </FormControl>
+                  <FormControl isInvalid={!!errors.domain}>
+                    <FormLabel htmlFor="domain">Domaine</FormLabel>
+                    <Input
+                      name="domain"
+                      placeholder="Ce qu'il est seul à pouvoir faire..."
+                      ref={register}
+                      autoFocus
+                    />
+                    <FormErrorMessage>
+                      {errors.domain && errors.domain.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                <FormControl isInvalid={!!errors.accountabilities}>
-                  <FormLabel htmlFor="accountabilities">
-                    Redevabilités
-                  </FormLabel>
-                  <Input
-                    name="accountabilities"
-                    placeholder="Ce qu'il doit faire..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.accountabilities && errors.accountabilities.message}
-                  </FormErrorMessage>
-                </FormControl>
+                  <FormControl isInvalid={!!errors.accountabilities}>
+                    <FormLabel htmlFor="accountabilities">
+                      Redevabilités
+                    </FormLabel>
+                    <Input
+                      name="accountabilities"
+                      placeholder="Ce qu'il doit faire..."
+                      ref={register}
+                      autoFocus
+                    />
+                    <FormErrorMessage>
+                      {errors.accountabilities &&
+                        errors.accountabilities.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </VStack>
               </ModalBody>
 
               <ModalFooter>
