@@ -44,6 +44,7 @@ export default function updateAddMenu(
   const svgId = svg.attr('id')
 
   // Variables for dragging members
+  const dragOrigin = { x: 0, y: 0 }
   let dragTarget: NodeData | null | undefined
   let dragTargets: NodesSelection | undefined
 
@@ -179,6 +180,10 @@ export default function updateAddMenu(
             d3
               .drag<SVGGElement, MemberEntry>()
               .on('start', function (event, dragNode) {
+                // Register mouse position
+                dragOrigin.x = event.x
+                dragOrigin.y = event.y
+
                 d3.select(this).raise()
                 // Register selection of all circles
                 dragTargets = svg.selectAll<SVGGElement, NodeData>('.circle')
@@ -224,6 +229,15 @@ export default function updateAddMenu(
                 }
               })
               .on('end', function (event, dragNode) {
+                const clicked =
+                  dragOrigin.x === event.x && dragOrigin.y === event.y
+
+                // Click
+                if (clicked && dragNode.id !== newCircleId) {
+                  events.onMemberClick?.(dragNode.id)
+                }
+
+                // Drag end
                 if (dragTargets && dragTarget !== undefined) {
                   const targetCircleId = dragTarget?.data.id || null
 

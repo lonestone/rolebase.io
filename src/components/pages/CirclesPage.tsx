@@ -1,4 +1,4 @@
-import { Box, Center, Spinner, useDisclosure } from '@chakra-ui/react'
+import { Box, useDisclosure } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import useComponentSize from '@rehooks/component-size'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -14,7 +14,9 @@ import { useMembers } from '../../data/members'
 import { useRoles } from '../../data/roles'
 import CircleCreateModal from '../circles/CircleCreateModal'
 import CircleEditModal from '../circles/CircleEditModal'
-import TextError from '../TextError'
+import Loading from '../Loading'
+import MemberModal from '../members/MemberModal'
+import TextErrors from '../TextErrors'
 
 interface Props {
   domId?: string
@@ -37,30 +39,49 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
   const graphRef = useRef<Graph>()
   const { width, height } = useComponentSize(boxRef)
 
-  // Add circle
-  const [circleId, setCircleId] = useState<string | null | undefined>()
+  // Add circle modal
   const {
     isOpen: isAddCircleOpen,
     onOpen: onAddCircleOpen,
     onClose: onAddCircleClose,
   } = useDisclosure()
+
+  // Edit circle modal
+  const [circleId, setCircleId] = useState<string | null | undefined>()
   const {
     isOpen: isEditCircleOpen,
     onOpen: onEditCircleOpen,
     onClose: onEditCircleClose,
   } = useDisclosure()
 
+  // Member modal
+  const [memberId, setMemberId] = useState<string | null | undefined>()
+  const {
+    isOpen: isMemberOpen,
+    onOpen: onMemberOpen,
+    onClose: onMemberClose,
+  } = useDisclosure()
+
+  // Click on a circle
   const onCircleClick = useCallback((circleId: string) => {
     setCircleId(circleId)
     onEditCircleOpen()
   }, [])
 
+  // Click on a member in a circle
   const onCircleMemberClick = useCallback(
     (circleId: string, memberId: string) => {
-      console.log('click member', memberId, 'in circle', circleId)
+      setMemberId(memberId)
+      onMemberOpen()
     },
     []
   )
+
+  // Click on a member in add menu
+  const onMemberClick = useCallback((memberId: string) => {
+    setMemberId(memberId)
+    onMemberOpen()
+  }, [])
 
   // Add circle
   const onCircleAdd = useCallback(
@@ -88,9 +109,10 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
           height,
           events: {
             onCircleClick,
-            onCircleMemberClick,
             onCircleMove: moveCircle,
             onCircleCopy: copyCircle,
+            onCircleMemberClick,
+            onMemberClick,
             onMemberMove: moveCircleMember,
             onCircleAdd,
             onMemberAdd: addMemberToCircle,
@@ -113,6 +135,7 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
     height,
     onCircleClick,
     onCircleMemberClick,
+    onMemberClick,
     onCircleAdd,
   ])
 
@@ -128,32 +151,17 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
-      {
-        // Loading
-        membersLoading || circlesLoading || rolesLoading ? (
-          <Center height="100%">
-            <Spinner size="xl" />
-          </Center>
-        ) : // Errors
-        [membersError, rolesError, circlesError].some(Boolean) ? (
-          <>
-            {[membersError, rolesError, circlesError]
-              .filter(Boolean)
-              .map((error, i) =>
-                error ? <TextError key={i} error={error} /> : null
-              )}
-          </>
-        ) : (
-          <StyledSVG
-            ref={svgRef}
-            id={domId}
-            width={width}
-            height={height}
-            viewBox={`0 0 ${width} ${height}`}
-            textAnchor="middle"
-          ></StyledSVG>
-        )
-      }
+      <Loading active={membersLoading || circlesLoading || rolesLoading} />
+      <TextErrors errors={[membersError, rolesError, circlesError]} />
+
+      <StyledSVG
+        ref={svgRef}
+        id={domId}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        textAnchor="middle"
+      ></StyledSVG>
 
       {circleId !== undefined && (
         <CircleCreateModal
@@ -168,6 +176,14 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
           id={circleId}
           isOpen={isEditCircleOpen}
           onClose={onEditCircleClose}
+        />
+      )}
+
+      {memberId && (
+        <MemberModal
+          id={memberId}
+          isOpen={isMemberOpen}
+          onClose={onMemberClose}
         />
       )}
     </Box>

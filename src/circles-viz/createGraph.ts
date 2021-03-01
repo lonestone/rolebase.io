@@ -26,9 +26,10 @@ export interface UpdateGraphParams {
 
 export interface GraphEvents {
   onCircleClick?(circleId: string): void
-  onCircleMemberClick?(circleId: string, memberId: string): void
   onCircleMove?(circleId: string, targetCircleId: string | null): void
   onCircleCopy?(circleId: string, targetCircleId: string | null): void
+  onCircleMemberClick?(circleId: string, memberId: string): void
+  onMemberClick?(memberId: string): void
   onMemberMove?(
     memberId: string,
     parentCircleId: string,
@@ -47,7 +48,7 @@ export function createGraph(
   return {
     zoom,
     removeListeners,
-    update({ circles, roles, members }: UpdateGraphParams) {
+    update({ circles, roles, members }) {
       updateCircles(svg, {
         circles,
         roles,

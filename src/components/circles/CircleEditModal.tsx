@@ -10,14 +10,14 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Spinner,
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { CircleUpdate, updateCircle, useCircle } from '../../data/circles'
 import { useRoles } from '../../data/roles'
-import TextError from '../TextError'
+import Loading from '../Loading'
+import TextErrors from '../TextErrors'
 import CircleDeleteModal from './CircleDeleteModal'
 
 interface Props {
@@ -27,7 +27,7 @@ interface Props {
 }
 
 export default function CircleEditModal({ id, isOpen, onClose }: Props) {
-  const [data, loading, error] = useCircle(id)
+  const [circle, circleLoading, circleError] = useCircle(id)
   const [roles, rolesLoading, rolesError] = useRoles()
   const {
     isOpen: isDeleteOpen,
@@ -39,13 +39,13 @@ export default function CircleEditModal({ id, isOpen, onClose }: Props) {
 
   // Init form data
   useEffect(() => {
-    if (data && isOpen) {
+    if (circle && isOpen) {
       // Wait 0ms to prevent bug where input is cleared
       setTimeout(() => {
-        setValue('roleId', data.roleId)
+        setValue('roleId', circle.roleId)
       }, 0)
     }
-  }, [data, isOpen])
+  }, [circle, isOpen])
 
   const onSubmit = handleSubmit(({ roleId }) => {
     updateCircle(id, { roleId })
@@ -57,44 +57,38 @@ export default function CircleEditModal({ id, isOpen, onClose }: Props) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          {error && <TextError error={error} />}
-          {loading && <Spinner />}
-          {data && (
-            <form onSubmit={onSubmit}>
-              <ModalHeader>Editer un cercle</ModalHeader>
-              <ModalCloseButton />
+          <form onSubmit={onSubmit}>
+            <ModalHeader>Editer un cercle</ModalHeader>
+            <ModalCloseButton />
 
-              <ModalBody>
-                <FormControl>
-                  <FormLabel htmlFor="roleId">Rôle</FormLabel>
-                  {rolesError && <TextError error={rolesError} />}
-                  {rolesLoading && <Spinner />}
-                  {roles && (
-                    <Select name="roleId" ref={register()} autoFocus>
-                      {roles?.map((role) => (
-                        <option key={role.id} value={role.id}>
-                          {role.name}
-                        </option>
-                      ))}
-                    </Select>
-                  )}
-                </FormControl>
-              </ModalBody>
+            <ModalBody>
+              <FormControl>
+                <FormLabel htmlFor="roleId">Rôle</FormLabel>
 
-              <ModalFooter>
-                <Button
-                  colorScheme="red"
-                  variant="ghost"
-                  onClick={onDeleteOpen}
-                >
-                  Supprimer
-                </Button>
-                <Button colorScheme="blue" mr={3} type="submit">
-                  Enregistrer
-                </Button>
-              </ModalFooter>
-            </form>
-          )}
+                <Loading active={circleLoading || rolesLoading} />
+                <TextErrors errors={[circleError, rolesError]} />
+
+                {roles && (
+                  <Select name="roleId" ref={register()} autoFocus>
+                    {roles?.map((role) => (
+                      <option key={role.id} value={role.id}>
+                        {role.name}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
+                Supprimer
+              </Button>
+              <Button colorScheme="blue" mr={3} type="submit">
+                Enregistrer
+              </Button>
+            </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
 

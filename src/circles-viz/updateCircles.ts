@@ -259,12 +259,13 @@ export default function updateCircles(
                     events.onCircleClick?.(dragNode.data.id)
                   } else if (
                     dragNode.data.type === NodeType.Member &&
-                    dragNode.data.parentCircleId
+                    dragNode.data.parentCircleId &&
+                    dragNode.data.memberId
                   ) {
                     // Click on member
                     events.onCircleMemberClick?.(
                       dragNode.data.parentCircleId,
-                      dragNode.data.id
+                      dragNode.data.memberId
                     )
                   }
                 }

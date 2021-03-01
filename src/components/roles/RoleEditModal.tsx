@@ -11,7 +11,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Spinner,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -24,7 +23,8 @@ import {
   updateRole,
   useRole,
 } from '../../data/roles'
-import TextError from '../TextError'
+import Loading from '../Loading'
+import TextErrors from '../TextErrors'
 import RoleDeleteModal from './RoleDeleteModal'
 
 interface Props {
@@ -68,8 +68,9 @@ export default function RoleEditModal({ id, isOpen, onClose }: Props) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          {error && <TextError error={error} />}
-          {loading && <Spinner />}
+          <Loading active={loading} />
+          <TextErrors errors={[error]} />
+
           {data && (
             <form onSubmit={onSubmit}>
               <ModalHeader>Editer le rôle {data.name}</ModalHeader>

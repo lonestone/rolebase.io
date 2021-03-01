@@ -14,7 +14,6 @@ import {
   Radio,
   RadioGroup,
   Select,
-  Spinner,
   Stack,
   UseModalProps,
   VStack,
@@ -26,7 +25,8 @@ import * as yup from 'yup'
 import { createCircle } from '../../data/circles'
 import { createRole, roleCreateSchema, useRoles } from '../../data/roles'
 import { nameSchema } from '../../data/schemas'
-import TextError from '../TextError'
+import Loading from '../Loading'
+import TextErrors from '../TextErrors'
 
 interface Props extends UseModalProps {
   parentId: string | null
@@ -132,8 +132,10 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
               {roleAction === RoleAction.ReUse ? (
                 <FormControl>
                   <FormLabel htmlFor="roleId">Rôle à utiliser</FormLabel>
-                  {rolesError && <TextError error={rolesError} />}
-                  {rolesLoading && <Spinner />}
+
+                  <Loading active={rolesLoading} />
+                  <TextErrors errors={[rolesError]} />
+
                   {roles && (
                     <Select name="roleId" ref={register()} autoFocus>
                       {roles?.map((role) => (

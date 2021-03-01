@@ -10,15 +10,15 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
   Stack,
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import { useRoles } from '../../data/roles'
+import Loading from '../Loading'
 import RoleCreateModal from '../roles/RoleCreateModal'
 import RoleEditModal from '../roles/RoleEditModal'
-import TextError from '../TextError'
+import TextErrors from '../TextErrors'
 
 export default function RolesPage() {
   const [roles, rolesLoading, rolesError] = useRoles()
@@ -60,7 +60,7 @@ export default function RolesPage() {
   }, [sortedRoles, searchText])
 
   return (
-    <Container maxW="xl">
+    <Container maxW="xl" marginTop="60px">
       <HStack spacing={10} margin="30px 0">
         <Heading as="h2" size="md">
           Rôles
@@ -90,31 +90,21 @@ export default function RolesPage() {
         </InputGroup>
       </HStack>
 
-      {rolesLoading || circlesLoading ? (
-        <Spinner size="xl" />
-      ) : [rolesError, circlesError].some(Boolean) ? (
-        <>
-          {[rolesError, circlesError]
-            .filter(Boolean)
-            .map((error, i) =>
-              error ? <TextError key={i} error={error} /> : null
-            )}
-        </>
-      ) : (
-        <Stack direction="column" marginX="-1rem">
-          {filteredRoles?.map((role) => (
-            <Button
-              variant="ghost"
-              key={role.name}
-              justifyContent="left"
-              onClick={() => handleOpenEdit(role.id)}
-            >
-              {role.name}
-            </Button>
-          ))}
-        </Stack>
-      )}
+      <Loading active={rolesLoading || circlesLoading} />
+      <TextErrors errors={[rolesError, circlesError]} />
 
+      <Stack direction="column" marginX="-1rem">
+        {filteredRoles?.map((role) => (
+          <Button
+            variant="ghost"
+            key={role.name}
+            justifyContent="left"
+            onClick={() => handleOpenEdit(role.id)}
+          >
+            {role.name}
+          </Button>
+        ))}
+      </Stack>
       <RoleCreateModal isOpen={isAddOpen} onClose={onAddClose} />
 
       {editRoleId && (

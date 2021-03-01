@@ -6,12 +6,12 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-  Spinner,
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
 import { deleteMember, useMember } from '../../data/members'
-import TextError from '../TextError'
+import Loading from '../Loading'
+import TextErrors from '../TextErrors'
 
 interface Props {
   id: string
@@ -48,8 +48,9 @@ export default function MemberDeleteModal({
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            {error && <TextError error={error} />}
-            {loading && <Spinner />}
+            <Loading active={loading} />
+            <TextErrors errors={[error]} />
+
             {data && (
               <Text>
                 Êtes-vous sûr de vouloir supprimer le membre {data.name} ?

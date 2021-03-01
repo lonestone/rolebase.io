@@ -11,16 +11,16 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
   useDisclosure,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import { useMembers } from '../../data/members'
+import Loading from '../Loading'
 import MemberCreateModal from '../members/MemberCreateModal'
 import MemberEditModal from '../members/MemberEditModal'
-import TextError from '../TextError'
+import TextErrors from '../TextErrors'
 
 export default function MembersPage() {
   const [members, loading, error] = useMembers()
@@ -61,7 +61,7 @@ export default function MembersPage() {
   }, [sortedMembers, searchText])
 
   return (
-    <Container maxW="xl">
+    <Container maxW="xl" marginTop="60px">
       <HStack spacing={10} margin="30px 0">
         <Heading as="h2" size="md">
           Membres
@@ -91,8 +91,9 @@ export default function MembersPage() {
         </InputGroup>
       </HStack>
 
-      {error && <TextError error={error} />}
-      {loading && <Spinner size="xl" />}
+      <Loading active={loading} />
+      <TextErrors errors={[error]} />
+
       {filteredMembers && (
         <Wrap spacing={5}>
           {filteredMembers.map((member) => (

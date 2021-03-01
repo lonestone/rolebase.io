@@ -4,6 +4,7 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
 import { FirebaseHookReturn, firestore } from './firebase'
+import { RoleEntry } from './roles'
 
 export interface Circle {
   roleId: string
@@ -17,6 +18,10 @@ export interface CircleEntry extends Circle {
 
 export type CircleCreate = Circle
 export type CircleUpdate = Partial<Circle>
+
+export interface CircleWithRoleEntry extends CircleEntry {
+  role?: RoleEntry
+}
 
 // Circle member
 export interface CircleMember {

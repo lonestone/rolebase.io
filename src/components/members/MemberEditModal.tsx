@@ -13,7 +13,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Spinner,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -27,7 +26,8 @@ import {
   uploadPicture,
   useMember,
 } from '../../data/members'
-import TextError from '../TextError'
+import Loading from '../Loading'
+import TextErrors from '../TextErrors'
 import MemberDeleteModal from './MemberDeleteModal'
 
 interface Props {
@@ -43,7 +43,7 @@ interface Values {
 }
 
 export default function MemberEditModal({ id, isOpen, onClose }: Props) {
-  const [data, loading, error] = useMember(id)
+  const [member, loading, error] = useMember(id)
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
@@ -57,14 +57,14 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
 
   // Init form data
   useEffect(() => {
-    if (data && isOpen) {
+    if (member && isOpen) {
       // Wait 0ms to prevent bug where input is cleared
       setTimeout(() => {
-        setValue('name', data.name)
-        setPicture(data.picture)
+        setValue('name', member.name)
+        setPicture(member.picture)
       }, 0)
     }
-  }, [data, isOpen])
+  }, [member, isOpen])
 
   const onSubmit = handleSubmit(async ({ name, pictureFiles }) => {
     const memberUpdate: MemberUpdate = { name }
@@ -85,11 +85,12 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          {error && <TextError error={error} />}
-          {loading && <Spinner />}
-          {data && (
+          <Loading active={loading} />
+          <TextErrors errors={[error]} />
+
+          {member && (
             <form onSubmit={onSubmit}>
-              <ModalHeader>Editer le membre {data.name}</ModalHeader>
+              <ModalHeader>Editer le membre {member.name}</ModalHeader>
               <ModalCloseButton />
 
               <ModalBody>
@@ -111,7 +112,7 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
                     <FormLabel htmlFor="pictureFiles">Photo</FormLabel>
                     <HStack spacing={3}>
                       {picture && (
-                        <Avatar name={data.name} src={picture} size="lg" />
+                        <Avatar name={member.name} src={picture} size="lg" />
                       )}
                       <Input name="pictureFiles" type="file" ref={register} />
                     </HStack>
