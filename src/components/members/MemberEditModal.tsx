@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   FormControl,
   FormErrorMessage,
@@ -15,12 +16,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   MemberUpdate,
   memberUpdateSchema,
   updateMember,
+  uploadPicture,
   useMember,
 } from '../../data/members'
 import TextError from '../TextError'
@@ -32,6 +34,12 @@ interface Props {
   onClose(): void
 }
 
+interface Values {
+  name: string
+  picture: string
+  pictureFiles: FileList
+}
+
 export default function MemberEditModal({ id, isOpen, onClose }: Props) {
   const [data, loading, error] = useMember(id)
   const {
@@ -40,9 +48,10 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, setValue } = useForm<MemberUpdate>({
+  const { handleSubmit, errors, register, setValue } = useForm<Values>({
     resolver: yupResolver(memberUpdateSchema),
   })
+  const [picture, setPicture] = useState<string | undefined | null>()
 
   // Init form data
   useEffect(() => {
@@ -50,12 +59,22 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
       // Wait 0ms to prevent bug where input is cleared
       setTimeout(() => {
         setValue('name', data.name)
+        setPicture(data.picture)
       }, 0)
     }
   }, [data, isOpen])
 
-  const onSubmit = handleSubmit((values) => {
-    updateMember(id, values)
+  const onSubmit = handleSubmit(async ({ name, pictureFiles }) => {
+    const memberUpdate: MemberUpdate = { name }
+
+    // Upload picture
+    if (pictureFiles && pictureFiles[0]) {
+      memberUpdate.picture = await uploadPicture(id, pictureFiles[0])
+      setPicture(memberUpdate.picture)
+    }
+
+    // Update member data
+    await updateMember(id, memberUpdate)
     onClose()
   })
 
@@ -82,6 +101,17 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
                   />
                   <FormErrorMessage>
                     {errors.name && errors.name.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.pictureFiles}>
+                  <FormLabel htmlFor="avatar">Photo</FormLabel>
+                  {picture && (
+                    <Avatar name={data.name} src={picture} size="lg" />
+                  )}
+                  <Input name="pictureFiles" type="file" ref={register} />
+                  <FormErrorMessage>
+                    {errors.pictureFiles && errors.pictureFiles.message}
                   </FormErrorMessage>
                 </FormControl>
               </ModalBody>

@@ -4,7 +4,9 @@ import { NodeType } from './types'
 const color = d3.scaleOrdinal(d3.schemeSet3)
 
 export function getNodeColor(nodeType: NodeType, depth = 1) {
+  // Circle color
   if (nodeType === NodeType.Circle) return color(depth.toString())
   if (nodeType === NodeType.MembersCircle) return 'transparent'
-  return 'white'
+  // Member color
+  return '#efefef'
 }

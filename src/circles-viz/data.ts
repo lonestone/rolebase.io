@@ -65,14 +65,18 @@ function memberstoD3Data(
   if (circleMembers.length === 0) {
     node.value = settings.memberValue
   } else {
-    node.children = circleMembers.map((entry) => ({
-      id: entry.id,
-      memberId: entry.memberId,
-      parentCircleId: circleId,
-      name: members.find((member) => member.id === entry.memberId)?.name || '?',
-      value: settings.memberValue,
-      type: NodeType.Member,
-    }))
+    node.children = circleMembers.map((entry) => {
+      const member = members.find((member) => member.id === entry.memberId)
+      return {
+        id: entry.id,
+        memberId: entry.memberId,
+        parentCircleId: circleId,
+        name: member?.name || '?',
+        picture: member?.picture,
+        value: settings.memberValue,
+        type: NodeType.Member,
+      }
+    })
   }
   return node
 }

@@ -4,6 +4,7 @@ import { MemberEntry } from '../data/members'
 import { RoleEntry } from '../data/roles'
 import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
+import { getFirstname } from './getFirstname'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
 import {
@@ -101,12 +102,20 @@ export default function updateCircles(
         // Add circle shape
         nodeGroup
           .append('circle')
+          .attr('id', (d) => `circle-${d.data.id}`)
           .attr('r', 0)
           .attr('opacity', 1)
           .attr('fill', (d) => getNodeColor(d.data.type, d.depth))
           .attr('cursor', 'pointer')
           .transition(transition as any)
           .attr('r', (d) => d.r)
+
+        // Add clip-path with circle
+        nodeGroup
+          .append('clipPath')
+          .attr('id', (d) => `clip-${d.data.id}`)
+          .append('use')
+          .attr('xlink:href', (d) => `#circle-${d.data.id}`)
 
         // Add circle name
         nodeGroup
@@ -123,16 +132,29 @@ export default function updateCircles(
           .attr('y', (d) => -d.r - 10)
 
         // Add member name
-        nodeGroup
-          .filter((d) => d.data.type === NodeType.Member)
+        const nodeGroupMembers = nodeGroup.filter(
+          (d) => d.data.type === NodeType.Member
+        )
+        nodeGroupMembers
           .append('text')
           .attr('font-size', `${settings.fontSize}px`)
           .attr('opacity', 0)
           .attr('y', '0.5em')
-          .text((d) => d.data.name)
+          .text((d) => getFirstname(d.data.name))
           .attr('pointer-events', 'none')
           .transition(transition as any)
-          .attr('opacity', 1)
+          .attr('opacity', (d) => (d.data.picture ? 0 : 1))
+
+        // Add member picture
+        nodeGroupMembers
+          .append('image')
+          .attr('pointer-events', 'none')
+          .attr('xlink:href', (d) => d.data.picture || '')
+          .attr('clip-path', (d) => `url(#clip-${d.data.id})`)
+          .attr('x', (d) => -d.r)
+          .attr('y', (d) => -d.r)
+          .attr('height', (d) => d.r * 2)
+          .attr('width', (d) => d.r * 2)
 
         // Add events
         nodeGroup
@@ -342,17 +364,25 @@ export default function updateCircles(
         nodeUpdate
           .filter((d) => d.data.type === NodeType.Circle)
           .select('text')
-          .text((d) => d.data.name)
+          .text((d) => getFirstname(d.data.name))
           .transition(transition as any)
           .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
           .attr('y', (d) => -d.r * 1.05)
 
         // Update member name
-        nodeUpdate
-          .filter((d) => d.data.type === NodeType.Member)
+        const nodeUpdateMembers = nodeUpdate.filter(
+          (d) => d.data.type === NodeType.Member
+        )
+        nodeUpdateMembers
           .select('text')
           .attr('font-size', `${settings.fontSize}px`)
-          .text((d) => d.data.name)
+          .text((d) => getFirstname(d.data.name))
+          .attr('opacity', (d) => (d.data.picture ? 0 : 1))
+
+        // Update member picture
+        nodeUpdateMembers
+          .select('image')
+          .attr('xlink:href', (d) => d.data.picture || '')
 
         // Update position
         return nodeUpdate

@@ -1,6 +1,7 @@
 import * as d3 from 'd3'
 import { MemberEntry } from '../data/members'
 import { GraphEvents } from './createGraph'
+import { getFirstname } from './getFirstname'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
 import {
@@ -103,27 +104,61 @@ export default function updateAddMenu(
         // Add circle shape
         nodeGroup
           .append('circle')
+          .attr('id', (d) => `addmenu-circle-${d.id}`)
           .attr('r', settings.addMenu.placeholderRadius)
           .attr('opacity', 1)
-          .attr('fill', 'yellow')
           .attr('fill', (d) => getNodeColor(getNodeType(d)))
           .attr('cursor', 'pointer')
+
+        // Add clip-path with circle
+        nodeGroup
+          .append('clipPath')
+          .attr('id', (d) => `addmenu-clip-${d.id}`)
+          .append('use')
+          .attr('xlink:href', (d) => `#addmenu-circle-${d.id}`)
+
+        // Add picture
+        nodeGroup
+          .append('image')
+          .attr('pointer-events', 'none')
+          .attr('xlink:href', (d) => d.picture || '')
+          .attr('clip-path', (d) => `url(#addmenu-clip-${d.id})`)
+          .attr('x', -settings.addMenu.placeholderRadius)
+          .attr('y', -settings.addMenu.placeholderRadius)
+          .attr('height', settings.addMenu.placeholderRadius * 2)
+          .attr('width', settings.addMenu.placeholderRadius * 2)
 
         // Add member name
         nodeGroup
           .append('text')
-          .attr('y', '0.5em')
-          .text((d) => d.name)
           .attr('pointer-events', 'none')
+          .text((d) => getFirstname(d.name))
+          .attr('x', 0)
+          .attr('y', '0.5em')
+          .attr('font-weight', (d) => (d.picture ? 'bold' : 'normal'))
+          .attr('opacity', (d) => (d.picture ? 0 : 1))
+          .attr('paint-order', 'stroke')
+          .attr('stroke', 'white')
+          .attr('stroke-width', '2px')
+          .attr('stroke-linecap', 'butt')
+          .attr('stroke-linejoin', 'miter')
 
         // Add events
         nodeGroup
           // Hover
           .on('mouseover', function () {
-            d3.select(this).attr('filter', `url(#${svgId}-shadow)`)
+            d3.select(this)
+              .attr('filter', `url(#${svgId}-shadow)`)
+              .select('text')
+              .attr('font-weight', 'bold')
+              .attr('opacity', 1)
           })
           .on('mouseout', function () {
-            d3.select(this).attr('filter', `none`)
+            d3.select<SVGGElement, MemberEntry>(this)
+              .attr('filter', `none`)
+              .select('text')
+              .attr('font-weight', (d) => (d.picture ? 'bold' : 'normal'))
+              .attr('opacity', (d) => (d.picture ? 0 : 1))
           })
 
           // Drag
@@ -220,8 +255,11 @@ export default function updateAddMenu(
           .attr('r', settings.addMenu.placeholderRadius)
           .attr('opacity', 1)
 
-        // Update  name
-        nodeUpdate.select('text').text((d) => d.name)
+        // Update name
+        nodeUpdate.select('text').text((d) => getFirstname(d.name))
+
+        // Update picture
+        nodeUpdate.select('image').attr('xlink:href', (d) => d.picture || '')
 
         // Update position
         return nodeUpdate

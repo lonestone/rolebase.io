@@ -3,11 +3,12 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
 import * as yup from 'yup'
-import { FirebaseHookReturn, firestore } from './firebase'
+import { FirebaseHookReturn, firestore, storage } from './firebase'
 import { nameSchema } from './schemas'
 
 export interface Member {
   name: string
+  picture?: string | null
 }
 
 export interface MemberEntry extends Member {
@@ -53,3 +54,16 @@ export const memberCreateSchema = yup.object().shape({
 export const memberUpdateSchema = yup.object().shape({
   name: nameSchema,
 })
+
+// Upload member picture and return URL
+export async function uploadPicture(
+  memberId: string,
+  file: File
+): Promise<string> {
+  const extension = file.name.match(/(\.[a-z]+)$/i)?.[0] || ''
+  const snapshot = await storage
+    .ref()
+    .child(`members/${memberId}${extension}`)
+    .put(file)
+  return snapshot.ref.getDownloadURL()
+}

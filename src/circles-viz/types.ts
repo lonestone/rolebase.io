@@ -1,9 +1,5 @@
 import { BaseType, HierarchyCircularNode, Selection } from 'd3'
 
-// https://observablehq.com/@d3/circle-packing
-// https://observablehq.com/@d3/zoomable-circle-packing
-// https://wattenberger.com/blog/react-and-d3
-
 export enum NodeType {
   Circle = 'Circle',
   MembersCircle = 'MembersCircle',
@@ -18,6 +14,7 @@ export interface Data {
   memberId?: string
   parentCircleId: string | null
   name: string
+  picture?: string | null
   type: NodeType
   value?: number
   children?: Array<Data>
