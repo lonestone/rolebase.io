@@ -3,7 +3,7 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
 import * as yup from 'yup'
-import { FirebaseHookReturn, firestore, storage } from './firebase'
+import { FirebaseHookReturn, getCollection, storage } from './firebase'
 import { nameSchema } from './schemas'
 
 export interface Member {
@@ -18,10 +18,10 @@ export interface MemberEntry extends Member {
 export type MemberCreate = Member
 export type MemberUpdate = Partial<Member>
 
-const collection = firestore.collection('members')
+const collection = getCollection<Member>('members')
 
 export function useMembers(): FirebaseHookReturn<MemberEntry[]> {
-  return useCollectionData<MemberEntry>(collection, { idField: 'id' })
+  return useCollectionData(collection, { idField: 'id' })
 }
 
 export function useMember(id: string): FirebaseHookReturn<MemberEntry> {

@@ -1,14 +1,21 @@
-import firebase from 'firebase/app'
+import firebaseApp from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
 import settings from '../settings'
 
-export const firebaseApp = firebase.initializeApp(settings.firebase)
-export const firestore = firebaseApp.firestore()
-export const storage = firebaseApp.storage()
+const app = firebaseApp.initializeApp(settings.firebase)
+
+export const firestore = app.firestore()
+export const storage = app.storage()
 
 export type FirebaseHookReturn<Data> = [
   data: Data | undefined,
   loading: boolean,
   error: Error | undefined
 ]
+
+export function getCollection<DocumentData>(collectionPath: string) {
+  return firestore.collection(
+    collectionPath
+  ) as firebase.default.firestore.CollectionReference<DocumentData>
+}

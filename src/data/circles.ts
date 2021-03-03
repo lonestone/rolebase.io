@@ -3,7 +3,7 @@ import {
   useCollectionData,
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
-import { FirebaseHookReturn, firestore } from './firebase'
+import { FirebaseHookReturn, getCollection } from './firebase'
 import { RoleEntry } from './roles'
 
 export interface Circle {
@@ -32,10 +32,10 @@ export interface CircleMemberEntry extends CircleMember {
   id: string
 }
 
-const collection = firestore.collection('circles')
+const collection = getCollection<Circle>('circles')
 
 export function useCircles(): FirebaseHookReturn<CircleEntry[]> {
-  return useCollectionData<CircleEntry>(collection, { idField: 'id' })
+  return useCollectionData(collection, { idField: 'id' })
 }
 
 export function useCircle(id: string): FirebaseHookReturn<CircleEntry> {

@@ -3,7 +3,7 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore'
 import * as yup from 'yup'
-import { FirebaseHookReturn, firestore } from './firebase'
+import { FirebaseHookReturn, getCollection } from './firebase'
 import { nameSchema } from './schemas'
 
 export interface Role {
@@ -20,10 +20,10 @@ export interface RoleEntry extends Role {
 export type RoleCreate = Role
 export type RoleUpdate = Partial<Role>
 
-const collection = firestore.collection('roles')
+const collection = getCollection<Role>('roles')
 
 export function useRoles(): FirebaseHookReturn<RoleEntry[]> {
-  return useCollectionData<RoleEntry>(collection, { idField: 'id' })
+  return useCollectionData(collection, { idField: 'id' })
 }
 
 export function useRole(id: string): FirebaseHookReturn<RoleEntry> {
