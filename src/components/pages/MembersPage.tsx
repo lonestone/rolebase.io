@@ -48,17 +48,13 @@ export default function MembersPage() {
   // Search
   const [searchText, setSearchText] = useState('')
 
-  // Sort and filter members
-  const sortedMembers = useMemo(
-    () => members?.slice().sort((a, b) => (a.name < b.name ? -1 : 1)),
-    [members]
-  )
+  // Filter members
   const filteredMembers = useMemo(() => {
     const text = searchText.toLowerCase()
-    return sortedMembers?.filter(
+    return members?.filter(
       (member) => member.name.toLowerCase().indexOf(text) !== -1
     )
-  }, [sortedMembers, searchText])
+  }, [members, searchText])
 
   return (
     <Container maxW="xl" marginTop="60px">

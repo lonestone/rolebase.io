@@ -47,17 +47,11 @@ export default function RolesPage() {
   // Search
   const [searchText, setSearchText] = useState('')
 
-  // Sort and filter members
-  const sortedRoles = useMemo(
-    () => roles?.slice().sort((a, b) => (a.name < b.name ? -1 : 1)),
-    [roles]
-  )
+  // Filter members
   const filteredRoles = useMemo(() => {
     const text = searchText.toLowerCase()
-    return sortedRoles?.filter(
-      (role) => role.name.toLowerCase().indexOf(text) !== -1
-    )
-  }, [sortedRoles, searchText])
+    return roles?.filter((role) => role.name.toLowerCase().indexOf(text) !== -1)
+  }, [roles, searchText])
 
   return (
     <Container maxW="xl" marginTop="60px">

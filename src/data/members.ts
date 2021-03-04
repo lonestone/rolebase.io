@@ -21,7 +21,10 @@ export type MemberUpdate = Partial<Member>
 const collection = getCollection<Member>('members')
 
 export function useMembers(): FirebaseHookReturn<MemberEntry[]> {
-  return useCollectionData(collection, { idField: 'id' })
+  const [data, loading, error] = useCollectionData<Member, 'id'>(collection, {
+    idField: 'id',
+  })
+  return [data?.sort((a, b) => (a.name < b.name ? -1 : 1)), loading, error]
 }
 
 export function useMember(id: string): FirebaseHookReturn<MemberEntry> {

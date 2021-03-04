@@ -23,7 +23,10 @@ export type RoleUpdate = Partial<Role>
 const collection = getCollection<Role>('roles')
 
 export function useRoles(): FirebaseHookReturn<RoleEntry[]> {
-  return useCollectionData(collection, { idField: 'id' })
+  const [data, loading, error] = useCollectionData<Role, 'id'>(collection, {
+    idField: 'id',
+  })
+  return [data?.sort((a, b) => (a.name < b.name ? -1 : 1)), loading, error]
 }
 
 export function useRole(id: string): FirebaseHookReturn<RoleEntry> {
