@@ -14,6 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -26,14 +27,12 @@ import {
   uploadPicture,
   useMember,
 } from '../../data/members'
-import Loading from '../Loading'
-import TextErrors from '../TextErrors'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
 import MemberDeleteModal from './MemberDeleteModal'
 
-interface Props {
+interface Props extends UseModalProps {
   id: string
-  isOpen: boolean
-  onClose(): void
 }
 
 interface Values {
@@ -42,7 +41,7 @@ interface Values {
   pictureFiles: FileList
 }
 
-export default function MemberEditModal({ id, isOpen, onClose }: Props) {
+export default function MemberEditModal({ id, ...props }: Props) {
   const [member, loading, error] = useMember(id)
   const {
     isOpen: isDeleteOpen,
@@ -50,21 +49,18 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, setValue } = useForm<Values>({
+  const { handleSubmit, errors, register, reset } = useForm<Values>({
     resolver: yupResolver(memberUpdateSchema),
   })
   const [picture, setPicture] = useState<string | undefined | null>()
 
   // Init form data
   useEffect(() => {
-    if (member && isOpen) {
-      // Wait 0ms to prevent bug where input is cleared
-      setTimeout(() => {
-        setValue('name', member.name)
-        setPicture(member.picture)
-      }, 0)
+    if (member && props.isOpen) {
+      reset({ name: member.name })
+      setPicture(member.picture)
     }
-  }, [member, isOpen])
+  }, [member, props.isOpen])
 
   const onSubmit = handleSubmit(async ({ name, pictureFiles }) => {
     const memberUpdate: MemberUpdate = { name }
@@ -77,12 +73,12 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
 
     // Update member data
     await updateMember(id, memberUpdate)
-    onClose()
+    props.onClose()
   })
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal {...props}>
         <ModalOverlay />
         <ModalContent>
           <Loading active={loading} />
@@ -142,7 +138,7 @@ export default function MemberEditModal({ id, isOpen, onClose }: Props) {
 
       <MemberDeleteModal
         id={id}
-        onDelete={onClose}
+        onDelete={props.onClose}
         isOpen={isDeleteOpen}
         onClose={onDeleteClose}
       />

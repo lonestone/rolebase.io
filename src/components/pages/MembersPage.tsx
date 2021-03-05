@@ -17,10 +17,10 @@ import {
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import { useMembers } from '../../data/members'
-import Loading from '../Loading'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
 import MemberCreateModal from '../members/MemberCreateModal'
 import MemberEditModal from '../members/MemberEditModal'
-import TextErrors from '../TextErrors'
 
 export default function MembersPage() {
   const [members, loading, error] = useMembers()

@@ -27,4 +27,5 @@ export interface Zoom {
   spaceKey: boolean // True when space key is pressed
   to(x: number, y: number, radius: number, instant?: boolean): void
   changeExtent(width: number, height: number): void
+  focusCircle?(circleId: string, instant?: boolean): void
 }

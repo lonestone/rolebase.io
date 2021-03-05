@@ -25,8 +25,8 @@ import * as yup from 'yup'
 import { createCircle } from '../../data/circles'
 import { createRole, roleCreateSchema, useRoles } from '../../data/roles'
 import { nameSchema } from '../../data/schemas'
-import Loading from '../Loading'
-import TextErrors from '../TextErrors'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
 
 interface Props extends UseModalProps {
   parentId: string | null
@@ -59,12 +59,9 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
     control,
     register,
     errors,
-    setValue,
+    reset,
     watch,
   } = useForm<Values>({
-    defaultValues: {
-      roleAction: RoleAction.ReUse,
-    },
     resolver: yupResolver(schema),
   })
   const roleAction = watch('roleAction')
@@ -89,10 +86,7 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
   // Init form data
   useEffect(() => {
     if (roles && roles[0]) {
-      // Wait 0ms to prevent bug where input is cleared
-      setTimeout(() => {
-        setValue('roleId', roles[0].id)
-      }, 0)
+      reset({ roleAction: RoleAction.ReUse, roleId: roles[0].id })
     }
   }, [roles])
 

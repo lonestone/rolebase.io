@@ -15,14 +15,13 @@ import {
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import { useRoles } from '../../data/roles'
-import Loading from '../Loading'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
 import RoleCreateModal from '../roles/RoleCreateModal'
 import RoleEditModal from '../roles/RoleEditModal'
-import TextErrors from '../TextErrors'
 
 export default function RolesPage() {
   const [roles, rolesLoading, rolesError] = useRoles()
-  const [circles, circlesLoading, circlesError] = useRoles()
 
   // Add modal
   const {
@@ -84,8 +83,8 @@ export default function RolesPage() {
         </InputGroup>
       </HStack>
 
-      <Loading active={rolesLoading || circlesLoading} />
-      <TextErrors errors={[rolesError, circlesError]} />
+      <Loading active={rolesLoading} />
+      <TextErrors errors={[rolesError]} />
 
       <Stack direction="column" marginX="-1rem">
         {filteredRoles?.map((role) => (

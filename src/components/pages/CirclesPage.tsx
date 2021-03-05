@@ -13,13 +13,18 @@ import {
 import { useMembers } from '../../data/members'
 import { useRoles } from '../../data/roles'
 import CircleCreateModal from '../circles/CircleCreateModal'
-import CircleEditModal from '../circles/CircleEditModal'
-import Loading from '../Loading'
-import MemberModal from '../members/MemberModal'
-import TextErrors from '../TextErrors'
+import CirclePanel from '../circles/CirclePanel'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
+import MemberPanel from '../members/MemberPanel'
 
 interface Props {
   domId?: string
+}
+
+enum Panels {
+  Circle,
+  Member,
 }
 
 const StyledSVG = styled.svg`
@@ -41,56 +46,53 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
 
   // Add circle modal
   const {
-    isOpen: isAddCircleOpen,
-    onOpen: onAddCircleOpen,
-    onClose: onAddCircleClose,
+    isOpen: isCreateCircleOpen,
+    onOpen: onCreateCircleOpen,
+    onClose: onCreateCircleClose,
   } = useDisclosure()
 
-  // Edit circle modal
+  // Panels
+  const [panel, setPanel] = useState<Panels | undefined>()
   const [circleId, setCircleId] = useState<string | null | undefined>()
-  const {
-    isOpen: isEditCircleOpen,
-    onOpen: onEditCircleOpen,
-    onClose: onEditCircleClose,
-  } = useDisclosure()
-
-  // Member modal
   const [memberId, setMemberId] = useState<string | null | undefined>()
-  const {
-    isOpen: isMemberOpen,
-    onOpen: onMemberOpen,
-    onClose: onMemberClose,
-  } = useDisclosure()
 
   // Click on a circle
   const onCircleClick = useCallback((circleId: string) => {
     setCircleId(circleId)
-    onEditCircleOpen()
+    setPanel(Panels.Circle)
   }, [])
 
   // Click on a member in a circle
   const onCircleMemberClick = useCallback(
     (circleId: string, memberId: string) => {
+      setCircleId(circleId)
       setMemberId(memberId)
-      onMemberOpen()
+      setPanel(Panels.Member)
     },
     []
   )
 
   // Click on a member in add menu
   const onMemberClick = useCallback((memberId: string) => {
+    setCircleId(undefined)
     setMemberId(memberId)
-    onMemberOpen()
+    setPanel(Panels.Member)
   }, [])
 
   // Add circle
   const onCircleAdd = useCallback(
     (targetCircleId: string | null) => {
       setCircleId(targetCircleId)
-      onAddCircleOpen()
+      onCreateCircleOpen()
     },
-    [onAddCircleOpen]
+    [onCreateCircleOpen]
   )
+
+  // Focus on a circle
+  const onCircleFocus = useCallback((circleId: string) => {
+    setCircleId(circleId)
+    graphRef.current?.zoom.focusCircle?.(circleId)
+  }, [])
 
   // Display viz
   useEffect(() => {
@@ -166,24 +168,21 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
       {circleId !== undefined && (
         <CircleCreateModal
           parentId={circleId}
-          isOpen={isAddCircleOpen}
-          onClose={onAddCircleClose}
+          isOpen={isCreateCircleOpen}
+          onClose={onCreateCircleClose}
         />
       )}
 
-      {circleId && (
-        <CircleEditModal
-          id={circleId}
-          isOpen={isEditCircleOpen}
-          onClose={onEditCircleClose}
-        />
+      {panel === Panels.Circle && circleId && (
+        <CirclePanel id={circleId} onClose={() => setPanel(undefined)} />
       )}
 
-      {memberId && (
-        <MemberModal
+      {panel === Panels.Member && memberId && (
+        <MemberPanel
           id={memberId}
-          isOpen={isMemberOpen}
-          onClose={onMemberClose}
+          highlightCircleId={circleId || undefined}
+          onCircleFocus={onCircleFocus}
+          onClose={() => setPanel(undefined)}
         />
       )}
     </Box>

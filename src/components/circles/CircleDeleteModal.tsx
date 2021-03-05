@@ -5,25 +5,24 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  AlertDialogProps,
   Button,
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
 import { deleteCircle, useCircle } from '../../data/circles'
-import Loading from '../Loading'
-import TextErrors from '../TextErrors'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
 
-interface Props {
+interface Props
+  extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
   id: string
-  isOpen: boolean
-  onClose(): void
   onDelete(): void
 }
 
 export default function CircleDeleteModal({
   id,
-  isOpen,
-  onClose,
+
   onDelete,
   ...props
 }: Props) {
@@ -32,15 +31,11 @@ export default function CircleDeleteModal({
   const handleDelete = () => {
     deleteCircle(id)
     onDelete()
-    onClose()
+    props.onClose()
   }
 
   return (
-    <AlertDialog
-      isOpen={isOpen}
-      onClose={onClose}
-      leastDestructiveRef={undefined}
-    >
+    <AlertDialog {...props} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -57,7 +52,7 @@ export default function CircleDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={onClose}>Annuler</Button>
+            <Button onClick={props.onClose}>Annuler</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               Supprimer
             </Button>

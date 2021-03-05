@@ -72,9 +72,19 @@ export default function updateCircles(
   const getCircleFontSize = (node: NodeData) =>
     settings.fontSize + (maxDepth / node.depth) * 2
 
+  // Set focus functions
+  const focusCircle = (node: NodeData, instant?: boolean) =>
+    zoom.to(node.x, node.y, node.r, instant)
+
+  zoom.focusCircle = (circleId, instant) => {
+    const circle = nodesMap.find((c) => c.data.id === circleId)
+    if (!circle) return
+    zoom.to(circle.x, circle.y, circle.r, instant)
+  }
+
   // Zoom on root circle at first draw
   if (firstDraw) {
-    zoom.to(root.x, root.y, root.r, true)
+    focusCircle(root, true)
   }
 
   // Add circle groups
@@ -252,7 +262,7 @@ export default function updateCircles(
                 // Click
                 if (clicked) {
                   // Zoom to node
-                  zoom.to(dragNode.x, dragNode.y, dragNode.r * 1.2)
+                  focusCircle(dragNode)
 
                   if (dragNode.data.type === NodeType.Circle) {
                     // Click on circle

@@ -12,6 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -23,17 +24,15 @@ import {
   updateRole,
   useRole,
 } from '../../data/roles'
-import Loading from '../Loading'
-import TextErrors from '../TextErrors'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
 import RoleDeleteModal from './RoleDeleteModal'
 
-interface Props {
+interface Props extends UseModalProps {
   id: string
-  isOpen: boolean
-  onClose(): void
 }
 
-export default function RoleEditModal({ id, isOpen, onClose }: Props) {
+export default function RoleEditModal({ id, ...props }: Props) {
   const [data, loading, error] = useRole(id)
   const {
     isOpen: isDeleteOpen,
@@ -41,31 +40,30 @@ export default function RoleEditModal({ id, isOpen, onClose }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, setValue } = useForm<RoleUpdate>({
+  const { handleSubmit, errors, register, reset } = useForm<RoleUpdate>({
     resolver: yupResolver(roleUpdateSchema),
   })
 
   // Init form data
   useEffect(() => {
-    if (data && isOpen) {
-      // Wait 0ms to prevent bug where input is cleared
-      setTimeout(() => {
-        setValue('name', data.name)
-        setValue('purpose', data.purpose)
-        setValue('domain', data.domain)
-        setValue('accountabilities', data.accountabilities)
-      }, 0)
+    if (data && props.isOpen) {
+      reset({
+        name: data.name,
+        purpose: data.purpose,
+        domain: data.domain,
+        accountabilities: data.accountabilities,
+      })
     }
-  }, [data, isOpen])
+  }, [data, props.isOpen])
 
   const onSubmit = handleSubmit((values) => {
     updateRole(id, values)
-    onClose()
+    props.onClose()
   })
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal {...props}>
         <ModalOverlay />
         <ModalContent>
           <Loading active={loading} />
@@ -154,7 +152,7 @@ export default function RoleEditModal({ id, isOpen, onClose }: Props) {
 
       <RoleDeleteModal
         id={id}
-        onDelete={onClose}
+        onDelete={props.onClose}
         isOpen={isDeleteOpen}
         onClose={onDeleteClose}
       />
