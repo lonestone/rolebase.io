@@ -20,7 +20,7 @@ import {
   createMember,
   MemberCreate,
   memberCreateSchema,
-} from '../../data/members'
+} from '../../api/entities/members'
 
 interface Props extends UseModalProps {}
 

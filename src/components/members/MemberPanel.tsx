@@ -12,10 +12,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
-import { useCircles } from '../../data/circles'
-import { useMember } from '../../data/members'
-import { useRoles } from '../../data/roles'
-import { getCircleRoles } from '../../data/utils'
+import { useContextCircles } from '../../api/entities/circles'
+import { useContextMember } from '../../api/entities/members'
+import { useContextRoles } from '../../api/entities/roles'
+import { getCircleRoles } from '../../api/utils'
 import Loading from '../common/Loading'
 import Panel from '../common/Panel'
 import TextErrors from '../common/TextErrors'
@@ -34,9 +34,9 @@ export default function MemberPanel({
   onClose,
   onCircleFocus,
 }: Props) {
-  const [member, memberLoading, memberError] = useMember(id)
-  const [roles, rolesLoading, rolesError] = useRoles()
-  const [circles, circlesLoading, circlesError] = useCircles()
+  const [member, memberLoading, memberError] = useContextMember(id)
+  const [roles, rolesLoading, rolesError] = useContextRoles()
+  const [circles, circlesLoading, circlesError] = useContextCircles()
 
   const memberCircles = useMemo(() => {
     if (!member || !roles || !circles) return []

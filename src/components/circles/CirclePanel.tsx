@@ -12,8 +12,12 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { CircleUpdate, updateCircle, useCircle } from '../../data/circles'
-import { useRoles } from '../../data/roles'
+import {
+  CircleUpdate,
+  updateCircle,
+  useContextCircle,
+} from '../../api/entities/circles'
+import { useContextRoles } from '../../api/entities/roles'
 import Loading from '../common/Loading'
 import Panel from '../common/Panel'
 import TextErrors from '../common/TextErrors'
@@ -25,8 +29,8 @@ interface Props {
 }
 
 export default function CirclePanel({ id, onClose }: Props) {
-  const [circle, circleLoading, circleError] = useCircle(id)
-  const [roles, rolesLoading, rolesError] = useRoles()
+  const [circle, circleLoading, circleError] = useContextCircle(id)
+  const [roles, rolesLoading, rolesError] = useContextRoles()
 
   const role = useMemo(() => {
     if (!circle || !roles) return undefined

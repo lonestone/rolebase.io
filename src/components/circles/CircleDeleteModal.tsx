@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
-import { deleteCircle, useCircle } from '../../data/circles'
+import { deleteCircle, useContextCircle } from '../../api/entities/circles'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 
@@ -26,7 +26,7 @@ export default function CircleDeleteModal({
   onDelete,
   ...props
 }: Props) {
-  const [data, loading, error] = useCircle(id)
+  const [data, loading, error] = useContextCircle(id)
 
   const handleDelete = () => {
     deleteCircle(id)

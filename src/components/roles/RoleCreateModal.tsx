@@ -16,7 +16,11 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { createRole, RoleCreate, roleCreateSchema } from '../../data/roles'
+import {
+  createRole,
+  RoleCreate,
+  roleCreateSchema,
+} from '../../api/entities/roles'
 
 interface Props extends UseModalProps {}
 

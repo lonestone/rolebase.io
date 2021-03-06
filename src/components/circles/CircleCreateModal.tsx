@@ -22,9 +22,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { createCircle } from '../../data/circles'
-import { createRole, roleCreateSchema, useRoles } from '../../data/roles'
-import { nameSchema } from '../../data/schemas'
+import { createCircle } from '../../api/entities/circles'
+import {
+  createRole,
+  roleCreateSchema,
+  useContextRoles,
+} from '../../api/entities/roles'
+import { nameSchema } from '../../api/schemas'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 
@@ -52,7 +56,7 @@ const schema = yup.object({
 })
 
 export default function CircleCreateModal({ parentId, ...props }: Props) {
-  const [roles, rolesLoading, rolesError] = useRoles()
+  const [roles, rolesLoading, rolesError] = useContextRoles()
 
   const {
     handleSubmit,

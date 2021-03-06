@@ -1,35 +1,27 @@
-import {
-  useCollectionData,
-  useDocumentData,
-} from 'react-firebase-hooks/firestore'
+import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import * as yup from 'yup'
-import { FirebaseHookReturn, getCollection, storage } from './firebase'
-import { nameSchema } from './schemas'
+import { getCollection, storage } from '../firebase'
+import { createDataHooks } from '../hooks'
+import { nameSchema } from '../schemas'
 
 export interface Member {
   name: string
   picture?: string | null
 }
 
-export interface MemberEntry extends Member {
-  id: string
-}
-
+export type MemberEntry = Data<Member, 'id', 'id'>
 export type MemberCreate = Member
 export type MemberUpdate = Partial<Member>
 
 const collection = getCollection<Member>('members')
 
-export function useMembers(): FirebaseHookReturn<MemberEntry[]> {
-  const [data, loading, error] = useCollectionData<Member, 'id'>(collection, {
-    idField: 'id',
-  })
-  return [data?.sort((a, b) => (a.name < b.name ? -1 : 1)), loading, error]
-}
-
-export function useMember(id: string): FirebaseHookReturn<MemberEntry> {
-  return useDocumentData(collection.doc(id), { idField: 'id' })
-}
+// React hooks
+const hooks = createDataHooks<Member, MemberEntry>(collection)
+export const useMembers = hooks.useCollection
+export const useMember = hooks.useDocument
+export const useContextMembers = hooks.useContextCollection
+export const useContextMember = hooks.useContextDocument
+export const MembersProvider = hooks.Provider
 
 export async function createMember(
   name: string

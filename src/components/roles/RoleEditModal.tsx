@@ -22,8 +22,8 @@ import {
   RoleUpdate,
   roleUpdateSchema,
   updateRole,
-  useRole,
-} from '../../data/roles'
+  useContextRole,
+} from '../../api/entities/roles'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 import RoleDeleteModal from './RoleDeleteModal'
@@ -33,7 +33,7 @@ interface Props extends UseModalProps {
 }
 
 export default function RoleEditModal({ id, ...props }: Props) {
-  const [data, loading, error] = useRole(id)
+  const [data, loading, error] = useContextRole(id)
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,

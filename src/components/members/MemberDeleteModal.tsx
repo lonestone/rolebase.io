@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
-import { deleteMember, useMember } from '../../data/members'
+import { deleteMember, useContextMember } from '../../api/entities/members'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 
@@ -26,7 +26,7 @@ export default function MemberDeleteModal({
   onDelete,
   ...props
 }: Props) {
-  const [data, loading, error] = useMember(id)
+  const [data, loading, error] = useContextMember(id)
 
   const handleDelete = () => {
     deleteMember(id)

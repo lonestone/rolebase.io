@@ -1,9 +1,7 @@
 import { nanoid } from 'nanoid'
-import {
-  useCollectionData,
-  useDocumentData,
-} from 'react-firebase-hooks/firestore'
-import { FirebaseHookReturn, getCollection } from './firebase'
+import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
+import { getCollection } from '../firebase'
+import { createDataHooks } from '../hooks'
 import { RoleEntry } from './roles'
 
 export interface Circle {
@@ -12,10 +10,7 @@ export interface Circle {
   members: CircleMemberEntry[]
 }
 
-export interface CircleEntry extends Circle {
-  id: string
-}
-
+export type CircleEntry = Data<Circle, 'id', 'id'>
 export type CircleCreate = Circle
 export type CircleUpdate = Partial<Circle>
 
@@ -34,13 +29,13 @@ export interface CircleMemberEntry extends CircleMember {
 
 const collection = getCollection<Circle>('circles')
 
-export function useCircles(): FirebaseHookReturn<CircleEntry[]> {
-  return useCollectionData(collection, { idField: 'id' })
-}
-
-export function useCircle(id: string): FirebaseHookReturn<CircleEntry> {
-  return useDocumentData(collection.doc(id), { idField: 'id' })
-}
+// React hooks
+const hooks = createDataHooks<Circle, CircleEntry>(collection)
+export const useCircles = hooks.useCollection
+export const useCircle = hooks.useDocument
+export const useContextCircles = hooks.useContextCollection
+export const useContextCircle = hooks.useContextDocument
+export const CirclesProvider = hooks.Provider
 
 export async function createCircle(
   roleId: string,

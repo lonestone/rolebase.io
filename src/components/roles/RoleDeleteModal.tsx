@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
-import { deleteRole, useRole } from '../../data/roles'
+import { deleteRole, useContextRole } from '../../api/entities/roles'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 
@@ -21,7 +21,7 @@ interface Props
 }
 
 export default function RoleDeleteModal({ id, onDelete, ...props }: Props) {
-  const [data, loading, error] = useRole(id)
+  const [data, loading, error] = useContextRole(id)
 
   const handleDelete = () => {
     deleteRole(id)

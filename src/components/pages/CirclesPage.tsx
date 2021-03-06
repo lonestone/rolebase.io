@@ -2,16 +2,16 @@ import { Box, useDisclosure } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import useComponentSize from '@rehooks/component-size'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { createGraph, Graph } from '../../circles-viz/createGraph'
 import {
   addMemberToCircle,
   copyCircle,
   moveCircle,
   moveCircleMember,
-  useCircles,
-} from '../../data/circles'
-import { useMembers } from '../../data/members'
-import { useRoles } from '../../data/roles'
+  useContextCircles,
+} from '../../api/entities/circles'
+import { useContextMembers } from '../../api/entities/members'
+import { useContextRoles } from '../../api/entities/roles'
+import { createGraph, Graph } from '../../circles-viz/createGraph'
 import CircleCreateModal from '../circles/CircleCreateModal'
 import CirclePanel from '../circles/CirclePanel'
 import Loading from '../common/Loading'
@@ -34,9 +34,14 @@ const StyledSVG = styled.svg`
 
 export default function CirclesPage({ domId = 'circles' }: Props) {
   // Data
-  const [members, membersLoading, membersError] = useMembers()
-  const [roles, rolesLoading, rolesError] = useRoles()
-  const [circles, circlesLoading, circlesError] = useCircles()
+  // const {
+  //   members: [members, membersLoading, membersError],
+  //   roles: [roles, rolesLoading, rolesError],
+  //   circles: [circles, circlesLoading, circlesError],
+  // } = useContext(OrgContext)
+  const [members, membersLoading, membersError] = useContextMembers()
+  const [roles, rolesLoading, rolesError] = useContextRoles()
+  const [circles, circlesLoading, circlesError] = useContextCircles()
 
   // Viz
   const boxRef = useRef<HTMLDivElement>(null)

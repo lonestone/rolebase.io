@@ -1,10 +1,8 @@
-import {
-  useCollectionData,
-  useDocumentData,
-} from 'react-firebase-hooks/firestore'
+import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import * as yup from 'yup'
-import { FirebaseHookReturn, getCollection } from './firebase'
-import { nameSchema } from './schemas'
+import { getCollection } from '../firebase'
+import { createDataHooks } from '../hooks'
+import { nameSchema } from '../schemas'
 
 export interface Role {
   name: string
@@ -13,25 +11,19 @@ export interface Role {
   accountabilities: string
 }
 
-export interface RoleEntry extends Role {
-  id: string
-}
-
+export type RoleEntry = Data<Role, 'id', 'id'>
 export type RoleCreate = Role
 export type RoleUpdate = Partial<Role>
 
 const collection = getCollection<Role>('roles')
 
-export function useRoles(): FirebaseHookReturn<RoleEntry[]> {
-  const [data, loading, error] = useCollectionData<Role, 'id'>(collection, {
-    idField: 'id',
-  })
-  return [data?.sort((a, b) => (a.name < b.name ? -1 : 1)), loading, error]
-}
-
-export function useRole(id: string): FirebaseHookReturn<RoleEntry> {
-  return useDocumentData(collection.doc(id), { idField: 'id' })
-}
+// React hooks
+const hooks = createDataHooks<Role, RoleEntry>(collection)
+export const useRoles = hooks.useCollection
+export const useRole = hooks.useDocument
+export const useContextRoles = hooks.useContextCollection
+export const useContextRole = hooks.useContextDocument
+export const RolesProvider = hooks.Provider
 
 export async function createRole(name: string): Promise<RoleEntry | undefined> {
   const role: Role = {

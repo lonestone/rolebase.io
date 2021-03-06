@@ -25,8 +25,8 @@ import {
   memberUpdateSchema,
   updateMember,
   uploadPicture,
-  useMember,
-} from '../../data/members'
+  useContextMember,
+} from '../../api/entities/members'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 import MemberDeleteModal from './MemberDeleteModal'
@@ -42,7 +42,7 @@ interface Values {
 }
 
 export default function MemberEditModal({ id, ...props }: Props) {
-  const [member, loading, error] = useMember(id)
+  const [member, loading, error] = useContextMember(id)
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,

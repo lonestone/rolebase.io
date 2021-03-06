@@ -14,14 +14,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
-import { useRoles } from '../../data/roles'
+import { useContextRoles } from '../../api/entities/roles'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 import RoleCreateModal from '../roles/RoleCreateModal'
 import RoleEditModal from '../roles/RoleEditModal'
 
 export default function RolesPage() {
-  const [roles, rolesLoading, rolesError] = useRoles()
+  const [roles, rolesLoading, rolesError] = useContextRoles()
 
   // Add modal
   const {

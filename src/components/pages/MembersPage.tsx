@@ -16,14 +16,14 @@ import {
   WrapItem,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
-import { useMembers } from '../../data/members'
+import { useContextMembers } from '../../api/entities/members'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 import MemberCreateModal from '../members/MemberCreateModal'
 import MemberEditModal from '../members/MemberEditModal'
 
 export default function MembersPage() {
-  const [members, loading, error] = useMembers()
+  const [members, loading, error] = useContextMembers()
 
   // Add modal
   const {
