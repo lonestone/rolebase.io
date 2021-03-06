@@ -40,9 +40,18 @@ export default function MemberPanel({
 
   const memberCircles = useMemo(() => {
     if (!member || !roles || !circles) return []
-    return circles
-      .filter((c) => c.members.some((m) => m.memberId === member.id))
-      .map((circle) => getCircleRoles(circles, roles, circle.id))
+    return (
+      circles
+        .filter((c) => c.members.some((m) => m.memberId === member.id))
+        .map((circle) => getCircleRoles(circles, roles, circle.id))
+        // Sort by circle ids path
+        .sort((a, b) =>
+          a.reduce((str, c) => str + c.id, '') <
+          b.reduce((str, c) => str + c.id, '')
+            ? -1
+            : 1
+        )
+    )
   }, [member, roles, circles])
 
   // Edit modal
@@ -61,9 +70,11 @@ export default function MemberPanel({
         <Panel>
           <Heading size="sm" marginBottom={5}>
             <HStack spacing={5}>
-              {member.picture && (
-                <Avatar name={member.name} src={member.picture} size="lg" />
-              )}
+              <Avatar
+                name={member.name}
+                src={member.picture || undefined}
+                size="lg"
+              />
               <StackItem>{member.name}</StackItem>
               <Button onClick={onEditOpen}>
                 <EditIcon />
