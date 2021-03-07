@@ -14,6 +14,7 @@ import React, { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { CircleUpdate, updateCircle } from '../../api/entities/circles'
 import Panel from '../common/Panel'
+import RoleEditModal from '../roles/RoleEditModal'
 import { useStoreState } from '../store/hooks'
 import CircleDeleteModal from './CircleDeleteModal'
 
@@ -32,6 +33,14 @@ export default function CirclePanel({ id, onClose }: Props) {
     return roles.find((r) => r.id === circle.roleId)
   }, [circle, roles])
 
+  // Role edit modal
+  const {
+    isOpen: isEditRoleOpen,
+    onOpen: onEditRoleOpen,
+    onClose: onEditRoleClose,
+  } = useDisclosure()
+
+  // Delete modal
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
@@ -43,7 +52,10 @@ export default function CirclePanel({ id, onClose }: Props) {
     register,
     formState: { isDirty },
     reset,
+    watch,
   } = useForm<CircleUpdate>()
+
+  const roleId = watch('roleId')
 
   // Init form data
   useEffect(() => {
@@ -79,6 +91,7 @@ export default function CirclePanel({ id, onClose }: Props) {
               </option>
             ))}
           </Select>
+          <Button onClick={onEditRoleOpen}>Editer</Button>
         </FormControl>
 
         <HStack spacing={5}>
@@ -93,6 +106,14 @@ export default function CirclePanel({ id, onClose }: Props) {
           )}
         </HStack>
       </form>
+
+      {roleId && (
+        <RoleEditModal
+          id={roleId}
+          isOpen={isEditRoleOpen}
+          onClose={onEditRoleClose}
+        />
+      )}
 
       <CircleDeleteModal
         id={id}

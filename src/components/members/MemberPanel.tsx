@@ -1,12 +1,10 @@
-import { ChevronRightIcon, EditIcon } from '@chakra-ui/icons'
+import { EditIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Button,
   CloseButton,
   Heading,
   HStack,
-  List,
-  ListItem,
   Spacer,
   StackItem,
   useDisclosure,
@@ -16,6 +14,7 @@ import { getCircleRoles } from '../../api/utils'
 import Panel from '../common/Panel'
 import { useStoreState } from '../store/hooks'
 import MemberEditModal from './MemberEditModal'
+import MemberRoles from './MemberRoles'
 
 interface Props {
   id: string
@@ -79,31 +78,11 @@ export default function MemberPanel({
       </Heading>
 
       <Heading size="xs">Rôles</Heading>
-      <List styleType="none" marginTop={3} marginBottom={3}>
-        {memberCircles.map((entries) => {
-          const tagColor =
-            highlightCircleId === entries[entries.length - 1].id
-              ? 'yellow'
-              : 'gray'
-          return (
-            <ListItem key={entries[entries.length - 1].id} marginBottom={2}>
-              {entries.map((circle, i) => (
-                <React.Fragment key={circle.id}>
-                  {i !== 0 && <ChevronRightIcon />}
-                  <Button
-                    variant="outline"
-                    colorScheme={tagColor}
-                    size="xs"
-                    onClick={() => onCircleFocus?.(circle.id)}
-                  >
-                    {circle.role?.name || '?'}
-                  </Button>
-                </React.Fragment>
-              ))}
-            </ListItem>
-          )
-        })}
-      </List>
+      <MemberRoles
+        id={id}
+        highlightCircleId={highlightCircleId}
+        onCircleFocus={onCircleFocus}
+      />
 
       <MemberEditModal id={id} isOpen={isEditOpen} onClose={onEditClose} />
     </Panel>

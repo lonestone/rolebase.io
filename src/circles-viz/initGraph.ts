@@ -1,5 +1,4 @@
 import * as d3 from 'd3'
-import { Transition } from 'd3'
 import settings from './settings'
 import { Zoom } from './types'
 
@@ -31,9 +30,6 @@ export function initGraph(
 
   // Zoom
   const zoomG = svg.append('g').attr('class', 'panzoom')
-  let zoomTransition:
-    | Transition<SVGGElement, unknown, null, undefined>
-    | undefined
 
   const zoomBehaviour = d3
     .zoom<SVGSVGElement, any>()
@@ -43,12 +39,7 @@ export function initGraph(
       zoom.x = event.transform.x
       zoom.y = event.transform.y
       zoom.scale = event.transform.k
-      if (!zoomTransition) {
-        zoomTransition = zoomG.transition().duration(150).ease(d3.easeLinear)
-      }
-      zoomTransition
-        .attr('transform', event.transform)
-        .call(() => (zoomTransition = undefined))
+      zoomG.attr('transform', event.transform)
     })
   svg.call(zoomBehaviour).attr('cursor', 'move')
 

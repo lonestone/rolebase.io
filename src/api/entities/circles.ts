@@ -46,7 +46,7 @@ export async function createCircle(
   orgId: string,
   roleId: string,
   parentId: string | null
-): Promise<CircleEntry | undefined> {
+): Promise<CircleEntry> {
   const circle: Circle = {
     orgId,
     roleId,
@@ -55,7 +55,7 @@ export async function createCircle(
   }
   const doc = await collection.add(circle)
   const snapshot = await doc.get()
-  return { ...snapshot.data(), id: doc.id } as CircleEntry | undefined
+  return { ...snapshot.data()!, id: doc.id }
 }
 
 export async function updateCircle(id: string, data: CircleUpdate) {
@@ -90,15 +90,17 @@ export async function copyCircle(
 ): Promise<boolean> {
   const doc = collection.doc(circleId)
   const snapshot = await doc.get()
-  if (!snapshot.exists) return false
-  const circle = snapshot.data() as Circle
+  const circle = snapshot.data()
+  if (!circle) return false
 
   // Create new circle
-  const { id } = await collection.add({
+  const newCircle: Circle = {
+    orgId: circle.orgId,
     parentId: targetCircleId,
     roleId: circle.roleId,
     members: circle.members,
-  } as Circle)
+  }
+  const { id } = await collection.add(newCircle)
 
   // Create sub-circles
   const subCircles = await collection.where('parentId', '==', circleId).get()
@@ -114,8 +116,8 @@ export async function addMemberToCircle(
 ): Promise<boolean> {
   const doc = collection.doc(circleId)
   const snapshot = await doc.get()
-  if (!snapshot.exists) return false
-  const circle = snapshot.data() as Circle
+  const circle = snapshot.data()
+  if (!circle) return false
 
   // Member is already in circle
   if (circle.members.some((member) => member.memberId === memberId)) {
@@ -135,6 +137,13 @@ export async function addMemberToCircle(
   return true
 }
 
+export async function removeCircleMember(
+  memberId: string,
+  parentCircleId: string
+): Promise<boolean> {
+  return moveCircleMember(memberId, parentCircleId, null)
+}
+
 export async function moveCircleMember(
   memberId: string,
   parentCircleId: string,
@@ -142,8 +151,8 @@ export async function moveCircleMember(
 ): Promise<boolean> {
   const doc = collection.doc(parentCircleId)
   const snapshot = await doc.get()
-  if (!snapshot.exists) return false
-  const circle = snapshot.data() as Circle
+  const circle = snapshot.data()
+  if (!circle) return false
 
   if (targetCircleId === null) {
     // Remove member from circle
@@ -160,8 +169,8 @@ export async function moveCircleMember(
 
   const targetDoc = collection.doc(targetCircleId)
   const targetSnapshot = await targetDoc.get()
-  if (!targetSnapshot.exists) return false
-  const targetCircle = targetSnapshot.data() as Circle
+  const targetCircle = targetSnapshot.data()
+  if (!targetCircle) return false
 
   const entry = circle.members.find((member) => member.memberId === memberId)
   if (!entry) return false

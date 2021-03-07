@@ -30,11 +30,11 @@ export function subscribeOrgs(
   }, onError)
 }
 
-export async function createOrg(name: string): Promise<OrgEntry | undefined> {
+export async function createOrg(name: string): Promise<OrgEntry> {
   const role: Org = { name }
   const doc = await collection.add(role)
   const snapshot = await doc.get()
-  return { ...snapshot.data(), id: doc.id } as OrgEntry | undefined
+  return { ...snapshot.data()!, id: doc.id }
 }
 
 export async function updateOrg(id: string, data: OrgUpdate) {

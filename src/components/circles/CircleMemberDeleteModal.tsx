@@ -10,21 +10,27 @@ import {
   Text,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
-import { deleteCircle } from '../../api/entities/circles'
+import { removeCircleMember } from '../../api/entities/circles'
 import { useStoreState } from '../store/hooks'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
-  id: string
+  circleId: string
+  memberId: string
   onDelete?(): void
 }
 
-export default function CircleDeleteModal({ id, onDelete, ...props }: Props) {
+export default function CircleMemberDeleteModal({
+  circleId,
+  memberId,
+  onDelete,
+  ...props
+}: Props) {
   const getById = useStoreState((state) => state.circles.getById)
-  const circle = useMemo(() => getById(id), [getById, id])
+  const circle = useMemo(() => getById(circleId), [getById, circleId])
 
   const handleDelete = () => {
-    deleteCircle(id)
+    removeCircleMember(memberId, circleId)
     onDelete?.()
     props.onClose()
   }
@@ -36,11 +42,13 @@ export default function CircleDeleteModal({ id, onDelete, ...props }: Props) {
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un cercle
+            Supprimer un membre d'un cercle
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>Êtes-vous sûr de vouloir supprimer ce cercle ?</Text>
+            <Text>
+              Êtes-vous sûr de vouloir retirer ce membre de ce cercle ?
+            </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>

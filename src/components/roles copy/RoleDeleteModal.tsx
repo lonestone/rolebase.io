@@ -9,38 +9,47 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import React, { useMemo } from 'react'
-import { deleteCircle } from '../../api/entities/circles'
-import { useStoreState } from '../store/hooks'
+import React from 'react'
+import { deleteRole, useContextRole } from '../../api/entities/roles'
+import Loading from '../common/Loading'
+import TextErrors from '../common/TextErrors'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
-  id: string
-  onDelete?(): void
+  circleId: string
+  onDelete(): void
 }
 
-export default function CircleDeleteModal({ id, onDelete, ...props }: Props) {
-  const getById = useStoreState((state) => state.circles.getById)
-  const circle = useMemo(() => getById(id), [getById, id])
+export default function RoleDeleteModal({
+  circleId: id,
+  onDelete,
+  ...props
+}: Props) {
+  const [data, loading, error] = useContextRole(id)
 
   const handleDelete = () => {
-    deleteCircle(id)
-    onDelete?.()
+    deleteRole(id)
+    onDelete()
     props.onClose()
   }
-
-  if (!circle) return null
 
   return (
     <AlertDialog {...props} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un cercle
+            Supprimer rôle
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>Êtes-vous sûr de vouloir supprimer ce cercle ?</Text>
+            <Loading active={loading} />
+            <TextErrors errors={[error]} />
+
+            {data && (
+              <Text>
+                Êtes-vous sûr de vouloir supprimer le rôle {data.name} ?
+              </Text>
+            )}
           </AlertDialogBody>
 
           <AlertDialogFooter>

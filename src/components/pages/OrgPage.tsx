@@ -46,7 +46,10 @@ export default function OrgPage() {
 
   return (
     <>
-      <Loading active={membersLoading || circlesLoading || rolesLoading} />
+      <Loading
+        center
+        active={membersLoading || circlesLoading || rolesLoading}
+      />
       <TextErrors errors={[membersError, rolesError, circlesError]} />
 
       <Switch>

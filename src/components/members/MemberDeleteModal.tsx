@@ -16,7 +16,7 @@ import { useStoreState } from '../store/hooks'
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
   id: string
-  onDelete(): void
+  onDelete?(): void
 }
 
 export default function MemberDeleteModal({ id, onDelete, ...props }: Props) {
@@ -25,7 +25,7 @@ export default function MemberDeleteModal({ id, onDelete, ...props }: Props) {
 
   const handleDelete = () => {
     deleteMember(id)
-    onDelete()
+    onDelete?.()
     props.onClose()
   }
 

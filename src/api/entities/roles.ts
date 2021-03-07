@@ -37,7 +37,7 @@ export function subscribeRoles(
 export async function createRole(
   orgId: string,
   name: string
-): Promise<RoleEntry | undefined> {
+): Promise<RoleEntry> {
   const role: Role = {
     orgId,
     name,
@@ -47,7 +47,7 @@ export async function createRole(
   }
   const doc = await collection.add(role)
   const snapshot = await doc.get()
-  return { ...snapshot.data(), id: doc.id } as RoleEntry | undefined
+  return { ...snapshot.data()!, id: doc.id }
 }
 
 export async function updateRole(id: string, data: RoleUpdate) {

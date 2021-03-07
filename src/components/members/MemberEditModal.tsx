@@ -28,6 +28,7 @@ import {
 } from '../../api/entities/members'
 import { useStoreState } from '../store/hooks'
 import MemberDeleteModal from './MemberDeleteModal'
+import MemberRoles from './MemberRoles'
 
 interface Props extends UseModalProps {
   id: string
@@ -88,7 +89,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
             <ModalCloseButton />
 
             <ModalBody>
-              <VStack spacing={3}>
+              <VStack spacing={5}>
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom</FormLabel>
                   <Input
@@ -113,6 +114,11 @@ export default function MemberEditModal({ id, ...props }: Props) {
                   <FormErrorMessage>
                     {errors.pictureFiles && errors.pictureFiles.message}
                   </FormErrorMessage>
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Roles</FormLabel>
+                  <MemberRoles id={id} />
                 </FormControl>
               </VStack>
             </ModalBody>

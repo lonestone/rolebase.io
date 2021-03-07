@@ -31,15 +31,13 @@ export function subscribeMembers(
   }, onError)
 }
 
-export async function createMember(
-  name: string
-): Promise<MemberEntry | undefined> {
+export async function createMember(name: string): Promise<MemberEntry> {
   const member: Member = {
     name,
   }
   const doc = await collection.add(member)
   const snapshot = await doc.get()
-  return { ...snapshot.data(), id: doc.id } as MemberEntry | undefined
+  return { ...snapshot.data()!, id: doc.id }
 }
 
 export async function updateMember(id: string, data: MemberUpdate) {

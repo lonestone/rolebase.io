@@ -394,11 +394,6 @@ export default function updateCircles(
           .text((d) => getFirstname(d.data.name))
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
 
-        // Update member picture
-        nodeUpdateMembers
-          .select('image')
-          .attr('xlink:href', (d) => d.data.picture || '')
-
         // Update position
         return nodeUpdate
       },
@@ -422,4 +417,10 @@ export default function updateCircles(
           .attr('opacity', 0)
       }
     )
+
+    // Sort by depth and Y, then raise
+    .sort((a, b) =>
+      a.depth === b.depth ? a.y - b.y : a.depth < b.depth ? -1 : 1
+    )
+    .raise()
 }

@@ -1,17 +1,24 @@
-import { Button, WrapItem } from '@chakra-ui/react'
+import { Button, StackItem } from '@chakra-ui/react'
+import styled from '@emotion/styled'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 interface Props {
   to: string
 }
 
+const Link = styled(NavLink)`
+  &.active button {
+    border: 1px solid #bbb;
+  }
+`
+
 const HeaderLink: React.FC<Props> = ({ to, children }) => (
-  <WrapItem>
-    <ReachLink to={to}>
+  <StackItem pointerEvents="auto">
+    <Link to={to} exact activeClassName="active">
       <Button colorScheme="gray">{children}</Button>
-    </ReachLink>
-  </WrapItem>
+    </Link>
+  </StackItem>
 )
 
 export default HeaderLink

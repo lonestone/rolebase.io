@@ -90,7 +90,7 @@ export default function OrgsPage() {
         </InputGroup>
       </HStack>
 
-      <Loading active={loading} />
+      <Loading center active={loading} />
       <TextErrors errors={[error]} />
 
       {filteredOrgs && (
