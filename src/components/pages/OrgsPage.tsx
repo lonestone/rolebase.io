@@ -12,7 +12,6 @@ import {
   LinkBox,
   LinkOverlay,
   Spacer,
-  Text,
   useDisclosure,
   Wrap,
   WrapItem,
@@ -71,7 +70,7 @@ export default function OrgsPage() {
           onClick={onAddOpen}
         />
         <Spacer />
-        <InputGroup>
+        <InputGroup w="200px">
           <Input
             type="text"
             placeholder="Rechercher..."
@@ -109,7 +108,6 @@ export default function OrgsPage() {
                     </Button>
                   </HStack>
                 </Heading>
-                <Text>X membres</Text>
               </LinkBox>
             </WrapItem>
           ))}

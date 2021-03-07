@@ -9,9 +9,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { deleteRole } from '../../api/entities/roles'
-import { useStoreState } from '../store/hooks'
+import useRole from '../../hooks/useRole'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
@@ -20,8 +20,7 @@ interface Props
 }
 
 export default function RoleDeleteModal({ id, onDelete, ...props }: Props) {
-  const getById = useStoreState((state) => state.roles.getById)
-  const role = useMemo(() => getById(id), [getById, id])
+  const role = useRole(id)
 
   const handleDelete = () => {
     deleteRole(id)

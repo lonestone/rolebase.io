@@ -16,14 +16,14 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   RoleUpdate,
   roleUpdateSchema,
   updateRole,
 } from '../../api/entities/roles'
-import { useStoreState } from '../store/hooks'
+import useRole from '../../hooks/useRole'
 import RoleDeleteModal from './RoleDeleteModal'
 
 interface Props extends UseModalProps {
@@ -31,8 +31,7 @@ interface Props extends UseModalProps {
 }
 
 export default function RoleEditModal({ id, ...props }: Props) {
-  const getById = useStoreState((state) => state.roles.getById)
-  const role = useMemo(() => getById(id), [getById, id])
+  const role = useRole(id)
 
   const {
     isOpen: isDeleteOpen,

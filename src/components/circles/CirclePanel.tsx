@@ -5,6 +5,7 @@ import {
   FormLabel,
   Heading,
   HStack,
+  InputGroup,
   Select,
   Spacer,
   StackItem,
@@ -13,6 +14,7 @@ import {
 import React, { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { CircleUpdate, updateCircle } from '../../api/entities/circles'
+import useCircle from '../../hooks/useCircle'
 import Panel from '../common/Panel'
 import RoleEditModal from '../roles/RoleEditModal'
 import { useStoreState } from '../store/hooks'
@@ -25,8 +27,7 @@ interface Props {
 
 export default function CirclePanel({ id, onClose }: Props) {
   const roles = useStoreState((state) => state.roles.entries)
-  const getById = useStoreState((state) => state.circles.getById)
-  const circle = useMemo(() => getById(id), [getById, id])
+  const circle = useCircle(id)
 
   const role = useMemo(() => {
     if (!circle || !roles) return undefined
@@ -84,14 +85,16 @@ export default function CirclePanel({ id, onClose }: Props) {
 
         <FormControl marginBottom={5}>
           <FormLabel htmlFor="roleId">Changer le rôle :</FormLabel>
-          <Select name="roleId" ref={register()} autoFocus>
-            {roles?.map((role) => (
-              <option key={role.id} value={role.id}>
-                {role.name}
-              </option>
-            ))}
-          </Select>
-          <Button onClick={onEditRoleOpen}>Editer</Button>
+          <InputGroup>
+            <Select name="roleId" ref={register()} autoFocus>
+              {roles?.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
+            </Select>
+            <Button onClick={onEditRoleOpen}>Editer</Button>
+          </InputGroup>
         </FormControl>
 
         <HStack spacing={5}>

@@ -15,10 +15,10 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { OrgUpdate, orgUpdateSchema, updateOrg } from '../../api/entities/orgs'
-import { useStoreState } from '../store/hooks'
+import useOrg from '../../hooks/useOrg'
 import OrgDeleteModal from './OrgDeleteModal'
 
 interface Props extends UseModalProps {
@@ -26,8 +26,7 @@ interface Props extends UseModalProps {
 }
 
 export default function OrgEditModal({ id, ...props }: Props) {
-  const getById = useStoreState((state) => state.orgs.getById)
-  const org = useMemo(() => getById(id), [getById, id])
+  const org = useOrg(id)
 
   const {
     isOpen: isDeleteOpen,

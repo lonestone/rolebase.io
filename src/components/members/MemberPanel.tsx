@@ -9,10 +9,9 @@ import {
   StackItem,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useMemo } from 'react'
-import { getCircleRoles } from '../../api/utils'
+import React from 'react'
+import useMember from '../../hooks/useMember'
 import Panel from '../common/Panel'
-import { useStoreState } from '../store/hooks'
 import MemberEditModal from './MemberEditModal'
 import MemberRoles from './MemberRoles'
 
@@ -29,26 +28,7 @@ export default function MemberPanel({
   onClose,
   onCircleFocus,
 }: Props) {
-  const roles = useStoreState((state) => state.roles.entries)
-  const circles = useStoreState((state) => state.circles.entries)
-  const getById = useStoreState((state) => state.members.getById)
-  const member = useMemo(() => getById(id), [getById, id])
-
-  const memberCircles = useMemo(() => {
-    if (!member || !roles || !circles) return []
-    return (
-      circles
-        .filter((c) => c.members.some((m) => m.memberId === member.id))
-        .map((circle) => getCircleRoles(circles, roles, circle.id))
-        // Sort by circle ids path
-        .sort((a, b) =>
-          a.reduce((str, c) => str + c.id, '') <
-          b.reduce((str, c) => str + c.id, '')
-            ? -1
-            : 1
-        )
-    )
-  }, [member, roles, circles])
+  const member = useMember(id)
 
   // Edit modal
   const {

@@ -9,9 +9,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { deleteCircle } from '../../api/entities/circles'
-import { useStoreState } from '../store/hooks'
+import useCircle from '../../hooks/useCircle'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
@@ -20,8 +20,7 @@ interface Props
 }
 
 export default function CircleDeleteModal({ id, onDelete, ...props }: Props) {
-  const getById = useStoreState((state) => state.circles.getById)
-  const circle = useMemo(() => getById(id), [getById, id])
+  const circle = useCircle(id)
 
   const handleDelete = () => {
     deleteCircle(id)

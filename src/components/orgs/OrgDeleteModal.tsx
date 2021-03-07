@@ -9,9 +9,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { deleteOrg } from '../../api/entities/orgs'
-import { useStoreState } from '../store/hooks'
+import useOrg from '../../hooks/useOrg'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
@@ -20,8 +20,7 @@ interface Props
 }
 
 export default function OrgDeleteModal({ id, onDelete, ...props }: Props) {
-  const getById = useStoreState((state) => state.orgs.getById)
-  const org = useMemo(() => getById(id), [getById, id])
+  const org = useOrg(id)
 
   const handleDelete = () => {
     deleteOrg(id)

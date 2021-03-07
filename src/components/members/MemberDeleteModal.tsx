@@ -9,9 +9,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { deleteMember } from '../../api/entities/members'
-import { useStoreState } from '../store/hooks'
+import useMember from '../../hooks/useMember'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
@@ -20,8 +20,7 @@ interface Props
 }
 
 export default function MemberDeleteModal({ id, onDelete, ...props }: Props) {
-  const getById = useStoreState((state) => state.members.getById)
-  const member = useMemo(() => getById(id), [getById, id])
+  const member = useMember(id)
 
   const handleDelete = () => {
     deleteMember(id)

@@ -66,7 +66,7 @@ export default function MembersPage() {
           onClick={onAddOpen}
         />
         <Spacer />
-        <InputGroup>
+        <InputGroup w="200px">
           <Input
             type="text"
             placeholder="Rechercher..."

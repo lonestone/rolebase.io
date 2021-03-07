@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-import { Route, Switch, useParams } from 'react-router-dom'
+import { Redirect, Route, Switch, useParams } from 'react-router-dom'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
+import CirclesPage from '../pages/CirclesPage'
+import MembersPage from '../pages/MembersPage'
+import RolesPage from '../pages/RolesPage'
 import { useStoreActions, useStoreState } from '../store/hooks'
-import CirclesPage from './CirclesPage'
-import MembersPage from './MembersPage'
-import RolesPage from './RolesPage'
 
-export default function OrgPage() {
+export default function OrgRoutes() {
   const { orgId } = useParams<{ orgId: string }>()
 
   const circlesError = useStoreState((state) => state.circles.error)
@@ -56,11 +56,14 @@ export default function OrgPage() {
         <Route exact path="/orgs/:orgId">
           <CirclesPage />
         </Route>
-        <Route path="/orgs/:orgId/members">
+        <Route exact path="/orgs/:orgId/members">
           <MembersPage />
         </Route>
-        <Route path="/orgs/:orgId/roles">
+        <Route exact path="/orgs/:orgId/roles">
           <RolesPage />
+        </Route>
+        <Route>
+          <Redirect to={`/orgs/${orgId}`} />
         </Route>
       </Switch>
     </>

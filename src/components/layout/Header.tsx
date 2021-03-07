@@ -1,20 +1,29 @@
 import { ArrowLeftIcon } from '@chakra-ui/icons'
 import {
   Avatar,
+  Button,
   Flex,
   Heading,
   HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Spacer,
   StackItem,
 } from '@chakra-ui/react'
-import React, { useMemo } from 'react'
+import React from 'react'
+import { auth } from '../../api/firebase'
+import useOrg from '../../hooks/useOrg'
 import { useStoreState } from '../store/hooks'
 import HeaderLink from './HeaderLink'
 
 export default function Header() {
   const orgId = useStoreState((state) => state.orgs.currentId)
-  const getById = useStoreState((state) => state.orgs.getById)
-  const org = useMemo(() => orgId && getById(orgId), [getById, orgId])
+  const org = useOrg(orgId)
+  const user = useStoreState((state) => state.auth.user)
+
+  if (!user) return null
 
   return (
     <Flex
@@ -45,7 +54,18 @@ export default function Header() {
         )}
         <Spacer />
         <StackItem pointerEvents="auto">
-          <Avatar name={'Godefroy de Compreignac'} src={undefined} size="md" />
+          <Menu>
+            <MenuButton as={Button} variant="ghost">
+              <Avatar
+                name={user.displayName || '?'}
+                src={user.photoURL || undefined}
+                size="sm"
+              />
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
+            </MenuList>
+          </Menu>
         </StackItem>
       </HStack>
     </Flex>

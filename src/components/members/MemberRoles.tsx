@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import { getCircleRoles } from '../../api/utils'
+import useMember from '../../hooks/useMember'
 import CircleMemberDeleteModal from '../circles/CircleMemberDeleteModal'
 import { useStoreState } from '../store/hooks'
 
@@ -24,8 +25,7 @@ export default function MemberRoles({
 }: Props) {
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
-  const getById = useStoreState((state) => state.members.getById)
-  const member = useMemo(() => getById(id), [getById, id])
+  const member = useMember(id)
 
   // Delete modal
   const [circleId, setCircleId] = useState<string | undefined>()

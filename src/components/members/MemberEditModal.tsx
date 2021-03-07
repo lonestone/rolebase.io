@@ -18,7 +18,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   MemberUpdate,
@@ -26,7 +26,7 @@ import {
   updateMember,
   uploadPicture,
 } from '../../api/entities/members'
-import { useStoreState } from '../store/hooks'
+import useMember from '../../hooks/useMember'
 import MemberDeleteModal from './MemberDeleteModal'
 import MemberRoles from './MemberRoles'
 
@@ -41,8 +41,7 @@ interface Values {
 }
 
 export default function MemberEditModal({ id, ...props }: Props) {
-  const getById = useStoreState((state) => state.members.getById)
-  const member = useMemo(() => getById(id), [getById, id])
+  const member = useMember(id)
 
   const {
     isOpen: isDeleteOpen,

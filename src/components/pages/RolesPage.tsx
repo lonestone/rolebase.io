@@ -62,7 +62,7 @@ export default function RolesPage() {
           onClick={onAddOpen}
         />
         <Spacer />
-        <InputGroup>
+        <InputGroup w="200px">
           <Input
             type="text"
             placeholder="Rechercher..."
