@@ -73,8 +73,11 @@ export default function updateCircles(
     settings.fontSize + (maxDepth / node.depth) * 2
 
   // Set focus functions
-  const focusCircle = (node: NodeData, instant?: boolean) =>
-    zoom.to(node.x, node.y, node.r, instant)
+  const focusCircle = (node: NodeData, instant?: boolean) => {
+    if (node.r > 0) {
+      zoom.to(node.x, node.y, node.r, instant)
+    }
+  }
 
   zoom.focusCircle = (circleId, instant) => {
     const circle = nodesMap.find((c) => c.data.id === circleId)

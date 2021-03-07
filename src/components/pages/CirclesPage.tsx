@@ -7,20 +7,12 @@ import {
   copyCircle,
   moveCircle,
   moveCircleMember,
-  useContextCircles,
 } from '../../api/entities/circles'
-import { useContextMembers } from '../../api/entities/members'
-import { useContextRoles } from '../../api/entities/roles'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
 import CircleCreateModal from '../circles/CircleCreateModal'
 import CirclePanel from '../circles/CirclePanel'
-import Loading from '../common/Loading'
-import TextErrors from '../common/TextErrors'
 import MemberPanel from '../members/MemberPanel'
-
-interface Props {
-  domId?: string
-}
+import { useStoreState } from '../store/hooks'
 
 enum Panels {
   Circle,
@@ -32,16 +24,12 @@ const StyledSVG = styled.svg`
   font: 10px sans-serif;
 `
 
-export default function CirclesPage({ domId = 'circles' }: Props) {
+export default function CirclesPage() {
   // Data
-  // const {
-  //   members: [members, membersLoading, membersError],
-  //   roles: [roles, rolesLoading, rolesError],
-  //   circles: [circles, circlesLoading, circlesError],
-  // } = useContext(OrgContext)
-  const [members, membersLoading, membersError] = useContextMembers()
-  const [roles, rolesLoading, rolesError] = useContextRoles()
-  const [circles, circlesLoading, circlesError] = useContextCircles()
+  const orgId = useStoreState((state) => state.orgs.currentId)
+  const circles = useStoreState((state) => state.circles.entries)
+  const members = useStoreState((state) => state.members.entries)
+  const roles = useStoreState((state) => state.roles.entries)
 
   // Viz
   const boxRef = useRef<HTMLDivElement>(null)
@@ -158,12 +146,9 @@ export default function CirclesPage({ domId = 'circles' }: Props) {
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
-      <Loading active={membersLoading || circlesLoading || rolesLoading} />
-      <TextErrors errors={[membersError, rolesError, circlesError]} />
-
       <StyledSVG
         ref={svgRef}
-        id={domId}
+        id={`graph-${orgId}`}
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}

@@ -12,15 +12,9 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  CircleUpdate,
-  updateCircle,
-  useContextCircle,
-} from '../../api/entities/circles'
-import { useContextRoles } from '../../api/entities/roles'
-import Loading from '../common/Loading'
+import { CircleUpdate, updateCircle } from '../../api/entities/circles'
 import Panel from '../common/Panel'
-import TextErrors from '../common/TextErrors'
+import { useStoreState } from '../store/hooks'
 import CircleDeleteModal from './CircleDeleteModal'
 
 interface Props {
@@ -29,8 +23,9 @@ interface Props {
 }
 
 export default function CirclePanel({ id, onClose }: Props) {
-  const [circle, circleLoading, circleError] = useContextCircle(id)
-  const [roles, rolesLoading, rolesError] = useContextRoles()
+  const roles = useStoreState((state) => state.roles.entries)
+  const getById = useStoreState((state) => state.circles.getById)
+  const circle = useMemo(() => getById(id), [getById, id])
 
   const role = useMemo(() => {
     if (!circle || !roles) return undefined
@@ -62,12 +57,14 @@ export default function CirclePanel({ id, onClose }: Props) {
     // onClose()
   })
 
+  if (!circle || !role) return null
+
   return (
     <Panel>
       <form onSubmit={onSubmit}>
         <Heading size="sm" marginBottom={5}>
           <HStack spacing={5}>
-            <StackItem>{role?.name}</StackItem>
+            <StackItem>{role.name}</StackItem>
             <Spacer />
             <CloseButton onClick={onClose} />
           </HStack>
@@ -75,19 +72,13 @@ export default function CirclePanel({ id, onClose }: Props) {
 
         <FormControl marginBottom={5}>
           <FormLabel htmlFor="roleId">Changer le rôle :</FormLabel>
-
-          <Loading active={circleLoading || rolesLoading} />
-          <TextErrors errors={[circleError, rolesError]} />
-
-          {roles && (
-            <Select name="roleId" ref={register()} autoFocus>
-              {roles?.map((role) => (
-                <option key={role.id} value={role.id}>
-                  {role.name}
-                </option>
-              ))}
-            </Select>
-          )}
+          <Select name="roleId" ref={register()} autoFocus>
+            {roles?.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.name}
+              </option>
+            ))}
+          </Select>
         </FormControl>
 
         <HStack spacing={5}>

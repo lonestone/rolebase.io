@@ -9,10 +9,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import React from 'react'
-import { deleteMember, useContextMember } from '../../api/entities/members'
-import Loading from '../common/Loading'
-import TextErrors from '../common/TextErrors'
+import React, { useMemo } from 'react'
+import { deleteMember } from '../../api/entities/members'
+import { useStoreState } from '../store/hooks'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
@@ -20,13 +19,9 @@ interface Props
   onDelete(): void
 }
 
-export default function MemberDeleteModal({
-  id,
-
-  onDelete,
-  ...props
-}: Props) {
-  const [data, loading, error] = useContextMember(id)
+export default function MemberDeleteModal({ id, onDelete, ...props }: Props) {
+  const getById = useStoreState((state) => state.members.getById)
+  const member = useMemo(() => getById(id), [getById, id])
 
   const handleDelete = () => {
     deleteMember(id)
@@ -34,23 +29,20 @@ export default function MemberDeleteModal({
     props.onClose()
   }
 
+  if (!member) return null
+
   return (
     <AlertDialog {...props} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer membre
+            Supprimer un membre
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Loading active={loading} />
-            <TextErrors errors={[error]} />
-
-            {data && (
-              <Text>
-                Êtes-vous sûr de vouloir supprimer le membre {data.name} ?
-              </Text>
-            )}
+            <Text>
+              Êtes-vous sûr de vouloir supprimer le membre {member.name} ?
+            </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>

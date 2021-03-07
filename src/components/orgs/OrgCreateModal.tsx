@@ -16,26 +16,17 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  createRole,
-  RoleCreate,
-  roleCreateSchema,
-} from '../../api/entities/roles'
-import { useStoreState } from '../store/hooks'
+import { createOrg, OrgCreate, orgCreateSchema } from '../../api/entities/orgs'
 
 interface Props extends UseModalProps {}
 
-export default function RoleCreateModal(props: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
-
-  const { handleSubmit, errors, register } = useForm<RoleCreate>({
-    resolver: yupResolver(roleCreateSchema),
+export default function OrgCreateModal(props: Props) {
+  const { handleSubmit, errors, register } = useForm<OrgCreate>({
+    resolver: yupResolver(orgCreateSchema),
   })
 
   const onSubmit = handleSubmit(({ name }) => {
-    if (orgId) {
-      createRole(orgId, name)
-    }
+    createOrg(name)
     props.onClose()
   })
 
@@ -44,7 +35,7 @@ export default function RoleCreateModal(props: Props) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Ajouter un rôle</ModalHeader>
+          <ModalHeader>Ajouter une organisation</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>

@@ -18,17 +18,15 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   MemberUpdate,
   memberUpdateSchema,
   updateMember,
   uploadPicture,
-  useContextMember,
 } from '../../api/entities/members'
-import Loading from '../common/Loading'
-import TextErrors from '../common/TextErrors'
+import { useStoreState } from '../store/hooks'
 import MemberDeleteModal from './MemberDeleteModal'
 
 interface Props extends UseModalProps {
@@ -42,7 +40,9 @@ interface Values {
 }
 
 export default function MemberEditModal({ id, ...props }: Props) {
-  const [member, loading, error] = useContextMember(id)
+  const getById = useStoreState((state) => state.members.getById)
+  const member = useMemo(() => getById(id), [getById, id])
+
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
@@ -76,63 +76,56 @@ export default function MemberEditModal({ id, ...props }: Props) {
     props.onClose()
   })
 
+  if (!member) return null
+
   return (
     <>
       <Modal {...props}>
         <ModalOverlay />
         <ModalContent>
-          <Loading active={loading} />
-          <TextErrors errors={[error]} />
+          <form onSubmit={onSubmit}>
+            <ModalHeader>Editer le membre {member.name}</ModalHeader>
+            <ModalCloseButton />
 
-          {member && (
-            <form onSubmit={onSubmit}>
-              <ModalHeader>Editer le membre {member.name}</ModalHeader>
-              <ModalCloseButton />
+            <ModalBody>
+              <VStack spacing={3}>
+                <FormControl isInvalid={!!errors.name}>
+                  <FormLabel htmlFor="name">Nom</FormLabel>
+                  <Input
+                    name="name"
+                    placeholder="Nom..."
+                    ref={register}
+                    autoFocus
+                  />
+                  <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-              <ModalBody>
-                <VStack spacing={3}>
-                  <FormControl isInvalid={!!errors.name}>
-                    <FormLabel htmlFor="name">Nom</FormLabel>
-                    <Input
-                      name="name"
-                      placeholder="Nom..."
-                      ref={register}
-                      autoFocus
-                    />
-                    <FormErrorMessage>
-                      {errors.name && errors.name.message}
-                    </FormErrorMessage>
-                  </FormControl>
+                <FormControl isInvalid={!!errors.pictureFiles}>
+                  <FormLabel htmlFor="pictureFiles">Photo</FormLabel>
+                  <HStack spacing={3}>
+                    {picture && (
+                      <Avatar name={member.name} src={picture} size="lg" />
+                    )}
+                    <Input name="pictureFiles" type="file" ref={register} />
+                  </HStack>
+                  <FormErrorMessage>
+                    {errors.pictureFiles && errors.pictureFiles.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </VStack>
+            </ModalBody>
 
-                  <FormControl isInvalid={!!errors.pictureFiles}>
-                    <FormLabel htmlFor="pictureFiles">Photo</FormLabel>
-                    <HStack spacing={3}>
-                      {picture && (
-                        <Avatar name={member.name} src={picture} size="lg" />
-                      )}
-                      <Input name="pictureFiles" type="file" ref={register} />
-                    </HStack>
-                    <FormErrorMessage>
-                      {errors.pictureFiles && errors.pictureFiles.message}
-                    </FormErrorMessage>
-                  </FormControl>
-                </VStack>
-              </ModalBody>
-
-              <ModalFooter>
-                <Button
-                  colorScheme="red"
-                  variant="ghost"
-                  onClick={onDeleteOpen}
-                >
-                  Supprimer
-                </Button>
-                <Button colorScheme="blue" mr={3} type="submit">
-                  Enregistrer
-                </Button>
-              </ModalFooter>
-            </form>
-          )}
+            <ModalFooter>
+              <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
+                Supprimer
+              </Button>
+              <Button colorScheme="blue" mr={3} type="submit">
+                Enregistrer
+              </Button>
+            </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
 

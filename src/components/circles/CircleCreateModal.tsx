@@ -23,14 +23,9 @@ import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { createCircle } from '../../api/entities/circles'
-import {
-  createRole,
-  roleCreateSchema,
-  useContextRoles,
-} from '../../api/entities/roles'
+import { createRole, roleCreateSchema } from '../../api/entities/roles'
 import { nameSchema } from '../../api/schemas'
-import Loading from '../common/Loading'
-import TextErrors from '../common/TextErrors'
+import { useStoreState } from '../store/hooks'
 
 interface Props extends UseModalProps {
   parentId: string | null
@@ -56,7 +51,8 @@ const schema = yup.object({
 })
 
 export default function CircleCreateModal({ parentId, ...props }: Props) {
-  const [roles, rolesLoading, rolesError] = useContextRoles()
+  const orgId = useStoreState((state) => state.orgs.currentId)
+  const roles = useStoreState((state) => state.roles.entries)
 
   const {
     handleSubmit,
@@ -71,15 +67,16 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
   const roleAction = watch('roleAction')
 
   const onSubmit = handleSubmit(async ({ roleAction, roleId, roleName }) => {
+    if (!orgId) return
     try {
       if (roleAction === RoleAction.New) {
         await roleCreateSchema.validate({ name: roleName })
-        const role = await createRole(roleName)
+        const role = await createRole(orgId, roleName)
         if (!role) throw new Error('Error creating new role')
         roleId = role.id
       }
       if (roleId) {
-        createCircle(roleId, parentId)
+        createCircle(orgId, roleId, parentId)
         props.onClose()
       }
     } catch (error) {
@@ -89,8 +86,12 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
 
   // Init form data
   useEffect(() => {
-    if (roles && roles[0]) {
-      reset({ roleAction: RoleAction.ReUse, roleId: roles[0].id })
+    if (roles) {
+      if (roles[0]) {
+        reset({ roleAction: RoleAction.ReUse, roleId: roles[0].id })
+      } else {
+        reset({ roleAction: RoleAction.New })
+      }
     }
   }, [roles])
 
@@ -130,10 +131,6 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
               {roleAction === RoleAction.ReUse ? (
                 <FormControl>
                   <FormLabel htmlFor="roleId">Rôle à utiliser</FormLabel>
-
-                  <Loading active={rolesLoading} />
-                  <TextErrors errors={[rolesError]} />
-
                   {roles && (
                     <Select name="roleId" ref={register()} autoFocus>
                       {roles?.map((role) => (

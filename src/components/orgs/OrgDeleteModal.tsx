@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
-import { deleteRole } from '../../api/entities/roles'
+import { deleteOrg } from '../../api/entities/orgs'
 import { useStoreState } from '../store/hooks'
 
 interface Props
@@ -19,30 +19,28 @@ interface Props
   onDelete(): void
 }
 
-export default function RoleDeleteModal({ id, onDelete, ...props }: Props) {
-  const getById = useStoreState((state) => state.roles.getById)
-  const role = useMemo(() => getById(id), [getById, id])
+export default function OrgDeleteModal({ id, onDelete, ...props }: Props) {
+  const getById = useStoreState((state) => state.orgs.getById)
+  const org = useMemo(() => getById(id), [getById, id])
 
   const handleDelete = () => {
-    deleteRole(id)
+    deleteOrg(id)
     onDelete()
     props.onClose()
   }
 
-  if (!role) return null
+  if (!org) return null
 
   return (
     <AlertDialog {...props} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un rôle
+            Supprimer une organisation
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>
-              Êtes-vous sûr de vouloir supprimer le rôle {role.name} ?
-            </Text>
+            <Text>Êtes-vous sûr de vouloir supprimer le rôle {org.name} ?</Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>

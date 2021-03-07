@@ -1,31 +1,30 @@
-import { Button, Flex, Wrap, WrapItem } from '@chakra-ui/react'
+import { Flex, Wrap } from '@chakra-ui/react'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { useStoreState } from '../store/hooks'
+import HeaderLink from './HeaderLink'
 
-const HeaderLink: React.FC<{ to: string }> = ({ to, children }) => (
-  <WrapItem>
-    <ReachLink to={to}>
-      <Button colorScheme="gray">{children}</Button>
-    </ReachLink>
-  </WrapItem>
-)
+export default function Header() {
+  const orgId = useStoreState((state) => state.orgs.currentId)
 
-const Header: React.FC = () => (
-  <Flex
-    position="absolute"
-    zIndex="1"
-    top="0"
-    left="0"
-    width="100%"
-    alignItems="center"
-    padding={2}
-  >
-    <Wrap spacing={2}>
-      <HeaderLink to="/">Cercles</HeaderLink>
-      <HeaderLink to="/members">Membres</HeaderLink>
-      <HeaderLink to="/roles">Rôles</HeaderLink>
-    </Wrap>
-  </Flex>
-)
-
-export default Header
+  return (
+    <Flex
+      position="absolute"
+      zIndex="1"
+      top="0"
+      left="0"
+      width="100%"
+      alignItems="center"
+      padding={2}
+    >
+      <Wrap spacing={2}>
+        {orgId && (
+          <>
+            <HeaderLink to={`/orgs/${orgId}`}>Cercles</HeaderLink>
+            <HeaderLink to={`/orgs/${orgId}/members`}>Membres</HeaderLink>
+            <HeaderLink to={`/orgs/${orgId}/roles`}>Rôles</HeaderLink>
+          </>
+        )}
+      </Wrap>
+    </Flex>
+  )
+}

@@ -1,32 +1,45 @@
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import * as yup from 'yup'
 import { getCollection } from '../firebase'
-import { createDataHooks } from '../hooks'
 import { nameSchema } from '../schemas'
 
 export interface Role {
+  orgId: string
   name: string
   purpose: string
   domain: string
   accountabilities: string
 }
 
-export type RoleEntry = Data<Role, 'id', 'id'>
+export type RoleEntry = Role & { id: string }
 export type RoleCreate = Role
 export type RoleUpdate = Partial<Role>
 
 const collection = getCollection<Role>('roles')
 
-// React hooks
-const hooks = createDataHooks<Role, RoleEntry>(collection)
-export const useRoles = hooks.useCollection
-export const useRole = hooks.useDocument
-export const useContextRoles = hooks.useContextCollection
-export const useContextRole = hooks.useContextDocument
-export const RolesProvider = hooks.Provider
+export function subscribeRoles(
+  orgId: string,
+  onData: (roles: RoleEntry[]) => void,
+  onError: (error: Error) => void
+): () => void {
+  return collection.where('orgId', '==', orgId).onSnapshot((querySnapshot) => {
+    const entries = querySnapshot.docs.map((snapshot) => ({
+      id: snapshot.id,
+      ...snapshot.data(),
+    }))
 
-export async function createRole(name: string): Promise<RoleEntry | undefined> {
+    // Sort entries by name
+    entries.sort((a, b) => ((a.name || '') < (b.name || '') ? -1 : 1))
+
+    onData(entries)
+  }, onError)
+}
+
+export async function createRole(
+  orgId: string,
+  name: string
+): Promise<RoleEntry | undefined> {
   const role: Role = {
+    orgId,
     name,
     purpose: '',
     domain: '',

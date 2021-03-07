@@ -16,14 +16,12 @@ import {
   WrapItem,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
-import { useContextMembers } from '../../api/entities/members'
-import Loading from '../common/Loading'
-import TextErrors from '../common/TextErrors'
 import MemberCreateModal from '../members/MemberCreateModal'
 import MemberEditModal from '../members/MemberEditModal'
+import { useStoreState } from '../store/hooks'
 
 export default function MembersPage() {
-  const [members, loading, error] = useContextMembers()
+  const members = useStoreState((state) => state.members.entries)
 
   // Add modal
   const {
@@ -86,9 +84,6 @@ export default function MembersPage() {
           />
         </InputGroup>
       </HStack>
-
-      <Loading active={loading} />
-      <TextErrors errors={[error]} />
 
       {filteredMembers && (
         <Wrap spacing={5}>

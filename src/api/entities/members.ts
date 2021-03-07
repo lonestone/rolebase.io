@@ -1,7 +1,5 @@
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import * as yup from 'yup'
 import { getCollection, storage } from '../firebase'
-import { createDataHooks } from '../hooks'
 import { nameSchema } from '../schemas'
 
 export interface Member {
@@ -9,19 +7,29 @@ export interface Member {
   picture?: string | null
 }
 
-export type MemberEntry = Data<Member, 'id', 'id'>
+export type MemberEntry = Member & { id: string }
 export type MemberCreate = Member
 export type MemberUpdate = Partial<Member>
 
 const collection = getCollection<Member>('members')
 
-// React hooks
-const hooks = createDataHooks<Member, MemberEntry>(collection)
-export const useMembers = hooks.useCollection
-export const useMember = hooks.useDocument
-export const useContextMembers = hooks.useContextCollection
-export const useContextMember = hooks.useContextDocument
-export const MembersProvider = hooks.Provider
+export function subscribeMembers(
+  orgId: string,
+  onData: (members: MemberEntry[]) => void,
+  onError: (error: Error) => void
+): () => void {
+  return collection.onSnapshot((querySnapshot) => {
+    const entries = querySnapshot.docs.map((snapshot) => ({
+      id: snapshot.id,
+      ...snapshot.data(),
+    }))
+
+    // Sort entries by name
+    entries.sort((a, b) => ((a.name || '') < (b.name || '') ? -1 : 1))
+
+    onData(entries)
+  }, onError)
+}
 
 export async function createMember(
   name: string

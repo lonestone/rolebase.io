@@ -6,7 +6,7 @@ import React from 'react'
 const Panel: React.FC = ({ children }) => (
   <Box
     bg="white"
-    borderRadius="0.375rem"
+    rounded="md"
     shadow="md"
     position="absolute"
     top="71px"

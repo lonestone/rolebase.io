@@ -14,14 +14,12 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
-import { useContextRoles } from '../../api/entities/roles'
-import Loading from '../common/Loading'
-import TextErrors from '../common/TextErrors'
 import RoleCreateModal from '../roles/RoleCreateModal'
 import RoleEditModal from '../roles/RoleEditModal'
+import { useStoreState } from '../store/hooks'
 
 export default function RolesPage() {
-  const [roles, rolesLoading, rolesError] = useContextRoles()
+  const roles = useStoreState((state) => state.roles.entries)
 
   // Add modal
   const {
@@ -82,9 +80,6 @@ export default function RolesPage() {
           />
         </InputGroup>
       </HStack>
-
-      <Loading active={rolesLoading} />
-      <TextErrors errors={[rolesError]} />
 
       <Stack direction="column" marginX="-1rem">
         {filteredRoles?.map((role) => (

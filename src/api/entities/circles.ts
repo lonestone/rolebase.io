@@ -1,16 +1,15 @@
 import { nanoid } from 'nanoid'
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types'
 import { getCollection } from '../firebase'
-import { createDataHooks } from '../hooks'
 import { RoleEntry } from './roles'
 
 export interface Circle {
+  orgId: string
   roleId: string
   parentId: string | null
   members: CircleMemberEntry[]
 }
 
-export type CircleEntry = Data<Circle, 'id', 'id'>
+export type CircleEntry = Circle & { id: string }
 export type CircleCreate = Circle
 export type CircleUpdate = Partial<Circle>
 
@@ -29,19 +28,27 @@ export interface CircleMemberEntry extends CircleMember {
 
 const collection = getCollection<Circle>('circles')
 
-// React hooks
-const hooks = createDataHooks<Circle, CircleEntry>(collection)
-export const useCircles = hooks.useCollection
-export const useCircle = hooks.useDocument
-export const useContextCircles = hooks.useContextCollection
-export const useContextCircle = hooks.useContextDocument
-export const CirclesProvider = hooks.Provider
+export function subscribeCircles(
+  orgId: string,
+  onData: (circles: CircleEntry[]) => void,
+  onError: (error: Error) => void
+): () => void {
+  return collection.where('orgId', '==', orgId).onSnapshot((querySnapshot) => {
+    const entries = querySnapshot.docs.map((snapshot) => ({
+      id: snapshot.id,
+      ...snapshot.data(),
+    }))
+    onData(entries)
+  }, onError)
+}
 
 export async function createCircle(
+  orgId: string,
   roleId: string,
   parentId: string | null
 ): Promise<CircleEntry | undefined> {
   const circle: Circle = {
+    orgId,
     roleId,
     parentId,
     members: [],

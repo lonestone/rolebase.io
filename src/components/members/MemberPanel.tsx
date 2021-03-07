@@ -12,13 +12,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
-import { useContextCircles } from '../../api/entities/circles'
-import { useContextMember } from '../../api/entities/members'
-import { useContextRoles } from '../../api/entities/roles'
 import { getCircleRoles } from '../../api/utils'
-import Loading from '../common/Loading'
 import Panel from '../common/Panel'
-import TextErrors from '../common/TextErrors'
+import { useStoreState } from '../store/hooks'
 import MemberEditModal from './MemberEditModal'
 
 interface Props {
@@ -34,9 +30,10 @@ export default function MemberPanel({
   onClose,
   onCircleFocus,
 }: Props) {
-  const [member, memberLoading, memberError] = useContextMember(id)
-  const [roles, rolesLoading, rolesError] = useContextRoles()
-  const [circles, circlesLoading, circlesError] = useContextCircles()
+  const roles = useStoreState((state) => state.roles.entries)
+  const circles = useStoreState((state) => state.circles.entries)
+  const getById = useStoreState((state) => state.members.getById)
+  const member = useMemo(() => getById(id), [getById, id])
 
   const memberCircles = useMemo(() => {
     if (!member || !roles || !circles) return []
@@ -61,59 +58,54 @@ export default function MemberPanel({
     onClose: onEditClose,
   } = useDisclosure()
 
+  if (!member) return null
+
   return (
-    <>
-      <Loading active={memberLoading || rolesLoading || circlesLoading} />
-      <TextErrors errors={[memberError, rolesError, circlesError]} />
+    <Panel>
+      <Heading size="sm" marginBottom={5}>
+        <HStack spacing={5}>
+          <Avatar
+            name={member.name}
+            src={member.picture || undefined}
+            size="lg"
+          />
+          <StackItem>{member.name}</StackItem>
+          <Button onClick={onEditOpen}>
+            <EditIcon />
+          </Button>
+          <Spacer />
+          <CloseButton onClick={onClose} />
+        </HStack>
+      </Heading>
 
-      {member && (
-        <Panel>
-          <Heading size="sm" marginBottom={5}>
-            <HStack spacing={5}>
-              <Avatar
-                name={member.name}
-                src={member.picture || undefined}
-                size="lg"
-              />
-              <StackItem>{member.name}</StackItem>
-              <Button onClick={onEditOpen}>
-                <EditIcon />
-              </Button>
-              <Spacer />
-              <CloseButton onClick={onClose} />
-            </HStack>
-          </Heading>
+      <Heading size="xs">Rôles</Heading>
+      <List styleType="none" marginTop={3} marginBottom={3}>
+        {memberCircles.map((entries) => {
+          const tagColor =
+            highlightCircleId === entries[entries.length - 1].id
+              ? 'yellow'
+              : 'gray'
+          return (
+            <ListItem key={entries[entries.length - 1].id} marginBottom={2}>
+              {entries.map((circle, i) => (
+                <React.Fragment key={circle.id}>
+                  {i !== 0 && <ChevronRightIcon />}
+                  <Button
+                    variant="outline"
+                    colorScheme={tagColor}
+                    size="xs"
+                    onClick={() => onCircleFocus?.(circle.id)}
+                  >
+                    {circle.role?.name || '?'}
+                  </Button>
+                </React.Fragment>
+              ))}
+            </ListItem>
+          )
+        })}
+      </List>
 
-          <Heading size="xs">Rôles</Heading>
-          <List styleType="none" marginTop={3} marginBottom={3}>
-            {memberCircles.map((entries) => {
-              const tagColor =
-                highlightCircleId === entries[entries.length - 1].id
-                  ? 'yellow'
-                  : 'gray'
-              return (
-                <ListItem key={entries[entries.length - 1].id} marginBottom={2}>
-                  {entries.map((circle, i) => (
-                    <React.Fragment key={circle.id}>
-                      {i !== 0 && <ChevronRightIcon />}
-                      <Button
-                        variant="outline"
-                        colorScheme={tagColor}
-                        size="xs"
-                        onClick={() => onCircleFocus?.(circle.id)}
-                      >
-                        {circle.role?.name || '?'}
-                      </Button>
-                    </React.Fragment>
-                  ))}
-                </ListItem>
-              )
-            })}
-          </List>
-
-          <MemberEditModal id={id} isOpen={isEditOpen} onClose={onEditClose} />
-        </Panel>
-      )}
-    </>
+      <MemberEditModal id={id} isOpen={isEditOpen} onClose={onEditClose} />
+    </Panel>
   )
 }
