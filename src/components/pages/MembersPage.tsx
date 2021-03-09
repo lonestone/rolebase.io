@@ -104,7 +104,11 @@ export default function MembersPage() {
         </Wrap>
       )}
 
-      <MemberCreateModal isOpen={isAddOpen} onClose={onAddClose} />
+      <MemberCreateModal
+        isOpen={isAddOpen}
+        onClose={onAddClose}
+        onCreate={(id) => handleOpenEdit(id)}
+      />
 
       {editMemberId && (
         <MemberEditModal

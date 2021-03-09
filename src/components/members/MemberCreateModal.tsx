@@ -22,15 +22,18 @@ import {
   memberCreateSchema,
 } from '../../api/entities/members'
 
-interface Props extends UseModalProps {}
+interface Props extends UseModalProps {
+  onCreate?: (id: string) => void
+}
 
 export default function MemberCreateModal(props: Props) {
   const { handleSubmit, errors, register } = useForm<MemberCreate>({
     resolver: yupResolver(memberCreateSchema),
   })
 
-  const onSubmit = handleSubmit(({ name }) => {
-    createMember(name)
+  const onSubmit = handleSubmit(async ({ name }) => {
+    const member = await createMember(name)
+    props.onCreate?.(member.id)
     props.onClose()
   })
 

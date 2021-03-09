@@ -93,7 +93,12 @@ export default function RolesPage() {
           </Button>
         ))}
       </Stack>
-      <RoleCreateModal isOpen={isAddOpen} onClose={onAddClose} />
+
+      <RoleCreateModal
+        isOpen={isAddOpen}
+        onClose={onAddClose}
+        onCreate={(id) => handleOpenEdit(id)}
+      />
 
       {editRoleId && (
         <RoleEditModal

@@ -23,7 +23,9 @@ import {
 } from '../../api/entities/roles'
 import { useStoreState } from '../store/hooks'
 
-interface Props extends UseModalProps {}
+interface Props extends UseModalProps {
+  onCreate?: (id: string) => void
+}
 
 export default function RoleCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -32,9 +34,10 @@ export default function RoleCreateModal(props: Props) {
     resolver: yupResolver(roleCreateSchema),
   })
 
-  const onSubmit = handleSubmit(({ name }) => {
+  const onSubmit = handleSubmit(async ({ name }) => {
     if (orgId) {
-      createRole(orgId, name)
+      const role = await createRole(orgId, name)
+      props.onCreate?.(role.id)
     }
     props.onClose()
   })
