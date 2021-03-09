@@ -4,7 +4,8 @@ export default {
   memberValue: 10,
   fontSize: 10,
   padding: {
-    circle: 50,
+    circle: 40,
+    membersCircle: 10,
     member: 1,
   },
   zoom: {
