@@ -62,54 +62,60 @@ export default function MemberRoles({
   return (
     <>
       <List styleType="none" marginTop={3} marginBottom={3}>
-        {memberCircles.map((entries) => {
-          const tagColor =
-            highlightCircleId === entries[entries.length - 1].id
-              ? 'yellow'
-              : 'gray'
-          return (
-            <ListItem
-              key={entries[entries.length - 1].id}
-              marginBottom={2}
-              style={{
-                paddingLeft: '20px',
-                textIndent: '-20px',
-                lineHeight: '1.7em',
-              }}
-            >
-              {entries.map((circle, i) => {
-                const last = i === entries.length - 1
-                const variant = last ? 'outline' : 'ghost'
-                const name = circle.role?.name || '?'
-                const fontWeight = last ? 500 : 400
-                return (
-                  <React.Fragment key={circle.id}>
-                    <span style={{ whiteSpace: 'nowrap', textIndent: 0 }}>
-                      {i !== 0 && <ChevronRightIcon />}
-                      <Tag
-                        variant={variant}
-                        colorScheme={tagColor}
-                        size="lg"
-                        borderRadius="full"
-                        fontWeight={fontWeight}
-                        fontSize="inherit"
-                        cursor={onCircleFocus ? 'pointer' : 'default'}
-                        onClick={() => onCircleFocus?.(circle.id)}
-                      >
-                        {name}
-                        {last && (
-                          <TagCloseButton
-                            onClick={() => handleDelete(circle.id)}
-                          />
-                        )}
-                      </Tag>
-                    </span>
-                  </React.Fragment>
-                )
-              })}
-            </ListItem>
-          )
-        })}
+        {memberCircles.length === 0 ? (
+          <ListItem>
+            <em>Aucun</em>
+          </ListItem>
+        ) : (
+          memberCircles.map((entries) => {
+            const tagColor =
+              highlightCircleId === entries[entries.length - 1].id
+                ? 'yellow'
+                : 'gray'
+            return (
+              <ListItem
+                key={entries[entries.length - 1].id}
+                marginBottom={2}
+                style={{
+                  paddingLeft: '20px',
+                  textIndent: '-20px',
+                  lineHeight: '1.7em',
+                }}
+              >
+                {entries.map((circle, i) => {
+                  const last = i === entries.length - 1
+                  const variant = last ? 'outline' : 'ghost'
+                  const name = circle.role?.name || '?'
+                  const fontWeight = last ? 500 : 400
+                  return (
+                    <React.Fragment key={circle.id}>
+                      <span style={{ whiteSpace: 'nowrap', textIndent: 0 }}>
+                        {i !== 0 && <ChevronRightIcon />}
+                        <Tag
+                          variant={variant}
+                          colorScheme={tagColor}
+                          size="lg"
+                          borderRadius="full"
+                          fontWeight={fontWeight}
+                          fontSize="inherit"
+                          cursor={onCircleFocus ? 'pointer' : 'default'}
+                          onClick={() => onCircleFocus?.(circle.id)}
+                        >
+                          {name}
+                          {last && (
+                            <TagCloseButton
+                              onClick={() => handleDelete(circle.id)}
+                            />
+                          )}
+                        </Tag>
+                      </span>
+                    </React.Fragment>
+                  )
+                })}
+              </ListItem>
+            )
+          })
+        )}
       </List>
 
       {circleId && (

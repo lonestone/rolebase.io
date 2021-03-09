@@ -10,11 +10,13 @@ import {
   Spacer,
   StackItem,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import React, { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { CircleUpdate, updateCircle } from '../../api/entities/circles'
 import useCircle from '../../hooks/useCircle'
+import Markdown from '../common/Markdown'
 import Panel from '../common/Panel'
 import RoleEditModal from '../roles/RoleEditModal'
 import { useStoreState } from '../store/hooks'
@@ -77,37 +79,71 @@ export default function CirclePanel({ id, onClose }: Props) {
       <form onSubmit={onSubmit}>
         <Heading size="sm" marginBottom={5}>
           <HStack spacing={5}>
-            <StackItem>{role.name}</StackItem>
+            <StackItem>Cercle {role.name}</StackItem>
             <Spacer />
             <CloseButton onClick={onClose} />
           </HStack>
         </Heading>
 
-        <FormControl marginBottom={5}>
-          <FormLabel htmlFor="roleId">Changer le rôle :</FormLabel>
-          <InputGroup>
-            <Select name="roleId" ref={register()} autoFocus>
-              {roles?.map((role) => (
-                <option key={role.id} value={role.id}>
-                  {role.name}
-                </option>
-              ))}
-            </Select>
-            <Button onClick={onEditRoleOpen}>Editer</Button>
-          </InputGroup>
-        </FormControl>
-
-        <HStack spacing={5}>
-          <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
-            Supprimer
-          </Button>
-          <Spacer />
-          {isDirty && (
-            <Button colorScheme="blue" mr={3} type="submit">
-              Enregistrer
-            </Button>
+        <VStack spacing={5}>
+          {role.purpose && (
+            <FormControl>
+              <FormLabel>Raison d'être :</FormLabel>
+              <Markdown fontSize="xl">{role.purpose}</Markdown>
+            </FormControl>
           )}
-        </HStack>
+
+          {role.domain && (
+            <FormControl>
+              <FormLabel>Domaine :</FormLabel>
+              <Markdown>{role.domain}</Markdown>
+            </FormControl>
+          )}
+
+          {role.accountabilities && (
+            <FormControl>
+              <FormLabel>Redevabilités :</FormLabel>
+              <Markdown>{role.accountabilities}</Markdown>
+            </FormControl>
+          )}
+
+          {role.notes && (
+            <FormControl>
+              <FormLabel>Notes :</FormLabel>
+              <Markdown>{role.notes}</Markdown>
+            </FormControl>
+          )}
+
+          <FormControl>
+            <FormLabel htmlFor="roleId">Rôle :</FormLabel>
+            <InputGroup>
+              <Select name="roleId" ref={register()} autoFocus>
+                {roles?.map((r) => (
+                  <option
+                    key={r.id}
+                    value={r.id}
+                    style={{ fontWeight: r.id === role.id ? 'bold' : 'normal' }}
+                  >
+                    {r.name}
+                  </option>
+                ))}
+              </Select>
+              <Button onClick={onEditRoleOpen}>Editer</Button>
+            </InputGroup>
+            {isDirty && (
+              <Button colorScheme="blue" mt={2} type="submit">
+                Enregistrer
+              </Button>
+            )}
+          </FormControl>
+
+          <HStack spacing={5}>
+            <Spacer />
+            <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
+              Supprimer
+            </Button>
+          </HStack>
+        </VStack>
       </form>
 
       {roleId && (

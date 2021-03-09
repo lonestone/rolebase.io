@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Textarea,
   useDisclosure,
   UseModalProps,
   VStack,
@@ -88,7 +89,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.purpose}>
                   <FormLabel htmlFor="purpose">Raison d'être</FormLabel>
-                  <Input
+                  <Textarea
                     name="purpose"
                     placeholder="But qu'il poursuit..."
                     ref={register}
@@ -101,7 +102,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.domain}>
                   <FormLabel htmlFor="domain">Domaine</FormLabel>
-                  <Input
+                  <Textarea
                     name="domain"
                     placeholder="Ce qu'il est seul à pouvoir faire..."
                     ref={register}
@@ -116,7 +117,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   <FormLabel htmlFor="accountabilities">
                     Redevabilités
                   </FormLabel>
-                  <Input
+                  <Textarea
                     name="accountabilities"
                     placeholder="Ce qu'il doit faire..."
                     ref={register}
@@ -124,6 +125,19 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   />
                   <FormErrorMessage>
                     {errors.accountabilities && errors.accountabilities.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.notes}>
+                  <FormLabel htmlFor="notes">Notes</FormLabel>
+                  <Textarea
+                    name="notes"
+                    placeholder="Notes, liens..."
+                    ref={register}
+                    autoFocus
+                  />
+                  <FormErrorMessage>
+                    {errors.notes && errors.notes.message}
                   </FormErrorMessage>
                 </FormControl>
               </VStack>

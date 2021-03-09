@@ -8,6 +8,7 @@ export interface Role {
   purpose: string
   domain: string
   accountabilities: string
+  notes: string
 }
 
 export type RoleEntry = Role & { id: string }
@@ -44,6 +45,7 @@ export async function createRole(
     purpose: '',
     domain: '',
     accountabilities: '',
+    notes: '',
   }
   const doc = await collection.add(role)
   const snapshot = await doc.get()
