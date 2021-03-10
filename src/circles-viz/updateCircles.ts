@@ -15,7 +15,14 @@ import {
 import { packData } from './packData'
 import selectAppend from './selectAppend'
 import settings from './settings'
-import { Data, NodeData, NodesSelection, NodeType, Zoom } from './types'
+import {
+  Data,
+  DrawEventListener,
+  NodeData,
+  NodesSelection,
+  NodeType,
+  Zoom,
+} from './types'
 
 interface CirclesParams {
   circles: CircleEntry[]
@@ -25,11 +32,21 @@ interface CirclesParams {
   height: number
   events: GraphEvents
   zoom: Zoom
+  addDrawListener: DrawEventListener
 }
 
 export default function updateCircles(
   svgElement: SVGSVGElement,
-  { circles, roles, members, width, height, events, zoom }: CirclesParams
+  {
+    circles,
+    roles,
+    members,
+    width,
+    height,
+    events,
+    zoom,
+    addDrawListener,
+  }: CirclesParams
 ) {
   // Pack data with d3.pack
   const data: Data = {
@@ -73,21 +90,25 @@ export default function updateCircles(
     settings.fontSize + (maxDepth / node.depth) * 2
 
   // Set focus functions
-  const focusCircle = (node: NodeData, instant?: boolean) => {
+  const focusCircle = (
+    node: NodeData,
+    adaptScale?: boolean,
+    instant?: boolean
+  ) => {
     if (node.r > 0) {
-      zoom.to(node.x, node.y, node.r, instant)
+      zoom.to(node.x, node.y, adaptScale ? node.r : 0, instant)
     }
   }
 
-  zoom.focusCircle = (circleId, instant) => {
+  zoom.focusCircle = (circleId, adaptScale, instant) => {
     const circle = nodesMap.find((c) => c.data.id === circleId)
     if (!circle) return
-    zoom.to(circle.x, circle.y, circle.r, instant)
+    zoom.to(circle.x, circle.y, adaptScale ? circle.r : 0, instant)
   }
 
   // Zoom on root circle at first draw
   if (firstDraw) {
-    focusCircle(root, true)
+    focusCircle(root, true, true)
   }
 
   // Add circle groups
@@ -265,7 +286,7 @@ export default function updateCircles(
                 // Click
                 if (clicked) {
                   // Zoom to node
-                  focusCircle(dragNode)
+                  focusCircle(dragNode, true)
 
                   if (dragNode.data.type === NodeType.Circle) {
                     // Click on circle
@@ -296,6 +317,10 @@ export default function updateCircles(
                       events.onCircleCopy?.(dragNode.data.id, targetCircleId)
                     } else if (differentParent) {
                       events.onCircleMove?.(dragNode.data.id, targetCircleId)
+                      addDrawListener(
+                        () => zoom.focusCircle?.(dragNode.data.id),
+                        true
+                      )
                       actionMoved = true
                     }
                   } else if (
@@ -316,6 +341,10 @@ export default function updateCircles(
                         dragNode.data.memberId,
                         dragNode.data.parentCircleId,
                         targetCircleId
+                      )
+                      addDrawListener(
+                        () => zoom.focusCircle?.(dragNode.data.id),
+                        true
                       )
                       actionMoved = true
                     }

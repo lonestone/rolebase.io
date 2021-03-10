@@ -72,42 +72,42 @@ export default function CirclePanel({ id, onClose }: Props) {
     // onClose()
   })
 
-  if (!circle || !role) return null
+  if (!circle) return null
 
   return (
     <Panel>
       <form onSubmit={onSubmit}>
         <Heading size="sm" marginBottom={5}>
           <HStack spacing={5}>
-            <StackItem>Cercle {role.name}</StackItem>
+            <StackItem>Cercle {role?.name || '?'}</StackItem>
             <Spacer />
             <CloseButton onClick={onClose} />
           </HStack>
         </Heading>
 
         <VStack spacing={5}>
-          {role.purpose && (
+          {role?.purpose && (
             <FormControl>
               <FormLabel>Raison d'être :</FormLabel>
               <Markdown fontSize="xl">{role.purpose}</Markdown>
             </FormControl>
           )}
 
-          {role.domain && (
+          {role?.domain && (
             <FormControl>
               <FormLabel>Domaine :</FormLabel>
               <Markdown>{role.domain}</Markdown>
             </FormControl>
           )}
 
-          {role.accountabilities && (
+          {role?.accountabilities && (
             <FormControl>
               <FormLabel>Redevabilités :</FormLabel>
               <Markdown>{role.accountabilities}</Markdown>
             </FormControl>
           )}
 
-          {role.notes && (
+          {role?.notes && (
             <FormControl>
               <FormLabel>Notes :</FormLabel>
               <Markdown>{role.notes}</Markdown>
@@ -122,7 +122,9 @@ export default function CirclePanel({ id, onClose }: Props) {
                   <option
                     key={r.id}
                     value={r.id}
-                    style={{ fontWeight: r.id === role.id ? 'bold' : 'normal' }}
+                    style={{
+                      fontWeight: r.id === role?.id ? 'bold' : 'normal',
+                    }}
                   >
                     {r.name}
                   </option>

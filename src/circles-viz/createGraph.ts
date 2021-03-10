@@ -2,12 +2,13 @@ import { CircleEntry } from '../api/entities/circles'
 import { MemberEntry } from '../api/entities/members'
 import { RoleEntry } from '../api/entities/roles'
 import { initGraph } from './initGraph'
-import { Zoom } from './types'
+import { DrawEventHandler, DrawEventListener, Zoom } from './types'
 import updateAddMenu from './updateAddMenu'
 import updateCircles from './updateCircles'
 
 export interface Graph {
   zoom: Zoom
+  addDrawListener: DrawEventListener
   removeListeners(): void
   update(params: UpdateGraphParams): void
 }
@@ -45,10 +46,18 @@ export function createGraph(
 ): Graph {
   const { zoom, removeListeners } = initGraph(svg, { width, height })
 
+  // Draw event
+  const drawHandlers: Array<DrawEventHandler> = []
+  function addDrawListener(handler: () => void, once = false) {
+    drawHandlers.push({ once, handler })
+  }
+
   return {
     zoom,
+    addDrawListener,
     removeListeners,
     update({ circles, roles, members }) {
+      // Create/update circles and menu
       updateCircles(svg, {
         circles,
         roles,
@@ -57,8 +66,16 @@ export function createGraph(
         height,
         events,
         zoom,
+        addDrawListener,
       })
       updateAddMenu(svg, { members, width, height, events, zoom })
+
+      // Trigger draw events
+      for (let i = drawHandlers.length - 1; i >= 0; i--) {
+        const { once, handler } = drawHandlers[i]
+        handler()
+        if (once) drawHandlers.splice(i, 1)
+      }
     },
   }
 }

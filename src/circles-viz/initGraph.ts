@@ -54,11 +54,13 @@ export function initGraph(
         [(w * 3) / 2, (h * 3) / 2],
       ])
     },
-    to(x, y, radius, instant) {
-      const scale = Math.min(
-        settings.zoom.scaleExtent[1],
-        Math.min(width, height) / (radius * 2)
-      )
+    to(x, y, radius = 0, instant = false) {
+      const scale = radius
+        ? Math.min(
+            settings.zoom.scaleExtent[1],
+            Math.min(width, height) / (radius * 2)
+          )
+        : zoom.scale
       svg
         .transition()
         .duration(instant ? 0 : settings.zoom.duration)

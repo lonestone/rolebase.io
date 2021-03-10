@@ -84,7 +84,7 @@ export default function CirclesPage() {
   // Focus on a circle
   const onCircleFocus = useCallback((circleId: string) => {
     setCircleId(circleId)
-    graphRef.current?.zoom.focusCircle?.(circleId)
+    graphRef.current?.zoom.focusCircle?.(circleId, true)
   }, [])
 
   // Display viz

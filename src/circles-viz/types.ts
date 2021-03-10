@@ -25,7 +25,14 @@ export interface Zoom {
   y: number
   scale: number
   spaceKey: boolean // True when space key is pressed
-  to(x: number, y: number, radius: number, instant?: boolean): void
+  to(x: number, y: number, radius?: number, instant?: boolean): void
   changeExtent(width: number, height: number): void
-  focusCircle?(circleId: string, instant?: boolean): void
+  focusCircle?(circleId: string, adaptScale?: boolean, instant?: boolean): void
+}
+
+export type DrawEventListener = (handler: () => void, once?: boolean) => void
+
+export interface DrawEventHandler {
+  once: boolean
+  handler: () => void
 }
