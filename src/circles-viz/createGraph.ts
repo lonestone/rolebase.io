@@ -2,7 +2,7 @@ import { CircleEntry } from '../api/entities/circles'
 import { MemberEntry } from '../api/entities/members'
 import { RoleEntry } from '../api/entities/roles'
 import { initGraph } from './initGraph'
-import { DrawEventHandler, DrawEventListener, Zoom } from './types'
+import { Dimensions, DrawEventHandler, DrawEventListener, Zoom } from './types'
 import updateAddMenu from './updateAddMenu'
 import updateCircles from './updateCircles'
 
@@ -20,6 +20,8 @@ export interface GraphParams {
 }
 
 export interface UpdateGraphParams {
+  width: number
+  height: number
   circles: CircleEntry[]
   roles: RoleEntry[]
   members: MemberEntry[]
@@ -44,7 +46,8 @@ export function createGraph(
   svg: SVGSVGElement,
   { width, height, events }: GraphParams
 ): Graph {
-  const { zoom, removeListeners } = initGraph(svg, { width, height })
+  const dimensions: Dimensions = { width, height }
+  const { zoom, removeListeners } = initGraph(svg, dimensions)
 
   // Draw event
   const drawHandlers: Array<DrawEventHandler> = []
@@ -56,19 +59,22 @@ export function createGraph(
     zoom,
     addDrawListener,
     removeListeners,
-    update({ circles, roles, members }) {
+    update({ width, height, circles, roles, members }) {
+      // Update dimensions
+      dimensions.width = width
+      dimensions.height = height
+
       // Create/update circles and menu
       updateCircles(svg, {
         circles,
         roles,
         members,
-        width,
-        height,
+        dimensions,
         events,
         zoom,
         addDrawListener,
       })
-      updateAddMenu(svg, { members, width, height, events, zoom })
+      updateAddMenu(svg, { dimensions, members, events, zoom })
 
       // Trigger draw events
       for (let i = drawHandlers.length - 1; i >= 0; i--) {

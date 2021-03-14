@@ -7,8 +7,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
-import { getCircleRoles } from '../../api/utils'
 import useMember from '../../hooks/useMember'
+import { getCircleRoles } from '../../utils/getCircleRoles'
 import CircleMemberDeleteModal from '../circles/CircleMemberDeleteModal'
 import { useStoreState } from '../store/hooks'
 

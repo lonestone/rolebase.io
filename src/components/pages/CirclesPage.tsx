@@ -2,6 +2,7 @@ import { Box, useDisclosure } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import useComponentSize from '@rehooks/component-size'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   addMemberToCircle,
   copyCircle,
@@ -9,6 +10,11 @@ import {
   moveCircleMember,
 } from '../../api/entities/circles'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
+import useOverflowHidden from '../../hooks/useOverflowHidden'
+import {
+  useNavigateToCircle,
+  useNavigateToCircleMember,
+} from '../../utils/navigateToCircle'
 import CircleCreateModal from '../circles/CircleCreateModal'
 import CirclePanel from '../circles/CirclePanel'
 import MemberPanel from '../members/MemberPanel'
@@ -25,6 +31,12 @@ const StyledSVG = styled.svg`
 `
 
 export default function CirclesPage() {
+  useOverflowHidden()
+
+  // Navigation
+  const navigateToCircle = useNavigateToCircle()
+  const navigateToCircleMember = useNavigateToCircleMember()
+
   // Data
   const orgId = useStoreState((state) => state.orgs.currentId)
   const circles = useStoreState((state) => state.circles.entries)
@@ -36,6 +48,7 @@ export default function CirclesPage() {
   const svgRef = useRef<SVGSVGElement>(null)
   const graphRef = useRef<Graph>()
   const { width, height } = useComponentSize(boxRef)
+  const [ready, setReady] = useState(false)
 
   // Add circle modal
   const {
@@ -48,22 +61,6 @@ export default function CirclesPage() {
   const [panel, setPanel] = useState<Panels | undefined>()
   const [circleId, setCircleId] = useState<string | null | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
-
-  // Click on a circle
-  const onCircleClick = useCallback((circleId: string) => {
-    setCircleId(circleId)
-    setPanel(Panels.Circle)
-  }, [])
-
-  // Click on a member in a circle
-  const onCircleMemberClick = useCallback(
-    (circleId: string, memberId: string) => {
-      setCircleId(circleId)
-      setMemberId(memberId)
-      setPanel(Panels.Member)
-    },
-    []
-  )
 
   // Click on a member in add menu
   const onMemberClick = useCallback((memberId: string) => {
@@ -99,24 +96,30 @@ export default function CirclesPage() {
     ) {
       // Init Graph
       if (!graphRef.current) {
-        graphRef.current = createGraph(svgRef.current, {
+        const graph = createGraph(svgRef.current, {
           width,
           height,
           events: {
-            onCircleClick,
+            onCircleClick: navigateToCircle,
             onCircleMove: moveCircle,
             onCircleCopy: copyCircle,
-            onCircleMemberClick,
+            onCircleMemberClick: navigateToCircleMember,
             onMemberClick,
             onMemberMove: moveCircleMember,
             onCircleAdd,
             onMemberAdd: addMemberToCircle,
           },
         })
+
+        // Change ready state after first draw
+        graph.addDrawListener(() => setReady(true), true)
+        graphRef.current = graph
       }
 
       // (Re)-draw graph
       graphRef.current.update({
+        width,
+        height,
         circles,
         roles,
         members,
@@ -128,21 +131,36 @@ export default function CirclesPage() {
     circles,
     width,
     height,
-    onCircleClick,
-    onCircleMemberClick,
+    navigateToCircle,
+    navigateToCircleMember,
     onMemberClick,
     onCircleAdd,
   ])
 
   // Remove SVG listeners on unmount
-  useEffect(
-    () => () => {
-      if (graphRef.current) {
-        graphRef.current.removeListeners()
-      }
-    },
-    []
-  )
+  useEffect(() => () => graphRef.current?.removeListeners(), [])
+
+  // URL Hash params
+  const { hash } = useLocation()
+  useEffect(() => {
+    if (!ready) return
+    const params = new URLSearchParams(hash.substr(1))
+    const circleId = params.get('circleId')
+    if (!circleId) return
+    const memberId = params.get('memberId')
+
+    // Focus circle
+    onCircleFocus(circleId)
+    setCircleId(circleId)
+
+    // Open panel
+    if (memberId) {
+      setMemberId(memberId)
+      setPanel(Panels.Member)
+    } else {
+      setPanel(Panels.Circle)
+    }
+  }, [ready, hash, onCircleFocus])
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">

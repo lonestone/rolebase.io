@@ -20,6 +20,11 @@ export interface Data {
   children?: Array<Data>
 }
 
+export interface Dimensions {
+  width: number
+  height: number
+}
+
 export interface Zoom {
   x: number
   y: number

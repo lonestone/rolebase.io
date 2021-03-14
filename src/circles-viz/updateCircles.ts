@@ -17,6 +17,7 @@ import selectAppend from './selectAppend'
 import settings from './settings'
 import {
   Data,
+  Dimensions,
   DrawEventListener,
   NodeData,
   NodesSelection,
@@ -25,11 +26,10 @@ import {
 } from './types'
 
 interface CirclesParams {
+  dimensions: Dimensions
   circles: CircleEntry[]
   roles: RoleEntry[]
   members: MemberEntry[]
-  width: number
-  height: number
   events: GraphEvents
   zoom: Zoom
   addDrawListener: DrawEventListener
@@ -38,11 +38,10 @@ interface CirclesParams {
 export default function updateCircles(
   svgElement: SVGSVGElement,
   {
+    dimensions,
     circles,
     roles,
     members,
-    width,
-    height,
     events,
     zoom,
     addDrawListener,
@@ -56,7 +55,7 @@ export default function updateCircles(
     name: '',
     children: circlesToD3Data(fixLostCircles(circles), roles, members),
   }
-  const root = packData(data, width, height)
+  const root = packData(data, dimensions.width, dimensions.height)
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
   const firstDraw = !svg.select('.circles').node()
@@ -285,9 +284,6 @@ export default function updateCircles(
 
                 // Click
                 if (clicked) {
-                  // Zoom to node
-                  focusCircle(dragNode, true)
-
                   if (dragNode.data.type === NodeType.Circle) {
                     // Click on circle
                     events.onCircleClick?.(dragNode.data.id)

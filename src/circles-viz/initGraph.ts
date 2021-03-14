@@ -1,11 +1,6 @@
 import * as d3 from 'd3'
 import settings from './settings'
-import { Zoom } from './types'
-
-interface InitParams {
-  width: number
-  height: number
-}
+import { Dimensions, Zoom } from './types'
 
 interface GraphReturn {
   zoom: Zoom
@@ -14,7 +9,7 @@ interface GraphReturn {
 
 export function initGraph(
   svgElement: SVGSVGElement,
-  { width, height }: InitParams
+  dimensions: Dimensions
 ): GraphReturn {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -58,7 +53,7 @@ export function initGraph(
       const scale = radius
         ? Math.min(
             settings.zoom.scaleExtent[1],
-            Math.min(width, height) / (radius * 2)
+            Math.min(dimensions.width, dimensions.height) / (radius * 2)
           )
         : zoom.scale
       svg
@@ -68,7 +63,10 @@ export function initGraph(
         .call(
           zoomBehaviour.transform,
           d3.zoomIdentity
-            .translate(-x * scale + width / 2, -y * scale + height / 2)
+            .translate(
+              -x * scale + dimensions.width / 2,
+              -y * scale + dimensions.height / 2
+            )
             .scale(scale)
         )
     },

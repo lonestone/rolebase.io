@@ -12,14 +12,13 @@ import {
 } from './highlightCircle'
 import selectAppend from './selectAppend'
 import settings from './settings'
-import { NodeData, NodesSelection, NodeType, Zoom } from './types'
+import { Dimensions, NodeData, NodesSelection, NodeType, Zoom } from './types'
 
 const newCircleId = 'new-circle'
 
 interface AddMenuParams {
+  dimensions: Dimensions
   members: MemberEntry[]
-  width: number
-  height: number
   events: GraphEvents
   zoom: Zoom
 }
@@ -38,7 +37,7 @@ function getTotalHeight(membersNumber: number) {
 
 export default function updateAddMenu(
   svgElement: SVGSVGElement,
-  { members, width, height, events, zoom }: AddMenuParams
+  { members, dimensions, events, zoom }: AddMenuParams
 ) {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -68,7 +67,9 @@ export default function updateAddMenu(
 
   // Scroll
   const scrollHeight =
-    getTotalHeight(addMenuData.length) - height + settings.addMenu.marginTop
+    getTotalHeight(addMenuData.length) -
+    dimensions.height +
+    settings.addMenu.marginTop
   let scrollY = 0
   let scrollTransition:
     | Transition<SVGGElement, unknown, null, undefined>
@@ -97,7 +98,7 @@ export default function updateAddMenu(
       'width',
       settings.addMenu.padding * 2 + settings.addMenu.placeholderRadius * 2
     )
-    .attr('height', height - settings.addMenu.marginTop)
+    .attr('height', dimensions.height - settings.addMenu.marginTop)
     .attr('fill', 'rgba(255,255,255,0.4)')
 
   const addMenuScroll = selectAppend(addMenu, 'g', 'add-menu-scroll')

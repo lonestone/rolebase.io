@@ -15,6 +15,7 @@ import {
 import React from 'react'
 import { auth } from '../../api/firebase'
 import useOrg from '../../hooks/useOrg'
+import Search from '../../search/Search'
 import { useStoreState } from '../store/hooks'
 import HeaderLink from './HeaderLink'
 
@@ -52,7 +53,13 @@ export default function Header() {
             <HeaderLink to={`/orgs/${orgId}/roles`}>Rôles</HeaderLink>
           </>
         )}
+
         <Spacer />
+
+        <StackItem pointerEvents="auto">
+          <Search />
+        </StackItem>
+
         <StackItem pointerEvents="auto">
           <Menu>
             <MenuButton as={Button} variant="ghost">
