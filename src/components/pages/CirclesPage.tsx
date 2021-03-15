@@ -1,8 +1,6 @@
 import { Box, useDisclosure } from '@chakra-ui/react'
 import styled from '@emotion/styled'
-import useComponentSize from '@rehooks/component-size'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import {
   addMemberToCircle,
   copyCircle,
@@ -10,15 +8,20 @@ import {
   moveCircleMember,
 } from '../../api/entities/circles'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
+import { useNavigateToCircle } from '../../hooks/useNavigateToCircle'
+import { useNavigateToCircleMember } from '../../hooks/useNavigateToCircleMember'
 import useOverflowHidden from '../../hooks/useOverflowHidden'
-import {
-  useNavigateToCircle,
-  useNavigateToCircleMember,
-} from '../../utils/navigateToCircle'
+import useQueryParams from '../../hooks/useQuery'
+import useWindowSize from '../../hooks/useWindowSize'
 import CircleCreateModal from '../circles/CircleCreateModal'
 import CirclePanel from '../circles/CirclePanel'
 import MemberPanel from '../members/MemberPanel'
 import { useStoreState } from '../store/hooks'
+
+type CirclesPageParams = {
+  circleId: string
+  memberId: string
+}
 
 enum Panels {
   Circle,
@@ -34,6 +37,7 @@ export default function CirclesPage() {
   useOverflowHidden()
 
   // Navigation
+  const queryParams = useQueryParams<CirclesPageParams>()
   const navigateToCircle = useNavigateToCircle()
   const navigateToCircleMember = useNavigateToCircleMember()
 
@@ -47,7 +51,7 @@ export default function CirclesPage() {
   const boxRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
   const graphRef = useRef<Graph>()
-  const { width, height } = useComponentSize(boxRef)
+  const { width, height } = useWindowSize(boxRef)
   const [ready, setReady] = useState(false)
 
   // Add circle modal
@@ -140,27 +144,22 @@ export default function CirclesPage() {
   // Remove SVG listeners on unmount
   useEffect(() => () => graphRef.current?.removeListeners(), [])
 
-  // URL Hash params
-  const { hash } = useLocation()
+  // URL params
   useEffect(() => {
-    if (!ready) return
-    const params = new URLSearchParams(hash.substr(1))
-    const circleId = params.get('circleId')
-    if (!circleId) return
-    const memberId = params.get('memberId')
+    if (!ready || !queryParams.circleId) return
 
     // Focus circle
-    onCircleFocus(circleId)
-    setCircleId(circleId)
+    onCircleFocus(queryParams.circleId)
+    setCircleId(queryParams.circleId)
 
     // Open panel
-    if (memberId) {
-      setMemberId(memberId)
+    if (queryParams.memberId) {
+      setMemberId(queryParams.memberId)
       setPanel(Panels.Member)
     } else {
       setPanel(Panels.Circle)
     }
-  }, [ready, hash, onCircleFocus])
+  }, [ready, queryParams.circleId, queryParams.memberId, onCircleFocus])
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">

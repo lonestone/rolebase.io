@@ -1,10 +1,8 @@
 import { useDisclosure } from '@chakra-ui/react'
 import React, { useCallback, useState } from 'react'
 import MemberEditModal from '../components/members/MemberEditModal'
-import {
-  useNavigateToCircle,
-  useNavigateToCircleMember,
-} from '../utils/navigateToCircle'
+import { useNavigateToCircle } from '../hooks/useNavigateToCircle'
+import { useNavigateToCircleMember } from '../hooks/useNavigateToCircleMember'
 import Combobox from './Combobox'
 
 export default function Search() {
