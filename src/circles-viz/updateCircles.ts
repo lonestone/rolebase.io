@@ -156,7 +156,7 @@ export default function updateCircles(
           .append('clipPath')
           .attr('id', (d) => `clip-${d.data.id}`)
           .append('use')
-          .attr('xlink:href', (d) => `#circle-${d.data.id}`)
+          .attr('href', (d) => `#circle-${d.data.id}`)
 
         // Add circle name
         nodeGroup
@@ -190,7 +190,8 @@ export default function updateCircles(
         nodeGroupMembers
           .append('image')
           .attr('pointer-events', 'none')
-          .attr('xlink:href', (d) => d.data.picture || '')
+          .attr('preserveAspectRatio', 'xMidYMid slice')
+          .attr('href', (d) => d.data.picture || '')
           .attr('clip-path', (d) => `url(#clip-${d.data.id})`)
           .attr('x', (d) => -d.r)
           .attr('y', (d) => -d.r)
@@ -418,6 +419,16 @@ export default function updateCircles(
           .attr('font-size', `${settings.fontSize}px`)
           .text((d) => getFirstname(d.data.name))
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
+
+        // Update member picture
+        nodeUpdateMembers
+          .select('image')
+          .filter(
+            (d, i, elements) =>
+              (elements[i] as Element).getAttribute('href') !==
+              (d.data.picture || '')
+          )
+          .attr('href', (d) => d.data.picture || '')
 
         // Update position
         return nodeUpdate

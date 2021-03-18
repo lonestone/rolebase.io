@@ -128,13 +128,14 @@ export default function updateAddMenu(
           .append('clipPath')
           .attr('id', (d) => `addmenu-clip-${d.id}`)
           .append('use')
-          .attr('xlink:href', (d) => `#addmenu-circle-${d.id}`)
+          .attr('href', (d) => `#addmenu-circle-${d.id}`)
 
         // Add picture
         nodeGroup
           .append('image')
           .attr('pointer-events', 'none')
-          .attr('xlink:href', (d) => d.picture || '')
+          .attr('preserveAspectRatio', 'xMidYMid slice')
+          .attr('href', (d) => d.picture || '')
           .attr('clip-path', (d) => `url(#addmenu-clip-${d.id})`)
           .attr('x', -settings.addMenu.placeholderRadius)
           .attr('y', -settings.addMenu.placeholderRadius)
@@ -287,7 +288,7 @@ export default function updateAddMenu(
         nodeUpdate.select('text').text((d) => getFirstname(d.name))
 
         // Update picture
-        nodeUpdate.select('image').attr('xlink:href', (d) => d.picture || '')
+        nodeUpdate.select('image').attr('href', (d) => d.picture || '')
 
         // Update position
         return nodeUpdate

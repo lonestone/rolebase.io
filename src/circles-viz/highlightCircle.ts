@@ -24,18 +24,19 @@ export function highlightCircle(
   options?: HighlightOptions
 ) {
   if (!options) options = {}
-  const transition = options.transition || getHighlightTransition()
+  const transition: HighlightTransition | NodesSelection = options.instant
+    ? selection
+    : selection.transition(
+        (options.transition || getHighlightTransition()) as any
+      )
 
-  const selectionTransition = selection
-    .transition(transition as any)
-    .select('circle')
-    .attr('r', (d) => d.r + settings.highlight.increaseRadius)
+  const circle = (transition as HighlightTransition).select('circle')
 
   if (options.fade) {
-    selectionTransition.attr('opacity', 0.7)
+    circle.attr('opacity', 0.5)
   }
   if (options.stroke) {
-    selectionTransition.attr('stroke', 'rgba(1,1,1,0.5)')
+    circle.attr('stroke-width', '2px').attr('stroke', 'rgba(1,1,1,0.5)')
   }
 }
 
@@ -44,19 +45,13 @@ export function unhighlightCircle(
   options?: HighlightOptions
 ) {
   if (!options) options = {}
-  let circle: HighlightTransition | NodesSelection = selection.select('circle')
+  const transition: HighlightTransition | NodesSelection = options.instant
+    ? selection
+    : selection.transition(
+        (options.transition || getHighlightTransition()) as any
+      )
 
-  if (!options.instant) {
-    const transition = options.transition || getHighlightTransition()
-    circle
-      .transition(transition as any)
-      .attr('r', (d) => d.r)
-      .attr('opacity', 1)
-      .attr('stroke', 'none')
-  } else {
-    circle
-      .attr('r', (d) => d.r)
-      .attr('opacity', 1)
-      .attr('stroke', 'none')
-  }
+  const circle = (transition as HighlightTransition).select('circle')
+
+  circle.attr('opacity', 1).attr('stroke', 'none')
 }
