@@ -163,14 +163,16 @@ export default function CirclesPage() {
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
-      <StyledSVG
-        ref={svgRef}
-        id={`graph-${orgId}`}
-        width={width}
-        height={height}
-        viewBox={`0 0 ${width} ${height}`}
-        textAnchor="middle"
-      ></StyledSVG>
+      {orgId && (
+        <StyledSVG
+          ref={svgRef}
+          id={`graph-${orgId}`}
+          width={width}
+          height={height}
+          viewBox={`0 0 ${width} ${height}`}
+          textAnchor="middle"
+        ></StyledSVG>
+      )}
 
       {circleId !== undefined && (
         <CircleCreateModal
