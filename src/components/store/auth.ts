@@ -1,20 +1,48 @@
 import { action, Action, thunk, Thunk } from 'easy-peasy'
 import firebase from 'firebase/app'
-import { StoreModel } from '.'
+import { store, StoreModel } from '.'
+import { createUser, subscribeUser, UserEntry } from '../../api/entities/users'
 import { auth } from '../../api/firebase'
 
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 
 export interface AuthModel {
-  user: firebase.User | undefined
+  user: UserEntry | undefined
   loading: boolean
   error: Error | undefined
   signout: Action<AuthModel>
   setLoading: Action<AuthModel, boolean>
   setError: Action<AuthModel, Error>
-  setUser: Action<AuthModel, firebase.User>
+  setUser: Action<AuthModel, UserEntry>
   signinGoogle: Thunk<AuthModel, undefined, any, StoreModel>
+  signinEmail: Thunk<
+    AuthModel,
+    { email: string; password: string },
+    any,
+    StoreModel
+  >
+  signup: Thunk<
+    AuthModel,
+    { name: string; email: string; password: string },
+    any,
+    StoreModel
+  >
 }
+
+// Observe auth state
+let unsubscribeUser: (() => void) | undefined
+auth.onAuthStateChanged((firebaseUser) => {
+  const { setUser, setError, signout } = store.getActions().auth
+  unsubscribeUser?.()
+  unsubscribeUser = undefined
+  if (firebaseUser && firebaseUser.email) {
+    // Fetch user entry
+    unsubscribeUser = subscribeUser(firebaseUser.email, setUser, setError)
+  } else {
+    // Signout
+    signout()
+  }
+})
 
 const model: AuthModel = {
   user: undefined,
@@ -45,7 +73,31 @@ const model: AuthModel = {
     actions.signout()
     actions.setLoading(true)
     try {
+      // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithpopup
       await auth.signInWithPopup(googleAuthProvider)
+    } catch (error) {
+      actions.setError(error)
+    }
+  }),
+
+  signinEmail: thunk(async (actions, { email, password }) => {
+    actions.signout()
+    actions.setLoading(true)
+    try {
+      // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithemailandpassword
+      await auth.signInWithEmailAndPassword(email, password)
+    } catch (error) {
+      actions.setError(error)
+    }
+  }),
+
+  signup: thunk(async (actions, { name, email, password }) => {
+    actions.signout()
+    actions.setLoading(true)
+    try {
+      // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithemailandpassword
+      await auth.createUserWithEmailAndPassword(email, password)
+      await createUser(email, name)
     } catch (error) {
       actions.setError(error)
     }

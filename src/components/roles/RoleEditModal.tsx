@@ -93,7 +93,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     name="purpose"
                     placeholder="But qu'il poursuit..."
                     ref={register}
-                    autoFocus
                   />
                   <FormErrorMessage>
                     {errors.purpose && errors.purpose.message}
@@ -106,7 +105,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     name="domain"
                     placeholder="Ce qu'il est seul à pouvoir faire..."
                     ref={register}
-                    autoFocus
                   />
                   <FormErrorMessage>
                     {errors.domain && errors.domain.message}
@@ -121,7 +119,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     name="accountabilities"
                     placeholder="Ce qu'il doit faire..."
                     ref={register}
-                    autoFocus
                   />
                   <FormErrorMessage>
                     {errors.accountabilities && errors.accountabilities.message}
@@ -134,7 +131,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     name="notes"
                     placeholder="Notes, liens..."
                     ref={register}
-                    autoFocus
                   />
                   <FormErrorMessage>
                     {errors.notes && errors.notes.message}

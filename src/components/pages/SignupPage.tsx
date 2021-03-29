@@ -2,34 +2,34 @@ import { Center, Container, Heading, Link } from '@chakra-ui/react'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 import Loading from '../common/Loading'
-import LoginForm from '../common/LoginForm'
+import SignupForm from '../common/SignupForm'
 import TextErrors from '../common/TextErrors'
 import { useStoreActions, useStoreState } from '../store/hooks'
 
-export default function LoginPage() {
+export default function SignupPage() {
   // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
-  const signinEmail = useStoreActions((actions) => actions.auth.signinEmail)
+  const signup = useStoreActions((actions) => actions.auth.signup)
   const loading = useStoreState((state) => state.auth.loading)
   const error = useStoreState((state) => state.auth.error)
 
   return (
     <Container maxW="sm" marginTop="60px">
       <Heading size="md" mb={5}>
-        Cercles &amp; Roles
+        Inscription
       </Heading>
 
       {/*
         <Button onClick={() => signinGoogle()}>Connexion avec Google</Button>
       */}
 
-      <LoginForm onSubmit={signinEmail} />
+      <SignupForm onSubmit={signup} />
 
       <TextErrors errors={[error]} />
       <Loading active={loading} center />
 
       <Center mt={2}>
-        <Link to="/signup" as={ReachLink} textDecoration="underline">
-          Créer un compte
+        <Link to="/" as={ReachLink} textDecoration="underline">
+          Connexion
         </Link>
       </Center>
     </Container>

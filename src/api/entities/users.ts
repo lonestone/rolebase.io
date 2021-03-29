@@ -1,9 +1,11 @@
 import * as yup from 'yup'
 import { getCollection } from '../firebase'
-import { nameSchema } from '../schemas'
+import { emailSchema, nameSchema } from '../schemas'
 
 export interface User {
   name: string
+  email: string
+  picture?: string
 }
 
 export type UserEntry = User & { id: string }
@@ -12,6 +14,22 @@ export type UserUpdate = Partial<User>
 
 const collection = getCollection<User>('users')
 
+export function subscribeUser(
+  email: string,
+  onData: (user: UserEntry) => void,
+  onError: (error: Error) => void
+): () => void {
+  return collection.where('email', '==', email).onSnapshot((querySnapshot) => {
+    const doc = querySnapshot.docs[0]
+    if (doc) {
+      onData({
+        id: doc.id,
+        ...doc.data(),
+      })
+    }
+  }, onError)
+}
+
 export async function getUser(id: string): Promise<UserEntry | undefined> {
   const snapshot = await collection.doc(id).get()
   const data = snapshot.data()
@@ -19,9 +37,13 @@ export async function getUser(id: string): Promise<UserEntry | undefined> {
   return { id, ...data }
 }
 
-export async function createUser(name: string): Promise<UserEntry> {
+export async function createUser(
+  email: string,
+  name: string
+): Promise<UserEntry> {
   const user: User = {
     name,
+    email,
   }
   const doc = await collection.add(user)
   const snapshot = await doc.get()
@@ -38,8 +60,10 @@ export async function deleteUser(id: string) {
 
 export const userCreateSchema = yup.object().shape({
   name: nameSchema,
+  email: emailSchema,
 })
 
 export const userUpdateSchema = yup.object().shape({
   name: nameSchema,
+  email: emailSchema,
 })

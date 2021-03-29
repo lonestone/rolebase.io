@@ -64,8 +64,8 @@ export default function Header() {
           <Menu>
             <MenuButton as={Button} variant="ghost">
               <Avatar
-                name={user.displayName || '?'}
-                src={user.photoURL || undefined}
+                name={user.name}
+                src={user.picture || undefined}
                 size="sm"
               />
             </MenuButton>
