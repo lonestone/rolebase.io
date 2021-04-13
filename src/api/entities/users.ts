@@ -15,17 +15,14 @@ export type UserUpdate = Partial<User>
 const collection = getCollection<User>('users')
 
 export function subscribeUser(
-  email: string,
+  id: string,
   onData: (user: UserEntry) => void,
   onError: (error: Error) => void
 ): () => void {
-  return collection.where('email', '==', email).onSnapshot((querySnapshot) => {
-    const doc = querySnapshot.docs[0]
-    if (doc) {
-      onData({
-        id: doc.id,
-        ...doc.data(),
-      })
+  return collection.doc(id).onSnapshot((doc) => {
+    const data = doc.data()
+    if (data) {
+      onData({ id, ...data })
     }
   }, onError)
 }
@@ -37,17 +34,8 @@ export async function getUser(id: string): Promise<UserEntry | undefined> {
   return { id, ...data }
 }
 
-export async function createUser(
-  email: string,
-  name: string
-): Promise<UserEntry> {
-  const user: User = {
-    name,
-    email,
-  }
-  const doc = await collection.add(user)
-  const snapshot = await doc.get()
-  return { ...snapshot.data()!, id: doc.id }
+export async function createUser(id: string, user: User) {
+  await collection.doc(id).set(user)
 }
 
 export async function updateUser(id: string, data: UserUpdate) {

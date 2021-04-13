@@ -37,7 +37,7 @@ auth.onAuthStateChanged((firebaseUser) => {
   unsubscribeUser = undefined
   if (firebaseUser && firebaseUser.email) {
     // Fetch user entry
-    unsubscribeUser = subscribeUser(firebaseUser.email, setUser, setError)
+    unsubscribeUser = subscribeUser(firebaseUser.uid, setUser, setError)
   } else {
     // Signout
     signout()
@@ -96,8 +96,15 @@ const model: AuthModel = {
     actions.setLoading(true)
     try {
       // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithemailandpassword
-      await auth.createUserWithEmailAndPassword(email, password)
-      await createUser(email, name)
+      const userCredential = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      )
+      if (!userCredential.user) {
+        throw new Error('No Firebase User from createUserWithEmailAndPassword')
+      }
+
+      await createUser(userCredential.user.uid, { email, name })
     } catch (error) {
       actions.setError(error)
     }

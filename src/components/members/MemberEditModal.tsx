@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -10,7 +11,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   useDisclosure,
@@ -115,21 +115,25 @@ export default function MemberEditModal({ id, ...props }: Props) {
                   </FormErrorMessage>
                 </FormControl>
 
+                <Box w="100%" textAlign="right">
+                  <Button
+                    colorScheme="red"
+                    variant="ghost"
+                    onClick={onDeleteOpen}
+                  >
+                    Supprimer
+                  </Button>
+                  <Button colorScheme="blue" type="submit">
+                    Enregistrer
+                  </Button>
+                </Box>
+
                 <FormControl>
                   <FormLabel>Roles</FormLabel>
                   <MemberRoles id={id} />
                 </FormControl>
               </VStack>
             </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
-                Supprimer
-              </Button>
-              <Button colorScheme="blue" mr={3} type="submit">
-                Enregistrer
-              </Button>
-            </ModalFooter>
           </form>
         </ModalContent>
       </Modal>

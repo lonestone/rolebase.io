@@ -3,8 +3,12 @@ import { getCollection, storage } from '../firebase'
 import { nameSchema } from '../schemas'
 
 export interface Member {
+  orgId: string
   name: string
   picture?: string | null
+  email?: string | null
+  userId?: string | null
+  lastInvitation?: Date | null
 }
 
 export type MemberEntry = Member & { id: string }
@@ -18,7 +22,7 @@ export function subscribeMembers(
   onData: (members: MemberEntry[]) => void,
   onError: (error: Error) => void
 ): () => void {
-  return collection.onSnapshot((querySnapshot) => {
+  return collection.where('orgId', '==', orgId).onSnapshot((querySnapshot) => {
     const entries = querySnapshot.docs.map((snapshot) => ({
       id: snapshot.id,
       ...snapshot.data(),
@@ -31,10 +35,21 @@ export function subscribeMembers(
   }, onError)
 }
 
-export async function createMember(name: string): Promise<MemberEntry> {
-  const member: Member = {
-    name,
-  }
+export async function getMembers(orgId: string): Promise<MemberEntry[]> {
+  const querySnapshot = await collection.where('orgId', '==', orgId).get()
+  return (
+    querySnapshot.docs
+      .map((snapshot) => ({
+        id: snapshot.id,
+        ...snapshot.data(),
+      }))
+      // Sort entries by name
+      .sort((a, b) => ((a.name || '') < (b.name || '') ? -1 : 1))
+  )
+}
+
+export async function createMember(member: Member): Promise<MemberEntry> {
+  delete (member as any).id
   const doc = await collection.add(member)
   const snapshot = await doc.get()
   return { ...snapshot.data()!, id: doc.id }

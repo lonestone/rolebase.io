@@ -56,9 +56,11 @@ export default function Header() {
 
         <Spacer />
 
-        <StackItem pointerEvents="auto">
-          <Search />
-        </StackItem>
+        {org && (
+          <StackItem pointerEvents="auto">
+            <Search />
+          </StackItem>
+        )}
 
         <StackItem pointerEvents="auto">
           <Menu>

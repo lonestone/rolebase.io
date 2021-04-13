@@ -1,8 +1,42 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+
+		// function isAdmin() {
+    //   return exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    // }
+    function isSignedIn() {
+      return request.auth != null;
     }
+    function isOrgAuthorized(orgId) {
+    	return isSignedIn() && request.auth.uid in get(/databases/$(database)/documents/orgs/$(orgId)).data.ownersIds;
+    }
+
+  	match /users/{uid} {
+      allow read, create, update: if isSignedIn() && request.auth.uid == uid;
+      allow delete: if false
+    }
+
+  	match /orgs/{id} {
+      allow create: if isSignedIn();
+      allow read, update: if isSignedIn() && request.auth.uid in resource.data.ownersIds;
+      allow delete: if false
+    }
+
+  	match /members/{id} {
+      allow create: if isOrgAuthorized(request.resource.data.orgId);
+      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+    }
+
+  	match /circles/{id} {
+      allow create: if isOrgAuthorized(request.resource.data.orgId);
+      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+    }
+
+  	match /roles/{id} {
+      allow create: if isOrgAuthorized(request.resource.data.orgId);
+      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+    }
+
   }
 }

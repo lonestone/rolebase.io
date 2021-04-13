@@ -45,6 +45,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
           <Input
             name="name"
             type="name"
+            required
             placeholder="Votre nom..."
             ref={register}
             autoFocus
@@ -59,6 +60,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
           <Input
             name="email"
             type="email"
+            required
             placeholder="Votre adresse email..."
             ref={register}
             autoFocus
@@ -73,6 +75,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
           <Input
             name="password"
             type="password"
+            required
             placeholder="Votre mot de passe..."
             ref={register}
           />

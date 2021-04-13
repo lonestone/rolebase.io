@@ -31,6 +31,7 @@ enum Panels {
 const StyledSVG = styled.svg`
   position: absolute;
   font: 10px sans-serif;
+  fill: #1a202c;
 `
 
 export default function CirclesPage() {

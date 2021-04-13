@@ -1,4 +1,19 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "orgs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ownersIds",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "disabled",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }

@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -8,34 +9,49 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   createMember,
   MemberCreate,
   memberCreateSchema,
+  MemberEntry,
 } from '../../api/entities/members'
+import MembersToCopyList from '../common/MembersToCopyList'
+import { useStoreState } from '../store/hooks'
 
 interface Props extends UseModalProps {
   onCreate?: (id: string) => void
 }
 
 export default function MemberCreateModal(props: Props) {
+  const orgId = useStoreState((state) => state.orgs.currentId)
+
   const { handleSubmit, errors, register } = useForm<MemberCreate>({
     resolver: yupResolver(memberCreateSchema),
   })
 
   const onSubmit = handleSubmit(async ({ name }) => {
-    const member = await createMember(name)
+    if (!orgId) return
+    const member = await createMember({ orgId, name })
     props.onCreate?.(member.id)
     props.onClose()
   })
+
+  const handleCopy = useCallback(
+    async (memberToCopy: MemberEntry) => {
+      if (!orgId) return
+      const member = await createMember({ ...memberToCopy, orgId })
+      props.onCreate?.(member.id)
+      props.onClose()
+    },
+    [orgId]
+  )
 
   return (
     <Modal {...props}>
@@ -58,13 +74,15 @@ export default function MemberCreateModal(props: Props) {
                 {errors.name && errors.name.message}
               </FormErrorMessage>
             </FormControl>
-          </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} type="submit">
-              Créer
-            </Button>
-          </ModalFooter>
+            <Box w="100%" textAlign="right" mt={2}>
+              <Button colorScheme="blue" type="submit">
+                Créer
+              </Button>
+            </Box>
+
+            <MembersToCopyList onClick={handleCopy} />
+          </ModalBody>
         </form>
       </ModalContent>
     </Modal>

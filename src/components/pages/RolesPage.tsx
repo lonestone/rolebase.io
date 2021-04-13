@@ -5,7 +5,6 @@ import {
   Container,
   Heading,
   HStack,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -56,11 +55,9 @@ export default function RolesPage() {
         <Heading as="h2" size="md">
           Rôles
         </Heading>
-        <IconButton
-          aria-label="Ajouter un rôle"
-          icon={<AddIcon />}
-          onClick={onAddOpen}
-        />
+        <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+          Ajouter un rôle
+        </Button>
         <Spacer />
         <InputGroup w="200px">
           <Input

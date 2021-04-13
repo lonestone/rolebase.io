@@ -5,7 +5,6 @@ import {
   Container,
   Heading,
   HStack,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -64,11 +63,9 @@ export default function OrgsPage() {
         <Heading as="h2" size="md">
           Organisations
         </Heading>
-        <IconButton
-          aria-label="Ajouter une organisation"
-          icon={<AddIcon />}
-          onClick={onAddOpen}
-        />
+        <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+          Ajouter une organisation
+        </Button>
         <Spacer />
         <InputGroup w="200px">
           <Input

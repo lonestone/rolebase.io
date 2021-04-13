@@ -12,7 +12,7 @@ export interface GenericModel<Entry> {
   setUnsubscribe: Action<GenericModel<Entry>, () => void>
   setEntries: Action<GenericModel<Entry>, Entry[]>
   unsubscribe: Action<GenericModel<Entry>>
-  subscribe: Thunk<GenericModel<Entry>, { orgId: string }, any, StoreModel>
+  subscribe: Thunk<GenericModel<Entry>, { parentId: string }, any, StoreModel>
   getById: Computed<
     GenericModel<Entry>,
     (id: string) => Entry | undefined,
@@ -67,10 +67,14 @@ export function createModel<Entry extends GenericEntry>(
     }),
 
     // Thunks
-    subscribe: thunk(async (actions, { orgId }) => {
+    subscribe: thunk(async (actions, { parentId }) => {
       actions.reset()
       actions.setLoading(true)
-      const unsubscribe = subscribe(orgId, actions.setEntries, actions.setError)
+      const unsubscribe = subscribe(
+        parentId,
+        actions.setEntries,
+        actions.setError
+      )
       actions.setUnsubscribe(unsubscribe)
     }),
 

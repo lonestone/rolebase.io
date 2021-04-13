@@ -143,7 +143,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
               <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
                 Supprimer
               </Button>
-              <Button colorScheme="blue" mr={3} type="submit">
+              <Button colorScheme="blue" type="submit">
                 Enregistrer
               </Button>
             </ModalFooter>

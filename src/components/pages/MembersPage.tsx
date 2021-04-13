@@ -1,21 +1,20 @@
 import { AddIcon } from '@chakra-ui/icons'
 import {
-  Avatar,
   Button,
   CloseButton,
   Container,
   Heading,
   HStack,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Spacer,
   useDisclosure,
   Wrap,
-  WrapItem,
+  WrapItem
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
+import MemberButton from '../common/MemberButton'
 import MemberCreateModal from '../members/MemberCreateModal'
 import MemberEditModal from '../members/MemberEditModal'
 import { useStoreState } from '../store/hooks'
@@ -60,11 +59,9 @@ export default function MembersPage() {
         <Heading as="h2" size="md">
           Membres
         </Heading>
-        <IconButton
-          aria-label="Ajouter un membre"
-          icon={<AddIcon />}
-          onClick={onAddOpen}
-        />
+        <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+          Ajouter un membre
+        </Button>
         <Spacer />
         <InputGroup w="200px">
           <Input
@@ -89,16 +86,10 @@ export default function MembersPage() {
         <Wrap spacing={5}>
           {filteredMembers.map((member) => (
             <WrapItem key={member.id}>
-              <Button onClick={() => handleOpenEdit(member.id)}>
-                <Avatar
-                  name={member.name}
-                  src={member.picture || undefined}
-                  size="md"
-                  marginLeft="-25px"
-                  marginRight={2}
-                />
-                {member.name}
-              </Button>
+              <MemberButton
+                member={member}
+                onClick={() => handleOpenEdit(member.id)}
+              />
             </WrapItem>
           ))}
         </Wrap>

@@ -66,7 +66,7 @@ export default function RoleCreateModal(props: Props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} type="submit">
+            <Button colorScheme="blue" type="submit">
               Créer
             </Button>
           </ModalFooter>

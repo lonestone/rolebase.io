@@ -1,0 +1,40 @@
+
+Circle
+----
+id PK string
+parentId string NULL FK >- Circle.id
+roleId string FK >- Role.id
+orgId string FK >- Org.id
+members string FK >-< Member.id
+
+Role
+----
+id PK string
+orgId string FK >- Org.id
+name string
+purpose string
+domain string
+accountabilities string
+notes string
+
+User
+----
+id PK string
+name string
+email string NULL
+picture string NULL
+
+Member
+----
+id PK string
+orgId string FK >- Org.id
+name string
+email string NULL
+userId string NULL FK >- User.id
+picture string NULL
+
+Org
+----
+id PK string
+name string
+owbersIds: string FK >-< User.id
