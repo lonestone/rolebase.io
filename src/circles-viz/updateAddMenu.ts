@@ -61,7 +61,10 @@ export default function updateAddMenu(
   }
 
   // Menu to add circles and members
-  const addMenuData = [{ id: newCircleId, name: 'Cercle' }, ...members]
+  const addMenuData: MemberEntry[] = [
+    { id: newCircleId, name: 'Cercle', orgId: '' },
+    ...members,
+  ]
 
   const addMenu = selectAppend(svg, 'g', 'add-menu').raise()
 
@@ -211,8 +214,7 @@ export default function updateAddMenu(
                     highlightCircle(
                       dragTargets.filter((node) => node === targetData),
                       {
-                        fade: false,
-                        stroke: true,
+                        strokeWidth: 2,
                         transition,
                       }
                     )
