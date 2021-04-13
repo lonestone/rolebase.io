@@ -6,8 +6,10 @@ import { NodeData, NodesSelection } from './types'
 type HighlightTransition = Transition<SVGGElement, NodeData, BaseType, unknown>
 
 interface HighlightOptions {
-  fade?: boolean
-  stroke?: boolean
+  opacity?: number
+  strokeWidth?: number
+  strokeColor?: string
+  filter?: string
   instant?: boolean
   transition?: HighlightTransition
 }
@@ -32,11 +34,16 @@ export function highlightCircle(
 
   const circle = (transition as HighlightTransition).select('circle')
 
-  if (options.fade) {
-    circle.attr('opacity', 0.5)
+  if (options.opacity !== undefined) {
+    circle.attr('opacity', options.opacity)
   }
-  if (options.stroke) {
-    circle.attr('stroke-width', '2px').attr('stroke', 'rgba(1,1,1,0.5)')
+  if (options.filter !== undefined) {
+    circle.attr('filter', options.filter)
+  }
+  if (options.strokeWidth !== undefined) {
+    circle
+      .attr('stroke-width', `${options.strokeWidth}px`)
+      .attr('stroke', options.strokeColor || 'rgba(1,1,1,0.5)')
   }
 }
 
@@ -53,5 +60,5 @@ export function unhighlightCircle(
 
   const circle = (transition as HighlightTransition).select('circle')
 
-  circle.attr('opacity', 1).attr('stroke', 'none')
+  circle.attr('opacity', 1).attr('stroke', 'none').attr('filter', 'none')
 }

@@ -142,10 +142,12 @@ export default function updateCircles(
           .attr('cursor', 'pointer')
           // Hover
           .on('mouseover', function () {
-            d3.select(this).attr('filter', `url(#${svgId}-shadow)`)
+            d3.select(this)
+              .attr('stroke-width', '1px')
+              .attr('stroke', 'rgba(1,1,1,0.1)')
           })
           .on('mouseout', function () {
-            d3.select(this).attr('filter', `none`)
+            d3.select(this).attr('stroke', 'none')
           })
           // Animate radius
           .transition(transition as any)
@@ -233,7 +235,9 @@ export default function updateCircles(
                 )
 
                 // Highlight dragged circle
-                highlightCircle(d3.select(this), { fade: true })
+                highlightCircle(d3.select(this), {
+                  filter: `url(#${svgId}-shadow)`,
+                })
               })
               .on('drag', function (event, dragNode) {
                 const dX = event.x - dragOrigin.x
@@ -258,7 +262,7 @@ export default function updateCircles(
                     // Highlight newly targeted circle
                     highlightCircle(
                       dragTargets.filter((node) => node === targetData),
-                      { fade: false, stroke: true, transition }
+                      { strokeWidth: 2, transition }
                     )
                     // Change color of dragged circle
                     dragNodes
