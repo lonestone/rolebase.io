@@ -1,51 +1,29 @@
-import { ChevronRightIcon } from '@chakra-ui/icons'
-import {
-  List,
-  ListItem,
-  Tag,
-  TagCloseButton,
-  useDisclosure,
-} from '@chakra-ui/react'
-import React, { useMemo, useState } from 'react'
-import useMember from '../../hooks/useMember'
+import { Accordion, ExpandedIndex } from '@chakra-ui/react'
+import React, { useCallback, useMemo } from 'react'
 import { getCircleRoles } from '../../utils/getCircleRoles'
-import CircleMemberDeleteModal from '../circles/CircleMemberDeleteModal'
 import { useStoreState } from '../store/hooks'
+import MemberRoleItem from './MemberRoleItem'
 
 interface Props {
-  id: string
-  highlightCircleId?: string
-  onCircleFocus?(circleId: string): void
+  memberId: string
+  selectedCircleId?: string
+  onCircleChange?(circleId: string): void
 }
 
 export default function MemberRoles({
-  id,
-  highlightCircleId,
-  onCircleFocus,
+  memberId,
+  selectedCircleId,
+  onCircleChange,
 }: Props) {
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
-  const member = useMember(id)
-
-  // Delete modal
-  const [circleId, setCircleId] = useState<string | undefined>()
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
-
-  const handleDelete = (circleId: string) => {
-    setCircleId(circleId)
-    onDeleteOpen()
-  }
 
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
-    if (!member || !roles || !circles) return []
+    if (!roles || !circles) return []
     return (
       circles
-        .filter((c) => c.members.some((m) => m.memberId === member.id))
+        .filter((c) => c.members.some((m) => m.memberId === memberId))
         .map((circle) => getCircleRoles(circles, roles, circle.id))
         // Sort by circle ids path
         .sort((a, b) =>
@@ -55,76 +33,46 @@ export default function MemberRoles({
             : 1
         )
     )
-  }, [member, roles, circles])
+  }, [memberId, roles, circles])
 
-  if (!member) return null
+  const selectedCircleIndex = useMemo(
+    () =>
+      memberCircles.findIndex(
+        (mc) => mc[mc.length - 1].id === selectedCircleId
+      ),
+    [memberCircles, selectedCircleId]
+  )
+
+  const handleAccordeonChange = useCallback(
+    (index: ExpandedIndex) => {
+      if (typeof index !== 'number') return
+      const memberCircle = memberCircles[index]
+      if (!memberCircle) return
+      const circle = memberCircle[memberCircle.length - 1]
+      onCircleChange?.(circle.id)
+    },
+    [selectedCircleIndex, memberCircles, onCircleChange]
+  )
 
   return (
     <>
-      <List styleType="none" marginTop={3} marginBottom={3}>
-        {memberCircles.length === 0 ? (
-          <ListItem>
-            <em>Aucun</em>
-          </ListItem>
-        ) : (
-          memberCircles.map((entries) => {
-            const tagColor =
-              highlightCircleId === entries[entries.length - 1].id
-                ? 'yellow'
-                : 'gray'
+      {memberCircles.length === 0 ? (
+        <p>
+          <em>Aucun</em>
+        </p>
+      ) : (
+        <Accordion index={selectedCircleIndex} onChange={handleAccordeonChange}>
+          {memberCircles.map((entries) => {
+            const circle = entries[entries.length - 1]
             return (
-              <ListItem
-                key={entries[entries.length - 1].id}
-                marginBottom={2}
-                style={{
-                  paddingLeft: '20px',
-                  textIndent: '-20px',
-                  lineHeight: '1.7em',
-                }}
-              >
-                {entries.map((circle, i) => {
-                  const last = i === entries.length - 1
-                  const variant = last ? 'outline' : 'ghost'
-                  const name = circle.role?.name || '?'
-                  const fontWeight = last ? 500 : 400
-                  return (
-                    <React.Fragment key={circle.id}>
-                      <span style={{ whiteSpace: 'nowrap', textIndent: 0 }}>
-                        {i !== 0 && <ChevronRightIcon />}
-                        <Tag
-                          variant={variant}
-                          colorScheme={tagColor}
-                          size="lg"
-                          borderRadius="full"
-                          fontWeight={fontWeight}
-                          fontSize="inherit"
-                          cursor={onCircleFocus ? 'pointer' : 'default'}
-                          onClick={() => onCircleFocus?.(circle.id)}
-                        >
-                          {name}
-                          {last && (
-                            <TagCloseButton
-                              onClick={() => handleDelete(circle.id)}
-                            />
-                          )}
-                        </Tag>
-                      </span>
-                    </React.Fragment>
-                  )
-                })}
-              </ListItem>
+              <MemberRoleItem
+                key={circle.id}
+                memberId={memberId}
+                circlesWithRole={entries}
+              />
             )
-          })
-        )}
-      </List>
-
-      {circleId && (
-        <CircleMemberDeleteModal
-          memberId={id}
-          circleId={circleId}
-          isOpen={isDeleteOpen}
-          onClose={onDeleteClose}
-        />
+          })}
+        </Accordion>
       )}
     </>
   )

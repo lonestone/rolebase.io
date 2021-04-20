@@ -8,8 +8,7 @@ import {
   moveCircleMember,
 } from '../../api/entities/circles'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
-import { useNavigateToCircle } from '../../hooks/useNavigateToCircle'
-import { useNavigateToCircleMember } from '../../hooks/useNavigateToCircleMember'
+import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import useOverflowHidden from '../../hooks/useOverflowHidden'
 import useQueryParams from '../../hooks/useQuery'
 import useWindowSize from '../../hooks/useWindowSize'
@@ -39,8 +38,7 @@ export default function CirclesPage() {
 
   // Navigation
   const queryParams = useQueryParams<CirclesPageParams>()
-  const navigateToCircle = useNavigateToCircle()
-  const navigateToCircleMember = useNavigateToCircleMember()
+  const navigateOrg = useNavigateOrg()
 
   // Data
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -67,12 +65,19 @@ export default function CirclesPage() {
   const [circleId, setCircleId] = useState<string | null | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
 
-  // Click on a member in add menu
-  const onMemberClick = useCallback((memberId: string) => {
-    setCircleId(undefined)
-    setMemberId(memberId)
-    setPanel(Panels.Member)
-  }, [])
+  const onMemberClick = useCallback(
+    (memberId: string) => navigateOrg(`?memberId=${memberId}`),
+    []
+  )
+  const onCircleClick = useCallback(
+    (circleId: string) => navigateOrg(`?circleId=${circleId}`),
+    []
+  )
+  const onCircleMemberClick = useCallback(
+    (circleId: string, memberId: string) =>
+      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`),
+    []
+  )
 
   // Add circle
   const onCircleAdd = useCallback(
@@ -105,10 +110,10 @@ export default function CirclesPage() {
           width,
           height,
           events: {
-            onCircleClick: navigateToCircle,
+            onCircleClick,
             onCircleMove: moveCircle,
             onCircleCopy: copyCircle,
-            onCircleMemberClick: navigateToCircleMember,
+            onCircleMemberClick,
             onMemberClick,
             onMemberMove: moveCircleMember,
             onCircleAdd,
@@ -136,9 +141,9 @@ export default function CirclesPage() {
     circles,
     width,
     height,
-    navigateToCircle,
-    navigateToCircleMember,
+    onCircleClick,
     onMemberClick,
+    onCircleMemberClick,
     onCircleAdd,
   ])
 
@@ -147,17 +152,19 @@ export default function CirclesPage() {
 
   // URL params
   useEffect(() => {
-    if (!ready || !queryParams.circleId) return
+    if (!ready) return
 
     // Focus circle
-    onCircleFocus(queryParams.circleId)
-    setCircleId(queryParams.circleId)
+    if (queryParams.circleId) {
+      onCircleFocus(queryParams.circleId)
+      setCircleId(queryParams.circleId)
+    }
 
     // Open panel
     if (queryParams.memberId) {
       setMemberId(queryParams.memberId)
       setPanel(Panels.Member)
-    } else {
+    } else if (queryParams.circleId) {
       setPanel(Panels.Circle)
     }
   }, [ready, queryParams.circleId, queryParams.memberId, onCircleFocus])

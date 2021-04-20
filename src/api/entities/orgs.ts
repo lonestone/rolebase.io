@@ -7,6 +7,7 @@ export interface Org {
   name: string
   ownersIds: string[] // Ids of users that own the organization
   disabled: boolean
+  defaultWorkedMinPerWeek: number
 }
 
 export type OrgEntry = Org & { id: string }
@@ -44,6 +45,7 @@ export async function createOrg(
     name,
     ownersIds: [ownerId],
     disabled: false,
+    defaultWorkedMinPerWeek: 35 * 50,
   }
   const doc = await collection.add(role)
   const snapshot = await doc.get()
@@ -64,4 +66,5 @@ export const orgCreateSchema = yup.object().shape({
 
 export const orgUpdateSchema = yup.object().shape({
   name: nameSchema,
+  defaultWorkedMinPerWeek: yup.number(),
 })

@@ -110,6 +110,14 @@ export default function updateCircles(
     focusCircle(root, true, true)
   }
 
+  function focusCircleAfterDraw(circleId?: string | null) {
+    if (!circleId) return
+    addDrawListener(
+      () => setTimeout(() => zoom.focusCircle?.(circleId), 100),
+      true
+    )
+  }
+
   // Add circle groups
   groupSelection
     .selectAll('.circle')
@@ -282,7 +290,7 @@ export default function updateCircles(
                 }
               })
               .on('end', function (event, dragNode) {
-                const { ctrlKey } = event.sourceEvent
+                const { ctrlKey, metaKey } = event.sourceEvent
                 const clicked =
                   dragOrigin.x === event.x && dragOrigin.y === event.y
                 const transition = getHighlightTransition()
@@ -314,14 +322,12 @@ export default function updateCircles(
                   const differentParent =
                     dragNode.data.parentCircleId !== targetCircleId
                   if (dragNode.data.type === NodeType.Circle) {
-                    if (ctrlKey) {
+                    if (ctrlKey || metaKey) {
                       events.onCircleCopy?.(dragNode.data.id, targetCircleId)
+                      focusCircleAfterDraw(targetCircleId)
                     } else if (differentParent) {
                       events.onCircleMove?.(dragNode.data.id, targetCircleId)
-                      addDrawListener(
-                        () => zoom.focusCircle?.(dragNode.data.id),
-                        true
-                      )
+                      focusCircleAfterDraw(dragNode.data.id)
                       actionMoved = true
                     }
                   } else if (
@@ -330,12 +336,13 @@ export default function updateCircles(
                     dragNode.data.memberId &&
                     differentParent
                   ) {
-                    if (ctrlKey) {
+                    if (ctrlKey || metaKey) {
                       if (targetCircleId) {
                         events.onMemberAdd?.(
                           dragNode.data.memberId,
                           targetCircleId
                         )
+                        focusCircleAfterDraw(targetCircleId)
                       }
                     } else {
                       events.onMemberMove?.(
@@ -343,10 +350,7 @@ export default function updateCircles(
                         dragNode.data.parentCircleId,
                         targetCircleId
                       )
-                      addDrawListener(
-                        () => zoom.focusCircle?.(dragNode.data.id),
-                        true
-                      )
+                      focusCircleAfterDraw(dragNode.data.id)
                       actionMoved = true
                     }
                   }

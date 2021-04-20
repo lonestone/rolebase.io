@@ -86,11 +86,13 @@ export default function Combobox({
 
   return (
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
-      <InputGroup w="200px">
+      <InputGroup>
         <Input
           type="text"
           placeholder="Rechercher..."
           bg="white"
+          w="200px"
+          _focus={{ width: '250px' }}
           onClick={() => openMenu()}
           {...getInputProps()}
         />

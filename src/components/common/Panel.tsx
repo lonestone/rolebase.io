@@ -12,6 +12,8 @@ const Panel: React.FC = ({ children }) => (
     top="71px"
     right="15px"
     width="450px"
+    overflow="auto"
+    maxH="calc(100vh - 71px)"
     p={5}
   >
     {children}

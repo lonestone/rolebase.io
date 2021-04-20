@@ -20,6 +20,7 @@ export interface CircleWithRoleEntry extends CircleEntry {
 // Circle member
 export interface CircleMember {
   memberId: string
+  avgMinPerWeek?: number | null
 }
 
 export interface CircleMemberEntry extends CircleMember {

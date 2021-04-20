@@ -9,6 +9,7 @@ export interface Role {
   domain: string
   accountabilities: string
   notes: string
+  defaultMinPerWeek?: number | null
 }
 
 export type RoleEntry = Role & { id: string }
@@ -69,4 +70,5 @@ export const roleUpdateSchema = yup.object().shape({
   purpose: yup.string(),
   domain: yup.string(),
   accountabilities: yup.string(),
+  defaultMinPerWeek: yup.number().nullable(),
 })

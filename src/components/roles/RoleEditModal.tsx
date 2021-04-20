@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -25,6 +26,7 @@ import {
   updateRole,
 } from '../../api/entities/roles'
 import useRole from '../../hooks/useRole'
+import DurationSelect from '../common/DurationSelect'
 import RoleDeleteModal from './RoleDeleteModal'
 
 interface Props extends UseModalProps {
@@ -40,7 +42,14 @@ export default function RoleEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, reset } = useForm<RoleUpdate>({
+  const {
+    handleSubmit,
+    errors,
+    register,
+    watch,
+    setValue,
+    reset,
+  } = useForm<RoleUpdate>({
     resolver: yupResolver(roleUpdateSchema),
   })
 
@@ -52,9 +61,16 @@ export default function RoleEditModal({ id, ...props }: Props) {
         purpose: role.purpose,
         domain: role.domain,
         accountabilities: role.accountabilities,
+        defaultMinPerWeek: role.defaultMinPerWeek,
       })
     }
   }, [role, props.isOpen])
+
+  // Register duration select
+  const defaultMinPerWeek = watch('defaultMinPerWeek')
+  useEffect(() => {
+    register({ name: 'defaultMinPerWeek' })
+  }, [register])
 
   const onSubmit = handleSubmit((values) => {
     updateRole(id, values)
@@ -134,6 +150,23 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   />
                   <FormErrorMessage>
                     {errors.notes && errors.notes.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.defaultMinPerWeek}>
+                  <FormLabel htmlFor="defaultMinPerWeek">
+                    Temps par défaut
+                  </FormLabel>
+                  <DurationSelect
+                    value={defaultMinPerWeek ?? null}
+                    onChange={(value) => setValue('defaultMinPerWeek', value)}
+                  />
+                  <FormHelperText>
+                    Temps alloué par défaut à chaque membre ayant ce rôle.
+                  </FormHelperText>
+                  <FormErrorMessage>
+                    {errors.defaultMinPerWeek &&
+                      errors.defaultMinPerWeek.message}
                   </FormErrorMessage>
                 </FormControl>
               </VStack>

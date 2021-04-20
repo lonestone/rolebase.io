@@ -9,6 +9,7 @@ export interface Member {
   email?: string | null
   userId?: string | null
   lastInvitation?: Date | null
+  workedMinPerWeek?: number | null
 }
 
 export type MemberEntry = Member & { id: string }
@@ -69,6 +70,7 @@ export const memberCreateSchema = yup.object().shape({
 
 export const memberUpdateSchema = yup.object().shape({
   name: nameSchema,
+  workedMinPerWeek: yup.number().nullable(),
 })
 
 // Upload member picture and return URL

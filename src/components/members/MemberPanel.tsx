@@ -41,7 +41,7 @@ export default function MemberPanel({
 
   return (
     <Panel>
-      <Heading size="sm" marginBottom={5}>
+      <Heading size="sm" mb={5}>
         <HStack spacing={5}>
           <Avatar
             name={member.name}
@@ -57,11 +57,13 @@ export default function MemberPanel({
         </HStack>
       </Heading>
 
-      <Heading size="xs">Rôles</Heading>
+      <Heading as="h3" size="sm" mb={3} ml={4}>
+        Roles
+      </Heading>
       <MemberRoles
-        id={id}
-        highlightCircleId={highlightCircleId}
-        onCircleFocus={onCircleFocus}
+        memberId={id}
+        selectedCircleId={highlightCircleId}
+        onCircleChange={onCircleFocus}
       />
 
       <MemberEditModal id={id} isOpen={isEditOpen} onClose={onEditClose} />

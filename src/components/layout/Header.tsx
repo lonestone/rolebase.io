@@ -14,14 +14,13 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { auth } from '../../api/firebase'
-import useOrg from '../../hooks/useOrg'
+import useCurrentOrg from '../../hooks/useCurrentOrg'
 import Search from '../../search/Search'
 import { useStoreState } from '../store/hooks'
 import HeaderLink from './HeaderLink'
 
 export default function Header() {
-  const orgId = useStoreState((state) => state.orgs.currentId)
-  const org = useOrg(orgId)
+  const org = useCurrentOrg()
   const user = useStoreState((state) => state.auth.user)
 
   if (!user) return null
@@ -48,9 +47,9 @@ export default function Header() {
                 {org.name}
               </Heading>
             </StackItem>
-            <HeaderLink to={`/orgs/${orgId}`}>Cercles</HeaderLink>
-            <HeaderLink to={`/orgs/${orgId}/members`}>Membres</HeaderLink>
-            <HeaderLink to={`/orgs/${orgId}/roles`}>Rôles</HeaderLink>
+            <HeaderLink to={`/orgs/${org.id}`}>Cercles</HeaderLink>
+            <HeaderLink to={`/orgs/${org.id}/members`}>Membres</HeaderLink>
+            <HeaderLink to={`/orgs/${org.id}/roles`}>Rôles</HeaderLink>
           </>
         )}
 

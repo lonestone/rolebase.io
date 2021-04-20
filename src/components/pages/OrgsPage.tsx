@@ -59,18 +59,21 @@ export default function OrgsPage() {
 
   return (
     <Container maxW="3xl" marginTop="60px">
-      <HStack spacing={10} margin="30px 0">
+      <HStack margin="30px 0">
         <Heading as="h2" size="md">
           Organisations
         </Heading>
+        <Spacer />
         <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
           Ajouter une organisation
         </Button>
         <Spacer />
-        <InputGroup w="200px">
+        <InputGroup w="auto">
           <Input
             type="text"
             placeholder="Rechercher..."
+            w="200px"
+            _focus={{ width: '250px' }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -93,7 +96,13 @@ export default function OrgsPage() {
         <Wrap spacing={5}>
           {filteredOrgs.map((org) => (
             <WrapItem key={org.id}>
-              <LinkBox w="xs" p="5" borderWidth="1px" rounded="md">
+              <LinkBox
+                w="xs"
+                p="5"
+                borderWidth="1px"
+                rounded="md"
+                _hover={{ background: '#fafafa' }}
+              >
                 <Heading size="md" my="2">
                   <HStack>
                     <LinkOverlay as={ReachLink} to={`/orgs/${org.id}`}>

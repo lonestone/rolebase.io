@@ -18,7 +18,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   MemberUpdate,
@@ -26,22 +26,23 @@ import {
   updateMember,
   uploadPicture,
 } from '../../api/entities/members'
+import useCurrentOrg from '../../hooks/useCurrentOrg'
 import useMember from '../../hooks/useMember'
+import { useNavigateOrg } from '../../hooks/useNavigateOrg'
+import DurationSelect from '../common/DurationSelect'
 import MemberDeleteModal from './MemberDeleteModal'
-import MemberRoles from './MemberRoles'
 
 interface Props extends UseModalProps {
   id: string
 }
 
-interface Values {
-  name: string
-  picture: string
+interface Values extends MemberUpdate {
   pictureFiles: FileList
 }
 
 export default function MemberEditModal({ id, ...props }: Props) {
   const member = useMember(id)
+  const org = useCurrentOrg()
 
   const {
     isOpen: isDeleteOpen,
@@ -49,7 +50,14 @@ export default function MemberEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, reset } = useForm<Values>({
+  const {
+    handleSubmit,
+    errors,
+    register,
+    watch,
+    setValue,
+    reset,
+  } = useForm<Values>({
     resolver: yupResolver(memberUpdateSchema),
   })
   const [picture, setPicture] = useState<string | undefined | null>()
@@ -57,14 +65,21 @@ export default function MemberEditModal({ id, ...props }: Props) {
   // Init form data
   useEffect(() => {
     if (member && props.isOpen) {
-      reset({ name: member.name })
+      reset({
+        name: member.name,
+        workedMinPerWeek: member.workedMinPerWeek,
+      })
       setPicture(member.picture)
     }
   }, [member, props.isOpen])
 
-  const onSubmit = handleSubmit(async ({ name, pictureFiles }) => {
-    const memberUpdate: MemberUpdate = { name }
+  // Register duration select
+  const workedMinPerWeek = watch('workedMinPerWeek')
+  useEffect(() => {
+    register({ name: 'workedMinPerWeek' })
+  }, [register])
 
+  const onSubmit = handleSubmit(async ({ pictureFiles, ...memberUpdate }) => {
     // Upload picture
     if (pictureFiles && pictureFiles[0]) {
       memberUpdate.picture = await uploadPicture(id, pictureFiles[0])
@@ -75,6 +90,13 @@ export default function MemberEditModal({ id, ...props }: Props) {
     await updateMember(id, memberUpdate)
     props.onClose()
   })
+
+  // Go to member panel with roles
+  const navigateOrg = useNavigateOrg()
+  const navigateToMember = useCallback(() => {
+    props.onClose()
+    navigateOrg(`?memberId=${id}`)
+  }, [id])
 
   if (!member) return null
 
@@ -115,7 +137,28 @@ export default function MemberEditModal({ id, ...props }: Props) {
                   </FormErrorMessage>
                 </FormControl>
 
+                <FormControl isInvalid={!!errors.workedMinPerWeek}>
+                  <FormLabel htmlFor="workedMinPerWeek">
+                    Temps de travail pour l'organisation
+                  </FormLabel>
+                  <DurationSelect
+                    placeholderValue={org?.defaultWorkedMinPerWeek}
+                    value={workedMinPerWeek ?? null}
+                    onChange={(value) => setValue('workedMinPerWeek', value)}
+                  />
+                  <FormErrorMessage>
+                    {errors.workedMinPerWeek && errors.workedMinPerWeek.message}
+                  </FormErrorMessage>
+                </FormControl>
+
                 <Box w="100%" textAlign="right">
+                  <Button
+                    colorScheme="blue"
+                    variant="ghost"
+                    onClick={navigateToMember}
+                  >
+                    Voir les rôles
+                  </Button>
                   <Button
                     colorScheme="red"
                     variant="ghost"
@@ -127,11 +170,6 @@ export default function MemberEditModal({ id, ...props }: Props) {
                     Enregistrer
                   </Button>
                 </Box>
-
-                <FormControl>
-                  <FormLabel>Roles</FormLabel>
-                  <MemberRoles id={id} />
-                </FormControl>
               </VStack>
             </ModalBody>
           </form>

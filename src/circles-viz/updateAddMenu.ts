@@ -12,7 +12,14 @@ import {
 } from './highlightCircle'
 import selectAppend from './selectAppend'
 import settings from './settings'
-import { Dimensions, NodeData, NodesSelection, NodeType, Zoom } from './types'
+import {
+  Dimensions,
+  DrawEventListener,
+  NodeData,
+  NodesSelection,
+  NodeType,
+  Zoom,
+} from './types'
 
 const newCircleId = 'new-circle'
 
@@ -21,6 +28,7 @@ interface AddMenuParams {
   members: MemberEntry[]
   events: GraphEvents
   zoom: Zoom
+  addDrawListener: DrawEventListener
 }
 
 function getNodeType(data: MemberEntry) {
@@ -37,7 +45,7 @@ function getTotalHeight(membersNumber: number) {
 
 export default function updateAddMenu(
   svgElement: SVGSVGElement,
-  { members, dimensions, events, zoom }: AddMenuParams
+  { members, dimensions, events, zoom, addDrawListener }: AddMenuParams
 ) {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -250,6 +258,14 @@ export default function updateAddMenu(
                     events.onCircleAdd?.(targetCircleId) || false
                   } else if (targetCircleId) {
                     events.onMemberAdd?.(dragNode.id, targetCircleId)
+                  }
+
+                  // Focus parent circle
+                  if (targetCircleId) {
+                    addDrawListener(
+                      () => zoom.focusCircle?.(targetCircleId),
+                      true
+                    )
                   }
 
                   // Unhighlight target circle

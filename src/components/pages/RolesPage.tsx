@@ -51,18 +51,21 @@ export default function RolesPage() {
 
   return (
     <Container maxW="xl" marginTop="60px">
-      <HStack spacing={10} margin="30px 0">
+      <HStack margin="30px 0">
         <Heading as="h2" size="md">
           Rôles
         </Heading>
-        <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+        <Spacer />
+        <Button ml="2em" leftIcon={<AddIcon />} onClick={onAddOpen}>
           Ajouter un rôle
         </Button>
         <Spacer />
-        <InputGroup w="200px">
+        <InputGroup w="auto">
           <Input
             type="text"
             placeholder="Rechercher..."
+            w="200px"
+            _focus={{ width: '250px' }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />

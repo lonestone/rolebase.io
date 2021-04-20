@@ -11,7 +11,7 @@ import {
   Spacer,
   useDisclosure,
   Wrap,
-  WrapItem
+  WrapItem,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import MemberButton from '../common/MemberButton'
@@ -55,18 +55,21 @@ export default function MembersPage() {
 
   return (
     <Container maxW="3xl" marginTop="60px">
-      <HStack spacing={10} margin="30px 0">
+      <HStack margin="30px 0">
         <Heading as="h2" size="md">
           Membres
         </Heading>
+        <Spacer />
         <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
           Ajouter un membre
         </Button>
         <Spacer />
-        <InputGroup w="200px">
+        <InputGroup w="auto">
           <Input
             type="text"
             placeholder="Rechercher..."
+            w="200px"
+            _focus={{ width: '250px' }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />

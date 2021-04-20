@@ -1,13 +1,11 @@
 import { useDisclosure } from '@chakra-ui/react'
 import React, { useCallback, useState } from 'react'
 import MemberEditModal from '../components/members/MemberEditModal'
-import { useNavigateToCircle } from '../hooks/useNavigateToCircle'
-import { useNavigateToCircleMember } from '../hooks/useNavigateToCircleMember'
+import { useNavigateOrg } from '../hooks/useNavigateOrg'
 import Combobox from './Combobox'
 
 export default function Search() {
-  const handleCircleSelected = useNavigateToCircle()
-  const handleCircleMemberSelected = useNavigateToCircleMember()
+  const navigateOrg = useNavigateOrg()
 
   // Member edit modal
   const [editMemberId, setEditMemberId] = useState<string | undefined>()
@@ -21,6 +19,15 @@ export default function Search() {
     setEditMemberId(memberId)
     onEditOpen()
   }, [])
+  const handleCircleSelected = useCallback(
+    (memberId: string) => navigateOrg(`?memberId=${memberId}`),
+    []
+  )
+  const handleCircleMemberSelected = useCallback(
+    (circleId: string, memberId: string) =>
+      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`),
+    []
+  )
 
   return (
     <>

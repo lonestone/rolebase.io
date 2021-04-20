@@ -60,10 +60,12 @@ export default function CirclePanel({ id, onClose }: Props) {
 
   const roleId = watch('roleId')
 
+  const handleReset = () => circle && reset({ roleId: circle.roleId })
+
   // Init form data
   useEffect(() => {
     if (circle) {
-      reset({ roleId: circle.roleId })
+      handleReset()
     }
   }, [circle])
 
@@ -133,9 +135,14 @@ export default function CirclePanel({ id, onClose }: Props) {
               <Button onClick={onEditRoleOpen}>Editer</Button>
             </InputGroup>
             {isDirty && (
-              <Button colorScheme="blue" mt={2} type="submit">
-                Enregistrer
-              </Button>
+              <>
+                <Button colorScheme="blue" mt={2} type="submit">
+                  Enregistrer
+                </Button>
+                <Button variant="ghost" mt={2} onClick={handleReset}>
+                  Annuler
+                </Button>
+              </>
             )}
           </FormControl>
 
