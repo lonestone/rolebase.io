@@ -12,6 +12,7 @@ import {
 import React from 'react'
 import { deleteCircle } from '../../api/entities/circles'
 import useCircle from '../../hooks/useCircle'
+import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
@@ -20,12 +21,18 @@ interface Props
 }
 
 export default function CircleDeleteModal({ id, onDelete, ...props }: Props) {
+  const navigateOrg = useNavigateOrg()
   const circle = useCircle(id)
 
   const handleDelete = () => {
     deleteCircle(id)
     onDelete?.()
     props.onClose()
+    setTimeout(
+      () =>
+        navigateOrg(circle?.parentId ? `?circleId=${circle?.parentId}` : ''),
+      1000
+    )
   }
 
   if (!circle) return null

@@ -25,6 +25,7 @@ import * as yup from 'yup'
 import { createCircle } from '../../api/entities/circles'
 import { createRole, roleCreateSchema } from '../../api/entities/roles'
 import { nameSchema } from '../../api/schemas'
+import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import { useStoreState } from '../store/hooks'
 
 interface Props extends UseModalProps {
@@ -51,6 +52,7 @@ const schema = yup.object({
 })
 
 export default function CircleCreateModal({ parentId, ...props }: Props) {
+  const navigateOrg = useNavigateOrg()
   const orgId = useStoreState((state) => state.orgs.currentId)
   const roles = useStoreState((state) => state.roles.entries)
 
@@ -76,8 +78,9 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
         roleId = role.id
       }
       if (roleId) {
-        createCircle(orgId, roleId, parentId)
         props.onClose()
+        const circle = await createCircle(orgId, roleId, parentId)
+        navigateOrg(`?circleId=${circle.id}`)
       }
     } catch (error) {
       console.error(error)

@@ -1,9 +1,10 @@
+import { AddIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import {
   Button,
+  Center,
   CloseButton,
   FormControl,
   FormLabel,
-  Heading,
   HStack,
   InputGroup,
   Select,
@@ -11,15 +12,21 @@ import {
   StackItem,
   useDisclosure,
   VStack,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react'
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { CircleUpdate, updateCircle } from '../../api/entities/circles'
-import useCircle from '../../hooks/useCircle'
+import { MemberEntry } from '../../api/entities/members'
+import useCircleAndParents from '../../hooks/useCircleAndParents'
+import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import Markdown from '../common/Markdown'
+import MemberButton from '../common/MemberButton'
 import Panel from '../common/Panel'
 import RoleEditModal from '../roles/RoleEditModal'
 import { useStoreState } from '../store/hooks'
+import CircleCreateModal from './CircleCreateModal'
 import CircleDeleteModal from './CircleDeleteModal'
 
 interface Props {
@@ -28,13 +35,30 @@ interface Props {
 }
 
 export default function CirclePanel({ id, onClose }: Props) {
+  const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
-  const circle = useCircle(id)
+  const circleAndParents = useCircleAndParents(id)
+  const circle = circleAndParents?.[circleAndParents.length - 1]
+  const role = circle?.role
 
-  const role = useMemo(() => {
-    if (!circle || !roles) return undefined
-    return roles.find((r) => r.id === circle.roleId)
-  }, [circle, roles])
+  // Get members
+  const members = useStoreState((state) => state.members.entries)
+  const circleMembers = useMemo(
+    () =>
+      circle?.members
+        .map((e) => members?.find((m) => m.id === e.memberId))
+        .filter(Boolean) as MemberEntry[] | undefined,
+    [circle?.members, members]
+  )
+
+  // Get direct circles children and their roles
+  const childrenCirclesAndRoles = useMemo(
+    () =>
+      circles
+        ?.filter((c) => c.parentId === id)
+        .map((c) => ({ ...c, role: roles?.find((r) => r.id === c.roleId) })),
+    [circles, roles, id]
+  )
 
   // Role edit modal
   const {
@@ -48,6 +72,13 @@ export default function CirclePanel({ id, onClose }: Props) {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
+  } = useDisclosure()
+
+  // Add circle modal
+  const {
+    isOpen: isCreateCircleOpen,
+    onOpen: onCreateCircleOpen,
+    onClose: onCreateCircleClose,
   } = useDisclosure()
 
   const {
@@ -74,18 +105,53 @@ export default function CirclePanel({ id, onClose }: Props) {
     // onClose()
   })
 
+  // Go to circle panel
+  const navigateOrg = useNavigateOrg()
+  const navigateToCircle = useCallback(
+    (circleId: string) => {
+      navigateOrg(`?circleId=${circleId}`)
+    },
+    [id]
+  )
+  const navigateToCircleMember = useCallback(
+    (circleId: string, memberId: string) => {
+      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`)
+    },
+    [id]
+  )
+
   if (!circle) return null
 
   return (
     <Panel>
       <form onSubmit={onSubmit}>
-        <Heading size="sm" marginBottom={5}>
-          <HStack spacing={5}>
-            <StackItem>Cercle {role?.name || '?'}</StackItem>
-            <Spacer />
-            <CloseButton onClick={onClose} />
-          </HStack>
-        </Heading>
+        <HStack spacing={5} mb={5}>
+          <StackItem
+            maxW="80%"
+            style={{ textIndent: '-1em', marginLeft: '0.4em' }}
+          >
+            {circleAndParents?.map((c, i) => {
+              const last = i === circleAndParents.length - 1
+              return (
+                <span key={c.id}>
+                  <Button
+                    variant={last ? 'solid' : 'ghost'}
+                    size={last ? 'md' : 'sm'}
+                    borderRadius="full"
+                    fontWeight={last ? 600 : 400}
+                    ml={last ? '0.3em' : 0}
+                    onClick={() => navigateToCircle(c.id)}
+                  >
+                    {c.role?.name || '?'}
+                  </Button>
+                  {!last && <ChevronRightIcon margin="0 -0.3em" />}
+                </span>
+              )
+            }) || null}
+          </StackItem>
+          <Spacer />
+          <CloseButton onClick={onClose} />
+        </HStack>
 
         <VStack spacing={5}>
           {role?.purpose && (
@@ -146,12 +212,57 @@ export default function CirclePanel({ id, onClose }: Props) {
             )}
           </FormControl>
 
-          <HStack spacing={5}>
-            <Spacer />
+          <Center>
             <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
-              Supprimer
+              Supprimer le cercle
             </Button>
-          </HStack>
+          </Center>
+
+          <FormControl>
+            <FormLabel>Sous-Cercles :</FormLabel>
+            <Wrap spacing={2}>
+              {childrenCirclesAndRoles?.map((c) => (
+                <WrapItem>
+                  <Button
+                    key={c.id}
+                    variant="solid"
+                    size="sm"
+                    borderRadius="full"
+                    onClick={() => navigateToCircle(c.id)}
+                  >
+                    {c.role?.name || '?'}
+                  </Button>
+                </WrapItem>
+              ))}
+              <WrapItem>
+                <Button
+                  variant="solid"
+                  size="sm"
+                  borderRadius="full"
+                  leftIcon={<AddIcon />}
+                  onClick={onCreateCircleOpen}
+                >
+                  Ajouter un cercle
+                </Button>
+              </WrapItem>
+            </Wrap>
+          </FormControl>
+
+          {circleMembers && circleMembers.length !== 0 && (
+            <FormControl>
+              <FormLabel>Membres :</FormLabel>
+              <Wrap spacing={2}>
+                {circleMembers?.map((m) => (
+                  <WrapItem>
+                    <MemberButton
+                      member={m}
+                      onClick={() => navigateToCircleMember(circle.id, m.id)}
+                    />
+                  </WrapItem>
+                ))}
+              </Wrap>
+            </FormControl>
+          )}
         </VStack>
       </form>
 
@@ -165,9 +276,14 @@ export default function CirclePanel({ id, onClose }: Props) {
 
       <CircleDeleteModal
         id={id}
-        onDelete={onClose}
         isOpen={isDeleteOpen}
         onClose={onDeleteClose}
+      />
+
+      <CircleCreateModal
+        parentId={id}
+        isOpen={isCreateCircleOpen}
+        onClose={onCreateCircleClose}
       />
     </Panel>
   )

@@ -71,8 +71,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                   <Text
                     display="inline"
                     whiteSpace="nowrap"
-                    textIndent="0"
-                    fontWeight={last ? 500 : 400}
+                    fontWeight={last ? 600 : 400}
                     key={circle.id}
                   >
                     {i !== 0 && <ChevronRightIcon margin="0 0.2em" />}
