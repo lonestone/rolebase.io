@@ -8,6 +8,7 @@ export default function incrementalSearch<Item>(
   getItemValue: (item: Item) => string,
   searchValue: string
 ): Item[] {
+  if (searchValue === '') return []
   return items
     .map((item) => {
       const value = getItemValue(item)

@@ -9,8 +9,9 @@ import {
   StackItem,
   useDisclosure,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useCallback } from 'react'
 import useMember from '../../hooks/useMember'
+import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import Panel from '../common/Panel'
 import MemberEditModal from './MemberEditModal'
 import MemberRoles from './MemberRoles'
@@ -19,15 +20,9 @@ interface Props {
   id: string
   highlightCircleId?: string
   onClose(): void
-  onCircleFocus?(circleId: string): void
 }
 
-export default function MemberPanel({
-  id,
-  highlightCircleId,
-  onClose,
-  onCircleFocus,
-}: Props) {
+export default function MemberPanel({ id, highlightCircleId, onClose }: Props) {
   const member = useMember(id)
 
   // Edit modal
@@ -36,6 +31,15 @@ export default function MemberPanel({
     onOpen: onEditOpen,
     onClose: onEditClose,
   } = useDisclosure()
+
+  // Go to circle panel
+  const navigateOrg = useNavigateOrg()
+  const handleCircleChange = useCallback(
+    (circleId: string) => {
+      navigateOrg(`?circleId=${circleId}&memberId=${id}`)
+    },
+    [id]
+  )
 
   if (!member) return null
 
@@ -63,7 +67,7 @@ export default function MemberPanel({
       <MemberRoles
         memberId={id}
         selectedCircleId={highlightCircleId}
-        onCircleChange={onCircleFocus}
+        onCircleChange={handleCircleChange}
       />
 
       <MemberEditModal id={id} isOpen={isEditOpen} onClose={onEditClose} />

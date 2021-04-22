@@ -107,17 +107,14 @@ export default function CirclePanel({ id, onClose }: Props) {
 
   // Go to circle panel
   const navigateOrg = useNavigateOrg()
-  const navigateToCircle = useCallback(
-    (circleId: string) => {
-      navigateOrg(`?circleId=${circleId}`)
-    },
-    [id]
-  )
+  const navigateToCircle = useCallback((circleId: string) => {
+    navigateOrg(`?circleId=${circleId}`)
+  }, [])
   const navigateToCircleMember = useCallback(
     (circleId: string, memberId: string) => {
       navigateOrg(`?circleId=${circleId}&memberId=${memberId}`)
     },
-    [id]
+    []
   )
 
   if (!circle) return null

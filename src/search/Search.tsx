@@ -20,7 +20,7 @@ export default function Search() {
     onEditOpen()
   }, [])
   const handleCircleSelected = useCallback(
-    (memberId: string) => navigateOrg(`?memberId=${memberId}`),
+    (memberId: string) => navigateOrg(`?circleId=${memberId}`),
     []
   )
   const handleCircleMemberSelected = useCallback(

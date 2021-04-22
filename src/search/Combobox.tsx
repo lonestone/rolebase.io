@@ -68,7 +68,7 @@ export default function Combobox({
     []
   )
 
-  const [inputItems, setInputItems] = useState(items)
+  const [inputItems, setInputItems] = useState<SearchItem[]>([])
   const {
     isOpen,
     getMenuProps,

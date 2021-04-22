@@ -88,12 +88,6 @@ export default function CirclesPage() {
     [onCreateCircleOpen]
   )
 
-  // Focus on a circle
-  const onCircleFocus = useCallback((circleId: string) => {
-    setCircleId(circleId)
-    graphRef.current?.zoom.focusCircle?.(circleId, true)
-  }, [])
-
   // Display viz
   useEffect(() => {
     if (
@@ -156,7 +150,7 @@ export default function CirclesPage() {
 
     // Focus circle
     if (queryParams.circleId) {
-      onCircleFocus(queryParams.circleId)
+      graphRef.current?.zoom.focusCircle?.(queryParams.circleId, true)
       setCircleId(queryParams.circleId)
     }
 
@@ -167,7 +161,7 @@ export default function CirclesPage() {
     } else if (queryParams.circleId) {
       setPanel(Panels.Circle)
     }
-  }, [ready, queryParams.circleId, queryParams.memberId, onCircleFocus])
+  }, [ready, queryParams.circleId, queryParams.memberId])
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
@@ -198,7 +192,6 @@ export default function CirclesPage() {
         <MemberPanel
           id={memberId}
           highlightCircleId={circleId || undefined}
-          onCircleFocus={onCircleFocus}
           onClose={() => setPanel(undefined)}
         />
       )}
