@@ -61,7 +61,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
         purpose: role.purpose,
         domain: role.domain,
         accountabilities: role.accountabilities,
-        defaultMinPerWeek: role.defaultMinPerWeek,
+        defaultMinPerWeek: role.defaultMinPerWeek || null,
       })
     }
   }, [role, props.isOpen])
@@ -73,6 +73,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
   }, [register])
 
   const onSubmit = handleSubmit((values) => {
+    console.log(values)
     updateRole(id, values)
     props.onClose()
   })

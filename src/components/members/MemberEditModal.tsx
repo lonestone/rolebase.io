@@ -67,7 +67,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
     if (member && props.isOpen) {
       reset({
         name: member.name,
-        workedMinPerWeek: member.workedMinPerWeek,
+        workedMinPerWeek: member.workedMinPerWeek || null,
       })
       setPicture(member.picture)
     }
