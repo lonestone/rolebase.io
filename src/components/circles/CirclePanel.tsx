@@ -253,31 +253,29 @@ export default function CirclePanel({ id, onClose }: Props) {
             </Wrap>
           </FormControl>
 
-          {circleMembers && circleMembers.length !== 0 && (
-            <FormControl>
-              <FormLabel>Membres :</FormLabel>
-              <Wrap spacing={2}>
-                {circleMembers?.map((m) => (
-                  <WrapItem key={m.id}>
-                    <MemberButton
-                      member={m}
-                      onClick={() => navigateToCircleMember(circle.id, m.id)}
-                    />
-                  </WrapItem>
-                ))}
-                <WrapItem>
-                  <Button
-                    variant="solid"
-                    size="md"
-                    leftIcon={<AddIcon />}
-                    onClick={onCreateCircleMemberOpen}
-                  >
-                    Ajouter un membre
-                  </Button>
+          <FormControl>
+            <FormLabel>Membres :</FormLabel>
+            <Wrap spacing={2}>
+              {circleMembers?.map((m) => (
+                <WrapItem key={m.id}>
+                  <MemberButton
+                    member={m}
+                    onClick={() => navigateToCircleMember(circle.id, m.id)}
+                  />
                 </WrapItem>
-              </Wrap>
-            </FormControl>
-          )}
+              ))}
+              <WrapItem>
+                <Button
+                  variant="solid"
+                  size="md"
+                  leftIcon={<AddIcon />}
+                  onClick={onCreateCircleMemberOpen}
+                >
+                  Ajouter un membre
+                </Button>
+              </WrapItem>
+            </Wrap>
+          </FormControl>
         </VStack>
       </form>
 
