@@ -43,7 +43,7 @@ export function highlightCircle(
   if (options.strokeWidth !== undefined) {
     circle
       .attr('stroke-width', `${options.strokeWidth}px`)
-      .attr('stroke', options.strokeColor || 'rgba(1,1,1,0.5)')
+      .attr('stroke', options.strokeColor || '#333')
   }
 }
 

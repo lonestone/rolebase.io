@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { HierarchyCircularNode } from 'd3'
 import { CircleEntry } from '../api/entities/circles'
 import { MemberEntry } from '../api/entities/members'
 import { RoleEntry } from '../api/entities/roles'
@@ -150,9 +151,7 @@ export default function updateCircles(
           .attr('cursor', 'pointer')
           // Hover
           .on('mouseover', function () {
-            d3.select(this)
-              .attr('stroke-width', '1px')
-              .attr('stroke', 'rgba(1,1,1,0.1)')
+            d3.select(this).attr('stroke-width', '3px').attr('stroke', '#aaa')
           })
           .on('mouseout', function () {
             d3.select(this).attr('stroke', 'none')
@@ -217,6 +216,24 @@ export default function updateCircles(
               d.data.type === NodeType.Circle || d.data.type === NodeType.Member
           )
 
+          // Click
+          .on('click', (event, d: HierarchyCircularNode<Data>) => {
+            if (d.data.type === NodeType.Circle) {
+              // Click on circle
+              events.onCircleClick?.(d.data.id)
+            } else if (
+              d.data.type === NodeType.Member &&
+              d.data.parentCircleId &&
+              d.data.memberId
+            ) {
+              // Click on member
+              events.onCircleMemberClick?.(
+                d.data.parentCircleId,
+                d.data.memberId
+              )
+            }
+          })
+
           // Drag
           .call(
             d3
@@ -226,7 +243,9 @@ export default function updateCircles(
                   // Disable drag when space key is pressed
                   !zoom.spaceKey &&
                   // Disable when mousewheel is pressed
-                  event.button !== 1
+                  event.button !== 1 &&
+                  // Control/Command key is pressed
+                  (event.ctrlKey || event.metaKey)
                 )
               })
               .on('start', function (event, dragNode) {
@@ -281,7 +300,7 @@ export default function updateCircles(
                     // Highlight newly targeted circle
                     highlightCircle(
                       dragTargets.filter((node) => node === targetData),
-                      { strokeWidth: 2, transition }
+                      { strokeWidth: 5, transition }
                     )
                     // Change color of dragged circle
                     dragNodes
@@ -301,39 +320,19 @@ export default function updateCircles(
                 }
               })
               .on('end', function (event, dragNode) {
-                const { ctrlKey, metaKey } = event.sourceEvent
-                const clicked =
-                  dragOrigin.x === event.x && dragOrigin.y === event.y
+                const { shiftKey } = event.sourceEvent
                 const transition = getHighlightTransition()
-
-                // Click
-                if (clicked) {
-                  if (dragNode.data.type === NodeType.Circle) {
-                    // Click on circle
-                    events.onCircleClick?.(dragNode.data.id)
-                  } else if (
-                    dragNode.data.type === NodeType.Member &&
-                    dragNode.data.parentCircleId &&
-                    dragNode.data.memberId
-                  ) {
-                    // Click on member
-                    events.onCircleMemberClick?.(
-                      dragNode.data.parentCircleId,
-                      dragNode.data.memberId
-                    )
-                  }
-                }
 
                 // Drag end
                 let actionMoved = false
-                if (dragTargets && dragTarget !== undefined && !clicked) {
+                if (dragTargets && dragTarget !== undefined) {
                   const targetCircleId = dragTarget?.data.id || null
 
                   // Move to another circle
                   const differentParent =
                     dragNode.data.parentCircleId !== targetCircleId
                   if (dragNode.data.type === NodeType.Circle) {
-                    if (ctrlKey || metaKey) {
+                    if (shiftKey) {
                       events.onCircleCopy?.(dragNode.data.id, targetCircleId)
                       focusCircleAfterDraw(targetCircleId)
                     } else if (differentParent) {
@@ -347,7 +346,7 @@ export default function updateCircles(
                     dragNode.data.memberId &&
                     differentParent
                   ) {
-                    if (ctrlKey || metaKey) {
+                    if (shiftKey) {
                       if (targetCircleId) {
                         events.onMemberAdd?.(
                           dragNode.data.memberId,
