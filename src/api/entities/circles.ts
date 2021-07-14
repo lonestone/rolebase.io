@@ -64,10 +64,18 @@ export async function updateCircle(id: string, data: CircleUpdate) {
 }
 
 export async function deleteCircle(id: string) {
-  await collection.doc(id).delete()
+  const doc = collection.doc(id)
+  const snapshot = await doc.get()
+  const circle = snapshot.data()
+  if (!circle) return
+
+  await doc.delete()
 
   // Delete sub-circles
-  const subCircles = await collection.where('parentId', '==', id).get()
+  const subCircles = await collection
+    .where('orgId', '==', circle.orgId)
+    .where('parentId', '==', id)
+    .get()
   subCircles.forEach((subCircle) => {
     deleteCircle(subCircle.id)
   })
@@ -104,7 +112,10 @@ export async function copyCircle(
   const { id } = await collection.add(newCircle)
 
   // Create sub-circles
-  const subCircles = await collection.where('parentId', '==', circleId).get()
+  const subCircles = await collection
+    .where('orgId', '==', circle.orgId)
+    .where('parentId', '==', circleId)
+    .get()
   subCircles.forEach((subCircle) => {
     copyCircle(subCircle.id, id)
   })
