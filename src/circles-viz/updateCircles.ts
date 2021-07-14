@@ -57,7 +57,7 @@ export default function updateCircles(
     name: '',
     children: circlesToD3Data(fixLostCircles(circles), roles, members),
   }
-  const root = packData(data, dimensions.width, dimensions.height)
+  const root = packData(data, 2000, 2000)
   const svg = d3.select<SVGSVGElement, NodeData>(svgElement)
   const svgId = svg.attr('id')
   const firstDraw = !svg.select('.circles').node()
@@ -98,6 +98,10 @@ export default function updateCircles(
     }
   }
 
+  // Change zoom extent
+  zoom.changeExtent(root.r * 2, root.r * 2)
+
+  // Set function to zoom on a circle
   zoom.focusCircle = (circleId, adaptScale, instant) => {
     const circle = nodesMap.find((c) => c.data.id === circleId)
     if (!circle) return

@@ -28,7 +28,7 @@ export function initGraph(
 
   const zoomBehaviour = d3
     .zoom<SVGSVGElement, any>()
-    .filter((event) => true) // Listen also Ctrl+Click
+    .filter((event) => true) // Listen also mouse wheel
     .scaleExtent(settings.zoom.scaleExtent as [number, number])
     .on('zoom', (event) => {
       zoom.x = event.transform.x
@@ -46,8 +46,8 @@ export function initGraph(
     spaceKey: false,
     changeExtent(w, h) {
       zoomBehaviour.translateExtent([
-        [-w / 2, -h / 2],
-        [(w * 3) / 2, (h * 3) / 2],
+        [-200, -200],
+        [w + 200, h + 200],
       ])
     },
     to(x, y, radius = 0, instant = false) {
@@ -72,7 +72,6 @@ export function initGraph(
         )
     },
   }
-  // zoom.changeExtent(width, height)
 
   // Handle space key to prevent dragging circles during pan/zoom
   const handleSpaceKey = (toggle: boolean) => (event: KeyboardEvent) => {
