@@ -28,6 +28,7 @@ import RoleEditModal from '../roles/RoleEditModal'
 import { useStoreState } from '../store/hooks'
 import CircleCreateModal from './CircleCreateModal'
 import CircleDeleteModal from './CircleDeleteModal'
+import CircleMemberCreateModal from './CircleMemberCreateModal'
 
 interface Props {
   id: string
@@ -74,11 +75,18 @@ export default function CirclePanel({ id, onClose }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  // Add circle modal
+  // CreateCircle modal
   const {
     isOpen: isCreateCircleOpen,
     onOpen: onCreateCircleOpen,
     onClose: onCreateCircleClose,
+  } = useDisclosure()
+
+  // CreateCircleMember modal
+  const {
+    isOpen: isCreateCircleMemberOpen,
+    onOpen: onCreateCircleMemberOpen,
+    onClose: onCreateCircleMemberClose,
   } = useDisclosure()
 
   const {
@@ -257,6 +265,16 @@ export default function CirclePanel({ id, onClose }: Props) {
                     />
                   </WrapItem>
                 ))}
+                <WrapItem>
+                  <Button
+                    variant="solid"
+                    size="md"
+                    leftIcon={<AddIcon />}
+                    onClick={onCreateCircleMemberOpen}
+                  >
+                    Ajouter un membre
+                  </Button>
+                </WrapItem>
               </Wrap>
             </FormControl>
           )}
@@ -281,6 +299,12 @@ export default function CirclePanel({ id, onClose }: Props) {
         parentId={id}
         isOpen={isCreateCircleOpen}
         onClose={onCreateCircleClose}
+      />
+
+      <CircleMemberCreateModal
+        parentId={id}
+        isOpen={isCreateCircleMemberOpen}
+        onClose={onCreateCircleMemberClose}
       />
     </Panel>
   )
