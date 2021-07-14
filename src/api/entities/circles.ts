@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { getCollection } from '../firebase'
+import { firestore, getCollection } from '../firebase'
 import { RoleEntry } from './roles'
 
 export interface Circle {
@@ -63,22 +63,38 @@ export async function updateCircle(id: string, data: CircleUpdate) {
   await collection.doc(id).set(data, { merge: true })
 }
 
-export async function deleteCircle(id: string) {
-  const doc = collection.doc(id)
-  const snapshot = await doc.get()
-  const circle = snapshot.data()
-  if (!circle) return
+export async function deleteCircle(id: string): Promise<boolean> {
+  try {
+    const doc = collection.doc(id)
+    const snapshot = await doc.get()
+    const circle = snapshot.data()
+    if (!circle) throw new Error(`Circle not found: ${id}`)
 
-  await doc.delete()
+    const batch = firestore.batch()
+    await deleteCircleInternal(circle.orgId, id, batch)
+    await batch.commit()
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+export async function deleteCircleInternal(
+  orgId: string,
+  id: string,
+  batch: firebase.default.firestore.WriteBatch
+) {
+  const doc = collection.doc(id)
+  batch.delete(doc)
 
   // Delete sub-circles
   const subCircles = await collection
-    .where('orgId', '==', circle.orgId)
+    .where('orgId', '==', orgId)
     .where('parentId', '==', id)
     .get()
-  subCircles.forEach((subCircle) => {
-    deleteCircle(subCircle.id)
-  })
+  for (const queryDocumentSnapshot of subCircles.docs) {
+    await deleteCircleInternal(orgId, queryDocumentSnapshot.id, batch)
+  }
 }
 
 // Change parent circle
@@ -97,10 +113,26 @@ export async function copyCircle(
   circleId: string,
   targetCircleId: string | null
 ): Promise<boolean> {
+  try {
+    const batch = firestore.batch()
+    await copyCircleInternal(circleId, targetCircleId, batch)
+    await batch.commit()
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
+async function copyCircleInternal(
+  circleId: string,
+  targetCircleId: string | null,
+  batch: firebase.default.firestore.WriteBatch
+): Promise<void> {
   const doc = collection.doc(circleId)
   const snapshot = await doc.get()
   const circle = snapshot.data()
-  if (!circle) return false
+  if (!circle) throw new Error(`Circle not found: ${circleId}`)
 
   // Create new circle
   const newCircle: Circle = {
@@ -109,17 +141,17 @@ export async function copyCircle(
     roleId: circle.roleId,
     members: circle.members,
   }
-  const { id } = await collection.add(newCircle)
+  const newCircleDoc = collection.doc()
+  batch.set(newCircleDoc, newCircle)
 
   // Create sub-circles
   const subCircles = await collection
     .where('orgId', '==', circle.orgId)
     .where('parentId', '==', circleId)
     .get()
-  subCircles.forEach((subCircle) => {
-    copyCircle(subCircle.id, id)
-  })
-  return true
+  for (const queryDocumentSnapshot of subCircles.docs) {
+    await copyCircleInternal(queryDocumentSnapshot.id, newCircleDoc.id, batch)
+  }
 }
 
 export async function addMemberToCircle(
