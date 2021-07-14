@@ -29,8 +29,7 @@ export default function CircleDeleteModal({ id, onDelete, ...props }: Props) {
     onDelete?.()
     props.onClose()
     setTimeout(
-      () =>
-        navigateOrg(circle?.parentId ? `?circleId=${circle?.parentId}` : ''),
+      () => navigateOrg(circle?.parentId ? `?circleId=${circle.parentId}` : ''),
       1000
     )
   }

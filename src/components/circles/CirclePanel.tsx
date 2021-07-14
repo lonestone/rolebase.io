@@ -219,7 +219,7 @@ export default function CirclePanel({ id, onClose }: Props) {
             <FormLabel>Sous-Cercles :</FormLabel>
             <Wrap spacing={2}>
               {childrenCirclesAndRoles?.map((c) => (
-                <WrapItem>
+                <WrapItem key={c.id}>
                   <Button
                     key={c.id}
                     variant="solid"
@@ -250,7 +250,7 @@ export default function CirclePanel({ id, onClose }: Props) {
               <FormLabel>Membres :</FormLabel>
               <Wrap spacing={2}>
                 {circleMembers?.map((m) => (
-                  <WrapItem>
+                  <WrapItem key={m.id}>
                     <MemberButton
                       member={m}
                       onClick={() => navigateToCircleMember(circle.id, m.id)}

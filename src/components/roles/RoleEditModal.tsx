@@ -42,16 +42,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const {
-    handleSubmit,
-    errors,
-    register,
-    watch,
-    setValue,
-    reset,
-  } = useForm<RoleUpdate>({
-    resolver: yupResolver(roleUpdateSchema),
-  })
+  const { handleSubmit, errors, register, watch, setValue, reset } =
+    useForm<RoleUpdate>({
+      resolver: yupResolver(roleUpdateSchema),
+    })
 
   // Init form data
   useEffect(() => {
@@ -73,7 +67,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
   }, [register])
 
   const onSubmit = handleSubmit((values) => {
-    console.log(values)
     updateRole(id, values)
     props.onClose()
   })

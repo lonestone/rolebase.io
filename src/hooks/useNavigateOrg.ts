@@ -4,7 +4,7 @@ import { store } from '../components/store'
 
 export function useNavigateOrg() {
   const history = useHistory()
-  return useCallback((path: string) => {
+  return useCallback((path = '') => {
     const orgId = store.getState().orgs.currentId
     history.push(`/orgs/${orgId}${path}`)
   }, [])
