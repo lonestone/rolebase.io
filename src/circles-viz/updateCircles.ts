@@ -2,6 +2,7 @@ import * as d3 from 'd3'
 import { CircleEntry } from '../api/entities/circles'
 import { MemberEntry } from '../api/entities/members'
 import { RoleEntry } from '../api/entities/roles'
+import { d3CircleName } from './circleName'
 import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getFirstname } from './getFirstname'
@@ -56,7 +57,7 @@ export default function updateCircles(
     children: circlesToD3Data(fixLostCircles(circles), roles, members),
   }
   const root = packData(data, dimensions.width, dimensions.height)
-  const svg = d3.select(svgElement)
+  const svg = d3.select<SVGSVGElement, NodeData>(svgElement)
   const svgId = svg.attr('id')
   const firstDraw = !svg.select('.circles').node()
 
@@ -65,9 +66,6 @@ export default function updateCircles(
   let dragNodes: NodesSelection | undefined
   let dragTarget: NodeData | null | undefined
   let dragTargets: NodesSelection | undefined
-
-  // Add circle once in panzoom
-  const groupSelection = selectAppend(svg.select('.panzoom'), 'g', 'circles')
 
   // Get all nodes under root and rescale them
   const nodesMap = root.descendants()
@@ -118,8 +116,10 @@ export default function updateCircles(
     )
   }
 
+  const panzoomSelection = svg.select('.panzoom')
+
   // Add circle groups
-  groupSelection
+  selectAppend(panzoomSelection, 'g', 'circles')
     .selectAll('.circle')
     .data(nodesMap.slice(1), (d: any) => d.data.id)
     .join(
@@ -168,25 +168,27 @@ export default function updateCircles(
           .append('use')
           .attr('href', (d) => `#circle-${d.data.id}`)
 
-        // Add circle name
-        nodeGroup
-          .filter((d) => d.data.type === NodeType.Circle)
+        // Add circle name at the top
+        const nodeCircles = nodeGroup.filter(
+          (d) => d.data.type === NodeType.Circle
+        )
+        nodeCircles
           .append('text')
-          .attr('font-weight', 'bold')
           .text((d) => d.data.name)
-          .attr('pointer-events', 'none')
+          .attr('font-weight', 'bold')
+          .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
+          .attr('cursor', 'pointer')
           .attr('opacity', 0)
           .attr('y', 0)
           .transition(transition as any)
           .attr('opacity', 1)
-          .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
           .attr('y', (d) => -d.r - 10)
 
         // Add member name
-        const nodeGroupMembers = nodeGroup.filter(
+        const nodeMembers = nodeGroup.filter(
           (d) => d.data.type === NodeType.Member
         )
-        nodeGroupMembers
+        nodeMembers
           .append('text')
           .attr('font-size', `${settings.fontSize}px`)
           .attr('opacity', 0)
@@ -197,7 +199,7 @@ export default function updateCircles(
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
 
         // Add member picture
-        nodeGroupMembers
+        nodeMembers
           .append('image')
           .attr('pointer-events', 'none')
           .attr('preserveAspectRatio', 'xMidYMid slice')
@@ -256,6 +258,15 @@ export default function updateCircles(
                     'transform',
                     (d) => `translate(${d.x + dX},${d.y + dY})`
                   )
+                  // Move circles names
+                  dragNodes.data().forEach((d) => {
+                    svg
+                      .select(`#circle-name-${d.data.id}`)
+                      .attr(
+                        'transform',
+                        (d) => `translate(${d.x + dX},${d.y + dY})`
+                      )
+                  })
 
                   const targetData = getTargetNodeData(dragTargets, event, zoom)
 
@@ -377,6 +388,14 @@ export default function updateCircles(
                     .attr('transform', (d) => `translate(${d.x},${d.y})`)
                     .select('circle')
                     .attr('fill', (d) => getNodeColor(d.data.type, d.depth))
+
+                  // Reset circles names
+                  dragNodes.data().forEach((d) => {
+                    svg
+                      .select(`#circle-name-${d.data.id}`)
+                      .transition(transition as any)
+                      .attr('transform', (d) => `translate(${d.x},${d.y})`)
+                  })
                 }
 
                 dragNodes = undefined
@@ -467,4 +486,50 @@ export default function updateCircles(
       a.depth === b.depth ? a.y - b.y : a.depth < b.depth ? -1 : 1
     )
     .raise()
+
+  // Circles Names
+  selectAppend(svg.select('.panzoom'), 'g', 'circles-names')
+    .selectAll('.circle-name')
+    .data(nodesMap.slice(1), (d: any) => d.data.id)
+    .join(
+      (nodeEnter) => {
+        const nodeGroup = nodeEnter
+          .filter((d) => d.data.type === NodeType.Circle)
+          .append('g')
+          .attr('id', (d) => `circle-name-${d.data.id}`)
+          .attr('class', 'circle-name')
+          .attr('transform', (d) => `translate(${d.x},${d.y})`)
+
+        // Add circle name centered
+        nodeGroup
+          .append('text')
+          .text((d) => d.data.name)
+          .attr('font-weight', 'bold')
+          .attr('pointer-events', 'none')
+          .attr('y', 0)
+          .attr('alignment-baseline', 'middle')
+          .call(d3CircleName)
+
+        return nodeGroup
+      },
+      (nodeUpdate) => {
+        const transition = d3
+          .transition<Data>()
+          .duration(settings.move.duration)
+          .ease(settings.move.transition)
+
+        // Update position
+        nodeUpdate
+          .transition(transition as any)
+          .attr('transform', (d) => `translate(${d.x},${d.y})`)
+
+        // Update circle name
+        nodeUpdate
+          .select<SVGTextElement>('text')
+          .text((d) => d.data.name)
+          .call(d3CircleName)
+        return nodeUpdate
+      },
+      (nodeExit) => nodeExit.remove()
+    )
 }

@@ -28,13 +28,14 @@ export function initGraph(
 
   const zoomBehaviour = d3
     .zoom<SVGSVGElement, any>()
-    .filter((event) => true)
+    .filter((event) => true) // Listen also Ctrl+Click
     .scaleExtent(settings.zoom.scaleExtent as [number, number])
     .on('zoom', (event) => {
       zoom.x = event.transform.x
       zoom.y = event.transform.y
       zoom.scale = event.transform.k
       zoomG.attr('transform', event.transform)
+      svgElement.style.setProperty('--zoom-scale', zoom.scale.toString())
     })
   svg.call(zoomBehaviour).attr('cursor', 'move')
 

@@ -9,7 +9,7 @@ export default {
     member: 1,
   },
   zoom: {
-    scaleExtent: [0.1, 2],
+    scaleExtent: [0.1, 5],
     transition: d3.easeCubicInOut,
     duration: 500,
   },
