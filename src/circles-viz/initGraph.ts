@@ -46,8 +46,8 @@ export function initGraph(
     spaceKey: false,
     changeExtent(w, h) {
       zoomBehaviour.translateExtent([
-        [-200, -200],
-        [w + 200, h + 200],
+        [-500, -200],
+        [w + 500, h + 200],
       ])
     },
     to(x, y, radius = 0, instant = false) {
