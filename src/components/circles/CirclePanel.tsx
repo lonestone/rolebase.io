@@ -190,7 +190,7 @@ export default function CirclePanel({ id, onClose }: Props) {
           <FormControl>
             <FormLabel htmlFor="roleId">Rôle :</FormLabel>
             <InputGroup>
-              <Select name="roleId" ref={register()} autoFocus>
+              <Select name="roleId" ref={register()}>
                 {roles?.map((r) => (
                   <option
                     key={r.id}
