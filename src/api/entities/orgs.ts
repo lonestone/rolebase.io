@@ -40,7 +40,7 @@ export async function createOrg(
     name,
     ownersIds: [ownerId],
     disabled: false,
-    defaultWorkedMinPerWeek: 35 * 50,
+    defaultWorkedMinPerWeek: 35 * 60,
   }
   const doc = await collection.add(role)
   const snapshot = await doc.get()
