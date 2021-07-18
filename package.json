@@ -16,6 +16,7 @@
     "d3-hierarchy": "^2.0.0",
     "downshift": "^6.1.0",
     "easy-peasy": "^5.0.3",
+    "easymde": "^2.15.0",
     "firebase": "^8.2.7",
     "framer-motion": "^3.3.0",
     "lodash.debounce": "^4.0.8",
@@ -26,6 +27,7 @@
     "react-dom": "^17.0.0",
     "react-hook-form": "^6.15.1",
     "react-router-dom": "^5.2.0",
+    "react-simplemde-editor": "^5.0.1",
     "yup": "^0.32.8"
   },
   "devDependencies": {

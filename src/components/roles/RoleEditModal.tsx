@@ -12,7 +12,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Textarea,
   useDisclosure,
   UseModalProps,
   VStack,
@@ -26,6 +25,7 @@ import {
   updateRole,
 } from '../../api/entities/roles'
 import useRole from '../../hooks/useRole'
+import ControlledMardownEditor from '../common/ControlledMardownEditor'
 import DurationSelect from '../common/DurationSelect'
 import RoleDeleteModal from './RoleDeleteModal'
 
@@ -42,7 +42,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, watch, setValue, reset } =
+  const { handleSubmit, errors, register, control, watch, setValue, reset } =
     useForm<RoleUpdate>({
       resolver: yupResolver(roleUpdateSchema),
     })
@@ -75,7 +75,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
   return (
     <>
-      <Modal {...props}>
+      <Modal {...props} size="xl">
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
@@ -83,7 +83,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
             <ModalCloseButton />
 
             <ModalBody>
-              <VStack spacing={3}>
+              <VStack spacing={6}>
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom du rôle</FormLabel>
                   <Input
@@ -99,10 +99,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.purpose}>
                   <FormLabel htmlFor="purpose">Raison d'être</FormLabel>
-                  <Textarea
+                  <ControlledMardownEditor
                     name="purpose"
                     placeholder="But qu'il poursuit..."
-                    ref={register}
+                    control={control}
                   />
                   <FormErrorMessage>
                     {errors.purpose && errors.purpose.message}
@@ -111,10 +111,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.domain}>
                   <FormLabel htmlFor="domain">Domaine</FormLabel>
-                  <Textarea
+                  <ControlledMardownEditor
                     name="domain"
                     placeholder="Ce qu'il est seul à pouvoir faire..."
-                    ref={register}
+                    control={control}
                   />
                   <FormErrorMessage>
                     {errors.domain && errors.domain.message}
@@ -125,10 +125,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   <FormLabel htmlFor="accountabilities">
                     Redevabilités
                   </FormLabel>
-                  <Textarea
+                  <ControlledMardownEditor
                     name="accountabilities"
                     placeholder="Ce qu'il doit faire..."
-                    ref={register}
+                    control={control}
                   />
                   <FormErrorMessage>
                     {errors.accountabilities && errors.accountabilities.message}
@@ -137,10 +137,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.notes}>
                   <FormLabel htmlFor="notes">Notes</FormLabel>
-                  <Textarea
+                  <ControlledMardownEditor
                     name="notes"
                     placeholder="Notes, liens..."
-                    ref={register}
+                    control={control}
                   />
                   <FormErrorMessage>
                     {errors.notes && errors.notes.message}
