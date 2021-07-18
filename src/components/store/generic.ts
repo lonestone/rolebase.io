@@ -25,7 +25,7 @@ export interface GenericEntry {
 }
 
 export type GenericSubscribe<Entry> = (
-  orgId: string,
+  paramId: string,
   onData: (circles: Entry[]) => void,
   onError: (error: Error) => void
 ) => () => void

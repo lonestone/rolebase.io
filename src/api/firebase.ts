@@ -21,3 +21,25 @@ export function getCollection<DocumentData>(collectionPath: string) {
     collectionPath
   ) as firebase.default.firestore.CollectionReference<DocumentData>
 }
+
+export function snapshotQuery<Entity>(
+  query: firebase.default.firestore.Query<Entity>,
+  onData: (circles: (Entity & { id: string })[]) => void,
+  onError: (error: Error) => void
+): () => void {
+  const entries: (Entity & { id: string })[] = []
+  return query.onSnapshot((querySnapshot) => {
+    querySnapshot.docChanges().forEach((changes) => {
+      if (changes.type === 'modified' || changes.type === 'removed') {
+        entries.splice(changes.oldIndex, 1)
+      }
+      if (changes.type === 'added' || changes.type === 'modified') {
+        entries.splice(changes.newIndex, 0, {
+          id: changes.doc.id,
+          ...changes.doc.data(),
+        })
+      }
+    })
+    onData([...entries])
+  }, onError)
+}

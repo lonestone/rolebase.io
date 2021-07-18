@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { firestore, getCollection } from '../firebase'
+import { firestore, getCollection, snapshotQuery } from '../firebase'
 import { RoleEntry } from './roles'
 
 export interface Circle {
@@ -34,13 +34,7 @@ export function subscribeCircles(
   onData: (circles: CircleEntry[]) => void,
   onError: (error: Error) => void
 ): () => void {
-  return collection.where('orgId', '==', orgId).onSnapshot((querySnapshot) => {
-    const entries = querySnapshot.docs.map((snapshot) => ({
-      id: snapshot.id,
-      ...snapshot.data(),
-    }))
-    onData(entries)
-  }, onError)
+  return snapshotQuery(collection.where('orgId', '==', orgId), onData, onError)
 }
 
 export async function createCircle(

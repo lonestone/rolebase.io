@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { getCollection, storage } from '../firebase'
+import { getCollection, snapshotQuery, storage } from '../firebase'
 import { nameSchema } from '../schemas'
 
 export interface Member {
@@ -23,17 +23,11 @@ export function subscribeMembers(
   onData: (members: MemberEntry[]) => void,
   onError: (error: Error) => void
 ): () => void {
-  return collection.where('orgId', '==', orgId).onSnapshot((querySnapshot) => {
-    const entries = querySnapshot.docs.map((snapshot) => ({
-      id: snapshot.id,
-      ...snapshot.data(),
-    }))
-
-    // Sort entries by name
-    entries.sort((a, b) => ((a.name || '') < (b.name || '') ? -1 : 1))
-
-    onData(entries)
-  }, onError)
+  return snapshotQuery(
+    collection.where('orgId', '==', orgId).orderBy('name'),
+    onData,
+    onError
+  )
 }
 
 export async function getMembers(orgId: string): Promise<MemberEntry[]> {
