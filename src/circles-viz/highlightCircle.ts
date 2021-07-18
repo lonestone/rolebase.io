@@ -11,7 +11,7 @@ interface HighlightOptions {
   strokeColor?: string
   filter?: string
   instant?: boolean
-  transition?: HighlightTransition
+  transition?: HighlightTransition | null
 }
 
 export function getHighlightTransition(): HighlightTransition {
@@ -60,5 +60,5 @@ export function unhighlightCircle(
 
   const circle = (transition as HighlightTransition).select('circle')
 
-  circle.attr('opacity', 1).attr('stroke', 'none').attr('filter', 'none')
+  circle.attr('opacity', 1).attr('stroke-width', '0').attr('filter', 'none')
 }

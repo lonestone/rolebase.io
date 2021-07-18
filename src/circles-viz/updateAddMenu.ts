@@ -167,8 +167,8 @@ export default function updateAddMenu(
           .attr('paint-order', 'stroke')
           .attr('stroke', 'white')
           .attr('stroke-width', '2px')
-          .attr('stroke-linecap', 'butt')
-          .attr('stroke-linejoin', 'miter')
+          .attr('stroke-linecap', 'round')
+          .attr('stroke-linejoin', 'round')
 
         // Add events
         nodeGroup

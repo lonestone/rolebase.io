@@ -130,15 +130,43 @@ export default function updateCircles(
     .join(
       // Create Circle
       (nodeEnter) => {
-        const transition = d3
-          .transition<Data>()
-          .duration(settings.move.duration)
-          .ease(settings.move.transition)
-
         const nodeGroup = nodeEnter
           .append('g')
           .attr('class', 'circle')
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
+
+          // Hover
+          .on('mouseover', function () {
+            const g = d3.select<SVGGElement, NodeData>(this)
+
+            // Add circle border
+            if (!dragNodes) {
+              highlightCircle(g, {
+                instant: true,
+                strokeWidth: 3,
+                strokeColor: 'hsl(170deg 50% 30%)',
+              })
+            }
+
+            // Show member name if it's a member
+            g.filter((d) => d.data.type === NodeType.Member)
+              .select('text')
+              .attr('opacity', 1)
+          })
+          .on('mouseout', function () {
+            const g = d3.select<SVGGElement, NodeData>(this)
+            // Remove circle border
+            if (!dragNodes) {
+              unhighlightCircle(g, {
+                instant: true,
+              })
+            }
+
+            // Hide member name
+            g.filter((d) => d.data.type === NodeType.Member)
+              .select('text')
+              .attr('opacity', (d) => (d.data.picture ? 0 : 1))
+          })
 
         // No events on members group
         nodeGroup
@@ -149,20 +177,10 @@ export default function updateCircles(
         nodeGroup
           .append('circle')
           .attr('id', (d) => `circle-${d.data.id}`)
-          .attr('r', 0)
-          .attr('opacity', 1)
+          .attr('r', (d) => d.r)
           .attr('fill', (d) => getNodeColor(d.data.type, d.depth))
           .attr('cursor', 'pointer')
-          // Hover
-          .on('mouseover', function () {
-            d3.select(this).attr('stroke-width', '3px').attr('stroke', '#aaa')
-          })
-          .on('mouseout', function () {
-            d3.select(this).attr('stroke', 'none')
-          })
-          // Animate radius
-          .transition(transition as any)
-          .attr('r', (d) => d.r)
+          .attr('stroke-width', '0') // Init stroke-width for transitions
 
         // Add clip-path with circle
         nodeGroup
@@ -181,27 +199,12 @@ export default function updateCircles(
           .attr('font-weight', 'bold')
           .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
           .attr('cursor', 'pointer')
-          .attr('opacity', 0)
-          .attr('y', 0)
-          .transition(transition as any)
-          .attr('opacity', 1)
           .attr('y', (d) => -d.r - 10)
 
-        // Add member name
+        // Add member picture
         const nodeMembers = nodeGroup.filter(
           (d) => d.data.type === NodeType.Member
         )
-        nodeMembers
-          .append('text')
-          .attr('font-size', `${settings.fontSize}px`)
-          .attr('opacity', 0)
-          .attr('y', '0.5em')
-          .text((d) => getFirstname(d.data.name))
-          .attr('pointer-events', 'none')
-          .transition(transition as any)
-          .attr('opacity', (d) => (d.data.picture ? 0 : 1))
-
-        // Add member picture
         nodeMembers
           .append('image')
           .attr('pointer-events', 'none')
@@ -212,6 +215,21 @@ export default function updateCircles(
           .attr('y', (d) => -d.r)
           .attr('height', (d) => d.r * 2)
           .attr('width', (d) => d.r * 2)
+
+        // Add member name
+        nodeMembers
+          .append('text')
+          .attr('font-size', `${settings.fontSize}px`)
+          .attr('y', '0.5em')
+          .text((d) => getFirstname(d.data.name))
+          .attr('opacity', (d) => (d.data.picture ? 0 : 1))
+          .attr('pointer-events', 'none')
+          .attr('font-weight', 'bold')
+          .attr('paint-order', 'stroke')
+          .attr('stroke', 'white')
+          .attr('stroke-width', '2px')
+          .attr('stroke-linecap', 'round')
+          .attr('stroke-linejoin', 'round')
 
         // Add events
         nodeGroup
