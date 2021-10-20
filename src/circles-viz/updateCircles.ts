@@ -94,7 +94,7 @@ export default function updateCircles(
     instant?: boolean
   ) => {
     if (node.r > 0) {
-      zoom.to(node.x, node.y, adaptScale ? node.r : 0, instant)
+      zoom.to(node.x, node.y, adaptScale ? node.r + 40 : 0, instant)
     }
   }
 
@@ -105,7 +105,7 @@ export default function updateCircles(
   zoom.focusCircle = (circleId, adaptScale, instant) => {
     const circle = nodesMap.find((c) => c.data.id === circleId)
     if (!circle) return
-    zoom.to(circle.x, circle.y, adaptScale ? circle.r : 0, instant)
+    focusCircle(circle, adaptScale, instant)
   }
 
   // Zoom on root circle at first draw
