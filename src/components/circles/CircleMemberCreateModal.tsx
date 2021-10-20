@@ -85,18 +85,16 @@ export default function CircleMemberCreateModal({ parentId, ...props }: Props) {
               />
             </InputGroup>
 
-            {filteredMembers && (
-              <Wrap spacing={5} mb={5}>
-                {filteredMembers.map((member) => (
-                  <WrapItem key={member.id}>
-                    <MemberButton
-                      member={member}
-                      onClick={() => handleAddMember(member.id)}
-                    />
-                  </WrapItem>
-                ))}
-              </Wrap>
-            )}
+            <Wrap spacing={5} mb={5}>
+              {filteredMembers.map((member) => (
+                <WrapItem key={member.id}>
+                  <MemberButton
+                    member={member}
+                    onClick={() => handleAddMember(member.id)}
+                  />
+                </WrapItem>
+              ))}
+            </Wrap>
           </VStack>
         </ModalBody>
       </ModalContent>

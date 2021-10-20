@@ -65,7 +65,7 @@ export default function OrgsPage() {
         </Heading>
         <Spacer />
         <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
-          Ajouter une organisation
+          Créer
         </Button>
         <Spacer />
         <InputGroup w="auto">

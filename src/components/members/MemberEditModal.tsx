@@ -50,16 +50,10 @@ export default function MemberEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const {
-    handleSubmit,
-    errors,
-    register,
-    watch,
-    setValue,
-    reset,
-  } = useForm<Values>({
-    resolver: yupResolver(memberUpdateSchema),
-  })
+  const { handleSubmit, errors, register, watch, setValue, reset } =
+    useForm<Values>({
+      resolver: yupResolver(memberUpdateSchema),
+    })
   const [picture, setPicture] = useState<string | undefined | null>()
 
   // Init form data
@@ -110,7 +104,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
             <ModalCloseButton />
 
             <ModalBody>
-              <VStack spacing={5}>
+              <VStack spacing={5} align="stretch">
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom</FormLabel>
                   <Input
@@ -151,7 +145,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
                   </FormErrorMessage>
                 </FormControl>
 
-                <Box w="100%" textAlign="right">
+                <Box textAlign="right">
                   <Button
                     colorScheme="blue"
                     variant="ghost"

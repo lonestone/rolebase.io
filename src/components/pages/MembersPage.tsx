@@ -1,4 +1,4 @@
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon, EmailIcon } from '@chakra-ui/icons'
 import {
   Button,
   CloseButton,
@@ -17,6 +17,7 @@ import React, { useMemo, useState } from 'react'
 import MemberButton from '../common/MemberButton'
 import MemberCreateModal from '../members/MemberCreateModal'
 import MemberEditModal from '../members/MemberEditModal'
+import MembersInviteModal from '../members/MembersInviteModal'
 import { useStoreState } from '../store/hooks'
 
 export default function MembersPage() {
@@ -27,6 +28,13 @@ export default function MembersPage() {
     isOpen: isAddOpen,
     onOpen: onAddOpen,
     onClose: onAddClose,
+  } = useDisclosure()
+
+  // Invite modal
+  const {
+    isOpen: isInviteOpen,
+    onOpen: onInviteOpen,
+    onClose: onInviteClose,
   } = useDisclosure()
 
   // Edit modal
@@ -61,7 +69,10 @@ export default function MembersPage() {
         </Heading>
         <Spacer />
         <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
-          Ajouter un membre
+          Créer
+        </Button>
+        <Button leftIcon={<EmailIcon />} onClick={onInviteOpen}>
+          Inviter
         </Button>
         <Spacer />
         <InputGroup w="auto">
@@ -103,6 +114,8 @@ export default function MembersPage() {
         onClose={onAddClose}
         onCreate={(id) => handleOpenEdit(id)}
       />
+
+      <MembersInviteModal isOpen={isInviteOpen} onClose={onInviteClose} />
 
       {editMemberId && (
         <MemberEditModal

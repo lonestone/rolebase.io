@@ -75,7 +75,7 @@ export default function MemberCreateModal(props: Props) {
               </FormErrorMessage>
             </FormControl>
 
-            <Box w="100%" textAlign="right" mt={2}>
+            <Box textAlign="right" mt={2}>
               <Button colorScheme="blue" type="submit">
                 Créer
               </Button>

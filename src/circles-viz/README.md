@@ -13,3 +13,5 @@ firebase deploy --only firestore:rules
 
 // Export indexes
 firebase firestore:indexes > firestore.indexes.json
+
+https://firebase.google.com/products/extensions/firestore-send-email

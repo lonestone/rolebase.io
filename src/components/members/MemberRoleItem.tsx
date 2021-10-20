@@ -84,7 +84,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
           </AccordionButton>
           <AccordionPanel pt={3} pb={5}>
             <form onSubmit={onSubmit}>
-              <VStack spacing={3}>
+              <VStack spacing={3} align="stretch">
                 <FormControl>
                   <FormLabel htmlFor="avgMinPerWeek">
                     Temps de travail
@@ -96,7 +96,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                   />
                 </FormControl>
 
-                <Box w="100%" textAlign="right">
+                <Box textAlign="right">
                   <Button
                     size="sm"
                     colorScheme="blue"

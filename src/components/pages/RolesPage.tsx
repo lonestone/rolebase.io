@@ -57,7 +57,7 @@ export default function RolesPage() {
         </Heading>
         <Spacer />
         <Button ml="2em" leftIcon={<AddIcon />} onClick={onAddOpen}>
-          Ajouter un rôle
+          Créer
         </Button>
         <Spacer />
         <InputGroup w="auto">
