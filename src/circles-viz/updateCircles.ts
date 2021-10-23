@@ -3,7 +3,7 @@ import { HierarchyCircularNode } from 'd3'
 import { CircleEntry } from '../api/entities/circles'
 import { MemberEntry } from '../api/entities/members'
 import { RoleEntry } from '../api/entities/roles'
-import { d3CircleName } from './circleName'
+import { d3CircleCenterName, d3CircleTopName } from './circleName'
 import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getFirstname } from './getFirstname'
@@ -84,8 +84,6 @@ export default function updateCircles(
     (max, node) => (node.depth > max ? node.depth : max),
     0
   )
-  const getCircleFontSize = (node: NodeData) =>
-    settings.fontSize + (maxDepth / node.depth) * 2
 
   // Set focus functions
   const focusCircle = (
@@ -197,9 +195,8 @@ export default function updateCircles(
           .append('text')
           .text((d) => d.data.name)
           .attr('font-weight', 'bold')
-          .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
           .attr('cursor', 'pointer')
-          .attr('y', (d) => -d.r - 10)
+          .call(d3CircleTopName(maxDepth))
 
         // Add member picture
         const nodeMembers = nodeGroup.filter(
@@ -219,7 +216,7 @@ export default function updateCircles(
         // Add member name
         nodeMembers
           .append('text')
-          .attr('font-size', `${settings.fontSize}px`)
+          .attr('font-size', `10px`)
           .attr('y', '0.5em')
           .text((d) => getFirstname(d.data.name))
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
@@ -452,11 +449,9 @@ export default function updateCircles(
         // Update circle name
         nodeUpdate
           .filter((d) => d.data.type === NodeType.Circle)
-          .select('text')
+          .select<SVGTextElement>('text')
           .text((d) => d.data.name)
-          .transition(transition as any)
-          .attr('font-size', (d) => `${getCircleFontSize(d)}px`)
-          .attr('y', (d) => -d.r - 10)
+          .call(d3CircleTopName(maxDepth))
 
         // Update member name
         const nodeUpdateMembers = nodeUpdate.filter(
@@ -464,7 +459,6 @@ export default function updateCircles(
         )
         nodeUpdateMembers
           .select('text')
-          .attr('font-size', `${settings.fontSize}px`)
           .text((d) => getFirstname(d.data.name))
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
 
@@ -529,7 +523,7 @@ export default function updateCircles(
           .attr('pointer-events', 'none')
           .attr('y', 0)
           .attr('alignment-baseline', 'middle')
-          .call(d3CircleName)
+          .call(d3CircleCenterName)
 
         return nodeGroup
       },
@@ -548,7 +542,7 @@ export default function updateCircles(
         nodeUpdate
           .select<SVGTextElement>('text')
           .text((d) => d.data.name)
-          .call(d3CircleName)
+          .call(d3CircleCenterName)
         return nodeUpdate
       },
       (nodeExit) => nodeExit.remove()

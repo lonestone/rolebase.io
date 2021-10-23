@@ -4,6 +4,7 @@ import { nameSchema } from '../schemas'
 
 export interface Role {
   orgId: string
+  base: boolean
   name: string
   purpose: string
   domain: string
@@ -16,7 +17,7 @@ export type RoleEntry = Role & { id: string }
 export type RoleCreate = Role
 export type RoleUpdate = Partial<Role>
 
-const collection = getCollection<Role>('roles')
+export const collection = getCollection<Role>('roles')
 
 export function subscribeRoles(
   orgId: string,
@@ -32,10 +33,12 @@ export function subscribeRoles(
 
 export async function createRole(
   orgId: string,
+  base: boolean,
   name: string
 ): Promise<RoleEntry> {
   const role: Role = {
     orgId,
+    base,
     name,
     purpose: '',
     domain: '',

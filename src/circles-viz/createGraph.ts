@@ -74,6 +74,7 @@ export function createGraph(
         zoom,
         addDrawListener,
       })
+      /*
       updateAddMenu(svg, {
         dimensions,
         members,
@@ -81,6 +82,7 @@ export function createGraph(
         zoom,
         addDrawListener,
       })
+      */
 
       // Trigger draw events
       for (let i = drawHandlers.length - 1; i >= 0; i--) {

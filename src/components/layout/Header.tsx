@@ -49,7 +49,12 @@ export default function Header() {
             </StackItem>
             <HeaderLink to={`/orgs/${org.id}`}>Cercles</HeaderLink>
             <HeaderLink to={`/orgs/${org.id}/members`}>Membres</HeaderLink>
-            <HeaderLink to={`/orgs/${org.id}/roles`}>Rôles</HeaderLink>
+            <HeaderLink to={`/orgs/${org.id}?baseRoles`}>
+              Rôles de base
+            </HeaderLink>
+            <HeaderLink to={`/orgs/${org.id}?vacantRoles`}>
+              Rôles vacants
+            </HeaderLink>
           </>
         )}
 

@@ -1,0 +1,82 @@
+import { AddIcon } from '@chakra-ui/icons'
+import {
+  Button,
+  CloseButton,
+  Heading,
+  HStack,
+  Spacer,
+  VStack,
+  StackItem,
+  useDisclosure,
+} from '@chakra-ui/react'
+import React, { useMemo, useState } from 'react'
+import Panel from '../common/Panel'
+import { useStoreState } from '../store/hooks'
+import BaseRoleCreateModal from './BaseRoleCreateModal'
+import RoleEditModal from './RoleEditModal'
+
+interface Props {
+  onClose(): void
+}
+
+export default function BaseRolesPanel({ onClose }: Props) {
+  const roles = useStoreState((state) => state.roles.entries)
+  const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
+
+  // Add modal
+  const {
+    isOpen: isAddOpen,
+    onOpen: onAddOpen,
+    onClose: onAddClose,
+  } = useDisclosure()
+
+  // Edit modal
+  const [editRoleId, setEditRoleId] = useState<string | undefined>()
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure()
+
+  const handleOpenEdit = (id: string) => {
+    setEditRoleId(id)
+    onEditOpen()
+  }
+
+  return (
+    <Panel>
+      <Heading size="md" mb={5}>
+        <HStack spacing={5}>
+          <StackItem>Rôles de base</StackItem>
+          <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+            Créer
+          </Button>
+          <Spacer />
+          <CloseButton onClick={onClose} />
+        </HStack>
+      </Heading>
+
+      <VStack>
+        {baseRoles?.map((role) => (
+          <Button key={role.name} onClick={() => handleOpenEdit(role.id)}>
+            {role.name}
+          </Button>
+        ))}
+      </VStack>
+
+      <BaseRoleCreateModal
+        isOpen={isAddOpen}
+        onClose={onAddClose}
+        onCreate={(id) => handleOpenEdit(id)}
+      />
+
+      {editRoleId && (
+        <RoleEditModal
+          id={editRoleId}
+          isOpen={isEditOpen}
+          onClose={onEditClose}
+        />
+      )}
+    </Panel>
+  )
+}

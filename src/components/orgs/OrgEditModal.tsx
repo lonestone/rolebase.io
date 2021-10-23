@@ -36,16 +36,10 @@ export default function OrgEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const {
-    handleSubmit,
-    errors,
-    register,
-    watch,
-    setValue,
-    reset,
-  } = useForm<OrgUpdate>({
-    resolver: yupResolver(orgUpdateSchema),
-  })
+  const { handleSubmit, errors, register, watch, setValue, reset } =
+    useForm<OrgUpdate>({
+      resolver: yupResolver(orgUpdateSchema),
+    })
 
   // Init form data
   useEffect(() => {
@@ -76,7 +70,7 @@ export default function OrgEditModal({ id, ...props }: Props) {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>Editer l'organisation {org.name}</ModalHeader>
+            <ModalHeader>Modifier l'organisation {org.name}</ModalHeader>
             <ModalCloseButton />
 
             <ModalBody>

@@ -103,7 +103,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                     variant="ghost"
                     onClick={onEditOpen}
                   >
-                    Editer
+                    Modifier
                   </Button>
                   <Button
                     size="sm"

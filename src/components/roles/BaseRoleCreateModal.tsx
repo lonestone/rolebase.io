@@ -27,7 +27,7 @@ interface Props extends UseModalProps {
   onCreate?: (id: string) => void
 }
 
-export default function RoleCreateModal(props: Props) {
+export default function BaseRoleCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   const { handleSubmit, errors, register } = useForm<RoleCreate>({
@@ -36,7 +36,7 @@ export default function RoleCreateModal(props: Props) {
 
   const onSubmit = handleSubmit(async ({ name }) => {
     if (orgId) {
-      const role = await createRole(orgId, name)
+      const role = await createRole(orgId, true, name)
       props.onCreate?.(role.id)
     }
     props.onClose()

@@ -51,6 +51,7 @@ export function circlesToD3Data(
       return data
     })
 }
+
 function memberstoD3Data(
   members: MemberEntry[],
   circleId: string,

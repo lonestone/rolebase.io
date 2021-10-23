@@ -15,16 +15,22 @@ import useWindowSize from '../../hooks/useWindowSize'
 import CircleCreateModal from '../circles/CircleCreateModal'
 import CirclePanel from '../circles/CirclePanel'
 import MemberPanel from '../members/MemberPanel'
+import BaseRolesPanel from '../roles/BaseRolesPanel'
+import VacantRolesPanel from '../roles/VacantRolesPanel'
 import { useStoreState } from '../store/hooks'
 
 type CirclesPageParams = {
   circleId: string
   memberId: string
+  baseRoles: string
+  vacantRoles: string
 }
 
 enum Panels {
   Circle,
   Member,
+  BaseRoles,
+  VacantRoles,
 }
 
 const StyledSVG = styled.svg`
@@ -64,6 +70,8 @@ export default function CirclesPage() {
   const [panel, setPanel] = useState<Panels | undefined>()
   const [circleId, setCircleId] = useState<string | null | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
+
+  const handleClosePanel = useCallback(() => navigateOrg(), [])
 
   const onMemberClick = useCallback(
     (memberId: string) => navigateOrg(`?memberId=${memberId}`),
@@ -155,13 +163,19 @@ export default function CirclesPage() {
     }
 
     // Open panel
-    if (queryParams.memberId) {
+    if (queryParams.baseRoles !== undefined) {
+      setPanel(Panels.BaseRoles)
+    } else if (queryParams.vacantRoles !== undefined) {
+      setPanel(Panels.VacantRoles)
+    } else if (queryParams.memberId) {
       setMemberId(queryParams.memberId)
       setPanel(Panels.Member)
     } else if (queryParams.circleId) {
       setPanel(Panels.Circle)
+    } else {
+      setPanel(undefined)
     }
-  }, [ready, queryParams.circleId, queryParams.memberId])
+  }, [ready, JSON.stringify(queryParams)])
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
@@ -185,15 +199,23 @@ export default function CirclesPage() {
       )}
 
       {panel === Panels.Circle && circleId && (
-        <CirclePanel id={circleId} onClose={() => setPanel(undefined)} />
+        <CirclePanel id={circleId} onClose={handleClosePanel} />
       )}
 
       {panel === Panels.Member && memberId && (
         <MemberPanel
           id={memberId}
           highlightCircleId={circleId || undefined}
-          onClose={() => setPanel(undefined)}
+          onClose={handleClosePanel}
         />
+      )}
+
+      {panel === Panels.BaseRoles && (
+        <BaseRolesPanel onClose={handleClosePanel} />
+      )}
+
+      {panel === Panels.VacantRoles && (
+        <VacantRolesPanel onClose={handleClosePanel} />
       )}
     </Box>
   )

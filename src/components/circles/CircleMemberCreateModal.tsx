@@ -71,6 +71,7 @@ export default function CircleMemberCreateModal({ parentId, ...props }: Props) {
               <Input
                 type="text"
                 placeholder="Rechercher..."
+                autoFocus
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />

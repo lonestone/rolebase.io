@@ -2,7 +2,6 @@ import * as d3 from 'd3'
 
 export default {
   memberValue: 10,
-  fontSize: 10,
   padding: {
     circle: 30,
     membersCircle: 10,

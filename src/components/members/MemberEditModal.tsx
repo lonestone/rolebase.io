@@ -100,7 +100,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>Editer le membre {member.name}</ModalHeader>
+            <ModalHeader>Modifier le membre {member.name}</ModalHeader>
             <ModalCloseButton />
 
             <ModalBody>

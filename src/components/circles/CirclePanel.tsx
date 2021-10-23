@@ -1,4 +1,4 @@
-import { AddIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   Center,
@@ -6,10 +6,7 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  InputGroup,
-  Select,
   Spacer,
-  StackItem,
   useDisclosure,
   VStack,
   Wrap,
@@ -21,6 +18,7 @@ import { CircleUpdate, updateCircle } from '../../api/entities/circles'
 import { MemberEntry } from '../../api/entities/members'
 import useCircleAndParents from '../../hooks/useCircleAndParents'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
+import CircleAndParentsButton from '../common/CircleAndParentsButton'
 import Markdown from '../common/Markdown'
 import MemberButton from '../common/MemberButton'
 import Panel from '../common/Panel'
@@ -131,29 +129,7 @@ export default function CirclePanel({ id, onClose }: Props) {
     <Panel>
       <form onSubmit={onSubmit}>
         <HStack spacing={5} mb={5}>
-          <StackItem
-            maxW="80%"
-            style={{ textIndent: '-1em', marginLeft: '0.4em' }}
-          >
-            {circleAndParents?.map((c, i) => {
-              const last = i === circleAndParents.length - 1
-              return (
-                <span key={c.id}>
-                  <Button
-                    variant={last ? 'solid' : 'ghost'}
-                    size={last ? 'md' : 'sm'}
-                    borderRadius="full"
-                    fontWeight={last ? 600 : 400}
-                    ml={last ? '0.3em' : 0}
-                    onClick={() => navigateToCircle(c.id)}
-                  >
-                    {c.role?.name || '?'}
-                  </Button>
-                  {!last && <ChevronRightIcon margin="0 -0.3em" />}
-                </span>
-              )
-            }) || null}
-          </StackItem>
+          <CircleAndParentsButton id={id} />
           <Spacer />
           <CloseButton onClick={onClose} />
         </HStack>
@@ -187,39 +163,10 @@ export default function CirclePanel({ id, onClose }: Props) {
             </FormControl>
           )}
 
-          <FormControl>
-            <FormLabel htmlFor="roleId">Rôle :</FormLabel>
-            <InputGroup>
-              <Select name="roleId" ref={register()}>
-                {roles?.map((r) => (
-                  <option
-                    key={r.id}
-                    value={r.id}
-                    style={{
-                      fontWeight: r.id === role?.id ? 'bold' : 'normal',
-                    }}
-                  >
-                    {r.name}
-                  </option>
-                ))}
-              </Select>
-              <Button onClick={onEditRoleOpen}>Editer</Button>
-            </InputGroup>
-            {isDirty && (
-              <>
-                <Button colorScheme="blue" mt={2} type="submit">
-                  Enregistrer
-                </Button>
-                <Button variant="ghost" mt={2} onClick={handleReset}>
-                  Annuler
-                </Button>
-              </>
-            )}
-          </FormControl>
-
           <Center>
+            <Button onClick={onEditRoleOpen}>Modifier le rôle</Button>
             <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
-              Supprimer le cercle
+              Supprimer
             </Button>
           </Center>
 

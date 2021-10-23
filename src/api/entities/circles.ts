@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { firestore, getCollection, snapshotQuery } from '../firebase'
-import { RoleEntry } from './roles'
+import { RoleEntry, collection as rolesCollection, Role } from './roles'
 
 export interface Circle {
   orgId: string
@@ -59,13 +59,8 @@ export async function updateCircle(id: string, data: CircleUpdate) {
 
 export async function deleteCircle(id: string): Promise<boolean> {
   try {
-    const doc = collection.doc(id)
-    const snapshot = await doc.get()
-    const circle = snapshot.data()
-    if (!circle) throw new Error(`Circle not found: ${id}`)
-
     const batch = firestore.batch()
-    await deleteCircleInternal(circle.orgId, id, batch)
+    await deleteCircleInternal(id, batch)
     await batch.commit()
     return true
   } catch (error) {
@@ -74,20 +69,34 @@ export async function deleteCircle(id: string): Promise<boolean> {
   }
 }
 export async function deleteCircleInternal(
-  orgId: string,
   id: string,
   batch: firebase.default.firestore.WriteBatch
 ) {
   const doc = collection.doc(id)
+  const snapshot = await doc.get()
+  const circle = snapshot.data()
+  if (!circle) return
+
+  // Delete circle
   batch.delete(doc)
+
+  // Delete role?
+  if (circle) {
+    const roleDoc = rolesCollection.doc(circle.roleId)
+    const roleSnapshot = await roleDoc.get()
+    const role = roleSnapshot.data()
+    if (role && !role.base) {
+      batch.delete(roleDoc)
+    }
+  }
 
   // Delete sub-circles
   const subCircles = await collection
-    .where('orgId', '==', orgId)
+    .where('orgId', '==', circle.orgId)
     .where('parentId', '==', id)
     .get()
   for (const queryDocumentSnapshot of subCircles.docs) {
-    await deleteCircleInternal(orgId, queryDocumentSnapshot.id, batch)
+    await deleteCircleInternal(queryDocumentSnapshot.id, batch)
   }
 }
 
@@ -128,12 +137,23 @@ async function copyCircleInternal(
   const circle = snapshot.data()
   if (!circle) throw new Error(`Circle not found: ${circleId}`)
 
+  let roleId = circle.roleId
+
+  // Copy role?
+  const roleDoc = rolesCollection.doc(circle.roleId)
+  const roleSnapshot = await roleDoc.get()
+  const role = roleSnapshot.data()
+  if (role && !role.base) {
+    const newRoleDoc = rolesCollection.doc()
+    batch.set(newRoleDoc, role)
+    roleId = newRoleDoc.id
+  }
+
   // Create new circle
   const newCircle: Circle = {
-    orgId: circle.orgId,
+    ...circle,
     parentId: targetCircleId,
-    roleId: circle.roleId,
-    members: circle.members,
+    roleId,
   }
   const newCircleDoc = collection.doc()
   batch.set(newCircleDoc, newCircle)

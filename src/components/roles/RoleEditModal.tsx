@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Button,
   FormControl,
   FormErrorMessage,
@@ -79,7 +81,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>Editer le rôle {role.name}</ModalHeader>
+            <ModalHeader>Modifier le rôle {role.name}</ModalHeader>
             <ModalCloseButton />
 
             <ModalBody>
@@ -163,6 +165,14 @@ export default function RoleEditModal({ id, ...props }: Props) {
                       errors.defaultMinPerWeek.message}
                   </FormErrorMessage>
                 </FormControl>
+
+                {role.base ? (
+                  <Alert status="warning">
+                    <AlertIcon />
+                    Ce rôle est un rôle de base potentiellement utilisé dans
+                    plusieurs cercles
+                  </Alert>
+                ) : null}
               </VStack>
             </ModalBody>
 

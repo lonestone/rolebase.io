@@ -1,7 +1,8 @@
 import { HierarchyCircularNode } from 'd3-hierarchy'
-import { Data } from './types'
+import settings from './settings'
+import { Data, NodeData } from './types'
 
-export const d3CircleName = (
+export const d3CircleCenterName = (
   selection: d3.Selection<
     SVGTextElement,
     d3.HierarchyCircularNode<Data>,
@@ -13,15 +14,32 @@ export const d3CircleName = (
   selection
     .attr('font-size', '1em')
     .attr('opacity', (d, i, nodes) =>
-      getFontSize(d, i, nodes) > 2 ? getOpacity(d) : 0
+      getCenterFontSize(d, i, nodes) > 2 ? getCenterNameOpacity(d) : 0
     )
-    .attr('font-size', (d, i, nodes) => `${getFontSize(d, i, nodes)}em`)
+    .attr('font-size', (d, i, nodes) => `${getCenterFontSize(d, i, nodes)}em`)
 }
 
+export const d3CircleTopName =
+  (maxDepth: number) =>
+  (
+    selection: d3.Selection<
+      SVGTextElement,
+      d3.HierarchyCircularNode<Data>,
+      SVGGElement,
+      unknown
+    >
+  ) => {
+    // Reset font-size, then apply opacity and font-size
+    selection
+      .attr('y', (d) => -d.r - 5)
+      .attr('font-size', (d) => `${getTopFontSize(d, maxDepth)}px`)
+      .attr('opacity', (d, i, nodes) => getTopNameOpacity(d))
+  }
+
 // Opacity depends on zoom scale and node depth
-// Equation: -20 * (x - 1 / 5 - 0.2)^2 + 1.2
+// Equation: -20 * (x - depth / 5 - 0.2)^2 + 1.2
 // Graph: https://www.desmos.com/calculator/sd6gxuojqg
-function getOpacity(data: HierarchyCircularNode<Data>) {
+function getCenterNameOpacity(data: HierarchyCircularNode<Data>) {
   return `clamp(0, calc(
     -20
       * (var(--zoom-scale) - ${data.depth} / 5 - 0.2)
@@ -30,10 +48,24 @@ function getOpacity(data: HierarchyCircularNode<Data>) {
   ), 1)`
 }
 
-function getFontSize(
+// Opacity depends on zoom scale and node depth
+// Equation: 5 * (x - depth / 5 - 0.3)
+// Graph: https://www.desmos.com/calculator/sd6gxuojqg
+function getTopNameOpacity(data: HierarchyCircularNode<Data>) {
+  return `clamp(0, calc(
+    5
+      * (var(--zoom-scale) - ${data.depth} / 5 - 0.3)
+  ), 1)`
+}
+
+function getCenterFontSize(
   data: HierarchyCircularNode<Data>,
   index: number,
   nodes: SVGTextElement[] | ArrayLike<SVGTextElement>
 ) {
   return (data.r * 2 * 0.9) / nodes[index].getBBox().width
+}
+
+function getTopFontSize(node: NodeData, maxDepth: number) {
+  return 5 + (maxDepth / node.depth) * 2
 }

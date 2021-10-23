@@ -4,7 +4,6 @@ import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 import CirclesPage from '../pages/CirclesPage'
 import MembersPage from '../pages/MembersPage'
-import RolesPage from '../pages/RolesPage'
 import { useStoreActions, useStoreState } from '../store/hooks'
 
 export default function OrgRoutes() {
@@ -58,9 +57,6 @@ export default function OrgRoutes() {
         </Route>
         <Route exact path="/orgs/:orgId/members">
           <MembersPage />
-        </Route>
-        <Route exact path="/orgs/:orgId/roles">
-          <RolesPage />
         </Route>
         <Route>
           <Redirect to={`/orgs/${orgId}`} />
