@@ -1,5 +1,6 @@
+import { OrgEntry } from '@shared/orgs'
 import { action, Action } from 'easy-peasy'
-import { OrgEntry, subscribeOrgs } from '../../api/entities/orgs'
+import { subscribeOrgs } from '../../api/entities/orgs'
 import { createModel, GenericModel } from './generic'
 
 const model = createModel<OrgEntry>(subscribeOrgs)

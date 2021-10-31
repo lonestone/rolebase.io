@@ -4,3 +4,6 @@ dist
 dist-ssr
 *.local
 *.cache
+*.log
+.env
+functions/lib

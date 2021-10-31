@@ -1,6 +1,7 @@
 import firebaseApp from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/functions'
 import 'firebase/storage'
 import settings from '../settings'
 
@@ -9,6 +10,13 @@ const app = firebaseApp.initializeApp(settings.firebase)
 export const auth = app.auth()
 export const firestore = app.firestore()
 export const storage = app.storage()
+export const functions = app.functions()
+
+if (location.hostname === 'localhost') {
+  auth.useEmulator('http://localhost:9099')
+  firestore.useEmulator('localhost', 8080)
+  functions.useEmulator('localhost', 5001)
+}
 
 export type FirebaseHookReturn<Data> = [
   data: Data | undefined,

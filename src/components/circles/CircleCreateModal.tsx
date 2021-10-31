@@ -17,7 +17,6 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
 import { createCircle } from '../../api/entities/circles'
 import { createRole, roleCreateSchema } from '../../api/entities/roles'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
@@ -28,12 +27,8 @@ interface Props extends UseModalProps {
 }
 
 interface Values {
-  roleName: string
+  name: string
 }
-
-const schema = yup.object({
-  roleName: yup.string(),
-})
 
 export default function CircleCreateModal({ parentId, ...props }: Props) {
   const navigateOrg = useNavigateOrg()
@@ -41,8 +36,8 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
   const roles = useStoreState((state) => state.roles.entries)
   const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
 
-  const { handleSubmit, register, errors, reset, watch } = useForm<Values>({
-    resolver: yupResolver(schema),
+  const { handleSubmit, register, errors } = useForm<Values>({
+    resolver: yupResolver(roleCreateSchema),
   })
 
   const handleCreateCircle = useCallback(
@@ -55,12 +50,11 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
     [orgId, parentId]
   )
 
-  const onSubmit = handleSubmit(async ({ roleName }) => {
+  const onSubmit = handleSubmit(async ({ name }) => {
     if (!orgId) return
     try {
       // Create role
-      await roleCreateSchema.validate({ name: roleName })
-      const role = await createRole(orgId, false, roleName)
+      const role = await createRole(orgId, false, name)
       if (!role) throw new Error('Error creating new role')
 
       // Create circle
@@ -79,11 +73,11 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
 
         <ModalBody>
           <form onSubmit={onSubmit}>
-            <FormControl isInvalid={!!errors.roleName}>
-              <FormLabel htmlFor="roleName">Nom du nouveau rôle</FormLabel>
+            <FormControl isInvalid={!!errors.name} mb={10}>
+              <FormLabel htmlFor="name">Nom du nouveau rôle</FormLabel>
               <HStack>
                 <Input
-                  name="roleName"
+                  name="name"
                   placeholder="Nom..."
                   ref={register}
                   autoFocus
@@ -93,27 +87,27 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
                 </Button>
               </HStack>
               <FormErrorMessage>
-                {errors.roleName && errors.roleName.message}
+                {errors.name && errors.name.message}
               </FormErrorMessage>
             </FormControl>
           </form>
 
-          <FormControl mt={10} mb={5}>
-            <FormLabel htmlFor="roleId">
-              Ou utiliser un rôle de base :
-            </FormLabel>
-            <VStack>
-              {baseRoles &&
-                baseRoles?.map((role) => (
-                  <Button
-                    key={role.id}
-                    onClick={() => handleCreateCircle(role.id)}
-                  >
-                    {role.name}
-                  </Button>
-                ))}
-            </VStack>
-          </FormControl>
+          {baseRoles && baseRoles.length > 0 && (
+            <FormControl mb={5}>
+              <FormLabel>Ou utiliser un rôle de base :</FormLabel>
+              <VStack>
+                {baseRoles &&
+                  baseRoles?.map((role) => (
+                    <Button
+                      key={role.id}
+                      onClick={() => handleCreateCircle(role.id)}
+                    >
+                      {role.name}
+                    </Button>
+                  ))}
+              </VStack>
+            </FormControl>
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>

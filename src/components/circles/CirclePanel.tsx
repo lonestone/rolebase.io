@@ -12,10 +12,11 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import { CircleUpdate } from '@shared/circles'
+import { MemberEntry } from '@shared/members'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { CircleUpdate, updateCircle } from '../../api/entities/circles'
-import { MemberEntry } from '../../api/entities/members'
+import { updateCircle } from '../../api/entities/circles'
 import useCircleAndParents from '../../hooks/useCircleAndParents'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import CircleAndParentsButton from '../common/CircleAndParentsButton'

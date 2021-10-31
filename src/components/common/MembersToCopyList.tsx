@@ -1,7 +1,8 @@
 import { VStack } from '@chakra-ui/layout'
+import { Member, MemberEntry } from '@shared/members'
 import uniqBy from 'lodash.uniqby'
 import React, { useEffect, useState } from 'react'
-import { getMembers, Member, MemberEntry } from '../../api/entities/members'
+import { getMembers } from '../../api/entities/members'
 import { useStoreState } from '../store/hooks'
 import MemberButton from './MemberButton'
 

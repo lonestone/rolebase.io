@@ -14,14 +14,10 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { MemberCreate, MemberEntry } from '@shared/members'
 import React, { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  createMember,
-  MemberCreate,
-  memberCreateSchema,
-  MemberEntry,
-} from '../../api/entities/members'
+import { createMember, memberCreateSchema } from '../../api/entities/members'
 import MembersToCopyList from '../common/MembersToCopyList'
 import { useStoreState } from '../store/hooks'
 

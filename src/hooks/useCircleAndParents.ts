@@ -1,5 +1,5 @@
+import { CircleWithRoleEntry } from '@shared/circles'
 import { useMemo } from 'react'
-import { CircleWithRoleEntry } from '../api/entities/circles'
 import { useStoreState } from '../components/store/hooks'
 import { getCircleRoles } from '../utils/getCircleRoles'
 

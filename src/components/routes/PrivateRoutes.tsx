@@ -1,6 +1,7 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import LoggedLayout from '../layout/LoggedLayout'
+import MemberInvitationPage from '../pages/MemberInvitationPage'
 import OrgsPage from '../pages/OrgsPage'
 import OrgRoutes from './OrgRoutes'
 
@@ -10,6 +11,9 @@ export default function PrivateRoutes() {
       <Switch>
         <Route exact path="/">
           <OrgsPage />
+        </Route>
+        <Route exact path="/orgs/:orgId/invitation">
+          <MemberInvitationPage />
         </Route>
         <Route path="/orgs/:orgId">
           <OrgRoutes />

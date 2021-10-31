@@ -1,21 +1,7 @@
+import { Role, RoleEntry, RoleUpdate } from '@shared/roles'
 import * as yup from 'yup'
 import { getCollection, snapshotQuery } from '../firebase'
 import { nameSchema } from '../schemas'
-
-export interface Role {
-  orgId: string
-  base: boolean
-  name: string
-  purpose: string
-  domain: string
-  accountabilities: string
-  notes: string
-  defaultMinPerWeek?: number | null
-}
-
-export type RoleEntry = Role & { id: string }
-export type RoleCreate = Role
-export type RoleUpdate = Partial<Role>
 
 export const collection = getCollection<Role>('roles')
 
@@ -51,7 +37,7 @@ export async function createRole(
 }
 
 export async function updateRole(id: string, data: RoleUpdate) {
-  await collection.doc(id).set(data, { merge: true })
+  await collection.doc(id).update(data)
 }
 
 export async function deleteRole(id: string) {

@@ -16,9 +16,10 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { OrgUpdate } from '@shared/orgs'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { OrgUpdate, orgUpdateSchema, updateOrg } from '../../api/entities/orgs'
+import { orgUpdateSchema, updateOrg } from '../../api/entities/orgs'
 import useOrg from '../../hooks/useOrg'
 import DurationSelect from '../common/DurationSelect'
 import OrgDeleteModal from './OrgDeleteModal'

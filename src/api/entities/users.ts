@@ -1,16 +1,7 @@
+import { User, UserEntry, UserUpdate } from '@shared/users'
 import * as yup from 'yup'
 import { getCollection } from '../firebase'
 import { emailSchema, nameSchema } from '../schemas'
-
-export interface User {
-  name: string
-  email: string
-  picture?: string
-}
-
-export type UserEntry = User & { id: string }
-export type UserCreate = User
-export type UserUpdate = Partial<User>
 
 const collection = getCollection<User>('users')
 
@@ -39,7 +30,7 @@ export async function createUser(id: string, user: User) {
 }
 
 export async function updateUser(id: string, data: UserUpdate) {
-  await collection.doc(id).set(data, { merge: true })
+  await collection.doc(id).update(data)
 }
 
 export async function deleteUser(id: string) {

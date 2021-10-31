@@ -1,20 +1,7 @@
+import { Member, MemberEntry, MemberUpdate } from '@shared/members'
 import * as yup from 'yup'
-import { getCollection, snapshotQuery, storage } from '../firebase'
+import { functions, getCollection, snapshotQuery, storage } from '../firebase'
 import { nameSchema } from '../schemas'
-
-export interface Member {
-  orgId: string
-  name: string
-  picture?: string | null
-  email?: string | null
-  userId?: string | null
-  lastInvitation?: Date | null
-  workedMinPerWeek?: number | null
-}
-
-export type MemberEntry = Member & { id: string }
-export type MemberCreate = Member
-export type MemberUpdate = Partial<Member>
 
 const collection = getCollection<Member>('members')
 
@@ -51,7 +38,7 @@ export async function createMember(member: Member): Promise<MemberEntry> {
 }
 
 export async function updateMember(id: string, data: MemberUpdate) {
-  await collection.doc(id).set(data, { merge: true })
+  await collection.doc(id).update(data)
 }
 
 export async function deleteMember(id: string) {
@@ -78,4 +65,24 @@ export async function uploadPicture(
     .child(`members/${memberId}${extension}`)
     .put(file)
   return snapshot.ref.getDownloadURL()
+}
+
+export async function inviteMember(
+  memberId: string,
+  email: string
+): Promise<void> {
+  await functions.httpsCallable('inviteMember')({
+    memberId,
+    email,
+  })
+}
+
+export async function acceptMemberInvitation(
+  memberId: string,
+  token: string
+): Promise<void> {
+  await functions.httpsCallable('acceptMemberInvitation')({
+    memberId,
+    token,
+  })
 }

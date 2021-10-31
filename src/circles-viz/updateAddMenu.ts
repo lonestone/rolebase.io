@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import { Transition } from 'd3'
-import { MemberEntry } from '../api/entities/members'
+import { MemberEntry } from '@shared/members'
 import { GraphEvents } from './createGraph'
 import { getFirstname } from './getFirstname'
 import { getNodeColor } from './getNodeColor'

@@ -1,31 +1,7 @@
 import { nanoid } from 'nanoid'
+import { Circle, CircleEntry, CircleUpdate } from '@shared/circles'
 import { firestore, getCollection, snapshotQuery } from '../firebase'
-import { RoleEntry, collection as rolesCollection, Role } from './roles'
-
-export interface Circle {
-  orgId: string
-  roleId: string
-  parentId: string | null
-  members: CircleMemberEntry[]
-}
-
-export type CircleEntry = Circle & { id: string }
-export type CircleCreate = Circle
-export type CircleUpdate = Partial<Circle>
-
-export interface CircleWithRoleEntry extends CircleEntry {
-  role?: RoleEntry
-}
-
-// Circle member
-export interface CircleMember {
-  memberId: string
-  avgMinPerWeek?: number | null
-}
-
-export interface CircleMemberEntry extends CircleMember {
-  id: string
-}
+import { collection as rolesCollection } from './roles'
 
 const collection = getCollection<Circle>('circles')
 
@@ -54,7 +30,7 @@ export async function createCircle(
 }
 
 export async function updateCircle(id: string, data: CircleUpdate) {
-  await collection.doc(id).set(data, { merge: true })
+  await collection.doc(id).update(data)
 }
 
 export async function deleteCircle(id: string): Promise<boolean> {
@@ -108,7 +84,7 @@ export async function moveCircle(
   const doc = collection.doc(circleId)
   const snapshot = await doc.get()
   if (!snapshot.exists) return false
-  doc.set({ parentId: targetCircleId }, { merge: true })
+  doc.update({ parentId: targetCircleId })
   return true
 }
 
@@ -183,15 +159,12 @@ export async function addMemberToCircle(
   }
 
   // Add to members list
-  doc.set(
-    {
-      members: circle.members.concat({
-        id: nanoid(10),
-        memberId,
-      }),
-    },
-    { merge: true }
-  )
+  doc.update({
+    members: circle.members.concat({
+      id: nanoid(10),
+      memberId,
+    }),
+  })
   return true
 }
 
@@ -214,14 +187,9 @@ export async function moveCircleMember(
 
   if (targetCircleId === null) {
     // Remove member from circle
-    doc.set(
-      {
-        members: circle.members.filter(
-          (member) => member.memberId !== memberId
-        ),
-      },
-      { merge: true }
-    )
+    doc.update({
+      members: circle.members.filter((member) => member.memberId !== memberId),
+    })
     return true
   }
 
@@ -236,20 +204,14 @@ export async function moveCircleMember(
   // Member is not already in target circle
   if (!targetCircle.members.some((member) => member.memberId === memberId)) {
     // Add member to target circle
-    targetDoc.set(
-      {
-        members: targetCircle.members.concat(entry),
-      },
-      { merge: true }
-    )
+    targetDoc.update({
+      members: targetCircle.members.concat(entry),
+    })
   }
 
   // Remove member from its circle
-  doc.set(
-    {
-      members: circle.members.filter((member) => member.memberId !== memberId),
-    },
-    { merge: true }
-  )
+  doc.update({
+    members: circle.members.filter((member) => member.memberId !== memberId),
+  })
   return true
 }

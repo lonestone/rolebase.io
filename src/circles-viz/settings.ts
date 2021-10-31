@@ -3,9 +3,9 @@ import * as d3 from 'd3'
 export default {
   memberValue: 10,
   padding: {
-    circle: 30,
-    membersCircle: 10,
-    member: 1,
+    circle: 40,
+    membersCircle: 20,
+    member: 20,
   },
   zoom: {
     scaleExtent: [0.1, 5],

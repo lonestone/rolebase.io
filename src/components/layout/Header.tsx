@@ -12,18 +12,25 @@ import {
   Spacer,
   StackItem,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { auth } from '../../api/firebase'
 import useCurrentOrg from '../../hooks/useCurrentOrg'
+import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import Search from '../../search/Search'
 import { useStoreState } from '../store/hooks'
 import HeaderLink from './HeaderLink'
 
 export default function Header() {
-  const org = useCurrentOrg()
   const user = useStoreState((state) => state.auth.user)
-
   if (!user) return null
+
+  const org = useCurrentOrg()
+  const members = useStoreState((state) => state.members.entries)
+  const navigateOrg = useNavigateOrg()
+  const userMember = useMemo(
+    () => members?.find((m) => m.userId === user.id),
+    [user, members]
+  )
 
   return (
     <Flex
@@ -55,6 +62,7 @@ export default function Header() {
             <HeaderLink to={`/orgs/${org.id}?vacantRoles`}>
               Rôles vacants
             </HeaderLink>
+            <HeaderLink to={`/orgs/${org.id}/threads`}>Discussions</HeaderLink>
           </>
         )}
 
@@ -76,6 +84,13 @@ export default function Header() {
               />
             </MenuButton>
             <MenuList>
+              {userMember && (
+                <MenuItem
+                  onClick={() => navigateOrg(`?memberId=${userMember.id}`)}
+                >
+                  Mes rôles
+                </MenuItem>
+              )}
               <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
             </MenuList>
           </Menu>

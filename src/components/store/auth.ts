@@ -1,7 +1,8 @@
+import { UserEntry } from '@shared/users'
 import { action, Action, thunk, Thunk } from 'easy-peasy'
 import firebase from 'firebase/app'
 import { store, StoreModel } from '.'
-import { createUser, subscribeUser, UserEntry } from '../../api/entities/users'
+import { createUser, subscribeUser } from '../../api/entities/users'
 import { auth } from '../../api/firebase'
 
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
@@ -75,7 +76,7 @@ const model: AuthModel = {
     try {
       // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithpopup
       await auth.signInWithPopup(googleAuthProvider)
-    } catch (error) {
+    } catch (error: any) {
       actions.setError(error)
     }
   }),
@@ -86,7 +87,7 @@ const model: AuthModel = {
     try {
       // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithemailandpassword
       await auth.signInWithEmailAndPassword(email, password)
-    } catch (error) {
+    } catch (error: any) {
       actions.setError(error)
     }
   }),
@@ -105,7 +106,7 @@ const model: AuthModel = {
       }
 
       await createUser(userCredential.user.uid, { email, name })
-    } catch (error) {
+    } catch (error: any) {
       actions.setError(error)
     }
   }),

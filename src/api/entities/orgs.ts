@@ -1,18 +1,8 @@
+import { Org, OrgEntry, OrgUpdate } from '@shared/orgs'
 import * as yup from 'yup'
 import { getCollection, snapshotQuery } from '../firebase'
 import { nameSchema } from '../schemas'
-
-// Organization
-export interface Org {
-  name: string
-  ownersIds: string[] // Ids of users that own the organization
-  disabled: boolean
-  defaultWorkedMinPerWeek: number
-}
-
-export type OrgEntry = Org & { id: string }
-export type OrgCreate = Org
-export type OrgUpdate = Partial<Org>
+import { getUser } from './users'
 
 const collection = getCollection<Org>('orgs')
 
@@ -48,7 +38,7 @@ export async function createOrg(
 }
 
 export async function updateOrg(id: string, data: OrgUpdate) {
-  await collection.doc(id).set(data, { merge: true })
+  await collection.doc(id).update(data)
 }
 
 export async function deleteOrg(id: string) {

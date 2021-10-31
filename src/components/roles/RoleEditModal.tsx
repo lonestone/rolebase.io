@@ -19,13 +19,10 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { RoleUpdate } from '@shared/roles'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  RoleUpdate,
-  roleUpdateSchema,
-  updateRole,
-} from '../../api/entities/roles'
+import { roleUpdateSchema, updateRole } from '../../api/entities/roles'
 import useRole from '../../hooks/useRole'
 import ControlledMardownEditor from '../common/ControlledMardownEditor'
 import DurationSelect from '../common/DurationSelect'

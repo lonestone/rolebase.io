@@ -1,12 +1,13 @@
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Button,
   CloseButton,
   Heading,
   HStack,
+  ListItem,
   Spacer,
-  VStack,
   StackItem,
+  UnorderedList,
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
@@ -56,13 +57,20 @@ export default function BaseRolesPanel({ onClose }: Props) {
         </HStack>
       </Heading>
 
-      <VStack>
-        {baseRoles?.map((role) => (
-          <Button key={role.name} onClick={() => handleOpenEdit(role.id)}>
-            {role.name}
-          </Button>
-        ))}
-      </VStack>
+      {!baseRoles?.length ? (
+        <i>Aucun rôle de base</i>
+      ) : (
+        <UnorderedList>
+          {baseRoles?.map((role) => (
+            <ListItem key={role.id}>
+              {role.name}{' '}
+              <Button size="sm" onClick={() => handleOpenEdit(role.id)}>
+                <EditIcon />
+              </Button>
+            </ListItem>
+          ))}
+        </UnorderedList>
+      )}
 
       <BaseRoleCreateModal
         isOpen={isAddOpen}

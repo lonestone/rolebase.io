@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
 import { HierarchyCircularNode } from 'd3'
-import { CircleEntry } from '../api/entities/circles'
-import { MemberEntry } from '../api/entities/members'
-import { RoleEntry } from '../api/entities/roles'
+import { CircleEntry } from '@shared/circles'
+import { MemberEntry } from '@shared/members'
+import { RoleEntry } from '@shared/roles'
 import { d3CircleCenterName, d3CircleTopName } from './circleName'
 import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
@@ -223,7 +223,7 @@ export default function updateCircles(
           .attr('pointer-events', 'none')
           .attr('font-weight', 'bold')
           .attr('paint-order', 'stroke')
-          .attr('stroke', 'white')
+          .attr('stroke', 'rgba(255,255,255,0.5)')
           .attr('stroke-width', '2px')
           .attr('stroke-linecap', 'round')
           .attr('stroke-linejoin', 'round')

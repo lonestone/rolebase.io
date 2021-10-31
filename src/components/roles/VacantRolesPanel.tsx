@@ -1,4 +1,5 @@
 import {
+  Box,
   CloseButton,
   Heading,
   HStack,
@@ -6,8 +7,8 @@ import {
   Stack,
   StackItem,
 } from '@chakra-ui/react'
+import { CircleEntry } from '@shared/circles'
 import React, { useMemo } from 'react'
-import { CircleEntry } from '../../api/entities/circles'
 import CircleAndParentsButton from '../common/CircleAndParentsButton'
 import Panel from '../common/Panel'
 import { useStoreState } from '../store/hooks'
@@ -45,11 +46,15 @@ export default function VacantRolesPanel({ onClose }: Props) {
         </HStack>
       </Heading>
 
-      <Stack direction="column">
-        {vacantCircles?.map((circle) => (
-          <CircleAndParentsButton id={circle.id} />
-        ))}
-      </Stack>
+      {!vacantCircles?.length ? (
+        <i>Aucun rôle vacant</i>
+      ) : (
+        <Stack direction="column">
+          {vacantCircles?.map((circle) => (
+            <CircleAndParentsButton key={circle.id} id={circle.id} />
+          ))}
+        </Stack>
+      )}
     </Panel>
   )
 }

@@ -1,22 +1,28 @@
 import React, { useEffect } from 'react'
 import { Redirect, Route, Switch, useParams } from 'react-router-dom'
+import useOrg from '../../hooks/useOrg'
 import Loading from '../common/Loading'
 import TextErrors from '../common/TextErrors'
 import CirclesPage from '../pages/CirclesPage'
 import MembersPage from '../pages/MembersPage'
+import ThreadsPage from '../pages/ThreadsPage'
 import { useStoreActions, useStoreState } from '../store/hooks'
 
 export default function OrgRoutes() {
   const { orgId } = useParams<{ orgId: string }>()
+  const org = useOrg(orgId)
+  const orgLoading = useStoreState(
+    (state) => state.orgs.loading || !state.orgs.entries
+  )
 
+  const loading =
+    useStoreState(
+      (state) =>
+        state.circles.loading || state.members.loading || state.roles.loading
+    ) || orgLoading
   const circlesError = useStoreState((state) => state.circles.error)
-  const circlesLoading = useStoreState((state) => state.circles.loading)
-
   const membersError = useStoreState((state) => state.members.error)
-  const membersLoading = useStoreState((state) => state.members.loading)
-
   const rolesError = useStoreState((state) => state.roles.error)
-  const rolesLoading = useStoreState((state) => state.roles.loading)
 
   const actions = useStoreActions((actions) => ({
     setOrgId: actions.orgs.setCurrentId,
@@ -43,12 +49,13 @@ export default function OrgRoutes() {
     }
   }, [orgId])
 
+  if (!org && !orgLoading) {
+    return <Redirect to="/" />
+  }
+
   return (
     <>
-      <Loading
-        center
-        active={membersLoading || circlesLoading || rolesLoading}
-      />
+      <Loading center active={loading} />
       <TextErrors errors={[membersError, rolesError, circlesError]} />
 
       <Switch>
@@ -57,6 +64,9 @@ export default function OrgRoutes() {
         </Route>
         <Route exact path="/orgs/:orgId/members">
           <MembersPage />
+        </Route>
+        <Route exact path="/orgs/:orgId/threads">
+          <ThreadsPage />
         </Route>
         <Route>
           <Redirect to={`/orgs/${orgId}`} />

@@ -1,5 +1,5 @@
-import { CircleEntry, CircleWithRoleEntry } from '../api/entities/circles'
-import { RoleEntry } from '../api/entities/roles'
+import { CircleEntry, CircleWithRoleEntry } from '@shared/circles'
+import { RoleEntry } from '@shared/roles'
 
 // Find a circle and its parent, and return their ids and roles
 export function getCircleRoles(

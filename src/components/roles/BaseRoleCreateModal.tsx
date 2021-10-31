@@ -14,13 +14,10 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { RoleCreate } from '@shared/roles'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  createRole,
-  RoleCreate,
-  roleCreateSchema,
-} from '../../api/entities/roles'
+import { createRole, roleCreateSchema } from '../../api/entities/roles'
 import { useStoreState } from '../store/hooks'
 
 interface Props extends UseModalProps {

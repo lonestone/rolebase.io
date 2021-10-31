@@ -1,6 +1,6 @@
-import { CircleEntry, CircleMemberEntry } from '../api/entities/circles'
-import { MemberEntry } from '../api/entities/members'
-import { RoleEntry } from '../api/entities/roles'
+import { CircleEntry, CircleMemberEntry } from '@shared/circles'
+import { MemberEntry } from '@shared/members'
+import { RoleEntry } from '@shared/roles'
 import settings from './settings'
 import { Data, NodeType } from './types'
 

@@ -1,4 +1,7 @@
+import { InfoIcon } from '@chakra-ui/icons'
 import {
+  Alert,
+  AlertIcon,
   Avatar,
   Box,
   Button,
@@ -15,13 +18,16 @@ import {
   ModalOverlay,
   useDisclosure,
   UseModalProps,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { MemberUpdate } from '@shared/members'
+import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
-  MemberUpdate,
+  inviteMember,
   memberUpdateSchema,
   updateMember,
   uploadPicture,
@@ -42,6 +48,9 @@ interface Values extends MemberUpdate {
 
 export default function MemberEditModal({ id, ...props }: Props) {
   const member = useMember(id)
+  if (!member) return null
+
+  const toast = useToast()
   const org = useCurrentOrg()
 
   const {
@@ -92,7 +101,17 @@ export default function MemberEditModal({ id, ...props }: Props) {
     navigateOrg(`?memberId=${id}`)
   }, [id])
 
-  if (!member) return null
+  const handleInvite = useCallback(() => {
+    if (!member.inviteEmail) return
+    inviteMember(member.id, member.inviteEmail)
+    toast({
+      title: 'Membre invité',
+      description: `Vous avez invité ${member.name} à rejoindre l'organisation`,
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    })
+  }, [member])
 
   return (
     <>
@@ -144,6 +163,27 @@ export default function MemberEditModal({ id, ...props }: Props) {
                     {errors.workedMinPerWeek && errors.workedMinPerWeek.message}
                   </FormErrorMessage>
                 </FormControl>
+
+                {member.userId && (
+                  <Alert status="info">
+                    <InfoIcon />
+                    <Box>Ce membre est lié à un compte utilisateur.</Box>
+                  </Alert>
+                )}
+
+                {!member.userId && member.inviteDate && member.inviteEmail && (
+                  <Alert status="info">
+                    <AlertIcon />
+                    <Box>
+                      Invitation envoyée à {member.inviteEmail} le{' '}
+                      {format(member.inviteDate.toDate(), 'P')}, en attente
+                      d'acceptation
+                      <Button variant="ghost" onClick={handleInvite}>
+                        Renvoyer
+                      </Button>
+                    </Box>
+                  </Alert>
+                )}
 
                 <Box textAlign="right">
                   <Button
