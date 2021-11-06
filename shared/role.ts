@@ -1,3 +1,5 @@
+import { WithId } from './types'
+
 export interface Role {
   orgId: string
   base: boolean
@@ -9,6 +11,4 @@ export interface Role {
   defaultMinPerWeek?: number | null
 }
 
-export type RoleEntry = Role & { id: string }
-export type RoleCreate = Role
-export type RoleUpdate = Partial<Role>
+export type RoleEntry = WithId<Role>

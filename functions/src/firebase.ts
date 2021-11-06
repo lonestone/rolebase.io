@@ -1,8 +1,8 @@
-import { Circle } from '@shared/circles'
-import { Member } from '@shared/members'
-import { Org } from '@shared/orgs'
-import { Role } from '@shared/roles'
-import { User } from '@shared/users'
+import { Circle } from '@shared/circle'
+import { Member } from '@shared/member'
+import { Org } from '@shared/org'
+import { Role } from '@shared/role'
+import { User } from '@shared/user'
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 

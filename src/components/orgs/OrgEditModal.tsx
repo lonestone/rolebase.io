@@ -16,7 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { OrgUpdate } from '@shared/orgs'
+import { Org } from '@shared/org'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { orgUpdateSchema, updateOrg } from '../../api/entities/orgs'
@@ -37,10 +37,11 @@ export default function OrgEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, watch, setValue, reset } =
-    useForm<OrgUpdate>({
-      resolver: yupResolver(orgUpdateSchema),
-    })
+  const { handleSubmit, errors, register, watch, setValue, reset } = useForm<
+    Partial<Org>
+  >({
+    resolver: yupResolver(orgUpdateSchema),
+  })
 
   // Init form data
   useEffect(() => {

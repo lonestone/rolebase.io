@@ -1,4 +1,4 @@
-import { OrgEntry } from '@shared/orgs'
+import { OrgEntry } from '@shared/org'
 import { useStoreState } from '../components/store/hooks'
 import useOrg from './useOrg'
 

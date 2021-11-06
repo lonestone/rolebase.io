@@ -7,7 +7,7 @@ import {
   Stack,
   StackItem,
 } from '@chakra-ui/react'
-import { CircleEntry } from '@shared/circles'
+import { CircleEntry } from '@shared/circle'
 import React, { useMemo } from 'react'
 import CircleAndParentsButton from '../common/CircleAndParentsButton'
 import Panel from '../common/Panel'

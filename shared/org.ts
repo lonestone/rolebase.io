@@ -1,3 +1,5 @@
+import { WithId } from './types'
+
 // Organization
 export interface Org {
   name: string
@@ -6,6 +8,4 @@ export interface Org {
   defaultWorkedMinPerWeek: number
 }
 
-export type OrgEntry = Org & { id: string }
-export type OrgCreate = Org
-export type OrgUpdate = Partial<Org>
+export type OrgEntry = WithId<Org>

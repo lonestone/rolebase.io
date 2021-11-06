@@ -1,4 +1,5 @@
 import { action, Action, computed, Computed, thunk, Thunk } from 'easy-peasy'
+import { SubscriptionFn } from '../../api/firebase'
 import { StoreModel } from '.'
 
 export interface GenericModel<Entry> {
@@ -25,10 +26,8 @@ export interface GenericEntry {
 }
 
 export type GenericSubscribe<Entry> = (
-  paramId: string,
-  onData: (circles: Entry[]) => void,
-  onError: (error: Error) => void
-) => () => void
+  paramId: string
+) => SubscriptionFn<Entry[]>
 
 export function createModel<Entry extends GenericEntry>(
   subscribe: GenericSubscribe<Entry>
@@ -71,8 +70,7 @@ export function createModel<Entry extends GenericEntry>(
     subscribe: thunk(async (actions, { parentId }) => {
       actions.reset()
       actions.setLoading(true)
-      const unsubscribe = subscribe(
-        parentId,
+      const unsubscribe = subscribe(parentId)(
         actions.setEntries,
         actions.setError
       )

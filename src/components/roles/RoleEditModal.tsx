@@ -19,7 +19,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { RoleUpdate } from '@shared/roles'
+import { Role } from '@shared/role'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { roleUpdateSchema, updateRole } from '../../api/entities/roles'
@@ -42,7 +42,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
   } = useDisclosure()
 
   const { handleSubmit, errors, register, control, watch, setValue, reset } =
-    useForm<RoleUpdate>({
+    useForm<Partial<Role>>({
       resolver: yupResolver(roleUpdateSchema),
     })
 

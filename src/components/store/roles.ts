@@ -1,4 +1,4 @@
-import { RoleEntry } from '@shared/roles'
+import { RoleEntry } from '@shared/role'
 import { subscribeRoles } from '../../api/entities/roles'
 import { createModel } from './generic'
 

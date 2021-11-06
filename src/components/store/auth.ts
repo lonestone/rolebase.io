@@ -1,4 +1,4 @@
-import { UserEntry } from '@shared/users'
+import { UserEntry } from '@shared/user'
 import { action, Action, thunk, Thunk } from 'easy-peasy'
 import firebase from 'firebase/app'
 import { store, StoreModel } from '.'
@@ -38,7 +38,7 @@ auth.onAuthStateChanged((firebaseUser) => {
   unsubscribeUser = undefined
   if (firebaseUser && firebaseUser.email) {
     // Fetch user entry
-    unsubscribeUser = subscribeUser(firebaseUser.uid, setUser, setError)
+    unsubscribeUser = subscribeUser(firebaseUser.uid)(setUser, setError)
   } else {
     // Signout
     signout()

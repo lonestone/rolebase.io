@@ -12,8 +12,8 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
-import { CircleUpdate } from '@shared/circles'
-import { MemberEntry } from '@shared/members'
+import { Circle } from '@shared/circle'
+import { MemberEntry } from '@shared/member'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { updateCircle } from '../../api/entities/circles'
@@ -88,13 +88,7 @@ export default function CirclePanel({ id, onClose }: Props) {
     onClose: onCreateCircleMemberClose,
   } = useDisclosure()
 
-  const {
-    handleSubmit,
-    register,
-    formState: { isDirty },
-    reset,
-    watch,
-  } = useForm<CircleUpdate>()
+  const { handleSubmit, reset, watch } = useForm<Partial<Circle>>()
 
   const roleId = watch('roleId')
 

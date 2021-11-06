@@ -1,5 +1,5 @@
-import { CircleEntry, CircleWithRoleEntry } from '@shared/circles'
-import { MemberEntry } from '@shared/members'
+import { CircleEntry, CircleWithRoleEntry } from '@shared/circle'
+import { MemberEntry } from '@shared/member'
 
 export enum SearchItemTypes {
   Member,

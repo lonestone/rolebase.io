@@ -14,7 +14,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { OrgCreate } from '@shared/orgs'
+import { Org } from '@shared/org'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { createCircle } from '../../api/entities/circles'
@@ -28,7 +28,7 @@ interface Props extends UseModalProps {}
 export default function OrgCreateModal(props: Props) {
   const user = useStoreState((state) => state.auth.user)
 
-  const { handleSubmit, errors, register } = useForm<OrgCreate>({
+  const { handleSubmit, errors, register } = useForm<Org>({
     resolver: yupResolver(orgCreateSchema),
   })
 

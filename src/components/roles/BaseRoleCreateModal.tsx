@@ -14,7 +14,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { RoleCreate } from '@shared/roles'
+import { Role } from '@shared/role'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { createRole, roleCreateSchema } from '../../api/entities/roles'
@@ -27,7 +27,7 @@ interface Props extends UseModalProps {
 export default function BaseRoleCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
-  const { handleSubmit, errors, register } = useForm<RoleCreate>({
+  const { handleSubmit, errors, register } = useForm<Role>({
     resolver: yupResolver(roleCreateSchema),
   })
 

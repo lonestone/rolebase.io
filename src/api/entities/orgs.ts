@@ -1,24 +1,17 @@
-import { Org, OrgEntry, OrgUpdate } from '@shared/orgs'
+import { Org, OrgEntry } from '@shared/org'
 import * as yup from 'yup'
-import { getCollection, snapshotQuery } from '../firebase'
+import { getCollection, subscribeQuery } from '../firebase'
 import { nameSchema } from '../schemas'
-import { getUser } from './users'
 
 const collection = getCollection<Org>('orgs')
 
-export function subscribeOrgs(
-  userId: string,
-  onData: (orgUpdateSchema: OrgEntry[]) => void,
-  onError: (error: Error) => void
-): () => void {
-  return snapshotQuery(
+export function subscribeOrgs(userId: string) {
+  return subscribeQuery(
     collection
       .where('ownersIds', 'array-contains', userId)
       .where('disabled', '!=', true)
       .orderBy('disabled')
-      .orderBy('name'),
-    onData,
-    onError
+      .orderBy('name')
   )
 }
 
@@ -37,7 +30,7 @@ export async function createOrg(
   return { ...snapshot.data()!, id: doc.id }
 }
 
-export async function updateOrg(id: string, data: OrgUpdate) {
+export async function updateOrg(id: string, data: Partial<Org>) {
   await collection.doc(id).update(data)
 }
 

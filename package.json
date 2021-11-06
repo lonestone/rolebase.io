@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "firebase:emulator": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.5",

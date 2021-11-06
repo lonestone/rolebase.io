@@ -1,6 +1,6 @@
 import { Avatar, Button } from '@chakra-ui/react'
 import React from 'react'
-import { MemberEntry } from '@shared/members'
+import { MemberEntry } from '@shared/member'
 
 interface Props {
   member: MemberEntry

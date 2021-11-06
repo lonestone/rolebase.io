@@ -12,7 +12,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import { CircleWithRoleEntry } from '@shared/circles'
+import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
 import { updateCircle } from '../../api/entities/circles'
 import CircleMemberDeleteModal from '../circles/CircleMemberDeleteModal'

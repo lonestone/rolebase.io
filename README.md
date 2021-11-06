@@ -48,6 +48,11 @@ firebase functions:config:set security.invitation_token="XXX"
 Functions autorizations:
 https://console.cloud.google.com/functions/list?project=roles-app-37879
 
+Launch emulator:
+cd functions
+npm run get-config
+cd ..
+npm run firebase:emulator
+
 Firebase emulator UI:
-firebase emulators:start
 http://localhost:4000/

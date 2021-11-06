@@ -36,7 +36,7 @@ import useCurrentOrg from '../../hooks/useCurrentOrg'
 import useMember from '../../hooks/useMember'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import DurationSelect from '../common/DurationSelect'
-import MemberDeleteModal from './MemberDeleteModal'
+import MemberDeleteModal from './ThreadDeleteModal'
 
 interface Props extends UseModalProps {
   id: string
@@ -46,7 +46,7 @@ interface Values extends Partial<Member> {
   pictureFiles: FileList
 }
 
-export default function MemberEditModal({ id, ...props }: Props) {
+export default function ThreadEditModal({ id, ...props }: Props) {
   const member = useMember(id)
   if (!member) return null
 

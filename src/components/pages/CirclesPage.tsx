@@ -10,7 +10,7 @@ import {
 import { createGraph, Graph } from '../../circles-viz/createGraph'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import useOverflowHidden from '../../hooks/useOverflowHidden'
-import useQueryParams from '../../hooks/useQuery'
+import useQueryParams from '../../hooks/useQueryParams'
 import useWindowSize from '../../hooks/useWindowSize'
 import CircleCreateModal from '../circles/CircleCreateModal'
 import CirclePanel from '../circles/CirclePanel'

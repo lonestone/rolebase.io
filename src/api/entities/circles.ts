@@ -1,16 +1,12 @@
 import { nanoid } from 'nanoid'
-import { Circle, CircleEntry, CircleUpdate } from '@shared/circles'
-import { firestore, getCollection, snapshotQuery } from '../firebase'
+import { Circle, CircleEntry } from '@shared/circle'
+import { firestore, getCollection, subscribeQuery } from '../firebase'
 import { collection as rolesCollection } from './roles'
 
 const collection = getCollection<Circle>('circles')
 
-export function subscribeCircles(
-  orgId: string,
-  onData: (circles: CircleEntry[]) => void,
-  onError: (error: Error) => void
-): () => void {
-  return snapshotQuery(collection.where('orgId', '==', orgId), onData, onError)
+export function subscribeCircles(orgId: string) {
+  return subscribeQuery(collection.where('orgId', '==', orgId))
 }
 
 export async function createCircle(
@@ -29,7 +25,7 @@ export async function createCircle(
   return { ...snapshot.data()!, id: doc.id }
 }
 
-export async function updateCircle(id: string, data: CircleUpdate) {
+export async function updateCircle(id: string, data: Partial<Circle>) {
   await collection.doc(id).update(data)
 }
 

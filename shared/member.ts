@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import { WithId } from './types'
 
 export interface Member {
   orgId: string
@@ -10,6 +11,4 @@ export interface Member {
   workedMinPerWeek?: number | null
 }
 
-export type MemberEntry = Member & { id: string }
-export type MemberCreate = Member
-export type MemberUpdate = Partial<Member>
+export type MemberEntry = WithId<Member>

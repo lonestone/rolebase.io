@@ -1,33 +1,22 @@
-import { Member, MemberEntry, MemberUpdate } from '@shared/members'
+import { Member, MemberEntry } from '@shared/member'
 import * as yup from 'yup'
-import { functions, getCollection, snapshotQuery, storage } from '../firebase'
+import {
+  functions,
+  getCollection,
+  subscribeQuery,
+  storage,
+  executeQuery,
+} from '../firebase'
 import { nameSchema } from '../schemas'
 
 const collection = getCollection<Member>('members')
 
-export function subscribeMembers(
-  orgId: string,
-  onData: (members: MemberEntry[]) => void,
-  onError: (error: Error) => void
-): () => void {
-  return snapshotQuery(
-    collection.where('orgId', '==', orgId).orderBy('name'),
-    onData,
-    onError
-  )
+export function subscribeMembers(orgId: string) {
+  return subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
 }
 
-export async function getMembers(orgId: string): Promise<MemberEntry[]> {
-  const querySnapshot = await collection.where('orgId', '==', orgId).get()
-  return (
-    querySnapshot.docs
-      .map((snapshot) => ({
-        id: snapshot.id,
-        ...snapshot.data(),
-      }))
-      // Sort entries by name
-      .sort((a, b) => ((a.name || '') < (b.name || '') ? -1 : 1))
-  )
+export async function getMembers(orgId: string) {
+  return executeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
 }
 
 export async function createMember(member: Member): Promise<MemberEntry> {
@@ -37,7 +26,7 @@ export async function createMember(member: Member): Promise<MemberEntry> {
   return { ...snapshot.data()!, id: doc.id }
 }
 
-export async function updateMember(id: string, data: MemberUpdate) {
+export async function updateMember(id: string, data: Partial<Member>) {
   await collection.doc(id).update(data)
 }
 

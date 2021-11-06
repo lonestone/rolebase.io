@@ -1,20 +1,12 @@
-import { Role, RoleEntry, RoleUpdate } from '@shared/roles'
+import { Role, RoleEntry } from '@shared/role'
 import * as yup from 'yup'
-import { getCollection, snapshotQuery } from '../firebase'
+import { getCollection, subscribeQuery } from '../firebase'
 import { nameSchema } from '../schemas'
 
 export const collection = getCollection<Role>('roles')
 
-export function subscribeRoles(
-  orgId: string,
-  onData: (roles: RoleEntry[]) => void,
-  onError: (error: Error) => void
-): () => void {
-  return snapshotQuery(
-    collection.where('orgId', '==', orgId).orderBy('name'),
-    onData,
-    onError
-  )
+export function subscribeRoles(orgId: string) {
+  return subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
 }
 
 export async function createRole(
@@ -36,7 +28,7 @@ export async function createRole(
   return { ...snapshot.data()!, id: doc.id }
 }
 
-export async function updateRole(id: string, data: RoleUpdate) {
+export async function updateRole(id: string, data: Partial<Role>) {
   await collection.doc(id).update(data)
 }
 

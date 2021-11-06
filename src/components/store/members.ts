@@ -1,4 +1,4 @@
-import { MemberEntry } from '@shared/members'
+import { MemberEntry } from '@shared/member'
 import { subscribeMembers } from '../../api/entities/members'
 import { createModel } from './generic'
 

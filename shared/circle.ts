@@ -1,4 +1,5 @@
-import { RoleEntry } from './roles'
+import { RoleEntry } from './role'
+import { WithId } from './types'
 
 export interface Circle {
   orgId: string
@@ -7,9 +8,7 @@ export interface Circle {
   members: CircleMemberEntry[]
 }
 
-export type CircleEntry = Circle & { id: string }
-export type CircleCreate = Circle
-export type CircleUpdate = Partial<Circle>
+export type CircleEntry = WithId<Circle>
 
 export interface CircleWithRoleEntry extends CircleEntry {
   role?: RoleEntry

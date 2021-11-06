@@ -1,6 +1,6 @@
-import { CircleEntry, CircleMemberEntry } from '@shared/circles'
-import { MemberEntry } from '@shared/members'
-import { RoleEntry } from '@shared/roles'
+import { CircleEntry, CircleMemberEntry } from '@shared/circle'
+import { MemberEntry } from '@shared/member'
+import { RoleEntry } from '@shared/role'
 import settings from './settings'
 import { Data, NodeType } from './types'
 

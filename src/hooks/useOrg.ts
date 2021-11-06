@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { OrgEntry } from '@shared/orgs'
+import { OrgEntry } from '@shared/org'
 import { useStoreState } from '../components/store/hooks'
 
 export default function useOrg(id?: string): OrgEntry | undefined {
