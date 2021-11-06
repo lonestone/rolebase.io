@@ -1,16 +1,26 @@
 import { Box, Center, Container, Heading, Link } from '@chakra-ui/react'
-import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link as ReachLink, useLocation } from 'react-router-dom'
 import Loading from '../common/Loading'
 import LoginForm from '../common/LoginForm'
 import TextErrors from '../common/TextErrors'
 import { useStoreActions, useStoreState } from '../store/hooks'
+import SignupPage from './SignupPage'
 
 export default function LoginPage() {
   // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signinEmail = useStoreActions((actions) => actions.auth.signinEmail)
   const loading = useStoreState((state) => state.auth.loading)
   const error = useStoreState((state) => state.auth.error)
+  const path = useLocation().pathname
+
+  // Signup form can be displayed without changing route, to preserve link to private page
+  const isLoginRoute = path === '/' || path === '/login'
+  const [signupPage, setSignupPage] = useState(false)
+
+  if (signupPage) {
+    return <SignupPage goToLoginPage={() => setSignupPage(false)} />
+  }
 
   return (
     <>
@@ -35,9 +45,13 @@ export default function LoginPage() {
         </Box>
 
         <Center mt={2}>
-          <Link to="/signup" as={ReachLink} textDecoration="underline">
-            Créer un compte
-          </Link>
+          {isLoginRoute ? (
+            <Link to="/signup" as={ReachLink}>
+              Créer un compte
+            </Link>
+          ) : (
+            <Link onClick={() => setSignupPage(true)}>Créer un compte</Link>
+          )}
         </Center>
       </Container>
     </>

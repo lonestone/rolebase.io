@@ -166,8 +166,8 @@ export default function MemberEditModal({ id, ...props }: Props) {
 
                 {member.userId && (
                   <Alert status="info">
-                    <InfoIcon />
-                    <Box>Ce membre est lié à un compte utilisateur.</Box>
+                    <AlertIcon />
+                    Ce membre est lié à un compte utilisateur.
                   </Alert>
                 )}
 
@@ -178,7 +178,11 @@ export default function MemberEditModal({ id, ...props }: Props) {
                       Invitation envoyée à {member.inviteEmail} le{' '}
                       {format(member.inviteDate.toDate(), 'P')}, en attente
                       d'acceptation
-                      <Button variant="ghost" onClick={handleInvite}>
+                      <Button
+                        variant="outline"
+                        colorScheme="blue"
+                        onClick={handleInvite}
+                      >
                         Renvoyer
                       </Button>
                     </Box>

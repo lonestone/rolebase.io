@@ -6,7 +6,11 @@ import SignupForm from '../common/SignupForm'
 import TextErrors from '../common/TextErrors'
 import { useStoreActions, useStoreState } from '../store/hooks'
 
-export default function SignupPage() {
+interface Props {
+  goToLoginPage?(): void
+}
+
+export default function SignupPage({ goToLoginPage }: Props) {
   // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signup = useStoreActions((actions) => actions.auth.signup)
   const loading = useStoreState((state) => state.auth.loading)
@@ -28,9 +32,13 @@ export default function SignupPage() {
       <Loading active={loading} center />
 
       <Center mt={2}>
-        <Link to="/" as={ReachLink} textDecoration="underline">
-          Connexion
-        </Link>
+        {goToLoginPage ? (
+          <Link onClick={goToLoginPage}>Connexion</Link>
+        ) : (
+          <Link to="/login" as={ReachLink} textDecoration="underline">
+            Connexion
+          </Link>
+        )}
       </Center>
     </Container>
   )
