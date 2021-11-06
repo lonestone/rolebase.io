@@ -44,6 +44,7 @@ export function createModel<Entry extends GenericEntry>(
       state.entries = undefined
       state.loading = false
       state.error = undefined
+      state.unsubscribeFistore?.()
       state.unsubscribeFistore = undefined
     }),
     setLoading: action((state, loading) => {
