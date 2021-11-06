@@ -15,7 +15,8 @@ export function packData(data: Data, width: number, height: number) {
       if (d.data.type === NodeType.Circle) {
         // Circle containing circles
         if (d.data.children?.some((c) => c.type === NodeType.Circle)) {
-          return settings.padding.circle
+          const multipleChildren = d.data.children?.length > 1
+          return settings.padding.circle * (multipleChildren ? 1 : 5)
         }
         // Circle containing only members
         else {
