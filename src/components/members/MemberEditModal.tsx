@@ -48,7 +48,6 @@ interface Values extends Partial<Member> {
 
 export default function MemberEditModal({ id, ...props }: Props) {
   const member = useMember(id)
-  if (!member) return null
 
   const toast = useToast()
   const org = useCurrentOrg()
@@ -102,7 +101,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
   }, [id])
 
   const handleInvite = useCallback(() => {
-    if (!member.inviteEmail) return
+    if (!member?.inviteEmail) return
     inviteMember(member.id, member.inviteEmail)
     toast({
       title: 'Membre invité',
@@ -112,6 +111,8 @@ export default function MemberEditModal({ id, ...props }: Props) {
       isClosable: true,
     })
   }, [member])
+
+  if (!member) return null
 
   return (
     <>

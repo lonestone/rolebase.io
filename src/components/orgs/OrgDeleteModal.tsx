@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
-import { deleteOrg } from '../../api/entities/orgs'
+import { updateOrg } from '../../api/entities/orgs'
 import useOrg from '../../hooks/useOrg'
 
 interface Props
@@ -23,7 +23,7 @@ export default function OrgDeleteModal({ id, onDelete, ...props }: Props) {
   const org = useOrg(id)
 
   const handleDelete = () => {
-    deleteOrg(id)
+    updateOrg(id, { archived: true })
     onDelete()
     props.onClose()
   }

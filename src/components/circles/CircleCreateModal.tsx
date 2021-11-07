@@ -44,7 +44,7 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
     async (roleId: string) => {
       if (!orgId) return
       props.onClose()
-      const circle = await createCircle(orgId, roleId, parentId)
+      const circle = await createCircle({ orgId, roleId, parentId })
       navigateOrg(`?circleId=${circle.id}`)
     },
     [orgId, parentId]
@@ -54,7 +54,7 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
     if (!orgId) return
     try {
       // Create role
-      const role = await createRole(orgId, false, name)
+      const role = await createRole({ orgId, base: false, name })
       if (!role) throw new Error('Error creating new role')
 
       // Create circle

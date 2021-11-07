@@ -14,60 +14,57 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Member, MemberEntry } from '@shared/member'
-import React, { useCallback } from 'react'
+import { Thread } from '@shared/thread'
+import React from 'react'
 import { useForm } from 'react-hook-form'
-import { createMember, memberCreateSchema } from '../../api/entities/members'
-import MembersToCopyList from '../common/MembersToCopyList'
+import { createThread, threadSchema } from '../../api/entities/threads'
 import { useStoreState } from '../store/hooks'
 
 interface Props extends UseModalProps {
+  circleId?: string
   onCreate?: (id: string) => void
 }
 
-export default function MemberCreateModal(props: Props) {
+export default function ThreadCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const userId = useStoreState((state) => state.auth.user?.id)
 
-  const { handleSubmit, errors, register } = useForm<Member>({
-    resolver: yupResolver(memberCreateSchema),
+  const { handleSubmit, errors, register } = useForm<Thread>({
+    resolver: yupResolver(threadSchema),
+    defaultValues: {
+      title: '',
+      circleId: props.circleId,
+    },
   })
 
-  const onSubmit = handleSubmit(async ({ name }) => {
-    if (!orgId) return
-    const member = await createMember({ orgId, name })
-    props.onCreate?.(member.id)
+  const onSubmit = handleSubmit(async ({ circleId, title }) => {
+    if (!orgId || !userId || !circleId) return
+    const thread = await createThread({ orgId, circleId, userId, title })
+    props.onCreate?.(thread.id)
     props.onClose()
   })
 
-  const handleCopy = useCallback(
-    async (memberToCopy: MemberEntry) => {
-      if (!orgId) return
-      const member = await createMember({ ...memberToCopy, orgId })
-      props.onCreate?.(member.id)
-      props.onClose()
-    },
-    [orgId]
-  )
+  console.log(errors)
 
   return (
     <Modal {...props}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Ajouter un membre</ModalHeader>
+          <ModalHeader>Nouvelle discussion</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
-            <FormControl isInvalid={!!errors.name}>
-              <FormLabel htmlFor="name">Nom</FormLabel>
+            <FormControl isInvalid={!!errors.title}>
+              <FormLabel htmlFor="title">Titre</FormLabel>
               <Input
-                name="name"
-                placeholder="Nom..."
+                name="title"
+                placeholder="Titre..."
                 ref={register()}
                 autoFocus
               />
               <FormErrorMessage>
-                {errors.name && errors.name.message}
+                {errors.title && errors.title.message}
               </FormErrorMessage>
             </FormControl>
 
@@ -76,8 +73,6 @@ export default function MemberCreateModal(props: Props) {
                 Créer
               </Button>
             </Box>
-
-            <MembersToCopyList onClick={handleCopy} />
           </ModalBody>
         </form>
       </ModalContent>

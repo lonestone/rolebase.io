@@ -1,24 +1,24 @@
-import { User, UserEntry } from '@shared/user'
+import { Optional } from '@shared/types'
+import { User } from '@shared/user'
 import * as yup from 'yup'
-import { getCollection, subscribeDoc } from '../firebase'
+import { getCollection, getEntityMethods } from '../firebase'
 import { emailSchema, nameSchema } from '../schemas'
 
 const collection = getCollection<User>('users')
 
-export function subscribeUser(id: string) {
-  return subscribeDoc(collection.doc(id))
-}
+const methods = getEntityMethods(collection)
+export const updateUser = methods.update
+export const subscribeUser = methods.subscribe
+export const deleteUser = methods.delete
 
-export async function createUser(id: string, user: User) {
-  await collection.doc(id).set(user)
-}
-
-export async function updateUser(id: string, data: Partial<User>) {
-  await collection.doc(id).update(data)
-}
-
-export async function deleteUser(id: string) {
-  await collection.doc(id).delete()
+export async function createUser(
+  id: string,
+  user: Optional<User, 'createdAt'>
+) {
+  await collection.doc(id).set({
+    ...user,
+    createdAt: new Date(),
+  })
 }
 
 export const userCreateSchema = yup.object().shape({

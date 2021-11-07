@@ -28,11 +28,11 @@ export default function OrgsPage() {
   const loading = useStoreState((state) => state.orgs.loading)
   const error = useStoreState((state) => state.orgs.error)
 
-  // Add modal
+  // Create modal
   const {
-    isOpen: isAddOpen,
-    onOpen: onAddOpen,
-    onClose: onAddClose,
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
   } = useDisclosure()
 
   // Edit modal
@@ -64,7 +64,7 @@ export default function OrgsPage() {
           Organisations
         </Heading>
         <Spacer />
-        <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
           Créer
         </Button>
         <Spacer />
@@ -120,7 +120,7 @@ export default function OrgsPage() {
         </Wrap>
       )}
 
-      <OrgCreateModal isOpen={isAddOpen} onClose={onAddClose} />
+      <OrgCreateModal isOpen={isCreateOpen} onClose={onCreateClose} />
 
       {editOrgId && (
         <OrgEditModal

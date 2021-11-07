@@ -1,41 +1,31 @@
-import { Org, OrgEntry } from '@shared/org'
+import { Org } from '@shared/org'
 import * as yup from 'yup'
-import { getCollection, subscribeQuery } from '../firebase'
+import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { nameSchema } from '../schemas'
 
 const collection = getCollection<Org>('orgs')
+
+const methods = getEntityMethods<Org, 'archived' | 'defaultWorkedMinPerWeek'>(
+  collection,
+  {
+    createTransform: (org) => ({
+      ...org,
+      archived: false,
+      defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek ?? 35 * 60,
+    }),
+  }
+)
+export const createOrg = methods.create
+export const updateOrg = methods.update
 
 export function subscribeOrgs(userId: string) {
   return subscribeQuery(
     collection
       .where('ownersIds', 'array-contains', userId)
-      .where('disabled', '!=', true)
-      .orderBy('disabled')
+      .where('archived', '==', false)
+      .orderBy('archived')
       .orderBy('name')
   )
-}
-
-export async function createOrg(
-  name: string,
-  ownerId: string
-): Promise<OrgEntry> {
-  const role: Org = {
-    name,
-    ownersIds: [ownerId],
-    disabled: false,
-    defaultWorkedMinPerWeek: 35 * 60,
-  }
-  const doc = await collection.add(role)
-  const snapshot = await doc.get()
-  return { ...snapshot.data()!, id: doc.id }
-}
-
-export async function updateOrg(id: string, data: Partial<Org>) {
-  await collection.doc(id).update(data)
-}
-
-export async function deleteOrg(id: string) {
-  await updateOrg(id, { disabled: true })
 }
 
 export const orgCreateSchema = yup.object().shape({

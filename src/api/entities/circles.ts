@@ -1,32 +1,26 @@
+import { Circle } from '@shared/circle'
 import { nanoid } from 'nanoid'
-import { Circle, CircleEntry } from '@shared/circle'
-import { firestore, getCollection, subscribeQuery } from '../firebase'
+import {
+  firestore,
+  getCollection,
+  getEntityMethods,
+  subscribeQuery,
+} from '../firebase'
 import { collection as rolesCollection } from './roles'
 
 const collection = getCollection<Circle>('circles')
 
+const methods = getEntityMethods<Circle, 'members'>(collection, {
+  createTransform: (circle) => ({
+    ...circle,
+    members: circle.members || [],
+  }),
+})
+export const createCircle = methods.create
+export const updateCircle = methods.update
+
 export function subscribeCircles(orgId: string) {
   return subscribeQuery(collection.where('orgId', '==', orgId))
-}
-
-export async function createCircle(
-  orgId: string,
-  roleId: string,
-  parentId: string | null
-): Promise<CircleEntry> {
-  const circle: Circle = {
-    orgId,
-    roleId,
-    parentId,
-    members: [],
-  }
-  const doc = await collection.add(circle)
-  const snapshot = await doc.get()
-  return { ...snapshot.data()!, id: doc.id }
-}
-
-export async function updateCircle(id: string, data: Partial<Circle>) {
-  await collection.doc(id).update(data)
 }
 
 export async function deleteCircle(id: string): Promise<boolean> {

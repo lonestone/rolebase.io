@@ -40,7 +40,7 @@ export default function OrgCreateModal(props: Props) {
     props.onClose()
 
     // Create org
-    const org = await createOrg(name, user.id)
+    const org = await createOrg({ name, ownersIds: [user.id] })
 
     // Create member
     await createMember({
@@ -50,10 +50,10 @@ export default function OrgCreateModal(props: Props) {
     })
 
     // Create role
-    const role = await createRole(org.id, false, name)
+    const role = await createRole({ orgId: org.id, base: false, name })
 
     // Create circle
-    await createCircle(org.id, role.id, null)
+    await createCircle({ orgId: org.id, roleId: role.id, parentId: null })
   })
 
   return (

@@ -1,10 +1,18 @@
 import { AddIcon } from '@chakra-ui/icons'
-import { Button, Container, Heading, HStack, Spacer } from '@chakra-ui/react'
+import {
+  Button,
+  Container,
+  Heading,
+  HStack,
+  Spacer,
+  useDisclosure,
+} from '@chakra-ui/react'
 import React, { useMemo } from 'react'
 import { subscribeThreads } from '../../api/entities/threads'
 import useSubscription from '../../hooks/useSubscription'
 import Loading from '../common/Loading'
 import { useStoreState } from '../store/hooks'
+import ThreadCreateModal from '../threads/ThreadCreateModal'
 
 export default function ThreadsPage() {
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -13,6 +21,13 @@ export default function ThreadsPage() {
     [orgId]
   )
   const { data, error, loading } = useSubscription(subscription)
+
+  // Create modal
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure()
 
   return (
     <Container maxW="3xl" marginTop="60px">
@@ -23,8 +38,12 @@ export default function ThreadsPage() {
           Discussions
         </Heading>
         <Spacer />
-        <Button leftIcon={<AddIcon />}>Nouvelle discussion</Button>
+        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
+          Nouvelle discussion
+        </Button>
       </HStack>
+
+      <ThreadCreateModal isOpen={isCreateOpen} onClose={onCreateClose} />
     </Container>
   )
 }

@@ -1,4 +1,4 @@
-import { WithId } from '@shared/types'
+import { Optional, WithId } from '@shared/types'
 import firebaseApp from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -19,10 +19,21 @@ if (location.hostname === 'localhost') {
   functions.useEmulator('localhost', 5001)
 }
 
-export function getCollection<DocumentData>(collectionPath: string) {
+export function getCollection<Entity>(collectionPath: string) {
   return firestore.collection(
     collectionPath
-  ) as firebase.default.firestore.CollectionReference<DocumentData>
+  ) as firebase.default.firestore.CollectionReference<Entity>
+}
+
+export async function createEntity<Entity>(
+  collection: firebase.default.firestore.CollectionReference<Entity>,
+  entity: Entity,
+  id?: string
+): Promise<WithId<Entity>> {
+  delete (entity as any).id // Remove id if it exists
+  const doc = await collection.add(entity)
+  const snapshot = await doc.get()
+  return { ...snapshot.data()!, id: doc.id }
 }
 
 export type SubscriptionFn<Data> = (
@@ -77,5 +88,57 @@ export function subscribeDoc<Entity>(
         onError(new Error('Document not found'))
       }
     }, onError)
+  }
+}
+
+export async function getEntity<Entity>(
+  doc: firebase.default.firestore.DocumentReference<Entity>
+): Promise<WithId<Entity> | undefined> {
+  const snapshot = await doc.get()
+  const data = snapshot.data()
+  if (!data) return undefined
+  return { id: doc.id, ...data }
+}
+
+interface EntityMethodsOptions<
+  Entity,
+  CreateOptionalFields extends keyof Entity
+> {
+  createTransform?: (
+    partialEntity: Optional<Entity, CreateOptionalFields>
+  ) => Entity
+}
+
+export function getEntityMethods<
+  Entity,
+  CreateOptionalFields extends keyof Entity = never
+>(
+  collection: firebase.default.firestore.CollectionReference<Entity>,
+  options?: EntityMethodsOptions<Entity, CreateOptionalFields>
+) {
+  const createTransform =
+    options?.createTransform || ((entity) => entity as Entity)
+
+  return {
+    // Subscribe entity by id
+    subscribe: (id: string): SubscriptionFn<WithId<Entity>> =>
+      subscribeDoc(collection.doc(id)),
+
+    // Get entity by id
+    get: (id: string): Promise<WithId<Entity> | undefined> =>
+      getEntity(collection.doc(id)),
+
+    // Create entity
+    create: (
+      partialEntity: Optional<Entity, CreateOptionalFields>
+    ): Promise<WithId<Entity>> =>
+      createEntity(collection, createTransform(partialEntity)),
+
+    // Update entity by id
+    update: (id: string, data: Partial<Entity>): Promise<void> =>
+      collection.doc(id).update(data),
+
+    // Delete entity by id
+    delete: (id: string): Promise<void> => collection.doc(id).delete(),
   }
 }

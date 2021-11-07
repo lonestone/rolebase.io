@@ -23,11 +23,11 @@ import { useStoreState } from '../store/hooks'
 export default function MembersPage() {
   const members = useStoreState((state) => state.members.entries)
 
-  // Add modal
+  // Create modal
   const {
-    isOpen: isAddOpen,
-    onOpen: onAddOpen,
-    onClose: onAddClose,
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
   } = useDisclosure()
 
   // Invite modal
@@ -68,7 +68,7 @@ export default function MembersPage() {
           Membres
         </Heading>
         <Spacer />
-        <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
           Créer
         </Button>
         <Button leftIcon={<EmailIcon />} onClick={onInviteOpen}>
@@ -110,8 +110,8 @@ export default function MembersPage() {
       )}
 
       <MemberCreateModal
-        isOpen={isAddOpen}
-        onClose={onAddClose}
+        isOpen={isCreateOpen}
+        onClose={onCreateClose}
         onCreate={(id) => handleOpenEdit(id)}
       />
 

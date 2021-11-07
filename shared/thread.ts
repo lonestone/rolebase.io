@@ -1,10 +1,11 @@
 import { WithId } from './types'
 
 export interface Thread {
-  title: string
+  orgId: string
   circleId: string
-  createdAt: Date
   userId: string
+  title: string
+  createdAt: Date
   draft: boolean
   archived: boolean
 }

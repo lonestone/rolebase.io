@@ -1,15 +1,21 @@
-import { Member, MemberEntry } from '@shared/member'
+import { Member } from '@shared/member'
 import * as yup from 'yup'
 import {
+  executeQuery,
   functions,
   getCollection,
-  subscribeQuery,
+  getEntityMethods,
   storage,
-  executeQuery,
+  subscribeQuery,
 } from '../firebase'
 import { nameSchema } from '../schemas'
 
 const collection = getCollection<Member>('members')
+
+const methods = getEntityMethods(collection)
+export const createMember = methods.create
+export const updateMember = methods.update
+export const deleteMember = methods.delete
 
 export function subscribeMembers(orgId: string) {
   return subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
@@ -17,21 +23,6 @@ export function subscribeMembers(orgId: string) {
 
 export async function getMembers(orgId: string) {
   return executeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
-}
-
-export async function createMember(member: Member): Promise<MemberEntry> {
-  delete (member as any).id
-  const doc = await collection.add(member)
-  const snapshot = await doc.get()
-  return { ...snapshot.data()!, id: doc.id }
-}
-
-export async function updateMember(id: string, data: Partial<Member>) {
-  await collection.doc(id).update(data)
-}
-
-export async function deleteMember(id: string) {
-  await collection.doc(id).delete()
 }
 
 export const memberCreateSchema = yup.object().shape({

@@ -23,7 +23,7 @@
           "arrayConfig": "CONTAINS"
         },
         {
-          "fieldPath": "disabled",
+          "fieldPath": "archived",
           "order": "ASCENDING"
         },
         {

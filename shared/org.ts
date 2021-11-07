@@ -4,7 +4,7 @@ import { WithId } from './types'
 export interface Org {
   name: string
   ownersIds: string[] // Ids of users that own the organization
-  disabled: boolean
+  archived: boolean
   defaultWorkedMinPerWeek: number
 }
 

@@ -1,4 +1,3 @@
-import { InfoIcon } from '@chakra-ui/icons'
 import {
   Alert,
   AlertIcon,
@@ -26,9 +25,9 @@ import { Member } from '@shared/member'
 import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { threadSchema } from 'src/api/entities/threads'
 import {
   inviteMember,
-  memberUpdateSchema,
   updateMember,
   uploadPicture,
 } from '../../api/entities/members'
@@ -61,7 +60,7 @@ export default function ThreadEditModal({ id, ...props }: Props) {
 
   const { handleSubmit, errors, register, watch, setValue, reset } =
     useForm<Values>({
-      resolver: yupResolver(memberUpdateSchema),
+      resolver: yupResolver(threadSchema),
     })
   const [picture, setPicture] = useState<string | undefined | null>()
 

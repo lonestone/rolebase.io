@@ -24,11 +24,11 @@ export default function BaseRolesPanel({ onClose }: Props) {
   const roles = useStoreState((state) => state.roles.entries)
   const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
 
-  // Add modal
+  // Create modal
   const {
-    isOpen: isAddOpen,
-    onOpen: onAddOpen,
-    onClose: onAddClose,
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
   } = useDisclosure()
 
   // Edit modal
@@ -49,7 +49,7 @@ export default function BaseRolesPanel({ onClose }: Props) {
       <Heading size="md" mb={5}>
         <HStack spacing={5}>
           <StackItem>Rôles de base</StackItem>
-          <Button leftIcon={<AddIcon />} onClick={onAddOpen}>
+          <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
             Créer
           </Button>
           <Spacer />
@@ -73,8 +73,8 @@ export default function BaseRolesPanel({ onClose }: Props) {
       )}
 
       <BaseRoleCreateModal
-        isOpen={isAddOpen}
-        onClose={onAddClose}
+        isOpen={isCreateOpen}
+        onClose={onCreateClose}
         onCreate={(id) => handleOpenEdit(id)}
       />
 
