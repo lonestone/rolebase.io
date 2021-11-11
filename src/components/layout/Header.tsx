@@ -13,12 +13,13 @@ import {
   StackItem,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
+import { FiCircle, FiMessageSquare, FiUser } from 'react-icons/fi'
 import { auth } from '../../api/firebase'
 import useCurrentOrg from '../../hooks/useCurrentOrg'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 import Search from '../../search/Search'
+import LinkButton from '../common/LinkButton'
 import { useStoreState } from '../store/hooks'
-import HeaderLink from './HeaderLink'
 
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)
@@ -46,23 +47,37 @@ export default function Header() {
       <HStack spacing={2} w="100%">
         {org && (
           <>
-            <HeaderLink to="/">
+            <LinkButton to="/">
               <ArrowLeftIcon />
-            </HeaderLink>
+            </LinkButton>
+
             <StackItem>
               <Heading size="md" marginLeft={5} marginRight={5}>
                 {org.name}
               </Heading>
             </StackItem>
-            <HeaderLink to={`/orgs/${org.id}`}>Cercles</HeaderLink>
-            <HeaderLink to={`/orgs/${org.id}/members`}>Membres</HeaderLink>
-            <HeaderLink to={`/orgs/${org.id}?baseRoles`}>
-              Rôles de base
-            </HeaderLink>
-            <HeaderLink to={`/orgs/${org.id}?vacantRoles`}>
-              Rôles vacants
-            </HeaderLink>
-            <HeaderLink to={`/orgs/${org.id}/threads`}>Discussions</HeaderLink>
+
+            <LinkButton
+              to={`/orgs/${org.id}`}
+              leftIcon={<FiCircle />}
+              highlightActive
+            >
+              Cercles
+            </LinkButton>
+            <LinkButton
+              to={`/orgs/${org.id}/members`}
+              leftIcon={<FiUser />}
+              highlightActive
+            >
+              Membres
+            </LinkButton>
+            <LinkButton
+              to={`/orgs/${org.id}/threads`}
+              leftIcon={<FiMessageSquare />}
+              highlightActive
+            >
+              Discussions
+            </LinkButton>
           </>
         )}
 

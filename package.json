@@ -28,6 +28,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-hook-form": "^6.15.1",
+    "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-simplemde-editor": "^5.0.1",
     "yup": "^0.32.8"
