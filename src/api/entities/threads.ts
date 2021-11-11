@@ -24,10 +24,11 @@ export const deleteThread = methods.delete
 
 export function subscribeThreads(orgId: string) {
   return subscribeQuery(
-    collection.where('orgId', '==', orgId).orderBy('createdDate')
+    collection.where('orgId', '==', orgId).orderBy('createdAt')
   )
 }
 
-export const threadSchema = yup.object().shape({
+export const threadCreateSchema = yup.object().shape({
   title: nameSchema,
+  circleId: yup.string().required(),
 })

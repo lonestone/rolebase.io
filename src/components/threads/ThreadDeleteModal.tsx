@@ -19,7 +19,8 @@ interface Props
   onDelete?(): void
 }
 
-export default function MemberDeleteModal({ id, onDelete, ...props }: Props) {
+// WIP
+export default function ThreadDeleteModal({ id, onDelete, ...props }: Props) {
   const member = useMember(id)
 
   const handleDelete = () => {

@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   FormControl,
@@ -12,12 +14,14 @@ import {
   ModalHeader,
   ModalOverlay,
   UseModalProps,
+  VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Thread } from '@shared/thread'
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { createThread, threadSchema } from '../../api/entities/threads'
+import React, { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { createThread, threadCreateSchema } from '../../api/entities/threads'
+import CircleCombobox from '../../search/CircleCombobox'
 import { useStoreState } from '../store/hooks'
 
 interface Props extends UseModalProps {
@@ -29,22 +33,21 @@ export default function ThreadCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const userId = useStoreState((state) => state.auth.user?.id)
 
-  const { handleSubmit, errors, register } = useForm<Thread>({
-    resolver: yupResolver(threadSchema),
+  const { handleSubmit, errors, register, control } = useForm<Thread>({
+    resolver: yupResolver(threadCreateSchema),
     defaultValues: {
       title: '',
-      circleId: props.circleId,
+      circleId: props.circleId || '',
     },
   })
 
   const onSubmit = handleSubmit(async ({ circleId, title }) => {
+    console.log('onSubmit', circleId, title, userId, orgId)
     if (!orgId || !userId || !circleId) return
     const thread = await createThread({ orgId, circleId, userId, title })
     props.onCreate?.(thread.id)
     props.onClose()
   })
-
-  console.log(errors)
 
   return (
     <Modal {...props}>
@@ -55,24 +58,45 @@ export default function ThreadCreateModal(props: Props) {
           <ModalCloseButton />
 
           <ModalBody>
-            <FormControl isInvalid={!!errors.title}>
-              <FormLabel htmlFor="title">Titre</FormLabel>
-              <Input
-                name="title"
-                placeholder="Titre..."
-                ref={register()}
-                autoFocus
-              />
-              <FormErrorMessage>
-                {errors.title && errors.title.message}
-              </FormErrorMessage>
-            </FormControl>
+            <VStack spacing={5} align="stretch">
+              <FormControl isInvalid={!!errors.title}>
+                <FormLabel htmlFor="title">Titre</FormLabel>
+                <Input
+                  name="title"
+                  placeholder="Titre..."
+                  autoFocus
+                  ref={register()}
+                />
+                <FormErrorMessage>
+                  {errors.title && errors.title.message}
+                </FormErrorMessage>
+              </FormControl>
 
-            <Box textAlign="right" mt={2}>
-              <Button colorScheme="blue" type="submit">
-                Créer
-              </Button>
-            </Box>
+              <FormControl isInvalid={!!errors.circleId}>
+                <FormLabel htmlFor="circleId">Cercle / Rôle</FormLabel>
+                <Controller
+                  name="circleId"
+                  control={control}
+                  render={({ value, onChange }) => (
+                    <CircleCombobox value={value} onChange={onChange} />
+                  )}
+                />
+                <FormErrorMessage>
+                  {errors.circleId && errors.circleId.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              <Alert status="info">
+                <AlertIcon />
+                La discussion sera créée en brouillon, visible que par vous.
+              </Alert>
+
+              <Box textAlign="right" mt={2}>
+                <Button colorScheme="blue" type="submit">
+                  Créer
+                </Button>
+              </Box>
+            </VStack>
           </ModalBody>
         </form>
       </ModalContent>

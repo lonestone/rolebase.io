@@ -25,12 +25,12 @@ import { Member } from '@shared/member'
 import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { threadSchema } from 'src/api/entities/threads'
 import {
   inviteMember,
   updateMember,
   uploadPicture,
 } from '../../api/entities/members'
+import { threadCreateSchema } from '../../api/entities/threads'
 import useCurrentOrg from '../../hooks/useCurrentOrg'
 import useMember from '../../hooks/useMember'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
@@ -45,6 +45,7 @@ interface Values extends Partial<Member> {
   pictureFiles: FileList
 }
 
+// WIP
 export default function ThreadEditModal({ id, ...props }: Props) {
   const member = useMember(id)
   if (!member) return null
@@ -60,7 +61,7 @@ export default function ThreadEditModal({ id, ...props }: Props) {
 
   const { handleSubmit, errors, register, watch, setValue, reset } =
     useForm<Values>({
-      resolver: yupResolver(threadSchema),
+      resolver: yupResolver(threadCreateSchema),
     })
   const [picture, setPicture] = useState<string | undefined | null>()
 
@@ -125,12 +126,7 @@ export default function ThreadEditModal({ id, ...props }: Props) {
               <VStack spacing={5} align="stretch">
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom</FormLabel>
-                  <Input
-                    name="name"
-                    placeholder="Nom..."
-                    ref={register}
-                    autoFocus
-                  />
+                  <Input name="name" placeholder="Nom..." ref={register} />
                   <FormErrorMessage>
                     {errors.name && errors.name.message}
                   </FormErrorMessage>

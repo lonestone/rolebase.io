@@ -1,7 +1,4 @@
-interface SearchItem<Item> {
-  item: Item
-  score: number
-}
+const multiSpacesRegex = /[  ]+/g
 
 export default function incrementalSearch<Item>(
   items: Item[],
@@ -9,6 +6,8 @@ export default function incrementalSearch<Item>(
   searchValue: string
 ): Item[] {
   if (searchValue === '') return []
+  searchValue = searchValue.replace(multiSpacesRegex, ' ').trim()
+
   return items
     .map((item) => {
       const value = getItemValue(item)

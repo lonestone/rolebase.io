@@ -3,13 +3,14 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  ListItem,
 } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import debounce from 'lodash.debounce'
-import React, { useCallback, useMemo, useState } from 'react'
-import incrementalSearch from '../utils/incrementalSearch'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import ComboboxItem from './ComboboxItem'
 import ComboboxList from './ComboboxList'
+import incrementalSearch from './incrementalSearch'
 import { SearchItem, SearchItemTypes } from './types'
 import { useSearchItems } from './useSearchItems'
 
@@ -21,12 +22,16 @@ interface ComboboxProps {
   onCircleMemberSelected(circleId: string, memberId: string): void
 }
 
-export default function Combobox({
+export default function SearchCombobox({
   onMemberSelected,
   onCircleSelected,
   onCircleMemberSelected,
 }: ComboboxProps) {
-  const items = useSearchItems()
+  const items = useSearchItems({
+    members: true,
+    circles: true,
+    circleMembers: true,
+  })
 
   const onInputValueChange = useMemo(
     () =>
@@ -75,14 +80,19 @@ export default function Combobox({
     getInputProps,
     getComboboxProps,
     highlightedIndex,
+    setHighlightedIndex,
     getItemProps,
     openMenu,
     setInputValue,
   } = useCombobox({
     items: inputItems,
+    itemToString: (item) => (item ? item.text : ''),
     onInputValueChange,
     onSelectedItemChange,
   })
+
+  // When items list changes, highlight first item
+  useEffect(() => setHighlightedIndex(0), [inputItems])
 
   return (
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
@@ -115,13 +125,14 @@ export default function Combobox({
         right="0"
       >
         {inputItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ComboboxItem
-            item={item}
-            itemIndex={index}
-            highlightedIndex={highlightedIndex}
-            {...getItemProps({ item, index })}
-            key={index}
-          />
+          <ListItem textAlign="right" mb={2} key={index}>
+            <ComboboxItem
+              item={item}
+              highlighted={index === highlightedIndex}
+              {...getItemProps({ item, index })}
+              shadow="md"
+            />
+          </ListItem>
         ))}
       </ComboboxList>
     </div>

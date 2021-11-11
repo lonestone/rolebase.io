@@ -3,7 +3,13 @@ import { useStoreState } from '../components/store/hooks'
 import { getCircleRoles } from '../utils/getCircleRoles'
 import { SearchItem, SearchItemTypes } from './types'
 
-export function useSearchItems(): SearchItem[] {
+interface Options {
+  members?: boolean
+  circles?: boolean
+  circleMembers?: boolean
+}
+
+export function useSearchItems(options: Options): SearchItem[] {
   const circles = useStoreState((state) => state.circles.entries)
   const members = useStoreState((state) => state.members.entries)
   const roles = useStoreState((state) => state.roles.entries)
@@ -11,7 +17,7 @@ export function useSearchItems(): SearchItem[] {
   // Circles items
   const circleItems: SearchItem[] = useMemo(
     () =>
-      circles && roles
+      circles && roles && options.circles
         ? circles.map((circle) => {
             const circleRoles = getCircleRoles(circles, roles, circle.id)
             return {
@@ -31,7 +37,7 @@ export function useSearchItems(): SearchItem[] {
   // Members items
   const memberItems: SearchItem[] = useMemo(
     () =>
-      members
+      members && options.members
         ? members.map((member) => ({
             text: member.name.toLowerCase(),
             type: SearchItemTypes.Member,
@@ -41,10 +47,10 @@ export function useSearchItems(): SearchItem[] {
     [members]
   )
 
-  // Members items
+  // Circle members items
   const circleMemberItems: SearchItem[] = useMemo(
     () =>
-      members && circles && roles
+      members && circles && roles && options.circleMembers
         ? circles.flatMap((circle) => {
             const circleRoles = getCircleRoles(circles, roles, circle.id)
             const circleRolesText =
@@ -67,9 +73,8 @@ export function useSearchItems(): SearchItem[] {
     [members, circles, roles]
   )
 
-  return useMemo(() => [...memberItems, ...circleItems, ...circleMemberItems], [
-    memberItems,
-    circleItems,
-    circleMemberItems,
-  ])
+  return useMemo(
+    () => [...memberItems, ...circleItems, ...circleMemberItems],
+    [memberItems, circleItems, circleMemberItems]
+  )
 }

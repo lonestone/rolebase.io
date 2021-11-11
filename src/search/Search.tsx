@@ -2,7 +2,7 @@ import { useDisclosure } from '@chakra-ui/react'
 import React, { useCallback, useState } from 'react'
 import MemberEditModal from '../components/members/MemberEditModal'
 import { useNavigateOrg } from '../hooks/useNavigateOrg'
-import Combobox from './Combobox'
+import SearchCombobox from './SearchCombobox'
 
 export default function Search() {
   const navigateOrg = useNavigateOrg()
@@ -31,7 +31,7 @@ export default function Search() {
 
   return (
     <>
-      <Combobox
+      <SearchCombobox
         onMemberSelected={handleMemberSelected}
         onCircleSelected={handleCircleSelected}
         onCircleMemberSelected={handleCircleMemberSelected}

@@ -10,6 +10,7 @@ export enum ActivityType {
 }
 
 interface ActivityBase {
+  orgId: string
   threadId: string
   userId: string
   createdAt: Date
