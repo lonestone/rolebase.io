@@ -1,5 +1,5 @@
 import { OrgEntry } from '@shared/org'
-import { useStoreState } from '../components/store/hooks'
+import { useStoreState } from '../store/hooks'
 import useOrg from './useOrg'
 
 export default function useCurrentOrg(): OrgEntry | undefined {

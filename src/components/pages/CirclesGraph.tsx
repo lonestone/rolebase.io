@@ -8,7 +8,7 @@ import {
 } from '../../api/entities/circles'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
 import { useNavigateOrg } from '../../hooks/useNavigateOrg'
-import { useStoreState } from '../store/hooks'
+import { useStoreState } from '../../store/hooks'
 
 interface Props {
   width: number

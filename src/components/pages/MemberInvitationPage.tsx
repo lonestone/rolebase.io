@@ -4,7 +4,7 @@ import { Redirect, useParams } from 'react-router'
 import { acceptMemberInvitation } from '../../api/entities/members'
 import useOrg from '../../hooks/useOrg'
 import useQueryParams from '../../hooks/useQueryParams'
-import Loading from '../common/Loading'
+import Loading from '../atoms/Loading'
 
 type Params = {
   memberId: string

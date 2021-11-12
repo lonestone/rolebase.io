@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
-import { store } from '../components/store'
+import { store } from '../store'
 
 export function useNavigateOrg() {
   const history = useHistory()

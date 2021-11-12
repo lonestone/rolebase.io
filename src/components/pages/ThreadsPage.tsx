@@ -14,10 +14,10 @@ import React, { useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 import { subscribeThreads } from '../../api/entities/threads'
 import useSubscription from '../../hooks/useSubscription'
-import Loading from '../common/Loading'
-import TextErrors from '../common/TextErrors'
-import { useStoreState } from '../store/hooks'
-import ThreadCreateModal from '../threads/ThreadCreateModal'
+import { useStoreState } from '../../store/hooks'
+import Loading from '../atoms/Loading'
+import TextErrors from '../atoms/TextErrors'
+import ThreadCreateModal from '../organisms/modals/ThreadCreateModal'
 
 export default function ThreadsPage() {
   const orgId = useStoreState((state) => state.orgs.currentId)

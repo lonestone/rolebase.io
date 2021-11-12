@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStoreState } from '../store/hooks'
+import { useStoreState } from '../../store/hooks'
 import PrivateRoutes from './PrivateRoutes'
 import PublicRoutes from './PublicRoutes'
 
