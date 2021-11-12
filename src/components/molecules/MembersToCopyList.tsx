@@ -1,10 +1,10 @@
+import { getMembers } from '@api/entities/members'
 import { VStack } from '@chakra-ui/layout'
+import MemberButton from '@components/atoms/MemberButton'
 import { Member, MemberEntry } from '@shared/member'
+import { useStoreState } from '@store/hooks'
 import uniqBy from 'lodash.uniqby'
 import React, { useEffect, useState } from 'react'
-import { getMembers } from '../../api/entities/members'
-import { useStoreState } from '../../store/hooks'
-import MemberButton from '../atoms/MemberButton'
 
 interface Props {
   onClick(member: Member): void

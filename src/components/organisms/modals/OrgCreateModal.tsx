@@ -1,3 +1,7 @@
+import { createCircle } from '@api/entities/circles'
+import { createMember } from '@api/entities/members'
+import { createOrg, orgCreateSchema } from '@api/entities/orgs'
+import { createRole } from '@api/entities/roles'
 import {
   Button,
   FormControl,
@@ -15,13 +19,9 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Org } from '@shared/org'
+import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { createCircle } from '../../../api/entities/circles'
-import { createMember } from '../../../api/entities/members'
-import { createOrg, orgCreateSchema } from '../../../api/entities/orgs'
-import { createRole } from '../../../api/entities/roles'
-import { useStoreState } from '../../../store/hooks'
 
 interface Props extends UseModalProps {}
 

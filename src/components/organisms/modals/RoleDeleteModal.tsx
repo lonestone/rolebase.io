@@ -1,3 +1,4 @@
+import { deleteRole } from '@api/entities/roles'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -9,9 +10,8 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useRole from '@hooks/useRole'
 import React from 'react'
-import { deleteRole } from '../../../api/entities/roles'
-import useRole from '../../../hooks/useRole'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {

@@ -1,5 +1,5 @@
+import { SubscriptionFn } from '@api/firebase'
 import { useEffect, useState } from 'react'
-import { SubscriptionFn } from '../api/firebase'
 
 export default function useSubscription<Data>(
   subscription: SubscriptionFn<Data> | undefined

@@ -15,13 +15,13 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
+import TextErrors from '@components/atoms/TextErrors'
+import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
+import OrgEditModal from '@components/organisms/modals/OrgEditModal'
+import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { useStoreState } from '../../store/hooks'
-import Loading from '../atoms/Loading'
-import TextErrors from '../atoms/TextErrors'
-import OrgCreateModal from '../organisms/modals/OrgCreateModal'
-import OrgEditModal from '../organisms/modals/OrgEditModal'
 
 export default function OrgsPage() {
   const orgs = useStoreState((state) => state.orgs.entries)

@@ -9,11 +9,11 @@ import {
   StackItem,
   useDisclosure,
 } from '@chakra-ui/react'
+import Panel from '@components/atoms/Panel'
+import MemberRoles from '@components/molecules/MemberRoles'
+import useMember from '@hooks/useMember'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback } from 'react'
-import useMember from '../../../hooks/useMember'
-import { useNavigateOrg } from '../../../hooks/useNavigateOrg'
-import Panel from '../../atoms/Panel'
-import MemberRoles from '../../molecules/MemberRoles'
 import MemberEditModal from '../modals/MemberEditModal'
 
 interface Props {

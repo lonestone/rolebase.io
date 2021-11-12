@@ -1,7 +1,7 @@
 import { Accordion, ExpandedIndex } from '@chakra-ui/react'
 import { getCircleRoles } from '@shared/getCircleRoles'
+import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
-import { useStoreState } from '../../store/hooks'
 import MemberRoleItem from './MemberRoleItem'
 
 interface Props {

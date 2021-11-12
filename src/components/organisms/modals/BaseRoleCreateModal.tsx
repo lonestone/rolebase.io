@@ -1,3 +1,4 @@
+import { createRole, roleCreateSchema } from '@api/entities/roles'
 import {
   Button,
   FormControl,
@@ -15,10 +16,9 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Role } from '@shared/role'
+import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { createRole, roleCreateSchema } from '../../../api/entities/roles'
-import { useStoreState } from '../../../store/hooks'
 
 interface Props extends UseModalProps {
   onCreate?: (id: string) => void

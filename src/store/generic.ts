@@ -1,6 +1,6 @@
+import { SubscriptionFn } from '@api/firebase'
 import { action, Action, computed, Computed, thunk, Thunk } from 'easy-peasy'
 import { StoreModel } from '.'
-import { SubscriptionFn } from '../api/firebase'
 
 export interface GenericModel<Entry> {
   entries: Entry[] | undefined

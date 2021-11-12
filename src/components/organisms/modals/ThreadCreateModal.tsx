@@ -1,3 +1,4 @@
+import { createThread, threadCreateSchema } from '@api/entities/threads'
 import {
   Alert,
   AlertIcon,
@@ -16,13 +17,12 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import CircleCombobox from '@components/molecules/search/CircleCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Thread } from '@shared/thread'
+import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { createThread, threadCreateSchema } from '../../../api/entities/threads'
-import { useStoreState } from '../../../store/hooks'
-import CircleCombobox from '../../molecules/search/CircleCombobox'
 
 interface Props extends UseModalProps {
   circleId?: string

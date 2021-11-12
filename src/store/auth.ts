@@ -1,9 +1,9 @@
+import { createUser, subscribeUser } from '@api/entities/users'
+import { auth } from '@api/firebase'
 import { UserEntry } from '@shared/user'
 import { action, Action, thunk, Thunk } from 'easy-peasy'
 import firebase from 'firebase/app'
 import { store, StoreModel } from '.'
-import { createUser, subscribeUser } from '../api/entities/users'
-import { auth } from '../api/firebase'
 
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 

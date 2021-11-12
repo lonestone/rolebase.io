@@ -1,3 +1,4 @@
+import { roleUpdateSchema, updateRole } from '@api/entities/roles'
 import {
   Alert,
   AlertIcon,
@@ -18,14 +19,13 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import ControlledMardownEditor from '@components/atoms/ControlledMardownEditor'
+import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useRole from '@hooks/useRole'
 import { Role } from '@shared/role'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { roleUpdateSchema, updateRole } from '../../../api/entities/roles'
-import useRole from '../../../hooks/useRole'
-import ControlledMardownEditor from '../../atoms/ControlledMardownEditor'
-import DurationSelect from '../../atoms/DurationSelect'
 import RoleDeleteModal from './RoleDeleteModal'
 
 interface Props extends UseModalProps {

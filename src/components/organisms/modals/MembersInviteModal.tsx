@@ -1,3 +1,4 @@
+import { inviteMember } from '@api/entities/members'
 import { EmailIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -19,15 +20,14 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import MemberButton from '@components/atoms/MemberButton'
+import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useReducer, useState } from 'react'
-import { inviteMember } from '../../../api/entities/members'
-import { useStoreState } from '../../../store/hooks'
-import MemberButton from '../../atoms/MemberButton'
 import {
   getEmailFromName,
   guessEmailPattern,
   memberInviteReducer,
-} from './/membersInvite'
+} from './membersInvite'
 
 export default function MembersInviteModal(props: UseModalProps) {
   const toast = useToast()

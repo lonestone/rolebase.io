@@ -1,6 +1,6 @@
+import LinkButton from '@components/atoms/LinkButton'
+import Panel from '@components/atoms/Panel'
 import React from 'react'
-import LinkButton from '../../atoms/LinkButton'
-import Panel from '../../atoms/Panel'
 
 export default function CirclesDefaultPanel() {
   return (

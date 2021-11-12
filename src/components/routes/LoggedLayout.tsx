@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react'
+import Header from '@components/organisms/Header'
+import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useEffect } from 'react'
-import { useStoreActions, useStoreState } from '../../store/hooks'
-import Header from '../organisms/Header'
 
 const LoggedLayout: React.FC = ({ children }) => {
   const userId = useStoreState((state) => state.auth.user?.id)

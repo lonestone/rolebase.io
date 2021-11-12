@@ -1,10 +1,10 @@
 import { Box, Center, Container, Heading, Link } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
+import TextErrors from '@components/atoms/TextErrors'
+import LoginForm from '@components/organisms/LoginForm'
+import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { Link as ReachLink, useLocation } from 'react-router-dom'
-import { useStoreActions, useStoreState } from '../../store/hooks'
-import Loading from '../atoms/Loading'
-import TextErrors from '../atoms/TextErrors'
-import LoginForm from '../organisms/LoginForm'
 import SignupPage from './SignupPage'
 
 export default function LoginPage() {

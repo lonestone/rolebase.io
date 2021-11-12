@@ -1,3 +1,4 @@
+import { deleteMember } from '@api/entities/members'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -9,9 +10,8 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useMember from '@hooks/useMember'
 import React from 'react'
-import { deleteMember } from '../../../api/entities/members'
-import useMember from '../../../hooks/useMember'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {

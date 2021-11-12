@@ -10,9 +10,9 @@ import {
   UnorderedList,
   useDisclosure,
 } from '@chakra-ui/react'
+import Panel from '@components/atoms/Panel'
+import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
-import { useStoreState } from '../../../store/hooks'
-import Panel from '../../atoms/Panel'
 import BaseRoleCreateModal from '../modals/BaseRoleCreateModal'
 import RoleEditModal from '../modals/RoleEditModal'
 

@@ -1,14 +1,14 @@
-import styled from '@emotion/styled'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   addMemberToCircle,
   copyCircle,
   moveCircle,
   moveCircleMember,
-} from '../../api/entities/circles'
+} from '@api/entities/circles'
+import styled from '@emotion/styled'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
+import { useStoreState } from '@store/hooks'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
-import { useNavigateOrg } from '../../hooks/useNavigateOrg'
-import { useStoreState } from '../../store/hooks'
 
 interface Props {
   width: number

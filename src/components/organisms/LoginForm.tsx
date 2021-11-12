@@ -1,3 +1,4 @@
+import { emailSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
@@ -11,7 +12,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { emailSchema } from '../../api/schemas'
 
 interface Props {
   defaultEmail?: string

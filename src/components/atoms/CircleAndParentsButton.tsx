@@ -1,8 +1,8 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Button, StackItem } from '@chakra-ui/react'
+import useCircleAndParents from '@hooks/useCircleAndParents'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback } from 'react'
-import useCircleAndParents from '../../hooks/useCircleAndParents'
-import { useNavigateOrg } from '../../hooks/useNavigateOrg'
 
 interface Props {
   id: string

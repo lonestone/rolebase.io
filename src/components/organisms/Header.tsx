@@ -1,3 +1,4 @@
+import { auth } from '@api/firebase'
 import { ArrowLeftIcon } from '@chakra-ui/icons'
 import {
   Avatar,
@@ -12,14 +13,13 @@ import {
   Spacer,
   StackItem,
 } from '@chakra-ui/react'
+import LinkButton from '@components/atoms/LinkButton'
+import Search from '@components/molecules/search/Search'
+import useCurrentOrg from '@hooks/useCurrentOrg'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
+import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { FiCircle, FiMessageSquare, FiUser } from 'react-icons/fi'
-import { auth } from '../../api/firebase'
-import useCurrentOrg from '../../hooks/useCurrentOrg'
-import { useNavigateOrg } from '../../hooks/useNavigateOrg'
-import { useStoreState } from '../../store/hooks'
-import LinkButton from '../atoms/LinkButton'
-import Search from '../molecules/search/Search'
 
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)

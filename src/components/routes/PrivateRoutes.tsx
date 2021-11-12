@@ -1,7 +1,7 @@
+import MemberInvitationPage from '@components/pages/MemberInvitationPage'
+import OrgsPage from '@components/pages/OrgsPage'
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import MemberInvitationPage from '../pages/MemberInvitationPage'
-import OrgsPage from '../pages/OrgsPage'
 import LoggedLayout from './LoggedLayout'
 import OrgRoutes from './OrgRoutes'
 

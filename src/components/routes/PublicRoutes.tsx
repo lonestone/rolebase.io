@@ -1,7 +1,7 @@
+import LoginPage from '@components/pages/LoginPage'
+import SignupPage from '@components/pages/SignupPage'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import LoginPage from '../pages/LoginPage'
-import SignupPage from '../pages/SignupPage'
 
 export default function PublicRoutes() {
   return (

@@ -1,7 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react'
+import MemberEditModal from '@components/organisms/modals/MemberEditModal'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback, useState } from 'react'
-import { useNavigateOrg } from '../../../hooks/useNavigateOrg'
-import MemberEditModal from '../../organisms/modals/MemberEditModal'
 import SearchCombobox from './SearchCombobox'
 
 export default function Search() {

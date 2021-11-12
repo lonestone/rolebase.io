@@ -6,11 +6,11 @@ import {
   Stack,
   StackItem,
 } from '@chakra-ui/react'
+import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
+import Panel from '@components/atoms/Panel'
 import { CircleEntry } from '@shared/circle'
+import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
-import { useStoreState } from '../../../store/hooks'
-import CircleAndParentsButton from '../../atoms/CircleAndParentsButton'
-import Panel from '../../atoms/Panel'
 
 interface Props {
   onClose(): void

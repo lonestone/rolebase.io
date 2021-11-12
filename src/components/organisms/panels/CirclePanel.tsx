@@ -1,3 +1,4 @@
+import { updateCircle } from '@api/entities/circles'
 import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
@@ -12,18 +13,17 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
+import Markdown from '@components/atoms/Markdown'
+import MemberButton from '@components/atoms/MemberButton'
+import Panel from '@components/atoms/Panel'
+import useCircleAndParents from '@hooks/useCircleAndParents'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { Circle } from '@shared/circle'
 import { MemberEntry } from '@shared/member'
+import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { updateCircle } from '../../../api/entities/circles'
-import useCircleAndParents from '../../../hooks/useCircleAndParents'
-import { useNavigateOrg } from '../../../hooks/useNavigateOrg'
-import { useStoreState } from '../../../store/hooks'
-import CircleAndParentsButton from '../../atoms/CircleAndParentsButton'
-import Markdown from '../../atoms/Markdown'
-import MemberButton from '../../atoms/MemberButton'
-import Panel from '../../atoms/Panel'
 import CircleCreateModal from '../modals/CircleCreateModal'
 import CircleDeleteModal from '../modals/CircleDeleteModal'
 import CircleMemberCreateModal from '../modals/CircleMemberCreateModal'

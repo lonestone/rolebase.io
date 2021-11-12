@@ -1,3 +1,4 @@
+import { subscribeThreads } from '@api/entities/threads'
 import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
@@ -10,14 +11,13 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
+import TextErrors from '@components/atoms/TextErrors'
+import ThreadCreateModal from '@components/organisms/modals/ThreadCreateModal'
+import useSubscription from '@hooks/useSubscription'
+import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { subscribeThreads } from '../../api/entities/threads'
-import useSubscription from '../../hooks/useSubscription'
-import { useStoreState } from '../../store/hooks'
-import Loading from '../atoms/Loading'
-import TextErrors from '../atoms/TextErrors'
-import ThreadCreateModal from '../organisms/modals/ThreadCreateModal'
 
 export default function ThreadsPage() {
   const orgId = useStoreState((state) => state.orgs.currentId)

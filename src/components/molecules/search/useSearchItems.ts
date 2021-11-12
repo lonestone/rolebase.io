@@ -1,6 +1,6 @@
 import { getCircleRoles } from '@shared/getCircleRoles'
+import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-import { useStoreState } from '../../../store/hooks'
 import { SearchItem, SearchItemTypes } from './types'
 
 interface Options {

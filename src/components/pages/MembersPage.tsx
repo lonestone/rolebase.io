@@ -13,12 +13,12 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import MemberButton from '@components/atoms/MemberButton'
+import MemberCreateModal from '@components/organisms/modals/MemberCreateModal'
+import MemberEditModal from '@components/organisms/modals/MemberEditModal'
+import MembersInviteModal from '@components/organisms/modals/MembersInviteModal'
+import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
-import { useStoreState } from '../../store/hooks'
-import MemberButton from '../atoms/MemberButton'
-import MemberCreateModal from '../organisms/modals/MemberCreateModal'
-import MemberEditModal from '../organisms/modals/MemberEditModal'
-import MembersInviteModal from '../organisms/modals/MembersInviteModal'
 
 export default function MembersPage() {
   const members = useStoreState((state) => state.members.entries)

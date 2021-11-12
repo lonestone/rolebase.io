@@ -1,3 +1,4 @@
+import { createMember, memberCreateSchema } from '@api/entities/members'
 import {
   Box,
   Button,
@@ -13,13 +14,12 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import MembersToCopyList from '@components/molecules/MembersToCopyList'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Member, MemberEntry } from '@shared/member'
+import { useStoreState } from '@store/hooks'
 import React, { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { createMember, memberCreateSchema } from '../../../api/entities/members'
-import { useStoreState } from '../../../store/hooks'
-import MembersToCopyList from '../../molecules/MembersToCopyList'
 
 interface Props extends UseModalProps {
   onCreate?: (id: string) => void

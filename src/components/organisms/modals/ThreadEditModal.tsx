@@ -1,4 +1,10 @@
 import {
+  inviteMember,
+  updateMember,
+  uploadPicture,
+} from '@api/entities/members'
+import { threadCreateSchema } from '@api/entities/threads'
+import {
   Alert,
   AlertIcon,
   Avatar,
@@ -20,21 +26,15 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCurrentOrg from '@hooks/useCurrentOrg'
+import useMember from '@hooks/useMember'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { Member } from '@shared/member'
 import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  inviteMember,
-  updateMember,
-  uploadPicture,
-} from '../../../api/entities/members'
-import { threadCreateSchema } from '../../../api/entities/threads'
-import useCurrentOrg from '../../../hooks/useCurrentOrg'
-import useMember from '../../../hooks/useMember'
-import { useNavigateOrg } from '../../../hooks/useNavigateOrg'
-import DurationSelect from '../../atoms/DurationSelect'
 import MemberDeleteModal from './ThreadDeleteModal'
 
 interface Props extends UseModalProps {

@@ -1,3 +1,4 @@
+import { orgUpdateSchema, updateOrg } from '@api/entities/orgs'
 import {
   Button,
   FormControl,
@@ -15,13 +16,12 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useOrg from '@hooks/useOrg'
 import { Org } from '@shared/org'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { orgUpdateSchema, updateOrg } from '../../../api/entities/orgs'
-import useOrg from '../../../hooks/useOrg'
-import DurationSelect from '../../atoms/DurationSelect'
 import OrgDeleteModal from './OrgDeleteModal'
 
 interface Props extends UseModalProps {

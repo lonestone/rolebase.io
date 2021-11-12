@@ -1,10 +1,10 @@
+import { acceptMemberInvitation } from '@api/entities/members'
 import { useToast } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
+import useOrg from '@hooks/useOrg'
+import useQueryParams from '@hooks/useQueryParams'
 import React, { useEffect, useState } from 'react'
 import { Redirect, useParams } from 'react-router'
-import { acceptMemberInvitation } from '../../api/entities/members'
-import useOrg from '../../hooks/useOrg'
-import useQueryParams from '../../hooks/useQueryParams'
-import Loading from '../atoms/Loading'
 
 type Params = {
   memberId: string

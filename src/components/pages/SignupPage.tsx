@@ -1,10 +1,10 @@
 import { Center, Container, Heading, Link } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
+import TextErrors from '@components/atoms/TextErrors'
+import SignupForm from '@components/organisms/SignupForm'
+import { useStoreActions, useStoreState } from '@store/hooks'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { useStoreActions, useStoreState } from '../../store/hooks'
-import Loading from '../atoms/Loading'
-import TextErrors from '../atoms/TextErrors'
-import SignupForm from '../organisms/SignupForm'
 
 interface Props {
   goToLoginPage?(): void

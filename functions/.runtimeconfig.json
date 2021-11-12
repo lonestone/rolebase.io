@@ -1,9 +1,0 @@
-{
-  "security": {
-    "invitation_token": "XXX"
-  },
-  "mailjet": {
-    "private": "XXX",
-    "public": "XXX"
-  }
-}

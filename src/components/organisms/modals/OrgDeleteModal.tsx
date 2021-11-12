@@ -1,3 +1,4 @@
+import { updateOrg } from '@api/entities/orgs'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -9,9 +10,8 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useOrg from '@hooks/useOrg'
 import React from 'react'
-import { updateOrg } from '../../../api/entities/orgs'
-import useOrg from '../../../hooks/useOrg'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {

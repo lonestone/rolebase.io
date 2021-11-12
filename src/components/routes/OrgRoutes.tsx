@@ -1,12 +1,12 @@
+import Loading from '@components/atoms/Loading'
+import TextErrors from '@components/atoms/TextErrors'
+import CirclesPage from '@components/pages/CirclesPage'
+import MembersPage from '@components/pages/MembersPage'
+import ThreadsPage from '@components/pages/ThreadsPage'
+import useOrg from '@hooks/useOrg'
+import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useEffect } from 'react'
 import { Redirect, Route, Switch, useParams } from 'react-router-dom'
-import useOrg from '../../hooks/useOrg'
-import { useStoreActions, useStoreState } from '../../store/hooks'
-import Loading from '../atoms/Loading'
-import TextErrors from '../atoms/TextErrors'
-import CirclesPage from '../pages/CirclesPage'
-import MembersPage from '../pages/MembersPage'
-import ThreadsPage from '../pages/ThreadsPage'
 
 export default function OrgRoutes() {
   const { orgId } = useParams<{ orgId: string }>()

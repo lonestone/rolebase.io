@@ -1,3 +1,4 @@
+import { deleteCircle } from '@api/entities/circles'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -9,10 +10,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useCircle from '@hooks/useCircle'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React from 'react'
-import { deleteCircle } from '../../../api/entities/circles'
-import useCircle from '../../../hooks/useCircle'
-import { useNavigateOrg } from '../../../hooks/useNavigateOrg'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {

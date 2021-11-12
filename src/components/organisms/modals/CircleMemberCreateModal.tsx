@@ -1,3 +1,4 @@
+import { addMemberToCircle } from '@api/entities/circles'
 import {
   CloseButton,
   Input,
@@ -14,11 +15,10 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import MemberButton from '@components/atoms/MemberButton'
+import useCircle from '@hooks/useCircle'
+import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
-import { addMemberToCircle } from '../../../api/entities/circles'
-import useCircle from '../../../hooks/useCircle'
-import { useStoreState } from '../../../store/hooks'
-import MemberButton from '../../atoms/MemberButton'
 
 interface Props extends UseModalProps {
   parentId: string

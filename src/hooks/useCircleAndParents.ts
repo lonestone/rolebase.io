@@ -1,7 +1,7 @@
 import { CircleWithRoleEntry } from '@shared/circle'
 import { getCircleRoles } from '@shared/getCircleRoles'
+import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-import { useStoreState } from '../store/hooks'
 
 export default function useCircleAndParents(
   id: string
