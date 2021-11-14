@@ -100,9 +100,10 @@ export default function CircleCombobox({
     [value, items]
   )
 
-  // Click on selected circle put it in editing mode
+  // Click on selected circle to put it in editing mode
   const handleSelectedCircleClick = () => {
     openMenu()
+    // Wait for the input to appears, then focus it
     setTimeout(() => {
       inputRef.current?.focus()
     }, 0)
@@ -117,7 +118,7 @@ export default function CircleCombobox({
           <ComboboxItem
             item={selectedCircle}
             highlighted={false}
-            onClick={handleSelectedCircleClick}
+            onMouseDown={handleSelectedCircleClick}
           />
         )}
         <Input
@@ -132,7 +133,7 @@ export default function CircleCombobox({
         isOpen={isOpen}
         {...getMenuProps()}
         position="absolute"
-        zIndex="100"
+        zIndex="1"
         left="0"
       >
         {inputItems.slice(0, maxDisplayedItems).map((item, index) => (

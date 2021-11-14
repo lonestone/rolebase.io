@@ -121,7 +121,7 @@ export default function SearchCombobox({
         isOpen={isOpen}
         {...getMenuProps()}
         position="absolute"
-        zIndex="100"
+        zIndex="1"
         right="0"
       >
         {inputItems.slice(0, maxDisplayedItems).map((item, index) => (

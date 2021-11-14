@@ -17,12 +17,12 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import CircleCombobox from '@components/molecules/search/CircleCombobox'
+import CircleComboboxController from '@components/molecules/search/CircleComboboxController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Thread } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 interface Props extends UseModalProps {
   circleId?: string
@@ -42,8 +42,7 @@ export default function ThreadCreateModal(props: Props) {
   })
 
   const onSubmit = handleSubmit(async ({ circleId, title }) => {
-    console.log('onSubmit', circleId, title, userId, orgId)
-    if (!orgId || !userId || !circleId) return
+    if (!orgId || !userId) return
     const thread = await createThread({ orgId, circleId, userId, title })
     props.onCreate?.(thread.id)
     props.onClose()
@@ -61,12 +60,7 @@ export default function ThreadCreateModal(props: Props) {
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
                 <FormLabel htmlFor="title">Titre</FormLabel>
-                <Input
-                  name="title"
-                  placeholder="Titre..."
-                  autoFocus
-                  ref={register()}
-                />
+                <Input name="title" placeholder="Titre..." ref={register()} />
                 <FormErrorMessage>
                   {errors.title && errors.title.message}
                 </FormErrorMessage>
@@ -74,13 +68,7 @@ export default function ThreadCreateModal(props: Props) {
 
               <FormControl isInvalid={!!errors.circleId}>
                 <FormLabel htmlFor="circleId">Cercle / Rôle</FormLabel>
-                <Controller
-                  name="circleId"
-                  control={control}
-                  render={({ value, onChange }) => (
-                    <CircleCombobox value={value} onChange={onChange} />
-                  )}
-                />
+                <CircleComboboxController name="circleId" control={control} />
                 <FormErrorMessage>
                   {errors.circleId && errors.circleId.message}
                 </FormErrorMessage>

@@ -2,6 +2,7 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import CirclesPage from '@components/pages/CirclesPage'
 import MembersPage from '@components/pages/MembersPage'
+import ThreadPage from '@components/pages/ThreadPage'
 import ThreadsPage from '@components/pages/ThreadsPage'
 import useOrg from '@hooks/useOrg'
 import { useStoreActions, useStoreState } from '@store/hooks'
@@ -64,6 +65,9 @@ export default function OrgRoutes() {
         </Route>
         <Route exact path="/orgs/:orgId/members">
           <MembersPage />
+        </Route>
+        <Route exact path="/orgs/:orgId/threads/:threadId">
+          <ThreadPage />
         </Route>
         <Route exact path="/orgs/:orgId/threads">
           <ThreadsPage />
