@@ -19,8 +19,8 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import ControlledMardownEditor from '@components/atoms/ControlledMardownEditor'
 import DurationSelect from '@components/atoms/DurationSelect'
+import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useRole from '@hooks/useRole'
 import { Role } from '@shared/role'
@@ -98,7 +98,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.purpose}>
                   <FormLabel htmlFor="purpose">Raison d'être</FormLabel>
-                  <ControlledMardownEditor
+                  <MarkdownEditorController
                     name="purpose"
                     placeholder="But qu'il poursuit..."
                     control={control}
@@ -110,7 +110,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.domain}>
                   <FormLabel htmlFor="domain">Domaine</FormLabel>
-                  <ControlledMardownEditor
+                  <MarkdownEditorController
                     name="domain"
                     placeholder="Ce qu'il est seul à pouvoir faire..."
                     control={control}
@@ -124,7 +124,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   <FormLabel htmlFor="accountabilities">
                     Redevabilités
                   </FormLabel>
-                  <ControlledMardownEditor
+                  <MarkdownEditorController
                     name="accountabilities"
                     placeholder="Ce qu'il doit faire..."
                     control={control}
@@ -136,7 +136,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
                 <FormControl isInvalid={!!errors.notes}>
                   <FormLabel htmlFor="notes">Notes</FormLabel>
-                  <ControlledMardownEditor
+                  <MarkdownEditorController
                     name="notes"
                     placeholder="Notes, liens..."
                     control={control}

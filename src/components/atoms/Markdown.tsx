@@ -1,36 +1,11 @@
-import { Text, TextProps } from '@chakra-ui/react'
-import styled from '@emotion/styled'
-import marked from 'marked'
+import { BoxProps } from '@chakra-ui/react'
+import marked, { MarkedOptions } from 'marked'
 import React from 'react'
+import BasicStyle from './BasicStyle'
 
-interface Props extends TextProps {
+interface Props extends BoxProps {
   children: string
 }
-
-const StyledText = styled(Text)`
-  ul,
-  ol {
-    padding-left: 1.5em;
-  }
-  h1 {
-    font-size: 1.5em;
-  }
-  h2 {
-    font-size: 1.35em;
-  }
-  h3 {
-    font-size: 1.25em;
-  }
-  h4 {
-    font-size: 1.2em;
-  }
-  h5 {
-    font-size: 1.1em;
-  }
-  a {
-    text-decoration: underline;
-  }
-`
 
 // Add target="_blank" to external links
 // https://github.com/markedjs/marked/issues/655
@@ -44,12 +19,17 @@ renderer.link = (href: string, title: string, text: string) => {
   return localLink ? html : html.replace(/^<a /, `<a target="_blank" `)
 }
 
+const options: MarkedOptions = {
+  renderer,
+  breaks: true,
+}
+
 export default function Markdown({ children, ...props }: Props) {
   return (
-    <StyledText
+    <BasicStyle
       {...props}
       dangerouslySetInnerHTML={{
-        __html: marked(children, { renderer, breaks: true }),
+        __html: marked(children, options),
       }}
     />
   )
