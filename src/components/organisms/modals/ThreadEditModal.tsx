@@ -56,7 +56,12 @@ export default function ThreadEditModal({ thread, ...modalProps }: Props) {
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
                 <FormLabel htmlFor="title">Titre</FormLabel>
-                <Input name="title" placeholder="Titre..." ref={register()} />
+                <Input
+                  name="title"
+                  placeholder="Titre..."
+                  autoFocus
+                  ref={register()}
+                />
                 <FormErrorMessage>
                   {errors.title && errors.title.message}
                 </FormErrorMessage>

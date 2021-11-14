@@ -43,7 +43,13 @@ export default function ThreadCreateModal(props: Props) {
 
   const onSubmit = handleSubmit(async ({ circleId, title }) => {
     if (!orgId || !userId) return
-    const thread = await createThread({ orgId, circleId, userId, title })
+    const thread = await createThread({
+      orgId,
+      circleId,
+      userId,
+      title,
+      draft: true,
+    })
     props.onCreate?.(thread.id)
     props.onClose()
   })
@@ -60,7 +66,12 @@ export default function ThreadCreateModal(props: Props) {
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
                 <FormLabel htmlFor="title">Titre</FormLabel>
-                <Input name="title" placeholder="Titre..." ref={register()} />
+                <Input
+                  name="title"
+                  placeholder="Titre..."
+                  autoFocus
+                  ref={register()}
+                />
                 <FormErrorMessage>
                   {errors.title && errors.title.message}
                 </FormErrorMessage>
