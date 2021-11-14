@@ -9,12 +9,13 @@ import {
   Spacer,
   Tag,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
+import ThreadActivities from '@components/organisms/ThreadActivities'
+import useOverflowHidden from '@hooks/useOverflowHidden'
 import useSubscription from '@hooks/useSubscription'
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
@@ -24,6 +25,8 @@ interface Params {
 }
 
 export default function ThreadPage() {
+  useOverflowHidden()
+
   const threadId = useParams<Params>().threadId
   const subscription = useMemo(
     () => (threadId === undefined ? undefined : subscribeThread(threadId)),
@@ -39,7 +42,9 @@ export default function ThreadPage() {
   } = useDisclosure()
 
   return (
-    <Container maxW="3xl" marginTop="60px">
+    <Container maxW="3xl" h="100vh" display="flex" flexDirection="column">
+      <Box h="60px" />
+
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
@@ -57,14 +62,12 @@ export default function ThreadPage() {
             </Button>
           </HStack>
 
-          <VStack spacing={2} align="stretch"></VStack>
+          <Box flex={1} overflow="scroll">
+            <ThreadActivities threadId={threadId} />
+          </Box>
 
-          <Spacer h="50px" />
-
-          <Box position="fixed" zIndex={9} bottom={0} left={0} right={0}>
-            <Container maxW="3xl">
-              <ThreadActivityCreate threadId={thread.id} />
-            </Container>
+          <Box bg="white">
+            <ThreadActivityCreate threadId={thread.id} />
           </Box>
 
           <ThreadEditModal

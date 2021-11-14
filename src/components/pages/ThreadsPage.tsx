@@ -14,6 +14,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadCreateModal from '@components/organisms/modals/ThreadCreateModal'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
@@ -21,6 +22,8 @@ import { Link as ReachLink } from 'react-router-dom'
 
 export default function ThreadsPage() {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const navigateOrg = useNavigateOrg()
+
   const subscription = useMemo(
     () => (orgId === undefined ? undefined : subscribeThreads(orgId)),
     [orgId]
@@ -72,7 +75,11 @@ export default function ThreadsPage() {
         </VStack>
       )}
 
-      <ThreadCreateModal isOpen={isCreateOpen} onClose={onCreateClose} />
+      <ThreadCreateModal
+        isOpen={isCreateOpen}
+        onClose={onCreateClose}
+        onCreate={(id: string) => navigateOrg(`/threads/${id}`)}
+      />
     </Container>
   )
 }

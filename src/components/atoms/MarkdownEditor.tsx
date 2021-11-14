@@ -11,6 +11,7 @@ interface Props {
   placeholder?: string
   value: string
   onChange(value: string): void
+  onSubmit?(value: string): void // Called when Enter key is pressed
 }
 
 // Markdown editor
@@ -36,6 +37,7 @@ export default function MarkdownEditor({
   placeholder,
   value,
   onChange,
+  onSubmit,
 }: Props) {
   // Show toolbar button when input is focused
   const [showToolbarButton, setShowToolbarButton] = useState(false)
@@ -61,14 +63,35 @@ export default function MarkdownEditor({
   const codemirrorRef = useRef<Editor>()
   const getCodemirrorInstance = useCallback((instance: Editor) => {
     codemirrorRef.current = instance
+
+    // Listen to Enter key to submit
+    instance.on('keydown', (editor, event) => {
+      if (event.code === 'Enter' && !event.shiftKey) {
+        onSubmit?.(editor.getValue())
+        event.preventDefault()
+      }
+    })
   }, [])
+  const positionRef = useRef<CodeMirror.Position>()
+
   const handleFocus = useCallback(() => setShowToolbarButton(true), [])
   const handleBlur = useCallback(() => setShowToolbarButton(false), [])
 
   const handleToggleToolbar = useCallback(() => {
+    // Save position
+    positionRef.current = codemirrorRef.current?.getCursor()
+    // Toggle toolbar
     setShowToolbar((show) => !show)
-    // Re-focus editor
-    setTimeout(() => codemirrorRef.current?.focus(), 0)
+    // Re-focus editor and set cursor position
+    setTimeout(() => {
+      const instance = codemirrorRef.current
+      if (instance) {
+        instance.focus()
+        if (positionRef.current) {
+          instance.setCursor(positionRef.current)
+        }
+      }
+    }, 0)
   }, [])
 
   return (

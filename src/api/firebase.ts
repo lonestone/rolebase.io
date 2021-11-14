@@ -91,7 +91,7 @@ export function subscribeDoc<Entity>(
   }
 }
 
-export async function getEntity<Entity>(
+export async function getDoc<Entity>(
   doc: firebase.default.firestore.DocumentReference<Entity>
 ): Promise<WithId<Entity> | undefined> {
   const snapshot = await doc.get()
@@ -126,7 +126,7 @@ export function getEntityMethods<
 
     // Get entity by id
     get: (id: string): Promise<WithId<Entity> | undefined> =>
-      getEntity(collection.doc(id)),
+      getDoc(collection.doc(id)),
 
     // Create entity
     create: (
