@@ -63,7 +63,10 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   return (
     <AccordionItem border="none">
       {({ isExpanded }) => (
-        <Box boxShadow={isExpanded ? 'lg' : 'sm'}>
+        <Box
+          boxShadow={isExpanded ? 'lg' : 'sm'}
+          borderLeft={isExpanded ? '4px solid #ddd' : undefined}
+        >
           <AccordionButton>
             <Box flex="1" textAlign="left">
               {circlesWithRole.map((circle, i) => {
