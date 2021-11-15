@@ -1,4 +1,5 @@
 import { Role } from '@shared/role'
+import memoize from 'memoizee'
 import * as yup from 'yup'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { nameSchema } from '../schemas'
@@ -21,9 +22,9 @@ export const createRole = methods.create
 export const updateRole = methods.update
 export const deleteRole = methods.delete
 
-export function subscribeRoles(orgId: string) {
-  return subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
-}
+export const subscribeRoles = memoize((orgId: string) =>
+  subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
+)
 
 export const roleCreateSchema = yup.object().shape({
   name: nameSchema,

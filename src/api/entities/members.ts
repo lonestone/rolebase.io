@@ -1,4 +1,5 @@
 import { Member } from '@shared/member'
+import memoize from 'memoizee'
 import * as yup from 'yup'
 import {
   executeQuery,
@@ -17,9 +18,9 @@ export const createMember = methods.create
 export const updateMember = methods.update
 export const deleteMember = methods.delete
 
-export function subscribeMembers(orgId: string) {
-  return subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
-}
+export const subscribeMembers = memoize((orgId: string) =>
+  subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
+)
 
 export async function getMembers(orgId: string) {
   return executeQuery(collection.where('orgId', '==', orgId).orderBy('name'))

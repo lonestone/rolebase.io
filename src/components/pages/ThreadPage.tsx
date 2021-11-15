@@ -17,7 +17,7 @@ import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useSubscription from '@hooks/useSubscription'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 
 interface Params {
@@ -28,11 +28,11 @@ export default function ThreadPage() {
   useOverflowHidden()
 
   const threadId = useParams<Params>().threadId
-  const subscription = useMemo(
-    () => (threadId === undefined ? undefined : subscribeThread(threadId)),
-    [threadId]
-  )
-  const { data: thread, error, loading } = useSubscription(subscription)
+  const {
+    data: thread,
+    error,
+    loading,
+  } = useSubscription(threadId ? subscribeThread(threadId) : undefined)
 
   // Create modal
   const {
@@ -62,7 +62,7 @@ export default function ThreadPage() {
             </Button>
           </HStack>
 
-          <Box flex={1} overflow="scroll">
+          <Box flex={1} overflow="auto">
             <ThreadActivities threadId={threadId} />
           </Box>
 

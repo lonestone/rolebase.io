@@ -1,4 +1,5 @@
 import { Circle } from '@shared/circle'
+import memoize from 'memoizee'
 import { nanoid } from 'nanoid'
 import {
   firestore,
@@ -19,9 +20,9 @@ const methods = getEntityMethods<Circle, 'members'>(collection, {
 export const createCircle = methods.create
 export const updateCircle = methods.update
 
-export function subscribeCircles(orgId: string) {
-  return subscribeQuery(collection.where('orgId', '==', orgId))
-}
+export const subscribeCircles = memoize((orgId: string) =>
+  subscribeQuery(collection.where('orgId', '==', orgId))
+)
 
 export async function deleteCircle(id: string): Promise<boolean> {
   try {

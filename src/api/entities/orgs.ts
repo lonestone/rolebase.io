@@ -1,4 +1,5 @@
 import { Org } from '@shared/org'
+import memoize from 'memoizee'
 import * as yup from 'yup'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { nameSchema } from '../schemas'
@@ -18,15 +19,15 @@ const methods = getEntityMethods<Org, 'archived' | 'defaultWorkedMinPerWeek'>(
 export const createOrg = methods.create
 export const updateOrg = methods.update
 
-export function subscribeOrgs(userId: string) {
-  return subscribeQuery(
+export const subscribeOrgs = memoize((userId: string) =>
+  subscribeQuery(
     collection
       .where('ownersIds', 'array-contains', userId)
       .where('archived', '==', false)
       .orderBy('archived')
       .orderBy('name')
   )
-}
+)
 
 export const orgCreateSchema = yup.object().shape({
   name: nameSchema,

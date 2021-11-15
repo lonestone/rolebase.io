@@ -17,18 +17,16 @@ import ThreadCreateModal from '@components/organisms/modals/ThreadCreateModal'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 export default function ThreadsPage() {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const navigateOrg = useNavigateOrg()
 
-  const subscription = useMemo(
-    () => (orgId === undefined ? undefined : subscribeThreads(orgId)),
-    [orgId]
+  const { data, error, loading } = useSubscription(
+    orgId ? subscribeThreads(orgId) : undefined
   )
-  const { data, error, loading } = useSubscription(subscription)
 
   // Create modal
   const {

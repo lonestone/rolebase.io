@@ -1,5 +1,6 @@
 import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
+import memoize from 'memoizee'
 import * as yup from 'yup'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 
@@ -17,14 +18,14 @@ export const updateActivity = methods.update
 export const subscribeActivity = methods.subscribe
 export const deleteActivity = methods.delete
 
-export function subscribeActivities(orgId: string, threadId: string) {
-  return subscribeQuery(
+export const subscribeActivities = memoize((orgId: string, threadId: string) =>
+  subscribeQuery(
     collection
       .where('orgId', '==', orgId)
       .where('threadId', '==', threadId)
       .orderBy('createdAt')
   )
-}
+)
 
 export async function getLastActivity(
   orgId: string,
