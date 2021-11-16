@@ -1,16 +1,10 @@
 import { subscribeActivities } from '@api/entities/activities'
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertTitle, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
-import { ThreadActivityMessage } from '@components/molecules/ThreadActivityMessage'
+import ThreadActivity from '@components/molecules/ThreadActivity'
+import ThreadDaySeparator from '@components/molecules/ThreadDaySeparator'
 import useSubscription from '@hooks/useSubscription'
-import { ActivityType } from '@shared/activity'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
@@ -53,16 +47,16 @@ export default function ThreadActivities({ threadId }: Props) {
       )}
 
       {activities &&
-        activities.map((activity) => {
-          switch (activity.type) {
-            case ActivityType.Message:
-              return (
-                <ThreadActivityMessage key={activity.id} activity={activity} />
-              )
-            default:
-              return <Text key={activity.id}>{JSON.stringify(activity)}</Text>
-          }
-        })}
+        activities.map((activity, i) => (
+          <React.Fragment key={activity.id}>
+            {(i === 0 ||
+              activity.createdAt.toDate().getDay() !==
+                activities[i - 1].createdAt.toDate().getDay()) && (
+              <ThreadDaySeparator date={activity.createdAt.toDate()} />
+            )}
+            <ThreadActivity activity={activity} />
+          </React.Fragment>
+        ))}
     </VStack>
   )
 }

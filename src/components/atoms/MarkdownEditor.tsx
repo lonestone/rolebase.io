@@ -10,6 +10,7 @@ import BasicStyle from './BasicStyle'
 interface Props {
   placeholder?: string
   value: string
+  autoFocus?: boolean
   onChange(value: string): void
   onSubmit?(value: string): void // Called when Enter key is pressed
 }
@@ -36,6 +37,7 @@ const StyledEditor = styled.div`
 export default function MarkdownEditor({
   placeholder,
   value,
+  autoFocus,
   onChange,
   onSubmit,
 }: Props) {
@@ -61,17 +63,25 @@ export default function MarkdownEditor({
   )
 
   const codemirrorRef = useRef<Editor>()
-  const getCodemirrorInstance = useCallback((instance: Editor) => {
-    codemirrorRef.current = instance
+  const getCodemirrorInstance = useCallback(
+    (instance: Editor) => {
+      codemirrorRef.current = instance
 
-    // Listen to Enter key to submit
-    instance.on('keydown', (editor, event) => {
-      if (event.code === 'Enter' && !event.shiftKey) {
-        onSubmit?.(editor.getValue())
-        event.preventDefault()
+      // Auto focus
+      if (autoFocus) {
+        codemirrorRef.current?.focus()
       }
-    })
-  }, [])
+
+      // Listen to Enter key to submit
+      instance.on('keydown', (editor, event) => {
+        if (event.code === 'Enter' && !event.shiftKey) {
+          onSubmit?.(editor.getValue())
+          event.preventDefault()
+        }
+      })
+    },
+    [autoFocus, onSubmit]
+  )
   const positionRef = useRef<CodeMirror.Position>()
 
   const handleFocus = useCallback(() => setShowToolbarButton(true), [])

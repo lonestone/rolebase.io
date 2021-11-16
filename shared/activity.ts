@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 import { WithId } from './types'
 
 export enum ActivityType {
@@ -13,7 +14,7 @@ interface ActivityBase {
   orgId: string
   threadId: string
   userId: string
-  createdAt: Date
+  createdAt: firebase.firestore.Timestamp
 }
 
 export interface ActivityMessage extends ActivityBase {

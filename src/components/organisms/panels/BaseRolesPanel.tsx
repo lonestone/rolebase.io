@@ -1,4 +1,4 @@
-import { AddIcon, EditIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   CloseButton,
@@ -13,6 +13,7 @@ import {
 import Panel from '@components/atoms/Panel'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
+import { FiEdit3 } from 'react-icons/fi'
 import BaseRoleCreateModal from '../modals/BaseRoleCreateModal'
 import RoleEditModal from '../modals/RoleEditModal'
 
@@ -65,7 +66,7 @@ export default function BaseRolesPanel({ onClose }: Props) {
             <ListItem key={role.id}>
               {role.name}{' '}
               <Button size="sm" onClick={() => handleOpenEdit(role.id)}>
-                <EditIcon />
+                <FiEdit3 />
               </Button>
             </ListItem>
           ))}

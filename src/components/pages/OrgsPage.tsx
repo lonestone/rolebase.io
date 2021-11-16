@@ -1,4 +1,4 @@
-import { AddIcon, EditIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   CloseButton,
@@ -21,6 +21,7 @@ import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
+import { FiEdit3 } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 export default function OrgsPage() {
@@ -110,7 +111,7 @@ export default function OrgsPage() {
                     </LinkOverlay>
                     <Spacer />
                     <Button onClick={() => handleOpenEdit(org.id)}>
-                      <EditIcon />
+                      <FiEdit3 />
                     </Button>
                   </HStack>
                 </Heading>

@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 import { WithId } from './types'
 
 export interface Thread {
@@ -5,7 +6,7 @@ export interface Thread {
   circleId: string
   userId: string
   title: string
-  createdAt: Date
+  createdAt: firebase.firestore.Timestamp
   draft: boolean
   archived: boolean
 }

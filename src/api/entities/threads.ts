@@ -1,7 +1,12 @@
 import { Thread } from '@shared/thread'
 import memoize from 'memoizee'
 import * as yup from 'yup'
-import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
+import {
+  getCollection,
+  getEntityMethods,
+  subscribeQuery,
+  Timestamp,
+} from '../firebase'
 import { nameSchema } from '../schemas'
 
 const collection = getCollection<Thread>('threads')
@@ -13,7 +18,7 @@ const methods = getEntityMethods<Thread, 'draft' | 'archived' | 'createdAt'>(
       ...thread,
       draft: false,
       archived: false,
-      createdAt: new Date(),
+      createdAt: Timestamp.now(),
     }),
   }
 )

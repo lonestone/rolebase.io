@@ -1,4 +1,3 @@
-import { EditIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Button,
@@ -14,6 +13,7 @@ import MemberRoles from '@components/molecules/MemberRoles'
 import useMember from '@hooks/useMember'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback } from 'react'
+import { FiEdit3 } from 'react-icons/fi'
 import MemberEditModal from '../modals/MemberEditModal'
 
 interface Props {
@@ -54,7 +54,7 @@ export default function MemberPanel({ id, highlightCircleId, onClose }: Props) {
           />
           <StackItem>{member.name}</StackItem>
           <Button onClick={onEditOpen}>
-            <EditIcon />
+            <FiEdit3 />
           </Button>
           <Spacer />
           <CloseButton onClick={onClose} />

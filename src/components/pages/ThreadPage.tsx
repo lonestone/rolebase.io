@@ -1,5 +1,4 @@
 import { subscribeThread } from '@api/entities/threads'
-import { EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -18,6 +17,7 @@ import ThreadActivities from '@components/organisms/ThreadActivities'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
+import { FiEdit3 } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
 
 interface Params {
@@ -50,14 +50,14 @@ export default function ThreadPage() {
 
       {thread && (
         <>
-          <HStack margin="30px 0">
+          <HStack my="30px" ml="1em">
             <Heading as="h2" size="md">
               {thread.title}
               {thread.draft && <Tag ml={2}>Brouillon</Tag>}
               {thread.archived && <Tag ml={2}>Archivé</Tag>}
             </Heading>
             <Spacer />
-            <Button leftIcon={<EditIcon />} onClick={onEditOpen}>
+            <Button leftIcon={<FiEdit3 />} onClick={onEditOpen}>
               Modifier
             </Button>
           </HStack>

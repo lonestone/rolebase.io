@@ -2,7 +2,12 @@ import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
 import memoize from 'memoizee'
 import * as yup from 'yup'
-import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
+import {
+  getCollection,
+  getEntityMethods,
+  subscribeQuery,
+  Timestamp,
+} from '../firebase'
 
 const collection = getCollection<Activity>('activities')
 
@@ -10,7 +15,7 @@ const methods = getEntityMethods<Activity, 'createdAt'>(collection, {
   createTransform: (activity) =>
     ({
       ...activity,
-      createdAt: new Date(),
+      createdAt: Timestamp.now(),
     } as Activity),
 })
 export const getActivity = methods.get

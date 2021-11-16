@@ -14,6 +14,8 @@ export const firestore = app.firestore()
 export const storage = app.storage()
 export const functions = app.functions()
 
+export const Timestamp = firebaseApp.firestore.Timestamp
+
 if (location.hostname === 'localhost') {
   auth.useEmulator('http://localhost:9099')
   firestore.useEmulator('localhost', 8080)
