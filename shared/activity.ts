@@ -35,6 +35,9 @@ export interface ActivityPoll extends ActivityBase {
 }
 export interface ActivityDecision extends ActivityBase {
   type: ActivityType.Decision
+  circleId: string
+  decision: string
+  explanation: string
 }
 
 export type Activity =

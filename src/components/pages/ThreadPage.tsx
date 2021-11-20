@@ -25,6 +25,12 @@ interface Params {
   threadId: string
 }
 
+enum ScrollPosition {
+  Top,
+  Bottom,
+  Middle,
+}
+
 export default function ThreadPage() {
   useOverflowHidden()
 
@@ -36,27 +42,35 @@ export default function ThreadPage() {
   } = useSubscription(threadId ? subscribeThread(threadId) : undefined)
 
   // Scroll handling
-  const [scrollLock, setScrollLock] = useState(false)
+  const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(
+    ScrollPosition.Bottom
+  )
   const scrollRef = useRef<HTMLDivElement>(null)
   const handleScroll: React.UIEventHandler<HTMLDivElement> = useCallback(
     (event) => {
       const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
-      if (scrollTop + clientHeight < scrollHeight) {
-        if (!scrollLock) setScrollLock(true)
+      if (scrollTop === 0) {
+        setScrollPosition(ScrollPosition.Top)
+      } else if (scrollTop + clientHeight < scrollHeight) {
+        if (scrollPosition !== ScrollPosition.Middle) {
+          setScrollPosition(ScrollPosition.Middle)
+        }
       } else {
-        if (scrollLock) setScrollLock(false)
+        if (scrollPosition !== ScrollPosition.Bottom) {
+          if (scrollPosition) setScrollPosition(ScrollPosition.Bottom)
+        }
       }
     },
-    [scrollLock]
+    [scrollPosition]
   )
 
-  // Scroll to end when activities change and scroll is not locked
+  // Scroll to end when activities change and scroll position in set to bottom
   const handleActivityUpdate = useCallback(() => {
     const el = scrollRef?.current
-    if (el && !scrollLock) {
+    if (el && scrollPosition === ScrollPosition.Bottom) {
       el.scrollTop = el.scrollHeight - el.clientHeight
     }
-  }, [thread, scrollLock])
+  }, [thread, scrollPosition])
 
   // Create modal
   const {
@@ -90,7 +104,15 @@ export default function ThreadPage() {
             <Spacer />
           </HStack>
 
-          <Box mb={3}>
+          <Box
+            pb={1}
+            zIndex={1}
+            boxShadow={
+              scrollPosition !== ScrollPosition.Top
+                ? '0 6px 11px -10px rgba(0,0,0,0.5)'
+                : 'none'
+            }
+          >
             <CircleAndParentsButton id={thread.circleId} />
           </Box>
 
@@ -104,11 +126,13 @@ export default function ThreadPage() {
           <Box
             bg="white"
             boxShadow={
-              scrollLock ? '0 -6px 11px -10px rgba(0,0,0,0.5)' : 'none'
+              scrollPosition !== ScrollPosition.Bottom
+                ? '0 -6px 11px -10px rgba(0,0,0,0.5)'
+                : 'none'
             }
             zIndex="1"
           >
-            <ThreadActivityCreate threadId={thread.id} />
+            <ThreadActivityCreate thread={thread} />
           </Box>
 
           <ThreadEditModal

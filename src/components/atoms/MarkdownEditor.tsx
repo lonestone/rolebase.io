@@ -55,7 +55,6 @@ export default function MarkdownEditor({
       inputStyle: 'contenteditable', // Required for nativeSpellcheck
       nativeSpellcheck: true,
       spellChecker: false,
-      indentWithTabs: false,
       previewImagesInEditor: true,
       toolbar: showToolbar ? undefined : false,
     }),
@@ -75,9 +74,17 @@ export default function MarkdownEditor({
       // Listen to Enter key to submit
       instance.on('keydown', (editor, event) => {
         if (event.code === 'Enter' && !event.shiftKey) {
-          onSubmit?.(editor.getValue())
-          event.preventDefault()
+          if (onSubmit) {
+            onSubmit(editor.getValue())
+            event.preventDefault()
+          }
         }
+      })
+
+      // Disable tab/shift+tab to allow changing focus
+      instance.setOption('extraKeys', {
+        Tab: false,
+        'Shift-Tab': false,
       })
     },
     [autoFocus, onSubmit]
@@ -110,6 +117,7 @@ export default function MarkdownEditor({
         <IconButton
           icon={<FaFont />}
           aria-label=""
+          tabindex="-1"
           position="absolute"
           zIndex="1"
           top="9px"

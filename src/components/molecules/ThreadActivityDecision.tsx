@@ -1,19 +1,18 @@
-import { Avatar, Box, Flex, IconButton, Text } from '@chakra-ui/react'
+import { Box, Flex, IconButton, Text } from '@chakra-ui/react'
 import { HourLink } from '@components/atoms/HourLink'
 import Markdown from '@components/atoms/Markdown'
 import { MemberLink } from '@components/atoms/MemberLink'
-import { ActivityMessage } from '@shared/activity'
+import { ActivityDecision } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { FiEdit3 } from 'react-icons/fi'
-import { ThreadActivityMessageEdit } from './ThreadActivityMessageEdit'
 
 interface Props {
-  activity: WithId<ActivityMessage>
+  activity: WithId<ActivityDecision>
 }
 
-export function ThreadActivityMessage({ activity }: Props) {
+export function ThreadActivityDecision({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const members = useStoreState((state) => state.members.entries)
   const member = useMemo(
@@ -23,7 +22,6 @@ export function ThreadActivityMessage({ activity }: Props) {
 
   // Edition
   const isUserOwner = userId === activity.userId
-  const [editing, setEditing] = useState(false)
 
   return (
     <Flex
@@ -32,14 +30,8 @@ export function ThreadActivityMessage({ activity }: Props) {
       _hover={{ background: '#fafafa' }}
       role="group"
     >
-      <Avatar
-        name={member?.name || '?'}
-        src={member?.picture || undefined}
-        size="md"
-        mr={3}
-      />
       <Box flex="1">
-        {isUserOwner && !editing && (
+        {isUserOwner && (
           <IconButton
             aria-label="Modifier"
             icon={<FiEdit3 />}
@@ -47,24 +39,20 @@ export function ThreadActivityMessage({ activity }: Props) {
             float="right"
             display="none"
             _groupHover={{ display: 'inline-flex' }}
-            onClick={() => setEditing(true)}
           />
         )}
 
-        <Text>
-          {member && <MemberLink member={member} />}
+        <Text fontStyle="italic">
+          {member && <MemberLink member={member} />} a ajouté une décision.
           <HourLink timestamp={activity.createdAt} />
         </Text>
 
-        {!editing ? (
-          <Markdown>{activity.message}</Markdown>
-        ) : (
-          <ThreadActivityMessageEdit
-            id={activity.id}
-            defaultMessage={activity.message}
-            onClose={() => setEditing(false)}
-          />
-        )}
+        <Box mt={3} p={3} background="gray.100" borderRadius="10px">
+          <strong>Décision :</strong>
+          <Markdown mb={3}>{activity.decision}</Markdown>
+          <strong>Explications :</strong>
+          <Markdown>{activity.explanation}</Markdown>
+        </Box>
       </Box>
     </Flex>
   )

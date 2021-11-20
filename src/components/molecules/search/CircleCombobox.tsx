@@ -15,6 +15,10 @@ interface CircleComboboxProps {
   onChange(circleId: string): void
 }
 
+function itemToString(item: SearchItem | undefined | null) {
+  return item ? item.text : ''
+}
+
 export default function CircleCombobox({
   value,
   onChange,
@@ -48,8 +52,22 @@ export default function CircleCombobox({
     [items]
   )
 
-  // Set default items on mount
-  useEffect(() => updateSearch(''), [])
+  // Set default item on mount
+  useEffect(
+    () =>
+      updateSearch(
+        value
+          ? itemToString(
+              items.find(
+                (item) =>
+                  item.type === SearchItemTypes.Circle &&
+                  item.circle.id === value
+              )
+            )
+          : ''
+      ),
+    []
+  )
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
@@ -75,7 +93,13 @@ export default function CircleCombobox({
     getItemProps,
   } = useCombobox({
     items: inputItems,
-    itemToString: (item) => (item ? item.text : ''),
+    defaultSelectedItem: value
+      ? items.find(
+          (item) =>
+            item.type === SearchItemTypes.Circle && item.circle.id === value
+        )
+      : undefined,
+    itemToString,
     onInputValueChange,
     onSelectedItemChange,
   })
@@ -119,6 +143,7 @@ export default function CircleCombobox({
             item={selectedCircle}
             highlighted={false}
             onMouseDown={handleSelectedCircleClick}
+            onClick={handleSelectedCircleClick}
           />
         )}
         <Input

@@ -69,3 +69,9 @@ export async function createActivity(
 export const activityMessageSchema = yup.object().shape({
   message: yup.string().required(),
 })
+
+export const activityDecisionSchema = yup.object().shape({
+  circleId: yup.string().required(),
+  decision: yup.string().required(),
+  explanation: yup.string().required(),
+})
