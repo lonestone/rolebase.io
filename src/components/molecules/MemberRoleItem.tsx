@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
-import RoleEditModal from '@components/organisms/modals/RoleEditModal'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
 
@@ -25,12 +25,7 @@ interface Props {
 }
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
-  // Edit modal
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
+  const navigateOrg = useNavigateOrg()
 
   // Delete modal
   const {
@@ -105,9 +100,9 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                     size="sm"
                     colorScheme="blue"
                     variant="ghost"
-                    onClick={onEditOpen}
+                    onClick={() => navigateOrg(`?circleId=${roleCircle.id}`)}
                   >
-                    Modifier
+                    Voir
                   </Button>
                   <Button
                     size="sm"
@@ -124,13 +119,6 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
               </VStack>
             </form>
           </AccordionPanel>
-          {roleCircle.role && (
-            <RoleEditModal
-              id={roleCircle.role.id}
-              isOpen={isEditOpen}
-              onClose={onEditClose}
-            />
-          )}
           <CircleMemberDeleteModal
             memberId={memberId}
             circleId={roleCircle.id}

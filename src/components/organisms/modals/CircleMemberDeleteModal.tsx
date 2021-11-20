@@ -41,13 +41,11 @@ export default function CircleMemberDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un membre d'un cercle
+            Supprimer le rôle d'un membre
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>
-              Êtes-vous sûr de vouloir retirer ce membre de ce cercle ?
-            </Text>
+            <Text>Êtes-vous sûr de vouloir retirer ce rôle à ce membre ?</Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>

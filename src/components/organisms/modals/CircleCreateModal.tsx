@@ -34,7 +34,21 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
   const navigateOrg = useNavigateOrg()
   const orgId = useStoreState((state) => state.orgs.currentId)
   const roles = useStoreState((state) => state.roles.entries)
-  const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
+  const circles = useStoreState((state) => state.circles.entries)
+  const baseRoles = useMemo(
+    () =>
+      roles?.filter(
+        (role) =>
+          // Base role
+          role.base &&
+          // Not already used in same circle
+          !circles?.some(
+            (circle) =>
+              circle.parentId === parentId && circle.roleId === role.id
+          )
+      ),
+    [roles, circles, parentId]
+  )
 
   const { handleSubmit, register, errors } = useForm<Values>({
     resolver: yupResolver(roleCreateSchema),

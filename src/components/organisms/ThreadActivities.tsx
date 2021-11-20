@@ -6,20 +6,27 @@ import ThreadActivity from '@components/molecules/ThreadActivity'
 import ThreadDaySeparator from '@components/molecules/ThreadDaySeparator'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 
 interface Props {
   threadId: string
+  onUpdate(): void
 }
 
-export default function ThreadActivities({ threadId }: Props) {
+export default function ThreadActivities({ threadId, onUpdate }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const {
     data: activities,
     error,
     loading,
   } = useSubscription(orgId ? subscribeActivities(orgId, threadId) : undefined)
+
+  useEffect(() => {
+    if (activities) {
+      onUpdate()
+    }
+  }, [activities])
 
   return (
     <VStack spacing={0} align="stretch">

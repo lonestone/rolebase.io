@@ -202,6 +202,7 @@ export default function CirclePanel({ id, onClose }: Props) {
                 <WrapItem key={m.id}>
                   <MemberButton
                     member={m}
+                    size="sm"
                     onClick={() => navigateToCircleMember(circle.id, m.id)}
                   />
                 </WrapItem>
@@ -209,7 +210,7 @@ export default function CirclePanel({ id, onClose }: Props) {
               <WrapItem>
                 <Button
                   variant="solid"
-                  size="md"
+                  size="sm"
                   leftIcon={<AddIcon />}
                   onClick={onCreateCircleMemberOpen}
                 >

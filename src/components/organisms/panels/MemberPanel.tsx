@@ -1,9 +1,9 @@
 import {
   Avatar,
-  Button,
   CloseButton,
   Heading,
   HStack,
+  IconButton,
   Spacer,
   StackItem,
   useDisclosure,
@@ -53,16 +53,14 @@ export default function MemberPanel({ id, highlightCircleId, onClose }: Props) {
             size="lg"
           />
           <StackItem>{member.name}</StackItem>
-          <Button onClick={onEditOpen}>
-            <FiEdit3 />
-          </Button>
+          <IconButton aria-label="" icon={<FiEdit3 />} onClick={onEditOpen} />
           <Spacer />
           <CloseButton onClick={onClose} />
         </HStack>
       </Heading>
 
       <Heading as="h3" size="sm" mb={3} ml={4}>
-        Roles
+        Rôles
       </Heading>
       <MemberRoles
         memberId={id}

@@ -26,7 +26,6 @@ export default function CircleAndParentsButton({ id }: Props) {
         const prevLast = i === circleAndParents.length - 2
         return (
           <React.Fragment key={c.id}>
-            {last && <br />}
             <span>
               <Button
                 variant={last ? 'solid' : 'ghost'}
@@ -38,7 +37,7 @@ export default function CircleAndParentsButton({ id }: Props) {
               >
                 {c.role?.name || '?'}
               </Button>
-              {!last && !prevLast && <ChevronRightIcon margin="0 -0.3em" />}
+              {!last && <ChevronRightIcon margin="0 -0.3em" />}
             </span>
           </React.Fragment>
         )
