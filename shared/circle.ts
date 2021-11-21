@@ -17,6 +17,7 @@ export interface CircleWithRoleEntry extends CircleEntry {
 // Circle member
 export interface CircleMember {
   memberId: string
+  // Work duration for this member in this circle
   avgMinPerWeek?: number | null
 }
 

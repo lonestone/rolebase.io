@@ -1,20 +1,20 @@
-import { Avatar, Button } from '@chakra-ui/react'
+import { Avatar, Button, ButtonProps } from '@chakra-ui/react'
 import { MemberEntry } from '@shared/member'
 import React from 'react'
 
-interface Props {
+interface Props extends ButtonProps {
   member: MemberEntry
-  size: 'sm' | 'md'
+  size?: 'md' | 'sm'
   onClick(): void
 }
 
-export default function MemberButton({ member, size, onClick }: Props) {
+export default function MemberButton({ member, ...buttonProps }: Props) {
   return (
-    <Button onClick={onClick} size={size}>
+    <Button {...buttonProps}>
       <Avatar
         name={member.name}
         src={member.picture || undefined}
-        size={size === 'sm' ? 'xs' : 'sm'}
+        size={buttonProps.size === 'sm' ? 'xs' : 'sm'}
         ml="-10px"
         mr={2}
       />

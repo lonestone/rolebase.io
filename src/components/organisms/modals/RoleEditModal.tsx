@@ -3,6 +3,7 @@ import {
   Alert,
   AlertIcon,
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -15,12 +16,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Radio,
+  RadioGroup,
+  Stack,
+  StackItem,
   useDisclosure,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
+import CircleCombobox from '@components/molecules/search/CircleCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useRole from '@hooks/useRole'
 import { Role } from '@shared/role'
@@ -31,6 +37,12 @@ import RoleDeleteModal from './RoleDeleteModal'
 interface Props extends UseModalProps {
   id: string
 }
+
+enum LinkType {
+  parent = 'parent',
+  other = 'other',
+}
+const tmpCircleId = 'tmpCircleId'
 
 export default function RoleEditModal({ id, ...props }: Props) {
   const role = useRole(id)
@@ -55,14 +67,27 @@ export default function RoleEditModal({ id, ...props }: Props) {
         domain: role.domain,
         accountabilities: role.accountabilities,
         defaultMinPerWeek: role.defaultMinPerWeek || null,
+        singleMember: role.singleMember || false,
+        link: role.link || false,
       })
     }
   }, [role, props.isOpen])
 
-  // Register duration select
+  // Single member
+  const singleMember = watch('singleMember')
+  useEffect(() => {
+    if (!singleMember) {
+      setValue('link', false)
+    }
+  }, [singleMember])
+
+  // Register some fields
+  const link = watch('link')
   const defaultMinPerWeek = watch('defaultMinPerWeek')
+  console.log('link', link)
   useEffect(() => {
     register({ name: 'defaultMinPerWeek' })
+    register({ name: 'link' })
   }, [register])
 
   const onSubmit = handleSubmit((values) => {
@@ -144,6 +169,50 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   <FormErrorMessage>
                     {errors.notes && errors.notes.message}
                   </FormErrorMessage>
+                </FormControl>
+
+                <FormControl>
+                  <Stack spacing={1} direction="column">
+                    <Checkbox name="singleMember" ref={register()}>
+                      Ne peut être occupé que par un seul membre
+                    </Checkbox>
+
+                    <Checkbox
+                      name="link"
+                      isDisabled={!singleMember}
+                      isChecked={!!link}
+                      onChange={() => setValue('link', !link)}
+                    >
+                      Représente son cercle parent
+                    </Checkbox>
+                    <RadioGroup
+                      display={link ? '' : 'none'}
+                      value={link !== true ? LinkType.other : LinkType.parent}
+                      onChange={(value) =>
+                        setValue(
+                          'link',
+                          value === LinkType.parent ? true : tmpCircleId
+                        )
+                      }
+                    >
+                      <Stack pl={6} mt={1} spacing={1} direction="column">
+                        <Radio value={LinkType.parent}>
+                          Dans le cercle parent
+                        </Radio>
+                        <Radio value={LinkType.other} isDisabled={role.base}>
+                          Dans un autre cercle
+                        </Radio>
+                        {typeof link === 'string' && (
+                          <StackItem pl={6}>
+                            <CircleCombobox
+                              value={link !== tmpCircleId ? link : undefined}
+                              onChange={(value) => setValue('link', value)}
+                            />
+                          </StackItem>
+                        )}
+                      </Stack>
+                    </RadioGroup>
+                  </Stack>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultMinPerWeek}>

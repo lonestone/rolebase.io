@@ -75,13 +75,13 @@ export default function ThreadEditModal({ thread, ...modalProps }: Props) {
                 </FormErrorMessage>
               </FormControl>
 
-              <FormControl isInvalid={!!errors.draft}>
+              <FormControl>
                 <Checkbox name="draft" ref={register()}>
                   Brouillon
                 </Checkbox>
               </FormControl>
 
-              <FormControl isInvalid={!!errors.archived}>
+              <FormControl>
                 <Checkbox name="archived" ref={register()}>
                   Archivé
                 </Checkbox>

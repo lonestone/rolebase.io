@@ -88,7 +88,7 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
         <ModalBody>
           <form onSubmit={onSubmit}>
             <FormControl isInvalid={!!errors.name} mb={10}>
-              <FormLabel htmlFor="name">Nom du nouveau rôle</FormLabel>
+              <FormLabel htmlFor="name">Avec un nouveau rôle :</FormLabel>
               <HStack>
                 <Input
                   name="name"
@@ -108,7 +108,7 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
 
           {baseRoles && baseRoles.length > 0 && (
             <FormControl mb={5}>
-              <FormLabel>Ou utiliser un rôle de base :</FormLabel>
+              <FormLabel>Ou en utilisant un rôle de base :</FormLabel>
               <VStack>
                 {baseRoles &&
                   baseRoles?.map((role) => (
