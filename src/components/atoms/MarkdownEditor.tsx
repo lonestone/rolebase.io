@@ -82,7 +82,9 @@ export default function MarkdownEditor({
       })
 
       // Disable tab/shift+tab to allow changing focus
+      const extraKeys = instance.getOption('extraKeys')
       instance.setOption('extraKeys', {
+        ...(typeof extraKeys === 'object' ? extraKeys : {}),
         Tab: false,
         'Shift-Tab': false,
       })
@@ -117,7 +119,7 @@ export default function MarkdownEditor({
         <IconButton
           icon={<FaFont />}
           aria-label=""
-          tabindex="-1"
+          tabIndex={-1}
           position="absolute"
           zIndex="1"
           top="9px"
