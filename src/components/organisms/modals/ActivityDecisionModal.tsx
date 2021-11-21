@@ -1,6 +1,7 @@
 import {
   activityDecisionSchema,
   createActivity,
+  updateActivity,
 } from '@api/entities/activities'
 import {
   Box,
@@ -20,7 +21,8 @@ import {
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import CircleComboboxController from '@components/molecules/search/CircleComboboxController'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ActivityType } from '@shared/activity'
+import { ActivityDecision, ActivityType } from '@shared/activity'
+import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -28,6 +30,7 @@ import { useForm } from 'react-hook-form'
 interface Props extends UseModalProps {
   threadId: string
   circleId?: string
+  activity?: WithId<ActivityDecision>
 }
 
 interface Values {
@@ -36,9 +39,10 @@ interface Values {
   explanation: string
 }
 
-export default function ActivityDecisionCreateModal({
+export default function ActivityDecisionModal({
   threadId,
   circleId,
+  activity,
   ...modalProps
 }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
@@ -46,7 +50,7 @@ export default function ActivityDecisionCreateModal({
 
   const { handleSubmit, control, errors } = useForm<Values>({
     resolver: yupResolver(activityDecisionSchema),
-    defaultValues: {
+    defaultValues: activity || {
       circleId: circleId || '',
       decision: '',
       explanation: '',
@@ -56,15 +60,23 @@ export default function ActivityDecisionCreateModal({
   const onSubmit = handleSubmit(async ({ circleId, decision, explanation }) => {
     if (!orgId || !userId) return
     try {
-      await createActivity({
-        orgId,
-        userId,
-        threadId,
-        type: ActivityType.Decision,
-        circleId,
-        decision,
-        explanation,
-      })
+      if (activity) {
+        await updateActivity(activity.id, {
+          circleId,
+          decision,
+          explanation,
+        })
+      } else {
+        await createActivity({
+          orgId,
+          userId,
+          threadId,
+          type: ActivityType.Decision,
+          circleId,
+          decision,
+          explanation,
+        })
+      }
       modalProps.onClose()
     } catch (error) {
       console.error(error)
@@ -75,7 +87,9 @@ export default function ActivityDecisionCreateModal({
     <Modal size="2xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Ajouter une décision</ModalHeader>
+        <ModalHeader>
+          {activity ? 'Modifier une décision' : 'Ajouter une décision'}
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
@@ -116,7 +130,7 @@ export default function ActivityDecisionCreateModal({
 
               <Box textAlign="right">
                 <Button colorScheme="blue" type="submit">
-                  Créer
+                  {activity ? 'Enregistrer' : 'Créer'}
                 </Button>
               </Box>
             </VStack>

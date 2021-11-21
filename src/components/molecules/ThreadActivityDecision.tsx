@@ -1,7 +1,8 @@
-import { Box, Flex, IconButton, Text } from '@chakra-ui/react'
+import { Box, Flex, IconButton, Text, useDisclosure } from '@chakra-ui/react'
 import { HourLink } from '@components/atoms/HourLink'
 import Markdown from '@components/atoms/Markdown'
 import { MemberLink } from '@components/atoms/MemberLink'
+import ActivityDecisionModal from '@components/organisms/modals/ActivityDecisionModal'
 import { ActivityDecision } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
@@ -19,6 +20,13 @@ export function ThreadActivityDecision({ activity }: Props) {
     () => members?.find((m) => m.userId === activity.userId),
     [activity.userId, members]
   )
+
+  // Edit modal
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure()
 
   // Edition
   const isUserOwner = userId === activity.userId
@@ -39,6 +47,7 @@ export function ThreadActivityDecision({ activity }: Props) {
             float="right"
             display="none"
             _groupHover={{ display: 'inline-flex' }}
+            onClick={onEditOpen}
           />
         )}
 
@@ -54,6 +63,15 @@ export function ThreadActivityDecision({ activity }: Props) {
           <Markdown>{activity.explanation}</Markdown>
         </Box>
       </Box>
+
+      {isEditOpen && (
+        <ActivityDecisionModal
+          threadId={activity.threadId}
+          activity={activity}
+          isOpen={isEditOpen}
+          onClose={onEditClose}
+        />
+      )}
     </Flex>
   )
 }
