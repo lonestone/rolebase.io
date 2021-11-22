@@ -89,7 +89,7 @@ export default function ThreadPage() {
       {thread && (
         <>
           <HStack mt="30px">
-            <Heading as="h2" size="md">
+            <Heading as="h2" size="md" display="flex" alignItems="center">
               {thread.title}
               {thread.draft && <Tag ml={2}>Brouillon</Tag>}
               {thread.archived && <Tag ml={2}>Archivé</Tag>}

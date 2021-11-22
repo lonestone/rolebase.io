@@ -84,7 +84,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
   // Register some fields
   const link = watch('link')
   const defaultMinPerWeek = watch('defaultMinPerWeek')
-  console.log('link', link)
   useEffect(() => {
     register({ name: 'defaultMinPerWeek' })
     register({ name: 'link' })

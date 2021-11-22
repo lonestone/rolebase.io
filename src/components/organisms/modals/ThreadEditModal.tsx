@@ -79,10 +79,7 @@ export default function ThreadEditModal({ thread, ...modalProps }: Props) {
                 <Checkbox name="draft" ref={register()}>
                   Brouillon
                 </Checkbox>
-              </FormControl>
-
-              <FormControl>
-                <Checkbox name="archived" ref={register()}>
+                <Checkbox name="archived" ml={5} ref={register()}>
                   Archivé
                 </Checkbox>
               </FormControl>

@@ -20,10 +20,9 @@ export default function CircleAndParentsButton({ id }: Props) {
   if (!circle) return null
 
   return (
-    <StackItem maxW="80%" style={{ textIndent: '-1em', marginLeft: '0.4em' }}>
+    <StackItem maxW="80%" ml="0.4em" style={{ textIndent: '-1em' }}>
       {circleAndParents?.map((c, i) => {
         const last = i === circleAndParents.length - 1
-        const prevLast = i === circleAndParents.length - 2
         return (
           <React.Fragment key={c.id}>
             <span>
@@ -37,7 +36,7 @@ export default function CircleAndParentsButton({ id }: Props) {
               >
                 {c.role?.name || '?'}
               </Button>
-              {!last && <ChevronRightIcon margin="0 -0.3em" />}
+              {!last && <ChevronRightIcon mx="-0.5em" />}
             </span>
           </React.Fragment>
         )

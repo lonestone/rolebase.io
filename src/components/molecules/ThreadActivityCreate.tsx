@@ -44,6 +44,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
       <MarkdownEditor
         placeholder="Message..."
         value={message}
+        autoFocus
         onChange={setMessage}
         onSubmit={handleSubmit}
       />

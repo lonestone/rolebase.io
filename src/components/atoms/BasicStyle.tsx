@@ -2,7 +2,6 @@ import { Box } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 
 const BasicStyle = styled(Box)`
-  font-size: 1rem;
   ul,
   ol {
     padding-left: 1.5em;
