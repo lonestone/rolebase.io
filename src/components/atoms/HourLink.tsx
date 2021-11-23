@@ -1,23 +1,29 @@
-import { Link } from '@chakra-ui/react'
+import { Link, LinkProps } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import firebase from 'firebase'
 import React, { useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
-interface Props {
+interface Props extends LinkProps {
   date?: Date
   timestamp?: firebase.firestore.Timestamp
 }
 
-export function HourLink(props: Props) {
-  const date = useMemo(
-    () => props.date || props.timestamp?.toDate() || new Date(),
-    [props.date, props.timestamp]
+export function HourLink({ date, timestamp, ...linkProps }: Props) {
+  const computedDate = useMemo(
+    () => date || timestamp?.toDate() || new Date(),
+    [date, timestamp]
   )
 
   return (
-    <Link as={ReachLink} to="#" ml={2} color="gray.400" textDecoration="none">
-      {format(date, 'HH:mm')}
+    <Link
+      as={ReachLink}
+      to="#"
+      color="gray.400"
+      textDecoration="none"
+      {...linkProps}
+    >
+      {format(computedDate, 'HH:mm')}
     </Link>
   )
 }

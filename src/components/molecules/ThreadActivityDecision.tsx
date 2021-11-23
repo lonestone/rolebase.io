@@ -44,9 +44,11 @@ export function ThreadActivityDecision({ activity }: Props) {
   return (
     <Flex id={activity.id} p={3} _hover={{ background: '#fafafa' }}>
       <Box flex="1">
-        <Text fontStyle="italic">
-          {member && <MemberLink member={member} />} a ajouté une décision.
-          <HourLink timestamp={activity.createdAt} />
+        <Text>
+          <i>
+            {member && <MemberLink member={member} />} a ajouté une décision.
+          </i>
+          <HourLink timestamp={activity.createdAt} ml={2} />
         </Text>
 
         <Box mt={3} background="gray.100" borderRadius="10px" role="group">

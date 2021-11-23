@@ -53,7 +53,7 @@ export function ThreadActivityMessage({ activity }: Props) {
 
         <Text>
           {member && <MemberLink member={member} />}
-          <HourLink timestamp={activity.createdAt} />
+          <HourLink timestamp={activity.createdAt} ml={2} />
         </Text>
 
         {!editing ? (
