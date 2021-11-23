@@ -26,6 +26,7 @@ interface Params {
 }
 
 enum ScrollPosition {
+  None, // Not enough content to scroll
   Top,
   Bottom,
   Middle,
@@ -42,6 +43,7 @@ export default function ThreadPage() {
   } = useSubscription(threadId ? subscribeThread(threadId) : undefined)
 
   // Scroll handling
+  const [scrollable, setScrollable] = useState(false)
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(
     ScrollPosition.Bottom
   )
@@ -56,9 +58,7 @@ export default function ThreadPage() {
           setScrollPosition(ScrollPosition.Middle)
         }
       } else {
-        if (scrollPosition !== ScrollPosition.Bottom) {
-          if (scrollPosition) setScrollPosition(ScrollPosition.Bottom)
-        }
+        setScrollPosition(ScrollPosition.Bottom)
       }
     },
     [scrollPosition]
@@ -68,7 +68,12 @@ export default function ThreadPage() {
   const handleActivityUpdate = useCallback(() => {
     const el = scrollRef?.current
     if (el && scrollPosition === ScrollPosition.Bottom) {
-      el.scrollTop = el.scrollHeight - el.clientHeight
+      if (el.scrollHeight === el.clientHeight) {
+        setScrollable(false)
+      } else {
+        setScrollable(true)
+        el.scrollTop = el.scrollHeight - el.clientHeight
+      }
     }
   }, [thread, scrollPosition])
 
@@ -108,7 +113,7 @@ export default function ThreadPage() {
             pb={1}
             zIndex={1}
             boxShadow={
-              scrollPosition !== ScrollPosition.Top
+              scrollable && scrollPosition !== ScrollPosition.Top
                 ? '0 6px 11px -10px rgba(0,0,0,0.5)'
                 : 'none'
             }
@@ -126,7 +131,7 @@ export default function ThreadPage() {
           <Box
             bg="white"
             boxShadow={
-              scrollPosition !== ScrollPosition.Bottom
+              scrollable && scrollPosition !== ScrollPosition.Bottom
                 ? '0 -6px 11px -10px rgba(0,0,0,0.5)'
                 : 'none'
             }
