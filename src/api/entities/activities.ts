@@ -75,3 +75,8 @@ export const activityDecisionSchema = yup.object().shape({
   decision: yup.string().required(),
   explanation: yup.string().required(),
 })
+
+export const activityPollSchema = yup.object().shape({
+  question: yup.string().required(),
+  choices: yup.array().of(yup.string().required()).required(),
+})

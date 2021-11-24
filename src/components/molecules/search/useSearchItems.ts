@@ -1,15 +1,16 @@
 import { getCircleRoles } from '@shared/getCircleRoles'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-import { SearchItem, SearchItemTypes } from './types'
+import { SearchItem, SearchItemTypes } from './searchItems'
 
-interface Options {
+export interface SearchOptions {
   members?: boolean
   circles?: boolean
   circleMembers?: boolean
+  excludeIds?: string[]
 }
 
-export function useSearchItems(options: Options): SearchItem[] {
+export function useSearchItems(options: SearchOptions): SearchItem[] {
   const circles = useStoreState((state) => state.circles.entries)
   const members = useStoreState((state) => state.members.entries)
   const roles = useStoreState((state) => state.roles.entries)
@@ -18,33 +19,41 @@ export function useSearchItems(options: Options): SearchItem[] {
   const circleItems: SearchItem[] = useMemo(
     () =>
       circles && roles && options.circles
-        ? circles.map((circle) => {
-            const circleRoles = getCircleRoles(circles, roles, circle.id)
-            return {
-              text: circleRoles
-                .map((cr) => cr.role?.name || '?')
-                .join(' > ')
-                .toLowerCase(),
-              type: SearchItemTypes.Circle,
-              circle,
-              circleRoles,
-            }
-          })
+        ? (circles
+            .map((circle) => {
+              if (options.excludeIds?.includes(circle.id)) return
+              const circleRoles = getCircleRoles(circles, roles, circle.id)
+              return {
+                text: circleRoles
+                  .map((cr) => cr.role?.name || '?')
+                  .join(' > ')
+                  .toLowerCase(),
+                type: SearchItemTypes.Circle,
+                circle,
+                circleRoles,
+              }
+            })
+            .filter(Boolean) as SearchItem[])
         : [],
-    [circles, roles]
+    [circles, roles, options.circles, options.excludeIds]
   )
 
   // Members items
   const memberItems: SearchItem[] = useMemo(
     () =>
       members && options.members
-        ? members.map((member) => ({
-            text: member.name.toLowerCase(),
-            type: SearchItemTypes.Member,
-            member,
-          }))
+        ? (members
+            .map((member) => {
+              if (options.excludeIds?.includes(member.id)) return
+              return {
+                text: member.name.toLowerCase(),
+                type: SearchItemTypes.Member,
+                member,
+              }
+            })
+            .filter(Boolean) as SearchItem[])
         : [],
-    [members]
+    [members, options.members, options.excludeIds]
   )
 
   // Circle members items
@@ -58,19 +67,26 @@ export function useSearchItems(options: Options): SearchItem[] {
                 .map((cr) => cr.role?.name || '?')
                 .join(' > ')
                 .toLowerCase() + ' '
-            return circle.members.map((circleMember) => {
-              const member = members.find((m) => m.id === circleMember.memberId)
-              return {
-                text: circleRolesText + member?.name.toLowerCase() || '?',
-                type: SearchItemTypes.CircleMember,
-                circle,
-                member,
-                circleRoles,
-              }
-            })
+            return circle.members
+              .map((circleMember): SearchItem | undefined => {
+                if (options.excludeIds?.includes(circleMember.id)) return
+                const member = members.find(
+                  (m) => m.id === circleMember.memberId
+                )
+                if (!member) return
+                return {
+                  text: circleRolesText + member?.name.toLowerCase() || '?',
+                  type: SearchItemTypes.CircleMember,
+                  circle,
+                  member,
+                  circleMember,
+                  circleRoles,
+                }
+              })
+              .filter(Boolean) as SearchItem[]
           })
         : [],
-    [members, circles, roles]
+    [members, circles, roles, options.circleMembers, options.excludeIds]
   )
 
   return useMemo(

@@ -3,6 +3,7 @@ import MemberEditModal from '@components/organisms/modals/MemberEditModal'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback, useState } from 'react'
 import SearchCombobox from './SearchCombobox'
+import { SearchItem, SearchItemTypes } from './searchItems'
 
 export default function Search() {
   const navigateOrg = useNavigateOrg()
@@ -15,27 +16,20 @@ export default function Search() {
     onClose: onEditClose,
   } = useDisclosure()
 
-  const handleMemberSelected = useCallback((memberId: string) => {
-    setEditMemberId(memberId)
-    onEditOpen()
+  const handleSelect = useCallback((item: SearchItem) => {
+    if (item.type === SearchItemTypes.Member) {
+      setEditMemberId(item.member.id)
+      onEditOpen()
+    } else if (item.type === SearchItemTypes.Circle) {
+      navigateOrg(`?circleId=${item.circle.id}`)
+    } else if (item.type === SearchItemTypes.CircleMember) {
+      navigateOrg(`?circleId=${item.circle.id}&memberId=${item.member.id}`)
+    }
   }, [])
-  const handleCircleSelected = useCallback(
-    (circleId: string) => navigateOrg(`?circleId=${circleId}`),
-    []
-  )
-  const handleCircleMemberSelected = useCallback(
-    (circleId: string, memberId: string) =>
-      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`),
-    []
-  )
 
   return (
     <>
-      <SearchCombobox
-        onMemberSelected={handleMemberSelected}
-        onCircleSelected={handleCircleSelected}
-        onCircleMemberSelected={handleCircleMemberSelected}
-      />
+      <SearchCombobox onSelect={handleSelect} />
 
       {editMemberId && (
         <MemberEditModal

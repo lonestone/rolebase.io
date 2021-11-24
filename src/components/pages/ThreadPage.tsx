@@ -13,7 +13,7 @@ import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
-import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
+import ThreadModal from '@components/organisms/modals/ThreadModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useSubscription from '@hooks/useSubscription'
@@ -140,11 +140,9 @@ export default function ThreadPage() {
             <ThreadActivityCreate thread={thread} />
           </Box>
 
-          <ThreadEditModal
-            thread={thread}
-            isOpen={isEditOpen}
-            onClose={onEditClose}
-          />
+          {isEditOpen && (
+            <ThreadModal isOpen thread={thread} onClose={onEditClose} />
+          )}
         </>
       )}
     </Container>

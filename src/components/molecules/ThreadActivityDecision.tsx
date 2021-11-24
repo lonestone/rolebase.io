@@ -81,9 +81,9 @@ export function ThreadActivityDecision({ activity }: Props) {
 
       {isEditOpen && (
         <ActivityDecisionModal
+          isOpen
           threadId={activity.threadId}
           activity={activity}
-          isOpen={isEditOpen}
           onClose={onEditClose}
         />
       )}

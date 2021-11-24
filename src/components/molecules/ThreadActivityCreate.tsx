@@ -2,6 +2,7 @@ import { createActivity } from '@api/entities/activities'
 import { Button, HStack, Spacer } from '@chakra-ui/react'
 import MarkdownEditor from '@components/atoms/MarkdownEditor'
 import ActivityDecisionModal from '@components/organisms/modals/ActivityDecisionModal'
+import ActivityPollModal from '@components/organisms/modals/ActivityPollModal'
 import { ActivityType } from '@shared/activity'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
@@ -79,6 +80,13 @@ export default function ThreadActivityCreate({ thread }: Props) {
         threadId={thread.id}
         circleId={thread.circleId}
         isOpen={modalType === ActivityType.Decision}
+        onClose={() => setModalType(null)}
+      />
+
+      <ActivityPollModal
+        threadId={thread.id}
+        circleId={thread.circleId}
+        isOpen={modalType === ActivityType.Poll}
         onClose={() => setModalType(null)}
       />
     </div>

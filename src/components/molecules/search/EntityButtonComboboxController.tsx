@@ -1,8 +1,9 @@
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
-import CircleCombobox from './CircleCombobox'
+import EntityButtonCombobox from './EntityButtonCombobox'
+import { SearchOptions } from './useSearchItems'
 
-interface Props {
+interface Props extends SearchOptions {
   name: string
   control: Control<any>
 }
@@ -12,13 +13,17 @@ interface Props {
 // https://github.com/RIP21/react-simplemde-editor
 // https://github.com/Ionaru/easy-markdown-editor
 
-export default function CircleComboboxController({ name, control }: Props) {
+export default function EntityButtonComboboxController({
+  name,
+  control,
+  ...options
+}: Props) {
   return (
     <Controller
       name={name}
       control={control}
       render={({ onChange, value }) => (
-        <CircleCombobox value={value} onChange={onChange} />
+        <EntityButtonCombobox value={value} onChange={onChange} {...options} />
       )}
     />
   )

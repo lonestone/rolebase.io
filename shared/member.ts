@@ -12,3 +12,14 @@ export interface Member {
 }
 
 export type MemberEntry = WithId<Member>
+
+export enum MembersScope {
+  // All members of the organization
+  Organization = 'Organization',
+  // All Leaders of Roles and sub-Circles in Circle
+  CircleLeaders = 'CircleLeaders',
+  // All members in Circle and sub-Circles
+  CircleMembers = 'CircleMembers',
+  // None (select members manually)
+  None = 'None',
+}

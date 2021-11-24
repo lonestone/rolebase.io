@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Avatar, Button, ButtonProps } from '@chakra-ui/react'
 import React from 'react'
-import { SearchItem, SearchItemTypes } from './types'
+import { SearchItem, SearchItemTypes } from '../molecules/search/searchItems'
 
 interface ComboboxItemProps extends ButtonProps {
   item: SearchItem
@@ -43,13 +43,13 @@ const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
             ))}
 
             <Avatar
-              name={item.member?.name || '?'}
-              src={item.member?.picture || undefined}
+              name={item.member.name || '?'}
+              src={item.member.picture || undefined}
               size="sm"
               marginLeft={3}
               marginRight={2}
             />
-            {item.member?.name || '?'}
+            {item.member.name || '?'}
           </>
         )}
       </Button>

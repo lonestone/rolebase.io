@@ -5,84 +5,49 @@ import {
   InputRightElement,
   ListItem,
 } from '@chakra-ui/react'
+import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import debounce from 'lodash.debounce'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import ComboboxItem from './ComboboxItem'
-import ComboboxList from './ComboboxList'
-import incrementalSearch from './incrementalSearch'
-import { SearchItem, SearchItemTypes } from './types'
+import React, { useCallback, useEffect } from 'react'
+import ComboboxItem from '../../atoms/ComboboxItem'
+import { SearchItem } from './searchItems'
+import { useSearch } from './useSearch'
 import { useSearchItems } from './useSearchItems'
 
 const maxDisplayedItems = 25
 
-interface ComboboxProps {
-  onMemberSelected(memberId: string): void
-  onCircleSelected(circleId: string): void
-  onCircleMemberSelected(circleId: string, memberId: string): void
+const searchOptions = {
+  members: true,
+  circles: true,
+  circleMembers: true,
 }
 
-export default function SearchCombobox({
-  onMemberSelected,
-  onCircleSelected,
-  onCircleMemberSelected,
-}: ComboboxProps) {
-  const items = useSearchItems({
-    members: true,
-    circles: true,
-    circleMembers: true,
-  })
+interface ComboboxProps {
+  onSelect(item: SearchItem): void
+}
 
-  const onInputValueChange = useMemo(
-    () =>
-      debounce(({ inputValue }: UseComboboxStateChange<SearchItem>) => {
-        setInputItems(
-          inputValue
-            ? incrementalSearch(
-                items,
-                (item) => item.text,
-                inputValue.toLowerCase()
-              )
-            : []
-        )
-      }, 250),
-    [items]
-  )
+export default function SearchCombobox({ onSelect }: ComboboxProps) {
+  const items = useSearchItems(searchOptions)
+  const { inputItems, onInputValueChange } = useSearch(items, true)
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
+      onSelect(item)
       setInputValue('')
-
-      // Member edit modal
-      if (item.type === SearchItemTypes.Member) {
-        onMemberSelected(item.member.id)
-      }
-
-      // Circle focus
-      else if (item.type === SearchItemTypes.Circle) {
-        onCircleSelected(item.circle.id)
-      }
-
-      // Circle member focus
-      else if (item.type === SearchItemTypes.CircleMember && item.member) {
-        onCircleMemberSelected(item.circle.id, item.member.id)
-      }
     },
     []
   )
 
-  const [inputItems, setInputItems] = useState<SearchItem[]>([])
   const {
     isOpen,
+    openMenu,
     getMenuProps,
     getInputProps,
     getComboboxProps,
     highlightedIndex,
     setHighlightedIndex,
     getItemProps,
-    openMenu,
     setInputValue,
   } = useCombobox({
     items: inputItems,
@@ -125,7 +90,7 @@ export default function SearchCombobox({
         right="0"
       >
         {inputItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ListItem textAlign="right" mb={2} key={index}>
+          <ListItem textAlign="right" mb={1} key={index}>
             <ComboboxItem
               item={item}
               highlighted={index === highlightedIndex}

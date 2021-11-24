@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
-import ThreadCreateModal from '@components/organisms/modals/ThreadCreateModal'
+import ThreadModal from '@components/organisms/modals/ThreadModal'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
@@ -73,7 +73,7 @@ export default function ThreadsPage() {
         </VStack>
       )}
 
-      <ThreadCreateModal
+      <ThreadModal
         isOpen={isCreateOpen}
         onClose={onCreateClose}
         onCreate={(id: string) => navigateOrg(`/threads/${id}`)}

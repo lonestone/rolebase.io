@@ -11,17 +11,12 @@ import { nameSchema } from '../schemas'
 
 const collection = getCollection<Thread>('threads')
 
-const methods = getEntityMethods<Thread, 'draft' | 'archived' | 'createdAt'>(
-  collection,
-  {
-    createTransform: (thread) => ({
-      ...thread,
-      draft: false,
-      archived: false,
-      createdAt: Timestamp.now(),
-    }),
-  }
-)
+const methods = getEntityMethods<Thread, 'createdAt'>(collection, {
+  createTransform: (thread) => ({
+    ...thread,
+    createdAt: Timestamp.now(),
+  }),
+})
 export const getThread = methods.get
 export const createThread = methods.create
 export const updateThread = methods.update
@@ -32,12 +27,7 @@ export const subscribeThreads = memoize((orgId: string) =>
   subscribeQuery(collection.where('orgId', '==', orgId).orderBy('createdAt'))
 )
 
-export const threadCreateSchema = yup.object().shape({
-  title: nameSchema,
-  circleId: yup.string().required(),
-})
-
-export const threadEditSchema = yup.object().shape({
+export const threadSchema = yup.object().shape({
   title: nameSchema,
   circleId: yup.string().required(),
   archived: yup.boolean(),

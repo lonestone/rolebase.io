@@ -1,5 +1,5 @@
 import {
-  activityDecisionSchema,
+  activityPollSchema,
   createActivity,
   updateActivity,
 } from '@api/entities/activities'
@@ -39,7 +39,7 @@ interface Values {
   explanation: string
 }
 
-export default function ActivityDecisionModal({
+export default function ActivityPollModal({
   threadId,
   circleId,
   activity,
@@ -49,7 +49,7 @@ export default function ActivityDecisionModal({
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   const { handleSubmit, control, errors } = useForm<Values>({
-    resolver: yupResolver(activityDecisionSchema),
+    resolver: yupResolver(activityPollSchema),
     defaultValues: activity || {
       circleId: circleId || '',
       decision: '',
