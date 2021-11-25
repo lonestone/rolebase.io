@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
+import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
+  const org = useCurrentOrg()
   const navigateOrg = useNavigateOrg()
 
   // Delete modal
@@ -89,7 +91,9 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                     Temps de travail
                   </FormLabel>
                   <DurationSelect
-                    placeholderValue={roleCircle.role?.defaultMinPerWeek ?? 0}
+                    placeholderValue={
+                      roleCircle.role?.defaultMinPerWeek ?? undefined
+                    }
                     value={avgMinPerWeek}
                     onChange={setAvgMinPerWeek}
                   />

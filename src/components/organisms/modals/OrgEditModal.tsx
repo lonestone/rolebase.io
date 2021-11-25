@@ -19,13 +19,17 @@ import {
 import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
-import { Org } from '@shared/org'
 import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import OrgDeleteModal from './OrgDeleteModal'
 
 interface Props extends UseModalProps {
   id: string
+}
+
+interface Values {
+  name: string
+  defaultWorkedMinPerWeek: number
 }
 
 export default function OrgEditModal({ id, ...props }: Props) {
@@ -37,9 +41,13 @@ export default function OrgEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, watch, setValue, reset } = useForm<
-    Partial<Org>
-  >({
+  const {
+    handleSubmit,
+    register,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<Values>({
     resolver: yupResolver(orgUpdateSchema),
   })
 
@@ -52,12 +60,6 @@ export default function OrgEditModal({ id, ...props }: Props) {
       })
     }
   }, [org, props.isOpen])
-
-  // Register duration select
-  const defaultWorkedMinPerWeek = watch('defaultWorkedMinPerWeek')
-  useEffect(() => {
-    register({ name: 'defaultWorkedMinPerWeek' })
-  }, [register])
 
   const onSubmit = handleSubmit((values) => {
     updateOrg(id, values)
@@ -79,26 +81,23 @@ export default function OrgEditModal({ id, ...props }: Props) {
               <VStack spacing={5}>
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom</FormLabel>
-                  <Input
-                    name="name"
-                    placeholder="Nom..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                  </FormErrorMessage>
+                  <Input {...register('name')} placeholder="Nom..." autoFocus />
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>
                   <FormLabel htmlFor="defaultWorkedMinPerWeek">
                     Temps de travail par défaut
                   </FormLabel>
-                  <DurationSelect
-                    value={defaultWorkedMinPerWeek ?? null}
-                    onChange={(value) =>
-                      setValue('defaultWorkedMinPerWeek', value)
-                    }
+                  <Controller
+                    name="defaultWorkedMinPerWeek"
+                    control={control}
+                    render={({ field }) => (
+                      <DurationSelect
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
                   />
                   <FormErrorMessage>
                     {errors.defaultWorkedMinPerWeek &&

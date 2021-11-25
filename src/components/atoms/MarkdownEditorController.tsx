@@ -20,12 +20,12 @@ export default function MarkdownEditorController({
       name={name}
       control={control}
       defaultValue=""
-      render={({ onChange, value }) => (
+      render={({ field }) => (
         <MarkdownEditor
-          value={value}
+          value={field.value}
+          onChange={field.onChange}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          onChange={onChange}
         />
       )}
     />

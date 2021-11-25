@@ -19,18 +19,18 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
-import EntityButtonComboboxController from '@components/molecules/search/EntityButtonComboboxController'
+import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ActivityDecision, ActivityType } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
 interface Props extends UseModalProps {
-  threadId: string
-  circleId?: string
-  activity?: WithId<ActivityDecision>
+  threadId?: string // To create
+  circleId?: string // To create
+  activity?: WithId<ActivityDecision> // To update
 }
 
 interface Values {
@@ -48,7 +48,11 @@ export default function ActivityDecisionModal({
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useStoreState((state) => state.orgs.currentId)
 
-  const { handleSubmit, control, errors } = useForm<Values>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<Values>({
     resolver: yupResolver(activityDecisionSchema),
     defaultValues: activity || {
       circleId: circleId || '',
@@ -60,21 +64,20 @@ export default function ActivityDecisionModal({
   const onSubmit = handleSubmit(async ({ circleId, decision, explanation }) => {
     if (!orgId || !userId) return
     try {
+      const activityData = {
+        circleId,
+        decision,
+        explanation,
+      }
       if (activity) {
-        await updateActivity(activity.id, {
-          circleId,
-          decision,
-          explanation,
-        })
-      } else {
+        await updateActivity(activity.id, activityData)
+      } else if (threadId) {
         await createActivity({
+          type: ActivityType.Decision,
           orgId,
           userId,
           threadId,
-          type: ActivityType.Decision,
-          circleId,
-          decision,
-          explanation,
+          ...activityData,
         })
       }
       modalProps.onClose()
@@ -103,9 +106,7 @@ export default function ActivityDecisionModal({
                   autoFocus
                   control={control}
                 />
-                <FormErrorMessage>
-                  {errors.decision && errors.decision.message}
-                </FormErrorMessage>
+                <FormErrorMessage>{errors.decision?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.explanation}>
@@ -116,20 +117,24 @@ export default function ActivityDecisionModal({
                   control={control}
                 />
                 <FormErrorMessage>
-                  {errors.explanation && errors.explanation.message}
+                  {errors.explanation?.message}
                 </FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
                 <FormLabel htmlFor="circleId">Cercle concerné</FormLabel>
-                <EntityButtonComboboxController
-                  circles
+                <Controller
                   name="circleId"
                   control={control}
+                  render={({ field }) => (
+                    <EntityButtonCombobox
+                      circles
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  )}
                 />
-                <FormErrorMessage>
-                  {errors.circleId && errors.circleId.message}
-                </FormErrorMessage>
+                <FormErrorMessage>{errors.circleId?.message}</FormErrorMessage>
               </FormControl>
 
               <Box textAlign="right">

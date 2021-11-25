@@ -40,6 +40,8 @@ export interface ActivityPoll extends ActivityBase {
   choices: string[] // Possible answers. Indexes are used as ids
   answers: PollAnswer[]
   multiple: boolean
+  minAnswers: number | null
+  maxAnswers: number | null
   pointsPerUser: number // If multiple=true, user can dispatch points unevenly to multiple answers
   randomize: boolean
   anonymous: boolean

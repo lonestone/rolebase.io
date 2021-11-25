@@ -57,7 +57,7 @@ export default function SearchButtonCombobox({
       setInputValue('')
       buttonRef.current?.focus()
     },
-    []
+    [onSelect]
   )
 
   const {

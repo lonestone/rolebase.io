@@ -32,11 +32,14 @@ export default function MembersSelect({
     [membersIds, members]
   )
 
-  const handleAddMember = useCallback((item: SearchItem) => {
-    if (item.type === SearchItemTypes.Member) {
-      onAdd(item.member.id)
-    }
-  }, [])
+  const handleAddMember = useCallback(
+    (item: SearchItem) => {
+      if (item.type === SearchItemTypes.Member) {
+        onAdd(item.member.id)
+      }
+    },
+    [onAdd]
+  )
 
   return (
     <Wrap spacing={2}>

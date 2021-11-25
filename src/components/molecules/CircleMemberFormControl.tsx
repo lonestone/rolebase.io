@@ -20,9 +20,12 @@ export default function CircleMemberFormControl({ circleId }: Props) {
     [circle]
   )
 
-  const handleAddMember = useCallback((memberId: string) => {
-    addMemberToCircle(memberId, circleId)
-  }, [])
+  const handleAddMember = useCallback(
+    (memberId: string) => {
+      addMemberToCircle(memberId, circleId)
+    },
+    [circleId]
+  )
 
   const handleRemoveMember = useCallback((memberId: string) => {
     setMemberId(memberId)

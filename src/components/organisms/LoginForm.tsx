@@ -30,7 +30,11 @@ const schema = yup.object().shape({
 })
 
 export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
-  const { handleSubmit, errors, register } = useForm<Values>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<Values>({
     resolver: yupResolver(schema),
     defaultValues: { email: defaultEmail },
   })
@@ -41,30 +45,24 @@ export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
         <FormControl isInvalid={!!errors.email}>
           <FormLabel htmlFor="email">Email</FormLabel>
           <Input
-            name="email"
+            {...register('email')}
             type="email"
             required
             placeholder="Votre adresse email..."
-            ref={register}
             autoFocus
           />
-          <FormErrorMessage>
-            {errors.email && errors.email.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors.password}>
           <FormLabel htmlFor="password">Mot de passe</FormLabel>
           <Input
-            name="password"
+            {...register('password')}
             type="password"
             required
             placeholder="Votre mot de passe..."
-            ref={register}
           />
-          <FormErrorMessage>
-            {errors.password && errors.password.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
 
         <Button colorScheme="blue" type="submit">

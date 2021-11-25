@@ -50,7 +50,11 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
     [roles, circles, parentId]
   )
 
-  const { handleSubmit, register, errors } = useForm<Values>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<Values>({
     resolver: yupResolver(roleCreateSchema),
   })
 
@@ -90,19 +94,12 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
             <FormControl isInvalid={!!errors.name} mb={10}>
               <FormLabel htmlFor="name">Avec un nouveau rôle :</FormLabel>
               <HStack>
-                <Input
-                  name="name"
-                  placeholder="Nom..."
-                  ref={register}
-                  autoFocus
-                />
+                <Input {...register('name')} placeholder="Nom..." autoFocus />
                 <Button colorScheme="blue" type="submit">
                   Créer
                 </Button>
               </HStack>
-              <FormErrorMessage>
-                {errors.name && errors.name.message}
-              </FormErrorMessage>
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
           </form>
 

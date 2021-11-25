@@ -73,7 +73,7 @@ export const activityMessageSchema = yup.object().shape({
 export const activityDecisionSchema = yup.object().shape({
   circleId: yup.string().required(),
   decision: yup.string().required(),
-  explanation: yup.string().required(),
+  explanation: yup.string(),
 })
 
 export const activityPollSchema = yup.object().shape({

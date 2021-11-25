@@ -18,17 +18,24 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Org } from '@shared/org'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
 interface Props extends UseModalProps {}
 
+interface Values {
+  name: string
+}
+
 export default function OrgCreateModal(props: Props) {
   const user = useStoreState((state) => state.auth.user)
 
-  const { handleSubmit, errors, register } = useForm<Org>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<Values>({
     resolver: yupResolver(orgCreateSchema),
   })
 
@@ -67,15 +74,8 @@ export default function OrgCreateModal(props: Props) {
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
               <FormLabel htmlFor="name">Nom</FormLabel>
-              <Input
-                name="name"
-                placeholder="Nom..."
-                ref={register()}
-                autoFocus
-              />
-              <FormErrorMessage>
-                {errors.name && errors.name.message}
-              </FormErrorMessage>
+              <Input {...register('name')} placeholder="Nom..." autoFocus />
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 

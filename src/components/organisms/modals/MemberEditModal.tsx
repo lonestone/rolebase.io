@@ -31,25 +31,25 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
-import { Member } from '@shared/member'
 import { format } from 'date-fns'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import MemberDeleteModal from './MemberDeleteModal'
 
 interface Props extends UseModalProps {
   id: string
 }
 
-interface Values extends Partial<Member> {
-  pictureFiles: FileList
+interface Values {
+  name: string
+  picture?: string | null
+  workedMinPerWeek?: number | null
 }
 
 export default function MemberEditModal({ id, ...props }: Props) {
   const member = useMember(id)
-
-  const toast = useToast()
   const org = useCurrentOrg()
+  const toast = useToast()
 
   const {
     isOpen: isDeleteOpen,
@@ -57,11 +57,20 @@ export default function MemberEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, watch, setValue, reset } =
-    useForm<Values>({
-      resolver: yupResolver(memberUpdateSchema),
-    })
+  const {
+    handleSubmit,
+    register,
+    control,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<Values>({
+    resolver: yupResolver(memberUpdateSchema),
+  })
+
   const [picture, setPicture] = useState<string | undefined | null>()
+  const pictureInputRef = useRef<HTMLInputElement>(null)
+  const [pictureError, setPictureError] = useState<Error | undefined>()
 
   // Init form data
   useEffect(() => {
@@ -74,17 +83,17 @@ export default function MemberEditModal({ id, ...props }: Props) {
     }
   }, [member, props.isOpen])
 
-  // Register duration select
-  const workedMinPerWeek = watch('workedMinPerWeek')
-  useEffect(() => {
-    register({ name: 'workedMinPerWeek' })
-  }, [register])
-
-  const onSubmit = handleSubmit(async ({ pictureFiles, ...memberUpdate }) => {
+  const onSubmit = handleSubmit(async (memberUpdate) => {
     // Upload picture
-    if (pictureFiles && pictureFiles[0]) {
-      memberUpdate.picture = await uploadPicture(id, pictureFiles[0])
-      setPicture(memberUpdate.picture)
+    const pictureFile = pictureInputRef.current?.files?.[0]
+    if (pictureFile) {
+      try {
+        setPictureError(undefined)
+        memberUpdate.picture = await uploadPicture(id, pictureFile)
+        setPicture(memberUpdate.picture)
+      } catch (error) {
+        setPictureError(error as Error)
+      }
     }
 
     // Update member data
@@ -126,41 +135,42 @@ export default function MemberEditModal({ id, ...props }: Props) {
               <VStack spacing={5} align="stretch">
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom</FormLabel>
-                  <Input
-                    name="name"
-                    placeholder="Nom..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                  </FormErrorMessage>
+                  <Input {...register('name')} placeholder="Nom..." autoFocus />
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={!!errors.pictureFiles}>
+                <FormControl isInvalid={!!pictureError}>
                   <FormLabel htmlFor="pictureFiles">Photo</FormLabel>
                   <HStack spacing={3}>
                     {picture && (
                       <Avatar name={member.name} src={picture} size="lg" />
                     )}
-                    <Input name="pictureFiles" type="file" ref={register} />
+                    <Input
+                      type="file"
+                      name="pictureFiles"
+                      ref={pictureInputRef}
+                    />
                   </HStack>
-                  <FormErrorMessage>
-                    {errors.pictureFiles && errors.pictureFiles.message}
-                  </FormErrorMessage>
+                  <FormErrorMessage>{pictureError?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.workedMinPerWeek}>
                   <FormLabel htmlFor="workedMinPerWeek">
                     Temps de travail pour l'organisation
                   </FormLabel>
-                  <DurationSelect
-                    placeholderValue={org?.defaultWorkedMinPerWeek}
-                    value={workedMinPerWeek ?? null}
-                    onChange={(value) => setValue('workedMinPerWeek', value)}
+                  <Controller
+                    name="workedMinPerWeek"
+                    control={control}
+                    render={({ field }) => (
+                      <DurationSelect
+                        placeholderValue={org?.defaultWorkedMinPerWeek}
+                        value={field.value ?? null}
+                        onChange={field.onChange}
+                      />
+                    )}
                   />
                   <FormErrorMessage>
-                    {errors.workedMinPerWeek && errors.workedMinPerWeek.message}
+                    {errors.workedMinPerWeek?.message}
                   </FormErrorMessage>
                 </FormControl>
 

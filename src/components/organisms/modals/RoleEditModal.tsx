@@ -28,14 +28,26 @@ import DurationSelect from '@components/atoms/DurationSelect'
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCurrentOrg from '@hooks/useCurrentOrg'
 import useRole from '@hooks/useRole'
-import { Role } from '@shared/role'
 import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import RoleDeleteModal from './RoleDeleteModal'
 
 interface Props extends UseModalProps {
   id: string
+}
+
+interface Values {
+  base: boolean
+  name: string
+  purpose: string
+  domain: string
+  accountabilities: string
+  notes: string
+  singleMember?: boolean
+  link?: string | boolean
+  defaultMinPerWeek?: number | null
 }
 
 enum LinkType {
@@ -45,6 +57,7 @@ enum LinkType {
 const tmpCircleId = 'tmpCircleId'
 
 export default function RoleEditModal({ id, ...props }: Props) {
+  const org = useCurrentOrg()
   const role = useRole(id)
 
   const {
@@ -53,10 +66,17 @@ export default function RoleEditModal({ id, ...props }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  const { handleSubmit, errors, register, control, watch, setValue, reset } =
-    useForm<Partial<Role>>({
-      resolver: yupResolver(roleUpdateSchema),
-    })
+  const {
+    handleSubmit,
+    register,
+    control,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<Values>({
+    resolver: yupResolver(roleUpdateSchema),
+  })
 
   // Init form data
   useEffect(() => {
@@ -83,10 +103,8 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
   // Register some fields
   const link = watch('link')
-  const defaultMinPerWeek = watch('defaultMinPerWeek')
   useEffect(() => {
-    register({ name: 'defaultMinPerWeek' })
-    register({ name: 'link' })
+    register('link')
   }, [register])
 
   const onSubmit = handleSubmit((values) => {
@@ -109,15 +127,8 @@ export default function RoleEditModal({ id, ...props }: Props) {
               <VStack spacing={6}>
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom du rôle</FormLabel>
-                  <Input
-                    name="name"
-                    placeholder="Nom..."
-                    ref={register}
-                    autoFocus
-                  />
-                  <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                  </FormErrorMessage>
+                  <Input {...register('name')} placeholder="Nom..." autoFocus />
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.purpose}>
@@ -127,9 +138,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     placeholder="But qu'il poursuit..."
                     control={control}
                   />
-                  <FormErrorMessage>
-                    {errors.purpose && errors.purpose.message}
-                  </FormErrorMessage>
+                  <FormErrorMessage>{errors.purpose?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.domain}>
@@ -139,9 +148,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     placeholder="Ce qu'il est seul à pouvoir faire..."
                     control={control}
                   />
-                  <FormErrorMessage>
-                    {errors.domain && errors.domain.message}
-                  </FormErrorMessage>
+                  <FormErrorMessage>{errors.domain?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.accountabilities}>
@@ -154,7 +161,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     control={control}
                   />
                   <FormErrorMessage>
-                    {errors.accountabilities && errors.accountabilities.message}
+                    {errors.accountabilities?.message}
                   </FormErrorMessage>
                 </FormControl>
 
@@ -165,14 +172,12 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     placeholder="Notes, liens..."
                     control={control}
                   />
-                  <FormErrorMessage>
-                    {errors.notes && errors.notes.message}
-                  </FormErrorMessage>
+                  <FormErrorMessage>{errors.notes?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl>
                   <Stack spacing={1} direction="column">
-                    <Checkbox name="singleMember" ref={register()}>
+                    <Checkbox {...register('singleMember')}>
                       Ne peut être occupé que par un seul membre
                     </Checkbox>
 
@@ -182,7 +187,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
                       isChecked={!!link}
                       onChange={() => setValue('link', !link)}
                     >
-                      Représente son cercle parent
+                      Représente son cercle parent (lien)
                     </Checkbox>
                     <RadioGroup
                       display={link ? '' : 'none'}
@@ -219,9 +224,15 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   <FormLabel htmlFor="defaultMinPerWeek">
                     Temps par défaut
                   </FormLabel>
-                  <DurationSelect
-                    value={defaultMinPerWeek ?? null}
-                    onChange={(value) => setValue('defaultMinPerWeek', value)}
+                  <Controller
+                    name="defaultMinPerWeek"
+                    control={control}
+                    render={({ field }) => (
+                      <DurationSelect
+                        value={field.value ?? null}
+                        onChange={field.onChange}
+                      />
+                    )}
                   />
                   <FormHelperText>
                     Temps alloué par défaut à chaque membre ayant ce rôle.

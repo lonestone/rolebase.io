@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import MembersToCopyList from '@components/molecules/MembersToCopyList'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Member, MemberEntry } from '@shared/member'
+import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
@@ -25,10 +25,18 @@ interface Props extends UseModalProps {
   onCreate?: (id: string) => void
 }
 
+interface Values {
+  name: string
+}
+
 export default function MemberCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
-  const { handleSubmit, errors, register } = useForm<Member>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<Values>({
     resolver: yupResolver(memberCreateSchema),
   })
 
@@ -60,15 +68,8 @@ export default function MemberCreateModal(props: Props) {
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
               <FormLabel htmlFor="name">Nom</FormLabel>
-              <Input
-                name="name"
-                placeholder="Nom..."
-                ref={register()}
-                autoFocus
-              />
-              <FormErrorMessage>
-                {errors.name && errors.name.message}
-              </FormErrorMessage>
+              <Input {...register('name')} placeholder="Nom..." autoFocus />
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
 
             <Box textAlign="right" mt={2}>

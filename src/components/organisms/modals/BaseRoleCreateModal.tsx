@@ -27,7 +27,11 @@ interface Props extends UseModalProps {
 export default function BaseRoleCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
-  const { handleSubmit, errors, register } = useForm<Role>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<Role>({
     resolver: yupResolver(roleCreateSchema),
   })
 
@@ -50,15 +54,8 @@ export default function BaseRoleCreateModal(props: Props) {
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
               <FormLabel htmlFor="name">Nom</FormLabel>
-              <Input
-                name="name"
-                placeholder="Nom..."
-                ref={register()}
-                autoFocus
-              />
-              <FormErrorMessage>
-                {errors.name && errors.name.message}
-              </FormErrorMessage>
+              <Input {...register('name')} placeholder="Nom..." autoFocus />
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
 
