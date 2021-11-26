@@ -176,7 +176,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
                 </FormControl>
 
                 <FormControl>
-                  <Stack spacing={1} direction="column">
+                  <Stack spacing={1}>
                     <Checkbox {...register('singleMember')}>
                       Ne peut être occupé que par un seul membre
                     </Checkbox>

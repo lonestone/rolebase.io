@@ -22,7 +22,9 @@ export default function ThreadActivityCreate({ thread }: Props) {
 
   const handleSubmit = useCallback(
     async (value: string) => {
-      if (!orgId || !userId) return
+      value = value.trim()
+      if (!value || !orgId || !userId) return
+
       setMessage('')
       try {
         await createActivity({
@@ -85,7 +87,6 @@ export default function ThreadActivityCreate({ thread }: Props) {
 
       <ActivityPollModal
         threadId={thread.id}
-        circleId={thread.circleId}
         isOpen={modalType === ActivityType.Poll}
         onClose={() => setModalType(null)}
       />

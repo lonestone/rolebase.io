@@ -37,18 +37,22 @@ export interface ActivityElection extends ActivityBase {
 export interface ActivityPoll extends ActivityBase {
   type: ActivityType.Poll
   question: string
-  choices: string[] // Possible answers. Indexes are used as ids
+  choices: PollChoice[]
   answers: PollAnswer[]
   multiple: boolean
   minAnswers: number | null
   maxAnswers: number | null
-  pointsPerUser: number // If multiple=true, user can dispatch points unevenly to multiple answers
+  pointsPerUser: number | null
   randomize: boolean
   anonymous: boolean
   hideUntilEnd: boolean
   canAddChoice: boolean
   endDate: firebase.firestore.Timestamp | null
   endWhenAllVoted: boolean
+}
+
+export interface PollChoice {
+  title: string
 }
 
 export interface PollAnswer {

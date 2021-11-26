@@ -48,7 +48,7 @@ export default function VacantRolesPanel({ onClose }: Props) {
       {!vacantCircles?.length ? (
         <i>Aucun rôle vacant</i>
       ) : (
-        <Stack direction="column">
+        <Stack>
           {vacantCircles?.map((circle) => (
             <CircleAndParentsButton key={circle.id} id={circle.id} />
           ))}
