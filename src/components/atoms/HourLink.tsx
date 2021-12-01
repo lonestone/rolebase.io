@@ -9,7 +9,7 @@ interface Props extends LinkProps {
   timestamp?: firebase.firestore.Timestamp
 }
 
-export function HourLink({ date, timestamp, ...linkProps }: Props) {
+export default function HourLink({ date, timestamp, ...linkProps }: Props) {
   const computedDate = useMemo(
     () => date || timestamp?.toDate() || new Date(),
     [date, timestamp]

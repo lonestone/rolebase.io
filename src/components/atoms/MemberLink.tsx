@@ -8,7 +8,7 @@ interface Props {
   member: MemberEntry
 }
 
-export function MemberLink({ member }: Props) {
+export default function MemberLink({ member }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   return (

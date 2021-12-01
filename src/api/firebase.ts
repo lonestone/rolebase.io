@@ -1,4 +1,4 @@
-import { Optional, WithId } from '@shared/types'
+import { WithId } from '@shared/types'
 import firebaseApp from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -28,13 +28,25 @@ export function getCollection<Entity>(collectionPath: string) {
   ) as firebase.default.firestore.CollectionReference<Entity>
 }
 
+export function getSubCollection<Entity>(
+  doc: firebase.default.firestore.DocumentReference<any>,
+  collectionPath: string
+) {
+  return doc.collection(
+    collectionPath
+  ) as firebase.default.firestore.CollectionReference<Entity>
+}
+
 export async function createEntity<Entity>(
   collection: firebase.default.firestore.CollectionReference<Entity>,
   entity: Entity,
   id?: string
 ): Promise<WithId<Entity>> {
   delete (entity as any).id // Remove id if it exists
-  const doc = await collection.add(entity)
+  const doc = await (id ? collection.doc(id) : collection.add(entity))
+  if (id) {
+    doc.set(entity)
+  }
   const snapshot = await doc.get()
   return { ...snapshot.data()!, id: doc.id }
 }
@@ -116,7 +128,7 @@ export function subscribeQuery<Entity>(
           })
         }
       })
-      onData([...entries])
+      onData([...entries]) // Spread to avoid side effects
     }, onError)
   })
 }
@@ -158,25 +170,21 @@ export async function getDoc<Entity>(
   return { id: doc.id, ...data }
 }
 
-interface EntityMethodsOptions<
-  Entity,
-  CreateOptionalFields extends keyof Entity
-> {
-  createTransform?: (
-    partialEntity: Optional<Entity, CreateOptionalFields>
-  ) => Entity
+interface EntityMethodsOptions<Entity, CreateParam = Entity> {
+  createTransform?: (data: CreateParam) => Entity
 }
 
 // Get on object of methods to manipulate entities
 export function getEntityMethods<
   Entity,
-  CreateOptionalFields extends keyof Entity = never
+  CreateEntity extends Entity,
+  CreateParam = Entity
 >(
   collection: firebase.default.firestore.CollectionReference<Entity>,
-  options?: EntityMethodsOptions<Entity, CreateOptionalFields>
+  options?: EntityMethodsOptions<CreateEntity, CreateParam>
 ) {
   const createTransform =
-    options?.createTransform || ((entity) => entity as Entity)
+    options?.createTransform || ((entity) => entity as any)
 
   return {
     // Subscribe entity by id
@@ -190,10 +198,8 @@ export function getEntityMethods<
       getDoc(collection.doc(id)),
 
     // Create entity
-    create: (
-      partialEntity: Optional<Entity, CreateOptionalFields>
-    ): Promise<WithId<Entity>> =>
-      createEntity(collection, createTransform(partialEntity)),
+    create: (data: CreateParam, id?: string): Promise<WithId<Entity>> =>
+      createEntity(collection, createTransform(data), id),
 
     // Update entity by id
     update: (id: string, data: Partial<Entity>): Promise<void> =>

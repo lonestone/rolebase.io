@@ -9,7 +9,7 @@ interface Props {
   onClose(): void
 }
 
-export function ThreadActivityMessageEdit({
+export default function ThreadActivityMessageEdit({
   id,
   defaultMessage,
   onClose,

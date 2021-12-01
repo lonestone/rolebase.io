@@ -17,7 +17,7 @@ export default function SignupPage({ goToLoginPage }: Props) {
   const error = useStoreState((state) => state.auth.error)
 
   return (
-    <Container maxW="sm" marginTop="60px">
+    <Container maxW="sm" mt="60px">
       <Heading size="md" mb={5}>
         Inscription
       </Heading>

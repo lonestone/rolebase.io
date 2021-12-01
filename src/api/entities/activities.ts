@@ -9,10 +9,10 @@ import {
   Timestamp,
 } from '../firebase'
 
-const collection = getCollection<Activity>('activities')
+export const collection = getCollection<Activity>('activities')
 
-const methods = getEntityMethods<Activity, 'createdAt'>(collection, {
-  createTransform: (activity) =>
+const methods = getEntityMethods(collection, {
+  createTransform: (activity: Optional<Activity, 'createdAt'>) =>
     ({
       ...activity,
       createdAt: Timestamp.now(),

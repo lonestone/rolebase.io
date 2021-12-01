@@ -1,4 +1,5 @@
 import { Thread } from '@shared/thread'
+import { Optional } from '@shared/types'
 import memoize from 'memoizee'
 import * as yup from 'yup'
 import {
@@ -11,8 +12,8 @@ import { nameSchema } from '../schemas'
 
 const collection = getCollection<Thread>('threads')
 
-const methods = getEntityMethods<Thread, 'createdAt'>(collection, {
-  createTransform: (thread) => ({
+const methods = getEntityMethods(collection, {
+  createTransform: (thread: Optional<Thread, 'createdAt'>) => ({
     ...thread,
     createdAt: Timestamp.now(),
   }),

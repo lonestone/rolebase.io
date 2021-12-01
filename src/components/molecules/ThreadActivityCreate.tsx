@@ -78,18 +78,20 @@ export default function ThreadActivityCreate({ thread }: Props) {
         </Button>
       </HStack>
 
-      <ActivityDecisionModal
-        threadId={thread.id}
-        circleId={thread.circleId}
-        isOpen={modalType === ActivityType.Decision}
-        onClose={() => setModalType(null)}
-      />
-
-      <ActivityPollModal
-        threadId={thread.id}
-        isOpen={modalType === ActivityType.Poll}
-        onClose={() => setModalType(null)}
-      />
+      {modalType === ActivityType.Decision ? (
+        <ActivityDecisionModal
+          threadId={thread.id}
+          circleId={thread.circleId}
+          isOpen
+          onClose={() => setModalType(null)}
+        />
+      ) : modalType === ActivityType.Poll ? (
+        <ActivityPollModal
+          threadId={thread.id}
+          isOpen
+          onClose={() => setModalType(null)}
+        />
+      ) : null}
     </div>
   )
 }

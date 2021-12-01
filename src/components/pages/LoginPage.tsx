@@ -25,11 +25,7 @@ export default function LoginPage() {
   return (
     <>
       <Loading active={loading} center />
-      <Container
-        maxW="sm"
-        marginTop="60px"
-        display={loading ? 'none' : 'block'}
-      >
+      <Container maxW="sm" mt="60px" display={loading ? 'none' : 'block'}>
         <Heading size="md" mb={5}>
           Cercles &amp; Roles
         </Heading>

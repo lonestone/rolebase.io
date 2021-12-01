@@ -9,9 +9,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
-import { HourLink } from '@components/atoms/HourLink'
+import HourLink from '@components/atoms/HourLink'
 import Markdown from '@components/atoms/Markdown'
-import { MemberLink } from '@components/atoms/MemberLink'
+import MemberLink from '@components/atoms/MemberLink'
 import ActivityDecisionModal from '@components/organisms/modals/ActivityDecisionModal'
 import { ActivityDecision } from '@shared/activity'
 import { WithId } from '@shared/types'
@@ -23,7 +23,7 @@ interface Props {
   activity: WithId<ActivityDecision>
 }
 
-export function ThreadActivityDecision({ activity }: Props) {
+export default function ThreadActivityDecision({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const members = useStoreState((state) => state.members.entries)
   const member = useMemo(
@@ -51,8 +51,19 @@ export function ThreadActivityDecision({ activity }: Props) {
           <HourLink timestamp={activity.createdAt} ml={2} />
         </Text>
 
-        <Box mt={3} background="gray.100" borderRadius="10px" role="group">
-          <HStack background="gray.200" borderRadius="10px" pl={3} pr={1}>
+        <Box
+          mt={3}
+          borderLeft="2px solid #EDF2F7"
+          borderRadius="10px"
+          role="group"
+        >
+          <HStack
+            background="gray.100"
+            borderRadius="10px"
+            h="40px"
+            pl={3}
+            pr={1}
+          >
             <Text fontWeight="bold" mr={6}>
               Décision
             </Text>

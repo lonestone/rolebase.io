@@ -1,4 +1,5 @@
 import { Role } from '@shared/role'
+import { Optional } from '@shared/types'
 import memoize from 'memoizee'
 import * as yup from 'yup'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
@@ -6,11 +7,10 @@ import { nameSchema } from '../schemas'
 
 export const collection = getCollection<Role>('roles')
 
-const methods = getEntityMethods<
-  Role,
-  'purpose' | 'domain' | 'accountabilities' | 'notes'
->(collection, {
-  createTransform: (role) => ({
+const methods = getEntityMethods(collection, {
+  createTransform: (
+    role: Optional<Role, 'purpose' | 'domain' | 'accountabilities' | 'notes'>
+  ) => ({
     ...role,
     purpose: role.purpose || '',
     domain: role.domain || '',

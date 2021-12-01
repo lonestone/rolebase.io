@@ -38,7 +38,6 @@ export interface ActivityPoll extends ActivityBase {
   type: ActivityType.Poll
   question: string
   choices: PollChoice[]
-  answers: PollAnswer[]
   multiple: boolean
   minAnswers: number | null
   maxAnswers: number | null
@@ -55,9 +54,10 @@ export interface PollChoice {
   title: string
 }
 
+// Collection answers inside poll
+// Index by userId
 export interface PollAnswer {
-  userId: string
-  choicesIds: number[]
+  choicesPoints: number[] // Points distributed to each possible answer
   createdAt: firebase.firestore.Timestamp
 }
 

@@ -10,10 +10,16 @@ export default function useSubscription<Data>(
 
   useEffect(() => {
     if (!subscription) return
-    const unsubscribe = subscription((newData) => {
-      setData(newData)
-      setLoading(false)
-    }, setError)
+    const unsubscribe = subscription(
+      (newData) => {
+        setData(newData)
+        setLoading(false)
+      },
+      (error) => {
+        setError(error)
+        setLoading(false)
+      }
+    )
     return () => unsubscribe()
   }, [subscription])
 

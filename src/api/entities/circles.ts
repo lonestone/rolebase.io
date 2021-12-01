@@ -1,4 +1,5 @@
 import { Circle } from '@shared/circle'
+import { Optional } from '@shared/types'
 import memoize from 'memoizee'
 import { nanoid } from 'nanoid'
 import {
@@ -11,8 +12,8 @@ import { collection as rolesCollection } from './roles'
 
 const collection = getCollection<Circle>('circles')
 
-const methods = getEntityMethods<Circle, 'members'>(collection, {
-  createTransform: (circle) => ({
+const methods = getEntityMethods(collection, {
+  createTransform: (circle: Optional<Circle, 'members'>) => ({
     ...circle,
     members: circle.members || [],
   }),

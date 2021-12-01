@@ -25,17 +25,13 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Stack,
   Text,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
+import NumberInputController from '@components/atoms/NumberInputController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ActivityPoll, ActivityType, PollChoice } from '@shared/activity'
 import { WithId } from '@shared/types'
@@ -131,6 +127,7 @@ export default function ActivityPollModal({
       setValue('minAnswers', null)
       setValue('maxAnswers', null)
       setValue('canAddChoice', false)
+      setValue('pointsPerUser', null)
     }
   }, [multiple])
 
@@ -176,7 +173,7 @@ export default function ActivityPollModal({
                 <FormLabel htmlFor="question">Question</FormLabel>
                 <MarkdownEditorController
                   name="question"
-                  placeholder="Qui ? Que ? Où ? Quand ?"
+                  placeholder="Qui, que, où, quand ?"
                   autoFocus
                   control={control}
                 />
@@ -239,18 +236,14 @@ export default function ActivityPollModal({
                               Minimum de choix à sélectionner
                             </Checkbox>
                             {minAnswers && (
-                              <NumberInput
+                              <NumberInputController
+                                name="minAnswers"
+                                control={control}
                                 size="xs"
                                 maxW={16}
                                 min={2}
                                 max={choicesFields.length}
-                              >
-                                <NumberInputField {...register('minAnswers')} />
-                                <NumberInputStepper>
-                                  <NumberIncrementStepper />
-                                  <NumberDecrementStepper />
-                                </NumberInputStepper>
-                              </NumberInput>
+                              />
                             )}
                           </Stack>
 
@@ -267,18 +260,14 @@ export default function ActivityPollModal({
                               Maximum de choix sélectionnables
                             </Checkbox>
                             {maxAnswers && (
-                              <NumberInput
+                              <NumberInputController
+                                name="maxAnswers"
+                                control={control}
                                 size="xs"
                                 maxW={16}
                                 min={2}
                                 max={choicesFields.length}
-                              >
-                                <NumberInputField {...register('maxAnswers')} />
-                                <NumberInputStepper>
-                                  <NumberIncrementStepper />
-                                  <NumberDecrementStepper />
-                                </NumberInputStepper>
-                              </NumberInput>
+                              />
                             )}
                           </Stack>
 
@@ -295,15 +284,13 @@ export default function ActivityPollModal({
                               Points à répartir
                             </Checkbox>
                             {pointsPerUser && (
-                              <NumberInput size="xs" maxW={16} min={2}>
-                                <NumberInputField
-                                  {...register('pointsPerUser')}
-                                />
-                                <NumberInputStepper>
-                                  <NumberIncrementStepper />
-                                  <NumberDecrementStepper />
-                                </NumberInputStepper>
-                              </NumberInput>
+                              <NumberInputController
+                                name="pointsPerUser"
+                                control={control}
+                                size="xs"
+                                maxW={16}
+                                min={2}
+                              />
                             )}
                           </Stack>
 
@@ -317,7 +304,7 @@ export default function ActivityPollModal({
                         Réponses anonymes
                       </Checkbox>
                       <Checkbox {...register('randomize')}>
-                        Mélanger les choix donnés aléatoirement
+                        Afficher les choix dans un ordre aléatoire
                       </Checkbox>
                       <Checkbox {...register('hideUntilEnd')}>
                         Cacher les résultats jusqu'à la clôture

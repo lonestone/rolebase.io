@@ -1,4 +1,5 @@
 import { Org } from '@shared/org'
+import { Optional } from '@shared/types'
 import memoize from 'memoizee'
 import * as yup from 'yup'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
@@ -6,16 +7,15 @@ import { nameSchema } from '../schemas'
 
 const collection = getCollection<Org>('orgs')
 
-const methods = getEntityMethods<Org, 'archived' | 'defaultWorkedMinPerWeek'>(
-  collection,
-  {
-    createTransform: (org) => ({
-      ...org,
-      archived: false,
-      defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek ?? 35 * 60,
-    }),
-  }
-)
+const methods = getEntityMethods(collection, {
+  createTransform: (
+    org: Optional<Org, 'archived' | 'defaultWorkedMinPerWeek'>
+  ) => ({
+    ...org,
+    archived: false,
+    defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek ?? 35 * 60,
+  }),
+})
 export const createOrg = methods.create
 export const updateOrg = methods.update
 

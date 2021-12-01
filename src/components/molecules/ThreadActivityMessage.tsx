@@ -1,19 +1,19 @@
 import { Avatar, Box, Flex, IconButton, Text } from '@chakra-ui/react'
-import { HourLink } from '@components/atoms/HourLink'
+import HourLink from '@components/atoms/HourLink'
 import Markdown from '@components/atoms/Markdown'
-import { MemberLink } from '@components/atoms/MemberLink'
+import MemberLink from '@components/atoms/MemberLink'
 import { ActivityMessage } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
 import { FiEdit3 } from 'react-icons/fi'
-import { ThreadActivityMessageEdit } from './ThreadActivityMessageEdit'
+import ThreadActivityMessageEdit from './ThreadActivityMessageEdit'
 
 interface Props {
   activity: WithId<ActivityMessage>
 }
 
-export function ThreadActivityMessage({ activity }: Props) {
+export default function ThreadActivityMessage({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const members = useStoreState((state) => state.members.entries)
   const member = useMemo(

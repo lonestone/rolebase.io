@@ -11,15 +11,15 @@ import {
 } from '@chakra-ui/react'
 import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
 import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useSubscription from '@hooks/useSubscription'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
+import Page404 from './Page404'
 
 interface Params {
   threadId: string
@@ -47,7 +47,11 @@ export default function ThreadPage() {
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(
     ScrollPosition.Bottom
   )
-  const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Elements should be there at first render for their refs to be available
+  const containerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+
   const handleScroll: React.UIEventHandler<HTMLDivElement> = useCallback(
     (event) => {
       const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
@@ -65,17 +69,28 @@ export default function ThreadPage() {
   )
 
   // Scroll to end when activities change and scroll position in set to bottom
-  const handleActivityUpdate = useCallback(() => {
-    const el = scrollRef?.current
-    if (el && scrollPosition === ScrollPosition.Bottom) {
-      if (el.scrollHeight === el.clientHeight) {
-        setScrollable(false)
-      } else {
-        setScrollable(true)
-        el.scrollTop = el.scrollHeight - el.clientHeight
+  useEffect(() => {
+    const content = contentRef?.current
+    const container = containerRef?.current
+    if (!content || !container) return
+
+    const onResize = () => {
+      // Keep scroll position at bottom
+      if (container && scrollPosition === ScrollPosition.Bottom) {
+        if (container.scrollHeight === container.clientHeight) {
+          setScrollable(false)
+        } else {
+          setScrollable(true)
+          container.scrollTop = container.scrollHeight - container.clientHeight
+        }
       }
     }
-  }, [thread, scrollPosition])
+
+    // Observe content size to detect scrollHeight change
+    const observer = new ResizeObserver(onResize)
+    observer.observe(content)
+    return () => observer.disconnect()
+  }, [scrollPosition])
 
   // Create modal
   const {
@@ -84,17 +99,20 @@ export default function ThreadPage() {
     onClose: onEditClose,
   } = useDisclosure()
 
+  if (error) {
+    return <Page404 />
+  }
+
   return (
     <Container maxW="3xl" h="100vh" display="flex" flexDirection="column">
       <Box h="60px" />
 
       {loading && <Loading active center />}
-      <TextErrors errors={[error]} />
 
-      {thread && (
-        <>
-          <HStack mt="30px">
-            <Heading as="h2" size="md" display="flex" alignItems="center">
+      <HStack mt="30px">
+        <Heading as="h2" size="md" display="flex" alignItems="center">
+          {thread ? (
+            <>
               {thread.title}
               {thread.draft && <Tag ml={2}>Brouillon</Tag>}
               {thread.archived && <Tag ml={2}>Archivé</Tag>}
@@ -105,45 +123,46 @@ export default function ThreadPage() {
                 ml={3}
                 onClick={onEditOpen}
               />
-            </Heading>
-            <Spacer />
-          </HStack>
+            </>
+          ) : loading ? (
+            <>Chargement...</>
+          ) : null}
+        </Heading>
+        <Spacer />
+      </HStack>
 
-          <Box
-            pb={1}
-            zIndex={1}
-            boxShadow={
-              scrollable && scrollPosition !== ScrollPosition.Top
-                ? '0 6px 11px -10px rgba(0,0,0,0.5)'
-                : 'none'
-            }
-          >
-            <CircleAndParentsButton id={thread.circleId} />
-          </Box>
+      <Box
+        pb={1}
+        zIndex={1}
+        boxShadow={
+          scrollable && scrollPosition !== ScrollPosition.Top
+            ? '0 6px 11px -10px rgba(0,0,0,0.5)'
+            : 'none'
+        }
+      >
+        {thread && <CircleAndParentsButton id={thread.circleId} />}
+      </Box>
 
-          <Box ref={scrollRef} flex={1} overflow="auto" onScroll={handleScroll}>
-            <ThreadActivities
-              threadId={threadId}
-              onUpdate={handleActivityUpdate}
-            />
-          </Box>
+      <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>
+        <ThreadActivities ref={contentRef} threadId={threadId} />
+      </Box>
 
-          <Box
-            bg="white"
-            boxShadow={
-              scrollable && scrollPosition !== ScrollPosition.Bottom
-                ? '0 -6px 11px -10px rgba(0,0,0,0.5)'
-                : 'none'
-            }
-            zIndex="1"
-          >
-            <ThreadActivityCreate thread={thread} />
-          </Box>
+      {thread && (
+        <Box
+          bg="white"
+          boxShadow={
+            scrollable && scrollPosition !== ScrollPosition.Bottom
+              ? '0 -6px 11px -10px rgba(0,0,0,0.5)'
+              : 'none'
+          }
+          zIndex="1"
+        >
+          <ThreadActivityCreate thread={thread} />
+        </Box>
+      )}
 
-          {isEditOpen && (
-            <ThreadModal isOpen thread={thread} onClose={onEditClose} />
-          )}
-        </>
+      {isEditOpen && (
+        <ThreadModal isOpen thread={thread} onClose={onEditClose} />
       )}
     </Container>
   )
