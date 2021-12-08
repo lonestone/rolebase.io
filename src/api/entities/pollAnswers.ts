@@ -1,6 +1,6 @@
 import { PollAnswer } from '@shared/activity'
 import { Optional } from '@shared/types'
-import memoize from 'memoizee'
+import { memoize } from 'src/utils'
 import {
   getEntityMethods,
   getSubCollection,

@@ -1,7 +1,7 @@
 import { Circle } from '@shared/circle'
 import { Optional } from '@shared/types'
-import memoize from 'memoizee'
 import { nanoid } from 'nanoid'
+import { memoize } from 'src/utils'
 import {
   firestore,
   getCollection,

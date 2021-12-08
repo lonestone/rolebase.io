@@ -1,6 +1,6 @@
 import { Thread } from '@shared/thread'
 import { Optional } from '@shared/types'
-import memoize from 'memoizee'
+import { memoize } from 'src/utils'
 import * as yup from 'yup'
 import {
   getCollection,

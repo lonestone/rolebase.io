@@ -4,7 +4,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/functions'
 import 'firebase/storage'
-import memoize from 'memoizee'
+import { memoize } from 'src/utils'
 import settings from '../settings'
 
 const app = firebaseApp.initializeApp(settings.firebase)
