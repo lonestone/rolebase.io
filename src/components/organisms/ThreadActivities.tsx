@@ -31,7 +31,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
     )
 
     return (
-      <VStack spacing={0} align="stretch" ref={ref} {...stackProps}>
+      <VStack spacing={0} mb={2} align="stretch" ref={ref} {...stackProps}>
         {loading && <Loading active center />}
         <TextErrors errors={[error]} />
 

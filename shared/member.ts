@@ -23,3 +23,8 @@ export enum MembersScope {
   // None (select members manually)
   None = 'None',
 }
+
+export interface Participant {
+  circleId: string
+  memberId: string
+}

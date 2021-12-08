@@ -123,12 +123,15 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
               </VStack>
             </form>
           </AccordionPanel>
-          <CircleMemberDeleteModal
-            memberId={memberId}
-            circleId={roleCircle.id}
-            isOpen={isDeleteOpen}
-            onClose={onDeleteClose}
-          />
+
+          {isDeleteOpen && (
+            <CircleMemberDeleteModal
+              memberId={memberId}
+              circleId={roleCircle.id}
+              isOpen
+              onClose={onDeleteClose}
+            />
+          )}
         </Box>
       )}
     </AccordionItem>

@@ -17,6 +17,7 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import MembersSelect from '@components/molecules/MembersSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -54,6 +55,7 @@ export default function ThreadModal({
     handleSubmit,
     register,
     control,
+    watch,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(threadSchema),
@@ -65,6 +67,9 @@ export default function ThreadModal({
       archived: false,
     },
   })
+
+  const circleId = watch('circleId')
+  const participantsScope = watch('participantsScope')
 
   // Participants members ids
   const {
@@ -93,7 +98,7 @@ export default function ThreadModal({
   })
 
   return (
-    <Modal {...modalProps}>
+    <Modal size="xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
@@ -131,8 +136,20 @@ export default function ThreadModal({
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="participantsScope">Inviter</FormLabel>
-                <Select {...register('participantsScope')}>
+                <FormLabel
+                  htmlFor="participantsScope"
+                  display="flex"
+                  alignItems="center"
+                >
+                  Inviter
+                  <ParticipantsNumber
+                    ml={2}
+                    circleId={circleId}
+                    participantsScope={participantsScope}
+                    participantsMembersIds={participantsMembersIds}
+                  />
+                </FormLabel>
+                <Select flex={1} {...register('participantsScope')}>
                   <option value={MembersScope.Organization}>
                     Tous les membres de l'Organisation
                   </option>
@@ -146,6 +163,7 @@ export default function ThreadModal({
                     Seulement les membres invités (ci-dessous)
                   </option>
                 </Select>
+
                 <Box mt={2}>
                   <MembersSelect
                     membersIds={participantsMembersIds}

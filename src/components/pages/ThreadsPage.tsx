@@ -73,11 +73,13 @@ export default function ThreadsPage() {
         </VStack>
       )}
 
-      <ThreadModal
-        isOpen={isCreateOpen}
-        onClose={onCreateClose}
-        onCreate={(id: string) => navigateOrg(`/threads/${id}`)}
-      />
+      {isCreateOpen && (
+        <ThreadModal
+          isOpen
+          onClose={onCreateClose}
+          onCreate={(id: string) => navigateOrg(`/threads/${id}`)}
+        />
+      )}
     </Container>
   )
 }

@@ -21,8 +21,32 @@ interface Values {
   }>
 }
 
+function getRange(length: number): number[] {
+  return Array.from(Array(length).keys())
+}
+
+function getRandomIndexes(length: number): number[] {
+  const indexes: number[] = []
+  while (indexes.length < length) {
+    const index = Math.floor(Math.random() * length)
+    if (!indexes.includes(index)) {
+      indexes.push(index)
+    }
+  }
+  return indexes
+}
+
 function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
   const { ended, userAnswer } = usePollState(activity, answers)
+
+  // Prepare ordered or random indexes choices
+  const displayOrder = useMemo(
+    () =>
+      activity.randomize
+        ? getRandomIndexes(activity.choices.length)
+        : getRange(activity.choices.length),
+    [activity.randomize, activity.choices.length]
+  )
 
   // Vote form
   const {
@@ -40,11 +64,10 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
 
   // Reset form when user answer changes
   useEffect(() => {
-    if (userAnswer) {
-      reset({
-        choices: userAnswer.choicesPoints.map((points) => ({ points })),
-      })
-    }
+    if (!userAnswer) return
+    reset({
+      choices: userAnswer.choicesPoints.map((points) => ({ points })),
+    })
   }, [userAnswer])
 
   // Array of choices fields
@@ -125,7 +148,8 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
       {activity.anonymous && <Text>Les réponses sont anonymes.</Text>}
 
       <Stack spacing={1} mt={3} align="stretch">
-        {activity.choices.map((choice, index) => {
+        {displayOrder.map((index) => {
+          const choice = activity.choices[index]
           const { points } = choicesFields[index]
           const checked = !!points
           return (

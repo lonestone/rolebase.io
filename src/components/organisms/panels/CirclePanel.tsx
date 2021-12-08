@@ -1,10 +1,8 @@
 import {
-  Button,
-  Center,
   CloseButton,
+  Flex,
   FormControl,
   FormLabel,
-  HStack,
   Spacer,
   useDisclosure,
   VStack,
@@ -47,11 +45,18 @@ export default function CirclePanel({ id, onClose }: Props) {
 
   return (
     <Panel>
-      <HStack spacing={5} mb={5}>
-        <CircleAndParentsButton id={id} />
+      <Flex mb={5}>
+        <Flex>
+          <CircleAndParentsButton
+            id={id}
+            ml="0.4em"
+            onEdit={onEditRoleOpen}
+            onDelete={onDeleteOpen}
+          />
+        </Flex>
         <Spacer />
         <CloseButton onClick={onClose} />
-      </HStack>
+      </Flex>
 
       <VStack spacing={5}>
         {role?.purpose && (
@@ -82,29 +87,18 @@ export default function CirclePanel({ id, onClose }: Props) {
           </FormControl>
         )}
 
-        <Center>
-          <Button onClick={onEditRoleOpen}>Modifier le rôle</Button>
-          <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
-            Supprimer
-          </Button>
-        </Center>
-
         {!role?.singleMember ? <SubCirclesFormControl circleId={id} /> : null}
 
         <CircleMemberFormControl circleId={id} />
       </VStack>
 
-      <RoleEditModal
-        id={circle.roleId}
-        isOpen={isEditRoleOpen}
-        onClose={onEditRoleClose}
-      />
+      {isEditRoleOpen && (
+        <RoleEditModal id={circle.roleId} isOpen onClose={onEditRoleClose} />
+      )}
 
-      <CircleDeleteModal
-        id={id}
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-      />
+      {isDeleteOpen && (
+        <CircleDeleteModal id={id} isOpen onClose={onDeleteClose} />
+      )}
     </Panel>
   )
 }

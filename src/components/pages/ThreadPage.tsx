@@ -1,9 +1,8 @@
 import { subscribeThread } from '@api/entities/threads'
 import {
   Box,
-  Container,
+  Flex,
   Heading,
-  HStack,
   IconButton,
   Spacer,
   Tag,
@@ -15,10 +14,12 @@ import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
 import useOverflowHidden from '@hooks/useOverflowHidden'
+import useScrollable from '@hooks/useScrollable'
 import useSubscription from '@hooks/useSubscription'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
+import ParticipantsNumber from '../atoms/ParticipantsNumber'
 import Page404 from './Page404'
 
 interface Params {
@@ -42,55 +43,14 @@ export default function ThreadPage() {
     loading,
   } = useSubscription(threadId ? subscribeThread(threadId) : undefined)
 
-  // Scroll handling
-  const [scrollable, setScrollable] = useState(false)
-  const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(
-    ScrollPosition.Bottom
-  )
-
-  // Elements should be there at first render for their refs to be available
-  const containerRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  const handleScroll: React.UIEventHandler<HTMLDivElement> = useCallback(
-    (event) => {
-      const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
-      if (scrollTop === 0) {
-        setScrollPosition(ScrollPosition.Top)
-      } else if (scrollTop + clientHeight < scrollHeight) {
-        if (scrollPosition !== ScrollPosition.Middle) {
-          setScrollPosition(ScrollPosition.Middle)
-        }
-      } else {
-        setScrollPosition(ScrollPosition.Bottom)
-      }
-    },
-    [scrollPosition]
-  )
-
-  // Scroll to end when activities change and scroll position in set to bottom
-  useEffect(() => {
-    const content = contentRef?.current
-    const container = containerRef?.current
-    if (!content || !container) return
-
-    const onResize = () => {
-      // Keep scroll position at bottom
-      if (container && scrollPosition === ScrollPosition.Bottom) {
-        if (container.scrollHeight === container.clientHeight) {
-          setScrollable(false)
-        } else {
-          setScrollable(true)
-          container.scrollTop = container.scrollHeight - container.clientHeight
-        }
-      }
-    }
-
-    // Observe content size to detect scrollHeight change
-    const observer = new ResizeObserver(onResize)
-    observer.observe(content)
-    return () => observer.disconnect()
-  }, [scrollPosition])
+  // Scrollable content
+  const {
+    containerRef,
+    contentRef,
+    isScrollable,
+    scrollPosition,
+    handleScroll,
+  } = useScrollable()
 
   // Create modal
   const {
@@ -104,43 +64,51 @@ export default function ThreadPage() {
   }
 
   return (
-    <Container maxW="3xl" h="100vh" display="flex" flexDirection="column">
-      <Box h="60px" />
-
+    <Box h="100vh" pt="40px" display="flex" flexDirection="column">
       {loading && <Loading active center />}
 
-      <HStack mt="30px">
-        <Heading as="h2" size="md" display="flex" alignItems="center">
-          {thread ? (
-            <>
-              {thread.title}
-              {thread.draft && <Tag ml={2}>Brouillon</Tag>}
-              {thread.archived && <Tag ml={2}>Archivé</Tag>}
-              <IconButton
-                aria-label=""
-                icon={<FiEdit3 />}
-                size="sm"
-                ml={3}
-                onClick={onEditOpen}
-              />
-            </>
-          ) : loading ? (
-            <>Chargement...</>
-          ) : null}
-        </Heading>
-        <Spacer />
-      </HStack>
+      <Box mt="30px" mx={3}>
+        <Flex>
+          <Heading as="h2" size="md" display="flex" alignItems="center">
+            {thread ? (
+              <>
+                {thread.title}
+                {thread.draft && <Tag ml={2}>Brouillon</Tag>}
+                {thread.archived && <Tag ml={2}>Archivé</Tag>}
+                <IconButton
+                  aria-label=""
+                  icon={<FiEdit3 />}
+                  size="sm"
+                  ml={3}
+                  onClick={onEditOpen}
+                />
+              </>
+            ) : loading ? (
+              <>Chargement...</>
+            ) : null}
+          </Heading>
+          <Spacer />
+          {thread && (
+            <ParticipantsNumber
+              circleId={thread.circleId}
+              participantsScope={thread.participantsScope}
+              participantsMembersIds={thread.participantsMembersIds}
+            />
+          )}
+        </Flex>
 
-      <Box
-        pb={1}
-        zIndex={1}
-        boxShadow={
-          scrollable && scrollPosition !== ScrollPosition.Top
-            ? '0 6px 11px -10px rgba(0,0,0,0.5)'
-            : 'none'
-        }
-      >
-        {thread && <CircleAndParentsButton id={thread.circleId} />}
+        <Box
+          pb={1}
+          pl={1}
+          zIndex={1}
+          boxShadow={
+            isScrollable && scrollPosition !== ScrollPosition.Top
+              ? '0 6px 11px -10px rgba(0,0,0,0.5)'
+              : 'none'
+          }
+        >
+          {thread && <CircleAndParentsButton id={thread.circleId} />}
+        </Box>
       </Box>
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>
@@ -149,9 +117,10 @@ export default function ThreadPage() {
 
       {thread && (
         <Box
+          mx={3}
           bg="white"
           boxShadow={
-            scrollable && scrollPosition !== ScrollPosition.Bottom
+            isScrollable && scrollPosition !== ScrollPosition.Bottom
               ? '0 -6px 11px -10px rgba(0,0,0,0.5)'
               : 'none'
           }
@@ -164,6 +133,6 @@ export default function ThreadPage() {
       {isEditOpen && (
         <ThreadModal isOpen thread={thread} onClose={onEditClose} />
       )}
-    </Container>
+    </Box>
   )
 }

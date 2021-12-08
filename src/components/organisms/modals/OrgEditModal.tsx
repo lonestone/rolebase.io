@@ -53,13 +53,12 @@ export default function OrgEditModal({ id, ...props }: Props) {
 
   // Init form data
   useEffect(() => {
-    if (org && props.isOpen) {
-      reset({
-        name: org.name,
-        defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek,
-      })
-    }
-  }, [org, props.isOpen])
+    if (!org) return
+    reset({
+      name: org.name,
+      defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek,
+    })
+  }, [org])
 
   const onSubmit = handleSubmit((values) => {
     updateOrg(id, values)
@@ -119,12 +118,14 @@ export default function OrgEditModal({ id, ...props }: Props) {
         </ModalContent>
       </Modal>
 
-      <OrgDeleteModal
-        id={id}
-        onDelete={props.onClose}
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-      />
+      {isDeleteOpen && (
+        <OrgDeleteModal
+          id={id}
+          onDelete={props.onClose}
+          isOpen
+          onClose={onDeleteClose}
+        />
+      )}
     </>
   )
 }

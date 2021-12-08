@@ -5,6 +5,7 @@ import {
   Container,
   Heading,
   HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -110,9 +111,12 @@ export default function OrgsPage() {
                       {org.name}
                     </LinkOverlay>
                     <Spacer />
-                    <Button onClick={() => handleOpenEdit(org.id)}>
-                      <FiEdit3 />
-                    </Button>
+                    <IconButton
+                      aria-label=""
+                      size="sm"
+                      onClick={() => handleOpenEdit(org.id)}
+                      icon={<FiEdit3 />}
+                    />
                   </HStack>
                 </Heading>
               </LinkBox>
@@ -121,14 +125,10 @@ export default function OrgsPage() {
         </Wrap>
       )}
 
-      <OrgCreateModal isOpen={isCreateOpen} onClose={onCreateClose} />
+      {isCreateOpen && <OrgCreateModal isOpen onClose={onCreateClose} />}
 
-      {editOrgId && (
-        <OrgEditModal
-          id={editOrgId}
-          isOpen={isEditOpen}
-          onClose={onEditClose}
-        />
+      {isEditOpen && editOrgId && (
+        <OrgEditModal id={editOrgId} isOpen onClose={onEditClose} />
       )}
     </Container>
   )

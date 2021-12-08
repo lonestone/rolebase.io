@@ -109,20 +109,18 @@ export default function MembersPage() {
         </Wrap>
       )}
 
-      <MemberCreateModal
-        isOpen={isCreateOpen}
-        onClose={onCreateClose}
-        onCreate={(id) => handleOpenEdit(id)}
-      />
-
-      <MembersInviteModal isOpen={isInviteOpen} onClose={onInviteClose} />
-
-      {editMemberId && (
-        <MemberEditModal
-          id={editMemberId}
-          isOpen={isEditOpen}
-          onClose={onEditClose}
+      {isCreateOpen && (
+        <MemberCreateModal
+          isOpen
+          onClose={onCreateClose}
+          onCreate={(id) => handleOpenEdit(id)}
         />
+      )}
+
+      {isInviteOpen && <MembersInviteModal isOpen onClose={onInviteClose} />}
+
+      {isEditOpen && editMemberId && (
+        <MemberEditModal id={editMemberId} isOpen onClose={onEditClose} />
       )}
     </Container>
   )

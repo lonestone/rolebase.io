@@ -62,11 +62,11 @@ export default function CircleMemberFormControl({ circleId }: Props) {
         />
       )}
 
-      {memberId && (
+      {isDeleteCircleMemberOpen && memberId && (
         <CircleMemberDeleteModal
           memberId={memberId}
           circleId={circleId}
-          isOpen={isDeleteCircleMemberOpen}
+          isOpen
           onClose={onDeleteCircleMemberClose}
         />
       )}

@@ -61,7 +61,6 @@ export default function MemberEditModal({ id, ...props }: Props) {
     handleSubmit,
     register,
     control,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<Values>({
@@ -74,14 +73,13 @@ export default function MemberEditModal({ id, ...props }: Props) {
 
   // Init form data
   useEffect(() => {
-    if (member && props.isOpen) {
-      reset({
-        name: member.name,
-        workedMinPerWeek: member.workedMinPerWeek || null,
-      })
-      setPicture(member.picture)
-    }
-  }, [member, props.isOpen])
+    if (!member) return
+    reset({
+      name: member.name,
+      workedMinPerWeek: member.workedMinPerWeek || null,
+    })
+    setPicture(member.picture)
+  }, [member])
 
   const onSubmit = handleSubmit(async (memberUpdate) => {
     // Upload picture
@@ -224,12 +222,14 @@ export default function MemberEditModal({ id, ...props }: Props) {
         </ModalContent>
       </Modal>
 
-      <MemberDeleteModal
-        id={id}
-        onDelete={props.onClose}
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-      />
+      {isDeleteOpen && (
+        <MemberDeleteModal
+          id={id}
+          onDelete={props.onClose}
+          isOpen
+          onClose={onDeleteClose}
+        />
+      )}
     </>
   )
 }

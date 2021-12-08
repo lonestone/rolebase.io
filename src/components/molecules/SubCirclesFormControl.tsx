@@ -69,11 +69,13 @@ export default function SubCirclesFormControl({ circleId }: Props) {
         </WrapItem>
       </Wrap>
 
-      <CircleCreateModal
-        parentId={circleId}
-        isOpen={isCreateCircleOpen}
-        onClose={onCreateCircleClose}
-      />
+      {isCreateCircleOpen && (
+        <CircleCreateModal
+          parentId={circleId}
+          isOpen
+          onClose={onCreateCircleClose}
+        />
+      )}
     </FormControl>
   )
 }

@@ -68,7 +68,7 @@ export default function MemberPanel({ id, highlightCircleId, onClose }: Props) {
         onCircleChange={handleCircleChange}
       />
 
-      <MemberEditModal id={id} isOpen={isEditOpen} onClose={onEditClose} />
+      {isEditOpen && <MemberEditModal id={id} isOpen onClose={onEditClose} />}
     </Panel>
   )
 }

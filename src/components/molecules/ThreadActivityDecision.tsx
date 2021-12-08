@@ -1,23 +1,12 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  IconButton,
-  Spacer,
-  Text,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react'
 import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
-import HourLink from '@components/atoms/HourLink'
 import Markdown from '@components/atoms/Markdown'
-import MemberLink from '@components/atoms/MemberLink'
+import ThreadActivityLayout from '@components/atoms/ThreadActivityLayout'
 import ActivityDecisionModal from '@components/organisms/modals/ActivityDecisionModal'
 import { ActivityDecision } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
-import { FiEdit3 } from 'react-icons/fi'
+import React from 'react'
 
 interface Props {
   activity: WithId<ActivityDecision>
@@ -25,11 +14,6 @@ interface Props {
 
 export default function ThreadActivityDecision({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
-  const members = useStoreState((state) => state.members.entries)
-  const member = useMemo(
-    () => members?.find((m) => m.userId === activity.userId),
-    [activity.userId, members]
-  )
 
   // Edit modal
   const {
@@ -42,52 +26,34 @@ export default function ThreadActivityDecision({ activity }: Props) {
   const isUserOwner = userId === activity.userId
 
   return (
-    <Flex id={activity.id} p={3} _hover={{ background: '#fafafa' }}>
-      <Box flex="1">
-        <Text>
-          <i>
-            {member && <MemberLink member={member} />} a ajouté une décision.
-          </i>
-          <HourLink timestamp={activity.createdAt} ml={2} />
-        </Text>
-
-        <Box
-          mt={3}
-          borderLeft="2px solid #EDF2F7"
+    <ThreadActivityLayout
+      activity={activity}
+      onEdit={isUserOwner ? onEditOpen : undefined}
+    >
+      <Box
+        mt={3}
+        borderLeft="2px solid #EDF2F7"
+        borderRadius="10px"
+        role="group"
+      >
+        <HStack
+          background="gray.100"
           borderRadius="10px"
-          role="group"
+          h="40px"
+          pl={3}
+          pr={1}
         >
-          <HStack
-            background="gray.100"
-            borderRadius="10px"
-            h="40px"
-            pl={3}
-            pr={1}
-          >
-            <Text fontWeight="bold" mr={6}>
-              Décision
-            </Text>
-            <CircleAndParentsButton id={activity.circleId} />
-            <Spacer />
-            {isUserOwner && (
-              <IconButton
-                aria-label="Modifier"
-                icon={<FiEdit3 />}
-                size="sm"
-                float="right"
-                display="none"
-                _groupHover={{ display: 'inline-flex' }}
-                onClick={onEditOpen}
-              />
-            )}
-          </HStack>
-          <VStack spacing={3} p={3} align="stretch">
-            <Markdown flex={1} fontSize="1.2rem" fontWeight={500}>
-              {activity.decision}
-            </Markdown>
-            <Markdown>{activity.explanation}</Markdown>
-          </VStack>
-        </Box>
+          <Text fontWeight="bold" mr={6}>
+            Décision
+          </Text>
+          <CircleAndParentsButton id={activity.circleId} />
+        </HStack>
+        <VStack spacing={3} p={3} align="stretch">
+          <Markdown flex={1} fontSize="1.2rem" fontWeight={500}>
+            {activity.decision}
+          </Markdown>
+          <Markdown>{activity.explanation}</Markdown>
+        </VStack>
       </Box>
 
       {isEditOpen && (
@@ -98,6 +64,6 @@ export default function ThreadActivityDecision({ activity }: Props) {
           onClose={onEditClose}
         />
       )}
-    </Flex>
+    </ThreadActivityLayout>
   )
 }

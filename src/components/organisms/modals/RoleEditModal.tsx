@@ -80,18 +80,17 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
   // Init form data
   useEffect(() => {
-    if (role && props.isOpen) {
-      reset({
-        name: role.name,
-        purpose: role.purpose,
-        domain: role.domain,
-        accountabilities: role.accountabilities,
-        defaultMinPerWeek: role.defaultMinPerWeek || null,
-        singleMember: role.singleMember || false,
-        link: role.link || false,
-      })
-    }
-  }, [role, props.isOpen])
+    if (!role) return
+    reset({
+      name: role.name,
+      purpose: role.purpose,
+      domain: role.domain,
+      accountabilities: role.accountabilities,
+      defaultMinPerWeek: role.defaultMinPerWeek || null,
+      singleMember: role.singleMember || false,
+      link: role.link || false,
+    })
+  }, [role])
 
   // Single member
   const singleMember = watch('singleMember')
@@ -265,12 +264,14 @@ export default function RoleEditModal({ id, ...props }: Props) {
         </ModalContent>
       </Modal>
 
-      <RoleDeleteModal
-        id={id}
-        onDelete={props.onClose}
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-      />
+      {isDeleteOpen && (
+        <RoleDeleteModal
+          id={id}
+          onDelete={props.onClose}
+          isOpen
+          onClose={onDeleteClose}
+        />
+      )}
     </>
   )
 }

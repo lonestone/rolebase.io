@@ -1,14 +1,22 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Button, StackItem } from '@chakra-ui/react'
+import { Box, BoxProps, Button, IconButton } from '@chakra-ui/react'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback } from 'react'
+import { FiEdit3, FiTrash2 } from 'react-icons/fi'
 
-interface Props {
+interface Props extends BoxProps {
   id: string
+  onEdit?(): void
+  onDelete?(): void
 }
 
-export default function CircleAndParentsButton({ id }: Props) {
+export default function CircleAndParentsButton({
+  id,
+  onEdit,
+  onDelete,
+  ...boxProps
+}: Props) {
   const circleAndParents = useCircleAndParents(id)
   const circle = circleAndParents?.[circleAndParents.length - 1]
 
@@ -20,27 +28,45 @@ export default function CircleAndParentsButton({ id }: Props) {
   if (!circle) return null
 
   return (
-    <StackItem maxW="80%" ml="0.4em" style={{ textIndent: '-1em' }}>
+    <Box style={{ textIndent: '-1em' }} {...boxProps}>
       {circleAndParents?.map((c, i) => {
         const last = i === circleAndParents.length - 1
         return (
-          <React.Fragment key={c.id}>
-            <span>
-              <Button
-                variant={last ? 'solid' : 'ghost'}
-                size={last ? 'md' : 'sm'}
-                borderRadius="full"
-                fontWeight={last ? 600 : 400}
-                ml={last ? '0.3em' : 0}
-                onClick={() => navigateToCircle(c.id)}
-              >
-                {c.role?.name || '?'}
-              </Button>
-              {!last && <ChevronRightIcon mx="-0.5em" />}
-            </span>
-          </React.Fragment>
+          <span style={{ whiteSpace: 'nowrap' }} key={c.id}>
+            <Button
+              variant={last ? 'solid' : 'ghost'}
+              size={last ? 'md' : 'sm'}
+              borderRadius="full"
+              fontWeight={last ? 600 : 400}
+              ml={last ? '0.3em' : 0}
+              onClick={() => navigateToCircle(c.id)}
+            >
+              {c.role?.name || '?'}
+            </Button>
+
+            {last && onEdit && (
+              <IconButton
+                aria-label=""
+                icon={<FiEdit3 />}
+                variant="ghost"
+                onClick={onEdit}
+              />
+            )}
+
+            {last && onDelete && (
+              <IconButton
+                aria-label=""
+                icon={<FiTrash2 />}
+                variant="ghost"
+                onClick={onDelete}
+                ml={onEdit ? -3 : undefined}
+              />
+            )}
+
+            {!last && <ChevronRightIcon mx="-0.5em" />}
+          </span>
         )
       }) || null}
-    </StackItem>
+    </Box>
   )
 }

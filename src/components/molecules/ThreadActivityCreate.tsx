@@ -72,6 +72,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
         <Button
           colorScheme="blue"
           size="sm"
+          isDisabled={message.trim().length === 0}
           onClick={() => handleSubmit(message)}
         >
           Envoyer

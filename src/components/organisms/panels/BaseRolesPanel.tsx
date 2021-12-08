@@ -4,6 +4,7 @@ import {
   CloseButton,
   Heading,
   HStack,
+  IconButton,
   ListItem,
   Spacer,
   StackItem,
@@ -65,26 +66,27 @@ export default function BaseRolesPanel({ onClose }: Props) {
           {baseRoles?.map((role) => (
             <ListItem key={role.id}>
               {role.name}{' '}
-              <Button size="sm" onClick={() => handleOpenEdit(role.id)}>
-                <FiEdit3 />
-              </Button>
+              <IconButton
+                aria-label=""
+                size="sm"
+                onClick={() => handleOpenEdit(role.id)}
+                icon={<FiEdit3 />}
+              />
             </ListItem>
           ))}
         </UnorderedList>
       )}
 
-      <BaseRoleCreateModal
-        isOpen={isCreateOpen}
-        onClose={onCreateClose}
-        onCreate={(id) => handleOpenEdit(id)}
-      />
-
-      {editRoleId && (
-        <RoleEditModal
-          id={editRoleId}
-          isOpen={isEditOpen}
-          onClose={onEditClose}
+      {isCreateOpen && (
+        <BaseRoleCreateModal
+          isOpen
+          onClose={onCreateClose}
+          onCreate={(id) => handleOpenEdit(id)}
         />
+      )}
+
+      {isEditOpen && editRoleId && (
+        <RoleEditModal id={editRoleId} isOpen onClose={onEditClose} />
       )}
     </Panel>
   )
