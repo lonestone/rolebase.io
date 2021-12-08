@@ -1,5 +1,5 @@
-import getAllCircleMembers from '@shared/getAllCircleMembers'
-import getCircleLeaders from '@shared/getCircleParticipants'
+import getAllCircleMembersParticipants from '@shared/getAllCircleMembersParticipants'
+import getCircleParticipants from '@shared/getCircleParticipants'
 import { MemberEntry, MembersScope, Participant } from '@shared/member'
 import { Optional } from '@shared/types'
 import { useStoreState } from '@store/hooks'
@@ -31,10 +31,10 @@ export default function useParticipants(
         })) || []
     } else if (scope === MembersScope.CircleLeaders) {
       // Circle Leaders and links
-      participants = getCircleLeaders(circleId, circles, roles)
+      participants = getCircleParticipants(circleId, circles, roles)
     } else if (scope === MembersScope.CircleMembers) {
       // All Circle Members
-      participants = getAllCircleMembers(circleId, circles, roles)
+      participants = getAllCircleMembersParticipants(circleId, circles, roles)
     }
 
     // Add extra members

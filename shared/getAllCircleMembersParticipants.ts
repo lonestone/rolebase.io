@@ -2,7 +2,7 @@ import { CircleEntry } from './circle'
 import { Participant } from './member'
 import { RoleEntry } from './role'
 
-export default function getAllCircleMembers(
+export default function getAllCircleMembersParticipants(
   circleId: string,
   circles: CircleEntry[],
   roles: RoleEntry[]
@@ -19,7 +19,7 @@ export default function getAllCircleMembers(
   // Add sub-Circles
   const subCirclesParticipants = circles
     .filter((c) => c.parentId === circleId)
-    .map((c) => getAllCircleMembers(c.id, circles, roles))
+    .map((c) => getAllCircleMembersParticipants(c.id, circles, roles))
     .flat()
 
   return [...subCirclesParticipants, ...directParticipants]

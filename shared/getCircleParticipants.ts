@@ -2,7 +2,7 @@ import { CircleEntry } from './circle'
 import { Participant } from './member'
 import { RoleEntry } from './role'
 
-export default function getCircleLeaders(
+export default function getCircleParticipants(
   circleId: string,
   circles: CircleEntry[],
   roles: RoleEntry[]
@@ -27,33 +27,29 @@ export default function getCircleLeaders(
       if (role.singleMember) {
         // Leader of Role
         const memberId = circle.members[0]?.memberId
-        if (memberId) {
-          return { circleId: circle.id, memberId }
-        }
-      } else {
-        // Find sub-Circle Representants
-        const leaders = circles
-          .filter((c) => c.parentId === circle.id)
-          .map((subCircle) => {
-            // Find sub-Role
-            const subRole = roles.find((r) => r.id === subCircle.roleId)
-            if (!subRole) return
-            if (subRole.link === true) {
-              const memberId = subCircle.members[0]?.memberId
-              if (memberId) {
-                return { circleId: subCircle.id, memberId }
-              }
-            }
-          })
-          .filter(Boolean) as Participant[]
-        if (leaders) return leaders
-
-        // No leader, so we're using all direct members
-        return circle.members.map(({ memberId }) => ({
-          circleId: circle.id,
-          memberId,
-        }))
+        return memberId ? { circleId: circle.id, memberId } : undefined
       }
+
+      // Find sub-Circle Representants
+      const leaders = circles
+        .filter((c) => c.parentId === circle.id)
+        .map((subCircle) => {
+          // Find sub-Role
+          const subRole = roles.find((r) => r.id === subCircle.roleId)
+          if (subRole?.link === true) {
+            const memberId = subCircle.members[0]?.memberId
+            return memberId ? { circleId: subCircle.id, memberId } : undefined
+          }
+          return
+        })
+        .filter(Boolean) as Participant[]
+      if (leaders) return leaders
+
+      // No leader, so we're using all direct members
+      return circle.members.map(({ memberId }) => ({
+        circleId: circle.id,
+        memberId,
+      }))
     })
     .flat()
     .filter(Boolean) as Participant[]
@@ -69,9 +65,7 @@ export default function getCircleLeaders(
         .map((circle) => {
           // Get Member id
           const memberId = circle.members[0]?.memberId
-          if (memberId) {
-            return { circleId: circle.id, memberId }
-          }
+          return memberId ? { circleId: circle.id, memberId } : undefined
         })
     )
     .flat()
