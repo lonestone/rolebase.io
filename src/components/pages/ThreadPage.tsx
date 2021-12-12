@@ -19,6 +19,7 @@ import useSubscription from '@hooks/useSubscription'
 import React from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
+import { ThreadContext } from 'src/contexts/ThreadContext'
 import ParticipantsNumber from '../atoms/ParticipantsNumber'
 import Page404 from './Page404'
 
@@ -112,7 +113,9 @@ export default function ThreadPage() {
       </Box>
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>
-        <ThreadActivities ref={contentRef} threadId={threadId} />
+        <ThreadContext.Provider value={thread}>
+          <ThreadActivities ref={contentRef} threadId={threadId} />
+        </ThreadContext.Provider>
       </Box>
 
       {thread && (

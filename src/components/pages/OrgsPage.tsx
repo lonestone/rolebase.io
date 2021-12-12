@@ -1,14 +1,10 @@
 import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
-  CloseButton,
   Container,
   Heading,
   HStack,
   IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
   LinkBox,
   LinkOverlay,
   Spacer,
@@ -21,7 +17,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -50,15 +46,6 @@ export default function OrgsPage() {
     onEditOpen()
   }
 
-  // Search
-  const [searchText, setSearchText] = useState('')
-
-  // Filter orgs
-  const filteredOrgs = useMemo(() => {
-    const text = searchText.toLowerCase()
-    return orgs?.filter((org) => org.name.toLowerCase().indexOf(text) !== -1)
-  }, [orgs, searchText])
-
   return (
     <Container maxW="3xl" marginTop="60px">
       <HStack margin="30px 0">
@@ -69,61 +56,39 @@ export default function OrgsPage() {
         <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
           Créer
         </Button>
-        <Spacer />
-        <InputGroup w="auto">
-          <Input
-            type="text"
-            placeholder="Rechercher..."
-            w="200px"
-            _focus={{ width: '250px' }}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          <InputRightElement
-            children={
-              <CloseButton
-                colorScheme="gray"
-                size="sm"
-                onClick={() => setSearchText('')}
-              />
-            }
-          />
-        </InputGroup>
       </HStack>
 
       <Loading center active={loading} />
       <TextErrors errors={[error]} />
 
-      {filteredOrgs && (
-        <Wrap spacing={5}>
-          {filteredOrgs.map((org) => (
-            <WrapItem key={org.id}>
-              <LinkBox
-                w="xs"
-                p="5"
-                borderWidth="1px"
-                rounded="md"
-                _hover={{ background: '#fafafa' }}
-              >
-                <Heading size="md" my="2">
-                  <HStack>
-                    <LinkOverlay as={ReachLink} to={`/orgs/${org.id}`}>
-                      {org.name}
-                    </LinkOverlay>
-                    <Spacer />
-                    <IconButton
-                      aria-label=""
-                      size="sm"
-                      onClick={() => handleOpenEdit(org.id)}
-                      icon={<FiEdit3 />}
-                    />
-                  </HStack>
-                </Heading>
-              </LinkBox>
-            </WrapItem>
-          ))}
-        </Wrap>
-      )}
+      <Wrap spacing={5}>
+        {orgs?.map((org) => (
+          <WrapItem key={org.id}>
+            <LinkBox
+              w="xs"
+              p="5"
+              borderWidth="1px"
+              rounded="md"
+              _hover={{ background: '#fafafa' }}
+            >
+              <Heading size="md" my="2">
+                <HStack>
+                  <LinkOverlay as={ReachLink} to={`/orgs/${org.id}`}>
+                    {org.name}
+                  </LinkOverlay>
+                  <Spacer />
+                  <IconButton
+                    aria-label=""
+                    size="sm"
+                    onClick={() => handleOpenEdit(org.id)}
+                    icon={<FiEdit3 />}
+                  />
+                </HStack>
+              </Heading>
+            </LinkBox>
+          </WrapItem>
+        ))}
+      </Wrap>
 
       {isCreateOpen && <OrgCreateModal isOpen onClose={onCreateClose} />}
 

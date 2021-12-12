@@ -68,13 +68,6 @@ export default function MembersPage() {
           Membres
         </Heading>
         <Spacer />
-        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
-          Créer
-        </Button>
-        <Button leftIcon={<EmailIcon />} onClick={onInviteOpen}>
-          Inviter
-        </Button>
-        <Spacer />
         <InputGroup w="auto">
           <Input
             type="text"
@@ -94,6 +87,13 @@ export default function MembersPage() {
             }
           />
         </InputGroup>
+        <Spacer />
+        <Button leftIcon={<EmailIcon />} onClick={onInviteOpen}>
+          Inviter
+        </Button>
+        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
+          Créer
+        </Button>
       </HStack>
 
       {filteredMembers && (
