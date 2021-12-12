@@ -3,6 +3,7 @@ import {
   createActivity,
   updateActivity,
 } from '@api/entities/activities'
+import { pollAnswersEntities } from '@api/entities/pollAnswers'
 import { Timestamp } from '@api/firebase'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
 import {
@@ -11,6 +12,8 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Checkbox,
@@ -33,10 +36,11 @@ import {
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import NumberInputController from '@components/atoms/NumberInputController'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useSubscription from '@hooks/useSubscription'
 import { ActivityPoll, ActivityType, PollChoice } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { getDateTimeLocal } from 'src/utils'
 
@@ -82,6 +86,18 @@ export default function ActivityPollModal({
 }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useStoreState((state) => state.orgs.currentId)
+
+  // Answers
+  const [acceptErasingAnswers, setAcceptErasingAnswers] = useState(false)
+  const { deletePollAnswer, subscribePollAnswers } = activity
+    ? pollAnswersEntities(activity.id)
+    : {
+        deletePollAnswer: (id: string) => {},
+        subscribePollAnswers: undefined,
+      }
+  const { data: answers } = useSubscription(subscribePollAnswers?.())
+  const hasAnswers = (answers?.length || 0) > 0
+  const shouldAcceptErasingAnswers = !acceptErasingAnswers && hasAnswers
 
   const defaultEndDate = useMemo(
     () => getDateTimeLocal(activity?.endDate?.toDate() || new Date()),
@@ -151,6 +167,11 @@ export default function ActivityPollModal({
         ...data,
       }
       if (activity) {
+        // Erase answers
+        for (const answer of answers || []) {
+          await deletePollAnswer(answer.id)
+        }
+        // Update poll
         await updateActivity(activity.id, activityData)
       } else if (threadId) {
         await createActivity({
@@ -179,6 +200,24 @@ export default function ActivityPollModal({
         <ModalBody>
           <form onSubmit={onSubmit}>
             <VStack spacing={5} align="stretch">
+              {hasAnswers && (
+                <>
+                  <Alert status="warning">
+                    <AlertIcon />
+                    Ce sondage a déjà eu des réponses. Vous ne pouvez pas le
+                    modifier à moins de supprimer les réponses.
+                  </Alert>
+                  <Checkbox
+                    isChecked={acceptErasingAnswers}
+                    onChange={() =>
+                      setAcceptErasingAnswers(!acceptErasingAnswers)
+                    }
+                  >
+                    Supprimer les réponses{' '}
+                  </Checkbox>
+                </>
+              )}
+
               <FormControl isInvalid={!!errors.question}>
                 <FormLabel htmlFor="question">Question</FormLabel>
                 <MarkdownEditorController
@@ -347,7 +386,11 @@ export default function ActivityPollModal({
               </Accordion>
 
               <Box textAlign="right">
-                <Button colorScheme="blue" type="submit">
+                <Button
+                  colorScheme="blue"
+                  type="submit"
+                  isDisabled={shouldAcceptErasingAnswers}
+                >
                   {activity ? 'Enregistrer' : 'Créer'}
                 </Button>
               </Box>

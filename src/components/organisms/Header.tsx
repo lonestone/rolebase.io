@@ -64,19 +64,21 @@ export default function Header() {
             >
               Cercles
             </LinkButton>
-            <LinkButton
-              to={`/orgs/${org.id}/members`}
-              leftIcon={<FiUser />}
-              highlightActive
-            >
-              Membres
-            </LinkButton>
+
             <LinkButton
               to={`/orgs/${org.id}/threads`}
               leftIcon={<FiMessageSquare />}
               highlightActive
             >
               Discussions
+            </LinkButton>
+
+            <LinkButton
+              to={`/orgs/${org.id}/members`}
+              leftIcon={<FiUser />}
+              highlightActive
+            >
+              Membres
             </LinkButton>
           </>
         )}

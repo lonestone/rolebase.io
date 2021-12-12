@@ -237,8 +237,8 @@ export default function RoleEditModal({ id, ...props }: Props) {
                 {role.base ? (
                   <Alert status="warning">
                     <AlertIcon />
-                    Ce rôle est un rôle de base potentiellement utilisé dans
-                    plusieurs cercles
+                    Ce rôle est un rôle de base potentiellement utilisé à
+                    plusieurs endroits.
                   </Alert>
                 ) : null}
               </VStack>
