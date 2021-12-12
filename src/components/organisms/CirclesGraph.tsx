@@ -80,6 +80,7 @@ export default function CirclesGraph({
             onMemberClick,
             onMemberMove: moveCircleMember,
             onMemberAdd: addMemberToCircle,
+            onClickOutside: navigateOrg,
           },
         })
 
@@ -119,7 +120,11 @@ export default function CirclesGraph({
   }, [ready, focusCircleId])
 
   // Call prop onReady when ready
-  useEffect(() => onReady?.(), [ready])
+  useEffect(() => {
+    if (ready) {
+      onReady?.()
+    }
+  }, [ready])
 
   return (
     <StyledSVG

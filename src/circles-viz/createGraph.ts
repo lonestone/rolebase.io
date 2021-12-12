@@ -3,7 +3,6 @@ import { MemberEntry } from '@shared/member'
 import { RoleEntry } from '@shared/role'
 import { initGraph } from './initGraph'
 import { Dimensions, DrawEventHandler, DrawEventListener, Zoom } from './types'
-import updateAddMenu from './updateAddMenu'
 import updateCircles from './updateCircles'
 
 export interface Graph {
@@ -40,6 +39,7 @@ export interface GraphEvents {
   ): void
   onCircleAdd?(targetCircleId: string | null): void
   onMemberAdd?(memberId: string, targetCircleId: string): void
+  onClickOutside?(): void
 }
 
 export function createGraph(
@@ -48,6 +48,13 @@ export function createGraph(
 ): Graph {
   const dimensions: Dimensions = { width, height }
   const { zoom, removeListeners } = initGraph(svg, dimensions)
+
+  // Handle outside click
+  svg.addEventListener('click', (event) => {
+    if (event.target === svg) {
+      events.onClickOutside?.()
+    }
+  })
 
   // Draw event
   const drawHandlers: Array<DrawEventHandler> = []

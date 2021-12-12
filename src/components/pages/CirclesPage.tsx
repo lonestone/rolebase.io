@@ -10,7 +10,7 @@ import useQueryParams from '@hooks/useQueryParams'
 import useWindowSize from '@hooks/useWindowSize'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import CirclesGraph from './CirclesGraph'
+import CirclesGraph from '../organisms/CirclesGraph'
 
 type CirclesPageParams = {
   circleId: string
