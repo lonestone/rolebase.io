@@ -99,10 +99,20 @@ export default function ActivityPollModal({
     resolver: yupResolver(activityPollSchema),
     defaultValues: activity
       ? {
-          ...activity,
+          question: activity.question,
+          choices: activity.choices,
+          multiple: activity.multiple,
+          minAnswers: activity.minAnswers,
+          maxAnswers: activity.maxAnswers,
+          pointsPerUser: activity.pointsPerUser,
+          randomize: activity.randomize,
+          anonymous: activity.anonymous,
+          hideUntilEnd: activity.hideUntilEnd,
+          canAddChoice: activity.canAddChoice,
           endDate: activity?.endDate
             ? getDateTimeLocal(activity.endDate.toDate())
             : null,
+          endWhenAllVoted: activity.endWhenAllVoted,
         }
       : defaultValues,
   })

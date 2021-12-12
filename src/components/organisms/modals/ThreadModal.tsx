@@ -59,13 +59,21 @@ export default function ThreadModal({
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(threadSchema),
-    defaultValues: thread || {
-      title: '',
-      circleId: defaultCircleId || '',
-      participantsScope: MembersScope.CircleLeaders,
-      draft: true,
-      archived: false,
-    },
+    defaultValues: thread
+      ? {
+          title: thread.title,
+          circleId: thread.circleId,
+          participantsScope: thread.participantsScope,
+          draft: thread.draft,
+          archived: thread.archived,
+        }
+      : {
+          title: '',
+          circleId: defaultCircleId || '',
+          participantsScope: MembersScope.CircleLeaders,
+          draft: true,
+          archived: false,
+        },
   })
 
   const circleId = watch('circleId')

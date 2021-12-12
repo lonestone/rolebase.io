@@ -54,11 +54,17 @@ export default function ActivityDecisionModal({
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(activityDecisionSchema),
-    defaultValues: activity || {
-      circleId: circleId || '',
-      decision: '',
-      explanation: '',
-    },
+    defaultValues: activity
+      ? {
+          circleId: activity.circleId,
+          decision: activity.decision,
+          explanation: activity.explanation,
+        }
+      : {
+          circleId: circleId || '',
+          decision: '',
+          explanation: '',
+        },
   })
 
   const onSubmit = handleSubmit(async ({ circleId, decision, explanation }) => {

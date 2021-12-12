@@ -32,7 +32,7 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { format } from 'date-fns'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import MemberDeleteModal from './MemberDeleteModal'
 
@@ -61,25 +61,20 @@ export default function MemberEditModal({ id, ...props }: Props) {
     handleSubmit,
     register,
     control,
-    reset,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(memberUpdateSchema),
-  })
-
-  const [picture, setPicture] = useState<string | undefined | null>()
-  const pictureInputRef = useRef<HTMLInputElement>(null)
-  const [pictureError, setPictureError] = useState<Error | undefined>()
-
-  // Init form data
-  useEffect(() => {
-    if (!member) return
-    reset({
+    defaultValues: member && {
       name: member.name,
       workedMinPerWeek: member.workedMinPerWeek || null,
-    })
-    setPicture(member.picture)
-  }, [member])
+    },
+  })
+
+  const [picture, setPicture] = useState<string | undefined | null>(
+    member?.picture
+  )
+  const pictureInputRef = useRef<HTMLInputElement>(null)
+  const [pictureError, setPictureError] = useState<Error | undefined>()
 
   const onSubmit = handleSubmit(async (memberUpdate) => {
     // Upload picture

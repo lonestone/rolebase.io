@@ -28,7 +28,6 @@ import DurationSelect from '@components/atoms/DurationSelect'
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useCurrentOrg from '@hooks/useCurrentOrg'
 import useRole from '@hooks/useRole'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -57,7 +56,6 @@ enum LinkType {
 const tmpCircleId = 'tmpCircleId'
 
 export default function RoleEditModal({ id, ...props }: Props) {
-  const org = useCurrentOrg()
   const role = useRole(id)
 
   const {
@@ -72,16 +70,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
     control,
     watch,
     setValue,
-    reset,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(roleUpdateSchema),
-  })
-
-  // Init form data
-  useEffect(() => {
-    if (!role) return
-    reset({
+    defaultValues: role && {
       name: role.name,
       purpose: role.purpose,
       domain: role.domain,
@@ -89,8 +81,8 @@ export default function RoleEditModal({ id, ...props }: Props) {
       defaultMinPerWeek: role.defaultMinPerWeek || null,
       singleMember: role.singleMember || false,
       link: role.link || false,
-    })
-  }, [role])
+    },
+  })
 
   // Single member
   const singleMember = watch('singleMember')
