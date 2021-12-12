@@ -40,17 +40,20 @@ export default function useScrollable() {
     const container = containerRef?.current
     if (!content || !container) return
 
-    const onResize = () => {
-      // Keep scroll position at bottom
-      if (container && scrollPosition === ScrollPosition.Bottom) {
-        if (container.scrollHeight === container.clientHeight) {
-          setIsScrollable(false)
-        } else {
-          setIsScrollable(true)
-          container.scrollTop = container.scrollHeight - container.clientHeight
+    const onResize = () =>
+      // Wait for layout to be done
+      setTimeout(() => {
+        // Keep scroll position at bottom
+        if (container && scrollPosition === ScrollPosition.Bottom) {
+          if (container.scrollHeight === container.clientHeight) {
+            setIsScrollable(false)
+          } else {
+            setIsScrollable(true)
+            container.scrollTop =
+              container.scrollHeight - container.clientHeight
+          }
         }
-      }
-    }
+      }, 0)
 
     // Observe content size to detect scrollHeight change
     const observer = new ResizeObserver(onResize)
