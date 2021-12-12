@@ -20,21 +20,23 @@ export default function useParticipants(
   const roles = useStoreState((state) => state.roles.entries)
 
   return useMemo(() => {
-    if (!circleId || !scope || !circles || !members || !roles) return []
+    if (!members) return []
     let participants: Optional<Participant, 'circleId'>[] = []
 
-    if (scope === MembersScope.Organization) {
-      // All Organization Members
-      participants =
-        members?.map((m) => ({
-          memberId: m.id,
-        })) || []
-    } else if (scope === MembersScope.CircleLeaders) {
-      // Circle Leaders and links
-      participants = getCircleParticipants(circleId, circles, roles)
-    } else if (scope === MembersScope.CircleMembers) {
-      // All Circle Members
-      participants = getAllCircleMembersParticipants(circleId, circles, roles)
+    if (circleId && scope && circles && roles) {
+      if (scope === MembersScope.Organization) {
+        // All Organization Members
+        participants =
+          members?.map((m) => ({
+            memberId: m.id,
+          })) || []
+      } else if (scope === MembersScope.CircleLeaders) {
+        // Circle Leaders and links
+        participants = getCircleParticipants(circleId, circles, roles)
+      } else if (scope === MembersScope.CircleMembers) {
+        // All Circle Members
+        participants = getAllCircleMembersParticipants(circleId, circles, roles)
+      }
     }
 
     // Add extra members
