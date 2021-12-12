@@ -1,19 +1,15 @@
-import * as d3 from 'd3'
-import { HierarchyCircularNode } from 'd3'
 import { CircleEntry } from '@shared/circle'
 import { MemberEntry } from '@shared/member'
 import { RoleEntry } from '@shared/role'
+import * as d3 from 'd3'
+import { HierarchyCircularNode } from 'd3'
 import { d3CircleCenterName, d3CircleTopName } from './circleName'
 import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getFirstname } from './getFirstname'
 import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
-import {
-  getHighlightTransition,
-  highlightCircle,
-  unhighlightCircle,
-} from './highlightCircle'
+import { getHighlightTransition } from './highlightCircle'
 import { packData } from './packData'
 import selectAppend from './selectAppend'
 import settings from './settings'
@@ -34,6 +30,7 @@ interface CirclesParams {
   members: MemberEntry[]
   events: GraphEvents
   zoom: Zoom
+  selectedCircleId?: string
   addDrawListener: DrawEventListener
 }
 
@@ -46,6 +43,7 @@ export default function updateCircles(
     members,
     events,
     zoom,
+    selectedCircleId,
     addDrawListener,
   }: CirclesParams
 ) {
@@ -57,7 +55,7 @@ export default function updateCircles(
     name: '',
     children: circlesToD3Data(fixLostCircles(circles), roles, members),
   }
-  const root = packData(data, 2000, 2000)
+  const root = packData(data)
   const svg = d3.select<SVGSVGElement, NodeData>(svgElement)
   const svgId = svg.attr('id')
   const firstDraw = !svg.select('.circles').node()
@@ -139,11 +137,7 @@ export default function updateCircles(
 
             // Add circle border
             if (!dragNodes) {
-              highlightCircle(g, {
-                instant: true,
-                strokeWidth: 3,
-                strokeColor: 'hsl(170deg 50% 30%)',
-              })
+              g.attr('data-hover', '')
             }
 
             // Show member name if it's a member
@@ -155,9 +149,7 @@ export default function updateCircles(
             const g = d3.select<SVGGElement, NodeData>(this)
             // Remove circle border
             if (!dragNodes) {
-              unhighlightCircle(g, {
-                instant: true,
-              })
+              g.attr('data-hover', null)
             }
 
             // Hide member name
@@ -165,6 +157,12 @@ export default function updateCircles(
               .select('text')
               .attr('opacity', (d) => (d.data.picture ? 0 : 1))
           })
+
+        // Set CSS variables
+        nodeGroup.each((d, i, nodes) => {
+          const node = nodes[i]
+          node.style.setProperty('--depth', d.depth.toString())
+        })
 
         // No events on members group
         nodeGroup
@@ -283,9 +281,7 @@ export default function updateCircles(
                 )
 
                 // Highlight dragged circle
-                highlightCircle(d3.select(this), {
-                  filter: `url(#${svgId}-shadow)`,
-                })
+                d3.select(this).attr('data-dragging', '')
               })
               .on('drag', function (event, dragNode) {
                 const dX = event.x - dragOrigin.x
@@ -312,15 +308,14 @@ export default function updateCircles(
                     const transition = getHighlightTransition()
 
                     // Unhighlight previously targeted circle
-                    unhighlightCircle(
-                      dragTargets.filter((node) => node === dragTarget),
-                      { transition }
-                    )
+                    dragTargets
+                      .filter((node) => node === dragTarget)
+                      .attr('data-drag-target', null)
                     // Highlight newly targeted circle
-                    highlightCircle(
-                      dragTargets.filter((node) => node === targetData),
-                      { strokeWidth: 5, transition }
-                    )
+                    dragTargets
+                      .filter((node) => node === targetData)
+                      .attr('data-drag-target', '')
+
                     // Change color of dragged circle
                     dragNodes
                       .select('circle')
@@ -386,18 +381,14 @@ export default function updateCircles(
 
                   // Unhighlight target circle
                   if (dragTarget) {
-                    unhighlightCircle(
-                      dragTargets.filter((node) => node === dragTarget),
-                      { instant: actionMoved, transition }
-                    )
+                    dragTargets
+                      .filter((node) => node === dragTarget)
+                      .attr('data-drag-target', null)
                   }
                 }
 
                 // Reset moved circle
-                unhighlightCircle(d3.select(this), {
-                  transition,
-                  instant: actionMoved,
-                })
+                d3.select(this).attr('data-dragging', null)
 
                 // Reset dragged circles
                 if (dragNodes && !actionMoved) {
@@ -432,10 +423,19 @@ export default function updateCircles(
           .duration(settings.move.duration)
           .ease(settings.move.transition)
 
+        // Set CSS variables
+        nodeUpdate.each((d, i, nodes) => {
+          const node = nodes[i] as SVGGElement
+          node.style.setProperty('--depth', d.depth.toString())
+        })
+
         // Update position
         nodeUpdate
           .transition(transition as any)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
+          .attr('data-selected', (d) =>
+            d.data.id === selectedCircleId ? true : null
+          )
 
         // Update circle style
         nodeUpdate

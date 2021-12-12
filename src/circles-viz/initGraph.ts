@@ -28,7 +28,7 @@ export function initGraph(
 
   const zoomBehaviour = d3
     .zoom<SVGSVGElement, any>()
-    .filter((event) => true) // Listen also mouse wheel
+    .filter((event) => true) // Listen also to mouse wheel
     .scaleExtent(settings.zoom.scaleExtent as [number, number])
     .on('zoom', (event) => {
       zoom.x = event.transform.x
@@ -46,8 +46,8 @@ export function initGraph(
     spaceKey: false,
     changeExtent(w, h) {
       zoomBehaviour.translateExtent([
-        [-500, -200],
-        [w + 500, h + 200],
+        [-w, -h],
+        [w, h],
       ])
     },
     to(x, y, radius = 0, instant = false) {
@@ -74,21 +74,22 @@ export function initGraph(
   }
 
   // Handle space key to prevent dragging circles during pan/zoom
-  const handleSpaceKey = (toggle: boolean) => (event: KeyboardEvent) => {
-    if (event.key === ' ') {
-      zoom.spaceKey = toggle
-    }
-  }
-  const handleSpaceKeyDown = handleSpaceKey(true)
-  const handleSpaceKeyUp = handleSpaceKey(false)
-  document.addEventListener('keydown', handleSpaceKeyDown)
-  document.addEventListener('keyup', handleSpaceKeyUp)
+  // Usefull only when a simple click is sufficient to drag a circle
+  // const handleSpaceKey = (toggle: boolean) => (event: KeyboardEvent) => {
+  //   if (event.key === ' ') {
+  //     zoom.spaceKey = toggle
+  //   }
+  // }
+  // const handleSpaceKeyDown = handleSpaceKey(true)
+  // const handleSpaceKeyUp = handleSpaceKey(false)
+  // document.addEventListener('keydown', handleSpaceKeyDown)
+  // document.addEventListener('keyup', handleSpaceKeyUp)
 
   return {
     zoom,
     removeListeners() {
-      document.removeEventListener('keydown', handleSpaceKeyDown)
-      document.removeEventListener('keyup', handleSpaceKeyUp)
+      // document.removeEventListener('keydown', handleSpaceKeyDown)
+      // document.removeEventListener('keyup', handleSpaceKeyUp)
     },
   }
 }

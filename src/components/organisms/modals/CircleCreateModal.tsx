@@ -24,13 +24,18 @@ import { useForm } from 'react-hook-form'
 
 interface Props extends UseModalProps {
   parentId: string | null
+  singleMember?: boolean
 }
 
 interface Values {
   name: string
 }
 
-export default function CircleCreateModal({ parentId, ...props }: Props) {
+export default function CircleCreateModal({
+  parentId,
+  singleMember,
+  ...props
+}: Props) {
   const navigateOrg = useNavigateOrg()
   const orgId = useStoreState((state) => state.orgs.currentId)
   const roles = useStoreState((state) => state.roles.entries)
@@ -41,6 +46,9 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
         (role) =>
           // Base role
           role.base &&
+          (singleMember === undefined ||
+            singleMember === role.singleMember ||
+            false) &&
           // Not already used in same circle
           !circles?.some(
             (circle) =>
@@ -72,7 +80,7 @@ export default function CircleCreateModal({ parentId, ...props }: Props) {
     if (!orgId) return
     try {
       // Create role
-      const role = await createRole({ orgId, base: false, name })
+      const role = await createRole({ orgId, base: false, name, singleMember })
       if (!role) throw new Error('Error creating new role')
 
       // Create circle

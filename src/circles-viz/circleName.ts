@@ -1,5 +1,4 @@
 import { HierarchyCircularNode } from 'd3-hierarchy'
-import settings from './settings'
 import { Data, NodeData } from './types'
 
 export const d3CircleCenterName = (
@@ -31,7 +30,8 @@ export const d3CircleTopName =
   ) => {
     // Reset font-size, then apply opacity and font-size
     selection
-      .attr('y', (d) => -d.r - 5)
+      .attr('y', (d) => -d.r + 1)
+      .attr('alignment-baseline', 'hanging')
       .attr('font-size', (d) => `${getTopFontSize(d, maxDepth)}px`)
       .attr('opacity', (d, i, nodes) => getTopNameOpacity(d))
   }

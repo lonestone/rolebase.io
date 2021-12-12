@@ -75,7 +75,7 @@ export default function CirclesPage() {
         <CirclesGraph
           width={width}
           height={height}
-          focusCircleId={circleId}
+          selectedCircleId={circleId}
           onReady={() => setReady(true)}
         />
       )}

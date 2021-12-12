@@ -13,7 +13,7 @@ import { createGraph, Graph } from '../../circles-viz/createGraph'
 interface Props {
   width: number
   height: number
-  focusCircleId?: string
+  selectedCircleId?: string
   onReady?(): void
 }
 
@@ -21,12 +21,29 @@ const StyledSVG = styled.svg`
   position: absolute;
   font: 10px sans-serif;
   fill: #1a202c;
+
+  [data-hover] circle {
+    stroke: hsl(170deg 50% calc(88% - (var(--depth) - 1) * 7%));
+    stroke-width: 2px;
+  }
+  [data-selected] circle {
+    stroke: hsl(170deg 50% calc(75% - (var(--depth) - 1) * 7%));
+    stroke-width: 2px;
+  }
+  [data-dragging] circle {
+    filter: url(#${({ id }) => id}-shadow);
+    fill-opacity: 0.5;
+  }
+  [data-drag-target] circle {
+    stroke: hsl(170deg 50% 20%);
+    stroke-width: 3px;
+  }
 `
 
 export default function CirclesGraph({
   width,
   height,
-  focusCircleId,
+  selectedCircleId,
   onReady,
 }: Props) {
   // Navigation
@@ -93,6 +110,7 @@ export default function CirclesGraph({
       graphRef.current.update({
         width,
         height,
+        selectedCircleId,
         circles,
         roles,
         members,
@@ -104,6 +122,7 @@ export default function CirclesGraph({
     circles,
     width,
     height,
+    selectedCircleId,
     onCircleClick,
     onMemberClick,
     onCircleMemberClick,
@@ -114,10 +133,10 @@ export default function CirclesGraph({
 
   // Focus on a circle when focusCircleId is defined
   useEffect(() => {
-    if (ready && focusCircleId) {
-      graphRef.current?.zoom.focusCircle?.(focusCircleId, true)
+    if (ready && selectedCircleId) {
+      graphRef.current?.zoom.focusCircle?.(selectedCircleId, true)
     }
-  }, [ready, focusCircleId])
+  }, [ready, selectedCircleId])
 
   // Call prop onReady when ready
   useEffect(() => {

@@ -28,11 +28,18 @@ export default function SubCirclesFormControl({ circleId }: Props) {
     [circles, roles, circleId]
   )
 
-  // CreateCircle modal
+  // CreateCircle modal for multiple members
   const {
     isOpen: isCreateCircleOpen,
     onOpen: onCreateCircleOpen,
     onClose: onCreateCircleClose,
+  } = useDisclosure()
+
+  // CreateCircle modal for single member
+  const {
+    isOpen: isCreateCircleSingleMemberOpen,
+    onOpen: onCreateCircleSingleMemberOpen,
+    onClose: onCreateCircleSingleMemberClose,
   } = useDisclosure()
 
   // Go to circle panel
@@ -42,40 +49,83 @@ export default function SubCirclesFormControl({ circleId }: Props) {
   }, [])
 
   return (
-    <FormControl>
-      <FormLabel>Sous-Cercles :</FormLabel>
-      <Wrap spacing={2}>
-        {childrenAndRoles?.map((c) => (
-          <WrapItem key={c.id}>
+    <>
+      <FormControl>
+        <FormLabel>Rôles :</FormLabel>
+        <Wrap spacing={2}>
+          {childrenAndRoles
+            ?.filter((c) => c.role?.singleMember)
+            .map((c) => (
+              <WrapItem key={c.id}>
+                <Button
+                  key={c.id}
+                  size="sm"
+                  borderRadius="full"
+                  onClick={() => navigateToCircle(c.id)}
+                >
+                  {c.role?.name || '?'}
+                </Button>
+              </WrapItem>
+            ))}
+          <WrapItem>
             <Button
-              key={c.id}
               size="sm"
               borderRadius="full"
-              onClick={() => navigateToCircle(c.id)}
+              leftIcon={<AddIcon />}
+              onClick={onCreateCircleSingleMemberOpen}
             >
-              {c.role?.name || '?'}
+              Ajouter un rôle
             </Button>
           </WrapItem>
-        ))}
-        <WrapItem>
-          <Button
-            size="sm"
-            borderRadius="full"
-            leftIcon={<AddIcon />}
-            onClick={onCreateCircleOpen}
-          >
-            Ajouter un cercle
-          </Button>
-        </WrapItem>
-      </Wrap>
+        </Wrap>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>Cercles :</FormLabel>
+        <Wrap spacing={2}>
+          {childrenAndRoles
+            ?.filter((c) => !c.role?.singleMember)
+            .map((c) => (
+              <WrapItem key={c.id}>
+                <Button
+                  key={c.id}
+                  size="sm"
+                  borderRadius="full"
+                  onClick={() => navigateToCircle(c.id)}
+                >
+                  {c.role?.name || '?'}
+                </Button>
+              </WrapItem>
+            ))}
+          <WrapItem>
+            <Button
+              size="sm"
+              borderRadius="full"
+              leftIcon={<AddIcon />}
+              onClick={onCreateCircleOpen}
+            >
+              Ajouter un cercle
+            </Button>
+          </WrapItem>
+        </Wrap>
+      </FormControl>
 
       {isCreateCircleOpen && (
         <CircleCreateModal
           parentId={circleId}
+          singleMember={false}
           isOpen
           onClose={onCreateCircleClose}
         />
       )}
-    </FormControl>
+      {isCreateCircleSingleMemberOpen && (
+        <CircleCreateModal
+          parentId={circleId}
+          singleMember={true}
+          isOpen
+          onClose={onCreateCircleSingleMemberClose}
+        />
+      )}
+    </>
   )
 }

@@ -21,6 +21,7 @@ export interface GraphParams {
 export interface UpdateGraphParams {
   width: number
   height: number
+  selectedCircleId?: string
   circles: CircleEntry[]
   roles: RoleEntry[]
   members: MemberEntry[]
@@ -66,7 +67,7 @@ export function createGraph(
     zoom,
     addDrawListener,
     removeListeners,
-    update({ width, height, circles, roles, members }) {
+    update({ width, height, selectedCircleId, circles, roles, members }) {
       // Update dimensions
       dimensions.width = width
       dimensions.height = height
@@ -79,17 +80,9 @@ export function createGraph(
         dimensions,
         events,
         zoom,
+        selectedCircleId,
         addDrawListener,
       })
-      /*
-      updateAddMenu(svg, {
-        dimensions,
-        members,
-        events,
-        zoom,
-        addDrawListener,
-      })
-      */
 
       // Trigger draw events
       for (let i = drawHandlers.length - 1; i >= 0; i--) {
