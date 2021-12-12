@@ -1,5 +1,5 @@
 import { Member } from '@shared/member'
-import { memoize } from 'src/utils'
+import { memoize } from 'src/memoize'
 import * as yup from 'yup'
 import {
   executeQuery,

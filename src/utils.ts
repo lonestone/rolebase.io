@@ -7,8 +7,3 @@ export function getDateTimeLocal(date: Date) {
   const isoString = date.toISOString()
   return isoString.substring(0, ((isoString.indexOf('T') | 0) + 6) | 0)
 }
-
-// TODO
-export function memoize<F extends (...args: any[]) => any>(fn: F): F {
-  return fn
-}

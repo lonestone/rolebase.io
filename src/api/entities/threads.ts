@@ -1,6 +1,6 @@
 import { Thread } from '@shared/thread'
 import { Optional } from '@shared/types'
-import { memoize } from 'src/utils'
+import { memoize } from 'src/memoize'
 import * as yup from 'yup'
 import {
   getCollection,
@@ -24,8 +24,14 @@ export const updateThread = methods.update
 export const subscribeThread = methods.subscribe
 export const deleteThread = methods.delete
 
-export const subscribeThreads = memoize((orgId: string) =>
-  subscribeQuery(collection.where('orgId', '==', orgId).orderBy('createdAt'))
+export const subscribeThreads = memoize(
+  (orgId: string, archived: boolean = false) =>
+    subscribeQuery(
+      collection
+        .where('orgId', '==', orgId)
+        .where('archived', '==', archived)
+        .orderBy('createdAt')
+    )
 )
 
 export const threadSchema = yup.object().shape({

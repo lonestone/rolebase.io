@@ -1,6 +1,6 @@
 import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
-import { memoize } from 'src/utils'
+import { memoize } from 'src/memoize'
 import * as yup from 'yup'
 import {
   getCollection,
