@@ -114,7 +114,7 @@ export default function ThreadPage() {
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>
         <ThreadContext.Provider value={thread}>
-          <ThreadActivities ref={contentRef} threadId={threadId} />
+          <ThreadActivities ref={contentRef} />
         </ThreadContext.Provider>
       </Box>
 

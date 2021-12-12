@@ -12,22 +12,21 @@ import ThreadActivity from '@components/molecules/ThreadActivity'
 import ThreadDaySeparator from '@components/molecules/ThreadDaySeparator'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useContext } from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
+import { ThreadContext } from 'src/contexts/ThreadContext'
 
-interface Props extends StackProps {
-  threadId: string
-}
-
-const ThreadActivities = forwardRef<HTMLDivElement, Props>(
-  ({ threadId, ...stackProps }, ref) => {
+const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
+  (stackProps, ref) => {
     const orgId = useStoreState((state) => state.orgs.currentId)
+    const thread = useContext(ThreadContext)
+
     const {
       data: activities,
       error,
       loading,
     } = useSubscription(
-      orgId ? subscribeActivities(orgId, threadId) : undefined
+      orgId && thread ? subscribeActivities(orgId, thread.id) : undefined
     )
 
     return (
