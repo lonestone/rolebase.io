@@ -13,6 +13,7 @@ export function getCircleRoles(
 
   // Find role
   const role = roles.find((r) => r.id === circle.roleId)
+  if (!role) return []
 
   // Return circle, its roles and its parents
   if (circle.parentId) {

@@ -28,3 +28,10 @@ export interface Participant {
   circleId: string
   memberId: string
 }
+
+// Collection of thread status inside poll
+// Index by memberId
+export interface MemberThreadStatus {
+  lastReadActivityId: string
+  lastReadDate: firebase.firestore.Timestamp
+}

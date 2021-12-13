@@ -4,7 +4,7 @@ import * as yup from 'yup'
 import { getCollection, getEntityMethods, Timestamp } from '../firebase'
 import { emailSchema, nameSchema } from '../schemas'
 
-const collection = getCollection<User>('users')
+export const collection = getCollection<User>('users')
 
 const methods = getEntityMethods(collection)
 export const updateUser = methods.update

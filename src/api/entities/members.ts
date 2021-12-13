@@ -11,7 +11,7 @@ import {
 } from '../firebase'
 import { nameSchema } from '../schemas'
 
-const collection = getCollection<Member>('members')
+export const collection = getCollection<Member>('members')
 
 const methods = getEntityMethods(collection)
 export const createMember = methods.create

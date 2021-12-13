@@ -11,7 +11,7 @@ export interface Circle {
 export type CircleEntry = WithId<Circle>
 
 export interface CircleWithRoleEntry extends CircleEntry {
-  role?: RoleEntry
+  role: RoleEntry
 }
 
 // Circle member

@@ -5,7 +5,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "firebase:emulator": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit"
+    "firebase:emulator": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit",
+    "firebase:emulator:export": "firebase emulators:export ./firebase-emulator-data"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.5",

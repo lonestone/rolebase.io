@@ -22,6 +22,7 @@ import MembersSelect from '@components/molecules/MembersSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useItemsArray from '@hooks/useItemsArray'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { MembersScope } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
@@ -31,7 +32,6 @@ import { Controller, useForm } from 'react-hook-form'
 interface Props extends UseModalProps {
   defaultCircleId?: string
   thread?: ThreadEntry
-  onCreate?: (id: string) => void
 }
 
 interface Values {
@@ -45,9 +45,9 @@ interface Values {
 export default function ThreadModal({
   defaultCircleId,
   thread,
-  onCreate,
   ...modalProps
 }: Props) {
+  const navigateOrg = useNavigateOrg()
   const orgId = useStoreState((state) => state.orgs.currentId)
   const userId = useStoreState((state) => state.auth.user?.id)
 
@@ -93,14 +93,17 @@ export default function ThreadModal({
       participantsMembersIds,
     }
     if (thread) {
+      // Update thread
       await updateThread(thread.id, threadUpdate)
     } else {
+      // Create thread
       const thread = await createThread({
         orgId,
         userId,
         ...threadUpdate,
       })
-      onCreate?.(thread.id)
+      // Go to thread page
+      navigateOrg(`/threads/${thread.id}`)
     }
     modalProps.onClose()
   })

@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { nameSchema } from '../schemas'
 
-const collection = getCollection<Org>('orgs')
+export const collection = getCollection<Org>('orgs')
 
 export const methods = getEntityMethods(collection, {
   createTransform: (

@@ -62,8 +62,8 @@ export default function MembersPage() {
   }, [members, searchText])
 
   return (
-    <Container maxW="3xl" marginTop="60px">
-      <HStack margin="30px 0">
+    <Container maxW="3xl" mt="60px">
+      <HStack my="30px">
         <Heading as="h2" size="md">
           Membres
         </Heading>

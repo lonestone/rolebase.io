@@ -7,7 +7,7 @@ export function memoize<Args extends any[], Result>(
   const map = new Map<string, Result>()
 
   const memoized = (...args: Args): Result => {
-    const key = args.join('|')
+    const key = JSON.stringify(args)
     if (map.has(key)) {
       const result = map.get(key)
       if (result) {

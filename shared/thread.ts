@@ -12,6 +12,8 @@ export interface Thread {
   createdAt: firebase.firestore.Timestamp
   draft: boolean
   archived: boolean
+  lastActivityId?: string
+  lastActivityDate?: firebase.firestore.Timestamp
 }
 
 export type ThreadEntry = WithId<Thread>

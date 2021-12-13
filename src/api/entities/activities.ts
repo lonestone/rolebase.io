@@ -8,6 +8,7 @@ import {
   subscribeQuery,
   Timestamp,
 } from '../firebase'
+import { updateThread } from './threads'
 
 export const collection = getCollection<Activity>('activities')
 
@@ -63,7 +64,15 @@ export async function createActivity(
       })
     }
   }
-  await methods.create(activity)
+
+  // Create activity
+  const { id } = await methods.create(activity)
+
+  // Update thread
+  updateThread(activity.threadId, {
+    lastActivityId: id,
+    lastActivityDate: Timestamp.now(),
+  })
 }
 
 export const activityMessageSchema = yup.object().shape({

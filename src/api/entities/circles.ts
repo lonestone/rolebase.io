@@ -10,7 +10,7 @@ import {
 } from '../firebase'
 import { collection as rolesCollection } from './roles'
 
-const collection = getCollection<Circle>('circles')
+export const collection = getCollection<Circle>('circles')
 
 const methods = getEntityMethods(collection, {
   createTransform: (circle: Optional<Circle, 'members'>) => ({

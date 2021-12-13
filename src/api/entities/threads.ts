@@ -10,7 +10,7 @@ import {
 } from '../firebase'
 import { nameSchema } from '../schemas'
 
-const collection = getCollection<Thread>('threads')
+export const collection = getCollection<Thread>('threads')
 
 const methods = getEntityMethods(collection, {
   createTransform: (thread: Optional<Thread, 'createdAt'>) => ({

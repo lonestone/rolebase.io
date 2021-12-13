@@ -26,6 +26,9 @@ service cloud.firestore {
   	match /members/{id} {
       allow create: if isOrgAuthorized(request.resource.data.orgId);
       allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      match /threadStatus/{threadId} {
+        allow read, write: if true
+      }
     }
 
   	match /circles/{id} {
