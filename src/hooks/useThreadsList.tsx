@@ -22,6 +22,7 @@ export interface ThreadWithStatus extends ThreadEntry {
 
 export default function useThreadsList(
   filter: ThreadsFilter,
+  archived: boolean,
   circleId?: string
 ) {
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -30,14 +31,14 @@ export default function useThreadsList(
 
   // Subscribe to threads
   const { data, error, loading } = useSubscription(
-    orgId ? subscribeAllThreads(orgId) : undefined
+    orgId ? subscribeAllThreads(orgId, archived) : undefined
   )
 
   // Threads status for current member
   const subscribe = currentMember
-    ? memberThreadsStatus(currentMember.id)?.subscribeThreadStatuses
+    ? memberThreadsStatus(currentMember.id)?.subscribeThreadStatuses?.()
     : undefined
-  const { data: threadsStatus } = useSubscription(subscribe?.())
+  const { data: threadsStatus } = useSubscription(subscribe)
 
   // Filter and sort threads
   const threads = useMemo(() => {
@@ -88,7 +89,7 @@ export default function useThreadsList(
           return 0
         })
     )
-  }, [data, filter, currentMemberCircles, threadsStatus])
+  }, [data, filter, circleId, currentMemberCircles, threadsStatus])
 
   return { threads, error, loading }
 }

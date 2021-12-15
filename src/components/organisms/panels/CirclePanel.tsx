@@ -92,7 +92,10 @@ export default function CirclePanel({ id, onClose }: Props) {
 
         <CircleMemberFormControl circleId={id} />
 
-        <ThreadsFormControl circleId={id} />
+        <ThreadsFormControl
+          circleId={id}
+          showOnlyIfThreadsExist={role?.singleMember}
+        />
       </VStack>
 
       {isEditRoleOpen && (

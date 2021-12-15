@@ -38,7 +38,6 @@ interface Values {
   title: string
   circleId: string
   participantsScope: MembersScope
-  draft: boolean
   archived: boolean
 }
 
@@ -64,14 +63,12 @@ export default function ThreadModal({
           title: thread.title,
           circleId: thread.circleId,
           participantsScope: thread.participantsScope,
-          draft: thread.draft,
           archived: thread.archived,
         }
       : {
           title: '',
           circleId: defaultCircleId || '',
           participantsScope: MembersScope.CircleLeaders,
-          draft: true,
           archived: false,
         },
   })
@@ -185,10 +182,8 @@ export default function ThreadModal({
               </FormControl>
 
               <FormControl>
-                <Checkbox {...register('draft')}>Brouillon</Checkbox>
-                <Checkbox ml={5} {...register('archived')}>
-                  Archivé
-                </Checkbox>
+                <FormLabel>Paramètres</FormLabel>
+                <Checkbox {...register('archived')}>Archivé</Checkbox>
               </FormControl>
 
               <Box textAlign="right" mt={2}>

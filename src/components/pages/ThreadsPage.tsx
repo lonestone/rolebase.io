@@ -1,6 +1,7 @@
 import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
+  Checkbox,
   Container,
   Heading,
   HStack,
@@ -15,9 +16,11 @@ import {
 import ThreadsList from '@components/molecules/ThreadsList'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import { ThreadsFilter } from '@hooks/useThreadsList'
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function ThreadsPage() {
+  const [archives, setArchives] = useState(false)
+
   // Create modal
   const {
     isOpen: isCreateOpen,
@@ -41,14 +44,21 @@ export default function ThreadsPage() {
         <TabList>
           <Tab>Dans mes Cercles</Tab>
           <Tab>Autres</Tab>
+          <Spacer />
+          <Checkbox
+            isChecked={archives}
+            onChange={() => setArchives(!archives)}
+          >
+            Archives
+          </Checkbox>
         </TabList>
 
         <TabPanels>
           <TabPanel px={0}>
-            <ThreadsList filter={ThreadsFilter.MyCircles} />
+            <ThreadsList filter={ThreadsFilter.MyCircles} archives={archives} />
           </TabPanel>
           <TabPanel px={0}>
-            <ThreadsList filter={ThreadsFilter.Others} />
+            <ThreadsList filter={ThreadsFilter.Others} archives={archives} />
           </TabPanel>
         </TabPanels>
       </Tabs>

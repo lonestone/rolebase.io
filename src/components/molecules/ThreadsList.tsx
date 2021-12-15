@@ -9,13 +9,18 @@ import useThreadsList, { ThreadsFilter } from '../../hooks/useThreadsList'
 
 interface Props {
   filter: ThreadsFilter
+  archives: boolean
 }
 
-export default function ThreadsList({ filter }: Props) {
+export default function ThreadsList({ filter, archives }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   // Subscribe to threads
-  const { threads, error, loading } = useThreadsList(filter)
+  const { threads, error, loading } = useThreadsList(
+    filter,
+    archives,
+    undefined
+  )
 
   return (
     <>

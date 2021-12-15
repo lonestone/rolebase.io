@@ -10,7 +10,6 @@ export interface Thread {
   participantsScope: MembersScope
   participantsMembersIds: string[]
   createdAt: firebase.firestore.Timestamp
-  draft: boolean
   archived: boolean
   lastActivityId?: string
   lastActivityDate?: firebase.firestore.Timestamp

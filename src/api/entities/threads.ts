@@ -39,5 +39,4 @@ export const threadSchema = yup.object().shape({
   title: nameSchema,
   circleId: yup.string().required(),
   archived: yup.boolean(),
-  draft: yup.boolean(),
 })

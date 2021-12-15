@@ -18,14 +18,19 @@ import useThreadsList, { ThreadsFilter } from '../../hooks/useThreadsList'
 
 interface Props {
   circleId: string
+  showOnlyIfThreadsExist?: boolean
 }
 
-export default function ThreadsFormControl({ circleId }: Props) {
+export default function ThreadsFormControl({
+  circleId,
+  showOnlyIfThreadsExist,
+}: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   // Subscribe to threads
   const { threads, error, loading } = useThreadsList(
-    ThreadsFilter.All,
+    ThreadsFilter.Circle,
+    false,
     circleId
   )
 
@@ -35,6 +40,11 @@ export default function ThreadsFormControl({ circleId }: Props) {
     onOpen: onThreadOpen,
     onClose: onThreadClose,
   } = useDisclosure()
+
+  // Don't show if there are no threads
+  if (showOnlyIfThreadsExist && (!threads || threads.length === 0)) {
+    return null
+  }
 
   return (
     <FormControl>

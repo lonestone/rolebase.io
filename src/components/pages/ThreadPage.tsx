@@ -74,7 +74,6 @@ export default function ThreadPage() {
             {thread ? (
               <>
                 {thread.title}
-                {thread.draft && <Tag ml={2}>Brouillon</Tag>}
                 {thread.archived && <Tag ml={2}>Archivé</Tag>}
                 <IconButton
                   aria-label=""
