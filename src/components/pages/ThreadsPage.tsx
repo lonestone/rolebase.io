@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
-import ThreadsList from '@components/organisms/ThreadsList'
+import ThreadsList, { ThreadsFilter } from '@components/organisms/ThreadsList'
 import React from 'react'
 
 export default function ThreadsPage() {
@@ -39,15 +39,15 @@ export default function ThreadsPage() {
       <Tabs isLazy>
         <TabList>
           <Tab>Dans mes Cercles</Tab>
-          <Tab>Toutes</Tab>
+          <Tab>Autres</Tab>
         </TabList>
 
         <TabPanels>
           <TabPanel px={0}>
-            <ThreadsList myCircles />
+            <ThreadsList filter={ThreadsFilter.MyCircles} />
           </TabPanel>
           <TabPanel px={0}>
-            <ThreadsList />
+            <ThreadsList filter={ThreadsFilter.Others} />
           </TabPanel>
         </TabPanels>
       </Tabs>

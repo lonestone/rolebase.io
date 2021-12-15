@@ -13,8 +13,14 @@ import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
+export enum ThreadsFilter {
+  MyCircles,
+  Others,
+  All,
+}
+
 interface Props {
-  myCircles?: boolean
+  filter: ThreadsFilter
 }
 
 interface ThreadWithStatus extends ThreadEntry {
@@ -22,7 +28,7 @@ interface ThreadWithStatus extends ThreadEntry {
   status?: MemberThreadStatus
 }
 
-export default function ThreadsList({ myCircles }: Props) {
+export default function ThreadsList({ filter }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
   const currentMemberCircles = useCurrentMemberCircles()
@@ -43,10 +49,16 @@ export default function ThreadsList({ myCircles }: Props) {
     if (!data) return
     return (
       (
-        myCircles
+        filter === ThreadsFilter.MyCircles
           ? // Keep only threads that are in my circles
             data.filter((thread) =>
               currentMemberCircles?.some((c) => c.id === thread.circleId)
+            )
+          : filter == ThreadsFilter.Others
+          ? // Keep only threads that are not in my circles
+            data.filter(
+              (thread) =>
+                !currentMemberCircles?.some((c) => c.id === thread.circleId)
             )
           : // Keep all threads
             data
@@ -78,7 +90,7 @@ export default function ThreadsList({ myCircles }: Props) {
           return 0
         })
     )
-  }, [data, myCircles, currentMemberCircles, threadsStatus])
+  }, [data, filter, currentMemberCircles, threadsStatus])
 
   return (
     <>
@@ -87,6 +99,8 @@ export default function ThreadsList({ myCircles }: Props) {
 
       {threads && (
         <VStack spacing={0} align="stretch">
+          {threads.length === 0 && <i>Aucune discussion pour le moment</i>}
+
           {threads.map((thread) => (
             <LinkBox
               key={thread.id}
