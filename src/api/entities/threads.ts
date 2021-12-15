@@ -27,10 +27,7 @@ export const deleteThread = methods.delete
 export const subscribeThreads = memoize(
   (orgId: string, archived: boolean = false) =>
     subscribeQuery(
-      collection
-        .where('orgId', '==', orgId)
-        .where('archived', '==', archived)
-        .orderBy('createdAt')
+      collection.where('orgId', '==', orgId).where('archived', '==', archived)
     )
 )
 

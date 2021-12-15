@@ -73,7 +73,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "createdAt",
+          "fieldPath": "archived",
           "order": "ASCENDING"
         }
       ]

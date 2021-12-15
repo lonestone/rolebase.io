@@ -105,6 +105,8 @@ function stackSubscribe<Data>(
         // console.log('DEBUG unsubscribe')
         unsubscribe?.()
         unsubscribe = undefined
+        lastData = undefined
+        lastError = undefined
       }
     }
   }
