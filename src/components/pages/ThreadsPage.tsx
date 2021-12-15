@@ -12,8 +12,9 @@ import {
   Tabs,
   useDisclosure,
 } from '@chakra-ui/react'
+import ThreadsList from '@components/molecules/ThreadsList'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
-import ThreadsList, { ThreadsFilter } from '@components/organisms/ThreadsList'
+import { ThreadsFilter } from '@hooks/useThreadsList'
 import React from 'react'
 
 export default function ThreadsPage() {

@@ -12,6 +12,7 @@ import Markdown from '@components/atoms/Markdown'
 import Panel from '@components/atoms/Panel'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
 import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
+import ThreadsFormControl from '@components/molecules/ThreadsFormControl'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import React from 'react'
 import CircleDeleteModal from '../modals/CircleDeleteModal'
@@ -90,6 +91,8 @@ export default function CirclePanel({ id, onClose }: Props) {
         {!role?.singleMember ? <SubCirclesFormControl circleId={id} /> : null}
 
         <CircleMemberFormControl circleId={id} />
+
+        <ThreadsFormControl circleId={id} />
       </VStack>
 
       {isEditRoleOpen && (

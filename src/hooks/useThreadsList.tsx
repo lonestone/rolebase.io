@@ -1,48 +1,43 @@
 import { memberThreadsStatus } from '@api/entities/memberThreadsStatus'
-import { subscribeThreads } from '@api/entities/threads'
-import { HStack, LinkBox, LinkOverlay, Spacer, VStack } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
+import { subscribeAllThreads } from '@api/entities/threads'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentMemberCircles from '@hooks/useCurrentMemberCircles'
 import useSubscription from '@hooks/useSubscription'
 import { MemberThreadStatus } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import { useMemo } from 'react'
 
 export enum ThreadsFilter {
   MyCircles,
   Others,
+  Circle,
   All,
 }
 
-interface Props {
-  filter: ThreadsFilter
-}
-
-interface ThreadWithStatus extends ThreadEntry {
+export interface ThreadWithStatus extends ThreadEntry {
   read: boolean
   status?: MemberThreadStatus
 }
 
-export default function ThreadsList({ filter }: Props) {
+export default function useThreadsList(
+  filter: ThreadsFilter,
+  circleId?: string
+) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
   const currentMemberCircles = useCurrentMemberCircles()
 
   // Subscribe to threads
   const { data, error, loading } = useSubscription(
-    orgId ? subscribeThreads(orgId) : undefined
+    orgId ? subscribeAllThreads(orgId) : undefined
   )
 
   // Threads status for current member
-  const subscribeThreadsStatuses = currentMember
-    ? memberThreadsStatus(currentMember.id).subscribeThreadStatuses
+  const subscribe = currentMember
+    ? memberThreadsStatus(currentMember.id)?.subscribeThreadStatuses
     : undefined
-  const { data: threadsStatus } = useSubscription(subscribeThreadsStatuses?.())
+  const { data: threadsStatus } = useSubscription(subscribe?.())
 
   // Filter and sort threads
   const threads = useMemo(() => {
@@ -60,6 +55,9 @@ export default function ThreadsList({ filter }: Props) {
               (thread) =>
                 !currentMemberCircles?.some((c) => c.id === thread.circleId)
             )
+          : filter == ThreadsFilter.Circle
+          ? // Keep only threads that are not in my circles
+            data.filter((thread) => thread.circleId === circleId)
           : // Keep all threads
             data
       )
@@ -92,37 +90,5 @@ export default function ThreadsList({ filter }: Props) {
     )
   }, [data, filter, currentMemberCircles, threadsStatus])
 
-  return (
-    <>
-      {loading && <Loading active center />}
-      <TextErrors errors={[error]} />
-
-      {threads && (
-        <VStack spacing={0} align="stretch">
-          {threads.length === 0 && <i>Aucune discussion pour le moment</i>}
-
-          {threads.map((thread) => (
-            <LinkBox
-              key={thread.id}
-              py={1}
-              borderBottomWidth="1px"
-              _hover={{ background: '#fafafa' }}
-            >
-              <HStack>
-                <LinkOverlay
-                  as={ReachLink}
-                  to={`/orgs/${orgId}/threads/${thread.id}`}
-                  fontWeight={thread.read ? 'normal' : 'bold'}
-                >
-                  {thread.title}
-                </LinkOverlay>
-                <Spacer />
-                <CircleAndParentsButton id={thread.circleId} />
-              </HStack>
-            </LinkBox>
-          ))}
-        </VStack>
-      )}
-    </>
-  )
+  return { threads, error, loading }
 }

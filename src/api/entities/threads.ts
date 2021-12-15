@@ -24,11 +24,15 @@ export const updateThread = methods.update
 export const subscribeThread = methods.subscribe
 export const deleteThread = methods.delete
 
-export const subscribeThreads = memoize(
+export const subscribeAllThreads = memoize(
   (orgId: string, archived: boolean = false) =>
     subscribeQuery(
       collection.where('orgId', '==', orgId).where('archived', '==', archived)
     )
+)
+
+export const subscribeCircleThreads = memoize((circleId: string) =>
+  subscribeQuery(collection.where('circleId', '==', circleId))
 )
 
 export const threadSchema = yup.object().shape({
