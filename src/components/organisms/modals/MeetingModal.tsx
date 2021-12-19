@@ -1,9 +1,6 @@
-import {
-  createMeeting,
-  meetingSchema,
-  updateMeeting,
-} from '@api/entities/meetings'
+import { createMeeting, updateMeeting } from '@api/entities/meetings'
 import { Timestamp } from '@api/firebase'
+import { nameSchema } from '@api/schemas'
 import { CloseIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -14,6 +11,8 @@ import {
   FormLabel,
   IconButton,
   Input,
+  InputGroup,
+  InputRightAddon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,11 +20,11 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Spacer,
   Stack,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import NumberInputController from '@components/atoms/NumberInputController'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import MembersSelect from '@components/molecules/MembersSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
@@ -41,6 +40,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { FiPlus } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   defaultCircleId?: string
@@ -53,10 +53,20 @@ interface Values {
   facilitatorMemberId: string
   participantsScope: MembersScope
   startDate: string
-  endDate: string
+  duration: number // In minutes
   ended: boolean
   stepsConfig: MeetingStepConfig[]
 }
+
+export const resolver = yupResolver(
+  yup.object().shape({
+    title: nameSchema,
+    circleId: yup.string().required(),
+    facilitatorMemberId: yup.string().required(),
+    startDate: yup.string().required(),
+    duration: yup.number().required(),
+  })
+)
 
 export default function MeetingModal({
   defaultCircleId,
@@ -67,6 +77,14 @@ export default function MeetingModal({
   const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
 
+  // Default date is tomorrow 8:00
+  const defaultStartDate = useMemo(() => {
+    const date = new Date()
+    date.setDate(date.getDate() + 1)
+    date.setHours(8, 0, 0, 0)
+    return date
+  }, [])
+
   const {
     handleSubmit,
     register,
@@ -75,19 +93,17 @@ export default function MeetingModal({
     setValue,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(meetingSchema),
+    resolver,
     defaultValues: meeting
       ? {
           title: meeting.title,
           circleId: meeting.circleId,
           facilitatorMemberId: meeting.facilitatorMemberId,
           participantsScope: meeting.participantsScope,
-          startDate: meeting.startDate
-            ? getDateTimeLocal(meeting.startDate.toDate())
-            : '',
-          endDate: meeting.endDate
-            ? getDateTimeLocal(meeting.endDate.toDate())
-            : '',
+          startDate: getDateTimeLocal(meeting.startDate.toDate()),
+          duration: Math.round(
+            (meeting.endDate.seconds - meeting.startDate.seconds) / 60
+          ),
           ended: meeting.ended,
           stepsConfig: meeting.stepsConfig,
         }
@@ -96,8 +112,8 @@ export default function MeetingModal({
           circleId: defaultCircleId || '',
           facilitatorMemberId: '',
           participantsScope: MembersScope.CircleLeaders,
-          startDate: '',
-          endDate: '',
+          startDate: getDateTimeLocal(defaultStartDate),
+          duration: 60,
           ended: false,
           stepsConfig: [],
         },
@@ -125,12 +141,15 @@ export default function MeetingModal({
   } = useItemsArray<string>(meeting ? meeting.participantsMembersIds : [])
 
   // Submit
-  const onSubmit = handleSubmit(async ({ startDate, endDate, ...data }) => {
+  const onSubmit = handleSubmit(async ({ startDate, duration, ...data }) => {
     if (!orgId || !currentMember) return
+    const startDateDate = new Date(startDate)
     const meetingUpdate = {
       ...data,
-      startDate: Timestamp.fromDate(new Date(startDate)),
-      endDate: Timestamp.fromDate(new Date(endDate)),
+      startDate: Timestamp.fromDate(startDateDate),
+      endDate: Timestamp.fromDate(
+        new Date(startDateDate.getTime() + duration * 60 * 1000)
+      ),
       participantsMembersIds,
     }
     if (meeting) {
@@ -190,15 +209,28 @@ export default function MeetingModal({
               </FormControl>
 
               <Flex>
-                <FormControl isInvalid={!!errors.startDate} flex="1">
+                <FormControl isInvalid={!!errors.startDate}>
                   <FormLabel htmlFor="startDate">Début</FormLabel>
-                  <Input {...register('startDate')} type="datetime-local" />
+                  <Input
+                    {...register('startDate')}
+                    type="datetime-local"
+                    w="250px"
+                  />
                 </FormControl>
-                <Spacer />
 
-                <FormControl isInvalid={!!errors.endDate} flex="1">
-                  <FormLabel htmlFor="endDate">Fin</FormLabel>
-                  <Input {...register('endDate')} type="datetime-local" />
+                <FormControl isInvalid={!!errors.duration} ml={5}>
+                  <FormLabel htmlFor="duration">Durée</FormLabel>
+                  <InputGroup>
+                    <NumberInputController
+                      name="duration"
+                      control={control}
+                      w="80px"
+                      min={10}
+                      max={600}
+                      step={10}
+                    />
+                    <InputRightAddon bg="transparent" children="minutes" />
+                  </InputGroup>
                 </FormControl>
               </Flex>
 

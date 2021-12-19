@@ -1,7 +1,8 @@
 import { createCircle } from '@api/entities/circles'
 import { createMember } from '@api/entities/members'
-import { createOrg, orgCreateSchema } from '@api/entities/orgs'
+import { createOrg } from '@api/entities/orgs'
 import { createRole } from '@api/entities/roles'
+import { nameSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
@@ -20,12 +21,19 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {}
 
 interface Values {
   name: string
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    name: nameSchema,
+  })
+)
 
 export default function OrgCreateModal(props: Props) {
   const user = useStoreState((state) => state.auth.user)
@@ -35,7 +43,7 @@ export default function OrgCreateModal(props: Props) {
     register,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(orgCreateSchema),
+    resolver,
   })
 
   const onSubmit = handleSubmit(async ({ name }) => {

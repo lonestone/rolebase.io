@@ -1,9 +1,9 @@
 import {
   inviteMember,
-  memberUpdateSchema,
   updateMember,
   uploadPicture,
 } from '@api/entities/members'
+import { nameSchema } from '@api/schemas'
 import {
   Alert,
   AlertIcon,
@@ -33,6 +33,7 @@ import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { format } from 'date-fns'
 import React, { useCallback, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 import MemberDeleteModal from './MemberDeleteModal'
 
 interface Props extends UseModalProps {
@@ -44,6 +45,13 @@ interface Values {
   picture?: string | null
   workedMinPerWeek?: number | null
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    name: nameSchema,
+    workedMinPerWeek: yup.number().nullable(),
+  })
+)
 
 export default function MemberEditModal({ id, ...props }: Props) {
   const member = useMember(id)
@@ -62,7 +70,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
     control,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(memberUpdateSchema),
+    resolver,
     defaultValues: member && {
       name: member.name,
       workedMinPerWeek: member.workedMinPerWeek || null,

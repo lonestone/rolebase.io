@@ -1,8 +1,4 @@
-import {
-  activityDecisionSchema,
-  createActivity,
-  updateActivity,
-} from '@api/entities/activities'
+import { createActivity, updateActivity } from '@api/entities/activities'
 import {
   Box,
   Button,
@@ -25,6 +21,7 @@ import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   threadId?: string // To create
@@ -37,6 +34,14 @@ interface Values {
   decision: string
   explanation: string
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    circleId: yup.string().required(),
+    decision: yup.string().required(),
+    explanation: yup.string(),
+  })
+)
 
 export default function ActivityDecisionModal({
   threadId,
@@ -52,7 +57,7 @@ export default function ActivityDecisionModal({
     control,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(activityDecisionSchema),
+    resolver,
     defaultValues: activity
       ? {
           circleId: activity.circleId,

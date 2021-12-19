@@ -1,5 +1,6 @@
 import { createCircle } from '@api/entities/circles'
-import { createRole, roleCreateSchema } from '@api/entities/roles'
+import { createRole } from '@api/entities/roles'
+import { nameSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
@@ -20,6 +21,7 @@ import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   parentId: string | null
@@ -29,6 +31,12 @@ interface Props extends UseModalProps {
 interface Values {
   name: string
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    name: nameSchema,
+  })
+)
 
 export default function CircleCreateModal({
   parentId,
@@ -62,7 +70,7 @@ export default function CircleCreateModal({
     register,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(roleCreateSchema),
+    resolver,
   })
 
   const handleCreateCircle = useCallback(

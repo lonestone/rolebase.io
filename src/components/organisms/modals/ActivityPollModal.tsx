@@ -1,8 +1,4 @@
-import {
-  activityPollSchema,
-  createActivity,
-  updateActivity,
-} from '@api/entities/activities'
+import { createActivity, updateActivity } from '@api/entities/activities'
 import { pollAnswersEntities } from '@api/entities/pollAnswers'
 import { Timestamp } from '@api/firebase'
 import { CloseIcon } from '@chakra-ui/icons'
@@ -45,6 +41,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { FiHelpCircle, FiPlus } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   threadId?: string // To create
@@ -81,6 +78,17 @@ const defaultValues: Values = {
   endWhenAllVoted: false,
 }
 
+const resolver = yupResolver(
+  yup.object().shape({
+    question: yup.string().required(),
+    choices: yup.array().of(
+      yup.object().shape({
+        title: yup.string().required(),
+      })
+    ),
+  })
+)
+
 export default function ActivityPollModal({
   threadId,
   activity,
@@ -114,7 +122,7 @@ export default function ActivityPollModal({
     setValue,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(activityPollSchema),
+    resolver,
     defaultValues: activity
       ? {
           question: activity.question,

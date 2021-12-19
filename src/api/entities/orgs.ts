@@ -1,9 +1,7 @@
 import { Org } from '@shared/org'
 import { Optional } from '@shared/types'
 import { memoize } from 'src/memoize'
-import * as yup from 'yup'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
-import { nameSchema } from '../schemas'
 
 export const collection = getCollection<Org>('orgs')
 
@@ -28,12 +26,3 @@ export const subscribeOrgs = memoize(
         .orderBy('name')
     )
 )
-
-export const orgCreateSchema = yup.object().shape({
-  name: nameSchema,
-})
-
-export const orgUpdateSchema = yup.object().shape({
-  name: nameSchema,
-  defaultWorkedMinPerWeek: yup.number(),
-})

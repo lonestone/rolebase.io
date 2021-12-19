@@ -1,7 +1,6 @@
 import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
 import { memoize } from 'src/memoize'
-import * as yup from 'yup'
 import {
   getCollection,
   getEntityMethods,
@@ -74,22 +73,3 @@ export async function createActivity(
     lastActivityDate: Timestamp.now(),
   })
 }
-
-export const activityMessageSchema = yup.object().shape({
-  message: yup.string().required(),
-})
-
-export const activityDecisionSchema = yup.object().shape({
-  circleId: yup.string().required(),
-  decision: yup.string().required(),
-  explanation: yup.string(),
-})
-
-export const activityPollSchema = yup.object().shape({
-  question: yup.string().required(),
-  choices: yup.array().of(
-    yup.object().shape({
-      title: yup.string().required(),
-    })
-  ),
-})

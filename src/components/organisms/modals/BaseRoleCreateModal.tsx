@@ -1,4 +1,5 @@
-import { createRole, roleCreateSchema } from '@api/entities/roles'
+import { createRole } from '@api/entities/roles'
+import { nameSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
@@ -18,10 +19,17 @@ import { Role } from '@shared/role'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   onCreate?: (id: string) => void
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    name: nameSchema,
+  })
+)
 
 export default function BaseRoleCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -31,7 +39,7 @@ export default function BaseRoleCreateModal(props: Props) {
     register,
     formState: { errors },
   } = useForm<Role>({
-    resolver: yupResolver(roleCreateSchema),
+    resolver,
   })
 
   const onSubmit = handleSubmit(async ({ name }) => {

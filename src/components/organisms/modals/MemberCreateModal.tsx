@@ -1,4 +1,5 @@
-import { createMember, memberCreateSchema } from '@api/entities/members'
+import { createMember } from '@api/entities/members'
+import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
@@ -19,6 +20,7 @@ import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   onCreate?: (id: string) => void
@@ -28,6 +30,12 @@ interface Values {
   name: string
 }
 
+const resolver = yupResolver(
+  yup.object().shape({
+    name: nameSchema,
+  })
+)
+
 export default function MemberCreateModal(props: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
@@ -36,7 +44,7 @@ export default function MemberCreateModal(props: Props) {
     register,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(memberCreateSchema),
+    resolver,
   })
 
   const onSubmit = handleSubmit(async ({ name }) => {

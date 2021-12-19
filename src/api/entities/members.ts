@@ -1,6 +1,5 @@
 import { Member } from '@shared/member'
 import { memoize } from 'src/memoize'
-import * as yup from 'yup'
 import {
   executeQuery,
   functions,
@@ -9,7 +8,6 @@ import {
   storage,
   subscribeQuery,
 } from '../firebase'
-import { nameSchema } from '../schemas'
 
 export const collection = getCollection<Member>('members')
 
@@ -25,15 +23,6 @@ export const subscribeMembers = memoize((orgId: string) =>
 export async function getMembers(orgId: string) {
   return executeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
 }
-
-export const memberCreateSchema = yup.object().shape({
-  name: nameSchema,
-})
-
-export const memberUpdateSchema = yup.object().shape({
-  name: nameSchema,
-  workedMinPerWeek: yup.number().nullable(),
-})
 
 // Upload member picture and return URL
 export async function uploadPicture(

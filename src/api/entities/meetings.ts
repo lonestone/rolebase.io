@@ -1,14 +1,12 @@
 import { Meeting } from '@shared/meeting'
 import { Optional } from '@shared/types'
 import { memoize } from 'src/memoize'
-import * as yup from 'yup'
 import {
   getCollection,
   getEntityMethods,
   subscribeQuery,
   Timestamp,
 } from '../firebase'
-import { nameSchema } from '../schemas'
 
 export const collection = getCollection<Meeting>('meetings')
 
@@ -39,11 +37,3 @@ export const subscribeCircleMeetings = memoize((circleId: string) =>
     collection.where('circleId', '==', circleId).orderBy('endDate', 'desc')
   )
 )
-
-export const meetingSchema = yup.object().shape({
-  title: nameSchema,
-  circleId: yup.string().required(),
-  facilitatorMemberId: yup.string().required(),
-  startDate: yup.string().required(),
-  endDate: yup.string().required(),
-})

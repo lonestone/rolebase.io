@@ -1,4 +1,5 @@
-import { createThread, threadSchema, updateThread } from '@api/entities/threads'
+import { createThread, updateThread } from '@api/entities/threads'
+import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
@@ -28,6 +29,7 @@ import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   defaultCircleId?: string
@@ -40,6 +42,14 @@ interface Values {
   participantsScope: MembersScope
   archived: boolean
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    title: nameSchema,
+    circleId: yup.string().required(),
+    archived: yup.boolean(),
+  })
+)
 
 export default function ThreadModal({
   defaultCircleId,
@@ -57,7 +67,7 @@ export default function ThreadModal({
     watch,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(threadSchema),
+    resolver,
     defaultValues: thread
       ? {
           title: thread.title,

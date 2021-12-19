@@ -1,8 +1,6 @@
 import { Optional } from '@shared/types'
 import { User } from '@shared/user'
-import * as yup from 'yup'
 import { getCollection, getEntityMethods, Timestamp } from '../firebase'
-import { emailSchema, nameSchema } from '../schemas'
 
 export const collection = getCollection<User>('users')
 
@@ -20,13 +18,3 @@ export async function createUser(
     createdAt: Timestamp.now(),
   })
 }
-
-export const userCreateSchema = yup.object().shape({
-  name: nameSchema,
-  email: emailSchema,
-})
-
-export const userUpdateSchema = yup.object().shape({
-  name: nameSchema,
-  email: emailSchema,
-})

@@ -1,4 +1,5 @@
-import { orgUpdateSchema, updateOrg } from '@api/entities/orgs'
+import { updateOrg } from '@api/entities/orgs'
+import { nameSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
@@ -20,6 +21,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 import OrgDeleteModal from './OrgDeleteModal'
 
 interface Props extends UseModalProps {
@@ -30,6 +32,13 @@ interface Values {
   name: string
   defaultWorkedMinPerWeek: number
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    name: nameSchema,
+    defaultWorkedMinPerWeek: yup.number(),
+  })
+)
 
 export default function OrgEditModal({ id, ...props }: Props) {
   const org = useOrg(id)
@@ -47,7 +56,7 @@ export default function OrgEditModal({ id, ...props }: Props) {
     reset,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(orgUpdateSchema),
+    resolver,
   })
 
   // Init form data

@@ -1,4 +1,5 @@
-import { roleUpdateSchema, updateRole } from '@api/entities/roles'
+import { updateRole } from '@api/entities/roles'
+import { nameSchema } from '@api/schemas'
 import {
   Alert,
   AlertDescription,
@@ -30,6 +31,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useRole from '@hooks/useRole'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   id: string
@@ -46,6 +48,16 @@ interface Values {
   link?: string | boolean
   defaultMinPerWeek?: number | null
 }
+
+const resolver = yupResolver(
+  yup.object().shape({
+    name: nameSchema,
+    purpose: yup.string(),
+    domain: yup.string(),
+    accountabilities: yup.string(),
+    defaultMinPerWeek: yup.number().nullable(),
+  })
+)
 
 enum LinkType {
   parent = 'parent',
@@ -64,7 +76,7 @@ export default function RoleEditModal({ id, ...props }: Props) {
     setValue,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(roleUpdateSchema),
+    resolver,
     defaultValues: role && {
       name: role.name,
       purpose: role.purpose,

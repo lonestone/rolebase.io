@@ -1,14 +1,12 @@
 import { Thread } from '@shared/thread'
 import { Optional } from '@shared/types'
 import { memoize } from 'src/memoize'
-import * as yup from 'yup'
 import {
   getCollection,
   getEntityMethods,
   subscribeQuery,
   Timestamp,
 } from '../firebase'
-import { nameSchema } from '../schemas'
 
 export const collection = getCollection<Thread>('threads')
 
@@ -34,9 +32,3 @@ export const subscribeAllThreads = memoize(
 export const subscribeCircleThreads = memoize((circleId: string) =>
   subscribeQuery(collection.where('circleId', '==', circleId))
 )
-
-export const threadSchema = yup.object().shape({
-  title: nameSchema,
-  circleId: yup.string().required(),
-  archived: yup.boolean(),
-})
