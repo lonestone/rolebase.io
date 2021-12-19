@@ -60,12 +60,13 @@ export default function SearchCombobox({ onSelect }: ComboboxProps) {
 
   return (
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
-      <InputGroup>
+      <InputGroup size="sm">
         <Input
           type="text"
           placeholder="Rechercher..."
           bg="white"
           w="200px"
+          borderRadius="md"
           _focus={{ width: '250px' }}
           onClick={() => openMenu()}
           {...getInputProps()}

@@ -1,4 +1,3 @@
-import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   Checkbox,
@@ -17,6 +16,7 @@ import ThreadsList from '@components/molecules/ThreadsList'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import { ThreadsFilter } from '@hooks/useThreadsList'
 import React, { useState } from 'react'
+import { FiPlus } from 'react-icons/fi'
 
 export default function ThreadsPage() {
   const [archives, setArchives] = useState(false)
@@ -35,7 +35,7 @@ export default function ThreadsPage() {
           Discussions
         </Heading>
         <Spacer />
-        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
+        <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
           Nouvelle discussion
         </Button>
       </HStack>

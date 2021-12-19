@@ -1,21 +1,20 @@
-import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   CloseButton,
   Heading,
   HStack,
   IconButton,
-  ListItem,
   Spacer,
+  Stack,
   StackItem,
-  UnorderedList,
   useDisclosure,
 } from '@chakra-ui/react'
 import Panel from '@components/atoms/Panel'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
-import { FiEdit3 } from 'react-icons/fi'
+import { FiEdit3, FiPlus, FiTrash2 } from 'react-icons/fi'
 import BaseRoleCreateModal from '../modals/BaseRoleCreateModal'
+import RoleDeleteModal from '../modals/RoleDeleteModal'
 import RoleEditModal from '../modals/RoleEditModal'
 
 interface Props {
@@ -33,8 +32,15 @@ export default function BaseRolesPanel({ onClose }: Props) {
     onClose: onCreateClose,
   } = useDisclosure()
 
+  // Delete modal
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useDisclosure()
+
   // Edit modal
-  const [editRoleId, setEditRoleId] = useState<string | undefined>()
+  const [roleId, setRoleId] = useState<string | undefined>()
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -42,8 +48,13 @@ export default function BaseRolesPanel({ onClose }: Props) {
   } = useDisclosure()
 
   const handleOpenEdit = (id: string) => {
-    setEditRoleId(id)
+    setRoleId(id)
     onEditOpen()
+  }
+
+  const handleOpenDelete = (id: string) => {
+    setRoleId(id)
+    onDeleteOpen()
   }
 
   return (
@@ -51,7 +62,7 @@ export default function BaseRolesPanel({ onClose }: Props) {
       <Heading size="md" mb={5}>
         <HStack spacing={5}>
           <StackItem>Rôles de base</StackItem>
-          <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
+          <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
             Créer
           </Button>
           <Spacer />
@@ -62,19 +73,27 @@ export default function BaseRolesPanel({ onClose }: Props) {
       {!baseRoles?.length ? (
         <i>Aucun rôle de base</i>
       ) : (
-        <UnorderedList>
+        <Stack>
           {baseRoles?.map((role) => (
-            <ListItem key={role.id}>
+            <StackItem key={role.id}>
               {role.name}{' '}
               <IconButton
                 aria-label=""
                 size="sm"
                 onClick={() => handleOpenEdit(role.id)}
                 icon={<FiEdit3 />}
+                ml={2}
               />
-            </ListItem>
+              <IconButton
+                aria-label=""
+                size="sm"
+                onClick={() => handleOpenDelete(role.id)}
+                icon={<FiTrash2 />}
+                ml={2}
+              />
+            </StackItem>
           ))}
-        </UnorderedList>
+        </Stack>
       )}
 
       {isCreateOpen && (
@@ -85,8 +104,12 @@ export default function BaseRolesPanel({ onClose }: Props) {
         />
       )}
 
-      {isEditOpen && editRoleId && (
-        <RoleEditModal id={editRoleId} isOpen onClose={onEditClose} />
+      {isEditOpen && roleId && (
+        <RoleEditModal id={roleId} isOpen onClose={onEditClose} />
+      )}
+
+      {isDeleteOpen && roleId && (
+        <RoleDeleteModal id={roleId} isOpen onClose={onDeleteClose} />
       )}
     </Panel>
   )

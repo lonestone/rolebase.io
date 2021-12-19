@@ -1,4 +1,3 @@
-import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   LinkBox,
@@ -11,6 +10,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
+import { FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 import useThreadsList, { ThreadsFilter } from '../../hooks/useThreadsList'
 
@@ -37,6 +37,10 @@ export default function ThreadsInCircleList({ circleId }: Props) {
 
   return (
     <>
+      <Button size="sm" mb={2} leftIcon={<FiPlus />} onClick={onThreadOpen}>
+        Créer une discussion
+      </Button>
+
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
@@ -63,10 +67,6 @@ export default function ThreadsInCircleList({ circleId }: Props) {
           ))}
         </VStack>
       )}
-
-      <Button size="sm" mt={2} leftIcon={<AddIcon />} onClick={onThreadOpen}>
-        Ajouter une discussion
-      </Button>
 
       {isThreadOpen && (
         <ThreadModal

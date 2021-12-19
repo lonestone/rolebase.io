@@ -10,7 +10,7 @@ interface Props {
 
 export default function ThreadDaySeparator({ date }: Props) {
   return (
-    <Flex py="10px" justifyContent="center" position="relative">
+    <Flex py="10px" justifyContent="center">
       <Divider pt="15px" />
       <Box
         fontSize="0.9em"
@@ -20,7 +20,7 @@ export default function ThreadDaySeparator({ date }: Props) {
         px="15px"
         bg="white"
         border="1px solid #E2E8F0"
-        borderRadius="10px"
+        borderRadius="full"
       >
         {capitalizeFirstLetter(
           format(date, 'PPPP ', { locale: dateFnsLocale })

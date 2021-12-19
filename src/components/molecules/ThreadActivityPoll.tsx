@@ -71,19 +71,8 @@ export default function ThreadActivityPoll({ activity }: Props) {
       activity={activity}
       onEdit={isUserOwner ? onEditOpen : undefined}
     >
-      <Box
-        mt={3}
-        borderLeft="2px solid #EDF2F7"
-        borderRadius="10px"
-        role="group"
-      >
-        <HStack
-          background="gray.100"
-          borderRadius="10px"
-          h="40px"
-          pl={3}
-          pr={1}
-        >
+      <Box mt={3} borderLeft="2px solid #EDF2F7" borderRadius="lg" role="group">
+        <HStack background="gray.100" borderRadius="lg" h="40px" pl={3} pr={1}>
           <Text fontWeight="bold" mr={6}>
             Sondage
           </Text>
@@ -111,7 +100,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
                   onVote={handleVote}
                 />
                 {(ended || !activity.hideUntilEnd) && (
-                  <Link onClick={() => setEditing(false)}>
+                  <Link mt={2} onClick={() => setEditing(false)}>
                     Voir les résultats
                   </Link>
                 )}
@@ -123,7 +112,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
                   answers={answers}
                 />
                 {!ended && (
-                  <Link onClick={() => setEditing(true)}>
+                  <Link mt={2} onClick={() => setEditing(true)}>
                     Modifier mon vote
                   </Link>
                 )}

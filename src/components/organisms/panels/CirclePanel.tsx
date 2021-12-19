@@ -62,6 +62,7 @@ export default function CirclePanel({ id, onClose }: Props) {
           <CircleAndParentsButton
             id={id}
             ml="0.4em"
+            colorScheme="green"
             onEdit={onEditRoleOpen}
             onDelete={onDeleteOpen}
           />

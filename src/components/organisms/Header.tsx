@@ -1,38 +1,18 @@
-import { auth } from '@api/firebase'
-import { ArrowLeftIcon } from '@chakra-ui/icons'
-import {
-  Avatar,
-  Button,
-  Flex,
-  Heading,
-  HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Spacer,
-  StackItem,
-} from '@chakra-ui/react'
+import { Flex, Heading, HStack, Spacer, StackItem } from '@chakra-ui/react'
 import LinkButton from '@components/atoms/LinkButton'
+import OrgMenu from '@components/molecules/OrgMenu'
 import Search from '@components/molecules/search/Search'
+import UserMenu from '@components/molecules/UserMenu'
 import useCurrentOrg from '@hooks/useCurrentOrg'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
-import { FiCircle, FiMessageSquare, FiUser } from 'react-icons/fi'
+import React from 'react'
+import { FiCalendar, FiDisc, FiMessageSquare } from 'react-icons/fi'
 
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)
-  if (!user) return null
-
   const org = useCurrentOrg()
-  const members = useStoreState((state) => state.members.entries)
-  const navigateOrg = useNavigateOrg()
-  const userMember = useMemo(
-    () => members?.find((m) => m.userId === user.id),
-    [user, members]
-  )
 
+  if (!user) return null
   return (
     <Flex
       position="absolute"
@@ -47,9 +27,9 @@ export default function Header() {
       <HStack spacing={2} w="100%">
         {org && (
           <>
-            <LinkButton to="/">
-              <ArrowLeftIcon />
-            </LinkButton>
+            <StackItem pointerEvents="auto">
+              <OrgMenu />
+            </StackItem>
 
             <StackItem>
               <Heading size="md" marginLeft={5} marginRight={5}>
@@ -59,7 +39,8 @@ export default function Header() {
 
             <LinkButton
               to={`/orgs/${org.id}`}
-              leftIcon={<FiCircle />}
+              leftIcon={<FiDisc />}
+              size="sm"
               highlightActive
             >
               Cercles
@@ -68,17 +49,19 @@ export default function Header() {
             <LinkButton
               to={`/orgs/${org.id}/threads`}
               leftIcon={<FiMessageSquare />}
+              size="sm"
               highlightActive
             >
               Discussions
             </LinkButton>
 
             <LinkButton
-              to={`/orgs/${org.id}/members`}
-              leftIcon={<FiUser />}
+              to={`/orgs/${org.id}/meetings`}
+              leftIcon={<FiCalendar />}
+              size="sm"
               highlightActive
             >
-              Membres
+              Réunions
             </LinkButton>
           </>
         )}
@@ -92,25 +75,7 @@ export default function Header() {
         )}
 
         <StackItem pointerEvents="auto">
-          <Menu>
-            <MenuButton as={Button} variant="ghost">
-              <Avatar
-                name={user.name}
-                src={user.picture || undefined}
-                size="sm"
-              />
-            </MenuButton>
-            <MenuList>
-              {userMember && (
-                <MenuItem
-                  onClick={() => navigateOrg(`?memberId=${userMember.id}`)}
-                >
-                  Mes rôles
-                </MenuItem>
-              )}
-              <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
-            </MenuList>
-          </Menu>
+          <UserMenu />
         </StackItem>
       </HStack>
     </Flex>

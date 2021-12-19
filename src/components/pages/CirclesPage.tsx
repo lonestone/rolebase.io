@@ -3,7 +3,6 @@ import BaseRolesPanel from '@components/organisms/panels/BaseRolesPanel'
 import CirclePanel from '@components/organisms/panels/CirclePanel'
 import CirclesDefaultPanel from '@components/organisms/panels/CirclesDefaultPanel'
 import MemberPanel from '@components/organisms/panels/MemberPanel'
-import VacantRolesPanel from '@components/organisms/panels/VacantRolesPanel'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
@@ -23,7 +22,6 @@ enum Panels {
   Circle,
   Member,
   BaseRoles,
-  VacantRoles,
 }
 
 export default function CirclesPage() {
@@ -50,15 +48,11 @@ export default function CirclesPage() {
     if (!ready) return
 
     // Focus circle
-    if (queryParams.circleId) {
-      setCircleId(queryParams.circleId)
-    }
+    setCircleId(queryParams.circleId)
 
     // Open panel
     if (queryParams.baseRoles !== undefined) {
       setPanel(Panels.BaseRoles)
-    } else if (queryParams.vacantRoles !== undefined) {
-      setPanel(Panels.VacantRoles)
     } else if (queryParams.memberId) {
       setMemberId(queryParams.memberId)
       setPanel(Panels.Member)
@@ -96,10 +90,6 @@ export default function CirclesPage() {
 
       {panel === Panels.BaseRoles && (
         <BaseRolesPanel onClose={handleClosePanel} />
-      )}
-
-      {panel === Panels.VacantRoles && (
-        <VacantRolesPanel onClose={handleClosePanel} />
       )}
     </Box>
   )

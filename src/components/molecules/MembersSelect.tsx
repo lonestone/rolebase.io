@@ -1,9 +1,10 @@
-import { AddIcon, CloseIcon } from '@chakra-ui/icons'
+import { CloseIcon } from '@chakra-ui/icons'
 import { ButtonGroup, IconButton, Wrap, WrapItem } from '@chakra-ui/react'
 import MemberButton from '@components/atoms/MemberButton'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
+import { FiPlus } from 'react-icons/fi'
 import SearchButtonCombobox from './search/SearchButtonCombobox'
 import { SearchItem, SearchItemTypes } from './search/searchItems'
 
@@ -64,7 +65,7 @@ export default function MembersSelect({
             members
             excludeIds={membersIds}
             size="sm"
-            leftIcon={<AddIcon />}
+            leftIcon={<FiPlus />}
             onSelect={handleAddMember}
           >
             {max === 1 ? 'Choisir un membre' : 'Ajouter un membre'}

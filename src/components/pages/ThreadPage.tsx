@@ -102,6 +102,7 @@ export default function ThreadPage() {
         <Box
           pb={1}
           pl={1}
+          position="relative"
           zIndex={1}
           boxShadow={
             isScrollable && scrollPosition !== ScrollPosition.Top
@@ -123,12 +124,13 @@ export default function ThreadPage() {
         <Box
           mx={3}
           bg="white"
+          position="relative"
+          zIndex={1}
           boxShadow={
             isScrollable && scrollPosition !== ScrollPosition.Bottom
               ? '0 -6px 11px -10px rgba(0,0,0,0.5)'
               : 'none'
           }
-          zIndex="1"
         >
           <ThreadActivityCreate thread={thread} />
         </Box>

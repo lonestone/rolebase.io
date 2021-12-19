@@ -5,7 +5,7 @@ import {
 } from '@api/entities/activities'
 import { pollAnswersEntities } from '@api/entities/pollAnswers'
 import { Timestamp } from '@api/firebase'
-import { AddIcon, CloseIcon } from '@chakra-ui/icons'
+import { CloseIcon } from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -43,7 +43,7 @@ import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { FiHelpCircle } from 'react-icons/fi'
+import { FiHelpCircle, FiPlus } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 
 interface Props extends UseModalProps {
@@ -271,7 +271,7 @@ export default function ActivityPollModal({
                     </FormControl>
                   ))}
                   <Button
-                    icon={AddIcon}
+                    leftIcon={<FiPlus />}
                     onClick={() => appendChoice({ title: '' })}
                   >
                     Ajouter un choix

@@ -4,7 +4,7 @@ import {
   updateMeeting,
 } from '@api/entities/meetings'
 import { Timestamp } from '@api/firebase'
-import { AddIcon, CloseIcon } from '@chakra-ui/icons'
+import { CloseIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -39,6 +39,7 @@ import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import { FiPlus } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 
 interface Props extends UseModalProps {
@@ -216,7 +217,9 @@ export default function MeetingModal({
                 />
               </FormControl>
 
-              <FormControl isInvalid={participants.length === 0}>
+              <FormControl
+                isInvalid={(circleId && participants.length === 0) || false}
+              >
                 <FormLabel
                   htmlFor="participantsScope"
                   display="flex"
@@ -301,7 +304,7 @@ export default function MeetingModal({
                     </FormControl>
                   ))}
                   <Button
-                    icon={AddIcon}
+                    leftIcon={<FiPlus />}
                     onClick={() => appendStep({ title: '' })}
                   >
                     Ajouter une étape

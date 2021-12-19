@@ -1,4 +1,3 @@
-import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   Container,
@@ -18,7 +17,7 @@ import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
-import { FiEdit3 } from 'react-icons/fi'
+import { FiEdit3, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 export default function OrgsPage() {
@@ -53,7 +52,7 @@ export default function OrgsPage() {
           Organisations
         </Heading>
         <Spacer />
-        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
+        <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
           Créer
         </Button>
       </HStack>

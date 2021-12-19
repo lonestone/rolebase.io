@@ -1,4 +1,3 @@
-import { AddIcon, EmailIcon } from '@chakra-ui/icons'
 import {
   Button,
   CloseButton,
@@ -19,6 +18,7 @@ import MemberEditModal from '@components/organisms/modals/MemberEditModal'
 import MembersInviteModal from '@components/organisms/modals/MembersInviteModal'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
+import { FiMail, FiPlus } from 'react-icons/fi'
 
 export default function MembersPage() {
   const members = useStoreState((state) => state.members.entries)
@@ -88,10 +88,10 @@ export default function MembersPage() {
           />
         </InputGroup>
         <Spacer />
-        <Button leftIcon={<EmailIcon />} onClick={onInviteOpen}>
+        <Button leftIcon={<FiMail />} onClick={onInviteOpen}>
           Inviter
         </Button>
-        <Button leftIcon={<AddIcon />} onClick={onCreateOpen}>
+        <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
           Créer
         </Button>
       </HStack>

@@ -148,7 +148,9 @@ export default function ThreadModal({
                 />
               </FormControl>
 
-              <FormControl isInvalid={participants.length === 0}>
+              <FormControl
+                isInvalid={(circleId && participants.length === 0) || false}
+              >
                 <FormLabel
                   htmlFor="participantsScope"
                   display="flex"

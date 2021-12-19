@@ -60,9 +60,9 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
                 flex="1"
                 justifyContent="space-between"
                 px={4}
-                py={2}
+                py={1}
                 border="1px solid #3182ce"
-                borderRadius="0.375rem"
+                borderRadius="md"
                 minW="200px"
                 bg={`linear-gradient(to right, #a6d1fa, #a6d1fa ${widthRatio}%, transparent ${widthRatio}%, transparent 75%);`}
               >

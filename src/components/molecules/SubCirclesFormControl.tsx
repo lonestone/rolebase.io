@@ -1,4 +1,3 @@
-import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   FormControl,
@@ -12,6 +11,7 @@ import CircleCreateModal from '@components/organisms/modals/CircleCreateModal'
 import getCircleChildrenAndRoles from '@shared/getCircleChildren'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
+import { FiPlus } from 'react-icons/fi'
 
 interface Props {
   circleId: string
@@ -58,7 +58,7 @@ export default function SubCirclesFormControl({ circleId }: Props) {
             <Button
               size="sm"
               borderRadius="full"
-              leftIcon={<AddIcon />}
+              leftIcon={<FiPlus />}
               onClick={onCreateCircleSingleMemberOpen}
             >
               Ajouter un rôle
@@ -81,7 +81,7 @@ export default function SubCirclesFormControl({ circleId }: Props) {
             <Button
               size="sm"
               borderRadius="full"
-              leftIcon={<AddIcon />}
+              leftIcon={<FiPlus />}
               onClick={onCreateCircleOpen}
             >
               Ajouter un cercle

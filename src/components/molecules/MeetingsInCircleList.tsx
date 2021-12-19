@@ -1,4 +1,3 @@
-import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
   LinkBox,
@@ -11,6 +10,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
+import { FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 import useMeetingsList, { MeetingsFilter } from '../../hooks/useMeetingsList'
 
@@ -37,6 +37,10 @@ export default function MeetingsInCircleList({ circleId }: Props) {
 
   return (
     <>
+      <Button size="sm" mb={2} leftIcon={<FiPlus />} onClick={onMeetingOpen}>
+        Créer une réunion
+      </Button>
+
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
@@ -62,10 +66,6 @@ export default function MeetingsInCircleList({ circleId }: Props) {
           ))}
         </VStack>
       )}
-
-      <Button size="sm" mt={2} leftIcon={<AddIcon />} onClick={onMeetingOpen}>
-        Ajouter une réunion
-      </Button>
 
       {isMeetingOpen && (
         <MeetingModal

@@ -47,7 +47,7 @@ export default function BaseRoleCreateModal(props: Props) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Ajouter un rôle</ModalHeader>
+          <ModalHeader>Créer un rôle de base</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>

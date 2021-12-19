@@ -19,7 +19,6 @@ import {
   RadioGroup,
   Stack,
   StackItem,
-  useDisclosure,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
@@ -30,7 +29,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useRole from '@hooks/useRole'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import RoleDeleteModal from './RoleDeleteModal'
 
 interface Props extends UseModalProps {
   id: string
@@ -56,12 +54,6 @@ const tmpCircleId = 'tmpCircleId'
 
 export default function RoleEditModal({ id, ...props }: Props) {
   const role = useRole(id)
-
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
 
   const {
     handleSubmit,
@@ -115,6 +107,14 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
             <ModalBody>
               <VStack spacing={6}>
+                {role.base ? (
+                  <Alert status="warning">
+                    <AlertIcon />
+                    Ce rôle est un rôle de base potentiellement utilisé à
+                    plusieurs endroits.
+                  </Alert>
+                ) : null}
+
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom du rôle</FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
@@ -221,21 +221,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     Temps alloué par défaut à chaque membre ayant ce rôle.
                   </FormHelperText>
                 </FormControl>
-
-                {role.base ? (
-                  <Alert status="warning">
-                    <AlertIcon />
-                    Ce rôle est un rôle de base potentiellement utilisé à
-                    plusieurs endroits.
-                  </Alert>
-                ) : null}
               </VStack>
             </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
-                Supprimer
-              </Button>
+            <ModalFooter align="end">
               <Button colorScheme="blue" type="submit">
                 Enregistrer
               </Button>
@@ -243,15 +232,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
           </form>
         </ModalContent>
       </Modal>
-
-      {isDeleteOpen && (
-        <RoleDeleteModal
-          id={id}
-          onDelete={props.onClose}
-          isOpen
-          onClose={onDeleteClose}
-        />
-      )}
     </>
   )
 }

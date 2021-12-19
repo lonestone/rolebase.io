@@ -30,19 +30,8 @@ export default function ThreadActivityDecision({ activity }: Props) {
       activity={activity}
       onEdit={isUserOwner ? onEditOpen : undefined}
     >
-      <Box
-        mt={3}
-        borderLeft="2px solid #EDF2F7"
-        borderRadius="10px"
-        role="group"
-      >
-        <HStack
-          background="gray.100"
-          borderRadius="10px"
-          h="40px"
-          pl={3}
-          pr={1}
-        >
+      <Box mt={3} borderLeft="2px solid #EDF2F7" borderRadius="lg" role="group">
+        <HStack background="gray.100" borderRadius="lg" h="40px" pl={3} pr={1}>
           <Text fontWeight="bold" mr={6}>
             Décision
           </Text>

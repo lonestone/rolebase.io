@@ -1,5 +1,4 @@
 import { inviteMember } from '@api/entities/members'
-import { EmailIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -23,6 +22,7 @@ import {
 import MemberButton from '@components/atoms/MemberButton'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useReducer, useState } from 'react'
+import { FiMail } from 'react-icons/fi'
 import {
   getEmailFromName,
   guessEmailPattern,
@@ -213,7 +213,7 @@ export default function MembersInviteModal(props: UseModalProps) {
                   colorScheme="blue"
                   isLoading={isInviting}
                   isDisabled={nbSelectedMembers === 0}
-                  leftIcon={<EmailIcon />}
+                  leftIcon={<FiMail />}
                   onClick={handleInvite}
                 >
                   Inviter ({nbSelectedMembers})
