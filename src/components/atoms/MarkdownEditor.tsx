@@ -1,4 +1,8 @@
-import { IconButton } from '@chakra-ui/react'
+import {
+  FormControlOptions,
+  IconButton,
+  useFormControl,
+} from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import { Editor } from 'codemirror'
 import { Options } from 'easymde'
@@ -7,7 +11,7 @@ import { FaFont } from 'react-icons/fa'
 import SimpleMDE from 'react-simplemde-editor'
 import BasicStyle from './BasicStyle'
 
-interface Props {
+interface Props extends FormControlOptions {
   placeholder?: string
   value: string
   autoFocus?: boolean
@@ -29,6 +33,12 @@ const StyledEditor = styled.div`
       box-shadow: 0 0 0 1px #3182ce;
     }
   }
+  &[aria-invalid='true'] {
+    .CodeMirror {
+      border-color: #e53e3e;
+      box-shadow: 0 0 0 1px #e53e3e;
+    }
+  }
   .editor-toolbar {
     border: none;
   }
@@ -41,6 +51,8 @@ export default function MarkdownEditor({
   onChange,
   onSubmit,
 }: Props) {
+  const formControlProps = useFormControl<HTMLInputElement>({})
+
   // Show toolbar button when input is focused
   const [showToolbarButton, setShowToolbarButton] = useState(false)
   // Toggle toolbar with button
@@ -128,7 +140,7 @@ export default function MarkdownEditor({
           onMouseDown={handleToggleToolbar}
         />
       )}
-      <StyledEditor>
+      <StyledEditor {...formControlProps}>
         <SimpleMDE
           value={value}
           onChange={onChange}

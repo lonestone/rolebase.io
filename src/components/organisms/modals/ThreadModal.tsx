@@ -4,7 +4,6 @@ import {
   Button,
   Checkbox,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -132,7 +131,6 @@ export default function ThreadModal({
                   placeholder="Titre..."
                   autoFocus
                 />
-                <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
@@ -148,7 +146,6 @@ export default function ThreadModal({
                     />
                   )}
                 />
-                <FormErrorMessage>{errors.circleId?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={participants.length === 0}>

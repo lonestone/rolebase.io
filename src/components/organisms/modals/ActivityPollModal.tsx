@@ -19,7 +19,6 @@ import {
   Checkbox,
   Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   IconButton,
   Input,
@@ -245,7 +244,6 @@ export default function ActivityPollModal({
                   autoFocus
                   control={control}
                 />
-                <FormErrorMessage>{errors.question?.message}</FormErrorMessage>
               </FormControl>
 
               <Box>

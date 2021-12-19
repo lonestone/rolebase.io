@@ -2,7 +2,6 @@ import { emailSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Spinner,
@@ -51,7 +50,6 @@ export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
             placeholder="Votre adresse email..."
             autoFocus
           />
-          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors.password}>
@@ -62,7 +60,6 @@ export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
             required
             placeholder="Votre mot de passe..."
           />
-          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
 
         <Button colorScheme="blue" type="submit">

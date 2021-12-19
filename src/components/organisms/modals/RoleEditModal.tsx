@@ -5,7 +5,6 @@ import {
   Button,
   Checkbox,
   FormControl,
-  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
@@ -119,7 +118,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom du rôle</FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
-                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.purpose}>
@@ -129,7 +127,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     placeholder="But qu'il poursuit..."
                     control={control}
                   />
-                  <FormErrorMessage>{errors.purpose?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.domain}>
@@ -139,7 +136,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     placeholder="Ce qu'il est seul à pouvoir faire..."
                     control={control}
                   />
-                  <FormErrorMessage>{errors.domain?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.accountabilities}>
@@ -151,9 +147,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     placeholder="Ce qu'il doit faire..."
                     control={control}
                   />
-                  <FormErrorMessage>
-                    {errors.accountabilities?.message}
-                  </FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.notes}>
@@ -163,7 +156,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                     placeholder="Notes, liens..."
                     control={control}
                   />
-                  <FormErrorMessage>{errors.notes?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl>
@@ -228,10 +220,6 @@ export default function RoleEditModal({ id, ...props }: Props) {
                   <FormHelperText>
                     Temps alloué par défaut à chaque membre ayant ce rôle.
                   </FormHelperText>
-                  <FormErrorMessage>
-                    {errors.defaultMinPerWeek &&
-                      errors.defaultMinPerWeek.message}
-                  </FormErrorMessage>
                 </FormControl>
 
                 {role.base ? (

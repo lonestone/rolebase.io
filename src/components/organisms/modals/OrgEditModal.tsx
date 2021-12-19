@@ -2,7 +2,6 @@ import { orgUpdateSchema, updateOrg } from '@api/entities/orgs'
 import {
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -81,7 +80,6 @@ export default function OrgEditModal({ id, ...props }: Props) {
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom</FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
-                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>
@@ -98,10 +96,6 @@ export default function OrgEditModal({ id, ...props }: Props) {
                       />
                     )}
                   />
-                  <FormErrorMessage>
-                    {errors.defaultWorkedMinPerWeek &&
-                      errors.defaultWorkedMinPerWeek.message}
-                  </FormErrorMessage>
                 </FormControl>
               </VStack>
             </ModalBody>

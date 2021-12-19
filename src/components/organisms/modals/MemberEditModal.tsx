@@ -11,7 +11,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   HStack,
   Input,
@@ -129,7 +128,6 @@ export default function MemberEditModal({ id, ...props }: Props) {
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel htmlFor="name">Nom</FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
-                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!pictureError}>
@@ -144,7 +142,6 @@ export default function MemberEditModal({ id, ...props }: Props) {
                       ref={pictureInputRef}
                     />
                   </HStack>
-                  <FormErrorMessage>{pictureError?.message}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.workedMinPerWeek}>
@@ -162,9 +159,6 @@ export default function MemberEditModal({ id, ...props }: Props) {
                       />
                     )}
                   />
-                  <FormErrorMessage>
-                    {errors.workedMinPerWeek?.message}
-                  </FormErrorMessage>
                 </FormControl>
 
                 {member.userId && (

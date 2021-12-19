@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Modal,
   ModalBody,
@@ -112,7 +111,6 @@ export default function ActivityDecisionModal({
                   autoFocus
                   control={control}
                 />
-                <FormErrorMessage>{errors.decision?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.explanation}>
@@ -122,9 +120,6 @@ export default function ActivityDecisionModal({
                   placeholder="Pourquoi avez-vous pris cette décision ?"
                   control={control}
                 />
-                <FormErrorMessage>
-                  {errors.explanation?.message}
-                </FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
@@ -140,7 +135,6 @@ export default function ActivityDecisionModal({
                     />
                   )}
                 />
-                <FormErrorMessage>{errors.circleId?.message}</FormErrorMessage>
               </FormControl>
 
               <Box textAlign="right">

@@ -11,7 +11,6 @@ import {
   Checkbox,
   Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   IconButton,
   Input,
@@ -187,23 +186,18 @@ export default function MeetingModal({
                   placeholder="Titre..."
                   autoFocus
                 />
-                <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
               </FormControl>
 
               <Flex>
                 <FormControl isInvalid={!!errors.startDate} flex="1">
                   <FormLabel htmlFor="startDate">Début</FormLabel>
                   <Input {...register('startDate')} type="datetime-local" />
-                  <FormErrorMessage>
-                    {errors.startDate?.message}
-                  </FormErrorMessage>
                 </FormControl>
                 <Spacer />
 
                 <FormControl isInvalid={!!errors.endDate} flex="1">
                   <FormLabel htmlFor="endDate">Fin</FormLabel>
                   <Input {...register('endDate')} type="datetime-local" />
-                  <FormErrorMessage>{errors.endDate?.message}</FormErrorMessage>
                 </FormControl>
               </Flex>
 
@@ -220,7 +214,6 @@ export default function MeetingModal({
                     />
                   )}
                 />
-                <FormErrorMessage>{errors.circleId?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={participants.length === 0}>
@@ -273,9 +266,6 @@ export default function MeetingModal({
                       />
                     )}
                   />
-                  <FormErrorMessage>
-                    {errors.facilitatorMemberId?.message}
-                  </FormErrorMessage>
                 </FormControl>
               )}
 

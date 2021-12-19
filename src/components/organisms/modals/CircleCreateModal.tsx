@@ -3,7 +3,6 @@ import { createRole, roleCreateSchema } from '@api/entities/roles'
 import {
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   HStack,
   Input,
@@ -107,7 +106,6 @@ export default function CircleCreateModal({
                   Créer
                 </Button>
               </HStack>
-              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
           </form>
 

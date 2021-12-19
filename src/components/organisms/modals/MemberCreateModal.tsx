@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -69,7 +68,6 @@ export default function MemberCreateModal(props: Props) {
             <FormControl isInvalid={!!errors.name}>
               <FormLabel htmlFor="name">Nom</FormLabel>
               <Input {...register('name')} placeholder="Nom..." autoFocus />
-              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
 
             <Box textAlign="right" mt={2}>
