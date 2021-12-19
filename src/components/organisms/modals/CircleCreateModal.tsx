@@ -93,13 +93,15 @@ export default function CircleCreateModal({
     <Modal {...props}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Ajouter un cercle</ModalHeader>
+        <ModalHeader>
+          {singleMember ? 'Ajouter un Rôle' : 'Ajouter un Cercle'}
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
           <form onSubmit={onSubmit}>
             <FormControl isInvalid={!!errors.name} mb={10}>
-              <FormLabel htmlFor="name">Avec un nouveau rôle :</FormLabel>
+              <FormLabel htmlFor="name">Nom :</FormLabel>
               <HStack>
                 <Input {...register('name')} placeholder="Nom..." autoFocus />
                 <Button colorScheme="blue" type="submit">
@@ -111,7 +113,7 @@ export default function CircleCreateModal({
 
           {baseRoles && baseRoles.length > 0 && (
             <FormControl mb={5}>
-              <FormLabel>Ou en utilisant un rôle de base :</FormLabel>
+              <FormLabel>Ou utiliser un rôle de base :</FormLabel>
               <VStack>
                 {baseRoles &&
                   baseRoles?.map((role) => (

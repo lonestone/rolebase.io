@@ -1,5 +1,6 @@
 import { CircleEntry } from '@shared/circle'
-import { getCircleRoles } from '@shared/getCircleRoles'
+import { enrichCirclesWithRoles } from '@shared/enrichCirclesWithRoles'
+import { getCircleAndParents } from '@shared/getCircleAndParents'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
@@ -36,7 +37,10 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
         ? (circles
             .map((circle) => {
               if (options.excludeIds?.includes(circle.id)) return
-              const circleRoles = getCircleRoles(circles, roles, circle.id)
+              const circleRoles = enrichCirclesWithRoles(
+                getCircleAndParents(circles, circle.id),
+                roles
+              )
               return {
                 text: circleRoles
                   .map((cr) => cr.role?.name || '?')
@@ -75,7 +79,10 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
     () =>
       members && circles && roles && options.circleMembers
         ? circles.flatMap((circle) => {
-            const circleRoles = getCircleRoles(circles, roles, circle.id)
+            const circleRoles = enrichCirclesWithRoles(
+              getCircleAndParents(circles, circle.id),
+              roles
+            )
             const circleRolesText =
               circleRoles
                 .map((cr) => cr.role?.name || '?')

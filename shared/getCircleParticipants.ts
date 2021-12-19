@@ -2,7 +2,7 @@ import { CircleEntry } from './circle'
 import { Participant } from './member'
 import { RoleEntry } from './role'
 
-export default function getCircleParticipants(
+export function getCircleParticipants(
   circleId: string,
   circles: CircleEntry[],
   roles: RoleEntry[]

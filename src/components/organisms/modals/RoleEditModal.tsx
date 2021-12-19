@@ -1,6 +1,7 @@
 import { roleUpdateSchema, updateRole } from '@api/entities/roles'
 import {
   Alert,
+  AlertDescription,
   AlertIcon,
   Button,
   Checkbox,
@@ -110,8 +111,10 @@ export default function RoleEditModal({ id, ...props }: Props) {
                 {role.base ? (
                   <Alert status="warning">
                     <AlertIcon />
-                    Ce rôle est un rôle de base potentiellement utilisé à
-                    plusieurs endroits.
+                    <AlertDescription>
+                      Ce rôle est un <strong>rôle de base</strong>{' '}
+                      potentiellement utilisé dans plusieurs cercles.
+                    </AlertDescription>
                   </Alert>
                 ) : null}
 

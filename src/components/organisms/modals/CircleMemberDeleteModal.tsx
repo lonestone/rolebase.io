@@ -11,6 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useCircle from '@hooks/useCircle'
+import useMember from '@hooks/useMember'
 import React from 'react'
 
 interface Props
@@ -27,14 +28,13 @@ export default function CircleMemberDeleteModal({
   ...props
 }: Props) {
   const circle = useCircle(circleId)
+  const member = useMember(memberId)
 
   const handleDelete = () => {
     removeCircleMember(memberId, circleId)
     onDelete?.()
     props.onClose()
   }
-
-  if (!circle) return null
 
   return (
     <AlertDialog {...props} leastDestructiveRef={undefined}>
@@ -45,7 +45,11 @@ export default function CircleMemberDeleteModal({
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>Êtes-vous sûr de vouloir retirer ce rôle à ce membre ?</Text>
+            <Text>
+              Êtes-vous sûr de vouloir retirer le rôle{' '}
+              <strong>{circle?.role.name}</strong> au membre{' '}
+              <strong>{member?.name}</strong> ?
+            </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>

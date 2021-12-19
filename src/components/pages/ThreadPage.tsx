@@ -103,7 +103,7 @@ export default function ThreadPage() {
           pb={1}
           pl={1}
           position="relative"
-          zIndex={1}
+          zIndex={0}
           boxShadow={
             isScrollable && scrollPosition !== ScrollPosition.Top
               ? '0 6px 11px -10px rgba(0,0,0,0.5)'
@@ -125,7 +125,7 @@ export default function ThreadPage() {
           mx={3}
           bg="white"
           position="relative"
-          zIndex={1}
+          zIndex={0}
           boxShadow={
             isScrollable && scrollPosition !== ScrollPosition.Bottom
               ? '0 -6px 11px -10px rgba(0,0,0,0.5)'

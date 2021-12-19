@@ -36,7 +36,12 @@ export default function BaseRoleCreateModal(props: Props) {
 
   const onSubmit = handleSubmit(async ({ name }) => {
     if (orgId) {
-      const role = await createRole({ orgId, base: true, name })
+      const role = await createRole({
+        orgId,
+        base: true,
+        name,
+        singleMember: true,
+      })
       props.onCreate?.(role.id)
     }
     props.onClose()

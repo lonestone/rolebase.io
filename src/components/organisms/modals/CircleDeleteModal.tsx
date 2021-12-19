@@ -45,7 +45,10 @@ export default function CircleDeleteModal({ id, onDelete, ...props }: Props) {
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>Êtes-vous sûr de vouloir supprimer ce cercle ?</Text>
+            <Text>
+              Êtes-vous sûr de vouloir supprimer le cercle{' '}
+              <strong>{circle.role.name}</strong> ?
+            </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>

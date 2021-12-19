@@ -14,13 +14,14 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
+import CircleButton from '@components/atoms/CircleButton'
 import Markdown from '@components/atoms/Markdown'
 import Panel from '@components/atoms/Panel'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
 import MeetingsInCircleList from '@components/molecules/MeetingsInCircleList'
 import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
 import ThreadsInCircleList from '@components/molecules/ThreadsInCircleList'
-import useCircleAndParents from '@hooks/useCircleAndParents'
+import useCircle from '@hooks/useCircle'
 import React from 'react'
 import CircleDeleteModal from '../modals/CircleDeleteModal'
 import RoleEditModal from '../modals/RoleEditModal'
@@ -31,13 +32,14 @@ interface Props {
 }
 
 export default function CirclePanel({ id, onClose }: Props) {
-  const circleAndParents = useCircleAndParents(id)
-  const circle = circleAndParents?.[circleAndParents.length - 1]
+  const circle = useCircle(id)
   const role = circle?.role
 
-  // Parent circles
-  const parentCircle = circleAndParents?.[circleAndParents.length - 2]
-  const parentParentCircle = circleAndParents?.[circleAndParents.length - 3]
+  // Parent circles and linked circle
+  const parentCircle = useCircle(circle?.parentId || undefined)
+  const linkedCircle = useCircle(
+    (role?.link === true ? parentCircle?.parentId : role?.link) || undefined
+  )
 
   // Role edit modal
   const {
@@ -80,7 +82,7 @@ export default function CirclePanel({ id, onClose }: Props) {
 
         <TabPanels mt={5}>
           <TabPanel p={0}>
-            <VStack spacing={5}>
+            <VStack spacing={5} align="stretch">
               {role?.purpose && (
                 <FormControl>
                   <FormLabel>Raison d'être :</FormLabel>
@@ -115,7 +117,13 @@ export default function CirclePanel({ id, onClose }: Props) {
 
               <CircleMemberFormControl circleId={id} />
 
-              {role?.link && <Text>Représente le Cercle {}</Text>}
+              {parentCircle && linkedCircle && (
+                <Text>
+                  Représente le Cercle <CircleButton circle={parentCircle} />
+                  <br />
+                  dans le Cercle <CircleButton circle={linkedCircle} />
+                </Text>
+              )}
             </VStack>
           </TabPanel>
 

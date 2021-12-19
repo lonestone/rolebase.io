@@ -1,5 +1,6 @@
 import { Accordion, ExpandedIndex } from '@chakra-ui/react'
-import { getCircleRoles } from '@shared/getCircleRoles'
+import { enrichCirclesWithRoles } from '@shared/enrichCirclesWithRoles'
+import { getCircleAndParents } from '@shared/getCircleAndParents'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import MemberRoleItem from './MemberRoleItem'
@@ -24,7 +25,9 @@ export default function MemberRoles({
     return (
       circles
         .filter((c) => c.members.some((m) => m.memberId === memberId))
-        .map((circle) => getCircleRoles(circles, roles, circle.id))
+        .map((circle) =>
+          enrichCirclesWithRoles(getCircleAndParents(circles, circle.id), roles)
+        )
         // Sort by circle ids path
         .sort((a, b) =>
           a.reduce((str, c) => str + c.id, '') <

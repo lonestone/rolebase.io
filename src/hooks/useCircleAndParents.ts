@@ -1,5 +1,6 @@
 import { CircleWithRoleEntry } from '@shared/circle'
-import { getCircleRoles } from '@shared/getCircleRoles'
+import { enrichCirclesWithRoles } from '@shared/enrichCirclesWithRoles'
+import { getCircleAndParents } from '@shared/getCircleAndParents'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 
@@ -11,6 +12,6 @@ export default function useCircleAndParents(
 
   return useMemo(() => {
     if (!circles || !roles) return undefined
-    return getCircleRoles(circles, roles, id)
+    return enrichCirclesWithRoles(getCircleAndParents(circles, id), roles)
   }, [circles, roles, id])
 }
