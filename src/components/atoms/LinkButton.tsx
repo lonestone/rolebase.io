@@ -10,14 +10,14 @@ interface Props extends ButtonProps {
 
 const NavLinkStyled = styled(NavLink)`
   &.active button {
-    background-color: #053d00;
+    border-bottom: 1px solid black;
   }
 `
 
 const LinkButton: React.FC<Props> = ({ to, highlightActive, ...props }) =>
   highlightActive ? (
     <NavLinkStyled to={to} exact activeClassName="active">
-      <Button {...props} colorScheme="green" pointerEvents="auto" />
+      <Button {...props} colorScheme="gray" pointerEvents="auto" />
     </NavLinkStyled>
   ) : (
     <Link to={to}>

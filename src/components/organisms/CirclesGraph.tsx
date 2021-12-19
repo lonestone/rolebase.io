@@ -23,11 +23,11 @@ const StyledSVG = styled.svg`
   fill: #1a202c;
 
   [data-hover] circle {
-    stroke: hsl(170deg 50% calc(88% - (var(--depth) - 1) * 7%));
+    stroke: hsl(192deg 75% calc(88% - (var(--depth) - 1) * 7%));
     stroke-width: 2px;
   }
   [data-selected] circle {
-    stroke: hsl(170deg 50% calc(75% - (var(--depth) - 1) * 7%));
+    stroke: hsl(192deg 75% calc(75% - (var(--depth) - 1) * 7%));
     stroke-width: 2px;
   }
   [data-dragging] circle {
@@ -35,7 +35,7 @@ const StyledSVG = styled.svg`
     fill-opacity: 0.5;
   }
   [data-drag-target] circle {
-    stroke: hsl(170deg 50% 20%);
+    stroke: hsl(192deg 75% 20%);
     stroke-width: 3px;
   }
 `
