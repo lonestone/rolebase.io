@@ -79,7 +79,7 @@ export default function useThreadsList(
           if (a.status && b.status) {
             if (a.lastActivityDate && b.lastActivityDate) {
               return (
-                b.lastActivityDate.nanoseconds - a.lastActivityDate.nanoseconds
+                a.lastActivityDate.nanoseconds - b.lastActivityDate.nanoseconds
               )
             }
             if (a.lastActivityDate) return 1

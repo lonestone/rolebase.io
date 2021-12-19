@@ -1,9 +1,9 @@
-import { Input, InputGroup, ListItem } from '@chakra-ui/react'
+import { Box, Input, InputGroup, ListItem } from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import ComboboxItem from '../../atoms/ComboboxItem'
-import { getSearchItemId, itemToString, SearchItem } from './searchItems'
+import { getSearchItemId, SearchItem } from './searchItems'
 import { useSearch } from './useSearch'
 import { SearchOptions, useSearchItems } from './useSearchItems'
 
@@ -11,30 +11,18 @@ const maxDisplayedItems = 25
 
 interface Props extends SearchOptions {
   value?: string // Circle / Member / CircleMember id
+  size?: 'sm' | 'md' | 'lg'
   onChange(value: string): void
 }
 
 export default function EntityButtonCombobox({
   value,
+  size,
   onChange,
   ...options
 }: Props) {
   const items = useSearchItems(options)
-  const { inputItems, searchItems, onInputValueChange } = useSearch(
-    items,
-    false
-  )
-
-  // Set default items on mount
-  useEffect(
-    () =>
-      searchItems(
-        value
-          ? itemToString(items.find((item) => getSearchItemId(item) === value))
-          : ''
-      ),
-    []
-  )
+  const { filteredItems, onInputValueChange } = useSearch(items, false)
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
@@ -42,6 +30,7 @@ export default function EntityButtonCombobox({
       if (!item) return
       closeMenu()
       onChange(getSearchItemId(item))
+      selectItem(undefined as any)
       buttonRef.current?.focus()
     },
     []
@@ -51,18 +40,19 @@ export default function EntityButtonCombobox({
     isOpen,
     openMenu,
     closeMenu,
+    highlightedIndex,
+    selectItem,
     getMenuProps,
     getInputProps,
     getComboboxProps,
-    highlightedIndex,
-    setHighlightedIndex,
     getItemProps,
   } = useCombobox({
-    items: inputItems,
+    items: filteredItems,
     defaultSelectedItem: value
       ? items.find((item) => getSearchItemId(item) === value)
       : undefined,
-    itemToString,
+    defaultHighlightedIndex: 0,
+    itemToString: () => '',
     onInputValueChange,
     onSelectedItemChange,
   })
@@ -77,11 +67,9 @@ export default function EntityButtonCombobox({
     onFocus: openMenu,
   })
 
-  // When items list changes, highlight first item
-  useEffect(() => setHighlightedIndex(0), [inputItems])
-
   const valueItem = useMemo(
-    () => value && items.find((item) => getSearchItemId(item) === value),
+    () =>
+      value ? items.find((item) => getSearchItemId(item) === value) : undefined,
     [value, items]
   )
 
@@ -91,11 +79,11 @@ export default function EntityButtonCombobox({
     // Wait for the input to appears, then focus it
     setTimeout(() => {
       inputRef.current?.focus()
-    }, 0)
+    }, 100)
   }
 
   return (
-    <div style={{ position: 'relative' }} {...getComboboxProps()}>
+    <Box position="relative" {...getComboboxProps()}>
       <InputGroup>
         {valueItem && !isOpen && (
           <ComboboxItem
@@ -109,6 +97,7 @@ export default function EntityButtonCombobox({
         <Input
           type="text"
           placeholder="Rechercher..."
+          onFocus={openMenu}
           style={{ display: isOpen || !valueItem ? 'block' : 'none' }}
           {...inputProps}
         />
@@ -119,19 +108,20 @@ export default function EntityButtonCombobox({
         {...getMenuProps()}
         position="absolute"
         zIndex="1"
-        left="0"
+        pointerEvents="none"
       >
-        {inputItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ListItem mb={1} key={index}>
+        {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
+          <ListItem key={index} mb={1}>
             <ComboboxItem
               item={item}
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
+              size={size}
               shadow="md"
             />
           </ListItem>
         ))}
       </ComboboxList>
-    </div>
+    </Box>
   )
 }

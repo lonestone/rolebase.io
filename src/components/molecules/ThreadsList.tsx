@@ -34,6 +34,7 @@ export default function ThreadsList({ filter, archives }: Props) {
           {threads.map((thread) => (
             <LinkBox
               key={thread.id}
+              px={2}
               py={1}
               borderBottomWidth="1px"
               _hover={{ background: '#fafafa' }}

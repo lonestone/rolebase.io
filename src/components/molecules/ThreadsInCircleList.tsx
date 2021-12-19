@@ -1,8 +1,6 @@
 import { AddIcon } from '@chakra-ui/icons'
 import {
   Button,
-  FormControl,
-  FormLabel,
   LinkBox,
   LinkOverlay,
   useDisclosure,
@@ -18,13 +16,9 @@ import useThreadsList, { ThreadsFilter } from '../../hooks/useThreadsList'
 
 interface Props {
   circleId: string
-  showOnlyIfThreadsExist?: boolean
 }
 
-export default function ThreadsFormControl({
-  circleId,
-  showOnlyIfThreadsExist,
-}: Props) {
+export default function ThreadsInCircleList({ circleId }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   // Subscribe to threads
@@ -41,14 +35,8 @@ export default function ThreadsFormControl({
     onClose: onThreadClose,
   } = useDisclosure()
 
-  // Don't show if there are no threads
-  if (showOnlyIfThreadsExist && (!threads || threads.length === 0)) {
-    return null
-  }
-
   return (
-    <FormControl>
-      <FormLabel>Discussions :</FormLabel>
+    <>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
@@ -59,6 +47,7 @@ export default function ThreadsFormControl({
           {threads.map((thread) => (
             <LinkBox
               key={thread.id}
+              px={2}
               py={1}
               borderBottomWidth="1px"
               _hover={{ background: '#fafafa' }}
@@ -86,6 +75,6 @@ export default function ThreadsFormControl({
           onClose={onThreadClose}
         />
       )}
-    </FormControl>
+    </>
   )
 }

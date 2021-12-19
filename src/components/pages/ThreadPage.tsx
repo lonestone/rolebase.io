@@ -14,6 +14,7 @@ import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
 import useOverflowHidden from '@hooks/useOverflowHidden'
+import useParticipants from '@hooks/useParticipants'
 import useScrollable from '@hooks/useScrollable'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
@@ -43,6 +44,13 @@ export default function ThreadPage() {
     error,
     loading,
   } = useSubscription(threadId ? subscribeThread(threadId) : undefined)
+
+  // Participants
+  const participants = useParticipants(
+    thread?.circleId,
+    thread?.participantsScope,
+    thread?.participantsMembersIds
+  )
 
   // Scrollable content
   const {
@@ -88,13 +96,7 @@ export default function ThreadPage() {
             ) : null}
           </Heading>
           <Spacer />
-          {thread && (
-            <ParticipantsNumber
-              circleId={thread.circleId}
-              participantsScope={thread.participantsScope}
-              participantsMembersIds={thread.participantsMembersIds}
-            />
-          )}
+          <ParticipantsNumber participants={participants} />
         </Flex>
 
         <Box

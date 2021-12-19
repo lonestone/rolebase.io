@@ -17,6 +17,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -30,6 +31,7 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  Tooltip,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
@@ -42,6 +44,7 @@ import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { FiHelpCircle } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 
 interface Props extends UseModalProps {
@@ -193,7 +196,23 @@ export default function ActivityPollModal({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {activity ? 'Modifier un sondage' : 'Ajouter un sondage'}
+          <Flex alignItems="center">
+            {activity ? 'Modifier un sondage' : 'Ajouter un sondage'}
+
+            {!activity && (
+              <Tooltip
+                hasArrow
+                p={3}
+                label={
+                  'Utilisez un sondage pour obtenir des avis subjectifs. Pour prendre une décision objective, utilisez plutôt une "Décision" ou une "Élection".'
+                }
+              >
+                <Box ml={3}>
+                  <FiHelpCircle />
+                </Box>
+              </Tooltip>
+            )}
+          </Flex>
         </ModalHeader>
         <ModalCloseButton />
 

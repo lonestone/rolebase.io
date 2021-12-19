@@ -4,20 +4,12 @@ import {
   InputGroup,
   InputLeftElement,
   ListItem,
-  Portal,
 } from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { ReactNode, useCallback, useRef } from 'react'
 import ComboboxItem from '../../atoms/ComboboxItem'
-import { itemToString, SearchItem } from './searchItems'
+import { SearchItem } from './searchItems'
 import { useSearch } from './useSearch'
 import { SearchOptions, useSearchItems } from './useSearchItems'
 
@@ -30,11 +22,6 @@ interface Props extends SearchOptions {
   onSelect(item: SearchItem): void
 }
 
-interface Position {
-  top: number
-  left: number
-}
-
 export default function SearchButtonCombobox({
   children,
   size,
@@ -43,10 +30,7 @@ export default function SearchButtonCombobox({
   ...options
 }: Props) {
   const items = useSearchItems(options)
-  const { inputItems, searchItems, onInputValueChange } = useSearch(
-    items,
-    false
-  )
+  const { filteredItems, onInputValueChange } = useSearch(items, false)
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
@@ -54,6 +38,7 @@ export default function SearchButtonCombobox({
       if (!item) return
       closeMenu()
       onSelect(item)
+      selectItem(undefined as any)
       setInputValue('')
       buttonRef.current?.focus()
     },
@@ -64,17 +49,17 @@ export default function SearchButtonCombobox({
     isOpen,
     openMenu,
     closeMenu,
-    inputValue,
+    highlightedIndex,
     setInputValue,
+    selectItem,
     getMenuProps,
     getInputProps,
     getComboboxProps,
-    highlightedIndex,
-    setHighlightedIndex,
     getItemProps,
   } = useCombobox({
-    items: inputItems,
-    itemToString,
+    items: filteredItems,
+    itemToString: () => '',
+    defaultHighlightedIndex: 0,
     onInputValueChange,
     onSelectedItemChange,
   })
@@ -89,28 +74,8 @@ export default function SearchButtonCombobox({
     onFocus: openMenu,
   })
 
-  // Menu position
-  const [menuPosition, setMenuPosition] = useState<Position | undefined>()
-
-  useLayoutEffect(() => {
-    if (!inputRef.current) return
-    const { top, left, height } = inputRef.current.getBoundingClientRect()
-    setMenuPosition({
-      top: (top || 0) + (height || 0),
-      left: left,
-    })
-  }, [isOpen])
-
-  // When items list changes, highlight first item
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => setHighlightedIndex(0), 0)
-    }
-  }, [inputItems, isOpen])
-
   // Click on button to put it in editing mode
   const handleClick = () => {
-    searchItems(inputValue)
     openMenu()
     // Wait for the input to appears, then focus it
     setTimeout(() => {
@@ -137,28 +102,25 @@ export default function SearchButtonCombobox({
         />
       </InputGroup>
 
-      <Portal appendToParentPortal={false}>
-        <ComboboxList
-          isOpen={isOpen}
-          {...getMenuProps({}, { suppressRefError: true })}
-          position="absolute"
-          zIndex="2000"
-          top={menuPosition?.top + 'px'}
-          left={menuPosition?.left + 'px'}
-        >
-          {inputItems.slice(0, maxDisplayedItems).map((item, index) => (
-            <ListItem mb={1} key={index}>
-              <ComboboxItem
-                item={item}
-                highlighted={index === highlightedIndex}
-                {...getItemProps({ item, index })}
-                size={size}
-                shadow="md"
-              />
-            </ListItem>
-          ))}
-        </ComboboxList>
-      </Portal>
+      <ComboboxList
+        isOpen={isOpen}
+        {...getMenuProps({}, { suppressRefError: true })}
+        position="absolute"
+        zIndex="1"
+        pointerEvents="none"
+      >
+        {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
+          <ListItem mb={1} key={index}>
+            <ComboboxItem
+              item={item}
+              highlighted={index === highlightedIndex}
+              {...getItemProps({ item, index })}
+              size={size}
+              shadow="md"
+            />
+          </ListItem>
+        ))}
+      </ComboboxList>
     </div>
   )
 }

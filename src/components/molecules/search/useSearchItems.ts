@@ -1,4 +1,6 @@
+import { CircleEntry } from '@shared/circle'
 import { getCircleRoles } from '@shared/getCircleRoles'
+import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem, SearchItemTypes } from './searchItems'
@@ -6,13 +8,25 @@ import { SearchItem, SearchItemTypes } from './searchItems'
 export interface SearchOptions {
   members?: boolean
   circles?: boolean
-  circleMembers?: boolean
+  circleMembers?: true
   excludeIds?: string[]
+  membersOverride?: MemberEntry[]
+  circlesOverride?: CircleEntry[]
 }
 
 export function useSearchItems(options: SearchOptions): SearchItem[] {
-  const circles = useStoreState((state) => state.circles.entries)
-  const members = useStoreState((state) => state.members.entries)
+  const circlesInStore = useStoreState((state) => state.circles.entries)
+  const circles = useMemo(
+    () => options.circlesOverride || circlesInStore,
+    [circlesInStore, options.circlesOverride]
+  )
+
+  const membersInStore = useStoreState((state) => state.members.entries)
+  const members = useMemo(
+    () => options.membersOverride || membersInStore,
+    [membersInStore, options.membersOverride]
+  )
+
   const roles = useStoreState((state) => state.roles.entries)
 
   // Circles items

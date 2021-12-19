@@ -6,7 +6,7 @@ export default function incrementalSearch<Item>(
   searchValue: string
 ): Item[] {
   if (searchValue === '') return []
-  searchValue = searchValue.replace(multiSpacesRegex, ' ').trim()
+  searchValue = searchValue.replace(multiSpacesRegex, ' ').trim().toLowerCase()
 
   return items
     .map((item) => {

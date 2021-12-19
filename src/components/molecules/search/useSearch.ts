@@ -5,35 +5,32 @@ import incrementalSearch from './incrementalSearch'
 import { SearchItem } from './searchItems'
 
 export function useSearch(items: SearchItem[], defaultEmpty: boolean) {
-  const [inputItems, setInputItems] = useState<SearchItem[]>([])
+  const [searchText, setSearchText] = useState('')
 
-  const searchItems = (inputValue: string) =>
-    setInputItems(
-      inputValue === ''
+  // Filtered items using incremental search
+  const filteredItems = useMemo(
+    () =>
+      searchText === ''
         ? defaultEmpty
           ? []
           : items
-        : incrementalSearch(
-            items,
-            (item) => item.text,
-            inputValue.toLowerCase()
-          )
-    )
+        : incrementalSearch(items, (item) => item.text, searchText),
+    [searchText, items, defaultEmpty]
+  )
 
   // Search with debounce when input value changes
   const onInputValueChange = useMemo(
     () =>
       debounce(
         ({ inputValue }: UseComboboxStateChange<SearchItem>) =>
-          searchItems(inputValue || ''),
+          setSearchText(inputValue || ''),
         250
       ),
     [items]
   )
 
   return {
-    inputItems,
-    searchItems,
+    filteredItems,
     onInputValueChange,
   }
 }

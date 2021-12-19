@@ -40,7 +40,7 @@ export default function ThreadsPage() {
         </Button>
       </HStack>
 
-      <Tabs isLazy>
+      <Tabs isLazy variant="enclosed">
         <TabList>
           <Tab>Dans mes Cercles</Tab>
           <Tab>Autres</Tab>

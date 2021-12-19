@@ -7,11 +7,11 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import CircleButton from '@components/atoms/CircleButton'
 import CircleCreateModal from '@components/organisms/modals/CircleCreateModal'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import getCircleChildrenAndRoles from '@shared/getCircleChildren'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 interface Props {
   circleId: string
@@ -42,29 +42,16 @@ export default function SubCirclesFormControl({ circleId }: Props) {
     onClose: onCreateCircleSingleMemberClose,
   } = useDisclosure()
 
-  // Go to circle panel
-  const navigateOrg = useNavigateOrg()
-  const navigateToCircle = useCallback((circleId: string) => {
-    navigateOrg(`?circleId=${circleId}`)
-  }, [])
-
   return (
     <>
       <FormControl>
         <FormLabel>Rôles :</FormLabel>
         <Wrap spacing={2}>
           {childrenAndRoles
-            ?.filter((c) => c.role?.singleMember)
+            ?.filter((c) => c.role.singleMember)
             .map((c) => (
               <WrapItem key={c.id}>
-                <Button
-                  key={c.id}
-                  size="sm"
-                  borderRadius="full"
-                  onClick={() => navigateToCircle(c.id)}
-                >
-                  {c.role?.name || '?'}
-                </Button>
+                <CircleButton circle={c} />
               </WrapItem>
             ))}
           <WrapItem>
@@ -84,17 +71,10 @@ export default function SubCirclesFormControl({ circleId }: Props) {
         <FormLabel>Cercles :</FormLabel>
         <Wrap spacing={2}>
           {childrenAndRoles
-            ?.filter((c) => !c.role?.singleMember)
+            ?.filter((c) => !c.role.singleMember)
             .map((c) => (
               <WrapItem key={c.id}>
-                <Button
-                  key={c.id}
-                  size="sm"
-                  borderRadius="full"
-                  onClick={() => navigateToCircle(c.id)}
-                >
-                  {c.role?.name || '?'}
-                </Button>
+                <CircleButton circle={c} />
               </WrapItem>
             ))}
           <WrapItem>

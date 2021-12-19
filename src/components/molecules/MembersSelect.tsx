@@ -67,7 +67,7 @@ export default function MembersSelect({
             leftIcon={<AddIcon />}
             onSelect={handleAddMember}
           >
-            Ajouter un membre
+            {max === 1 ? 'Choisir un membre' : 'Ajouter un membre'}
           </SearchButtonCombobox>
         </WrapItem>
       ) : null}

@@ -23,6 +23,7 @@ import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombo
 import { yupResolver } from '@hookform/resolvers/yup'
 import useItemsArray from '@hooks/useItemsArray'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
+import useParticipants from '@hooks/useParticipants'
 import { MembersScope } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
@@ -105,6 +106,13 @@ export default function ThreadModal({
     modalProps.onClose()
   })
 
+  // Participants
+  const participants = useParticipants(
+    circleId,
+    participantsScope,
+    participantsMembersIds
+  )
+
   return (
     <Modal size="xl" {...modalProps}>
       <ModalOverlay />
@@ -143,19 +151,14 @@ export default function ThreadModal({
                 <FormErrorMessage>{errors.circleId?.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl>
+              <FormControl isInvalid={participants.length === 0}>
                 <FormLabel
                   htmlFor="participantsScope"
                   display="flex"
                   alignItems="center"
                 >
                   Inviter
-                  <ParticipantsNumber
-                    ml={2}
-                    circleId={circleId}
-                    participantsScope={participantsScope}
-                    participantsMembersIds={participantsMembersIds}
-                  />
+                  <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>
                 <Select flex={1} {...register('participantsScope')}>
                   <option value={MembersScope.Organization}>
@@ -181,10 +184,12 @@ export default function ThreadModal({
                 </Box>
               </FormControl>
 
-              <FormControl>
-                <FormLabel>Paramètres</FormLabel>
-                <Checkbox {...register('archived')}>Archivé</Checkbox>
-              </FormControl>
+              {thread && (
+                <FormControl>
+                  <FormLabel>Paramètres</FormLabel>
+                  <Checkbox {...register('archived')}>Archivé</Checkbox>
+                </FormControl>
+              )}
 
               <Box textAlign="right" mt={2}>
                 <Button colorScheme="blue" type="submit">

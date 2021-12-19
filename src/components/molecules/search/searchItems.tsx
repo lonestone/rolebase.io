@@ -42,7 +42,3 @@ export function getSearchItemId(item: SearchItem): string {
       return item.circleMember.id
   }
 }
-
-export function itemToString(item: SearchItem | undefined | null) {
-  return item ? item.text : ''
-}

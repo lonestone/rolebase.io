@@ -4,17 +4,19 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
+  Divider,
   StackProps,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import ThreadDaySeparator from '@components/atoms/ThreadDaySeparator'
 import ThreadActivity from '@components/molecules/ThreadActivity'
-import ThreadDaySeparator from '@components/molecules/ThreadDaySeparator'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
+import { MemberThreadStatus } from '@shared/member'
 import { useStoreState } from '@store/hooks'
-import React, { forwardRef, useContext, useEffect } from 'react'
+import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 import { ThreadContext } from 'src/contexts/ThreadContext'
 
@@ -33,6 +35,11 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
       orgId && thread ? subscribeActivities(orgId, thread.id) : undefined
     )
 
+    // Previous status to show a mark
+    const [markStatus, setMarkStatus] = useState<
+      MemberThreadStatus | undefined
+    >()
+
     // Update read status
     const threadStatusMethods = currentMember
       ? memberThreadsStatus(currentMember?.id)
@@ -49,6 +56,11 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
         lastActivity &&
         threadStatus?.lastReadActivityId !== lastActivity.id
       ) {
+        // Show a mark after previously seen activity
+        if (threadStatus && !markStatus) {
+          setMarkStatus(threadStatus)
+        }
+
         // Save new status
         threadStatusMethods?.createThreadStatus(
           {
@@ -57,7 +69,14 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
           thread.id
         )
       }
-    }, [thread, activities, threadStatus, loeadingThreadStatus, currentMember])
+    }, [
+      thread,
+      activities,
+      threadStatus,
+      markStatus,
+      loeadingThreadStatus,
+      currentMember,
+    ])
 
     return (
       <VStack spacing={0} mb={2} align="stretch" ref={ref} {...stackProps}>
@@ -92,7 +111,12 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
                   activities[i - 1].createdAt.toDate().getDay()) && (
                 <ThreadDaySeparator date={activity.createdAt.toDate()} />
               )}
+
               <ThreadActivity activity={activity} />
+
+              {markStatus?.lastReadActivityId === activity.id && (
+                <Divider borderColor="#ffa0a0" borderBottomWidth="3px" />
+              )}
             </React.Fragment>
           ))}
       </VStack>

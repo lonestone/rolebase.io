@@ -1,25 +1,24 @@
-import { Avatar, Box, Flex, FlexProps } from '@chakra-ui/react'
-import useParticipants from '@hooks/useParticipants'
-import { MembersScope } from '@shared/member'
+import {
+  Avatar,
+  Box,
+  Button,
+  Menu,
+  MenuButton,
+  MenuButtonProps,
+  MenuList,
+} from '@chakra-ui/react'
+import { ParticipantMember } from '@hooks/useParticipants'
 import React, { useMemo } from 'react'
+import MemberMenuItem from './MemberMenuItem'
 
-interface Props extends FlexProps {
-  circleId: string
-  participantsScope: MembersScope
-  participantsMembersIds?: string[]
+interface Props extends MenuButtonProps {
+  participants: ParticipantMember[]
 }
 
 export default function ParticipantsNumber({
-  circleId,
-  participantsScope,
-  participantsMembersIds,
-  ...flexProps
+  participants,
+  ...buttonProps
 }: Props) {
-  const participants = useParticipants(
-    circleId,
-    participantsScope,
-    participantsMembersIds
-  )
   const someParticipants = useMemo(
     () => participants.slice(0, 3).reverse(),
     [participants]
@@ -28,29 +27,39 @@ export default function ParticipantsNumber({
     participants.length && (someParticipants.length - 1) * 10 + 24
 
   return (
-    <Flex
-      p={1}
-      fisplay="inline-flex"
-      border="1px solid #ccc"
-      borderRadius="full"
-      position="relative"
-      {...flexProps}
-    >
-      <Box width={`${avatarsWidth}px`}>
-        {someParticipants.map(({ member }, i) => (
-          <Avatar
-            key={i}
-            name={member.name}
-            src={member.picture || undefined}
-            size="xs"
-            position="absolute"
-            left={`${(someParticipants.length - 1 - i) * 10 + 4}px`}
+    <Menu isLazy autoSelect={false}>
+      <MenuButton
+        as={Button}
+        p={1}
+        borderRadius="full"
+        size="sm"
+        rightIcon={<Box mr={2}>{participants.length}</Box>}
+        disabled={participants.length === 0}
+        {...buttonProps}
+      >
+        <Box h="24px" w={`${avatarsWidth}px`} position="relative">
+          {someParticipants.map(({ member }, i) => (
+            <Avatar
+              key={i}
+              name={member.name}
+              src={member.picture || undefined}
+              size="xs"
+              position="absolute"
+              top={0}
+              left={`${(someParticipants.length - 1 - i) * 10}px`}
+            />
+          ))}
+        </Box>
+      </MenuButton>
+      <MenuList>
+        {participants.map(({ member, circlesIds }, i) => (
+          <MemberMenuItem
+            key={member.id}
+            member={member}
+            circlesIds={circlesIds}
           />
         ))}
-      </Box>
-      <Box px={2} fontWeight="bold">
-        {participants.length}
-      </Box>
-    </Flex>
+      </MenuList>
+    </Menu>
   )
 }

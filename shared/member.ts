@@ -29,8 +29,7 @@ export interface Participant {
   memberId: string
 }
 
-// Collection of thread status inside poll
-// Index by memberId
+// Collection "threadStatus" in member doc
 export interface MemberThreadStatus {
   lastReadActivityId: string
   lastReadDate: firebase.firestore.Timestamp

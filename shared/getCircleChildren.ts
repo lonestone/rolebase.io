@@ -1,14 +1,14 @@
-import { CircleEntry } from './circle'
+import { CircleEntry, CircleWithRoleEntry } from './circle'
+import enrichCirclesWithRoles from './enrichCirclesWithRoles'
 import { RoleEntry } from './role'
 
 export default function getCircleChildrenAndRoles(
   circles: CircleEntry[],
   roles: RoleEntry[],
-  circleId: string
-): Array<CircleEntry & { role?: RoleEntry }> {
-  return (
-    circles
-      .filter((c) => c.parentId === circleId)
-      .map((c) => ({ ...c, role: roles.find((r) => r.id === c.roleId) })) || []
+  circleId: string | null
+): Array<CircleWithRoleEntry> {
+  return enrichCirclesWithRoles(
+    circles.filter((c) => c.parentId === circleId),
+    roles
   )
 }

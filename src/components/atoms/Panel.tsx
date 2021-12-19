@@ -11,7 +11,7 @@ export default function Panel(props: BoxProps) {
       shadow="md"
       position="absolute"
       top="71px"
-      left="15px"
+      left={0}
       width="450px"
       overflowY="auto"
       maxH="calc(100vh - 71px)"

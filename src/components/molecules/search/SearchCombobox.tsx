@@ -7,15 +7,15 @@ import {
 } from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import ComboboxItem from '../../atoms/ComboboxItem'
 import { SearchItem } from './searchItems'
 import { useSearch } from './useSearch'
-import { useSearchItems } from './useSearchItems'
+import { SearchOptions, useSearchItems } from './useSearchItems'
 
 const maxDisplayedItems = 25
 
-const searchOptions = {
+const searchOptions: SearchOptions = {
   members: true,
   circles: true,
   circleMembers: true,
@@ -27,13 +27,14 @@ interface ComboboxProps {
 
 export default function SearchCombobox({ onSelect }: ComboboxProps) {
   const items = useSearchItems(searchOptions)
-  const { inputItems, onInputValueChange } = useSearch(items, true)
+  const { filteredItems, onInputValueChange } = useSearch(items, true)
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
       onSelect(item)
+      selectItem(undefined as any)
       setInputValue('')
     },
     []
@@ -42,22 +43,20 @@ export default function SearchCombobox({ onSelect }: ComboboxProps) {
   const {
     isOpen,
     openMenu,
+    highlightedIndex,
+    setInputValue,
+    selectItem,
     getMenuProps,
     getInputProps,
     getComboboxProps,
-    highlightedIndex,
-    setHighlightedIndex,
     getItemProps,
-    setInputValue,
   } = useCombobox({
-    items: inputItems,
-    itemToString: (item) => (item ? item.text : ''),
+    items: filteredItems,
+    itemToString: () => '',
+    defaultHighlightedIndex: 0,
     onInputValueChange,
     onSelectedItemChange,
   })
-
-  // When items list changes, highlight first item
-  useEffect(() => setHighlightedIndex(0), [inputItems])
 
   return (
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
@@ -88,8 +87,9 @@ export default function SearchCombobox({ onSelect }: ComboboxProps) {
         position="absolute"
         zIndex="1"
         right="0"
+        pointerEvents="none"
       >
-        {inputItems.slice(0, maxDisplayedItems).map((item, index) => (
+        {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
           <ListItem textAlign="right" mb={1} key={index}>
             <ComboboxItem
               item={item}
