@@ -1,5 +1,5 @@
 import { CircleWithRoleEntry } from '@shared/circle'
-import { getParticipantCircles } from '@shared/getParticipantCircles'
+import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import useCurrentMember from './useCurrentMember'

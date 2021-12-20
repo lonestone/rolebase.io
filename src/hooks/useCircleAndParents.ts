@@ -1,6 +1,6 @@
 import { CircleWithRoleEntry } from '@shared/circle'
-import { enrichCirclesWithRoles } from '@shared/enrichCirclesWithRoles'
-import { getCircleAndParents } from '@shared/getCircleAndParents'
+import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
+import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 

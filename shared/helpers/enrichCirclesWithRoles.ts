@@ -1,5 +1,5 @@
-import { CircleEntry, CircleWithRoleEntry } from './circle'
-import { RoleEntry } from './role'
+import { CircleEntry, CircleWithRoleEntry } from '../circle'
+import { RoleEntry } from '../role'
 
 export function enrichCircleWithRole(
   circle: CircleEntry,

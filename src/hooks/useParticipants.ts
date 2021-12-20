@@ -1,5 +1,5 @@
-import { getAllCircleMembersParticipants } from '@shared/getAllCircleMembersParticipants'
-import { getCircleParticipants } from '@shared/getCircleParticipants'
+import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
+import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
 import { MemberEntry, MembersScope, Participant } from '@shared/member'
 import { Optional } from '@shared/types'
 import { useStoreState } from '@store/hooks'

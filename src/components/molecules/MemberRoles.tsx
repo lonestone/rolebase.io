@@ -1,6 +1,6 @@
 import { Accordion, ExpandedIndex } from '@chakra-ui/react'
-import { enrichCirclesWithRoles } from '@shared/enrichCirclesWithRoles'
-import { getCircleAndParents } from '@shared/getCircleAndParents'
+import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
+import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import MemberRoleItem from './MemberRoleItem'

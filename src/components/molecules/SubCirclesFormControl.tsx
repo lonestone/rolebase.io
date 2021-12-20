@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import CircleCreateModal from '@components/organisms/modals/CircleCreateModal'
-import { getCircleChildrenAndRoles } from '@shared/getCircleChildren'
+import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'

@@ -2,7 +2,7 @@ import { FormControl, FormLabel, VStack } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Panel from '@components/atoms/Panel'
 import VacantRoles from '@components/molecules/VacantRoles'
-import { getCircleChildrenAndRoles } from '@shared/getCircleChildren'
+import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 
