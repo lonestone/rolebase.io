@@ -13,11 +13,11 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
+import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
 import MembersSelect from '@components/molecules/MembersSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -169,20 +169,7 @@ export default function ThreadModal({
                   Inviter
                   <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>
-                <Select flex={1} {...register('participantsScope')}>
-                  <option value={MembersScope.Organization}>
-                    Tous les membres de l'Organisation
-                  </option>
-                  <option value={MembersScope.CircleLeaders}>
-                    Les membres Leaders de Rôles et de sous-Cercles
-                  </option>
-                  <option value={MembersScope.CircleMembers}>
-                    Tous les membres du Cercle et des sous-Cercles
-                  </option>
-                  <option value={MembersScope.None}>
-                    Seulement les membres invités (ci-dessous)
-                  </option>
-                </Select>
+                <ParticipantsScopeSelect {...register('participantsScope')} />
 
                 <Box mt={2}>
                   <MembersSelect

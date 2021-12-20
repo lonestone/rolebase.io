@@ -3,17 +3,11 @@ import { subscribeAllThreads } from '@api/entities/threads'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentMemberCircles from '@hooks/useCurrentMemberCircles'
 import useSubscription from '@hooks/useSubscription'
+import { CirclesFilters } from '@shared/circle'
 import { MemberThreadStatus } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-
-export enum ThreadsFilter {
-  MyCircles,
-  Others,
-  Circle,
-  All,
-}
 
 export interface ThreadWithStatus extends ThreadEntry {
   read: boolean
@@ -21,7 +15,7 @@ export interface ThreadWithStatus extends ThreadEntry {
 }
 
 export default function useThreadsList(
-  filter: ThreadsFilter,
+  circlesFilter: CirclesFilters,
   archived: boolean,
   circleId?: string
 ) {
@@ -45,18 +39,18 @@ export default function useThreadsList(
     if (!data) return
     return (
       (
-        filter === ThreadsFilter.MyCircles
+        circlesFilter === CirclesFilters.MyCircles
           ? // Keep only threads that are in my circles
             data.filter((thread) =>
               currentMemberCircles?.some((c) => c.id === thread.circleId)
             )
-          : filter == ThreadsFilter.Others
+          : circlesFilter == CirclesFilters.Others
           ? // Keep only threads that are not in my circles
             data.filter(
               (thread) =>
                 !currentMemberCircles?.some((c) => c.id === thread.circleId)
             )
-          : filter == ThreadsFilter.Circle
+          : circlesFilter == CirclesFilters.Circle
           ? // Keep only threads that are not in my circles
             data.filter((thread) => thread.circleId === circleId)
           : // Keep all threads
@@ -89,7 +83,7 @@ export default function useThreadsList(
           return 0
         })
     )
-  }, [data, filter, circleId, currentMemberCircles, threadsStatus])
+  }, [data, circlesFilter, circleId, currentMemberCircles, threadsStatus])
 
   return { threads, error, loading }
 }

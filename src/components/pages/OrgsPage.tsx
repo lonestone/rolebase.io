@@ -48,7 +48,7 @@ export default function OrgsPage() {
   return (
     <Container maxW="3xl" mt="60px">
       <HStack my="30px">
-        <Heading as="h2" size="md">
+        <Heading as="h1" size="md">
           Organisations
         </Heading>
         <Spacer />

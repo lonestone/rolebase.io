@@ -96,7 +96,7 @@ export default function EntityButtonCombobox({
         )}
         <Input
           type="text"
-          placeholder="Rechercher..."
+          placeholder="Sélectionner..."
           onFocus={openMenu}
           style={{ display: isOpen || !valueItem ? 'block' : 'none' }}
           {...inputProps}

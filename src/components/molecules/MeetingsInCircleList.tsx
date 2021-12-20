@@ -1,18 +1,24 @@
 import {
   Button,
+  HStack,
   LinkBox,
   LinkOverlay,
+  Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
+import { CirclesFilters } from '@shared/circle'
 import { useStoreState } from '@store/hooks'
+import { format } from 'date-fns'
 import React from 'react'
-import { FiPlus } from 'react-icons/fi'
+import { FiCalendar, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
-import useMeetingsList, { MeetingsFilter } from '../../hooks/useMeetingsList'
+import { dateFnsLocale } from 'src/locale'
+import { capitalizeFirstLetter } from 'src/utils'
+import useMeetingsList from '../../hooks/useMeetingsList'
 
 interface Props {
   circleId: string
@@ -23,7 +29,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
 
   // Subscribe to meetings
   const { meetings, error, loading } = useMeetingsList(
-    MeetingsFilter.Circle,
+    CirclesFilters.Circle,
     false,
     circleId
   )
@@ -37,7 +43,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
 
   return (
     <>
-      <Button size="sm" mb={2} leftIcon={<FiPlus />} onClick={onMeetingOpen}>
+      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onMeetingOpen}>
         Créer une réunion
       </Button>
 
@@ -48,22 +54,45 @@ export default function MeetingsInCircleList({ circleId }: Props) {
         <VStack spacing={0} align="stretch">
           {meetings.length === 0 && <i>Aucune réunion pour le moment</i>}
 
-          {meetings.map((meeting) => (
-            <LinkBox
-              key={meeting.id}
-              px={2}
-              py={1}
-              borderBottomWidth="1px"
-              _hover={{ background: '#fafafa' }}
-            >
-              <LinkOverlay
-                as={ReachLink}
-                to={`/orgs/${orgId}/meetings/${meeting.id}`}
-              >
-                {meeting.title}
-              </LinkOverlay>
-            </LinkBox>
-          ))}
+          {meetings.map((meeting, i) => {
+            const date = meeting.startDate.toDate()
+            return (
+              <React.Fragment key={meeting.id}>
+                {(i === 0 ||
+                  date.getDay() !==
+                    meetings[i - 1].startDate.toDate().getDay()) && (
+                  <Text px={2} fontSize="sm">
+                    {capitalizeFirstLetter(
+                      format(date, 'PPPP ', {
+                        locale: dateFnsLocale,
+                      })
+                    )}
+                  </Text>
+                )}
+
+                <LinkBox
+                  key={meeting.id}
+                  px={2}
+                  py={1}
+                  borderBottomWidth="1px"
+                  _hover={{ background: '#fafafa' }}
+                >
+                  <HStack spacing={3} align="stretch" alignItems="center">
+                    <FiCalendar />
+                    <LinkOverlay
+                      as={ReachLink}
+                      to={`/orgs/${orgId}/meetings/${meeting.id}`}
+                    >
+                      {format(date, 'p ', {
+                        locale: dateFnsLocale,
+                      })}{' '}
+                      - {meeting.title}
+                    </LinkOverlay>
+                  </HStack>
+                </LinkBox>
+              </React.Fragment>
+            )
+          })}
         </VStack>
       )}
 

@@ -73,45 +73,43 @@ export default function ThreadPage() {
   }
 
   return (
-    <Box h="100vh" pt="40px" display="flex" flexDirection="column">
+    <Box h="100vh" mx={3} pt="70px" display="flex" flexDirection="column">
       {loading && <Loading active center />}
 
-      <Box mt="30px" mx={3}>
-        <Flex>
-          <Heading as="h2" size="md" display="flex" alignItems="center">
-            {thread ? (
-              <>
-                {thread.title}
-                {thread.archived && <Tag ml={2}>Archivé</Tag>}
-                <IconButton
-                  aria-label=""
-                  icon={<FiEdit3 />}
-                  size="sm"
-                  ml={3}
-                  onClick={onEditOpen}
-                />
-              </>
-            ) : loading ? (
-              <>Chargement...</>
-            ) : null}
-          </Heading>
-          <Spacer />
-          <ParticipantsNumber participants={participants} />
-        </Flex>
+      <Flex>
+        <Heading as="h1" size="md" display="flex" alignItems="center">
+          {thread ? (
+            <>
+              {thread.title}
+              {thread.archived && <Tag ml={2}>Archivé</Tag>}
+              <IconButton
+                aria-label=""
+                icon={<FiEdit3 />}
+                size="sm"
+                ml={3}
+                onClick={onEditOpen}
+              />
+            </>
+          ) : loading ? (
+            <>Chargement...</>
+          ) : null}
+        </Heading>
+        <Spacer />
+        <ParticipantsNumber participants={participants} />
+      </Flex>
 
-        <Box
-          pb={1}
-          pl={1}
-          position="relative"
-          zIndex={0}
-          boxShadow={
-            isScrollable && scrollPosition !== ScrollPosition.Top
-              ? '0 6px 11px -10px rgba(0,0,0,0.5)'
-              : 'none'
-          }
-        >
-          {thread && <CircleAndParentsButton id={thread.circleId} />}
-        </Box>
+      <Box
+        pb={1}
+        pl={1}
+        position="relative"
+        zIndex={0}
+        boxShadow={
+          isScrollable && scrollPosition !== ScrollPosition.Top
+            ? '0 6px 11px -10px rgba(0,0,0,0.5)'
+            : 'none'
+        }
+      >
+        {thread && <CircleAndParentsButton id={thread.circleId} />}
       </Box>
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>

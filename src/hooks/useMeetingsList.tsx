@@ -1,18 +1,12 @@
 import { subscribeAllMeetings } from '@api/entities/meetings'
 import useCurrentMemberCircles from '@hooks/useCurrentMemberCircles'
 import useSubscription from '@hooks/useSubscription'
+import { CirclesFilters } from '@shared/circle'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 
-export enum MeetingsFilter {
-  MyCircles,
-  Others,
-  Circle,
-  All,
-}
-
 export default function useMeetingsList(
-  filter: MeetingsFilter,
+  circlesFilter: CirclesFilters,
   ended: boolean,
   circleId?: string
 ) {
@@ -27,23 +21,23 @@ export default function useMeetingsList(
   // Filter meetings
   const meetings = useMemo(() => {
     if (!data) return
-    return filter === MeetingsFilter.MyCircles
+    return circlesFilter === CirclesFilters.MyCircles
       ? // Keep only meetings that are in my circles
         data.filter((meeting) =>
           currentMemberCircles?.some((c) => c.id === meeting.circleId)
         )
-      : filter == MeetingsFilter.Others
+      : circlesFilter == CirclesFilters.Others
       ? // Keep only meetings that are not in my circles
         data.filter(
           (meeting) =>
             !currentMemberCircles?.some((c) => c.id === meeting.circleId)
         )
-      : filter == MeetingsFilter.Circle
+      : circlesFilter == CirclesFilters.Circle
       ? // Keep only meetings that are not in my circles
         data.filter((meeting) => meeting.circleId === circleId)
       : // Keep all meetings
         data
-  }, [data, filter, circleId, currentMemberCircles])
+  }, [data, circlesFilter, circleId, currentMemberCircles])
 
   return { meetings, error, loading }
 }

@@ -19,13 +19,15 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
   Stack,
+  Tag,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import MeetingStepTypeSelect from '@components/atoms/MeetingStepTypeSelect'
 import NumberInputController from '@components/atoms/NumberInputController'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
+import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
 import MembersSelect from '@components/molecules/MembersSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -33,7 +35,11 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useParticipants from '@hooks/useParticipants'
-import { MeetingEntry, MeetingStepConfig } from '@shared/meeting'
+import {
+  MeetingEntry,
+  MeetingStepConfig,
+  MeetingStepTypes,
+} from '@shared/meeting'
 import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
@@ -45,6 +51,7 @@ import * as yup from 'yup'
 interface Props extends UseModalProps {
   defaultCircleId?: string
   meeting?: MeetingEntry
+  defaultStartDate?: Date
 }
 
 interface Values {
@@ -65,12 +72,18 @@ export const resolver = yupResolver(
     facilitatorMemberId: yup.string().required(),
     startDate: yup.string().required(),
     duration: yup.number().required(),
+    stepsConfig: yup.array().of(
+      yup.object().shape({
+        title: yup.string().required(),
+      })
+    ),
   })
 )
 
 export default function MeetingModal({
   defaultCircleId,
   meeting,
+  defaultStartDate,
   ...modalProps
 }: Props) {
   const navigateOrg = useNavigateOrg()
@@ -78,7 +91,8 @@ export default function MeetingModal({
   const currentMember = useCurrentMember()
 
   // Default date is tomorrow 8:00
-  const defaultStartDate = useMemo(() => {
+  const initStartDate = useMemo(() => {
+    if (defaultStartDate) return defaultStartDate
     const date = new Date()
     date.setDate(date.getDate() + 1)
     date.setHours(8, 0, 0, 0)
@@ -112,7 +126,7 @@ export default function MeetingModal({
           circleId: defaultCircleId || '',
           facilitatorMemberId: '',
           participantsScope: MembersScope.CircleLeaders,
-          startDate: getDateTimeLocal(defaultStartDate),
+          startDate: getDateTimeLocal(initStartDate),
           duration: 60,
           ended: false,
           stepsConfig: [],
@@ -260,20 +274,7 @@ export default function MeetingModal({
                   Inviter
                   <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>
-                <Select flex={1} {...register('participantsScope')}>
-                  <option value={MembersScope.Organization}>
-                    Tous les membres de l'Organisation
-                  </option>
-                  <option value={MembersScope.CircleLeaders}>
-                    Les membres Leaders de Rôles et de sous-Cercles
-                  </option>
-                  <option value={MembersScope.CircleMembers}>
-                    Tous les membres du Cercle et des sous-Cercles
-                  </option>
-                  <option value={MembersScope.None}>
-                    Seulement les membres invités (ci-dessous)
-                  </option>
-                </Select>
+                <ParticipantsScopeSelect {...register('participantsScope')} />
 
                 <Box mt={2}>
                   <MembersSelect
@@ -315,29 +316,35 @@ export default function MeetingModal({
                 <FormLabel>Déroulé</FormLabel>
                 <Stack spacing={2}>
                   {stepsFields.map((field, index) => (
-                    <FormControl
-                      isInvalid={!!errors.stepsConfig?.[index]}
-                      key={field.id}
-                    >
-                      <Stack spacing={2} direction="row">
+                    <Stack key={field.id} spacing={2} direction="row">
+                      <Tag size="lg" borderRadius="full">
+                        {index + 1}
+                      </Tag>
+                      <Stack spacing={2} direction="row" flex="1">
+                        <MeetingStepTypeSelect
+                          {...register(`stepsConfig.${index}.type`)}
+                        />
                         <Input
                           {...register(`stepsConfig.${index}.title`)}
-                          placeholder={`Étape n°${index + 1}`}
+                          isInvalid={!!errors.stepsConfig?.[index]}
+                          placeholder="Titre de l'étape..."
                           control={control}
                         />
-                        {stepsFields.length > 1 ? (
-                          <IconButton
-                            aria-label=""
-                            icon={<CloseIcon />}
-                            onClick={() => removeStep(index)}
-                          />
-                        ) : null}
                       </Stack>
-                    </FormControl>
+                      {stepsFields.length > 1 ? (
+                        <IconButton
+                          aria-label=""
+                          icon={<CloseIcon />}
+                          onClick={() => removeStep(index)}
+                        />
+                      ) : null}
+                    </Stack>
                   ))}
                   <Button
                     leftIcon={<FiPlus />}
-                    onClick={() => appendStep({ title: '' })}
+                    onClick={() =>
+                      appendStep({ type: MeetingStepTypes.Tour, title: '' })
+                    }
                   >
                     Ajouter une étape
                   </Button>

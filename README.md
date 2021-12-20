@@ -20,6 +20,17 @@ https://firebase.google.com/products/extensions/firestore-send-email
 
 settings.ts
 
+## Start project
+
+3 consoles:
+
+yarn dev
+
+cd functions
+yarn watch
+
+yarn firebase:emulator
+
 ## Config
 
 - security.invitation_token: Generate a token once (with Lastpass for example):

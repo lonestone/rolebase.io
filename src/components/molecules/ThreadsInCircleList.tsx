@@ -1,5 +1,6 @@
 import {
   Button,
+  HStack,
   LinkBox,
   LinkOverlay,
   useDisclosure,
@@ -8,11 +9,12 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
+import { CirclesFilters } from '@shared/circle'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
-import { FiPlus } from 'react-icons/fi'
+import { FiMessageSquare, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
-import useThreadsList, { ThreadsFilter } from '../../hooks/useThreadsList'
+import useThreadsList from '../../hooks/useThreadsList'
 
 interface Props {
   circleId: string
@@ -23,7 +25,7 @@ export default function ThreadsInCircleList({ circleId }: Props) {
 
   // Subscribe to threads
   const { threads, error, loading } = useThreadsList(
-    ThreadsFilter.Circle,
+    CirclesFilters.Circle,
     false,
     circleId
   )
@@ -37,7 +39,7 @@ export default function ThreadsInCircleList({ circleId }: Props) {
 
   return (
     <>
-      <Button size="sm" mb={2} leftIcon={<FiPlus />} onClick={onThreadOpen}>
+      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onThreadOpen}>
         Créer une discussion
       </Button>
 
@@ -56,13 +58,16 @@ export default function ThreadsInCircleList({ circleId }: Props) {
               borderBottomWidth="1px"
               _hover={{ background: '#fafafa' }}
             >
-              <LinkOverlay
-                as={ReachLink}
-                to={`/orgs/${orgId}/threads/${thread.id}`}
-                fontWeight={thread.read ? 'normal' : 'bold'}
-              >
-                {thread.title}
-              </LinkOverlay>
+              <HStack spacing={3} align="stretch" alignItems="center">
+                <FiMessageSquare />
+                <LinkOverlay
+                  as={ReachLink}
+                  to={`/orgs/${orgId}/threads/${thread.id}`}
+                  fontWeight={thread.read ? 'normal' : 'bold'}
+                >
+                  {thread.title}
+                </LinkOverlay>
+              </HStack>
             </LinkBox>
           ))}
         </VStack>

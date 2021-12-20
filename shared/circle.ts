@@ -24,3 +24,10 @@ export interface CircleMember {
 export interface CircleMemberEntry extends CircleMember {
   id: string
 }
+
+export enum CirclesFilters {
+  MyCircles = 'MyCircles',
+  Others = 'Others',
+  Circle = 'Circle',
+  All = 'All',
+}

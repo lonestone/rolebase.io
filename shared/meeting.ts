@@ -21,9 +21,8 @@ export interface Meeting {
 export type MeetingEntry = WithId<Meeting>
 
 export interface MeetingStepConfig {
-  title: string
   type: MeetingStepTypes
-  notesEnabled: boolean
+  title: string
 }
 
 export enum MeetingStepTypes {
@@ -37,7 +36,7 @@ export enum MeetingStepTypes {
 // Collection "steps" in meeting doc
 // Id = stepsConfig index to string
 export type MeetingStep = {
-  notes?: string
+  notes: string
 } & (
   | {
       type: MeetingStepTypes.Tour
