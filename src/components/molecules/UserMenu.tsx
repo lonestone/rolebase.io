@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Portal,
 } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -26,14 +27,16 @@ export default function UserMenu() {
       <MenuButton as={Button} variant="ghost" size="sm" px={1}>
         <Avatar name={user.name} src={user.picture || undefined} size="xs" />
       </MenuButton>
-      <MenuList shadow="lg">
-        {org && member && (
-          <MenuItem onClick={() => navigateOrg(`?memberId=${member.id}`)}>
-            Mes rôles
-          </MenuItem>
-        )}
-        <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
-      </MenuList>
+      <Portal>
+        <MenuList zIndex={10} shadow="lg">
+          {org && member && (
+            <MenuItem onClick={() => navigateOrg(`?memberId=${member.id}`)}>
+              Mes rôles
+            </MenuItem>
+          )}
+          <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
+        </MenuList>
+      </Portal>
     </Menu>
   )
 }

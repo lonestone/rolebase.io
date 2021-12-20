@@ -4,6 +4,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Portal,
   useDisclosure,
 } from '@chakra-ui/react'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
@@ -41,20 +42,28 @@ export default function OrgMenu() {
   return (
     <Menu>
       <MenuButton as={IconButton} icon={<FiMenu />} px={1} />
-      <MenuList shadow="lg">
-        <MenuItem icon={<FiSettings />} onClick={() => handleOpenEdit(org.id)}>
-          Paramètres
-        </MenuItem>
-        <MenuItem icon={<FiUsers />} onClick={() => navigateOrg('/members')}>
-          Membres
-        </MenuItem>
-        <MenuItem icon={<FiCircle />} onClick={() => navigateOrg('?baseRoles')}>
-          Rôles de base
-        </MenuItem>
-        <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
-          Toutes les organisations
-        </MenuItem>
-      </MenuList>
+      <Portal>
+        <MenuList zIndex={10} shadow="lg">
+          <MenuItem
+            icon={<FiSettings />}
+            onClick={() => handleOpenEdit(org.id)}
+          >
+            Paramètres
+          </MenuItem>
+          <MenuItem icon={<FiUsers />} onClick={() => navigateOrg('/members')}>
+            Membres
+          </MenuItem>
+          <MenuItem
+            icon={<FiCircle />}
+            onClick={() => navigateOrg('?baseRoles')}
+          >
+            Rôles de base
+          </MenuItem>
+          <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
+            Toutes les organisations
+          </MenuItem>
+        </MenuList>
+      </Portal>
 
       {isEditOpen && editOrgId && (
         <OrgEditModal id={editOrgId} isOpen onClose={onEditClose} />
