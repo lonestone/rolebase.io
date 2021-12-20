@@ -1,6 +1,6 @@
-import { CircleEntry } from './circle'
-import { Participant } from './member'
-import { RoleEntry } from './role'
+import { CircleEntry } from '../circle'
+import { Participant } from '../member'
+import { RoleEntry } from '../role'
 
 export function getCircleParticipants(
   circleId: string,

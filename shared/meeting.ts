@@ -1,14 +1,10 @@
 import firebase from 'firebase/app'
-import { MembersScope } from './member'
-import { WithId } from './types'
+import { EntityWithParticipants, WithId } from './types'
 
-export interface Meeting {
+export interface Meeting extends EntityWithParticipants {
   orgId: string
-  circleId: string
   initiatorMemberId: string
   facilitatorMemberId: string
-  participantsScope: MembersScope
-  participantsMembersIds: string[]
   createdAt: firebase.firestore.Timestamp
   startDate: firebase.firestore.Timestamp
   endDate: firebase.firestore.Timestamp

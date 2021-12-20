@@ -1,17 +1,15 @@
 import { subscribeAllMeetings } from '@api/entities/meetings'
-import useCurrentMemberCircles from '@hooks/useCurrentMemberCircles'
 import useSubscription from '@hooks/useSubscription'
-import { CirclesFilters } from '@shared/circle'
+import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
-import { useMemo } from 'react'
+import useFilterEntities from './useFilterEntities'
 
 export default function useMeetingsList(
-  circlesFilter: CirclesFilters,
+  filter: EntityFilters,
   ended: boolean,
   circleId?: string
 ) {
   const orgId = useStoreState((state) => state.orgs.currentId)
-  const currentMemberCircles = useCurrentMemberCircles()
 
   // Subscribe to meetings
   const { data, error, loading } = useSubscription(
@@ -19,25 +17,7 @@ export default function useMeetingsList(
   )
 
   // Filter meetings
-  const meetings = useMemo(() => {
-    if (!data) return
-    return circlesFilter === CirclesFilters.MyCircles
-      ? // Keep only meetings that are in my circles
-        data.filter((meeting) =>
-          currentMemberCircles?.some((c) => c.id === meeting.circleId)
-        )
-      : circlesFilter == CirclesFilters.Others
-      ? // Keep only meetings that are not in my circles
-        data.filter(
-          (meeting) =>
-            !currentMemberCircles?.some((c) => c.id === meeting.circleId)
-        )
-      : circlesFilter == CirclesFilters.Circle
-      ? // Keep only meetings that are not in my circles
-        data.filter((meeting) => meeting.circleId === circleId)
-      : // Keep all meetings
-        data
-  }, [data, circlesFilter, circleId, currentMemberCircles])
+  const meetings = useFilterEntities(filter, data, circleId)
 
   return { meetings, error, loading }
 }

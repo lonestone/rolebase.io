@@ -1,6 +1,6 @@
-import { CircleEntry, CircleWithRoleEntry } from './circle'
+import { CircleEntry, CircleWithRoleEntry } from '../circle'
+import { RoleEntry } from '../role'
 import { enrichCirclesWithRoles } from './enrichCirclesWithRoles'
-import { RoleEntry } from './role'
 
 export function getCircleChildrenAndRoles(
   circles: CircleEntry[],

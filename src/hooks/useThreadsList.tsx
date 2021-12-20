@@ -1,13 +1,13 @@
 import { memberThreadsStatus } from '@api/entities/memberThreadsStatus'
 import { subscribeAllThreads } from '@api/entities/threads'
 import useCurrentMember from '@hooks/useCurrentMember'
-import useCurrentMemberCircles from '@hooks/useCurrentMemberCircles'
 import useSubscription from '@hooks/useSubscription'
-import { CirclesFilters } from '@shared/circle'
 import { MemberThreadStatus } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
+import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
+import useFilterEntities from './useFilterEntities'
 
 export interface ThreadWithStatus extends ThreadEntry {
   read: boolean
@@ -15,13 +15,12 @@ export interface ThreadWithStatus extends ThreadEntry {
 }
 
 export default function useThreadsList(
-  circlesFilter: CirclesFilters,
+  filter: EntityFilters,
   archived: boolean,
   circleId?: string
 ) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
-  const currentMemberCircles = useCurrentMemberCircles()
 
   // Subscribe to threads
   const { data, error, loading } = useSubscription(
@@ -34,28 +33,14 @@ export default function useThreadsList(
     : undefined
   const { data: threadsStatus } = useSubscription(subscribe)
 
+  // Filter threads
+  const filteredThreads = useFilterEntities(filter, data, circleId)
+
   // Filter and sort threads
   const threads = useMemo(() => {
-    if (!data) return
+    if (!filteredThreads) return
     return (
-      (
-        circlesFilter === CirclesFilters.MyCircles
-          ? // Keep only threads that are in my circles
-            data.filter((thread) =>
-              currentMemberCircles?.some((c) => c.id === thread.circleId)
-            )
-          : circlesFilter == CirclesFilters.Others
-          ? // Keep only threads that are not in my circles
-            data.filter(
-              (thread) =>
-                !currentMemberCircles?.some((c) => c.id === thread.circleId)
-            )
-          : circlesFilter == CirclesFilters.Circle
-          ? // Keep only threads that are not in my circles
-            data.filter((thread) => thread.circleId === circleId)
-          : // Keep all threads
-            data
-      )
+      filteredThreads
         // Enrich with status
         .map((thread): ThreadWithStatus => {
           const status = threadsStatus?.find((s) => s.id === thread.id)
@@ -83,7 +68,7 @@ export default function useThreadsList(
           return 0
         })
     )
-  }, [data, circlesFilter, circleId, currentMemberCircles, threadsStatus])
+  }, [filteredThreads, threadsStatus])
 
   return { threads, error, loading }
 }

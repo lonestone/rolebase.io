@@ -9,7 +9,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
-import { CirclesFilters } from '@shared/circle'
+import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
@@ -25,7 +25,7 @@ export default function ThreadsInCircleList({ circleId }: Props) {
 
   // Subscribe to threads
   const { threads, error, loading } = useThreadsList(
-    CirclesFilters.Circle,
+    EntityFilters.Circle,
     false,
     circleId
   )

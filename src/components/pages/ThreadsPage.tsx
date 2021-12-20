@@ -21,9 +21,9 @@ import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
-import useCirclesFilterMenu from '@hooks/useCirclesFilterMenu'
+import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useThreadsList from '@hooks/useThreadsList'
-import { CirclesFilters } from '@shared/circle'
+import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
@@ -34,10 +34,10 @@ export default function ThreadsPage() {
 
   // Circles filter menu
   const {
-    circlesFilter,
-    value: filterCirclesValue,
-    handleChange: handleFilterCirclesChange,
-  } = useCirclesFilterMenu()
+    filter,
+    value: filterValue,
+    handleChange: handleFilterChange,
+  } = useEntitiesFilterMenu()
 
   // Archives filter menu
   const [archives, setArchives] = useState(false)
@@ -50,7 +50,7 @@ export default function ThreadsPage() {
   } = useDisclosure()
 
   // Subscribe to threads
-  const { threads, error, loading } = useThreadsList(circlesFilter, archives)
+  const { threads, error, loading } = useThreadsList(filter, archives)
 
   return (
     <Container maxW="3xl" mt="90px">
@@ -68,16 +68,16 @@ export default function ThreadsPage() {
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
-              title="Cercles"
+              title="Participation"
               type="checkbox"
-              value={filterCirclesValue}
-              onChange={handleFilterCirclesChange}
+              value={filterValue}
+              onChange={handleFilterChange}
             >
-              <MenuItemOption value={CirclesFilters.MyCircles}>
-                Dans mes cercles
+              <MenuItemOption value={EntityFilters.Invited}>
+                Mes discussions
               </MenuItemOption>
-              <MenuItemOption value={CirclesFilters.Others}>
-                Dans les autres cercles
+              <MenuItemOption value={EntityFilters.NotInvited}>
+                Autres discussions
               </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />

@@ -10,7 +10,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
-import { CirclesFilters } from '@shared/circle'
+import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
 import React from 'react'
@@ -29,7 +29,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
 
   // Subscribe to meetings
   const { meetings, error, loading } = useMeetingsList(
-    CirclesFilters.Circle,
+    EntityFilters.Circle,
     false,
     circleId
   )

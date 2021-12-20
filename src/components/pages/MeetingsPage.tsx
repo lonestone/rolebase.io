@@ -22,23 +22,23 @@ import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import useCirclesFilterMenu from '@hooks/useCirclesFilterMenu'
+import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useMeetingsList from '@hooks/useMeetingsList'
-import { CirclesFilters } from '@shared/circle'
 import { MeetingEntry } from '@shared/meeting'
+import { EntityFilters } from '@shared/types'
 import React, { useCallback, useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
 export default function MeetingsPage() {
   // Circles filter menu
   const {
-    circlesFilter,
-    value: filterCirclesValue,
-    handleChange: handleFilterCirclesChange,
-  } = useCirclesFilterMenu()
+    filter,
+    value: filterValue,
+    handleChange: handleFilterChange,
+  } = useEntitiesFilterMenu()
 
   // Subscribe to meetings
-  const { meetings, error, loading } = useMeetingsList(circlesFilter, false)
+  const { meetings, error, loading } = useMeetingsList(filter, false)
 
   // Modal
   const [meeting, setMeeting] = useState<MeetingEntry | undefined>()
@@ -108,16 +108,16 @@ export default function MeetingsPage() {
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
-              title="Cercles"
+              title="Participation"
               type="checkbox"
-              value={filterCirclesValue}
-              onChange={handleFilterCirclesChange}
+              value={filterValue}
+              onChange={handleFilterChange}
             >
-              <MenuItemOption value={CirclesFilters.MyCircles}>
-                Dans mes cercles
+              <MenuItemOption value={EntityFilters.Invited}>
+                Mes réunions
               </MenuItemOption>
-              <MenuItemOption value={CirclesFilters.Others}>
-                Dans les autres cercles
+              <MenuItemOption value={EntityFilters.NotInvited}>
+                Autres réunions
               </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>
