@@ -7,12 +7,13 @@ import { useMemo } from 'react'
 import { SearchItem, SearchItemTypes } from './searchItems'
 
 export interface SearchOptions {
-  members?: boolean
-  circles?: boolean
-  circleMembers?: true
-  excludeIds?: string[]
-  membersOverride?: MemberEntry[]
-  circlesOverride?: CircleEntry[]
+  members?: boolean // Search members
+  circles?: boolean // Search circles
+  circleMembers?: true // Search circle members
+  circlesSingleMember?: boolean // Exclude circles whose role has opposite singleMember value
+  excludeIds?: string[] // Exclude entities with these ids
+  membersOverride?: MemberEntry[] // Override members. Otherwise use store
+  circlesOverride?: CircleEntry[] // Override circles. Otherwise use store
 }
 
 export function useSearchItems(options: SearchOptions): SearchItem[] {
@@ -36,11 +37,24 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
       circles && roles && options.circles
         ? (circles
             .map((circle) => {
+              // Exclude by id
               if (options.excludeIds?.includes(circle.id)) return
+
+              // Get roles and ancestors
               const circleRoles = enrichCirclesWithRoles(
                 getCircleAndParents(circles, circle.id),
                 roles
               )
+
+              // Exclude by singleMember property
+              if (
+                options.circlesSingleMember !== undefined &&
+                (circleRoles[circleRoles.length - 1].role.singleMember ||
+                  false) !== options.circlesSingleMember
+              ) {
+                return
+              }
+
               return {
                 text: circleRoles
                   .map((cr) => cr.role?.name || '?')
@@ -53,7 +67,13 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
             })
             .filter(Boolean) as SearchItem[])
         : [],
-    [circles, roles, options.circles, options.excludeIds]
+    [
+      circles,
+      roles,
+      options.circles,
+      options.excludeIds,
+      options.circlesSingleMember,
+    ]
   )
 
   // Members items
@@ -62,7 +82,9 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
       members && options.members
         ? (members
             .map((member) => {
+              // Exclude by id
               if (options.excludeIds?.includes(member.id)) return
+
               return {
                 text: member.name.toLowerCase(),
                 type: SearchItemTypes.Member,
@@ -83,14 +105,18 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
               getCircleAndParents(circles, circle.id),
               roles
             )
+
             const circleRolesText =
               circleRoles
                 .map((cr) => cr.role?.name || '?')
                 .join(' > ')
                 .toLowerCase() + ' '
+
             return circle.members
               .map((circleMember): SearchItem | undefined => {
+                // Exclude by id
                 if (options.excludeIds?.includes(circleMember.id)) return
+
                 const member = members.find(
                   (m) => m.id === circleMember.memberId
                 )

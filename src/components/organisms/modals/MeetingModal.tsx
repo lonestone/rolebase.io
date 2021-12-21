@@ -249,13 +249,14 @@ export default function MeetingModal({
               </Flex>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel htmlFor="circleId">Cercle / Rôle</FormLabel>
+                <FormLabel htmlFor="circleId">Cercle</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
                   render={({ field }) => (
                     <EntityButtonCombobox
                       circles
+                      circlesSingleMember={false}
                       value={field.value}
                       onChange={field.onChange}
                     />

@@ -34,7 +34,7 @@ import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/meeting'
 import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
 export default function MeetingsPage() {
@@ -62,6 +62,19 @@ export default function MeetingsPage() {
 
   // Filter meetings
   const meetings = useFilterEntities(filter, data)
+
+  // Prepare events for Fullcalendar
+  const events = useMemo(
+    () =>
+      meetings?.map((meeting) => ({
+        id: meeting.id,
+        title: meeting.title,
+        start: meeting.startDate.toDate(),
+        end: meeting.endDate.toDate(),
+        color: 'hsl(192deg 76% 50%)',
+      })),
+    [meetings]
+  )
 
   // Modal
   const [meeting, setMeeting] = useState<MeetingEntry | undefined>()
@@ -157,12 +170,7 @@ export default function MeetingsPage() {
 
       <Box flex={1}>
         <FullCalendar
-          events={meetings?.map((meeting) => ({
-            id: meeting.id,
-            title: meeting.title,
-            start: meeting.startDate.toDate(),
-            end: meeting.endDate.toDate(),
-          }))}
+          events={events}
           height="100%"
           locale="fr"
           plugins={[
