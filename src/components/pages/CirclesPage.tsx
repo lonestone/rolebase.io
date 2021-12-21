@@ -1,6 +1,5 @@
 import { Box } from '@chakra-ui/react'
 import CirclePanel from '@components/organisms/panels/CirclePanel'
-import CirclesDefaultPanel from '@components/organisms/panels/CirclesDefaultPanel'
 import MemberPanel from '@components/organisms/panels/MemberPanel'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
@@ -13,12 +12,10 @@ import CirclesGraph from '../organisms/CirclesGraph'
 type CirclesPageParams = {
   circleId: string
   memberId: string
-  baseRoles: string
-  vacantRoles: string
 }
 
 enum Panels {
-  Default,
+  None,
   Circle,
   Member,
 }
@@ -36,7 +33,7 @@ export default function CirclesPage() {
   const { width, height } = useWindowSize(boxRef)
 
   // Panels
-  const [panel, setPanel] = useState<Panels>(Panels.Default)
+  const [panel, setPanel] = useState<Panels>(Panels.None)
   const [circleId, setCircleId] = useState<string | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
 
@@ -56,7 +53,7 @@ export default function CirclesPage() {
     } else if (queryParams.circleId) {
       setPanel(Panels.Circle)
     } else {
-      setPanel(Panels.Default)
+      setPanel(Panels.None)
     }
   }, [ready, JSON.stringify(queryParams)])
 
@@ -70,8 +67,6 @@ export default function CirclesPage() {
           onReady={() => setReady(true)}
         />
       )}
-
-      {panel === Panels.Default && <CirclesDefaultPanel />}
 
       {panel === Panels.Circle && circleId && (
         <CirclePanel id={circleId} onClose={handleClosePanel} />

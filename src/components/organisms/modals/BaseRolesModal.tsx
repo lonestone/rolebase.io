@@ -20,7 +20,7 @@ import BaseRoleCreateModal from './BaseRoleCreateModal'
 import RoleDeleteModal from './RoleDeleteModal'
 import RoleEditModal from './RoleEditModal'
 
-export default function BaseRolesModal(props: UseModalProps) {
+export default function BaseRolesModal(modalProps: UseModalProps) {
   const roles = useStoreState((state) => state.roles.entries)
   const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
 
@@ -60,7 +60,7 @@ export default function BaseRolesModal(props: UseModalProps) {
 
   return (
     <>
-      <Modal {...props}>
+      <Modal {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Rôles de base de l'organisation</ModalHeader>

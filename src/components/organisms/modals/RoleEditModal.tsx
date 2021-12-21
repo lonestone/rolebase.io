@@ -65,7 +65,7 @@ enum LinkType {
 }
 const tmpCircleId = 'tmpCircleId'
 
-export default function RoleEditModal({ id, ...props }: Props) {
+export default function RoleEditModal({ id, ...modalProps }: Props) {
   const role = useRole(id)
 
   const {
@@ -104,14 +104,14 @@ export default function RoleEditModal({ id, ...props }: Props) {
 
   const onSubmit = handleSubmit((values) => {
     updateRole(id, values)
-    props.onClose()
+    modalProps.onClose()
   })
 
   if (!role) return null
 
   return (
     <>
-      <Modal {...props} size="xl">
+      <Modal {...modalProps} size="xl">
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>

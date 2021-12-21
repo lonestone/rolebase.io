@@ -23,8 +23,6 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-interface Props extends UseModalProps {}
-
 interface Values {
   name: string
 }
@@ -35,7 +33,7 @@ const resolver = yupResolver(
   })
 )
 
-export default function OrgCreateModal(props: Props) {
+export default function OrgCreateModal(modalProps: UseModalProps) {
   const user = useStoreState((state) => state.auth.user)
 
   const {
@@ -51,7 +49,7 @@ export default function OrgCreateModal(props: Props) {
       console.error('User not logged in')
       return
     }
-    props.onClose()
+    modalProps.onClose()
 
     // Create org
     const org = await createOrg({ name, ownersIds: [user.id] })
@@ -71,7 +69,7 @@ export default function OrgCreateModal(props: Props) {
   })
 
   return (
-    <Modal {...props}>
+    <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>

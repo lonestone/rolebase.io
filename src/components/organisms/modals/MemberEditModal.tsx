@@ -53,7 +53,7 @@ const resolver = yupResolver(
   })
 )
 
-export default function MemberEditModal({ id, ...props }: Props) {
+export default function MemberEditModal({ id, ...modalProps }: Props) {
   const member = useMember(id)
   const org = useCurrentOrg()
   const toast = useToast()
@@ -98,13 +98,13 @@ export default function MemberEditModal({ id, ...props }: Props) {
 
     // Update member data
     await updateMember(id, memberUpdate)
-    props.onClose()
+    modalProps.onClose()
   })
 
   // Go to member panel with roles
   const navigateOrg = useNavigateOrg()
   const navigateToMember = useCallback(() => {
-    props.onClose()
+    modalProps.onClose()
     navigateOrg(`?memberId=${id}`)
   }, [id])
 
@@ -124,7 +124,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
 
   return (
     <>
-      <Modal {...props}>
+      <Modal {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
@@ -222,7 +222,7 @@ export default function MemberEditModal({ id, ...props }: Props) {
       {isDeleteOpen && (
         <MemberDeleteModal
           id={id}
-          onDelete={props.onClose}
+          onDelete={modalProps.onClose}
           isOpen
           onClose={onDeleteClose}
         />

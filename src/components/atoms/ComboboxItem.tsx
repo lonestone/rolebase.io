@@ -9,9 +9,14 @@ interface ComboboxItemProps extends ButtonProps {
 }
 
 const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
-  ({ item, highlighted, ...props }, ref) => {
+  ({ item, highlighted, ...buttonProps }, ref) => {
     return (
-      <Button isActive={highlighted} ref={ref} pointerEvents="auto" {...props}>
+      <Button
+        isActive={highlighted}
+        ref={ref}
+        pointerEvents="auto"
+        {...buttonProps}
+      >
         {item.type === SearchItemTypes.Circle &&
           item.circleRoles.map((circle, i) => (
             <React.Fragment key={circle.id}>

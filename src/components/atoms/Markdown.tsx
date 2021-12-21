@@ -24,10 +24,10 @@ const options: MarkedOptions = {
   breaks: true,
 }
 
-export default function Markdown({ children, ...props }: Props) {
+export default function Markdown({ children, ...boxProps }: Props) {
   return (
     <BasicStyle
-      {...props}
+      {...boxProps}
       dangerouslySetInnerHTML={{
         __html: marked(children, options),
       }}

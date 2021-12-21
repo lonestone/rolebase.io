@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
+import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useState } from 'react'
@@ -46,6 +47,13 @@ export default function OrgMenu() {
     onClose: onBaseRolesClose,
   } = useDisclosure()
 
+  // Vacant roles modal
+  const {
+    isOpen: isVacantRolesOpen,
+    onOpen: onVacantRolesOpen,
+    onClose: onVacantRolesClose,
+  } = useDisclosure()
+
   if (!org) return null
   return (
     <Menu>
@@ -64,6 +72,9 @@ export default function OrgMenu() {
           <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
             Rôles de base
           </MenuItem>
+          <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
+            Rôles vacants
+          </MenuItem>
           <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
             Toutes les organisations
           </MenuItem>
@@ -75,6 +86,9 @@ export default function OrgMenu() {
       )}
 
       {isBaseRolesOpen && <BaseRolesModal isOpen onClose={onBaseRolesClose} />}
+      {isVacantRolesOpen && (
+        <VacantRolesModal isOpen onClose={onVacantRolesClose} />
+      )}
     </Menu>
   )
 }

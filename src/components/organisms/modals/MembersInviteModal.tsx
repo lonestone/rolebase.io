@@ -29,7 +29,7 @@ import {
   memberInviteReducer,
 } from './membersInvite'
 
-export default function MembersInviteModal(props: UseModalProps) {
+export default function MembersInviteModal(modalProps: UseModalProps) {
   const toast = useToast()
   const members = useStoreState((state) => state.members.entries)
 
@@ -116,7 +116,7 @@ export default function MembersInviteModal(props: UseModalProps) {
         duration: 4000,
         isClosable: true,
       })
-      props.onClose()
+      modalProps.onClose()
     } catch (error) {
       toast({
         title: 'Erreur',
@@ -127,10 +127,10 @@ export default function MembersInviteModal(props: UseModalProps) {
       })
       setIsInviting(false)
     }
-  }, [state, props.onClose])
+  }, [state, modalProps.onClose])
 
   return (
-    <Modal {...props} size="xl">
+    <Modal {...modalProps} size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Inviter des membres par email</ModalHeader>

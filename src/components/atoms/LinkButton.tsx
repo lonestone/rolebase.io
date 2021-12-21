@@ -14,14 +14,14 @@ const NavLinkStyled = styled(NavLink)`
   }
 `
 
-const LinkButton: React.FC<Props> = ({ to, highlightActive, ...props }) =>
+const LinkButton: React.FC<Props> = ({ to, highlightActive, ...buttonProps }) =>
   highlightActive ? (
     <NavLinkStyled to={to} exact activeClassName="active">
-      <Button {...props} colorScheme="gray" pointerEvents="auto" />
+      <Button {...buttonProps} colorScheme="gray" pointerEvents="auto" />
     </NavLinkStyled>
   ) : (
     <Link to={to}>
-      <Button {...props} pointerEvents="auto" />
+      <Button {...buttonProps} pointerEvents="auto" />
     </Link>
   )
 

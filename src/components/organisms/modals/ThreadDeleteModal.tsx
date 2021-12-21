@@ -20,19 +20,23 @@ interface Props
 }
 
 // WIP
-export default function ThreadDeleteModal({ id, onDelete, ...props }: Props) {
+export default function ThreadDeleteModal({
+  id,
+  onDelete,
+  ...alertProps
+}: Props) {
   const member = useMember(id)
 
   const handleDelete = () => {
     deleteMember(id)
     onDelete?.()
-    props.onClose()
+    alertProps.onClose()
   }
 
   if (!member) return null
 
   return (
-    <AlertDialog {...props} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -46,7 +50,7 @@ export default function ThreadDeleteModal({ id, onDelete, ...props }: Props) {
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={props.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>Annuler</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               Supprimer
             </Button>

@@ -40,7 +40,7 @@ const resolver = yupResolver(
   })
 )
 
-export default function OrgEditModal({ id, ...props }: Props) {
+export default function OrgEditModal({ id, ...modalProps }: Props) {
   const org = useOrg(id)
 
   const {
@@ -70,14 +70,14 @@ export default function OrgEditModal({ id, ...props }: Props) {
 
   const onSubmit = handleSubmit((values) => {
     updateOrg(id, values)
-    props.onClose()
+    modalProps.onClose()
   })
 
   if (!org) return null
 
   return (
     <>
-      <Modal {...props}>
+      <Modal {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
@@ -124,7 +124,7 @@ export default function OrgEditModal({ id, ...props }: Props) {
       {isDeleteOpen && (
         <OrgDeleteModal
           id={id}
-          onDelete={props.onClose}
+          onDelete={modalProps.onClose}
           isOpen
           onClose={onDeleteClose}
         />

@@ -25,7 +25,7 @@ export default function CircleMemberDeleteModal({
   circleId,
   memberId,
   onDelete,
-  ...props
+  ...alertProps
 }: Props) {
   const circle = useCircle(circleId)
   const member = useMember(memberId)
@@ -33,11 +33,11 @@ export default function CircleMemberDeleteModal({
   const handleDelete = () => {
     removeCircleMember(memberId, circleId)
     onDelete?.()
-    props.onClose()
+    alertProps.onClose()
   }
 
   return (
-    <AlertDialog {...props} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -53,7 +53,7 @@ export default function CircleMemberDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={props.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>Annuler</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               Supprimer
             </Button>

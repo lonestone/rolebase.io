@@ -41,7 +41,7 @@ const resolver = yupResolver(
 export default function CircleCreateModal({
   parentId,
   singleMember,
-  ...props
+  ...modalProps
 }: Props) {
   const navigateOrg = useNavigateOrg()
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -76,7 +76,7 @@ export default function CircleCreateModal({
   const handleCreateCircle = useCallback(
     async (roleId: string) => {
       if (!orgId) return
-      props.onClose()
+      modalProps.onClose()
       const circle = await createCircle({ orgId, roleId, parentId })
       navigateOrg(`?circleId=${circle.id}`)
     },
@@ -98,7 +98,7 @@ export default function CircleCreateModal({
   })
 
   return (
-    <Modal {...props}>
+    <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>

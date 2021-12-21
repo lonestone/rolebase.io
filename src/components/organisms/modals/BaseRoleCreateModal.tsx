@@ -31,7 +31,10 @@ const resolver = yupResolver(
   })
 )
 
-export default function BaseRoleCreateModal(props: Props) {
+export default function BaseRoleCreateModal({
+  onCreate,
+  ...modalProps
+}: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   const {
@@ -50,13 +53,13 @@ export default function BaseRoleCreateModal(props: Props) {
         name,
         singleMember: true,
       })
-      props.onCreate?.(role.id)
+      onCreate?.(role.id)
     }
-    props.onClose()
+    modalProps.onClose()
   })
 
   return (
-    <Modal {...props}>
+    <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>

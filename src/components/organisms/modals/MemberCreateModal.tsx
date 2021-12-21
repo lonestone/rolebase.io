@@ -36,7 +36,7 @@ const resolver = yupResolver(
   })
 )
 
-export default function MemberCreateModal(props: Props) {
+export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   const {
@@ -50,22 +50,22 @@ export default function MemberCreateModal(props: Props) {
   const onSubmit = handleSubmit(async ({ name }) => {
     if (!orgId) return
     const member = await createMember({ orgId, name })
-    props.onCreate?.(member.id)
-    props.onClose()
+    onCreate?.(member.id)
+    modalProps.onClose()
   })
 
   const handleCopy = useCallback(
     async (memberToCopy: MemberEntry) => {
       if (!orgId) return
       const member = await createMember({ ...memberToCopy, orgId })
-      props.onCreate?.(member.id)
-      props.onClose()
+      onCreate?.(member.id)
+      modalProps.onClose()
     },
     [orgId]
   )
 
   return (
-    <Modal {...props}>
+    <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>

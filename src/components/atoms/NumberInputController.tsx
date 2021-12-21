@@ -12,7 +12,7 @@ export default function NumberInputController({
   name,
   onChange,
   control,
-  ...props
+  ...inputProps
 }: Props) {
   return (
     <Controller
@@ -22,7 +22,7 @@ export default function NumberInputController({
         <NumberInput
           value={field.value}
           onChange={(value) => field.onChange(value)}
-          {...props}
+          {...inputProps}
         />
       )}
     />
