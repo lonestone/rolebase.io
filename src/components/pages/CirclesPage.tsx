@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react'
-import BaseRolesPanel from '@components/organisms/panels/BaseRolesPanel'
 import CirclePanel from '@components/organisms/panels/CirclePanel'
 import CirclesDefaultPanel from '@components/organisms/panels/CirclesDefaultPanel'
 import MemberPanel from '@components/organisms/panels/MemberPanel'
@@ -19,9 +18,9 @@ type CirclesPageParams = {
 }
 
 enum Panels {
+  Default,
   Circle,
   Member,
-  BaseRoles,
 }
 
 export default function CirclesPage() {
@@ -37,7 +36,7 @@ export default function CirclesPage() {
   const { width, height } = useWindowSize(boxRef)
 
   // Panels
-  const [panel, setPanel] = useState<Panels | undefined>()
+  const [panel, setPanel] = useState<Panels>(Panels.Default)
   const [circleId, setCircleId] = useState<string | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
 
@@ -51,15 +50,13 @@ export default function CirclesPage() {
     setCircleId(queryParams.circleId)
 
     // Open panel
-    if (queryParams.baseRoles !== undefined) {
-      setPanel(Panels.BaseRoles)
-    } else if (queryParams.memberId) {
+    if (queryParams.memberId) {
       setMemberId(queryParams.memberId)
       setPanel(Panels.Member)
     } else if (queryParams.circleId) {
       setPanel(Panels.Circle)
     } else {
-      setPanel(undefined)
+      setPanel(Panels.Default)
     }
   }, [ready, JSON.stringify(queryParams)])
 
@@ -74,7 +71,7 @@ export default function CirclesPage() {
         />
       )}
 
-      {panel === undefined && <CirclesDefaultPanel />}
+      {panel === Panels.Default && <CirclesDefaultPanel />}
 
       {panel === Panels.Circle && circleId && (
         <CirclePanel id={circleId} onClose={handleClosePanel} />
@@ -86,10 +83,6 @@ export default function CirclesPage() {
           highlightCircleId={circleId || undefined}
           onClose={handleClosePanel}
         />
-      )}
-
-      {panel === Panels.BaseRoles && (
-        <BaseRolesPanel onClose={handleClosePanel} />
       )}
     </Box>
   )

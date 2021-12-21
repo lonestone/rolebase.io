@@ -7,6 +7,7 @@ import {
   Portal,
   useDisclosure,
 } from '@chakra-ui/react'
+import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
@@ -38,6 +39,13 @@ export default function OrgMenu() {
     onEditOpen()
   }
 
+  // Base roles modal
+  const {
+    isOpen: isBaseRolesOpen,
+    onOpen: onBaseRolesOpen,
+    onClose: onBaseRolesClose,
+  } = useDisclosure()
+
   if (!org) return null
   return (
     <Menu>
@@ -53,10 +61,7 @@ export default function OrgMenu() {
           <MenuItem icon={<FiUsers />} onClick={() => navigateOrg('/members')}>
             Membres
           </MenuItem>
-          <MenuItem
-            icon={<FiCircle />}
-            onClick={() => navigateOrg('?baseRoles')}
-          >
+          <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
             Rôles de base
           </MenuItem>
           <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
@@ -68,6 +73,8 @@ export default function OrgMenu() {
       {isEditOpen && editOrgId && (
         <OrgEditModal id={editOrgId} isOpen onClose={onEditClose} />
       )}
+
+      {isBaseRolesOpen && <BaseRolesModal isOpen onClose={onBaseRolesClose} />}
     </Menu>
   )
 }
