@@ -1,5 +1,7 @@
-import { updateMeeting } from '@api/entities/meetings'
-import { Timestamp } from '@api/firebase'
+import {
+  subscribeMeetingsByDates,
+  updateMeetingDates,
+} from '@api/entities/meetings'
 import {
   Box,
   Button,
@@ -16,16 +18,22 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
-import { EventChangeArg, EventClickArg } from '@fullcalendar/common'
+import {
+  DatesSetArg,
+  EventChangeArg,
+  EventClickArg,
+} from '@fullcalendar/common'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
-import useMeetingsList from '@hooks/useMeetingsList'
+import useFilterEntities from '@hooks/useFilterEntities'
+import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/meeting'
 import { EntityFilters } from '@shared/types'
+import { useStoreState } from '@store/hooks'
 import React, { useCallback, useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
@@ -37,8 +45,23 @@ export default function MeetingsPage() {
     handleChange: handleFilterChange,
   } = useEntitiesFilterMenu()
 
+  // Dates range
+  const [datesRange, setDatesRange] = useState<[Date, Date] | undefined>(
+    undefined
+  )
+
   // Subscribe to meetings
-  const { meetings, error, loading } = useMeetingsList(filter, false)
+  const orgId = useStoreState((state) => state.orgs.currentId)
+
+  // Subscribe to meetings
+  const { data, error, loading } = useSubscription(
+    orgId && datesRange
+      ? subscribeMeetingsByDates(orgId, datesRange[0], datesRange[1])
+      : undefined
+  )
+
+  // Filter meetings
+  const meetings = useFilterEntities(filter, data)
 
   // Modal
   const [meeting, setMeeting] = useState<MeetingEntry | undefined>()
@@ -75,12 +98,16 @@ export default function MeetingsPage() {
     [meetings]
   )
 
-  const handleChange = useCallback(({ event }: EventChangeArg) => {
+  const handleDatesChange = useCallback(
+    ({ start, end }: DatesSetArg) => {
+      setDatesRange([start, end])
+    },
+    [meetings]
+  )
+
+  const handleEventChange = useCallback(({ event }: EventChangeArg) => {
     if (!event.start || !event.end) return
-    updateMeeting(event.id, {
-      startDate: Timestamp.fromDate(event.start),
-      endDate: Timestamp.fromDate(event.end),
-    })
+    updateMeetingDates(event.id, event.start, event.end)
   }, [])
 
   return (
@@ -157,7 +184,8 @@ export default function MeetingsPage() {
           dateClick={handleDateClick}
           scrollTime="08:00:00"
           eventClick={handleEdit}
-          eventChange={handleChange}
+          eventChange={handleEventChange}
+          datesSet={handleDatesChange}
         />
       </Box>
 

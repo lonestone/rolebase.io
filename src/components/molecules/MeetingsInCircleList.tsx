@@ -1,3 +1,4 @@
+import { subscribeMeetingsByCircle } from '@api/entities/meetings'
 import {
   Button,
   HStack,
@@ -10,7 +11,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
-import { EntityFilters } from '@shared/types'
+import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
 import React from 'react'
@@ -18,7 +19,6 @@ import { FiCalendar, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
-import useMeetingsList from '../../hooks/useMeetingsList'
 
 interface Props {
   circleId: string
@@ -27,11 +27,12 @@ interface Props {
 export default function MeetingsInCircleList({ circleId }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
-  // Subscribe to meetings
-  const { meetings, error, loading } = useMeetingsList(
-    EntityFilters.Circle,
-    false,
-    circleId
+  const {
+    data: meetings,
+    error,
+    loading,
+  } = useSubscription(
+    orgId ? subscribeMeetingsByCircle(orgId, circleId, false) : undefined
   )
 
   // Meeting modal

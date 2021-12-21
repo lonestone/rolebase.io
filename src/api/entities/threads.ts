@@ -22,13 +22,18 @@ export const updateThread = methods.update
 export const subscribeThread = methods.subscribe
 export const deleteThread = methods.delete
 
-export const subscribeAllThreads = memoize(
-  (orgId: string, archived: boolean = false) =>
-    subscribeQuery(
-      collection.where('orgId', '==', orgId).where('archived', '==', archived)
-    )
+export const subscribeAllThreads = memoize((orgId: string, archived: boolean) =>
+  subscribeQuery(
+    collection.where('orgId', '==', orgId).where('archived', '==', archived)
+  )
 )
 
-export const subscribeCircleThreads = memoize((circleId: string) =>
-  subscribeQuery(collection.where('circleId', '==', circleId))
+export const subscribeThreadsByCircle = memoize(
+  (orgId: string, circleId: string, archived: boolean) =>
+    subscribeQuery(
+      collection
+        .where('orgId', '==', orgId)
+        .where('circleId', '==', circleId)
+        .where('archived', '==', archived)
+    )
 )

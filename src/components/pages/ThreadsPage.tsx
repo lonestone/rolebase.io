@@ -1,3 +1,4 @@
+import { subscribeAllThreads } from '@api/entities/threads'
 import {
   Button,
   Container,
@@ -22,7 +23,9 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
-import useThreadsList from '@hooks/useThreadsList'
+import useFilterEntities from '@hooks/useFilterEntities'
+import useSubscription from '@hooks/useSubscription'
+import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
@@ -42,15 +45,23 @@ export default function ThreadsPage() {
   // Archives filter menu
   const [archives, setArchives] = useState(false)
 
+  // Subscribe to threads
+  const { data, error, loading } = useSubscription(
+    orgId ? subscribeAllThreads(orgId, archives) : undefined
+  )
+
+  // Filter threads
+  const filteredThreads = useFilterEntities(filter, data)
+
+  // Enrich with status and sort
+  const threads = useThreadsWithStatus(filteredThreads)
+
   // Create modal
   const {
     isOpen: isCreateOpen,
     onOpen: onCreateOpen,
     onClose: onCreateClose,
   } = useDisclosure()
-
-  // Subscribe to threads
-  const { threads, error, loading } = useThreadsList(filter, archives)
 
   return (
     <Container maxW="3xl" mt="90px">

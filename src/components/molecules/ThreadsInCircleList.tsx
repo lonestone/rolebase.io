@@ -1,3 +1,4 @@
+import { subscribeThreadsByCircle } from '@api/entities/threads'
 import {
   Button,
   HStack,
@@ -9,12 +10,12 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
-import { EntityFilters } from '@shared/types'
+import useSubscription from '@hooks/useSubscription'
+import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
-import useThreadsList from '../../hooks/useThreadsList'
 
 interface Props {
   circleId: string
@@ -24,11 +25,12 @@ export default function ThreadsInCircleList({ circleId }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   // Subscribe to threads
-  const { threads, error, loading } = useThreadsList(
-    EntityFilters.Circle,
-    false,
-    circleId
+  const { data, error, loading } = useSubscription(
+    orgId ? subscribeThreadsByCircle(orgId, circleId, false) : undefined
   )
+
+  // Enrich with status and sort
+  const threads = useThreadsWithStatus(data)
 
   // Thread modal
   const {

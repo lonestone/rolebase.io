@@ -1,31 +1,17 @@
 import { memberThreadsStatus } from '@api/entities/memberThreadsStatus'
-import { subscribeAllThreads } from '@api/entities/threads'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
 import { MemberThreadStatus } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
-import { EntityFilters } from '@shared/types'
-import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-import useFilterEntities from './useFilterEntities'
 
 export interface ThreadWithStatus extends ThreadEntry {
   read: boolean
   status?: MemberThreadStatus
 }
 
-export default function useThreadsList(
-  filter: EntityFilters,
-  archived: boolean,
-  circleId?: string
-) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+export default function useThreadsWithStatus(threads?: ThreadEntry[]) {
   const currentMember = useCurrentMember()
-
-  // Subscribe to threads
-  const { data, error, loading } = useSubscription(
-    orgId ? subscribeAllThreads(orgId, archived) : undefined
-  )
 
   // Threads status for current member
   const subscribe = currentMember
@@ -33,14 +19,11 @@ export default function useThreadsList(
     : undefined
   const { data: threadsStatus } = useSubscription(subscribe)
 
-  // Filter threads
-  const filteredThreads = useFilterEntities(filter, data, circleId)
-
   // Filter and sort threads
-  const threads = useMemo(() => {
-    if (!filteredThreads) return
+  return useMemo(() => {
+    if (!threads) return
     return (
-      filteredThreads
+      threads
         // Enrich with status
         .map((thread): ThreadWithStatus => {
           const status = threadsStatus?.find((s) => s.id === thread.id)
@@ -68,7 +51,5 @@ export default function useThreadsList(
           return 0
         })
     )
-  }, [filteredThreads, threadsStatus])
-
-  return { threads, error, loading }
+  }, [threads, threadsStatus])
 }
