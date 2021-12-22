@@ -8,6 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
+import MeetingTemplatesModal from '@components/organisms/modals/MeetingTemplatesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -16,6 +17,7 @@ import React, { useState } from 'react'
 import {
   FiArrowLeft,
   FiCircle,
+  FiCopy,
   FiMenu,
   FiSettings,
   FiUsers,
@@ -54,6 +56,13 @@ export default function OrgMenu() {
     onClose: onVacantRolesClose,
   } = useDisclosure()
 
+  // Meeting templates modal
+  const {
+    isOpen: isMeetingTemplatesOpen,
+    onOpen: onMeetingTemplatesOpen,
+    onClose: onMeetingTemplatesClose,
+  } = useDisclosure()
+
   if (!org) return null
   return (
     <Menu>
@@ -75,6 +84,9 @@ export default function OrgMenu() {
           <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
             Rôles vacants
           </MenuItem>
+          <MenuItem icon={<FiCopy />} onClick={onMeetingTemplatesOpen}>
+            Templates de réunion
+          </MenuItem>
           <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
             Toutes les organisations
           </MenuItem>
@@ -86,8 +98,13 @@ export default function OrgMenu() {
       )}
 
       {isBaseRolesOpen && <BaseRolesModal isOpen onClose={onBaseRolesClose} />}
+
       {isVacantRolesOpen && (
         <VacantRolesModal isOpen onClose={onVacantRolesClose} />
+      )}
+
+      {isMeetingTemplatesOpen && (
+        <MeetingTemplatesModal isOpen onClose={onMeetingTemplatesClose} />
       )}
     </Menu>
   )

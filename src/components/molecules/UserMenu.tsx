@@ -16,16 +16,18 @@ import React from 'react'
 
 export default function UserMenu() {
   const user = useStoreState((state) => state.auth.user)
-
-  const navigateOrg = useNavigateOrg()
   const member = useCurrentMember()
+  const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
 
+  const { name, picture } = member || user || { name: '?', picture: '' }
+
+  console.log(user, member)
   if (!user) return null
   return (
     <Menu>
       <MenuButton as={Button} variant="ghost" size="sm" px={1}>
-        <Avatar name={user.name} src={user.picture || undefined} size="xs" />
+        <Avatar name={name} src={picture || undefined} size="xs" />
       </MenuButton>
       <Portal>
         <MenuList zIndex={10} shadow="lg">

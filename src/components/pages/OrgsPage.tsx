@@ -1,6 +1,7 @@
 import {
   Button,
   Container,
+  Flex,
   Heading,
   HStack,
   IconButton,
@@ -68,10 +69,11 @@ export default function OrgsPage() {
               p="5"
               borderWidth="1px"
               rounded="md"
+              role="group"
               _hover={{ background: '#fafafa' }}
             >
               <Heading size="md" my="2">
-                <HStack>
+                <Flex>
                   <LinkOverlay as={ReachLink} to={`/orgs/${org.id}`}>
                     {org.name}
                   </LinkOverlay>
@@ -81,8 +83,10 @@ export default function OrgsPage() {
                     size="sm"
                     onClick={() => handleOpenEdit(org.id)}
                     icon={<FiEdit3 />}
+                    opacity={0}
+                    _groupHover={{ opacity: 1 }}
                   />
-                </HStack>
+                </Flex>
               </Heading>
             </LinkBox>
           </WrapItem>

@@ -57,7 +57,6 @@ export default function ThreadsInCircleList({ circleId }: Props) {
               key={thread.id}
               px={2}
               py={1}
-              borderBottomWidth="1px"
               _hover={{ background: '#fafafa' }}
             >
               <HStack spacing={3} align="stretch" alignItems="center">
@@ -65,7 +64,7 @@ export default function ThreadsInCircleList({ circleId }: Props) {
                 <LinkOverlay
                   as={ReachLink}
                   to={`/orgs/${orgId}/threads/${thread.id}`}
-                  fontWeight={thread.read ? 'normal' : 'bold'}
+                  fontWeight={thread.read !== false ? 'normal' : 'bold'}
                 >
                   {thread.title}
                 </LinkOverlay>

@@ -1,4 +1,4 @@
-import { deleteMember } from '@api/entities/members'
+import { deleteMeetingTemplate } from '@api/entities/meetingTemplates'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -10,42 +10,38 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import useMember from '@hooks/useMember'
+import { MeetingTempalteEntry } from '@shared/meetingTemplate'
 import React from 'react'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
-  id: string
+  meetingTemplate: MeetingTempalteEntry
   onDelete?(): void
 }
 
-export default function MemberDeleteModal({
-  id,
+export default function MeetingTemplateDeleteModal({
+  meetingTemplate,
   onDelete,
   ...alertProps
 }: Props) {
-  const member = useMember(id)
-
   const handleDelete = () => {
-    deleteMember(id)
+    deleteMeetingTemplate(meetingTemplate.id)
     onDelete?.()
     alertProps.onClose()
   }
-
-  if (!member) return null
 
   return (
     <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un membre
+            Supprimer un template de réunion
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer le membre{' '}
-              <strong>{member.name}</strong> ?
+              Êtes-vous sûr de vouloir supprimer le template{' '}
+              <strong>{meetingTemplate.title}</strong> ?
             </Text>
           </AlertDialogBody>
 

@@ -71,7 +71,9 @@ export default function MeetingsPage() {
         title: meeting.title,
         start: meeting.startDate.toDate(),
         end: meeting.endDate.toDate(),
-        color: 'hsl(192deg 76% 50%)',
+        backgroundColor: 'hsl(192deg 76% 87%)',
+        borderColor: 'hsl(192deg 76% 50%)',
+        textColor: 'black',
       })),
     [meetings]
   )

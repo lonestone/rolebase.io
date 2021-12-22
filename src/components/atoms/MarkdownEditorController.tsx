@@ -1,28 +1,28 @@
 import React from 'react'
-import { Control, Controller } from 'react-hook-form'
+import { Control, Controller, Path } from 'react-hook-form'
 import MarkdownEditor from './MarkdownEditor'
 
-interface Props {
-  name: string
+interface Props<Values> {
+  name: Path<Values>
+  control: Control<Values>
   placeholder?: string
   autoFocus?: boolean
-  control: Control<any>
 }
 
-export default function MarkdownEditorController({
+export default function MarkdownEditorController<Values>({
   name,
   placeholder,
   autoFocus,
   control,
-}: Props) {
+}: Props<Values>) {
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue=""
+      defaultValue={'' as any}
       render={({ field }) => (
         <MarkdownEditor
-          value={field.value}
+          value={field.value as string}
           onChange={field.onChange}
           placeholder={placeholder}
           autoFocus={autoFocus}

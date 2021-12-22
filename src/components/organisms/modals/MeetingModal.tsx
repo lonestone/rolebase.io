@@ -1,7 +1,6 @@
 import { createMeeting, updateMeeting } from '@api/entities/meetings'
 import { Timestamp } from '@api/firebase'
 import { nameSchema } from '@api/schemas'
-import { CloseIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -9,7 +8,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  IconButton,
   Input,
   InputGroup,
   InputRightAddon,
@@ -19,15 +17,16 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Stack,
-  Tag,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import MeetingStepTypeSelect from '@components/atoms/MeetingStepTypeSelect'
 import NumberInputController from '@components/atoms/NumberInputController'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
+import MeetingStepsConfigController, {
+  stepsConfigSchema,
+  StepsValues,
+} from '@components/molecules/MeetingStepsConfigController'
 import MembersSelect from '@components/molecules/MembersSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -35,16 +34,11 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useParticipants from '@hooks/useParticipants'
-import {
-  MeetingEntry,
-  MeetingStepConfig,
-  MeetingStepTypes,
-} from '@shared/meeting'
+import { MeetingEntry } from '@shared/meeting'
 import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import { FiPlus } from 'react-icons/fi'
+import { Controller, useForm } from 'react-hook-form'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 
@@ -54,7 +48,7 @@ interface Props extends UseModalProps {
   defaultStartDate?: Date
 }
 
-interface Values {
+interface Values extends StepsValues {
   title: string
   circleId: string
   facilitatorMemberId: string
@@ -62,21 +56,16 @@ interface Values {
   startDate: string
   duration: number // In minutes
   ended: boolean
-  stepsConfig: MeetingStepConfig[]
 }
 
-export const resolver = yupResolver(
+const resolver = yupResolver(
   yup.object().shape({
     title: nameSchema,
     circleId: yup.string().required(),
     facilitatorMemberId: yup.string().required(),
     startDate: yup.string().required(),
     duration: yup.number().required(),
-    stepsConfig: yup.array().of(
-      yup.object().shape({
-        title: yup.string().required(),
-      })
-    ),
+    stepsConfig: stepsConfigSchema,
   })
 )
 
@@ -131,16 +120,6 @@ export default function MeetingModal({
           ended: false,
           stepsConfig: [],
         },
-  })
-
-  // Steps
-  const {
-    fields: stepsFields,
-    append: appendStep,
-    remove: removeStep,
-  } = useFieldArray({
-    control,
-    name: 'stepsConfig',
   })
 
   const circleId = watch('circleId')
@@ -315,41 +294,10 @@ export default function MeetingModal({
 
               <FormControl>
                 <FormLabel>Déroulé</FormLabel>
-                <Stack spacing={2}>
-                  {stepsFields.map((field, index) => (
-                    <Stack key={field.id} spacing={2} direction="row">
-                      <Tag size="lg" borderRadius="full">
-                        {index + 1}
-                      </Tag>
-                      <Stack spacing={2} direction="row" flex="1">
-                        <MeetingStepTypeSelect
-                          {...register(`stepsConfig.${index}.type`)}
-                        />
-                        <Input
-                          {...register(`stepsConfig.${index}.title`)}
-                          isInvalid={!!errors.stepsConfig?.[index]}
-                          placeholder="Titre de l'étape..."
-                          control={control}
-                        />
-                      </Stack>
-                      {stepsFields.length > 1 ? (
-                        <IconButton
-                          aria-label=""
-                          icon={<CloseIcon />}
-                          onClick={() => removeStep(index)}
-                        />
-                      ) : null}
-                    </Stack>
-                  ))}
-                  <Button
-                    leftIcon={<FiPlus />}
-                    onClick={() =>
-                      appendStep({ type: MeetingStepTypes.Tour, title: '' })
-                    }
-                  >
-                    Ajouter une étape
-                  </Button>
-                </Stack>
+                <MeetingStepsConfigController
+                  control={control as any}
+                  errors={errors}
+                />
               </FormControl>
 
               <Box textAlign="right" mt={2}>

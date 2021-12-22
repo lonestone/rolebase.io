@@ -8,23 +8,20 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Stack,
-  StackItem,
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
-import { FiEdit3, FiPlus, FiTrash2 } from 'react-icons/fi'
+import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import BaseRoleCreateModal from './BaseRoleCreateModal'
+import ListItemWithButtons from './ListItemWithButtons'
 import RoleDeleteModal from './RoleDeleteModal'
 import RoleEditModal from './RoleEditModal'
 
 export default function BaseRolesModal(modalProps: UseModalProps) {
   const roles = useStoreState((state) => state.roles.entries)
   const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
-
-  console.log(baseRoles)
 
   // Create modal
   const {
@@ -48,19 +45,19 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
     onClose: onEditClose,
   } = useDisclosure()
 
-  const handleOpenEdit = (id: string) => {
+  const handleEdit = (id: string) => {
     setRoleId(id)
     onEditOpen()
   }
 
-  const handleOpenDelete = (id: string) => {
+  const handleDelete = (id: string) => {
     setRoleId(id)
     onDeleteOpen()
   }
 
   return (
     <>
-      <Modal {...modalProps}>
+      <Modal size="sm" {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Rôles de base de l'organisation</ModalHeader>
@@ -70,27 +67,21 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
             {!baseRoles?.length ? (
               <i>Aucun rôle de base</i>
             ) : (
-              <Stack>
-                {baseRoles?.map((role) => (
-                  <StackItem key={role.id}>
-                    {role.name}{' '}
+              baseRoles?.map((role) => (
+                <ListItemWithButtons
+                  key={role.id}
+                  title={role.name}
+                  onClick={() => handleEdit(role.id)}
+                  buttons={
                     <IconButton
                       aria-label=""
                       size="sm"
-                      onClick={() => handleOpenEdit(role.id)}
-                      icon={<FiEdit3 />}
-                      ml={2}
-                    />
-                    <IconButton
-                      aria-label=""
-                      size="sm"
-                      onClick={() => handleOpenDelete(role.id)}
+                      onClick={() => handleDelete(role.id)}
                       icon={<FiTrash2 />}
-                      ml={2}
                     />
-                  </StackItem>
-                ))}
-              </Stack>
+                  }
+                />
+              ))
             )}
           </ModalBody>
 
@@ -106,7 +97,7 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
         <BaseRoleCreateModal
           isOpen
           onClose={onCreateClose}
-          onCreate={(id) => handleOpenEdit(id)}
+          onCreate={(id) => handleEdit(id)}
         />
       )}
 

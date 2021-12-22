@@ -3,7 +3,7 @@ import { WithId } from './types'
 
 export interface MeetingTemplate {
   orgId: string
-  name: string
+  title: string
   stepsConfig: MeetingStepConfig[]
 }
 

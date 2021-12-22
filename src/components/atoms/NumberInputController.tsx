@@ -1,26 +1,26 @@
 import { NumberInputProps } from '@chakra-ui/react'
 import React from 'react'
-import { Control, Controller } from 'react-hook-form'
+import { Control, Controller, Path } from 'react-hook-form'
 import NumberInput from './NumberInput'
 
-interface Props extends NumberInputProps {
-  name: string
-  control: Control<any>
+interface Props<Values> extends NumberInputProps {
+  name: Path<Values>
+  control: Control<Values>
 }
 
-export default function NumberInputController({
+export default function NumberInputController<Values>({
   name,
   onChange,
   control,
   ...inputProps
-}: Props) {
+}: Props<Values>) {
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
         <NumberInput
-          value={field.value}
+          value={field.value as number}
           onChange={(value) => field.onChange(value)}
           {...inputProps}
         />

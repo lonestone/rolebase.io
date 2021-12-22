@@ -44,8 +44,8 @@ export default function ThreadActivityLayout({
             icon={<FiEdit3 />}
             size="sm"
             float="right"
-            display="none"
-            _groupHover={{ display: 'inline-flex' }}
+            opacity={0}
+            _groupHover={{ opacity: 1 }}
             onClick={onEdit}
           />
         )}

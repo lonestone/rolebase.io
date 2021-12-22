@@ -6,7 +6,7 @@ import { ThreadEntry } from '@shared/thread'
 import { useMemo } from 'react'
 
 export interface ThreadWithStatus extends ThreadEntry {
-  read: boolean
+  read?: boolean
   status?: MemberThreadStatus
 }
 
@@ -26,8 +26,13 @@ export default function useThreadsWithStatus(threads?: ThreadEntry[]) {
       threads
         // Enrich with status
         .map((thread): ThreadWithStatus => {
+          // Status not loaded yet
+          if (!threadsStatus) return thread
+          // Find status
           const status = threadsStatus?.find((s) => s.id === thread.id)
+          // Not status for this thread = not read
           if (!status) return { ...thread, read: false }
+          // Thread is read if last seen activity is last in thread
           const read =
             status && status.lastReadActivityId === thread.lastActivityId
           return { ...thread, status, read }

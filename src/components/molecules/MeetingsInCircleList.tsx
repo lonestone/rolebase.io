@@ -75,7 +75,6 @@ export default function MeetingsInCircleList({ circleId }: Props) {
                   key={meeting.id}
                   px={2}
                   py={1}
-                  borderBottomWidth="1px"
                   _hover={{ background: '#fafafa' }}
                 >
                   <HStack spacing={3} align="stretch" alignItems="center">

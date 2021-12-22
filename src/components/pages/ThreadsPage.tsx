@@ -29,7 +29,7 @@ import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
-import { FiChevronDown, FiPlus } from 'react-icons/fi'
+import { FiChevronDown, FiMessageSquare, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 export default function ThreadsPage() {
@@ -122,14 +122,14 @@ export default function ThreadsPage() {
               key={thread.id}
               px={2}
               py={1}
-              borderBottomWidth="1px"
               _hover={{ background: '#fafafa' }}
             >
               <HStack>
+                <FiMessageSquare />
                 <LinkOverlay
                   as={ReachLink}
                   to={`/orgs/${orgId}/threads/${thread.id}`}
-                  fontWeight={thread.read ? 'normal' : 'bold'}
+                  fontWeight={thread.read !== false ? 'normal' : 'bold'}
                 >
                   {thread.title}
                 </LinkOverlay>

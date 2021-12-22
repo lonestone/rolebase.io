@@ -17,6 +17,7 @@ export interface Meeting extends EntityWithParticipants {
 export type MeetingEntry = WithId<Meeting>
 
 export interface MeetingStepConfig {
+  id: string
   type: MeetingStepTypes
   title: string
 }
