@@ -73,7 +73,7 @@ export default function ThreadPage() {
   }
 
   return (
-    <Box h="100vh" mx={3} pt="70px" display="flex" flexDirection="column">
+    <Box h="100vh" mx={5} pt="70px" display="flex" flexDirection="column">
       {loading && <Loading active center />}
 
       <Flex>
@@ -120,7 +120,6 @@ export default function ThreadPage() {
 
       {thread && (
         <Box
-          mx={3}
           bg="white"
           position="relative"
           zIndex={0}

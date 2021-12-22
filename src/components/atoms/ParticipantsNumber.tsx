@@ -6,9 +6,11 @@ import {
   MenuButton,
   MenuButtonProps,
   MenuList,
+  useDisclosure,
 } from '@chakra-ui/react'
+import MemberModal from '@components/organisms/modals/MemberModal'
 import { ParticipantMember } from '@hooks/useParticipants'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import MemberMenuItem from './MemberMenuItem'
 
 interface Props extends MenuButtonProps {
@@ -25,6 +27,10 @@ export default function ParticipantsNumber({
   )
   const avatarsWidth =
     participants.length && (someParticipants.length - 1) * 10 + 24
+
+  // Member modal
+  const [memberId, setMemberId] = useState<string | undefined>()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Menu isLazy autoSelect={false}>
@@ -57,9 +63,17 @@ export default function ParticipantsNumber({
             key={member.id}
             member={member}
             circlesIds={circlesIds}
+            onClick={() => {
+              setMemberId(member.id)
+              onOpen()
+            }}
           />
         ))}
       </MenuList>
+
+      {isOpen && memberId && (
+        <MemberModal id={memberId} isOpen onClose={onClose} />
+      )}
     </Menu>
   )
 }

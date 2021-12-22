@@ -7,7 +7,9 @@ import {
   MenuItem,
   MenuList,
   Portal,
+  useDisclosure,
 } from '@chakra-ui/react'
+import MemberModal from '@components/organisms/modals/MemberModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
@@ -22,6 +24,12 @@ export default function UserMenu() {
 
   const { name, picture } = member || user || { name: '?', picture: '' }
 
+  const {
+    isOpen: isMemberOpen,
+    onOpen: onMemberOpen,
+    onClose: onMemberClose,
+  } = useDisclosure()
+
   if (!user) return null
   return (
     <Menu>
@@ -30,14 +38,16 @@ export default function UserMenu() {
       </MenuButton>
       <Portal>
         <MenuList zIndex={10} shadow="lg">
-          {org && member && (
-            <MenuItem onClick={() => navigateOrg(`?memberId=${member.id}`)}>
-              Mes rôles
-            </MenuItem>
+          {member && (
+            <MenuItem onClick={onMemberOpen}>Ma fiche membre</MenuItem>
           )}
           <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
         </MenuList>
       </Portal>
+
+      {isMemberOpen && member && (
+        <MemberModal id={member.id} isOpen onClose={onMemberClose} />
+      )}
     </Menu>
   )
 }

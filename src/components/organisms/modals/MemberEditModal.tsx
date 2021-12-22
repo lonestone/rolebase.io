@@ -29,12 +29,12 @@ import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { format } from 'date-fns'
 import React, { useCallback, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import MemberDeleteModal from './MemberDeleteModal'
+import MemberModal from './MemberModal'
 
 interface Props extends UseModalProps {
   id: string
@@ -101,12 +101,11 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     modalProps.onClose()
   })
 
-  // Go to member panel with roles
-  const navigateOrg = useNavigateOrg()
-  const navigateToMember = useCallback(() => {
-    modalProps.onClose()
-    navigateOrg(`?memberId=${id}`)
-  }, [id])
+  const {
+    isOpen: isMemberOpen,
+    onOpen: onMemberOpen,
+    onClose: onMemberClose,
+  } = useDisclosure()
 
   const handleInvite = useCallback(() => {
     if (!member?.inviteEmail) return
@@ -198,9 +197,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                   <Button
                     colorScheme="blue"
                     variant="ghost"
-                    onClick={navigateToMember}
+                    onClick={onMemberOpen}
                   >
-                    Voir les rôles
+                    Voir la fiche
                   </Button>
                   <Button
                     colorScheme="red"
@@ -227,6 +226,8 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           onClose={onDeleteClose}
         />
       )}
+
+      {isMemberOpen && <MemberModal id={id} isOpen onClose={onMemberClose} />}
     </>
   )
 }

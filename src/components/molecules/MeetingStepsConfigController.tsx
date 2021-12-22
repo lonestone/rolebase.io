@@ -55,6 +55,7 @@ export default function MeetingStepsConfigController({
   } = useFieldArray({
     control,
     name: fieldName,
+    keyName: 'key',
   })
 
   const handleAdd = () =>
@@ -97,7 +98,7 @@ export default function MeetingStepsConfigController({
           <Stack spacing={2}>
             {stepsFields.map((field, index) => (
               <MeetingStepDraggable
-                key={field.id}
+                key={field.key}
                 id={field.id}
                 index={index}
                 control={control}

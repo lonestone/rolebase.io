@@ -23,7 +23,14 @@ export default function ListItemWithButtons({
       role="group"
       _hover={{ background: '#fafafa' }}
     >
-      <LinkOverlay to="#" as={ReachLink} onClick={onClick}>
+      <LinkOverlay
+        to="#"
+        as={ReachLink}
+        onClick={(event) => {
+          event.preventDefault()
+          onClick()
+        }}
+      >
         {title}
       </LinkOverlay>
       <Spacer />

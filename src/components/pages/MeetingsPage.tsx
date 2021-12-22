@@ -18,6 +18,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
+import MeetingEditModal from '@components/organisms/modals/MeetingModalEdit'
 import {
   DatesSetArg,
   EventChangeArg,
@@ -32,7 +33,6 @@ import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useSubscription from '@hooks/useSubscription'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
-import { MeetingEntry } from '@shared/meeting'
 import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -87,7 +87,7 @@ export default function MeetingsPage() {
           eventContent: { html: '<i>some html</i>' },
           start: meeting.startDate.toDate(),
           end: meeting.endDate.toDate(),
-          backgroundColor: 'hsl(192deg 76% 75%)',
+          backgroundColor: 'hsl(192deg 76% 85%)',
           borderColor: 'hsl(192deg 76% 50%)',
           textColor: 'black',
           extendedProps: {
@@ -118,7 +118,7 @@ export default function MeetingsPage() {
             <div style="
                 width: fit-content;
                 display: inline-block;
-                background: hsl(192deg 76% 85%);
+                background: hsl(192deg 76% 93%);
                 padding: 2px 4px;
                 border-radius: 10px;
               ">
@@ -132,17 +132,15 @@ export default function MeetingsPage() {
 
   const handleCreate = useCallback(() => {
     setStartDate(undefined)
-    setMeeting(undefined)
-    onModalOpen()
+    onCreateOpen()
   }, [])
 
-  const handleEdit = useCallback(
+  const handleEventClick = useCallback(
     ({ event }: EventClickArg) => {
       const meeting = meetings?.find((m) => m.id === event.id)
       if (!meeting) return
-      setStartDate(undefined)
-      setMeeting(meeting)
-      onModalOpen()
+      setMeetingId(meeting.id)
+      onMeetingOpen()
     },
     [meetings]
   )
@@ -150,8 +148,7 @@ export default function MeetingsPage() {
   const handleDateClick = useCallback(
     ({ date }: { date: Date }) => {
       setStartDate(date)
-      setMeeting(undefined)
-      onModalOpen()
+      onCreateOpen()
     },
     [meetings]
   )
@@ -168,13 +165,20 @@ export default function MeetingsPage() {
     updateMeetingDates(event.id, event.start, event.end)
   }, [])
 
-  // Create/Edit Modal
-  const [meeting, setMeeting] = useState<MeetingEntry | undefined>()
+  // Meeting Modal
+  const [meetingId, setMeetingId] = useState<string | undefined>()
+  const {
+    isOpen: isMeetingOpen,
+    onOpen: onMeetingOpen,
+    onClose: onMeetingClose,
+  } = useDisclosure()
+
+  // Create meeting Modal
   const [startDate, setStartDate] = useState<Date | undefined>()
   const {
-    isOpen: isModalOpen,
-    onOpen: onModalOpen,
-    onClose: onModalClose,
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
   } = useDisclosure()
 
   return (
@@ -246,18 +250,21 @@ export default function MeetingsPage() {
           eventContent={handleEventContent}
           dateClick={handleDateClick}
           scrollTime="08:00:00"
-          eventClick={handleEdit}
+          eventClick={handleEventClick}
           eventChange={handleEventChange}
           datesSet={handleDatesChange}
         />
       </Box>
 
-      {isModalOpen && (
-        <MeetingModal
-          meeting={meeting}
+      {isMeetingOpen && meetingId && (
+        <MeetingModal id={meetingId} isOpen onClose={onMeetingClose} />
+      )}
+
+      {isCreateOpen && (
+        <MeetingEditModal
           defaultStartDate={startDate}
           isOpen
-          onClose={onModalClose}
+          onClose={onCreateClose}
         />
       )}
     </Box>

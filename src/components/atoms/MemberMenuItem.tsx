@@ -1,5 +1,4 @@
 import { Avatar, MenuItem, MenuItemProps, Stack, Text } from '@chakra-ui/react'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
@@ -7,11 +6,13 @@ import React, { useMemo } from 'react'
 interface Props extends MenuItemProps {
   member: MemberEntry
   circlesIds?: string[]
+  onClick(): void
 }
 
 export default function MemberMenuItem({
   member,
   circlesIds,
+  onClick,
   ...menuItemProps
 }: Props) {
   const circles = useStoreState((state) => state.circles.entries)
@@ -28,16 +29,8 @@ export default function MemberMenuItem({
     [circles, roles, circlesIds]
   )
 
-  const navigateOrg = useNavigateOrg()
-  const handleClick = () =>
-    navigateOrg(
-      `?memberId=${member.id}${
-        circlesIds?.length ? `&circleId=${circlesIds[0]}` : ''
-      }`
-    )
-
   return (
-    <MenuItem onClick={handleClick} {...menuItemProps}>
+    <MenuItem onClick={onClick} {...menuItemProps}>
       <Avatar
         name={member.name}
         src={member.picture || undefined}

@@ -1,6 +1,6 @@
-import { Link } from '@chakra-ui/react'
+import { Link, useDisclosure } from '@chakra-ui/react'
+import MemberModal from '@components/organisms/modals/MemberModal'
 import { MemberEntry } from '@shared/member'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -9,16 +9,27 @@ interface Props {
 }
 
 export default function MemberLink({ member }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  // Member modal
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Link
-      as={ReachLink}
-      to={member ? `/orgs/${orgId}/?memberId=${member.id}` : '#'}
-      fontWeight="bold"
-      textDecoration="none"
-    >
-      {member?.name || '[Utilisateur non membre]'}
-    </Link>
+    <>
+      <Link
+        as={ReachLink}
+        to="#"
+        fontWeight="bold"
+        textDecoration="none"
+        onClick={(event) => {
+          event.preventDefault()
+          onOpen()
+        }}
+      >
+        {member?.name || '[Utilisateur non membre]'}
+      </Link>
+
+      {isOpen && member && (
+        <MemberModal id={member.id} isOpen onClose={onClose} />
+      )}
+    </>
   )
 }

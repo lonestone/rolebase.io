@@ -53,7 +53,12 @@ export default function MemberPanel({ id, highlightCircleId, onClose }: Props) {
             size="lg"
           />
           <StackItem>{member.name}</StackItem>
-          <IconButton aria-label="" icon={<FiEdit3 />} onClick={onEditOpen} />
+          <IconButton
+            aria-label=""
+            icon={<FiEdit3 />}
+            size="sm"
+            onClick={onEditOpen}
+          />
           <Spacer />
           <CloseButton onClick={onClose} />
         </HStack>

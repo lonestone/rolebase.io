@@ -2,6 +2,7 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Portal,
@@ -87,6 +88,7 @@ export default function OrgMenu() {
           <MenuItem icon={<FiCopy />} onClick={onMeetingTemplatesOpen}>
             Templates de réunion
           </MenuItem>
+          <MenuDivider />
           <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
             Toutes les organisations
           </MenuItem>

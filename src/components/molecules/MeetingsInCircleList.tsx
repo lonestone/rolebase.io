@@ -11,10 +11,11 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
+import MeetingEditModal from '@components/organisms/modals/MeetingModalEdit'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
-import React from 'react'
+import React, { useState } from 'react'
 import { FiCalendar, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 import { dateFnsLocale } from 'src/locale'
@@ -36,15 +37,23 @@ export default function MeetingsInCircleList({ circleId }: Props) {
   )
 
   // Meeting modal
+  const [meetingId, setMeetingId] = useState<string | undefined>()
   const {
     isOpen: isMeetingOpen,
     onOpen: onMeetingOpen,
     onClose: onMeetingClose,
   } = useDisclosure()
 
+  // Create Meeting modal
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure()
+
   return (
     <>
-      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onMeetingOpen}>
+      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
         Créer une réunion
       </Button>
 
@@ -81,7 +90,12 @@ export default function MeetingsInCircleList({ circleId }: Props) {
                     <FiCalendar />
                     <LinkOverlay
                       as={ReachLink}
-                      to={`/orgs/${orgId}/meetings/${meeting.id}`}
+                      to="#"
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setMeetingId(meeting.id)
+                        onMeetingOpen()
+                      }}
                     >
                       {format(date, 'p ', {
                         locale: dateFnsLocale,
@@ -96,11 +110,15 @@ export default function MeetingsInCircleList({ circleId }: Props) {
         </VStack>
       )}
 
-      {isMeetingOpen && (
-        <MeetingModal
+      {isMeetingOpen && meetingId && (
+        <MeetingModal id={meetingId} isOpen onClose={onMeetingClose} />
+      )}
+
+      {isCreateOpen && (
+        <MeetingEditModal
           defaultCircleId={circleId}
           isOpen
-          onClose={onMeetingClose}
+          onClose={onCreateClose}
         />
       )}
     </>
