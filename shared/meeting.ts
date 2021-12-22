@@ -11,7 +11,7 @@ export interface Meeting extends EntityWithParticipants {
   ended: boolean
   title: string
   stepsConfig: MeetingStepConfig[]
-  currentStepIndex: number
+  currentStepId: string | null
 }
 
 export type MeetingEntry = WithId<Meeting>
@@ -31,7 +31,7 @@ export enum MeetingStepTypes {
 }
 
 // Collection "steps" in meeting doc
-// Id = stepsConfig index to string
+// Id = stepsConfig's id
 export type MeetingStep = {
   notes: string
 } & (

@@ -1,4 +1,5 @@
 import { createMeeting, updateMeeting } from '@api/entities/meetings'
+import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
 import { Timestamp } from '@api/firebase'
 import { nameSchema } from '@api/schemas'
 import {
@@ -8,6 +9,8 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightAddon,
@@ -17,12 +20,16 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Select,
+  useDisclosure,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
 import NumberInputController from '@components/atoms/NumberInputController'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
+import TextErrors from '@components/atoms/TextErrors'
 import MeetingStepsConfigController, {
   stepsConfigSchema,
   StepsValues,
@@ -34,13 +41,16 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useParticipants from '@hooks/useParticipants'
+import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/meeting'
 import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { FiEdit3 } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
+import MeetingTemplatesModal from './MeetingTemplatesModal'
 
 interface Props extends UseModalProps {
   defaultCircleId?: string
@@ -49,6 +59,7 @@ interface Props extends UseModalProps {
 }
 
 interface Values extends StepsValues {
+  templateId: string
   title: string
   circleId: string
   facilitatorMemberId: string
@@ -122,9 +133,26 @@ export default function MeetingModal({
         },
   })
 
+  const templateId = watch('templateId')
   const circleId = watch('circleId')
   const participantsScope = watch('participantsScope')
   const facilitatorMemberId = watch('facilitatorMemberId')
+
+  // Templates
+  const {
+    data: meetingTemplates,
+    loading: meetingTemplatesLoading,
+    error: meetingTemplatesError,
+  } = useSubscription(orgId ? subscribeAllMeetingTemplates(orgId) : undefined)
+
+  // Template change
+  useEffect(() => {
+    const template = meetingTemplates?.find((t) => t.id === templateId)
+    if (template) {
+      setValue('title', template.title)
+      setValue('stepsConfig', template.stepsConfig)
+    }
+  }, [templateId])
 
   // Participants members ids
   const {
@@ -153,7 +181,7 @@ export default function MeetingModal({
       const meeting = await createMeeting({
         orgId,
         initiatorMemberId: currentMember.id,
-        currentStepIndex: 0,
+        currentStepId: null,
         ...meetingUpdate,
       })
       // Go to meeting page
@@ -180,6 +208,13 @@ export default function MeetingModal({
     }
   }, [participants, facilitatorMemberId])
 
+  // Meeting templates modal
+  const {
+    isOpen: isMeetingTemplatesOpen,
+    onOpen: onMeetingTemplatesOpen,
+    onClose: onMeetingTemplatesClose,
+  } = useDisclosure()
+
   return (
     <Modal size="xl" {...modalProps}>
       <ModalOverlay />
@@ -192,13 +227,32 @@ export default function MeetingModal({
 
           <ModalBody>
             <VStack spacing={5} align="stretch">
+              {!meeting && (
+                <FormControl isInvalid={!!errors.title}>
+                  <FormLabel htmlFor="title">Template</FormLabel>
+                  {meetingTemplatesLoading && <Loading active size="md" />}
+                  <TextErrors errors={[meetingTemplatesError]} />
+                  <HStack spacing={2}>
+                    <Select {...register('templateId')} autoFocus>
+                      <option value="">Aucun</option>
+                      {meetingTemplates?.map((template) => (
+                        <option key={template.id} value={template.id}>
+                          {template.title}
+                        </option>
+                      ))}
+                    </Select>
+                    <IconButton
+                      aria-label=""
+                      icon={<FiEdit3 />}
+                      onClick={onMeetingTemplatesOpen}
+                    />
+                  </HStack>
+                </FormControl>
+              )}
+
               <FormControl isInvalid={!!errors.title}>
                 <FormLabel htmlFor="title">Titre</FormLabel>
-                <Input
-                  {...register('title')}
-                  placeholder="Titre..."
-                  autoFocus
-                />
+                <Input {...register('title')} placeholder="Titre..." />
               </FormControl>
 
               <Flex>
@@ -309,6 +363,10 @@ export default function MeetingModal({
           </ModalBody>
         </form>
       </ModalContent>
+
+      {isMeetingTemplatesOpen && (
+        <MeetingTemplatesModal isOpen onClose={onMeetingTemplatesClose} />
+      )}
     </Modal>
   )
 }

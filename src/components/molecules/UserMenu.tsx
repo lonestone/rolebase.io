@@ -22,7 +22,6 @@ export default function UserMenu() {
 
   const { name, picture } = member || user || { name: '?', picture: '' }
 
-  console.log(user, member)
   if (!user) return null
   return (
     <Menu>

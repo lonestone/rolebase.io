@@ -18,6 +18,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { MeetingStepConfig, MeetingStepTypes } from '@shared/meeting'
+import { nanoid } from 'nanoid'
 import React, { useCallback } from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { FiPlus } from 'react-icons/fi'
@@ -54,12 +55,11 @@ export default function MeetingStepsConfigController({
   } = useFieldArray({
     control,
     name: fieldName,
-    keyName: 'key',
   })
 
   const handleAdd = () =>
     appendStep({
-      id: new Date().getTime().toString(), // Pseudo unique id, not ideal
+      id: nanoid(5),
       type: MeetingStepTypes.Tour,
       title: '',
     })

@@ -1,7 +1,7 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { IconButton, Input, Stack, Tag } from '@chakra-ui/react'
 import MeetingStepTypeSelect from '@components/atoms/MeetingStepTypeSelect'
-import { defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
+import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import React, { useCallback } from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
@@ -23,17 +23,13 @@ export default function MeetingStepDraggable({
   onRemove,
 }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id,
-      animateLayoutChanges: (args) =>
-        args.isSorting || args.wasDragging
-          ? defaultAnimateLayoutChanges(args)
-          : true,
-    })
+    useSortable({ id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    // There is an annoying bug with this transition and the end of drag
+    // So we set to undefined when transition is 0ms
+    transition: transition === 'transform 0ms linear' ? undefined : transition,
   }
 
   const handleRemove = useCallback(() => onRemove(index), [index, onRemove])
@@ -49,7 +45,6 @@ export default function MeetingStepDraggable({
     >
       <Tag size="lg" borderRadius="full" cursor="grab" {...listeners}>
         {index + 1}
-        {id}
       </Tag>
       <Stack spacing={2} direction="row" flex="1">
         <MeetingStepTypeSelect
