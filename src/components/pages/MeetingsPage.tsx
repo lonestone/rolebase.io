@@ -26,11 +26,12 @@ import {
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import FullCalendar from '@fullcalendar/react'
+import FullCalendar, { EventContentArg, EventInput } from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useSubscription from '@hooks/useSubscription'
+import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { MeetingEntry } from '@shared/meeting'
 import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
@@ -38,6 +39,9 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
 export default function MeetingsPage() {
+  const getCircleById = useStoreState((state) => state.circles.getById)
+  const roles = useStoreState((state) => state.roles.entries)
+
   // Circles filter menu
   const {
     filter,
@@ -66,26 +70,65 @@ export default function MeetingsPage() {
   // Prepare events for Fullcalendar
   const events = useMemo(
     () =>
-      meetings?.map((meeting) => ({
-        id: meeting.id,
-        title: meeting.title,
-        start: meeting.startDate.toDate(),
-        end: meeting.endDate.toDate(),
-        backgroundColor: 'hsl(192deg 76% 87%)',
-        borderColor: 'hsl(192deg 76% 50%)',
-        textColor: 'black',
-      })),
-    [meetings]
+      meetings?.map((meeting): EventInput => {
+        let title = meeting.title
+        let roleName = undefined
+
+        // Add role name to title
+        const circle = getCircleById(meeting.circleId)
+        if (circle && roles) {
+          const circleWithRole = enrichCircleWithRole(circle, roles)
+          roleName = circleWithRole?.role.name
+        }
+
+        return {
+          id: meeting.id,
+          title,
+          eventContent: { html: '<i>some html</i>' },
+          start: meeting.startDate.toDate(),
+          end: meeting.endDate.toDate(),
+          backgroundColor: 'hsl(192deg 76% 75%)',
+          borderColor: 'hsl(192deg 76% 50%)',
+          textColor: 'black',
+          extendedProps: {
+            roleName,
+          },
+        }
+      }),
+    [meetings, roles]
   )
 
-  // Modal
-  const [meeting, setMeeting] = useState<MeetingEntry | undefined>()
-  const [startDate, setStartDate] = useState<Date | undefined>()
-  const {
-    isOpen: isModalOpen,
-    onOpen: onModalOpen,
-    onClose: onModalClose,
-  } = useDisclosure()
+  // Customize event title
+  const handleEventContent = useCallback(
+    (eventContent: EventContentArg) => {
+      const {
+        title,
+        extendedProps: { roleName },
+      } = eventContent.event
+      const view = eventContent.view.type
+      return {
+        html: `
+          <div style="overflow: hidden;">
+            <span style="
+                padding: 2px 4px;
+              ">
+              ${title}
+            </span>
+            ${view === 'listWeek' ? '' : '<br />'}
+            <div style="
+                width: fit-content;
+                display: inline-block;
+                background: hsl(192deg 76% 85%);
+                padding: 2px 4px;
+                border-radius: 10px;
+              ">
+              ${roleName}
+            </div>
+          </div>`,
+      }
+    },
+    [roles]
+  )
 
   const handleCreate = useCallback(() => {
     setStartDate(undefined)
@@ -124,6 +167,15 @@ export default function MeetingsPage() {
     if (!event.start || !event.end) return
     updateMeetingDates(event.id, event.start, event.end)
   }, [])
+
+  // Create/Edit Modal
+  const [meeting, setMeeting] = useState<MeetingEntry | undefined>()
+  const [startDate, setStartDate] = useState<Date | undefined>()
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure()
 
   return (
     <Box
@@ -191,6 +243,7 @@ export default function MeetingsPage() {
           allDaySlot={false}
           nowIndicator
           editable
+          eventContent={handleEventContent}
           dateClick={handleDateClick}
           scrollTime="08:00:00"
           eventClick={handleEdit}
