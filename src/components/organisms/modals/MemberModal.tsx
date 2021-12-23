@@ -22,9 +22,14 @@ import MemberEditModal from './MemberEditModal'
 
 interface Props extends UseModalProps {
   id: string
+  defaultSelectedCircleId?: string
 }
 
-export default function MemberModal({ id, ...modalProps }: Props) {
+export default function MemberModal({
+  id,
+  defaultSelectedCircleId,
+  ...modalProps
+}: Props) {
   const member = useMember(id)
 
   // Edit modal
@@ -35,7 +40,9 @@ export default function MemberModal({ id, ...modalProps }: Props) {
   } = useDisclosure()
 
   // Selected circle
-  const [selectedCircleId, setSelectedCircleId] = useState<string | undefined>()
+  const [selectedCircleId, setSelectedCircleId] = useState<string | undefined>(
+    defaultSelectedCircleId
+  )
 
   if (!member) return null
 

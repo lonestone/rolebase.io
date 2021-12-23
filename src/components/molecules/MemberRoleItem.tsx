@@ -14,8 +14,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
+import Markdown from '@components/atoms/Markdown'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
-import useCurrentOrg from '@hooks/useCurrentOrg'
+import RoleEditModal from '@components/organisms/modals/RoleEditModal'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
@@ -26,8 +27,14 @@ interface Props {
 }
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
-  const org = useCurrentOrg()
   const navigateOrg = useNavigateOrg()
+
+  // Edit modal
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure()
 
   // Delete modal
   const {
@@ -86,6 +93,13 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
           <AccordionPanel pt={3} pb={5}>
             <form onSubmit={onSubmit}>
               <VStack spacing={3} align="stretch">
+                {roleCircle.role.purpose && (
+                  <FormControl>
+                    <FormLabel htmlFor="avgMinPerWeek">Raison d'être</FormLabel>
+                    <Markdown>{roleCircle.role.purpose}</Markdown>
+                  </FormControl>
+                )}
+
                 <FormControl>
                   <FormLabel htmlFor="avgMinPerWeek">
                     Temps de travail
@@ -110,6 +124,14 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                   </Button>
                   <Button
                     size="sm"
+                    colorScheme="blue"
+                    variant="ghost"
+                    onClick={onEditOpen}
+                  >
+                    Éditer
+                  </Button>
+                  <Button
+                    size="sm"
                     colorScheme="red"
                     variant="ghost"
                     onClick={onDeleteOpen}
@@ -123,6 +145,14 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
               </VStack>
             </form>
           </AccordionPanel>
+
+          {isEditOpen && (
+            <RoleEditModal
+              id={roleCircle.role.id}
+              isOpen
+              onClose={onEditClose}
+            />
+          )}
 
           {isDeleteOpen && (
             <CircleMemberDeleteModal

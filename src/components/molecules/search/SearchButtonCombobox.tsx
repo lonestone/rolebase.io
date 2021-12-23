@@ -106,7 +106,7 @@ export default function SearchButtonCombobox({
         isOpen={isOpen}
         {...getMenuProps({}, { suppressRefError: true })}
         position="absolute"
-        zIndex="1"
+        zIndex="2"
         pointerEvents="none"
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (

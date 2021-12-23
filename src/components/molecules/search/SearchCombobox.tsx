@@ -86,7 +86,7 @@ export default function SearchCombobox({ onSelect }: ComboboxProps) {
         isOpen={isOpen}
         {...getMenuProps()}
         position="absolute"
-        zIndex="1"
+        zIndex="2"
         right="0"
         pointerEvents="none"
       >

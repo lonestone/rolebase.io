@@ -8,7 +8,7 @@ import MemberRoleItem from './MemberRoleItem'
 interface Props {
   memberId: string
   selectedCircleId?: string
-  onCircleChange?(circleId: string): void
+  onCircleChange?(circleId: string | undefined): void
 }
 
 export default function MemberRoles({
@@ -49,10 +49,14 @@ export default function MemberRoles({
   const handleAccordeonChange = useCallback(
     (index: ExpandedIndex) => {
       if (typeof index !== 'number') return
-      const memberCircle = memberCircles[index]
-      if (!memberCircle) return
-      const circle = memberCircle[memberCircle.length - 1]
-      onCircleChange?.(circle.id)
+      if (index === -1) {
+        onCircleChange?.(undefined)
+      } else {
+        const memberCircle = memberCircles[index]
+        if (!memberCircle) return
+        const circle = memberCircle[memberCircle.length - 1]
+        onCircleChange?.(circle.id)
+      }
     },
     [selectedCircleIndex, memberCircles, onCircleChange]
   )
@@ -64,7 +68,11 @@ export default function MemberRoles({
           <em>Aucun</em>
         </p>
       ) : (
-        <Accordion index={selectedCircleIndex} onChange={handleAccordeonChange}>
+        <Accordion
+          index={selectedCircleIndex}
+          onChange={handleAccordeonChange}
+          allowToggle
+        >
           {memberCircles.map((entries) => {
             const circle = entries[entries.length - 1]
             return (

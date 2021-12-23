@@ -17,8 +17,8 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
-import MeetingEditModal from '@components/organisms/modals/MeetingModalEdit'
 import {
   DatesSetArg,
   EventChangeArg,
@@ -133,6 +133,11 @@ export default function MeetingsPage() {
   const handleCreate = useCallback(() => {
     setStartDate(undefined)
     onCreateOpen()
+  }, [])
+
+  const handleCreated = useCallback((id: string) => {
+    setMeetingId(id)
+    onMeetingOpen()
   }, [])
 
   const handleEventClick = useCallback(
@@ -264,6 +269,7 @@ export default function MeetingsPage() {
         <MeetingEditModal
           defaultStartDate={startDate}
           isOpen
+          onCreate={handleCreated}
           onClose={onCreateClose}
         />
       )}

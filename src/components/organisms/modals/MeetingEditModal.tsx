@@ -5,7 +5,6 @@ import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   FormControl,
   FormLabel,
@@ -56,6 +55,7 @@ interface Props extends UseModalProps {
   defaultCircleId?: string
   meeting?: MeetingEntry
   defaultStartDate?: Date
+  onCreate?(meetingId: string): void
 }
 
 interface Values extends StepsValues {
@@ -84,6 +84,7 @@ export default function MeetingEditModal({
   defaultCircleId,
   meeting,
   defaultStartDate,
+  onCreate,
   ...modalProps
 }: Props) {
   const navigateOrg = useNavigateOrg()
@@ -181,11 +182,9 @@ export default function MeetingEditModal({
       const meeting = await createMeeting({
         orgId,
         initiatorMemberId: currentMember.id,
-        currentStepId: null,
         ...meetingUpdate,
       })
-      // Go to meeting page
-      navigateOrg(`/meetings/${meeting.id}`)
+      onCreate?.(meeting.id)
     }
     modalProps.onClose()
   })
@@ -336,13 +335,6 @@ export default function MeetingEditModal({
                       />
                     )}
                   />
-                </FormControl>
-              )}
-
-              {meeting && (
-                <FormControl>
-                  <FormLabel>Paramètres</FormLabel>
-                  <Checkbox {...register('ended')}>Terminée</Checkbox>
                 </FormControl>
               )}
 

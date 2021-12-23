@@ -30,6 +30,7 @@ export default function ParticipantsNumber({
 
   // Member modal
   const [memberId, setMemberId] = useState<string | undefined>()
+  const [circleId, setCircleId] = useState<string | undefined>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -65,6 +66,7 @@ export default function ParticipantsNumber({
             circlesIds={circlesIds}
             onClick={() => {
               setMemberId(member.id)
+              setCircleId(circlesIds[0])
               onOpen()
             }}
           />
@@ -72,7 +74,12 @@ export default function ParticipantsNumber({
       </MenuList>
 
       {isOpen && memberId && (
-        <MemberModal id={memberId} isOpen onClose={onClose} />
+        <MemberModal
+          id={memberId}
+          defaultSelectedCircleId={circleId}
+          isOpen
+          onClose={onClose}
+        />
       )}
     </Menu>
   )

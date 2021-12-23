@@ -107,7 +107,7 @@ export default function EntityButtonCombobox({
         isOpen={isOpen}
         {...getMenuProps()}
         position="absolute"
-        zIndex="1"
+        zIndex="2"
         pointerEvents="none"
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (

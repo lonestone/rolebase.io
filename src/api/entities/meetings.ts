@@ -1,4 +1,4 @@
-import { Meeting } from '@shared/meeting'
+import { Meeting, MeetingEntry } from '@shared/meeting'
 import { Optional } from '@shared/types'
 import { memoize } from 'src/memoize'
 import {
@@ -11,8 +11,12 @@ import {
 export const collection = getCollection<Meeting>('meetings')
 
 const methods = getEntityMethods(collection, {
-  createTransform: (meeting: Optional<Meeting, 'createdAt'>) => ({
+  createTransform: (
+    meeting: Optional<Meeting, 'createdAt' | 'ended' | 'currentStepId'>
+  ) => ({
     ...meeting,
+    ended: false,
+    currentStepId: null,
     createdAt: Timestamp.now(),
   }),
 })
@@ -48,4 +52,48 @@ export function updateMeetingDates(id: string, startDate: Date, endDate: Date) {
     startDate: Timestamp.fromDate(startDate),
     endDate: Timestamp.fromDate(endDate),
   })
+}
+
+export async function nextMeetingStep(meeting: MeetingEntry) {
+  if (!meeting) return
+
+  // Meeting not started
+  if (meeting.currentStepId === null) {
+    const firstStep = meeting.stepsConfig[0]
+    if (firstStep) {
+      // Go to first step
+      await updateMeeting(meeting.id, {
+        currentStepId: firstStep.id,
+        ended: false,
+      })
+    } else {
+      // No first step, end meeting
+      await updateMeeting(meeting.id, {
+        currentStepId: null,
+        ended: true,
+      })
+    }
+    return
+  }
+
+  // Find current and next step
+  const currentStepIndex = meeting.stepsConfig.findIndex(
+    (step) => step.id === meeting.currentStepId
+  )
+  if (
+    currentStepIndex !== -1 &&
+    currentStepIndex < meeting.stepsConfig.length - 1
+  ) {
+    // Go to next step
+    const nextStep = meeting.stepsConfig[currentStepIndex + 1]
+    await updateMeeting(meeting.id, {
+      currentStepId: nextStep.id,
+    })
+  } else {
+    // End meeting
+    await updateMeeting(meeting.id, {
+      currentStepId: null,
+      ended: true,
+    })
+  }
 }

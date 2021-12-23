@@ -10,8 +10,8 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
-import MeetingEditModal from '@components/organisms/modals/MeetingModalEdit'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
@@ -50,6 +50,11 @@ export default function MeetingsInCircleList({ circleId }: Props) {
     onOpen: onCreateOpen,
     onClose: onCreateClose,
   } = useDisclosure()
+
+  const handleCreate = (id: string) => {
+    setMeetingId(id)
+    onMeetingOpen()
+  }
 
   return (
     <>
@@ -119,6 +124,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
           defaultCircleId={circleId}
           isOpen
           onClose={onCreateClose}
+          onCreate={handleCreate}
         />
       )}
     </>

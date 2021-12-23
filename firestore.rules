@@ -57,6 +57,9 @@ service cloud.firestore {
     match /meetings/{id} {
       allow create: if isOrgAuthorized(request.resource.data.orgId);
       allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      match /steps/{stepId} {
+        allow read, write: if true
+      }
     }
 
     match /meetingTemplates/{id} {
