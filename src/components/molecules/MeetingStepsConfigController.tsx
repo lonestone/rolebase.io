@@ -17,7 +17,8 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { MeetingStepConfig, MeetingStepTypes } from '@shared/meeting'
+import { MeetingStepConfig } from '@shared/meeting'
+import { MeetingStepTypes } from '@shared/meetingStep'
 import { nanoid } from 'nanoid'
 import React, { useCallback } from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
@@ -103,7 +104,7 @@ export default function MeetingStepsConfigController({
                 index={index}
                 control={control}
                 errors={errors}
-                onRemove={removeStep}
+                onRemove={stepsFields.length > 1 ? removeStep : undefined}
               />
             ))}
           </Stack>

@@ -6,6 +6,7 @@ interface Props {
   title: string
   current: boolean
   last: boolean
+  onNumberClick?(): void
   children: React.ReactNode
 }
 
@@ -14,6 +15,7 @@ export default function MeetingStepLayout({
   title,
   current,
   last,
+  onNumberClick,
   children,
 }: Props) {
   return (
@@ -24,6 +26,8 @@ export default function MeetingStepLayout({
           size="lg"
           borderRadius="full"
           mr={3}
+          cursor={onNumberClick ? 'pointer' : 'default'}
+          onClick={onNumberClick}
         >
           {index + 1}
         </Tag>
@@ -37,7 +41,7 @@ export default function MeetingStepLayout({
         ml="1rem"
         pl="1.8rem"
         pt={2}
-        pb={5}
+        pb={10}
       >
         {children}
       </Box>

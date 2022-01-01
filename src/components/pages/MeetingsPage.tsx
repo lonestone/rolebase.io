@@ -38,6 +38,15 @@ import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
+const colors = {
+  text: 'black',
+  bgNotStarted: 'hsl(192deg 76% 85%)',
+  bgStarted: 'hsl(144deg 76% 85%)',
+  bgEnded: 'hsl(192deg 34% 92%)',
+  border: 'transparent',
+  bgCircleName: 'hsl(192deg 76% 93%)',
+}
+
 export default function MeetingsPage() {
   const getCircleById = useStoreState((state) => state.circles.getById)
   const roles = useStoreState((state) => state.roles.entries)
@@ -84,12 +93,14 @@ export default function MeetingsPage() {
         return {
           id: meeting.id,
           title,
-          eventContent: { html: '<i>some html</i>' },
           start: meeting.startDate.toDate(),
           end: meeting.endDate.toDate(),
-          backgroundColor: 'hsl(192deg 76% 85%)',
-          borderColor: 'hsl(192deg 76% 50%)',
-          textColor: 'black',
+          backgroundColor: meeting.ended
+            ? colors.bgEnded
+            : meeting.currentStepId !== null
+            ? colors.bgStarted
+            : colors.bgNotStarted,
+          textColor: colors.text,
           extendedProps: {
             roleName,
           },
@@ -118,7 +129,7 @@ export default function MeetingsPage() {
             <div style="
                 width: fit-content;
                 display: inline-block;
-                background: hsl(192deg 76% 93%);
+                background: ${colors.bgCircleName};
                 padding: 2px 4px;
                 border-radius: 10px;
               ">

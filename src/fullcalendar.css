@@ -4,6 +4,17 @@
 .fc-list-event {
   cursor: pointer;
 }
+.fc-v-event {
+  border-color: transparent;
+}
+a.fc-event:hover {
+  border-color: #bbb;
+}
+.fc-daygrid-dot-event:hover,
+.fc-daygrid-dot-event.fc-event-mirror,
+.fc .fc-list-event:hover td {
+  background: #fafafa;
+}
 
 /* Title */
 .fc .fc-toolbar-title {

@@ -1,6 +1,12 @@
-import { MeetingStep } from '@shared/meeting'
+import { MeetingStepConfig } from '@shared/meeting'
+import { MeetingStep, MeetingStepTypes } from '@shared/meetingStep'
 import { memoize } from 'src/memoize'
-import { getEntityMethods, getSubCollection, subscribeQuery } from '../firebase'
+import {
+  executeQuery,
+  getEntityMethods,
+  getSubCollection,
+  subscribeQuery,
+} from '../firebase'
 import { collection as meetingsCollection } from './meetings'
 
 export const meetingStepsEntities = memoize((meetingId: string) => {
@@ -9,11 +15,56 @@ export const meetingStepsEntities = memoize((meetingId: string) => {
     'steps'
   )
 
-  const methods = getEntityMethods(collection)
+  const methods = getEntityMethods(collection, {
+    createTransform: (type: MeetingStepTypes) => {
+      switch (type) {
+        case MeetingStepTypes.Tour:
+          return {
+            type,
+            notes: '',
+            participants: [],
+            currentMemberId: '',
+          }
+        case MeetingStepTypes.Threads:
+          return {
+            type,
+            notes: '',
+            threadsIds: [],
+          }
+        case MeetingStepTypes.Checklist:
+        case MeetingStepTypes.Indicators:
+        case MeetingStepTypes.Tasks:
+          return {
+            type,
+            notes: '',
+          }
+      }
+    },
+  })
   return {
     createMeetingStep: methods.create,
     updateMeetingStep: methods.update,
     deleteMeetingStep: methods.delete,
     subscribeMeetingSteps: memoize(() => subscribeQuery(collection)),
+    getMeetingSteps: () => executeQuery(collection),
   }
 })
+
+// When a meeting is created, it has a stepsConfig property
+// but it doesn't have any content in steps collection.
+// So we need to create a step for each stepConfig after meeting edition
+export async function createMissingMeetingSteps(
+  meetingId: string,
+  stepsConfig: MeetingStepConfig[]
+) {
+  const { getMeetingSteps, createMeetingStep } = meetingStepsEntities(meetingId)
+  const meetingSteps = await getMeetingSteps()
+  const missingSteps = stepsConfig.filter(
+    (stepConfig) => !meetingSteps.find((step) => step.id === stepConfig.id)
+  )
+  await Promise.all(
+    missingSteps.map((stepConfig) =>
+      createMeetingStep(stepConfig.type, stepConfig.id)
+    )
+  )
+}

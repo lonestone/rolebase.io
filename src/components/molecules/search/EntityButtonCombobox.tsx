@@ -111,7 +111,7 @@ export default function EntityButtonCombobox({
         pointerEvents="none"
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ListItem key={index} mb={1}>
+          <ListItem key={index}>
             <ComboboxItem
               item={item}
               highlighted={index === highlightedIndex}

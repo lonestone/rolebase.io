@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import { MeetingStepTypes } from './meetingStep'
 import { EntityWithParticipants, WithId } from './types'
 
 export interface Meeting extends EntityWithParticipants {
@@ -20,40 +21,4 @@ export interface MeetingStepConfig {
   id: string
   type: MeetingStepTypes
   title: string
-}
-
-export enum MeetingStepTypes {
-  Tour = 'Tour',
-  Threads = 'Threads',
-  Checklist = 'Checklist',
-  Indicators = 'Indicators',
-  Tasks = 'Tasks',
-}
-
-// Collection "steps" in meeting doc
-// Id = stepsConfig's id
-export type MeetingStep = {
-  notes: string
-} & (
-  | {
-      type: MeetingStepTypes.Tour
-      participants: MeetingStepParticipant[]
-      currentMemberId: string
-    }
-  | {
-      type: MeetingStepTypes.Threads
-      threadsIds: string[]
-    }
-  | {
-      type:
-        | MeetingStepTypes.Checklist
-        | MeetingStepTypes.Indicators
-        | MeetingStepTypes.Tasks
-    }
-)
-
-export interface MeetingStepParticipant {
-  memberId: string
-  notes: string
-  done: boolean
 }

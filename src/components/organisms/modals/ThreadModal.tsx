@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
-import MembersSelect from '@components/molecules/MembersSelect'
+import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useItemsArray from '@hooks/useItemsArray'
@@ -172,7 +172,7 @@ export default function ThreadModal({
                 <ParticipantsScopeSelect {...register('participantsScope')} />
 
                 <Box mt={2}>
-                  <MembersSelect
+                  <MembersMultiSelect
                     membersIds={participantsMembersIds}
                     onAdd={addParticipant}
                     onRemove={removeParticipant}

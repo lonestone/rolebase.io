@@ -3,7 +3,7 @@ import { IconButton, Input, Stack, Tag } from '@chakra-ui/react'
 import MeetingStepTypeSelect from '@components/atoms/MeetingStepTypeSelect'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
 import { fieldName, StepsValues } from './MeetingStepsConfigController'
 
@@ -12,7 +12,7 @@ interface Props {
   index: number
   control: Control<StepsValues>
   errors?: FieldErrors<StepsValues>
-  onRemove(index: number): void
+  onRemove?(index: number): void
 }
 
 export default function MeetingStepDraggable({
@@ -31,8 +31,6 @@ export default function MeetingStepDraggable({
     // So we set to undefined when transition is 0ms
     transition: transition === 'transform 0ms linear' ? undefined : transition,
   }
-
-  const handleRemove = useCallback(() => onRemove(index), [index, onRemove])
 
   return (
     <Stack
@@ -57,7 +55,13 @@ export default function MeetingStepDraggable({
           control={control}
         />
       </Stack>
-      <IconButton aria-label="" icon={<CloseIcon />} onClick={handleRemove} />
+      {onRemove && (
+        <IconButton
+          aria-label=""
+          icon={<CloseIcon />}
+          onClick={() => onRemove?.(index)}
+        />
+      )}
     </Stack>
   )
 }

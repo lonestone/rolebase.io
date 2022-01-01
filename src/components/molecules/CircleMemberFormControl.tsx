@@ -4,7 +4,7 @@ import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDe
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback, useMemo, useState } from 'react'
-import MembersSelect from './MembersSelect'
+import MembersMultiSelect from './MembersMultiSelect'
 
 interface Props {
   circleId: string
@@ -53,12 +53,12 @@ export default function CircleMemberFormControl({ circleId }: Props) {
     <FormControl>
       <FormLabel>{role?.singleMember ? 'Occupé par :' : 'Membres :'}</FormLabel>
       {circle && membersIds && (
-        <MembersSelect
+        <MembersMultiSelect
           membersIds={membersIds}
           max={role?.singleMember ? 1 : undefined}
           onAdd={handleAddMember}
           onRemove={handleRemoveMember}
-          onMemberClick={navigateToCircleMember}
+          onClick={navigateToCircleMember}
         />
       )}
 

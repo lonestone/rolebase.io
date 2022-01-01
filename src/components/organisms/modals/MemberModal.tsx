@@ -61,6 +61,7 @@ export default function MemberModal({
             <IconButton
               aria-label=""
               icon={<FiEdit3 />}
+              variant="ghost"
               size="sm"
               onClick={onEditOpen}
             />

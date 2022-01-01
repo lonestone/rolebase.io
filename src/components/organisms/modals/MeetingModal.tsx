@@ -1,7 +1,16 @@
-import { nextMeetingStep, subscribeMeeting } from '@api/entities/meetings'
+import {
+  goToNextMeetingStep,
+  subscribeMeeting,
+  updateMeeting,
+} from '@api/entities/meetings'
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Box,
   Button,
+  Flex,
   IconButton,
   Modal,
   ModalBody,
@@ -9,21 +18,25 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Tag,
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
-import Markdown from '@components/atoms/Markdown'
-import MarkdownEditor from '@components/atoms/MarkdownEditor'
+import MemberLink from '@components/atoms/MemberLink'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import TextErrors from '@components/atoms/TextErrors'
+import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
-import { MeetingStepTypes } from '@shared/meeting'
+import { format } from 'date-fns'
 import React, { useCallback } from 'react'
 import { FaStop } from 'react-icons/fa'
-import { FiArrowDown, FiEdit3, FiPlay } from 'react-icons/fi'
+import { FiArrowDown, FiCalendar, FiEdit3, FiPlay } from 'react-icons/fi'
+import { dateFnsLocale } from 'src/locale'
+import { capitalizeFirstLetter } from 'src/utils'
 import MeetingEditModal from './MeetingEditModal'
 
 interface Props extends UseModalProps {
@@ -31,6 +44,8 @@ interface Props extends UseModalProps {
 }
 
 export default function MeetingModal({ id, ...modalProps }: Props) {
+  const currentMember = useCurrentMember()
+
   // Subscribe meeting
   const {
     data: meeting,
@@ -39,19 +54,30 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
   } = useSubscription(subscribeMeeting(id))
 
   // Subscribe meeting steps
-  const { createMeetingStep, updateMeetingStep, subscribeMeetingSteps } =
-    meetingStepsEntities(id)
+  const { subscribeMeetingSteps } = meetingStepsEntities(id)
   const {
     data: steps,
     error: stepsError,
     loading: stepsLoading,
   } = useSubscription(subscribeMeetingSteps())
 
+  // Meeting not started?
+  const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
+
   // Participants
   const participants = useParticipants(
     meeting?.circleId,
     meeting?.participantsScope,
     meeting?.participantsMembersIds
+  )
+
+  // Is current member participant? facilitator?
+  const isParticipant = currentMember
+    ? participants.some((p) => p.member.id === currentMember.id)
+    : false
+  const isFacilitator = currentMember?.id === meeting?.facilitatorMemberId
+  const facilitator = participants?.find(
+    (p) => p.member.id === meeting?.facilitatorMemberId
   )
 
   // Meeting edition modal
@@ -61,26 +87,42 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
     onClose: onEditClose,
   } = useDisclosure()
 
+  // Go to step
+  const handleGoToStep = (stepId: string) => {
+    if (!meeting) return
+    updateMeeting(meeting.id, {
+      currentStepId: stepId,
+    })
+  }
+
   // Next step
   const handleNextStep = useCallback(() => {
     if (!meeting) return
-    nextMeetingStep(meeting)
+    goToNextMeetingStep(meeting)
   }, [meeting])
 
   return (
-    <Modal size="xl" {...modalProps}>
+    <Modal size="3xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {meeting?.title}
-          <ParticipantsNumber participants={participants} ml={5} />
-          <IconButton
-            aria-label=""
-            icon={<FiEdit3 />}
-            size="sm"
-            ml={2}
-            onClick={onEditOpen}
-          />
+          <Flex alignItems="center">
+            <FiCalendar />
+            <Box ml={2}>{meeting?.title}</Box>
+
+            <ParticipantsNumber participants={participants} ml={5} />
+
+            {isNotStarted && (
+              <IconButton
+                aria-label=""
+                icon={<FiEdit3 />}
+                variant="ghost"
+                size="sm"
+                ml={2}
+                onClick={onEditOpen}
+              />
+            )}
+          </Flex>
         </ModalHeader>
         <ModalCloseButton />
 
@@ -90,67 +132,111 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
 
           {meeting && (
             <>
-              {meeting.currentStepId === null && !meeting.ended && (
-                <Button
-                  leftIcon={<FiPlay />}
-                  colorScheme="green"
-                  mb={5}
-                  onClick={handleNextStep}
-                >
-                  Démarrer
-                </Button>
-              )}
+              <Box mb={3}>
+                <Tag>
+                  {format(meeting.startDate.toDate(), 'p', {
+                    locale: dateFnsLocale,
+                  })}
+                  {' - '}
+                  {format(meeting.endDate.toDate(), 'p', {
+                    locale: dateFnsLocale,
+                  })}
+                </Tag>{' '}
+                {capitalizeFirstLetter(
+                  format(meeting.startDate.toDate(), 'PPPP', {
+                    locale: dateFnsLocale,
+                  })
+                )}
+                {meeting.ended && <Tag ml={3}>Terminée</Tag>}
+              </Box>
 
-              {meeting.stepsConfig.map((stepConfig, index) => {
-                const last = index === meeting.stepsConfig.length - 1
-                const step = steps?.find((s) => s.id === stepConfig.id)
-                const current = meeting.currentStepId === stepConfig.id
+              {meeting.ended ? (
+                <>
+                  {isFacilitator && (
+                    <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
+                      Reprendre la réunion
+                    </Button>
+                  )}
+                </>
+              ) : isFacilitator ? (
+                <>
+                  <Alert status="info">
+                    <AlertIcon />
+                    <AlertDescription>
+                      Vous animez cette réunion.
+                    </AlertDescription>
+                  </Alert>
 
-                return (
-                  <MeetingStepLayout
-                    key={stepConfig.id}
-                    index={index}
-                    title={stepConfig.title}
-                    last={last}
-                    current={current}
-                  >
-                    {stepConfig.type === MeetingStepTypes.Threads &&
-                      'Ajouter une discussion'}
+                  {meeting.currentStepId === null && (
+                    <Button
+                      leftIcon={<FiPlay />}
+                      colorScheme="green"
+                      mb={5}
+                      onClick={handleNextStep}
+                    >
+                      Démarrer
+                    </Button>
+                  )}
+                </>
+              ) : facilitator ? (
+                <>
+                  {!isParticipant && (
+                    <Alert status="info" mb={5}>
+                      <AlertIcon />
+                      <AlertDescription>
+                        Vous n'êtes pas participant dans cette réunion, vous ne
+                        pouvez donc pas la modifier.
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                  <MemberLink member={facilitator.member} /> anime cette
+                  réunion.
+                </>
+              ) : null}
 
-                    {current ? (
-                      <MarkdownEditor
-                        value={step?.notes || ''}
-                        placeholder="Notes..."
-                        onChange={() => {}}
-                      />
-                    ) : (
-                      <Markdown>{step?.notes || ''}</Markdown>
-                    )}
+              <Box mt={10}>
+                {meeting.stepsConfig.map((stepConfig, index) => {
+                  const last = index === meeting.stepsConfig.length - 1
+                  const step = steps?.find((s) => s.id === stepConfig.id)
+                  const current = meeting.currentStepId === stepConfig.id
 
-                    {current && (
-                      <Button
-                        leftIcon={last ? <FaStop /> : <FiArrowDown />}
-                        colorScheme={'green'}
-                        mt={5}
-                        onClick={handleNextStep}
-                      >
-                        {last ? 'Terminer' : 'Suivant'}
-                      </Button>
-                    )}
-                  </MeetingStepLayout>
-                )
-              })}
+                  return (
+                    <MeetingStepLayout
+                      key={stepConfig.id}
+                      index={index}
+                      title={stepConfig.title}
+                      last={last}
+                      current={current}
+                      onNumberClick={
+                        !meeting.ended && isFacilitator
+                          ? () => handleGoToStep(stepConfig.id)
+                          : undefined
+                      }
+                    >
+                      {step && (
+                        <MeetingStepContent
+                          meetingId={id}
+                          editable={isParticipant && !meeting.ended}
+                          current={current}
+                          stepConfig={stepConfig}
+                          step={step}
+                        />
+                      )}
 
-              {meeting.ended && (
-                <Button
-                  variant="ghost"
-                  leftIcon={<FiPlay />}
-                  mt={1}
-                  onClick={handleNextStep}
-                >
-                  Reprendre la réunion
-                </Button>
-              )}
+                      {isFacilitator && current && (
+                        <Button
+                          leftIcon={last ? <FaStop /> : <FiArrowDown />}
+                          colorScheme={'green'}
+                          mt={5}
+                          onClick={handleNextStep}
+                        >
+                          {last ? 'Terminer' : 'Suivant'}
+                        </Button>
+                      )}
+                    </MeetingStepLayout>
+                  )
+                })}
+              </Box>
             </>
           )}
         </ModalBody>

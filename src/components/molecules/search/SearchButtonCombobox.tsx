@@ -110,7 +110,7 @@ export default function SearchButtonCombobox({
         pointerEvents="none"
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ListItem mb={1} key={index}>
+          <ListItem key={index}>
             <ComboboxItem
               item={item}
               highlighted={index === highlightedIndex}

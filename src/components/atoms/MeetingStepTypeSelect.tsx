@@ -1,5 +1,5 @@
 import { Select, SelectProps } from '@chakra-ui/react'
-import { MeetingStepTypes } from '@shared/meeting'
+import { MeetingStepTypes } from '@shared/meetingStep'
 import React, { forwardRef } from 'react'
 
 const MeetingStepTypeSelect = forwardRef<HTMLSelectElement, SelectProps>(

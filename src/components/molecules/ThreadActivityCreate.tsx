@@ -53,9 +53,6 @@ export default function ThreadActivityCreate({ thread }: Props) {
       />
 
       <HStack spacing={2} my={2}>
-        <Button size="sm" onClick={() => setModalType(ActivityType.Meeting)}>
-          Réunion
-        </Button>
         <Button size="sm" onClick={() => setModalType(ActivityType.Proposal)}>
           Proposition
         </Button>

@@ -2,6 +2,7 @@ import { CircleEntry } from '@shared/circle'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { MemberEntry } from '@shared/member'
+import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem, SearchItemTypes } from './searchItems'
@@ -10,26 +11,34 @@ export interface SearchOptions {
   members?: boolean // Search members
   circles?: boolean // Search circles
   circleMembers?: true // Search circle members
+  threads?: boolean // Search threads
   circlesSingleMember?: boolean // Exclude circles whose role has opposite singleMember value
   excludeIds?: string[] // Exclude entities with these ids
   membersOverride?: MemberEntry[] // Override members. Otherwise use store
   circlesOverride?: CircleEntry[] // Override circles. Otherwise use store
+  threadsOverride?: ThreadEntry[] // Override threads
 }
 
 export function useSearchItems(options: SearchOptions): SearchItem[] {
+  // Circles data
   const circlesInStore = useStoreState((state) => state.circles.entries)
   const circles = useMemo(
     () => options.circlesOverride || circlesInStore,
     [circlesInStore, options.circlesOverride]
   )
 
+  // Members data
   const membersInStore = useStoreState((state) => state.members.entries)
   const members = useMemo(
     () => options.membersOverride || membersInStore,
     [membersInStore, options.membersOverride]
   )
 
+  // Roles data
   const roles = useStoreState((state) => state.roles.entries)
+
+  // Threads data
+  const threads = options.threadsOverride
 
   // Circles items
   const circleItems: SearchItem[] = useMemo(
@@ -136,8 +145,33 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
     [members, circles, roles, options.circleMembers, options.excludeIds]
   )
 
+  // Members items
+  const threadItems: SearchItem[] = useMemo(
+    () =>
+      threads && options.threads
+        ? (threads
+            .map((thread) => {
+              // Exclude by id
+              if (options.excludeIds?.includes(thread.id)) return
+
+              return {
+                text: thread.title.toLowerCase(),
+                type: SearchItemTypes.Thread,
+                thread,
+              }
+            })
+            .filter(Boolean) as SearchItem[])
+        : [],
+    [threads, options.threads, options.excludeIds]
+  )
+
   return useMemo(
-    () => [...memberItems, ...circleItems, ...circleMemberItems],
-    [memberItems, circleItems, circleMemberItems]
+    () => [
+      ...memberItems,
+      ...circleItems,
+      ...circleMemberItems,
+      ...threadItems,
+    ],
+    [memberItems, circleItems, circleMemberItems, threadItems]
   )
 }

@@ -1,4 +1,5 @@
 import { createMeeting, updateMeeting } from '@api/entities/meetings'
+import { createMissingMeetingSteps } from '@api/entities/meetingSteps'
 import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
 import { Timestamp } from '@api/firebase'
 import { nameSchema } from '@api/schemas'
@@ -20,6 +21,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Tooltip,
   useDisclosure,
   UseModalProps,
   VStack,
@@ -33,20 +35,20 @@ import MeetingStepsConfigController, {
   stepsConfigSchema,
   StepsValues,
 } from '@components/molecules/MeetingStepsConfigController'
-import MembersSelect from '@components/molecules/MembersSelect'
+import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/meeting'
+import { MeetingStepTypes } from '@shared/meetingStep'
 import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { FiEdit3 } from 'react-icons/fi'
+import { FiEdit3, FiHelpCircle } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 import MeetingTemplatesModal from './MeetingTemplatesModal'
@@ -87,7 +89,6 @@ export default function MeetingEditModal({
   onCreate,
   ...modalProps
 }: Props) {
-  const navigateOrg = useNavigateOrg()
   const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
 
@@ -130,7 +131,12 @@ export default function MeetingEditModal({
           startDate: getDateTimeLocal(initStartDate),
           duration: 60,
           ended: false,
-          stepsConfig: [],
+          stepsConfig: [
+            {
+              type: MeetingStepTypes.Threads,
+              title: 'Ordre du jour',
+            },
+          ],
         },
   })
 
@@ -177,6 +183,8 @@ export default function MeetingEditModal({
     if (meeting) {
       // Update meeting
       await updateMeeting(meeting.id, meetingUpdate)
+      // Create missing steps
+      createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
     } else {
       // Create meeting
       const meeting = await createMeeting({
@@ -185,7 +193,10 @@ export default function MeetingEditModal({
         ...meetingUpdate,
       })
       onCreate?.(meeting.id)
+      // Create missing steps
+      createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
     }
+
     modalProps.onClose()
   })
 
@@ -310,7 +321,7 @@ export default function MeetingEditModal({
                 <ParticipantsScopeSelect {...register('participantsScope')} />
 
                 <Box mt={2}>
-                  <MembersSelect
+                  <MembersMultiSelect
                     membersIds={participantsMembersIds}
                     onAdd={addParticipant}
                     onRemove={removeParticipant}
@@ -320,8 +331,23 @@ export default function MeetingEditModal({
 
               {participants.length !== 0 && (
                 <FormControl isInvalid={!!errors.facilitatorMemberId} flex="1">
-                  <FormLabel htmlFor="facilitatorMemberId">
+                  <FormLabel
+                    htmlFor="facilitatorMemberId"
+                    display="flex"
+                    alignItems="center"
+                  >
                     Facilitateur
+                    <Tooltip
+                      hasArrow
+                      p={2}
+                      label={
+                        'Le/la facilitateur anime la réunion en suivant le déroulé et en donnant la parole.'
+                      }
+                    >
+                      <Box ml={3}>
+                        <FiHelpCircle />
+                      </Box>
+                    </Tooltip>
                   </FormLabel>
                   <Controller
                     name="facilitatorMemberId"

@@ -85,6 +85,7 @@ export default function ThreadPage() {
               <IconButton
                 aria-label=""
                 icon={<FiEdit3 />}
+                variant="ghost"
                 size="sm"
                 ml={3}
                 onClick={onEditOpen}

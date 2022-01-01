@@ -128,7 +128,7 @@ export default function ActivityDecisionModal({
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel htmlFor="circleId">Cercle concerné</FormLabel>
+                <FormLabel htmlFor="circleId">Cercle / Rôle</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}

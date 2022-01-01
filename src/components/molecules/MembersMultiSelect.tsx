@@ -13,18 +13,19 @@ interface Props {
   max?: number
   onAdd(memberId: string): void
   onRemove(memberId: string): void
-  onMemberClick?(memberId: string): void
+  onClick?(memberId: string): void
 }
 
-export default function MembersSelect({
+export default function MembersMultiSelect({
   membersIds,
   max,
   onAdd,
   onRemove,
-  onMemberClick,
+  onClick,
 }: Props) {
-  // Get members
   const members = useStoreState((state) => state.members.entries)
+
+  // Get selected members
   const selectedMembers = useMemo(
     () =>
       membersIds
@@ -33,7 +34,7 @@ export default function MembersSelect({
     [membersIds, members]
   )
 
-  const handleAddMember = useCallback(
+  const handleAdd = useCallback(
     (item: SearchItem) => {
       if (item.type === SearchItemTypes.Member) {
         onAdd(item.member.id)
@@ -47,10 +48,7 @@ export default function MembersSelect({
       {selectedMembers.map((m) => (
         <WrapItem key={m.id}>
           <ButtonGroup size="sm" isAttached>
-            <MemberButton
-              member={m}
-              onClick={() => onMemberClick && onMemberClick(m.id)}
-            />
+            <MemberButton member={m} onClick={() => onClick && onClick(m.id)} />
             <IconButton
               aria-label=""
               icon={<CloseIcon />}
@@ -59,6 +57,7 @@ export default function MembersSelect({
           </ButtonGroup>
         </WrapItem>
       ))}
+
       {!max || selectedMembers.length < max ? (
         <WrapItem>
           <SearchButtonCombobox
@@ -66,7 +65,7 @@ export default function MembersSelect({
             excludeIds={membersIds}
             size="sm"
             leftIcon={<FiPlus />}
-            onSelect={handleAddMember}
+            onSelect={handleAdd}
           >
             {max === 1 ? 'Choisir un membre' : 'Ajouter un membre'}
           </SearchButtonCombobox>

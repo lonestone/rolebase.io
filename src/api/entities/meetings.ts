@@ -54,7 +54,7 @@ export function updateMeetingDates(id: string, startDate: Date, endDate: Date) {
   })
 }
 
-export async function nextMeetingStep(meeting: MeetingEntry) {
+export async function goToNextMeetingStep(meeting: MeetingEntry) {
   if (!meeting) return
 
   // Meeting not started
