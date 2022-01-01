@@ -8,11 +8,12 @@ import {
   Tag,
   useDisclosure,
 } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
+import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
 import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
+import useCircle from '@hooks/useCircle'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useParticipants from '@hooks/useParticipants'
 import useScrollable from '@hooks/useScrollable'
@@ -45,6 +46,9 @@ export default function ThreadPage() {
     loading,
   } = useSubscription(threadId ? subscribeThread(threadId) : undefined)
 
+  // Circle
+  const circle = useCircle(thread?.circleId)
+
   // Participants
   const participants = useParticipants(
     thread?.circleId,
@@ -76,7 +80,16 @@ export default function ThreadPage() {
     <Box h="100vh" mx={5} pt="70px" display="flex" flexDirection="column">
       {loading && <Loading active center />}
 
-      <Flex>
+      <Flex
+        pb={2}
+        position="relative"
+        zIndex={0}
+        boxShadow={
+          isScrollable && scrollPosition !== ScrollPosition.Top
+            ? '0 6px 11px -10px rgba(0,0,0,0.5)'
+            : 'none'
+        }
+      >
         <Heading as="h1" size="md" display="flex" alignItems="center">
           {thread ? (
             <>
@@ -96,22 +109,9 @@ export default function ThreadPage() {
           ) : null}
         </Heading>
         <Spacer />
-        <ParticipantsNumber participants={participants} />
+        {circle && <CircleButton circle={circle} modal />}
+        <ParticipantsNumber participants={participants} ml={1} />
       </Flex>
-
-      <Box
-        pb={1}
-        pl={1}
-        position="relative"
-        zIndex={0}
-        boxShadow={
-          isScrollable && scrollPosition !== ScrollPosition.Top
-            ? '0 6px 11px -10px rgba(0,0,0,0.5)'
-            : 'none'
-        }
-      >
-        {thread && <CircleAndParentsButton id={thread.circleId} />}
-      </Box>
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>
         <ThreadContext.Provider value={thread}>

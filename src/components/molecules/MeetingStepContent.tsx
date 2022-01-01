@@ -54,7 +54,7 @@ export default function MeetingStepContent({
   return (
     <>
       {step.type === MeetingStepTypes.Threads && (
-        <Box mb={2}>
+        <Box mb={5}>
           <MeetingStepContentThreads
             meetingId={meetingId}
             step={step}

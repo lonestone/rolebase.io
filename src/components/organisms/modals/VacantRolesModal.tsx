@@ -1,11 +1,12 @@
 import {
+  ListItem,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Stack,
+  UnorderedList,
   UseModalProps,
 } from '@chakra-ui/react'
 import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
@@ -41,15 +42,17 @@ export default function VacantRolesModal(modalProps: UseModalProps) {
         <ModalCloseButton />
 
         <ModalBody pb={5}>
-          <Stack>
-            {!vacantCircles || vacantCircles.length === 0 ? (
-              <>Aucun rôle vacant 🎉</>
-            ) : (
-              vacantCircles.map((circle) => (
-                <CircleAndParentsButton key={circle.id} id={circle.id} />
-              ))
-            )}
-          </Stack>
+          {!vacantCircles || vacantCircles.length === 0 ? (
+            <>Aucun rôle vacant 🎉</>
+          ) : (
+            <UnorderedList>
+              {vacantCircles.map((circle) => (
+                <ListItem>
+                  <CircleAndParentsButton key={circle.id} id={circle.id} />
+                </ListItem>
+              ))}
+            </UnorderedList>
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>

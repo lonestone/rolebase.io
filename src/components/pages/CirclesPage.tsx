@@ -75,7 +75,7 @@ export default function CirclesPage() {
       {panel === Panels.Member && memberId && (
         <MemberPanel
           id={memberId}
-          highlightCircleId={circleId || undefined}
+          selectedCircleId={circleId || undefined}
           onClose={handleClosePanel}
         />
       )}

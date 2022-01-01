@@ -37,12 +37,10 @@ export default function MeetingStepContentThreads({
   )
 
   return (
-    <>
-      <ThreadsMultiSelect
-        threadsIds={step.threadsIds}
-        onAdd={editable ? handleAdd : undefined}
-        onRemove={editable ? handleRemove : undefined}
-      />
-    </>
+    <ThreadsMultiSelect
+      threadsIds={step.threadsIds}
+      onAdd={editable ? handleAdd : undefined}
+      onRemove={editable ? handleRemove : undefined}
+    />
   )
 }

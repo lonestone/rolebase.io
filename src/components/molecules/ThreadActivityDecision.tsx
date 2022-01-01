@@ -1,5 +1,5 @@
 import { Box, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
+import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Markdown from '@components/atoms/Markdown'
 import ThreadActivityLayout from '@components/atoms/ThreadActivityLayout'
 import ActivityDecisionModal from '@components/organisms/modals/ActivityDecisionModal'
@@ -35,7 +35,7 @@ export default function ThreadActivityDecision({ activity }: Props) {
           <Text fontWeight="bold" mr={6}>
             Décision
           </Text>
-          <CircleAndParentsButton id={activity.circleId} />
+          <CircleByIdButton circleId={activity.circleId} modal />
         </HStack>
         <VStack spacing={3} p={3} align="stretch">
           <Markdown flex={1} fontSize="1.2rem" fontWeight={500}>

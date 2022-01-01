@@ -7,14 +7,12 @@ import { FiEdit3, FiTrash2 } from 'react-icons/fi'
 
 interface Props extends BoxProps {
   id: string
-  color?: string
   onEdit?(): void
   onDelete?(): void
 }
 
 export default function CircleAndParentsButton({
   id,
-  color,
   onEdit,
   onDelete,
   ...boxProps
@@ -30,13 +28,15 @@ export default function CircleAndParentsButton({
   if (!circle) return null
 
   return (
-    <Box style={{ textIndent: '-1em' }} {...boxProps}>
+    <Box {...boxProps}>
       {circleAndParents?.map((c, i) => {
         const last = i === circleAndParents.length - 1
         return (
           <span style={{ whiteSpace: 'nowrap' }} key={c.id}>
+            {last && i !== 0 && <br />}
+
             <Button
-              bg={last ? color : undefined}
+              bg={last ? 'hsl(192deg 76% 87%)' : undefined}
               variant={last ? 'solid' : 'ghost'}
               size={last ? 'md' : 'sm'}
               borderRadius="full"

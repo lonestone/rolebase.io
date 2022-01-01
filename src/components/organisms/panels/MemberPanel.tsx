@@ -1,37 +1,16 @@
-import {
-  Avatar,
-  CloseButton,
-  Heading,
-  HStack,
-  IconButton,
-  Spacer,
-  StackItem,
-  useDisclosure,
-} from '@chakra-ui/react'
-import Panel from '@components/atoms/Panel'
-import MemberRoles from '@components/molecules/MemberRoles'
-import useMember from '@hooks/useMember'
+import { Modal } from '@chakra-ui/react'
+import { ModalPanel } from '@components/atoms/ModalPanel'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback } from 'react'
-import { FiEdit3 } from 'react-icons/fi'
-import MemberEditModal from '../modals/MemberEditModal'
+import MemberModalContent from '../modals/MemberModalContent'
 
 interface Props {
   id: string
-  highlightCircleId?: string
+  selectedCircleId?: string
   onClose(): void
 }
 
-export default function MemberPanel({ id, highlightCircleId, onClose }: Props) {
-  const member = useMember(id)
-
-  // Edit modal
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
-
+export default function MemberPanel({ id, selectedCircleId, onClose }: Props) {
   // Go to circle panel
   const navigateOrg = useNavigateOrg()
   const handleCircleChange = useCallback(
@@ -45,40 +24,15 @@ export default function MemberPanel({ id, highlightCircleId, onClose }: Props) {
     [id]
   )
 
-  if (!member) return null
-
   return (
-    <Panel>
-      <Heading size="sm" mb={5}>
-        <HStack spacing={5}>
-          <Avatar
-            name={member.name}
-            src={member.picture || undefined}
-            size="lg"
-          />
-          <StackItem>{member.name}</StackItem>
-          <IconButton
-            aria-label=""
-            icon={<FiEdit3 />}
-            variant="ghost"
-            size="sm"
-            onClick={onEditOpen}
-          />
-          <Spacer />
-          <CloseButton onClick={onClose} />
-        </HStack>
-      </Heading>
-
-      <Heading as="h3" size="sm" mb={3} ml={4}>
-        Rôles
-      </Heading>
-      <MemberRoles
-        memberId={id}
-        selectedCircleId={highlightCircleId}
-        onCircleChange={handleCircleChange}
-      />
-
-      {isEditOpen && <MemberEditModal id={id} isOpen onClose={onEditClose} />}
-    </Panel>
+    <Modal isOpen onClose={onClose}>
+      <ModalPanel>
+        <MemberModalContent
+          id={id}
+          selectedCircleId={selectedCircleId}
+          onCircleSelect={handleCircleChange}
+        />
+      </ModalPanel>
+    </Modal>
   )
 }

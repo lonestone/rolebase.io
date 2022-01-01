@@ -4,8 +4,6 @@ import React from 'react'
 
 interface Props extends ButtonProps {
   member: MemberEntry
-  size?: 'md' | 'sm'
-  onClick(): void
 }
 
 export default function MemberButton({ member, ...buttonProps }: Props) {

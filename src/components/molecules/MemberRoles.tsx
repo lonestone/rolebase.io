@@ -64,9 +64,7 @@ export default function MemberRoles({
   return (
     <>
       {memberCircles.length === 0 ? (
-        <p>
-          <em>Aucun</em>
-        </p>
+        <i>Aucun</i>
       ) : (
         <Accordion
           index={selectedCircleIndex}

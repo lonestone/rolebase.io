@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react'
-import MemberEditModal from '@components/organisms/modals/MemberEditModal'
+import MemberModal from '@components/organisms/modals/MemberModal'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback, useState } from 'react'
 import SearchCombobox from './SearchCombobox'
@@ -9,7 +9,7 @@ export default function Search() {
   const navigateOrg = useNavigateOrg()
 
   // Member edit modal
-  const [editMemberId, setEditMemberId] = useState<string | undefined>()
+  const [memberId, setMemberId] = useState<string | undefined>()
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -18,7 +18,7 @@ export default function Search() {
 
   const handleSelect = useCallback((item: SearchItem) => {
     if (item.type === SearchItemTypes.Member) {
-      setEditMemberId(item.member.id)
+      setMemberId(item.member.id)
       onEditOpen()
     } else if (item.type === SearchItemTypes.Circle) {
       navigateOrg(`?circleId=${item.circle.id}`)
@@ -31,12 +31,8 @@ export default function Search() {
     <>
       <SearchCombobox onSelect={handleSelect} />
 
-      {editMemberId && (
-        <MemberEditModal
-          id={editMemberId}
-          isOpen={isEditOpen}
-          onClose={onEditClose}
-        />
+      {memberId && (
+        <MemberModal id={memberId} isOpen={isEditOpen} onClose={onEditClose} />
       )}
     </>
   )

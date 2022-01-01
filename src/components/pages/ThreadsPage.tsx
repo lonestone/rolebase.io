@@ -18,7 +18,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
+import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
@@ -134,7 +134,7 @@ export default function ThreadsPage() {
                   {thread.title}
                 </LinkOverlay>
                 <Spacer />
-                <CircleAndParentsButton id={thread.circleId} />
+                <CircleByIdButton circleId={thread.circleId} modal />
               </HStack>
             </LinkBox>
           ))}

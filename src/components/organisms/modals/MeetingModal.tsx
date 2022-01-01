@@ -11,6 +11,7 @@ import {
   Box,
   Button,
   Flex,
+  HStack,
   IconButton,
   Modal,
   ModalBody,
@@ -18,23 +19,32 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  StackItem,
   Tag,
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
+import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
 import MemberLink from '@components/atoms/MemberLink'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
+import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import { format } from 'date-fns'
 import React, { useCallback } from 'react'
 import { FaStop } from 'react-icons/fa'
-import { FiArrowDown, FiCalendar, FiEdit3, FiPlay } from 'react-icons/fi'
+import {
+  FiArrowDown,
+  FiCalendar,
+  FiClock,
+  FiEdit3,
+  FiPlay,
+} from 'react-icons/fi'
 import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingEditModal from './MeetingEditModal'
@@ -80,6 +90,9 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
     (p) => p.member.id === meeting?.facilitatorMemberId
   )
 
+  // Circle
+  const circle = useCircle(meeting?.circleId)
+
   // Meeting edition modal
   const {
     isOpen: isEditOpen,
@@ -107,10 +120,11 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
       <ModalContent>
         <ModalHeader>
           <Flex alignItems="center">
-            <FiCalendar />
-            <Box ml={2}>{meeting?.title}</Box>
+            <Box>Réunion : {meeting?.title}</Box>
 
-            <ParticipantsNumber participants={participants} ml={5} />
+            {circle && <CircleButton circle={circle} modal ml={5} />}
+
+            <ParticipantsNumber participants={participants} ml={1} />
 
             {isNotStarted && (
               <IconButton
@@ -132,8 +146,17 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
 
           {meeting && (
             <>
-              <Box mb={3}>
-                <Tag>
+              <HStack mb={3} spacing={2}>
+                <FiCalendar />
+                <StackItem>
+                  {capitalizeFirstLetter(
+                    format(meeting.startDate.toDate(), 'PPPP', {
+                      locale: dateFnsLocale,
+                    })
+                  )}
+                </StackItem>
+                <FiClock />
+                <StackItem>
                   {format(meeting.startDate.toDate(), 'p', {
                     locale: dateFnsLocale,
                   })}
@@ -141,14 +164,9 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
                   {format(meeting.endDate.toDate(), 'p', {
                     locale: dateFnsLocale,
                   })}
-                </Tag>{' '}
-                {capitalizeFirstLetter(
-                  format(meeting.startDate.toDate(), 'PPPP', {
-                    locale: dateFnsLocale,
-                  })
-                )}
-                {meeting.ended && <Tag ml={3}>Terminée</Tag>}
-              </Box>
+                </StackItem>
+                {meeting?.ended && <Tag ml={1}>Terminée</Tag>}
+              </HStack>
 
               {meeting.ended ? (
                 <>
