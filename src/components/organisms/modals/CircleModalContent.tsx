@@ -66,7 +66,7 @@ export default function CircleModalContent({ id }: Props) {
       </ModalHeader>
       <ModalCloseButton />
 
-      <ModalBody>
+      <ModalBody pb={5}>
         <Tabs isLazy variant="enclosed">
           <TabList>
             <Tab>{role?.singleMember ? 'Rôle' : 'Cercle'}</Tab>

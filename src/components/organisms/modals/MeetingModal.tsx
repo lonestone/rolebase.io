@@ -86,9 +86,11 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
     ? participants.some((p) => p.member.id === currentMember.id)
     : false
   const isFacilitator = currentMember?.id === meeting?.facilitatorMemberId
+  const isInitiator = currentMember?.id === meeting?.initiatorMemberId
   const facilitator = participants?.find(
     (p) => p.member.id === meeting?.facilitatorMemberId
   )
+  const canEditConfig = isNotStarted && (isParticipant || isInitiator)
 
   // Circle
   const circle = useCircle(meeting?.circleId)
@@ -115,18 +117,13 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
   }, [meeting])
 
   return (
-    <Modal size="3xl" {...modalProps}>
+    <Modal size="3xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
           <Flex alignItems="center">
             <Box>Réunion : {meeting?.title}</Box>
-
-            {circle && <CircleButton circle={circle} modal ml={5} />}
-
-            <ParticipantsNumber participants={participants} ml={1} />
-
-            {isNotStarted && (
+            {canEditConfig && (
               <IconButton
                 aria-label=""
                 icon={<FiEdit3 />}
@@ -136,6 +133,10 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
                 onClick={onEditOpen}
               />
             )}
+
+            {circle && <CircleButton circle={circle} modal ml={5} />}
+
+            <ParticipantsNumber participants={participants} ml={1} />
           </Flex>
         </ModalHeader>
         <ModalCloseButton />

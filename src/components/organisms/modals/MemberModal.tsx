@@ -23,7 +23,7 @@ export default function MemberModal({
   )
 
   return (
-    <Modal size="lg" {...modalProps}>
+    <Modal size="lg" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <MemberModalContent

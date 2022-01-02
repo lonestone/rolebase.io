@@ -13,7 +13,7 @@ interface Props extends UseModalProps {
 
 export default function CircleModal({ id, ...modalProps }: Props) {
   return (
-    <Modal size="lg" {...modalProps}>
+    <Modal size="lg" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <CircleModalContent id={id} />

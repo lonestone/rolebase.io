@@ -38,7 +38,10 @@ export default function useScrollable() {
   useEffect(() => {
     const content = contentRef?.current
     const container = containerRef?.current
-    if (!content || !container) return
+    if (!content || !container) {
+      console.error('useScrollable: content or container ref is null')
+      return
+    }
 
     const onResize = () =>
       // Wait for layout to be done

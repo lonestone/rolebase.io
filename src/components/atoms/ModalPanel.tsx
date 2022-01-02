@@ -38,7 +38,6 @@ export const ModalPanel = forwardRef<ModalContentProps, 'section'>(
       overflowY: 'auto',
       w: '450px',
       maxH: 'calc(100vh - 71px)',
-      pb: 3,
     }
 
     const dialogContainerStyles: SystemStyleObject = {

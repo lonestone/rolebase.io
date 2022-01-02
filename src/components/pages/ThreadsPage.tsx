@@ -21,7 +21,7 @@ import {
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
-import ThreadModal from '@components/organisms/modals/ThreadModal'
+import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useSubscription from '@hooks/useSubscription'
@@ -141,7 +141,7 @@ export default function ThreadsPage() {
         </VStack>
       )}
 
-      {isCreateOpen && <ThreadModal isOpen onClose={onCreateClose} />}
+      {isCreateOpen && <ThreadEditModal isOpen onClose={onCreateClose} />}
     </Container>
   )
 }

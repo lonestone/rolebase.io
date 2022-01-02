@@ -9,11 +9,12 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { useStoreState } from '@store/hooks'
-import React from 'react'
+import React, { MouseEvent, useCallback, useState } from 'react'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -32,16 +33,33 @@ export default function ThreadsInCircleList({ circleId }: Props) {
   // Enrich with status and sort
   const threads = useThreadsWithStatus(data)
 
+  // Thread create modal
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure()
+
   // Thread modal
+  const [threadId, setThreadId] = useState<string | undefined>()
   const {
     isOpen: isThreadOpen,
     onOpen: onThreadOpen,
     onClose: onThreadClose,
   } = useDisclosure()
 
+  const handleOpen = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    const id = event.currentTarget.getAttribute('data-id')
+    if (id) {
+      setThreadId(id)
+      onThreadOpen()
+    }
+  }, [])
+
   return (
     <>
-      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onThreadOpen}>
+      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
         Créer une discussion
       </Button>
 
@@ -64,6 +82,8 @@ export default function ThreadsInCircleList({ circleId }: Props) {
                 <LinkOverlay
                   as={ReachLink}
                   to={`/orgs/${orgId}/threads/${thread.id}`}
+                  data-id={thread.id}
+                  onClick={handleOpen}
                   fontWeight={thread.read !== false ? 'normal' : 'bold'}
                 >
                   {thread.title}
@@ -74,11 +94,15 @@ export default function ThreadsInCircleList({ circleId }: Props) {
         </VStack>
       )}
 
-      {isThreadOpen && (
-        <ThreadModal
+      {isThreadOpen && threadId && (
+        <ThreadModal id={threadId} isOpen onClose={onThreadClose} />
+      )}
+
+      {isCreateOpen && (
+        <ThreadEditModal
           defaultCircleId={circleId}
           isOpen
-          onClose={onThreadClose}
+          onClose={onCreateClose}
         />
       )}
     </>
