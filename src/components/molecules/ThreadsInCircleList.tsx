@@ -3,20 +3,18 @@ import {
   Button,
   HStack,
   LinkBox,
-  LinkOverlay,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
-import ThreadModal from '@components/organisms/modals/ThreadModal'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { useStoreState } from '@store/hooks'
-import React, { MouseEvent, useCallback, useState } from 'react'
+import React from 'react'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
-import { Link as ReachLink } from 'react-router-dom'
 
 interface Props {
   circleId: string
@@ -40,23 +38,6 @@ export default function ThreadsInCircleList({ circleId }: Props) {
     onClose: onCreateClose,
   } = useDisclosure()
 
-  // Thread modal
-  const [threadId, setThreadId] = useState<string | undefined>()
-  const {
-    isOpen: isThreadOpen,
-    onOpen: onThreadOpen,
-    onClose: onThreadClose,
-  } = useDisclosure()
-
-  const handleOpen = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    const id = event.currentTarget.getAttribute('data-id')
-    if (id) {
-      setThreadId(id)
-      onThreadOpen()
-    }
-  }, [])
-
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
@@ -79,23 +60,14 @@ export default function ThreadsInCircleList({ circleId }: Props) {
             >
               <HStack spacing={3} align="stretch" alignItems="center">
                 <FiMessageSquare />
-                <LinkOverlay
-                  as={ReachLink}
-                  to={`/orgs/${orgId}/threads/${thread.id}`}
-                  data-id={thread.id}
-                  onClick={handleOpen}
+                <ThreadLinkOverlay
+                  thread={thread}
                   fontWeight={thread.read !== false ? 'normal' : 'bold'}
-                >
-                  {thread.title}
-                </LinkOverlay>
+                />
               </HStack>
             </LinkBox>
           ))}
         </VStack>
-      )}
-
-      {isThreadOpen && threadId && (
-        <ThreadModal id={threadId} isOpen onClose={onThreadClose} />
       )}
 
       {isCreateOpen && (

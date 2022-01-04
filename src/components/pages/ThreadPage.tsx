@@ -1,4 +1,4 @@
-import ThreadPageContent from '@components/organisms/ThreadPageContent'
+import ThreadContent from '@components/organisms/ThreadContent'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import React from 'react'
 import { useParams } from 'react-router-dom'
@@ -17,5 +17,5 @@ export default function ThreadPage() {
     return <Page404 />
   }
 
-  return <ThreadPageContent id={threadId} h="100vh" pt="60px" />
+  return <ThreadContent id={threadId} h="100vh" pt="60px" />
 }

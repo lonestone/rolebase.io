@@ -6,7 +6,6 @@ import {
   Heading,
   HStack,
   LinkBox,
-  LinkOverlay,
   Menu,
   MenuButton,
   MenuDivider,
@@ -21,6 +20,7 @@ import {
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
@@ -30,7 +30,6 @@ import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { FiChevronDown, FiMessageSquare, FiPlus } from 'react-icons/fi'
-import { Link as ReachLink } from 'react-router-dom'
 
 export default function ThreadsPage() {
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -126,13 +125,10 @@ export default function ThreadsPage() {
             >
               <HStack>
                 <FiMessageSquare />
-                <LinkOverlay
-                  as={ReachLink}
-                  to={`/orgs/${orgId}/threads/${thread.id}`}
+                <ThreadLinkOverlay
+                  thread={thread}
                   fontWeight={thread.read !== false ? 'normal' : 'bold'}
-                >
-                  {thread.title}
-                </LinkOverlay>
+                />
                 <Spacer />
                 <CircleByIdButton circleId={thread.circleId} modal />
               </HStack>

@@ -3,22 +3,15 @@ import {
   subscribeThreadsByCircle,
 } from '@api/entities/threads'
 import { CloseIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  HStack,
-  IconButton,
-  LinkBox,
-  LinkOverlay,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, HStack, IconButton, LinkBox, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
 import useSubscription from '@hooks/useSubscription'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
-import { Link as ReachLink } from 'react-router-dom'
 import SearchButtonCombobox from './search/SearchButtonCombobox'
 import { SearchItem, SearchItemTypes } from './search/searchItems'
 
@@ -28,7 +21,6 @@ interface Props {
   max?: number
   onAdd?(memberId: string): void
   onRemove?(memberId: string): void
-  onClick?(memberId: string): void
 }
 
 export default function ThreadsMultiSelect({
@@ -37,7 +29,6 @@ export default function ThreadsMultiSelect({
   max,
   onAdd,
   onRemove,
-  onClick,
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
@@ -82,14 +73,7 @@ export default function ThreadsMultiSelect({
           >
             <HStack spacing={3} align="stretch" alignItems="center">
               <FiMessageSquare />
-
-              <LinkOverlay
-                as={ReachLink}
-                to={`/orgs/${orgId}/threads/${thread.id}`}
-                flex={1}
-              >
-                {thread.title}
-              </LinkOverlay>
+              <ThreadLinkOverlay thread={thread} />
 
               {onRemove && (
                 <IconButton

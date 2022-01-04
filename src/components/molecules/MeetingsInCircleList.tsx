@@ -3,12 +3,12 @@ import {
   Button,
   HStack,
   LinkBox,
-  LinkOverlay,
   Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
+import MeetingLinkOverlay from '@components/atoms/MeetingLinkOverlay'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
@@ -17,7 +17,6 @@ import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
 import React, { useState } from 'react'
 import { FiCalendar, FiPlus } from 'react-icons/fi'
-import { Link as ReachLink } from 'react-router-dom'
 import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 
@@ -93,20 +92,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
                 >
                   <HStack spacing={3} align="stretch" alignItems="center">
                     <FiCalendar />
-                    <LinkOverlay
-                      as={ReachLink}
-                      to="#"
-                      onClick={(event) => {
-                        event.preventDefault()
-                        setMeetingId(meeting.id)
-                        onMeetingOpen()
-                      }}
-                    >
-                      {format(date, 'p ', {
-                        locale: dateFnsLocale,
-                      })}{' '}
-                      - {meeting.title}
-                    </LinkOverlay>
+                    <MeetingLinkOverlay meeting={meeting} />
                   </HStack>
                 </LinkBox>
               </React.Fragment>

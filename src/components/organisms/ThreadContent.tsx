@@ -27,7 +27,7 @@ interface Props extends BoxProps {
   id: string
 }
 
-export default function ThreadPageContent({ id, ...boxProps }: Props) {
+export default function ThreadContent({ id, ...boxProps }: Props) {
   // Subscribe thread
   const { data: thread, error, loading } = useSubscription(subscribeThread(id))
 
@@ -93,7 +93,9 @@ export default function ThreadPageContent({ id, ...boxProps }: Props) {
             <>Chargement...</>
           ) : null}
         </Heading>
+
         {circle && <CircleButton circle={circle} modal ml={5} />}
+
         <ParticipantsNumber participants={participants} ml={1} />
       </Flex>
 
