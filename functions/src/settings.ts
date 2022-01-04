@@ -1,5 +1,6 @@
 export default {
-  url: 'http://localhost:3000',
+  // url: 'http://localhost:3000',
+  url: 'https://hq.lonestone.io',
   mail: {
     sender: {
       name: 'Rolesapp',
