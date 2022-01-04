@@ -41,18 +41,21 @@ import {
   FiClock,
   FiEdit3,
   FiPlay,
+  FiTrash2,
   FiVideo,
 } from 'react-icons/fi'
 import slugify from 'slugify'
 import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
+import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
 
 interface Props extends BoxProps {
   id: string
+  onClose(): void
 }
 
-export default function MeetingContent({ id, ...boxProps }: Props) {
+export default function MeetingContent({ id, onClose, ...boxProps }: Props) {
   const currentMember = useCurrentMember()
 
   // Subscribe meeting
@@ -90,6 +93,7 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
   const facilitator = participants?.find(
     (p) => p.member.id === meeting?.facilitatorMemberId
   )
+  const canDelete = meeting && !meeting.ended && (isParticipant || isInitiator)
   const canEditConfig = isNotStarted && (isParticipant || isInitiator)
 
   // Circle
@@ -100,6 +104,13 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
     onClose: onEditClose,
+  } = useDisclosure()
+
+  // Meeting deletion modal
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
   } = useDisclosure()
 
   // Go to step
@@ -132,7 +143,6 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
     })}#userInfo.displayName="${encodeURIComponent(
       currentMember.name
     )}"&interfaceConfig.SHOW_CHROME_EXTENSION_BANNER=false`
-    console.log(roomName, url)
 
     window.open(url, '_blank')
   }, [meeting, circle, currentMember])
@@ -152,6 +162,16 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
             size="sm"
             ml={2}
             onClick={onEditOpen}
+          />
+        )}
+
+        {canDelete && (
+          <IconButton
+            aria-label=""
+            icon={<FiTrash2 />}
+            variant="ghost"
+            size="sm"
+            onClick={onDeleteOpen}
           />
         )}
 
@@ -294,6 +314,15 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
 
       {isEditOpen && (
         <MeetingEditModal meeting={meeting} isOpen onClose={onEditClose} />
+      )}
+
+      {isDeleteOpen && meeting && (
+        <MeetingDeleteModal
+          meeting={meeting}
+          isOpen
+          onClose={onDeleteClose}
+          onDelete={onClose}
+        />
       )}
     </Box>
   )

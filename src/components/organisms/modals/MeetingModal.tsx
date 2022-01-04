@@ -26,7 +26,7 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
           <ModalMaximizeButton />
         </Link>
         <ModalCloseButton zIndex={1} />
-        <MeetingContent id={id} px={6} py={4} />
+        <MeetingContent id={id} onClose={modalProps.onClose} px={6} py={4} />
       </ModalContent>
     </Modal>
   )

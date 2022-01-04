@@ -7,6 +7,7 @@ import {
   subscribeQuery,
   Timestamp,
 } from '../firebase'
+import { meetingStepsEntities } from './meetingSteps'
 
 export const collection = getCollection<Meeting>('meetings')
 
@@ -24,7 +25,13 @@ export const getMeeting = methods.get
 export const createMeeting = methods.create
 export const updateMeeting = methods.update
 export const subscribeMeeting = methods.subscribe
-export const deleteMeeting = methods.delete
+
+export const deleteMeeting = async (id: string) => {
+  const { getMeetingSteps, deleteMeetingStep } = meetingStepsEntities(id)
+  const meetingSteps = await getMeetingSteps()
+  await Promise.all(meetingSteps.map((step) => deleteMeetingStep(step.id)))
+  await methods.delete(id)
+}
 
 export const subscribeMeetingsByDates = memoize(
   (orgId: string, fromDate: Date, toDate: Date) =>

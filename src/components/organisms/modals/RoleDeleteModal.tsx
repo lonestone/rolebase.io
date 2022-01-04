@@ -44,7 +44,8 @@ export default function RoleDeleteModal({
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer le rôle {role.name} ?
+              Êtes-vous sûr de vouloir supprimer le rôle{' '}
+              <strong>{role.name}</strong> ?
             </Text>
           </AlertDialogBody>
 

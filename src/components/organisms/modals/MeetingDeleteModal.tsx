@@ -1,4 +1,4 @@
-import { deleteMember } from '@api/entities/members'
+import { deleteMeeting } from '@api/entities/meetings'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -10,42 +10,38 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import useMember from '@hooks/useMember'
+import { MeetingEntry } from '@shared/meeting'
 import React from 'react'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
-  id: string
+  meeting: MeetingEntry
   onDelete?(): void
 }
 
-// WIP
-export default function ThreadDeleteModal({
-  id,
+export default function MeetingDeleteModal({
+  meeting,
   onDelete,
   ...alertProps
 }: Props) {
-  const member = useMember(id)
-
   const handleDelete = () => {
-    deleteMember(id)
+    deleteMeeting(meeting.id)
     onDelete?.()
     alertProps.onClose()
   }
-
-  if (!member) return null
 
   return (
     <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un membre
+            Supprimer une réunion
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer le membre {member.name} ?
+              Êtes-vous sûr de vouloir supprimer la réunion{' '}
+              <strong>{meeting.title}</strong> ?
             </Text>
           </AlertDialogBody>
 

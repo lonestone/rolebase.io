@@ -39,7 +39,10 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>Êtes-vous sûr de vouloir supprimer le rôle {org.name} ?</Text>
+            <Text>
+              Êtes-vous sûr de vouloir supprimer l'organisation{' '}
+              <strong>{org.name}</strong> ?
+            </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>
