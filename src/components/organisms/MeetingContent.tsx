@@ -17,7 +17,9 @@ import {
   IconButton,
   StackItem,
   Tag,
+  Text,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
@@ -39,7 +41,9 @@ import {
   FiClock,
   FiEdit3,
   FiPlay,
+  FiVideo,
 } from 'react-icons/fi'
+import slugify from 'slugify'
 import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingEditModal from './modals/MeetingEditModal'
@@ -68,6 +72,7 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
 
   // Meeting not started?
   const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
+  const isStarted = !meeting?.ended && meeting?.currentStepId !== null
 
   // Participants
   const participants = useParticipants(
@@ -111,9 +116,30 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
     goToNextMeetingStep(meeting)
   }, [meeting])
 
+  // Join video conference
+  const handleJoinVideoConf = useCallback(() => {
+    if (!meeting || !circle || !currentMember || !circle) return
+
+    const roomName = `${meeting.title} Cercle ${circle.role.name} ${format(
+      meeting.startDate.toDate(),
+      'Pp',
+      {
+        locale: dateFnsLocale,
+      }
+    )}`
+    const url = `https://meet.jit.si/${slugify(roomName, {
+      strict: true,
+    })}#userInfo.displayName="${encodeURIComponent(
+      currentMember.name
+    )}"&interfaceConfig.SHOW_CHROME_EXTENSION_BANNER=false`
+    console.log(roomName, url)
+
+    window.open(url, '_blank')
+  }, [meeting, circle, currentMember])
+
   return (
     <Box {...boxProps}>
-      <Flex alignItems="center">
+      <Flex alignItems="center" mb={3}>
         <Heading as="h1" size="md" display="flex" alignItems="center">
           Réunion : {meeting?.title}
         </Heading>
@@ -139,68 +165,86 @@ export default function MeetingContent({ id, ...boxProps }: Props) {
 
       {meeting && (
         <>
-          <HStack my={3} spacing={2}>
-            <FiCalendar />
-            <StackItem>
-              {capitalizeFirstLetter(
-                format(meeting.startDate.toDate(), 'PPPP', {
+          <VStack spacing={5} align="start">
+            <HStack spacing={2}>
+              <FiCalendar />
+              <StackItem>
+                {capitalizeFirstLetter(
+                  format(meeting.startDate.toDate(), 'PPPP', {
+                    locale: dateFnsLocale,
+                  })
+                )}
+              </StackItem>
+              <FiClock />
+              <StackItem>
+                {format(meeting.startDate.toDate(), 'p', {
                   locale: dateFnsLocale,
-                })
-              )}
-            </StackItem>
-            <FiClock />
-            <StackItem>
-              {format(meeting.startDate.toDate(), 'p', {
-                locale: dateFnsLocale,
-              })}
-              {' - '}
-              {format(meeting.endDate.toDate(), 'p', {
-                locale: dateFnsLocale,
-              })}
-            </StackItem>
-            {meeting?.ended && <Tag ml={1}>Terminée</Tag>}
-          </HStack>
+                })}
+                {' - '}
+                {format(meeting.endDate.toDate(), 'p', {
+                  locale: dateFnsLocale,
+                })}
+              </StackItem>
+              {meeting?.ended && <Tag ml={1}>Terminée</Tag>}
+            </HStack>
 
-          {meeting.ended ? (
-            <>
-              {isFacilitator && (
-                <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
-                  Reprendre la réunion
-                </Button>
-              )}
-            </>
-          ) : isFacilitator ? (
-            <>
-              <Alert status="info">
-                <AlertIcon />
-                <AlertDescription>Vous animez cette réunion.</AlertDescription>
-              </Alert>
-
-              {meeting.currentStepId === null && (
-                <Button
-                  leftIcon={<FiPlay />}
-                  colorScheme="green"
-                  mb={5}
-                  onClick={handleNextStep}
-                >
-                  Démarrer
-                </Button>
-              )}
-            </>
-          ) : facilitator ? (
-            <>
-              {!isParticipant && (
-                <Alert status="info" mb={5}>
+            {meeting.ended ? (
+              <>
+                {isFacilitator && (
+                  <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
+                    Reprendre la réunion
+                  </Button>
+                )}
+              </>
+            ) : isFacilitator ? (
+              <>
+                <Alert status="info">
                   <AlertIcon />
                   <AlertDescription>
-                    Vous n'êtes pas participant dans cette réunion, vous ne
-                    pouvez donc pas la modifier.
+                    Vous animez cette réunion.
                   </AlertDescription>
                 </Alert>
-              )}
-              <MemberLink member={facilitator.member} /> anime cette réunion.
-            </>
-          ) : null}
+
+                {isNotStarted && (
+                  <Button
+                    leftIcon={<FiPlay />}
+                    colorScheme="green"
+                    onClick={handleNextStep}
+                  >
+                    Démarrer
+                  </Button>
+                )}
+              </>
+            ) : (
+              <>
+                {!isParticipant && (
+                  <Alert status="info">
+                    <AlertIcon />
+                    <AlertDescription>
+                      Vous n'êtes pas participant dans cette réunion, vous ne
+                      pouvez donc pas la rejoindre ou la modifier.
+                    </AlertDescription>
+                  </Alert>
+                )}
+                {facilitator && (
+                  <Text>
+                    <MemberLink member={facilitator.member} /> anime cette
+                    réunion.
+                  </Text>
+                )}
+              </>
+            )}
+
+            {isStarted && isParticipant && (
+              <Button
+                leftIcon={<FiVideo />}
+                colorScheme="blue"
+                onClick={handleJoinVideoConf}
+              >
+                Rejoindre la visio
+              </Button>
+            )}
+          </VStack>
 
           <Box mt={10}>
             {meeting.stepsConfig.map((stepConfig, index) => {
