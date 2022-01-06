@@ -1,6 +1,7 @@
 import { Meeting, MeetingEntry } from '@shared/meeting'
 import { Optional } from '@shared/types'
 import { memoize } from 'src/memoize'
+import settings from 'src/settings'
 import {
   getCollection,
   getEntityMethods,
@@ -103,4 +104,8 @@ export async function goToNextMeetingStep(meeting: MeetingEntry) {
       ended: true,
     })
   }
+}
+
+export function getMeetingsIcalUrl(orgId: string | undefined) {
+  return `${settings.firebaseFunctionsUrl}api/meetings.ics?orgId=${orgId}`
 }

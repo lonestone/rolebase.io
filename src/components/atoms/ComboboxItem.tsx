@@ -32,8 +32,8 @@ const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
               name={item.member.name}
               src={item.member.picture || undefined}
               size="sm"
-              marginLeft="-10px"
-              marginRight={2}
+              ml="-10px"
+              mr={2}
             />
             {item.member.name}
           </>
@@ -52,8 +52,8 @@ const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
               name={item.member.name || '?'}
               src={item.member.picture || undefined}
               size="sm"
-              marginLeft={3}
-              marginRight={2}
+              ml={3}
+              mr={2}
             />
             {item.member.name || '?'}
           </>

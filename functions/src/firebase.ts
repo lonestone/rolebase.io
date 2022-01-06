@@ -1,4 +1,5 @@
 import { Circle } from '@shared/circle'
+import { Meeting } from '@shared/meeting'
 import { Member } from '@shared/member'
 import { Org } from '@shared/org'
 import { Role } from '@shared/role'
@@ -29,6 +30,7 @@ export function getCollection<DocumentData>(collectionPath: string) {
 
 export const collections = {
   circles: getCollection<Circle>('circles'),
+  meetings: getCollection<Meeting>('meetings'),
   members: getCollection<Member>('members'),
   orgs: getCollection<Org>('orgs'),
   roles: getCollection<Role>('roles'),

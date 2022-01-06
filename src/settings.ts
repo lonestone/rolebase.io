@@ -7,4 +7,8 @@ export default {
     messagingSenderId: '749917420406',
     appId: '1:749917420406:web:4c0f56a228b6467cfe1857',
   },
+  firebaseFunctionsUrl:
+    location.hostname === 'localhost'
+      ? 'http://localhost:5001/roles-app-37879/us-central1/'
+      : 'https://us-central1-roles-app-37879.cloudfunctions.net/',
 }

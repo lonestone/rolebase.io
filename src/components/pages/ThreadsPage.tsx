@@ -73,7 +73,12 @@ export default function ThreadsPage() {
         <Spacer />
 
         <Menu closeOnSelect={false}>
-          <MenuButton as={Button} variant="ghost" rightIcon={<FiChevronDown />}>
+          <MenuButton
+            as={Button}
+            size="sm"
+            variant="ghost"
+            rightIcon={<FiChevronDown />}
+          >
             Filtres
           </MenuButton>
           <MenuList zIndex={2}>
@@ -104,7 +109,7 @@ export default function ThreadsPage() {
           </MenuList>
         </Menu>
 
-        <Button ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+        <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
           Nouvelle discussion
         </Button>
       </Flex>

@@ -1,8 +1,8 @@
-import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import * as functions from 'firebase-functions'
 import * as mailjet from 'node-mailjet'
 import { collections, config } from '../firebase'
-import { guardArgument, guardAuth } from '../guards'
+import { guardArgument, guardAuth, guardOrg } from '../guards'
 import settings from '../settings'
 import { generateInviteToken } from '../utils'
 
@@ -30,6 +30,9 @@ export const inviteMember = functions.https.onCall(
       throw new functions.https.HttpsError('not-found', 'Member not found')
     }
 
+    // Get org
+    const org = await guardOrg(context, member.orgId)
+
     // Get inviter member
     const inviterSnapshot = await collections.users.doc(uid).get()
     const inviter = inviterSnapshot.data()
@@ -40,15 +43,6 @@ export const inviteMember = functions.https.onCall(
       )
     }
 
-    // Get org
-    const orgId = member.orgId
-    const orgRef = collections.orgs.doc(orgId)
-    const orgSnapshot = await orgRef.get()
-    const org = orgSnapshot.data()
-    if (!org) {
-      throw new functions.https.HttpsError('not-found', 'Org not found')
-    }
-
     // Update member
     const inviteDate = new Date()
     memberRef.update({
@@ -57,7 +51,7 @@ export const inviteMember = functions.https.onCall(
     })
 
     const token = generateInviteToken(data.memberId, inviteDate)
-    const invitationUrl = `${settings.url}/orgs/${orgId}/invitation?memberId=${data.memberId}&token=${token}`
+    const invitationUrl = `${settings.url}/orgs/${member.orgId}/invitation?memberId=${data.memberId}&token=${token}`
 
     try {
       // https://app.mailjet.com/template/3285393/build

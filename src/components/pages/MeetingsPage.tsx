@@ -18,6 +18,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
+import MeetingExportModal from '@components/organisms/modals/MeetingExportModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
 import {
   DatesSetArg,
@@ -36,7 +37,7 @@ import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
-import { FiChevronDown, FiPlus } from 'react-icons/fi'
+import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
 
 const colors = {
   text: 'black',
@@ -90,6 +91,12 @@ export default function MeetingsPage() {
           roleName = circleWithRole?.role.name
         }
 
+        // Can move event or change duration?
+        const isNotStarted = !meeting.ended && meeting.currentStepId === null
+        const canEditConfig = isNotStarted
+        // TODO: Use participants like in MeetingContent
+        // const canEditConfig = isNotStarted && (isParticipant || isInitiator)
+
         return {
           id: meeting.id,
           title,
@@ -104,6 +111,7 @@ export default function MeetingsPage() {
           extendedProps: {
             roleName,
           },
+          editable: canEditConfig,
         }
       }),
     [meetings, roles]
@@ -197,6 +205,13 @@ export default function MeetingsPage() {
     onClose: onCreateClose,
   } = useDisclosure()
 
+  // Export Modal
+  const {
+    isOpen: isExportOpen,
+    onOpen: onExportOpen,
+    onClose: onExportClose,
+  } = useDisclosure()
+
   return (
     <Box
       h="100vh"
@@ -217,7 +232,12 @@ export default function MeetingsPage() {
         <Spacer />
 
         <Menu closeOnSelect={false}>
-          <MenuButton as={Button} variant="ghost" rightIcon={<FiChevronDown />}>
+          <MenuButton
+            as={Button}
+            size="sm"
+            variant="ghost"
+            rightIcon={<FiChevronDown />}
+          >
             Filtres
           </MenuButton>
           <MenuList zIndex={2}>
@@ -237,7 +257,11 @@ export default function MeetingsPage() {
           </MenuList>
         </Menu>
 
-        <Button ml={1} leftIcon={<FiPlus />} onClick={handleCreate}>
+        <Button size="sm" ml={1} leftIcon={<FiUpload />} onClick={onExportOpen}>
+          Exporter
+        </Button>
+
+        <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={handleCreate}>
           Nouvelle réunion
         </Button>
       </Flex>
@@ -284,6 +308,8 @@ export default function MeetingsPage() {
           onClose={onCreateClose}
         />
       )}
+
+      {isExportOpen && <MeetingExportModal isOpen onClose={onExportClose} />}
     </Box>
   )
 }

@@ -1,6 +1,7 @@
 export default {
-  // url: 'http://localhost:3000',
-  url: 'https://hq.lonestone.io',
+  url: process.env.FUNCTIONS_EMULATOR
+    ? 'http://localhost:3000'
+    : 'https://hq.lonestone.io',
   mail: {
     sender: {
       name: 'Rolesapp',

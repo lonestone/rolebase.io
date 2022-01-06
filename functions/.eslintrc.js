@@ -32,5 +32,6 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     'max-len': 'off',
+    'operator-linebreak': 'off',
   },
 }

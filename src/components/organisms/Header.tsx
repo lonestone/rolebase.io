@@ -33,7 +33,7 @@ export default function Header() {
   return (
     <Flex
       position="absolute"
-      zIndex="1"
+      zIndex="1000"
       top="0"
       left="0"
       width="100%"

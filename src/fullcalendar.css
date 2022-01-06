@@ -1,7 +1,7 @@
 /*** Fullcalendar cutomizations ***/
 
 /* Event */
-.fc-list-event {
+.fc-event {
   cursor: pointer;
 }
 .fc-v-event {
