@@ -239,7 +239,7 @@ export default function MeetingEditModal({
             <VStack spacing={5} align="stretch">
               {!meeting && (
                 <FormControl isInvalid={!!errors.title}>
-                  <FormLabel htmlFor="title">Template</FormLabel>
+                  <FormLabel>Template</FormLabel>
                   {meetingTemplatesLoading && <Loading active size="md" />}
                   <TextErrors errors={[meetingTemplatesError]} />
                   <HStack spacing={2}>
@@ -261,13 +261,13 @@ export default function MeetingEditModal({
               )}
 
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel htmlFor="title">Titre</FormLabel>
+                <FormLabel>Titre</FormLabel>
                 <Input {...register('title')} placeholder="Titre..." />
               </FormControl>
 
               <Flex>
                 <FormControl isInvalid={!!errors.startDate}>
-                  <FormLabel htmlFor="startDate">Début</FormLabel>
+                  <FormLabel>Début</FormLabel>
                   <Input
                     {...register('startDate')}
                     type="datetime-local"
@@ -276,7 +276,7 @@ export default function MeetingEditModal({
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.duration} ml={5}>
-                  <FormLabel htmlFor="duration">Durée</FormLabel>
+                  <FormLabel>Durée</FormLabel>
                   <InputGroup>
                     <NumberInputController
                       name="duration"
@@ -292,7 +292,7 @@ export default function MeetingEditModal({
               </Flex>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel htmlFor="circleId">Cercle</FormLabel>
+                <FormLabel>Cercle</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -310,11 +310,7 @@ export default function MeetingEditModal({
               <FormControl
                 isInvalid={(circleId && participants.length === 0) || false}
               >
-                <FormLabel
-                  htmlFor="participantsScope"
-                  display="flex"
-                  alignItems="center"
-                >
+                <FormLabel display="flex" alignItems="center">
                   Inviter
                   <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>
@@ -331,11 +327,7 @@ export default function MeetingEditModal({
 
               {participants.length !== 0 && (
                 <FormControl isInvalid={!!errors.facilitatorMemberId} flex="1">
-                  <FormLabel
-                    htmlFor="facilitatorMemberId"
-                    display="flex"
-                    alignItems="center"
-                  >
+                  <FormLabel display="flex" alignItems="center">
                     Facilitateur
                     <Tooltip
                       hasArrow

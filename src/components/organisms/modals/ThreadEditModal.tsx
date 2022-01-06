@@ -135,7 +135,7 @@ export default function ThreadEditModal({
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel htmlFor="title">Titre</FormLabel>
+                <FormLabel>Titre</FormLabel>
                 <Input
                   {...register('title')}
                   placeholder="Titre..."
@@ -144,7 +144,7 @@ export default function ThreadEditModal({
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel htmlFor="circleId">Cercle / Rôle</FormLabel>
+                <FormLabel>Cercle / Rôle</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -161,11 +161,7 @@ export default function ThreadEditModal({
               <FormControl
                 isInvalid={(circleId && participants.length === 0) || false}
               >
-                <FormLabel
-                  htmlFor="participantsScope"
-                  display="flex"
-                  alignItems="center"
-                >
+                <FormLabel display="flex" alignItems="center">
                   Inviter
                   <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>

@@ -245,7 +245,7 @@ export default function ActivityPollModal({
               )}
 
               <FormControl isInvalid={!!errors.question}>
-                <FormLabel htmlFor="question">Question</FormLabel>
+                <FormLabel>Question</FormLabel>
                 <MarkdownEditorController
                   name="question"
                   placeholder="Qui, que, où, quand ?"

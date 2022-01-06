@@ -95,15 +95,13 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
               <VStack spacing={3} align="stretch">
                 {roleCircle.role.purpose && (
                   <FormControl>
-                    <FormLabel htmlFor="avgMinPerWeek">Raison d'être</FormLabel>
+                    <FormLabel>Raison d'être</FormLabel>
                     <Markdown>{roleCircle.role.purpose}</Markdown>
                   </FormControl>
                 )}
 
                 <FormControl>
-                  <FormLabel htmlFor="avgMinPerWeek">
-                    Temps de travail
-                  </FormLabel>
+                  <FormLabel>Temps de travail</FormLabel>
                   <DurationSelect
                     placeholderValue={
                       roleCircle.role?.defaultMinPerWeek ?? undefined

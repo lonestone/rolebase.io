@@ -109,7 +109,7 @@ export default function CircleCreateModal({
         <ModalBody>
           <form onSubmit={onSubmit}>
             <FormControl isInvalid={!!errors.name} mb={10}>
-              <FormLabel htmlFor="name">Nom :</FormLabel>
+              <FormLabel>Nom :</FormLabel>
               <HStack>
                 <Input {...register('name')} placeholder="Nom..." autoFocus />
                 <Button colorScheme="blue" type="submit">

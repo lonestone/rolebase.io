@@ -74,7 +74,7 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
 
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
-              <FormLabel htmlFor="name">Nom</FormLabel>
+              <FormLabel>Nom</FormLabel>
               <Input {...register('name')} placeholder="Nom..." autoFocus />
             </FormControl>
 

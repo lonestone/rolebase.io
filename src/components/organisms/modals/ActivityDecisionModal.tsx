@@ -109,7 +109,7 @@ export default function ActivityDecisionModal({
           <form onSubmit={onSubmit}>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.decision}>
-                <FormLabel htmlFor="decision">Décision</FormLabel>
+                <FormLabel>Décision</FormLabel>
                 <MarkdownEditorController
                   name="decision"
                   placeholder="Qu'avez-vous décidé ?"
@@ -119,7 +119,7 @@ export default function ActivityDecisionModal({
               </FormControl>
 
               <FormControl isInvalid={!!errors.explanation}>
-                <FormLabel htmlFor="explanation">Explications</FormLabel>
+                <FormLabel>Explications</FormLabel>
                 <MarkdownEditorController
                   name="explanation"
                   placeholder="Pourquoi avez-vous pris cette décision ?"
@@ -128,7 +128,7 @@ export default function ActivityDecisionModal({
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel htmlFor="circleId">Cercle / Rôle</FormLabel>
+                <FormLabel>Cercle / Rôle</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}

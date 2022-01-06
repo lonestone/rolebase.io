@@ -131,12 +131,12 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 ) : null}
 
                 <FormControl isInvalid={!!errors.name}>
-                  <FormLabel htmlFor="name">Nom du rôle</FormLabel>
+                  <FormLabel>Nom du rôle</FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.purpose}>
-                  <FormLabel htmlFor="purpose">Raison d'être</FormLabel>
+                  <FormLabel>Raison d'être</FormLabel>
                   <MarkdownEditorController
                     name="purpose"
                     placeholder="But qu'il poursuit..."
@@ -145,7 +145,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.domain}>
-                  <FormLabel htmlFor="domain">Domaine</FormLabel>
+                  <FormLabel>Domaine</FormLabel>
                   <MarkdownEditorController
                     name="domain"
                     placeholder="Ce qu'il est seul à pouvoir faire..."
@@ -154,9 +154,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.accountabilities}>
-                  <FormLabel htmlFor="accountabilities">
-                    Redevabilités
-                  </FormLabel>
+                  <FormLabel>Redevabilités</FormLabel>
                   <MarkdownEditorController
                     name="accountabilities"
                     placeholder="Ce qu'il doit faire..."
@@ -165,7 +163,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.notes}>
-                  <FormLabel htmlFor="notes">Notes</FormLabel>
+                  <FormLabel>Notes</FormLabel>
                   <MarkdownEditorController
                     name="notes"
                     placeholder="Notes, liens..."
@@ -219,9 +217,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultMinPerWeek}>
-                  <FormLabel htmlFor="defaultMinPerWeek">
-                    Temps par défaut
-                  </FormLabel>
+                  <FormLabel>Temps par défaut</FormLabel>
                   <Controller
                     name="defaultMinPerWeek"
                     control={control}

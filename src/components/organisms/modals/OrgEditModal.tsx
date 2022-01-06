@@ -87,14 +87,12 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
             <ModalBody>
               <VStack spacing={5}>
                 <FormControl isInvalid={!!errors.name}>
-                  <FormLabel htmlFor="name">Nom</FormLabel>
+                  <FormLabel>Nom</FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>
-                  <FormLabel htmlFor="defaultWorkedMinPerWeek">
-                    Temps de travail par défaut
-                  </FormLabel>
+                  <FormLabel>Temps de travail par défaut</FormLabel>
                   <Controller
                     name="defaultWorkedMinPerWeek"
                     control={control}

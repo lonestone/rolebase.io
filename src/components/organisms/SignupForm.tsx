@@ -44,7 +44,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={5}>
         <FormControl isInvalid={!!errors.name}>
-          <FormLabel htmlFor="name">Nom</FormLabel>
+          <FormLabel>Nom</FormLabel>
           <Input
             {...register('name')}
             type="name"
@@ -55,7 +55,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
         </FormControl>
 
         <FormControl isInvalid={!!errors.email}>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormLabel>Email</FormLabel>
           <Input
             {...register('email')}
             type="email"
@@ -66,7 +66,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
         </FormControl>
 
         <FormControl isInvalid={!!errors.password}>
-          <FormLabel htmlFor="password">Mot de passe</FormLabel>
+          <FormLabel>Mot de passe</FormLabel>
           <Input
             {...register('password')}
             type="password"

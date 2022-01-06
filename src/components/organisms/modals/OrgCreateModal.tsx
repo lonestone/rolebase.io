@@ -78,7 +78,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
 
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
-              <FormLabel htmlFor="name">Nom</FormLabel>
+              <FormLabel>Nom</FormLabel>
               <Input {...register('name')} placeholder="Nom..." autoFocus />
             </FormControl>
           </ModalBody>

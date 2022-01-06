@@ -133,12 +133,12 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
             <ModalBody>
               <VStack spacing={5} align="stretch">
                 <FormControl isInvalid={!!errors.name}>
-                  <FormLabel htmlFor="name">Nom</FormLabel>
+                  <FormLabel>Nom</FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
                 </FormControl>
 
                 <FormControl isInvalid={!!pictureError}>
-                  <FormLabel htmlFor="pictureFiles">Photo</FormLabel>
+                  <FormLabel>Photo</FormLabel>
                   <HStack spacing={3}>
                     {picture && (
                       <Avatar name={member.name} src={picture} size="lg" />
@@ -152,9 +152,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.workedMinPerWeek}>
-                  <FormLabel htmlFor="workedMinPerWeek">
-                    Temps de travail pour l'organisation
-                  </FormLabel>
+                  <FormLabel>Temps de travail pour l'organisation</FormLabel>
                   <Controller
                     name="workedMinPerWeek"
                     control={control}

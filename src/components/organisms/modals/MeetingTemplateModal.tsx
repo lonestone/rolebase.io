@@ -99,7 +99,7 @@ export default function MeetingTemplateModal({
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel htmlFor="title">Titre</FormLabel>
+                <FormLabel>Titre</FormLabel>
                 <Input
                   {...register('title')}
                   placeholder="Titre..."
