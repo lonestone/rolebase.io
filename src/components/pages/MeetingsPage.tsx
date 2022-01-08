@@ -213,14 +213,7 @@ export default function MeetingsPage() {
   } = useDisclosure()
 
   return (
-    <Box
-      h="100vh"
-      px={5}
-      pb={5}
-      pt="70px"
-      display="flex"
-      flexDirection="column"
-    >
+    <Flex flex={1} p={5} flexDirection="column">
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
@@ -283,13 +276,13 @@ export default function MeetingsPage() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
           }}
           initialView="timeGridWeek"
+          scrollTime="08:00:00"
           weekends={false}
           allDaySlot={false}
           nowIndicator
           editable
           eventContent={handleEventContent}
           dateClick={handleDateClick}
-          scrollTime="08:00:00"
           eventClick={handleEventClick}
           eventChange={handleEventChange}
           datesSet={handleDatesChange}
@@ -310,6 +303,6 @@ export default function MeetingsPage() {
       )}
 
       {isExportOpen && <MeetingExportModal isOpen onClose={onExportClose} />}
-    </Box>
+    </Flex>
   )
 }

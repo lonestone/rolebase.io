@@ -1,5 +1,5 @@
-import { Flex, Heading, HStack, Spacer, StackItem } from '@chakra-ui/react'
-import LinkButton from '@components/atoms/LinkButton'
+import { Flex, Heading, Spacer } from '@chakra-ui/react'
+import HeaderButton from '@components/atoms/HeaderButton'
 import OrgMenu from '@components/molecules/OrgMenu'
 import SearchCombobox from '@components/molecules/search/SearchCombobox'
 import {
@@ -37,78 +37,54 @@ export default function Header() {
   if (!user) return null
   return (
     <Flex
-      position="absolute"
-      zIndex="1000"
-      top="0"
-      left="0"
-      width="100%"
+      w="100%"
       alignItems="center"
-      padding={2}
-      pointerEvents="none"
+      h="48px"
+      px={1}
+      bg="hsl(192deg 22% 95%)"
+      shadow="md"
+      zIndex={1}
     >
-      <HStack spacing={2} w="100%">
-        {org && (
-          <>
-            <StackItem pointerEvents="auto">
-              <OrgMenu />
-            </StackItem>
+      {org && (
+        <>
+          <OrgMenu />
 
-            <StackItem>
-              <Heading size="md" marginLeft={5} marginRight={5}>
-                {org.name}
-              </Heading>
-            </StackItem>
+          <Heading size="sm" ml={5} mr={5}>
+            {org.name}
+          </Heading>
 
-            <LinkButton
-              to={`/orgs/${org.id}`}
-              leftIcon={<FiDisc />}
-              size="sm"
-              highlightActive
-            >
-              Cercles
-            </LinkButton>
+          <HeaderButton exact to={`/orgs/${org.id}`} leftIcon={<FiDisc />}>
+            Cercles
+          </HeaderButton>
 
-            <LinkButton
-              to={`/orgs/${org.id}/threads`}
-              leftIcon={<FiMessageSquare />}
-              size="sm"
-              highlightActive
-            >
-              Discussions
-            </LinkButton>
+          <HeaderButton
+            to={`/orgs/${org.id}/threads`}
+            leftIcon={<FiMessageSquare />}
+          >
+            Discussions
+          </HeaderButton>
 
-            <LinkButton
-              to={`/orgs/${org.id}/meetings`}
-              leftIcon={<FiCalendar />}
-              size="sm"
-              highlightActive
-            >
-              Réunions
-            </LinkButton>
+          <HeaderButton
+            to={`/orgs/${org.id}/meetings`}
+            leftIcon={<FiCalendar />}
+          >
+            Réunions
+          </HeaderButton>
 
-            <LinkButton
-              to={`/orgs/${org.id}/tasks`}
-              leftIcon={<FiCheckSquare />}
-              size="sm"
-              highlightActive
-            >
-              Tâches
-            </LinkButton>
-          </>
-        )}
+          <HeaderButton
+            to={`/orgs/${org.id}/tasks`}
+            leftIcon={<FiCheckSquare />}
+          >
+            Tâches
+          </HeaderButton>
+        </>
+      )}
 
-        <Spacer />
+      <Spacer />
 
-        {org && (
-          <StackItem pointerEvents="auto">
-            <SearchCombobox onSelect={handleSelect} />
-          </StackItem>
-        )}
+      {org && <SearchCombobox onSelect={handleSelect} />}
 
-        <StackItem pointerEvents="auto">
-          <UserMenu />
-        </StackItem>
-      </HStack>
+      <UserMenu ml={2} />
     </Flex>
   )
 }

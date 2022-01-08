@@ -2,6 +2,7 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuButtonProps,
   MenuDivider,
   MenuItem,
   MenuList,
@@ -25,7 +26,7 @@ import {
 } from 'react-icons/fi'
 import { useHistory } from 'react-router'
 
-export default function OrgMenu() {
+export default function OrgMenu(props: MenuButtonProps) {
   const org = useCurrentOrg()
   const navigateOrg = useNavigateOrg()
   const history = useHistory()
@@ -67,7 +68,13 @@ export default function OrgMenu() {
   if (!org) return null
   return (
     <Menu>
-      <MenuButton as={IconButton} icon={<FiMenu />} px={1} />
+      <MenuButton
+        as={IconButton}
+        bg="transparent"
+        icon={<FiMenu />}
+        px={1}
+        {...props}
+      />
       <Portal>
         <MenuList zIndex={10} shadow="lg">
           <MenuItem

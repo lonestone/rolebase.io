@@ -63,7 +63,7 @@ export default function ThreadsPage() {
   } = useDisclosure()
 
   return (
-    <Container maxW="3xl" mt="90px">
+    <Container maxW="3xl" mt={10}>
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           Discussions

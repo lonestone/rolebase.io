@@ -4,6 +4,7 @@ import {
   Button,
   Menu,
   MenuButton,
+  MenuButtonProps,
   MenuItem,
   MenuList,
   Portal,
@@ -16,7 +17,7 @@ import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 
-export default function UserMenu() {
+export default function UserMenu(props: MenuButtonProps) {
   const user = useStoreState((state) => state.auth.user)
   const member = useCurrentMember()
   const navigateOrg = useNavigateOrg()
@@ -33,7 +34,7 @@ export default function UserMenu() {
   if (!user) return null
   return (
     <Menu>
-      <MenuButton as={Button} variant="ghost" size="sm" px={1}>
+      <MenuButton as={Button} variant="ghost" size="sm" px={1} {...props}>
         <Avatar name={name} src={picture || undefined} size="xs" />
       </MenuButton>
       <Portal>

@@ -20,7 +20,7 @@ const LoggedLayout: React.FC = ({ children }) => {
   }, [userId])
 
   return (
-    <Flex minHeight="100vh" flexDirection="column">
+    <Flex h="0" minH="100vh" flexDirection="column">
       <Header />
       {children}
     </Flex>

@@ -1,10 +1,10 @@
 import { Box } from '@chakra-ui/react'
 import CirclePanel from '@components/organisms/panels/CirclePanel'
 import MemberPanel from '@components/organisms/panels/MemberPanel'
+import { useElementSize } from '@hooks/useElementSize'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
-import useWindowSize from '@hooks/useWindowSize'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import CirclesGraph from '../organisms/CirclesGraph'
@@ -30,7 +30,7 @@ export default function CirclesPage() {
 
   // Content size
   const boxRef = useRef<HTMLDivElement>(null)
-  const { width, height } = useWindowSize(boxRef)
+  const boxSize = useElementSize(boxRef)
 
   // Panels
   const [panel, setPanel] = useState<Panels>(Panels.None)
@@ -59,10 +59,10 @@ export default function CirclesPage() {
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
-      {orgId && (
+      {orgId && boxSize && (
         <CirclesGraph
-          width={width}
-          height={height}
+          width={boxSize.width}
+          height={boxSize.height}
           selectedCircleId={circleId}
           onReady={() => setReady(true)}
         />

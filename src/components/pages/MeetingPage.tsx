@@ -17,7 +17,7 @@ export default function MeetingPage() {
   }
 
   return (
-    <Container maxW="3xl" mt="60px">
+    <Container maxW="3xl" mt={10}>
       <MeetingContent id={meetingId} onClose={() => history.push('.')} />
     </Container>
   )

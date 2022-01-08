@@ -50,6 +50,7 @@ export const ModalPanel = forwardRef<ModalContentProps, 'section'>(
 
       // Default container style overrides
       zIndex: '0',
+      shadow: 'md',
     }
 
     return (
