@@ -1,4 +1,4 @@
-import { deleteTask } from '@api/entities/tasks'
+import { updateTask } from '@api/entities/tasks'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -25,7 +25,7 @@ export default function TaskDeleteModal({
   ...alertProps
 }: Props) {
   const handleDelete = () => {
-    deleteTask(task.id)
+    updateTask(task.id, { archived: true })
     onDelete?.()
     alertProps.onClose()
   }

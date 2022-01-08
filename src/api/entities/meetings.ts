@@ -21,7 +21,7 @@ const methods = getEntityMethods(collection, {
     ended: false,
     currentStepId: null,
     createdAt: Timestamp.now(),
-    archived: true,
+    archived: false,
     ...meeting,
   }),
 })
