@@ -79,11 +79,12 @@ export default function TasksPage() {
 
   return (
     <Container maxW="3xl" mt="90px">
-      <Flex mb={5}>
-        <Heading as="h1" size="md" display="flex" alignItems="center">
+      <Flex mb={5} alignItems="center" flexWrap="wrap">
+        <Heading as="h1" size="md">
           Tâches
-          {doneFilter && <Tag ml={2}>Terminées</Tag>}
         </Heading>
+
+        {doneFilter && <Tag ml={2}>Terminées</Tag>}
 
         <Spacer />
 

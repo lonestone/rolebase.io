@@ -66,7 +66,10 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
       {loading && <Loading active center />}
 
       <Flex
+        alignItems="center"
+        flexWrap="wrap"
         py={2}
+        pr="8rem"
         position="relative"
         zIndex={0}
         boxShadow={
@@ -75,24 +78,20 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
             : 'none'
         }
       >
-        <Heading as="h1" size="md" display="flex" alignItems="center">
-          {thread ? (
-            <>
-              {thread.title}
-              {thread.archived && <Tag ml={2}>Archivé</Tag>}
-              <IconButton
-                aria-label=""
-                icon={<FiEdit3 />}
-                variant="ghost"
-                size="sm"
-                ml={2}
-                onClick={onEditOpen}
-              />
-            </>
-          ) : loading ? (
-            <>Chargement...</>
-          ) : null}
+        <Heading as="h1" size="md">
+          {thread?.title || (loading ? 'Chargement...' : null)}
         </Heading>
+
+        {thread?.archived && <Tag ml={2}>Archivé</Tag>}
+
+        <IconButton
+          aria-label=""
+          icon={<FiEdit3 />}
+          variant="ghost"
+          size="sm"
+          ml={2}
+          onClick={onEditOpen}
+        />
 
         {circle && <CircleButton circle={circle} modal ml={5} />}
 

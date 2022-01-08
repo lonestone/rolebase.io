@@ -1,4 +1,4 @@
-import { HStack, LinkBox, LinkOverlay, Spacer } from '@chakra-ui/react'
+import { HStack, LinkBox, LinkOverlay } from '@chakra-ui/react'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -24,6 +24,7 @@ export default function ListItemWithButtons({
       _hover={{ background: '#fafafa' }}
     >
       <LinkOverlay
+        flex={1}
         to="#"
         as={ReachLink}
         onClick={(event) => {
@@ -33,7 +34,6 @@ export default function ListItemWithButtons({
       >
         {title}
       </LinkOverlay>
-      <Spacer />
       <HStack spacing={2} opacity={0} _groupHover={{ opacity: 1 }}>
         {buttons}
       </HStack>

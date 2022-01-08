@@ -224,7 +224,7 @@ export default function MeetingsPage() {
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      <Flex mb={1}>
+      <Flex mb={1} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           Réunions
         </Heading>

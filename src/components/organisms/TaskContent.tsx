@@ -160,8 +160,8 @@ export default function TaskContent({
 
   return (
     <Box {...boxProps}>
-      <Flex alignItems="center" mb={5}>
-        <Heading as="h1" size="md" display="flex" alignItems="center">
+      <Flex alignItems="center" flexWrap="wrap" mb={5} pr="8rem">
+        <Heading as="h1" size="md">
           Tâche
         </Heading>
 

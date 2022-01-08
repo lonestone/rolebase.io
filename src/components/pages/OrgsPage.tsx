@@ -74,10 +74,9 @@ export default function OrgsPage() {
             >
               <Heading size="md" my="2">
                 <Flex>
-                  <LinkOverlay as={ReachLink} to={`/orgs/${org.id}`}>
+                  <LinkOverlay flex={1} as={ReachLink} to={`/orgs/${org.id}`}>
                     {org.name}
                   </LinkOverlay>
-                  <Spacer />
                   <IconButton
                     aria-label=""
                     size="sm"

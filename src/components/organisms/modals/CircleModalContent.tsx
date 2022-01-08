@@ -23,11 +23,24 @@ import TasksInCircleList from '@components/molecules/TasksInCircleList'
 import ThreadsInCircleList from '@components/molecules/ThreadsInCircleList'
 import useCircle from '@hooks/useCircle'
 import React from 'react'
+import {
+  FiCalendar,
+  FiCheckSquare,
+  FiDisc,
+  FiMessageSquare,
+} from 'react-icons/fi'
 import CircleDeleteModal from './CircleDeleteModal'
 import RoleEditModal from './RoleEditModal'
 
 interface Props {
   id: string
+}
+
+enum TabTypes {
+  Circle,
+  Threads,
+  Meetings,
+  Tasks,
 }
 
 export default function CircleModalContent({ id }: Props) {
@@ -39,6 +52,9 @@ export default function CircleModalContent({ id }: Props) {
   const linkedCircle = useCircle(
     (role?.link === true ? parentCircle?.parentId : role?.link) || undefined
   )
+
+  // Tabs
+  const [tab, setTab] = React.useState<TabTypes>(0)
 
   // Role edit modal
   const {
@@ -68,12 +84,26 @@ export default function CircleModalContent({ id }: Props) {
       <ModalCloseButton />
 
       <ModalBody pb={5}>
-        <Tabs isLazy variant="enclosed">
+        <Tabs isLazy variant="enclosed" value={tab} onChange={setTab}>
           <TabList>
-            <Tab>{role?.singleMember ? 'Rôle' : 'Cercle'}</Tab>
-            <Tab>Discussions</Tab>
-            <Tab>Réunions</Tab>
-            <Tab>Tâches</Tab>
+            <Tab>
+              <FiDisc />
+              {tab === TabTypes.Circle && (
+                <Text ml={2}>{role?.singleMember ? 'Rôle' : 'Cercle'}</Text>
+              )}
+            </Tab>
+            <Tab>
+              <FiMessageSquare style={{ marginRight: '0.5rem' }} />
+              {tab === TabTypes.Threads && <Text ml={2}>Discussions</Text>}
+            </Tab>
+            <Tab>
+              <FiCalendar style={{ marginRight: '0.5rem' }} />
+              {tab === TabTypes.Meetings && <Text ml={2}>Réunions</Text>}
+            </Tab>
+            <Tab>
+              <FiCheckSquare style={{ marginRight: '0.5rem' }} />
+              {tab === TabTypes.Tasks && <Text ml={2}>Tâches</Text>}
+            </Tab>
           </TabList>
 
           <TabPanels mt={5}>

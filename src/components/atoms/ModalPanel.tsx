@@ -37,6 +37,7 @@ export const ModalPanel = forwardRef<ModalContentProps, 'section'>(
       my: 0,
       overflowY: 'auto',
       w: '450px',
+      maxW: '100vw',
       maxH: 'calc(100vh - 71px)',
     }
 

@@ -149,8 +149,8 @@ export default function MeetingContent({ id, onClose, ...boxProps }: Props) {
 
   return (
     <Box {...boxProps}>
-      <Flex alignItems="center" mb={3}>
-        <Heading as="h1" size="md" display="flex" alignItems="center">
+      <Flex alignItems="center" flexWrap="wrap" mb={3} pr="8rem">
+        <Heading as="h1" size="md">
           Réunion : {meeting?.title}
         </Heading>
 
@@ -280,7 +280,7 @@ export default function MeetingContent({ id, onClose, ...boxProps }: Props) {
                   last={last}
                   current={current}
                   onNumberClick={
-                    !meeting.ended && isFacilitator
+                    isStarted && isFacilitator
                       ? () => handleGoToStep(stepConfig.id)
                       : undefined
                   }

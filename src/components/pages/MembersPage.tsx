@@ -2,8 +2,8 @@ import {
   Button,
   CloseButton,
   Container,
+  Flex,
   Heading,
-  HStack,
   Input,
   InputGroup,
   InputRightElement,
@@ -62,8 +62,8 @@ export default function MembersPage() {
   }, [members, searchText])
 
   return (
-    <Container maxW="3xl" mt="60px">
-      <HStack my="30px">
+    <Container maxW="3xl" mt="90px">
+      <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           Membres
         </Heading>
@@ -91,10 +91,10 @@ export default function MembersPage() {
         <Button leftIcon={<FiMail />} onClick={onInviteOpen}>
           Inviter
         </Button>
-        <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
+        <Button ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
           Créer
         </Button>
-      </HStack>
+      </Flex>
 
       {filteredMembers && (
         <Wrap spacing={5}>

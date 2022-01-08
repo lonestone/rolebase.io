@@ -64,11 +64,12 @@ export default function ThreadsPage() {
 
   return (
     <Container maxW="3xl" mt="90px">
-      <Flex mb={5}>
-        <Heading as="h1" size="md" display="flex" alignItems="center">
+      <Flex mb={5} alignItems="center" flexWrap="wrap">
+        <Heading as="h1" size="md">
           Discussions
-          {archives && <Tag ml={2}>Archives</Tag>}
         </Heading>
+
+        {archives && <Tag ml={2}>Archives</Tag>}
 
         <Spacer />
 
@@ -134,7 +135,6 @@ export default function ThreadsPage() {
                   thread={thread}
                   fontWeight={thread.read !== false ? 'normal' : 'bold'}
                 />
-                <Spacer />
                 <CircleByIdButton circleId={thread.circleId} modal />
               </HStack>
             </LinkBox>

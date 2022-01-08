@@ -1,13 +1,6 @@
 import { updateTask } from '@api/entities/tasks'
 import { Timestamp } from '@api/firebase'
-import {
-  Checkbox,
-  HStack,
-  LinkBox,
-  Spacer,
-  Text,
-  useToast,
-} from '@chakra-ui/react'
+import { Checkbox, HStack, LinkBox, Text, useToast } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
 import { TaskEntry } from '@shared/task'
@@ -47,7 +40,6 @@ export default function TaskItem({ task, showCircle }: Props) {
           zIndex={1}
         />
         <TaskLinkOverlay task={task} />
-        <Spacer />
         {task.dueDate && (
           <Text color="gray.400">
             {formatRelative(task.dueDate.toDate(), new Date(), {
