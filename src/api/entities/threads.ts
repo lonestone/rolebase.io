@@ -11,8 +11,9 @@ import {
 export const collection = getCollection<Thread>('threads')
 
 const methods = getEntityMethods(collection, {
-  createTransform: (thread: Optional<Thread, 'createdAt'>) => ({
+  createTransform: (thread: Optional<Thread, 'createdAt' | 'archived'>) => ({
     ...thread,
+    archived: false,
     createdAt: Timestamp.now(),
   }),
 })

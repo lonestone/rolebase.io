@@ -13,6 +13,7 @@ export interface Meeting extends EntityWithParticipants {
   title: string
   stepsConfig: MeetingStepConfig[]
   currentStepId: string | null
+  archived: boolean
 }
 
 export type MeetingEntry = WithId<Meeting>

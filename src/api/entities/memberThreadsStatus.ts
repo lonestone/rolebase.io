@@ -19,8 +19,8 @@ export const memberThreadsStatus = memoize((memberId: string) => {
     createTransform: (
       activity: Optional<MemberThreadStatus, 'lastReadDate'>
     ) => ({
-      ...activity,
       lastReadDate: Timestamp.now(),
+      ...activity,
     }),
   })
   return {

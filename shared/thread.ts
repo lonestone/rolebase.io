@@ -3,7 +3,7 @@ import { EntityWithParticipants, WithId } from './types'
 
 export interface Thread extends EntityWithParticipants {
   orgId: string
-  userId: string
+  initiatorMemberId: string
   title: string
   createdAt: firebase.firestore.Timestamp
   archived: boolean

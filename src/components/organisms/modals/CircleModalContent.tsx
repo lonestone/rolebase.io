@@ -19,6 +19,7 @@ import Markdown from '@components/atoms/Markdown'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
 import MeetingsInCircleList from '@components/molecules/MeetingsInCircleList'
 import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
+import TasksInCircleList from '@components/molecules/TasksInCircleList'
 import ThreadsInCircleList from '@components/molecules/ThreadsInCircleList'
 import useCircle from '@hooks/useCircle'
 import React from 'react'
@@ -72,6 +73,7 @@ export default function CircleModalContent({ id }: Props) {
             <Tab>{role?.singleMember ? 'Rôle' : 'Cercle'}</Tab>
             <Tab>Discussions</Tab>
             <Tab>Réunions</Tab>
+            <Tab>Tâches</Tab>
           </TabList>
 
           <TabPanels mt={5}>
@@ -127,6 +129,10 @@ export default function CircleModalContent({ id }: Props) {
 
             <TabPanel p={0}>
               <MeetingsInCircleList circleId={id} />
+            </TabPanel>
+
+            <TabPanel p={0}>
+              <TasksInCircleList circleId={id} />
             </TabPanel>
           </TabPanels>
         </Tabs>

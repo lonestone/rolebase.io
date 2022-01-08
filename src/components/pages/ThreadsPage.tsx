@@ -64,7 +64,7 @@ export default function ThreadsPage() {
 
   return (
     <Container maxW="3xl" mt="90px">
-      <Flex mb={1}>
+      <Flex mb={5}>
         <Heading as="h1" size="md" display="flex" alignItems="center">
           Discussions
           {archives && <Tag ml={2}>Archives</Tag>}

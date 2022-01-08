@@ -9,9 +9,9 @@ export const methods = getEntityMethods(collection, {
   createTransform: (
     org: Optional<Org, 'archived' | 'defaultWorkedMinPerWeek'>
   ) => ({
-    ...org,
     archived: false,
-    defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek ?? 35 * 60,
+    defaultWorkedMinPerWeek: 35 * 60,
+    ...org,
   }),
 })
 export const createOrg = methods.create

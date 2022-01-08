@@ -9,11 +9,11 @@ const methods = getEntityMethods(collection, {
   createTransform: (
     role: Optional<Role, 'purpose' | 'domain' | 'accountabilities' | 'notes'>
   ) => ({
+    purpose: '',
+    domain: '',
+    accountabilities: '',
+    notes: '',
     ...role,
-    purpose: role.purpose || '',
-    domain: role.domain || '',
-    accountabilities: role.accountabilities || '',
-    notes: role.notes || '',
   }),
 })
 export const createRole = methods.create

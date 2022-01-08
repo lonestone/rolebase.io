@@ -67,5 +67,9 @@ service cloud.firestore {
       allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
     }
 
+    match /tasks/{id} {
+      allow create: if isOrgAuthorized(request.resource.data.orgId);
+      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+    }
   }
 }

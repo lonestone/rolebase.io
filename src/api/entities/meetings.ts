@@ -8,18 +8,21 @@ import {
   subscribeQuery,
   Timestamp,
 } from '../firebase'
-import { meetingStepsEntities } from './meetingSteps'
 
 export const collection = getCollection<Meeting>('meetings')
 
 const methods = getEntityMethods(collection, {
   createTransform: (
-    meeting: Optional<Meeting, 'createdAt' | 'ended' | 'currentStepId'>
+    meeting: Optional<
+      Meeting,
+      'createdAt' | 'ended' | 'currentStepId' | 'archived'
+    >
   ) => ({
-    ...meeting,
     ended: false,
     currentStepId: null,
     createdAt: Timestamp.now(),
+    archived: true,
+    ...meeting,
   }),
 })
 export const getMeeting = methods.get
@@ -27,18 +30,12 @@ export const createMeeting = methods.create
 export const updateMeeting = methods.update
 export const subscribeMeeting = methods.subscribe
 
-export const deleteMeeting = async (id: string) => {
-  const { getMeetingSteps, deleteMeetingStep } = meetingStepsEntities(id)
-  const meetingSteps = await getMeetingSteps()
-  await Promise.all(meetingSteps.map((step) => deleteMeetingStep(step.id)))
-  await methods.delete(id)
-}
-
 export const subscribeMeetingsByDates = memoize(
   (orgId: string, fromDate: Date, toDate: Date) =>
     subscribeQuery(
       collection
         .where('orgId', '==', orgId)
+        .where('archived', '==', false)
         .where('startDate', '>=', fromDate)
         .where('startDate', '<', Timestamp.fromDate(toDate))
     )
@@ -49,6 +46,7 @@ export const subscribeMeetingsByCircle = memoize(
     subscribeQuery(
       collection
         .where('orgId', '==', orgId)
+        .where('archived', '==', false)
         .where('circleId', '==', circleId)
         .where('ended', '==', ended)
         .orderBy('startDate', 'desc')

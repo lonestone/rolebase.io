@@ -88,6 +88,7 @@ export default function EntityButtonCombobox({
         {valueItem && !isOpen && (
           <ComboboxItem
             ref={buttonRef}
+            size={size}
             item={valueItem}
             highlighted={false}
             onMouseDown={handleClick}
@@ -98,6 +99,7 @@ export default function EntityButtonCombobox({
           type="text"
           placeholder="Sélectionner..."
           onFocus={openMenu}
+          size={size}
           style={{ display: isOpen || !valueItem ? 'block' : 'none' }}
           {...inputProps}
         />

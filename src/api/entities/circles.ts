@@ -14,8 +14,8 @@ export const collection = getCollection<Circle>('circles')
 
 const methods = getEntityMethods(collection, {
   createTransform: (circle: Optional<Circle, 'members'>) => ({
+    members: [],
     ...circle,
-    members: circle.members || [],
   }),
 })
 export const createCircle = methods.create

@@ -14,8 +14,8 @@ export const collection = getCollection<Activity>('activities')
 const methods = getEntityMethods(collection, {
   createTransform: (activity: Optional<Activity, 'createdAt'>) =>
     ({
-      ...activity,
       createdAt: Timestamp.now(),
+      ...activity,
     } as Activity),
 })
 export const getActivity = methods.get

@@ -17,8 +17,8 @@ export const pollAnswersEntities = memoize((activityId: string) => {
 
   const methods = getEntityMethods(collection, {
     createTransform: (activity: Optional<PollAnswer, 'createdAt'>) => ({
-      ...activity,
       createdAt: Timestamp.now(),
+      ...activity,
     }),
   })
   return {

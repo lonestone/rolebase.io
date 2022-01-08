@@ -5,11 +5,13 @@ export default function useSubscription<Data>(
   subscription: SubscriptionFn<Data> | undefined
 ) {
   const [data, setData] = useState<Data | undefined>()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | undefined>()
 
   useEffect(() => {
+    setData(undefined)
     if (!subscription) return
+    setLoading(true)
     const unsubscribe = subscription(
       (newData) => {
         setData(newData)

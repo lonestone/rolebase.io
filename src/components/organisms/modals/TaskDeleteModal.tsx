@@ -1,4 +1,4 @@
-import { updateMeeting } from '@api/entities/meetings'
+import { deleteTask } from '@api/entities/tasks'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -10,22 +10,22 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { MeetingEntry } from '@shared/meeting'
+import { TaskEntry } from '@shared/task'
 import React from 'react'
 
 interface Props
   extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
-  meeting: MeetingEntry
+  task: TaskEntry
   onDelete?(): void
 }
 
-export default function MeetingDeleteModal({
-  meeting,
+export default function TaskDeleteModal({
+  task,
   onDelete,
   ...alertProps
 }: Props) {
   const handleDelete = () => {
-    updateMeeting(meeting.id, { archived: true })
+    deleteTask(task.id)
     onDelete?.()
     alertProps.onClose()
   }
@@ -35,13 +35,13 @@ export default function MeetingDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer une réunion
+            Supprimer une tâche
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer la réunion{' '}
-              <strong>{meeting.title}</strong> ?
+              Êtes-vous sûr de vouloir supprimer la tâche{' '}
+              <strong>{task.title}</strong> ?
             </Text>
           </AlertDialogBody>
 

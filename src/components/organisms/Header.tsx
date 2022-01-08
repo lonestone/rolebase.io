@@ -11,7 +11,12 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback } from 'react'
-import { FiCalendar, FiDisc, FiMessageSquare } from 'react-icons/fi'
+import {
+  FiCalendar,
+  FiCheckSquare,
+  FiDisc,
+  FiMessageSquare,
+} from 'react-icons/fi'
 
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)
@@ -79,6 +84,15 @@ export default function Header() {
               highlightActive
             >
               Réunions
+            </LinkButton>
+
+            <LinkButton
+              to={`/orgs/${org.id}/tasks`}
+              leftIcon={<FiCheckSquare />}
+              size="sm"
+              highlightActive
+            >
+              Tâches
             </LinkButton>
           </>
         )}

@@ -21,6 +21,7 @@ import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
 import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useParticipants from '@hooks/useParticipants'
@@ -58,7 +59,7 @@ export default function ThreadEditModal({
 }: Props) {
   const navigateOrg = useNavigateOrg()
   const orgId = useStoreState((state) => state.orgs.currentId)
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const currentMember = useCurrentMember()
 
   const {
     handleSubmit,
@@ -94,7 +95,7 @@ export default function ThreadEditModal({
   } = useItemsArray<string>(thread ? thread.participantsMembersIds : [])
 
   const onSubmit = handleSubmit(async (values) => {
-    if (!orgId || !userId) return
+    if (!orgId || !currentMember) return
     const threadUpdate = {
       ...values,
       participantsMembersIds,
@@ -106,7 +107,7 @@ export default function ThreadEditModal({
       // Create thread
       const thread = await createThread({
         orgId,
-        userId,
+        initiatorMemberId: currentMember.id,
         ...threadUpdate,
       })
       // Go to thread page
