@@ -1,8 +1,17 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if request.auth!=null;
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isOrgAuthorized(orgId) {
+    	return isSignedIn() && request.auth.uid in get(/databases/$(database)/documents/orgs/$(orgId)).data.ownersIds;
+    }
+
+    match /members/{memberId} {
+      allow write: if request.resource.size < 5 * 1024 * 1024
+      allow read, write: if ;
     }
   }
 }
