@@ -40,17 +40,16 @@ export default function OrgRoutes() {
   }))
 
   useEffect(() => {
-    if (orgId) {
-      actions.setOrgId(orgId)
-      actions.subscribeCircles({ parentId: orgId })
-      actions.subscribeMembers({ parentId: orgId })
-      actions.subscribeRoles({ parentId: orgId })
-      return () => {
-        actions.setOrgId(undefined)
-        actions.unsubscribeCircles()
-        actions.unsubscribeMembers()
-        actions.unsubscribeRoles()
-      }
+    if (!orgId) return
+    actions.setOrgId(orgId)
+    actions.subscribeCircles(orgId)
+    actions.subscribeMembers(orgId)
+    actions.subscribeRoles(orgId)
+    return () => {
+      actions.setOrgId(undefined)
+      actions.unsubscribeCircles()
+      actions.unsubscribeMembers()
+      actions.unsubscribeRoles()
     }
   }, [orgId])
 

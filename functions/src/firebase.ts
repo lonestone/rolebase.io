@@ -18,6 +18,7 @@ interface Config {
 }
 
 export const firebaseAdmin = admin.initializeApp()
+export const auth = firebaseAdmin.auth()
 export const firestore = firebaseAdmin.firestore()
 export const storage = firebaseAdmin.storage()
 export const config = functions.config() as Config

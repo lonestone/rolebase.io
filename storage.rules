@@ -5,13 +5,36 @@ service firebase.storage {
     function isSignedIn() {
       return request.auth != null;
     }
-    function isOrgAuthorized(orgId) {
-    	return isSignedIn() && request.auth.uid in get(/databases/$(database)/documents/orgs/$(orgId)).data.ownersIds;
+
+    function isOrgReader(orgId) {
+    	return isSignedIn() && (
+        request.auth.token['org-' + orgId] == 'Readonly'
+        || request.auth.token['org-' + orgId] == 'Member'
+        || request.auth.token['org-' + orgId] == 'Admin'
+      );
     }
 
-    match /members/{memberId} {
-      allow write: if request.resource.size < 5 * 1024 * 1024
-      allow read, write: if ;
+    function isOrgMember(orgId) {
+    	return isSignedIn() && (
+        request.auth.token['org-' + orgId] == 'Member'
+        || request.auth.token['org-' + orgId] == 'Admin'
+      );
+    }
+
+    function isOrgAdmin(orgId) {
+      return isSignedIn() && request.auth.token['org-' + orgId] == 'Admin';
+    }
+
+    // Check if file size is within the limit in Mo
+    function isSizeAllowed(size) {
+      return request.resource.size < size * 1024 * 1024;
+    }
+
+    match /orgs/{orgId} {
+      match /members/{memberId}.(jpg,jpeg,png,gif,webp) {
+        allow read: if isOrgReader(orgId);
+        allow write: if isOrgMember(orgId) && isSizeAllowed(5);
+      }
     }
   }
 }

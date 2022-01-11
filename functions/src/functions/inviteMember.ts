@@ -1,14 +1,16 @@
+import { ClaimRole } from '@shared/userClaims'
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import * as mailjet from 'node-mailjet'
 import { collections, config } from '../firebase'
 import { guardArgument, guardAuth, guardOrg } from '../guards'
 import settings from '../settings'
-import { generateInviteToken } from '../utils'
+import { md5 } from '../utils'
 
 interface Payload {
   memberId: string
   email: string
+  role: ClaimRole
 }
 
 const mailjetClient = mailjet.connect(
@@ -16,11 +18,25 @@ const mailjetClient = mailjet.connect(
   config.mailjet.private
 )
 
+export function generateInviteToken(
+  memberId: string,
+  role: ClaimRole,
+  inviteDate: Date
+) {
+  return md5(
+    memberId +
+      inviteDate.toISOString() +
+      role +
+      config.security.invitation_token
+  )
+}
+
 export const inviteMember = functions.https.onCall(
   async (data: Payload, context) => {
     const { uid } = guardAuth(context)
     guardArgument(data, 'email')
     guardArgument(data, 'memberId')
+    guardArgument(data, 'role')
 
     // Get member
     const memberRef = collections.members.doc(data.memberId)
@@ -30,13 +46,23 @@ export const inviteMember = functions.https.onCall(
       throw new functions.https.HttpsError('not-found', 'Member not found')
     }
 
+    const orgId = member.orgId
+    guardOrg(context, orgId, ClaimRole.Admin)
+
     // Get org
-    const org = await guardOrg(context, member.orgId)
+    const orgSnapshot = await collections.orgs.doc(orgId).get()
+    const org = orgSnapshot.data()
+    if (!org) {
+      throw new functions.https.HttpsError('not-found', 'Org not found')
+    }
 
     // Get inviter member
-    const inviterSnapshot = await collections.users.doc(uid).get()
-    const inviter = inviterSnapshot.data()
-    if (!inviter) {
+    const inviterSnapshot = await collections.members
+      .where('orgId', '==', orgId)
+      .where('userId', '==', uid)
+      .get()
+    const inviterMember = inviterSnapshot.docs[0]?.data()
+    if (!inviterMember) {
       throw new functions.https.HttpsError(
         'not-found',
         'Inviter Member not found'
@@ -46,12 +72,13 @@ export const inviteMember = functions.https.onCall(
     // Update member
     const inviteDate = new Date()
     memberRef.update({
+      role: data.role,
       inviteEmail: data.email,
       inviteDate: admin.firestore.Timestamp.fromDate(inviteDate),
     })
 
-    const token = generateInviteToken(data.memberId, inviteDate)
-    const invitationUrl = `${settings.url}/orgs/${member.orgId}/invitation?memberId=${data.memberId}&token=${token}`
+    const token = generateInviteToken(data.memberId, data.role, inviteDate)
+    const invitationUrl = `${settings.url}/orgs/${orgId}/invitation?memberId=${data.memberId}&token=${token}`
 
     try {
       // https://app.mailjet.com/template/3285393/build
@@ -73,7 +100,7 @@ export const inviteMember = functions.https.onCall(
             Subject: `Invitation dans l'organisation ${org.name}`,
             Variables: {
               orgName: org.name,
-              inviterName: inviter.name,
+              inviterName: inviterMember.name,
               invitationUrl,
             },
           },

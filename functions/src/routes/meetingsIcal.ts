@@ -12,8 +12,7 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
   }
 
   // Get org
-  const orgRef = collections.orgs.doc(orgId)
-  const orgSnapshot = await orgRef.get()
+  const orgSnapshot = await collections.orgs.doc(orgId).get()
   const org = orgSnapshot.data()
 
   if (!org) {

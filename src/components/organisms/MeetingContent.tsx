@@ -242,7 +242,7 @@ export default function MeetingContent({ id, onClose, ...boxProps }: Props) {
                     <AlertIcon />
                     <AlertDescription>
                       Vous n'êtes pas participant dans cette réunion, vous ne
-                      pouvez donc pas la rejoindre ou la modifier.
+                      pouvez donc pas la rejoindre.
                     </AlertDescription>
                   </Alert>
                 )}

@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import { WithId } from './types'
+import { ClaimRole } from './userClaims'
 
 export interface Member {
   orgId: string
@@ -9,6 +10,7 @@ export interface Member {
   inviteEmail?: string
   inviteDate?: firebase.firestore.Timestamp | null
   workedMinPerWeek?: number | null
+  role?: ClaimRole
 }
 
 export type MemberEntry = WithId<Member>

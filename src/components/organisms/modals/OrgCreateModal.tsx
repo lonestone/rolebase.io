@@ -1,7 +1,4 @@
-import { createCircle } from '@api/entities/circles'
-import { createMember } from '@api/entities/members'
 import { createOrg } from '@api/entities/orgs'
-import { createRole } from '@api/entities/roles'
 import { nameSchema } from '@api/schemas'
 import {
   Button,
@@ -52,20 +49,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
     modalProps.onClose()
 
     // Create org
-    const org = await createOrg({ name, ownersIds: [user.id] })
-
-    // Create member
-    await createMember({
-      orgId: org.id,
-      userId: user.id,
-      name: user.name,
-    })
-
-    // Create role
-    const role = await createRole({ orgId: org.id, base: false, name })
-
-    // Create circle
-    await createCircle({ orgId: org.id, roleId: role.id, parentId: null })
+    await createOrg(name)
   })
 
   return (

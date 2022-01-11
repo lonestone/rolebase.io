@@ -3,9 +3,9 @@ import { OrgEntry } from '@shared/org'
 import { action, Action } from 'easy-peasy'
 import { createModel, GenericModel } from './generic'
 
-const model = createModel<OrgEntry>(subscribeOrgs)
+const model = createModel(subscribeOrgs)
 
-interface OrgsModel extends GenericModel<OrgEntry> {
+interface OrgsModel extends GenericModel<OrgEntry, string[]> {
   currentId: string | undefined
   setCurrentId: Action<OrgsModel, string | undefined>
 }

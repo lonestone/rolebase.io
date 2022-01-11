@@ -6,6 +6,7 @@ export interface User {
   email: string
   createdAt: firebase.firestore.Timestamp
   picture?: string
+  refreshTokenTime?: number
 }
 
 export type UserEntry = WithId<User>

@@ -57,7 +57,7 @@ export type SubscriptionFn<Data> = (
 ) => () => void // Return unsubscribe function
 
 // Keep a stack of same subscriptions to avoid duplicating them
-function stackSubscribe<Data>(
+export function stackSubscribe<Data>(
   subscribe: SubscriptionFn<Data>
 ): SubscriptionFn<Data> {
   let unsubscribe: undefined | (() => void)

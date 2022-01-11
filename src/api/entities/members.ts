@@ -1,4 +1,5 @@
 import { Member } from '@shared/member'
+import { ClaimRole } from '@shared/userClaims'
 import { memoize } from 'src/memoize'
 import {
   executeQuery,
@@ -26,23 +27,25 @@ export async function getMembers(orgId: string) {
 
 // Upload member picture and return URL
 export async function uploadPicture(
+  orgId: string,
   memberId: string,
   file: File
 ): Promise<string> {
-  const extension = file.name.match(/(\.[a-z]+)$/i)?.[0] || ''
   const snapshot = await storage
     .ref()
-    .child(`members/${memberId}${extension}`)
+    .child(`orgs/${orgId}/members/${memberId}`)
     .put(file)
   return snapshot.ref.getDownloadURL()
 }
 
 export async function inviteMember(
   memberId: string,
+  role: ClaimRole,
   email: string
 ): Promise<void> {
   await functions.httpsCallable('inviteMember')({
     memberId,
+    role,
     email,
   })
 }

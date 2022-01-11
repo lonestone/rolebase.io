@@ -2,74 +2,148 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-		// function isAdmin() {
-    //   return exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
-    // }
     function isSignedIn() {
       return request.auth != null;
     }
-    function isOrgAuthorized(orgId) {
-    	return isSignedIn() && request.auth.uid in get(/databases/$(database)/documents/orgs/$(orgId)).data.ownersIds;
+
+    function isOrgReader(orgId) {
+    	return isSignedIn() && (
+        request.auth.token['org-' + orgId] == 'Readonly'
+        || request.auth.token['org-' + orgId] == 'Member'
+        || request.auth.token['org-' + orgId] == 'Admin'
+      );
     }
 
+    function isOrgMember(orgId) {
+    	return isSignedIn() && (
+        request.auth.token['org-' + orgId] == 'Member'
+        || request.auth.token['org-' + orgId] == 'Admin'
+      );
+    }
+
+    function isOrgAdmin(orgId) {
+      return isSignedIn() && request.auth.token['org-' + orgId] == 'Admin';
+    }
+
+    function hasFields(fields){
+      return request.resource.data.keys().hasAny(fields)
+    }
+
+    function hasFieldsChange(fields){
+      return request.resource.data.diff(resource.data).affectedKeys().hasAny(fields)
+    }
+
+    // Users
   	match /users/{uid} {
       allow read, create, update: if isSignedIn() && request.auth.uid == uid;
-      allow delete: if false
+      allow delete: if false;
     }
 
+    // Organizations
   	match /orgs/{id} {
-      allow create: if isSignedIn();
-      allow read, update: if isSignedIn() && request.auth.uid in resource.data.ownersIds;
-      allow delete: if false
+      allow read: if isOrgReader(id);
+      allow update: if isOrgAdmin(id);
+      allow create, delete: if false;
     }
 
+    // Members
   	match /members/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgAdmin(request.resource.data.orgId)
+        && !hasFields(['userId', 'role', 'inviteEmail', 'inviteDate']);
+      allow update: if !hasFieldsChange(['orgId', 'userId', 'role', 'inviteEmail', 'inviteDate'])
+        && (isOrgAdmin(resource.data.orgId)
+          || (isSignedIn() && request.auth.uid == resource.data.userId));
+      allow delete: if false;
+
       match /threadStatus/{threadId} {
-        allow read, write: if true
+        allow read, write: if isSignedIn()
+          && request.auth.uid == get(/databases/$(database)/documents/members/$(id)).data.userId;
       }
     }
 
+    // Circles
   	match /circles/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId);
+      allow update: if isOrgMember(resource.data.orgId) && !hasFieldsChange(['orgId']);
+      allow delete: if isOrgMember(resource.data.orgId);
     }
 
+    // Roles
   	match /roles/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId);
+      allow update: if isOrgMember(resource.data.orgId) && !hasFieldsChange(['orgId']);
+      allow delete: if isOrgMember(resource.data.orgId);
     }
 
+    // Threads
     match /threads/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId);
+      allow update: if isOrgMember(resource.data.orgId)
+        && !hasFieldsChange(['orgId', 'initiatorMemberId', 'createdAt']);
+      allow delete: if false;
     }
 
+    // Activities
     match /activities/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
-      match /answers/{answerId} {
-        allow read, write: if true
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId)
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isOrgMember(resource.data.orgId)
+        && resource.data.userId == request.auth.uid
+        && !hasFieldsChange(['orgId', 'userId', 'createdAt']);
+      allow delete: if isOrgAdmin(resource.data.orgId) ||
+        (isOrgMember(resource.data.orgId) && resource.data.userId == request.auth.uid);
+
+      // Poll answers
+      match /answers/{userId} {
+        function getOrgId() {
+          return get(/databases/$(database)/documents/activities/$(id)).data.orgId;
+        }
+        function getActivityUserId() {
+          return get(/databases/$(database)/documents/activities/$(id)).data.userId;
+        }
+        allow read: if isOrgReader(getOrgId());
+        allow create, update: if isOrgMember(getOrgId()) && request.auth.uid == userId;
+        allow delete: if isOrgMember(getOrgId())
+          && (request.auth.uid == userId || request.auth.uid == getActivityUserId());
       }
     }
 
+    // Meetings
     match /meetings/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId);
+      allow update: if isOrgMember(resource.data.orgId) && !hasFieldsChange(['orgId']);
+      allow delete: if false;
+
+      // Meeting steps
       match /steps/{stepId} {
-        allow read, write: if true
+        function getOrgId() {
+          return get(/databases/$(database)/documents/meetings/$(id)).data.orgId;
+        }
+        allow read: if isOrgReader(getOrgId());
+        allow write: if isOrgMember(getOrgId());
       }
     }
 
+    // Meeting templates
     match /meetingTemplates/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId);
+      allow update: if isOrgMember(resource.data.orgId) && !hasFieldsChange(['orgId']);
+      allow delete: if isOrgMember(resource.data.orgId);
     }
 
+    // Tasks
     match /tasks/{id} {
-      allow create: if isOrgAuthorized(request.resource.data.orgId);
-      allow read, update, delete: if isOrgAuthorized(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId);
+      allow update: if isOrgMember(resource.data.orgId) && !hasFieldsChange(['orgId']);
+      allow delete: if false;
     }
   }
 }

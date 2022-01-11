@@ -2,19 +2,24 @@ import { SubscriptionFn } from '@api/firebase'
 import { action, Action, computed, Computed, thunk, Thunk } from 'easy-peasy'
 import { StoreModel } from '.'
 
-export interface GenericModel<Entry> {
+export interface GenericModel<Entry, SubscribeParam> {
   entries: Entry[] | undefined
   loading: boolean
   error: Error | undefined
   unsubscribeFistore?: () => void
-  setLoading: Action<GenericModel<Entry>, boolean>
-  setError: Action<GenericModel<Entry>, Error>
-  setUnsubscribe: Action<GenericModel<Entry>, () => void>
-  setEntries: Action<GenericModel<Entry>, Entry[]>
-  subscribe: Thunk<GenericModel<Entry>, { parentId: string }, any, StoreModel>
-  unsubscribe: Action<GenericModel<Entry>>
+  setLoading: Action<GenericModel<Entry, SubscribeParam>, boolean>
+  setError: Action<GenericModel<Entry, SubscribeParam>, Error>
+  setUnsubscribe: Action<GenericModel<Entry, SubscribeParam>, () => void>
+  setEntries: Action<GenericModel<Entry, SubscribeParam>, Entry[]>
+  subscribe: Thunk<
+    GenericModel<Entry, SubscribeParam>,
+    SubscribeParam,
+    any,
+    StoreModel
+  >
+  unsubscribe: Action<GenericModel<Entry, SubscribeParam>>
   getById: Computed<
-    GenericModel<Entry>,
+    GenericModel<Entry, SubscribeParam>,
     (id: string) => Entry | undefined,
     StoreModel
   >
@@ -24,13 +29,13 @@ export interface GenericEntry {
   id: string
 }
 
-export type GenericSubscribe<Entry> = (
-  paramId: string
+export type GenericSubscribe<Entry, SubscribeParam> = (
+  param: SubscribeParam
 ) => SubscriptionFn<Entry[]>
 
-export function createModel<Entry extends GenericEntry>(
-  subscribe: GenericSubscribe<Entry>
-): GenericModel<Entry> {
+export function createModel<Entry extends GenericEntry, SubscribeParam>(
+  subscribe: GenericSubscribe<Entry, SubscribeParam>
+): GenericModel<Entry, SubscribeParam> {
   return {
     entries: undefined,
     loading: false,
@@ -54,13 +59,10 @@ export function createModel<Entry extends GenericEntry>(
       state.unsubscribeFistore = unsubscribe
     }),
 
-    subscribe: thunk(async (actions, { parentId }) => {
+    subscribe: thunk(async (actions, param) => {
       actions.unsubscribe()
       actions.setLoading(true)
-      const unsubscribe = subscribe(parentId)(
-        actions.setEntries,
-        actions.setError
-      )
+      const unsubscribe = subscribe(param)(actions.setEntries, actions.setError)
       actions.setUnsubscribe(unsubscribe)
     }),
 

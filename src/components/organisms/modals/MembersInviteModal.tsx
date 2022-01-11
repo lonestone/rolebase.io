@@ -20,6 +20,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import MemberButton from '@components/atoms/MemberButton'
+import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useReducer, useState } from 'react'
 import { FiMail } from 'react-icons/fi'
@@ -106,7 +107,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
       for (const member of notInvitedMembers) {
         const memberState = state[member.id]
         if (memberState && memberState.email && memberState.selected) {
-          await inviteMember(member.id, memberState.email)
+          await inviteMember(member.id, ClaimRole.Member, memberState.email)
           n++
         }
       }

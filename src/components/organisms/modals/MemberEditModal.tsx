@@ -29,6 +29,7 @@ import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
+import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
 import React, { useCallback, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -84,12 +85,14 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const [pictureError, setPictureError] = useState<Error | undefined>()
 
   const onSubmit = handleSubmit(async (memberUpdate) => {
+    if (!org) return
+
     // Upload picture
     const pictureFile = pictureInputRef.current?.files?.[0]
     if (pictureFile) {
       try {
         setPictureError(undefined)
-        memberUpdate.picture = await uploadPicture(id, pictureFile)
+        memberUpdate.picture = await uploadPicture(org.id, id, pictureFile)
         setPicture(memberUpdate.picture)
       } catch (error) {
         setPictureError(error as Error)
@@ -109,7 +112,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
   const handleInvite = useCallback(() => {
     if (!member?.inviteEmail) return
-    inviteMember(member.id, member.inviteEmail)
+    inviteMember(member.id, ClaimRole.Member, member.inviteEmail)
     toast({
       title: 'Membre invité',
       description: `Vous avez invité ${member.name} à rejoindre l'organisation`,

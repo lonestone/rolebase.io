@@ -55,6 +55,7 @@ export interface PollChoice {
 }
 
 // Collection "answers" in poll doc
+// Id = userId
 export interface PollAnswer {
   choicesPoints: number[] // Points distributed to each possible answer
   createdAt: firebase.firestore.Timestamp
