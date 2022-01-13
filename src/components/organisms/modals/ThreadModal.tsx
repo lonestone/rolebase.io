@@ -26,7 +26,7 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
           <ModalMaximizeButton />
         </Link>
         <ModalCloseButton zIndex={1} />
-        <ThreadContent id={id} h="95vh" />
+        <ThreadContent id={id} h="95vh" pt={2} />
       </ModalContent>
     </Modal>
   )

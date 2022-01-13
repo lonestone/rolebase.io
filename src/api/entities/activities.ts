@@ -1,5 +1,6 @@
 import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
+import { format } from 'date-fns'
 import { memoize } from 'src/memoize'
 import {
   getCollection,
@@ -56,7 +57,11 @@ export async function createActivity(
     if (
       last &&
       last.type === ActivityType.Message &&
-      last.userId === activity.userId
+      // Same user
+      last.userId === activity.userId &&
+      // Same day
+      format(last.createdAt.toDate(), 'yyyymmdd') ===
+        format(new Date(), 'yyyymmdd')
     ) {
       return updateActivity(last.id, {
         message: last.message + '\n' + activity.message,

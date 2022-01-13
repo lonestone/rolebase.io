@@ -38,8 +38,8 @@ export default function Header() {
   return (
     <Flex
       w="100%"
-      alignItems="center"
       h="48px"
+      alignItems="center"
       px={1}
       bg="hsl(192deg 22% 95%)"
       shadow="md"

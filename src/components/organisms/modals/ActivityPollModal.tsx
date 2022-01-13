@@ -367,13 +367,14 @@ export default function ActivityPollModal({
                               />
                             )}
                           </Stack>
-
-                          <Checkbox {...register('canAddChoice')}>
-                            Autoriser les participants à rajouter des choix
-                          </Checkbox>
                         </Stack>
                       )}
 
+                      {/*
+                      <Checkbox {...register('canAddChoice')}>
+                        Autoriser les participants à rajouter des choix
+                      </Checkbox>
+                      */}
                       <Checkbox {...register('anonymous')}>
                         Réponses anonymes
                       </Checkbox>

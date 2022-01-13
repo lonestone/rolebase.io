@@ -93,15 +93,15 @@ export default function CircleModalContent({ id }: Props) {
               )}
             </Tab>
             <Tab>
-              <FiMessageSquare style={{ marginRight: '0.5rem' }} />
+              <FiMessageSquare />
               {tab === TabTypes.Threads && <Text ml={2}>Discussions</Text>}
             </Tab>
             <Tab>
-              <FiCalendar style={{ marginRight: '0.5rem' }} />
+              <FiCalendar />
               {tab === TabTypes.Meetings && <Text ml={2}>Réunions</Text>}
             </Tab>
             <Tab>
-              <FiCheckSquare style={{ marginRight: '0.5rem' }} />
+              <FiCheckSquare />
               {tab === TabTypes.Tasks && <Text ml={2}>Tâches</Text>}
             </Tab>
           </TabList>

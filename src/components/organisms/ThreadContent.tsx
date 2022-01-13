@@ -68,7 +68,7 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
       <Flex
         alignItems="center"
         flexWrap="wrap"
-        py={2}
+        pb={2}
         pr="8rem"
         position="relative"
         zIndex={0}
