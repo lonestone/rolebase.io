@@ -1,4 +1,4 @@
-import { ClaimRole } from '@shared/userClaims'
+import { ClaimRole, isRoleSufficient } from '@shared/userClaims'
 import * as functions from 'firebase-functions'
 import { auth } from './firebase'
 
@@ -15,7 +15,7 @@ export function guardAuth(context: functions.https.CallableContext) {
 export async function guardOrg(
   context: functions.https.CallableContext,
   orgId: string,
-  role: ClaimRole
+  minRole: ClaimRole
 ) {
   const uid = context?.auth?.uid
   if (!uid) {
@@ -25,7 +25,8 @@ export async function guardOrg(
     )
   }
   const userRecord = await auth.getUser(uid)
-  if (userRecord.customClaims?.[`org-${orgId}`] !== role) {
+  const role = userRecord.customClaims?.[`org-${orgId}`]
+  if (!isRoleSufficient(role, minRole)) {
     throw new functions.https.HttpsError('permission-denied', 'Not allowed')
   }
 }

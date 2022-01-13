@@ -5,6 +5,7 @@ import { meetingsIcalRoute } from './routes/meetingsIcal'
 import { migration } from './routes/migration'
 export { acceptMemberInvitation } from './functions/acceptMemberInvitation'
 export { createOrg } from './functions/createOrg'
+export { getMeetingsToken } from './functions/getMeetingsToken'
 export { inviteMember } from './functions/inviteMember'
 export { updateMemberRole } from './functions/updateMemberRole'
 

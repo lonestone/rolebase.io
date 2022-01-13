@@ -13,7 +13,7 @@ interface Payload {
 export const updateMemberRole = functions.https.onCall(
   async (data: Payload, context) => {
     try {
-      const { uid } = guardAuth(context)
+      guardAuth(context)
       guardArgument(data, 'memberId')
 
       // Get member

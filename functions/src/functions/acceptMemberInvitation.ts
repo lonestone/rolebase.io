@@ -40,7 +40,7 @@ export const acceptMemberInvitation = functions.https.onCall(
         )
       }
 
-      // Check token
+      // Validate token
       const token = generateInviteToken(
         data.memberId,
         member.inviteDate.toDate()

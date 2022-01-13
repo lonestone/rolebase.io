@@ -3,6 +3,7 @@ import { Optional } from '@shared/types'
 import { memoize } from 'src/memoize'
 import settings from 'src/settings'
 import {
+  functions,
   getCollection,
   getEntityMethods,
   subscribeQuery,
@@ -104,6 +105,17 @@ export async function goToNextMeetingStep(meeting: MeetingEntry) {
   }
 }
 
-export function getMeetingsIcalUrl(orgId: string | undefined) {
-  return `${settings.firebaseFunctionsUrl}api/meetings.ics?orgId=${orgId}`
+export async function getMeetingsIcalUrl(
+  orgId: string | undefined,
+  memberId?: string,
+  circleId?: string
+) {
+  const { data: token } = await functions.httpsCallable('getMeetingsToken')({
+    orgId,
+  })
+  return `${
+    settings.firebaseFunctionsUrl
+  }api/meetings.ics?token=${token}&orgId=${orgId}${
+    memberId ? `&memberId=${memberId}` : circleId ? `&circleId=${circleId}` : ''
+  }`
 }
