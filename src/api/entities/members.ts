@@ -59,3 +59,13 @@ export async function acceptMemberInvitation(
     token,
   })
 }
+
+export async function updateMemberRole(
+  memberId: string,
+  role: ClaimRole | undefined
+): Promise<void> {
+  await functions.httpsCallable('updateMemberRole')({
+    memberId,
+    role,
+  })
+}

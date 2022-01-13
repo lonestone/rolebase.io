@@ -4,21 +4,24 @@ import {
   Container,
   Flex,
   Heading,
+  HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
+  LinkBox,
   Spacer,
+  Tag,
   useDisclosure,
-  Wrap,
-  WrapItem,
 } from '@chakra-ui/react'
-import MemberButton from '@components/atoms/MemberButton'
+import MemberLinkOverlay from '@components/atoms/MemberLinkOverlay'
 import MemberCreateModal from '@components/organisms/modals/MemberCreateModal'
 import MemberEditModal from '@components/organisms/modals/MemberEditModal'
 import MembersInviteModal from '@components/organisms/modals/MembersInviteModal'
+import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
-import { FiMail, FiPlus } from 'react-icons/fi'
+import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 
 export default function MembersPage() {
   const members = useStoreState((state) => state.members.entries)
@@ -62,18 +65,19 @@ export default function MembersPage() {
   }, [members, searchText])
 
   return (
-    <Container maxW="3xl" mt={10}>
+    <Container maxW="xl" mt={10}>
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           Membres
         </Heading>
         <Spacer />
-        <InputGroup w="auto">
+
+        <InputGroup size="sm" w="auto">
           <Input
             type="text"
             placeholder="Rechercher..."
+            borderRadius="md"
             w="200px"
-            _focus={{ width: '250px' }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -87,27 +91,58 @@ export default function MembersPage() {
             }
           />
         </InputGroup>
-        <Spacer />
-        <Button leftIcon={<FiMail />} onClick={onInviteOpen}>
+
+        <Button size="sm" ml={2} leftIcon={<FiMail />} onClick={onInviteOpen}>
           Inviter
         </Button>
-        <Button ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+        <Button size="sm" ml={2} leftIcon={<FiPlus />} onClick={onCreateOpen}>
           Créer
         </Button>
       </Flex>
 
-      {filteredMembers && (
-        <Wrap spacing={5}>
-          {filteredMembers.map((member) => (
-            <WrapItem key={member.id}>
-              <MemberButton
-                member={member}
-                onClick={() => handleOpenEdit(member.id)}
-              />
-            </WrapItem>
-          ))}
-        </Wrap>
-      )}
+      {filteredMembers?.map((member) => (
+        <LinkBox
+          key={member.id}
+          px={2}
+          py={1}
+          _hover={{ background: '#fafafa' }}
+        >
+          <HStack>
+            <MemberLinkOverlay member={member} />
+
+            {member.userId ? (
+              <>
+                {member.role === ClaimRole.Readonly && (
+                  <Tag colorScheme="gray">Lecture seule</Tag>
+                )}
+                {member.role === ClaimRole.Member && (
+                  <Tag colorScheme="blue">Membre</Tag>
+                )}
+                {member.role === ClaimRole.Admin && (
+                  <Tag colorScheme="red">Admin</Tag>
+                )}
+              </>
+            ) : (
+              <>
+                {member.inviteDate ? (
+                  <Tag colorScheme="transparent">Invité.e</Tag>
+                ) : (
+                  <Tag colorScheme="transparent" color="gray.400">
+                    Pas invité.e
+                  </Tag>
+                )}
+              </>
+            )}
+
+            <IconButton
+              aria-label=""
+              size="sm"
+              icon={<FiEdit3 />}
+              onClick={() => handleOpenEdit(member.id)}
+            />
+          </HStack>
+        </LinkBox>
+      ))}
 
       {isCreateOpen && (
         <MemberCreateModal

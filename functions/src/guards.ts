@@ -4,7 +4,10 @@ import { auth } from './firebase'
 
 export function guardAuth(context: functions.https.CallableContext) {
   if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'Member not found')
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Authentication required'
+    )
   }
   return context.auth
 }
@@ -16,11 +19,13 @@ export async function guardOrg(
 ) {
   const uid = context?.auth?.uid
   if (!uid) {
-    throw new functions.https.HttpsError('unauthenticated', 'Member not found')
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Authentication required'
+    )
   }
-
   const userRecord = await auth.getUser(uid)
-  if (userRecord.customClaims?.[orgId] !== role) {
+  if (userRecord.customClaims?.[`org-${orgId}`] !== role) {
     throw new functions.https.HttpsError('permission-denied', 'Not allowed')
   }
 }

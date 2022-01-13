@@ -57,7 +57,10 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
   const handleCopy = useCallback(
     async (memberToCopy: MemberEntry) => {
       if (!orgId) return
-      const member = await createMember({ ...memberToCopy, orgId })
+      const member = await createMember({
+        orgId,
+        name: memberToCopy.name,
+      })
       onCreate?.(member.id)
       modalProps.onClose()
     },

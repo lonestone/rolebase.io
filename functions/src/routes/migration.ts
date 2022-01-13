@@ -17,6 +17,8 @@ export const migration: express.RequestHandler = async (req, res) => {
       }
       const role = ClaimRole.Admin
 
+      // Add role to member
+      memberDoc.ref.update({ role })
       usersClaims[member.userId][`org-${member.orgId}`] = role
     }
   })

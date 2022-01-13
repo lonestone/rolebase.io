@@ -6,6 +6,7 @@ import { migration } from './routes/migration'
 export { acceptMemberInvitation } from './functions/acceptMemberInvitation'
 export { createOrg } from './functions/createOrg'
 export { inviteMember } from './functions/inviteMember'
+export { updateMemberRole } from './functions/updateMemberRole'
 
 const app = express()
 

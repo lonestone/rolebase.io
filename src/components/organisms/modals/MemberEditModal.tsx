@@ -1,6 +1,7 @@
 import {
   inviteMember,
   updateMember,
+  updateMemberRole,
   uploadPicture,
 } from '@api/entities/members'
 import { nameSchema } from '@api/schemas'
@@ -20,6 +21,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Select,
   useDisclosure,
   UseModalProps,
   useToast,
@@ -35,7 +37,6 @@ import React, { useCallback, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import MemberDeleteModal from './MemberDeleteModal'
-import MemberModal from './MemberModal'
 
 interface Props extends UseModalProps {
   id: string
@@ -45,12 +46,15 @@ interface Values {
   name: string
   picture?: string | null
   workedMinPerWeek?: number | null
+  role: ClaimRole | ''
+  inviteEmail: string
 }
 
 const resolver = yupResolver(
   yup.object().shape({
     name: nameSchema,
     workedMinPerWeek: yup.number().nullable(),
+    inviteEmail: yup.string().email(),
   })
 )
 
@@ -75,6 +79,8 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     defaultValues: member && {
       name: member.name,
       workedMinPerWeek: member.workedMinPerWeek || null,
+      role: member.role || '',
+      inviteEmail: '',
     },
   })
 
@@ -84,40 +90,67 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const pictureInputRef = useRef<HTMLInputElement>(null)
   const [pictureError, setPictureError] = useState<Error | undefined>()
 
-  const onSubmit = handleSubmit(async (memberUpdate) => {
-    if (!org) return
+  const onSubmit = handleSubmit(
+    async ({ role, inviteEmail, ...memberUpdate }) => {
+      if (!org || !member) return
 
-    // Upload picture
-    const pictureFile = pictureInputRef.current?.files?.[0]
-    if (pictureFile) {
-      try {
-        setPictureError(undefined)
-        memberUpdate.picture = await uploadPicture(org.id, id, pictureFile)
-        setPicture(memberUpdate.picture)
-      } catch (error) {
-        setPictureError(error as Error)
+      // Upload picture
+      const pictureFile = pictureInputRef.current?.files?.[0]
+      if (pictureFile) {
+        try {
+          setPictureError(undefined)
+          memberUpdate.picture = await uploadPicture(org.id, id, pictureFile)
+          setPicture(memberUpdate.picture)
+        } catch (error) {
+          setPictureError(error as Error)
+        }
       }
+
+      // Update member data
+      await updateMember(id, memberUpdate)
+
+      // Change role
+      const newRole = role || undefined
+      if (newRole !== member.role) {
+        if (member.userId) {
+          // Update role
+          updateMemberRole(id, newRole)
+        } else if (newRole && inviteEmail) {
+          // Invite member
+          inviteMember(member.id, newRole, inviteEmail)
+          toast({
+            title: 'Membre invité',
+            description: `Vous avez invité ${member.name} à rejoindre l'organisation`,
+            status: 'success',
+            duration: 4000,
+            isClosable: true,
+          })
+        }
+      }
+
+      modalProps.onClose()
     }
+  )
 
-    // Update member data
-    await updateMember(id, memberUpdate)
-    modalProps.onClose()
-  })
-
-  const {
-    isOpen: isMemberOpen,
-    onOpen: onMemberOpen,
-    onClose: onMemberClose,
-  } = useDisclosure()
-
-  const handleInvite = useCallback(() => {
-    if (!member?.inviteEmail) return
-    inviteMember(member.id, ClaimRole.Member, member.inviteEmail)
+  const handleReInvite = useCallback(() => {
+    if (!member?.inviteEmail || !member.role) return
+    inviteMember(member.id, member.role, member.inviteEmail)
     toast({
       title: 'Membre invité',
-      description: `Vous avez invité ${member.name} à rejoindre l'organisation`,
+      description: `Vous avez ré-invité ${member.name} à rejoindre l'organisation`,
       status: 'success',
       duration: 4000,
+      isClosable: true,
+    })
+  }, [member])
+
+  const handleRevokeInvite = useCallback(() => {
+    if (!member?.inviteEmail || !member.role) return
+    updateMemberRole(member.id, undefined)
+    toast({
+      title: 'Invitation révoquée',
+      status: 'success',
+      duration: 3000,
       isClosable: true,
     })
   }, [member])
@@ -169,14 +202,17 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                   />
                 </FormControl>
 
-                {member.userId && (
-                  <Alert status="info">
-                    <AlertIcon />
-                    Ce membre est lié à un compte utilisateur.
-                  </Alert>
-                )}
-
-                {!member.userId && member.inviteDate && member.inviteEmail && (
+                {member.userId ? (
+                  <FormControl>
+                    <FormLabel>Utilisateur invité</FormLabel>
+                    <Select {...register('role')}>
+                      <option value={''}>Révoquer l'invitation</option>
+                      <option value={ClaimRole.Readonly}>Lecture seule</option>
+                      <option value={ClaimRole.Member}>Membre</option>
+                      <option value={ClaimRole.Admin}>Admin</option>
+                    </Select>
+                  </FormControl>
+                ) : member.inviteDate && member.inviteEmail ? (
                   <Alert status="info">
                     <AlertIcon />
                     <Box>
@@ -184,24 +220,47 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                       {format(member.inviteDate.toDate(), 'P')}, en attente
                       d'acceptation
                       <Button
-                        variant="outline"
+                        variant="link"
                         colorScheme="blue"
-                        onClick={handleInvite}
+                        ml={3}
+                        onClick={handleReInvite}
                       >
                         Renvoyer
                       </Button>
+                      <Button
+                        variant="link"
+                        colorScheme="blue"
+                        ml={3}
+                        onClick={handleRevokeInvite}
+                      >
+                        Révoquer
+                      </Button>
                     </Box>
                   </Alert>
+                ) : (
+                  <FormControl isInvalid={!!errors.inviteEmail}>
+                    <FormLabel>Inviter</FormLabel>
+                    <HStack>
+                      <Select
+                        {...register('role')}
+                        placeholder="Choisir un rôle"
+                      >
+                        <option value={ClaimRole.Readonly}>
+                          Lecture seule
+                        </option>
+                        <option value={ClaimRole.Member}>Membre</option>
+                        <option value={ClaimRole.Admin}>Admin</option>
+                      </Select>
+                      <Input
+                        {...register('inviteEmail')}
+                        placeholder="Adresse email..."
+                        autoFocus
+                      />
+                    </HStack>
+                  </FormControl>
                 )}
 
                 <Box textAlign="right">
-                  <Button
-                    colorScheme="blue"
-                    variant="ghost"
-                    onClick={onMemberOpen}
-                  >
-                    Voir la fiche
-                  </Button>
                   <Button
                     colorScheme="red"
                     variant="ghost"
@@ -227,8 +286,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           onClose={onDeleteClose}
         />
       )}
-
-      {isMemberOpen && <MemberModal id={id} isOpen onClose={onMemberClose} />}
     </>
   )
 }

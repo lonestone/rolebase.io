@@ -61,6 +61,8 @@ export default function OrgsPage() {
       <Loading center active={loading} />
       <TextErrors errors={[error]} />
 
+      {!orgs?.length && <i>Vous n'avez aucune organisation</i>}
+
       <Wrap spacing={5}>
         {orgs?.map((org) => (
           <WrapItem key={org.id}>

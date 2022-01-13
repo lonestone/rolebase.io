@@ -15,6 +15,8 @@ import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
+import { useOrgRole } from '@hooks/useOrgRole'
+import { ClaimRole } from '@shared/userClaims'
 import React, { useState } from 'react'
 import {
   FiArrowLeft,
@@ -28,6 +30,7 @@ import { useHistory } from 'react-router'
 
 export default function OrgMenu(props: MenuButtonProps) {
   const org = useCurrentOrg()
+  const role = useOrgRole()
   const navigateOrg = useNavigateOrg()
   const history = useHistory()
 
@@ -77,15 +80,22 @@ export default function OrgMenu(props: MenuButtonProps) {
       />
       <Portal>
         <MenuList zIndex={10} shadow="lg">
-          <MenuItem
-            icon={<FiSettings />}
-            onClick={() => handleOpenEdit(org.id)}
-          >
-            Paramètres
-          </MenuItem>
-          <MenuItem icon={<FiUsers />} onClick={() => navigateOrg('/members')}>
-            Membres
-          </MenuItem>
+          {role === ClaimRole.Admin && (
+            <>
+              <MenuItem
+                icon={<FiSettings />}
+                onClick={() => handleOpenEdit(org.id)}
+              >
+                Paramètres
+              </MenuItem>
+              <MenuItem
+                icon={<FiUsers />}
+                onClick={() => navigateOrg('/members')}
+              >
+                Membres
+              </MenuItem>
+            </>
+          )}
           <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
             Rôles de base
           </MenuItem>
@@ -97,7 +107,7 @@ export default function OrgMenu(props: MenuButtonProps) {
           </MenuItem>
           <MenuDivider />
           <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
-            Toutes les organisations
+            Toutes mes organisations
           </MenuItem>
         </MenuList>
       </Portal>

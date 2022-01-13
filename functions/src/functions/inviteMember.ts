@@ -18,16 +18,9 @@ const mailjetClient = mailjet.connect(
   config.mailjet.private
 )
 
-export function generateInviteToken(
-  memberId: string,
-  role: ClaimRole,
-  inviteDate: Date
-) {
+export function generateInviteToken(memberId: string, inviteDate: Date) {
   return md5(
-    memberId +
-      inviteDate.toISOString() +
-      role +
-      config.security.invitation_token
+    memberId + inviteDate.toISOString() + config.security.invitation_token
   )
 }
 
@@ -47,7 +40,7 @@ export const inviteMember = functions.https.onCall(
     }
 
     const orgId = member.orgId
-    guardOrg(context, orgId, ClaimRole.Admin)
+    await guardOrg(context, orgId, ClaimRole.Admin)
 
     // Get org
     const orgSnapshot = await collections.orgs.doc(orgId).get()
@@ -77,7 +70,7 @@ export const inviteMember = functions.https.onCall(
       inviteDate: admin.firestore.Timestamp.fromDate(inviteDate),
     })
 
-    const token = generateInviteToken(data.memberId, data.role, inviteDate)
+    const token = generateInviteToken(data.memberId, inviteDate)
     const invitationUrl = `${settings.url}/orgs/${orgId}/invitation?memberId=${data.memberId}&token=${token}`
 
     try {

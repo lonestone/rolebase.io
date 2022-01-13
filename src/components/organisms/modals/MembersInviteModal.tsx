@@ -5,6 +5,7 @@ import {
   Checkbox,
   CloseButton,
   Flex,
+  HStack,
   Input,
   InputGroup,
   InputRightElement,
@@ -14,6 +15,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Select,
   Spacer,
   UseModalProps,
   useToast,
@@ -41,6 +43,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
 
   const [state, dispatch] = useReducer(memberInviteReducer, {})
   const [isInviting, setIsInviting] = useState(false)
+  const [role, setRole] = useState(ClaimRole.Member)
 
   // Search
   const [searchText, setSearchText] = useState('')
@@ -107,7 +110,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
       for (const member of notInvitedMembers) {
         const memberState = state[member.id]
         if (memberState && memberState.email && memberState.selected) {
-          await inviteMember(member.id, ClaimRole.Member, memberState.email)
+          await inviteMember(member.id, role, memberState.email)
           n++
         }
       }
@@ -128,7 +131,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
       })
       setIsInviting(false)
     }
-  }, [state, modalProps.onClose])
+  }, [state, role, modalProps.onClose])
 
   return (
     <Modal {...modalProps} size="xl">
@@ -209,7 +212,18 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                 })}
               </VStack>
 
-              <Box textAlign="right" mt={2}>
+              <HStack justify="end" my={2}>
+                <Select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as ClaimRole)}
+                  mr={2}
+                  w="200px"
+                >
+                  <option value={ClaimRole.Readonly}>Lecture seule</option>
+                  <option value={ClaimRole.Member}>Membre</option>
+                  <option value={ClaimRole.Admin}>Admin</option>
+                </Select>
+
                 <Button
                   colorScheme="blue"
                   isLoading={isInviting}
@@ -219,7 +233,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                 >
                   Inviter ({nbSelectedMembers})
                 </Button>
-              </Box>
+              </HStack>
             </VStack>
           )}
         </ModalBody>

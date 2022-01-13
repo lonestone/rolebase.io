@@ -67,7 +67,6 @@ export default function SearchCombobox({ onSelect }: ComboboxProps) {
           bg="white"
           w="200px"
           borderRadius="md"
-          _focus={{ width: '250px' }}
           onClick={() => openMenu()}
           {...getInputProps()}
         />

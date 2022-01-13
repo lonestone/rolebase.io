@@ -1,3 +1,4 @@
+import { Member } from '@shared/member'
 import { ClaimRole } from '@shared/userClaims'
 import * as functions from 'firebase-functions'
 import { collections } from '../firebase'
@@ -42,7 +43,6 @@ export const acceptMemberInvitation = functions.https.onCall(
       // Check token
       const token = generateInviteToken(
         data.memberId,
-        role,
         member.inviteDate.toDate()
       )
       if (token !== data.token) {
@@ -55,7 +55,7 @@ export const acceptMemberInvitation = functions.https.onCall(
       // Update member
       memberRef.update({
         userId: uid,
-      })
+      } as Member)
 
       // Update user claims
       await setUserClaim(uid, member.orgId, role)

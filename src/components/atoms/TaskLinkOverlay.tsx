@@ -1,8 +1,9 @@
 import { LinkOverlay, LinkOverlayProps, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/modals/TaskModal'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { TaskEntry } from '@shared/task'
 import { useStoreState } from '@store/hooks'
-import React, { MouseEvent, useCallback } from 'react'
+import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkOverlayProps {
@@ -12,16 +13,7 @@ interface Props extends LinkOverlayProps {
 export default function TaskLinkOverlay({ task, ...linkOverlayProps }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const handleOpen = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    // Normal click (not Ctrl+click or Cmd+click)
-    if (!(event.ctrlKey || event.metaKey)) {
-      // Prevent default link behavior
-      event.preventDefault()
-      // Open modal
-      onOpen()
-    }
-  }, [])
+  const handleOpen = useNormalClickHandler(onOpen)
 
   return (
     <>

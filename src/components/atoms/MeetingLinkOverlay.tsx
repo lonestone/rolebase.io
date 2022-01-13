@@ -1,9 +1,10 @@
 import { LinkOverlay, LinkOverlayProps, useDisclosure } from '@chakra-ui/react'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { MeetingEntry } from '@shared/meeting'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
-import React, { MouseEvent, useCallback } from 'react'
+import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 import { dateFnsLocale } from 'src/locale'
 
@@ -17,18 +18,8 @@ export default function MeetingLinkOverlay({
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const handleOpen = useNormalClickHandler(onOpen)
   const date = meeting.startDate.toDate()
-
-  const handleOpen = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    // Normal click (not Ctrl+click or Cmd+click)
-    if (!(event.ctrlKey || event.metaKey)) {
-      // Prevent default link behavior
-      event.preventDefault()
-      // Open modal
-      onOpen()
-    }
-  }, [])
 
   return (
     <>

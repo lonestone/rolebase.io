@@ -1,8 +1,9 @@
 import { Link, useDisclosure } from '@chakra-ui/react'
 import MemberModal from '@components/organisms/modals/MemberModal'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
-import React, { MouseEvent, useCallback } from 'react'
+import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props {
@@ -12,16 +13,7 @@ interface Props {
 export default function MemberLink({ member }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const handleOpen = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    // Normal click (not Ctrl+click or Cmd+click)
-    if (!(event.ctrlKey || event.metaKey)) {
-      // Prevent default link behavior
-      event.preventDefault()
-      // Open modal
-      onOpen()
-    }
-  }, [])
+  const handleOpen = useNormalClickHandler(onOpen)
 
   return (
     <>
@@ -32,7 +24,7 @@ export default function MemberLink({ member }: Props) {
         to={`/orgs/${orgId}?memberId=${member.id}`}
         onClick={handleOpen}
       >
-        {member?.name || '[Utilisateur non membre]'}
+        {member.name}
       </Link>
 
       {isOpen && member && (

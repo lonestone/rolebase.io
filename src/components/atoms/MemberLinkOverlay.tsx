@@ -1,17 +1,22 @@
-import { LinkOverlay, LinkOverlayProps, useDisclosure } from '@chakra-ui/react'
-import ThreadModal from '@components/organisms/modals/ThreadModal'
+import {
+  Avatar,
+  LinkOverlay,
+  LinkOverlayProps,
+  useDisclosure,
+} from '@chakra-ui/react'
+import MemberModal from '@components/organisms/modals/MemberModal'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { ThreadEntry } from '@shared/thread'
+import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkOverlayProps {
-  thread: ThreadEntry
+  member: MemberEntry
 }
 
-export default function ThreadLinkOverlay({
-  thread,
+export default function MemberLinkOverlay({
+  member,
   ...linkOverlayProps
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -23,14 +28,22 @@ export default function ThreadLinkOverlay({
       <LinkOverlay
         as={ReachLink}
         flex={1}
-        to={`/orgs/${orgId}/threads/${thread.id}`}
+        display="flex"
+        alignItems="center"
+        to={`/orgs/${orgId}?memberId=${member.id}`}
         onClick={handleOpen}
         {...linkOverlayProps}
       >
-        {thread.title}
+        <Avatar
+          name={member.name}
+          src={member.picture || undefined}
+          size={'sm'}
+          mr={3}
+        />
+        {member.name}
       </LinkOverlay>
 
-      {isOpen && <ThreadModal id={thread.id} isOpen onClose={onClose} />}
+      {isOpen && <MemberModal id={member.id} isOpen onClose={onClose} />}
     </>
   )
 }

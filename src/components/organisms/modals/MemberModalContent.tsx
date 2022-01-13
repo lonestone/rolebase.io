@@ -12,6 +12,9 @@ import {
 } from '@chakra-ui/react'
 import MemberRoles from '@components/molecules/MemberRoles'
 import useMember from '@hooks/useMember'
+import { useOrgRole } from '@hooks/useOrgRole'
+import { ClaimRole } from '@shared/userClaims'
+import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import MemberEditModal from './MemberEditModal'
@@ -27,7 +30,11 @@ export default function MemberModalContent({
   selectedCircleId,
   onCircleSelect,
 }: Props) {
+  const userId = useStoreState((state) => state.auth.user?.id)
   const member = useMember(id)
+  const role = useOrgRole()
+  const canEdit =
+    role === ClaimRole.Admin || (userId ? member?.userId === userId : false)
 
   // Edit modal
   const {
@@ -48,13 +55,16 @@ export default function MemberModalContent({
             size="lg"
           />
           <StackItem>{member.name}</StackItem>
-          <IconButton
-            aria-label=""
-            icon={<FiEdit3 />}
-            variant="ghost"
-            size="sm"
-            onClick={onEditOpen}
-          />
+
+          {canEdit && (
+            <IconButton
+              aria-label=""
+              icon={<FiEdit3 />}
+              variant="ghost"
+              size="sm"
+              onClick={onEditOpen}
+            />
+          )}
         </HStack>
       </ModalHeader>
       <ModalCloseButton />

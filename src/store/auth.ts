@@ -2,21 +2,23 @@ import { createUser, subscribeUser } from '@api/entities/users'
 import { auth } from '@api/firebase'
 import { UserEntry } from '@shared/user'
 import { UserClaims } from '@shared/userClaims'
-import { action, Action, thunk, Thunk } from 'easy-peasy'
+import { action, Action, State, thunk, Thunk } from 'easy-peasy'
 import firebase from 'firebase/app'
 import { store, StoreModel } from '.'
 
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 
 export interface AuthModel {
+  firebaseUser: firebase.User | undefined
   user: UserEntry | undefined
   claims: UserClaims | undefined
   loading: boolean
   error: Error | undefined
+  refreshClaims: Thunk<AuthModel>
   signout: Action<AuthModel>
   setLoading: Action<AuthModel, boolean>
   setError: Action<AuthModel, Error>
-  setUser: Action<AuthModel, UserEntry>
+  setUser: Action<AuthModel, { firebaseUser: firebase.User; user: UserEntry }>
   setClaims: Action<AuthModel, UserClaims>
   signinGoogle: Thunk<AuthModel, undefined, any, StoreModel>
   signinEmail: Thunk<
@@ -36,23 +38,22 @@ export interface AuthModel {
 // Observe auth state
 let unsubscribeUser: (() => void) | undefined
 auth.onAuthStateChanged((firebaseUser) => {
-  const { setUser, setError, setClaims, signout } = store.getActions().auth
+  const { setUser, setError, refreshClaims, signout } = store.getActions().auth
 
   unsubscribeUser?.()
   unsubscribeUser = undefined
-  if (firebaseUser && firebaseUser.email) {
+  if (firebaseUser) {
     // Subscribe user entry
     let refreshTokenTime: number | undefined = undefined
-    unsubscribeUser = subscribeUser(firebaseUser.uid)(async (user) => {
+    unsubscribeUser = subscribeUser(firebaseUser.uid)((user) => {
       // Set user in store
-      setUser(user)
+      setUser({ firebaseUser, user })
 
       // Observe change in refreshTokenTime
       if (!refreshTokenTime || refreshTokenTime !== user.refreshTokenTime) {
         refreshTokenTime = user.refreshTokenTime
         // Get claims
-        const idTokenResult = await firebaseUser.getIdTokenResult(true)
-        setClaims(idTokenResult.claims)
+        refreshClaims()
       }
     }, setError)
   } else {
@@ -62,6 +63,7 @@ auth.onAuthStateChanged((firebaseUser) => {
 })
 
 const model: AuthModel = {
+  firebaseUser: undefined,
   user: undefined,
   claims: undefined,
   loading: true,
@@ -69,6 +71,7 @@ const model: AuthModel = {
 
   // Actions
   signout: action((state) => {
+    state.firebaseUser = undefined
     state.user = undefined
     state.claims = undefined
     state.loading = false
@@ -81,7 +84,8 @@ const model: AuthModel = {
     state.error = error
     state.loading = false
   }),
-  setUser: action((state, user) => {
+  setUser: action((state, { firebaseUser, user }) => {
+    state.firebaseUser = firebaseUser
     state.user = user
     state.error = undefined
     state.loading = false
@@ -91,6 +95,13 @@ const model: AuthModel = {
   }),
 
   // Thunks
+  refreshClaims: thunk(async (actions, _, { getState }) => {
+    const { firebaseUser } = getState() as State<AuthModel>
+    if (!firebaseUser) return
+    const idTokenResult = await firebaseUser.getIdTokenResult(true)
+    actions.setClaims(idTokenResult.claims)
+  }),
+
   signinGoogle: thunk(async (actions) => {
     actions.signout()
     actions.setLoading(true)
