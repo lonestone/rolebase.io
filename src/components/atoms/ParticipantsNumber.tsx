@@ -58,7 +58,7 @@ export default function ParticipantsNumber({
           ))}
         </Box>
       </MenuButton>
-      <MenuList shadow="lg">
+      <MenuList shadow="lg" zIndex={10}>
         {participants.map(({ member, circlesIds }, i) => (
           <MemberMenuItem
             key={member.id}

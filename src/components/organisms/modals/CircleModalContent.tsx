@@ -1,4 +1,6 @@
 import {
+  Button,
+  Collapse,
   FormControl,
   FormLabel,
   ModalBody,
@@ -26,6 +28,8 @@ import React from 'react'
 import {
   FiCalendar,
   FiCheckSquare,
+  FiChevronDown,
+  FiChevronUp,
   FiDisc,
   FiMessageSquare,
 } from 'react-icons/fi'
@@ -55,6 +59,9 @@ export default function CircleModalContent({ id }: Props) {
 
   // Tabs
   const [tab, setTab] = React.useState<TabTypes>(0)
+
+  // Role info toggle
+  const { isOpen: isRoleInfoOpen, onToggle: onRoleInfoToggle } = useDisclosure()
 
   // Role edit modal
   const {
@@ -112,29 +119,54 @@ export default function CircleModalContent({ id }: Props) {
                 {role?.purpose && (
                   <FormControl>
                     <FormLabel>Raison d'être :</FormLabel>
-                    <Markdown fontSize="xl">{role.purpose}</Markdown>
+                    <Markdown
+                      mx={-3}
+                      px={3}
+                      py={2}
+                      bg="hsl(192deg 100% 97%)"
+                      borderRadius="xl"
+                    >
+                      {role.purpose}
+                    </Markdown>
                   </FormControl>
                 )}
 
-                {role?.domain && (
-                  <FormControl>
-                    <FormLabel>Domaine :</FormLabel>
-                    <Markdown>{role.domain}</Markdown>
-                  </FormControl>
-                )}
+                {(role?.domain || role?.accountabilities || role?.notes) && (
+                  <>
+                    <Button
+                      variant="link"
+                      rightIcon={
+                        isRoleInfoOpen ? <FiChevronUp /> : <FiChevronDown />
+                      }
+                      onClick={onRoleInfoToggle}
+                    >
+                      {isRoleInfoOpen ? 'Voir moins' : 'Voir plus'}
+                    </Button>
+                    <Collapse in={isRoleInfoOpen} animateOpacity>
+                      <VStack spacing={5} align="stretch">
+                        {role?.domain && (
+                          <FormControl>
+                            <FormLabel>Domaine :</FormLabel>
+                            <Markdown>{role.domain}</Markdown>
+                          </FormControl>
+                        )}
 
-                {role?.accountabilities && (
-                  <FormControl>
-                    <FormLabel>Redevabilités :</FormLabel>
-                    <Markdown>{role.accountabilities}</Markdown>
-                  </FormControl>
-                )}
+                        {role?.accountabilities && (
+                          <FormControl>
+                            <FormLabel>Redevabilités :</FormLabel>
+                            <Markdown>{role.accountabilities}</Markdown>
+                          </FormControl>
+                        )}
 
-                {role?.notes && (
-                  <FormControl>
-                    <FormLabel>Notes :</FormLabel>
-                    <Markdown>{role.notes}</Markdown>
-                  </FormControl>
+                        {role?.notes && (
+                          <FormControl>
+                            <FormLabel>Notes :</FormLabel>
+                            <Markdown>{role.notes}</Markdown>
+                          </FormControl>
+                        )}
+                      </VStack>
+                    </Collapse>
+                  </>
                 )}
 
                 {!role?.singleMember ? (
