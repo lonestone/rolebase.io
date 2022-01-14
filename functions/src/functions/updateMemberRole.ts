@@ -34,7 +34,7 @@ export const updateMemberRole = functions.https.onCall(
 
       if (!data.role) {
         // Remove role
-        memberRef.update({
+        await memberRef.update({
           userId: admin.firestore.FieldValue.delete(),
           role: admin.firestore.FieldValue.delete(),
           inviteDate: admin.firestore.FieldValue.delete(),
@@ -45,7 +45,7 @@ export const updateMemberRole = functions.https.onCall(
         }
       } else if (data.role in ClaimRole) {
         // Update role
-        memberRef.update({
+        await memberRef.update({
           role: data.role,
         })
         if (member.userId) {

@@ -64,7 +64,7 @@ export const inviteMember = functions.https.onCall(
 
     // Update member
     const inviteDate = new Date()
-    memberRef.update({
+    await memberRef.update({
       role: data.role,
       inviteEmail: data.email,
       inviteDate: admin.firestore.Timestamp.fromDate(inviteDate),

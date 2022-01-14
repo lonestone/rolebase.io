@@ -53,7 +53,7 @@ export const acceptMemberInvitation = functions.https.onCall(
       }
 
       // Update member
-      memberRef.update({
+      await memberRef.update({
         userId: uid,
       } as Member)
 
