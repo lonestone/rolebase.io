@@ -11,11 +11,11 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useCircle from '@hooks/useCircle'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
-import React from 'react'
+import React, { useContext } from 'react'
+import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 
 interface Props
-  extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
+  extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
   id: string
   onDelete?(): void
 }
@@ -25,7 +25,7 @@ export default function CircleDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
-  const navigateOrg = useNavigateOrg()
+  const circleMemberContext = useContext(CircleMemberContext)
   const circle = useCircle(id)
 
   const handleDelete = () => {
@@ -33,7 +33,7 @@ export default function CircleDeleteModal({
     onDelete?.()
     alertProps.onClose()
     setTimeout(
-      () => navigateOrg(circle?.parentId ? `?circleId=${circle.parentId}` : ''),
+      () => circleMemberContext?.goTo(circle?.parentId || undefined),
       1000
     )
   }

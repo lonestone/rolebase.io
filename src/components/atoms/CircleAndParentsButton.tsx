@@ -1,9 +1,9 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, BoxProps, Button, IconButton } from '@chakra-ui/react'
 import useCircleAndParents from '@hooks/useCircleAndParents'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { FiEdit3, FiTrash2 } from 'react-icons/fi'
+import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends BoxProps {
   id: string
@@ -19,12 +19,6 @@ export default function CircleAndParentsButton({
 }: Props) {
   const circleAndParents = useCircleAndParents(id)
   const circle = circleAndParents?.[circleAndParents.length - 1]
-
-  // Go to circle panel
-  const navigateOrg = useNavigateOrg()
-  const navigateToCircle = useCallback((circleId: string) => {
-    navigateOrg(`?circleId=${circleId}`)
-  }, [])
   if (!circle) return null
 
   return (
@@ -35,17 +29,18 @@ export default function CircleAndParentsButton({
           <span style={{ whiteSpace: 'nowrap' }} key={c.id}>
             {last && i !== 0 && <br />}
 
-            <Button
-              bg={last ? 'hsl(192deg 76% 87%)' : undefined}
-              variant={last ? 'solid' : 'ghost'}
-              size={last ? 'md' : 'sm'}
-              borderRadius="full"
-              fontWeight={last ? 600 : 400}
-              ml={last ? '0.3em' : 0}
-              onClick={() => navigateToCircle(c.id)}
-            >
-              {c.role?.name || '?'}
-            </Button>
+            <CircleMemberLink circleId={c.id}>
+              <Button
+                bg={last ? 'hsl(192deg 76% 87%)' : undefined}
+                variant={last ? 'solid' : 'ghost'}
+                size={last ? 'md' : 'sm'}
+                borderRadius="full"
+                fontWeight={last ? 600 : 400}
+                ml={last ? '0.3em' : 0}
+              >
+                {c.role?.name || '?'}
+              </Button>
+            </CircleMemberLink>
 
             {last && onEdit && (
               <IconButton

@@ -7,9 +7,10 @@ import {
 } from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
+import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import ComboboxItem from '../../atoms/ComboboxItem'
-import { SearchItem } from './searchItems'
+import { SearchItem, SearchItemTypes } from './searchItems'
 import { useSearch } from './useSearch'
 import { SearchOptions, useSearchItems } from './useSearchItems'
 
@@ -21,19 +22,24 @@ const searchOptions: SearchOptions = {
   circleMembers: true,
 }
 
-interface ComboboxProps {
-  onSelect(item: SearchItem): void
-}
-
-export default function SearchCombobox({ onSelect }: ComboboxProps) {
+export default function HeaderSearchCombobox() {
   const items = useSearchItems(searchOptions)
   const { filteredItems, onInputValueChange } = useSearch(items, true)
+  const circleMemberContext = useContext(CircleMemberContext)
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
-      onSelect(item)
+
+      if (item.type === SearchItemTypes.Member) {
+        circleMemberContext?.goTo(undefined, item.member.id)
+      } else if (item.type === SearchItemTypes.Circle) {
+        circleMemberContext?.goTo(item.circle.id)
+      } else if (item.type === SearchItemTypes.CircleMember) {
+        circleMemberContext?.goTo(item.circle.id, item.member.id)
+      }
+
       selectItem(undefined as any)
       setInputValue('')
     },

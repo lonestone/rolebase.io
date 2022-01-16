@@ -175,7 +175,7 @@ export default function MeetingContent({ id, onClose, ...boxProps }: Props) {
           />
         )}
 
-        {circle && <CircleButton circle={circle} modal ml={5} />}
+        {circle && <CircleButton circle={circle} ml={5} />}
 
         <ParticipantsNumber participants={participants} ml={1} />
       </Flex>

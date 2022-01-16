@@ -1,15 +1,8 @@
-import {
-  Avatar,
-  LinkOverlay,
-  LinkOverlayProps,
-  useDisclosure,
-} from '@chakra-ui/react'
-import MemberModal from '@components/organisms/modals/MemberModal'
-import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import { Avatar, LinkOverlay, LinkOverlayProps } from '@chakra-ui/react'
 import { MemberEntry } from '@shared/member'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
+import useCircleMemberLink from './useCircleMemberLink'
 
 interface Props extends LinkOverlayProps {
   member: MemberEntry
@@ -19,9 +12,7 @@ export default function MemberLinkOverlay({
   member,
   ...linkOverlayProps
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const handleOpen = useNormalClickHandler(onOpen)
+  const link = useCircleMemberLink(undefined, member.id)
 
   return (
     <>
@@ -30,8 +21,7 @@ export default function MemberLinkOverlay({
         flex={1}
         display="flex"
         alignItems="center"
-        to={`/orgs/${orgId}?memberId=${member.id}`}
-        onClick={handleOpen}
+        {...link}
         {...linkOverlayProps}
       >
         <Avatar
@@ -42,8 +32,6 @@ export default function MemberLinkOverlay({
         />
         {member.name}
       </LinkOverlay>
-
-      {isOpen && <MemberModal id={member.id} isOpen onClose={onClose} />}
     </>
   )
 }

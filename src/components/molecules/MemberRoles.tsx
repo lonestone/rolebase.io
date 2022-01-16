@@ -2,22 +2,19 @@ import { Accordion, ExpandedIndex } from '@chakra-ui/react'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
+import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import MemberRoleItem from './MemberRoleItem'
 
 interface Props {
   memberId: string
   selectedCircleId?: string
-  onCircleChange?(circleId: string | undefined): void
 }
 
-export default function MemberRoles({
-  memberId,
-  selectedCircleId,
-  onCircleChange,
-}: Props) {
+export default function MemberRoles({ memberId, selectedCircleId }: Props) {
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
+  const circleMemberContext = useContext(CircleMemberContext)
 
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
@@ -50,15 +47,15 @@ export default function MemberRoles({
     (index: ExpandedIndex) => {
       if (typeof index !== 'number') return
       if (index === -1) {
-        onCircleChange?.(undefined)
+        circleMemberContext?.goTo(undefined, memberId)
       } else {
         const memberCircle = memberCircles[index]
         if (!memberCircle) return
         const circle = memberCircle[memberCircle.length - 1]
-        onCircleChange?.(circle.id)
+        circleMemberContext?.goTo(circle.id, memberId)
       }
     },
-    [selectedCircleIndex, memberCircles, onCircleChange]
+    [selectedCircleIndex, memberCircles]
   )
 
   return (

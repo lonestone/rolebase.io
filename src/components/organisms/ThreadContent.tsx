@@ -93,7 +93,7 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
           onClick={onEditOpen}
         />
 
-        {circle && <CircleButton circle={circle} modal ml={5} />}
+        {circle && <CircleButton circle={circle} ml={5} />}
 
         <ParticipantsNumber participants={participants} ml={1} />
       </Flex>

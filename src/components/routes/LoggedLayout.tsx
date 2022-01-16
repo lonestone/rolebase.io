@@ -2,11 +2,13 @@ import { Flex } from '@chakra-ui/react'
 import Header from '@components/organisms/Header'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
+import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
 
 const LoggedLayout: React.FC = ({ children }) => {
   const userId = useStoreState((state) => state.auth.user?.id)
   const claims = useStoreState((state) => state.auth.claims)
 
+  // Get orgs ids from user claims
   const orgIds = useMemo(
     () =>
       claims &&
@@ -16,11 +18,11 @@ const LoggedLayout: React.FC = ({ children }) => {
     [claims]
   )
 
+  // Subscribe to orgs
   const actions = useStoreActions((actions) => ({
     subscribeOrgs: actions.orgs.subscribe,
     unsubscribeOrgs: actions.orgs.unsubscribe,
   }))
-
   useEffect(() => {
     if (!userId || !orgIds?.length) return
     actions.subscribeOrgs(orgIds)
@@ -30,10 +32,12 @@ const LoggedLayout: React.FC = ({ children }) => {
   }, [userId, orgIds])
 
   return (
-    <Flex h="0" minH="100vh" flexDirection="column">
-      <Header />
-      {children}
-    </Flex>
+    <CircleMemberProvider>
+      <Flex h="0" minH="100vh" flexDirection="column">
+        <Header />
+        {children}
+      </Flex>
+    </CircleMemberProvider>
   )
 }
 

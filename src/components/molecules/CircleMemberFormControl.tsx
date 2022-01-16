@@ -2,7 +2,6 @@ import { addMemberToCircle } from '@api/entities/circles'
 import { FormControl, FormLabel, useDisclosure } from '@chakra-ui/react'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
 import useCircleAndParents from '@hooks/useCircleAndParents'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, { useCallback, useMemo, useState } from 'react'
 import MembersMultiSelect from './MembersMultiSelect'
 
@@ -40,25 +39,16 @@ export default function CircleMemberFormControl({ circleId }: Props) {
     onClose: onDeleteCircleMemberClose,
   } = useDisclosure()
 
-  // Go to member panel
-  const navigateOrg = useNavigateOrg()
-  const navigateToCircleMember = useCallback(
-    (memberId: string) => {
-      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`)
-    },
-    [circleId]
-  )
-
   return (
     <FormControl>
       <FormLabel>{role?.singleMember ? 'Occupé par :' : 'Membres :'}</FormLabel>
       {circle && membersIds && (
         <MembersMultiSelect
+          circleId={circleId}
           membersIds={membersIds}
           max={role?.singleMember ? 1 : undefined}
           onAdd={handleAddMember}
           onRemove={handleRemoveMember}
-          onClick={navigateToCircleMember}
         />
       )}
 

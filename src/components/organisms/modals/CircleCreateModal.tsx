@@ -17,10 +17,10 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -43,7 +43,7 @@ export default function CircleCreateModal({
   singleMember,
   ...modalProps
 }: Props) {
-  const navigateOrg = useNavigateOrg()
+  const circleMemberContext = useContext(CircleMemberContext)
   const orgId = useStoreState((state) => state.orgs.currentId)
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
@@ -78,7 +78,7 @@ export default function CircleCreateModal({
       if (!orgId) return
       modalProps.onClose()
       const circle = await createCircle({ orgId, roleId, parentId })
-      navigateOrg(`?circleId=${circle.id}`)
+      circleMemberContext?.goTo(circle.id)
     },
     [orgId, parentId]
   )

@@ -22,14 +22,9 @@ import MemberEditModal from './MemberEditModal'
 interface Props {
   id: string
   selectedCircleId?: string
-  onCircleSelect?(circleId: string | undefined): void
 }
 
-export default function MemberModalContent({
-  id,
-  selectedCircleId,
-  onCircleSelect,
-}: Props) {
+export default function MemberModalContent({ id, selectedCircleId }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const member = useMember(id)
   const role = useOrgRole()
@@ -72,11 +67,7 @@ export default function MemberModalContent({
       <ModalBody pb={5}>
         <FormControl>
           <FormLabel>Rôles</FormLabel>
-          <MemberRoles
-            memberId={id}
-            selectedCircleId={selectedCircleId}
-            onCircleChange={onCircleSelect}
-          />
+          <MemberRoles memberId={id} selectedCircleId={selectedCircleId} />
         </FormControl>
       </ModalBody>
 

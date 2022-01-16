@@ -1,35 +1,18 @@
-import { Link, useDisclosure } from '@chakra-ui/react'
-import MemberModal from '@components/organisms/modals/MemberModal'
-import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import { Button } from '@chakra-ui/react'
 import { MemberEntry } from '@shared/member'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
-import { Link as ReachLink } from 'react-router-dom'
+import CircleMemberLink from './CircleMemberLink'
 
 interface Props {
   member: MemberEntry
 }
 
 export default function MemberLink({ member }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const handleOpen = useNormalClickHandler(onOpen)
-
   return (
-    <>
-      <Link
-        as={ReachLink}
-        fontWeight="bold"
-        textDecoration="none"
-        to={`/orgs/${orgId}?memberId=${member.id}`}
-        onClick={handleOpen}
-      >
+    <CircleMemberLink memberId={member.id}>
+      <Button variant="link" color="black" textDecoration="none">
         {member.name}
-      </Link>
-
-      {isOpen && member && (
-        <MemberModal id={member.id} isOpen onClose={onClose} />
-      )}
-    </>
+      </Button>
+    </CircleMemberLink>
   )
 }

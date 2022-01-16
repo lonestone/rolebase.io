@@ -5,16 +5,9 @@ import CircleButton from './CircleButton'
 
 interface Props extends ButtonProps {
   circleId: string
-  modal?: boolean
 }
 
-export default function CircleByIdButton({
-  circleId,
-  modal,
-  ...buttonProps
-}: Props) {
+export default function CircleByIdButton({ circleId, ...buttonProps }: Props) {
   const circle = useCircle(circleId)
-  return circle ? (
-    <CircleButton circle={circle} modal={modal} {...buttonProps} />
-  ) : null
+  return circle ? <CircleButton circle={circle} {...buttonProps} /> : null
 }

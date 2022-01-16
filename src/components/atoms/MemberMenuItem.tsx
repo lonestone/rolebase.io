@@ -6,13 +6,11 @@ import React, { useMemo } from 'react'
 interface Props extends MenuItemProps {
   member: MemberEntry
   circlesIds?: string[]
-  onClick(): void
 }
 
 export default function MemberMenuItem({
   member,
   circlesIds,
-  onClick,
   ...menuItemProps
 }: Props) {
   const circles = useStoreState((state) => state.circles.entries)
@@ -30,7 +28,7 @@ export default function MemberMenuItem({
   )
 
   return (
-    <MenuItem onClick={onClick} {...menuItemProps}>
+    <MenuItem {...menuItemProps}>
       <Avatar
         name={member.name}
         src={member.picture || undefined}

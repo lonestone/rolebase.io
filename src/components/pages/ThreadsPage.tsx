@@ -135,7 +135,7 @@ export default function ThreadsPage() {
                   thread={thread}
                   fontWeight={thread.read !== false ? 'normal' : 'bold'}
                 />
-                <CircleByIdButton circleId={thread.circleId} modal />
+                <CircleByIdButton circleId={thread.circleId} />
               </HStack>
             </LinkBox>
           ))}

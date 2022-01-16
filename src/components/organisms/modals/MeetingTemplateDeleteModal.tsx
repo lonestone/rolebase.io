@@ -14,7 +14,7 @@ import { MeetingTempalteEntry } from '@shared/meetingTemplate'
 import React from 'react'
 
 interface Props
-  extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
+  extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
   meetingTemplate: MeetingTempalteEntry
   onDelete?(): void
 }

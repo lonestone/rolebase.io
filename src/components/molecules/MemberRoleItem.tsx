@@ -13,6 +13,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
@@ -112,14 +113,11 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                 </FormControl>
 
                 <Box textAlign="right">
-                  <Button
-                    size="sm"
-                    colorScheme="blue"
-                    variant="ghost"
-                    onClick={() => navigateOrg(`?circleId=${roleCircle.id}`)}
-                  >
-                    Voir
-                  </Button>
+                  <CircleMemberLink circleId={roleCircle.id}>
+                    <Button size="sm" colorScheme="blue" variant="ghost">
+                      Voir
+                    </Button>
+                  </CircleMemberLink>
                   <Button
                     size="sm"
                     colorScheme="blue"

@@ -8,9 +8,9 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import MemberModal from '@components/organisms/modals/MemberModal'
 import { ParticipantMember } from '@hooks/useParticipants'
 import React, { useMemo, useState } from 'react'
+import CircleMemberLink from './CircleMemberLink'
 import MemberMenuItem from './MemberMenuItem'
 
 interface Props extends MenuButtonProps {
@@ -60,27 +60,15 @@ export default function ParticipantsNumber({
       </MenuButton>
       <MenuList shadow="lg" zIndex={10}>
         {participants.map(({ member, circlesIds }, i) => (
-          <MemberMenuItem
+          <CircleMemberLink
             key={member.id}
-            member={member}
-            circlesIds={circlesIds}
-            onClick={() => {
-              setMemberId(member.id)
-              setCircleId(circlesIds[0])
-              onOpen()
-            }}
-          />
+            memberId={member.id}
+            circleId={circlesIds[0]}
+          >
+            <MemberMenuItem member={member} circlesIds={circlesIds} />
+          </CircleMemberLink>
         ))}
       </MenuList>
-
-      {isOpen && memberId && (
-        <MemberModal
-          id={memberId}
-          defaultSelectedCircleId={circleId}
-          isOpen
-          onClose={onClose}
-        />
-      )}
     </Menu>
   )
 }

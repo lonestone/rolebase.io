@@ -8,28 +8,17 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  useDisclosure,
 } from '@chakra-ui/react'
-import MemberModal from '@components/organisms/modals/MemberModal'
+import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import useCurrentMember from '@hooks/useCurrentMember'
-import useCurrentOrg from '@hooks/useCurrentOrg'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 
 export default function UserMenu(props: MenuButtonProps) {
   const user = useStoreState((state) => state.auth.user)
   const member = useCurrentMember()
-  const navigateOrg = useNavigateOrg()
-  const org = useCurrentOrg()
 
   const { name, picture } = member || user || { name: '?', picture: '' }
-
-  const {
-    isOpen: isMemberOpen,
-    onOpen: onMemberOpen,
-    onClose: onMemberClose,
-  } = useDisclosure()
 
   if (!user) return null
   return (
@@ -40,15 +29,13 @@ export default function UserMenu(props: MenuButtonProps) {
       <Portal>
         <MenuList zIndex={10} shadow="lg">
           {member && (
-            <MenuItem onClick={onMemberOpen}>Ma fiche membre</MenuItem>
+            <CircleMemberLink memberId={member.id}>
+              <MenuItem>Ma fiche membre</MenuItem>
+            </CircleMemberLink>
           )}
           <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
         </MenuList>
       </Portal>
-
-      {isMemberOpen && member && (
-        <MemberModal id={member.id} isOpen onClose={onMemberClose} />
-      )}
     </Menu>
   )
 }

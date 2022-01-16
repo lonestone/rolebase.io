@@ -1,5 +1,6 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { ButtonGroup, IconButton, Wrap, WrapItem } from '@chakra-ui/react'
+import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import MemberButton from '@components/atoms/MemberButton'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
@@ -9,19 +10,19 @@ import SearchButtonCombobox from './search/SearchButtonCombobox'
 import { SearchItem, SearchItemTypes } from './search/searchItems'
 
 interface Props {
+  circleId?: string // Used for member link
   membersIds: string[]
   max?: number
   onAdd(memberId: string): void
   onRemove(memberId: string): void
-  onClick?(memberId: string): void
 }
 
 export default function MembersMultiSelect({
+  circleId,
   membersIds,
   max,
   onAdd,
   onRemove,
-  onClick,
 }: Props) {
   const members = useStoreState((state) => state.members.entries)
 
@@ -48,7 +49,9 @@ export default function MembersMultiSelect({
       {selectedMembers.map((m) => (
         <WrapItem key={m.id}>
           <ButtonGroup size="sm" isAttached>
-            <MemberButton member={m} onClick={() => onClick && onClick(m.id)} />
+            <CircleMemberLink memberId={m.id} circleId={circleId}>
+              <MemberButton member={m} />
+            </CircleMemberLink>
             <IconButton
               aria-label=""
               icon={<CloseIcon />}

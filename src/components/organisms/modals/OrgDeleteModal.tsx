@@ -14,7 +14,7 @@ import useOrg from '@hooks/useOrg'
 import React from 'react'
 
 interface Props
-  extends Omit<Omit<AlertDialogProps, 'children'>, 'leastDestructiveRef'> {
+  extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
   id: string
   onDelete(): void
 }

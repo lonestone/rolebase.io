@@ -35,7 +35,7 @@ export default function ThreadActivityDecision({ activity }: Props) {
           <Text fontWeight="bold" mr={6}>
             Décision
           </Text>
-          <CircleByIdButton circleId={activity.circleId} modal />
+          <CircleByIdButton circleId={activity.circleId} />
         </HStack>
         <VStack spacing={3} p={3} align="stretch">
           <Markdown flex={1} fontSize="1.2rem" fontWeight={500}>

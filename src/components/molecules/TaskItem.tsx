@@ -47,7 +47,7 @@ export default function TaskItem({ task, showCircle }: Props) {
             })}
           </Text>
         )}
-        {showCircle && <CircleByIdButton circleId={task.circleId} modal />}
+        {showCircle && <CircleByIdButton circleId={task.circleId} />}
       </HStack>
     </LinkBox>
   )
