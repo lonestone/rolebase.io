@@ -32,8 +32,6 @@ export default function VacantRolesModal(modalProps: UseModalProps) {
     )
   }, [circles, roles])
 
-  if (!vacantCircles?.length) return null
-
   return (
     <Modal {...modalProps}>
       <ModalOverlay />
