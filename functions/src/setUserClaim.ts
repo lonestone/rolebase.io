@@ -21,5 +21,5 @@ export async function setUserClaim(
   }
 
   // Save claims
-  auth.setCustomUserClaims(userId, claims)
+  await auth.setCustomUserClaims(userId, claims)
 }

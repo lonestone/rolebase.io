@@ -9,7 +9,7 @@ export const migration: express.RequestHandler = async (req, res) => {
   const usersClaims: Record<string, UserClaims> = {}
 
   const membersSnapshot = await collections.members.get()
-  membersSnapshot.docs.forEach((memberDoc) => {
+  for (const memberDoc of membersSnapshot.docs) {
     const member = memberDoc.data()
     if (member.userId) {
       if (!usersClaims[member.userId]) {
@@ -18,14 +18,14 @@ export const migration: express.RequestHandler = async (req, res) => {
       const role = ClaimRole.Admin
 
       // Add role to member
-      memberDoc.ref.update({ role })
+      await memberDoc.ref.update({ role })
       usersClaims[member.userId][`org-${member.orgId}`] = role
     }
-  })
+  }
 
   for (const userId in usersClaims) {
     if (!usersClaims[userId]) continue
-    auth.setCustomUserClaims(userId, usersClaims[userId])
+    await auth.setCustomUserClaims(userId, usersClaims[userId])
   }
 
   res.send('ok')

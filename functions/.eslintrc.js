@@ -33,5 +33,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     'max-len': 'off',
     'operator-linebreak': 'off',
+    '@typescript-eslint/no-floating-promises': ['error'],
   },
 }
