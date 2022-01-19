@@ -45,8 +45,8 @@ export default function VacantRolesModal(modalProps: UseModalProps) {
           ) : (
             <UnorderedList>
               {vacantCircles.map((circle) => (
-                <ListItem>
-                  <CircleAndParentsButton key={circle.id} id={circle.id} />
+                <ListItem key={circle.id}>
+                  <CircleAndParentsButton id={circle.id} />
                 </ListItem>
               ))}
             </UnorderedList>
