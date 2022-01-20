@@ -15,9 +15,10 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useStoreState } from '@store/hooks'
+import { useStoreActions, useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 
 interface Values {
@@ -32,6 +33,8 @@ const resolver = yupResolver(
 
 export default function OrgCreateModal(modalProps: UseModalProps) {
   const user = useStoreState((state) => state.auth.user)
+  const refreshClaims = useStoreActions((actions) => actions.auth.refreshClaims)
+  const history = useHistory()
 
   const {
     handleSubmit,
@@ -49,7 +52,12 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
     modalProps.onClose()
 
     // Create org
-    await createOrg(name)
+    const orgId = await createOrg(name)
+
+    // Refresh user claims
+    await refreshClaims()
+
+    history.push(`/orgs/${orgId}`)
   })
 
   return (

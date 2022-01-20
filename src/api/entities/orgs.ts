@@ -20,6 +20,9 @@ export const subscribeOrgs = memoize(
     return stackSubscribe((onData, onError) => {
       const unsubscribeHandlers: Function[] = []
       const chunksData: OrgEntry[][] = []
+      const nChunks = Math.ceil(ids.length / 10)
+
+      // Subscribe by chunks of 10 ids
       for (let i = 0; i < ids.length; i += 10) {
         const subscribe = subscribeQuery(
           collection
@@ -30,10 +33,15 @@ export const subscribeOrgs = memoize(
             )
             .where('archived', '==', archived)
         )
+
         const unsubscribe = subscribe((data) => {
           chunksData[i] = data
-          onData(chunksData.flat().sort((a, b) => (a.name < b.name ? -1 : 1)))
+          // Update data if all chunks are received
+          if (chunksData.filter(Boolean).length === nChunks) {
+            onData(chunksData.flat().sort((a, b) => (a.name < b.name ? -1 : 1)))
+          }
         }, onError)
+
         unsubscribeHandlers.push(unsubscribe)
       }
       return () => {
@@ -44,8 +52,9 @@ export const subscribeOrgs = memoize(
   }
 )
 
-export async function createOrg(name: string): Promise<void> {
-  await functions.httpsCallable('createOrg')({
+export async function createOrg(name: string): Promise<string> {
+  const { data: id } = await functions.httpsCallable('createOrg')({
     name,
   })
+  return id
 }
