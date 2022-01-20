@@ -46,6 +46,7 @@ import { MeetingEntry } from '@shared/meeting'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
+import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FiEdit3, FiHelpCircle } from 'react-icons/fi'
@@ -133,6 +134,7 @@ export default function MeetingEditModal({
           ended: false,
           stepsConfig: [
             {
+              id: nanoid(5),
               type: MeetingStepTypes.Threads,
               title: 'Ordre du jour',
             },
@@ -319,6 +321,7 @@ export default function MeetingEditModal({
                 <Box mt={2}>
                   <MembersMultiSelect
                     membersIds={participantsMembersIds}
+                    excludeMembersIds={participants.map((p) => p.member.id)}
                     onAdd={addParticipant}
                     onRemove={removeParticipant}
                   />

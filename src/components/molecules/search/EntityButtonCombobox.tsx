@@ -1,4 +1,10 @@
-import { Box, Input, InputGroup, ListItem } from '@chakra-ui/react'
+import {
+  Box,
+  Input,
+  InputGroup,
+  ListItem,
+  useColorMode,
+} from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useMemo, useRef } from 'react'
@@ -21,6 +27,7 @@ export default function EntityButtonCombobox({
   onChange,
   ...options
 }: Props) {
+  const { colorMode } = useColorMode()
   const items = useSearchItems(options)
   const { filteredItems, onInputValueChange } = useSearch(items, false)
 
@@ -119,6 +126,8 @@ export default function EntityButtonCombobox({
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
               size={size}
+              bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
+              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
               shadow="md"
             />
           </ListItem>

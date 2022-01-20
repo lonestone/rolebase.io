@@ -1,5 +1,62 @@
 /*** Fullcalendar cutomizations ***/
 
+:root {
+  --fc-small-font-size: 0.85em;
+  --fc-event-resizer-thickness: 8px;
+  --fc-event-resizer-dot-total-width: 8px;
+  --fc-event-resizer-dot-border-width: 1px;
+  --fc-daygrid-event-dot-width: 8px;
+  --fc-list-event-dot-width: 10px;
+
+  --fc-button-border-color: transparent;
+  --fc-button-hover-border-color: transparent;
+  --fc-button-active-border-color: transparent;
+
+  --fc-event-bg-color: #3788d8;
+  --fc-event-border-color: #3788d8;
+  --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
+
+  --fc-more-link-bg-color: #d0d0d0;
+  --fc-more-link-text-color: inherit;
+
+  --fc-bg-event-opacity: 0.3;
+  --fc-non-business-color: rgba(215, 215, 215, 0.3);
+  --fc-bg-event-color: rgb(143, 223, 130);
+  --fc-highlight-color: rgba(188, 232, 241, 0.3);
+  --fc-today-bg-color: rgba(255, 220, 40, 0.15);
+  --fc-now-indicator-color: red;
+}
+
+.chakra-ui-light {
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: #edf2f7;
+  --fc-neutral-text-color: #808080;
+  --fc-border-color: #d7dce0;
+  --fc-event-text-color: #1a202c;
+  --fc-button-text-color: #1a202c;
+
+  --fc-button-bg-color: #edf2f7;
+  --fc-button-hover-bg-color: #e2e8f0;
+  --fc-button-active-bg-color: hsl(214deg 32% 84%);
+
+  --fc-list-event-hover-bg-color: #fafafa;
+}
+
+.chakra-ui-dark {
+  --fc-page-bg-color: transparent;
+  --fc-neutral-text-color: #808080;
+  --fc-neutral-bg-color: #2d3748;
+  --fc-border-color: #2d3748;
+  --fc-event-text-color: rgba(255, 255, 255, 0.92);
+  --fc-button-text-color: rgba(255, 255, 255, 0.92);
+
+  --fc-button-bg-color: rgba(255, 255, 255, 0.08);
+  --fc-button-hover-bg-color: rgba(255, 255, 255, 0.16);
+  --fc-button-active-bg-color: rgba(255, 255, 255, 0.24);
+
+  --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
+}
+
 /* Event */
 .fc-event {
   cursor: pointer;
@@ -10,11 +67,6 @@
 a.fc-event:hover {
   border-color: #bbb;
 }
-.fc-daygrid-dot-event:hover,
-.fc-daygrid-dot-event.fc-event-mirror,
-.fc .fc-list-event:hover td {
-  background: #fafafa;
-}
 
 /* Title */
 .fc .fc-toolbar-title {
@@ -23,19 +75,14 @@ a.fc-event:hover {
 
 /* Button */
 .fc .fc-button {
-  color: inherit;
   border-radius: 0.375rem;
   border-color: transparent;
 }
 .fc .fc-button-primary,
 .fc .fc-button-primary:disabled {
-  color: inherit;
-  background-color: #edf2f7;
   border-color: transparent;
 }
 .fc .fc-button-primary:hover {
-  color: inherit;
-  background-color: #e2e8f0;
   border-color: transparent;
 }
 
@@ -43,7 +90,6 @@ a.fc-event:hover {
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
   color: inherit;
-  background-color: hsl(214deg 32% 84%);
   border-color: transparent;
 }
 
@@ -52,7 +98,7 @@ a.fc-event:hover {
 .fc .fc-button-primary:focus,
 .fc .fc-button-primary:not(:disabled):active:focus,
 .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
-  box-shadow: 0 0 0 3px rgb(66 153 225 / 60%);
+  box-shadow: 0 0 3px 0px rgb(0 0 0);
 }
 
 /* Margins */

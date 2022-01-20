@@ -1,6 +1,5 @@
 import { Flex, Heading, Spacer, useColorMode } from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
-import ColorModeToggle from '@components/molecules/ColorModeToggle'
 import OrgMenu from '@components/molecules/OrgMenu'
 import HeaderSearchCombobox from '@components/molecules/search/HeaderSearchCombobox'
 import UserMenu from '@components/molecules/UserMenu'
@@ -28,7 +27,7 @@ export default function Header() {
       px={1}
       bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
       shadow="md"
-      zIndex={1}
+      zIndex={1000}
     >
       {org && (
         <>
@@ -68,8 +67,6 @@ export default function Header() {
       <Spacer />
 
       {org && <HeaderSearchCombobox />}
-
-      <ColorModeToggle ml={2} />
 
       <UserMenu ml={2} />
     </Flex>

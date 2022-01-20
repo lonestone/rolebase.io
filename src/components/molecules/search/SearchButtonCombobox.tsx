@@ -4,6 +4,7 @@ import {
   InputGroup,
   InputLeftElement,
   ListItem,
+  useColorMode,
 } from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
@@ -29,6 +30,7 @@ export default function SearchButtonCombobox({
   onSelect,
   ...options
 }: Props) {
+  const { colorMode } = useColorMode()
   const items = useSearchItems(options)
   const { filteredItems, onInputValueChange } = useSearch(items, false)
 
@@ -117,6 +119,8 @@ export default function SearchButtonCombobox({
               {...getItemProps({ item, index })}
               size={size}
               shadow="md"
+              bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
+              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
             />
           </ListItem>
         ))}

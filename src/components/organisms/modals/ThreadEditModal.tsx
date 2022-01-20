@@ -171,6 +171,7 @@ export default function ThreadEditModal({
                 <Box mt={2}>
                   <MembersMultiSelect
                     membersIds={participantsMembersIds}
+                    excludeMembersIds={participants.map((p) => p.member.id)}
                     onAdd={addParticipant}
                     onRemove={removeParticipant}
                   />

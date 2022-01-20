@@ -5,6 +5,7 @@ import {
 import {
   Box,
   Button,
+  ColorMode,
   Flex,
   Heading,
   Menu,
@@ -13,6 +14,7 @@ import {
   MenuList,
   MenuOptionGroup,
   Spacer,
+  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
@@ -40,16 +42,16 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
 import { mainColor } from 'src/theme'
 
-const colors = {
-  text: 'black',
-  bgNotStarted: mainColor('85%'),
-  bgStarted: 'hsl(144deg 76% 85%)',
-  bgEnded: 'hsl(192deg 34% 92%)',
-  border: 'transparent',
-  bgCircleName: mainColor('93%'),
-}
+const getColors = (mode: ColorMode) => ({
+  bgNotStarted: mode === 'light' ? mainColor('85%') : mainColor('25%'),
+  bgStarted: mode === 'light' ? 'hsl(144deg 76% 85%)' : 'hsl(144deg 76% 25%)',
+  bgEnded: mode === 'light' ? 'hsl(192deg 34% 92%)' : 'hsl(192deg 34% 18%)',
+  bgCircleName: mode === 'light' ? mainColor('93%') : mainColor('17%'),
+})
 
 export default function MeetingsPage() {
+  const { colorMode } = useColorMode()
+  const colors = useMemo(() => getColors(colorMode), [colorMode])
   const getCircleById = useStoreState((state) => state.circles.getById)
   const roles = useStoreState((state) => state.roles.entries)
 
@@ -108,14 +110,13 @@ export default function MeetingsPage() {
             : meeting.currentStepId !== null
             ? colors.bgStarted
             : colors.bgNotStarted,
-          textColor: colors.text,
           extendedProps: {
             roleName,
           },
           editable: canEditConfig,
         }
       }),
-    [meetings, roles]
+    [meetings, roles, colors]
   )
 
   // Customize event title
@@ -147,7 +148,7 @@ export default function MeetingsPage() {
           </div>`,
       }
     },
-    [roles]
+    [roles, colors]
   )
 
   const handleCreate = useCallback(() => {

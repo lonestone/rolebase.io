@@ -71,7 +71,7 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
         pb={2}
         pr="8rem"
         position="relative"
-        zIndex={0}
+        zIndex={1}
         boxShadow={
           isScrollable && scrollPosition !== ScrollPosition.Top
             ? '0 6px 11px -10px rgba(0,0,0,0.5)'
@@ -107,7 +107,7 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
       {thread && (
         <Box
           position="relative"
-          zIndex={0}
+          zIndex={1}
           boxShadow={
             isScrollable && scrollPosition !== ScrollPosition.Bottom
               ? '0 -6px 11px -10px rgba(0,0,0,0.5)'

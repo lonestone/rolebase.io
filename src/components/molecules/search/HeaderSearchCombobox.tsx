@@ -4,6 +4,7 @@ import {
   InputGroup,
   InputRightElement,
   ListItem,
+  useColorMode,
 } from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
@@ -23,6 +24,7 @@ const searchOptions: SearchOptions = {
 }
 
 export default function HeaderSearchCombobox() {
+  const { colorMode } = useColorMode()
   const items = useSearchItems(searchOptions)
   const { filteredItems, onInputValueChange } = useSearch(items, true)
   const circleMemberContext = useContext(CircleMemberContext)
@@ -90,7 +92,7 @@ export default function HeaderSearchCombobox() {
         isOpen={isOpen}
         {...getMenuProps()}
         position="absolute"
-        zIndex="2"
+        zIndex="1000"
         right="0"
         pointerEvents="none"
       >
@@ -101,6 +103,8 @@ export default function HeaderSearchCombobox() {
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
               shadow="md"
+              bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.600' }}
             />
           </ListItem>
         ))}

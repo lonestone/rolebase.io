@@ -12,6 +12,7 @@ import { SearchItem, SearchItemTypes } from './search/searchItems'
 interface Props {
   circleId?: string // Used for member link
   membersIds: string[]
+  excludeMembersIds?: string[]
   max?: number
   onAdd(memberId: string): void
   onRemove(memberId: string): void
@@ -20,11 +21,17 @@ interface Props {
 export default function MembersMultiSelect({
   circleId,
   membersIds,
+  excludeMembersIds,
   max,
   onAdd,
   onRemove,
 }: Props) {
   const members = useStoreState((state) => state.members.entries)
+  const excludeMembersIdsMemo = useMemo(
+    () =>
+      excludeMembersIds ? membersIds.concat(excludeMembersIds) : membersIds,
+    [membersIds, excludeMembersIds]
+  )
 
   // Get selected members
   const selectedMembers = useMemo(
@@ -65,7 +72,7 @@ export default function MembersMultiSelect({
         <WrapItem>
           <SearchButtonCombobox
             members
-            excludeIds={membersIds}
+            excludeIds={excludeMembersIdsMemo}
             size="sm"
             leftIcon={<FiPlus />}
             onSelect={handleAdd}

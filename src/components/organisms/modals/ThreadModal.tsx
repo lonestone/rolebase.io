@@ -23,9 +23,9 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
       <ModalOverlay />
       <ModalContent margin={0}>
         <Link to={`/orgs/${orgId}/threads/${id}`}>
-          <ModalMaximizeButton />
+          <ModalMaximizeButton zIndex={2} />
         </Link>
-        <ModalCloseButton zIndex={1} />
+        <ModalCloseButton zIndex={2} />
         <ThreadContent id={id} h="95vh" pt={2} />
       </ModalContent>
     </Modal>
