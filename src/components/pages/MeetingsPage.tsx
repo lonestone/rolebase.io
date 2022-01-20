@@ -38,14 +38,15 @@ import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
+import { mainColor } from 'src/theme'
 
 const colors = {
   text: 'black',
-  bgNotStarted: 'hsl(192deg 76% 85%)',
+  bgNotStarted: mainColor('85%'),
   bgStarted: 'hsl(144deg 76% 85%)',
   bgEnded: 'hsl(192deg 34% 92%)',
   border: 'transparent',
-  bgCircleName: 'hsl(192deg 76% 93%)',
+  bgCircleName: mainColor('93%'),
 }
 
 export default function MeetingsPage() {

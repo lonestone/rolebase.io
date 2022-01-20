@@ -1,5 +1,6 @@
-import { Flex, Heading, Spacer } from '@chakra-ui/react'
+import { Flex, Heading, Spacer, useColorMode } from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
+import ColorModeToggle from '@components/molecules/ColorModeToggle'
 import OrgMenu from '@components/molecules/OrgMenu'
 import HeaderSearchCombobox from '@components/molecules/search/HeaderSearchCombobox'
 import UserMenu from '@components/molecules/UserMenu'
@@ -16,6 +17,7 @@ import {
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)
   const org = useCurrentOrg()
+  const { colorMode } = useColorMode()
 
   if (!user) return null
   return (
@@ -24,7 +26,7 @@ export default function Header() {
       h="48px"
       alignItems="center"
       px={1}
-      bg="hsl(192deg 22% 95%)"
+      bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
       shadow="md"
       zIndex={1}
     >
@@ -66,6 +68,8 @@ export default function Header() {
       <Spacer />
 
       {org && <HeaderSearchCombobox />}
+
+      <ColorModeToggle ml={2} />
 
       <UserMenu ml={2} />
     </Flex>

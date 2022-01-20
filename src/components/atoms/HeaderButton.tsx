@@ -1,23 +1,31 @@
-import { Button, ButtonProps } from '@chakra-ui/react'
-import styled from '@emotion/styled'
+import { Button, ButtonProps, useColorMode } from '@chakra-ui/react'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Props extends ButtonProps {
   to: string
   exact?: boolean
 }
 
-const NavLinkStyled = styled(NavLink)`
-  &.active button {
-    background: white;
-  }
-`
-
 export default function HeaderButton({ to, exact, ...buttonProps }: Props) {
+  const { colorMode } = useColorMode()
+  const location = useLocation()
+
+  const isActive = exact
+    ? location.pathname === to
+    : location.pathname.startsWith(to)
+
   return (
-    <NavLinkStyled to={to} exact={exact} activeClassName="active" tabIndex={-1}>
-      <Button size="sm" bg="transparent" {...buttonProps} />
-    </NavLinkStyled>
+    <Link to={to} tabIndex={-1}>
+      <Button
+        size="sm"
+        isActive={isActive}
+        bg="transparent"
+        _active={{
+          bg: colorMode === 'light' ? 'white' : 'gray.800',
+        }}
+        {...buttonProps}
+      />
+    </Link>
   )
 }

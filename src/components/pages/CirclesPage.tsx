@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, useColorMode } from '@chakra-ui/react'
 import CirclePanel from '@components/organisms/panels/CirclePanel'
 import MemberPanel from '@components/organisms/panels/MemberPanel'
 import { useElementSize } from '@hooks/useElementSize'
@@ -19,6 +19,9 @@ enum Panels {
   Circle,
   Member,
 }
+
+// Make colorMode available for functions outside of React component
+export let lastColorMode: 'light' | 'dark' | undefined
 
 export default function CirclesPage() {
   useOverflowHidden()
@@ -57,10 +60,17 @@ export default function CirclesPage() {
     }
   }, [ready, JSON.stringify(queryParams)])
 
+  // Color mode
+  const { colorMode } = useColorMode()
+  if (colorMode !== lastColorMode) {
+    lastColorMode = colorMode
+  }
+
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
       {orgId && boxSize && (
         <CirclesGraph
+          key={colorMode}
           width={boxSize.width}
           height={boxSize.height}
           selectedCircleId={circleId}

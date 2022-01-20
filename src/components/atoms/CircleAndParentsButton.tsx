@@ -1,5 +1,11 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, BoxProps, Button, IconButton } from '@chakra-ui/react'
+import {
+  Box,
+  BoxProps,
+  Button,
+  IconButton,
+  useColorMode,
+} from '@chakra-ui/react'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import React from 'react'
 import { FiEdit3, FiTrash2 } from 'react-icons/fi'
@@ -17,6 +23,7 @@ export default function CircleAndParentsButton({
   onDelete,
   ...boxProps
 }: Props) {
+  const { colorMode } = useColorMode()
   const circleAndParents = useCircleAndParents(id)
   const circle = circleAndParents?.[circleAndParents.length - 1]
   if (!circle) return null
@@ -31,7 +38,13 @@ export default function CircleAndParentsButton({
 
             <CircleMemberLink circleId={c.id}>
               <Button
-                bg={last ? 'hsl(192deg 76% 87%)' : undefined}
+                bg={
+                  last
+                    ? colorMode === 'light'
+                      ? 'brand.700'
+                      : 'brand.300'
+                    : undefined
+                }
                 variant={last ? 'solid' : 'ghost'}
                 size={last ? 'md' : 'sm'}
                 borderRadius="full"

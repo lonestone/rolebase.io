@@ -12,6 +12,7 @@ import MeetingLinkOverlay from '@components/atoms/MeetingLinkOverlay'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
@@ -26,6 +27,7 @@ interface Props {
 
 export default function MeetingsInCircleList({ circleId }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const hover = useHoverItemStyle()
 
   const {
     data: meetings,
@@ -84,12 +86,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
                   </Text>
                 )}
 
-                <LinkBox
-                  key={meeting.id}
-                  px={2}
-                  py={1}
-                  _hover={{ background: '#fafafa' }}
-                >
+                <LinkBox key={meeting.id} px={2} py={1} _hover={hover}>
                   <HStack spacing={3} align="stretch" alignItems="center">
                     <FiCalendar />
                     <MeetingLinkOverlay meeting={meeting} />

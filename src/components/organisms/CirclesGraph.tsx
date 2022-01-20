@@ -4,10 +4,13 @@ import {
   moveCircle,
   moveCircleMember,
 } from '@api/entities/circles'
+import { useColorMode } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { mainColor } from 'src/theme'
+import { ColorModeProps, mode } from 'src/utils'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
 
 interface Props {
@@ -17,17 +20,29 @@ interface Props {
   onReady?(): void
 }
 
-const StyledSVG = styled.svg`
+const StyledSVG = styled.svg<ColorModeProps>`
   position: absolute;
   font: 10px sans-serif;
-  fill: #1a202c;
+  fill: ${mode('#1a202c', 'rgba(255, 255, 255, 0.92)')};
 
   [data-hover] circle {
-    stroke: hsl(192deg 75% calc(88% - (var(--depth) - 1) * 7%));
+    stroke: ${(p) =>
+      mainColor(
+        mode(
+          `calc(88% - (var(--depth) - 1) * 7%)`,
+          `calc(22% + (var(--depth) - 1) * 7%)`
+        )(p)
+      )};
     stroke-width: 2px;
   }
   [data-selected] circle {
-    stroke: hsl(192deg 75% calc(75% - (var(--depth) - 1) * 7%));
+    stroke: ${(p) =>
+      mainColor(
+        mode(
+          `calc(75% - (var(--depth) - 1) * 7%)`,
+          `calc(35% + (var(--depth) - 1) * 7%)`
+        )(p)
+      )};
     stroke-width: 2px;
   }
   [data-dragging] circle {
@@ -35,7 +50,7 @@ const StyledSVG = styled.svg`
     fill-opacity: 0.5;
   }
   [data-drag-target] circle {
-    stroke: hsl(192deg 75% 20%);
+    stroke: ${(p) => mainColor(mode('20%', '80%')(p))};
     stroke-width: 3px;
   }
 `
@@ -46,6 +61,8 @@ export default function CirclesGraph({
   selectedCircleId,
   onReady,
 }: Props) {
+  const { colorMode } = useColorMode()
+
   // Navigation
   const navigateOrg = useNavigateOrg()
 
@@ -153,6 +170,7 @@ export default function CirclesGraph({
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       textAnchor="middle"
+      colorMode={colorMode}
     ></StyledSVG>
   )
 }

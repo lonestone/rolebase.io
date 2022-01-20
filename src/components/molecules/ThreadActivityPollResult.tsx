@@ -1,4 +1,4 @@
-import { Box, Stack, StackItem, Tooltip } from '@chakra-ui/react'
+import { Box, Stack, StackItem, Tooltip, useColorMode } from '@chakra-ui/react'
 import { ActivityPoll, PollAnswer } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
@@ -10,6 +10,7 @@ interface Props {
 }
 
 function ThreadActivityPollResult({ activity, answers }: Props) {
+  const { colorMode } = useColorMode()
   const members = useStoreState((state) => state.members.entries)
 
   const results = useMemo(
@@ -64,7 +65,11 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
                 border="1px solid #3182ce"
                 borderRadius="md"
                 minW="200px"
-                bg={`linear-gradient(to right, #a6d1fa, #a6d1fa ${widthRatio}%, transparent ${widthRatio}%, transparent 75%);`}
+                bg={`linear-gradient(to right, ${
+                  colorMode === 'light'
+                    ? '#a6d1fa, #a6d1fa'
+                    : '#10497e, #10497e'
+                } ${widthRatio}%, transparent ${widthRatio}%, transparent 75%);`}
               >
                 {title}
               </Box>

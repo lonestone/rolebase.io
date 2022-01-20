@@ -16,6 +16,7 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { FiEdit3, FiPlus } from 'react-icons/fi'
@@ -25,6 +26,7 @@ export default function OrgsPage() {
   const orgs = useStoreState((state) => state.orgs.entries)
   const loading = useStoreState((state) => state.orgs.loading)
   const error = useStoreState((state) => state.orgs.error)
+  const hover = useHoverItemStyle()
 
   // Create modal
   const {
@@ -72,7 +74,7 @@ export default function OrgsPage() {
               borderWidth="1px"
               rounded="md"
               role="group"
-              _hover={{ background: '#fafafa' }}
+              _hover={hover}
             >
               <Heading size="md" my="2">
                 <Flex>

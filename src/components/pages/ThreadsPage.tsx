@@ -24,6 +24,7 @@ import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { EntityFilters } from '@shared/types'
@@ -33,6 +34,7 @@ import { FiChevronDown, FiMessageSquare, FiPlus } from 'react-icons/fi'
 
 export default function ThreadsPage() {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const hover = useHoverItemStyle()
 
   // Circles filter menu
   const {
@@ -123,12 +125,7 @@ export default function ThreadsPage() {
           {threads.length === 0 && <i>Aucune discussion.</i>}
 
           {threads.map((thread) => (
-            <LinkBox
-              key={thread.id}
-              px={2}
-              py={1}
-              _hover={{ background: '#fafafa' }}
-            >
+            <LinkBox key={thread.id} px={2} py={1} _hover={hover}>
               <HStack>
                 <FiMessageSquare />
                 <ThreadLinkOverlay

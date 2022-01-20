@@ -5,6 +5,7 @@ import {
   Link,
   Spacer,
   Text,
+  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
@@ -27,6 +28,7 @@ interface Props {
 
 export default function ThreadActivityPoll({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
+  const { colorMode } = useColorMode()
 
   // Edit modal
   const isUserOwner = userId === activity.userId
@@ -71,8 +73,23 @@ export default function ThreadActivityPoll({ activity }: Props) {
       activity={activity}
       onEdit={isUserOwner ? onEditOpen : undefined}
     >
-      <Box mt={3} borderLeft="2px solid #EDF2F7" borderRadius="lg" role="group">
-        <HStack background="gray.100" borderRadius="lg" h="40px" pl={3} pr={1}>
+      <Box
+        mt={3}
+        borderLeft={`2px solid ${
+          colorMode === 'light' ? '#EDF2F7' : 'rgba(255,255,255,0.05)'
+        }`}
+        borderRadius="lg"
+        role="group"
+      >
+        <HStack
+          background={
+            colorMode === 'light' ? '#EDF2F7' : 'rgba(255,255,255,0.05)'
+          }
+          borderRadius="lg"
+          h="40px"
+          pl={3}
+          pr={1}
+        >
           <Text fontWeight="bold" mr={6}>
             Sondage
           </Text>

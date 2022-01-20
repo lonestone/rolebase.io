@@ -18,6 +18,7 @@ import MemberLinkOverlay from '@components/atoms/MemberLinkOverlay'
 import MemberCreateModal from '@components/organisms/modals/MemberCreateModal'
 import MemberEditModal from '@components/organisms/modals/MemberEditModal'
 import MembersInviteModal from '@components/organisms/modals/MembersInviteModal'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
@@ -25,6 +26,7 @@ import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 
 export default function MembersPage() {
   const members = useStoreState((state) => state.members.entries)
+  const hover = useHoverItemStyle()
 
   // Create modal
   const {
@@ -101,12 +103,7 @@ export default function MembersPage() {
       </Flex>
 
       {filteredMembers?.map((member) => (
-        <LinkBox
-          key={member.id}
-          px={2}
-          py={1}
-          _hover={{ background: '#fafafa' }}
-        >
+        <LinkBox key={member.id} px={2} py={1} _hover={hover}>
           <HStack>
             <MemberLinkOverlay member={member} />
 

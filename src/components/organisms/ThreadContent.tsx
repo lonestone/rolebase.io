@@ -106,7 +106,6 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
 
       {thread && (
         <Box
-          bg="white"
           position="relative"
           zIndex={0}
           boxShadow={

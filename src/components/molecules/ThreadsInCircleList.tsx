@@ -10,6 +10,7 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { useStoreState } from '@store/hooks'
@@ -22,6 +23,7 @@ interface Props {
 
 export default function ThreadsInCircleList({ circleId }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const hover = useHoverItemStyle()
 
   // Subscribe to threads
   const { data, error, loading } = useSubscription(
@@ -52,12 +54,7 @@ export default function ThreadsInCircleList({ circleId }: Props) {
           {threads.length === 0 && <i>Aucune discussion pour le moment</i>}
 
           {threads.map((thread) => (
-            <LinkBox
-              key={thread.id}
-              px={2}
-              py={1}
-              _hover={{ background: '#fafafa' }}
-            >
+            <LinkBox key={thread.id} px={2} py={1} _hover={hover}>
               <HStack spacing={3} align="stretch" alignItems="center">
                 <FiMessageSquare />
                 <ThreadLinkOverlay

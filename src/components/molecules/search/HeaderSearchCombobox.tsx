@@ -70,7 +70,6 @@ export default function HeaderSearchCombobox() {
         <Input
           type="text"
           placeholder="Rechercher..."
-          bg="white"
           w="200px"
           borderRadius="md"
           onClick={() => openMenu()}

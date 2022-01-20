@@ -1,6 +1,7 @@
 import { Avatar, Box, Flex, IconButton, Text } from '@chakra-ui/react'
 import HourLink from '@components/atoms/HourLink'
 import MemberLink from '@components/atoms/MemberLink'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { ActivityEntry } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
@@ -23,14 +24,10 @@ export default function ThreadActivityLayout({
     () => members?.find((m) => m.userId === activity.userId),
     [activity.userId, members]
   )
+  const hover = useHoverItemStyle()
 
   return (
-    <Flex
-      id={activity.id}
-      p={3}
-      _hover={{ background: '#fafafa' }}
-      role="group"
-    >
+    <Flex id={activity.id} p={3} _hover={hover} role="group">
       <Avatar
         name={member?.name || '?'}
         src={member?.picture || undefined}

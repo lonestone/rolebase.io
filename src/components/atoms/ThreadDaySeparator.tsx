@@ -18,7 +18,6 @@ export default function ThreadDaySeparator({ date }: Props) {
         height="30px"
         lineHeight="30px"
         px="15px"
-        bg="white"
         border="1px solid #E2E8F0"
         borderRadius="full"
       >

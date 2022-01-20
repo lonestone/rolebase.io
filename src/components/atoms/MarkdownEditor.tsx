@@ -1,6 +1,7 @@
 import {
   FormControlOptions,
   IconButton,
+  useColorMode,
   useFormControl,
 } from '@chakra-ui/react'
 import styled from '@emotion/styled'
@@ -9,6 +10,7 @@ import { Options } from 'easymde'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { FaFont } from 'react-icons/fa'
 import SimpleMDE from 'react-simplemde-editor'
+import { ColorModeProps, mode } from 'src/utils'
 import BasicStyle from './BasicStyle'
 
 interface Props extends FormControlOptions {
@@ -24,23 +26,33 @@ interface Props extends FormControlOptions {
 // https://github.com/RIP21/react-simplemde-editor
 // https://github.com/Ionaru/easy-markdown-editor
 
-const StyledEditor = styled.div`
+const StyledEditor = styled.div<ColorModeProps>`
   .CodeMirror {
-    border-color: #e2e8f0;
+    color: inherit;
+    background: inherit;
+    border-color: ${mode('#e2e8f0', 'rgba(255, 255, 255, 0.16)')};
     border-radius: 6px;
     &.CodeMirror-focused {
-      border-color: #3182ce;
-      box-shadow: 0 0 0 1px #3182ce;
+      border-color: ${mode('#3182ce', '#63b3ed')};
+      box-shadow: 0 0 0 1px ${mode('#3182ce', '#63b3ed')};
     }
   }
   &[aria-invalid='true'] {
     .CodeMirror {
-      border-color: #e53e3e;
-      box-shadow: 0 0 0 1px #e53e3e;
+      border-color: ${mode('#e53e3e', '#FC8181')};
+      box-shadow: 0 0 0 1px ${mode('#e53e3e', '#FC8181')};
     }
+  }
+  pre.CodeMirror-placeholder {
+    color: ${mode('#868e96', '#959da7')};
   }
   .editor-toolbar {
     border: none;
+    button.active,
+    button:hover {
+      background: ${mode('#fcfcfc', '#4A5568')};
+      border-color: ${mode('##95a5a6', 'transparent')};
+    }
   }
 `
 
@@ -52,6 +64,7 @@ export default function MarkdownEditor({
   onSubmit,
 }: Props) {
   const formControlProps = useFormControl<HTMLInputElement>({})
+  const { colorMode } = useColorMode()
 
   // Show toolbar button when input is focused
   const [showToolbarButton, setShowToolbarButton] = useState(false)
@@ -140,7 +153,7 @@ export default function MarkdownEditor({
           onMouseDown={handleToggleToolbar}
         />
       )}
-      <StyledEditor {...formControlProps}>
+      <StyledEditor colorMode={colorMode} {...formControlProps}>
         <SimpleMDE
           value={value}
           onChange={onChange}

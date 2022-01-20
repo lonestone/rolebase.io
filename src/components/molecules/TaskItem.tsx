@@ -3,6 +3,7 @@ import { Timestamp } from '@api/firebase'
 import { Checkbox, HStack, LinkBox, Text, useToast } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { TaskEntry } from '@shared/task'
 import { formatRelative } from 'date-fns'
 import React, { useCallback } from 'react'
@@ -15,6 +16,7 @@ interface Props {
 
 export default function TaskItem({ task, showCircle }: Props) {
   const toast = useToast()
+  const hover = useHoverItemStyle()
 
   // Toggle done status of a task
   const handleToggleDone = useCallback(() => {
@@ -32,7 +34,7 @@ export default function TaskItem({ task, showCircle }: Props) {
   }, [task])
 
   return (
-    <LinkBox px={2} py={1} _hover={{ background: '#fafafa' }}>
+    <LinkBox px={2} py={1} _hover={hover}>
       <HStack>
         <Checkbox
           isChecked={!!task.doneDate}

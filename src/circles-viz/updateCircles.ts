@@ -221,8 +221,6 @@ export default function updateCircles(
           .attr('pointer-events', 'none')
           .attr('font-weight', 'bold')
           .attr('paint-order', 'stroke')
-          .attr('stroke', 'rgba(255,255,255,0.5)')
-          .attr('stroke-width', '2px')
           .attr('stroke-linecap', 'round')
           .attr('stroke-linejoin', 'round')
 

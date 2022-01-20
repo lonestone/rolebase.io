@@ -12,6 +12,7 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useColorMode,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -50,6 +51,7 @@ enum TabTypes {
 export default function CircleModalContent({ id }: Props) {
   const circle = useCircle(id)
   const role = circle?.role
+  const { colorMode } = useColorMode()
 
   // Parent circles and linked circle
   const parentCircle = useCircle(circle?.parentId || undefined)
@@ -123,7 +125,7 @@ export default function CircleModalContent({ id }: Props) {
                       mx={-3}
                       px={3}
                       py={2}
-                      bg="hsl(192deg 100% 97%)"
+                      bg={colorMode === 'light' ? 'brand.800' : 'brand.200'}
                       borderRadius="xl"
                     >
                       {role.purpose}

@@ -7,6 +7,7 @@ import { Box, HStack, IconButton, LinkBox, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
@@ -31,6 +32,7 @@ export default function ThreadsMultiSelect({
   onRemove,
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const hover = useHoverItemStyle()
 
   // Subscribe threads
   const subscribe = orgId
@@ -65,12 +67,7 @@ export default function ThreadsMultiSelect({
 
       <VStack spacing={0} align="stretch">
         {selectedThreads.map((thread) => (
-          <LinkBox
-            key={thread.id}
-            px={2}
-            py={1}
-            _hover={{ background: '#fafafa' }}
-          >
+          <LinkBox key={thread.id} px={2} py={1} _hover={hover}>
             <HStack spacing={3} align="stretch" alignItems="center">
               <FiMessageSquare />
               <ThreadLinkOverlay thread={thread} />

@@ -1,3 +1,4 @@
+import { ColorMode } from '@chakra-ui/react'
 import { format } from 'date-fns'
 
 export function capitalizeFirstLetter(str: string) {
@@ -8,3 +9,10 @@ export function capitalizeFirstLetter(str: string) {
 export function getDateTimeLocal(date: Date) {
   return format(date, "yyyy-MM-dd'T'HH:mm", {})
 }
+
+export interface ColorModeProps {
+  colorMode: ColorMode
+}
+
+export const mode = (light: string, dark: string) => (props: ColorModeProps) =>
+  props.colorMode === 'light' ? light : dark
