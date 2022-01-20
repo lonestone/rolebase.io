@@ -29,6 +29,7 @@ interface Props {
 export default function ThreadActivityPoll({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const { colorMode } = useColorMode()
+  const bgColor = colorMode === 'light' ? '#EDF2F7' : 'rgba(255,255,255,0.05)'
 
   // Edit modal
   const isUserOwner = userId === activity.userId
@@ -75,21 +76,11 @@ export default function ThreadActivityPoll({ activity }: Props) {
     >
       <Box
         mt={3}
-        borderLeft={`2px solid ${
-          colorMode === 'light' ? '#EDF2F7' : 'rgba(255,255,255,0.05)'
-        }`}
+        borderLeft={`2px solid ${bgColor}`}
         borderRadius="lg"
         role="group"
       >
-        <HStack
-          background={
-            colorMode === 'light' ? '#EDF2F7' : 'rgba(255,255,255,0.05)'
-          }
-          borderRadius="lg"
-          h="40px"
-          pl={3}
-          pr={1}
-        >
+        <HStack background={bgColor} borderRadius="lg" h="40px" pl={3} pr={1}>
           <Text fontWeight="bold" mr={6}>
             Sondage
           </Text>

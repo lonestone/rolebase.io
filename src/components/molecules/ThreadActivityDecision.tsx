@@ -1,4 +1,11 @@
-import { Box, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  HStack,
+  Text,
+  useColorMode,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Markdown from '@components/atoms/Markdown'
 import ThreadActivityLayout from '@components/atoms/ThreadActivityLayout'
@@ -14,6 +21,8 @@ interface Props {
 
 export default function ThreadActivityDecision({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
+  const { colorMode } = useColorMode()
+  const bgColor = colorMode === 'light' ? '#EDF2F7' : 'rgba(255,255,255,0.05)'
 
   // Edit modal
   const {
@@ -30,8 +39,13 @@ export default function ThreadActivityDecision({ activity }: Props) {
       activity={activity}
       onEdit={isUserOwner ? onEditOpen : undefined}
     >
-      <Box mt={3} borderLeft="2px solid #EDF2F7" borderRadius="lg" role="group">
-        <HStack background="gray.100" borderRadius="lg" h="40px" pl={3} pr={1}>
+      <Box
+        mt={3}
+        borderLeft={`2px solid ${bgColor}`}
+        borderRadius="lg"
+        role="group"
+      >
+        <HStack background={bgColor} borderRadius="lg" h="40px" pl={3} pr={1}>
           <Text fontWeight="bold" mr={6}>
             Décision
           </Text>

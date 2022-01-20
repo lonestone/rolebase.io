@@ -119,6 +119,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                     value={url}
                     readOnly
                     flex={1}
+                    pr="4.7rem"
                     onFocus={(e) => e.target.select()}
                   />
                   <InputRightElement width="4.5rem" mr="0.1rem">
