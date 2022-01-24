@@ -21,8 +21,13 @@ export default function HeaderButton({ to, exact, ...buttonProps }: Props) {
         size="sm"
         isActive={isActive}
         bg="transparent"
+        color={colorMode === 'light' ? 'gray.500' : 'gray.500'}
         _active={{
-          bg: colorMode === 'light' ? 'white' : 'gray.800',
+          color: colorMode === 'light' ? 'black' : 'white',
+        }}
+        _hover={{
+          color: colorMode === 'light' ? 'gray.550' : 'gray.400',
+          bg: 'transparent',
         }}
         {...buttonProps}
       />

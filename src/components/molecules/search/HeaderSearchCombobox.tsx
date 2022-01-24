@@ -103,8 +103,8 @@ export default function HeaderSearchCombobox() {
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
               shadow="md"
-              bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
-              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.600' }}
+              bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
+              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.550' }}
             />
           </ListItem>
         ))}

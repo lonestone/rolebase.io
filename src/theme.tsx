@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 
-export const mainColor = (lightness: string) => `hsl(192deg 75% ${lightness})`
+export const mainColor = (lightness: string) => `hsl(252deg 52% ${lightness})`
 
 const theme = extendTheme({
   config: {
@@ -19,6 +19,19 @@ const theme = extendTheme({
       700: mainColor('85%'),
       800: mainColor('90%'),
       900: mainColor('95%'),
+    },
+    gray: {
+      50: '#F7FAFC',
+      100: '#EDF2F7',
+      200: '#E2E8F0',
+      300: '#CBD5E0',
+      400: '#A0AEC0',
+      500: '#6D708E',
+      550: '#292B31',
+      600: '#242226',
+      700: '#1B1A1D',
+      800: '#141316',
+      900: '#121214',
     },
     black: '#37352f',
   },

@@ -6,7 +6,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalHeader,
-  Tab,
   TabList,
   TabPanel,
   TabPanels,
@@ -18,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import CircleButton from '@components/atoms/CircleButton'
+import { CirclePanelTab } from '@components/atoms/CirclePanelTab'
 import Markdown from '@components/atoms/Markdown'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
 import MeetingsInCircleList from '@components/molecules/MeetingsInCircleList'
@@ -93,26 +93,23 @@ export default function CircleModalContent({ id }: Props) {
       <ModalCloseButton />
 
       <ModalBody pb={5}>
-        <Tabs isLazy variant="enclosed" value={tab} onChange={setTab}>
-          <TabList>
-            <Tab>
-              <FiDisc />
-              {tab === TabTypes.Circle && (
-                <Text ml={2}>{role?.singleMember ? 'Rôle' : 'Cercle'}</Text>
-              )}
-            </Tab>
-            <Tab>
-              <FiMessageSquare />
-              {tab === TabTypes.Threads && <Text ml={2}>Discussions</Text>}
-            </Tab>
-            <Tab>
-              <FiCalendar />
-              {tab === TabTypes.Meetings && <Text ml={2}>Réunions</Text>}
-            </Tab>
-            <Tab>
-              <FiCheckSquare />
-              {tab === TabTypes.Tasks && <Text ml={2}>Tâches</Text>}
-            </Tab>
+        <Tabs isLazy variant="unstyled" value={tab} onChange={setTab}>
+          <TabList
+            mx="-1.5rem"
+            px="1.5rem"
+            borderTop="1px solid"
+            borderBottom="1px solid"
+            borderTopColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+            borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+          >
+            <CirclePanelTab icon={<FiDisc />}>
+              {role?.singleMember ? 'Rôle' : 'Cercle'}
+            </CirclePanelTab>
+            <CirclePanelTab icon={<FiMessageSquare />}>
+              Discussions
+            </CirclePanelTab>
+            <CirclePanelTab icon={<FiCalendar />}>Réunions</CirclePanelTab>
+            <CirclePanelTab icon={<FiCheckSquare />}>Tâches</CirclePanelTab>
           </TabList>
 
           <TabPanels mt={5}>

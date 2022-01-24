@@ -3,6 +3,7 @@ import {
   forwardRef,
   ModalContentProps,
   SystemStyleObject,
+  useColorMode,
   useModalContext,
   useStyles,
 } from '@chakra-ui/react'
@@ -24,33 +25,38 @@ export const ModalPanel = forwardRef<ModalContentProps, 'section'>(
     const _className = cx('chakra-modal__content', className)
 
     const styles = useStyles()
+    const { colorMode } = useColorMode()
 
     const dialogStyles: SystemStyleObject = {
       display: 'flex',
       flexDirection: 'column',
       position: 'relative',
-      width: '100%',
       outline: 0,
       ...styles.dialog,
 
-      // Default modal style overides
+      // Default modal style overrides
       my: 0,
       overflowY: 'auto',
       w: '450px',
+      h: '100%',
+      flex: 1,
       maxW: '100vw',
-      maxH: 'calc(100vh - 71px)',
+      borderRadius: 0,
+      borderLeftWidth: '1px',
+      borderLeftColor: colorMode === 'light' ? 'gray.200' : 'gray.550',
+      shadow: 'none',
     }
 
     const dialogContainerStyles: SystemStyleObject = {
       display: 'flex',
-      position: 'fixed',
-      left: 0,
-      top: 71, // padding (15px) + header height (56px) = 71px
+      position: 'absolute',
+      right: 0,
+      top: '48px',
+      bottom: 0,
       ...styles.dialogContainer,
 
       // Default container style overrides
       zIndex: '0',
-      shadow: 'md',
     }
 
     return (

@@ -3,7 +3,11 @@ import {
   Box,
   BoxProps,
   Button,
+  chakra,
+  Flex,
+  Heading,
   IconButton,
+  Text,
   useColorMode,
 } from '@chakra-ui/react'
 import useCircleAndParents from '@hooks/useCircleAndParents'
@@ -25,59 +29,64 @@ export default function CircleAndParentsButton({
 }: Props) {
   const { colorMode } = useColorMode()
   const circleAndParents = useCircleAndParents(id)
-  const circle = circleAndParents?.[circleAndParents.length - 1]
-  if (!circle) return null
+  if (!circleAndParents || circleAndParents.length === 0) return null
+
+  const circle = circleAndParents[circleAndParents.length - 1]
+  const parents = circleAndParents.slice(0, circleAndParents.length - 1)
 
   return (
     <Box {...boxProps}>
-      {circleAndParents?.map((c, i) => {
-        const last = i === circleAndParents.length - 1
-        return (
-          <span style={{ whiteSpace: 'nowrap' }} key={c.id}>
-            {last && i !== 0 && <br />}
+      <Heading as="h2" size="md">
+        <Flex alignItems="center" h="40px">
+          <CircleMemberLink circleId={circle.id}>
+            <Button variant="link" size="md" fontWeight={700}>
+              {circle.role.name}
+            </Button>
+          </CircleMemberLink>
 
-            <CircleMemberLink circleId={c.id}>
-              <Button
-                bg={
-                  last
-                    ? colorMode === 'light'
-                      ? 'brand.700'
-                      : 'brand.300'
-                    : undefined
-                }
-                variant={last ? 'solid' : 'ghost'}
-                size={last ? 'md' : 'sm'}
-                borderRadius="full"
-                fontWeight={last ? 600 : 400}
-                ml={last ? '0.3em' : 0}
-              >
-                {c.role?.name || '?'}
-              </Button>
-            </CircleMemberLink>
+          {onEdit && (
+            <IconButton
+              aria-label=""
+              icon={<FiEdit3 />}
+              variant="ghost"
+              onClick={onEdit}
+            />
+          )}
 
-            {last && onEdit && (
-              <IconButton
-                aria-label=""
-                icon={<FiEdit3 />}
-                variant="ghost"
-                onClick={onEdit}
-              />
-            )}
+          {onDelete && (
+            <IconButton
+              aria-label=""
+              icon={<FiTrash2 />}
+              variant="ghost"
+              onClick={onDelete}
+              ml={onEdit ? -3 : undefined}
+            />
+          )}
+        </Flex>
+      </Heading>
 
-            {last && onDelete && (
-              <IconButton
-                aria-label=""
-                icon={<FiTrash2 />}
-                variant="ghost"
-                onClick={onDelete}
-                ml={onEdit ? -3 : undefined}
-              />
-            )}
+      <Text mt="-0.4rem" color="gray.500" lineHeight="1rem">
+        {parents.map((c, i) => {
+          const last = i === parents.length - 1
+          return (
+            <chakra.span whiteSpace="nowrap" key={c.id}>
+              <CircleMemberLink circleId={c.id}>
+                <Button
+                  variant="link"
+                  color="gray.500"
+                  size="sm"
+                  borderRadius="full"
+                  fontWeight={400}
+                >
+                  {c.role.name}
+                </Button>
+              </CircleMemberLink>
 
-            {!last && <ChevronRightIcon mx="-0.5em" />}
-          </span>
-        )
-      }) || null}
+              {!last && <ChevronRightIcon mx="0.1rem" />}
+            </chakra.span>
+          )
+        })}
+      </Text>
     </Box>
   )
 }

@@ -26,7 +26,8 @@ export default function Header() {
       alignItems="center"
       px={1}
       bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
-      shadow="md"
+      borderBottom="1px solid"
+      borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
       zIndex={1000}
     >
       {org && (
