@@ -21,6 +21,7 @@ import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
+import { Title } from '@components/atoms/Title'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
@@ -66,6 +67,8 @@ export default function ThreadsPage() {
 
   return (
     <Container maxW="3xl" mt={10}>
+      <Title>Discussions</Title>
+
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           Discussions

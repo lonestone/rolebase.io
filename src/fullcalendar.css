@@ -23,7 +23,6 @@
   --fc-non-business-color: rgba(215, 215, 215, 0.3);
   --fc-bg-event-color: rgb(143, 223, 130);
   --fc-highlight-color: rgba(188, 232, 241, 0.3);
-  --fc-today-bg-color: rgba(255, 220, 40, 0.15);
   --fc-now-indicator-color: red;
 }
 
@@ -34,11 +33,10 @@
   --fc-border-color: #d7dce0;
   --fc-event-text-color: #1a202c;
   --fc-button-text-color: #1a202c;
-
   --fc-button-bg-color: #edf2f7;
   --fc-button-hover-bg-color: #e2e8f0;
   --fc-button-active-bg-color: hsl(214deg 32% 84%);
-
+  --fc-today-bg-color: rgba(255, 220, 40, 0.15);
   --fc-list-event-hover-bg-color: #fafafa;
 }
 
@@ -49,11 +47,10 @@
   --fc-border-color: #2d3748;
   --fc-event-text-color: rgba(255, 255, 255, 0.92);
   --fc-button-text-color: rgba(255, 255, 255, 0.92);
-
   --fc-button-bg-color: rgba(255, 255, 255, 0.08);
   --fc-button-hover-bg-color: rgba(255, 255, 255, 0.16);
   --fc-button-active-bg-color: rgba(255, 255, 255, 0.24);
-
+  --fc-today-bg-color: rgba(255, 220, 40, 0.05);
   --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
 }
 

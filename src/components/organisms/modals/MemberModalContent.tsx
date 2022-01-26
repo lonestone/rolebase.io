@@ -10,6 +10,7 @@ import {
   StackItem,
   useDisclosure,
 } from '@chakra-ui/react'
+import { Title } from '@components/atoms/Title'
 import MemberRoles from '@components/molecules/MemberRoles'
 import useMember from '@hooks/useMember'
 import { useOrgRole } from '@hooks/useOrgRole'
@@ -22,9 +23,14 @@ import MemberEditModal from './MemberEditModal'
 interface Props {
   id: string
   selectedCircleId?: string
+  changeTitle?: boolean
 }
 
-export default function MemberModalContent({ id, selectedCircleId }: Props) {
+export default function MemberModalContent({
+  id,
+  changeTitle,
+  selectedCircleId,
+}: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const member = useMember(id)
   const role = useOrgRole()
@@ -42,6 +48,8 @@ export default function MemberModalContent({ id, selectedCircleId }: Props) {
 
   return (
     <>
+      {changeTitle && <Title>{member.name}</Title>}
+
       <ModalHeader>
         <HStack spacing={5}>
           <Avatar

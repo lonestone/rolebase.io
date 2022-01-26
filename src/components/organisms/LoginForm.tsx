@@ -7,6 +7,7 @@ import {
   Spinner,
   VStack,
 } from '@chakra-ui/react'
+import { Title } from '@components/atoms/Title'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -40,6 +41,8 @@ export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Title>Connexion</Title>
+
       <VStack spacing={5}>
         <FormControl isInvalid={!!errors.email}>
           <FormLabel>Email</FormLabel>

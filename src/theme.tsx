@@ -2,6 +2,10 @@ import { extendTheme } from '@chakra-ui/react'
 
 export const mainColor = (lightness: string) => `hsl(252deg 52% ${lightness})`
 
+// https://chakra-ui.com/docs/theming/theme
+// https://chakra-ui.com/docs/theming/customize-theme
+// https://github.com/chakra-ui/chakra-ui/blob/main/packages/theme/src
+
 const theme = extendTheme({
   config: {
     initialColorMode: 'dark',

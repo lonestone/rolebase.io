@@ -6,12 +6,15 @@ import {
   Container,
   Flex,
 } from '@chakra-ui/react'
+import { Title } from '@components/atoms/Title'
 import React from 'react'
 import { FiChevronRight } from 'react-icons/fi'
 
 export default function Page404() {
   return (
     <Container maxW="sm" mt="100px">
+      <Title>Page introuvable</Title>
+
       <Alert
         status="error"
         variant="subtle"

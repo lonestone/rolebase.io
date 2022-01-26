@@ -22,6 +22,7 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { Title } from '@components/atoms/Title'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import TaskItem from '@components/molecules/TaskItem'
 import TaskModal from '@components/organisms/modals/TaskModal'
@@ -79,6 +80,8 @@ export default function TasksPage() {
 
   return (
     <Container maxW="3xl" mt={10}>
+      <Title>Tâches</Title>
+
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           Tâches

@@ -18,7 +18,7 @@ export default function TaskPage() {
 
   return (
     <Container maxW="xl" mt={10}>
-      <TaskContent id={taskId} onClose={() => history.push('.')} />
+      <TaskContent id={taskId} changeTitle onClose={() => history.push('.')} />
     </Container>
   )
 }

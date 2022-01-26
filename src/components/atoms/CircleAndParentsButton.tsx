@@ -2,18 +2,16 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import {
   Box,
   BoxProps,
-  Button,
   chakra,
   Flex,
   Heading,
   IconButton,
   Text,
-  useColorMode,
 } from '@chakra-ui/react'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import React from 'react'
 import { FiEdit3, FiTrash2 } from 'react-icons/fi'
-import CircleMemberLink from './CircleMemberLink'
+import CircleMemberChakraLink from './CircleMemberChakraLink'
 
 interface Props extends BoxProps {
   id: string
@@ -27,7 +25,6 @@ export default function CircleAndParentsButton({
   onDelete,
   ...boxProps
 }: Props) {
-  const { colorMode } = useColorMode()
   const circleAndParents = useCircleAndParents(id)
   if (!circleAndParents || circleAndParents.length === 0) return null
 
@@ -38,11 +35,14 @@ export default function CircleAndParentsButton({
     <Box {...boxProps}>
       <Heading as="h2" size="md">
         <Flex alignItems="center" h="40px">
-          <CircleMemberLink circleId={circle.id}>
-            <Button variant="link" size="md" fontWeight={700}>
-              {circle.role.name}
-            </Button>
-          </CircleMemberLink>
+          <CircleMemberChakraLink
+            circleId={circle.id}
+            fontSize="lg"
+            fontWeight={700}
+            textDecoration="none"
+          >
+            {circle.role.name}
+          </CircleMemberChakraLink>
 
           {onEdit && (
             <IconButton
@@ -70,17 +70,15 @@ export default function CircleAndParentsButton({
           const last = i === parents.length - 1
           return (
             <chakra.span whiteSpace="nowrap" key={c.id}>
-              <CircleMemberLink circleId={c.id}>
-                <Button
-                  variant="link"
-                  color="gray.500"
-                  size="sm"
-                  borderRadius="full"
-                  fontWeight={400}
-                >
-                  {c.role.name}
-                </Button>
-              </CircleMemberLink>
+              <CircleMemberChakraLink
+                circleId={c.id}
+                color="gray.500"
+                fontSize="sm"
+                fontWeight={400}
+                textDecoration="none"
+              >
+                {c.role.name}
+              </CircleMemberChakraLink>
 
               {!last && <ChevronRightIcon mx="0.1rem" />}
             </chakra.span>

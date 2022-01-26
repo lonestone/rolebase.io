@@ -19,6 +19,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import TextErrors from '@components/atoms/TextErrors'
+import { Title } from '@components/atoms/Title'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSubscription from '@hooks/useSubscription'
@@ -32,6 +33,7 @@ import TaskDeleteModal from './modals/TaskDeleteModal'
 
 interface Props extends BoxProps {
   id?: string
+  changeTitle?: boolean
   defaultCircleId?: string
   defaultMemberId?: string
   onClose(): void
@@ -56,6 +58,7 @@ const resolver = yupResolver(
 
 export default function TaskContent({
   id,
+  changeTitle,
   onClose,
   defaultCircleId,
   defaultMemberId,
@@ -160,6 +163,8 @@ export default function TaskContent({
 
   return (
     <Box {...boxProps}>
+      {changeTitle && <Title>{task?.title || '…'}</Title>}
+
       <Flex alignItems="center" flexWrap="wrap" mb={5} pr="8rem">
         <Heading as="h1" size="md">
           Tâche

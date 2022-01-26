@@ -1,11 +1,12 @@
 import { Box, useColorMode } from '@chakra-ui/react'
+import { Title } from '@components/atoms/Title'
 import CirclePanel from '@components/organisms/panels/CirclePanel'
 import MemberPanel from '@components/organisms/panels/MemberPanel'
+import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
-import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import CirclesGraph from '../organisms/CirclesGraph'
 
@@ -28,7 +29,7 @@ export default function CirclesPage() {
 
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const org = useCurrentOrg()
   const [ready, setReady] = useState(false)
 
   // Content size
@@ -68,7 +69,7 @@ export default function CirclesPage() {
 
   return (
     <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
-      {orgId && boxSize && (
+      {org && boxSize && (
         <CirclesGraph
           key={colorMode}
           width={boxSize.width}
@@ -89,6 +90,8 @@ export default function CirclesPage() {
           onClose={handleClosePanel}
         />
       )}
+
+      {panel === Panels.None && <Title>{org?.name || '…'}</Title>}
     </Box>
   )
 }

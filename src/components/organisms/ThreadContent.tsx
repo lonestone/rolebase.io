@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
+import { Title } from '@components/atoms/Title'
 import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
@@ -25,9 +26,10 @@ import ParticipantsNumber from '../atoms/ParticipantsNumber'
 
 interface Props extends BoxProps {
   id: string
+  changeTitle?: boolean
 }
 
-export default function ThreadContent({ id, ...boxProps }: Props) {
+export default function ThreadContent({ id, changeTitle, ...boxProps }: Props) {
   // Subscribe thread
   const { data: thread, error, loading } = useSubscription(subscribeThread(id))
 
@@ -63,6 +65,8 @@ export default function ThreadContent({ id, ...boxProps }: Props) {
 
   return (
     <Box mx={5} display="flex" flexDirection="column" {...boxProps}>
+      {changeTitle && <Title>{thread?.title || '…'}</Title>}
+
       {loading && <Loading active center />}
 
       <Flex

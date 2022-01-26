@@ -13,6 +13,7 @@ export function CirclePanelTab({ icon, children }: Props) {
       fontWeight={600}
       color="gray.500"
       pl={0}
+      py={3}
       _selected={{
         color: colorMode === 'light' ? 'black' : 'white',
       }}

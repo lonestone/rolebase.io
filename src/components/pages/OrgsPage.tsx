@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { Title } from '@components/atoms/Title'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
@@ -50,6 +51,8 @@ export default function OrgsPage() {
 
   return (
     <Container maxW="3xl" mt={10}>
+      <Title>Organisations</Title>
+
       <HStack mb={5}>
         <Heading as="h1" size="md">
           Organisations

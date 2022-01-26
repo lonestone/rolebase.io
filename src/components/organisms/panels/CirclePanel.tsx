@@ -12,7 +12,7 @@ export default function CirclePanel({ id, onClose }: Props) {
   return (
     <Modal isOpen onClose={onClose}>
       <ModalPanel>
-        <CircleModalContent id={id} />
+        <CircleModalContent id={id} changeTitle />
       </ModalPanel>
     </Modal>
   )

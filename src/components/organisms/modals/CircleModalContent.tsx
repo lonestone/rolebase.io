@@ -19,6 +19,7 @@ import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import CircleButton from '@components/atoms/CircleButton'
 import { CirclePanelTab } from '@components/atoms/CirclePanelTab'
 import Markdown from '@components/atoms/Markdown'
+import { Title } from '@components/atoms/Title'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
 import MeetingsInCircleList from '@components/molecules/MeetingsInCircleList'
 import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
@@ -39,6 +40,7 @@ import RoleEditModal from './RoleEditModal'
 
 interface Props {
   id: string
+  changeTitle?: boolean
 }
 
 enum TabTypes {
@@ -48,7 +50,7 @@ enum TabTypes {
   Tasks,
 }
 
-export default function CircleModalContent({ id }: Props) {
+export default function CircleModalContent({ id, changeTitle }: Props) {
   const circle = useCircle(id)
   const role = circle?.role
   const { colorMode } = useColorMode()
@@ -83,7 +85,9 @@ export default function CircleModalContent({ id }: Props) {
 
   return (
     <>
-      <ModalHeader>
+      {changeTitle && <Title>{role?.name || '…'}</Title>}
+
+      <ModalHeader py={2}>
         <CircleAndParentsButton
           id={id}
           onEdit={onEditRoleOpen}

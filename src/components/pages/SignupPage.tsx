@@ -1,6 +1,7 @@
 import { Center, Container, Heading, Link } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { Title } from '@components/atoms/Title'
 import SignupForm from '@components/organisms/SignupForm'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React from 'react'
@@ -18,6 +19,8 @@ export default function SignupPage({ goToLoginPage }: Props) {
 
   return (
     <Container maxW="sm" mt="60px">
+      <Title>Inscription</Title>
+
       <Heading size="md" mb={5}>
         Inscription
       </Heading>

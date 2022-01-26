@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import MemberLinkOverlay from '@components/atoms/MemberLinkOverlay'
+import { Title } from '@components/atoms/Title'
 import MemberCreateModal from '@components/organisms/modals/MemberCreateModal'
 import MemberEditModal from '@components/organisms/modals/MemberEditModal'
 import MembersInviteModal from '@components/organisms/modals/MembersInviteModal'
@@ -68,6 +69,8 @@ export default function MembersPage() {
 
   return (
     <Container maxW="xl" mt={10}>
+      <Title>Membres</Title>
+
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           Membres

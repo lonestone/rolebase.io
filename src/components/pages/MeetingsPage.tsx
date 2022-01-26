@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { Title } from '@components/atoms/Title'
 import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingExportModal from '@components/organisms/modals/MeetingExportModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
@@ -216,6 +217,8 @@ export default function MeetingsPage() {
 
   return (
     <Flex flex={1} p={5} flexDirection="column">
+      <Title>Réunions</Title>
+
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 

@@ -26,6 +26,7 @@ import Loading from '@components/atoms/Loading'
 import MemberLink from '@components/atoms/MemberLink'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import TextErrors from '@components/atoms/TextErrors'
+import { Title } from '@components/atoms/Title'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import useCircle from '@hooks/useCircle'
@@ -52,10 +53,16 @@ import MeetingEditModal from './modals/MeetingEditModal'
 
 interface Props extends BoxProps {
   id: string
+  changeTitle?: boolean
   onClose(): void
 }
 
-export default function MeetingContent({ id, onClose, ...boxProps }: Props) {
+export default function MeetingContent({
+  id,
+  onClose,
+  changeTitle,
+  ...boxProps
+}: Props) {
   const currentMember = useCurrentMember()
 
   // Subscribe meeting
@@ -149,6 +156,8 @@ export default function MeetingContent({ id, onClose, ...boxProps }: Props) {
 
   return (
     <Box {...boxProps}>
+      {changeTitle && <Title>{`Réunion : ${meeting?.title}`}</Title>}
+
       <Flex alignItems="center" flexWrap="wrap" mb={3} pr="8rem">
         <Heading as="h1" size="md">
           Réunion : {meeting?.title}

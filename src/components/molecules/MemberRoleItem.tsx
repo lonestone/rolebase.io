@@ -1,5 +1,4 @@
 import { updateCircle } from '@api/entities/circles'
-import { ChevronRightIcon } from '@chakra-ui/icons'
 import {
   AccordionButton,
   AccordionIcon,
@@ -9,16 +8,16 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Text,
+  useColorMode,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
 import RoleEditModal from '@components/organisms/modals/RoleEditModal'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
 
@@ -28,7 +27,7 @@ interface Props {
 }
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
-  const navigateOrg = useNavigateOrg()
+  const { colorMode } = useColorMode()
 
   // Edit modal
   const {
@@ -70,25 +69,22 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
       {({ isExpanded }) => (
         <Box
           boxShadow={isExpanded ? 'lg' : 'sm'}
-          borderLeft={isExpanded ? '3px solid #ddd' : undefined}
+          borderLeft={isExpanded ? '3px solid' : undefined}
+          borderLeftColor={colorMode === 'light' ? 'gray.100' : 'gray.600'}
         >
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              {circlesWithRole.map((circle, i) => {
-                const last = i === circlesWithRole.length - 1
-                return (
-                  <Text
-                    display="inline"
-                    whiteSpace="nowrap"
-                    fontWeight={last ? 600 : 400}
-                    key={circle.id}
-                  >
-                    {i !== 0 && <ChevronRightIcon margin="0 0.2em" />}
-                    {circle.role?.name || '?'}
-                  </Text>
-                )
-              })}
-            </Box>
+          <AccordionButton
+            _expanded={{
+              bg: colorMode === 'light' ? 'gray.100' : 'gray.600',
+            }}
+            _hover={{
+              bg: colorMode === 'light' ? 'gray.100' : 'gray.600',
+            }}
+          >
+            <CircleAndParentsButton
+              id={roleCircle.id}
+              flex={1}
+              textAlign="left"
+            />
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pt={3} pb={5}>

@@ -13,7 +13,11 @@ export default function MemberPanel({ id, selectedCircleId, onClose }: Props) {
   return (
     <Modal isOpen onClose={onClose}>
       <ModalPanel>
-        <MemberModalContent id={id} selectedCircleId={selectedCircleId} />
+        <MemberModalContent
+          id={id}
+          selectedCircleId={selectedCircleId}
+          changeTitle
+        />
       </ModalPanel>
     </Modal>
   )
