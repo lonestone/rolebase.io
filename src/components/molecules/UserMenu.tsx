@@ -8,34 +8,52 @@ import {
   MenuItem,
   MenuList,
   Portal,
+  useDisclosure,
 } from '@chakra-ui/react'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
+import CurrentUserModal from '@components/organisms/modals/CurrentUserModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 
 export default function UserMenu(props: MenuButtonProps) {
-  const user = useStoreState((state) => state.auth.user)
+  const firebaseUser = useStoreState((state) => state.auth.firebaseUser)
   const member = useCurrentMember()
 
-  const { name, picture } = member || user || { name: '?', picture: '' }
+  const name = member?.name || firebaseUser?.displayName || '?'
+  const picture = member?.picture || firebaseUser?.photoURL || '?'
 
-  if (!user) return null
+  const {
+    isOpen: isCurrentUserOpen,
+    onOpen: onCurrentUserOpen,
+    onClose: onCurrentUserClose,
+  } = useDisclosure()
+
+  if (!firebaseUser) return null
   return (
-    <Menu>
-      <MenuButton as={Button} variant="ghost" size="sm" px={1} {...props}>
-        <Avatar name={name} src={picture || undefined} size="xs" />
-      </MenuButton>
-      <Portal>
-        <MenuList zIndex={10} shadow="lg">
-          {member && (
-            <CircleMemberLink memberId={member.id}>
-              <MenuItem>Ma fiche membre</MenuItem>
-            </CircleMemberLink>
-          )}
-          <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
-        </MenuList>
-      </Portal>
-    </Menu>
+    <>
+      <Menu>
+        <MenuButton as={Button} variant="ghost" size="sm" px={1} {...props}>
+          <Avatar name={name} src={picture || undefined} size="xs" />
+        </MenuButton>
+        <Portal>
+          <MenuList zIndex={10} shadow="lg">
+            {member && (
+              <CircleMemberLink memberId={member.id}>
+                <MenuItem>Ma fiche membre</MenuItem>
+              </CircleMemberLink>
+            )}
+            <MenuItem onClick={onCurrentUserOpen}>
+              Informations personnelles
+            </MenuItem>
+            <MenuItem onClick={() => auth.signOut()}>Déconnexion</MenuItem>
+          </MenuList>
+        </Portal>
+      </Menu>
+
+      {isCurrentUserOpen && (
+        <CurrentUserModal isOpen onClose={onCurrentUserClose} />
+      )}
+    </>
   )
 }

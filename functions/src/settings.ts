@@ -1,7 +1,7 @@
 export default {
   url: process.env.FUNCTIONS_EMULATOR
     ? 'http://localhost:3000'
-    : 'https://hq.lonestone.io',
+    : 'https://rolebase.io',
   mail: {
     sender: {
       name: 'Rolesapp',

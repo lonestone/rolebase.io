@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import { Timestamp } from 'firebase/firestore'
 import { WithId } from './types'
 
 export interface Task {
@@ -8,9 +8,9 @@ export interface Task {
   title: string
   description: string
   archived: boolean
-  createdAt: firebase.firestore.Timestamp
-  dueDate: firebase.firestore.Timestamp | null
-  doneDate: firebase.firestore.Timestamp | null
+  createdAt: Timestamp
+  dueDate: Timestamp | null
+  doneDate: Timestamp | null
 }
 
 export type TaskEntry = WithId<Task>

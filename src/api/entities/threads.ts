@@ -1,12 +1,8 @@
 import { Thread } from '@shared/thread'
 import { Optional } from '@shared/types'
+import { query, Timestamp, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import {
-  getCollection,
-  getEntityMethods,
-  subscribeQuery,
-  Timestamp,
-} from '../firebase'
+import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 
 export const collection = getCollection<Thread>('threads')
 
@@ -25,16 +21,22 @@ export const deleteThread = methods.delete
 
 export const subscribeAllThreads = memoize((orgId: string, archived: boolean) =>
   subscribeQuery(
-    collection.where('orgId', '==', orgId).where('archived', '==', archived)
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      where('archived', '==', archived)
+    )
   )
 )
 
 export const subscribeThreadsByCircle = memoize(
   (orgId: string, circleId: string, archived: boolean) =>
     subscribeQuery(
-      collection
-        .where('orgId', '==', orgId)
-        .where('circleId', '==', circleId)
-        .where('archived', '==', archived)
+      query(
+        collection,
+        where('orgId', '==', orgId),
+        where('circleId', '==', circleId),
+        where('archived', '==', archived)
+      )
     )
 )

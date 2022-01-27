@@ -1,5 +1,6 @@
 import { Role } from '@shared/role'
 import { Optional } from '@shared/types'
+import { orderBy, query, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 
@@ -21,5 +22,7 @@ export const updateRole = methods.update
 export const deleteRole = methods.delete
 
 export const subscribeRoles = memoize((orgId: string) =>
-  subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
+  subscribeQuery(
+    query(collection, where('orgId', '==', orgId), orderBy('name'))
+  )
 )

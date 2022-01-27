@@ -1,13 +1,16 @@
 import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
 import { format } from 'date-fns'
-import { memoize } from 'src/memoize'
 import {
-  getCollection,
-  getEntityMethods,
-  subscribeQuery,
+  getDocs,
+  limit,
+  orderBy,
+  query,
   Timestamp,
-} from '../firebase'
+  where,
+} from 'firebase/firestore'
+import { memoize } from 'src/memoize'
+import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { updateThread } from './threads'
 
 export const collection = getCollection<Activity>('activities')
@@ -26,10 +29,12 @@ export const deleteActivity = methods.delete
 
 export const subscribeActivities = memoize((orgId: string, threadId: string) =>
   subscribeQuery(
-    collection
-      .where('orgId', '==', orgId)
-      .where('threadId', '==', threadId)
-      .orderBy('createdAt')
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      where('threadId', '==', threadId),
+      orderBy('createdAt')
+    )
   )
 )
 
@@ -37,12 +42,15 @@ export async function getLastActivity(
   orgId: string,
   threadId: string
 ): Promise<ActivityEntry | undefined> {
-  const snapshot = await collection
-    .where('orgId', '==', orgId)
-    .where('threadId', '==', threadId)
-    .orderBy('createdAt', 'desc')
-    .limit(1)
-    .get()
+  const snapshot = await getDocs(
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      where('threadId', '==', threadId),
+      orderBy('createdAt', 'desc'),
+      limit(1)
+    )
+  )
   if (snapshot.empty) return undefined
   const doc = snapshot.docs[0]
   return { id: doc.id, ...doc.data() }

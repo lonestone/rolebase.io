@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import { Timestamp } from 'firebase/firestore'
 import { MeetingStepTypes } from './meetingStep'
 import { EntityWithParticipants, WithId } from './types'
 
@@ -6,9 +6,9 @@ export interface Meeting extends EntityWithParticipants {
   orgId: string
   initiatorMemberId: string
   facilitatorMemberId: string
-  createdAt: firebase.firestore.Timestamp
-  startDate: firebase.firestore.Timestamp
-  endDate: firebase.firestore.Timestamp
+  createdAt: Timestamp
+  startDate: Timestamp
+  endDate: Timestamp
   ended: boolean
   title: string
   stepsConfig: MeetingStepConfig[]

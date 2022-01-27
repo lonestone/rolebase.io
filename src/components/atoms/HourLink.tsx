@@ -1,12 +1,12 @@
 import { Link, LinkProps } from '@chakra-ui/react'
 import { format } from 'date-fns'
-import firebase from 'firebase'
+import { Timestamp } from 'firebase/firestore'
 import React, { useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkProps {
   date?: Date
-  timestamp?: firebase.firestore.Timestamp
+  timestamp?: Timestamp
 }
 
 export default function HourLink({ date, timestamp, ...linkProps }: Props) {

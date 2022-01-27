@@ -1,5 +1,6 @@
 import { Org, OrgEntry } from '@shared/org'
-import firebase from 'firebase/app'
+import { documentId, query, where } from 'firebase/firestore'
+import { httpsCallable } from 'firebase/functions'
 import { memoize } from 'src/memoize'
 import {
   functions,
@@ -25,13 +26,11 @@ export const subscribeOrgs = memoize(
       // Subscribe by chunks of 10 ids
       for (let i = 0; i < ids.length; i += 10) {
         const subscribe = subscribeQuery(
-          collection
-            .where(
-              firebase.firestore.FieldPath.documentId(),
-              'in',
-              ids.slice(i, i + 10)
-            )
-            .where('archived', '==', archived)
+          query(
+            collection,
+            where(documentId(), 'in', ids.slice(i, i + 10)),
+            where('archived', '==', archived)
+          )
         )
 
         const unsubscribe = subscribe((data) => {
@@ -53,7 +52,10 @@ export const subscribeOrgs = memoize(
 )
 
 export async function createOrg(name: string): Promise<string> {
-  const { data: id } = await functions.httpsCallable('createOrg')({
+  const { data: id } = await httpsCallable<any, string>(
+    functions,
+    'createOrg'
+  )({
     name,
   })
   return id

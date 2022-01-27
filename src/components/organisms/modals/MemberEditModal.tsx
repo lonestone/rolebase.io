@@ -254,7 +254,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                       <Input
                         {...register('inviteEmail')}
                         placeholder="Adresse email..."
-                        autoFocus
                       />
                     </HStack>
                   </FormControl>

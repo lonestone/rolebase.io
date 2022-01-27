@@ -1,6 +1,5 @@
 import { createActivity, updateActivity } from '@api/entities/activities'
 import { pollAnswersEntities } from '@api/entities/pollAnswers'
-import { Timestamp } from '@api/firebase'
 import { CloseIcon } from '@chakra-ui/icons'
 import {
   Accordion,
@@ -37,6 +36,7 @@ import useSubscription from '@hooks/useSubscription'
 import { ActivityPoll, ActivityType, PollChoice } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
+import { Timestamp } from 'firebase/firestore'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { FiHelpCircle, FiPlus } from 'react-icons/fi'

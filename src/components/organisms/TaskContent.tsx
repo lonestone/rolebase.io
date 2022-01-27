@@ -1,5 +1,4 @@
 import { createTask, subscribeTask, updateTask } from '@api/entities/tasks'
-import { Timestamp } from '@api/firebase'
 import { nameSchema } from '@api/schemas'
 import {
   Box,
@@ -24,6 +23,7 @@ import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombo
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
+import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FiCheckSquare, FiSquare, FiTrash2 } from 'react-icons/fi'

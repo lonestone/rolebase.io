@@ -2,16 +2,16 @@ import {
   getEntityMethods,
   getSubCollection,
   subscribeQuery,
-  Timestamp,
 } from '@api/firebase'
 import { MemberThreadStatus } from '@shared/member'
 import { Optional } from '@shared/types'
+import { doc, Timestamp } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 import { collection as membersCollection } from './members'
 
 export const memberThreadsStatus = memoize((memberId: string) => {
   const collection = getSubCollection<MemberThreadStatus>(
-    membersCollection.doc(memberId),
+    doc(membersCollection, memberId),
     'threadStatus'
   )
 

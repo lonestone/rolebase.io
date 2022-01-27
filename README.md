@@ -6,6 +6,8 @@
 
 # Firebase
 
+npm i -g firebase-tools
+
 firebase init firestore
 
 // Deploy rules

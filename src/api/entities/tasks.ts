@@ -1,12 +1,8 @@
 import { Task } from '@shared/task'
 import { Optional } from '@shared/types'
+import { query, Timestamp, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import {
-  getCollection,
-  getEntityMethods,
-  subscribeQuery,
-  Timestamp,
-} from '../firebase'
+import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 
 export const collection = getCollection<Task>('tasks')
 
@@ -29,21 +25,25 @@ export const deleteTask = methods.delete
 export const subscribeTasksByMember = memoize(
   (orgId: string, memberId: string, done: boolean) =>
     subscribeQuery(
-      collection
-        .where('orgId', '==', orgId)
-        .where('memberId', '==', memberId)
-        .where('doneDate', done ? '!=' : '==', null)
-        .where('archived', '==', false)
+      query(
+        collection,
+        where('orgId', '==', orgId),
+        where('memberId', '==', memberId),
+        where('doneDate', done ? '!=' : '==', null),
+        where('archived', '==', false)
+      )
     )
 )
 
 export const subscribeTasksByCircle = memoize(
   (orgId: string, circleId: string, done: boolean) =>
     subscribeQuery(
-      collection
-        .where('orgId', '==', orgId)
-        .where('circleId', '==', circleId)
-        .where('doneDate', done ? '!=' : '==', null)
-        .where('archived', '==', false)
+      query(
+        collection,
+        where('orgId', '==', orgId),
+        where('circleId', '==', circleId),
+        where('doneDate', done ? '!=' : '==', null),
+        where('archived', '==', false)
+      )
     )
 )

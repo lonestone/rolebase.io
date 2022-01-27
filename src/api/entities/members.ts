@@ -1,5 +1,8 @@
 import { Member } from '@shared/member'
 import { ClaimRole } from '@shared/userClaims'
+import { orderBy, query, where } from 'firebase/firestore'
+import { httpsCallable } from 'firebase/functions'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { memoize } from 'src/memoize'
 import {
   executeQuery,
@@ -18,11 +21,15 @@ export const updateMember = methods.update
 export const deleteMember = methods.delete
 
 export const subscribeMembers = memoize((orgId: string) =>
-  subscribeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
+  subscribeQuery(
+    query(collection, where('orgId', '==', orgId), orderBy('name'))
+  )
 )
 
 export async function getMembers(orgId: string) {
-  return executeQuery(collection.where('orgId', '==', orgId).orderBy('name'))
+  return executeQuery(
+    query(collection, where('orgId', '==', orgId), orderBy('name'))
+  )
 }
 
 // Upload member picture and return URL
@@ -31,11 +38,9 @@ export async function uploadPicture(
   memberId: string,
   file: File
 ): Promise<string> {
-  const snapshot = await storage
-    .ref()
-    .child(`orgs/${orgId}/members/${memberId}`)
-    .put(file)
-  return snapshot.ref.getDownloadURL()
+  const fileRef = ref(storage, `orgs/${orgId}/members/${memberId}`)
+  await uploadBytes(fileRef, file)
+  return getDownloadURL(fileRef)
 }
 
 export async function inviteMember(
@@ -43,7 +48,10 @@ export async function inviteMember(
   role: ClaimRole,
   email: string
 ): Promise<void> {
-  await functions.httpsCallable('inviteMember')({
+  await httpsCallable(
+    functions,
+    'inviteMember'
+  )({
     memberId,
     role,
     email,
@@ -54,7 +62,10 @@ export async function acceptMemberInvitation(
   memberId: string,
   token: string
 ): Promise<void> {
-  await functions.httpsCallable('acceptMemberInvitation')({
+  await httpsCallable(
+    functions,
+    'acceptMemberInvitation'
+  )({
     memberId,
     token,
   })
@@ -64,7 +75,10 @@ export async function updateMemberRole(
   memberId: string,
   role: ClaimRole | undefined
 ): Promise<void> {
-  await functions.httpsCallable('updateMemberRole')({
+  await httpsCallable(
+    functions,
+    'updateMemberRole'
+  )({
     memberId,
     role,
   })

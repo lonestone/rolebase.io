@@ -1,5 +1,7 @@
 import { Meeting, MeetingEntry } from '@shared/meeting'
 import { Optional } from '@shared/types'
+import { orderBy, query, Timestamp, where } from 'firebase/firestore'
+import { httpsCallable } from 'firebase/functions'
 import { memoize } from 'src/memoize'
 import settings from 'src/settings'
 import {
@@ -7,7 +9,6 @@ import {
   getCollection,
   getEntityMethods,
   subscribeQuery,
-  Timestamp,
 } from '../firebase'
 
 export const collection = getCollection<Meeting>('meetings')
@@ -34,23 +35,27 @@ export const subscribeMeeting = methods.subscribe
 export const subscribeMeetingsByDates = memoize(
   (orgId: string, fromDate: Date, toDate: Date) =>
     subscribeQuery(
-      collection
-        .where('orgId', '==', orgId)
-        .where('archived', '==', false)
-        .where('startDate', '>=', fromDate)
-        .where('startDate', '<', Timestamp.fromDate(toDate))
+      query(
+        collection,
+        where('orgId', '==', orgId),
+        where('archived', '==', false),
+        where('startDate', '>=', fromDate),
+        where('startDate', '<', Timestamp.fromDate(toDate))
+      )
     )
 )
 
 export const subscribeMeetingsByCircle = memoize(
   (orgId: string, circleId: string, ended: boolean) =>
     subscribeQuery(
-      collection
-        .where('orgId', '==', orgId)
-        .where('archived', '==', false)
-        .where('circleId', '==', circleId)
-        .where('ended', '==', ended)
-        .orderBy('startDate', 'desc')
+      query(
+        collection,
+        where('orgId', '==', orgId),
+        where('archived', '==', false),
+        where('circleId', '==', circleId),
+        where('ended', '==', ended),
+        orderBy('startDate', 'desc')
+      )
     )
 )
 
@@ -110,7 +115,10 @@ export async function getMeetingsIcalUrl(
   memberId?: string,
   circleId?: string
 ) {
-  const { data: token } = await functions.httpsCallable('getMeetingsToken')({
+  const { data: token } = await httpsCallable(
+    functions,
+    'getMeetingsToken'
+  )({
     orgId,
   })
   return `${

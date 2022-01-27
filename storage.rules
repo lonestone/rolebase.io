@@ -21,19 +21,14 @@ service firebase.storage {
       );
     }
 
-    function isOrgAdmin(orgId) {
-      return isSignedIn() && request.auth.token['org-' + orgId] == 'Admin';
-    }
-
-    // Check if file size is within the limit in Mo
-    function isSizeAllowed(size) {
-      return request.resource.size < size * 1024 * 1024;
-    }
+    // function isOrgAdmin(orgId) {
+    //   return isSignedIn() && request.auth.token['org-' + orgId] == 'Admin';
+    // }
 
     match /orgs/{orgId} {
       match /members/{memberId} {
         allow read: if isOrgReader(orgId);
-        allow write: if isOrgMember(orgId) && isSizeAllowed(5);
+        allow write: if isOrgMember(orgId) && request.resource.size < 5 * 1024 * 1024;
       }
     }
   }

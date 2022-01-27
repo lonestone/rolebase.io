@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import { Timestamp } from 'firebase/firestore'
 import { WithId } from './types'
 import { ClaimRole } from './userClaims'
 
@@ -8,7 +8,7 @@ export interface Member {
   picture?: string | null
   userId?: string | null
   inviteEmail?: string
-  inviteDate?: firebase.firestore.Timestamp | null
+  inviteDate?: Timestamp | null
   workedMinPerWeek?: number | null
   role?: ClaimRole
 }
@@ -34,5 +34,5 @@ export interface Participant {
 // Collection "threadStatus" in member doc
 export interface MemberThreadStatus {
   lastReadActivityId: string
-  lastReadDate: firebase.firestore.Timestamp
+  lastReadDate: Timestamp
 }

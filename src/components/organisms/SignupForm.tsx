@@ -61,7 +61,6 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
             type="email"
             required
             placeholder="Votre adresse email..."
-            autoFocus
           />
         </FormControl>
 

@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import { Timestamp } from 'firebase/firestore'
 import { WithId } from './types'
 
 export enum ActivityType {
@@ -14,7 +14,7 @@ interface ActivityBase {
   orgId: string
   threadId: string
   userId: string
-  createdAt: firebase.firestore.Timestamp
+  createdAt: Timestamp
 }
 
 export interface ActivityMessage extends ActivityBase {
@@ -46,7 +46,7 @@ export interface ActivityPoll extends ActivityBase {
   anonymous: boolean
   hideUntilEnd: boolean
   canAddChoice: boolean
-  endDate: firebase.firestore.Timestamp | null
+  endDate: Timestamp | null
   endWhenAllVoted: boolean
 }
 
@@ -58,7 +58,7 @@ export interface PollChoice {
 // Id = userId
 export interface PollAnswer {
   choicesPoints: number[] // Points distributed to each possible answer
-  createdAt: firebase.firestore.Timestamp
+  createdAt: Timestamp
 }
 
 export interface ActivityDecision extends ActivityBase {

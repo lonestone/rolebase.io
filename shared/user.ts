@@ -1,10 +1,10 @@
-import firebase from 'firebase'
+import { Timestamp } from 'firebase/firestore'
 import { WithId } from './types'
 
 export interface User {
   name: string
   email: string
-  createdAt: firebase.firestore.Timestamp
+  createdAt: Timestamp
   picture?: string
   refreshTokenTime?: number
 }

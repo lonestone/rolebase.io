@@ -1,17 +1,13 @@
 import { PollAnswer } from '@shared/activity'
 import { Optional } from '@shared/types'
+import { doc, Timestamp } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import {
-  getEntityMethods,
-  getSubCollection,
-  subscribeQuery,
-  Timestamp,
-} from '../firebase'
+import { getEntityMethods, getSubCollection, subscribeQuery } from '../firebase'
 import { collection as activitiesCollection } from './activities'
 
 export const pollAnswersEntities = memoize((activityId: string) => {
   const collection = getSubCollection<PollAnswer>(
-    activitiesCollection.doc(activityId),
+    doc(activitiesCollection, activityId),
     'answers'
   )
 

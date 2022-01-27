@@ -1,6 +1,7 @@
 import { Optional } from '@shared/types'
 import { User } from '@shared/user'
-import { getCollection, getEntityMethods, Timestamp } from '../firebase'
+import { doc, setDoc, Timestamp } from 'firebase/firestore'
+import { getCollection, getEntityMethods } from '../firebase'
 
 export const collection = getCollection<User>('users')
 
@@ -13,7 +14,8 @@ export async function createUser(
   id: string,
   user: Optional<User, 'createdAt'>
 ) {
-  await collection.doc(id).set({
+  const docRef = doc(collection, id)
+  await setDoc(docRef, {
     ...user,
     createdAt: Timestamp.now(),
   })

@@ -3,13 +3,20 @@ import { auth } from '@api/firebase'
 import { UserEntry } from '@shared/user'
 import { UserClaims } from '@shared/userClaims'
 import { action, Action, State, thunk, Thunk } from 'easy-peasy'
-import firebase from 'firebase/app'
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  User,
+} from 'firebase/auth'
 import { store, StoreModel } from '.'
 
-const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+const googleAuthProvider = new GoogleAuthProvider()
 
 export interface AuthModel {
-  firebaseUser: firebase.User | undefined
+  firebaseUser: User | undefined
   user: UserEntry | undefined
   claims: UserClaims | undefined
   loading: boolean
@@ -18,7 +25,7 @@ export interface AuthModel {
   signout: Action<AuthModel>
   setLoading: Action<AuthModel, boolean>
   setError: Action<AuthModel, Error>
-  setUser: Action<AuthModel, { firebaseUser: firebase.User; user: UserEntry }>
+  setUser: Action<AuthModel, { firebaseUser: User; user: UserEntry }>
   setClaims: Action<AuthModel, UserClaims>
   signinGoogle: Thunk<AuthModel, undefined, any, StoreModel>
   signinEmail: Thunk<
@@ -37,7 +44,7 @@ export interface AuthModel {
 
 // Observe auth state
 let unsubscribeUser: (() => void) | undefined
-auth.onAuthStateChanged((firebaseUser) => {
+onAuthStateChanged(auth, (firebaseUser) => {
   const { setUser, setError, refreshClaims, signout } = store.getActions().auth
 
   unsubscribeUser?.()
@@ -99,7 +106,7 @@ const model: AuthModel = {
     const { firebaseUser } = getState() as State<AuthModel>
     if (!firebaseUser) return
     const idTokenResult = await firebaseUser.getIdTokenResult(true)
-    actions.setClaims(idTokenResult.claims)
+    actions.setClaims(idTokenResult.claims as UserClaims)
   }),
 
   signinGoogle: thunk(async (actions) => {
@@ -107,7 +114,7 @@ const model: AuthModel = {
     actions.setLoading(true)
     try {
       // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithpopup
-      await auth.signInWithPopup(googleAuthProvider)
+      await signInWithPopup(auth, googleAuthProvider)
     } catch (error: any) {
       actions.setError(error)
     }
@@ -118,7 +125,7 @@ const model: AuthModel = {
     actions.setLoading(true)
     try {
       // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithemailandpassword
-      await auth.signInWithEmailAndPassword(email, password)
+      await signInWithEmailAndPassword(auth, email, password)
     } catch (error: any) {
       actions.setError(error)
     }
@@ -129,7 +136,8 @@ const model: AuthModel = {
     actions.setLoading(true)
     try {
       // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithemailandpassword
-      const userCredential = await auth.createUserWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
         email,
         password
       )

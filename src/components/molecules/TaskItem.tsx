@@ -1,11 +1,11 @@
 import { updateTask } from '@api/entities/tasks'
-import { Timestamp } from '@api/firebase'
 import { Checkbox, HStack, LinkBox, Text, useToast } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { TaskEntry } from '@shared/task'
 import { formatRelative } from 'date-fns'
+import { Timestamp } from 'firebase/firestore'
 import React, { useCallback } from 'react'
 import { dateFnsLocale } from 'src/locale'
 

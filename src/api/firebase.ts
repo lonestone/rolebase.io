@@ -1,54 +1,65 @@
 import { WithId } from '@shared/types'
-import firebaseApp from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
-import 'firebase/functions'
-import 'firebase/storage'
+import { initializeApp } from 'firebase/app'
+import { connectAuthEmulator, getAuth } from 'firebase/auth'
+import {
+  addDoc,
+  collection,
+  CollectionReference,
+  connectFirestoreEmulator,
+  deleteDoc,
+  doc,
+  DocumentReference,
+  getDoc,
+  getDocs,
+  getFirestore,
+  onSnapshot,
+  Query,
+  setDoc,
+  UpdateData,
+  updateDoc,
+} from 'firebase/firestore'
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions'
+import { connectStorageEmulator, getStorage } from 'firebase/storage'
 import { memoize } from 'src/memoize'
 import settings from '../settings'
 
-const app = firebaseApp.initializeApp(settings.firebase)
+const app = initializeApp(settings.firebase)
 
-export const auth = app.auth()
-export const firestore = app.firestore()
-export const storage = app.storage()
-export const functions = app.functions()
-
-export const Timestamp = firebaseApp.firestore.Timestamp
+export const auth = getAuth(app)
+export const firestore = getFirestore(app)
+export const storage = getStorage(app)
+export const functions = getFunctions(app)
 
 if (location.hostname === 'localhost') {
-  auth.useEmulator('http://localhost:9099')
-  firestore.useEmulator('localhost', 8080)
-  functions.useEmulator('localhost', 5001)
+  connectAuthEmulator(auth, 'http://localhost:9099')
+  connectFirestoreEmulator(firestore, 'localhost', 8080)
+  connectFunctionsEmulator(functions, 'localhost', 5001)
+  connectStorageEmulator(storage, 'localhost', 9199)
 }
 
 export function getCollection<Entity>(collectionPath: string) {
-  return firestore.collection(
-    collectionPath
-  ) as firebase.default.firestore.CollectionReference<Entity>
+  return collection(firestore, collectionPath) as CollectionReference<Entity>
 }
 
 export function getSubCollection<Entity>(
-  doc: firebase.default.firestore.DocumentReference<any>,
+  doc: DocumentReference<any>,
   collectionPath: string
 ) {
-  return doc.collection(
-    collectionPath
-  ) as firebase.default.firestore.CollectionReference<Entity>
+  return collection(doc, collectionPath) as CollectionReference<Entity>
 }
 
 export async function createEntity<Entity>(
-  collection: firebase.default.firestore.CollectionReference<Entity>,
+  collection: CollectionReference<Entity>,
   entity: Entity,
   id?: string
 ): Promise<WithId<Entity>> {
   delete (entity as any).id // Remove id if it exists
-  const doc = await (id ? collection.doc(id) : collection.add(entity))
+  const newDoc = await (id ? doc(collection, id) : addDoc(collection, entity))
   if (id) {
-    doc.set(entity)
+    setDoc(newDoc, entity)
   }
-  const snapshot = await doc.get()
-  return { ...snapshot.data()!, id: doc.id }
+  const snapshot = await getDoc(newDoc)
+  return { ...snapshot.data()!, id: newDoc.id }
 }
 
 export type SubscriptionFn<Data> = (
@@ -114,32 +125,36 @@ export function stackSubscribe<Data>(
 
 // Subscribe to query's results
 export function subscribeQuery<Entity>(
-  query: firebase.default.firestore.Query<Entity>
+  query: Query<Entity>
 ): SubscriptionFn<WithId<Entity>[]> {
   return stackSubscribe((onData, onError) => {
     const entries: WithId<Entity>[] = []
-    return query.onSnapshot((querySnapshot) => {
-      querySnapshot.docChanges().forEach((changes) => {
-        if (changes.type === 'modified' || changes.type === 'removed') {
-          entries.splice(changes.oldIndex, 1)
-        }
-        if (changes.type === 'added' || changes.type === 'modified') {
-          entries.splice(changes.newIndex, 0, {
-            id: changes.doc.id,
-            ...changes.doc.data(),
-          })
-        }
-      })
-      onData([...entries]) // Spread to avoid side effects
-    }, onError)
+    return onSnapshot(
+      query,
+      (querySnapshot) => {
+        querySnapshot.docChanges().forEach((changes) => {
+          if (changes.type === 'modified' || changes.type === 'removed') {
+            entries.splice(changes.oldIndex, 1)
+          }
+          if (changes.type === 'added' || changes.type === 'modified') {
+            entries.splice(changes.newIndex, 0, {
+              id: changes.doc.id,
+              ...changes.doc.data(),
+            })
+          }
+        })
+        onData([...entries]) // Spread to avoid side effects
+      },
+      onError
+    )
   })
 }
 
 // Get results from query once
 export async function executeQuery<Entity>(
-  query: firebase.default.firestore.Query<Entity>
+  query: Query<Entity>
 ): Promise<WithId<Entity>[]> {
-  const querySnapshot = await query.get()
+  const querySnapshot = await getDocs(query)
   return querySnapshot.docs.map((snapshot) => ({
     id: snapshot.id,
     ...snapshot.data(),
@@ -148,25 +163,29 @@ export async function executeQuery<Entity>(
 
 // Subscribe to document changes
 export function subscribeDoc<Entity>(
-  doc: firebase.default.firestore.DocumentReference<Entity>
+  doc: DocumentReference<Entity>
 ): SubscriptionFn<WithId<Entity>> {
   return stackSubscribe((onData, onError) => {
-    return doc.onSnapshot((doc) => {
-      const data = doc.data()
-      if (data) {
-        onData({ id: doc.id, ...data })
-      } else {
-        onError(new Error('Document not found'))
-      }
-    }, onError)
+    return onSnapshot(
+      doc,
+      (doc) => {
+        const data = doc.data()
+        if (data) {
+          onData({ id: doc.id, ...data })
+        } else {
+          onError(new Error('Document not found'))
+        }
+      },
+      onError
+    )
   })
 }
 
 // Get document once
-export async function getDoc<Entity>(
-  doc: firebase.default.firestore.DocumentReference<Entity>
+export async function getDocData<Entity>(
+  doc: DocumentReference<Entity>
 ): Promise<WithId<Entity> | undefined> {
-  const snapshot = await doc.get()
+  const snapshot = await getDoc(doc)
   const data = snapshot.data()
   if (!data) return undefined
   return { id: doc.id, ...data }
@@ -182,7 +201,7 @@ export function getEntityMethods<
   CreateEntity extends Entity,
   CreateParam = Entity
 >(
-  collection: firebase.default.firestore.CollectionReference<Entity>,
+  collection: CollectionReference<Entity>,
   options?: EntityMethodsOptions<CreateEntity, CreateParam>
 ) {
   const createTransform =
@@ -192,12 +211,12 @@ export function getEntityMethods<
     // Subscribe entity by id
     subscribe: memoize(
       (id: string): SubscriptionFn<WithId<Entity>> =>
-        subscribeDoc(collection.doc(id))
+        subscribeDoc(doc(collection, id))
     ),
 
     // Get entity by id
     get: (id: string): Promise<WithId<Entity> | undefined> =>
-      getDoc(collection.doc(id)),
+      getDocData(doc(collection, id)),
 
     // Create entity
     create: (data: CreateParam, id?: string): Promise<WithId<Entity>> =>
@@ -205,9 +224,9 @@ export function getEntityMethods<
 
     // Update entity by id
     update: (id: string, data: Partial<Entity>): Promise<void> =>
-      collection.doc(id).update(data),
+      updateDoc(doc(collection, id), data as UpdateData<Entity>),
 
     // Delete entity by id
-    delete: (id: string): Promise<void> => collection.doc(id).delete(),
+    delete: (id: string): Promise<void> => deleteDoc(doc(collection, id)),
   }
 }

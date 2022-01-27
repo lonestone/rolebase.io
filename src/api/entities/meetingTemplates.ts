@@ -1,4 +1,5 @@
 import { MeetingTemplate } from '@shared/meetingTemplate'
+import { orderBy, query, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 
@@ -12,5 +13,7 @@ export const subscribeMeetingTemplate = methods.subscribe
 export const deleteMeetingTemplate = methods.delete
 
 export const subscribeAllMeetingTemplates = memoize((orgId: string) =>
-  subscribeQuery(collection.where('orgId', '==', orgId).orderBy('title', 'asc'))
+  subscribeQuery(
+    query(collection, where('orgId', '==', orgId), orderBy('title', 'asc'))
+  )
 )

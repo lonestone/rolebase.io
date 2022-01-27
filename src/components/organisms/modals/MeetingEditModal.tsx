@@ -1,7 +1,6 @@
 import { createMeeting, updateMeeting } from '@api/entities/meetings'
 import { createMissingMeetingSteps } from '@api/entities/meetingSteps'
 import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
-import { Timestamp } from '@api/firebase'
 import { nameSchema } from '@api/schemas'
 import {
   Box,
@@ -46,6 +45,7 @@ import { MeetingEntry } from '@shared/meeting'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
+import { Timestamp } from 'firebase/firestore'
 import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'

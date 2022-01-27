@@ -1,5 +1,6 @@
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStep, MeetingStepTypes } from '@shared/meetingStep'
+import { doc } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 import {
   executeQuery,
@@ -11,7 +12,7 @@ import { collection as meetingsCollection } from './meetings'
 
 export const meetingStepsEntities = memoize((meetingId: string) => {
   const collection = getSubCollection<MeetingStep>(
-    meetingsCollection.doc(meetingId),
+    doc(meetingsCollection, meetingId),
     'steps'
   )
 

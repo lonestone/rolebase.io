@@ -1,5 +1,5 @@
 import { ClaimRole } from '@shared/userClaims'
-import { auth } from './firebase'
+import { auth, collections } from './firebase'
 
 export async function setUserClaim(
   userId: string,
@@ -22,4 +22,10 @@ export async function setUserClaim(
 
   // Save claims
   await auth.setCustomUserClaims(userId, claims)
+
+  // Update user in firestore
+  const userRef = collections.users.doc(userId)
+  await userRef.update({
+    refreshTokenTime: new Date().getTime(),
+  })
 }
