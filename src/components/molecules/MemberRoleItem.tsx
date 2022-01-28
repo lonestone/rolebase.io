@@ -13,11 +13,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
-import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
-import RoleEditModal from '@components/organisms/modals/RoleEditModal'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
 
@@ -28,13 +26,6 @@ interface Props {
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const { colorMode } = useColorMode()
-
-  // Edit modal
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
 
   // Delete modal
   const {
@@ -69,8 +60,15 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
       {({ isExpanded }) => (
         <Box
           boxShadow={isExpanded ? 'lg' : 'sm'}
-          borderLeft={isExpanded ? '3px solid' : undefined}
-          borderLeftColor={colorMode === 'light' ? 'gray.100' : 'gray.600'}
+          ml="-3px"
+          borderLeft="3px solid"
+          borderLeftColor={
+            isExpanded
+              ? colorMode === 'light'
+                ? 'gray.100'
+                : 'gray.600'
+              : 'transparent'
+          }
         >
           <AccordionButton
             _expanded={{
@@ -109,19 +107,6 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                 </FormControl>
 
                 <Box textAlign="right">
-                  <CircleMemberLink circleId={roleCircle.id}>
-                    <Button size="sm" colorScheme="blue" variant="ghost">
-                      Voir
-                    </Button>
-                  </CircleMemberLink>
-                  <Button
-                    size="sm"
-                    colorScheme="blue"
-                    variant="ghost"
-                    onClick={onEditOpen}
-                  >
-                    Éditer
-                  </Button>
                   <Button
                     size="sm"
                     colorScheme="red"
@@ -137,14 +122,6 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
               </VStack>
             </form>
           </AccordionPanel>
-
-          {isEditOpen && (
-            <RoleEditModal
-              id={roleCircle.role.id}
-              isOpen
-              onClose={onEditClose}
-            />
-          )}
 
           {isDeleteOpen && (
             <CircleMemberDeleteModal

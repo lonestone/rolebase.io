@@ -55,16 +55,20 @@ export default function MembersMultiSelect({
     <Wrap spacing={2}>
       {selectedMembers.map((m) => (
         <WrapItem key={m.id}>
-          <ButtonGroup size="sm" isAttached>
-            <CircleMemberLink memberId={m.id} circleId={circleId}>
+          <CircleMemberLink memberId={m.id} circleId={circleId}>
+            <ButtonGroup size="sm" isAttached>
               <MemberButton member={m} />
-            </CircleMemberLink>
-            <IconButton
-              aria-label=""
-              icon={<CloseIcon />}
-              onClick={() => onRemove(m.id)}
-            />
-          </ButtonGroup>
+              <IconButton
+                aria-label=""
+                icon={<CloseIcon />}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onRemove(m.id)
+                }}
+              />
+            </ButtonGroup>
+          </CircleMemberLink>
         </WrapItem>
       ))}
 

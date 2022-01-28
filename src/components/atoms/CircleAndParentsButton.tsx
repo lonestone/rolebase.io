@@ -1,13 +1,5 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  BoxProps,
-  chakra,
-  Flex,
-  Heading,
-  IconButton,
-  Text,
-} from '@chakra-ui/react'
+import { Box, BoxProps, chakra, Flex, IconButton, Text } from '@chakra-ui/react'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import React from 'react'
 import { FiEdit3, FiTrash2 } from 'react-icons/fi'
@@ -33,37 +25,35 @@ export default function CircleAndParentsButton({
 
   return (
     <Box {...boxProps}>
-      <Heading as="h2" size="md">
-        <Flex alignItems="center" h="40px">
-          <CircleMemberChakraLink
-            circleId={circle.id}
-            fontSize="lg"
-            fontWeight={700}
-            textDecoration="none"
-          >
-            {circle.role.name}
-          </CircleMemberChakraLink>
+      <Flex alignItems="center" h="40px">
+        <CircleMemberChakraLink
+          circleId={circle.id}
+          fontSize="lg"
+          fontWeight={700}
+          textDecoration="none"
+        >
+          {circle.role.name}
+        </CircleMemberChakraLink>
 
-          {onEdit && (
-            <IconButton
-              aria-label=""
-              icon={<FiEdit3 />}
-              variant="ghost"
-              onClick={onEdit}
-            />
-          )}
+        {onEdit && (
+          <IconButton
+            aria-label=""
+            icon={<FiEdit3 />}
+            variant="ghost"
+            onClick={onEdit}
+          />
+        )}
 
-          {onDelete && (
-            <IconButton
-              aria-label=""
-              icon={<FiTrash2 />}
-              variant="ghost"
-              onClick={onDelete}
-              ml={onEdit ? -3 : undefined}
-            />
-          )}
-        </Flex>
-      </Heading>
+        {onDelete && (
+          <IconButton
+            aria-label=""
+            icon={<FiTrash2 />}
+            variant="ghost"
+            onClick={onDelete}
+            ml={onEdit ? -3 : undefined}
+          />
+        )}
+      </Flex>
 
       <Text mt="-0.4rem" color="gray.500" lineHeight="1rem">
         {parents.map((c, i) => {

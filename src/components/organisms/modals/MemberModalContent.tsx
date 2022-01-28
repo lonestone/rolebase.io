@@ -2,12 +2,12 @@ import {
   Avatar,
   FormControl,
   FormLabel,
+  Heading,
   HStack,
   IconButton,
   ModalBody,
   ModalCloseButton,
   ModalHeader,
-  StackItem,
   useDisclosure,
 } from '@chakra-ui/react'
 import { Title } from '@components/atoms/Title'
@@ -55,9 +55,11 @@ export default function MemberModalContent({
           <Avatar
             name={member.name}
             src={member.picture || undefined}
-            size="lg"
+            size="md"
           />
-          <StackItem>{member.name}</StackItem>
+          <Heading as="h2" size="md">
+            {member.name}
+          </Heading>
 
           {canEdit && (
             <IconButton
