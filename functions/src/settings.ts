@@ -5,7 +5,7 @@ export default {
   mail: {
     sender: {
       name: 'Rolesapp',
-      email: 'contact@lonestone.studio',
+      email: 'contact@rolebase.io',
     },
   },
 }

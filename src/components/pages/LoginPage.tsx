@@ -2,12 +2,18 @@ import { Box, Center, Container, Heading, Link } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import LoginForm from '@components/organisms/LoginForm'
+import useQueryParams from '@hooks/useQueryParams'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { Link as ReachLink, useLocation } from 'react-router-dom'
 import SignupPage from './SignupPage'
 
+type Params = {
+  email: string
+}
+
 export default function LoginPage() {
+  const queryParams = useQueryParams<Params>()
   // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signinEmail = useStoreActions((actions) => actions.auth.signinEmail)
   const loading = useStoreState((state) => state.auth.loading)
@@ -27,20 +33,23 @@ export default function LoginPage() {
       <Loading active={loading} center />
       <Container maxW="xs" mt="60px" display={loading ? 'none' : 'block'}>
         <Heading size="md" mb={5}>
-          Cercles &amp; Roles
+          Rolebase
         </Heading>
 
         {/*
           <Button onClick={() => signinGoogle()}>Connexion avec Google</Button>
         */}
 
-        <LoginForm onSubmit={signinEmail} />
+        <LoginForm
+          defaultEmail={queryParams.email || ''}
+          onSubmit={signinEmail}
+        />
 
         <Box textAlign="center">
           <TextErrors errors={[error]} />
         </Box>
 
-        <Center mt={2}>
+        <Center mt={4}>
           {isLoginRoute ? (
             <Link to="/signup" as={ReachLink}>
               Créer un compte

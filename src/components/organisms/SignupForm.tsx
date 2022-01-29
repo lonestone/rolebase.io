@@ -74,7 +74,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
           />
         </FormControl>
 
-        <Button colorScheme="blue" type="submit">
+        <Button colorScheme="blue" type="submit" isDisabled={loading}>
           Créer mon compte
           {loading && <Spinner ml={2} />}
         </Button>

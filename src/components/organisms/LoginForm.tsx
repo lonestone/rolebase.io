@@ -4,18 +4,18 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Spinner,
+  Link,
   VStack,
 } from '@chakra-ui/react'
 import { Title } from '@components/atoms/Title'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { Link as ReachLink } from 'react-router-dom'
 import * as yup from 'yup'
 
 interface Props {
   defaultEmail?: string
-  loading?: boolean
   onSubmit(values: Values): void
 }
 
@@ -29,15 +29,18 @@ const schema = yup.object().shape({
   password: yup.string().required(),
 })
 
-export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
+export default function LoginForm({ defaultEmail, onSubmit }: Props) {
   const {
     handleSubmit,
     register,
+    watch,
     formState: { errors },
   } = useForm<Values>({
     resolver: yupResolver(schema),
-    defaultValues: { email: defaultEmail },
+    defaultValues: { email: defaultEmail || '' },
   })
+
+  const email = watch('email')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,6 +54,7 @@ export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
             type="email"
             required
             placeholder="Votre adresse email..."
+            autoComplete="email"
             autoFocus
           />
         </FormControl>
@@ -62,12 +66,20 @@ export default function LoginForm({ defaultEmail, loading, onSubmit }: Props) {
             type="password"
             required
             placeholder="Votre mot de passe..."
+            autoComplete="password"
           />
+          <Link
+            to={`/reset-password${email ? `?email=${email}` : ''}`}
+            as={ReachLink}
+            fontSize="sm"
+            color="gray.500"
+          >
+            Mot de passe oublié ?
+          </Link>
         </FormControl>
 
         <Button colorScheme="blue" type="submit">
           Connexion
-          {loading && <Spinner ml={2} />}
         </Button>
       </VStack>
     </form>

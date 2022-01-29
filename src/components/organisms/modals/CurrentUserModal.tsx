@@ -108,7 +108,13 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.name}>
                 <FormLabel>Nom</FormLabel>
-                <Input {...register('name')} placeholder="Nom..." autoFocus />
+                <Input
+                  {...register('name')}
+                  placeholder="Nom..."
+                  autoFocus
+                  autoComplete="off"
+                  data-lpignore="true"
+                />
               </FormControl>
 
               <FormControl isInvalid={!!errors.email}>
@@ -117,6 +123,8 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                   {...register('email')}
                   type="email"
                   placeholder="Adresse email..."
+                  autoComplete="off"
+                  data-lpignore="true"
                 />
               </FormControl>
 
@@ -125,9 +133,23 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                 <Input
                   {...register('password')}
                   type="password"
-                  placeholder="Mot de passe..."
+                  placeholder="Nouveau mot de passe..."
+                  autoComplete="new-password"
                 />
               </FormControl>
+
+              {/*
+                  Second hidden password field to make password generation
+                  works with password managers
+                */}
+              <Box position="absolute" zIndex={-1} opacity="0">
+                <Input
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  tabIndex={-1}
+                />
+              </Box>
 
               <Box textAlign="right">
                 <Button colorScheme="blue" type="submit">

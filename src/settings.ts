@@ -1,4 +1,8 @@
 export default {
+  url:
+    location.hostname === 'localhost'
+      ? 'http://localhost:3000'
+      : 'https://rolebase.io',
   firebase: {
     apiKey: 'AIzaSyA8seinl5fsS-mLO1uYAk-aOLkWfJfLThw',
     authDomain: 'roles-app-37879.firebaseapp.com',
