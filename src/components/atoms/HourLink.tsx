@@ -19,7 +19,8 @@ export default function HourLink({ date, timestamp, ...linkProps }: Props) {
     <Link
       as={ReachLink}
       to="#"
-      color="gray.400"
+      fontSize="sm"
+      color="gray.500"
       textDecoration="none"
       {...linkProps}
     >

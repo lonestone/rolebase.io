@@ -127,7 +127,7 @@ export default function MembersPage() {
                 {member.inviteDate ? (
                   <Tag colorScheme="transparent">Invité.e</Tag>
                 ) : (
-                  <Tag colorScheme="transparent" color="gray.400">
+                  <Tag colorScheme="transparent" color="gray.500">
                     Pas invité.e
                   </Tag>
                 )}

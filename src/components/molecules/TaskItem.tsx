@@ -43,7 +43,7 @@ export default function TaskItem({ task, showCircle }: Props) {
         />
         <TaskLinkOverlay task={task} />
         {task.dueDate && (
-          <Text color="gray.400">
+          <Text fontSize="sm" color="gray.500">
             {formatRelative(task.dueDate.toDate(), new Date(), {
               locale: dateFnsLocale,
             })}
