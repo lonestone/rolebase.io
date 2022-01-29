@@ -1,71 +1,102 @@
-# Inspirations
+# Rolebase.io
 
-- https://observablehq.com/@d3/circle-packing
-- https://observablehq.com/@d3/zoomable-circle-packing
-- https://wattenberger.com/blog/react-and-d3
+**[Rolebase](https://rolebase.io)** is the online headquarter for [liberated companies](https://en.wikipedia.org/wiki/Liberated_company).
 
-# Firebase
+It's an open source SaaS that help various organizations to implement Holacracy, Sociocracy and other forms of governance.
 
-npm i -g firebase-tools
+## Install
 
-firebase init firestore
+1.  Install npm dependencies in webapp and functions
 
-// Deploy rules
-firebase deploy --only firestore:rules
+        npm i
+        cd functions
+        npm i
 
-// Export indexes
-firebase firestore:indexes > firestore.indexes.json
+2.  Install Firebase CLI
 
-https://firebase.google.com/products/extensions/firestore-send-email
+        npm i -g firebase-tools
 
-## Settings
+3.  Check `settings.ts` file
 
-settings.ts
+4.  Fetch functions config to `.runtimeconfig.json`
 
-## Start project
+        npm run get-config
 
-3 consoles:
+## Start dev environment
 
-yarn dev
+1.  Run webapp with Vite in terminal #1:
 
-cd functions
-yarn watch
+        npm run dev
 
-yarn firebase:emulator
+2.  Compile and watch functions in terminal #2:
 
-## Config
+        cd functions
+        npm run watch
 
-- security.invitation_token: Generate a token once (with Lastpass for example):
-- mailjet.public: MailJet public key
-- mailjet.private: MailJet private key
+3.  Run Firebase Emulator in terminal #3:
 
-To set config from .runtimeconfig.json
-npm run set-config
+        npm run firebase:emulator
 
-To fetch config to .runtimeconfig.json
-npm run get-config
+4.  Open in browser:
 
-MailJet Keys:
-https://app.mailjet.com/account/api_keys
+    Webapp: http://localhost:3000
 
-To set a key:
-firebase functions:config:set mailjet.private="XXX"
+    Firebase Emulator UI : http://localhost:4000/
 
-Don't forget to deploy
-firebase deploy --only functions
+## Deploy
 
-### Other
+### Deploy webapp
 
-firebase functions:config:set security.invitation_token="XXX"
+Just push on the main branch 😉
 
-Functions autorizations:
-https://console.cloud.google.com/functions/list?project=roles-app-37879
+It will be compiled then hosted on Firebase Hosting.
 
-Launch emulator:
-cd functions
-npm run get-config
-cd ..
-npm run firebase:emulator
+### Deploy Firestore rules
 
-Firebase emulator UI:
-http://localhost:4000/
+Push `firestore.rules` file in production
+
+    firebase deploy --only firestore:rules
+
+### Deploy Firestore indexes
+
+Push `firestore.indexes.json` file in production
+
+    firebase deploy --only firestore:indexes
+
+### Deploy Storage rules
+
+Push `storage.rules` file in production
+
+    firebase deploy --only storage:rules
+
+### Deploy Functions
+
+Compile functions and push in production
+
+    firebase deploy --only functions
+
+## Import Firebase config in project
+
+### Import Firestore rules
+
+    firebase firestore:indexes > firestore.indexes.json
+
+### Import Functions config to `.runtimeconfig.json`
+
+        npm run get-config
+
+## Functions Config
+
+To push config from `.runtimeconfig.json` to production
+
+    npm run set-config
+
+To push a key in production:
+
+    firebase functions:config:set mailjet.private="XXX"
+
+Config keys:
+
+- **security.invitation_token**: Secret roken. You can generate a token once, with Lastpass for example
+- **mailjet.public**: MailJet public key. You can find it here: https://app.mailjet.com/account/api_keys
+- **mailjet.private**: MailJet private key
