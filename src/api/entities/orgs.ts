@@ -19,6 +19,11 @@ export const updateOrg = methods.update
 export const subscribeOrgs = memoize(
   (ids: string[], archived: boolean = false): SubscriptionFn<OrgEntry[]> => {
     return stackSubscribe((onData, onError) => {
+      if (ids.length === 0) {
+        onData([])
+        return () => {}
+      }
+
       const unsubscribeHandlers: Function[] = []
       const chunksData: OrgEntry[][] = []
       const nChunks = Math.ceil(ids.length / 10)

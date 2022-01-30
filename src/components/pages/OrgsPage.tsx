@@ -75,7 +75,7 @@ export default function OrgsPage() {
       <Loading center active={loading} />
       <TextErrors errors={[error]} />
 
-      {!orgs?.length && (
+      {orgs?.length === 0 && (
         <Alert
           status="info"
           flexDirection="column"
