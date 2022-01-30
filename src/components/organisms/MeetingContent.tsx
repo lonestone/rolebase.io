@@ -11,6 +11,7 @@ import {
   Box,
   BoxProps,
   Button,
+  Collapse,
   Flex,
   Heading,
   HStack,
@@ -304,15 +305,17 @@ export default function MeetingContent({
                     />
                   )}
 
-                  {isFacilitator && current && (
-                    <Button
-                      leftIcon={last ? <FaStop /> : <FiArrowDown />}
-                      colorScheme={'green'}
-                      mt={5}
-                      onClick={handleNextStep}
-                    >
-                      {last ? 'Terminer' : 'Suivant'}
-                    </Button>
+                  {isFacilitator && (
+                    <Collapse in={current} animateOpacity>
+                      <Button
+                        leftIcon={last ? <FaStop /> : <FiArrowDown />}
+                        colorScheme={'green'}
+                        mt={5}
+                        onClick={handleNextStep}
+                      >
+                        {last ? 'Terminer' : 'Suivant'}
+                      </Button>
+                    </Collapse>
                   )}
                 </MeetingStepLayout>
               )

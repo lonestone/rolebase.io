@@ -24,7 +24,7 @@ const LoggedLayout: React.FC = ({ children }) => {
     unsubscribeOrgs: actions.orgs.unsubscribe,
   }))
   useEffect(() => {
-    if (!userId || !orgIds?.length) return
+    if (!userId || !orgIds) return
     actions.subscribeOrgs(orgIds)
     return () => {
       actions.unsubscribeOrgs()
