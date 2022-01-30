@@ -2,37 +2,33 @@ import {
   subscribeAllThreads,
   subscribeThreadsByCircle,
 } from '@api/entities/threads'
-import { CloseIcon } from '@chakra-ui/icons'
-import { Box, HStack, IconButton, LinkBox, VStack } from '@chakra-ui/react'
+import { Box, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
-import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
-import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
-import { FiMessageSquare, FiPlus } from 'react-icons/fi'
+import { FiPlus } from 'react-icons/fi'
 import SearchButtonCombobox from './search/SearchButtonCombobox'
 import { SearchItem, SearchItemTypes } from './search/searchItems'
+import SortableList from './SortableList'
+import ThreadSortableItem from './ThreadSortableItem'
 
 interface Props {
   circleId?: string
   threadsIds: string[]
   max?: number
-  onAdd?(memberId: string): void
-  onRemove?(memberId: string): void
+  onChange?(threadsIds: string[]): void
 }
 
 export default function ThreadsMultiSelect({
   circleId,
   threadsIds,
   max,
-  onAdd,
-  onRemove,
+  onChange,
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
-  const hover = useHoverItemStyle()
 
   // Subscribe threads
   const subscribe = orgId
@@ -54,10 +50,26 @@ export default function ThreadsMultiSelect({
   const handleAdd = useCallback(
     (item: SearchItem) => {
       if (item.type === SearchItemTypes.Thread) {
-        onAdd?.(item.thread.id)
+        onChange?.([...threadsIds, item.thread.id])
       }
     },
-    [onAdd]
+    [threadsIds, onChange]
+  )
+
+  const handleRemove = useCallback(
+    (threadId: string) => {
+      onChange?.(threadsIds.filter((id) => id !== threadId))
+    },
+    [threadsIds, onChange]
+  )
+
+  const handleDragEnd = useCallback(
+    (oldIndex: number, newIndex: number) => {
+      const newThreadsIds = [...threadsIds]
+      newThreadsIds.splice(newIndex, 0, newThreadsIds.splice(oldIndex, 1)[0])
+      onChange?.(newThreadsIds)
+    },
+    [threadsIds, onChange]
   )
 
   return (
@@ -66,26 +78,18 @@ export default function ThreadsMultiSelect({
       <TextErrors errors={[error]} />
 
       <VStack spacing={0} align="stretch">
-        {selectedThreads.map((thread) => (
-          <LinkBox key={thread.id} px={2} py={1} _hover={hover}>
-            <HStack spacing={3} align="stretch" alignItems="center">
-              <FiMessageSquare />
-              <ThreadLinkOverlay thread={thread} />
-
-              {onRemove && (
-                <IconButton
-                  aria-label=""
-                  size="sm"
-                  icon={<CloseIcon />}
-                  onClick={() => onRemove(thread.id)}
-                />
-              )}
-            </HStack>
-          </LinkBox>
-        ))}
+        <SortableList items={selectedThreads} onDragEnd={handleDragEnd}>
+          {selectedThreads.map((thread) => (
+            <ThreadSortableItem
+              key={thread.id}
+              thread={thread}
+              onRemove={onChange && handleRemove}
+            />
+          ))}
+        </SortableList>
       </VStack>
 
-      {onAdd && (!max || selectedThreads.length < max) ? (
+      {onChange && (!max || selectedThreads.length < max) ? (
         <Box mt={2}>
           <SearchButtonCombobox
             threads

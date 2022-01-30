@@ -2,7 +2,7 @@
 
 **[Rolebase](https://rolebase.io)** is the online headquarter for [liberated companies](https://en.wikipedia.org/wiki/Liberated_company).
 
-It's an open source SaaS that help various organizations to implement Holacracy, Sociocracy and other forms of governance.
+It's an open source SaaS that helps various organizations implement Holacracy, Sociocracy and other forms of governance.
 
 ## Install
 
@@ -20,6 +20,7 @@ It's an open source SaaS that help various organizations to implement Holacracy,
 
 4.  Fetch functions config to `.runtimeconfig.json`
 
+        cd functions
         npm run get-config
 
 ## Start dev environment
@@ -83,12 +84,14 @@ Compile functions and push in production
 
 ### Import Functions config to `.runtimeconfig.json`
 
-        npm run get-config
+    cd functions
+    npm run get-config
 
 ## Functions Config
 
 To push config from `.runtimeconfig.json` to production
 
+    cd functions
     npm run set-config
 
 To push a key in production:

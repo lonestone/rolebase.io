@@ -1,30 +1,13 @@
 import { Button, Stack } from '@chakra-ui/react'
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import {
-  restrictToParentElement,
-  restrictToVerticalAxis,
-} from '@dnd-kit/modifiers'
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import { nanoid } from 'nanoid'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { FiPlus } from 'react-icons/fi'
 import * as yup from 'yup'
-import MeetingStepDraggable from './MeetingStepDraggable'
+import MeetingStepSortableItem from './MeetingStepSortableItem'
+import SortableList from './SortableList'
 
 export const fieldName = 'stepsConfig' as const
 
@@ -66,50 +49,22 @@ export default function MeetingStepsConfigController({
       title: '',
     })
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  )
-
-  const handleDragEnd = useCallback(
-    (event: DragEndEvent) => {
-      const { active, over } = event
-      if (!over || active.id === over.id) return
-      const oldIndex = stepsFields.findIndex((step) => step.id === active.id)
-      const newIndex = stepsFields.findIndex((step) => step.id === over.id)
-      moveStep(oldIndex, newIndex)
-    },
-    [stepsFields]
-  )
-
   return (
     <>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-      >
-        <SortableContext
-          items={stepsFields}
-          strategy={verticalListSortingStrategy}
-        >
-          <Stack spacing={2}>
-            {stepsFields.map((field, index) => (
-              <MeetingStepDraggable
-                key={field.key}
-                id={field.id}
-                index={index}
-                control={control}
-                errors={errors}
-                onRemove={stepsFields.length > 1 ? removeStep : undefined}
-              />
-            ))}
-          </Stack>
-        </SortableContext>
-      </DndContext>
+      <SortableList items={stepsFields} onDragEnd={moveStep}>
+        <Stack spacing={2}>
+          {stepsFields.map((field, index) => (
+            <MeetingStepSortableItem
+              key={field.key}
+              id={field.id}
+              index={index}
+              control={control}
+              errors={errors}
+              onRemove={stepsFields.length > 1 ? removeStep : undefined}
+            />
+          ))}
+        </Stack>
+      </SortableList>
 
       <Button mt={2} w="100%" leftIcon={<FiPlus />} onClick={handleAdd}>
         Ajouter une étape

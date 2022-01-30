@@ -18,20 +18,9 @@ export default function MeetingStepContentThreads({
   // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
 
-  const handleAdd = useCallback(
-    (threadId: string) => {
-      updateMeetingStep(step.id, {
-        threadsIds: [...step.threadsIds, threadId],
-      })
-    },
-    [step]
-  )
-
-  const handleRemove = useCallback(
-    (threadId: string) => {
-      updateMeetingStep(step.id, {
-        threadsIds: step.threadsIds.filter((id) => id !== threadId),
-      })
+  const handleChange = useCallback(
+    (threadsIds: string[]) => {
+      updateMeetingStep(step.id, { threadsIds })
     },
     [step]
   )
@@ -39,8 +28,7 @@ export default function MeetingStepContentThreads({
   return (
     <ThreadsMultiSelect
       threadsIds={step.threadsIds}
-      onAdd={editable ? handleAdd : undefined}
-      onRemove={editable ? handleRemove : undefined}
+      onChange={editable ? handleChange : undefined}
     />
   )
 }

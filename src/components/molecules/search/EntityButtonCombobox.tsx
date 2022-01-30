@@ -126,7 +126,7 @@ export default function EntityButtonCombobox({
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
               size={size}
-              bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
+              bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
               _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
               shadow="md"
             />

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Tag } from '@chakra-ui/react'
+import { Box, Flex, Heading, Tag, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props {
@@ -18,12 +18,20 @@ export default function MeetingStepLayout({
   onNumberClick,
   children,
 }: Props) {
+  const { colorMode } = useColorMode()
+  const borderColor = colorMode === 'light' ? 'gray.200' : 'gray.550'
+
   return (
     <>
       <Flex alignItems="center">
         <Tag
-          colorScheme={current ? 'green' : undefined}
+          color={
+            current ? 'white' : colorMode === 'light' ? 'black' : 'gray.300'
+          }
+          bg={current ? 'green.600' : borderColor}
+          variant="solid"
           size="lg"
+          fontWeight="bold"
           borderRadius="full"
           mr={3}
           cursor={onNumberClick ? 'pointer' : 'default'}
@@ -37,11 +45,11 @@ export default function MeetingStepLayout({
       </Flex>
       <Box
         borderLeft="2px"
-        borderColor={last ? 'transparent' : '#EDF2F7'}
+        borderColor={last ? 'transparent' : borderColor}
         ml="1rem"
         pl="1.8rem"
         pt={2}
-        pb={10}
+        pb={16}
       >
         {children}
       </Box>
