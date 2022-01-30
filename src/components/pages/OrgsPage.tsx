@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Button,
   Container,
   Flex,
@@ -7,6 +11,9 @@ import {
   IconButton,
   LinkBox,
   LinkOverlay,
+  List,
+  ListIcon,
+  ListItem,
   Spacer,
   useDisclosure,
   Wrap,
@@ -20,7 +27,7 @@ import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
-import { FiEdit3, FiPlus } from 'react-icons/fi'
+import { FiArrowRight, FiEdit3, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 export default function OrgsPage() {
@@ -58,15 +65,51 @@ export default function OrgsPage() {
           Organisations
         </Heading>
         <Spacer />
-        <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          Créer
-        </Button>
+        {orgs?.length && (
+          <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
+            Créer
+          </Button>
+        )}
       </HStack>
 
       <Loading center active={loading} />
       <TextErrors errors={[error]} />
 
-      {!orgs?.length && <i>Vous n'avez aucune organisation</i>}
+      {!orgs?.length && (
+        <Alert
+          status="info"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          py={7}
+        >
+          <AlertIcon boxSize="40px" mr={0} />
+          <AlertTitle mt={4} fontSize="lg">
+            Vous n'avez aucune organisation
+          </AlertTitle>
+          <AlertDescription mt={5}>
+            <List textAlign="left">
+              <ListItem my={2}>
+                <ListIcon as={FiArrowRight} color="gray.500" />
+                Créez une nouvelle organisation
+              </ListItem>
+              <ListItem my={2}>
+                <ListIcon as={FiArrowRight} color="gray.500" />
+                Ou demandez à un admin d'une organisation de vous inviter.
+              </ListItem>
+            </List>
+            <Button
+              colorScheme="blue"
+              leftIcon={<FiPlus />}
+              mt={5}
+              onClick={onCreateOpen}
+            >
+              Créer une organisation
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Wrap spacing={5}>
         {orgs?.map((org) => (
