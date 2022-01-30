@@ -1,5 +1,6 @@
 import { emailSchema, nameSchema } from '@api/schemas'
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -50,6 +51,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
             type="name"
             required
             placeholder="Votre nom..."
+            autoComplete="name"
             autoFocus
           />
         </FormControl>
@@ -61,6 +63,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
             type="email"
             required
             placeholder="Votre adresse email..."
+            autoComplete="email"
           />
         </FormControl>
 
@@ -71,8 +74,22 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
             type="password"
             required
             placeholder="Votre mot de passe..."
+            autoComplete="new-password"
           />
         </FormControl>
+
+        {/*
+          Second hidden password field to make password generation
+          works with password managers
+        */}
+        <Box position="absolute" zIndex={-1} opacity="0">
+          <Input
+            name="confirmPassword"
+            type="password"
+            autoComplete="new-password"
+            tabIndex={-1}
+          />
+        </Box>
 
         <Button colorScheme="blue" type="submit" isDisabled={loading}>
           Créer mon compte
