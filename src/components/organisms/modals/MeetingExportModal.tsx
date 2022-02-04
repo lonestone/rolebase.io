@@ -18,7 +18,10 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
+import TextErrors from '@components/atoms/TextErrors'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import useCallbackState from '@hooks/useCallbackState'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
@@ -37,29 +40,33 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
     ExportType.CurrentMember
   )
   const [circleId, setCircleId] = useState<string | undefined>()
-  const [url, setUrl] = useState<string>('')
+
+  const {
+    call: update,
+    value: url,
+    loading,
+    error,
+  } = useCallbackState(async () => {
+    if (!orgId) return
+    switch (exportType) {
+      case ExportType.Org:
+        return getMeetingsIcalUrl(orgId)
+      case ExportType.CurrentMember:
+        return getMeetingsIcalUrl(orgId, member?.id)
+      case ExportType.Circle:
+        if (circleId) {
+          return getMeetingsIcalUrl(orgId, undefined, circleId)
+        }
+    }
+  })
 
   // Update url when export type changes
   useEffect(() => {
-    if (!orgId) return
-    setUrl('')
-    switch (exportType) {
-      case ExportType.Org:
-        getMeetingsIcalUrl(orgId).then(setUrl)
-        break
-      case ExportType.CurrentMember:
-        getMeetingsIcalUrl(orgId, member?.id).then(setUrl)
-        break
-      case ExportType.Circle:
-        if (circleId) {
-          getMeetingsIcalUrl(orgId, undefined, circleId).then(setUrl)
-        }
-        break
-    }
+    update()
   }, [exportType, orgId, member?.id, circleId])
 
   // URL copy
-  const { hasCopied, onCopy } = useClipboard(url)
+  const { hasCopied, onCopy } = useClipboard(url || '')
   const toast = useToast()
 
   useEffect(() => {
@@ -109,6 +116,9 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                 />
               </FormControl>
             )}
+
+            <Loading size="sm" active={loading} />
+            <TextErrors errors={[error]} />
 
             {url && (
               <FormControl>
