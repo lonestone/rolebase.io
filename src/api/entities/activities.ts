@@ -68,8 +68,8 @@ export async function createActivity(
       // Same user
       last.userId === activity.userId &&
       // Same day
-      format(last.createdAt.toDate(), 'yyyymmdd') ===
-        format(new Date(), 'yyyymmdd')
+      format(last.createdAt.toDate(), 'yyyyMMdd') ===
+        format(new Date(), 'yyyyMMdd')
     ) {
       return updateActivity(last.id, {
         message: last.message + '\n' + activity.message,
