@@ -81,8 +81,6 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  if (!circle) return null
-
   return (
     <>
       {changeTitle && <Title>{role?.name || '…'}</Title>}
@@ -203,7 +201,7 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
         </Tabs>
       </ModalBody>
 
-      {isEditRoleOpen && (
+      {isEditRoleOpen && circle && (
         <RoleEditModal id={circle.roleId} isOpen onClose={onEditRoleClose} />
       )}
 

@@ -7,6 +7,7 @@ import { ActivityType } from '@shared/activity'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useState } from 'react'
+import { IoMdSend } from 'react-icons/io'
 
 interface Props {
   thread: ThreadEntry
@@ -53,12 +54,6 @@ export default function ThreadActivityCreate({ thread }: Props) {
       />
 
       <HStack spacing={2} my={2}>
-        <Button size="sm" onClick={() => setModalType(ActivityType.Proposal)}>
-          Proposition
-        </Button>
-        <Button size="sm" onClick={() => setModalType(ActivityType.Election)}>
-          Election
-        </Button>
         <Button size="sm" onClick={() => setModalType(ActivityType.Poll)}>
           Sondage
         </Button>
@@ -69,6 +64,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
         <Button
           colorScheme="blue"
           size="sm"
+          rightIcon={<IoMdSend />}
           isDisabled={message.trim().length === 0}
           onClick={() => handleSubmit(message)}
         >

@@ -1,4 +1,4 @@
-import { deleteMember } from '@api/entities/members'
+import { updateMember } from '@api/entities/members'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -27,7 +27,7 @@ export default function MemberDeleteModal({
   const member = useMember(id)
 
   const handleDelete = () => {
-    deleteMember(id)
+    updateMember(id, { archived: true })
     onDelete?.()
     alertProps.onClose()
   }

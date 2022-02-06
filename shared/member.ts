@@ -4,6 +4,7 @@ import { ClaimRole } from './userClaims'
 
 export interface Member {
   orgId: string
+  archived: boolean
   name: string
   picture?: string | null
   userId?: string | null

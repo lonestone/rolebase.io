@@ -2,6 +2,7 @@ import { WithId } from './types'
 
 export interface Role {
   orgId: string
+  archived: boolean
   base: boolean
   name: string
   purpose: string

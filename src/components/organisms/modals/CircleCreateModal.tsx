@@ -17,6 +17,10 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCircle from '@hooks/useCircle'
+import useCreateLog from '@hooks/useCreateLog'
+import { EntityLogType, LogType } from '@shared/log'
+import { RoleEntry } from '@shared/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
@@ -47,6 +51,10 @@ export default function CircleCreateModal({
   const orgId = useStoreState((state) => state.orgs.currentId)
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
+  const parentCircle = useCircle(parentId ? parentId : undefined)
+  const createLog = useCreateLog()
+
+  // Usable base roles
   const baseRoles = useMemo(
     () =>
       roles?.filter(
@@ -73,16 +81,42 @@ export default function CircleCreateModal({
     resolver,
   })
 
+  // Create circle and open it
   const handleCreateCircle = useCallback(
-    async (roleId: string) => {
+    async (role: RoleEntry, newRole?: boolean) => {
       if (!orgId) return
       modalProps.onClose()
-      const circle = await createCircle({ orgId, roleId, parentId })
+
+      // Create circle
+      const circle = await createCircle({ orgId, roleId: role.id, parentId })
+
+      // Open new circle
       circleMemberContext?.goTo(circle.id)
+
+      // Log change
+      createLog({
+        // meetingId:
+        display: {
+          type: LogType.CircleCreate,
+          id: circle.id,
+          name: role.name,
+          parentId: parentCircle?.id || null,
+          parentName: parentCircle?.role.name || null,
+        },
+        changes: {
+          circles: [
+            { type: EntityLogType.Create, id: circle.id, data: circle },
+          ],
+          roles: newRole
+            ? [{ type: EntityLogType.Create, id: role.id, data: role }]
+            : undefined,
+        },
+      })
     },
     [orgId, parentId]
   )
 
+  // Create role then create circle
   const onSubmit = handleSubmit(async ({ name }) => {
     if (!orgId) return
     try {
@@ -91,7 +125,7 @@ export default function CircleCreateModal({
       if (!role) throw new Error('Error creating new role')
 
       // Create circle
-      handleCreateCircle(role.id)
+      handleCreateCircle(role, true)
     } catch (error) {
       console.error(error)
     }
@@ -127,7 +161,7 @@ export default function CircleCreateModal({
                   baseRoles?.map((role) => (
                     <Button
                       key={role.id}
-                      onClick={() => handleCreateCircle(role.id)}
+                      onClick={() => handleCreateCircle(role)}
                     >
                       {role.name}
                     </Button>

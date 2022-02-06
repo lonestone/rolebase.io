@@ -11,7 +11,9 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useCircle from '@hooks/useCircle'
+import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
+import { LogType } from '@shared/log'
 import React from 'react'
 
 interface Props
@@ -27,13 +29,28 @@ export default function CircleMemberDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
+  const createLog = useCreateLog()
   const circle = useCircle(circleId)
   const member = useMember(memberId)
 
-  const handleDelete = () => {
-    removeCircleMember(memberId, circleId)
+  const handleDelete = async () => {
+    if (!circle || !member) return
+    const changes = await removeCircleMember(memberId, circleId)
     onDelete?.()
     alertProps.onClose()
+
+    // Log change
+    createLog({
+      // meetingId:
+      display: {
+        type: LogType.CircleMemberRemove,
+        id: circle.id,
+        name: circle.role.name,
+        memberId: member.id,
+        memberName: member.name,
+      },
+      changes,
+    })
   }
 
   return (

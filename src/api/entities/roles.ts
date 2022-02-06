@@ -8,8 +8,12 @@ export const collection = getCollection<Role>('roles')
 
 const methods = getEntityMethods(collection, {
   createTransform: (
-    role: Optional<Role, 'purpose' | 'domain' | 'accountabilities' | 'notes'>
+    role: Optional<
+      Role,
+      'archived' | 'purpose' | 'domain' | 'accountabilities' | 'notes'
+    >
   ) => ({
+    archived: false,
     purpose: '',
     domain: '',
     accountabilities: '',
@@ -19,10 +23,14 @@ const methods = getEntityMethods(collection, {
 })
 export const createRole = methods.create
 export const updateRole = methods.update
-export const deleteRole = methods.delete
 
-export const subscribeRoles = memoize((orgId: string) =>
+export const subscribeRoles = memoize((orgId: string, archived: boolean) =>
   subscribeQuery(
-    query(collection, where('orgId', '==', orgId), orderBy('name'))
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      where('archived', '==', archived),
+      orderBy('name')
+    )
   )
 )

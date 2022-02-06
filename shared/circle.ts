@@ -6,6 +6,7 @@ export interface Circle {
   roleId: string
   parentId: string | null
   members: CircleMemberEntry[]
+  archived: boolean
 }
 
 export type CircleEntry = WithId<Circle>

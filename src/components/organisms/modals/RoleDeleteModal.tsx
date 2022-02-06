@@ -1,4 +1,4 @@
-import { deleteRole } from '@api/entities/roles'
+import { updateRole } from '@api/entities/roles'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -27,7 +27,7 @@ export default function RoleDeleteModal({
   const role = useRole(id)
 
   const handleDelete = () => {
-    deleteRole(id)
+    updateRole(id, { archived: true })
     onDelete?.()
     alertProps.onClose()
   }

@@ -356,16 +356,15 @@ export default function updateCircles(
                     dragNode.data.type === NodeType.Member &&
                     dragNode.data.parentCircleId &&
                     dragNode.data.memberId &&
-                    differentParent
+                    differentParent &&
+                    targetCircleId
                   ) {
                     if (shiftKey) {
-                      if (targetCircleId) {
-                        events.onMemberAdd?.(
-                          dragNode.data.memberId,
-                          targetCircleId
-                        )
-                        focusCircleAfterDraw(targetCircleId)
-                      }
+                      events.onMemberAdd?.(
+                        dragNode.data.memberId,
+                        targetCircleId
+                      )
+                      focusCircleAfterDraw(targetCircleId)
                     } else {
                       events.onMemberMove?.(
                         dragNode.data.memberId,

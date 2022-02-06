@@ -1,4 +1,4 @@
-import { deleteCircle } from '@api/entities/circles'
+import { archiveCircle } from '@api/entities/circles'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,6 +11,8 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useCircle from '@hooks/useCircle'
+import useCreateLog from '@hooks/useCreateLog'
+import { LogType } from '@shared/log'
 import React, { useContext } from 'react'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 
@@ -27,15 +29,30 @@ export default function CircleDeleteModal({
 }: Props) {
   const circleMemberContext = useContext(CircleMemberContext)
   const circle = useCircle(id)
+  const createLog = useCreateLog()
 
-  const handleDelete = () => {
-    deleteCircle(id)
+  const handleDelete = async () => {
+    if (!circle) return
+    const changes = await archiveCircle(id)
     onDelete?.()
     alertProps.onClose()
+
+    // Open circle page/panel after animation
     setTimeout(
       () => circleMemberContext?.goTo(circle?.parentId || undefined),
       1000
     )
+
+    // Log change
+    createLog({
+      // meetingId:
+      display: {
+        type: LogType.CircleArchive,
+        id: circle.id,
+        name: circle.role.name,
+      },
+      changes,
+    })
   }
 
   if (!circle) return null

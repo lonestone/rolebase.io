@@ -28,7 +28,9 @@ import DurationSelect from '@components/atoms/DurationSelect'
 import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
+import { EntityLogType, getEntityChanges, LogType } from '@shared/log'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -67,6 +69,7 @@ const tmpCircleId = 'tmpCircleId'
 
 export default function RoleEditModal({ id, ...modalProps }: Props) {
   const role = useRole(id)
+  const createLog = useCreateLog()
 
   const {
     handleSubmit,
@@ -102,9 +105,31 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
     register('link')
   }, [register])
 
-  const onSubmit = handleSubmit((values) => {
-    updateRole(id, values)
+  const onSubmit = handleSubmit(async (values) => {
+    if (!role) return
+
+    // Update role data
+    await updateRole(id, values)
     modalProps.onClose()
+
+    // Log changes
+    createLog({
+      // meetingId:
+      display: {
+        type: LogType.RoleUpdate,
+        id,
+        name: role.name,
+      },
+      changes: {
+        roles: [
+          {
+            type: EntityLogType.Update,
+            id: role.id,
+            ...getEntityChanges(role, values),
+          },
+        ],
+      },
+    })
   })
 
   if (!role) return null

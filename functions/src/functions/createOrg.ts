@@ -34,6 +34,7 @@ export const createOrg = functions.https.onCall(
     await collections.members.add({
       orgId: orgRef.id,
       userId: uid,
+      archived: false,
       name: user.name,
       role: ClaimRole.Admin,
     })
@@ -44,6 +45,7 @@ export const createOrg = functions.https.onCall(
     // Create role
     const roleRef = await collections.roles.add({
       orgId: orgRef.id,
+      archived: false,
       base: false,
       name: data.name,
       purpose: '',
@@ -58,6 +60,7 @@ export const createOrg = functions.https.onCall(
       roleId: roleRef.id,
       parentId: null,
       members: [],
+      archived: false,
     })
 
     return orgRef.id

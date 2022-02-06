@@ -1,4 +1,5 @@
 import { Circle } from '@shared/circle'
+import { EntitiesLog, EntityLogType } from '@shared/log'
 import { Optional } from '@shared/types'
 import {
   arrayUnion,
@@ -24,7 +25,8 @@ import { collection as rolesCollection } from './roles'
 export const collection = getCollection<Circle>('circles')
 
 const methods = getEntityMethods(collection, {
-  createTransform: (circle: Optional<Circle, 'members'>) => ({
+  createTransform: (circle: Optional<Circle, 'archived' | 'members'>) => ({
+    archived: false,
     members: [],
     ...circle,
   }),
@@ -32,41 +34,65 @@ const methods = getEntityMethods(collection, {
 export const createCircle = methods.create
 export const updateCircle = methods.update
 
-export const subscribeCircles = memoize((orgId: string) =>
-  subscribeQuery(query(collection, where('orgId', '==', orgId)))
+export const subscribeCircles = memoize((orgId: string, archived: boolean) =>
+  subscribeQuery(
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      where('archived', '==', archived)
+    )
+  )
 )
 
-export async function deleteCircle(id: string): Promise<boolean> {
+export async function archiveCircle(id: string): Promise<EntitiesLog> {
+  const changes: EntitiesLog = { circles: [], roles: [] }
   try {
     const batch = writeBatch(firestore)
-    await deleteCircleInternal(id, batch)
+    await archiveCircleInternal(id, batch, changes)
     await batch.commit()
-    return true
   } catch (error) {
     console.error(error)
-    return false
   }
+  return changes
 }
-export async function deleteCircleInternal(id: string, batch: WriteBatch) {
+async function archiveCircleInternal(
+  id: string,
+  batch: WriteBatch,
+  changes: EntitiesLog
+): Promise<void> {
   const circleDoc = doc(collection, id)
   const snapshot = await getDoc(circleDoc)
   const circle = snapshot.data()
   if (!circle) return
 
-  // Delete circle
-  batch.delete(circleDoc)
+  // Archive circle
+  if (!circle.archived) {
+    batch.update(circleDoc, { archived: true })
+    changes.circles?.push({
+      type: EntityLogType.Update,
+      id: circleDoc.id,
+      prevData: { archived: false },
+      newData: { archived: true },
+    })
+  }
 
-  // Delete role?
+  // Archive role?
   if (circle) {
     const roleDoc = doc(rolesCollection, circle.roleId)
     const roleSnapshot = await getDoc(roleDoc)
     const role = roleSnapshot.data()
-    if (role && !role.base) {
-      batch.delete(roleDoc)
+    if (role && !role.base && !role.archived) {
+      batch.update(roleDoc, { archived: true })
+      changes.roles?.push({
+        type: EntityLogType.Update,
+        id: roleDoc.id,
+        prevData: { archived: false },
+        newData: { archived: true },
+      })
     }
   }
 
-  // Delete sub-circles
+  // Archive sub-circles
   const subCircles = await getDocs(
     query(
       collection,
@@ -75,7 +101,7 @@ export async function deleteCircleInternal(id: string, batch: WriteBatch) {
     )
   )
   for (const queryDocumentSnapshot of subCircles.docs) {
-    await deleteCircleInternal(queryDocumentSnapshot.id, batch)
+    await archiveCircleInternal(queryDocumentSnapshot.id, batch, changes)
   }
 }
 
@@ -83,33 +109,44 @@ export async function deleteCircleInternal(id: string, batch: WriteBatch) {
 export async function moveCircle(
   circleId: string,
   targetCircleId: string | null
-): Promise<boolean> {
+): Promise<EntitiesLog> {
+  const changes: EntitiesLog = { circles: [] }
   const circleDoc = doc(collection, circleId)
   const snapshot = await getDoc(circleDoc)
-  if (!snapshot.exists) return false
+  const circle = snapshot.data()
+  if (!circle) return changes
+
   updateDoc(circleDoc, { parentId: targetCircleId })
-  return true
+
+  changes.circles?.push({
+    type: EntityLogType.Update,
+    id: circleDoc.id,
+    prevData: { parentId: circle.parentId },
+    newData: { parentId: targetCircleId },
+  })
+  return changes
 }
 
 export async function copyCircle(
   circleId: string,
   targetCircleId: string | null
-): Promise<boolean> {
+): Promise<EntitiesLog> {
+  const changes: EntitiesLog = { circles: [], roles: [] }
   try {
     const batch = writeBatch(firestore)
-    await copyCircleInternal(circleId, targetCircleId, batch)
+    await copyCircleInternal(circleId, targetCircleId, batch, changes)
     await batch.commit()
-    return true
   } catch (error) {
     console.error(error)
-    return false
   }
+  return changes
 }
 
 async function copyCircleInternal(
   circleId: string,
   targetCircleId: string | null,
-  batch: WriteBatch
+  batch: WriteBatch,
+  changes: EntitiesLog
 ): Promise<void> {
   const circleDoc = doc(collection, circleId)
   const snapshot = await getDoc(circleDoc)
@@ -126,6 +163,12 @@ async function copyCircleInternal(
     const newRoleDoc = doc(rolesCollection)
     batch.set(newRoleDoc, role)
     roleId = newRoleDoc.id
+
+    changes.roles?.push({
+      type: EntityLogType.Create,
+      id: roleId,
+      data: role,
+    })
   }
 
   // Create new circle
@@ -137,6 +180,12 @@ async function copyCircleInternal(
   const newCircleDoc = doc(collection)
   batch.set(newCircleDoc, newCircle)
 
+  changes.circles?.push({
+    type: EntityLogType.Create,
+    id: newCircleDoc.id,
+    data: newCircle,
+  })
+
   // Create sub-circles
   const subCircles = await getDocs(
     query(
@@ -146,38 +195,52 @@ async function copyCircleInternal(
     )
   )
   for (const queryDocumentSnapshot of subCircles.docs) {
-    await copyCircleInternal(queryDocumentSnapshot.id, newCircleDoc.id, batch)
+    await copyCircleInternal(
+      queryDocumentSnapshot.id,
+      newCircleDoc.id,
+      batch,
+      changes
+    )
   }
 }
 
 export async function addMemberToCircle(
   memberId: string,
   circleId: string
-): Promise<boolean> {
+): Promise<EntitiesLog> {
+  const changes: EntitiesLog = { circles: [] }
   const circleDoc = doc(collection, circleId)
   const snapshot = await getDoc(circleDoc)
   const circle = snapshot.data()
-  if (!circle) return false
+  if (!circle) return changes
 
   // Member is already in circle
   if (circle.members.some((member) => member.memberId === memberId)) {
-    return true
+    return changes
   }
 
   // Add to members list
+  const circleMemberId = nanoid(10)
   updateDoc(circleDoc, {
     members: arrayUnion({
-      id: nanoid(10),
+      id: circleMemberId,
       memberId,
     }),
   })
-  return true
+
+  changes.circles?.push({
+    type: EntityLogType.Update,
+    id: circleDoc.id,
+    prevData: { members: circle.members },
+    newData: { members: [...circle.members, { id: circleMemberId, memberId }] },
+  })
+  return changes
 }
 
 export async function removeCircleMember(
   memberId: string,
   parentCircleId: string
-): Promise<boolean> {
+): Promise<EntitiesLog> {
   return moveCircleMember(memberId, parentCircleId, null)
 }
 
@@ -185,39 +248,67 @@ export async function moveCircleMember(
   memberId: string,
   parentCircleId: string,
   targetCircleId: string | null
-): Promise<boolean> {
+): Promise<EntitiesLog> {
+  const changes: EntitiesLog = { circles: [] }
   const circleDoc = doc(collection, parentCircleId)
   const snapshot = await getDoc(circleDoc)
   const circle = snapshot.data()
-  if (!circle) return false
+  if (!circle) return changes
 
   if (targetCircleId === null) {
     // Remove member from circle
+    const newMembers = circle.members.filter(
+      (member) => member.memberId !== memberId
+    )
     updateDoc(circleDoc, {
-      members: circle.members.filter((member) => member.memberId !== memberId),
+      members: newMembers,
     })
-    return true
+    changes.circles?.push({
+      type: EntityLogType.Update,
+      id: circleDoc.id,
+      prevData: { members: circle.members },
+      newData: { members: newMembers },
+    })
+    return changes
   }
 
   const targetDoc = doc(collection, targetCircleId)
   const targetSnapshot = await getDoc(targetDoc)
   const targetCircle = targetSnapshot.data()
-  if (!targetCircle) return false
+  if (!targetCircle) return changes
 
-  const entry = circle.members.find((member) => member.memberId === memberId)
-  if (!entry) return false
+  const circleMember = circle.members.find(
+    (member) => member.memberId === memberId
+  )
+  if (!circleMember) return changes
 
   // Member is not already in target circle
   if (!targetCircle.members.some((member) => member.memberId === memberId)) {
     // Add member to target circle
+    const newMembers = targetCircle.members.concat(circleMember)
     updateDoc(targetDoc, {
-      members: arrayUnion(entry),
+      members: newMembers,
+    })
+    changes.circles?.push({
+      type: EntityLogType.Update,
+      id: targetDoc.id,
+      prevData: { members: targetCircle.members },
+      newData: { members: newMembers },
     })
   }
 
   // Remove member from its circle
+  const newMembers = circle.members.filter(
+    (member) => member.memberId !== memberId
+  )
   updateDoc(circleDoc, {
-    members: circle.members.filter((member) => member.memberId !== memberId),
+    members: newMembers,
   })
-  return true
+  changes.circles?.push({
+    type: EntityLogType.Update,
+    id: circleDoc.id,
+    prevData: { members: circle.members },
+    newData: { members: newMembers },
+  })
+  return changes
 }

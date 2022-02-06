@@ -46,6 +46,13 @@ service cloud.firestore {
       allow create, delete: if false;
     }
 
+    // Logs
+    match /logs/{id} {
+      allow read: if isOrgMember(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId)
+      allow update, delete: if false;
+    }
+
     // Members
   	match /members/{id} {
       allow read: if isOrgReader(resource.data.orgId);

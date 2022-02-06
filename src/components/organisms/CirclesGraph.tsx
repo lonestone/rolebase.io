@@ -1,17 +1,11 @@
-import {
-  addMemberToCircle,
-  copyCircle,
-  moveCircle,
-  moveCircleMember,
-} from '@api/entities/circles'
 import { useColorMode } from '@chakra-ui/react'
 import styled from '@emotion/styled'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { mainColor } from 'src/theme'
 import { ColorModeProps, mode } from 'src/utils'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
+import useCirclesEvents from '../../hooks/useGraphEvents'
 
 interface Props {
   width: number
@@ -61,10 +55,8 @@ export default function CirclesGraph({
   selectedCircleId,
   onReady,
 }: Props) {
+  // Utils
   const { colorMode } = useColorMode()
-
-  // Navigation
-  const navigateOrg = useNavigateOrg()
 
   // Data
   const orgId = useStoreState((state) => state.orgs.currentId)
@@ -77,62 +69,39 @@ export default function CirclesGraph({
   const graphRef = useRef<Graph>()
   const [ready, setReady] = useState(false)
 
-  const onMemberClick = useCallback(
-    (memberId: string) => navigateOrg(`?memberId=${memberId}`),
-    []
-  )
-  const onCircleClick = useCallback(
-    (circleId: string) => navigateOrg(`?circleId=${circleId}`),
-    []
-  )
-  const onCircleMemberClick = useCallback(
-    (circleId: string, memberId: string) =>
-      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`),
-    []
-  )
+  // Events
+  const events = useCirclesEvents()
 
   // Display viz
   useEffect(() => {
     if (
-      svgRef.current &&
-      width !== 0 &&
-      height !== 0 &&
-      members &&
-      roles &&
-      circles
+      !svgRef.current ||
+      width === 0 ||
+      height === 0 ||
+      !members ||
+      !roles ||
+      !circles
     ) {
-      // Init Graph
-      if (!graphRef.current) {
-        const graph = createGraph(svgRef.current, {
-          width,
-          height,
-          events: {
-            onCircleClick,
-            onCircleMove: moveCircle,
-            onCircleCopy: copyCircle,
-            onCircleMemberClick,
-            onMemberClick,
-            onMemberMove: moveCircleMember,
-            onMemberAdd: addMemberToCircle,
-            onClickOutside: navigateOrg,
-          },
-        })
-
-        // Change ready state after first draw
-        graph.addDrawListener(() => setReady(true), true)
-        graphRef.current = graph
-      }
-
-      // (Re)-draw graph
-      graphRef.current.update({
-        width,
-        height,
-        selectedCircleId,
-        circles,
-        roles,
-        members,
-      })
+      return
     }
+    // Init Graph
+    if (!graphRef.current) {
+      const graph = createGraph(svgRef.current, { width, height, events })
+
+      // Change ready state after first draw
+      graph.addDrawListener(() => setReady(true), true)
+      graphRef.current = graph
+    }
+
+    // (Re)-draw graph
+    graphRef.current.update({
+      width,
+      height,
+      selectedCircleId,
+      circles,
+      roles,
+      members,
+    })
   }, [
     members,
     roles,
@@ -140,9 +109,7 @@ export default function CirclesGraph({
     width,
     height,
     selectedCircleId,
-    onCircleClick,
-    onMemberClick,
-    onCircleMemberClick,
+    ...Object.values(events),
   ])
 
   // Remove SVG listeners on unmount
@@ -171,6 +138,6 @@ export default function CirclesGraph({
       viewBox={`0 0 ${width} ${height}`}
       textAnchor="middle"
       colorMode={colorMode}
-    ></StyledSVG>
+    />
   )
 }

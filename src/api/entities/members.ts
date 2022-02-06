@@ -1,4 +1,5 @@
 import { Member } from '@shared/member'
+import { Optional } from '@shared/types'
 import { ClaimRole } from '@shared/userClaims'
 import { orderBy, query, where } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
@@ -15,14 +16,23 @@ import {
 
 export const collection = getCollection<Member>('members')
 
-const methods = getEntityMethods(collection)
+const methods = getEntityMethods(collection, {
+  createTransform: (member: Optional<Member, 'archived'>) => ({
+    archived: false,
+    ...member,
+  }),
+})
 export const createMember = methods.create
 export const updateMember = methods.update
-export const deleteMember = methods.delete
 
-export const subscribeMembers = memoize((orgId: string) =>
+export const subscribeMembers = memoize((orgId: string, archived: boolean) =>
   subscribeQuery(
-    query(collection, where('orgId', '==', orgId), orderBy('name'))
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      where('archived', '==', archived),
+      orderBy('name')
+    )
   )
 )
 
