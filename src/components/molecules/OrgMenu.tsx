@@ -22,6 +22,7 @@ import React, { useState } from 'react'
 import {
   FiArrowLeft,
   FiCircle,
+  FiClock,
   FiCopy,
   FiMenu,
   FiMoon,
@@ -109,6 +110,11 @@ export default function OrgMenu(props: MenuButtonProps) {
           <MenuItem icon={<FiCopy />} onClick={onMeetingTemplatesOpen}>
             Templates de réunion
           </MenuItem>
+          {role === ClaimRole.Admin && (
+            <MenuItem icon={<FiClock />} onClick={() => navigateOrg('/logs')}>
+              Historique
+            </MenuItem>
+          )}
           <MenuItem
             icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
             onClick={toggleColorMode}

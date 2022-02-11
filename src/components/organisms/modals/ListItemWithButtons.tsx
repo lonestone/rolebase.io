@@ -37,9 +37,7 @@ export default function ListItemWithButtons({
       >
         {title}
       </LinkOverlay>
-      <HStack spacing={2} opacity={0} _groupHover={{ opacity: 1 }}>
-        {buttons}
-      </HStack>
+      <HStack spacing={2}>{buttons}</HStack>
     </LinkBox>
   )
 }

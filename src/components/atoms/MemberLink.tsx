@@ -4,7 +4,7 @@ import React from 'react'
 import CircleMemberLink from './CircleMemberLink'
 
 interface Props {
-  member: MemberEntry
+  member: Pick<MemberEntry, 'id' | 'name'>
 }
 
 export default function MemberLink({ member }: Props) {

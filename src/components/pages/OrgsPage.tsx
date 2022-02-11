@@ -5,10 +5,8 @@ import {
   AlertTitle,
   Button,
   Container,
-  Flex,
   Heading,
   HStack,
-  IconButton,
   LinkBox,
   LinkOverlay,
   List,
@@ -27,7 +25,7 @@ import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
-import { FiArrowRight, FiEdit3, FiPlus } from 'react-icons/fi'
+import { FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 export default function OrgsPage() {
@@ -123,19 +121,9 @@ export default function OrgsPage() {
               _hover={hover}
             >
               <Heading size="md" my="2">
-                <Flex>
-                  <LinkOverlay flex={1} as={ReachLink} to={`/orgs/${org.id}`}>
-                    {org.name}
-                  </LinkOverlay>
-                  <IconButton
-                    aria-label=""
-                    size="sm"
-                    onClick={() => handleOpenEdit(org.id)}
-                    icon={<FiEdit3 />}
-                    opacity={0}
-                    _groupHover={{ opacity: 1 }}
-                  />
-                </Flex>
+                <LinkOverlay flex={1} as={ReachLink} to={`/orgs/${org.id}`}>
+                  {org.name}
+                </LinkOverlay>
               </Heading>
             </LinkBox>
           </WrapItem>

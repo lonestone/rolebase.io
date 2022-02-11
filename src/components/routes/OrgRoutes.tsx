@@ -1,6 +1,7 @@
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import CirclesPage from '@components/pages/CirclesPage'
+import LogsPage from '@components/pages/LogsPage'
 import MeetingPage from '@components/pages/MeetingPage'
 import MeetingsPage from '@components/pages/MeetingsPage'
 import MembersPage from '@components/pages/MembersPage'
@@ -86,6 +87,9 @@ export default function OrgRoutes() {
         </Route>
         <Route exact path="/orgs/:orgId/tasks">
           <TasksPage />
+        </Route>
+        <Route exact path="/orgs/:orgId/logs">
+          <LogsPage />
         </Route>
         <Route>
           <Redirect to={`/orgs/${orgId}`} />

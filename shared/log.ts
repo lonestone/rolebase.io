@@ -72,8 +72,10 @@ export interface EntitiesLog {
 // Log of changes to the organization
 export interface Log {
   orgId: string
-  // User who made the change
+  // User and member who made the change
   userId: string
+  memberId: string
+  memberName: string // Keep name for display, in case of deleted member
   // Meeting during which this log was created
   meetingId?: string
   // Date of log

@@ -1,6 +1,6 @@
 import { Log } from '@shared/log'
 import { Optional } from '@shared/types'
-import { orderBy, query, Timestamp, where } from 'firebase/firestore'
+import { limit, orderBy, query, Timestamp, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 
@@ -16,7 +16,12 @@ export const createLog = methods.create
 
 export const subscribeAllLogs = memoize((orgId: string) =>
   subscribeQuery(
-    query(collection, where('orgId', '==', orgId), orderBy('createdAt', 'desc'))
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      orderBy('createdAt', 'desc'),
+      limit(100)
+    )
   )
 )
 

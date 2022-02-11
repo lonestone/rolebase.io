@@ -98,6 +98,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                 <FormControl>
                   <FormLabel>Temps de travail</FormLabel>
                   <DurationSelect
+                    size="sm"
                     placeholderValue={
                       roleCircle.role?.defaultMinPerWeek ?? undefined
                     }

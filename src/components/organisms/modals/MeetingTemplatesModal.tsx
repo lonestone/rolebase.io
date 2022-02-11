@@ -87,6 +87,7 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
                     <IconButton
                       aria-label=""
                       size="sm"
+                      variant="ghost"
                       onClick={() => handleDelete(mt)}
                       icon={<FiTrash2 />}
                     />

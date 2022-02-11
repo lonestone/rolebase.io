@@ -4,6 +4,7 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 interface Props {
   value: number | null
   placeholderValue?: number
+  size?: 'sm' | 'md' | 'lg'
   onChange(value: number | null): void
 }
 
@@ -28,6 +29,7 @@ function getValueInUnit(value: number | null, unit: DurationUnits) {
 export default function DurationSelect({
   placeholderValue,
   value,
+  size,
   onChange,
 }: Props) {
   const [unit, setUnit] = useState(() =>
@@ -66,9 +68,14 @@ export default function DurationSelect({
             : ''
         }
         value={getValueInUnit(value, unit) || ''}
+        size={size}
         onChange={handleValueChange}
       />
-      <Select value={DurationUnits[unit]} onChange={handleUnitChange}>
+      <Select
+        value={DurationUnits[unit]}
+        size={size}
+        onChange={handleUnitChange}
+      >
         <option value="Min">Min / semaine</option>
         <option value="Hours">Heures / semaine</option>
       </Select>
