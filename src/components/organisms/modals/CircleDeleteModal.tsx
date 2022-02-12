@@ -45,7 +45,6 @@ export default function CircleDeleteModal({
 
     // Log change
     createLog({
-      // meetingId:
       display: {
         type: LogType.CircleArchive,
         id: circle.id,

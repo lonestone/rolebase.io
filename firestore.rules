@@ -29,6 +29,9 @@ service cloud.firestore {
       return request.resource.data.keys().hasAny(fields)
     }
 
+    function hasFieldsOnly(fields){
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields)
+    }
     function hasFieldsChange(fields){
       return request.resource.data.diff(resource.data).affectedKeys().hasAny(fields)
     }
@@ -50,7 +53,8 @@ service cloud.firestore {
     match /logs/{id} {
       allow read: if isOrgMember(resource.data.orgId);
       allow create: if isOrgMember(request.resource.data.orgId)
-      allow update, delete: if false;
+      allow update: if isOrgMember(request.resource.data.orgId) && hasFieldsOnly(['canceled']);
+      allow delete: if false;
     }
 
     // Members

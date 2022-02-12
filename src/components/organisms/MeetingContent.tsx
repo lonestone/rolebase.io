@@ -258,8 +258,11 @@ export default function MeetingContent({
                 )}
                 {facilitator && (
                   <Text>
-                    <MemberLink member={facilitator.member} /> anime cette
-                    réunion.
+                    <MemberLink
+                      id={facilitator.member.id}
+                      name={facilitator.member.name}
+                    />{' '}
+                    anime cette réunion.
                   </Text>
                 )}
               </>

@@ -31,6 +31,7 @@ const methods = getEntityMethods(collection, {
     ...circle,
   }),
 })
+export const getCircle = methods.get
 export const createCircle = methods.create
 export const updateCircle = methods.update
 

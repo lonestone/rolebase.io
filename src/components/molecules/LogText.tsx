@@ -1,5 +1,6 @@
 import CircleMemberChakraLink from '@components/atoms/CircleMemberChakraLink'
 import MemberLink from '@components/atoms/MemberLink'
+import RoleEditLink from '@components/atoms/RoleEditLink'
 import { LogEntry, LogType } from '@shared/log'
 import React from 'react'
 
@@ -8,12 +9,14 @@ interface Props {
 }
 
 export default function LogText({ log }: Props) {
+  const memberId = log.cancelMemberId || log.memberId
+  const memberName = log.cancelMemberName || log.memberName
+
   switch (log.display.type) {
     case LogType.CircleCreate:
       return (
         <>
-          <MemberLink member={{ id: log.memberId, name: log.memberName }} /> a
-          créé le cercle{' '}
+          <MemberLink id={memberId} name={memberName} /> a créé le cercle{' '}
           <CircleMemberChakraLink
             circleId={log.display.id}
             fontWeight={700}
@@ -21,14 +24,26 @@ export default function LogText({ log }: Props) {
           >
             {log.display.name}
           </CircleMemberChakraLink>
+          {log.display.parentId && log.display.parentName && (
+            <>
+              {' '}
+              dans{' '}
+              <CircleMemberChakraLink
+                circleId={log.display.parentId}
+                fontWeight={700}
+                textDecoration="none"
+              >
+                {log.display.parentName}
+              </CircleMemberChakraLink>
+            </>
+          )}
         </>
       )
 
     case LogType.CircleMove:
       return (
         <>
-          <MemberLink member={{ id: log.memberId, name: log.memberName }} /> a
-          déplacé le cercle{' '}
+          <MemberLink id={memberId} name={memberName} /> a déplacé le cercle{' '}
           <CircleMemberChakraLink
             circleId={log.display.id}
             fontWeight={700}
@@ -55,8 +70,7 @@ export default function LogText({ log }: Props) {
     case LogType.CircleCopy:
       return (
         <>
-          <MemberLink member={{ id: log.memberId, name: log.memberName }} /> a
-          copié le cercle{' '}
+          <MemberLink id={memberId} name={memberName} /> a copié le cercle{' '}
           <CircleMemberChakraLink
             circleId={log.display.id}
             fontWeight={700}
@@ -83,8 +97,7 @@ export default function LogText({ log }: Props) {
     case LogType.CircleArchive:
       return (
         <>
-          <MemberLink member={{ id: log.memberId, name: log.memberName }} /> a
-          archivé le cercle{' '}
+          <MemberLink id={memberId} name={memberName} /> a archivé le cercle{' '}
           <CircleMemberChakraLink
             circleId={log.display.id}
             fontWeight={700}
@@ -98,11 +111,8 @@ export default function LogText({ log }: Props) {
     case LogType.CircleMemberAdd:
       return (
         <>
-          <MemberLink member={{ id: log.memberId, name: log.memberName }} /> a
-          ajouté{' '}
-          <MemberLink
-            member={{ id: log.display.memberId, name: log.display.memberName }}
-          />{' '}
+          <MemberLink id={memberId} name={memberName} /> a ajouté{' '}
+          <MemberLink id={log.display.memberId} name={log.display.memberName} />{' '}
           au cercle{' '}
           <CircleMemberChakraLink
             circleId={log.display.id}
@@ -117,11 +127,8 @@ export default function LogText({ log }: Props) {
     case LogType.CircleMemberRemove:
       return (
         <>
-          <MemberLink member={{ id: log.memberId, name: log.memberName }} /> a
-          supprimé{' '}
-          <MemberLink
-            member={{ id: log.display.memberId, name: log.display.memberName }}
-          />{' '}
+          <MemberLink id={memberId} name={memberName} /> a supprimé{' '}
+          <MemberLink id={log.display.memberId} name={log.display.memberName} />{' '}
           du cercle{' '}
           <CircleMemberChakraLink
             circleId={log.display.id}
@@ -136,11 +143,8 @@ export default function LogText({ log }: Props) {
     case LogType.CircleMemberMove:
       return (
         <>
-          <MemberLink member={{ id: log.memberId, name: log.memberName }} /> a
-          déplacé{' '}
-          <MemberLink
-            member={{ id: log.display.memberId, name: log.display.memberName }}
-          />{' '}
+          <MemberLink id={memberId} name={memberName} /> a déplacé{' '}
+          <MemberLink id={log.display.memberId} name={log.display.memberName} />{' '}
           dans le cercle{' '}
           <CircleMemberChakraLink
             circleId={log.display.id}
@@ -153,6 +157,11 @@ export default function LogText({ log }: Props) {
       )
 
     case LogType.RoleUpdate:
-      return <></>
+      return (
+        <>
+          <MemberLink id={memberId} name={memberName} /> a modifié le rôle{' '}
+          <RoleEditLink id={log.display.id} name={log.display.name} />{' '}
+        </>
+      )
   }
 }

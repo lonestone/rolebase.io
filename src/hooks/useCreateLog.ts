@@ -14,7 +14,12 @@ export default function useCreateLog() {
     (
       log: Optional<
         Log,
-        'orgId' | 'userId' | 'memberId' | 'memberName' | 'createdAt'
+        | 'orgId'
+        | 'userId'
+        | 'memberId'
+        | 'memberName'
+        | 'createdAt'
+        | 'meetingId'
       >
     ) => {
       if (!orgId) throw new Error('No orgId')

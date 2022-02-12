@@ -10,7 +10,14 @@ const methods = getEntityMethods(collection, {
   createTransform: (
     role: Optional<
       Role,
-      'archived' | 'purpose' | 'domain' | 'accountabilities' | 'notes'
+      | 'archived'
+      | 'purpose'
+      | 'domain'
+      | 'accountabilities'
+      | 'notes'
+      | 'singleMember'
+      | 'link'
+      | 'defaultMinPerWeek'
     >
   ) => ({
     archived: false,
@@ -18,9 +25,13 @@ const methods = getEntityMethods(collection, {
     domain: '',
     accountabilities: '',
     notes: '',
+    singleMember: false,
+    link: false,
+    defaultMinPerWeek: null,
     ...role,
   }),
 })
+export const getRole = methods.get
 export const createRole = methods.create
 export const updateRole = methods.update
 

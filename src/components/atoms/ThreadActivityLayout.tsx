@@ -48,7 +48,7 @@ export default function ThreadActivityLayout({
         )}
 
         <Text>
-          {member && <MemberLink member={member} />}
+          {member && <MemberLink id={member.id} name={member.name} />}
           <HourLink timestamp={activity.createdAt} ml={2} />
         </Text>
 

@@ -66,7 +66,7 @@ export type EntityLog<Entity> =
 export interface EntitiesLog {
   circles?: EntityLog<Circle>[]
   roles?: EntityLog<Role>[]
-  member?: EntityLog<Member>[]
+  members?: EntityLog<Member>[]
 }
 
 // Log of changes to the organization
@@ -76,8 +76,8 @@ export interface Log {
   userId: string
   memberId: string
   memberName: string // Keep name for display, in case of deleted member
-  // Meeting during which this log was created
-  meetingId?: string
+  // Meeting during which this log was created (optional)
+  meetingId: string | null
   // Date of log
   createdAt: Timestamp
   // Type of log and data to display
@@ -86,6 +86,10 @@ export interface Log {
   changes: EntitiesLog
   // Id of canceled log, if it's a cancellation
   cancelLogId?: string
+  // Member that did the action that's canceled
+  cancelMemberId?: string
+  cancelMemberName?: string
+  canceled?: boolean
 }
 
 export type LogEntry = WithId<Log>
@@ -99,8 +103,12 @@ export function getEntityChanges<Entity>(
   const newData: Partial<Entity> = {}
   for (const key of Object.keys(newEntity) as (keyof Entity)[]) {
     if (prevEntity[key] !== newEntity[key]) {
-      prevData[key] = prevEntity[key]
-      newData[key] = newEntity[key]
+      if (prevEntity[key] !== undefined) {
+        prevData[key] = prevEntity[key]
+      }
+      if (newEntity[key] !== undefined) {
+        newData[key] = newEntity[key]
+      }
     }
   }
   return { prevData, newData }

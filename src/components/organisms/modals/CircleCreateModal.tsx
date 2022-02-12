@@ -95,7 +95,6 @@ export default function CircleCreateModal({
 
       // Log change
       createLog({
-        // meetingId:
         display: {
           type: LogType.CircleCreate,
           id: circle.id,
@@ -121,7 +120,12 @@ export default function CircleCreateModal({
     if (!orgId) return
     try {
       // Create role
-      const role = await createRole({ orgId, base: false, name, singleMember })
+      const role = await createRole({
+        orgId,
+        base: false,
+        name,
+        singleMember: !!singleMember,
+      })
       if (!role) throw new Error('Error creating new role')
 
       // Create circle

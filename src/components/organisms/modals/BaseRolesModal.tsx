@@ -14,8 +14,8 @@ import {
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
+import ListItemWithButtons from '../../molecules/ListItemWithButtons'
 import BaseRoleCreateModal from './BaseRoleCreateModal'
-import ListItemWithButtons from './ListItemWithButtons'
 import RoleDeleteModal from './RoleDeleteModal'
 import RoleEditModal from './RoleEditModal'
 

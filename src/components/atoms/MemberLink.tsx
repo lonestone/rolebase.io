@@ -1,22 +1,17 @@
-import { Button, useColorMode } from '@chakra-ui/react'
-import { MemberEntry } from '@shared/member'
+import { Button } from '@chakra-ui/react'
 import React from 'react'
 import CircleMemberLink from './CircleMemberLink'
 
 interface Props {
-  member: Pick<MemberEntry, 'id' | 'name'>
+  id: string
+  name: string
 }
 
-export default function MemberLink({ member }: Props) {
-  const { colorMode } = useColorMode()
+export default function MemberLink({ id, name }: Props) {
   return (
-    <CircleMemberLink memberId={member.id}>
-      <Button
-        variant="link"
-        color={colorMode === 'light' ? 'black' : 'white'}
-        textDecoration="none"
-      >
-        {member.name}
+    <CircleMemberLink memberId={id}>
+      <Button variant="link" color="inherit" textDecoration="none">
+        {name}
       </Button>
     </CircleMemberLink>
   )

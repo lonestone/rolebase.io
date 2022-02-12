@@ -22,6 +22,7 @@ const methods = getEntityMethods(collection, {
     ...member,
   }),
 })
+export const getMember = methods.get
 export const createMember = methods.create
 export const updateMember = methods.update
 

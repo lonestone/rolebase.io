@@ -47,7 +47,6 @@ export default function useGraphEvents(): GraphEvents {
         parentCircle && roles.entries?.find((r) => r.id === parentCircle.roleId)
       if (!role) return
       createLog({
-        // meetingId:
         display: {
           type: LogType.CircleMove,
           id: circleId,
@@ -77,7 +76,6 @@ export default function useGraphEvents(): GraphEvents {
       const newCircleId = changes.circles?.[0]?.id
       if (!role || !newCircleId) return
       createLog({
-        // meetingId:
         display: {
           type: LogType.CircleCopy,
           id: newCircleId,
@@ -113,7 +111,6 @@ export default function useGraphEvents(): GraphEvents {
         targetCircle && roles.entries?.find((r) => r.id === targetCircle.roleId)
       if (!member || !targetRole) return
       createLog({
-        // meetingId:
         display: {
           type: LogType.CircleMemberMove,
           id: targetCircle.id,
@@ -139,7 +136,6 @@ export default function useGraphEvents(): GraphEvents {
       const role = circle && roles.entries?.find((r) => r.id === circle.roleId)
       if (!member || !role) return
       createLog({
-        // meetingId:
         display: {
           type: LogType.CircleMemberAdd,
           id: circle.id,

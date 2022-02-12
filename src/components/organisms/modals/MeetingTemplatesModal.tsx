@@ -19,7 +19,7 @@ import { MeetingTempalteEntry } from '@shared/meetingTemplate'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
-import ListItemWithButtons from './ListItemWithButtons'
+import ListItemWithButtons from '../../molecules/ListItemWithButtons'
 import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'
 import MeetingTemplateModal from './MeetingTemplateModal'
 

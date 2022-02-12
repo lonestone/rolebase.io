@@ -46,9 +46,9 @@ interface Values {
   domain: string
   accountabilities: string
   notes: string
-  singleMember?: boolean
-  link?: string | boolean
-  defaultMinPerWeek?: number | null
+  singleMember: boolean
+  link: string | boolean
+  defaultMinPerWeek: number | null
 }
 
 const resolver = yupResolver(
@@ -114,7 +114,6 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
 
     // Log changes
     createLog({
-      // meetingId:
       display: {
         type: LogType.RoleUpdate,
         id,

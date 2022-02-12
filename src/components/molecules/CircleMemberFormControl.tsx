@@ -33,7 +33,6 @@ export default function CircleMemberFormControl({ circleId }: Props) {
       const member = members?.find((m) => m.id === memberId)
       if (member) {
         createLog({
-          // meetingId:
           display: {
             type: LogType.CircleMemberAdd,
             id: circle.id,
