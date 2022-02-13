@@ -19,7 +19,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
-import { EntityLogType, LogType } from '@shared/log'
+import { EntityChangeType, LogType } from '@shared/log'
 import { RoleEntry } from '@shared/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
@@ -104,10 +104,10 @@ export default function CircleCreateModal({
         },
         changes: {
           circles: [
-            { type: EntityLogType.Create, id: circle.id, data: circle },
+            { type: EntityChangeType.Create, id: circle.id, data: circle },
           ],
           roles: newRole
-            ? [{ type: EntityLogType.Create, id: role.id, data: role }]
+            ? [{ type: EntityChangeType.Create, id: role.id, data: role }]
             : undefined,
         },
       })

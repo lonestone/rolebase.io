@@ -1,5 +1,5 @@
 import { Circle } from '@shared/circle'
-import { EntitiesLog, EntityLogType } from '@shared/log'
+import { EntitiesChanges, EntityChangeType } from '@shared/log'
 import { Optional } from '@shared/types'
 import {
   arrayUnion,
@@ -45,8 +45,8 @@ export const subscribeCircles = memoize((orgId: string, archived: boolean) =>
   )
 )
 
-export async function archiveCircle(id: string): Promise<EntitiesLog> {
-  const changes: EntitiesLog = { circles: [], roles: [] }
+export async function archiveCircle(id: string): Promise<EntitiesChanges> {
+  const changes: EntitiesChanges = { circles: [], roles: [] }
   try {
     const batch = writeBatch(firestore)
     await archiveCircleInternal(id, batch, changes)
@@ -59,7 +59,7 @@ export async function archiveCircle(id: string): Promise<EntitiesLog> {
 async function archiveCircleInternal(
   id: string,
   batch: WriteBatch,
-  changes: EntitiesLog
+  changes: EntitiesChanges
 ): Promise<void> {
   const circleDoc = doc(collection, id)
   const snapshot = await getDoc(circleDoc)
@@ -70,7 +70,7 @@ async function archiveCircleInternal(
   if (!circle.archived) {
     batch.update(circleDoc, { archived: true })
     changes.circles?.push({
-      type: EntityLogType.Update,
+      type: EntityChangeType.Update,
       id: circleDoc.id,
       prevData: { archived: false },
       newData: { archived: true },
@@ -85,7 +85,7 @@ async function archiveCircleInternal(
     if (role && !role.base && !role.archived) {
       batch.update(roleDoc, { archived: true })
       changes.roles?.push({
-        type: EntityLogType.Update,
+        type: EntityChangeType.Update,
         id: roleDoc.id,
         prevData: { archived: false },
         newData: { archived: true },
@@ -110,8 +110,8 @@ async function archiveCircleInternal(
 export async function moveCircle(
   circleId: string,
   targetCircleId: string | null
-): Promise<EntitiesLog> {
-  const changes: EntitiesLog = { circles: [] }
+): Promise<EntitiesChanges> {
+  const changes: EntitiesChanges = { circles: [] }
   const circleDoc = doc(collection, circleId)
   const snapshot = await getDoc(circleDoc)
   const circle = snapshot.data()
@@ -120,7 +120,7 @@ export async function moveCircle(
   updateDoc(circleDoc, { parentId: targetCircleId })
 
   changes.circles?.push({
-    type: EntityLogType.Update,
+    type: EntityChangeType.Update,
     id: circleDoc.id,
     prevData: { parentId: circle.parentId },
     newData: { parentId: targetCircleId },
@@ -131,8 +131,8 @@ export async function moveCircle(
 export async function copyCircle(
   circleId: string,
   targetCircleId: string | null
-): Promise<EntitiesLog> {
-  const changes: EntitiesLog = { circles: [], roles: [] }
+): Promise<EntitiesChanges> {
+  const changes: EntitiesChanges = { circles: [], roles: [] }
   try {
     const batch = writeBatch(firestore)
     await copyCircleInternal(circleId, targetCircleId, batch, changes)
@@ -147,7 +147,7 @@ async function copyCircleInternal(
   circleId: string,
   targetCircleId: string | null,
   batch: WriteBatch,
-  changes: EntitiesLog
+  changes: EntitiesChanges
 ): Promise<void> {
   const circleDoc = doc(collection, circleId)
   const snapshot = await getDoc(circleDoc)
@@ -166,7 +166,7 @@ async function copyCircleInternal(
     roleId = newRoleDoc.id
 
     changes.roles?.push({
-      type: EntityLogType.Create,
+      type: EntityChangeType.Create,
       id: roleId,
       data: role,
     })
@@ -182,7 +182,7 @@ async function copyCircleInternal(
   batch.set(newCircleDoc, newCircle)
 
   changes.circles?.push({
-    type: EntityLogType.Create,
+    type: EntityChangeType.Create,
     id: newCircleDoc.id,
     data: newCircle,
   })
@@ -208,8 +208,8 @@ async function copyCircleInternal(
 export async function addMemberToCircle(
   memberId: string,
   circleId: string
-): Promise<EntitiesLog> {
-  const changes: EntitiesLog = { circles: [] }
+): Promise<EntitiesChanges> {
+  const changes: EntitiesChanges = { circles: [] }
   const circleDoc = doc(collection, circleId)
   const snapshot = await getDoc(circleDoc)
   const circle = snapshot.data()
@@ -230,7 +230,7 @@ export async function addMemberToCircle(
   })
 
   changes.circles?.push({
-    type: EntityLogType.Update,
+    type: EntityChangeType.Update,
     id: circleDoc.id,
     prevData: { members: circle.members },
     newData: { members: [...circle.members, { id: circleMemberId, memberId }] },
@@ -241,7 +241,7 @@ export async function addMemberToCircle(
 export async function removeCircleMember(
   memberId: string,
   parentCircleId: string
-): Promise<EntitiesLog> {
+): Promise<EntitiesChanges> {
   return moveCircleMember(memberId, parentCircleId, null)
 }
 
@@ -249,8 +249,8 @@ export async function moveCircleMember(
   memberId: string,
   parentCircleId: string,
   targetCircleId: string | null
-): Promise<EntitiesLog> {
-  const changes: EntitiesLog = { circles: [] }
+): Promise<EntitiesChanges> {
+  const changes: EntitiesChanges = { circles: [] }
   const circleDoc = doc(collection, parentCircleId)
   const snapshot = await getDoc(circleDoc)
   const circle = snapshot.data()
@@ -265,7 +265,7 @@ export async function moveCircleMember(
       members: newMembers,
     })
     changes.circles?.push({
-      type: EntityLogType.Update,
+      type: EntityChangeType.Update,
       id: circleDoc.id,
       prevData: { members: circle.members },
       newData: { members: newMembers },
@@ -291,7 +291,7 @@ export async function moveCircleMember(
       members: newMembers,
     })
     changes.circles?.push({
-      type: EntityLogType.Update,
+      type: EntityChangeType.Update,
       id: targetDoc.id,
       prevData: { members: targetCircle.members },
       newData: { members: newMembers },
@@ -306,7 +306,7 @@ export async function moveCircleMember(
     members: newMembers,
   })
   changes.circles?.push({
-    type: EntityLogType.Update,
+    type: EntityChangeType.Update,
     id: circleDoc.id,
     prevData: { members: circle.members },
     newData: { members: newMembers },

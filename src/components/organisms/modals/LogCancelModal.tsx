@@ -1,4 +1,4 @@
-import { cancelLog, detectEntitiesLogChanges } from '@api/entities/logs'
+import { cancelLog, detectRecentEntitiesChanges } from '@api/entities/logs'
 import {
   Alert,
   AlertDescription,
@@ -6,7 +6,7 @@ import {
   Box,
   Button,
   Checkbox,
-  FormControl,
+  Collapse,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,13 +17,16 @@ import {
   useColorMode,
   UseModalProps,
   useToast,
+  VStack,
 } from '@chakra-ui/react'
 import LogCancelText from '@components/molecules/LogCancelText'
+import LogEntityChanges from '@components/molecules/LogEntityChanges'
 import LogText from '@components/molecules/LogText'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import useCreateLog from '@hooks/useCreateLog'
-import { LogEntry } from '@shared/log'
+import { EntitiesChanges, EntityChange, LogEntry } from '@shared/log'
 import React, { useState } from 'react'
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
 interface Props extends UseModalProps {
   log: LogEntry
@@ -36,10 +39,13 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
 
   // Detect changes in logged updated entities since the log
   const hadChanges = useAsyncMemo(
-    () => detectEntitiesLogChanges(log.changes),
+    () => detectRecentEntitiesChanges(log.changes),
     [log],
     false
   )
+
+  // Show details
+  const [showDetails, setShowDetails] = useState(false)
 
   // Checkbox to force cancel if there are changes
   const [force, setForce] = useState(false)
@@ -80,32 +86,60 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
         <ModalCloseButton />
 
         <ModalBody>
-          <Box
-            p={3}
-            borderRadius="md"
-            border="1px solid"
-            bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
-            borderColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
-          >
-            <LogCancelText log={log} />
-            <LogText log={log} />
-          </Box>
+          <VStack spacing={4} alignItems="start">
+            <Box
+              p={3}
+              borderRadius="md"
+              border="1px solid"
+              bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
+              borderColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+            >
+              <LogCancelText log={log} />
+              <LogText log={log} />
+            </Box>
 
-          {hadChanges && (
-            <FormControl mt={5}>
-              <Alert status="warning" mb={5}>
-                <AlertIcon />
-                <AlertDescription>
-                  Des données ont changé depuis cette action. Vous risquez de
-                  perdre des modifications plus récentes si vous annulez cette
-                  action.
-                </AlertDescription>
-              </Alert>
-              <Checkbox isChecked={force} onChange={() => setForce((f) => !f)}>
-                Je comprends que je peux perdre des modifications
-              </Checkbox>
-            </FormControl>
-          )}
+            {hadChanges && (
+              <>
+                <Alert status="warning" mb={5}>
+                  <AlertIcon />
+                  <AlertDescription>
+                    Des données ont changé depuis cette action. Vous risquez de
+                    perdre des modifications plus récentes si vous annulez cette
+                    action.
+                  </AlertDescription>
+                </Alert>
+                <Checkbox
+                  isChecked={force}
+                  onChange={() => setForce((f) => !f)}
+                >
+                  Je comprends que je peux perdre des modifications
+                </Checkbox>
+              </>
+            )}
+
+            <Button
+              variant="link"
+              rightIcon={showDetails ? <FiChevronUp /> : <FiChevronDown />}
+              onClick={() => setShowDetails((s) => !s)}
+            >
+              Voir les modifications
+            </Button>
+            <Collapse in={showDetails} animateOpacity>
+              <VStack spacing={3}>
+                {Object.keys(log.changes).flatMap((entityType) =>
+                  log.changes[entityType as keyof EntitiesChanges]?.map(
+                    (entityChange) => (
+                      <LogEntityChanges
+                        key={entityChange.id}
+                        type={entityType}
+                        entityChange={entityChange as EntityChange<any>}
+                      />
+                    )
+                  )
+                )}
+              </VStack>
+            </Collapse>
+          </VStack>
         </ModalBody>
 
         <ModalFooter>

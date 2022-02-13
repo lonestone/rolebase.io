@@ -28,6 +28,7 @@
     "d3": "^6.5.0",
     "d3-hierarchy": "^2.0.0",
     "date-fns": "^2.25.0",
+    "diff": "^5.0.0",
     "downshift": "^6.1.0",
     "easy-peasy": "^5.0.3",
     "easymde": "^2.15.0",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@types/d3": "^6.3.0",
     "@types/d3-hierarchy": "^2.0.0",
+    "@types/diff": "^5.0.2",
     "@types/lodash.debounce": "^4.0.6",
     "@types/lodash.isequal": "^4.5.5",
     "@types/lodash.throttle": "^4.1.6",

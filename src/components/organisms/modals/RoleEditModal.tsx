@@ -30,7 +30,7 @@ import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombo
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
-import { EntityLogType, getEntityChanges, LogType } from '@shared/log'
+import { EntityChangeType, getEntityChanges, LogType } from '@shared/log'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -122,7 +122,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
       changes: {
         roles: [
           {
-            type: EntityLogType.Update,
+            type: EntityChangeType.Update,
             id: role.id,
             ...getEntityChanges(role, values),
           },

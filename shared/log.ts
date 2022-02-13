@@ -39,34 +39,34 @@ export type LogDisplay =
       memberName: string
     }
 
-export enum EntityLogType {
+export enum EntityChangeType {
   Create = 'Create',
   Update = 'Update',
   Delete = 'Delete',
 }
 
-export type EntityLog<Entity> =
+export type EntityChange<Entity> =
   | {
-      type: EntityLogType.Create
+      type: EntityChangeType.Create
       id: string
       data: Entity
     }
   | {
-      type: EntityLogType.Update
+      type: EntityChangeType.Update
       id: string
       prevData: Partial<Entity>
       newData: Partial<Entity>
     }
   | {
-      type: EntityLogType.Delete
+      type: EntityChangeType.Delete
       id: string
       data: Entity
     }
 
-export interface EntitiesLog {
-  circles?: EntityLog<Circle>[]
-  roles?: EntityLog<Role>[]
-  members?: EntityLog<Member>[]
+export interface EntitiesChanges {
+  circles?: EntityChange<Circle>[]
+  roles?: EntityChange<Role>[]
+  members?: EntityChange<Member>[]
 }
 
 // Log of changes to the organization
@@ -83,7 +83,7 @@ export interface Log {
   // Type of log and data to display
   display: LogDisplay
   // Log of changes to entities
-  changes: EntitiesLog
+  changes: EntitiesChanges
   // Id of canceled log, if it's a cancellation
   cancelLogId?: string
   // Member that did the action that's canceled

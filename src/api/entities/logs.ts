@@ -1,7 +1,7 @@
 import {
-  EntitiesLog,
-  EntityLog,
-  EntityLogType,
+  EntitiesChanges,
+  EntityChange,
+  EntityChangeType,
   Log,
   LogEntry,
 } from '@shared/log'
@@ -49,20 +49,20 @@ export const subscribeLogsByMeeting = memoize(
     )
 )
 
-export async function detectEntityLogChanges<Entity>(
-  entityLogs: EntityLog<Entity>[],
+export async function detectRecentEntityChanges<Entity>(
+  entityChanges: EntityChange<Entity>[],
   getEntity: (id: string) => Promise<WithId<Entity> | undefined>
 ): Promise<boolean> {
-  for (const entityLog of entityLogs) {
+  for (const entityChange of entityChanges) {
     // Entity update
-    if (entityLog.type === EntityLogType.Update) {
-      const currentEntity = await getEntity(entityLog.id)
+    if (entityChange.type === EntityChangeType.Update) {
+      const currentEntity = await getEntity(entityChange.id)
       if (!currentEntity) return true
 
       // Check properties that have changed
-      for (const key in entityLog.newData) {
+      for (const key in entityChange.newData) {
         const value = currentEntity[key]
-        const newValue = entityLog.newData[key]
+        const newValue = entityChange.newData[key]
         return !isEqual(value, newValue)
       }
     }
@@ -71,60 +71,63 @@ export async function detectEntityLogChanges<Entity>(
 }
 
 // Determine if an entity has changed since changes in an entities log
-export async function detectEntitiesLogChanges(
-  changes: EntitiesLog
+export async function detectRecentEntitiesChanges(
+  changes: EntitiesChanges
 ): Promise<boolean> {
-  const hadCirclesChanges = detectEntityLogChanges(
+  const hadCirclesChanges = detectRecentEntityChanges(
     changes.circles || [],
     getCircle
   )
-  const hadRolesChanges = detectEntityLogChanges(changes.roles || [], getRole)
-  const hadMemberChanges = detectEntityLogChanges(
+  const hadRolesChanges = detectRecentEntityChanges(
+    changes.roles || [],
+    getRole
+  )
+  const hadMemberChanges = detectRecentEntityChanges(
     changes.members || [],
     getMember
   )
   return hadCirclesChanges || hadRolesChanges || hadMemberChanges
 }
 
-export async function cancelEntityLogs<Entity extends { archived: boolean }>(
-  entityLogs: EntityLog<Entity>[] | undefined,
+export async function cancelEntityChanges<Entity extends { archived: boolean }>(
+  entityChanges: EntityChange<Entity>[] | undefined,
   getEntity: (id: string) => Promise<WithId<Entity> | undefined>,
   updateEntity: (id: string, data: Partial<Entity>) => Promise<void>
-): Promise<EntityLog<Entity>[]> {
-  if (!entityLogs) return []
-  const changes: EntityLog<Entity>[] = []
+): Promise<EntityChange<Entity>[]> {
+  if (!entityChanges) return []
+  const changes: EntityChange<Entity>[] = []
 
-  for (const entityLog of entityLogs) {
-    const currentEntity = await getEntity(entityLog.id)
+  for (const entityChange of entityChanges) {
+    const currentEntity = await getEntity(entityChange.id)
     if (!currentEntity) {
-      console.error('Entity not found', entityLog.id)
+      console.error('Entity not found', entityChange.id)
       continue
     }
 
-    if (entityLog.type === EntityLogType.Create) {
+    if (entityChange.type === EntityChangeType.Create) {
       // Revert creation = archive entity
       if (currentEntity.archived) {
         continue
       }
-      await updateEntity(entityLog.id, { archived: true } as Partial<Entity>)
+      await updateEntity(entityChange.id, { archived: true } as Partial<Entity>)
       changes.push({
-        type: EntityLogType.Update,
-        id: entityLog.id,
+        type: EntityChangeType.Update,
+        id: entityChange.id,
         prevData: { archived: false } as Partial<Entity>,
         newData: { archived: true } as Partial<Entity>,
       })
-    } else if (entityLog.type === EntityLogType.Update) {
+    } else if (entityChange.type === EntityChangeType.Update) {
       // Revert update
       const changePrevData: Partial<Entity> = {}
-      for (const key in entityLog.prevData) {
+      for (const key in entityChange.prevData) {
         changePrevData[key] = currentEntity[key]
       }
-      await updateEntity(entityLog.id, entityLog.prevData)
+      await updateEntity(entityChange.id, entityChange.prevData)
       changes.push({
-        type: EntityLogType.Update,
-        id: entityLog.id,
+        type: EntityChangeType.Update,
+        id: entityChange.id,
         prevData: changePrevData,
-        newData: entityLog.prevData,
+        newData: entityChange.prevData,
       })
     }
   }
@@ -132,15 +135,15 @@ export async function cancelEntityLogs<Entity extends { archived: boolean }>(
 }
 
 // Revert changes in entities and get new changes
-export async function cancelLog(log: LogEntry): Promise<EntitiesLog> {
-  const changes: EntitiesLog = {
-    circles: await cancelEntityLogs(
+export async function cancelLog(log: LogEntry): Promise<EntitiesChanges> {
+  const changes: EntitiesChanges = {
+    circles: await cancelEntityChanges(
       log.changes.circles,
       getCircle,
       updateCircle
     ),
-    roles: await cancelEntityLogs(log.changes.roles, getRole, updateRole),
-    members: await cancelEntityLogs(
+    roles: await cancelEntityChanges(log.changes.roles, getRole, updateRole),
+    members: await cancelEntityChanges(
       log.changes.members,
       getMember,
       updateMember
@@ -149,9 +152,8 @@ export async function cancelLog(log: LogEntry): Promise<EntitiesLog> {
 
   // Remove empty properties
   for (const key in changes) {
-    const k = key as keyof typeof changes
-    if (!changes[k]?.length) {
-      delete changes[k]
+    if (!changes[key as keyof EntitiesChanges]?.length) {
+      delete changes[key as keyof EntitiesChanges]
     }
   }
 
