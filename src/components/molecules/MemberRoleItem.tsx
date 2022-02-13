@@ -12,9 +12,9 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
+import CircleAndParentsButton from '@components/molecules/CircleAndParentsButton'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
@@ -26,6 +26,7 @@ interface Props {
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const { colorMode } = useColorMode()
+  const hoverColor = colorMode === 'light' ? 'gray.100' : 'gray.600'
 
   // Delete modal
   const {
@@ -62,21 +63,13 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
           boxShadow={isExpanded ? 'lg' : 'sm'}
           ml="-3px"
           borderLeft="3px solid"
-          borderLeftColor={
-            isExpanded
-              ? colorMode === 'light'
-                ? 'gray.100'
-                : 'gray.600'
-              : 'transparent'
-          }
+          borderLeftColor={isExpanded ? hoverColor : 'transparent'}
         >
           <AccordionButton
-            _expanded={{
-              bg: colorMode === 'light' ? 'gray.100' : 'gray.600',
-            }}
-            _hover={{
-              bg: colorMode === 'light' ? 'gray.100' : 'gray.600',
-            }}
+            as={Box}
+            cursor="pointer"
+            _expanded={{ bg: hoverColor }}
+            _hover={{ bg: hoverColor }}
           >
             <CircleAndParentsButton
               id={roleCircle.id}

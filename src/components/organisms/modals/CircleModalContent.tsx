@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Button,
   Collapse,
   FormControl,
@@ -15,11 +18,11 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
 import CircleButton from '@components/atoms/CircleButton'
 import { CirclePanelTab } from '@components/atoms/CirclePanelTab'
 import Markdown from '@components/atoms/Markdown'
 import { Title } from '@components/atoms/Title'
+import CircleAndParentsButton from '@components/molecules/CircleAndParentsButton'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
 import MeetingsInCircleList from '@components/molecules/MeetingsInCircleList'
 import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
@@ -81,9 +84,21 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
+  if (!role) {
+    return (
+      <>
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>Rôle introuvable</AlertTitle>
+        </Alert>
+        <ModalCloseButton />
+      </>
+    )
+  }
+
   return (
     <>
-      {changeTitle && <Title>{role?.name || '…'}</Title>}
+      {changeTitle && <Title>{role.name || '…'}</Title>}
 
       <ModalHeader py={2}>
         <CircleAndParentsButton
@@ -105,7 +120,7 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
             borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
           >
             <CirclePanelTab icon={<FiDisc />}>
-              {role?.singleMember ? 'Rôle' : 'Cercle'}
+              {role.singleMember ? 'Rôle' : 'Cercle'}
             </CirclePanelTab>
             <CirclePanelTab icon={<FiMessageSquare />}>
               Discussions
@@ -117,7 +132,7 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
           <TabPanels mt={5}>
             <TabPanel p={0}>
               <VStack spacing={5} align="stretch">
-                {role?.purpose && (
+                {role.purpose && (
                   <FormControl>
                     <FormLabel>Raison d'être :</FormLabel>
                     <Markdown
@@ -132,7 +147,7 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
                   </FormControl>
                 )}
 
-                {(role?.domain || role?.accountabilities || role?.notes) && (
+                {(role.domain || role.accountabilities || role.notes) && (
                   <>
                     <Button
                       variant="link"
@@ -145,21 +160,21 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
                     </Button>
                     <Collapse in={isRoleInfoOpen} animateOpacity>
                       <VStack spacing={5} align="stretch">
-                        {role?.domain && (
+                        {role.domain && (
                           <FormControl>
                             <FormLabel>Domaine :</FormLabel>
                             <Markdown>{role.domain}</Markdown>
                           </FormControl>
                         )}
 
-                        {role?.accountabilities && (
+                        {role.accountabilities && (
                           <FormControl>
                             <FormLabel>Redevabilités :</FormLabel>
                             <Markdown>{role.accountabilities}</Markdown>
                           </FormControl>
                         )}
 
-                        {role?.notes && (
+                        {role.notes && (
                           <FormControl>
                             <FormLabel>Notes :</FormLabel>
                             <Markdown>{role.notes}</Markdown>
@@ -170,7 +185,7 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
                   </>
                 )}
 
-                {!role?.singleMember ? (
+                {!role.singleMember ? (
                   <SubCirclesFormControl circleId={id} />
                 ) : null}
 

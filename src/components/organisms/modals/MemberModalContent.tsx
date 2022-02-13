@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Avatar,
   FormControl,
   FormLabel,
@@ -44,7 +47,17 @@ export default function MemberModalContent({
     onClose: onEditClose,
   } = useDisclosure()
 
-  if (!member) return null
+  if (!member) {
+    return (
+      <>
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>Membre introuvable</AlertTitle>
+        </Alert>
+        <ModalCloseButton />
+      </>
+    )
+  }
 
   return (
     <>

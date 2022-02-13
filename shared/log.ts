@@ -12,7 +12,12 @@ export enum LogType {
   CircleMemberAdd = 'CircleMemberAdd',
   CircleMemberRemove = 'CircleMemberRemove',
   CircleMemberMove = 'CircleMemberMove',
+  RoleCreate = 'RoleCreate',
   RoleUpdate = 'RoleUpdate',
+  RoleArchive = 'RoleArchive',
+  MemberCreate = 'MemberCreate',
+  MemberUpdate = 'MemberUpdate',
+  MemberArchive = 'MemberArchive',
 }
 
 export type LogDisplay =
@@ -24,7 +29,14 @@ export type LogDisplay =
       parentName: string | null
     }
   | {
-      type: LogType.RoleUpdate | LogType.CircleArchive
+      type:
+        | LogType.CircleArchive
+        | LogType.RoleCreate
+        | LogType.RoleUpdate
+        | LogType.RoleArchive
+        | LogType.MemberCreate
+        | LogType.MemberUpdate
+        | LogType.MemberArchive
       id: string
       name: string
     }

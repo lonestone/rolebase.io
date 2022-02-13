@@ -9,7 +9,7 @@ import {
   UnorderedList,
   UseModalProps,
 } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/atoms/CircleAndParentsButton'
+import CircleAndParentsButton from '@components/molecules/CircleAndParentsButton'
 import { CircleEntry } from '@shared/circle'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'

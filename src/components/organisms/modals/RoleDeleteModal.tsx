@@ -10,7 +10,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
+import { EntityChangeType, LogType } from '@shared/log'
 import React from 'react'
 
 interface Props
@@ -25,11 +27,32 @@ export default function RoleDeleteModal({
   ...alertProps
 }: Props) {
   const role = useRole(id)
+  const createLog = useCreateLog()
 
-  const handleDelete = () => {
-    updateRole(id, { archived: true })
+  const handleDelete = async () => {
+    if (!role) return
+    await updateRole(id, { archived: true })
     onDelete?.()
     alertProps.onClose()
+
+    // Log change
+    createLog({
+      display: {
+        type: LogType.RoleArchive,
+        id,
+        name: role.name,
+      },
+      changes: {
+        roles: [
+          {
+            type: EntityChangeType.Update,
+            id: role.id,
+            prevData: { archived: false },
+            newData: { archived: true },
+          },
+        ],
+      },
+    })
   }
 
   if (!role) return null

@@ -7,9 +7,9 @@ interface Props extends ButtonProps {
   name: string
 }
 
-export default function MemberLink({ id, name, ...butonsProps }: Props) {
+export default function CircleLink({ id, name, ...butonsProps }: Props) {
   return (
-    <CircleMemberLink memberId={id}>
+    <CircleMemberLink circleId={id}>
       <Button
         variant="link"
         color="inherit"

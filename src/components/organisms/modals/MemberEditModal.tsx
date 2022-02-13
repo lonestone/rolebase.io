@@ -29,8 +29,10 @@ import {
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
+import { EntityChangeType, getEntityChanges, LogType } from '@shared/log'
 import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
 import React, { useCallback, useRef, useState } from 'react'
@@ -62,6 +64,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const member = useMember(id)
   const org = useCurrentOrg()
   const toast = useToast()
+  const createLog = useCreateLog()
 
   const {
     isOpen: isDeleteOpen,
@@ -108,6 +111,24 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
       // Update member data
       await updateMember(id, memberUpdate)
+
+      // Log change
+      createLog({
+        display: {
+          type: LogType.MemberUpdate,
+          id,
+          name: member.name,
+        },
+        changes: {
+          members: [
+            {
+              type: EntityChangeType.Update,
+              id,
+              ...getEntityChanges(member, memberUpdate),
+            },
+          ],
+        },
+      })
 
       // Change role
       const newRole = role || undefined

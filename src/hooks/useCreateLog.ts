@@ -11,7 +11,7 @@ export default function useCreateLog() {
   const currentMember = useCurrentMember()
 
   return useCallback(
-    (
+    async (
       log: Optional<
         Log,
         | 'orgId'
@@ -25,7 +25,7 @@ export default function useCreateLog() {
       if (!orgId) throw new Error('No orgId')
       if (!userId) throw new Error('No userId')
       if (!currentMember) throw new Error('No currentMember')
-      createLog({
+      await createLog({
         orgId,
         userId,
         memberId: currentMember.id,

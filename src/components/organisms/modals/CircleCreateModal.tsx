@@ -19,7 +19,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
-import { EntityChangeType, LogType } from '@shared/log'
+import { EntitiesChanges, EntityChangeType, LogType } from '@shared/log'
 import { RoleEntry } from '@shared/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
@@ -93,7 +93,17 @@ export default function CircleCreateModal({
       // Open new circle
       circleMemberContext?.goTo(circle.id)
 
-      // Log change
+      // Log changes
+      const changes: EntitiesChanges = {
+        circles: [
+          { type: EntityChangeType.Create, id: circle.id, data: circle },
+        ],
+      }
+      if (newRole) {
+        changes.roles = [
+          { type: EntityChangeType.Create, id: role.id, data: role },
+        ]
+      }
       createLog({
         display: {
           type: LogType.CircleCreate,
@@ -102,14 +112,7 @@ export default function CircleCreateModal({
           parentId: parentCircle?.id || null,
           parentName: parentCircle?.role.name || null,
         },
-        changes: {
-          circles: [
-            { type: EntityChangeType.Create, id: circle.id, data: circle },
-          ],
-          roles: newRole
-            ? [{ type: EntityChangeType.Create, id: role.id, data: role }]
-            : undefined,
-        },
+        changes,
       })
     },
     [orgId, parentId]

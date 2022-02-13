@@ -15,6 +15,8 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCreateLog from '@hooks/useCreateLog'
+import { EntityChangeType, LogType } from '@shared/log'
 import { Role } from '@shared/role'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
@@ -36,6 +38,7 @@ export default function BaseRoleCreateModal({
   ...modalProps
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const createLog = useCreateLog()
 
   const {
     handleSubmit,
@@ -46,16 +49,28 @@ export default function BaseRoleCreateModal({
   })
 
   const onSubmit = handleSubmit(async ({ name }) => {
-    if (orgId) {
-      const role = await createRole({
-        orgId,
-        base: true,
-        name,
-        singleMember: true,
-      })
-      onCreate?.(role.id)
-    }
+    if (!orgId) return
+    const role = await createRole({
+      orgId,
+      base: true,
+      name,
+      singleMember: true,
+    })
+    onCreate?.(role.id)
+
     modalProps.onClose()
+
+    // Log change
+    createLog({
+      display: {
+        type: LogType.RoleCreate,
+        id: role.id,
+        name: role.name,
+      },
+      changes: {
+        roles: [{ type: EntityChangeType.Create, id: role.id, data: role }],
+      },
+    })
   })
 
   return (

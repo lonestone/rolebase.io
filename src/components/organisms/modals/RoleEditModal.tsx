@@ -112,7 +112,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
     await updateRole(id, values)
     modalProps.onClose()
 
-    // Log changes
+    // Log change
     createLog({
       display: {
         type: LogType.RoleUpdate,

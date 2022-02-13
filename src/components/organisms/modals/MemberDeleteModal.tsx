@@ -10,7 +10,9 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
+import { EntityChangeType, LogType } from '@shared/log'
 import React from 'react'
 
 interface Props
@@ -25,11 +27,32 @@ export default function MemberDeleteModal({
   ...alertProps
 }: Props) {
   const member = useMember(id)
+  const createLog = useCreateLog()
 
-  const handleDelete = () => {
-    updateMember(id, { archived: true })
+  const handleDelete = async () => {
+    if (!member) return
+    await updateMember(id, { archived: true })
     onDelete?.()
     alertProps.onClose()
+
+    // Log change
+    createLog({
+      display: {
+        type: LogType.MemberArchive,
+        id,
+        name: member.name,
+      },
+      changes: {
+        members: [
+          {
+            type: EntityChangeType.Update,
+            id: member.id,
+            prevData: { archived: false },
+            newData: { archived: true },
+          },
+        ],
+      },
+    })
   }
 
   if (!member) return null

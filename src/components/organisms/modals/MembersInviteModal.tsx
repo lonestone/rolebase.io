@@ -141,7 +141,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
         <ModalCloseButton />
 
         <ModalBody>
-          {filteredMembers.length === 0 ? (
+          {notInvitedMembers.length === 0 ? (
             <Box mb={5}>
               <p>
                 Tous les membres existants sont déjà liés à un compte

@@ -16,9 +16,11 @@ import {
 } from '@chakra-ui/react'
 import MembersToCopyList from '@components/molecules/MembersToCopyList'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCreateLog from '@hooks/useCreateLog'
+import { EntityChangeType, LogType } from '@shared/log'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -38,6 +40,7 @@ const resolver = yupResolver(
 
 export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const createLog = useCreateLog()
 
   const {
     handleSubmit,
@@ -47,31 +50,37 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
     resolver,
   })
 
-  const onSubmit = handleSubmit(async ({ name }) => {
+  const handleCreate = async ({ name }: Values) => {
     if (!orgId) return
     const member = await createMember({ orgId, name })
     onCreate?.(member.id)
     modalProps.onClose()
-  })
 
-  const handleCopy = useCallback(
-    async (memberToCopy: MemberEntry) => {
-      if (!orgId) return
-      const member = await createMember({
-        orgId,
-        name: memberToCopy.name,
-      })
-      onCreate?.(member.id)
-      modalProps.onClose()
-    },
-    [orgId]
-  )
+    // Log change
+    createLog({
+      display: {
+        type: LogType.MemberCreate,
+        id: member.id,
+        name: member.name,
+      },
+      changes: {
+        members: [
+          { type: EntityChangeType.Create, id: member.id, data: member },
+        ],
+      },
+    })
+  }
+
+  const handleCopy = (memberToCopy: MemberEntry) =>
+    handleCreate({
+      name: memberToCopy.name,
+    })
 
   return (
     <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(handleCreate)}>
           <ModalHeader>Ajouter un membre</ModalHeader>
           <ModalCloseButton />
 

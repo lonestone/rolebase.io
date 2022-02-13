@@ -1,9 +1,9 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, BoxProps, chakra, Flex, IconButton, Text } from '@chakra-ui/react'
+import CircleLink from '@components/atoms/CircleLink'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import React from 'react'
 import { FiEdit3, FiTrash2 } from 'react-icons/fi'
-import CircleMemberChakraLink from './CircleMemberChakraLink'
 
 interface Props extends BoxProps {
   id: string
@@ -26,14 +26,7 @@ export default function CircleAndParentsButton({
   return (
     <Box {...boxProps}>
       <Flex alignItems="center" h="40px">
-        <CircleMemberChakraLink
-          circleId={circle.id}
-          fontSize="lg"
-          fontWeight={700}
-          textDecoration="none"
-        >
-          {circle.role.name}
-        </CircleMemberChakraLink>
+        <CircleLink id={circle.id} name={circle.role.name} fontSize="lg" />
 
         {onEdit && (
           <IconButton
@@ -60,15 +53,13 @@ export default function CircleAndParentsButton({
           const last = i === parents.length - 1
           return (
             <chakra.span whiteSpace="nowrap" key={c.id}>
-              <CircleMemberChakraLink
-                circleId={c.id}
+              <CircleLink
+                id={c.id}
+                name={c.role.name}
                 color="gray.500"
                 fontSize="sm"
                 fontWeight={400}
-                textDecoration="none"
-              >
-                {c.role.name}
-              </CircleMemberChakraLink>
+              />
 
               {!last && <ChevronRightIcon mx="0.1rem" />}
             </chakra.span>
