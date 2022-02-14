@@ -125,4 +125,6 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
   }
 )
 
+ThreadActivities.displayName = 'ThreadActivities'
+
 export default ThreadActivities

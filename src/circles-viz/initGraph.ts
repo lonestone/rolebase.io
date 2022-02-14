@@ -28,7 +28,7 @@ export function initGraph(
 
   const zoomBehaviour = d3
     .zoom<SVGSVGElement, any>()
-    .filter((event) => true) // Listen also to mouse wheel
+    .filter(() => true) // Listen also to mouse wheel
     .scaleExtent(settings.zoom.scaleExtent as [number, number])
     .on('zoom', (event) => {
       zoom.x = event.transform.x

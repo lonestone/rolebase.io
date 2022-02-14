@@ -6,10 +6,9 @@ import {
   MenuButton,
   MenuButtonProps,
   MenuList,
-  useDisclosure,
 } from '@chakra-ui/react'
 import { ParticipantMember } from '@hooks/useParticipants'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import CircleMemberLink from './CircleMemberLink'
 import MemberMenuItem from './MemberMenuItem'
 
@@ -27,11 +26,6 @@ export default function ParticipantsNumber({
   )
   const avatarsWidth =
     participants.length && (someParticipants.length - 1) * 10 + 24
-
-  // Member modal
-  const [memberId, setMemberId] = useState<string | undefined>()
-  const [circleId, setCircleId] = useState<string | undefined>()
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Menu isLazy autoSelect={false}>
@@ -59,7 +53,7 @@ export default function ParticipantsNumber({
         </Box>
       </MenuButton>
       <MenuList shadow="lg" zIndex={10}>
-        {participants.map(({ member, circlesIds }, i) => (
+        {participants.map(({ member, circlesIds }) => (
           <CircleMemberLink
             key={member.id}
             memberId={member.id}

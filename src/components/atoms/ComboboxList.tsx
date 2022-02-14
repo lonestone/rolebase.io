@@ -11,4 +11,6 @@ const ComboboxList = React.forwardRef<HTMLUListElement, ComboboxListProps>(
   }
 )
 
+ComboboxList.displayName = 'ComboboxList'
+
 export default ComboboxList

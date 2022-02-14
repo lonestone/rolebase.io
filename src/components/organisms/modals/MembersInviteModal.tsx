@@ -158,15 +158,13 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                 />
-                <InputRightElement
-                  children={
-                    <CloseButton
-                      colorScheme="gray"
-                      size="sm"
-                      onClick={() => setSearchText('')}
-                    />
-                  }
-                />
+                <InputRightElement>
+                  <CloseButton
+                    colorScheme="gray"
+                    size="sm"
+                    onClick={() => setSearchText('')}
+                  />
+                </InputRightElement>
               </InputGroup>
 
               <VStack spacing={2} align="stretch">

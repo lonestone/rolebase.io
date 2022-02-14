@@ -288,7 +288,7 @@ export default function MeetingEditModal({
                       max={600}
                       step={10}
                     />
-                    <InputRightAddon bg="transparent" children="minutes" />
+                    <InputRightAddon bg="transparent">minutes</InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </Flex>

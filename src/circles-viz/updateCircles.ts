@@ -37,7 +37,6 @@ interface CirclesParams {
 export default function updateCircles(
   svgElement: SVGSVGElement,
   {
-    dimensions,
     circles,
     roles,
     members,
@@ -57,7 +56,6 @@ export default function updateCircles(
   }
   const root = packData(data)
   const svg = d3.select<SVGSVGElement, NodeData>(svgElement)
-  const svgId = svg.attr('id')
   const firstDraw = !svg.select('.circles').node()
 
   // Variables for dragging circles and members

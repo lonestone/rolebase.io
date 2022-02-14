@@ -86,15 +86,13 @@ export default function MembersPage() {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <InputRightElement
-            children={
-              <CloseButton
-                colorScheme="gray"
-                size="sm"
-                onClick={() => setSearchText('')}
-              />
-            }
-          />
+          <InputRightElement>
+            <CloseButton
+              colorScheme="gray"
+              size="sm"
+              onClick={() => setSearchText('')}
+            />
+          </InputRightElement>
         </InputGroup>
 
         <Button size="sm" ml={2} leftIcon={<FiMail />} onClick={onInviteOpen}>

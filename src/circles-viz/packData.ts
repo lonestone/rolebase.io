@@ -11,7 +11,7 @@ export function packData(data: Data) {
     d3
       .pack<Data>()
       // .size([width, height])
-      .radius((d) => settings.memberValue)
+      .radius(() => settings.memberValue)
       .padding((d) => {
         // Circle
         const multipleChildren = (d.data.children?.length || 0) > 1

@@ -77,15 +77,13 @@ export default function HeaderSearchCombobox() {
           onClick={() => openMenu()}
           {...getInputProps()}
         />
-        <InputRightElement
-          children={
-            <CloseButton
-              colorScheme="gray"
-              size="sm"
-              onClick={() => setInputValue('')}
-            />
-          }
-        />
+        <InputRightElement>
+          <CloseButton
+            colorScheme="gray"
+            size="sm"
+            onClick={() => setInputValue('')}
+          />
+        </InputRightElement>
       </InputGroup>
 
       <ComboboxList

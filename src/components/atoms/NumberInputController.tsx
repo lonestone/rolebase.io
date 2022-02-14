@@ -10,7 +10,6 @@ interface Props<Values> extends NumberInputProps {
 
 export default function NumberInputController<Values>({
   name,
-  onChange,
   control,
   ...inputProps
 }: Props<Values>) {
@@ -20,9 +19,9 @@ export default function NumberInputController<Values>({
       control={control}
       render={({ field }) => (
         <NumberInput
+          {...inputProps}
           value={field.value as number}
           onChange={(value) => field.onChange(value)}
-          {...inputProps}
         />
       )}
     />

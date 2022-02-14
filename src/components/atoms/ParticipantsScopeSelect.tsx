@@ -23,4 +23,6 @@ const ParticipantsScopeSelect = forwardRef<HTMLSelectElement, SelectProps>(
   }
 )
 
+ParticipantsScopeSelect.displayName = 'ParticipantsScopeSelect'
+
 export default ParticipantsScopeSelect

@@ -1,3 +1,4 @@
+import * as d3 from 'd3'
 import { HierarchyCircularNode } from 'd3-hierarchy'
 import { Data, NodeData } from './types'
 
@@ -33,7 +34,7 @@ export const d3CircleTopName =
       .attr('y', (d) => -d.r + 1)
       .attr('alignment-baseline', 'hanging')
       .attr('font-size', (d) => `${getTopFontSize(d, maxDepth)}px`)
-      .attr('opacity', (d, i, nodes) => getTopNameOpacity(d))
+      .attr('opacity', (d) => getTopNameOpacity(d))
   }
 
 // Opacity depends on zoom scale and node depth

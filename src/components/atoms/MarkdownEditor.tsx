@@ -5,7 +5,7 @@ import {
   useFormControl,
 } from '@chakra-ui/react'
 import styled from '@emotion/styled'
-import { Editor } from 'codemirror'
+import CodeMirror, { Editor } from 'codemirror'
 import { Options } from 'easymde'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { FaFont } from 'react-icons/fa'

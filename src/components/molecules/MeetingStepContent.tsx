@@ -18,8 +18,10 @@ interface Props {
 
 export default function MeetingStepContent({
   meetingId,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   current,
   editable,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   stepConfig,
   step,
 }: Props) {
@@ -47,7 +49,9 @@ export default function MeetingStepContent({
 
   // Update notes on step update
   useEffect(() => {
-    // TODO : merge conflicts if notesDirty is true
+    if (notesDirty) {
+      // TODO : merge conflicts if notesDirty is true
+    }
     setNotes(step.notes)
   }, [step.notes])
 

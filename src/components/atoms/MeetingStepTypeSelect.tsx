@@ -16,4 +16,6 @@ const MeetingStepTypeSelect = forwardRef<HTMLSelectElement, SelectProps>(
   }
 )
 
+MeetingStepTypeSelect.displayName = 'MeetingStepTypeSelect'
+
 export default MeetingStepTypeSelect

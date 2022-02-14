@@ -21,10 +21,9 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
-import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useStoreState } from '@store/hooks'
-import React, { useState } from 'react'
+import React from 'react'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -40,19 +39,6 @@ export default function OrgsPage() {
     onOpen: onCreateOpen,
     onClose: onCreateClose,
   } = useDisclosure()
-
-  // Edit modal
-  const [editOrgId, setEditOrgId] = useState<string | undefined>()
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
-
-  const handleOpenEdit = (id: string) => {
-    setEditOrgId(id)
-    onEditOpen()
-  }
 
   return (
     <Container maxW="3xl" mt={10}>
@@ -131,10 +117,6 @@ export default function OrgsPage() {
       </Wrap>
 
       {isCreateOpen && <OrgCreateModal isOpen onClose={onCreateClose} />}
-
-      {isEditOpen && editOrgId && (
-        <OrgEditModal id={editOrgId} isOpen onClose={onEditClose} />
-      )}
     </Container>
   )
 }

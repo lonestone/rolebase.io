@@ -94,7 +94,7 @@ export default function SearchButtonCombobox({
           </Button>
         )}
         {isOpen && (
-          <InputLeftElement pointerEvents="none" children={leftIcon} />
+          <InputLeftElement pointerEvents="none">{leftIcon}</InputLeftElement>
         )}
         <Input
           type="text"

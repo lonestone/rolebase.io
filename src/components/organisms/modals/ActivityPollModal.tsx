@@ -102,7 +102,7 @@ export default function ActivityPollModal({
   const { deletePollAnswer, subscribePollAnswers } = activity
     ? pollAnswersEntities(activity.id)
     : {
-        deletePollAnswer: (id: string) => {},
+        deletePollAnswer: () => {},
         subscribePollAnswers: undefined,
       }
   const { data: answers } = useSubscription(subscribePollAnswers?.())
