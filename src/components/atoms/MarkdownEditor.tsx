@@ -46,8 +46,27 @@ const StyledEditor = styled.div<ColorModeProps>`
   pre.CodeMirror-placeholder {
     color: ${mode('#868e96', '#959da7')};
   }
+
+  .CodeMirror-fullscreen {
+    background-color: ${mode('white', '#1b1a1d')};
+  }
+  .editor-preview {
+    background-color: ${mode('white', '#1b1a1d')};
+    padding: 14px;
+  }
+
   .editor-toolbar {
     border: none;
+
+    &.fullscreen {
+      z-index: 2000;
+      background-color: ${mode('white', '#1b1a1d')};
+    }
+
+    .separator {
+      border-color: ${mode('#e2e8f0', 'rgba(255, 255, 255, 0.16)')};
+    }
+
     button.active,
     button:hover {
       background: ${mode('#fcfcfc', '#4A5568')};
