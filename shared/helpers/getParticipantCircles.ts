@@ -17,16 +17,37 @@ export function getParticipantCircles(
 
   // Circles where the member is a representant
   const representedCircles = enrichCirclesWithRoles(
-    directMemberCircles
-      .map(({ parentId, role: { link } }): CircleEntry | undefined => {
-        if (!link) return
-        return link === true
-          ? // Parent circle
-            circles.find((c) => c.id === parentId)
-          : // Represented circle
-            circles.find((c) => c.id === link)
-      })
-      .filter(Boolean) as CircleEntry[],
+    directMemberCircles.reduce<CircleEntry[]>(
+      (acc, { parentId, role: { singleMember, link } }) => {
+        if (!link) return acc
+
+        const parent = circles.find((c) => c.id === parentId)
+
+        // Single member participate to its direct parent
+        if (singleMember && parent) {
+          acc.push(parent)
+
+          // Represent its parent in grandparent
+          if (link === true) {
+            const grandParent =
+              parent && circles.find((c) => c.id === parent.parentId)
+            if (grandParent) {
+              acc.push(grandParent)
+            }
+          }
+        }
+
+        // Represent its parent in another circle
+        if (typeof link === 'string') {
+          const circle = circles.find((c) => c.id === link)
+          if (circle) {
+            acc.push(circle)
+          }
+        }
+        return acc
+      },
+      []
+    ),
     roles
   )
 
