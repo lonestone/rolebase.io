@@ -90,7 +90,12 @@ export default function updateCircles(
     instant?: boolean
   ) => {
     if (node.r > 0) {
-      zoom.to(node.x, node.y, adaptScale ? node.r + 40 : 0, instant)
+      zoom.to(
+        node.x,
+        node.y,
+        adaptScale ? Math.max(200, node.r + 40) : 0,
+        instant
+      )
     }
   }
 
