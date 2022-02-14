@@ -17,7 +17,7 @@ export default function MeetingPage() {
   }
 
   return (
-    <Container maxW="3xl" mt={10}>
+    <Container maxW="3xl" py={10}>
       <MeetingContent
         id={meetingId}
         changeTitle

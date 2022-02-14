@@ -41,7 +41,7 @@ export default function OrgsPage() {
   } = useDisclosure()
 
   return (
-    <Container maxW="3xl" mt={10}>
+    <Container maxW="3xl" py={10}>
       <Title>Organisations</Title>
 
       <HStack mb={5}>

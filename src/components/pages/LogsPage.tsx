@@ -51,7 +51,7 @@ export default function LogsPage() {
     }
 
   return (
-    <Container maxW="xl" mt={10}>
+    <Container maxW="xl" py={10}>
       <Title>Historique</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">

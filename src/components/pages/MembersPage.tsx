@@ -68,7 +68,7 @@ export default function MembersPage() {
   }, [members, searchText])
 
   return (
-    <Container maxW="xl" mt={10}>
+    <Container maxW="xl" py={10}>
       <Title>Membres</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
