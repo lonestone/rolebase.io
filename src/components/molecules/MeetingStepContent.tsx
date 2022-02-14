@@ -5,8 +5,9 @@ import MarkdownEditor from '@components/atoms/MarkdownEditor'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/meetingStep'
+import { applyPatch, createPatch } from 'diff'
 import throttle from 'lodash.throttle'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 interface Props {
   meetingId: string
@@ -29,30 +30,56 @@ export default function MeetingStepContent({
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
 
   // Notes
-  const [notesDirty, setNotesDirty] = useState(false)
   const [notes, setNotes] = useState(step.notes)
-
-  const handleNotesChange = useCallback((value: string) => {
-    setNotes(value)
-    setNotesDirty(true)
-    saveNotes(value)
-  }, [])
+  const notesDirty = useRef<boolean>(false)
+  const savedNotes = useRef<string>(step.notes)
+  const initialNotes = useRef<string>(step.notes)
 
   const saveNotes = useMemo(
     () =>
-      throttle((value: string) => {
-        updateMeetingStep(step.id, { notes: value })
-        setNotesDirty(false)
-      }, 2000),
+      throttle(
+        (value: string) => {
+          // Notes have changed from server since edition
+          if (initialNotes.current !== savedNotes.current) {
+            // Merge modifications
+            const patch = createPatch('', initialNotes.current, value)
+            value = applyPatch(savedNotes.current, patch, {
+              fuzzFactor: Infinity,
+            })
+          }
+
+          // Save changes
+          updateMeetingStep(step.id, { notes: value })
+          notesDirty.current = false
+          initialNotes.current = value
+          setNotes(value)
+        },
+        2000,
+        { leading: false }
+      ),
     [step.id]
   )
 
+  const handleNotesChange = useCallback((value: string) => {
+    setNotes(value)
+    // At first change since save,
+    // save initial notes and mark as dirty
+    if (!notesDirty.current) {
+      initialNotes.current = savedNotes.current
+      notesDirty.current = true
+    }
+    saveNotes(value)
+  }, [])
+
   // Update notes on step update
   useEffect(() => {
-    if (notesDirty) {
-      // TODO : merge conflicts if notesDirty is true
+    savedNotes.current = step.notes
+
+    // Update notes only if they are not dirty
+    // They will be updated after save
+    if (!notesDirty.current) {
+      setNotes(step.notes)
     }
-    setNotes(step.notes)
   }, [step.notes])
 
   return (
