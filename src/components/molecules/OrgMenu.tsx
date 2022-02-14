@@ -14,10 +14,9 @@ import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
 import MeetingTemplatesModal from '@components/organisms/modals/MeetingTemplatesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
-import useCurrentOrg from '@hooks/useCurrentOrg'
-import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
+import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import {
   FiArrowLeft,
@@ -31,11 +30,11 @@ import {
   FiUsers,
 } from 'react-icons/fi'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 
 export default function OrgMenu(props: MenuButtonProps) {
-  const org = useCurrentOrg()
+  const orgId = useStoreState((state) => state.orgs.currentId)
   const role = useOrgRole()
-  const navigateOrg = useNavigateOrg()
   const history = useHistory()
   const { colorMode, toggleColorMode } = useColorMode()
 
@@ -73,7 +72,7 @@ export default function OrgMenu(props: MenuButtonProps) {
     onClose: onMeetingTemplatesClose,
   } = useDisclosure()
 
-  if (!org) return null
+  if (!orgId) return null
   return (
     <Menu>
       <MenuButton
@@ -89,16 +88,13 @@ export default function OrgMenu(props: MenuButtonProps) {
             <>
               <MenuItem
                 icon={<FiSettings />}
-                onClick={() => handleOpenEdit(org.id)}
+                onClick={() => handleOpenEdit(orgId)}
               >
                 Paramètres
               </MenuItem>
-              <MenuItem
-                icon={<FiUsers />}
-                onClick={() => navigateOrg('/members')}
-              >
-                Membres
-              </MenuItem>
+              <Link to={`/orgs/${orgId}/members`}>
+                <MenuItem icon={<FiUsers />}>Membres</MenuItem>
+              </Link>
             </>
           )}
           <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
@@ -111,9 +107,9 @@ export default function OrgMenu(props: MenuButtonProps) {
             Templates de réunion
           </MenuItem>
           {role === ClaimRole.Admin && (
-            <MenuItem icon={<FiClock />} onClick={() => navigateOrg('/logs')}>
-              Historique
-            </MenuItem>
+            <Link to={`/orgs/${orgId}/logs`}>
+              <MenuItem icon={<FiClock />}>Historique</MenuItem>
+            </Link>
           )}
           <MenuItem
             icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
