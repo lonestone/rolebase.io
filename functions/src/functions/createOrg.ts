@@ -52,6 +52,9 @@ export const createOrg = functions.https.onCall(
       domain: '',
       accountabilities: '',
       notes: '',
+      defaultMinPerWeek: null,
+      singleMember: false,
+      link: false,
     })
 
     // Create circle
