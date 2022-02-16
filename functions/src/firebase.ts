@@ -5,23 +5,11 @@ import { Org } from '@shared/org'
 import { Role } from '@shared/role'
 import { User } from '@shared/user'
 import * as admin from 'firebase-admin'
-import * as functions from 'firebase-functions'
-
-interface Config {
-  mailjet: {
-    public: string
-    private: string
-  }
-  security: {
-    invitation_token: string // eslint-disable-line camelcase
-  }
-}
 
 export const firebaseAdmin = admin.initializeApp()
 export const auth = firebaseAdmin.auth()
 export const firestore = firebaseAdmin.firestore()
 export const storage = firebaseAdmin.storage()
-export const config = functions.config() as Config
 
 export function getCollection<DocumentData>(collectionPath: string) {
   return firestore.collection(

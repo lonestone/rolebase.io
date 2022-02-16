@@ -17,7 +17,7 @@ export async function guardOrg(
   orgId: string,
   minRole: ClaimRole
 ) {
-  const uid = context?.auth?.uid
+  const uid = context.auth?.uid
   if (!uid) {
     throw new functions.https.HttpsError(
       'unauthenticated',

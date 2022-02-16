@@ -20,12 +20,13 @@ It's an open source SaaS that helps various organizations implement Holacracy, S
 
         firebase login
 
-4.  Fetch functions config to `.runtimeconfig.json`
+4.  Check webapp config: `settings.ts`
 
-        cd functions
-        npm run get-config
+5.  Check functions config: `functions/settings.ts` & `functions/.env`
 
-5.  Check `settings.ts` file
+    - **MAILJET_PUBIC_KEY**: Secret token. You can generate a token with Lastpass for example
+    - **MAILJET_PRIVATE_KEY**: MailJet public key. You can find it here: https://app.mailjet.com/account/api_keys
+    - **SECURITY_INVITATION_TOKEN**: MailJet private key
 
 ## Start dev environment
 
@@ -85,25 +86,3 @@ Compile functions and push in production
 ### Import Firestore rules
 
     firebase firestore:indexes > firestore.indexes.json
-
-### Import Functions config to `.runtimeconfig.json`
-
-    cd functions
-    npm run get-config
-
-## Functions Config
-
-To push config from `.runtimeconfig.json` to production
-
-    cd functions
-    npm run set-config
-
-To push a key in production:
-
-    firebase functions:config:set mailjet.private="XXX"
-
-Config keys:
-
-- **security.invitation_token**: Secret roken. You can generate a token once, with Lastpass for example
-- **mailjet.public**: MailJet public key. You can find it here: https://app.mailjet.com/account/api_keys
-- **mailjet.private**: MailJet private key

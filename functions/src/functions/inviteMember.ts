@@ -1,9 +1,9 @@
 import { ClaimRole } from '@shared/userClaims'
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
-import * as mailjet from 'node-mailjet'
-import { collections, config } from '../firebase'
+import { collections } from '../firebase'
 import { guardArgument, guardAuth, guardOrg } from '../guards'
+import { sendMailjetEmail } from '../mailjet'
 import settings from '../settings'
 import { md5 } from '../utils'
 
@@ -13,14 +13,9 @@ interface Payload {
   role: ClaimRole
 }
 
-const mailjetClient = mailjet.connect(
-  config.mailjet.public,
-  config.mailjet.private
-)
-
 export function generateInviteToken(memberId: string, inviteDate: Date) {
   return md5(
-    memberId + inviteDate.toISOString() + config.security.invitation_token
+    memberId + inviteDate.toISOString() + settings.security.invitation_token
   )
 }
 
@@ -75,29 +70,25 @@ export const inviteMember = functions.https.onCall(
 
     try {
       // https://app.mailjet.com/template/3285393/build
-      await mailjetClient.post('send', { version: 'v3.1' }).request({
-        Messages: [
+      await sendMailjetEmail({
+        From: {
+          Email: settings.mail.sender.email,
+          Name: settings.mail.sender.name,
+        },
+        To: [
           {
-            From: {
-              Email: settings.mail.sender.email,
-              Name: settings.mail.sender.name,
-            },
-            To: [
-              {
-                Email: data.email,
-                Name: member.name,
-              },
-            ],
-            TemplateID: 3285393,
-            TemplateLanguage: true,
-            Subject: `Invitation dans l'organisation ${org.name}`,
-            Variables: {
-              orgName: org.name,
-              inviterName: inviterMember.name,
-              invitationUrl,
-            },
+            Email: data.email,
+            Name: member.name,
           },
         ],
+        TemplateID: 3285393,
+        TemplateLanguage: true,
+        Subject: `Invitation dans l'organisation ${org.name}`,
+        Variables: {
+          orgName: org.name,
+          inviterName: inviterMember.name,
+          invitationUrl,
+        },
       })
     } catch (error) {
       throw new functions.https.HttpsError(

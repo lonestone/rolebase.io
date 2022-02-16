@@ -1,7 +1,7 @@
 import { ClaimRole } from '@shared/userClaims'
 import * as functions from 'firebase-functions'
-import { config } from '../firebase'
 import { guardOrg } from '../guards'
+import settings from '../settings'
 import { md5 } from '../utils'
 
 interface Payload {
@@ -9,7 +9,7 @@ interface Payload {
 }
 
 export function generateMeetingToken(orgId: string) {
-  return md5(orgId + config.security.invitation_token)
+  return md5(orgId + settings.security.invitation_token)
 }
 
 export const getMeetingsToken = functions.https.onCall(
