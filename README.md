@@ -16,12 +16,16 @@ It's an open source SaaS that helps various organizations implement Holacracy, S
 
         npm i -g firebase-tools
 
-3.  Check `settings.ts` file
+3.  Log in to Firebase
+
+        firebase login
 
 4.  Fetch functions config to `.runtimeconfig.json`
 
         cd functions
         npm run get-config
+
+5.  Check `settings.ts` file
 
 ## Start dev environment
 
