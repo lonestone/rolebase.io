@@ -18,6 +18,17 @@ export const acceptMemberInvitation = functions.https.onCall(
       guardArgument(data, 'memberId')
       guardArgument(data, 'token')
 
+      // User already member of org?
+      const userMemberSnapshot = await collections.members
+        .where('userId', '==', uid)
+        .get()
+      if (userMemberSnapshot.size > 0) {
+        throw new functions.https.HttpsError(
+          'already-exists',
+          'User already member of org'
+        )
+      }
+
       // Get member
       const memberRef = collections.members.doc(data.memberId)
       const member = (await memberRef.get()).data()
