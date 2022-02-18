@@ -22,6 +22,16 @@ export const updateTask = methods.update
 export const subscribeTask = methods.subscribe
 export const deleteTask = methods.delete
 
+export const subscribeAllTasks = memoize((orgId: string, archived: boolean) =>
+  subscribeQuery(
+    query(
+      collection,
+      where('orgId', '==', orgId),
+      where('archived', '==', archived)
+    )
+  )
+)
+
 export const subscribeTasksByMember = memoize(
   (orgId: string, memberId: string, done: boolean) =>
     subscribeQuery(
