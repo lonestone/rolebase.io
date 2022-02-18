@@ -1,5 +1,6 @@
-import { Member } from '@shared/member'
-import { Optional } from '@shared/types'
+import { ParticipantMember } from '@hooks/useParticipants'
+import { Member, MemberEntry, Participant } from '@shared/member'
+import { Optional, WithId } from '@shared/types'
 import { ClaimRole } from '@shared/userClaims'
 import { orderBy, query, where } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
@@ -93,4 +94,29 @@ export async function updateMemberRole(
     memberId,
     role,
   })
+}
+
+export async function setInMeetingStatus(
+  participants: ParticipantMember[],
+  meetingId: string
+) {
+  return await Promise.all(
+    participants.map(async (participant) => {
+      const member = await getMember(participant.member.id)
+      if (member) {
+        if (!member.meetingId) {
+          return updateMember(member.id, {
+            ...participant.member,
+            meetingId: meetingId,
+          })
+        } else if (meetingId === member.meetingId) {
+          return updateMember(member.id, {
+            ...participant.member,
+            meetingId: null,
+          })
+        }
+      }
+      return
+    })
+  )
 }

@@ -1,3 +1,4 @@
+import { ParticipantMember } from '@hooks/useParticipants'
 import { Meeting, MeetingEntry } from '@shared/meeting'
 import { Optional } from '@shared/types'
 import { orderBy, query, Timestamp, where } from 'firebase/firestore'
@@ -10,6 +11,7 @@ import {
   getEntityMethods,
   subscribeQuery,
 } from '../firebase'
+import { setInMeetingStatus } from './members'
 
 export const collection = getCollection<Meeting>('meetings')
 
@@ -65,13 +67,17 @@ export function updateMeetingDates(id: string, startDate: Date, endDate: Date) {
   })
 }
 
-export async function goToNextMeetingStep(meeting: MeetingEntry) {
+export async function goToNextMeetingStep(
+  meeting: MeetingEntry,
+  participants: ParticipantMember[]
+) {
   if (!meeting) return
 
   // Meeting not started
   if (meeting.currentStepId === null) {
     const firstStep = meeting.stepsConfig[0]
     if (firstStep) {
+      setInMeetingStatus(participants, meeting.id)
       // Go to first step
       await updateMeeting(meeting.id, {
         currentStepId: firstStep.id,
@@ -102,6 +108,7 @@ export async function goToNextMeetingStep(meeting: MeetingEntry) {
     })
   } else {
     // End meeting
+    setInMeetingStatus(participants, meeting.id)
     await updateMeeting(meeting.id, {
       currentStepId: null,
       ended: true,

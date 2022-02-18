@@ -138,7 +138,7 @@ export default function MeetingContent({
   // Next step
   const handleNextStep = useCallback(() => {
     if (!meeting) return
-    goToNextMeetingStep(meeting)
+    goToNextMeetingStep(meeting, participants)
   }, [meeting])
 
   // Join video conference
