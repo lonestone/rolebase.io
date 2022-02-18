@@ -1,16 +1,16 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
-import { MeetingStepThreads } from '@shared/meetingStep'
+import { MeetingStepTasks } from '@shared/meetingStep'
 import { WithId } from '@shared/types'
 import React, { useCallback } from 'react'
-import ThreadsMultiSelect from './ThreadsMultiSelect'
+import TasksMultiSelect from './TasksMultiSelect'
 
 interface Props {
   meetingId: string
-  step: WithId<MeetingStepThreads>
-  editable?: Boolean
+  step: WithId<MeetingStepTasks>
+  editable?: boolean
 }
 
-export default function MeetingStepContentThreads({
+export default function MeetingStepContentTasks({
   meetingId,
   step,
   editable,
@@ -19,15 +19,15 @@ export default function MeetingStepContentThreads({
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
 
   const handleChange = useCallback(
-    (threadsIds: string[]) => {
-      updateMeetingStep(step.id, { threadsIds })
+    (tasksIds: string[]) => {
+      updateMeetingStep(step.id, { tasksIds })
     },
     [step]
   )
 
   return (
-    <ThreadsMultiSelect
-      threadsIds={step.threadsIds}
+    <TasksMultiSelect
+      tasksIds={step.tasksIds}
       onChange={editable ? handleChange : undefined}
     />
   )

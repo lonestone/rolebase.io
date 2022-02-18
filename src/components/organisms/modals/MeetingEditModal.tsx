@@ -201,8 +201,9 @@ export default function MeetingEditModal({
     if (meeting) {
       // Update meeting
       await updateMeeting(meeting.id, meetingUpdate)
-      // Create missing steps
-      createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
+
+      // Update and Create missing steps
+      await createMissingMeetingSteps(meeting.id, meetingUpdate.stepsConfig)
     } else {
       // Create meeting
       const meeting = await createMeeting({

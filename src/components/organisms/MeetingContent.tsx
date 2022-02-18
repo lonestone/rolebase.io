@@ -1,3 +1,4 @@
+import { subscribeLogsByMeeting } from '@api/entities/logs'
 import {
   goToNextMeetingStep,
   subscribeMeeting,
@@ -38,6 +39,7 @@ import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { format } from 'date-fns'
 import React, { useCallback } from 'react'
+import { useStoreState } from '@store/hooks'
 import { FaStop } from 'react-icons/fa'
 import {
   FiArrowDown,
@@ -52,7 +54,8 @@ import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
-
+import MeetingActivitiesCreate from '@components/molecules/MeetingActivitiesCreate'
+import Mettinglogs from '@components/molecules/MeetingLogs'
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean
@@ -67,6 +70,7 @@ export default function MeetingContent({
   headerIcons,
   ...boxProps
 }: Props) {
+  const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
 
   // Subscribe meeting
@@ -75,7 +79,6 @@ export default function MeetingContent({
     loading,
     error,
   } = useSubscription(subscribeMeeting(id))
-
   // Subscribe meeting steps
   const { subscribeMeetingSteps } = meetingStepsEntities(id)
   const {
@@ -84,6 +87,13 @@ export default function MeetingContent({
     loading: stepsLoading,
   } = useSubscription(subscribeMeetingSteps())
 
+  const subscribeLogs =
+    orgId && id ? subscribeLogsByMeeting(orgId, id) : undefined
+  const {
+    data: logs,
+    loading: logsLoading,
+    error: logsError,
+  } = useSubscription(subscribeLogs)
   // Meeting not started?
   const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
   const isStarted = !meeting?.ended && meeting?.currentStepId !== null
@@ -135,7 +145,7 @@ export default function MeetingContent({
   // Next step
   const handleNextStep = useCallback(() => {
     if (!meeting) return
-    goToNextMeetingStep(meeting)
+    goToNextMeetingStep(meeting, participants)
   }, [meeting])
 
   // Join video conference
@@ -188,8 +198,8 @@ export default function MeetingContent({
         </Box>
       </Flex>
 
-      {(loading || stepsLoading) && <Loading active size="md" />}
-      <TextErrors errors={[error, stepsError]} />
+      {(loading || stepsLoading || logsLoading) && <Loading active size="md" />}
+      <TextErrors errors={[error, stepsError, logsError]} />
 
       {meeting && (
         <>
@@ -321,6 +331,14 @@ export default function MeetingContent({
                 </MeetingStepLayout>
               )
             })}
+            {!meeting.ended && (
+              <MeetingActivitiesCreate
+                currentMember={currentMember}
+                meeting={meeting}
+              />
+            )}
+
+            {<Mettinglogs logs={logs} logsLoading={logsLoading} />}
           </Box>
         </>
       )}

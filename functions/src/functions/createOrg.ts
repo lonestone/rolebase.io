@@ -37,6 +37,7 @@ export const createOrg = functions.https.onCall(
       archived: false,
       name: user.name,
       role: ClaimRole.Admin,
+      meetingId: null,
     })
 
     // Set user claim for org

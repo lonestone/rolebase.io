@@ -2,6 +2,7 @@ import { CircleEntry } from '@shared/circle'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { MemberEntry } from '@shared/member'
+import { TaskEntry } from '@shared/task'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
@@ -17,6 +18,8 @@ export interface SearchOptions {
   membersOverride?: MemberEntry[] // Override members. Otherwise use store
   circlesOverride?: CircleEntry[] // Override circles. Otherwise use store
   threadsOverride?: ThreadEntry[] // Override threads
+  tasks?: boolean
+  tasksOverride?: TaskEntry[]
 }
 
 export function useSearchItems(options: SearchOptions): SearchItem[] {
@@ -39,6 +42,9 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
 
   // Threads data
   const threads = options.threadsOverride
+
+  // tasks data
+  const tasks = options.tasksOverride
 
   // Circles items
   const circleItems: SearchItem[] = useMemo(
@@ -145,7 +151,7 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
     [members, circles, roles, options.circleMembers, options.excludeIds]
   )
 
-  // Members items
+  // thread items
   const threadItems: SearchItem[] = useMemo(
     () =>
       threads && options.threads
@@ -165,13 +171,34 @@ export function useSearchItems(options: SearchOptions): SearchItem[] {
     [threads, options.threads, options.excludeIds]
   )
 
+  // tasks items
+  const taskItems: SearchItem[] = useMemo(
+    () =>
+      tasks && options.tasks
+        ? (tasks
+            .map((task) => {
+              // Exclude by id
+              if (options.excludeIds?.includes(task.id)) return
+
+              return {
+                text: task.title.toLowerCase(),
+                type: SearchItemTypes.Task,
+                task,
+              }
+            })
+            .filter(Boolean) as SearchItem[])
+        : [],
+    [tasks, options.tasks, options.excludeIds]
+  )
+
   return useMemo(
     () => [
       ...memberItems,
       ...circleItems,
       ...circleMemberItems,
       ...threadItems,
+      ...taskItems,
     ],
-    [memberItems, circleItems, circleMemberItems, threadItems]
+    [memberItems, circleItems, circleMemberItems, threadItems, taskItems]
   )
 }

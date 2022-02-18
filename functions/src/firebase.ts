@@ -1,4 +1,5 @@
 import { Circle } from '@shared/circle'
+import { Log } from '@shared/log'
 import { Meeting } from '@shared/meeting'
 import { Member } from '@shared/member'
 import { Org } from '@shared/org'
@@ -24,4 +25,5 @@ export const collections = {
   orgs: getCollection<Org>('orgs'),
   roles: getCollection<Role>('roles'),
   users: getCollection<User>('users'),
+  logs: getCollection<Log>('logs'),
 }

@@ -1,9 +1,16 @@
-import { Flex, Spacer, useColorMode } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  Spacer,
+  useColorMode,
+  useDisclosure,
+} from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
 import HeaderLinksMenu from '@components/molecules/HeaderLinksMenu'
 import HeaderOrgMenu from '@components/molecules/HeaderOrgMenu'
 import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
 import HeaderSearchCombobox from '@components/molecules/search/HeaderSearchCombobox'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
@@ -13,12 +20,21 @@ import {
   FiDisc,
   FiMessageSquare,
 } from 'react-icons/fi'
+import MeetingModal from './modals/MeetingModal'
 
 export const headerHeight = 48
 
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)
   const org = useCurrentOrg()
+  const member = useCurrentMember()
+
+  const {
+    isOpen: isMeetingOpen,
+    onOpen: openMeetingModal,
+    onClose: closeMeetingModal,
+  } = useDisclosure()
+
   const { colorMode } = useColorMode()
 
   if (!user) return null
@@ -68,12 +84,25 @@ export default function Header() {
           <HeaderLinksMenu />
         </>
       )}
-
       <Spacer />
+
+      {member?.meetingId && (
+        <Button size="sm" colorScheme="blue" onClick={openMeetingModal} mr={4}>
+          Réunion en cours
+        </Button>
+      )}
 
       {org && <HeaderSearchCombobox />}
 
       <HeaderUserMenu ml={2} />
+
+      {isMeetingOpen && member?.meetingId ? (
+        <MeetingModal
+          id={member.meetingId}
+          isOpen
+          onClose={closeMeetingModal}
+        />
+      ) : null}
     </Flex>
   )
 }

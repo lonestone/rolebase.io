@@ -22,7 +22,10 @@ import { Title } from '@components/atoms/Title'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCreateLog from '@hooks/useCreateLog'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
+import { EntityChangeType, LogType } from '@shared/log'
 import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
@@ -67,8 +70,10 @@ export default function TaskContent({
   onClose,
   ...boxProps
 }: Props) {
+  const createLog = useCreateLog()
   const toast = useToast()
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const currentMember = useCurrentMember()
 
   // Subscribe task
   const {
@@ -111,19 +116,33 @@ export default function TaskContent({
   const dueDate = watch('dueDate')
 
   const onSubmit = handleSubmit(async ({ dueDate, ...data }) => {
-    if (!orgId) return
+    if (!orgId || !currentMember) return
     const taskUpdate = {
       ...data,
       dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate)) : null,
     }
     if (id) {
-      // Update thread
+      // Update task
       await updateTask(id, taskUpdate)
     } else {
-      // Create thread
-      await createTask({
+      // Create task
+      const newTask = await createTask({
         orgId,
         ...taskUpdate,
+      })
+      // Todo : refacto task status is in WIP
+      createLog({
+        display: {
+          type: LogType.TaskCreate,
+          id: newTask.id,
+          name: newTask.title,
+          status: newTask.doneDate ? 'terminé' : 'non terminé',
+        },
+        changes: {
+          tasks: [
+            { type: EntityChangeType.Create, id: newTask.id, data: newTask },
+          ],
+        },
       })
     }
   })
@@ -145,7 +164,24 @@ export default function TaskContent({
     if (!task) return
     const doneDate = task.doneDate ? null : Timestamp.now()
     updateTask(task.id, { doneDate })
-
+    createLog({
+      display: {
+        type: LogType.TaskUpdate,
+        id: task.id,
+        name: task.title,
+        status: doneDate ? 'terminé' : 'non terminé',
+      },
+      changes: {
+        tasks: [
+          {
+            type: EntityChangeType.Update,
+            id: task.id,
+            prevData: { doneDate: task.doneDate ? task.doneDate : null },
+            newData: { doneDate },
+          },
+        ],
+      },
+    })
     // Toast to cancel
     toast({
       status: 'success',

@@ -1,5 +1,6 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import { Box } from '@chakra-ui/react'
+import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/meetingStep'
@@ -43,6 +44,16 @@ export default function MeetingStepContent({
       {step.type === MeetingStepTypes.Threads && (
         <Box mb={5}>
           <MeetingStepContentThreads
+            meetingId={meetingId}
+            step={step}
+            editable={editable}
+          />
+        </Box>
+      )}
+
+      {step.type === MeetingStepTypes.Tasks && (
+        <Box mb={5}>
+          <MeetingStepContentTasks
             meetingId={meetingId}
             step={step}
             editable={editable}

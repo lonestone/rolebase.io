@@ -10,6 +10,8 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useCreateLog from '@hooks/useCreateLog'
+import { EntityChangeType, LogType } from '@shared/log'
 import { TaskEntry } from '@shared/task'
 import React from 'react'
 
@@ -24,9 +26,28 @@ export default function TaskDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
-  const handleDelete = () => {
+  const createLog = useCreateLog()
+  const handleDelete = async () => {
     updateTask(task.id, { archived: true })
     onDelete?.()
+    createLog({
+      display: {
+        type: LogType.TaskArchive,
+        id: task.id,
+        name: task.title,
+        status: task.doneDate ? 'terminé' : 'non terminé',
+      },
+      changes: {
+        tasks: [
+          {
+            type: EntityChangeType.Update,
+            id: task.id,
+            prevData: { archived: false },
+            newData: { archived: false },
+          },
+        ],
+      },
+    })
     alertProps.onClose()
   }
 
