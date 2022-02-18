@@ -30,6 +30,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
+import TaskModal from '@components/organisms/modals/TaskModal'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useParticipants from '@hooks/useParticipants'
@@ -45,6 +46,7 @@ import {
   FiPlay,
   FiTrash2,
   FiVideo,
+  FiPlus,
 } from 'react-icons/fi'
 import slugify from 'slugify'
 import { dateFnsLocale } from 'src/locale'
@@ -65,14 +67,12 @@ export default function MeetingContent({
   ...boxProps
 }: Props) {
   const currentMember = useCurrentMember()
-
   // Subscribe meeting
   const {
     data: meeting,
     loading,
     error,
   } = useSubscription(subscribeMeeting(id))
-
   // Subscribe meeting steps
   const { subscribeMeetingSteps } = meetingStepsEntities(id)
   const {
@@ -80,6 +80,12 @@ export default function MeetingContent({
     error: stepsError,
     loading: stepsLoading,
   } = useSubscription(subscribeMeetingSteps())
+
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure()
 
   // Meeting not started?
   const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
@@ -323,6 +329,15 @@ export default function MeetingContent({
                 </MeetingStepLayout>
               )
             })}
+
+            <Button
+              size="sm"
+              ml={1}
+              leftIcon={<FiPlus />}
+              onClick={onCreateOpen}
+            >
+              Nouvelle tâche
+            </Button>
           </Box>
         </>
       )}
@@ -337,6 +352,13 @@ export default function MeetingContent({
           isOpen
           onClose={onDeleteClose}
           onDelete={onClose}
+        />
+      )}
+      {isCreateOpen && (
+        <TaskModal
+          isOpen
+          defaultMemberId={currentMember?.id}
+          onClose={onCreateClose}
         />
       )}
     </Box>
