@@ -26,7 +26,6 @@ export default function TasksMultiSelect({
   onChange,
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
-  console.log('circle', circleId)
 
   // Subscribe threads
   const subscribe = orgId
@@ -38,8 +37,6 @@ export default function TasksMultiSelect({
 
   // Get selected tasks
   const selectedTasks = useMemo(() => {
-    console.log('taskseffect', tasksIds)
-
     return tasksIds
       .map((id) => tasks?.find((m) => m.id === id))
       .filter(Boolean) as TaskEntry[]

@@ -17,7 +17,6 @@ export default function MeetingStepContentTasks({
 }: Props) {
   // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
-  console.log(step)
 
   const handleChange = useCallback(
     (tasksIds: string[]) => {
