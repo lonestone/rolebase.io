@@ -38,6 +38,7 @@ export const meetingStepsEntities = memoize((meetingId: string) => {
           return {
             type,
             notes: '',
+            tasksIds: [],
           }
       }
     },

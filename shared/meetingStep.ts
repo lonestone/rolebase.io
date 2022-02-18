@@ -33,6 +33,7 @@ export interface MeetingStepIndicators extends MeetingStepBase {
 
 export interface MeetingStepTasks extends MeetingStepBase {
   type: MeetingStepTypes.Tasks
+  tasksIds: string[]
 }
 
 export interface MeetingStepParticipant {
