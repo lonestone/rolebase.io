@@ -1,5 +1,8 @@
 import { createMeeting, updateMeeting } from '@api/entities/meetings'
-import { createMissingMeetingSteps } from '@api/entities/meetingSteps'
+import {
+  createMissingMeetingSteps,
+  updateMeetingStepsTypes,
+} from '@api/entities/meetingSteps'
 import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
 import { nameSchema } from '@api/schemas'
 import {
@@ -185,8 +188,9 @@ export default function MeetingEditModal({
     if (meeting) {
       // Update meeting
       await updateMeeting(meeting.id, meetingUpdate)
-      // Create missing steps
-      createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
+
+      // Update and Create missing steps
+      await updateMeetingStepsTypes(meeting.id, meetingUpdate.stepsConfig)
     } else {
       // Create meeting
       const meeting = await createMeeting({
