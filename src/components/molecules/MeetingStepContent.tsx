@@ -2,6 +2,7 @@ import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import { Box } from '@chakra-ui/react'
 import Markdown from '@components/atoms/Markdown'
 import MarkdownEditor from '@components/atoms/MarkdownEditor'
+import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/meetingStep'
@@ -93,7 +94,15 @@ export default function MeetingStepContent({
           />
         </Box>
       )}
-
+      {step.type === MeetingStepTypes.Tasks && (
+        <Box mb={5}>
+          <MeetingStepContentTasks
+            meetingId={meetingId}
+            step={step}
+            editable={editable}
+          />
+        </Box>
+      )}
       {editable ? (
         <MarkdownEditor
           value={notes}
