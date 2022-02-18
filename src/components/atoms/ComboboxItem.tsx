@@ -65,6 +65,12 @@ const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
             <Box ml={2}>{item.thread.title}</Box>
           </>
         )}
+        {item.type === SearchItemTypes.Task && (
+          <>
+            <FiMessageSquare />
+            <Box ml={2}>{item.task.title}</Box>
+          </>
+        )}
       </Button>
     )
   }
