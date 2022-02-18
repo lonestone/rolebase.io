@@ -81,12 +81,6 @@ export default function MeetingContent({
     loading: stepsLoading,
   } = useSubscription(subscribeMeetingSteps())
 
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
-
   // Meeting not started?
   const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
   const isStarted = !meeting?.ended && meeting?.currentStepId !== null
@@ -127,6 +121,12 @@ export default function MeetingContent({
     onClose: onDeleteClose,
   } = useDisclosure()
 
+  // Task Creation modal
+  const {
+    isOpen: isCreateTaskOpen,
+    onOpen: onCreateTaskOpen,
+    onClose: onCreateTaskClose,
+  } = useDisclosure()
   // Go to step
   const handleGoToStep = (stepId: string) => {
     if (!meeting) return
@@ -334,7 +334,7 @@ export default function MeetingContent({
               size="sm"
               ml={1}
               leftIcon={<FiPlus />}
-              onClick={onCreateOpen}
+              onClick={onCreateTaskOpen}
             >
               Nouvelle tâche
             </Button>
@@ -354,11 +354,11 @@ export default function MeetingContent({
           onDelete={onClose}
         />
       )}
-      {isCreateOpen && (
+      {isCreateTaskOpen && (
         <TaskModal
           isOpen
           defaultMemberId={currentMember?.id}
-          onClose={onCreateClose}
+          onClose={onCreateTaskClose}
         />
       )}
     </Box>
