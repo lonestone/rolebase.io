@@ -76,9 +76,9 @@ export default function Header() {
           py="1"
           bg={'blue.300'}
           borderRadius="8"
-          size="sm"
           fontWeight="semibold"
           color="black"
+          whiteSpace="nowrap"
         >
           En cours de meeting
         </Text>
