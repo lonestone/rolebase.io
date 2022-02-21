@@ -353,44 +353,59 @@ export default function MeetingContent({
               Nouvelle tâche
             </Button>
 
-            {logs ? (
-              <>
-                <Heading as="h2" size="md" mt="6" mb="4">
-                  Historique
-                </Heading>
-                {logs.map((log) => (
+            {logs &&
+              (logs.length >= 1 ? (
+                <>
+                  <Heading as="h2" size="md" mt="6" mb="4">
+                    Historique
+                  </Heading>
+                  {logs.map((log) => (
+                    <>
+                      <HStack
+                        key={log.id}
+                        py={3}
+                        alignItems="top"
+                        borderBottom="1px solid"
+                        borderBottomColor={
+                          colorMode === 'light' ? 'gray.200' : 'gray.550'
+                        }
+                      >
+                        <StackItem>
+                          <Text
+                            textDecoration={
+                              log.canceled ? 'line-through' : undefined
+                            }
+                          >
+                            <LogCancelText log={log} />
+                            <LogText log={log} />
+                          </Text>
+                          <Text fontSize="sm" color="gray.500">
+                            {capitalizeFirstLetter(
+                              format(log.createdAt.toDate(), 'PPpp ', {
+                                locale: dateFnsLocale,
+                              })
+                            )}
+                          </Text>
+                        </StackItem>
+                      </HStack>
+                    </>
+                  ))}
+                </>
+              ) : (
+                !logsLoading && (
                   <>
-                    <HStack
-                      key={log.id}
-                      py={3}
-                      alignItems="top"
-                      borderBottom="1px solid"
-                      borderBottomColor={
-                        colorMode === 'light' ? 'gray.200' : 'gray.550'
-                      }
-                    >
-                      <StackItem>
-                        <Text
-                          textDecoration={
-                            log.canceled ? 'line-through' : undefined
-                          }
-                        >
-                          <LogCancelText log={log} />
-                          <LogText log={log} />
-                        </Text>
-                        <Text fontSize="sm" color="gray.500">
-                          {capitalizeFirstLetter(
-                            format(log.createdAt.toDate(), 'PPpp ', {
-                              locale: dateFnsLocale,
-                            })
-                          )}
-                        </Text>
-                      </StackItem>
-                    </HStack>
+                    <Heading as="h2" size="md" mt="6" mb="4">
+                      Historique
+                    </Heading>
+
+                    <Text fontSize="sm" color="gray.500">
+                      {capitalizeFirstLetter(
+                        "Pas d'historique lié a cette réunion"
+                      )}
+                    </Text>
                   </>
-                ))}
-              </>
-            ) : null}
+                )
+              ))}
           </Box>
         </>
       )}
