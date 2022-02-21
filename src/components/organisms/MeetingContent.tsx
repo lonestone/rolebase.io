@@ -354,35 +354,44 @@ export default function MeetingContent({
               Nouvelle tâche
             </Button>
 
-            <Spacer />
-            {logs &&
-              logs.map((log) => (
-                <HStack
-                  key={log.id}
-                  py={3}
-                  alignItems="top"
-                  borderBottom="1px solid"
-                  borderBottomColor={
-                    colorMode === 'light' ? 'gray.200' : 'gray.550'
-                  }
-                >
-                  <StackItem>
-                    <Text
-                      textDecoration={log.canceled ? 'line-through' : undefined}
+            {logs ? (
+              <>
+                <Heading as="h2" size="md" mt="6" mb="4">
+                  Historique
+                </Heading>
+                {logs.map((log) => (
+                  <>
+                    <HStack
+                      key={log.id}
+                      py={3}
+                      alignItems="top"
+                      borderBottom="1px solid"
+                      borderBottomColor={
+                        colorMode === 'light' ? 'gray.200' : 'gray.550'
+                      }
                     >
-                      <LogCancelText log={log} />
-                      <LogText log={log} />
-                    </Text>
-                    <Text fontSize="sm" color="gray.500">
-                      {capitalizeFirstLetter(
-                        format(log.createdAt.toDate(), 'PPpp ', {
-                          locale: dateFnsLocale,
-                        })
-                      )}
-                    </Text>
-                  </StackItem>
-                </HStack>
-              ))}
+                      <StackItem>
+                        <Text
+                          textDecoration={
+                            log.canceled ? 'line-through' : undefined
+                          }
+                        >
+                          <LogCancelText log={log} />
+                          <LogText log={log} />
+                        </Text>
+                        <Text fontSize="sm" color="gray.500">
+                          {capitalizeFirstLetter(
+                            format(log.createdAt.toDate(), 'PPpp ', {
+                              locale: dateFnsLocale,
+                            })
+                          )}
+                        </Text>
+                      </StackItem>
+                    </HStack>
+                  </>
+                ))}
+              </>
+            ) : null}
           </Box>
         </>
       )}
