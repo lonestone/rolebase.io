@@ -23,7 +23,6 @@ import {
   useDisclosure,
   VStack,
   useColorMode,
-  Spacer,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
