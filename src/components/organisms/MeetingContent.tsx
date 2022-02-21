@@ -400,7 +400,7 @@ export default function MeetingContent({
 
                     <Text fontSize="sm" color="gray.500">
                       {capitalizeFirstLetter(
-                        "Pas d'historique lié a cette réunion"
+                        "Pas d'historique lié à cette réunion"
                       )}
                     </Text>
                   </>
