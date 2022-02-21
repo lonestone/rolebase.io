@@ -5,7 +5,7 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSortableItem from '@hooks/useSortableItem'
 import { TaskEntry } from '@shared/task'
 import React from 'react'
-import { FiMessageSquare } from 'react-icons/fi'
+import { FiSquare } from 'react-icons/fi'
 
 interface Props {
   task: TaskEntry
@@ -26,7 +26,7 @@ export default function TaskSortableItem({ task, onRemove }: Props) {
       {...listeners}
     >
       <HStack spacing={3} align="stretch" alignItems="center">
-        <FiMessageSquare />
+        <FiSquare />
         <TaskLinkOverlay task={task} />
 
         {onRemove && (
