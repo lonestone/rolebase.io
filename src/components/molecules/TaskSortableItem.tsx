@@ -7,7 +7,6 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSortableItem from '@hooks/useSortableItem'
 import { TaskEntry } from '@shared/task'
 import React, { useCallback } from 'react'
-import { FiSquare } from 'react-icons/fi'
 
 interface Props {
   task: TaskEntry
