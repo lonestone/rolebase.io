@@ -76,7 +76,6 @@ export default function Header() {
           py="1"
           bg={'blue.300'}
           borderRadius="8"
-          isDisabled={true}
           size="sm"
           fontWeight="semibold"
           color="black"
