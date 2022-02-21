@@ -71,7 +71,7 @@ export default function Header() {
       {member?.meetingId && (
         <Text
           colorScheme="blue"
-          mr="2.5"
+          mr="2"
           px="2"
           py="1"
           bg={'blue.300'}
