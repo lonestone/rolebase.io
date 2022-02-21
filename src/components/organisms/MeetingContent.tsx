@@ -1,3 +1,4 @@
+import { subscribeLogsByMeeting } from '@api/entities/logs'
 import {
   goToNextMeetingStep,
   subscribeMeeting,
@@ -21,6 +22,8 @@ import {
   Text,
   useDisclosure,
   VStack,
+  useColorMode,
+  Spacer,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
@@ -37,6 +40,7 @@ import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import { format } from 'date-fns'
 import React, { useCallback } from 'react'
+import { useStoreState } from '@store/hooks'
 import { FaStop } from 'react-icons/fa'
 import {
   FiArrowDown,
@@ -53,6 +57,8 @@ import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
+import LogCancelText from '@components/molecules/LogCancelText'
+import LogText from '@components/molecules/LogText'
 
 interface Props extends BoxProps {
   id: string
@@ -66,7 +72,9 @@ export default function MeetingContent({
   changeTitle,
   ...boxProps
 }: Props) {
+  const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
+  const { colorMode } = useColorMode()
   // Subscribe meeting
   const {
     data: meeting,
@@ -81,6 +89,13 @@ export default function MeetingContent({
     loading: stepsLoading,
   } = useSubscription(subscribeMeetingSteps())
 
+  const subscribeLogs =
+    orgId && id ? subscribeLogsByMeeting(orgId, id) : undefined
+  const {
+    data: logs,
+    loading: logsLoading,
+    error: logsError,
+  } = useSubscription(subscribeLogs)
   // Meeting not started?
   const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
   const isStarted = !meeting?.ended && meeting?.currentStepId !== null
@@ -196,8 +211,8 @@ export default function MeetingContent({
         <ParticipantsNumber participants={participants} ml={1} />
       </Flex>
 
-      {(loading || stepsLoading) && <Loading active size="md" />}
-      <TextErrors errors={[error, stepsError]} />
+      {(loading || stepsLoading || logsLoading) && <Loading active size="md" />}
+      <TextErrors errors={[error, stepsError, logsError]} />
 
       {meeting && (
         <>
@@ -338,6 +353,36 @@ export default function MeetingContent({
             >
               Nouvelle tâche
             </Button>
+
+            <Spacer />
+            {logs &&
+              logs.map((log) => (
+                <HStack
+                  key={log.id}
+                  py={3}
+                  alignItems="top"
+                  borderBottom="1px solid"
+                  borderBottomColor={
+                    colorMode === 'light' ? 'gray.200' : 'gray.550'
+                  }
+                >
+                  <StackItem>
+                    <Text
+                      textDecoration={log.canceled ? 'line-through' : undefined}
+                    >
+                      <LogCancelText log={log} />
+                      <LogText log={log} />
+                    </Text>
+                    <Text fontSize="sm" color="gray.500">
+                      {capitalizeFirstLetter(
+                        format(log.createdAt.toDate(), 'PPpp ', {
+                          locale: dateFnsLocale,
+                        })
+                      )}
+                    </Text>
+                  </StackItem>
+                </HStack>
+              ))}
           </Box>
         </>
       )}
