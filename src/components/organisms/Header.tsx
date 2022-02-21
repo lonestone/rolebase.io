@@ -18,7 +18,6 @@ export default function Header() {
   const user = useStoreState((state) => state.auth.user)
   const org = useCurrentOrg()
   const member = useCurrentMember()
-  console.log('member', member)
 
   const { colorMode } = useColorMode()
 
