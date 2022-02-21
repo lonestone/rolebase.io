@@ -1,6 +1,6 @@
 import { ParticipantMember } from '@hooks/useParticipants'
-import { Member, MemberEntry, Participant } from '@shared/member'
-import { Optional, WithId } from '@shared/types'
+import { Member } from '@shared/member'
+import { Optional } from '@shared/types'
 import { ClaimRole } from '@shared/userClaims'
 import { orderBy, query, where } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
