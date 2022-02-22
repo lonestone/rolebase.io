@@ -77,7 +77,7 @@ export default function Header() {
           bg={'blue.300'}
           borderRadius="8"
           fontWeight="semibold"
-          color="black"
+          color={colorMode === 'light' ? 'white' : 'black'}
           whiteSpace="nowrap"
         >
           En cours de meeting
