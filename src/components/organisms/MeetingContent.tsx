@@ -360,35 +360,33 @@ export default function MeetingContent({
                     Historique
                   </Heading>
                   {logs.map((log) => (
-                    <>
-                      <HStack
-                        key={log.id}
-                        py={3}
-                        alignItems="top"
-                        borderBottom="1px solid"
-                        borderBottomColor={
-                          colorMode === 'light' ? 'gray.200' : 'gray.550'
-                        }
-                      >
-                        <StackItem>
-                          <Text
-                            textDecoration={
-                              log.canceled ? 'line-through' : undefined
-                            }
-                          >
-                            <LogCancelText log={log} />
-                            <LogText log={log} />
-                          </Text>
-                          <Text fontSize="sm" color="gray.500">
-                            {capitalizeFirstLetter(
-                              format(log.createdAt.toDate(), 'PPpp ', {
-                                locale: dateFnsLocale,
-                              })
-                            )}
-                          </Text>
-                        </StackItem>
-                      </HStack>
-                    </>
+                    <HStack
+                      key={log.id}
+                      py={3}
+                      alignItems="top"
+                      borderBottom="1px solid"
+                      borderBottomColor={
+                        colorMode === 'light' ? 'gray.200' : 'gray.550'
+                      }
+                    >
+                      <StackItem>
+                        <Text
+                          textDecoration={
+                            log.canceled ? 'line-through' : undefined
+                          }
+                        >
+                          <LogCancelText log={log} />
+                          <LogText log={log} />
+                        </Text>
+                        <Text fontSize="sm" color="gray.500">
+                          {capitalizeFirstLetter(
+                            format(log.createdAt.toDate(), 'PPpp ', {
+                              locale: dateFnsLocale,
+                            })
+                          )}
+                        </Text>
+                      </StackItem>
+                    </HStack>
                   ))}
                 </>
               ) : (
