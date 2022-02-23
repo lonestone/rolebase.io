@@ -30,6 +30,7 @@ export const firestore = getFirestore(app)
 export const storage = getStorage(app)
 export const functions = getFunctions(app)
 
+// Emulator config
 if (location.hostname === 'localhost') {
   connectAuthEmulator(auth, 'http://localhost:9099')
   connectFirestoreEmulator(firestore, 'localhost', 8080)
