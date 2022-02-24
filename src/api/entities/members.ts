@@ -47,7 +47,7 @@ export async function getMembers(orgId: string) {
 export async function uploadPicture(
   orgId: string,
   memberId: string,
-  file: File
+  file: Blob
 ): Promise<string> {
   const fileRef = ref(storage, `orgs/${orgId}/members/${memberId}`)
   await uploadBytes(fileRef, file)

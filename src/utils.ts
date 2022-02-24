@@ -16,3 +16,15 @@ export interface ColorModeProps {
 
 export const mode = (light: string, dark: string) => (props: ColorModeProps) =>
   props.colorMode === 'light' ? light : dark
+
+export function readFile(file: File): Promise<string | null> {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.addEventListener(
+      'load',
+      () => resolve(reader.result as string | null),
+      false
+    )
+    reader.readAsDataURL(file)
+  })
+}
