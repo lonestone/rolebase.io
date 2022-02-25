@@ -58,6 +58,7 @@ import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
 import LogCancelText from '@components/molecules/LogCancelText'
 import LogText from '@components/molecules/LogText'
+import ThreadEditModal from './modals/ThreadEditModal'
 
 interface Props extends BoxProps {
   id: string
@@ -140,6 +141,13 @@ export default function MeetingContent({
     isOpen: isCreateTaskOpen,
     onOpen: onCreateTaskOpen,
     onClose: onCreateTaskClose,
+  } = useDisclosure()
+
+  //thread creation modal
+  const {
+    isOpen: isCreateThreadOpen,
+    onOpen: onCreateThreadOpen,
+    onClose: onCreateThreadClose,
   } = useDisclosure()
   // Go to step
   const handleGoToStep = (stepId: string) => {
@@ -344,15 +352,24 @@ export default function MeetingContent({
                 </MeetingStepLayout>
               )
             })}
-
-            <Button
-              size="sm"
-              ml={1}
-              leftIcon={<FiPlus />}
-              onClick={onCreateTaskOpen}
-            >
-              Nouvelle tâche
-            </Button>
+            <HStack py={3} alignItems="top">
+              <Button
+                size="sm"
+                ml={1}
+                leftIcon={<FiPlus />}
+                onClick={onCreateTaskOpen}
+              >
+                Nouvelle tâche
+              </Button>
+              <Button
+                size="sm"
+                ml={1}
+                leftIcon={<FiPlus />}
+                onClick={onCreateThreadOpen}
+              >
+                Nouvelle discussion
+              </Button>
+            </HStack>
 
             {logs &&
               (logs.length >= 1 ? (
@@ -426,6 +443,13 @@ export default function MeetingContent({
           isOpen
           defaultMemberId={currentMember?.id}
           onClose={onCreateTaskClose}
+        />
+      )}
+      {isCreateThreadOpen && (
+        <ThreadEditModal
+          defaultCircleId={meeting?.circleId}
+          isOpen
+          onClose={onCreateThreadClose}
         />
       )}
     </Box>
