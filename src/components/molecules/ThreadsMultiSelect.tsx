@@ -20,6 +20,7 @@ interface Props {
   threadsIds: string[]
   max?: number
   onChange?(threadsIds: string[]): void
+  disableSort: boolean
 }
 
 export default function ThreadsMultiSelect({
@@ -27,6 +28,7 @@ export default function ThreadsMultiSelect({
   threadsIds,
   max,
   onChange,
+  disableSort,
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
@@ -84,6 +86,7 @@ export default function ThreadsMultiSelect({
               key={thread.id}
               thread={thread}
               onRemove={onChange && handleRemove}
+              disable={disableSort}
             />
           ))}
         </SortableList>

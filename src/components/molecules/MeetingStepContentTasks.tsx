@@ -8,12 +8,14 @@ interface Props {
   meetingId: string
   step: WithId<MeetingStepTasks>
   editable?: boolean
+  disableSort: boolean
 }
 
 export default function MeetingStepContentTasks({
   meetingId,
   step,
   editable,
+  disableSort,
 }: Props) {
   // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
@@ -29,6 +31,7 @@ export default function MeetingStepContentTasks({
     <TasksMultiSelect
       tasksIds={step.tasksIds}
       onChange={editable ? handleChange : undefined}
+      disableSort={disableSort}
     />
   )
 }

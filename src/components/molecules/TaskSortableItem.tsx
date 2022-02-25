@@ -11,11 +11,12 @@ import React, { useCallback } from 'react'
 interface Props {
   task: TaskEntry
   onRemove?(taskId: string): void
+  disabled: boolean
 }
 
-export default function TaskSortableItem({ task, onRemove }: Props) {
+export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
   const hover = useHoverItemStyle()
-  const { attributes, listeners } = useSortableItem(task.id)
+  const { attributes, listeners } = useSortableItem(task.id, disabled)
   const handleToggleDone = useCallback(() => {
     const doneDate = task.doneDate ? null : Timestamp.now()
     updateTask(task.id, { doneDate })
@@ -28,6 +29,7 @@ export default function TaskSortableItem({ task, onRemove }: Props) {
       _hover={hover}
       {...attributes}
       {...listeners}
+      disabled
     >
       <HStack spacing={3} align="stretch" alignItems="center">
         <Checkbox
