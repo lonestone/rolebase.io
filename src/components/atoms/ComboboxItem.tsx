@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, ButtonProps } from '@chakra-ui/react'
 import React from 'react'
-import { FiMessageSquare } from 'react-icons/fi'
+import { FiCheck, FiMessageSquare, FiSquare } from 'react-icons/fi'
 import { SearchItem, SearchItemTypes } from '../molecules/search/searchItems'
 
 interface ComboboxItemProps extends ButtonProps {
@@ -67,7 +67,7 @@ const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
         )}
         {item.type === SearchItemTypes.Task && (
           <>
-            <FiMessageSquare />
+            <FiSquare />
             <Box ml={2}>{item.task.title}</Box>
           </>
         )}
