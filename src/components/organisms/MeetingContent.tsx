@@ -356,7 +356,7 @@ export default function MeetingContent({
             {logs &&
               (logs.length >= 1 ? (
                 <>
-                  <Heading as="h2" size="md" mt="6" mb="4">
+                  <Heading as="h2" size="md" mt="6" mb="2">
                     Historique
                   </Heading>
                   {logs.map((log) => (
