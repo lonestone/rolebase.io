@@ -2,13 +2,11 @@ import {
   inviteMember,
   updateMember,
   updateMemberRole,
-  uploadPicture,
 } from '@api/entities/members'
 import { nameSchema } from '@api/schemas'
 import {
   Alert,
   AlertIcon,
-  Avatar,
   Box,
   Button,
   FormControl,
@@ -28,6 +26,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
+import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -35,7 +34,7 @@ import useMember from '@hooks/useMember'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/log'
 import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import MemberDeleteModal from './MemberDeleteModal'
@@ -46,7 +45,6 @@ interface Props extends UseModalProps {
 
 interface Values {
   name: string
-  picture?: string | null
   workedMinPerWeek?: number | null
   role: ClaimRole | ''
   inviteEmail: string
@@ -87,27 +85,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     },
   })
 
-  const [picture, setPicture] = useState<string | undefined | null>(
-    member?.picture
-  )
-  const pictureInputRef = useRef<HTMLInputElement>(null)
-  const [pictureError, setPictureError] = useState<Error | undefined>()
-
   const onSubmit = handleSubmit(
     async ({ role, inviteEmail, ...memberUpdate }) => {
       if (!org || !member) return
-
-      // Upload picture
-      const pictureFile = pictureInputRef.current?.files?.[0]
-      if (pictureFile) {
-        try {
-          setPictureError(undefined)
-          memberUpdate.picture = await uploadPicture(org.id, id, pictureFile)
-          setPicture(memberUpdate.picture)
-        } catch (error) {
-          setPictureError(error as Error)
-        }
-      }
 
       // Update member data
       await updateMember(id, memberUpdate)
@@ -189,24 +169,22 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
             <ModalBody>
               <VStack spacing={5} align="stretch">
-                <FormControl isInvalid={!!errors.name}>
-                  <FormLabel>Nom</FormLabel>
-                  <Input {...register('name')} placeholder="Nom..." autoFocus />
-                </FormControl>
+                <HStack spacing={5} align="center">
+                  <MemberPictureEdit
+                    id={id}
+                    name={member.name}
+                    src={member.picture || undefined}
+                  />
 
-                <FormControl isInvalid={!!pictureError}>
-                  <FormLabel>Photo</FormLabel>
-                  <HStack spacing={3}>
-                    {picture && (
-                      <Avatar name={member.name} src={picture} size="lg" />
-                    )}
+                  <FormControl isInvalid={!!errors.name}>
+                    <FormLabel>Nom</FormLabel>
                     <Input
-                      type="file"
-                      name="pictureFiles"
-                      ref={pictureInputRef}
+                      {...register('name')}
+                      placeholder="Nom..."
+                      autoFocus
                     />
-                  </HStack>
-                </FormControl>
+                  </FormControl>
+                </HStack>
 
                 <FormControl isInvalid={!!errors.workedMinPerWeek}>
                   <FormLabel>Temps de travail pour l'organisation</FormLabel>

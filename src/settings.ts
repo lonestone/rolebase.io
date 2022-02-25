@@ -18,4 +18,9 @@ export default {
     location.hostname === 'localhost'
       ? 'http://localhost:5001/roles-app-37879/us-central1/'
       : 'https://us-central1-roles-app-37879.cloudfunctions.net/',
+
+  // Files
+  memberPicture: {
+    maxSize: 300, // in px
+  },
 }
