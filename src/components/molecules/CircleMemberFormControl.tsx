@@ -62,7 +62,9 @@ export default function CircleMemberFormControl({ circleId }: Props) {
 
   return (
     <FormControl>
-      <FormLabel>{role?.singleMember ? 'Occupé par :' : 'Membres :'}</FormLabel>
+      <FormLabel>
+        {role?.singleMember ? 'Occupé par :' : 'Membres directs :'}
+      </FormLabel>
       {circle && membersIds && (
         <MembersMultiSelect
           circleId={circleId}

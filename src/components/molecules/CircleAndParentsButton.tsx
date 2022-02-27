@@ -24,15 +24,17 @@ export default function CircleAndParentsButton({
   const parents = circleAndParents.slice(0, circleAndParents.length - 1)
 
   return (
-    <Box {...boxProps}>
-      <Flex alignItems="center" h="40px">
+    <Box pb={3} {...boxProps}>
+      <Flex align="center" h="32px">
         <CircleLink id={circle.id} name={circle.role.name} fontSize="lg" />
 
         {onEdit && (
           <IconButton
             aria-label=""
             icon={<FiEdit3 />}
+            size="sm"
             variant="ghost"
+            ml={1}
             onClick={onEdit}
           />
         )}
@@ -41,14 +43,15 @@ export default function CircleAndParentsButton({
           <IconButton
             aria-label=""
             icon={<FiTrash2 />}
+            size="sm"
             variant="ghost"
+            ml={onEdit ? -1 : 1}
             onClick={onDelete}
-            ml={onEdit ? -3 : undefined}
           />
         )}
       </Flex>
 
-      <Text mt="-0.4rem" color="gray.500" lineHeight="1rem">
+      <Text mt="-0.2rem" color="gray.500" lineHeight="1rem">
         {parents.map((c, i) => {
           const last = i === parents.length - 1
           return (
