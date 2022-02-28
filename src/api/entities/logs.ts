@@ -13,6 +13,7 @@ import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { getCircle, updateCircle } from './circles'
 import { getMember, updateMember } from './members'
 import { getRole, updateRole } from './roles'
+import { getTask, updateTask } from './tasks'
 
 export const collection = getCollection<Log>('logs')
 
@@ -148,6 +149,7 @@ export async function cancelLog(log: LogEntry): Promise<EntitiesChanges> {
       getMember,
       updateMember
     ),
+    tasks: await cancelEntityChanges(log.changes.tasks, getTask, updateTask),
   }
 
   // Remove empty properties

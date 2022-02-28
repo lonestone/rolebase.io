@@ -21,7 +21,10 @@ import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCreateLog from '@hooks/useCreateLog'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
+import { EntitiesChanges, EntityChangeType, LogType } from '@shared/log'
 import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
@@ -64,8 +67,10 @@ export default function TaskContent({
   defaultMemberId,
   ...boxProps
 }: Props) {
+  const createLog = useCreateLog()
   const toast = useToast()
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const currentMember = useCurrentMember()
 
   // Subscribe task
   const {
@@ -117,11 +122,26 @@ export default function TaskContent({
       // Update thread
       await updateTask(id, taskUpdate)
     } else {
-      // Create thread
-      await createTask({
+      // Create task
+      const newTask = await createTask({
         orgId,
         ...taskUpdate,
       })
+      if (currentMember) {
+        const changes: EntitiesChanges = {
+          tasks: [
+            { type: EntityChangeType.Create, id: newTask.id, data: newTask },
+          ],
+        }
+        createLog({
+          display: {
+            type: LogType.TaskCreate,
+            id: newTask.id,
+            name: newTask.title,
+          },
+          changes,
+        })
+      }
     }
     onClose()
   })
