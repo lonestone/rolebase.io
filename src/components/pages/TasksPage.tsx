@@ -111,10 +111,10 @@ export default function TasksPage() {
                 Mes tâches
               </MenuItemOption>
               <MenuItemOption value={AssignationFilters.Circle}>
-                Tâche d'un cercle
+                Tâches d'un cercle
               </MenuItemOption>
               <MenuItemOption value={AssignationFilters.Member}>
-                Tâche d'un membre
+                Tâches d'un membre
               </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />

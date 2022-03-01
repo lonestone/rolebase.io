@@ -34,7 +34,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
     error,
     loading,
   } = useSubscription(
-    orgId ? subscribeMeetingsByCircle(orgId, circleId, false) : undefined
+    orgId ? subscribeMeetingsByCircle(orgId, circleId) : undefined
   )
 
   // Meeting modal

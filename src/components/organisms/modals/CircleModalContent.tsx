@@ -6,6 +6,7 @@ import {
   Collapse,
   FormControl,
   FormLabel,
+  HStack,
   ModalBody,
   ModalCloseButton,
   ModalHeader,
@@ -21,6 +22,7 @@ import {
 import CircleButton from '@components/atoms/CircleButton'
 import { CirclePanelTab } from '@components/atoms/CirclePanelTab'
 import Markdown from '@components/atoms/Markdown'
+import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import { Title } from '@components/atoms/Title'
 import CircleAndParentsButton from '@components/molecules/CircleAndParentsButton'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
@@ -29,6 +31,8 @@ import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
 import TasksInCircleList from '@components/molecules/TasksInCircleList'
 import ThreadsInCircleList from '@components/molecules/ThreadsInCircleList'
 import useCircle from '@hooks/useCircle'
+import useParticipants from '@hooks/useParticipants'
+import { MembersScope } from '@shared/member'
 import React from 'react'
 import {
   FiCalendar,
@@ -62,6 +66,13 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
   const parentCircle = useCircle(circle?.parentId || undefined)
   const linkedCircle = useCircle(
     (role?.link === true ? parentCircle?.parentId : role?.link) || undefined
+  )
+
+  // Participants
+  const participants = useParticipants(
+    id,
+    MembersScope.CircleLeaders,
+    circle?.members.map((member) => member.id)
   )
 
   // Tabs
@@ -100,16 +111,20 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
     <>
       {changeTitle && <Title>{role.name || '…'}</Title>}
 
-      <ModalHeader py={2}>
-        <CircleAndParentsButton
-          id={id}
-          onEdit={onEditRoleOpen}
-          onDelete={onDeleteOpen}
-        />
+      <ModalHeader pt={2} pb={1}>
+        <HStack mr={7} align="center">
+          <CircleAndParentsButton
+            id={id}
+            flex={1}
+            onEdit={onEditRoleOpen}
+            onDelete={onDeleteOpen}
+          />
+          <ParticipantsNumber participants={participants} ml={1} />
+        </HStack>
       </ModalHeader>
       <ModalCloseButton />
 
-      <ModalBody pb={5}>
+      <ModalBody pt={0} pb={5}>
         <Tabs isLazy variant="unstyled" value={tab} onChange={setTab}>
           <TabList
             mx="-1.5rem"

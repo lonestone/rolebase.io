@@ -46,14 +46,13 @@ export const subscribeMeetingsByDates = memoize(
 )
 
 export const subscribeMeetingsByCircle = memoize(
-  (orgId: string, circleId: string, ended: boolean) =>
+  (orgId: string, circleId: string) =>
     subscribeQuery(
       query(
         collection,
         where('orgId', '==', orgId),
         where('archived', '==', false),
         where('circleId', '==', circleId),
-        where('ended', '==', ended),
         orderBy('startDate', 'desc')
       )
     )
