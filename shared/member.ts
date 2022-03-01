@@ -12,7 +12,7 @@ export interface Member {
   inviteDate?: Timestamp | null
   workedMinPerWeek?: number | null
   role?: ClaimRole
-  meetingId: string | null
+  meetingId?: string | null
 }
 
 export type MemberEntry = WithId<Member>

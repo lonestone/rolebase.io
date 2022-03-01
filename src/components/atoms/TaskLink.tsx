@@ -1,13 +1,11 @@
 import { Button, ButtonProps, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { TaskEntry } from '@shared/task'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
 interface Props extends ButtonProps {
-  task: TaskEntry
   name: string
   id: string
 }
