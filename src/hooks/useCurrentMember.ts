@@ -8,7 +8,6 @@ export default function useCurrentMember(): MemberEntry | undefined {
 
   return useMemo(() => {
     if (!userId) return undefined
-    const currentMember = members?.find((member) => member.userId === userId)
-    return currentMember
+    return members?.find((member) => member.userId === userId)
   }, [userId, members])
 }
