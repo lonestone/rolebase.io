@@ -37,12 +37,11 @@ export default function TasksMultiSelect({
 
   // Get selected tasks
   const selectedTasks = useMemo(() => {
-    if (tasksIds)
-      return tasksIds
-        .map((id) => tasks?.find((m) => m.id === id))
-        .filter(Boolean) as TaskEntry[]
+    if (!tasksIds) return []
 
-    return []
+    return tasksIds
+      .map((id) => tasks?.find((m) => m.id === id))
+      .filter(Boolean) as TaskEntry[]
   }, [tasksIds, tasks])
 
   const handleAdd = useCallback(
