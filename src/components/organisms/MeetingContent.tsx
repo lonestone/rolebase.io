@@ -32,7 +32,6 @@ import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
-import TaskModal from '@components/organisms/modals/TaskModal'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useParticipants from '@hooks/useParticipants'
@@ -49,7 +48,6 @@ import {
   FiPlay,
   FiTrash2,
   FiVideo,
-  FiPlus,
 } from 'react-icons/fi'
 import slugify from 'slugify'
 import { dateFnsLocale } from 'src/locale'
@@ -58,8 +56,7 @@ import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
 import LogCancelText from '@components/molecules/LogCancelText'
 import LogText from '@components/molecules/LogText'
-import ThreadEditModal from './modals/ThreadEditModal'
-
+import MeetingActivitiesCreate from '@components/molecules/MeetingActivitiesCreate'
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean
@@ -136,19 +133,6 @@ export default function MeetingContent({
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  // Task Creation modal
-  const {
-    isOpen: isCreateTaskOpen,
-    onOpen: onCreateTaskOpen,
-    onClose: onCreateTaskClose,
-  } = useDisclosure()
-
-  //thread creation modal
-  const {
-    isOpen: isCreateThreadOpen,
-    onOpen: onCreateThreadOpen,
-    onClose: onCreateThreadClose,
-  } = useDisclosure()
   // Go to step
   const handleGoToStep = (stepId: string) => {
     if (!meeting) return
@@ -351,24 +335,10 @@ export default function MeetingContent({
                 </MeetingStepLayout>
               )
             })}
-            <HStack py={3} alignItems="top">
-              <Button
-                size="sm"
-                ml={1}
-                leftIcon={<FiPlus />}
-                onClick={onCreateTaskOpen}
-              >
-                Nouvelle tâche
-              </Button>
-              <Button
-                size="sm"
-                ml={1}
-                leftIcon={<FiPlus />}
-                onClick={onCreateThreadOpen}
-              >
-                Nouvelle discussion
-              </Button>
-            </HStack>
+            <MeetingActivitiesCreate
+              currentMember={currentMember}
+              meeting={meeting}
+            />
 
             {logs &&
               (logs.length >= 1 ? (
@@ -435,20 +405,6 @@ export default function MeetingContent({
           isOpen
           onClose={onDeleteClose}
           onDelete={onClose}
-        />
-      )}
-      {isCreateTaskOpen && (
-        <TaskModal
-          isOpen
-          defaultMemberId={currentMember?.id}
-          onClose={onCreateTaskClose}
-        />
-      )}
-      {isCreateThreadOpen && (
-        <ThreadEditModal
-          defaultCircleId={meeting?.circleId}
-          isOpen
-          onClose={onCreateThreadClose}
         />
       )}
     </Box>
