@@ -333,10 +333,12 @@ export default function MeetingContent({
                 </MeetingStepLayout>
               )
             })}
-            <MeetingActivitiesCreate
-              currentMember={currentMember}
-              meeting={meeting}
-            />
+            {!meeting.ended && (
+              <MeetingActivitiesCreate
+                currentMember={currentMember}
+                meeting={meeting}
+              />
+            )}
 
             {<Mettinglogs logs={logs} logsLoading={logsLoading} />}
           </Box>
