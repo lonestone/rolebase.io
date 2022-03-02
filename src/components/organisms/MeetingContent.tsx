@@ -333,7 +333,7 @@ export default function MeetingContent({
                       current={current}
                       stepConfig={stepConfig}
                       step={step}
-                      meetingStatus={meeting.ended && !isStarted}
+                      meetingActive={meeting.ended && !isStarted}
                     />
                   )}
 

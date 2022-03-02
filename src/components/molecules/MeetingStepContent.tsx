@@ -16,7 +16,7 @@ interface Props {
   editable: boolean
   stepConfig: MeetingStepConfig
   step: MeetingStepEntry
-  meetingStatus: boolean
+  meetingActive: boolean
 }
 
 export default function MeetingStepContent({
@@ -27,7 +27,7 @@ export default function MeetingStepContent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   stepConfig,
   step,
-  meetingStatus,
+  meetingActive,
 }: Props) {
   // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
@@ -93,7 +93,7 @@ export default function MeetingStepContent({
             meetingId={meetingId}
             step={step}
             editable={editable}
-            disableSort={meetingStatus}
+            disableSort={meetingActive}
           />
         </Box>
       )}
@@ -103,7 +103,7 @@ export default function MeetingStepContent({
             meetingId={meetingId}
             step={step}
             editable={editable}
-            disableSort={meetingStatus}
+            disableSort={meetingActive}
           />
         </Box>
       )}
