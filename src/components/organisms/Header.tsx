@@ -83,7 +83,7 @@ export default function Header() {
       )}
       <Spacer />
       {member?.meetingId && (
-        <Button size="sm" colorScheme="blue" onClick={openMeetingModal}>
+        <Button size="sm" colorScheme="blue" onClick={openMeetingModal} mr={4}>
           Réunion en cours
         </Button>
       )}
