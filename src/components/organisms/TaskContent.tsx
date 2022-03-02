@@ -24,7 +24,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
-import { EntitiesChanges, EntityChangeType, LogType } from '@shared/log'
+import { EntityChangeType, LogType } from '@shared/log'
 import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
@@ -113,13 +113,13 @@ export default function TaskContent({
   const dueDate = watch('dueDate')
 
   const onSubmit = handleSubmit(async ({ dueDate, ...data }) => {
-    if (!orgId) return
+    if (!orgId || !currentMember) return
     const taskUpdate = {
       ...data,
       dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate)) : null,
     }
     if (id) {
-      // Update thread
+      // Update task
       await updateTask(id, taskUpdate)
     } else {
       // Create task
@@ -127,21 +127,18 @@ export default function TaskContent({
         orgId,
         ...taskUpdate,
       })
-      if (currentMember) {
-        const changes: EntitiesChanges = {
+      createLog({
+        display: {
+          type: LogType.TaskCreate,
+          id: newTask.id,
+          name: newTask.title,
+        },
+        changes: {
           tasks: [
             { type: EntityChangeType.Create, id: newTask.id, data: newTask },
           ],
-        }
-        createLog({
-          display: {
-            type: LogType.TaskCreate,
-            id: newTask.id,
-            name: newTask.title,
-          },
-          changes,
-        })
-      }
+        },
+      })
     }
     onClose()
   })
