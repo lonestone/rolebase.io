@@ -47,6 +47,7 @@ export default function MeetingActivitiesCreate({
           isOpen
           defaultMemberId={currentMember?.id}
           onClose={onCreateTaskClose}
+          defaultCircleId={meeting?.circleId}
         />
       )}
       {isCreateThreadOpen && (
