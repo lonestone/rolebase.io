@@ -37,60 +37,59 @@ export default function Header() {
 
   if (!user) return null
   return (
-    <>
-      <Flex
-        w="100%"
-        h="48px"
-        alignItems="center"
-        px={1}
-        bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
-        borderBottom="1px solid"
-        borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
-        zIndex={1000}
-      >
-        {org && (
-          <>
-            <OrgMenu />
+    <Flex
+      w="100%"
+      h="48px"
+      alignItems="center"
+      px={1}
+      bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+      borderBottom="1px solid"
+      borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+      zIndex={1000}
+    >
+      {org && (
+        <>
+          <OrgMenu />
 
-            <Heading size="sm" ml={5} mr={5}>
-              {org.name}
-            </Heading>
+          <Heading size="sm" ml={5} mr={5}>
+            {org.name}
+          </Heading>
 
-            <HeaderButton exact to={`/orgs/${org.id}`} leftIcon={<FiDisc />}>
-              Cercles
-            </HeaderButton>
+          <HeaderButton exact to={`/orgs/${org.id}`} leftIcon={<FiDisc />}>
+            Cercles
+          </HeaderButton>
 
-            <HeaderButton
-              to={`/orgs/${org.id}/threads`}
-              leftIcon={<FiMessageSquare />}
-            >
-              Discussions
-            </HeaderButton>
+          <HeaderButton
+            to={`/orgs/${org.id}/threads`}
+            leftIcon={<FiMessageSquare />}
+          >
+            Discussions
+          </HeaderButton>
 
-            <HeaderButton
-              to={`/orgs/${org.id}/meetings`}
-              leftIcon={<FiCalendar />}
-            >
-              Réunions
-            </HeaderButton>
+          <HeaderButton
+            to={`/orgs/${org.id}/meetings`}
+            leftIcon={<FiCalendar />}
+          >
+            Réunions
+          </HeaderButton>
 
-            <HeaderButton
-              to={`/orgs/${org.id}/tasks`}
-              leftIcon={<FiCheckSquare />}
-            >
-              Tâches
-            </HeaderButton>
-          </>
-        )}
-        <Spacer />
-        {member?.meetingId && (
-          <Button size="sm" colorScheme="blue" onClick={openMeetingModal}>
-            Réunion en cours
-          </Button>
-        )}
-        {org && <HeaderSearchCombobox />}
-        <UserMenu ml={2} />
-      </Flex>
+          <HeaderButton
+            to={`/orgs/${org.id}/tasks`}
+            leftIcon={<FiCheckSquare />}
+          >
+            Tâches
+          </HeaderButton>
+        </>
+      )}
+      <Spacer />
+      {member?.meetingId && (
+        <Button size="sm" colorScheme="blue" onClick={openMeetingModal}>
+          Réunion en cours
+        </Button>
+      )}
+      {org && <HeaderSearchCombobox />}
+      <UserMenu ml={2} />
+
       {isMeetingOpen && member?.meetingId ? (
         <MeetingModal
           id={member.meetingId}
@@ -98,6 +97,6 @@ export default function Header() {
           onClose={closeMeetingModal}
         />
       ) : null}
-    </>
+    </Flex>
   )
 }
