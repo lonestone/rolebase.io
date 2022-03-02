@@ -109,7 +109,7 @@ export async function goToNextMeetingStep(
     })
   } else {
     // End meeting
-    stopMembersMeeting(participants, meeting.id)
+    stopMembersMeeting(membersId, meeting.id)
     await updateMeeting(meeting.id, {
       currentStepId: null,
       ended: true,
