@@ -1,4 +1,3 @@
-import { ParticipantMember } from '@hooks/useParticipants'
 import { Member } from '@shared/member'
 import { Optional } from '@shared/types'
 import { ClaimRole } from '@shared/userClaims'
