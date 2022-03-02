@@ -29,7 +29,7 @@ export default function TasksMultiSelect({
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
-  // Subscribe threads
+  // Subscribe tasks
   const subscribe = orgId
     ? circleId
       ? subscribeTasksByCircle(orgId, circleId, false)
