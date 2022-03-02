@@ -110,6 +110,10 @@ export async function updateMeetingStepsTypes(
           })
         case MeetingStepTypes.Checklist:
         case MeetingStepTypes.Indicators:
+          return updateMeetingStep(stepConfig.id, {
+            type,
+            notes: '',
+          })
         case MeetingStepTypes.Tasks:
           return updateMeetingStep(stepConfig.id, {
             type,

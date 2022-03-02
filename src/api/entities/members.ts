@@ -96,25 +96,34 @@ export async function updateMemberRole(
   })
 }
 
-export async function setInMeetingStatus(
-  participants: ParticipantMember[],
+export async function startMembersMeeting(
+  membersId: string[],
   meetingId: string
 ) {
   return await Promise.all(
-    participants.map(async (participant) => {
-      const member = await getMember(participant.member.id)
-      if (member) {
-        if (!member.meetingId) {
-          return updateMember(member.id, {
-            ...participant.member,
-            meetingId: meetingId,
-          })
-        } else if (meetingId === member.meetingId) {
-          return updateMember(member.id, {
-            ...participant.member,
-            meetingId: null,
-          })
-        }
+    membersId.map(async (memberId) => {
+      const member = await getMember(memberId)
+      if (!member?.meetingId) {
+        return updateMember(memberId, {
+          meetingId: meetingId,
+        })
+      }
+      return
+    })
+  )
+}
+
+export async function stopMembersMeeting(
+  membersId: string[],
+  meetingId: string
+) {
+  return await Promise.all(
+    membersId.map(async (memberId) => {
+      const member = await getMember(memberId)
+      if (meetingId === member?.meetingId) {
+        return updateMember(member.id, {
+          meetingId: null,
+        })
       }
       return
     })

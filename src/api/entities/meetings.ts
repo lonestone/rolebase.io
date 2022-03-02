@@ -11,7 +11,7 @@ import {
   getEntityMethods,
   subscribeQuery,
 } from '../firebase'
-import { setInMeetingStatus } from './members'
+import { startMembersMeeting, stopMembersMeeting } from './members'
 
 export const collection = getCollection<Meeting>('meetings')
 
@@ -72,12 +72,13 @@ export async function goToNextMeetingStep(
   participants: ParticipantMember[]
 ) {
   if (!meeting) return
+  const membersId = participants.map((participant) => participant.member.id)
 
   // Meeting not started
   if (meeting.currentStepId === null) {
     const firstStep = meeting.stepsConfig[0]
     if (firstStep) {
-      setInMeetingStatus(participants, meeting.id)
+      startMembersMeeting(membersId, meeting.id)
       // Go to first step
       await updateMeeting(meeting.id, {
         currentStepId: firstStep.id,
@@ -108,7 +109,7 @@ export async function goToNextMeetingStep(
     })
   } else {
     // End meeting
-    setInMeetingStatus(participants, meeting.id)
+    stopMembersMeeting(participants, meeting.id)
     await updateMeeting(meeting.id, {
       currentStepId: null,
       ended: true,
