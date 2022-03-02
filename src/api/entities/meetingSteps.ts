@@ -32,13 +32,17 @@ export const meetingStepsEntities = memoize((meetingId: string) => {
             notes: '',
             threadsIds: [],
           }
-        case MeetingStepTypes.Checklist:
-        case MeetingStepTypes.Indicators:
         case MeetingStepTypes.Tasks:
           return {
             type,
             notes: '',
             tasksIds: [],
+          }
+        case MeetingStepTypes.Checklist:
+        case MeetingStepTypes.Indicators:
+          return {
+            type,
+            notes: '',
           }
       }
     },
