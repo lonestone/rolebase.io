@@ -174,7 +174,7 @@ export default function TaskContent({
           {
             type: EntityChangeType.Update,
             id: task.id,
-            prevData: { doneDate: null },
+            prevData: { doneDate: task.doneDate ? task.doneDate : null },
             newData: { doneDate },
           },
         ],
