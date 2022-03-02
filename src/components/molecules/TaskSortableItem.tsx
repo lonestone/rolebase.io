@@ -29,7 +29,6 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
       _hover={hover}
       {...attributes}
       {...listeners}
-      disabled
     >
       <HStack spacing={3} align="stretch" alignItems="center">
         <Checkbox
