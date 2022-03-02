@@ -22,7 +22,6 @@ import {
   Text,
   useDisclosure,
   VStack,
-  useColorMode,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
@@ -54,9 +53,8 @@ import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
-import LogCancelText from '@components/molecules/LogCancelText'
-import LogText from '@components/molecules/LogText'
 import MeetingActivitiesCreate from '@components/molecules/MeetingActivitiesCreate'
+import Mettinglogs from '@components/molecules/MeetingLogs'
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean
@@ -71,7 +69,7 @@ export default function MeetingContent({
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
-  const { colorMode } = useColorMode()
+
   // Subscribe meeting
   const {
     data: meeting,
@@ -340,57 +338,7 @@ export default function MeetingContent({
               meeting={meeting}
             />
 
-            {logs &&
-              (logs.length >= 1 ? (
-                <>
-                  <Heading as="h2" size="md" mt="6" mb="2">
-                    Historique
-                  </Heading>
-                  {logs.map((log) => (
-                    <HStack
-                      key={log.id}
-                      py={3}
-                      alignItems="top"
-                      borderBottom="1px solid"
-                      borderBottomColor={
-                        colorMode === 'light' ? 'gray.200' : 'gray.550'
-                      }
-                    >
-                      <StackItem>
-                        <Text
-                          textDecoration={
-                            log.canceled ? 'line-through' : undefined
-                          }
-                        >
-                          <LogCancelText log={log} />
-                          <LogText log={log} />
-                        </Text>
-                        <Text fontSize="sm" color="gray.500">
-                          {capitalizeFirstLetter(
-                            format(log.createdAt.toDate(), 'PPpp ', {
-                              locale: dateFnsLocale,
-                            })
-                          )}
-                        </Text>
-                      </StackItem>
-                    </HStack>
-                  ))}
-                </>
-              ) : (
-                !logsLoading && (
-                  <>
-                    <Heading as="h2" size="md" mt="6" mb="4">
-                      Historique
-                    </Heading>
-
-                    <Text fontSize="sm" color="gray.500">
-                      {capitalizeFirstLetter(
-                        "Pas d'historique lié à cette réunion"
-                      )}
-                    </Text>
-                  </>
-                )
-              ))}
+            {<Mettinglogs logs={logs} logsLoading={logsLoading} />}
           </Box>
         </>
       )}
