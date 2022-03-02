@@ -127,11 +127,13 @@ export default function TaskContent({
         orgId,
         ...taskUpdate,
       })
+      // Todo : refacto task status is in WIP
       createLog({
         display: {
           type: LogType.TaskCreate,
           id: newTask.id,
           name: newTask.title,
+          status: newTask.doneDate ? 'terminé' : 'non terminé',
         },
         changes: {
           tasks: [
@@ -160,7 +162,24 @@ export default function TaskContent({
     if (!task) return
     const doneDate = task.doneDate ? null : Timestamp.now()
     updateTask(task.id, { doneDate })
-
+    createLog({
+      display: {
+        type: LogType.TaskUpdate,
+        id: task.id,
+        name: task.title,
+        status: doneDate ? 'terminé' : 'non terminé',
+      },
+      changes: {
+        tasks: [
+          {
+            type: EntityChangeType.Update,
+            id: task.id,
+            prevData: { doneDate: null },
+            newData: { doneDate },
+          },
+        ],
+      },
+    })
     // Toast to cancel
     toast({
       status: 'success',

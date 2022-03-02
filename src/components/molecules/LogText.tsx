@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import CircleLink from '@components/atoms/CircleLink'
 import MemberLink from '@components/atoms/MemberLink'
 import TaskLink from '@components/atoms/TaskLink'
@@ -30,7 +31,7 @@ const texts = {
   [LogType.MemberUpdate]: 'a modifié le membre',
   [LogType.MemberArchive]: 'a archivé le membre',
   [LogType.TaskCreate]: 'a créé la tâche',
-  [LogType.TaskUpdate]: 'a modifié la tâche',
+  [LogType.TaskUpdate]: 'a marqué la tâche',
   [LogType.TaskArchive]: 'a archivé la tâche',
 }
 
@@ -100,12 +101,22 @@ export default function LogText({ log }: Props) {
         </>
       )
     case LogType.TaskCreate:
-    case LogType.TaskUpdate:
     case LogType.TaskArchive:
       return (
         <>
           <MemberLink id={memberId} name={memberName} /> {texts[type]}{' '}
           <TaskLink id={log.display.id} name={log.display.name} />
+        </>
+      )
+    case LogType.TaskUpdate:
+      return (
+        <>
+          <MemberLink id={memberId} name={memberName} /> {texts[type]}{' '}
+          <TaskLink id={log.display.id} name={log.display.name} />
+          {' comme '}
+          <Box as="span" fontWeight="semibold">
+            {log.display.status}
+          </Box>
         </>
       )
   }

@@ -35,6 +35,7 @@ export default function TaskDeleteModal({
         type: LogType.TaskArchive,
         id: task.id,
         name: task.title,
+        status: task.doneDate ? 'terminé' : 'non terminé',
       },
       changes: {
         tasks: [
