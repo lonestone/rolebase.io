@@ -10,8 +10,8 @@ import React, { useCallback } from 'react'
 
 interface Props {
   task: TaskEntry
-  onRemove?(taskId: string): void
   disabled: boolean
+  onRemove?(taskId: string): void
 }
 
 export default function TaskSortableItem({ task, onRemove, disabled }: Props) {

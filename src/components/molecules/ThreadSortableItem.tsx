@@ -9,8 +9,8 @@ import { FiMessageSquare } from 'react-icons/fi'
 
 interface Props {
   thread: ThreadEntry
-  onRemove?(threadId: string): void
   disabled: boolean
+  onRemove?(threadId: string): void
 }
 
 export default function ThreadSortableItem({
