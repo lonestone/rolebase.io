@@ -7,15 +7,13 @@ import ThreadsMultiSelect from './ThreadsMultiSelect'
 interface Props {
   meetingId: string
   step: WithId<MeetingStepThreads>
-  editable?: boolean
-  disableSort: boolean
+  editable?: Boolean
 }
 
 export default function MeetingStepContentThreads({
   meetingId,
   step,
   editable,
-  disableSort,
 }: Props) {
   // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
@@ -31,7 +29,6 @@ export default function MeetingStepContentThreads({
     <ThreadsMultiSelect
       threadsIds={step.threadsIds}
       onChange={editable ? handleChange : undefined}
-      disableSort={disableSort}
     />
   )
 }

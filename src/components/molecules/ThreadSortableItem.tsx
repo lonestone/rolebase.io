@@ -10,16 +10,16 @@ import { FiMessageSquare } from 'react-icons/fi'
 interface Props {
   thread: ThreadEntry
   onRemove?(threadId: string): void
-  disable: boolean
+  disabled: boolean
 }
 
 export default function ThreadSortableItem({
   thread,
   onRemove,
-  disable,
+  disabled,
 }: Props) {
   const hover = useHoverItemStyle()
-  const { attributes, listeners } = useSortableItem(thread.id, disable)
+  const { attributes, listeners } = useSortableItem(thread.id, disabled)
 
   return (
     <LinkBox

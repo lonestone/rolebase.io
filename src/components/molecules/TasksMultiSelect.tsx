@@ -17,7 +17,6 @@ interface Props {
   tasksIds: string[]
   max?: number
   onChange?(tasksIds: string[]): void
-  disableSort: boolean
 }
 
 export default function TasksMultiSelect({
@@ -25,7 +24,6 @@ export default function TasksMultiSelect({
   tasksIds,
   max,
   onChange,
-  disableSort,
 }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
@@ -84,7 +82,7 @@ export default function TasksMultiSelect({
               key={task.id}
               task={task}
               onRemove={onChange && handleRemove}
-              disabled={disableSort}
+              disabled={typeof onChange !== 'undefined' ? true : false}
             />
           ))}
         </SortableList>
