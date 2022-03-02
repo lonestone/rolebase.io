@@ -41,6 +41,9 @@ export type LogDisplay =
         | LogType.MemberCreate
         | LogType.MemberUpdate
         | LogType.MemberArchive
+        | LogType.TaskArchive
+        | LogType.TaskCreate
+        | LogType.TaskUpdate
       id: string
       name: string
     }
@@ -53,11 +56,6 @@ export type LogDisplay =
       name: string
       memberId: string
       memberName: string
-    }
-  | {
-      type: LogType.TaskArchive | LogType.TaskCreate | LogType.TaskUpdate
-      id: string
-      name: string
     }
 
 export enum EntityChangeType {
