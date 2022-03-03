@@ -174,13 +174,16 @@ export default function MeetingEditModal({
   const onSubmit = handleSubmit(async ({ startDate, duration, ...data }) => {
     if (!orgId || !currentMember) return
     const startDateDate = new Date(startDate)
+    const membersIdsWithScope = participants.map(
+      (participant) => participant.member.id
+    )
     const meetingUpdate = {
       ...data,
       startDate: Timestamp.fromDate(startDateDate),
       endDate: Timestamp.fromDate(
         new Date(startDateDate.getTime() + duration * 60 * 1000)
       ),
-      participantsMembersIds,
+      participantsMembersIds: membersIdsWithScope,
     }
     if (meeting) {
       // Update meeting
