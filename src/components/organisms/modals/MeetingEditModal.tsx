@@ -45,11 +45,9 @@ import useItemsArray from '@hooks/useItemsArray'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/meeting'
-import { MeetingStepTypes } from '@shared/meetingStep'
 import { MembersScope } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
-import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FiEdit3, FiHelpCircle } from 'react-icons/fi'
@@ -135,13 +133,7 @@ export default function MeetingEditModal({
           startDate: getDateTimeLocal(initStartDate),
           duration: 60,
           ended: false,
-          stepsConfig: [
-            {
-              id: nanoid(5),
-              type: MeetingStepTypes.Threads,
-              title: 'Ordre du jour',
-            },
-          ],
+          stepsConfig: [],
         },
   })
 
