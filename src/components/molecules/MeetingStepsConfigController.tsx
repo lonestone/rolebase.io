@@ -48,10 +48,7 @@ export default function MeetingStepsConfigController({
     name: fieldName,
     keyName: 'key',
   })
-  console.log(stepsFields)
   const handleAdd = (stepType: MeetingStepTypes) => {
-    console.log(stepType)
-
     return appendStep({
       id: nanoid(5),
       type: stepType,

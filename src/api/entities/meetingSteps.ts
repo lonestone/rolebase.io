@@ -68,61 +68,7 @@ export async function createMissingMeetingSteps(
   const missingSteps = stepsConfig.filter(
     (stepConfig) => !meetingSteps.find((step) => step.id === stepConfig.id)
   )
-  await Promise.all(
-    missingSteps.map((stepConfig) =>
-      createMeetingStep(stepConfig.type, stepConfig.id)
-    )
-  )
-}
 
-export async function updateMeetingStepsTypes(
-  meetingId: string,
-  stepsConfig: MeetingStepConfig[]
-) {
-  const { getMeetingSteps, updateMeetingStep, createMeetingStep } =
-    meetingStepsEntities(meetingId)
-  const meetingSteps = await getMeetingSteps()
-  const toUpdateSteps = stepsConfig.filter((stepConfig) =>
-    meetingSteps.find(
-      (step) => step.type !== stepConfig.type && step.id === stepConfig.id
-    )
-  )
-  const missingSteps = stepsConfig.filter(
-    (stepConfig) => !meetingSteps.find((step) => step.id === stepConfig.id)
-  )
-  await Promise.all(
-    toUpdateSteps.map((stepConfig) => {
-      const type = stepConfig.type
-      switch (type) {
-        case MeetingStepTypes.Tour:
-          return updateMeetingStep(stepConfig.id, {
-            type,
-            notes: '',
-            participants: [],
-            currentMemberId: '',
-          })
-
-        case MeetingStepTypes.Threads:
-          return updateMeetingStep(stepConfig.id, {
-            type,
-            notes: '',
-            threadsIds: [],
-          })
-        case MeetingStepTypes.Checklist:
-        case MeetingStepTypes.Indicators:
-          return updateMeetingStep(stepConfig.id, {
-            type,
-            notes: '',
-          })
-        case MeetingStepTypes.Tasks:
-          return updateMeetingStep(stepConfig.id, {
-            type,
-            notes: '',
-            tasksIds: [],
-          })
-      }
-    })
-  )
   await Promise.all(
     missingSteps.map((stepConfig) =>
       createMeetingStep(stepConfig.type, stepConfig.id)
