@@ -41,7 +41,7 @@ export default function MeetingStepsConfigController({
     name: fieldName,
     keyName: 'key',
   })
-
+  console.log(stepsFields)
   const handleAdd = () =>
     appendStep({
       id: nanoid(5),
@@ -61,6 +61,11 @@ export default function MeetingStepsConfigController({
               control={control}
               errors={errors}
               onRemove={stepsFields.length > 1 ? removeStep : undefined}
+              title={
+                index === stepsFields.length - 1
+                  ? ''
+                  : MeetingStepTypes[stepsFields[index].type]
+              }
             />
           ))}
         </Stack>
