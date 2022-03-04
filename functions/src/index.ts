@@ -3,6 +3,7 @@ import * as functions from 'firebase-functions'
 import './fixTsPaths'
 import { meetingsIcalRoute } from './routes/meetingsIcal'
 import { migration } from './routes/migration'
+import { seed } from './routes/seed'
 export { acceptMemberInvitation } from './functions/acceptMemberInvitation'
 export { createOrg } from './functions/createOrg'
 export { getMeetingsToken } from './functions/getMeetingsToken'
@@ -17,6 +18,7 @@ const app = express()
 // Routes
 app.get('/meetings.ics', meetingsIcalRoute)
 app.get('/migration', migration)
+app.get('/seed/:name?', seed)
 
 // Expose Express API as a single Cloud Function:
 exports.api = functions.https.onRequest(app)
