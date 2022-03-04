@@ -5,12 +5,13 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Text,
 } from '@chakra-ui/react'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import { nanoid } from 'nanoid'
 import React from 'react'
-import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
+import { Control, Field, FieldErrors, useFieldArray } from 'react-hook-form'
 import { FiChevronDown } from 'react-icons/fi'
 import * as yup from 'yup'
 import MeetingStepSortableItem from './MeetingStepSortableItem'
@@ -27,11 +28,14 @@ interface Props {
   errors?: FieldErrors<StepsValues>
 }
 
-export const stepsConfigSchema = yup.array().of(
-  yup.object().shape({
-    title: yup.string().required(),
-  })
-)
+export const stepsConfigSchema = yup
+  .array()
+  .min(1, 'Ajouter au moins une étape à la réunion')
+  .of(
+    yup.object().shape({
+      title: yup.string().required(),
+    })
+  )
 
 export default function MeetingStepsConfigController({
   control,
@@ -55,9 +59,12 @@ export default function MeetingStepsConfigController({
       title: '',
     })
   }
-
+  console.log(errors)
   return (
     <>
+      <Text color="red" fontWeight="bold">
+        {(errors?.stepsConfig as FieldErrors)?.message}
+      </Text>
       <SortableList items={stepsFields} onDragEnd={moveStep}>
         <Stack spacing={2}>
           {stepsFields.map((field, index) => (
