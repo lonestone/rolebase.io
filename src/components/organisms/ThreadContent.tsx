@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Spacer,
   Tag,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -27,9 +28,15 @@ import ParticipantsNumber from '../atoms/ParticipantsNumber'
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean
+  headerIcons?: React.ReactNode
 }
 
-export default function ThreadContent({ id, changeTitle, ...boxProps }: Props) {
+export default function ThreadContent({
+  id,
+  changeTitle,
+  headerIcons,
+  ...boxProps
+}: Props) {
   // Subscribe thread
   const { data: thread, error, loading } = useSubscription(subscribeThread(id))
 
@@ -70,10 +77,8 @@ export default function ThreadContent({ id, changeTitle, ...boxProps }: Props) {
       {loading && <Loading active center />}
 
       <Flex
-        alignItems="center"
-        flexWrap="wrap"
+        align="center"
         pb={2}
-        pr="8rem"
         position="relative"
         zIndex={1}
         boxShadow={
@@ -88,18 +93,24 @@ export default function ThreadContent({ id, changeTitle, ...boxProps }: Props) {
 
         {thread?.archived && <Tag ml={2}>Archivé</Tag>}
 
-        <IconButton
-          aria-label=""
-          icon={<FiEdit3 />}
-          variant="ghost"
-          size="sm"
-          ml={2}
-          onClick={onEditOpen}
-        />
+        <Spacer />
 
-        {circle && <CircleButton circle={circle} ml={5} />}
+        <Box mr={headerIcons ? -2 : 0}>
+          {circle && <CircleButton circle={circle} ml={5} />}
 
-        <ParticipantsNumber participants={participants} ml={1} />
+          <ParticipantsNumber participants={participants} ml={1} />
+
+          <IconButton
+            aria-label=""
+            icon={<FiEdit3 />}
+            variant="ghost"
+            size="sm"
+            ml={2}
+            onClick={onEditOpen}
+          />
+
+          {headerIcons}
+        </Box>
       </Flex>
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>

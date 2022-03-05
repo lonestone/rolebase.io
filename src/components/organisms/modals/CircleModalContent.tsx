@@ -2,11 +2,13 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  Box,
   Button,
   Collapse,
   FormControl,
   FormLabel,
   HStack,
+  IconButton,
   ModalBody,
   ModalCloseButton,
   ModalHeader,
@@ -40,14 +42,18 @@ import {
   FiChevronDown,
   FiChevronUp,
   FiDisc,
+  FiEdit3,
   FiMessageSquare,
+  FiTrash2,
 } from 'react-icons/fi'
 import CircleDeleteModal from './CircleDeleteModal'
+import ModalCloseStaticButton from './ModalCloseStaticButton'
 import RoleEditModal from './RoleEditModal'
 
 interface Props {
   id: string
   changeTitle?: boolean
+  headerIcons?: React.ReactNode
 }
 
 enum TabTypes {
@@ -57,7 +63,11 @@ enum TabTypes {
   Tasks,
 }
 
-export default function CircleModalContent({ id, changeTitle }: Props) {
+export default function CircleModalContent({
+  id,
+  changeTitle,
+  headerIcons,
+}: Props) {
   const circle = useCircle(id)
   const role = circle?.role
   const { colorMode } = useColorMode()
@@ -111,18 +121,36 @@ export default function CircleModalContent({ id, changeTitle }: Props) {
     <>
       {changeTitle && <Title>{role.name || '…'}</Title>}
 
-      <ModalHeader pt={2} pb={1}>
-        <HStack mr={7} align="center">
-          <CircleAndParentsButton
-            id={id}
-            flex={1}
-            onEdit={onEditRoleOpen}
-            onDelete={onDeleteOpen}
-          />
-          <ParticipantsNumber participants={participants} ml={1} />
+      <ModalHeader pt={2} pb={1} pr={3}>
+        <HStack align="start">
+          <CircleAndParentsButton id={id} flex={1} />
+
+          <Box>
+            <ParticipantsNumber participants={participants} />
+          </Box>
+
+          <Box>
+            <IconButton
+              aria-label="Editer"
+              icon={<FiEdit3 />}
+              size="sm"
+              variant="ghost"
+              onClick={onEditRoleOpen}
+            />
+
+            <IconButton
+              aria-label="Supprimer"
+              icon={<FiTrash2 />}
+              size="sm"
+              variant="ghost"
+              onClick={onDeleteOpen}
+            />
+
+            {headerIcons}
+            <ModalCloseStaticButton />
+          </Box>
         </HStack>
       </ModalHeader>
-      <ModalCloseButton />
 
       <ModalBody pt={0} pb={5}>
         <Tabs isLazy variant="unstyled" value={tab} onChange={setTab}>

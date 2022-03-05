@@ -1,20 +1,17 @@
-import { Button, ButtonProps } from '@chakra-ui/react'
+import { IconButton } from '@chakra-ui/react'
 import React from 'react'
 import { FiMaximize2 } from 'react-icons/fi'
+import { Link, LinkProps } from 'react-router-dom'
 
-export default function ModalMaximizeButton(buttonProps: ButtonProps) {
+export default function ModalMaximizeButton(props: LinkProps) {
   return (
-    <Button
-      size="sm"
-      variant="outline"
-      position="absolute"
-      zIndex={1}
-      top="0.5rem"
-      right="3rem"
-      leftIcon={<FiMaximize2 />}
-      {...buttonProps}
-    >
-      Ouvrir
-    </Button>
+    <Link {...props} tabIndex={-1}>
+      <IconButton
+        aria-label="Ouvrir en pleine page"
+        variant="ghost"
+        size="sm"
+        icon={<FiMaximize2 />}
+      />
+    </Link>
   )
 }

@@ -11,6 +11,7 @@ import {
   Heading,
   IconButton,
   Input,
+  Spacer,
   useDisclosure,
   useToast,
   VStack,
@@ -36,6 +37,7 @@ interface Props extends BoxProps {
   changeTitle?: boolean
   defaultCircleId?: string
   defaultMemberId?: string
+  headerIcons?: React.ReactNode
   onClose(): void
 }
 
@@ -59,9 +61,10 @@ const resolver = yupResolver(
 export default function TaskContent({
   id,
   changeTitle,
-  onClose,
   defaultCircleId,
   defaultMemberId,
+  headerIcons,
+  onClose,
   ...boxProps
 }: Props) {
   const toast = useToast()
@@ -165,7 +168,7 @@ export default function TaskContent({
     <Box {...boxProps}>
       {changeTitle && <Title>{task?.title || '…'}</Title>}
 
-      <Flex alignItems="center" flexWrap="wrap" mb={5} pr="8rem">
+      <Flex align="center" mb={5}>
         <Heading as="h1" size="md">
           Tâche
         </Heading>
@@ -183,16 +186,22 @@ export default function TaskContent({
           </Button>
         )}
 
-        {id && (
-          <IconButton
-            aria-label=""
-            icon={<FiTrash2 />}
-            variant="ghost"
-            size="sm"
-            ml={3}
-            onClick={onDeleteOpen}
-          />
-        )}
+        <Spacer />
+
+        <Box mr={headerIcons ? -3 : 0}>
+          {id && (
+            <IconButton
+              aria-label=""
+              icon={<FiTrash2 />}
+              variant="ghost"
+              size="sm"
+              ml={3}
+              onClick={onDeleteOpen}
+            />
+          )}
+
+          {headerIcons}
+        </Box>
       </Flex>
 
       {id && loading && <Loading active size="md" />}
