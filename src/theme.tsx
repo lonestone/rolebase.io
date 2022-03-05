@@ -40,7 +40,7 @@ const theme = extendTheme({
     black: '#37352f',
   },
   shadows: {
-    outline: '0 0 3px 0px rgb(0 0 0)',
+    outline: `0 0 3px 0px ${mainColor('50 %')}`,
   },
   components: {
     Link: {
