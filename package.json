@@ -34,7 +34,6 @@
     "diff": "^5.0.0",
     "downshift": "^6.1.0",
     "easy-peasy": "^5.0.3",
-    "easymde": "^2.15.0",
     "firebase": "^9.6.4",
     "focus-visible": "^5.2.0",
     "framer-motion": "^5",
@@ -51,8 +50,9 @@
     "react-hook-form": "^7.20.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
-    "react-simplemde-editor": "^5.0.1",
+    "rich-markdown-editor": "^11.21.3",
     "slugify": "^1.6.5",
+    "styled-components": "^5.3.3",
     "yup": "^0.32.8"
   },
   "devDependencies": {

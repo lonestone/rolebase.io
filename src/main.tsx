@@ -1,5 +1,4 @@
 import '@fullcalendar/react/dist/vdom' // Fix for fullcalendar with Vite
-import 'easymde/dist/easymde.min.css'
 import 'focus-visible/dist/focus-visible'
 import React from 'react'
 import ReactDOM from 'react-dom'

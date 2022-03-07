@@ -72,7 +72,7 @@ export async function createActivity(
         format(new Date(), 'yyyyMMdd')
     ) {
       return updateActivity(last.id, {
-        message: last.message + '\n' + activity.message,
+        message: last.message + '\n\n' + activity.message,
       })
     }
   }

@@ -25,7 +25,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
-import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
+import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'

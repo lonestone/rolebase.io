@@ -17,9 +17,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
-import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSubscription from '@hooks/useSubscription'
@@ -84,7 +84,7 @@ export default function TaskContent({
     reset,
     setValue,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<Values>({
     resolver,
     defaultValues: {
@@ -126,7 +126,6 @@ export default function TaskContent({
         ...taskUpdate,
       })
     }
-    onClose()
   })
 
   // Toggle due date
@@ -271,15 +270,11 @@ export default function TaskContent({
             />
           </FormControl>
 
-          {!id || isDirty ? (
-            <Box textAlign="right">
-              <Button colorScheme="blue" type="submit">
-                {id ? 'Enregistrer' : 'Créer'}
-              </Button>
-            </Box>
-          ) : (
-            <Box mt={3} />
-          )}
+          <Box textAlign="right">
+            <Button colorScheme="blue" type="submit">
+              {id ? 'Enregistrer' : 'Créer'}
+            </Button>
+          </Box>
         </VStack>
       </form>
 

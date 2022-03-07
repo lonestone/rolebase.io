@@ -1,13 +1,13 @@
 import { createActivity } from '@api/entities/activities'
 import { Button, HStack, Spacer } from '@chakra-ui/react'
-import MarkdownEditor from '@components/atoms/MarkdownEditor'
 import ActivityDecisionModal from '@components/organisms/modals/ActivityDecisionModal'
 import ActivityPollModal from '@components/organisms/modals/ActivityPollModal'
 import { ActivityType } from '@shared/activity'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { IoMdSend } from 'react-icons/io'
+import MarkdownEditor, { MarkdownEditorHandle } from './editor/MarkdownEditor'
 
 interface Props {
   thread: ThreadEntry
@@ -17,15 +17,16 @@ export default function ThreadActivityCreate({ thread }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useStoreState((state) => state.orgs.currentId)
   const [message, setMessage] = useState('')
+  const editorRef = useRef<MarkdownEditorHandle>(null)
 
   // Create modal
   const [modalType, setModalType] = useState<ActivityType | null>(null)
 
   const handleSubmit = useCallback(
     async (value: string) => {
-      value = value.trim()
       if (!value || !orgId || !userId) return
 
+      editorRef.current?.setValue('')
       setMessage('')
       try {
         await createActivity({
@@ -37,7 +38,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
         })
       } catch (error) {
         console.error(error)
-        setMessage(value)
+        editorRef.current?.setValue(value)
       }
     },
     [orgId, userId]
@@ -46,10 +47,10 @@ export default function ThreadActivityCreate({ thread }: Props) {
   return (
     <div>
       <MarkdownEditor
+        ref={editorRef}
         placeholder="Message..."
-        value={message}
+        value=""
         autoFocus
-        onChange={setMessage}
         onSubmit={handleSubmit}
       />
 
@@ -65,7 +66,6 @@ export default function ThreadActivityCreate({ thread }: Props) {
           colorScheme="blue"
           size="sm"
           rightIcon={<IoMdSend />}
-          isDisabled={message.trim().length === 0}
           onClick={() => handleSubmit(message)}
         >
           Envoyer

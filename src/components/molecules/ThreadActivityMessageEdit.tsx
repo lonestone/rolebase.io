@@ -1,6 +1,6 @@
 import { deleteActivity, updateActivity } from '@api/entities/activities'
 import { Box, Button } from '@chakra-ui/react'
-import MarkdownEditor from '@components/atoms/MarkdownEditor'
+import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
 import React, { useCallback, useEffect, useState } from 'react'
 
 interface Props {

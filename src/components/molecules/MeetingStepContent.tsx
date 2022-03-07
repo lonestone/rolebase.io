@@ -1,7 +1,7 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import { Box } from '@chakra-ui/react'
 import Markdown from '@components/atoms/Markdown'
-import MarkdownEditor from '@components/atoms/MarkdownEditor'
+import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/meetingStep'

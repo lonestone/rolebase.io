@@ -13,7 +13,7 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
+import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ActivityDecision, ActivityType } from '@shared/activity'
