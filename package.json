@@ -11,7 +11,8 @@
     "firebase:emulator": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit",
     "firebase:emulator:export": "firebase emulators:export ./firebase-emulator-data",
     "firestore:seed": "echo 'Firestore seeding running...' && echo $(curl -s -i -H \"Authorization: E1MTYyMzkwMjJ9\" http://localhost:5001/roles-app-37879/us-central1/api/seed)",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "test:e2e": "cypress run"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
@@ -71,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "@vitejs/plugin-react": "^1.1.1",
+    "cypress": "^9.5.1",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
