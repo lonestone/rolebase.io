@@ -1,13 +1,11 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import { Box } from '@chakra-ui/react'
-import Markdown from '@components/atoms/Markdown'
-import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/meetingStep'
-import { applyPatch, createPatch } from 'diff'
-import throttle from 'lodash.throttle'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Bytes } from 'firebase/firestore'
+import React, { useCallback } from 'react'
+import MarkdownCollabEditor from './editor/MarkdownCollabEditor'
 
 interface Props {
   meetingId: string
@@ -29,58 +27,16 @@ export default function MeetingStepContent({
   // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
 
-  // Notes
-  const [notes, setNotes] = useState(step.notes)
-  const notesDirty = useRef<boolean>(false)
-  const savedNotes = useRef<string>(step.notes)
-  const initialNotes = useRef<string>(step.notes)
-
-  const saveNotes = useMemo(
-    () =>
-      throttle(
-        (value: string) => {
-          // Notes have changed from server since edition
-          if (initialNotes.current !== savedNotes.current) {
-            // Merge modifications
-            const patch = createPatch('', initialNotes.current, value)
-            value = applyPatch(savedNotes.current, patch, {
-              fuzzFactor: Infinity,
-            })
-          }
-
-          // Save changes
-          updateMeetingStep(step.id, { notes: value })
-          notesDirty.current = false
-          initialNotes.current = value
-          setNotes(value)
-        },
-        2000,
-        { leading: false }
-      ),
-    [step.id]
+  // Update notes
+  const handleNotesChange = useCallback(
+    (value: string, updates: Uint8Array) => {
+      updateMeetingStep(step.id, {
+        notes: value,
+        notesUpdates: Bytes.fromUint8Array(updates),
+      })
+    },
+    []
   )
-
-  const handleNotesChange = useCallback((value: string) => {
-    setNotes(value)
-    // At first change since save,
-    // save initial notes and mark as dirty
-    if (!notesDirty.current) {
-      initialNotes.current = savedNotes.current
-      notesDirty.current = true
-    }
-    saveNotes(value)
-  }, [])
-
-  // Update notes on step update
-  useEffect(() => {
-    savedNotes.current = step.notes
-
-    // Update notes only if they are not dirty
-    // They will be updated after save
-    if (!notesDirty.current) {
-      setNotes(step.notes)
-    }
-  }, [step.notes])
 
   return (
     <>
@@ -94,15 +50,15 @@ export default function MeetingStepContent({
         </Box>
       )}
 
-      {editable ? (
-        <MarkdownEditor
-          value={notes}
-          placeholder="Notes..."
-          onChange={handleNotesChange}
-        />
-      ) : (
-        <Markdown>{step?.notes || ''}</Markdown>
-      )}
+      <MarkdownCollabEditor
+        docId={`meeting${meetingId}-step${step.id}`}
+        value={step.notes}
+        updates={step.notesUpdates}
+        placeholder="Notes..."
+        readOnly={!editable}
+        saveDelay={4000}
+        onSave={handleNotesChange}
+      />
     </>
   )
 }

@@ -16,18 +16,19 @@ interface Props {
 export default function ThreadActivityCreate({ thread }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useStoreState((state) => state.orgs.currentId)
-  const [message, setMessage] = useState('')
   const editorRef = useRef<MarkdownEditorHandle>(null)
 
   // Create modal
   const [modalType, setModalType] = useState<ActivityType | null>(null)
 
   const handleSubmit = useCallback(
-    async (value: string) => {
+    async (value?: string) => {
+      if (!value) {
+        value = editorRef.current?.getValue()
+      }
       if (!value || !orgId || !userId) return
 
       editorRef.current?.setValue('')
-      setMessage('')
       try {
         await createActivity({
           orgId,
@@ -66,7 +67,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
           colorScheme="blue"
           size="sm"
           rightIcon={<IoMdSend />}
-          onClick={() => handleSubmit(message)}
+          onClick={() => handleSubmit()}
         >
           Envoyer
         </Button>
