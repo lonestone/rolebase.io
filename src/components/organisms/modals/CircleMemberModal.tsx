@@ -8,7 +8,6 @@ import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import CircleModalContent from './CircleModalContent'
 import MemberModalContent from './MemberModalContent'
 
@@ -34,26 +33,31 @@ export default function CircleMemberModal({
 
       {memberId ? (
         <ModalContent>
-          <Link
-            to={`/orgs/${orgId}?memberId=${memberId}${
-              circleId ? `&circleId=${circleId}` : ''
-            }`}
-            onClick={handleClose}
-          >
-            <ModalMaximizeButton />
-          </Link>
-          <MemberModalContent id={memberId} selectedCircleId={circleId} />
+          <MemberModalContent
+            id={memberId}
+            selectedCircleId={circleId}
+            headerIcons={
+              <ModalMaximizeButton
+                to={`/orgs/${orgId}?memberId=${memberId}${
+                  circleId ? `&circleId=${circleId}` : ''
+                }`}
+                onClick={handleClose}
+              />
+            }
+          />
         </ModalContent>
       ) : (
         circleId && (
           <ModalContent>
-            <Link
-              to={`/orgs/${orgId}?circleId=${circleId}`}
-              onClick={handleClose}
-            >
-              <ModalMaximizeButton />
-            </Link>
-            <CircleModalContent id={circleId} />
+            <CircleModalContent
+              id={circleId}
+              headerIcons={
+                <ModalMaximizeButton
+                  to={`/orgs/${orgId}?circleId=${circleId}`}
+                  onClick={handleClose}
+                />
+              }
+            />
           </ModalContent>
         )
       )}

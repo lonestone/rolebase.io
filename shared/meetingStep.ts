@@ -1,3 +1,4 @@
+import { Bytes } from 'firebase/firestore'
 import { WithId } from './types'
 
 export enum MeetingStepTypes {
@@ -10,6 +11,7 @@ export enum MeetingStepTypes {
 
 interface MeetingStepBase {
   notes: string
+  notesUpdates?: Bytes
 }
 
 export interface MeetingStepTour extends MeetingStepBase {

@@ -3,6 +3,8 @@ import {
   AlertIcon,
   AlertTitle,
   Avatar,
+  Box,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -11,6 +13,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalHeader,
+  Spacer,
   useDisclosure,
 } from '@chakra-ui/react'
 import { Title } from '@components/atoms/Title'
@@ -22,17 +25,20 @@ import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiEdit3 } from 'react-icons/fi'
 import MemberEditModal from './MemberEditModal'
+import ModalCloseStaticButton from './ModalCloseStaticButton'
 
 interface Props {
   id: string
   selectedCircleId?: string
   changeTitle?: boolean
+  headerIcons?: React.ReactNode
 }
 
 export default function MemberModalContent({
   id,
   changeTitle,
   selectedCircleId,
+  headerIcons,
 }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const member = useMember(id)
@@ -63,29 +69,37 @@ export default function MemberModalContent({
     <>
       {changeTitle && <Title>{member.name}</Title>}
 
-      <ModalHeader>
-        <HStack spacing={5}>
-          <Avatar
-            name={member.name}
-            src={member.picture || undefined}
-            size="md"
-          />
-          <Heading as="h2" size="md">
-            {member.name}
-          </Heading>
-
-          {canEdit && (
-            <IconButton
-              aria-label=""
-              icon={<FiEdit3 />}
-              variant="ghost"
-              size="sm"
-              onClick={onEditOpen}
+      <ModalHeader pt={2} pr={3}>
+        <Flex>
+          <HStack mt={3} spacing={5}>
+            <Avatar
+              name={member.name}
+              src={member.picture || undefined}
+              size="md"
             />
-          )}
-        </HStack>
+            <Heading as="h2" size="md">
+              {member.name}
+            </Heading>
+          </HStack>
+
+          <Spacer />
+
+          <Box>
+            {canEdit && (
+              <IconButton
+                aria-label=""
+                icon={<FiEdit3 />}
+                variant="ghost"
+                size="sm"
+                onClick={onEditOpen}
+              />
+            )}
+
+            {headerIcons}
+            <ModalCloseStaticButton />
+          </Box>
+        </Flex>
       </ModalHeader>
-      <ModalCloseButton />
 
       <ModalBody pb={5}>
         <FormControl>

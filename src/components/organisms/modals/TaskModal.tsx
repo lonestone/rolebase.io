@@ -1,6 +1,5 @@
 import {
   Modal,
-  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   UseModalProps,
@@ -8,8 +7,8 @@ import {
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import TaskContent from '../TaskContent'
+import ModalCloseStaticButton from './ModalCloseStaticButton'
 
 interface Props extends UseModalProps {
   id?: string
@@ -29,16 +28,18 @@ export default function TaskModal({
     <Modal size="xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        {id && (
-          <Link to={`/orgs/${orgId}/tasks/${id}`}>
-            <ModalMaximizeButton />
-          </Link>
-        )}
-        <ModalCloseButton zIndex={1} />
         <TaskContent
           id={id}
           defaultCircleId={defaultCircleId}
           defaultMemberId={defaultMemberId}
+          headerIcons={
+            id && (
+              <>
+                <ModalMaximizeButton to={`/orgs/${orgId}/tasks/${id}`} />
+                <ModalCloseStaticButton />
+              </>
+            )
+          }
           onClose={modalProps.onClose}
           px={6}
           py={4}

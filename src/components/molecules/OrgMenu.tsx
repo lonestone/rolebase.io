@@ -7,7 +7,6 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
@@ -24,9 +23,7 @@ import {
   FiClock,
   FiCopy,
   FiMenu,
-  FiMoon,
   FiSettings,
-  FiSun,
   FiUsers,
 } from 'react-icons/fi'
 import { useHistory } from 'react-router'
@@ -36,7 +33,6 @@ export default function OrgMenu(props: MenuButtonProps) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const role = useOrgRole()
   const history = useHistory()
-  const { colorMode, toggleColorMode } = useColorMode()
 
   // Edit modal
   const [editOrgId, setEditOrgId] = useState<string | undefined>()
@@ -111,12 +107,6 @@ export default function OrgMenu(props: MenuButtonProps) {
               <MenuItem icon={<FiClock />}>Historique</MenuItem>
             </Link>
           )}
-          <MenuItem
-            icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
-            onClick={toggleColorMode}
-          >
-            Thème clair/sombre
-          </MenuItem>
           <MenuDivider />
           <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
             Toutes mes organisations

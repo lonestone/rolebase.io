@@ -11,14 +11,15 @@ import {
   Heading,
   IconButton,
   Input,
+  Spacer,
   useDisclosure,
   useToast,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
-import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSubscription from '@hooks/useSubscription'
@@ -36,6 +37,7 @@ interface Props extends BoxProps {
   changeTitle?: boolean
   defaultCircleId?: string
   defaultMemberId?: string
+  headerIcons?: React.ReactNode
   onClose(): void
 }
 
@@ -59,9 +61,10 @@ const resolver = yupResolver(
 export default function TaskContent({
   id,
   changeTitle,
-  onClose,
   defaultCircleId,
   defaultMemberId,
+  headerIcons,
+  onClose,
   ...boxProps
 }: Props) {
   const toast = useToast()
@@ -81,7 +84,7 @@ export default function TaskContent({
     reset,
     setValue,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<Values>({
     resolver,
     defaultValues: {
@@ -123,7 +126,6 @@ export default function TaskContent({
         ...taskUpdate,
       })
     }
-    onClose()
   })
 
   // Toggle due date
@@ -165,7 +167,7 @@ export default function TaskContent({
     <Box {...boxProps}>
       {changeTitle && <Title>{task?.title || '…'}</Title>}
 
-      <Flex alignItems="center" flexWrap="wrap" mb={5} pr="8rem">
+      <Flex align="center" mb={5}>
         <Heading as="h1" size="md">
           Tâche
         </Heading>
@@ -183,16 +185,22 @@ export default function TaskContent({
           </Button>
         )}
 
-        {id && (
-          <IconButton
-            aria-label=""
-            icon={<FiTrash2 />}
-            variant="ghost"
-            size="sm"
-            ml={3}
-            onClick={onDeleteOpen}
-          />
-        )}
+        <Spacer />
+
+        <Box mr={headerIcons ? -3 : 0}>
+          {id && (
+            <IconButton
+              aria-label=""
+              icon={<FiTrash2 />}
+              variant="ghost"
+              size="sm"
+              ml={3}
+              onClick={onDeleteOpen}
+            />
+          )}
+
+          {headerIcons}
+        </Box>
       </Flex>
 
       {id && loading && <Loading active size="md" />}
@@ -262,15 +270,11 @@ export default function TaskContent({
             />
           </FormControl>
 
-          {!id || isDirty ? (
-            <Box textAlign="right">
-              <Button colorScheme="blue" type="submit">
-                {id ? 'Enregistrer' : 'Créer'}
-              </Button>
-            </Box>
-          ) : (
-            <Box mt={3} />
-          )}
+          <Box textAlign="right">
+            <Button colorScheme="blue" type="submit">
+              {id ? 'Enregistrer' : 'Créer'}
+            </Button>
+          </Box>
         </VStack>
       </form>
 

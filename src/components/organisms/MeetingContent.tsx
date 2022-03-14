@@ -16,6 +16,7 @@ import {
   Heading,
   HStack,
   IconButton,
+  Spacer,
   StackItem,
   Tag,
   Text,
@@ -55,6 +56,7 @@ import MeetingEditModal from './modals/MeetingEditModal'
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean
+  headerIcons?: React.ReactNode
   onClose(): void
 }
 
@@ -62,6 +64,7 @@ export default function MeetingContent({
   id,
   onClose,
   changeTitle,
+  headerIcons,
   ...boxProps
 }: Props) {
   const currentMember = useCurrentMember()
@@ -159,35 +162,40 @@ export default function MeetingContent({
     <Box {...boxProps}>
       {changeTitle && <Title>{`Réunion : ${meeting?.title}`}</Title>}
 
-      <Flex alignItems="center" flexWrap="wrap" mb={3} pr="8rem">
+      <Flex align="center" mb={3}>
         <Heading as="h1" size="md">
           Réunion : {meeting?.title}
         </Heading>
 
-        {canEditConfig && (
-          <IconButton
-            aria-label=""
-            icon={<FiEdit3 />}
-            variant="ghost"
-            size="sm"
-            ml={2}
-            onClick={onEditOpen}
-          />
-        )}
+        <Spacer />
 
-        {canDelete && (
-          <IconButton
-            aria-label=""
-            icon={<FiTrash2 />}
-            variant="ghost"
-            size="sm"
-            onClick={onDeleteOpen}
-          />
-        )}
+        <Box mr={headerIcons ? -2 : 0}>
+          {circle && <CircleButton circle={circle} mr={1} />}
 
-        {circle && <CircleButton circle={circle} ml={5} />}
+          <ParticipantsNumber participants={participants} mr={1} />
 
-        <ParticipantsNumber participants={participants} ml={1} />
+          {canEditConfig && (
+            <IconButton
+              aria-label=""
+              icon={<FiEdit3 />}
+              variant="ghost"
+              size="sm"
+              onClick={onEditOpen}
+            />
+          )}
+
+          {canDelete && (
+            <IconButton
+              aria-label=""
+              icon={<FiTrash2 />}
+              variant="ghost"
+              size="sm"
+              onClick={onDeleteOpen}
+            />
+          )}
+
+          {headerIcons}
+        </Box>
       </Flex>
 
       {(loading || stepsLoading) && <Loading active size="md" />}

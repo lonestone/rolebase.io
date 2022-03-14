@@ -29,8 +29,8 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import MarkdownEditorController from '@components/atoms/MarkdownEditorController'
 import NumberInputController from '@components/atoms/NumberInputController'
+import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSubscription from '@hooks/useSubscription'
 import { ActivityPoll, ActivityType, PollChoice } from '@shared/activity'

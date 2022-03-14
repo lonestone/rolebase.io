@@ -9,7 +9,7 @@ interface Props extends ButtonProps {
 
 export default function CircleButton({ circle, ...buttonProps }: Props) {
   return (
-    <CircleMemberLink circleId={circle.id}>
+    <CircleMemberLink circleId={circle.id} tabIndex={-1}>
       <Button size="sm" borderRadius="full" {...buttonProps}>
         {circle.role?.name || '?'}
       </Button>
