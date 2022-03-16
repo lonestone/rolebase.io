@@ -28,7 +28,12 @@ service firebase.storage {
     match /orgs/{orgId} {
       match /members/{memberId} {
         allow read: if isOrgReader(orgId);
-        allow write: if isOrgMember(orgId) && request.resource.size < 5 * 1024 * 1024;
+        allow write: if isOrgMember(orgId) && request.resource.size < 1024 * 1024;
+      }
+
+      match /uploads/{hash} {
+        allow read: if isOrgReader(orgId);
+        allow write: if isOrgMember(orgId) && request.resource.size < 10 * 1024 * 1024;
       }
     }
   }

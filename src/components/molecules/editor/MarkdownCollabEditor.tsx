@@ -14,6 +14,7 @@ import { prosemirrorToYDoc } from 'y-prosemirror'
 import * as Y from 'yjs'
 import BasicStyle from '../../atoms/BasicStyle'
 import MarkdownEditorContainer from './MarkdownEditorContainer'
+import useFileUpload from './useFileUpload'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 import { YCollabExtension } from './YCollabExtension'
 
@@ -49,6 +50,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
     const { colorMode } = useColorMode()
     const currentMember = useCurrentMember()
     const { editorRef, getValue } = useMarkdownEditor(ref)
+    const { handleUpload } = useFileUpload()
 
     // Connect provider and get context
     const collabPlugin = useMemo(() => new YCollabExtension(docId), [docId])
@@ -120,6 +122,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
             extensions={[collabPlugin]}
             onChange={handleChange}
             onSave={handleSave}
+            uploadImage={handleUpload}
           />
         </MarkdownEditorContainer>
       </BasicStyle>

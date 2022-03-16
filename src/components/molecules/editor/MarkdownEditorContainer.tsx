@@ -8,6 +8,7 @@ const MarkdownEditorContainer = styled.div<ColorModeProps>`
     padding: var(--chakra-space-2) var(--chakra-space-4);
     border-width: 1px;
     border-radius: 6px;
+    overflow: hidden; // Force to contain floating elements
 
     &.ProseMirror-focused {
       border-color: ${mode('#3182ce', '#63b3ed')};

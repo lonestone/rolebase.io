@@ -8,6 +8,7 @@ import RichMarkdownEditor from 'rich-markdown-editor'
 import light, { dark } from 'rich-markdown-editor/dist/styles/theme'
 import BasicStyle from '../../atoms/BasicStyle'
 import MarkdownEditorContainer from './MarkdownEditorContainer'
+import useFileUpload from './useFileUpload'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 
 // Markdown editor
@@ -31,6 +32,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
     const formControlProps = useFormControl<HTMLInputElement>({})
     const { colorMode } = useColorMode()
     const { editorRef, getValue } = useMarkdownEditor(ref)
+    const { handleUpload } = useFileUpload()
 
     // Save on blur
     const handleBlur = useCallback(() => {
@@ -62,6 +64,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
             theme={colorMode === 'light' ? light : dark}
             onBlur={handleBlur}
             onSave={handleSave}
+            uploadImage={handleUpload}
           />
         </MarkdownEditorContainer>
       </BasicStyle>
