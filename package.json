@@ -8,6 +8,7 @@
     "lint": "eslint ./src --ext .jsx,.js,.ts,.tsx",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix",
     "lint:format": "prettier --loglevel warn --write \"./src/**/*.{js,jsx,ts,tsx,css,md,json}\" ",
+    "test": "vitest",
     "firebase:emulator": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit",
     "firebase:emulator:export": "firebase emulators:export ./firebase-emulator-data",
     "postinstall": "patch-package"
@@ -91,6 +92,7 @@
     "prettier": "^2.5.1",
     "typescript": "^4.4.4",
     "vite": "^2.7.1",
-    "vite-tsconfig-paths": "^3.3.17"
+    "vite-tsconfig-paths": "^3.3.17",
+    "vitest": "^0.6.3"
   }
 }
