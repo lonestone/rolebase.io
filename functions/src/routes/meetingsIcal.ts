@@ -45,15 +45,17 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
     return
   }
 
+  // Get roles and circles
+  const circles = getQuerySnapshotData(
+    await collections.circles.where('orgId', '==', orgId).get()
+  )
+  const roles = getQuerySnapshotData(
+    await collections.roles.where('orgId', '==', orgId).get()
+  )
+
   // Get member's circles
   let memberCircles: CircleWithRoleEntry[] | undefined
   if (memberId) {
-    const circles = getQuerySnapshotData(
-      await collections.circles.where('orgId', '==', orgId).get()
-    )
-    const roles = getQuerySnapshotData(
-      await collections.roles.where('orgId', '==', orgId).get()
-    )
     memberCircles = getParticipantCircles(memberId, circles, roles)
   }
 
@@ -80,11 +82,14 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
 
   // Add events
   for (const meeting of meetings) {
+    const circle = circles.find((c) => c.id === meeting.circleId)
+    const role = circle && roles.find((r) => r.id === circle.roleId)
+
     cal.createEvent({
       start: meeting.startDate.toDate(),
       end: meeting.endDate.toDate(),
-      summary: `Réunion ${meeting.title}`,
-      url: `${settings.url}/orgs/${orgId}/meetings/${meeting.id}`,
+      summary: `Réunion ${meeting.title} - ${role?.name}`,
+      description: `${settings.url}/orgs/${orgId}/meetings/${meeting.id}`,
     })
   }
 
