@@ -1,6 +1,6 @@
 import { randomColor } from '@chakra-ui/theme-tools'
+import { Extension } from '@rolebase/editor'
 import { keymap } from 'prosemirror-keymap'
-import { Extension } from 'rich-markdown-editor'
 import {
   redo,
   undo,

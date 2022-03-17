@@ -5,11 +5,11 @@ import {
 } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
+import RichMarkdownEditor from '@rolebase/editor'
+import light, { dark } from '@rolebase/editor/dist/styles/theme'
 import { Bytes } from 'firebase/firestore'
 import throttle from 'lodash.throttle'
 import React, { forwardRef, useCallback, useEffect, useMemo } from 'react'
-import RichMarkdownEditor from 'rich-markdown-editor'
-import light, { dark } from 'rich-markdown-editor/dist/styles/theme'
 import { prosemirrorToYDoc } from 'y-prosemirror'
 import * as Y from 'yjs'
 import BasicStyle from '../../atoms/BasicStyle'
@@ -18,8 +18,7 @@ import useFileUpload from './useFileUpload'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 import { YCollabExtension } from './YCollabExtension'
 
-// Markdown editor
-// Docs: https://github.com/outline/rich-markdown-editor
+// Collaborative Markdown editor
 
 export interface Props extends FormControlOptions {
   docId: string

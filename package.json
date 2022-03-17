@@ -58,7 +58,7 @@
     "react-hook-form": "^7.28.0",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
-    "rich-markdown-editor": "^11.21.3",
+    "@rolebase/editor": "^11.21.3",
     "slugify": "^1.6.5",
     "styled-components": "^5.3.3",
     "y-prosemirror": "^1.0.15",
