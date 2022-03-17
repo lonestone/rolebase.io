@@ -266,7 +266,6 @@ export default function ActivityPollModal({
                         <Input
                           {...register(`choices.${index}.title`)}
                           placeholder={`Choix n°${index + 1}`}
-                          control={control}
                         />
                         {choicesFields.length > 2 ? (
                           <IconButton

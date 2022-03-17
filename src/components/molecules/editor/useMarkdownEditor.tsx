@@ -1,6 +1,6 @@
+import RichMarkdownEditor from '@rolebase/editor'
+import light, { dark } from '@rolebase/editor/dist/styles/theme'
 import { ForwardedRef, useImperativeHandle, useRef } from 'react'
-import RichMarkdownEditor from 'rich-markdown-editor'
-import light, { dark } from 'rich-markdown-editor/dist/styles/theme'
 
 export interface MarkdownEditorHandle {
   setValue(value: string): void

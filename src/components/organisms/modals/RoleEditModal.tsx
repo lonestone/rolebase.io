@@ -259,7 +259,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
               </VStack>
             </ModalBody>
 
-            <ModalFooter align="end">
+            <ModalFooter alignItems="end">
               <Button colorScheme="blue" type="submit">
                 Enregistrer
               </Button>
