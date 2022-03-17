@@ -148,7 +148,7 @@ export default function MemberPictureCropModal({
           )}
         </ModalBody>
 
-        <ModalFooter align="end">
+        <ModalFooter alignItems="end">
           <Button variant="ghost" mr={3} onClick={modalProps.onClose}>
             Annuler
           </Button>

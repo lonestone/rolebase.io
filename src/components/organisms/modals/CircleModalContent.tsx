@@ -153,7 +153,7 @@ export default function CircleModalContent({
       </ModalHeader>
 
       <ModalBody pt={0} pb={5}>
-        <Tabs isLazy variant="unstyled" value={tab} onChange={setTab}>
+        <Tabs isLazy variant="unstyled" index={tab} onChange={setTab}>
           <TabList
             mx="-1.5rem"
             px="1.5rem"

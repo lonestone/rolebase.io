@@ -36,7 +36,6 @@ export default function MeetingStepSortableItem({
           {...control.register(`${fieldName}.${index}.title`)}
           isInvalid={!!errors?.[fieldName]?.[index]}
           placeholder="Titre de l'étape..."
-          control={control}
         />
       </Stack>
       {onRemove && (
