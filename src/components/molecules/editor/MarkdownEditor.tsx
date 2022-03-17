@@ -1,76 +1,18 @@
-import {
-  FormControlOptions,
-  useColorMode,
-  useFormControl,
-} from '@chakra-ui/react'
-import React, { forwardRef, useCallback } from 'react'
-import RichMarkdownEditor from 'rich-markdown-editor'
-import light, { dark } from 'rich-markdown-editor/dist/styles/theme'
-import BasicStyle from '../../atoms/BasicStyle'
-import MarkdownEditorContainer from './MarkdownEditorContainer'
-import useFileUpload from './useFileUpload'
-import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
+import React, { forwardRef, lazy, Suspense } from 'react'
+import { Props } from './SimpleEditor'
+import { MarkdownEditorHandle } from './useMarkdownEditor'
 
-// Markdown editor
-// Docs: https://github.com/outline/rich-markdown-editor
-
-interface Props extends FormControlOptions {
-  value: string
-  placeholder?: string
-  autoFocus?: boolean
-  readOnly?: boolean
-  onChange?(value: string): void
-  onSave?(value: string): void // Called when Ctrl+S is pressed
-  onSubmit?(value: string): void // Called when Cmd+Enter is pressed
-}
-
-const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
-  (
-    { value, placeholder, autoFocus, readOnly, onChange, onSave, onSubmit },
-    ref
-  ) => {
-    const formControlProps = useFormControl<HTMLInputElement>({})
-    const { colorMode } = useColorMode()
-    const { editorRef, getValue } = useMarkdownEditor(ref)
-    const { handleUpload } = useFileUpload()
-
-    // Save on blur
-    const handleBlur = useCallback(() => {
-      onChange?.(getValue())
-    }, [onChange])
-
-    // Save on Ctrl+S or Cmd+Enter
-    const handleSave = useCallback(
-      ({ done }) => {
-        if (done) {
-          onSubmit?.(getValue())
-        } else {
-          onSave?.(getValue())
-        }
-      },
-      [onSubmit, onSave]
-    )
-
-    return (
-      <BasicStyle>
-        <MarkdownEditorContainer colorMode={colorMode} {...formControlProps}>
-          <RichMarkdownEditor
-            ref={editorRef}
-            value={value}
-            placeholder={placeholder}
-            autoFocus={autoFocus}
-            readOnly={readOnly}
-            dark={colorMode === 'dark'}
-            theme={colorMode === 'light' ? light : dark}
-            onBlur={handleBlur}
-            onSave={handleSave}
-            uploadImage={handleUpload}
-          />
-        </MarkdownEditorContainer>
-      </BasicStyle>
-    )
-  }
+const Editor = lazy(() =>
+  import('./editor').then((v) => ({ default: v.SimpleEditor }))
 )
+
+const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>((props, ref) => {
+  return (
+    <Suspense fallback={null}>
+      <Editor ref={ref} {...props} />
+    </Suspense>
+  )
+})
 
 MarkdownEditor.displayName = 'MarkdownEditor'
 
