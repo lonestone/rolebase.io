@@ -1,9 +1,10 @@
 import React, { forwardRef, lazy, Suspense } from 'react'
-import { Props } from './SimpleEditor'
-import { MarkdownEditorHandle } from './useMarkdownEditor'
+// Types
+import { Props } from './chunk/SimpleEditor'
+import { MarkdownEditorHandle } from './chunk/useMarkdownEditor'
 
 const Editor = lazy(() =>
-  import('./editor').then((v) => ({ default: v.SimpleEditor }))
+  import('./chunk/editor').then((v) => ({ default: v.SimpleEditor }))
 )
 
 const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>((props, ref) => {

@@ -3,6 +3,7 @@ import {
   useColorMode,
   useFormControl,
 } from '@chakra-ui/react'
+import BasicStyle from '@components/atoms/BasicStyle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import RichMarkdownEditor from '@rolebase/editor'
@@ -12,11 +13,10 @@ import throttle from 'lodash.throttle'
 import React, { forwardRef, useCallback, useEffect, useMemo } from 'react'
 import { prosemirrorToYDoc } from 'y-prosemirror'
 import * as Y from 'yjs'
-import BasicStyle from '../../atoms/BasicStyle'
-import MarkdownEditorContainer from './MarkdownEditorContainer'
-import useFileUpload from './useFileUpload'
+import MarkdownEditorContainer from '../chunk/MarkdownEditorContainer'
+import useFileUpload from '../chunk/useFileUpload'
+import { YCollabExtension } from '../chunk/YCollabExtension'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
-import { YCollabExtension } from './YCollabExtension'
 
 // Collaborative Markdown editor
 

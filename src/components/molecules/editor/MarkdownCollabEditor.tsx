@@ -1,9 +1,10 @@
 import React, { forwardRef, lazy, Suspense } from 'react'
-import { Props } from './CollabEditor'
-import { MarkdownEditorHandle } from './useMarkdownEditor'
+// Types
+import { Props } from './chunk/CollabEditor'
+import { MarkdownEditorHandle } from './chunk/useMarkdownEditor'
 
 const Editor = lazy(() =>
-  import('./editor').then((v) => ({ default: v.CollabEditor }))
+  import('./chunk/editor').then((v) => ({ default: v.CollabEditor }))
 )
 
 const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
