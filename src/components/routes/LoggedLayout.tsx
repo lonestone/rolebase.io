@@ -1,5 +1,5 @@
-import { Flex } from '@chakra-ui/react'
-import Header from '@components/organisms/Header'
+import { Box, Flex } from '@chakra-ui/react'
+import Header, { headerHeight } from '@components/organisms/Header'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
 import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
@@ -33,8 +33,12 @@ const LoggedLayout: React.FC = ({ children }) => {
 
   return (
     <CircleMemberProvider>
+      <Header />
       <Flex h="0" minH="100vh" flexDirection="column">
-        <Header />
+        <Box h={`${headerHeight}px`}>
+          {/* This Box needs a text to have a height */}
+          Rolebase
+        </Box>
         {children}
       </Flex>
     </CircleMemberProvider>

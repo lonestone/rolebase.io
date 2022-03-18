@@ -13,6 +13,8 @@ import {
   FiMessageSquare,
 } from 'react-icons/fi'
 
+export const headerHeight = 48
+
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)
   const org = useCurrentOrg()
@@ -21,14 +23,17 @@ export default function Header() {
   if (!user) return null
   return (
     <Flex
+      position="fixed"
+      top={0}
+      left={0}
+      zIndex={1000}
       w="100%"
-      h="48px"
+      h={`${headerHeight}px`}
       alignItems="center"
       px={1}
       bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
       borderBottom="1px solid"
       borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
-      zIndex={1000}
     >
       {org && (
         <>
