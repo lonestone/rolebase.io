@@ -35,10 +35,7 @@ const LoggedLayout: React.FC = ({ children }) => {
     <CircleMemberProvider>
       <Header />
       <Flex h="0" minH="100vh" flexDirection="column">
-        <Box h={`${headerHeight}px`}>
-          {/* This Box needs a text to have a height */}
-          Rolebase
-        </Box>
+        <Box pt={`${headerHeight}px`} />
         {children}
       </Flex>
     </CircleMemberProvider>
