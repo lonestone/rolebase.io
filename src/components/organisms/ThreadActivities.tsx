@@ -16,7 +16,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
 import { MemberThreadStatus } from '@shared/member'
 import { useStoreState } from '@store/hooks'
-import { format } from 'date-fns'
+import { isSameDay } from 'date-fns'
 import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 import { ThreadContext } from 'src/contexts/ThreadContext'
@@ -108,10 +108,10 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
           activities.map((activity, i) => (
             <React.Fragment key={activity.id}>
               {(i === 0 ||
-                format(activity.createdAt.toDate(), 'yyyyMMdd') !==
-                  format(activities[i - 1].createdAt.toDate(), 'yyyyMMdd')) && (
-                <ThreadDaySeparator date={activity.createdAt.toDate()} />
-              )}
+                !isSameDay(
+                  activity.createdAt.toDate(),
+                  activities[i - 1].createdAt.toDate()
+                )) && <ThreadDaySeparator date={activity.createdAt.toDate()} />}
 
               <ThreadActivity activity={activity} />
 
