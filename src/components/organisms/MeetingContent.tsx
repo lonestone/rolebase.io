@@ -35,6 +35,7 @@ import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
+import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { format } from 'date-fns'
 import React, { useCallback } from 'react'
 import { FaStop } from 'react-icons/fa'
@@ -47,7 +48,6 @@ import {
   FiTrash2,
   FiVideo,
 } from 'react-icons/fi'
-import slugify from 'slugify'
 import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
@@ -105,7 +105,7 @@ export default function MeetingContent({
     (p) => p.member.id === meeting?.facilitatorMemberId
   )
   const canDelete = meeting && !meeting.ended && (isParticipant || isInitiator)
-  const canEditConfig = isNotStarted && (isParticipant || isInitiator)
+  const canEditConfig = canDelete
 
   // Circle
   const circle = useCircle(meeting?.circleId)
@@ -140,21 +140,11 @@ export default function MeetingContent({
 
   // Join video conference
   const handleJoinVideoConf = useCallback(() => {
-    if (!meeting || !circle || !currentMember || !circle) return
-
-    const roomName = `${meeting.title} Cercle ${circle.role.name} ${format(
-      meeting.startDate.toDate(),
-      'Pp',
-      {
-        locale: dateFnsLocale,
-      }
-    )}`
-    const url = `https://meet.jit.si/${slugify(roomName, {
-      strict: true,
-    })}#userInfo.displayName="${encodeURIComponent(
-      currentMember.name
-    )}"&interfaceConfig.SHOW_CHROME_EXTENSION_BANNER=false`
-
+    if (!meeting?.videoConf || !circle || !currentMember) return
+    const url =
+      typeof meeting.videoConf === 'string'
+        ? meeting.videoConf
+        : generateVideoConfUrl(meeting, circle, currentMember)
     window.open(url, '_blank')
   }, [meeting, circle, currentMember])
 
@@ -276,7 +266,7 @@ export default function MeetingContent({
               </>
             )}
 
-            {isStarted && isParticipant && (
+            {isStarted && isParticipant && meeting.videoConf && (
               <Button
                 leftIcon={<FiVideo />}
                 colorScheme="blue"
