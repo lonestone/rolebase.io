@@ -1,8 +1,9 @@
-import { Flex, Heading, Spacer, useColorMode } from '@chakra-ui/react'
+import { Flex, Spacer, useColorMode } from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
-import OrgMenu from '@components/molecules/OrgMenu'
+import HeaderLinksMenu from '@components/molecules/HeaderLinksMenu'
+import HeaderOrgMenu from '@components/molecules/HeaderOrgMenu'
+import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
 import HeaderSearchCombobox from '@components/molecules/search/HeaderSearchCombobox'
-import UserMenu from '@components/molecules/UserMenu'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
@@ -37,11 +38,7 @@ export default function Header() {
     >
       {org && (
         <>
-          <OrgMenu />
-
-          <Heading size="sm" ml={5} mr={5}>
-            {org.name}
-          </Heading>
+          <HeaderOrgMenu />
 
           <HeaderButton exact to={`/orgs/${org.id}`} leftIcon={<FiDisc />}>
             Cercles
@@ -67,6 +64,8 @@ export default function Header() {
           >
             Tâches
           </HeaderButton>
+
+          <HeaderLinksMenu />
         </>
       )}
 
@@ -74,7 +73,7 @@ export default function Header() {
 
       {org && <HeaderSearchCombobox />}
 
-      <UserMenu ml={2} />
+      <HeaderUserMenu ml={2} />
     </Flex>
   )
 }

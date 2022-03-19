@@ -18,7 +18,7 @@ import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiEdit3, FiLogOut, FiMoon, FiSun, FiUser } from 'react-icons/fi'
 
-export default function UserMenu(props: MenuButtonProps) {
+export default function HeaderUserMenu(props: MenuButtonProps) {
   const firebaseUser = useStoreState((state) => state.auth.firebaseUser)
   const member = useCurrentMember()
   const { colorMode, toggleColorMode } = useColorMode()
@@ -34,40 +34,39 @@ export default function UserMenu(props: MenuButtonProps) {
 
   if (!firebaseUser) return null
   return (
-    <>
-      <Menu>
-        <MenuButton as={Button} variant="ghost" size="sm" px={1} {...props}>
-          <Avatar name={name} src={picture || undefined} size="xs" />
-        </MenuButton>
-        <Portal>
-          <MenuList zIndex={10} shadow="lg">
-            {member && (
-              <CircleMemberLink memberId={member.id}>
-                <MenuItem icon={<FiUser />}>Ma fiche membre</MenuItem>
-              </CircleMemberLink>
-            )}
+    <Menu>
+      <MenuButton as={Button} variant="ghost" size="sm" px={1} {...props}>
+        <Avatar name={name} src={picture || undefined} size="xs" />
+      </MenuButton>
 
-            <MenuItem icon={<FiEdit3 />} onClick={onCurrentUserOpen}>
-              Informations personnelles
-            </MenuItem>
+      <Portal>
+        <MenuList zIndex={10} shadow="lg">
+          {member && (
+            <CircleMemberLink memberId={member.id}>
+              <MenuItem icon={<FiUser />}>Ma fiche membre</MenuItem>
+            </CircleMemberLink>
+          )}
 
-            <MenuItem
-              icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
-              onClick={toggleColorMode}
-            >
-              Thème clair/sombre
-            </MenuItem>
+          <MenuItem icon={<FiEdit3 />} onClick={onCurrentUserOpen}>
+            Informations personnelles
+          </MenuItem>
 
-            <MenuItem icon={<FiLogOut />} onClick={() => auth.signOut()}>
-              Déconnexion
-            </MenuItem>
-          </MenuList>
-        </Portal>
-      </Menu>
+          <MenuItem
+            icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
+            onClick={toggleColorMode}
+          >
+            Thème clair/sombre
+          </MenuItem>
+
+          <MenuItem icon={<FiLogOut />} onClick={() => auth.signOut()}>
+            Déconnexion
+          </MenuItem>
+        </MenuList>
+      </Portal>
 
       {isCurrentUserOpen && (
         <CurrentUserModal isOpen onClose={onCurrentUserClose} />
       )}
-    </>
+    </Menu>
   )
 }

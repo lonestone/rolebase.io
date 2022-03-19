@@ -63,7 +63,7 @@ export default function OrgRoutes() {
       <Loading center active={loading} />
       <TextErrors errors={[membersError, rolesError, circlesError]} />
 
-      <Switch>
+      <Switch key={orgId}>
         <Route exact path="/orgs/:orgId">
           <CirclesPage />
         </Route>
