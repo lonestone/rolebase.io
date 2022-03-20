@@ -12,6 +12,7 @@ import {
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
+import { orgIdKey } from '@store/orgs'
 import React from 'react'
 import { FiCircle, FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -19,6 +20,11 @@ import { Link } from 'react-router-dom'
 export default function HeaderOrgMenu(props: MenuButtonProps) {
   const org = useCurrentOrg()
   const orgs = useStoreState((state) => state.orgs.entries)
+
+  // Set orgId in localStorage
+  const handleOrgClick = (orgId: string) => {
+    localStorage.setItem(orgIdKey, orgId)
+  }
 
   // Create modal
   const {
@@ -44,7 +50,11 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
       <Portal>
         <MenuList zIndex={10} shadow="lg">
           {orgs.map((org) => (
-            <Link key={org.id} to={`/orgs/${org.id}`}>
+            <Link
+              key={org.id}
+              to={`/orgs/${org.id}`}
+              onClick={() => handleOrgClick(org.id)}
+            >
               <MenuItem icon={<FiCircle />}>{org.name}</MenuItem>
             </Link>
           ))}

@@ -11,8 +11,15 @@ import ThreadPage from '@components/pages/ThreadPage'
 import ThreadsPage from '@components/pages/ThreadsPage'
 import useOrg from '@hooks/useOrg'
 import { useStoreActions, useStoreState } from '@store/hooks'
+import { orgIdKey } from '@store/orgs'
 import React, { useEffect } from 'react'
-import { Redirect, Route, Switch, useParams } from 'react-router-dom'
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useParams,
+} from 'react-router-dom'
 
 export default function OrgRoutes() {
   const { orgId } = useParams<{ orgId: string }>()
@@ -40,8 +47,8 @@ export default function OrgRoutes() {
     unsubscribeRoles: actions.roles.unsubscribe,
   }))
 
+  // Subscribe to circles, members and roles
   useEffect(() => {
-    if (!orgId) return
     actions.setOrgId(orgId)
     actions.subscribeCircles(orgId)
     actions.subscribeMembers(orgId)
@@ -54,9 +61,14 @@ export default function OrgRoutes() {
     }
   }, [orgId])
 
-  if (!org && !orgLoading) {
-    return <Redirect to="/" />
-  }
+  // If org doesn't exist, redirect to root
+  const history = useHistory()
+  useEffect(() => {
+    if (!org && !orgLoading) {
+      localStorage.removeItem(orgIdKey)
+      history.replace('/')
+    }
+  }, [org, orgLoading])
 
   return (
     <>
