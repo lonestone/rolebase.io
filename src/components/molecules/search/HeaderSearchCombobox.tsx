@@ -74,6 +74,7 @@ export default function HeaderSearchCombobox() {
           placeholder="Rechercher..."
           w="200px"
           borderRadius="md"
+          background={colorMode === 'light' ? 'white' : 'gray.800'}
           onClick={() => openMenu()}
           {...getInputProps()}
         />

@@ -1,6 +1,6 @@
 import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
-import { format } from 'date-fns'
+import { isSameDay } from 'date-fns'
 import {
   getDocs,
   limit,
@@ -68,8 +68,7 @@ export async function createActivity(
       // Same user
       last.userId === activity.userId &&
       // Same day
-      format(last.createdAt.toDate(), 'yyyyMMdd') ===
-        format(new Date(), 'yyyyMMdd')
+      isSameDay(last.createdAt.toDate(), new Date())
     ) {
       return updateActivity(last.id, {
         message: last.message + '\n\n' + activity.message,

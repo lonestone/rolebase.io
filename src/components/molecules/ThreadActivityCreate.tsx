@@ -7,8 +7,8 @@ import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useRef, useState } from 'react'
 import { IoMdSend } from 'react-icons/io'
+import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
 import MarkdownEditor from './editor/MarkdownEditor'
-import { MarkdownEditorHandle } from './editor/useMarkdownEditor'
 
 interface Props {
   thread: ThreadEntry

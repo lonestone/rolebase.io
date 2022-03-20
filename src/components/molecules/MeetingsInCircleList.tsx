@@ -15,7 +15,7 @@ import MeetingModal from '@components/organisms/modals/MeetingModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import { useStoreState } from '@store/hooks'
-import { format } from 'date-fns'
+import { format, isSameDay } from 'date-fns'
 import React, { useState } from 'react'
 import { FiCalendar, FiPlus } from 'react-icons/fi'
 import { dateFnsLocale } from 'src/locale'
@@ -75,8 +75,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
             return (
               <React.Fragment key={meeting.id}>
                 {(i === 0 ||
-                  date.getDay() !==
-                    meetings[i - 1].startDate.toDate().getDay()) && (
+                  !isSameDay(date, meetings[i - 1].startDate.toDate())) && (
                   <Text px={2} fontSize="sm">
                     {capitalizeFirstLetter(
                       format(date, 'PPPP ', {

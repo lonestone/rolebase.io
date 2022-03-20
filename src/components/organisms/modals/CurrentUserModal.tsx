@@ -37,8 +37,9 @@ const resolver = yupResolver(
       .string()
       .test(
         'length',
-        'password must be at least 6 characters',
-        (val) => val === undefined || val.length === 0 || val.length >= 6
+        'Password must be at least 6 characters',
+        (value) =>
+          value === undefined || value.length === 0 || value.length >= 6
       ),
   })
 )

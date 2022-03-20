@@ -14,6 +14,8 @@ export interface Meeting extends EntityWithParticipants {
   stepsConfig: MeetingStepConfig[]
   currentStepId: string | null
   archived: boolean
+  // True for integrated videoconference, or custom URL
+  videoConf: boolean | string
 }
 
 export type MeetingEntry = WithId<Meeting>

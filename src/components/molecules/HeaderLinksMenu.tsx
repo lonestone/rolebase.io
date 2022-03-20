@@ -3,7 +3,6 @@ import {
   Menu,
   MenuButton,
   MenuButtonProps,
-  MenuDivider,
   MenuItem,
   MenuList,
   Portal,
@@ -18,21 +17,18 @@ import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import {
-  FiArrowLeft,
   FiCircle,
   FiClock,
   FiCopy,
-  FiMenu,
+  FiMoreHorizontal,
   FiSettings,
   FiUsers,
 } from 'react-icons/fi'
-import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 
-export default function OrgMenu(props: MenuButtonProps) {
+export default function HeaderLinksMenu(props: MenuButtonProps) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const role = useOrgRole()
-  const history = useHistory()
 
   // Edit modal
   const [editOrgId, setEditOrgId] = useState<string | undefined>()
@@ -74,10 +70,11 @@ export default function OrgMenu(props: MenuButtonProps) {
       <MenuButton
         as={IconButton}
         bg="transparent"
-        icon={<FiMenu />}
+        icon={<FiMoreHorizontal />}
         px={1}
         {...props}
       />
+
       <Portal>
         <MenuList zIndex={10} shadow="lg">
           {role === ClaimRole.Admin && (
@@ -107,10 +104,6 @@ export default function OrgMenu(props: MenuButtonProps) {
               <MenuItem icon={<FiClock />}>Historique</MenuItem>
             </Link>
           )}
-          <MenuDivider />
-          <MenuItem icon={<FiArrowLeft />} onClick={() => history.push('/')}>
-            Toutes mes organisations
-          </MenuItem>
         </MenuList>
       </Portal>
 

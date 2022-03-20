@@ -1,12 +1,12 @@
 import {
   FormControlOptions,
   useColorMode,
-  useFormControl
+  useFormControl,
 } from '@chakra-ui/react'
+import BasicStyle from '@components/atoms/BasicStyle'
 import RichMarkdownEditor from '@rolebase/editor'
 import light, { dark } from '@rolebase/editor/dist/styles/theme'
 import React, { forwardRef, useCallback } from 'react'
-import BasicStyle from '../../atoms/BasicStyle'
 import MarkdownEditorContainer from './MarkdownEditorContainer'
 import useFileUpload from './useFileUpload'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'

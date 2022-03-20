@@ -17,13 +17,14 @@ const methods = getEntityMethods(collection, {
   createTransform: (
     meeting: Optional<
       Meeting,
-      'createdAt' | 'ended' | 'currentStepId' | 'archived'
+      'createdAt' | 'ended' | 'currentStepId' | 'archived' | 'videoConf'
     >
   ) => ({
     ended: false,
     currentStepId: null,
     createdAt: Timestamp.now(),
     archived: false,
+    videoConf: false,
     ...meeting,
   }),
 })

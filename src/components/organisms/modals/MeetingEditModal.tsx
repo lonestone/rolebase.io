@@ -5,6 +5,7 @@ import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
+  Checkbox,
   Flex,
   FormControl,
   FormLabel,
@@ -19,7 +20,10 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Radio,
+  RadioGroup,
   Select,
+  Stack,
   Tooltip,
   useDisclosure,
   UseModalProps,
@@ -70,6 +74,7 @@ interface Values extends StepsValues {
   startDate: string
   duration: number // In minutes
   ended: boolean
+  videoConf: boolean | string
 }
 
 const resolver = yupResolver(
@@ -80,8 +85,16 @@ const resolver = yupResolver(
     startDate: yup.string().required(),
     duration: yup.number().required(),
     stepsConfig: stepsConfigSchema,
+    videoConf: yup.lazy((value) =>
+      typeof value === 'boolean' ? yup.boolean() : yup.string().url().required()
+    ),
   })
 )
+
+enum VideoConfType {
+  generated = 'generated',
+  url = 'url',
+}
 
 export default function MeetingEditModal({
   defaultCircleId,
@@ -123,6 +136,7 @@ export default function MeetingEditModal({
           ),
           ended: meeting.ended,
           stepsConfig: meeting.stepsConfig,
+          videoConf: meeting.videoConf || false,
         }
       : {
           title: '',
@@ -139,6 +153,7 @@ export default function MeetingEditModal({
               title: 'Ordre du jour',
             },
           ],
+          videoConf: false,
         },
   })
 
@@ -146,6 +161,7 @@ export default function MeetingEditModal({
   const circleId = watch('circleId')
   const participantsScope = watch('participantsScope')
   const facilitatorMemberId = watch('facilitatorMemberId')
+  const videoConf = watch('videoConf')
 
   // Templates
   const {
@@ -365,6 +381,42 @@ export default function MeetingEditModal({
                   control={control as any}
                   errors={errors}
                 />
+              </FormControl>
+
+              <FormControl isInvalid={!!errors.videoConf}>
+                <Stack spacing={1}>
+                  <Checkbox
+                    isChecked={!!videoConf}
+                    onChange={() => setValue('videoConf', !videoConf)}
+                  >
+                    Activer la vidéo-conférence
+                  </Checkbox>
+
+                  <RadioGroup
+                    display={videoConf ? '' : 'none'}
+                    value={
+                      videoConf === true
+                        ? VideoConfType.generated
+                        : VideoConfType.url
+                    }
+                    onChange={(value) =>
+                      setValue(
+                        'videoConf',
+                        value === VideoConfType.generated ? true : 'https://'
+                      )
+                    }
+                  >
+                    <Stack pl={6} mt={1} spacing={1} direction="column">
+                      <Radio value={VideoConfType.generated}>
+                        Générer une URL Jitsi
+                      </Radio>
+                      <Radio value={VideoConfType.url}>URL personnalisée</Radio>
+                      {typeof videoConf === 'string' && (
+                        <Input pl={6} {...register('videoConf')} />
+                      )}
+                    </Stack>
+                  </RadioGroup>
+                </Stack>
               </FormControl>
 
               <Box textAlign="right" mt={2}>

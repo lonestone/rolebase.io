@@ -23,15 +23,22 @@ import { Title } from '@components/atoms/Title'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useStoreState } from '@store/hooks'
-import React from 'react'
+import { orgIdKey } from '@store/orgs'
+import React, { useEffect } from 'react'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink, useHistory } from 'react-router-dom'
 
 export default function OrgsPage() {
   const orgs = useStoreState((state) => state.orgs.entries)
   const loading = useStoreState((state) => state.orgs.loading)
   const error = useStoreState((state) => state.orgs.error)
   const hover = useHoverItemStyle()
+  const history = useHistory()
+
+  // Set orgId in localStorage
+  const handleOrgClick = (orgId: string) => {
+    localStorage.setItem(orgIdKey, orgId)
+  }
 
   // Create modal
   const {
@@ -39,6 +46,13 @@ export default function OrgsPage() {
     onOpen: onCreateOpen,
     onClose: onCreateClose,
   } = useDisclosure()
+
+  // Redirect to org page if orgId is set in localStorage
+  useEffect(() => {
+    const orgId = localStorage.getItem(orgIdKey)
+    if (!orgId) return
+    history.replace(`/orgs/${orgId}`)
+  }, [])
 
   return (
     <Container maxW="3xl" py={10}>
@@ -107,7 +121,12 @@ export default function OrgsPage() {
               _hover={hover}
             >
               <Heading size="md" my="2">
-                <LinkOverlay flex={1} as={ReachLink} to={`/orgs/${org.id}`}>
+                <LinkOverlay
+                  flex={1}
+                  as={ReachLink}
+                  to={`/orgs/${org.id}`}
+                  onClick={() => handleOrgClick(org.id)}
+                >
                   {org.name}
                 </LinkOverlay>
               </Heading>
