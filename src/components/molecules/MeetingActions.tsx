@@ -1,44 +1,36 @@
 import { Button, HStack, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
-import { FiPlus } from 'react-icons/fi'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
-import { MeetingEntry } from '@shared/meeting'
-import { MemberEntry } from '@shared/member'
+import useCurrentMember from '@hooks/useCurrentMember'
+import React from 'react'
+import { FiPlus } from 'react-icons/fi'
 
 interface Props {
-  currentMember?: MemberEntry
-  meeting?: MeetingEntry
+  circleId?: string
 }
 
-export default function MeetingActivitiesCreate({
-  currentMember,
-  meeting,
-}: Props) {
-  // Subscribe meeting steps
+export default function MeetingActions({ circleId }: Props) {
+  const currentMember = useCurrentMember()
+
   const {
     isOpen: isCreateTaskOpen,
     onOpen: onCreateTaskOpen,
     onClose: onCreateTaskClose,
   } = useDisclosure()
 
-  //thread creation modal
   const {
     isOpen: isCreateThreadOpen,
     onOpen: onCreateThreadOpen,
     onClose: onCreateThreadClose,
   } = useDisclosure()
+
   return (
-    <HStack py={3} alignItems="top">
-      <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={onCreateTaskOpen}>
+    <HStack justifyContent="center">
+      <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateTaskOpen}>
         Nouvelle tâche
       </Button>
-      <Button
-        size="sm"
-        ml={1}
-        leftIcon={<FiPlus />}
-        onClick={onCreateThreadOpen}
-      >
+
+      <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateThreadOpen}>
         Nouvelle discussion
       </Button>
 
@@ -46,14 +38,15 @@ export default function MeetingActivitiesCreate({
         <TaskModal
           isOpen
           defaultMemberId={currentMember?.id}
+          defaultCircleId={circleId}
           onClose={onCreateTaskClose}
-          defaultCircleId={meeting?.circleId}
         />
       )}
+
       {isCreateThreadOpen && (
         <ThreadEditModal
-          defaultCircleId={meeting?.circleId}
           isOpen
+          defaultCircleId={circleId}
           onClose={onCreateThreadClose}
         />
       )}

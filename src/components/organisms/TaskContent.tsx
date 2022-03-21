@@ -13,7 +13,6 @@ import {
   Input,
   Spacer,
   useDisclosure,
-  useToast,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
@@ -25,6 +24,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
+import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { EntityChangeType, LogType } from '@shared/log'
 import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
@@ -71,9 +71,9 @@ export default function TaskContent({
   ...boxProps
 }: Props) {
   const createLog = useCreateLog()
-  const toast = useToast()
   const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
+  const updateTaskStatus = useUpdateTaskStatus()
 
   // Subscribe task
   const {
@@ -136,7 +136,6 @@ export default function TaskContent({
           type: LogType.TaskCreate,
           id: newTask.id,
           name: newTask.title,
-          status: newTask.doneDate ? 'terminé' : 'non terminé',
         },
         changes: {
           tasks: [
@@ -144,6 +143,8 @@ export default function TaskContent({
           ],
         },
       })
+
+      onClose()
     }
   })
 
@@ -162,34 +163,7 @@ export default function TaskContent({
   // Toggle done status of a task
   const handleToggleDone = useCallback(() => {
     if (!task) return
-    const doneDate = task.doneDate ? null : Timestamp.now()
-    updateTask(task.id, { doneDate })
-    createLog({
-      display: {
-        type: LogType.TaskUpdate,
-        id: task.id,
-        name: task.title,
-        status: doneDate ? 'terminé' : 'non terminé',
-      },
-      changes: {
-        tasks: [
-          {
-            type: EntityChangeType.Update,
-            id: task.id,
-            prevData: { doneDate: task.doneDate ? task.doneDate : null },
-            newData: { doneDate },
-          },
-        ],
-      },
-    })
-    // Toast to cancel
-    toast({
-      status: 'success',
-      duration: 2000,
-      title: doneDate
-        ? 'Tâche marquée comme terminée'
-        : 'Tâche marquée comme non terminée',
-    })
+    updateTaskStatus(task, task.doneDate ? null : Timestamp.now())
   }, [task])
 
   // Task deletion modal

@@ -15,7 +15,6 @@ export default function MeetingStepContentTasks({
   step,
   editable,
 }: Props) {
-  // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
 
   const handleChange = useCallback(

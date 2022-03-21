@@ -30,7 +30,7 @@ export default function useCreateLog() {
         userId,
         memberId: currentMember.id,
         memberName: currentMember.name,
-        meetingId: currentMember.meetingId,
+        meetingId: currentMember.meetingId || null,
         ...log,
       })
     },

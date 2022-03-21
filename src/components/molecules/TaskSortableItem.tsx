@@ -1,14 +1,12 @@
-import { updateTask } from '@api/entities/tasks'
-import { Timestamp } from 'firebase/firestore'
 import { CloseIcon } from '@chakra-ui/icons'
 import { Checkbox, HStack, IconButton, LinkBox } from '@chakra-ui/react'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
-import useCreateLog from '@hooks/useCreateLog'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSortableItem from '@hooks/useSortableItem'
+import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { TaskEntry } from '@shared/task'
-import React, { useCallback } from 'react'
-import { EntityChangeType, LogType } from '@shared/log'
+import { Timestamp } from 'firebase/firestore'
+import React from 'react'
 interface Props {
   task: TaskEntry
   disabled: boolean
@@ -17,30 +15,13 @@ interface Props {
 
 export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
   const hover = useHoverItemStyle()
-  const createLog = useCreateLog()
   const { attributes, listeners } = useSortableItem(task.id, disabled)
-  const handleToggleDone = useCallback(() => {
-    const doneDate = task.doneDate ? null : Timestamp.now()
-    updateTask(task.id, { doneDate })
-    createLog({
-      display: {
-        type: LogType.TaskUpdate,
-        id: task.id,
-        name: task.title,
-        status: doneDate ? 'terminé' : 'non terminé',
-      },
-      changes: {
-        tasks: [
-          {
-            type: EntityChangeType.Update,
-            id: task.id,
-            prevData: { doneDate: task.doneDate ? task.doneDate : null },
-            newData: { doneDate },
-          },
-        ],
-      },
-    })
-  }, [task])
+  const updateTaskStatus = useUpdateTaskStatus()
+
+  const handleToggleDone = () => {
+    updateTaskStatus(task, task.doneDate ? null : Timestamp.now())
+  }
+
   return (
     <LinkBox
       key={task.id}

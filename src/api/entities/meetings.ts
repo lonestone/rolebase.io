@@ -1,4 +1,3 @@
-import { ParticipantMember } from '@hooks/useParticipants'
 import { Meeting, MeetingEntry } from '@shared/meeting'
 import { Optional } from '@shared/types'
 import { orderBy, query, Timestamp, where } from 'firebase/firestore'
@@ -70,16 +69,13 @@ export function updateMeetingDates(id: string, startDate: Date, endDate: Date) {
 
 export async function goToNextMeetingStep(
   meeting: MeetingEntry,
-  participants: ParticipantMember[]
+  membersIds: string[]
 ) {
-  if (!meeting) return
-  const membersId = participants.map((participant) => participant.member.id)
-
   // Meeting not started
   if (meeting.currentStepId === null) {
     const firstStep = meeting.stepsConfig[0]
     if (firstStep) {
-      startMembersMeeting(membersId, meeting.id)
+      startMembersMeeting(membersIds, meeting.id)
       // Go to first step
       await updateMeeting(meeting.id, {
         currentStepId: firstStep.id,
@@ -110,7 +106,7 @@ export async function goToNextMeetingStep(
     })
   } else {
     // End meeting
-    stopMembersMeeting(membersId, meeting.id)
+    stopMembersMeeting(membersIds, meeting.id)
     await updateMeeting(meeting.id, {
       currentStepId: null,
       ended: true,

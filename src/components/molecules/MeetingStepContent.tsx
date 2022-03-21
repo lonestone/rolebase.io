@@ -25,7 +25,6 @@ export default function MeetingStepContent({
   stepConfig,
   step,
 }: Props) {
-  // Subscribe meeting steps
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
 
   // Update notes

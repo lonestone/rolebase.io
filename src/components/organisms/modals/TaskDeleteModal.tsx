@@ -27,6 +27,7 @@ export default function TaskDeleteModal({
   ...alertProps
 }: Props) {
   const createLog = useCreateLog()
+
   const handleDelete = async () => {
     updateTask(task.id, { archived: true })
     onDelete?.()
@@ -35,7 +36,6 @@ export default function TaskDeleteModal({
         type: LogType.TaskArchive,
         id: task.id,
         name: task.title,
-        status: task.doneDate ? 'terminé' : 'non terminé',
       },
       changes: {
         tasks: [
@@ -43,7 +43,7 @@ export default function TaskDeleteModal({
             type: EntityChangeType.Update,
             id: task.id,
             prevData: { archived: false },
-            newData: { archived: false },
+            newData: { archived: true },
           },
         ],
       },

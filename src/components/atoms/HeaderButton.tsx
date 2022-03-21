@@ -27,7 +27,7 @@ export default function HeaderButton({ to, exact, ...buttonProps }: Props) {
         }}
         _hover={{
           color: colorMode === 'light' ? 'gray.550' : 'gray.400',
-          bg: 'transparent',
+          bg: undefined,
         }}
         {...buttonProps}
       />

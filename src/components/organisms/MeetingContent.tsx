@@ -1,4 +1,3 @@
-import { subscribeLogsByMeeting } from '@api/entities/logs'
 import {
   goToNextMeetingStep,
   subscribeMeeting,
@@ -13,6 +12,7 @@ import {
   BoxProps,
   Button,
   Collapse,
+  Container,
   Flex,
   Heading,
   HStack,
@@ -30,6 +30,8 @@ import MemberLink from '@components/atoms/MemberLink'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import MeetingActions from '@components/molecules/MeetingActions'
+import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import useCircle from '@hooks/useCircle'
@@ -39,7 +41,6 @@ import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { format } from 'date-fns'
 import React, { useCallback } from 'react'
-import { useStoreState } from '@store/hooks'
 import { FaStop } from 'react-icons/fa'
 import {
   FiArrowDown,
@@ -54,8 +55,6 @@ import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
-import MeetingActivitiesCreate from '@components/molecules/MeetingActivitiesCreate'
-import Mettinglogs from '@components/molecules/MeetingLogs'
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean
@@ -70,7 +69,6 @@ export default function MeetingContent({
   headerIcons,
   ...boxProps
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
   const currentMember = useCurrentMember()
 
   // Subscribe meeting
@@ -79,6 +77,7 @@ export default function MeetingContent({
     loading,
     error,
   } = useSubscription(subscribeMeeting(id))
+
   // Subscribe meeting steps
   const { subscribeMeetingSteps } = meetingStepsEntities(id)
   const {
@@ -87,13 +86,6 @@ export default function MeetingContent({
     loading: stepsLoading,
   } = useSubscription(subscribeMeetingSteps())
 
-  const subscribeLogs =
-    orgId && id ? subscribeLogsByMeeting(orgId, id) : undefined
-  const {
-    data: logs,
-    loading: logsLoading,
-    error: logsError,
-  } = useSubscription(subscribeLogs)
   // Meeting not started?
   const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
   const isStarted = !meeting?.ended && meeting?.currentStepId !== null
@@ -145,8 +137,11 @@ export default function MeetingContent({
   // Next step
   const handleNextStep = useCallback(() => {
     if (!meeting) return
-    goToNextMeetingStep(meeting, participants)
-  }, [meeting])
+    goToNextMeetingStep(
+      meeting,
+      participants.map((p) => p.member.id)
+    )
+  }, [meeting, participants])
 
   // Join video conference
   const handleJoinVideoConf = useCallback(() => {
@@ -198,8 +193,8 @@ export default function MeetingContent({
         </Box>
       </Flex>
 
-      {(loading || stepsLoading || logsLoading) && <Loading active size="md" />}
-      <TextErrors errors={[error, stepsError, logsError]} />
+      {(loading || stepsLoading) && <Loading active size="md" />}
+      <TextErrors errors={[error, stepsError]} />
 
       {meeting && (
         <>
@@ -316,29 +311,29 @@ export default function MeetingContent({
                     />
                   )}
 
-                  {isFacilitator && (
-                    <Collapse in={current} animateOpacity>
+                  {isStarted && isFacilitator && (
+                    <Collapse in={current || last} animateOpacity>
                       <Button
                         leftIcon={last ? <FaStop /> : <FiArrowDown />}
-                        colorScheme={'green'}
+                        colorScheme={current ? 'green' : 'gray'}
                         mt={5}
                         onClick={handleNextStep}
                       >
-                        {last ? 'Terminer' : 'Suivant'}
+                        {last ? 'Terminer la réunion' : 'Étape suivante'}
                       </Button>
                     </Collapse>
                   )}
                 </MeetingStepLayout>
               )
             })}
-            {!meeting.ended && (
-              <MeetingActivitiesCreate
-                currentMember={currentMember}
-                meeting={meeting}
-              />
-            )}
 
-            {<Mettinglogs logs={logs} logsLoading={logsLoading} />}
+            {isStarted && <MeetingActions circleId={meeting.circleId} />}
+
+            {!isNotStarted && (
+              <Container size="xs" mt={10}>
+                <MeetingLogs meetingId={meeting.id} />
+              </Container>
+            )}
           </Box>
         </>
       )}

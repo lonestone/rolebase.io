@@ -84,7 +84,7 @@ export default function ThreadsMultiSelect({
               key={thread.id}
               thread={thread}
               onRemove={onChange && handleRemove}
-              disabled={typeof onChange !== 'undefined' ? false : true}
+              disabled={!onChange}
             />
           ))}
         </SortableList>

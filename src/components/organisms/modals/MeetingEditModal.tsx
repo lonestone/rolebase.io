@@ -202,7 +202,7 @@ export default function MeetingEditModal({
       // Update meeting
       await updateMeeting(meeting.id, meetingUpdate)
 
-      // Update and Create missing steps
+      // Create missing steps
       await createMissingMeetingSteps(meeting.id, meetingUpdate.stepsConfig)
     } else {
       // Create meeting
@@ -212,8 +212,9 @@ export default function MeetingEditModal({
         ...meetingUpdate,
       })
       onCreate?.(meeting.id)
+
       // Create missing steps
-      createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
+      await createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
     }
 
     modalProps.onClose()

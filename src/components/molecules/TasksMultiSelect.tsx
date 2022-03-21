@@ -81,7 +81,7 @@ export default function TasksMultiSelect({
               key={task.id}
               task={task}
               onRemove={onChange && handleRemove}
-              disabled={typeof onChange !== 'undefined' ? false : true}
+              disabled={!onChange}
             />
           ))}
         </SortableList>

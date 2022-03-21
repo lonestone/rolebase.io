@@ -100,15 +100,7 @@ export async function startMembersMeeting(
   meetingId: string
 ) {
   return await Promise.all(
-    membersId.map(async (memberId) => {
-      const member = await getMember(memberId)
-      if (!member?.meetingId) {
-        return updateMember(memberId, {
-          meetingId: meetingId,
-        })
-      }
-      return
-    })
+    membersId.map((memberId) => updateMember(memberId, { meetingId }))
   )
 }
 
@@ -120,9 +112,7 @@ export async function stopMembersMeeting(
     membersId.map(async (memberId) => {
       const member = await getMember(memberId)
       if (meetingId === member?.meetingId) {
-        return updateMember(member.id, {
-          meetingId: null,
-        })
+        return updateMember(member.id, { meetingId: null })
       }
       return
     })

@@ -1,8 +1,7 @@
-import { Box } from '@chakra-ui/react'
 import CircleLink from '@components/atoms/CircleLink'
 import MemberLink from '@components/atoms/MemberLink'
-import TaskLink from '@components/atoms/TaskLink'
 import RoleEditLink from '@components/atoms/RoleEditLink'
+import TaskLink from '@components/atoms/TaskLink'
 import { LogEntry, LogType } from '@shared/log'
 import React from 'react'
 
@@ -31,7 +30,10 @@ const texts = {
   [LogType.MemberUpdate]: 'a modifié le membre',
   [LogType.MemberArchive]: 'a archivé le membre',
   [LogType.TaskCreate]: 'a créé la tâche',
-  [LogType.TaskUpdate]: 'a marqué la tâche',
+  [LogType.TaskUpdate]: 'a modifié la tâche',
+  [LogType.TaskStatusUpdate + 1]: 'comme',
+  [LogType.TaskStatusUpdate]: 'a marqué la tâche',
+  [LogType.TaskUpdate + 1]: 'comme',
   [LogType.TaskArchive]: 'a archivé la tâche',
 }
 
@@ -101,6 +103,7 @@ export default function LogText({ log }: Props) {
         </>
       )
     case LogType.TaskCreate:
+    case LogType.TaskUpdate:
     case LogType.TaskArchive:
       return (
         <>
@@ -108,15 +111,12 @@ export default function LogText({ log }: Props) {
           <TaskLink id={log.display.id} name={log.display.name} />
         </>
       )
-    case LogType.TaskUpdate:
+    case LogType.TaskStatusUpdate:
       return (
         <>
           <MemberLink id={memberId} name={memberName} /> {texts[type]}{' '}
-          <TaskLink id={log.display.id} name={log.display.name} />
-          {' comme '}
-          <Box as="span" fontWeight="semibold">
-            {log.display.status}
-          </Box>
+          <TaskLink id={log.display.id} name={log.display.name} />{' '}
+          {texts[type + 1]} {log.display.status}
         </>
       )
   }

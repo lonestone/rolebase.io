@@ -21,6 +21,7 @@ export enum LogType {
   MemberArchive = 'MemberArchive',
   TaskCreate = 'TaskCreate',
   TaskUpdate = 'TaskUpdate',
+  TaskStatusUpdate = 'TaskStatusUpdate',
   TaskArchive = 'TaskArchive',
 }
 
@@ -41,6 +42,9 @@ export type LogDisplay =
         | LogType.MemberCreate
         | LogType.MemberUpdate
         | LogType.MemberArchive
+        | LogType.TaskCreate
+        | LogType.TaskUpdate
+        | LogType.TaskArchive
       id: string
       name: string
     }
@@ -55,7 +59,7 @@ export type LogDisplay =
       memberName: string
     }
   | {
-      type: LogType.TaskArchive | LogType.TaskCreate | LogType.TaskUpdate
+      type: LogType.TaskStatusUpdate
       id: string
       name: string
       status: string
