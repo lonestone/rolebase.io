@@ -34,25 +34,33 @@ export default function MeetingStepSortableItem({
   const { attributes, listeners } = useSortableItem(id)
 
   return (
-    <Stack {...attributes} role="none" spacing={2} direction="row">
+    <Stack
+      {...attributes}
+      role="none"
+      spacing={2}
+      direction="row"
+      align="center"
+    >
       <Tag size="lg" borderRadius="full" cursor="grab" {...listeners}>
         {index + 1}
       </Tag>
-      <Stack spacing={2} direction="row" flex="1" align="center">
-        <Text flex={1} pl={5}>
-          {meetingStepNames[stepType]}
-        </Text>
 
-        <Input
-          {...control.register(`${fieldName}.${index}.title`)}
-          flex={1}
-          isInvalid={!!errors?.[fieldName]?.[index]}
-          placeholder="Titre de l'étape..."
-        />
-      </Stack>
+      <Text flex={1} pl={5}>
+        {meetingStepNames[stepType]}
+      </Text>
+
+      <Input
+        {...control.register(`${fieldName}.${index}.title`)}
+        flex={1}
+        isInvalid={!!errors?.[fieldName]?.[index]}
+        placeholder="Titre de l'étape..."
+      />
+
       {onRemove && (
         <IconButton
           aria-label=""
+          size="sm"
+          variant="ghost"
           icon={<CloseIcon />}
           onClick={() => onRemove?.(index)}
         />

@@ -34,16 +34,18 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
       <HStack spacing={3} align="stretch" alignItems="center">
         <Checkbox
           isChecked={!!task.doneDate}
+          zIndex={2}
           onChange={handleToggleDone}
-          zIndex={1}
         />
         <TaskLinkOverlay task={task} />
 
         {onRemove && (
           <IconButton
             aria-label=""
-            size="sm"
+            size="xs"
+            variant="ghost"
             icon={<CloseIcon />}
+            zIndex={1}
             onClick={() => onRemove(task.id)}
           />
         )}

@@ -37,8 +37,10 @@ export default function ThreadSortableItem({
         {onRemove && (
           <IconButton
             aria-label=""
-            size="sm"
+            size="xs"
+            variant="ghost"
             icon={<CloseIcon />}
+            zIndex={1}
             onClick={() => onRemove(thread.id)}
           />
         )}
