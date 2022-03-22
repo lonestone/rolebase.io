@@ -1,4 +1,5 @@
 import {
+  endMeeting,
   goToNextMeetingStep,
   subscribeMeeting,
   updateMeeting,
@@ -133,6 +134,15 @@ export default function MeetingContent({
       currentStepId: stepId,
     })
   }
+
+  // End meeting
+  const handleEnd = useCallback(() => {
+    if (!meeting) return
+    endMeeting(
+      meeting.id,
+      participants.map((p) => p.member.id)
+    )
+  }, [meeting, participants])
 
   // Next step
   const handleNextStep = useCallback(() => {
@@ -317,7 +327,7 @@ export default function MeetingContent({
                         leftIcon={last ? <FaStop /> : <FiArrowDown />}
                         colorScheme={current ? 'green' : 'gray'}
                         mt={5}
-                        onClick={handleNextStep}
+                        onClick={last ? handleEnd : handleNextStep}
                       >
                         {last ? 'Terminer la réunion' : 'Étape suivante'}
                       </Button>

@@ -67,6 +67,15 @@ export function updateMeetingDates(id: string, startDate: Date, endDate: Date) {
   })
 }
 
+// End meeting
+export async function endMeeting(meetingId: string, membersIds: string[]) {
+  stopMembersMeeting(membersIds, meetingId)
+  await updateMeeting(meetingId, {
+    currentStepId: null,
+    ended: true,
+  })
+}
+
 export async function goToNextMeetingStep(
   meeting: MeetingEntry,
   membersIds: string[]
@@ -82,11 +91,8 @@ export async function goToNextMeetingStep(
         ended: false,
       })
     } else {
-      // No first step, end meeting
-      await updateMeeting(meeting.id, {
-        currentStepId: null,
-        ended: true,
-      })
+      // No first step -> end meeting
+      await endMeeting(meeting.id, membersIds)
     }
     return
   }
@@ -105,12 +111,8 @@ export async function goToNextMeetingStep(
       currentStepId: nextStep.id,
     })
   } else {
-    // End meeting
-    stopMembersMeeting(membersIds, meeting.id)
-    await updateMeeting(meeting.id, {
-      currentStepId: null,
-      ended: true,
-    })
+    // No next step -> end meeting
+    await endMeeting(meeting.id, membersIds)
   }
 }
 
