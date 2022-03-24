@@ -2,7 +2,7 @@ import { UseComboboxStateChange } from 'downshift'
 import { debounce } from 'lodash'
 import { useMemo, useState } from 'react'
 import incrementalSearch from './incrementalSearch'
-import { SearchItem } from './searchItems'
+import { SearchItem } from './searchTypes'
 
 export function useSearch(items: SearchItem[], defaultEmpty: boolean) {
   const [searchText, setSearchText] = useState('')

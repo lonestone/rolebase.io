@@ -10,8 +10,8 @@ import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import SearchButtonCombobox from './search/SearchButtonCombobox'
-import { SearchItem, SearchItemTypes } from './search/searchItems'
+import ThreadSearchButton from './search/entities/threads/ThreadSearchButton'
+import { SearchItem, SearchItemTypes } from './search/searchTypes'
 import SortableList from './SortableList'
 import ThreadSortableItem from './ThreadSortableItem'
 
@@ -92,16 +92,15 @@ export default function ThreadsMultiSelect({
 
       {onChange && (!max || selectedThreads.length < max) ? (
         <Box mt={2}>
-          <SearchButtonCombobox
-            threads
-            threadsOverride={threads}
+          <ThreadSearchButton
+            threads={threads || []}
             excludeIds={threadsIds}
             size="sm"
             leftIcon={<FiPlus />}
             onSelect={handleAdd}
           >
             {max === 1 ? 'Choisir une discussion' : 'Ajouter une discussion'}
-          </SearchButtonCombobox>
+          </ThreadSearchButton>
         </Box>
       ) : null}
     </>

@@ -2,33 +2,32 @@ import {
   Box,
   Input,
   InputGroup,
+  List,
   ListItem,
   useColorMode,
 } from '@chakra-ui/react'
-import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useMemo, useRef } from 'react'
-import ComboboxItem from '../../atoms/ComboboxItem'
-import { getSearchItemId, SearchItem } from './searchItems'
+import SearchResultItem from './SearchResultItem'
+import { SearchItem } from './searchTypes'
 import { useSearch } from './useSearch'
-import { SearchOptions, useSearchItems } from './useSearchItems'
 
 const maxDisplayedItems = 25
 
-interface Props extends SearchOptions {
+export interface SearchInputProps {
   value?: string // Circle / Member / CircleMember id
+  items: SearchItem[]
   size?: 'sm' | 'md' | 'lg'
   onChange(value: string): void
 }
 
-export default function EntityButtonCombobox({
+export default function SearchInput({
   value,
   size,
+  items,
   onChange,
-  ...options
-}: Props) {
+}: SearchInputProps) {
   const { colorMode } = useColorMode()
-  const items = useSearchItems(options)
   const { filteredItems, onInputValueChange } = useSearch(items, false)
 
   const onSelectedItemChange = useCallback(
@@ -36,7 +35,7 @@ export default function EntityButtonCombobox({
       const item = changes.selectedItem
       if (!item) return
       closeMenu()
-      onChange(getSearchItemId(item))
+      onChange(item.id)
       selectItem(undefined as any)
       buttonRef.current?.focus()
     },
@@ -56,7 +55,7 @@ export default function EntityButtonCombobox({
   } = useCombobox({
     items: filteredItems,
     defaultSelectedItem: value
-      ? items.find((item) => getSearchItemId(item) === value)
+      ? items.find((item) => item.id === value)
       : undefined,
     defaultHighlightedIndex: 0,
     itemToString: () => '',
@@ -75,8 +74,7 @@ export default function EntityButtonCombobox({
   })
 
   const valueItem = useMemo(
-    () =>
-      value ? items.find((item) => getSearchItemId(item) === value) : undefined,
+    () => (value ? items.find((item) => item.id === value) : undefined),
     [value, items]
   )
 
@@ -93,7 +91,7 @@ export default function EntityButtonCombobox({
     <Box position="relative" {...getComboboxProps()}>
       <InputGroup>
         {valueItem && !isOpen && (
-          <ComboboxItem
+          <SearchResultItem
             ref={buttonRef}
             size={size}
             item={valueItem}
@@ -107,13 +105,14 @@ export default function EntityButtonCombobox({
           placeholder="Sélectionner..."
           onFocus={openMenu}
           size={size}
-          style={{ display: isOpen || !valueItem ? 'block' : 'none' }}
+          display={isOpen || !valueItem ? '' : 'none'}
           {...inputProps}
         />
       </InputGroup>
 
-      <ComboboxList
-        isOpen={isOpen}
+      <List
+        display={isOpen ? '' : 'none'}
+        py={2}
         {...getMenuProps()}
         position="absolute"
         zIndex="2"
@@ -121,7 +120,7 @@ export default function EntityButtonCombobox({
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
           <ListItem key={index}>
-            <ComboboxItem
+            <SearchResultItem
               item={item}
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
@@ -132,7 +131,7 @@ export default function EntityButtonCombobox({
             />
           </ListItem>
         ))}
-      </ComboboxList>
+      </List>
     </Box>
   )
 }

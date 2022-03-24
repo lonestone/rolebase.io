@@ -19,7 +19,8 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
-import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
+import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -229,8 +230,7 @@ export default function TaskContent({
               name="circleId"
               control={control}
               render={({ field }) => (
-                <EntityButtonCombobox
-                  circles
+                <CircleSearchInput
                   value={field.value}
                   onChange={field.onChange}
                 />
@@ -246,8 +246,7 @@ export default function TaskContent({
               name="memberId"
               control={control}
               render={({ field }) => (
-                <EntityButtonCombobox
-                  members
+                <MemberSearchInput
                   value={field.value}
                   onChange={field.onChange}
                 />

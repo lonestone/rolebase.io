@@ -6,8 +6,8 @@ import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import SearchButtonCombobox from './search/SearchButtonCombobox'
-import { SearchItem, SearchItemTypes } from './search/searchItems'
+import MemberSearchButton from './search/entities/members/MemberSearchButton'
+import { SearchItem, SearchItemTypes } from './search/searchTypes'
 
 interface Props {
   circleId?: string // Used for member link
@@ -74,15 +74,14 @@ export default function MembersMultiSelect({
 
       {!max || selectedMembers.length < max ? (
         <WrapItem>
-          <SearchButtonCombobox
-            members
+          <MemberSearchButton
             excludeIds={excludeMembersIdsMemo}
             size="sm"
             leftIcon={<FiPlus />}
             onSelect={handleAdd}
           >
             {max === 1 ? 'Choisir un membre' : 'Ajouter un membre'}
-          </SearchButtonCombobox>
+          </MemberSearchButton>
         </WrapItem>
       ) : null}
     </Wrap>

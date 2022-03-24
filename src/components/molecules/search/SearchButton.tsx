@@ -3,35 +3,34 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  List,
   ListItem,
   useColorMode,
 } from '@chakra-ui/react'
-import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { ReactNode, useCallback, useRef } from 'react'
-import ComboboxItem from '../../atoms/ComboboxItem'
-import { SearchItem } from './searchItems'
+import SearchResultItem from './SearchResultItem'
+import { SearchItem } from './searchTypes'
 import { useSearch } from './useSearch'
-import { SearchOptions, useSearchItems } from './useSearchItems'
 
 const maxDisplayedItems = 25
 
-interface Props extends SearchOptions {
+export interface SearchButtonProps {
   children: ReactNode
+  items: SearchItem[]
   size?: 'sm' | 'md' | 'lg'
   leftIcon?: React.ReactElement
   onSelect(item: SearchItem): void
 }
 
-export default function SearchButtonCombobox({
+export default function SearchButton({
   children,
+  items,
   size,
   leftIcon,
   onSelect,
-  ...options
-}: Props) {
+}: SearchButtonProps) {
   const { colorMode } = useColorMode()
-  const items = useSearchItems(options)
   const { filteredItems, onInputValueChange } = useSearch(items, false)
 
   const onSelectedItemChange = useCallback(
@@ -104,8 +103,9 @@ export default function SearchButtonCombobox({
         />
       </InputGroup>
 
-      <ComboboxList
-        isOpen={isOpen}
+      <List
+        display={isOpen ? '' : 'none'}
+        py={2}
         {...getMenuProps({}, { suppressRefError: true })}
         position="absolute"
         zIndex="2"
@@ -113,7 +113,7 @@ export default function SearchButtonCombobox({
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
           <ListItem key={index}>
-            <ComboboxItem
+            <SearchResultItem
               item={item}
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
@@ -124,7 +124,7 @@ export default function SearchButtonCombobox({
             />
           </ListItem>
         ))}
-      </ComboboxList>
+      </List>
     </div>
   )
 }

@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
-import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import useCallbackState from '@hooks/useCallbackState'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useStoreState } from '@store/hooks'
@@ -108,9 +108,8 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
             {exportType === ExportType.Circle && (
               <FormControl>
                 <FormLabel>Cercle</FormLabel>
-                <EntityButtonCombobox
-                  circles
-                  circlesSingleMember={false}
+                <CircleSearchInput
+                  singleMember={false}
                   value={circleId}
                   onChange={setCircleId}
                 />

@@ -7,7 +7,7 @@ interface Props extends ButtonProps {
   exact?: boolean
 }
 
-export default function HeaderButton({ to, exact, ...buttonProps }: Props) {
+export default function HeaderButton({ to, exact, bg, ...buttonProps }: Props) {
   const { colorMode } = useColorMode()
   const location = useLocation()
 
@@ -20,7 +20,7 @@ export default function HeaderButton({ to, exact, ...buttonProps }: Props) {
       <Button
         size="sm"
         isActive={isActive}
-        bg="transparent"
+        bg={bg || 'transparent'}
         color={colorMode === 'light' ? 'gray.500' : 'gray.500'}
         _active={{
           color: colorMode === 'light' ? 'black' : 'white',

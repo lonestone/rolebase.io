@@ -5,7 +5,7 @@ import HeaderLinksMenu, {
 } from '@components/molecules/HeaderLinksMenu'
 import HeaderOrgMenu from '@components/molecules/HeaderOrgMenu'
 import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
-import HeaderSearchCombobox from '@components/molecules/search/HeaderSearchCombobox'
+import HeaderSearch from '@components/molecules/search/HeaderSearch'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
@@ -103,7 +103,7 @@ export default function Header() {
       )}
       <Spacer />
 
-      {org && <HeaderSearchCombobox />}
+      {org && <HeaderSearch />}
 
       <HeaderUserMenu ml={2} />
     </Flex>

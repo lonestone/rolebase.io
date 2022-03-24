@@ -14,7 +14,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
-import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ActivityDecision, ActivityType } from '@shared/activity'
 import { WithId } from '@shared/types'
@@ -133,8 +133,7 @@ export default function ActivityDecisionModal({
                   name="circleId"
                   control={control}
                   render={({ field }) => (
-                    <EntityButtonCombobox
-                      circles
+                    <CircleSearchInput
                       value={field.value}
                       onChange={field.onChange}
                     />

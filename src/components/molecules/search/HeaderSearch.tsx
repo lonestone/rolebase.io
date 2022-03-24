@@ -2,32 +2,36 @@ import {
   IconButton,
   Input,
   InputGroup,
+  List,
   ListItem,
   useColorMode,
 } from '@chakra-ui/react'
-import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useContext, useRef } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
-import ComboboxItem from '../../atoms/ComboboxItem'
-import { SearchItem, SearchItemTypes } from './searchItems'
+import { useCircleMemberSearchItems } from './entities/circleMembers/useCircleMemberSearchItems'
+import { useCircleSearchItems } from './entities/circles/useCircleSearchItems'
+import { useMemberSearchItems } from './entities/members/useMemberSearchItems'
+import SearchResultItem from './SearchResultItem'
+import { SearchItem, SearchItemTypes } from './searchTypes'
+import { useCombineArrays } from './useCombineArrays'
 import { useSearch } from './useSearch'
-import { SearchOptions, useSearchItems } from './useSearchItems'
 
 const maxDisplayedItems = 25
 
-const searchOptions: SearchOptions = {
-  members: true,
-  circles: true,
-  circleMembers: true,
-}
-
-export default function HeaderSearchCombobox() {
+export default function HeaderSearch() {
   const { colorMode } = useColorMode()
-  const items = useSearchItems(searchOptions)
-  const { filteredItems, onInputValueChange } = useSearch(items, true)
   const circleMemberContext = useContext(CircleMemberContext)
+
+  // Get items
+  const memberItems = useMemberSearchItems()
+  const circleItems = useCircleSearchItems()
+  const circleMemberItems = useCircleMemberSearchItems()
+  const items = useCombineArrays(memberItems, circleItems, circleMemberItems)
+
+  // Search
+  const { filteredItems, onInputValueChange } = useSearch(items, true)
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
@@ -105,8 +109,9 @@ export default function HeaderSearchCombobox() {
         />
       </InputGroup>
 
-      <ComboboxList
-        isOpen={isOpen}
+      <List
+        display={isOpen ? '' : 'none'}
+        py={2}
         {...getMenuProps()}
         position="absolute"
         zIndex="1000"
@@ -115,7 +120,7 @@ export default function HeaderSearchCombobox() {
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
           <ListItem textAlign="right" mb={1} key={index}>
-            <ComboboxItem
+            <SearchResultItem
               item={item}
               highlighted={index === highlightedIndex}
               {...getItemProps({ item, index })}
@@ -125,7 +130,7 @@ export default function HeaderSearchCombobox() {
             />
           </ListItem>
         ))}
-      </ComboboxList>
+      </List>
     </div>
   )
 }

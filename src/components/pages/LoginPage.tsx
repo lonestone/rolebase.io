@@ -31,7 +31,7 @@ export default function LoginPage() {
   return (
     <>
       <Loading active={loading} center />
-      <Container maxW="xs" mt="60px" display={loading ? 'none' : 'block'}>
+      <Container maxW="xs" mt="60px" display={loading ? 'none' : ''}>
         <Heading size="md" mb={5}>
           Rolebase
         </Heading>
