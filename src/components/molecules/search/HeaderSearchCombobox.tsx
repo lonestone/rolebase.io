@@ -1,14 +1,14 @@
 import {
-  CloseButton,
+  IconButton,
   Input,
   InputGroup,
-  InputRightElement,
   ListItem,
   useColorMode,
 } from '@chakra-ui/react'
 import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
+import { FaSearch } from 'react-icons/fa'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import ComboboxItem from '../../atoms/ComboboxItem'
 import { SearchItem, SearchItemTypes } from './searchItems'
@@ -66,25 +66,42 @@ export default function HeaderSearchCombobox() {
     onSelectedItemChange,
   })
 
+  // Input
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const inputProps = getInputProps({
+    ref: inputRef,
+    onFocus: openMenu,
+  })
+
+  // Click on button to put it in editing mode
+  const handleClick = () => {
+    openMenu()
+    // Wait for the input to appears, then focus it
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 0)
+  }
+
   return (
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
       <InputGroup size="sm">
+        {!isOpen && (
+          <IconButton
+            aria-label="Rechercher"
+            icon={<FaSearch />}
+            size="sm"
+            onClick={handleClick}
+          />
+        )}
         <Input
           type="text"
           placeholder="Rechercher..."
+          display={isOpen ? '' : 'none'}
           w="200px"
           borderRadius="md"
           background={colorMode === 'light' ? 'white' : 'gray.800'}
-          onClick={() => openMenu()}
-          {...getInputProps()}
+          {...inputProps}
         />
-        <InputRightElement>
-          <CloseButton
-            colorScheme="gray"
-            size="sm"
-            onClick={() => setInputValue('')}
-          />
-        </InputRightElement>
       </InputGroup>
 
       <ComboboxList

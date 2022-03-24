@@ -99,7 +99,7 @@ export default function SearchButtonCombobox({
         <Input
           type="text"
           placeholder={children}
-          style={{ display: isOpen ? 'block' : 'none' }}
+          display={isOpen ? '' : 'none'}
           {...inputProps}
         />
       </InputGroup>
