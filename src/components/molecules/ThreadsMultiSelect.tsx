@@ -11,7 +11,6 @@ import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import ThreadSearchButton from './search/entities/threads/ThreadSearchButton'
-import { SearchItem, SearchItemTypes } from './search/searchTypes'
 import SortableList from './SortableList'
 import ThreadSortableItem from './ThreadSortableItem'
 
@@ -48,11 +47,7 @@ export default function ThreadsMultiSelect({
   )
 
   const handleAdd = useCallback(
-    (item: SearchItem) => {
-      if (item.type === SearchItemTypes.Thread) {
-        onChange?.([...threadsIds, item.thread.id])
-      }
-    },
+    (id: string) => onChange?.([...threadsIds, id]),
     [threadsIds, onChange]
   )
 
@@ -94,6 +89,7 @@ export default function ThreadsMultiSelect({
         <Box mt={2}>
           <ThreadSearchButton
             threads={threads || []}
+            createCircleId={circleId}
             excludeIds={threadsIds}
             size="sm"
             leftIcon={<FiPlus />}

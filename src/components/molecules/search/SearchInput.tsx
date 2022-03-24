@@ -111,23 +111,24 @@ export default function SearchInput({
       </InputGroup>
 
       <List
-        display={isOpen ? '' : 'none'}
-        py={2}
         {...getMenuProps()}
+        display={isOpen ? '' : 'none'}
+        pt={1}
         position="absolute"
         zIndex="2"
+        shadow="md"
+        bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
         pointerEvents="none"
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
           <ListItem key={index}>
             <SearchResultItem
+              {...getItemProps({ item, index })}
               item={item}
               highlighted={index === highlightedIndex}
-              {...getItemProps({ item, index })}
               size={size}
-              bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
+              w="100%"
               _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
-              shadow="md"
             />
           </ListItem>
         ))}

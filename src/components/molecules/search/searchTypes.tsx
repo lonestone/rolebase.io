@@ -8,6 +8,7 @@ import { TaskEntry } from '@shared/task'
 import { ThreadEntry } from '@shared/thread'
 
 export enum SearchItemTypes {
+  CreateAction,
   Member,
   Circle,
   CircleMember,
@@ -19,6 +20,9 @@ export type SearchItem = {
   id: string
   text: string
 } & (
+  | {
+      type: SearchItemTypes.CreateAction
+    }
   | {
       type: SearchItemTypes.Member
       member: MemberEntry

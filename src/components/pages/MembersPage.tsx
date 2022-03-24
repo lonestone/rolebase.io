@@ -136,6 +136,7 @@ export default function MembersPage() {
               aria-label=""
               size="sm"
               icon={<FiEdit3 />}
+              zIndex={2}
               onClick={() => handleOpenEdit(member.id)}
             />
           </HStack>

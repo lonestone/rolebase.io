@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, ButtonProps } from '@chakra-ui/react'
 import React from 'react'
-import { FiMessageSquare, FiSquare } from 'react-icons/fi'
+import { FiMessageSquare, FiPlus, FiSquare } from 'react-icons/fi'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 
 interface Props extends ButtonProps {
@@ -16,8 +16,16 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
         isActive={highlighted}
         ref={ref}
         pointerEvents="auto"
+        justifyContent="start"
         {...buttonProps}
       >
+        {item.type === SearchItemTypes.CreateAction && (
+          <>
+            <FiPlus />
+            <Box ml={2}>Créer "{item.text}"</Box>
+          </>
+        )}
+
         {item.type === SearchItemTypes.Circle &&
           item.circleRoles.map((circle, i) => (
             <React.Fragment key={circle.id}>

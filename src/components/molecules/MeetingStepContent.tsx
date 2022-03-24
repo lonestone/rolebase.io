@@ -10,6 +10,7 @@ import MarkdownCollabEditor from './editor/MarkdownCollabEditor'
 
 interface Props {
   meetingId: string
+  circleId: string
   current: boolean
   editable: boolean
   stepConfig: MeetingStepConfig
@@ -18,6 +19,7 @@ interface Props {
 
 export default function MeetingStepContent({
   meetingId,
+  circleId,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   current,
   editable,
@@ -44,6 +46,7 @@ export default function MeetingStepContent({
         <Box mb={5}>
           <MeetingStepContentThreads
             meetingId={meetingId}
+            circleId={circleId}
             step={step}
             editable={editable}
           />
@@ -54,6 +57,7 @@ export default function MeetingStepContent({
         <Box mb={5}>
           <MeetingStepContentTasks
             meetingId={meetingId}
+            circleId={circleId}
             step={step}
             editable={editable}
           />

@@ -314,6 +314,7 @@ export default function MeetingContent({
                   {step && (
                     <MeetingStepContent
                       meetingId={id}
+                      circleId={meeting.circleId}
                       editable={isParticipant && !meeting.ended}
                       current={current}
                       stepConfig={stepConfig}

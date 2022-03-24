@@ -5,6 +5,7 @@ import {
   BoxProps,
   Button,
   Checkbox,
+  Collapse,
   Flex,
   FormControl,
   FormLabel,
@@ -90,7 +91,7 @@ export default function TaskContent({
     reset,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<Values>({
     resolver,
     defaultValues: {
@@ -279,11 +280,13 @@ export default function TaskContent({
             />
           </FormControl>
 
-          <Box textAlign="right">
-            <Button colorScheme="blue" type="submit">
-              {id ? 'Enregistrer' : 'Créer'}
-            </Button>
-          </Box>
+          <Collapse in={isDirty}>
+            <Box textAlign="right">
+              <Button colorScheme="blue" type="submit">
+                {id ? 'Enregistrer' : 'Créer'}
+              </Button>
+            </Box>
+          </Collapse>
         </VStack>
       </form>
 

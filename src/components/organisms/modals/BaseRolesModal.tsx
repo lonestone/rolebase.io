@@ -77,6 +77,7 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
                       aria-label=""
                       size="sm"
                       variant="ghost"
+                      zIndex={2}
                       onClick={() => handleDelete(role.id)}
                       icon={<FiTrash2 />}
                     />

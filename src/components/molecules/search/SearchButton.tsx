@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Input,
   InputGroup,
@@ -10,7 +11,7 @@ import {
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { ReactNode, useCallback, useRef } from 'react'
 import SearchResultItem from './SearchResultItem'
-import { SearchItem } from './searchTypes'
+import { SearchItem, SearchItemTypes } from './searchTypes'
 import { useSearch } from './useSearch'
 
 const maxDisplayedItems = 25
@@ -20,7 +21,8 @@ export interface SearchButtonProps {
   items: SearchItem[]
   size?: 'sm' | 'md' | 'lg'
   leftIcon?: React.ReactElement
-  onSelect(item: SearchItem): void
+  onSelect(id: string): void
+  onCreate?(name: string): Promise<string>
 }
 
 export default function SearchButton({
@@ -29,16 +31,26 @@ export default function SearchButton({
   size,
   leftIcon,
   onSelect,
+  onCreate,
 }: SearchButtonProps) {
   const { colorMode } = useColorMode()
-  const { filteredItems, onInputValueChange } = useSearch(items, false)
+  const { filteredItems, onInputValueChange } = useSearch(items, false, true)
 
   const onSelectedItemChange = useCallback(
-    (changes: UseComboboxStateChange<SearchItem>) => {
+    async (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
       closeMenu()
-      onSelect(item)
+
+      if (onCreate && item.type === SearchItemTypes.CreateAction) {
+        // Create entity then select it
+        const id = await onCreate(item.text)
+        onSelect(id)
+      } else {
+        // Select existing entity
+        onSelect(item.id)
+      }
+
       selectItem(undefined as any)
       setInputValue('')
       buttonRef.current?.focus()
@@ -85,7 +97,7 @@ export default function SearchButton({
   }
 
   return (
-    <div style={{ position: 'relative' }} {...getComboboxProps()}>
+    <Box position="relative" {...getComboboxProps()}>
       <InputGroup size={size}>
         {!isOpen && (
           <Button ref={buttonRef} leftIcon={leftIcon} onClick={handleClick}>
@@ -104,27 +116,28 @@ export default function SearchButton({
       </InputGroup>
 
       <List
-        display={isOpen ? '' : 'none'}
-        py={2}
         {...getMenuProps({}, { suppressRefError: true })}
+        display={isOpen ? '' : 'none'}
         position="absolute"
         zIndex="2"
+        pt={1}
+        shadow="md"
+        bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
         pointerEvents="none"
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
           <ListItem key={index}>
             <SearchResultItem
+              {...getItemProps({ item, index })}
               item={item}
               highlighted={index === highlightedIndex}
-              {...getItemProps({ item, index })}
               size={size}
-              shadow="md"
-              bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
+              w="100%"
               _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
             />
           </ListItem>
         ))}
       </List>
-    </div>
+    </Box>
   )
 }

@@ -6,12 +6,14 @@ import ThreadsMultiSelect from './ThreadsMultiSelect'
 
 interface Props {
   meetingId: string
+  circleId: string
   step: WithId<MeetingStepThreads>
   editable?: Boolean
 }
 
 export default function MeetingStepContentThreads({
   meetingId,
+  circleId,
   step,
   editable,
 }: Props) {
@@ -27,6 +29,7 @@ export default function MeetingStepContentThreads({
   return (
     <ThreadsMultiSelect
       threadsIds={step.threadsIds}
+      circleId={circleId}
       onChange={editable ? handleChange : undefined}
     />
   )
