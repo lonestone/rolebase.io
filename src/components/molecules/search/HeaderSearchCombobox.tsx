@@ -89,6 +89,7 @@ export default function HeaderSearchCombobox() {
           <IconButton
             aria-label="Rechercher"
             icon={<FaSearch />}
+            variant="ghost"
             size="sm"
             onClick={handleClick}
           />

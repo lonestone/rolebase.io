@@ -1,13 +1,15 @@
-import { Flex, Spacer, useColorMode } from '@chakra-ui/react'
+import { Flex, Spacer, useColorMode, useMediaQuery } from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
-import HeaderLinksMenu from '@components/molecules/HeaderLinksMenu'
+import HeaderLinksMenu, {
+  HeaderLink,
+} from '@components/molecules/HeaderLinksMenu'
 import HeaderOrgMenu from '@components/molecules/HeaderOrgMenu'
 import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
 import HeaderSearchCombobox from '@components/molecules/search/HeaderSearchCombobox'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   FiCalendar,
   FiCheckSquare,
@@ -22,6 +24,47 @@ export default function Header() {
   const org = useCurrentOrg()
   const currentMember = useCurrentMember()
   const { colorMode } = useColorMode()
+
+  // Links
+  const links: HeaderLink[] = useMemo(
+    () =>
+      org
+        ? [
+            {
+              to: `/orgs/${org.id}`,
+              exact: true,
+              icon: <FiDisc />,
+              label: 'Cercles',
+            },
+            {
+              to: `/orgs/${org.id}/threads`,
+              icon: <FiMessageSquare />,
+              label: 'Discussions',
+            },
+            {
+              to: `/orgs/${org.id}/meetings${
+                currentMember?.meetingId ? '/' + currentMember.meetingId : ''
+              }`,
+              icon: <FiCalendar />,
+              label: 'Réunions',
+              bg: currentMember?.meetingId
+                ? colorMode === 'light'
+                  ? 'blue.100'
+                  : 'blue.900'
+                : undefined,
+            },
+            {
+              to: `/orgs/${org.id}/tasks`,
+              icon: <FiCheckSquare />,
+              label: 'Tâches',
+            },
+          ]
+        : [],
+    [org, currentMember, colorMode]
+  )
+
+  // Hider buttons when screen is too small
+  const [isSmallScreen] = useMediaQuery('(max-width: 730px)')
 
   if (!user) return null
   return (
@@ -42,41 +85,20 @@ export default function Header() {
         <>
           <HeaderOrgMenu />
 
-          <HeaderButton exact to={`/orgs/${org.id}`} leftIcon={<FiDisc />}>
-            Cercles
-          </HeaderButton>
+          {!isSmallScreen &&
+            links.map((link, i) => (
+              <HeaderButton
+                key={i}
+                to={link.to}
+                exact={link.exact}
+                leftIcon={link.icon}
+                bg={link.bg}
+              >
+                {link.label}
+              </HeaderButton>
+            ))}
 
-          <HeaderButton
-            to={`/orgs/${org.id}/threads`}
-            leftIcon={<FiMessageSquare />}
-          >
-            Discussions
-          </HeaderButton>
-
-          <HeaderButton
-            to={`/orgs/${org.id}/meetings${
-              currentMember?.meetingId ? '/' + currentMember.meetingId : ''
-            }`}
-            bg={
-              currentMember?.meetingId
-                ? colorMode === 'light'
-                  ? 'blue.100'
-                  : 'blue.900'
-                : undefined
-            }
-            leftIcon={<FiCalendar />}
-          >
-            Réunions
-          </HeaderButton>
-
-          <HeaderButton
-            to={`/orgs/${org.id}/tasks`}
-            leftIcon={<FiCheckSquare />}
-          >
-            Tâches
-          </HeaderButton>
-
-          <HeaderLinksMenu />
+          <HeaderLinksMenu links={isSmallScreen ? links : undefined} />
         </>
       )}
       <Spacer />
