@@ -201,8 +201,9 @@ export default function MeetingEditModal({
     if (meeting) {
       // Update meeting
       await updateMeeting(meeting.id, meetingUpdate)
+
       // Create missing steps
-      createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
+      await createMissingMeetingSteps(meeting.id, meetingUpdate.stepsConfig)
     } else {
       // Create meeting
       const meeting = await createMeeting({
@@ -211,8 +212,9 @@ export default function MeetingEditModal({
         ...meetingUpdate,
       })
       onCreate?.(meeting.id)
+
       // Create missing steps
-      createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
+      await createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
     }
 
     modalProps.onClose()

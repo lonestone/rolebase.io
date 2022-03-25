@@ -13,7 +13,6 @@ import {
   Input,
   Spacer,
   useDisclosure,
-  useToast,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
@@ -22,7 +21,11 @@ import { Title } from '@components/atoms/Title'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCreateLog from '@hooks/useCreateLog'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
+import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
+import { EntityChangeType, LogType } from '@shared/log'
 import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
@@ -67,8 +70,10 @@ export default function TaskContent({
   onClose,
   ...boxProps
 }: Props) {
-  const toast = useToast()
+  const createLog = useCreateLog()
   const orgId = useStoreState((state) => state.orgs.currentId)
+  const currentMember = useCurrentMember()
+  const updateTaskStatus = useUpdateTaskStatus()
 
   // Subscribe task
   const {
@@ -111,20 +116,35 @@ export default function TaskContent({
   const dueDate = watch('dueDate')
 
   const onSubmit = handleSubmit(async ({ dueDate, ...data }) => {
-    if (!orgId) return
+    if (!orgId || !currentMember) return
     const taskUpdate = {
       ...data,
       dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate)) : null,
     }
     if (id) {
-      // Update thread
+      // Update task
       await updateTask(id, taskUpdate)
     } else {
-      // Create thread
-      await createTask({
+      // Create task
+      const newTask = await createTask({
         orgId,
         ...taskUpdate,
       })
+      // Todo : refacto task status is in WIP
+      createLog({
+        display: {
+          type: LogType.TaskCreate,
+          id: newTask.id,
+          name: newTask.title,
+        },
+        changes: {
+          tasks: [
+            { type: EntityChangeType.Create, id: newTask.id, data: newTask },
+          ],
+        },
+      })
+
+      onClose()
     }
   })
 
@@ -143,17 +163,7 @@ export default function TaskContent({
   // Toggle done status of a task
   const handleToggleDone = useCallback(() => {
     if (!task) return
-    const doneDate = task.doneDate ? null : Timestamp.now()
-    updateTask(task.id, { doneDate })
-
-    // Toast to cancel
-    toast({
-      status: 'success',
-      duration: 2000,
-      title: doneDate
-        ? 'Tâche marquée comme terminée'
-        : 'Tâche marquée comme non terminée',
-    })
+    updateTaskStatus(task, task.doneDate ? null : Timestamp.now())
   }, [task])
 
   // Task deletion modal

@@ -4,6 +4,7 @@ import HeaderLinksMenu from '@components/molecules/HeaderLinksMenu'
 import HeaderOrgMenu from '@components/molecules/HeaderOrgMenu'
 import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
 import HeaderSearchCombobox from '@components/molecules/search/HeaderSearchCombobox'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
@@ -19,6 +20,7 @@ export const headerHeight = 48
 export default function Header() {
   const user = useStoreState((state) => state.auth.user)
   const org = useCurrentOrg()
+  const currentMember = useCurrentMember()
   const { colorMode } = useColorMode()
 
   if (!user) return null
@@ -52,7 +54,16 @@ export default function Header() {
           </HeaderButton>
 
           <HeaderButton
-            to={`/orgs/${org.id}/meetings`}
+            to={`/orgs/${org.id}/meetings${
+              currentMember?.meetingId ? '/' + currentMember.meetingId : ''
+            }`}
+            bg={
+              currentMember?.meetingId
+                ? colorMode === 'light'
+                  ? 'blue.100'
+                  : 'blue.900'
+                : undefined
+            }
             leftIcon={<FiCalendar />}
           >
             Réunions
@@ -68,7 +79,6 @@ export default function Header() {
           <HeaderLinksMenu />
         </>
       )}
-
       <Spacer />
 
       {org && <HeaderSearchCombobox />}

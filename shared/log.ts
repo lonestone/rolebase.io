@@ -2,6 +2,7 @@ import { Timestamp } from 'firebase/firestore'
 import { Circle } from './circle'
 import { Member } from './member'
 import { Role } from './role'
+import { Task } from './task'
 import { WithId } from './types'
 
 export enum LogType {
@@ -18,6 +19,10 @@ export enum LogType {
   MemberCreate = 'MemberCreate',
   MemberUpdate = 'MemberUpdate',
   MemberArchive = 'MemberArchive',
+  TaskCreate = 'TaskCreate',
+  TaskUpdate = 'TaskUpdate',
+  TaskStatusUpdate = 'TaskStatusUpdate',
+  TaskArchive = 'TaskArchive',
 }
 
 export type LogDisplay =
@@ -37,6 +42,9 @@ export type LogDisplay =
         | LogType.MemberCreate
         | LogType.MemberUpdate
         | LogType.MemberArchive
+        | LogType.TaskCreate
+        | LogType.TaskUpdate
+        | LogType.TaskArchive
       id: string
       name: string
     }
@@ -49,6 +57,12 @@ export type LogDisplay =
       name: string
       memberId: string
       memberName: string
+    }
+  | {
+      type: LogType.TaskStatusUpdate
+      id: string
+      name: string
+      status: string
     }
 
 export enum EntityChangeType {
@@ -79,6 +93,7 @@ export interface EntitiesChanges {
   circles?: EntityChange<Circle>[]
   roles?: EntityChange<Role>[]
   members?: EntityChange<Member>[]
+  tasks?: EntityChange<Task>[]
 }
 
 // Log of changes to the organization

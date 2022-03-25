@@ -10,6 +10,7 @@ import {
   getEntityMethods,
   subscribeQuery,
 } from '../firebase'
+import { startMembersMeeting, stopMembersMeeting } from './members'
 
 export const collection = getCollection<Meeting>('meetings')
 
@@ -66,24 +67,32 @@ export function updateMeetingDates(id: string, startDate: Date, endDate: Date) {
   })
 }
 
-export async function goToNextMeetingStep(meeting: MeetingEntry) {
-  if (!meeting) return
+// End meeting
+export async function endMeeting(meetingId: string, membersIds: string[]) {
+  stopMembersMeeting(membersIds, meetingId)
+  await updateMeeting(meetingId, {
+    currentStepId: null,
+    ended: true,
+  })
+}
 
+export async function goToNextMeetingStep(
+  meeting: MeetingEntry,
+  membersIds: string[]
+) {
   // Meeting not started
   if (meeting.currentStepId === null) {
     const firstStep = meeting.stepsConfig[0]
     if (firstStep) {
+      startMembersMeeting(membersIds, meeting.id)
       // Go to first step
       await updateMeeting(meeting.id, {
         currentStepId: firstStep.id,
         ended: false,
       })
     } else {
-      // No first step, end meeting
-      await updateMeeting(meeting.id, {
-        currentStepId: null,
-        ended: true,
-      })
+      // No first step -> end meeting
+      await endMeeting(meeting.id, membersIds)
     }
     return
   }
@@ -102,11 +111,8 @@ export async function goToNextMeetingStep(meeting: MeetingEntry) {
       currentStepId: nextStep.id,
     })
   } else {
-    // End meeting
-    await updateMeeting(meeting.id, {
-      currentStepId: null,
-      ended: true,
-    })
+    // No next step -> end meeting
+    await endMeeting(meeting.id, membersIds)
   }
 }
 

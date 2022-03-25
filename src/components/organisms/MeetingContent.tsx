@@ -1,4 +1,5 @@
 import {
+  endMeeting,
   goToNextMeetingStep,
   subscribeMeeting,
   updateMeeting,
@@ -12,6 +13,7 @@ import {
   BoxProps,
   Button,
   Collapse,
+  Container,
   Flex,
   Heading,
   HStack,
@@ -29,6 +31,8 @@ import MemberLink from '@components/atoms/MemberLink'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import MeetingActions from '@components/molecules/MeetingActions'
+import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import useCircle from '@hooks/useCircle'
@@ -52,7 +56,6 @@ import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
-
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean
@@ -132,11 +135,23 @@ export default function MeetingContent({
     })
   }
 
+  // End meeting
+  const handleEnd = useCallback(() => {
+    if (!meeting) return
+    endMeeting(
+      meeting.id,
+      participants.map((p) => p.member.id)
+    )
+  }, [meeting, participants])
+
   // Next step
   const handleNextStep = useCallback(() => {
     if (!meeting) return
-    goToNextMeetingStep(meeting)
-  }, [meeting])
+    goToNextMeetingStep(
+      meeting,
+      participants.map((p) => p.member.id)
+    )
+  }, [meeting, participants])
 
   // Join video conference
   const handleJoinVideoConf = useCallback(() => {
@@ -306,21 +321,29 @@ export default function MeetingContent({
                     />
                   )}
 
-                  {isFacilitator && (
-                    <Collapse in={current} animateOpacity>
+                  {isStarted && isFacilitator && (
+                    <Collapse in={current || last} animateOpacity>
                       <Button
                         leftIcon={last ? <FaStop /> : <FiArrowDown />}
-                        colorScheme={'green'}
+                        colorScheme={current ? 'green' : 'gray'}
                         mt={5}
-                        onClick={handleNextStep}
+                        onClick={last ? handleEnd : handleNextStep}
                       >
-                        {last ? 'Terminer' : 'Suivant'}
+                        {last ? 'Terminer la réunion' : 'Étape suivante'}
                       </Button>
                     </Collapse>
                   )}
                 </MeetingStepLayout>
               )
             })}
+
+            {isStarted && <MeetingActions circleId={meeting.circleId} />}
+
+            {!isNotStarted && (
+              <Container size="xs" mt={10}>
+                <MeetingLogs meetingId={meeting.id} />
+              </Container>
+            )}
           </Box>
         </>
       )}

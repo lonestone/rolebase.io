@@ -32,9 +32,14 @@ export const meetingStepsEntities = memoize((meetingId: string) => {
             notes: '',
             threadsIds: [],
           }
+        case MeetingStepTypes.Tasks:
+          return {
+            type,
+            notes: '',
+            tasksIds: [],
+          }
         case MeetingStepTypes.Checklist:
         case MeetingStepTypes.Indicators:
-        case MeetingStepTypes.Tasks:
           return {
             type,
             notes: '',
@@ -63,6 +68,7 @@ export async function createMissingMeetingSteps(
   const missingSteps = stepsConfig.filter(
     (stepConfig) => !meetingSteps.find((step) => step.id === stepConfig.id)
   )
+
   await Promise.all(
     missingSteps.map((stepConfig) =>
       createMeetingStep(stepConfig.type, stepConfig.id)

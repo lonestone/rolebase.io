@@ -4,6 +4,7 @@ import {
   CircleWithRoleEntry,
 } from '@shared/circle'
 import { MemberEntry } from '@shared/member'
+import { TaskEntry } from '@shared/task'
 import { ThreadEntry } from '@shared/thread'
 
 export enum SearchItemTypes {
@@ -11,6 +12,7 @@ export enum SearchItemTypes {
   Circle,
   CircleMember,
   Thread,
+  Task,
 }
 
 export type SearchItem = {
@@ -36,6 +38,10 @@ export type SearchItem = {
       type: SearchItemTypes.Thread
       thread: ThreadEntry
     }
+  | {
+      type: SearchItemTypes.Task
+      task: TaskEntry
+    }
 )
 
 export function getSearchItemId(item: SearchItem): string {
@@ -48,5 +54,7 @@ export function getSearchItemId(item: SearchItem): string {
       return item.circleMember.id
     case SearchItemTypes.Thread:
       return item.thread.id
+    case SearchItemTypes.Task:
+      return item.task.id
   }
 }
