@@ -13,9 +13,9 @@ import throttle from 'lodash.throttle'
 import React, { forwardRef, useCallback, useEffect, useMemo } from 'react'
 import { prosemirrorToYDoc } from 'y-prosemirror'
 import * as Y from 'yjs'
-import MarkdownEditorContainer from '../chunk/MarkdownEditorContainer'
 import useFileUpload from '../chunk/useFileUpload'
 import { YCollabExtension } from '../chunk/YCollabExtension'
+import EditorContainer from './EditorContainer'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 
 // Collaborative Markdown editor
@@ -109,7 +109,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
 
     return (
       <BasicStyle>
-        <MarkdownEditorContainer colorMode={colorMode} {...formControlProps}>
+        <EditorContainer colorMode={colorMode} {...formControlProps}>
           <RichMarkdownEditor
             key={docId}
             ref={editorRef}
@@ -123,7 +123,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
             onSave={handleSave}
             uploadImage={handleUpload}
           />
-        </MarkdownEditorContainer>
+        </EditorContainer>
       </BasicStyle>
     )
   }
