@@ -15,7 +15,7 @@ import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import {
   FiCircle,
   FiClock,
@@ -26,7 +26,19 @@ import {
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
-export default function HeaderLinksMenu(props: MenuButtonProps) {
+export interface HeaderLink {
+  to: string
+  label: string
+  icon: ReactElement
+  exact?: boolean
+  bg?: string
+}
+
+interface Props extends MenuButtonProps {
+  links?: HeaderLink[]
+}
+
+export default function HeaderLinksMenu({ links, ...props }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
   const role = useOrgRole()
 
@@ -77,6 +89,18 @@ export default function HeaderLinksMenu(props: MenuButtonProps) {
 
       <Portal>
         <MenuList zIndex={10} shadow="lg">
+          {links?.map((link, i) => (
+            <MenuItem
+              key={i}
+              as={Link}
+              to={link.to}
+              icon={link.icon}
+              bg={link.bg}
+            >
+              {link.label}
+            </MenuItem>
+          ))}
+
           {role === ClaimRole.Admin && (
             <>
               <MenuItem
@@ -85,9 +109,13 @@ export default function HeaderLinksMenu(props: MenuButtonProps) {
               >
                 Paramètres
               </MenuItem>
-              <Link to={`/orgs/${orgId}/members`}>
-                <MenuItem icon={<FiUsers />}>Membres</MenuItem>
-              </Link>
+              <MenuItem
+                as={Link}
+                to={`/orgs/${orgId}/members`}
+                icon={<FiUsers />}
+              >
+                Membres
+              </MenuItem>
             </>
           )}
           <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
@@ -100,9 +128,9 @@ export default function HeaderLinksMenu(props: MenuButtonProps) {
             Templates de réunion
           </MenuItem>
           {role === ClaimRole.Admin && (
-            <Link to={`/orgs/${orgId}/logs`}>
-              <MenuItem icon={<FiClock />}>Historique</MenuItem>
-            </Link>
+            <MenuItem as={Link} to={`/orgs/${orgId}/logs`} icon={<FiClock />}>
+              Historique
+            </MenuItem>
           )}
         </MenuList>
       </Portal>

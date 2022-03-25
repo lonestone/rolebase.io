@@ -26,7 +26,7 @@ import {
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
-import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
@@ -228,8 +228,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                         </Radio>
                         {typeof link === 'string' && (
                           <StackItem pl={6}>
-                            <EntityButtonCombobox
-                              circles
+                            <CircleSearchInput
                               value={link !== tmpCircleId ? link : undefined}
                               onChange={(value) => setValue('link', value)}
                             />

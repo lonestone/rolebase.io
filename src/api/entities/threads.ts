@@ -1,3 +1,4 @@
+import { MembersScope } from '@shared/member'
 import { Thread } from '@shared/thread'
 import { Optional } from '@shared/types'
 import { query, Timestamp, where } from 'firebase/firestore'
@@ -7,10 +8,17 @@ import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 export const collection = getCollection<Thread>('threads')
 
 const methods = getEntityMethods(collection, {
-  createTransform: (thread: Optional<Thread, 'createdAt' | 'archived'>) => ({
+  createTransform: (
+    thread: Optional<
+      Thread,
+      'createdAt' | 'archived' | 'participantsScope' | 'participantsMembersIds'
+    >
+  ) => ({
     ...thread,
     archived: false,
     createdAt: Timestamp.now(),
+    participantsScope: MembersScope.CircleLeaders,
+    participantsMembersIds: [],
   }),
 })
 export const getThread = methods.get

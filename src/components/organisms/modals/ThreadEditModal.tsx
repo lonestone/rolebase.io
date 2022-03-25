@@ -19,7 +19,7 @@ import {
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
 import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
-import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
@@ -150,8 +150,7 @@ export default function ThreadEditModal({
                   name="circleId"
                   control={control}
                   render={({ field }) => (
-                    <EntityButtonCombobox
-                      circles
+                    <CircleSearchInput
                       value={field.value}
                       onChange={field.onChange}
                     />

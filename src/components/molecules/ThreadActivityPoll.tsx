@@ -92,9 +92,9 @@ export default function ThreadActivityPoll({ activity }: Props) {
           alignItems="flex-start"
           flexDirection="column"
         >
-          <Markdown fontSize="1.2rem" fontWeight={500}>
-            {activity.question}
-          </Markdown>
+          <Box fontSize="1.2rem" fontWeight={500}>
+            <Markdown>{activity.question}</Markdown>
+          </Box>
 
           {loading && <Loading active size="md" />}
           <TextErrors errors={[error]} />

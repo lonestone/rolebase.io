@@ -65,7 +65,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Ajouter une organisation</ModalHeader>
+          <ModalHeader>Créer une organisation</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>

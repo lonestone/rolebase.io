@@ -23,7 +23,8 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
-import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
+import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import TaskItem from '@components/molecules/TaskItem'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -139,22 +140,14 @@ export default function TasksPage() {
       {assignation === AssignationFilters.Member && (
         <HStack mb={5}>
           <StackItem>Membre :</StackItem>
-          <EntityButtonCombobox
-            members
-            value={memberId}
-            onChange={setMemberId}
-          />
+          <MemberSearchInput value={memberId} onChange={setMemberId} />
         </HStack>
       )}
 
       {assignation === AssignationFilters.Circle && (
         <HStack mb={5}>
           <StackItem>Cercle / Rôle :</StackItem>
-          <EntityButtonCombobox
-            circles
-            value={circleId}
-            onChange={setCircleId}
-          />
+          <CircleSearchInput value={circleId} onChange={setCircleId} />
         </HStack>
       )}
 

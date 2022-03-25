@@ -1,23 +1,31 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, ButtonProps } from '@chakra-ui/react'
 import React from 'react'
-import { FiMessageSquare, FiSquare } from 'react-icons/fi'
-import { SearchItem, SearchItemTypes } from '../molecules/search/searchItems'
+import { FiMessageSquare, FiPlus, FiSquare } from 'react-icons/fi'
+import { SearchItem, SearchItemTypes } from './searchTypes'
 
-interface ComboboxItemProps extends ButtonProps {
+interface Props extends ButtonProps {
   item: SearchItem
   highlighted: boolean
 }
 
-const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
+const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
   ({ item, highlighted, ...buttonProps }, ref) => {
     return (
       <Button
         isActive={highlighted}
         ref={ref}
         pointerEvents="auto"
+        justifyContent="start"
         {...buttonProps}
       >
+        {item.type === SearchItemTypes.CreateAction && (
+          <>
+            <FiPlus />
+            <Box ml={2}>Créer "{item.text}"</Box>
+          </>
+        )}
+
         {item.type === SearchItemTypes.Circle &&
           item.circleRoles.map((circle, i) => (
             <React.Fragment key={circle.id}>
@@ -76,6 +84,6 @@ const ComboboxItem = React.forwardRef<HTMLButtonElement, ComboboxItemProps>(
   }
 )
 
-ComboboxItem.displayName = 'ComboboxItem'
+SearchResultItem.displayName = 'SearchResultItem'
 
-export default ComboboxItem
+export default SearchResultItem

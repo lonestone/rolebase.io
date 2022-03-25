@@ -1,45 +1,56 @@
 import {
+  Box,
   Button,
   Input,
   InputGroup,
   InputLeftElement,
+  List,
   ListItem,
   useColorMode,
 } from '@chakra-ui/react'
-import ComboboxList from '@components/atoms/ComboboxList'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { ReactNode, useCallback, useRef } from 'react'
-import ComboboxItem from '../../atoms/ComboboxItem'
-import { SearchItem } from './searchItems'
+import SearchResultItem from './SearchResultItem'
+import { SearchItem, SearchItemTypes } from './searchTypes'
 import { useSearch } from './useSearch'
-import { SearchOptions, useSearchItems } from './useSearchItems'
 
 const maxDisplayedItems = 25
 
-interface Props extends SearchOptions {
+export interface SearchButtonProps {
   children: ReactNode
+  items: SearchItem[]
   size?: 'sm' | 'md' | 'lg'
   leftIcon?: React.ReactElement
-  onSelect(item: SearchItem): void
+  onSelect(id: string): void
+  onCreate?(name: string): Promise<string>
 }
 
-export default function SearchButtonCombobox({
+export default function SearchButton({
   children,
+  items,
   size,
   leftIcon,
   onSelect,
-  ...options
-}: Props) {
+  onCreate,
+}: SearchButtonProps) {
   const { colorMode } = useColorMode()
-  const items = useSearchItems(options)
-  const { filteredItems, onInputValueChange } = useSearch(items, false)
+  const { filteredItems, onInputValueChange } = useSearch(items, false, true)
 
   const onSelectedItemChange = useCallback(
-    (changes: UseComboboxStateChange<SearchItem>) => {
+    async (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
       closeMenu()
-      onSelect(item)
+
+      if (onCreate && item.type === SearchItemTypes.CreateAction) {
+        // Create entity then select it
+        const id = await onCreate(item.text)
+        onSelect(id)
+      } else {
+        // Select existing entity
+        onSelect(item.id)
+      }
+
       selectItem(undefined as any)
       setInputValue('')
       buttonRef.current?.focus()
@@ -86,7 +97,7 @@ export default function SearchButtonCombobox({
   }
 
   return (
-    <div style={{ position: 'relative' }} {...getComboboxProps()}>
+    <Box position="relative" {...getComboboxProps()}>
       <InputGroup size={size}>
         {!isOpen && (
           <Button ref={buttonRef} leftIcon={leftIcon} onClick={handleClick}>
@@ -99,32 +110,34 @@ export default function SearchButtonCombobox({
         <Input
           type="text"
           placeholder={children}
-          style={{ display: isOpen ? 'block' : 'none' }}
+          display={isOpen ? '' : 'none'}
           {...inputProps}
         />
       </InputGroup>
 
-      <ComboboxList
-        isOpen={isOpen}
+      <List
         {...getMenuProps({}, { suppressRefError: true })}
+        display={isOpen ? '' : 'none'}
         position="absolute"
         zIndex="2"
+        pt={1}
+        shadow="md"
+        bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
         pointerEvents="none"
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
           <ListItem key={index}>
-            <ComboboxItem
+            <SearchResultItem
+              {...getItemProps({ item, index })}
               item={item}
               highlighted={index === highlightedIndex}
-              {...getItemProps({ item, index })}
               size={size}
-              shadow="md"
-              bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
+              w="100%"
               _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
             />
           </ListItem>
         ))}
-      </ComboboxList>
-    </div>
+      </List>
+    </Box>
   )
 }

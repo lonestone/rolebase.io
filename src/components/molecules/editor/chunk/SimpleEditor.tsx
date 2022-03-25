@@ -7,7 +7,7 @@ import BasicStyle from '@components/atoms/BasicStyle'
 import RichMarkdownEditor from '@rolebase/editor'
 import light, { dark } from '@rolebase/editor/dist/styles/theme'
 import React, { forwardRef, useCallback } from 'react'
-import MarkdownEditorContainer from './MarkdownEditorContainer'
+import EditorContainer from './EditorContainer'
 import useFileUpload from './useFileUpload'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 
@@ -52,7 +52,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
 
     return (
       <BasicStyle>
-        <MarkdownEditorContainer colorMode={colorMode} {...formControlProps}>
+        <EditorContainer colorMode={colorMode} {...formControlProps}>
           <RichMarkdownEditor
             ref={editorRef}
             value={value}
@@ -65,7 +65,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
             onSave={handleSave}
             uploadImage={handleUpload}
           />
-        </MarkdownEditorContainer>
+        </EditorContainer>
       </BasicStyle>
     )
   }

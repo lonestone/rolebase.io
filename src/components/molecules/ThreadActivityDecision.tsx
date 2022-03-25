@@ -52,9 +52,9 @@ export default function ThreadActivityDecision({ activity }: Props) {
           <CircleByIdButton circleId={activity.circleId} />
         </HStack>
         <VStack spacing={3} p={3} align="stretch">
-          <Markdown flex={1} fontSize="1.2rem" fontWeight={500}>
-            {activity.decision}
-          </Markdown>
+          <Box flex={1} fontSize="1.2rem" fontWeight={500}>
+            <Markdown>{activity.decision}</Markdown>
+          </Box>
           <Markdown>{activity.explanation}</Markdown>
         </VStack>
       </Box>

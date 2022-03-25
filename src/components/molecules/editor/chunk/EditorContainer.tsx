@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { ColorModeProps, mode } from 'src/utils'
 
 // Custom styles
-const MarkdownEditorContainer = styled.div<ColorModeProps>`
+const EditorContainer = styled.div<ColorModeProps>`
   // Borders and background
   .ProseMirror {
     padding: var(--chakra-space-2) var(--chakra-space-4);
@@ -18,6 +18,11 @@ const MarkdownEditorContainer = styled.div<ColorModeProps>`
   &[aria-invalid='true'] .ProseMirror {
     border-color: ${mode('#e53e3e', '#FC8181')};
     box-shadow: 0 0 0 1px ${mode('#e53e3e', '#FC8181')};
+  }
+  [readonly] .ProseMirror {
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
   }
 
   .ProseMirror {
@@ -98,4 +103,4 @@ const MarkdownEditorContainer = styled.div<ColorModeProps>`
   }
 `
 
-export default MarkdownEditorContainer
+export default EditorContainer

@@ -39,7 +39,8 @@ import MeetingStepsConfigController, {
   StepsValues,
 } from '@components/molecules/MeetingStepsConfigController'
 import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
-import EntityButtonCombobox from '@components/molecules/search/EntityButtonCombobox'
+import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
+import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
@@ -317,9 +318,8 @@ export default function MeetingEditModal({
                   name="circleId"
                   control={control}
                   render={({ field }) => (
-                    <EntityButtonCombobox
-                      circles
-                      circlesSingleMember={false}
+                    <CircleSearchInput
+                      singleMember={false}
                       value={field.value}
                       onChange={field.onChange}
                     />
@@ -366,9 +366,8 @@ export default function MeetingEditModal({
                     name="facilitatorMemberId"
                     control={control}
                     render={({ field }) => (
-                      <EntityButtonCombobox
-                        members
-                        membersOverride={participantsMembers}
+                      <MemberSearchInput
+                        members={participantsMembers}
                         value={field.value}
                         onChange={field.onChange}
                       />

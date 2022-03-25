@@ -6,12 +6,14 @@ import TasksMultiSelect from './TasksMultiSelect'
 
 interface Props {
   meetingId: string
+  circleId: string
   step: WithId<MeetingStepTasks>
   editable?: boolean
 }
 
 export default function MeetingStepContentTasks({
   meetingId,
+  circleId,
   step,
   editable,
 }: Props) {
@@ -27,6 +29,7 @@ export default function MeetingStepContentTasks({
   return (
     <TasksMultiSelect
       tasksIds={step.tasksIds}
+      circleId={circleId}
       onChange={editable ? handleChange : undefined}
     />
   )

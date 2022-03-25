@@ -1,36 +1,11 @@
 import { BoxProps } from '@chakra-ui/react'
-import marked, { MarkedOptions } from 'marked'
+import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
 import React from 'react'
-import BasicStyle from './BasicStyle'
 
 interface Props extends BoxProps {
   children: string
 }
 
-// Add target="_blank" to external links
-// https://github.com/markedjs/marked/issues/655
-const renderer = new marked.Renderer()
-const linkRenderer = renderer.link
-renderer.link = (href: string, title: string, text: string) => {
-  const localLink = href.startsWith(
-    `${location.protocol}//${location.hostname}`
-  )
-  const html = linkRenderer.call(renderer, href, title, text)
-  return localLink ? html : html.replace(/^<a /, `<a target="_blank" `)
-}
-
-const options: MarkedOptions = {
-  renderer,
-  breaks: true,
-}
-
-export default function Markdown({ children, ...boxProps }: Props) {
-  return (
-    <BasicStyle
-      {...boxProps}
-      dangerouslySetInnerHTML={{
-        __html: marked(children, options),
-      }}
-    />
-  )
+export default function Markdown({ children }: Props) {
+  return <MarkdownEditor value={children} readOnly />
 }

@@ -2,7 +2,6 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
-  KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
@@ -11,11 +10,7 @@ import {
   restrictToParentElement,
   restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import React, { useCallback } from 'react'
 import * as yup from 'yup'
 
@@ -37,9 +32,6 @@ export default function SortableList({ items, children, onDragEnd }: Props) {
       activationConstraint: {
         distance: 2,
       },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
     })
   )
 

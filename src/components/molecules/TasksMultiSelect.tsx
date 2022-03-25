@@ -7,8 +7,7 @@ import { TaskEntry } from '@shared/task'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import SearchButtonCombobox from './search/SearchButtonCombobox'
-import { SearchItem, SearchItemTypes } from './search/searchItems'
+import TaskSearchButton from './search/entities/tasks/TaskSearchButton'
 import SortableList from './SortableList'
 import TaskSortableItem from './TaskSortableItem'
 
@@ -45,11 +44,7 @@ export default function TasksMultiSelect({
   }, [tasksIds, tasks])
 
   const handleAdd = useCallback(
-    (item: SearchItem) => {
-      if (item.type === SearchItemTypes.Task) {
-        onChange?.([...tasksIds, item.task.id])
-      }
-    },
+    (id: string) => onChange?.([...tasksIds, id]),
     [tasksIds, onChange]
   )
 
@@ -89,16 +84,16 @@ export default function TasksMultiSelect({
 
       {onChange && (!max || selectedTasks.length < max) ? (
         <Box mt={2}>
-          <SearchButtonCombobox
-            tasks
-            tasksOverride={tasks}
+          <TaskSearchButton
+            tasks={tasks || []}
+            createCircleId={circleId}
             excludeIds={tasksIds}
             size="sm"
             leftIcon={<FiPlus />}
             onSelect={handleAdd}
           >
             {max === 1 ? 'Choisir une tâche' : 'Ajouter une tâche'}
-          </SearchButtonCombobox>
+          </TaskSearchButton>
         </Box>
       ) : null}
     </>
