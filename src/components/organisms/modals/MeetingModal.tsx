@@ -18,7 +18,15 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
   const orgId = useStoreState((state) => state.orgs.currentId)
 
   return (
-    <Modal size="3xl" autoFocus={false} {...modalProps}>
+    <Modal
+      size="3xl"
+      autoFocus={false}
+      trapFocus={
+        /* Prevent a bug with the editor toolbar scrolling to top on click */
+        false
+      }
+      {...modalProps}
+    >
       <ModalOverlay />
       <ModalContent>
         <MeetingContent
