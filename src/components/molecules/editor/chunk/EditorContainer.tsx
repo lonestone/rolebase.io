@@ -8,7 +8,15 @@ const EditorContainer = styled.div<ColorModeProps>`
     padding: var(--chakra-space-2) var(--chakra-space-4);
     border-width: 1px;
     border-radius: 6px;
-    overflow: hidden; // Force to contain floating elements
+
+    //overflow: hidden;
+    // Force to contain floating elements
+    // https://www.cssmojo.com/latest-new-clearfix-so-far/#why-is-that
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
 
     &.ProseMirror-focused {
       border-color: ${mode('#3182ce', '#63b3ed')};

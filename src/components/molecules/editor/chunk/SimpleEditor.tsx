@@ -5,7 +5,6 @@ import {
 } from '@chakra-ui/react'
 import BasicStyle from '@components/atoms/BasicStyle'
 import RichMarkdownEditor from '@rolebase/editor'
-import light, { dark } from '@rolebase/editor/dist/styles/theme'
 import React, { forwardRef, useCallback } from 'react'
 import EditorContainer from './EditorContainer'
 import useFileUpload from './useFileUpload'
@@ -60,7 +59,6 @@ const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
             autoFocus={autoFocus}
             readOnly={readOnly}
             dark={colorMode === 'dark'}
-            theme={colorMode === 'light' ? light : dark}
             onBlur={handleBlur}
             onSave={handleSave}
             uploadImage={handleUpload}

@@ -17,7 +17,11 @@ export default function TaskLink({ id, name, ...butonsProps }: Props) {
 
   return (
     <>
-      <Link to={`/orgs/${orgId}/tasks/${id}`} onClick={handleOpen}>
+      <Link
+        to={`/orgs/${orgId}/tasks/${id}`}
+        tabIndex={-1}
+        onClick={handleOpen}
+      >
         <Button
           variant="link"
           color="inherit"

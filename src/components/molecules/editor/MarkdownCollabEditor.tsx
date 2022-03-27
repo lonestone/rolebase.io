@@ -8,13 +8,11 @@ const Editor = lazy(() =>
 )
 
 const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
-  (props, ref) => {
-    return (
-      <Suspense fallback={null}>
-        <Editor ref={ref} {...props} />
-      </Suspense>
-    )
-  }
+  (props, ref) => (
+    <Suspense fallback={null}>
+      <Editor ref={ref} {...props} />
+    </Suspense>
+  )
 )
 
 MarkdownCollabEditor.displayName = 'MarkdownCollabEditor'

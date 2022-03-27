@@ -58,12 +58,8 @@
     "react-hook-form": "^7.28.0",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
-    "@rolebase/editor": "^11.21.3",
     "slugify": "^1.6.5",
     "styled-components": "^5.3.3",
-    "y-prosemirror": "^1.0.15",
-    "y-webrtc": "^10.2.2",
-    "yjs": "^13.5.28",
     "yup": "^0.32.11"
   },
   "devDependencies": {

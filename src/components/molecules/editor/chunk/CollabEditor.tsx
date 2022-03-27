@@ -3,19 +3,16 @@ import {
   useColorMode,
   useFormControl,
 } from '@chakra-ui/react'
+import { randomColor } from '@chakra-ui/theme-tools'
 import BasicStyle from '@components/atoms/BasicStyle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
-import RichMarkdownEditor from '@rolebase/editor'
-import light, { dark } from '@rolebase/editor/dist/styles/theme'
+import RichMarkdownEditor, { YCollab } from '@rolebase/editor'
 import { Bytes } from 'firebase/firestore'
 import throttle from 'lodash.throttle'
 import React, { forwardRef, useCallback, useEffect, useMemo } from 'react'
-import { prosemirrorToYDoc } from 'y-prosemirror'
-import * as Y from 'yjs'
-import useFileUpload from '../chunk/useFileUpload'
-import { YCollabExtension } from '../chunk/YCollabExtension'
 import EditorContainer from './EditorContainer'
+import useFileUpload from './useFileUpload'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 
 // Collaborative Markdown editor
@@ -52,7 +49,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
     const { handleUpload } = useFileUpload()
 
     // Connect provider and get context
-    const collabPlugin = useMemo(() => new YCollabExtension(docId), [docId])
+    const collabPlugin = useMemo(() => new YCollab(docId), [docId])
 
     // Stop collab on unmount
     useEffect(() => () => collabPlugin.stop(), [docId])
@@ -61,25 +58,23 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
     useEffect(() => {
       if (updates) {
         // Apply saved updates
-        Y.applyUpdate(collabPlugin.ydoc, updates.toUint8Array())
+        collabPlugin.applyUpdates(updates.toUint8Array())
       } else {
-        const editor = editorRef.current
-        if (!editor) return
-
         // Compute and apply updates from value
-        const tmpYdoc = prosemirrorToYDoc(editor.createState(value).doc)
-        const state = Y.encodeStateAsUpdate(tmpYdoc)
-        Y.applyUpdate(collabPlugin.ydoc, state)
+        collabPlugin.applyValue(value)
 
         // Save updates
-        onSave?.(getValue(), state)
+        onSave?.(getValue(), collabPlugin.getUpdates())
       }
     }, [docId])
 
     // Update member name
     useEffect(() => {
       if (!currentMember) return
-      collabPlugin.setUserName(currentMember.name)
+      collabPlugin.setUserName(
+        currentMember.name,
+        randomColor({ string: currentMember.name })
+      )
     }, [currentMember?.name])
 
     // Prevent from changing page when dirty
@@ -87,7 +82,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
 
     // Save now
     const handleSave = useCallback(() => {
-      onSave?.(getValue(), Y.encodeStateAsUpdate(collabPlugin.ydoc))
+      onSave?.(getValue(), collabPlugin.getUpdates())
       allowClose()
     }, [docId])
 
@@ -117,7 +112,6 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
             autoFocus={autoFocus}
             readOnly={readOnly}
             dark={colorMode === 'dark'}
-            theme={colorMode === 'light' ? light : dark}
             extensions={[collabPlugin]}
             onChange={handleChange}
             onSave={handleSave}

@@ -1,16 +1,10 @@
 import RichMarkdownEditor from '@rolebase/editor'
-import light, { dark } from '@rolebase/editor/dist/styles/theme'
 import { ForwardedRef, useImperativeHandle, useRef } from 'react'
 
 export interface MarkdownEditorHandle {
   setValue(value: string): void
   getValue(): string
 }
-
-// Override themes
-light.text = dark.text = 'inherit'
-light.background = dark.background = 'inherit'
-light.zIndex = dark.zIndex = 1400
 
 export default function useMarkdownEditor(
   ref: ForwardedRef<MarkdownEditorHandle>
