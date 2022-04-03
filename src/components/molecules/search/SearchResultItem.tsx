@@ -30,7 +30,7 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
           item.circleRoles.map((circle, i) => (
             <React.Fragment key={circle.id}>
               {i !== 0 && <ChevronRightIcon />}
-              {circle.role?.name || '?'}
+              {circle.role.name}
             </React.Fragment>
           ))}
 
@@ -52,18 +52,18 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
             {item.circleRoles.map((circle, i) => (
               <React.Fragment key={circle.id}>
                 {i !== 0 && <ChevronRightIcon />}
-                {circle.role?.name || '?'}
+                {circle.role.name}
               </React.Fragment>
             ))}
 
             <Avatar
-              name={item.member.name || '?'}
+              name={item.member.name}
               src={item.member.picture || undefined}
               size="sm"
               ml={3}
               mr={2}
             />
-            {item.member.name || '?'}
+            {item.member.name}
           </>
         )}
 
