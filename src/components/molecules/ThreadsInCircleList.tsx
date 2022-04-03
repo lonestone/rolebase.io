@@ -11,9 +11,9 @@ import TextErrors from '@components/atoms/TextErrors'
 import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
 
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function ThreadsInCircleList({ circleId }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const hover = useHoverItemStyle()
 
   // Subscribe to threads

@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
-import { useStoreState } from '@store/hooks'
+import { useOrgId } from '@hooks/useOrgId'
 import React, { useCallback, useState } from 'react'
 import Cropper from 'react-easy-crop'
 import { Area } from 'react-easy-crop/types'
@@ -40,7 +40,7 @@ export default function MemberPictureCropModal({
   ...modalProps
 }: Props) {
   const toast = useToast()
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   const imageSrc = useAsyncMemo(() => readFile(file), [file], null)
   const [crop, setCrop] = useState({ x: 0, y: 0 })

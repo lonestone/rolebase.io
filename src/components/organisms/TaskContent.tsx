@@ -25,10 +25,10 @@ import MemberSearchInput from '@components/molecules/search/entities/members/Mem
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { EntityChangeType, LogType } from '@shared/log'
-import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -73,7 +73,7 @@ export default function TaskContent({
   ...boxProps
 }: Props) {
   const createLog = useCreateLog()
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const updateTaskStatus = useUpdateTaskStatus()
 

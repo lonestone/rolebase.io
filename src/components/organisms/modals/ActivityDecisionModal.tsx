@@ -16,6 +16,7 @@ import {
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useOrgId } from '@hooks/useOrgId'
 import { ActivityDecision, ActivityType } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
@@ -50,7 +51,7 @@ export default function ActivityDecisionModal({
   ...modalProps
 }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   const {
     handleSubmit,

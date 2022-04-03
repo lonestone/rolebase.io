@@ -2,6 +2,7 @@ import { createActivity } from '@api/entities/activities'
 import { Button, HStack, Spacer } from '@chakra-ui/react'
 import ActivityDecisionModal from '@components/organisms/modals/ActivityDecisionModal'
 import ActivityPollModal from '@components/organisms/modals/ActivityPollModal'
+import { useOrgId } from '@hooks/useOrgId'
 import { ActivityType } from '@shared/activity'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
@@ -16,7 +17,7 @@ interface Props {
 
 export default function ThreadActivityCreate({ thread }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const editorRef = useRef<MarkdownEditorHandle>(null)
 
   // Create modal

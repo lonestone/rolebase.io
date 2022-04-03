@@ -44,12 +44,12 @@ import MemberSearchInput from '@components/molecules/search/entities/members/Mem
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
+import { useOrgId } from '@hooks/useOrgId'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/meeting'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import { MembersScope } from '@shared/member'
-import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
@@ -104,7 +104,7 @@ export default function MeetingEditModal({
   onCreate,
   ...modalProps
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
 
   // Default date is tomorrow 8:00

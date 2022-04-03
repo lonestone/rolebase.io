@@ -5,9 +5,9 @@ import {
 import { Box, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { ThreadEntry } from '@shared/thread'
-import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import ThreadSearchButton from './search/entities/threads/ThreadSearchButton'
@@ -27,7 +27,7 @@ export default function ThreadsMultiSelect({
   max,
   onChange,
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   // Subscribe threads
   const subscribe = orgId

@@ -3,9 +3,9 @@ import { Button, useDisclosure, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import TaskModal from '@components/organisms/modals/TaskModal'
+import { useOrgId } from '@hooks/useOrgId'
 import { useSortedTasks } from '@hooks/useSortedTasks'
 import useSubscription from '@hooks/useSubscription'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { FiPlus } from 'react-icons/fi'
 import TaskItem from './TaskItem'
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function TasksInCircleList({ circleId }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   // Subscribe to tasks
   const { data, error, loading } = useSubscription(

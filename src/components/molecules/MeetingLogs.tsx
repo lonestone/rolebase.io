@@ -2,8 +2,8 @@ import { subscribeLogsByMeeting } from '@api/entities/logs'
 import { Heading } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import LogsList from './LogsList'
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function MeetingLogs({ meetingId }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   const subscribeLogs = orgId
     ? subscribeLogsByMeeting(orgId, meetingId)

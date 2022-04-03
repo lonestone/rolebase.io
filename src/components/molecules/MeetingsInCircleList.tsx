@@ -13,8 +13,8 @@ import TextErrors from '@components/atoms/TextErrors'
 import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
-import { useStoreState } from '@store/hooks'
 import { format, isSameDay } from 'date-fns'
 import React, { useState } from 'react'
 import { FiCalendar, FiPlus } from 'react-icons/fi'
@@ -26,7 +26,7 @@ interface Props {
 }
 
 export default function MeetingsInCircleList({ circleId }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const hover = useHoverItemStyle()
 
   const {

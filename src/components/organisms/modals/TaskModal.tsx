@@ -5,7 +5,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
-import { useStoreState } from '@store/hooks'
+import { useOrgId } from '@hooks/useOrgId'
 import React from 'react'
 import TaskContent from '../TaskContent'
 import ModalCloseStaticButton from './ModalCloseStaticButton'
@@ -22,7 +22,7 @@ export default function TaskModal({
   defaultMemberId,
   ...modalProps
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   return (
     <Modal size="xl" autoFocus={false} {...modalProps}>

@@ -23,8 +23,8 @@ import MeetingStepsConfigController, {
   StepsValues,
 } from '@components/molecules/MeetingStepsConfigController'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useOrgId } from '@hooks/useOrgId'
 import { MeetingTempalteEntry } from '@shared/meetingTemplate'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -48,7 +48,7 @@ export default function MeetingTemplateModal({
   meetingTemplate,
   ...modalProps
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   const {
     handleSubmit,

@@ -1,7 +1,7 @@
 import { createTask } from '@api/entities/tasks'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import { TaskEntry } from '@shared/task'
-import { useStoreState } from '@store/hooks'
 import React, { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useTaskSearchItems } from './useTaskSearchItems'
@@ -19,7 +19,7 @@ export default function TaskSearchButton({
   ...props
 }: Props) {
   const items = useTaskSearchItems(tasks, excludeIds)
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
 
   const handleCreate = useCallback(

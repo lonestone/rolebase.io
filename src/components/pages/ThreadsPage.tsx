@@ -26,15 +26,15 @@ import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { EntityFilters } from '@shared/types'
-import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { FiChevronDown, FiMessageSquare, FiPlus } from 'react-icons/fi'
 
 export default function ThreadsPage() {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const hover = useHoverItemStyle()
 
   // Circles filter menu

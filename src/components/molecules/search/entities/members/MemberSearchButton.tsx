@@ -1,10 +1,10 @@
 import { createMember } from '@api/entities/members'
 import useCreateLog from '@hooks/useCreateLog'
+import { useOrgId } from '@hooks/useOrgId'
 import { useOrgRole } from '@hooks/useOrgRole'
 import { EntityChangeType, LogType } from '@shared/log'
 import { MemberEntry } from '@shared/member'
 import { ClaimRole } from '@shared/userClaims'
-import { useStoreState } from '@store/hooks'
 import React, { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useMemberSearchItems } from './useMemberSearchItems'
@@ -20,7 +20,7 @@ export default function MemberSearchButton({
   ...props
 }: Props) {
   const items = useMemberSearchItems(members, excludeIds)
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const role = useOrgRole()
   const createLog = useCreateLog()
 

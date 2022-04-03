@@ -1,5 +1,6 @@
 import { useColorMode } from '@chakra-ui/react'
 import styled from '@emotion/styled'
+import { useOrgId } from '@hooks/useOrgId'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useRef, useState } from 'react'
 import { mainColor } from 'src/theme'
@@ -59,7 +60,7 @@ export default function CirclesGraph({
   const { colorMode } = useColorMode()
 
   // Data
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const circles = useStoreState((state) => state.circles.entries)
   const members = useStoreState((state) => state.members.entries)
   const roles = useStoreState((state) => state.roles.entries)

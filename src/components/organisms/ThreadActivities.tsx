@@ -13,9 +13,9 @@ import TextErrors from '@components/atoms/TextErrors'
 import ThreadDaySeparator from '@components/atoms/ThreadDaySeparator'
 import ThreadActivity from '@components/molecules/ThreadActivity'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { MemberThreadStatus } from '@shared/member'
-import { useStoreState } from '@store/hooks'
 import { isSameDay } from 'date-fns'
 import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
@@ -23,7 +23,7 @@ import { ThreadContext } from 'src/contexts/ThreadContext'
 
 const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
   (stackProps, ref) => {
-    const orgId = useStoreState((state) => state.orgs.currentId)
+    const orgId = useOrgId()
     const thread = useContext(ThreadContext)
     const currentMember = useCurrentMember()
 

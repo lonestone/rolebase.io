@@ -12,9 +12,9 @@ import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
 import MeetingTemplatesModal from '@components/organisms/modals/MeetingTemplatesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
+import { useOrgId } from '@hooks/useOrgId'
 import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
-import { useStoreState } from '@store/hooks'
 import React, { ReactElement, useState } from 'react'
 import {
   FiCircle,
@@ -39,7 +39,7 @@ interface Props extends MenuButtonProps {
 }
 
 export default function HeaderLinksMenu({ links, ...props }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const role = useOrgRole()
 
   // Edit modal

@@ -28,9 +28,9 @@ import MemberSearchInput from '@components/molecules/search/entities/members/Mem
 import TaskItem from '@components/molecules/TaskItem'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import { useSortedTasks } from '@hooks/useSortedTasks'
 import useSubscription from '@hooks/useSubscription'
-import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
@@ -41,7 +41,7 @@ enum AssignationFilters {
 }
 
 export default function TasksPage() {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
 
   // Assignation filter menu

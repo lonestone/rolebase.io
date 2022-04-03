@@ -2,9 +2,9 @@ import { subscribeAllTasks, subscribeTasksByCircle } from '@api/entities/tasks'
 import { Box, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { TaskEntry } from '@shared/task'
-import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import TaskSearchButton from './search/entities/tasks/TaskSearchButton'
@@ -24,7 +24,7 @@ export default function TasksMultiSelect({
   max,
   onChange,
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   // Subscribe tasks
   const subscribe = orgId

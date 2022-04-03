@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useStoreState } from '@store/hooks'
+import { useOrgId } from '@hooks/useOrgId'
 import React from 'react'
 import CircleModalContent from './CircleModalContent'
 import MemberModalContent from './MemberModalContent'
@@ -22,7 +22,7 @@ export default function CircleMemberModal({
   memberId,
   ...modalProps
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const handleClose = useNormalClickHandler(modalProps.onClose, true)
 
   if (!circleId && !memberId) return null
