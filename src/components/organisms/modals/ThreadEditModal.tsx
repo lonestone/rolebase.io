@@ -24,10 +24,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
+import { useOrgId } from '@hooks/useOrgId'
 import useParticipants from '@hooks/useParticipants'
 import { MembersScope } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -58,7 +58,7 @@ export default function ThreadEditModal({
   ...modalProps
 }: Props) {
   const navigateOrg = useNavigateOrg()
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
 
   const {

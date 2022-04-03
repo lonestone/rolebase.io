@@ -23,7 +23,7 @@ export function useCircleMemberSearchItems(): SearchItem[] {
 
             const circleRolesText =
               circleRoles
-                .map((cr) => cr.role?.name || '?')
+                .map((cr) => cr.role.name)
                 .join(' > ')
                 .toLowerCase() + ' '
 

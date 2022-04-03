@@ -23,7 +23,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import useCallbackState from '@hooks/useCallbackState'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { useStoreState } from '@store/hooks'
+import { useOrgId } from '@hooks/useOrgId'
 import React, { useEffect, useState } from 'react'
 
 enum ExportType {
@@ -33,7 +33,7 @@ enum ExportType {
 }
 
 export default function MeetingExportModal(modalProps: UseModalProps) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const member = useCurrentMember()
 
   const [exportType, setExportType] = useState<ExportType>(

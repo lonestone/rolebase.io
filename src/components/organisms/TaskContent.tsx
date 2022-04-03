@@ -22,17 +22,19 @@ import { Title } from '@components/atoms/Title'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
+import TaskStatusInput from '@components/molecules/TaskStatusInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { EntityChangeType, LogType } from '@shared/log'
-import { useStoreState } from '@store/hooks'
+import { TaskStatus } from '@shared/task'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { FiCheckSquare, FiSquare, FiTrash2 } from 'react-icons/fi'
+import { FiTrash2 } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 import TaskDeleteModal from './modals/TaskDeleteModal'
@@ -73,7 +75,7 @@ export default function TaskContent({
   ...boxProps
 }: Props) {
   const createLog = useCreateLog()
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const updateTaskStatus = useUpdateTaskStatus()
 
@@ -162,11 +164,14 @@ export default function TaskContent({
     }
   }, [dueDate])
 
-  // Toggle done status of a task
-  const handleToggleDone = useCallback(() => {
-    if (!task) return
-    updateTaskStatus(task, task.doneDate ? null : Timestamp.now())
-  }, [task])
+  // Change task status
+  const handleChangeStatus = useCallback(
+    (status: TaskStatus) => {
+      if (!task) return
+      updateTaskStatus(task, status)
+    },
+    [task]
+  )
 
   // Task deletion modal
   const {
@@ -185,16 +190,12 @@ export default function TaskContent({
         </Heading>
 
         {task && (
-          <Button
+          <TaskStatusInput
+            value={task.status}
+            onChange={handleChangeStatus}
             ml={5}
-            size="sm"
-            colorScheme="green"
-            variant={task.doneDate ? 'solid' : 'outline'}
-            leftIcon={task.doneDate ? <FiCheckSquare /> : <FiSquare />}
-            onClick={handleToggleDone}
-          >
-            {task.doneDate ? 'Terminé' : 'Terminer'}
-          </Button>
+            size="lg"
+          />
         )}
 
         <Spacer />

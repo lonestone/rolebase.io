@@ -11,7 +11,7 @@ export default function CircleButton({ circle, ...buttonProps }: Props) {
   return (
     <CircleMemberLink circleId={circle.id} tabIndex={-1}>
       <Button size="sm" borderRadius="full" {...buttonProps}>
-        {circle.role?.name || '?'}
+        {circle.role.name}
       </Button>
     </CircleMemberLink>
   )

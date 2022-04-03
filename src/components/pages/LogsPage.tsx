@@ -4,12 +4,12 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import LogsList from '@components/molecules/LogsList'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 
 export default function LogsPage() {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const subscribe = orgId ? subscribeLastLogs(orgId) : undefined
   const { data, error, loading } = useSubscription(subscribe)
 

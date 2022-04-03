@@ -1,16 +1,16 @@
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useStoreState } from '@store/hooks'
 import { useCallback, useContext, useMemo } from 'react'
 import {
   CircleMemberContext,
   getCircleMemberUrlSearch,
 } from 'src/contexts/CircleMemberContext'
+import { useOrgId } from './useOrgId'
 
 export default function useCircleMemberLink(
   circleId?: string,
   memberId?: string
 ) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const circleMemberContext = useContext(CircleMemberContext)
 
   const goToCircle = useCallback(() => {

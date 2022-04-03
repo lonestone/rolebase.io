@@ -7,13 +7,11 @@ const Editor = lazy(() =>
   import('./chunk/editor').then((v) => ({ default: v.SimpleEditor }))
 )
 
-const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>((props, ref) => {
-  return (
-    <Suspense fallback={null}>
-      <Editor ref={ref} {...props} />
-    </Suspense>
-  )
-})
+const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>((props, ref) => (
+  <Suspense fallback={null}>
+    <Editor ref={ref} {...props} />
+  </Suspense>
+))
 
 MarkdownEditor.displayName = 'MarkdownEditor'
 

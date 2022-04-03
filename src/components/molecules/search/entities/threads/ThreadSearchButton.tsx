@@ -1,7 +1,7 @@
 import { createThread } from '@api/entities/threads'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import { ThreadEntry } from '@shared/thread'
-import { useStoreState } from '@store/hooks'
 import React, { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useThreadSearchItems } from './useThreadSearchItems'
@@ -19,7 +19,7 @@ export default function ThreadSearchButton({
   ...props
 }: Props) {
   const items = useThreadSearchItems(threads, excludeIds)
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
 
   const handleCreate = useCallback(

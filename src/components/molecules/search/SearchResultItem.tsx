@@ -1,7 +1,8 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Avatar, Box, Button, ButtonProps } from '@chakra-ui/react'
+import { Avatar, Box, Button, ButtonProps, Tag } from '@chakra-ui/react'
 import React from 'react'
-import { FiMessageSquare, FiPlus, FiSquare } from 'react-icons/fi'
+import { FiMessageSquare, FiPlus } from 'react-icons/fi'
+import { taskStatusColors, taskStatusTexts } from '../TaskStatusInput'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 
 interface Props extends ButtonProps {
@@ -30,7 +31,7 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
           item.circleRoles.map((circle, i) => (
             <React.Fragment key={circle.id}>
               {i !== 0 && <ChevronRightIcon />}
-              {circle.role?.name || '?'}
+              {circle.role.name}
             </React.Fragment>
           ))}
 
@@ -52,18 +53,18 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
             {item.circleRoles.map((circle, i) => (
               <React.Fragment key={circle.id}>
                 {i !== 0 && <ChevronRightIcon />}
-                {circle.role?.name || '?'}
+                {circle.role.name}
               </React.Fragment>
             ))}
 
             <Avatar
-              name={item.member.name || '?'}
+              name={item.member.name}
               src={item.member.picture || undefined}
               size="sm"
               ml={3}
               mr={2}
             />
-            {item.member.name || '?'}
+            {item.member.name}
           </>
         )}
 
@@ -75,7 +76,9 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
         )}
         {item.type === SearchItemTypes.Task && (
           <>
-            <FiSquare />
+            <Tag colorScheme={taskStatusColors[item.task.status]}>
+              {taskStatusTexts[item.task.status]}
+            </Tag>
             <Box ml={2}>{item.task.title}</Box>
           </>
         )}

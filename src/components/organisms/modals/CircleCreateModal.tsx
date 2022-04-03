@@ -19,6 +19,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
+import { useOrgId } from '@hooks/useOrgId'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/log'
 import { RoleEntry } from '@shared/role'
 import { useStoreState } from '@store/hooks'
@@ -48,7 +49,7 @@ export default function CircleCreateModal({
   ...modalProps
 }: Props) {
   const circleMemberContext = useContext(CircleMemberContext)
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
   const parentCircle = useCircle(parentId ? parentId : undefined)

@@ -1,9 +1,9 @@
 import { uploadFile } from '@api/uploads'
-import { useStoreState } from '@store/hooks'
+import { useOrgId } from '@hooks/useOrgId'
 import { useCallback } from 'react'
 
 export default function useFileUpload() {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   const handleUpload = useCallback(
     async (file: File) => {

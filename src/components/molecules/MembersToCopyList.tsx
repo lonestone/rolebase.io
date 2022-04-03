@@ -1,6 +1,7 @@
 import { getMembers } from '@api/entities/members'
 import { VStack } from '@chakra-ui/layout'
 import MemberButton from '@components/atoms/MemberButton'
+import { useOrgId } from '@hooks/useOrgId'
 import { Member, MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import uniqBy from 'lodash.uniqby'
@@ -11,7 +12,7 @@ interface Props {
 }
 
 export default function MembersToCopyList({ onClick }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const orgs = useStoreState((state) => state.orgs.entries)
   const members = useStoreState((state) => state.members.entries)
   const [membersToCopy, setMembersToCopy] = useState<MemberEntry[]>([])

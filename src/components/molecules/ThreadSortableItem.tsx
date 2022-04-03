@@ -24,13 +24,17 @@ export default function ThreadSortableItem({
   return (
     <LinkBox
       key={thread.id}
-      px={2}
+      pr={1}
       py={1}
       _hover={hover}
       {...attributes}
       {...listeners}
+      tabIndex={
+        // Remove tabIndex because it's redondant with link
+        undefined
+      }
     >
-      <HStack spacing={3} align="stretch" alignItems="center">
+      <HStack>
         <FiMessageSquare />
         <ThreadLinkOverlay thread={thread} />
 

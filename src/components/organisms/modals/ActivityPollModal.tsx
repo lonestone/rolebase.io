@@ -32,6 +32,7 @@ import {
 import NumberInputController from '@components/atoms/NumberInputController'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { ActivityPoll, ActivityType, PollChoice } from '@shared/activity'
 import { WithId } from '@shared/types'
@@ -95,7 +96,7 @@ export default function ActivityPollModal({
   ...modalProps
 }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   // Answers
   const [acceptErasingAnswers, setAcceptErasingAnswers] = useState(false)

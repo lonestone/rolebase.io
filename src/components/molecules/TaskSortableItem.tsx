@@ -1,12 +1,13 @@
 import { CloseIcon } from '@chakra-ui/icons'
-import { Checkbox, HStack, IconButton, LinkBox } from '@chakra-ui/react'
+import { Flex, IconButton, LinkBox } from '@chakra-ui/react'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSortableItem from '@hooks/useSortableItem'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
-import { TaskEntry } from '@shared/task'
-import { Timestamp } from 'firebase/firestore'
+import { TaskEntry, TaskStatus } from '@shared/task'
 import React from 'react'
+import TaskStatusInput from './TaskStatusInput'
+
 interface Props {
   task: TaskEntry
   disabled: boolean
@@ -18,25 +19,35 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
   const { attributes, listeners } = useSortableItem(task.id, disabled)
   const updateTaskStatus = useUpdateTaskStatus()
 
-  const handleToggleDone = () => {
-    updateTaskStatus(task, task.doneDate ? null : Timestamp.now())
+  const handleChangeStatus = (status: TaskStatus) => {
+    updateTaskStatus(task, status)
   }
 
   return (
     <LinkBox
       key={task.id}
-      px={2}
+      pr={1}
       py={1}
       _hover={hover}
       {...attributes}
       {...listeners}
+      tabIndex={
+        // Remove tabIndex because it's redondant with link
+        undefined
+      }
+      zIndex={
+        // Remove zIndex to avoid conflict with TaskStatusInput
+        undefined
+      }
     >
-      <HStack spacing={3} align="stretch" alignItems="center">
-        <Checkbox
-          isChecked={!!task.doneDate}
+      <Flex align="center">
+        <TaskStatusInput
+          value={task.status}
+          onChange={handleChangeStatus}
           zIndex={2}
-          onChange={handleToggleDone}
+          mr={2}
         />
+
         <TaskLinkOverlay task={task} />
 
         {onRemove && (
@@ -49,7 +60,7 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
             onClick={() => onRemove(task.id)}
           />
         )}
-      </HStack>
+      </Flex>
     </LinkBox>
   )
 }

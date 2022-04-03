@@ -26,11 +26,16 @@ import { Title } from '@components/atoms/Title'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import TaskItem from '@components/molecules/TaskItem'
+import {
+  taskStatusColors,
+  taskStatusTexts,
+} from '@components/molecules/TaskStatusInput'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import { useSortedTasks } from '@hooks/useSortedTasks'
 import useSubscription from '@hooks/useSubscription'
-import { useStoreState } from '@store/hooks'
+import { TaskStatus } from '@shared/task'
 import React, { useState } from 'react'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
@@ -40,8 +45,12 @@ enum AssignationFilters {
   Circle = 'Circle',
 }
 
+const statusNotDone = 'NotDone'
+
+type StatusFilter = TaskStatus | typeof statusNotDone
+
 export default function TasksPage() {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const currentMember = useCurrentMember()
 
   // Assignation filter menu
@@ -49,8 +58,9 @@ export default function TasksPage() {
   const [memberId, setMemberId] = useState<string | undefined>()
   const [circleId, setCircleId] = useState<string | undefined>()
 
-  // Archives filter menu
-  const [doneFilter, setDoneFilter] = useState(false)
+  // Status filter menu
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(statusNotDone)
+  const status = statusFilter === statusNotDone ? undefined : statusFilter
 
   // Subscribe to threads
   const getSubscribeFn = () => {
@@ -58,13 +68,13 @@ export default function TasksPage() {
     switch (assignation) {
       case AssignationFilters.Mine:
         if (!currentMember) return
-        return subscribeTasksByMember(orgId, currentMember.id, doneFilter)
+        return subscribeTasksByMember(orgId, currentMember.id, status)
       case AssignationFilters.Member:
         if (!memberId) return
-        return subscribeTasksByMember(orgId, memberId, doneFilter)
+        return subscribeTasksByMember(orgId, memberId, status)
       case AssignationFilters.Circle:
         if (!circleId) return
-        return subscribeTasksByCircle(orgId, circleId, doneFilter)
+        return subscribeTasksByCircle(orgId, circleId, status)
     }
   }
   const { data, error, loading } = useSubscription(getSubscribeFn())
@@ -88,7 +98,11 @@ export default function TasksPage() {
           Tâches
         </Heading>
 
-        {doneFilter && <Tag ml={2}>Terminées</Tag>}
+        {status && (
+          <Tag colorScheme={taskStatusColors[status]} ml={2}>
+            {taskStatusTexts[status]}
+          </Tag>
+        )}
 
         <Spacer />
 
@@ -120,14 +134,19 @@ export default function TasksPage() {
             </MenuOptionGroup>
             <MenuDivider />
             <MenuOptionGroup
-              title="Terminées"
-              type="checkbox"
-              value={doneFilter ? ['done'] : []}
-              onChange={(value) => setDoneFilter(value.includes('done'))}
+              title="Statut"
+              type="radio"
+              value={statusFilter}
+              onChange={(value) => setStatusFilter(value as any)}
             >
-              <MenuItemOption value="done">
-                Afficher les tâches terminées
+              <MenuItemOption value={statusNotDone}>
+                Non terminée
               </MenuItemOption>
+              {(Object.keys(taskStatusTexts) as TaskStatus[]).map((status) => (
+                <MenuItemOption key={status} value={status}>
+                  {taskStatusTexts[status]}
+                </MenuItemOption>
+              ))}
             </MenuOptionGroup>
           </MenuList>
         </Menu>

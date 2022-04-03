@@ -93,7 +93,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                   <DurationSelect
                     size="sm"
                     placeholderValue={
-                      roleCircle.role?.defaultMinPerWeek ?? undefined
+                      roleCircle.role.defaultMinPerWeek ?? undefined
                     }
                     value={avgMinPerWeek}
                     onChange={setAvgMinPerWeek}

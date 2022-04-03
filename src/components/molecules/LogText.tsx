@@ -1,9 +1,11 @@
+import { Tag } from '@chakra-ui/react'
 import CircleLink from '@components/atoms/CircleLink'
 import MemberLink from '@components/atoms/MemberLink'
 import RoleEditLink from '@components/atoms/RoleEditLink'
 import TaskLink from '@components/atoms/TaskLink'
 import { LogEntry, LogType } from '@shared/log'
 import React from 'react'
+import { taskStatusColors, taskStatusTexts } from './TaskStatusInput'
 
 interface Props {
   log: LogEntry
@@ -116,7 +118,10 @@ export default function LogText({ log }: Props) {
         <>
           <MemberLink id={memberId} name={memberName} /> {texts[type]}{' '}
           <TaskLink id={log.display.id} name={log.display.name} />{' '}
-          {texts[type + 1]} {log.display.status}
+          {texts[type + 1]}{' '}
+          <Tag colorScheme={taskStatusColors[log.display.status]}>
+            {taskStatusTexts[log.display.status]}
+          </Tag>
         </>
       )
   }

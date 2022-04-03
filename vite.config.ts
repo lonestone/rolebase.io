@@ -8,9 +8,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
-  // optimizeDeps: {
-  //   include: [
-  //     'hoist-non-react-statics', // Fix for fullcalendar
-  //   ],
-  // },
+  optimizeDeps: {
+    include: ['@rolebase/editor'],
+  },
 })

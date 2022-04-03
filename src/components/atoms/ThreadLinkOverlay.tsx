@@ -1,8 +1,8 @@
 import { LinkOverlay, LinkOverlayProps, useDisclosure } from '@chakra-ui/react'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import { useOrgId } from '@hooks/useOrgId'
 import { ThreadEntry } from '@shared/thread'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -14,7 +14,7 @@ export default function ThreadLinkOverlay({
   thread,
   ...linkOverlayProps
 }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const handleOpen = useNormalClickHandler(onOpen)
 

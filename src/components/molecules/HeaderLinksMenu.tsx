@@ -5,16 +5,15 @@ import {
   MenuButtonProps,
   MenuItem,
   MenuList,
-  Portal,
   useDisclosure,
 } from '@chakra-ui/react'
 import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
 import MeetingTemplatesModal from '@components/organisms/modals/MeetingTemplatesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
+import { useOrgId } from '@hooks/useOrgId'
 import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
-import { useStoreState } from '@store/hooks'
 import React, { ReactElement, useState } from 'react'
 import {
   FiCircle,
@@ -39,7 +38,7 @@ interface Props extends MenuButtonProps {
 }
 
 export default function HeaderLinksMenu({ links, ...props }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const role = useOrgRole()
 
   // Edit modal
@@ -87,53 +86,51 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         {...props}
       />
 
-      <Portal>
-        <MenuList zIndex={10} shadow="lg">
-          {links?.map((link, i) => (
-            <MenuItem
-              key={i}
-              as={Link}
-              to={link.to}
-              icon={link.icon}
-              bg={link.bg}
-            >
-              {link.label}
-            </MenuItem>
-          ))}
+      <MenuList zIndex={10} shadow="lg">
+        {links?.map((link, i) => (
+          <MenuItem
+            key={i}
+            as={Link}
+            to={link.to}
+            icon={link.icon}
+            bg={link.bg}
+          >
+            {link.label}
+          </MenuItem>
+        ))}
 
-          {role === ClaimRole.Admin && (
-            <>
-              <MenuItem
-                icon={<FiSettings />}
-                onClick={() => handleOpenEdit(orgId)}
-              >
-                Paramètres
-              </MenuItem>
-              <MenuItem
-                as={Link}
-                to={`/orgs/${orgId}/members`}
-                icon={<FiUsers />}
-              >
-                Membres
-              </MenuItem>
-            </>
-          )}
-          <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
-            Rôles de base
-          </MenuItem>
-          <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
-            Rôles vacants
-          </MenuItem>
-          <MenuItem icon={<FiCopy />} onClick={onMeetingTemplatesOpen}>
-            Templates de réunion
-          </MenuItem>
-          {role === ClaimRole.Admin && (
-            <MenuItem as={Link} to={`/orgs/${orgId}/logs`} icon={<FiClock />}>
-              Historique
+        {role === ClaimRole.Admin && (
+          <>
+            <MenuItem
+              icon={<FiSettings />}
+              onClick={() => handleOpenEdit(orgId)}
+            >
+              Paramètres
             </MenuItem>
-          )}
-        </MenuList>
-      </Portal>
+            <MenuItem
+              as={Link}
+              to={`/orgs/${orgId}/members`}
+              icon={<FiUsers />}
+            >
+              Membres
+            </MenuItem>
+          </>
+        )}
+        <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
+          Rôles de base
+        </MenuItem>
+        <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
+          Rôles vacants
+        </MenuItem>
+        <MenuItem icon={<FiCopy />} onClick={onMeetingTemplatesOpen}>
+          Templates de réunion
+        </MenuItem>
+        {role === ClaimRole.Admin && (
+          <MenuItem as={Link} to={`/orgs/${orgId}/logs`} icon={<FiClock />}>
+            Historique
+          </MenuItem>
+        )}
+      </MenuList>
 
       {isEditOpen && editOrgId && (
         <OrgEditModal id={editOrgId} isOpen onClose={onEditClose} />

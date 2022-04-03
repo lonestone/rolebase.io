@@ -1,7 +1,7 @@
 import { Button, ButtonProps, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useStoreState } from '@store/hooks'
+import { useOrgId } from '@hooks/useOrgId'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -11,13 +11,17 @@ interface Props extends ButtonProps {
 }
 
 export default function TaskLink({ id, name, ...butonsProps }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const handleOpen = useNormalClickHandler(onOpen)
 
   return (
     <>
-      <Link to={`/orgs/${orgId}/tasks/${id}`} onClick={handleOpen}>
+      <Link
+        to={`/orgs/${orgId}/tasks/${id}`}
+        tabIndex={-1}
+        onClick={handleOpen}
+      >
         <Button
           variant="link"
           color="inherit"

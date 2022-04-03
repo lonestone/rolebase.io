@@ -10,7 +10,15 @@ export interface Task {
   archived: boolean
   createdAt: Timestamp
   dueDate: Timestamp | null
-  doneDate: Timestamp | null
+  status: TaskStatus
 }
 
 export type TaskEntry = WithId<Task>
+
+export enum TaskStatus {
+  Open = 'Open',
+  InProgress = 'InProgress',
+  InReview = 'InReview',
+  Blocked = 'Blocked',
+  Done = 'Done',
+}

@@ -17,9 +17,9 @@ import {
 import MembersToCopyList from '@components/molecules/MembersToCopyList'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
+import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/log'
 import { MemberEntry } from '@shared/member'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -39,7 +39,7 @@ const resolver = yupResolver(
 )
 
 export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const createLog = useCreateLog()
 
   const {

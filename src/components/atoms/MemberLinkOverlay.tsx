@@ -1,8 +1,8 @@
 import { Avatar, LinkOverlay, LinkOverlayProps } from '@chakra-ui/react'
+import useCircleMemberLink from '@hooks/useCircleMemberLink'
 import { MemberEntry } from '@shared/member'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import useCircleMemberLink from './useCircleMemberLink'
 
 interface Props extends LinkOverlayProps {
   member: MemberEntry

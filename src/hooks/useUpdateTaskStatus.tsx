@@ -1,9 +1,9 @@
 import { updateTask } from '@api/entities/tasks'
 import { useToast } from '@chakra-ui/react'
+import { taskStatusTexts } from '@components/molecules/TaskStatusInput'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/log'
-import { TaskEntry } from '@shared/task'
-import { Timestamp } from 'firebase/firestore'
+import { TaskEntry, TaskStatus } from '@shared/task'
 import { useCallback } from 'react'
 
 export default function useUpdateTaskStatus() {
@@ -11,23 +11,23 @@ export default function useUpdateTaskStatus() {
   const createLog = useCreateLog()
 
   // Toggle done status of a task
-  return useCallback(async (task: TaskEntry, doneDate: Timestamp | null) => {
-    await updateTask(task.id, { doneDate })
+  return useCallback(async (task: TaskEntry, status: TaskStatus) => {
+    await updateTask(task.id, { status })
 
     await createLog({
       display: {
         type: LogType.TaskStatusUpdate,
         id: task.id,
         name: task.title,
-        status: doneDate ? 'terminée' : 'non terminée',
+        status,
       },
       changes: {
         tasks: [
           {
             type: EntityChangeType.Update,
             id: task.id,
-            prevData: { doneDate: task.doneDate || null },
-            newData: { doneDate },
+            prevData: { status: task.status },
+            newData: { status },
           },
         ],
       },
@@ -37,9 +37,7 @@ export default function useUpdateTaskStatus() {
     toast({
       status: 'success',
       duration: 2000,
-      title: doneDate
-        ? 'Tâche marquée comme terminée'
-        : 'Tâche marquée comme non terminée',
+      title: `Tâche marquée comme "${taskStatusTexts[status]}"`,
     })
   }, [])
 }

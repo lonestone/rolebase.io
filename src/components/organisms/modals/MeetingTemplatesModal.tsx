@@ -14,9 +14,9 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { MeetingTempalteEntry } from '@shared/meetingTemplate'
-import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import ListItemWithButtons from '../../molecules/ListItemWithButtons'
@@ -24,7 +24,7 @@ import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'
 import MeetingTemplateModal from './MeetingTemplateModal'
 
 export default function MeetingTemplatesModal(modalProps: UseModalProps) {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const {
     data: meetingTemplates,
     loading,

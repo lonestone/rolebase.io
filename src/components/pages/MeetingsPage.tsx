@@ -35,6 +35,7 @@ import FullCalendar, { EventContentArg, EventInput } from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
+import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { EntityFilters } from '@shared/types'
@@ -69,7 +70,7 @@ export default function MeetingsPage() {
   )
 
   // Subscribe to meetings
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
 
   // Subscribe to meetings
   const { data, error, loading } = useSubscription(

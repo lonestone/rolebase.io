@@ -38,7 +38,7 @@ export function useCircleSearchItems(
           return {
             id: circle.id,
             text: circleRoles
-              .map((cr) => cr.role?.name || '?')
+              .map((cr) => cr.role.name)
               .join(' > ')
               .toLowerCase(),
             type: SearchItemTypes.Circle,

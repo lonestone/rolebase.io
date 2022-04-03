@@ -7,7 +7,6 @@ import {
   MenuButtonProps,
   MenuItem,
   MenuList,
-  Portal,
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -39,30 +38,28 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
         <Avatar name={name} src={picture || undefined} size="xs" />
       </MenuButton>
 
-      <Portal>
-        <MenuList zIndex={10} shadow="lg">
-          {member && (
-            <CircleMemberLink memberId={member.id}>
-              <MenuItem icon={<FiUser />}>Ma fiche membre</MenuItem>
-            </CircleMemberLink>
-          )}
+      <MenuList zIndex={10} shadow="lg">
+        {member && (
+          <CircleMemberLink memberId={member.id}>
+            <MenuItem icon={<FiUser />}>Ma fiche membre</MenuItem>
+          </CircleMemberLink>
+        )}
 
-          <MenuItem icon={<FiEdit3 />} onClick={onCurrentUserOpen}>
-            Informations personnelles
-          </MenuItem>
+        <MenuItem icon={<FiEdit3 />} onClick={onCurrentUserOpen}>
+          Informations personnelles
+        </MenuItem>
 
-          <MenuItem
-            icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
-            onClick={toggleColorMode}
-          >
-            Thème clair/sombre
-          </MenuItem>
+        <MenuItem
+          icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
+          onClick={toggleColorMode}
+        >
+          Thème clair/sombre
+        </MenuItem>
 
-          <MenuItem icon={<FiLogOut />} onClick={() => auth.signOut()}>
-            Déconnexion
-          </MenuItem>
-        </MenuList>
-      </Portal>
+        <MenuItem icon={<FiLogOut />} onClick={() => auth.signOut()}>
+          Déconnexion
+        </MenuItem>
+      </MenuList>
 
       {isCurrentUserOpen && (
         <CurrentUserModal isOpen onClose={onCurrentUserClose} />

@@ -4,9 +4,10 @@ import { Optional } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import { useCallback } from 'react'
 import useCurrentMember from './useCurrentMember'
+import { useOrgId } from './useOrgId'
 
 export default function useCreateLog() {
-  const orgId = useStoreState((state) => state.orgs.currentId)
+  const orgId = useOrgId()
   const userId = useStoreState((state) => state.auth.user?.id)
   const currentMember = useCurrentMember()
 
