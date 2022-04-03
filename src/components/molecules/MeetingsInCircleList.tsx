@@ -59,7 +59,7 @@ export default function MeetingsInCircleList({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {meetings?.length === 0 && <i>Aucune réunion pour le moment</i>}
+      {meetings?.length === 0 && <Text>Aucune réunion pour le moment</Text>}
 
       {meetings?.map((meeting, i) => {
         const date = meeting.startDate.toDate()

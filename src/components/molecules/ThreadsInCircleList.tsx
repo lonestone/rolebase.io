@@ -1,5 +1,5 @@
 import { subscribeThreadsByCircle } from '@api/entities/threads'
-import { Button, HStack, LinkBox, useDisclosure } from '@chakra-ui/react'
+import { Button, HStack, LinkBox, Text, useDisclosure } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
@@ -43,7 +43,7 @@ export default function ThreadsInCircleList({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {threads?.length === 0 && <i>Aucune discussion pour le moment</i>}
+      {threads?.length === 0 && <Text>Aucune discussion pour le moment</Text>}
 
       {threads?.map((thread) => (
         <LinkBox key={thread.id} px={2} py={1} _hover={hover}>
