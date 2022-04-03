@@ -29,7 +29,7 @@ export default function TasksMultiSelect({
   // Subscribe tasks
   const subscribe = orgId
     ? circleId
-      ? subscribeTasksByCircle(orgId, circleId, false)
+      ? subscribeTasksByCircle(orgId, circleId)
       : subscribeAllTasks(orgId, false)
     : undefined
   const { data: tasks, loading, error } = useSubscription(subscribe)

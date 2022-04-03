@@ -2,7 +2,7 @@ import { Timestamp } from 'firebase/firestore'
 import { Circle } from './circle'
 import { Member } from './member'
 import { Role } from './role'
-import { Task } from './task'
+import { Task, TaskStatus } from './task'
 import { WithId } from './types'
 
 export enum LogType {
@@ -62,7 +62,7 @@ export type LogDisplay =
       type: LogType.TaskStatusUpdate
       id: string
       name: string
-      status: string
+      status: TaskStatus
     }
 
 export enum EntityChangeType {

@@ -1,4 +1,4 @@
-import { Task } from '@shared/task'
+import { Task, TaskStatus } from '@shared/task'
 import { Optional } from '@shared/types'
 import { query, Timestamp, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
@@ -8,10 +8,10 @@ export const collection = getCollection<Task>('tasks')
 
 const methods = getEntityMethods(collection, {
   createTransform: (
-    task: Optional<Task, 'createdAt' | 'doneDate' | 'archived'>
+    task: Optional<Task, 'createdAt' | 'status' | 'archived'>
   ) => ({
     createdAt: Timestamp.now(),
-    doneDate: null,
+    status: TaskStatus.Open,
     archived: false,
     ...task,
   }),
@@ -32,27 +32,33 @@ export const subscribeAllTasks = memoize((orgId: string, archived: boolean) =>
   )
 )
 
+// Subscribe to tasks assigned to a member
+// If status is provided, get tasks by status
+// Else, get all tasks that are not done
 export const subscribeTasksByMember = memoize(
-  (orgId: string, memberId: string, done: boolean) =>
+  (orgId: string, memberId: string, status?: TaskStatus) =>
     subscribeQuery(
       query(
         collection,
         where('orgId', '==', orgId),
         where('memberId', '==', memberId),
-        where('doneDate', done ? '!=' : '==', null),
+        where('status', status ? '==' : '!=', status || TaskStatus.Done),
         where('archived', '==', false)
       )
     )
 )
 
+// Subscribe to tasks in a circle
+// If status is provided, get tasks by status
+// Else, get all tasks that are not done
 export const subscribeTasksByCircle = memoize(
-  (orgId: string, circleId: string, done: boolean) =>
+  (orgId: string, circleId: string, status?: TaskStatus) =>
     subscribeQuery(
       query(
         collection,
         where('orgId', '==', orgId),
         where('circleId', '==', circleId),
-        where('doneDate', done ? '!=' : '==', null),
+        where('status', status ? '==' : '!=', status || TaskStatus.Done),
         where('archived', '==', false)
       )
     )

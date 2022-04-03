@@ -19,7 +19,7 @@ export default function TasksInCircleList({ circleId }: Props) {
 
   // Subscribe to tasks
   const { data, error, loading } = useSubscription(
-    orgId ? subscribeTasksByCircle(orgId, circleId, false) : undefined
+    orgId ? subscribeTasksByCircle(orgId, circleId) : undefined
   )
 
   // Sort tasks by due date

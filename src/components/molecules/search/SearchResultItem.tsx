@@ -1,7 +1,8 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, ButtonProps } from '@chakra-ui/react'
 import React from 'react'
-import { FiMessageSquare, FiPlus, FiSquare } from 'react-icons/fi'
+import { FiCheckSquare, FiMessageSquare, FiPlus } from 'react-icons/fi'
+import { taskStatusColors } from '../TaskStatusInput'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 
 interface Props extends ButtonProps {
@@ -75,7 +76,7 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
         )}
         {item.type === SearchItemTypes.Task && (
           <>
-            <FiSquare />
+            <FiCheckSquare color={taskStatusColors[item.task.status]} />
             <Box ml={2}>{item.task.title}</Box>
           </>
         )}
