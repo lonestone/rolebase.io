@@ -48,7 +48,7 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
       </MenuButton>
 
       <MenuList zIndex={10} shadow="lg">
-        {sortedOrgs.map((org) => (
+        {sortedOrgs?.map((org) => (
           <Link
             key={org.id}
             to={`/orgs/${org.id}`}
