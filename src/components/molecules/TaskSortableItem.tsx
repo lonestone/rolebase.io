@@ -26,7 +26,7 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
   return (
     <LinkBox
       key={task.id}
-      px={2}
+      pr={1}
       py={1}
       _hover={hover}
       {...attributes}

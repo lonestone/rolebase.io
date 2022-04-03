@@ -1,5 +1,5 @@
 import { subscribeTasksByCircle } from '@api/entities/tasks'
-import { Button, useDisclosure, VStack } from '@chakra-ui/react'
+import { Button, useDisclosure } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import TaskModal from '@components/organisms/modals/TaskModal'
@@ -41,15 +41,11 @@ export default function TasksInCircleList({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {tasks && (
-        <VStack spacing={0} align="stretch">
-          {tasks.length === 0 && <i>Aucune tâche pour le moment</i>}
+      {tasks?.length === 0 && <i>Aucune tâche pour le moment</i>}
 
-          {tasks.map((task) => (
-            <TaskItem key={task.id} task={task} />
-          ))}
-        </VStack>
-      )}
+      {tasks.map((task) => (
+        <TaskItem key={task.id} task={task} />
+      ))}
 
       {isCreateOpen && (
         <TaskModal defaultCircleId={circleId} isOpen onClose={onCreateClose} />

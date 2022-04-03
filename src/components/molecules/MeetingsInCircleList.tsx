@@ -1,12 +1,5 @@
 import { subscribeMeetingsByCircle } from '@api/entities/meetings'
-import {
-  Button,
-  HStack,
-  LinkBox,
-  Text,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react'
+import { Button, HStack, LinkBox, Text, useDisclosure } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import MeetingLinkOverlay from '@components/atoms/MeetingLinkOverlay'
 import TextErrors from '@components/atoms/TextErrors'
@@ -66,36 +59,32 @@ export default function MeetingsInCircleList({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {meetings && (
-        <VStack spacing={0} align="stretch">
-          {meetings.length === 0 && <i>Aucune réunion pour le moment</i>}
+      {meetings?.length === 0 && <i>Aucune réunion pour le moment</i>}
 
-          {meetings.map((meeting, i) => {
-            const date = meeting.startDate.toDate()
-            return (
-              <React.Fragment key={meeting.id}>
-                {(i === 0 ||
-                  !isSameDay(date, meetings[i - 1].startDate.toDate())) && (
-                  <Text px={2} fontSize="sm">
-                    {capitalizeFirstLetter(
-                      format(date, 'PPPP ', {
-                        locale: dateFnsLocale,
-                      })
-                    )}
-                  </Text>
+      {meetings?.map((meeting, i) => {
+        const date = meeting.startDate.toDate()
+        return (
+          <React.Fragment key={meeting.id}>
+            {(i === 0 ||
+              !isSameDay(date, meetings[i - 1].startDate.toDate())) && (
+              <Text mt={2} px={2} fontSize="sm">
+                {capitalizeFirstLetter(
+                  format(date, 'PPPP ', {
+                    locale: dateFnsLocale,
+                  })
                 )}
+              </Text>
+            )}
 
-                <LinkBox key={meeting.id} px={2} py={1} _hover={hover}>
-                  <HStack spacing={3} align="stretch" alignItems="center">
-                    <FiCalendar />
-                    <MeetingLinkOverlay meeting={meeting} />
-                  </HStack>
-                </LinkBox>
-              </React.Fragment>
-            )
-          })}
-        </VStack>
-      )}
+            <LinkBox px={2} py={1} _hover={hover}>
+              <HStack spacing={3} align="stretch" alignItems="center">
+                <FiCalendar />
+                <MeetingLinkOverlay meeting={meeting} />
+              </HStack>
+            </LinkBox>
+          </React.Fragment>
+        )
+      })}
 
       {isMeetingOpen && meetingId && (
         <MeetingModal id={meetingId} isOpen onClose={onMeetingClose} />

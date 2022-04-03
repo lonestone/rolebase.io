@@ -23,7 +23,7 @@ export default function TaskItem({ task, showCircle }: Props) {
   }
 
   return (
-    <LinkBox px={2} py={1} _hover={hover}>
+    <LinkBox py={1} _hover={hover}>
       <Flex align="center">
         <TaskStatusInput
           value={task.status}

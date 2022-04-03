@@ -24,7 +24,7 @@ export default function ThreadSortableItem({
   return (
     <LinkBox
       key={thread.id}
-      px={2}
+      pr={1}
       py={1}
       _hover={hover}
       {...attributes}
