@@ -1,6 +1,6 @@
+import useCircleMemberLink from '@hooks/useCircleMemberLink'
 import React from 'react'
 import { Link, LinkProps } from 'react-router-dom'
-import useCircleMemberLink from './useCircleMemberLink'
 
 interface Props extends Omit<LinkProps, 'to' | 'onClick'> {
   circleId?: string
