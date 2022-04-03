@@ -6,7 +6,6 @@ import {
   MenuButtonProps,
   MenuItem,
   MenuList,
-  Portal,
   useDisclosure,
 } from '@chakra-ui/react'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
@@ -47,22 +46,20 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
         {org.name}
       </MenuButton>
 
-      <Portal>
-        <MenuList zIndex={10} shadow="lg">
-          {orgs.map((org) => (
-            <Link
-              key={org.id}
-              to={`/orgs/${org.id}`}
-              onClick={() => handleOrgClick(org.id)}
-            >
-              <MenuItem icon={<FiCircle />}>{org.name}</MenuItem>
-            </Link>
-          ))}
-          <MenuItem icon={<FiPlus />} onClick={onCreateOpen}>
-            Créer une organisation
-          </MenuItem>
-        </MenuList>
-      </Portal>
+      <MenuList zIndex={10} shadow="lg">
+        {orgs.map((org) => (
+          <Link
+            key={org.id}
+            to={`/orgs/${org.id}`}
+            onClick={() => handleOrgClick(org.id)}
+          >
+            <MenuItem icon={<FiCircle />}>{org.name}</MenuItem>
+          </Link>
+        ))}
+        <MenuItem icon={<FiPlus />} onClick={onCreateOpen}>
+          Créer une organisation
+        </MenuItem>
+      </MenuList>
 
       {isCreateOpen && <OrgCreateModal isOpen onClose={onCreateClose} />}
     </Menu>
