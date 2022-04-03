@@ -1,4 +1,4 @@
-import { HStack, LinkBox, Text } from '@chakra-ui/react'
+import { Flex, LinkBox, Text } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
@@ -24,13 +24,16 @@ export default function TaskItem({ task, showCircle }: Props) {
 
   return (
     <LinkBox px={2} py={1} _hover={hover}>
-      <HStack>
+      <Flex align="center">
         <TaskStatusInput
           value={task.status}
           onChange={handleChangeStatus}
           zIndex={2}
+          mr={2}
         />
+
         <TaskLinkOverlay task={task} />
+
         {task.dueDate && (
           <Text fontSize="sm" color="gray.500">
             {formatRelative(task.dueDate.toDate(), new Date(), {
@@ -38,8 +41,9 @@ export default function TaskItem({ task, showCircle }: Props) {
             })}
           </Text>
         )}
-        {showCircle && <CircleByIdButton circleId={task.circleId} />}
-      </HStack>
+
+        {showCircle && <CircleByIdButton circleId={task.circleId} ml={2} />}
+      </Flex>
     </LinkBox>
   )
 }

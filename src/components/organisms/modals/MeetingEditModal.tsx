@@ -13,6 +13,7 @@ import {
   IconButton,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputRightAddon,
   Modal,
   ModalBody,
@@ -257,7 +258,7 @@ export default function MeetingEditModal({
           <ModalCloseButton />
 
           <ModalBody>
-            <VStack spacing={5} align="stretch">
+            <VStack spacing={7} align="stretch">
               {!meeting && (
                 <FormControl isInvalid={!!errors.title}>
                   <FormLabel>Template</FormLabel>
@@ -283,7 +284,10 @@ export default function MeetingEditModal({
 
               <FormControl isInvalid={!!errors.title}>
                 <FormLabel>Titre</FormLabel>
-                <Input {...register('title')} placeholder="Titre..." />
+                <InputGroup>
+                  <InputLeftAddon pointerEvents="none">Réunion</InputLeftAddon>
+                  <Input {...register('title')} placeholder="Titre..." />
+                </InputGroup>
               </FormControl>
 
               <Flex>

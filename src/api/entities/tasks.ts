@@ -1,8 +1,14 @@
-import { Task, TaskStatus } from '@shared/task'
+import { subscribeIdsChunks } from '@api/helpers/subscribeIdsChunks'
+import { Task, TaskEntry, TaskStatus } from '@shared/task'
 import { Optional } from '@shared/types'
 import { query, Timestamp, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
+import {
+  getCollection,
+  getEntityMethods,
+  subscribeQuery,
+  SubscriptionFn,
+} from '../firebase'
 
 export const collection = getCollection<Task>('tasks')
 
@@ -22,12 +28,16 @@ export const updateTask = methods.update
 export const subscribeTask = methods.subscribe
 export const deleteTask = methods.delete
 
-export const subscribeAllTasks = memoize((orgId: string, archived: boolean) =>
+// Subscribe to tasks assigned to a member
+// If status is provided, get tasks by status
+// Else, get all tasks that are not done
+export const subscribeAllTasks = memoize((orgId: string, status?: TaskStatus) =>
   subscribeQuery(
     query(
       collection,
       where('orgId', '==', orgId),
-      where('archived', '==', archived)
+      where('status', status ? '==' : '!=', status || TaskStatus.Done),
+      where('archived', '==', false)
     )
   )
 )
@@ -62,4 +72,9 @@ export const subscribeTasksByCircle = memoize(
         where('archived', '==', false)
       )
     )
+)
+
+export const subscribeTasksByIds = memoize(
+  (ids: string[]): SubscriptionFn<TaskEntry[]> =>
+    subscribeIdsChunks(ids, (constraint) => query(collection, constraint))
 )

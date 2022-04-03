@@ -195,7 +195,6 @@ export default function TaskContent({
             onChange={handleChangeStatus}
             ml={5}
             size="lg"
-            px={3}
           />
         )}
 

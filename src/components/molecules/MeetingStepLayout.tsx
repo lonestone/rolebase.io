@@ -33,7 +33,7 @@ export default function MeetingStepLayout({
           size="lg"
           fontWeight="bold"
           borderRadius="full"
-          mr={3}
+          mr={5}
           cursor={onNumberClick ? 'pointer' : 'default'}
           onClick={onNumberClick}
         >

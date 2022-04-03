@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 export default function HeaderOrgMenu(props: MenuButtonProps) {
   const org = useCurrentOrg()
   const orgs = useStoreState((state) => state.orgs.entries)
+  const sortedOrgs = orgs?.sort((a, b) => (a.name < b.name ? -1 : 1))
 
   // Set orgId in localStorage
   const handleOrgClick = (orgId: string) => {
@@ -47,7 +48,7 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
       </MenuButton>
 
       <MenuList zIndex={10} shadow="lg">
-        {orgs.map((org) => (
+        {sortedOrgs.map((org) => (
           <Link
             key={org.id}
             to={`/orgs/${org.id}`}

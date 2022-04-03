@@ -9,7 +9,7 @@ import {
 import { TaskStatus } from '@shared/task'
 import React from 'react'
 
-interface Props extends TagProps {
+interface Props extends Omit<TagProps, 'onChange'> {
   value: TaskStatus
   onChange(status: TaskStatus): void
 }
@@ -39,7 +39,7 @@ export default function TaskStatusInput({
     <Menu>
       <MenuButton
         as={Tag}
-        px={1}
+        tabIndex={0}
         colorScheme={taskStatusColors[value]}
         cursor="pointer"
         _hover={{
@@ -50,7 +50,7 @@ export default function TaskStatusInput({
         {taskStatusTexts[value]}
       </MenuButton>
 
-      <MenuList zIndex={10} minW={0} p={0} shadow="lg">
+      <MenuList zIndex={2000} minW={0} p={0} shadow="md">
         {(Object.keys(taskStatusTexts) as TaskStatus[]).map((status) => (
           <MenuItem
             key={status}

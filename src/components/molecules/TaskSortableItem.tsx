@@ -1,5 +1,5 @@
 import { CloseIcon } from '@chakra-ui/icons'
-import { HStack, IconButton, LinkBox } from '@chakra-ui/react'
+import { Flex, IconButton, LinkBox } from '@chakra-ui/react'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSortableItem from '@hooks/useSortableItem'
@@ -31,13 +31,23 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
       _hover={hover}
       {...attributes}
       {...listeners}
+      tabIndex={
+        // Remove tabIndex because it's redondant with link
+        undefined
+      }
+      zIndex={
+        // Remove zIndex to avoid conflict with TaskStatusInput
+        undefined
+      }
     >
-      <HStack spacing={3} align="stretch" alignItems="center">
+      <Flex align="center">
         <TaskStatusInput
           value={task.status}
           onChange={handleChangeStatus}
           zIndex={2}
+          mr={2}
         />
+
         <TaskLinkOverlay task={task} />
 
         {onRemove && (
@@ -50,7 +60,7 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
             onClick={() => onRemove(task.id)}
           />
         )}
-      </HStack>
+      </Flex>
     </LinkBox>
   )
 }
