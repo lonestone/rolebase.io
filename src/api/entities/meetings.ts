@@ -1,15 +1,13 @@
+import { getCollection } from '@api/helpers/getCollection'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { Meeting, MeetingEntry } from '@shared/meeting'
 import { Optional } from '@shared/types'
 import { orderBy, query, Timestamp, where } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
 import { memoize } from 'src/memoize'
 import settings from 'src/settings'
-import {
-  functions,
-  getCollection,
-  getEntityMethods,
-  subscribeQuery,
-} from '../firebase'
+import { functions } from '../firebase'
 import { startMembersMeeting, stopMembersMeeting } from './members'
 
 export const collection = getCollection<Meeting>('meetings')

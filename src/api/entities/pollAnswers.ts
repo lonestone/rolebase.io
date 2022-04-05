@@ -1,8 +1,10 @@
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { getSubCollection } from '@api/helpers/getSubCollection'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { PollAnswer } from '@shared/activity'
 import { Optional } from '@shared/types'
 import { doc, Timestamp } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import { getEntityMethods, getSubCollection, subscribeQuery } from '../firebase'
 import { collection as activitiesCollection } from './activities'
 
 export const pollAnswersEntities = memoize((activityId: string) => {

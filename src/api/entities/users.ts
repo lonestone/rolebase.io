@@ -1,7 +1,8 @@
+import { getCollection } from '@api/helpers/getCollection'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { Optional } from '@shared/types'
 import { User } from '@shared/user'
 import { doc, setDoc, Timestamp } from 'firebase/firestore'
-import { getCollection, getEntityMethods } from '../firebase'
 
 export const collection = getCollection<User>('users')
 

@@ -1,6 +1,8 @@
 import { WithId } from '@shared/types'
 import { documentId, Query, QueryConstraint, where } from 'firebase/firestore'
-import { stackSubscribe, subscribeQuery, SubscriptionFn } from '../firebase'
+import { stackSubscribe } from './stackSubscribe'
+import { SubscriptionFn } from './subscribe'
+import { subscribeQuery } from './subscribeQuery'
 
 export function subscribeIdsChunks<Entity>(
   ids: string[],

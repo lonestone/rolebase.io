@@ -1,13 +1,11 @@
+import { executeQuery } from '@api/helpers/executeQuery'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { getSubCollection } from '@api/helpers/getSubCollection'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStep, MeetingStepTypes } from '@shared/meetingStep'
 import { doc } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import {
-  executeQuery,
-  getEntityMethods,
-  getSubCollection,
-  subscribeQuery,
-} from '../firebase'
 import { collection as meetingsCollection } from './meetings'
 
 export const meetingStepsEntities = memoize((meetingId: string) => {

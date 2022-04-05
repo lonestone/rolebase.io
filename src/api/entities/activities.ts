@@ -1,3 +1,6 @@
+import { getCollection } from '@api/helpers/getCollection'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
 import { Optional } from '@shared/types'
 import { isSameDay } from 'date-fns'
@@ -10,7 +13,6 @@ import {
   where,
 } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { updateThread } from './threads'
 
 export const collection = getCollection<Activity>('activities')

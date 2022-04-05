@@ -1,14 +1,11 @@
+import { getCollection } from '@api/helpers/getCollection'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeIdsChunks } from '@api/helpers/subscribeIdsChunks'
-import { Task, TaskEntry, TaskStatus } from '@shared/task'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
+import { Task, TaskStatus } from '@shared/task'
 import { Optional } from '@shared/types'
 import { query, Timestamp, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import {
-  getCollection,
-  getEntityMethods,
-  subscribeQuery,
-  SubscriptionFn,
-} from '../firebase'
 
 export const collection = getCollection<Task>('tasks')
 
@@ -74,7 +71,6 @@ export const subscribeTasksByCircle = memoize(
     )
 )
 
-export const subscribeTasksByIds = memoize(
-  (ids: string[]): SubscriptionFn<TaskEntry[]> =>
-    subscribeIdsChunks(ids, (constraint) => query(collection, constraint))
+export const subscribeTasksByIds = memoize((ids: string[]) =>
+  subscribeIdsChunks(ids, (constraint) => query(collection, constraint))
 )

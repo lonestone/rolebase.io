@@ -1,8 +1,6 @@
-import {
-  getEntityMethods,
-  getSubCollection,
-  subscribeQuery,
-} from '@api/firebase'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { getSubCollection } from '@api/helpers/getSubCollection'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { MemberThreadStatus } from '@shared/member'
 import { Optional } from '@shared/types'
 import { doc, Timestamp } from 'firebase/firestore'

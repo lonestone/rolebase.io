@@ -1,3 +1,6 @@
+import { getCollection } from '@api/helpers/getCollection'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import {
   EntitiesChanges,
   EntityChange,
@@ -9,7 +12,6 @@ import { Optional, WithId } from '@shared/types'
 import { limit, orderBy, query, Timestamp, where } from 'firebase/firestore'
 import isEqual from 'lodash.isequal'
 import { memoize } from 'src/memoize'
-import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 import { getCircle, updateCircle } from './circles'
 import { getMember, updateMember } from './members'
 import { getRole, updateRole } from './roles'

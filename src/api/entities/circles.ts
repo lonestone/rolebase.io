@@ -1,3 +1,6 @@
+import { getCollection } from '@api/helpers/getCollection'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { Circle } from '@shared/circle'
 import { EntitiesChanges, EntityChangeType } from '@shared/log'
 import { Optional } from '@shared/types'
@@ -14,12 +17,7 @@ import {
 } from 'firebase/firestore'
 import { nanoid } from 'nanoid'
 import { memoize } from 'src/memoize'
-import {
-  firestore,
-  getCollection,
-  getEntityMethods,
-  subscribeQuery,
-} from '../firebase'
+import { firestore } from '../firebase'
 import { collection as rolesCollection } from './roles'
 
 export const collection = getCollection<Circle>('circles')

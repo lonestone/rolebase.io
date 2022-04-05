@@ -1,7 +1,9 @@
+import { getCollection } from '@api/helpers/getCollection'
+import { getEntityMethods } from '@api/helpers/getEntityMethods'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { MeetingTemplate } from '@shared/meetingTemplate'
 import { orderBy, query, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
-import { getCollection, getEntityMethods, subscribeQuery } from '../firebase'
 
 export const collection = getCollection<MeetingTemplate>('meetingTemplates')
 
