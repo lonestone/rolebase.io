@@ -1,5 +1,6 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Flex, IconButton, LinkBox } from '@chakra-ui/react'
+import MemberAvatar from '@components/atoms/MemberAvatar'
 import TaskLinkOverlay from '@components/atoms/TaskLinkOverlay'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSortableItem from '@hooks/useSortableItem'
@@ -50,12 +51,15 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
 
         <TaskLinkOverlay task={task} />
 
+        <MemberAvatar id={task.memberId} size="xs" ml={2} />
+
         {onRemove && (
           <IconButton
             aria-label=""
             size="xs"
             variant="ghost"
             icon={<CloseIcon />}
+            ml={2}
             zIndex={1}
             onClick={() => onRemove(task.id)}
           />
