@@ -1,4 +1,4 @@
-import { SubscriptionFn } from '@api/firebase'
+import { SubscriptionFn } from '@api/helpers/subscribe'
 import { useEffect, useState } from 'react'
 
 export default function useSubscription<Data>(

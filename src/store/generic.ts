@@ -1,4 +1,4 @@
-import { SubscriptionFn } from '@api/firebase'
+import { SubscriptionFn } from '@api/helpers/subscribe'
 import { action, Action, computed, Computed, thunk, Thunk } from 'easy-peasy'
 import { StoreModel } from '.'
 
