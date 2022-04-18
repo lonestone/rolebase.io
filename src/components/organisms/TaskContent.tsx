@@ -155,12 +155,12 @@ export default function TaskContent({
   // Toggle due date
   const handleToggleDueDate = useCallback(() => {
     if (dueDate) {
-      setValue('dueDate', null)
+      setValue('dueDate', null, { shouldDirty: true })
     } else {
       const date = new Date()
       date.setDate(date.getDate() + 1)
       date.setHours(12, 0, 0, 0)
-      setValue('dueDate', getDateTimeLocal(date))
+      setValue('dueDate', getDateTimeLocal(date), { shouldDirty: true })
     }
   }, [dueDate])
 
