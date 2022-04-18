@@ -41,6 +41,7 @@ export default function TaskStatusInput({
         as={Tag}
         tabIndex={0}
         colorScheme={taskStatusColors[value]}
+        height="fit-content"
         cursor="pointer"
         _hover={{
           opacity: 0.8,

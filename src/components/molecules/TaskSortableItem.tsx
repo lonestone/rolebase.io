@@ -41,7 +41,7 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
         undefined
       }
     >
-      <Flex align="center">
+      <Flex>
         <TaskStatusInput
           value={task.status}
           onChange={handleChangeStatus}
