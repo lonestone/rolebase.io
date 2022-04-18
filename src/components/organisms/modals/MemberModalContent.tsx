@@ -9,7 +9,6 @@ import {
   FormLabel,
   Heading,
   HStack,
-  IconButton,
   ModalBody,
   ModalCloseButton,
   ModalHeader,
@@ -17,13 +16,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { Title } from '@components/atoms/Title'
+import ActionsMenu from '@components/molecules/ActionsMenu'
 import MemberRoles from '@components/molecules/MemberRoles'
 import useMember from '@hooks/useMember'
 import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
-import { FiEdit3 } from 'react-icons/fi'
 import MemberEditModal from './MemberEditModal'
 import ModalCloseStaticButton from './ModalCloseStaticButton'
 
@@ -85,16 +84,7 @@ export default function MemberModalContent({
           <Spacer />
 
           <Box>
-            {canEdit && (
-              <IconButton
-                aria-label=""
-                icon={<FiEdit3 />}
-                variant="ghost"
-                size="sm"
-                onClick={onEditOpen}
-              />
-            )}
-
+            {canEdit && <ActionsMenu onEdit={onEditOpen} />}
             {headerIcons}
             <ModalCloseStaticButton />
           </Box>

@@ -1,4 +1,4 @@
-import { Button, useDisclosure } from '@chakra-ui/react'
+import { Link, useDisclosure } from '@chakra-ui/react'
 import RoleEditModal from '@components/organisms/modals/RoleEditModal'
 import React from 'react'
 
@@ -12,14 +12,9 @@ export default function RoleEditLink({ id, name }: Props) {
 
   return (
     <>
-      <Button
-        variant="link"
-        color="inherit"
-        textDecoration="none"
-        onClick={onOpen}
-      >
+      <Link href="#" onClick={onOpen}>
         {name}
-      </Button>
+      </Link>
 
       {isOpen && <RoleEditModal isOpen id={id} onClose={onClose} />}
     </>

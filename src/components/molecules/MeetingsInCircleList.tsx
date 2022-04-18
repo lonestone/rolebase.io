@@ -1,5 +1,12 @@
 import { subscribeMeetingsByCircle } from '@api/entities/meetings'
-import { Button, HStack, LinkBox, Text, useDisclosure } from '@chakra-ui/react'
+import {
+  Button,
+  Center,
+  Flex,
+  LinkBox,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import MeetingLinkOverlay from '@components/atoms/MeetingLinkOverlay'
 import TextErrors from '@components/atoms/TextErrors'
@@ -77,10 +84,13 @@ export default function MeetingsInCircleList({ circleId }: Props) {
             )}
 
             <LinkBox px={2} py={1} _hover={hover}>
-              <HStack spacing={3} align="stretch" alignItems="center">
-                <FiCalendar />
+              <Flex>
+                <Center w={6} h={6} mr={2}>
+                  <FiCalendar />
+                </Center>
+
                 <MeetingLinkOverlay meeting={meeting} />
-              </HStack>
+              </Flex>
             </LinkBox>
           </React.Fragment>
         )

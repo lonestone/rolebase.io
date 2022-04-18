@@ -8,7 +8,7 @@ interface Props extends BoxProps {
   id: string
 }
 
-export default function CircleAndParentsButton({ id, ...boxProps }: Props) {
+export default function CircleAndParentsLinks({ id, ...boxProps }: Props) {
   const circleAndParents = useCircleAndParents(id)
   if (!circleAndParents || circleAndParents.length === 0) return null
 
@@ -17,7 +17,7 @@ export default function CircleAndParentsButton({ id, ...boxProps }: Props) {
 
   return (
     <Box pb={3} {...boxProps}>
-      <Flex align="center" h="32px">
+      <Flex align="center" minH="32px">
         <CircleLink id={circle.id} name={circle.role.name} fontSize="lg" />
       </Flex>
 
@@ -32,6 +32,7 @@ export default function CircleAndParentsButton({ id, ...boxProps }: Props) {
                 color="gray.500"
                 fontSize="sm"
                 fontWeight={400}
+                whiteSpace="normal"
               />
 
               {!last && <ChevronRightIcon mx="0.1rem" />}

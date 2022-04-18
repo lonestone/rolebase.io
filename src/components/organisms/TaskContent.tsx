@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  IconButton,
   Input,
   Spacer,
   useDisclosure,
@@ -19,6 +18,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import ActionsMenu from '@components/molecules/ActionsMenu'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
@@ -34,7 +34,6 @@ import { TaskStatus } from '@shared/task'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { FiTrash2 } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 import TaskDeleteModal from './modals/TaskDeleteModal'
@@ -200,20 +199,11 @@ export default function TaskContent({
 
         <Spacer />
 
-        <Box mr={headerIcons ? -3 : 0}>
-          {id && (
-            <IconButton
-              aria-label=""
-              icon={<FiTrash2 />}
-              variant="ghost"
-              size="sm"
-              ml={3}
-              onClick={onDeleteOpen}
-            />
-          )}
+        <Flex mr={headerIcons ? -3 : 0}>
+          {id && <ActionsMenu ml={3} onDelete={onDeleteOpen} />}
 
           {headerIcons}
-        </Box>
+        </Flex>
       </Flex>
 
       {id && loading && <Loading active size="md" />}

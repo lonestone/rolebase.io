@@ -104,7 +104,7 @@ export default function ResetPasswordPage() {
           <TextErrors errors={[error]} />
 
           <Center mt={4}>
-            <Link to="/login" as={ReachLink} textDecoration="underline">
+            <Link to="/login" as={ReachLink}>
               Connexion
             </Link>
           </Center>

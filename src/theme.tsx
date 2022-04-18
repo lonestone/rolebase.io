@@ -42,7 +42,7 @@ const theme = extendTheme({
   components: {
     Link: {
       baseStyle: {
-        textDecoration: 'underline',
+        fontWeight: 'bold',
       },
     },
   },

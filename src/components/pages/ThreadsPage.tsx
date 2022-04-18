@@ -4,8 +4,6 @@ import {
   Container,
   Flex,
   Heading,
-  HStack,
-  LinkBox,
   Menu,
   MenuButton,
   MenuDivider,
@@ -17,25 +15,22 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
-import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
 import { Title } from '@components/atoms/Title'
+import ThreadItem from '@components/molecules/ThreadItem'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
-import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { EntityFilters } from '@shared/types'
 import React, { useState } from 'react'
-import { FiChevronDown, FiMessageSquare, FiPlus } from 'react-icons/fi'
+import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
 export default function ThreadsPage() {
   const orgId = useOrgId()
-  const hover = useHoverItemStyle()
 
   // Circles filter menu
   const {
@@ -128,16 +123,11 @@ export default function ThreadsPage() {
           {threads.length === 0 && <i>Aucune discussion.</i>}
 
           {threads.map((thread) => (
-            <LinkBox key={thread.id} px={2} py={1} _hover={hover}>
-              <HStack>
-                <FiMessageSquare />
-                <ThreadLinkOverlay
-                  thread={thread}
-                  fontWeight={thread.read !== false ? 'normal' : 'bold'}
-                />
-                <CircleByIdButton circleId={thread.circleId} />
-              </HStack>
-            </LinkBox>
+            <ThreadItem
+              key={thread.id}
+              thread={thread}
+              unread={thread.read === false}
+            />
           ))}
         </VStack>
       )}

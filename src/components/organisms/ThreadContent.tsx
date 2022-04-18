@@ -4,7 +4,6 @@ import {
   BoxProps,
   Flex,
   Heading,
-  IconButton,
   Spacer,
   Tag,
   useDisclosure,
@@ -12,6 +11,7 @@ import {
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
 import { Title } from '@components/atoms/Title'
+import ActionsMenu from '@components/molecules/ActionsMenu'
 import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import ThreadActivities from '@components/organisms/ThreadActivities'
@@ -21,7 +21,6 @@ import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
-import { FiEdit3 } from 'react-icons/fi'
 import { ThreadContext } from 'src/contexts/ThreadContext'
 import ParticipantsNumber from '../atoms/ParticipantsNumber'
 
@@ -77,7 +76,6 @@ export default function ThreadContent({
       {loading && <Loading active center />}
 
       <Flex
-        align="center"
         pb={2}
         position="relative"
         zIndex={1}
@@ -95,22 +93,15 @@ export default function ThreadContent({
 
         <Spacer />
 
-        <Box mr={headerIcons ? -2 : 0}>
+        <Flex mr={headerIcons ? -2 : 0}>
           {circle && <CircleButton circle={circle} ml={5} />}
 
           <ParticipantsNumber participants={participants} ml={1} />
 
-          <IconButton
-            aria-label=""
-            icon={<FiEdit3 />}
-            variant="ghost"
-            size="sm"
-            ml={2}
-            onClick={onEditOpen}
-          />
+          <ActionsMenu onEdit={onEditOpen} ml={2} />
 
           {headerIcons}
-        </Box>
+        </Flex>
       </Flex>
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>

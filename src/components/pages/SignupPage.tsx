@@ -36,7 +36,7 @@ export default function SignupPage({ goToLoginPage }: Props) {
         {goToLoginPage ? (
           <Link onClick={goToLoginPage}>Connexion</Link>
         ) : (
-          <Link to="/login" as={ReachLink} textDecoration="underline">
+          <Link to="/login" as={ReachLink}>
             Connexion
           </Link>
         )}

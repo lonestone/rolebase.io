@@ -9,7 +9,7 @@ import {
   UnorderedList,
   UseModalProps,
 } from '@chakra-ui/react'
-import CircleAndParentsButton from '@components/molecules/CircleAndParentsButton'
+import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
 import { CircleEntry } from '@shared/circle'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
@@ -46,7 +46,7 @@ export default function VacantRolesModal(modalProps: UseModalProps) {
             <UnorderedList>
               {vacantCircles.map((circle) => (
                 <ListItem key={circle.id}>
-                  <CircleAndParentsButton id={circle.id} />
+                  <CircleAndParents id={circle.id} />
                 </ListItem>
               ))}
             </UnorderedList>

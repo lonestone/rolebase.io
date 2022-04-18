@@ -1,24 +1,16 @@
-import { Button, ButtonProps } from '@chakra-ui/react'
+import { Link, LinkProps } from '@chakra-ui/react'
 import React from 'react'
 import CircleMemberLink from './CircleMemberLink'
 
-interface Props extends ButtonProps {
+interface Props extends LinkProps {
   id: string
   name: string
 }
 
-export default function CircleLink({ id, name, ...butonsProps }: Props) {
+export default function CircleLink({ id, name, ...linkProps }: Props) {
   return (
-    <CircleMemberLink circleId={id} tabIndex={-1}>
-      <Button
-        variant="link"
-        color="inherit"
-        textDecoration="none"
-        minW={0}
-        {...butonsProps}
-      >
-        {name}
-      </Button>
-    </CircleMemberLink>
+    <Link as={CircleMemberLink} circleId={id} {...linkProps}>
+      {name}
+    </Link>
   )
 }

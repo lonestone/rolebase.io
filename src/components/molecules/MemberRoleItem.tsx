@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
-import CircleAndParentsButton from '@components/molecules/CircleAndParentsButton'
+import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
 import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useState } from 'react'
@@ -71,11 +71,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
             _expanded={{ bg: hoverColor }}
             _hover={{ bg: hoverColor }}
           >
-            <CircleAndParentsButton
-              id={roleCircle.id}
-              flex={1}
-              textAlign="left"
-            />
+            <CircleAndParents id={roleCircle.id} flex={1} textAlign="left" />
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pt={3} pb={5}>

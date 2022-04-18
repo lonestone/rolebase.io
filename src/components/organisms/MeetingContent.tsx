@@ -17,7 +17,6 @@ import {
   Flex,
   Heading,
   HStack,
-  IconButton,
   Spacer,
   StackItem,
   Tag,
@@ -31,6 +30,7 @@ import MemberLink from '@components/atoms/MemberLink'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import ActionsMenu from '@components/molecules/ActionsMenu'
 import MeetingActions from '@components/molecules/MeetingActions'
 import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
@@ -47,9 +47,7 @@ import {
   FiArrowDown,
   FiCalendar,
   FiClock,
-  FiEdit3,
   FiPlay,
-  FiTrash2,
   FiVideo,
 } from 'react-icons/fi'
 import { dateFnsLocale } from 'src/locale'
@@ -167,40 +165,25 @@ export default function MeetingContent({
     <Box {...boxProps}>
       {changeTitle && <Title>{`Réunion : ${meeting?.title}`}</Title>}
 
-      <Flex align="center" mb={3}>
+      <Flex mb={3}>
         <Heading as="h1" size="md">
           Réunion : {meeting?.title}
         </Heading>
 
         <Spacer />
 
-        <Box mr={headerIcons ? -2 : 0}>
+        <Flex mr={headerIcons ? -2 : 0}>
           {circle && <CircleButton circle={circle} mr={1} />}
 
           <ParticipantsNumber participants={participants} mr={1} />
 
-          {canEditConfig && (
-            <IconButton
-              aria-label=""
-              icon={<FiEdit3 />}
-              variant="ghost"
-              size="sm"
-              onClick={onEditOpen}
-            />
-          )}
-
-          {canDelete && (
-            <IconButton
-              aria-label=""
-              icon={<FiTrash2 />}
-              variant="ghost"
-              size="sm"
-              onClick={onDeleteOpen}
-            />
-          )}
+          <ActionsMenu
+            onEdit={canEditConfig ? onEditOpen : undefined}
+            onDelete={canDelete ? onDeleteOpen : undefined}
+          />
 
           {headerIcons}
-        </Box>
+        </Flex>
       </Flex>
 
       {(loading || stepsLoading) && <Loading active size="md" />}

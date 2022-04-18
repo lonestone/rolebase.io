@@ -1,5 +1,5 @@
-import { CloseIcon } from '@chakra-ui/icons'
-import { HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
+import { CloseIcon, DragHandleIcon } from '@chakra-ui/icons'
+import { Center, HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
@@ -35,6 +35,10 @@ export default function MeetingStepSortableItem({
 
   return (
     <HStack {...attributes} role="none">
+      <Center {...listeners} cursor="grab">
+        <DragHandleIcon />
+      </Center>
+
       <Tag size="lg" borderRadius="full" cursor="grab" {...listeners}>
         {index + 1}
       </Tag>

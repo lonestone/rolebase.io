@@ -5,13 +5,13 @@ import {
   Box,
   Button,
   Collapse,
+  Flex,
   FormControl,
   FormLabel,
-  HStack,
-  IconButton,
   ModalBody,
   ModalCloseButton,
   ModalHeader,
+  Spacer,
   TabList,
   TabPanel,
   TabPanels,
@@ -26,7 +26,8 @@ import { CirclePanelTab } from '@components/atoms/CirclePanelTab'
 import Markdown from '@components/atoms/Markdown'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import { Title } from '@components/atoms/Title'
-import CircleAndParentsButton from '@components/molecules/CircleAndParentsButton'
+import ActionsMenu from '@components/molecules/ActionsMenu'
+import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
 import MeetingsInCircleList from '@components/molecules/MeetingsInCircleList'
 import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
@@ -42,9 +43,7 @@ import {
   FiChevronDown,
   FiChevronUp,
   FiDisc,
-  FiEdit3,
   FiMessageSquare,
-  FiTrash2,
 } from 'react-icons/fi'
 import CircleDeleteModal from './CircleDeleteModal'
 import ModalCloseStaticButton from './ModalCloseStaticButton'
@@ -119,37 +118,22 @@ export default function CircleModalContent({
 
   return (
     <>
-      {changeTitle && <Title>{role.name || '…'}</Title>}
+      {changeTitle && <Title>{role.name}</Title>}
 
       <ModalHeader pt={2} pb={1} pr={3}>
-        <HStack align="start">
-          <CircleAndParentsButton id={id} flex={1} />
+        <Flex>
+          <CircleAndParents id={id} />
+          <Spacer />
 
           <Box>
             <ParticipantsNumber participants={participants} />
           </Box>
 
-          <Box>
-            <IconButton
-              aria-label="Editer"
-              icon={<FiEdit3 />}
-              size="sm"
-              variant="ghost"
-              onClick={onEditRoleOpen}
-            />
+          <ActionsMenu onEdit={onEditRoleOpen} onDelete={onDeleteOpen} />
 
-            <IconButton
-              aria-label="Supprimer"
-              icon={<FiTrash2 />}
-              size="sm"
-              variant="ghost"
-              onClick={onDeleteOpen}
-            />
-
-            {headerIcons}
-            <ModalCloseStaticButton />
-          </Box>
-        </HStack>
+          {headerIcons}
+          <ModalCloseStaticButton />
+        </Flex>
       </ModalHeader>
 
       <ModalBody pt={0} pb={5}>

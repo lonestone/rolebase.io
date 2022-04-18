@@ -9,23 +9,26 @@ import {
   AlertIcon,
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   HStack,
   Input,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Select,
+  Spacer,
   useDisclosure,
   UseModalProps,
   useToast,
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
+import ActionsMenu from '@components/molecules/ActionsMenu'
 import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
@@ -38,6 +41,7 @@ import React, { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import MemberDeleteModal from './MemberDeleteModal'
+import ModalCloseStaticButton from './ModalCloseStaticButton'
 
 interface Props extends UseModalProps {
   id: string
@@ -164,8 +168,14 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>Modifier le membre {member.name}</ModalHeader>
-            <ModalCloseButton />
+            <ModalHeader>
+              <Flex>
+                Modifier le membre {member.name}
+                <Spacer />
+                <ActionsMenu onDelete={onDeleteOpen} />
+                <ModalCloseStaticButton />
+              </Flex>
+            </ModalHeader>
 
             <ModalBody>
               <VStack spacing={5} align="stretch">
@@ -257,21 +267,14 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                     </HStack>
                   </FormControl>
                 )}
-
-                <Box textAlign="right">
-                  <Button
-                    colorScheme="red"
-                    variant="ghost"
-                    onClick={onDeleteOpen}
-                  >
-                    Supprimer
-                  </Button>
-                  <Button colorScheme="blue" type="submit">
-                    Enregistrer
-                  </Button>
-                </Box>
               </VStack>
             </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue" type="submit">
+                Enregistrer
+              </Button>
+            </ModalFooter>
           </form>
         </ModalContent>
       </Modal>

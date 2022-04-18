@@ -19,7 +19,7 @@ import {
   FiCircle,
   FiClock,
   FiCopy,
-  FiMoreHorizontal,
+  FiMoreVertical,
   FiSettings,
   FiUsers,
 } from 'react-icons/fi'
@@ -81,7 +81,7 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
       <MenuButton
         as={IconButton}
         bg="transparent"
-        icon={<FiMoreHorizontal />}
+        icon={<FiMoreVertical />}
         px={1}
         {...props}
       />

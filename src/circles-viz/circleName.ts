@@ -13,9 +13,7 @@ export const d3CircleCenterName = (
   // Reset font-size, then apply opacity and font-size
   selection
     .attr('font-size', '1em')
-    .attr('opacity', (d, i, nodes) =>
-      getCenterFontSize(d, i, nodes) > 2 ? getCenterNameOpacity(d) : 0
-    )
+    .attr('opacity', (d) => getCenterNameOpacity(d))
     .attr('font-size', (d, i, nodes) => `${getCenterFontSize(d, i, nodes)}em`)
 }
 
