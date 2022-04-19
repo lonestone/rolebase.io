@@ -69,8 +69,11 @@ export function createGraph(
     removeListeners,
     update({ width, height, selectedCircleId, circles, roles, members }) {
       // Update dimensions
-      dimensions.width = width
-      dimensions.height = height
+      if (dimensions.width !== width || dimensions.height !== height) {
+        dimensions.width = width
+        dimensions.height = height
+        zoom.changeDimensions(width, height)
+      }
 
       // Create/update circles and menu
       updateCircles(svg, {

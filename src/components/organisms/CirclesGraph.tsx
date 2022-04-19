@@ -119,7 +119,10 @@ export default function CirclesGraph({
   // Focus on a circle when focusCircleId is defined
   useEffect(() => {
     if (ready && selectedCircleId) {
-      graphRef.current?.zoom.focusCircle?.(selectedCircleId, true)
+      // Let the panel show, then focus on circle
+      setTimeout(() => {
+        graphRef.current?.zoom.focusCircle?.(selectedCircleId, true)
+      }, 100)
     }
   }, [ready, selectedCircleId])
 

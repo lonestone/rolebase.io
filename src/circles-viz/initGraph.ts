@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { ZoomTransform } from 'd3'
 import settings from './settings'
 import { Dimensions, Zoom } from './types'
 
@@ -42,14 +43,20 @@ export function initGraph(
   const zoom: Zoom = {
     x: 0,
     y: 0,
+    width: dimensions.width,
+    height: dimensions.height,
     scale: 1,
     spaceKey: false,
+
+    // Change extent to which we can zoom
     changeExtent(w, h) {
       zoomBehaviour.translateExtent([
         [-w, -h],
         [w, h],
       ])
     },
+
+    // Zoom to coordinates
     to(x, y, radius = 0, instant = false) {
       const scale = radius
         ? Math.min(
@@ -63,13 +70,28 @@ export function initGraph(
         .ease(settings.zoom.transition)
         .call(
           zoomBehaviour.transform,
-          d3.zoomIdentity
-            .translate(
-              -x * scale + dimensions.width / 2,
-              -y * scale + dimensions.height / 2
-            )
-            .scale(scale)
+          new ZoomTransform(
+            scale,
+            -x * scale + dimensions.width / 2,
+            -y * scale + dimensions.height / 2
+          )
         )
+    },
+
+    // Conserve center on window resize
+    changeDimensions(width: number, height: number, instant = false) {
+      const transform = new ZoomTransform(
+        zoom.scale,
+        zoom.x - zoom.width / 2 + width / 2,
+        zoom.y - zoom.height / 2 + height / 2
+      )
+      zoom.width = width
+      zoom.height = height
+      svg
+        .transition()
+        .duration(instant ? 0 : settings.zoom.duration)
+        .ease(settings.zoom.transition)
+        .call(zoomBehaviour.transform, transform)
     },
   }
 

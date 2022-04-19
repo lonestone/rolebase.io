@@ -1,7 +1,8 @@
-import { Box, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, useColorMode } from '@chakra-ui/react'
+import ModalPanel from '@components/atoms/ModalPanel'
 import { Title } from '@components/atoms/Title'
-import CirclePanel from '@components/organisms/panels/CirclePanel'
-import MemberPanel from '@components/organisms/panels/MemberPanel'
+import CircleModalContent from '@components/organisms/modals/CircleModalContent'
+import MemberModalContent from '@components/organisms/modals/MemberModalContent'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
@@ -68,30 +69,36 @@ export default function CirclesPage() {
   }
 
   return (
-    <Box flex={1} ref={boxRef} position="relative" overflow="hidden">
-      {org && boxSize && (
-        <CirclesGraph
-          key={colorMode}
-          width={boxSize.width}
-          height={boxSize.height}
-          selectedCircleId={circleId}
-          onReady={() => setReady(true)}
-        />
-      )}
+    <Flex flex={1} position="relative" overflow="hidden">
+      <Box flex={1} ref={boxRef}>
+        {org && boxSize && (
+          <CirclesGraph
+            key={colorMode}
+            width={boxSize.width}
+            height={boxSize.height}
+            selectedCircleId={circleId}
+            onReady={() => setReady(true)}
+          />
+        )}
+      </Box>
 
       {panel === Panels.Circle && circleId && (
-        <CirclePanel id={circleId} onClose={handleClosePanel} />
+        <ModalPanel onClose={handleClosePanel}>
+          <CircleModalContent id={circleId} changeTitle />
+        </ModalPanel>
       )}
 
       {panel === Panels.Member && memberId && (
-        <MemberPanel
-          id={memberId}
-          selectedCircleId={circleId || undefined}
-          onClose={handleClosePanel}
-        />
+        <ModalPanel onClose={handleClosePanel}>
+          <MemberModalContent
+            id={memberId}
+            selectedCircleId={circleId || undefined}
+            changeTitle
+          />
+        </ModalPanel>
       )}
 
-      {panel === Panels.None && <Title>{org?.name || '…'}</Title>}
-    </Box>
+      {panel === Panels.None && org && <Title>{org.name}</Title>}
+    </Flex>
   )
 }

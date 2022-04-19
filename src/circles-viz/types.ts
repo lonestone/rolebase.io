@@ -28,10 +28,13 @@ export interface Dimensions {
 export interface Zoom {
   x: number
   y: number
+  width: number
+  height: number
   scale: number
   spaceKey: boolean // True when space key is pressed
   to(x: number, y: number, radius?: number, instant?: boolean): void
   changeExtent(width: number, height: number): void
+  changeDimensions: (width: number, height: number, instant?: boolean) => void
   focusCircle?(circleId: string, adaptScale?: boolean, instant?: boolean): void
 }
 

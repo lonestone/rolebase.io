@@ -177,10 +177,12 @@ export default function MeetingContent({
 
           <ParticipantsNumber participants={participants} mr={1} />
 
-          <ActionsMenu
-            onEdit={canEditConfig ? onEditOpen : undefined}
-            onDelete={canDelete ? onDeleteOpen : undefined}
-          />
+          {(canEditConfig || canDelete) && (
+            <ActionsMenu
+              onEdit={canEditConfig ? onEditOpen : undefined}
+              onDelete={canDelete ? onDeleteOpen : undefined}
+            />
+          )}
 
           {headerIcons}
         </Flex>
