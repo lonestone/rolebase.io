@@ -8,7 +8,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import { useCircleMemberSearchItems } from './entities/circleMembers/useCircleMemberSearchItems'
@@ -86,6 +86,19 @@ export default function HeaderSearch() {
       inputRef.current?.focus()
     }, 0)
   }
+
+  // Use Cml+K key to open search
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'k' && (event.ctrlKey || event.metaKey)) {
+        handleClick()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   return (
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
