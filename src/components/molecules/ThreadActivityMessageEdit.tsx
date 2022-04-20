@@ -1,4 +1,4 @@
-import { deleteActivity, updateActivity } from '@api/entities/activities'
+import { updateActivity } from '@api/entities/activities'
 import { Box, Button } from '@chakra-ui/react'
 import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -20,19 +20,14 @@ export default function ThreadActivityMessageEdit({
   const handleSubmit = useCallback(
     (message: string) => {
       if (message.trim() === '') {
-        return handleDelete()
+        // Cancel if empty
+      } else {
+        updateActivity(id, { message })
       }
-      updateActivity(id, { message })
       onClose()
     },
     [onClose]
   )
-
-  // Delete message
-  const handleDelete = useCallback(() => {
-    onClose()
-    deleteActivity(id)
-  }, [onClose])
 
   // Stop editing on Escape key press
   useEffect(() => {
@@ -55,9 +50,6 @@ export default function ThreadActivityMessageEdit({
       />
       <Button size="sm" mt={2} onClick={onClose}>
         Annuler
-      </Button>
-      <Button size="sm" color="red" mt={2} ml={2} onClick={handleDelete}>
-        Supprimer
       </Button>
       <Button
         colorScheme="blue"

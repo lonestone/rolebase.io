@@ -14,7 +14,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useColorMode,
   UseModalProps,
   useToast,
   VStack,
@@ -33,7 +32,6 @@ interface Props extends UseModalProps {
 }
 
 export default function LogCancelModal({ log, ...modalProps }: Props) {
-  const { colorMode } = useColorMode()
   const toast = useToast()
   const createLog = useCreateLog()
 
@@ -91,8 +89,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
               p={3}
               borderRadius="md"
               border="1px solid"
-              bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
-              borderColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+              borderColor="gray.500"
             >
               <LogCancelText log={log} />
               <LogText log={log} />

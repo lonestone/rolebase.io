@@ -37,6 +37,7 @@ export default function ThreadActivityDecision({ activity }: Props) {
   return (
     <ThreadActivityLayout
       activity={activity}
+      allowDelete={isUserOwner}
       onEdit={isUserOwner ? onEditOpen : undefined}
     >
       <Box

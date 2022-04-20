@@ -1,22 +1,25 @@
-import { Avatar, Box, Flex, IconButton, Text } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Text, useDisclosure } from '@chakra-ui/react'
 import HourLink from '@components/atoms/HourLink'
 import MemberLink from '@components/atoms/MemberLink'
+import ActionsMenu from '@components/molecules/ActionsMenu'
+import ActivityDeleteModal from '@components/organisms/modals/ActivityDeleteModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { ActivityEntry } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { ReactNode, useMemo } from 'react'
-import { FiEdit3 } from 'react-icons/fi'
 
 interface Props {
   activity: WithId<ActivityEntry>
   onEdit?(): void
+  allowDelete?: boolean
   children: ReactNode
 }
 
 export default function ThreadActivityLayout({
   activity,
   onEdit,
+  allowDelete,
   children,
 }: Props) {
   const members = useStoreState((state) => state.members.entries)
@@ -25,6 +28,13 @@ export default function ThreadActivityLayout({
     [activity.userId, members]
   )
   const hover = useHoverItemStyle()
+
+  // Delete modal
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useDisclosure()
 
   return (
     <Flex id={activity.id} p={3} _hover={hover} role="group">
@@ -35,15 +45,14 @@ export default function ThreadActivityLayout({
         mr={3}
       />
       <Box flex="1">
-        {onEdit && (
-          <IconButton
-            aria-label="Modifier"
-            icon={<FiEdit3 />}
-            size="sm"
+        {(onEdit || allowDelete) && (
+          <ActionsMenu
+            variant="solid"
             float="right"
             opacity={0}
             _groupHover={{ opacity: 1 }}
-            onClick={onEdit}
+            onEdit={onEdit}
+            onDelete={allowDelete ? onDeleteOpen : undefined}
           />
         )}
 
@@ -54,6 +63,14 @@ export default function ThreadActivityLayout({
 
         {children}
       </Box>
+
+      {isDeleteOpen && (
+        <ActivityDeleteModal
+          isOpen
+          activity={activity}
+          onClose={onDeleteClose}
+        />
+      )}
     </Flex>
   )
 }

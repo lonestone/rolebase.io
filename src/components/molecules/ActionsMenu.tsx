@@ -1,15 +1,15 @@
 import {
   IconButton,
+  IconButtonProps,
   Menu,
   MenuButton,
-  MenuButtonProps,
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
 import React from 'react'
 import { FiEdit3, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
 
-interface Props extends MenuButtonProps {
+interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onEdit?(): void
   onDelete?(): void
 }
@@ -18,6 +18,7 @@ export default function ActionsMenu({ onEdit, onDelete, ...props }: Props) {
   return (
     <Menu>
       <MenuButton
+        aria-label="Actions"
         as={IconButton}
         icon={<FiMoreVertical />}
         variant="ghost"
@@ -25,7 +26,7 @@ export default function ActionsMenu({ onEdit, onDelete, ...props }: Props) {
         {...props}
       />
 
-      <MenuList fontSize="1rem">
+      <MenuList fontSize="1rem" zIndex={1000}>
         {onEdit && (
           <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
             Editer

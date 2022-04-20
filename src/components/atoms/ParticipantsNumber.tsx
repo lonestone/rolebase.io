@@ -52,7 +52,7 @@ export default function ParticipantsNumber({
           ))}
         </Box>
       </MenuButton>
-      <MenuList shadow="lg" zIndex={10}>
+      <MenuList shadow="lg" zIndex={1000}>
         {participants.map(({ member, circlesIds }) => (
           <CircleMemberLink
             key={member.id}
