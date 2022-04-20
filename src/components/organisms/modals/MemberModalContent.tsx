@@ -14,7 +14,9 @@ import {
   ModalHeader,
   Spacer,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
+import Markdown from '@components/atoms/Markdown'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import MemberRoles from '@components/molecules/MemberRoles'
@@ -91,11 +93,17 @@ export default function MemberModalContent({
         </Flex>
       </ModalHeader>
 
-      <ModalBody pb={5}>
-        <FormControl>
-          <FormLabel>Rôles</FormLabel>
-          <MemberRoles memberId={id} selectedCircleId={selectedCircleId} />
-        </FormControl>
+      <ModalBody pb={7}>
+        <VStack spacing={5} align="stretch">
+          {member.description && (
+            <Markdown mb={3}>{member.description}</Markdown>
+          )}
+
+          <FormControl>
+            <FormLabel>Rôles :</FormLabel>
+            <MemberRoles memberId={id} selectedCircleId={selectedCircleId} />
+          </FormControl>
+        </VStack>
       </ModalBody>
 
       {isEditOpen && <MemberEditModal id={id} isOpen onClose={onEditClose} />}

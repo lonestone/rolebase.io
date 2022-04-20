@@ -65,8 +65,9 @@ export default function MemberRoles({ memberId, selectedCircleId }: Props) {
       ) : (
         <Accordion
           index={selectedCircleIndex}
-          onChange={handleAccordeonChange}
           allowToggle
+          mx={-4}
+          onChange={handleAccordeonChange}
         >
           {memberCircles.map((entries) => {
             const circle = entries[entries.length - 1]

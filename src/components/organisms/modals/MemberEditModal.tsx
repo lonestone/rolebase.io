@@ -29,6 +29,7 @@ import {
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import ActionsMenu from '@components/molecules/ActionsMenu'
+import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
 import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
@@ -49,6 +50,7 @@ interface Props extends UseModalProps {
 
 interface Values {
   name: string
+  description: string
   workedMinPerWeek?: number | null
   role: ClaimRole | ''
   inviteEmail: string
@@ -57,6 +59,7 @@ interface Values {
 const resolver = yupResolver(
   yup.object().shape({
     name: nameSchema,
+    description: yup.string(),
     workedMinPerWeek: yup.number().nullable(),
     inviteEmail: yup.string().email(),
   })
@@ -83,6 +86,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     resolver,
     defaultValues: member && {
       name: member.name,
+      description: member.description,
       workedMinPerWeek: member.workedMinPerWeek || null,
       role: member.role || '',
       inviteEmail: '',
@@ -195,6 +199,15 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                     />
                   </FormControl>
                 </HStack>
+
+                <FormControl isInvalid={!!errors.description}>
+                  <FormLabel>Description</FormLabel>
+                  <MarkdownEditorController
+                    name="description"
+                    placeholder={`Qui est ${member.name} ?`}
+                    control={control}
+                  />
+                </FormControl>
 
                 <FormControl isInvalid={!!errors.workedMinPerWeek}>
                   <FormLabel>Temps de travail pour l'organisation</FormLabel>

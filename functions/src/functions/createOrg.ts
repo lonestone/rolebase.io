@@ -36,6 +36,7 @@ export const createOrg = functions.https.onCall(
       userId: uid,
       archived: false,
       name: user.name,
+      description: '',
       role: ClaimRole.Admin,
       meetingId: null,
     })

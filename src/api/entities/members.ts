@@ -14,8 +14,9 @@ import { functions, storage } from '../firebase'
 export const collection = getCollection<Member>('members')
 
 const methods = getEntityMethods(collection, {
-  createTransform: (member: Optional<Member, 'archived'>) => ({
+  createTransform: (member: Optional<Member, 'description' | 'archived'>) => ({
     archived: false,
+    description: '',
     ...member,
   }),
 })

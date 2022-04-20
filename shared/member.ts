@@ -6,6 +6,7 @@ export interface Member {
   orgId: string
   archived: boolean
   name: string
+  description: string
   picture?: string | null
   userId?: string | null
   inviteEmail?: string
