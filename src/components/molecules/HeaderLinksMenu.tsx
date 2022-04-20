@@ -82,6 +82,7 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         as={IconButton}
         bg="transparent"
         icon={<FiMoreVertical />}
+        size="sm"
         px={1}
         {...props}
       />

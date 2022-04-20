@@ -2,6 +2,7 @@ import {
   Flex,
   IconButton,
   Spacer,
+  Tooltip,
   useColorMode,
   useMediaQuery,
 } from '@chakra-ui/react'
@@ -122,13 +123,15 @@ export default function Header() {
 
       {org && <HeaderSearch />}
 
-      <IconButton
-        aria-label="Aide"
-        icon={<FaQuestion />}
-        variant="ghost"
-        size="sm"
-        onClick={handleOpenHelp}
-      />
+      <Tooltip hasArrow openDelay={400} label="Aide">
+        <IconButton
+          aria-label="Aide"
+          icon={<FaQuestion />}
+          variant="ghost"
+          size="sm"
+          onClick={handleOpenHelp}
+        />
+      </Tooltip>
 
       <HeaderUserMenu ml={2} />
     </Flex>

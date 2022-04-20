@@ -4,6 +4,7 @@ import {
   InputGroup,
   List,
   ListItem,
+  Tooltip,
   useColorMode,
 } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
@@ -90,13 +91,15 @@ export default function HeaderSearch() {
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
       <InputGroup size="sm">
         {!isOpen && (
-          <IconButton
-            aria-label="Rechercher"
-            icon={<FaSearch />}
-            variant="ghost"
-            size="sm"
-            onClick={handleClick}
-          />
+          <Tooltip hasArrow openDelay={400} label="Rechercher (⌘ K)">
+            <IconButton
+              aria-label="Rechercher"
+              icon={<FaSearch />}
+              variant="ghost"
+              size="sm"
+              onClick={handleClick}
+            />
+          </Tooltip>
         )}
         <Input
           type="text"
