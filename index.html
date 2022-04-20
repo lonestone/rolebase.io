@@ -5,6 +5,24 @@
     <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rolebase</title>
+
+    <!-- Crisp -->
+    <script type="text/javascript">
+      window.$crisp = []
+
+      // Hide help button when chatbox is not open
+      $crisp.push(['do', 'chat:hide'])
+      $crisp.push(['on', 'chat:closed', () => $crisp.push(['do', 'chat:hide'])])
+
+      window.CRISP_WEBSITE_ID = '652544cd-14f6-4c8c-9a04-2a56676dd4a0'
+      ;(function () {
+        d = document
+        s = d.createElement('script')
+        s.src = 'https://client.crisp.chat/l.js'
+        s.async = 1
+        d.getElementsByTagName('head')[0].appendChild(s)
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

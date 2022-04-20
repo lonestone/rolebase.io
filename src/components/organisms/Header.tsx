@@ -1,4 +1,10 @@
-import { Flex, Spacer, useColorMode, useMediaQuery } from '@chakra-ui/react'
+import {
+  Flex,
+  IconButton,
+  Spacer,
+  useColorMode,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
 import HeaderLinksMenu, {
   HeaderLink,
@@ -10,6 +16,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
+import { FaQuestion } from 'react-icons/fa'
 import {
   FiCalendar,
   FiCheckSquare,
@@ -63,6 +70,16 @@ export default function Header() {
     [org, currentMember, colorMode]
   )
 
+  // Open help chatbox
+  const handleOpenHelp = () => {
+    const $crisp = (window as any).$crisp
+    if (!$crisp) {
+      throw new Error('Crisp not found')
+    }
+    $crisp.push(['do', 'chat:show'])
+    $crisp.push(['do', 'chat:toggle'])
+  }
+
   // Hider buttons when screen is too small
   const [isSmallScreen] = useMediaQuery('(max-width: 730px)')
 
@@ -104,6 +121,14 @@ export default function Header() {
       <Spacer />
 
       {org && <HeaderSearch />}
+
+      <IconButton
+        aria-label="Aide"
+        icon={<FaQuestion />}
+        variant="ghost"
+        size="sm"
+        onClick={handleOpenHelp}
+      />
 
       <HeaderUserMenu ml={2} />
     </Flex>
