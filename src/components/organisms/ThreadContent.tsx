@@ -6,6 +6,7 @@ import {
   Heading,
   Spacer,
   Tag,
+  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
@@ -65,6 +66,10 @@ export default function ThreadContent({
     onClose: onEditClose,
   } = useDisclosure()
 
+  const { colorMode } = useColorMode()
+  const shadowColor =
+    colorMode === 'light' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'
+
   if (error) {
     return <Page404 />
   }
@@ -81,7 +86,7 @@ export default function ThreadContent({
         zIndex={1}
         boxShadow={
           isScrollable && scrollPosition !== ScrollPosition.Top
-            ? '0 6px 11px -10px rgba(0,0,0,0.5)'
+            ? `0 6px 11px -10px ${shadowColor}`
             : 'none'
         }
       >
@@ -116,7 +121,7 @@ export default function ThreadContent({
           zIndex={1}
           boxShadow={
             isScrollable && scrollPosition !== ScrollPosition.Bottom
-              ? '0 -6px 11px -10px rgba(0,0,0,0.5)'
+              ? `0 -6px 11px -10px ${shadowColor}`
               : 'none'
           }
         >
