@@ -27,6 +27,7 @@ export default function ModalPanel({
     <Box
       w="450px"
       maxW="100vw"
+      overflow="auto"
       borderRadius={0}
       borderLeftWidth={'1px'}
       borderLeftColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
