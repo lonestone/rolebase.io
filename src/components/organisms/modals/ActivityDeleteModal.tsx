@@ -47,7 +47,7 @@ export default function ActivityDeleteModal({
             </Text>
 
             <Box
-              mt={3}
+              mt={5}
               border="1px solid"
               borderColor="gray.500"
               borderRadius="md"

@@ -9,8 +9,7 @@
     <!-- Crisp -->
     <script type="text/javascript">
       window.$crisp = []
-
-      // Hide help button when chatbox is not open
+      $crisp.push(['safe', true])
       $crisp.push(['do', 'chat:hide'])
       $crisp.push(['on', 'chat:closed', () => $crisp.push(['do', 'chat:hide'])])
 
