@@ -37,6 +37,38 @@
       ]
     },
     {
+      "collectionGroup": "logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "meetingId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orgId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "orgId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "meetings",
       "queryScope": "COLLECTION",
       "fields": [
@@ -50,6 +82,28 @@
         },
         {
           "fieldPath": "ended",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orgId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "startDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "meetings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "archived",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "circleId",
           "order": "ASCENDING"
         },
         {
@@ -99,6 +153,10 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "archived",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "orgId",
           "order": "ASCENDING"
         },
@@ -131,6 +189,10 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "archived",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "orgId",
           "order": "ASCENDING"
         },
@@ -157,7 +219,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "doneDate",
+          "fieldPath": "status",
           "order": "ASCENDING"
         }
       ]
@@ -179,7 +241,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "doneDate",
+          "fieldPath": "status",
           "order": "ASCENDING"
         }
       ]
