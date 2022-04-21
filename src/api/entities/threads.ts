@@ -16,11 +16,11 @@ const methods = getEntityMethods(collection, {
       'createdAt' | 'archived' | 'participantsScope' | 'participantsMembersIds'
     >
   ) => ({
-    ...thread,
     archived: false,
     createdAt: Timestamp.now(),
     participantsScope: MembersScope.CircleLeaders,
     participantsMembersIds: [],
+    ...thread,
   }),
 })
 export const getThread = methods.get
