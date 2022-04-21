@@ -68,8 +68,11 @@ service cloud.firestore {
       allow delete: if false;
 
       match /threadStatus/{threadId} {
-        allow read, write: if isSignedIn()
-          && request.auth.uid == get(/databases/$(database)/documents/members/$(id)).data.userId;
+        function getMember() {
+          return get(/databases/$(database)/documents/members/$(id)).data;
+        }
+
+        allow read, write: if isSignedIn() && request.auth.uid == getMember().userId;
       }
     }
 
@@ -111,16 +114,16 @@ service cloud.firestore {
 
       // Poll answers
       match /answers/{userId} {
-        function getOrgId() {
-          return get(/databases/$(database)/documents/activities/$(id)).data.orgId;
+        function getActivity() {
+          return get(/databases/$(database)/documents/activities/$(id)).data;
         }
-        function getActivityUserId() {
-          return get(/databases/$(database)/documents/activities/$(id)).data.userId;
-        }
-        allow read: if isOrgReader(getOrgId());
-        allow create, update: if isOrgMember(getOrgId()) && request.auth.uid == userId;
-        allow delete: if isOrgMember(getOrgId())
-          && (request.auth.uid == userId || request.auth.uid == getActivityUserId());
+        allow read: if
+          // Fix error when activity creation is pending so cannot access it yet
+          !exists(/databases/$(database)/documents/activities/$(id))
+          || isOrgReader(getActivity().orgId);
+        allow create, update: if isOrgMember(getActivity().orgId) && request.auth.uid == userId;
+        allow delete: if isOrgMember(getActivity().orgId)
+          && (request.auth.uid == userId || request.auth.uid == getActivity().userId);
       }
     }
 
@@ -133,11 +136,11 @@ service cloud.firestore {
 
       // Meeting steps
       match /steps/{stepId} {
-        function getOrgId() {
-          return get(/databases/$(database)/documents/meetings/$(id)).data.orgId;
+        function getMeeting() {
+          return get(/databases/$(database)/documents/meetings/$(id)).data;
         }
-        allow read: if isOrgReader(getOrgId());
-        allow write: if isOrgMember(getOrgId());
+        allow read: if isOrgReader(getMeeting().orgId);
+        allow write: if isOrgMember(getMeeting().orgId);
       }
     }
 
