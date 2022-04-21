@@ -162,15 +162,7 @@ export default function CircleModalContent({
                 {role.purpose && (
                   <FormControl>
                     <FormLabel>Raison d'être :</FormLabel>
-                    <Box
-                      mx={-3}
-                      px={3}
-                      py={2}
-                      bg={colorMode === 'light' ? 'brand.800' : 'brand.200'}
-                      borderRadius="xl"
-                    >
-                      <Markdown>{role.purpose}</Markdown>
-                    </Box>
+                    <Markdown>{role.purpose}</Markdown>
                   </FormControl>
                 )}
 
