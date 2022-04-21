@@ -101,7 +101,7 @@ export default function MemberModalContent({
 
           <FormControl>
             <FormLabel>Rôles :</FormLabel>
-            <MemberRoles memberId={id} selectedCircleId={selectedCircleId} />
+            <MemberRoles member={member} selectedCircleId={selectedCircleId} />
           </FormControl>
         </VStack>
       </ModalBody>

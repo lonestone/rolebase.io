@@ -9,15 +9,13 @@ import {
   FormControl,
   FormLabel,
   useColorMode,
-  useDisclosure,
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
 import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
-import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
 import { CircleWithRoleEntry } from '@shared/circle'
-import React, { FormEvent, useCallback, useState } from 'react'
+import React, { FormEvent, useCallback, useMemo, useState } from 'react'
 
 interface Props {
   memberId: string
@@ -28,19 +26,17 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const { colorMode } = useColorMode()
   const hoverColor = colorMode === 'light' ? 'gray.100' : 'gray.600'
 
-  // Delete modal
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
-
   const roleCircle = circlesWithRole[circlesWithRole.length - 1]
-  const circleMember = roleCircle.members.find((m) => m.memberId === memberId)
+  const circleMember = useMemo(
+    () => roleCircle.members.find((m) => m.memberId === memberId),
+    [memberId, roleCircle]
+  )
 
   const [avgMinPerWeek, setAvgMinPerWeek] = useState<number | null>(
     circleMember?.avgMinPerWeek ?? null
   )
+
+  const isDirty = avgMinPerWeek !== circleMember?.avgMinPerWeek ?? null
 
   const onSubmit = useCallback(
     (event: FormEvent) => {
@@ -96,31 +92,16 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                   />
                 </FormControl>
 
-                <Box textAlign="right">
-                  <Button
-                    size="sm"
-                    colorScheme="red"
-                    variant="ghost"
-                    onClick={onDeleteOpen}
-                  >
-                    Retirer
-                  </Button>
-                  <Button size="sm" colorScheme="blue" type="submit">
-                    Enregistrer
-                  </Button>
-                </Box>
+                {isDirty && (
+                  <Box textAlign="right">
+                    <Button size="sm" colorScheme="blue" type="submit">
+                      Enregistrer
+                    </Button>
+                  </Box>
+                )}
               </VStack>
             </form>
           </AccordionPanel>
-
-          {isDeleteOpen && (
-            <CircleMemberDeleteModal
-              memberId={memberId}
-              circleId={roleCircle.id}
-              isOpen
-              onClose={onDeleteClose}
-            />
-          )}
         </Box>
       )}
     </AccordionItem>

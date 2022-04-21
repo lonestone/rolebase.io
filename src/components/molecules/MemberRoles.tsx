@@ -1,17 +1,20 @@
-import { Accordion, ExpandedIndex } from '@chakra-ui/react'
+import { Accordion, Alert, AlertIcon, ExpandedIndex } from '@chakra-ui/react'
+import useCurrentOrg from '@hooks/useCurrentOrg'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
+import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import MemberRoleItem from './MemberRoleItem'
 
 interface Props {
-  memberId: string
+  member: MemberEntry
   selectedCircleId?: string
 }
 
-export default function MemberRoles({ memberId, selectedCircleId }: Props) {
+export default function MemberRoles({ member, selectedCircleId }: Props) {
+  const org = useCurrentOrg()
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
   const circleMemberContext = useContext(CircleMemberContext)
@@ -21,7 +24,7 @@ export default function MemberRoles({ memberId, selectedCircleId }: Props) {
     if (!roles || !circles) return []
     return (
       circles
-        .filter((c) => c.members.some((m) => m.memberId === memberId))
+        .filter((c) => c.members.some((m) => m.memberId === member.id))
         .map((circle) =>
           enrichCirclesWithRoles(getCircleAndParents(circles, circle.id), roles)
         )
@@ -33,7 +36,22 @@ export default function MemberRoles({ memberId, selectedCircleId }: Props) {
             : 1
         )
     )
-  }, [memberId, roles, circles])
+  }, [member.id, roles, circles])
+
+  // Compute total number of allocated hours
+  const totalWorkedMin = useMemo(
+    () =>
+      memberCircles.reduce((total, circleWithRoles) => {
+        const circle = circleWithRoles[circleWithRoles.length - 1]
+        const circleMember = circle.members.find(
+          (m) => m.memberId === member.id
+        )
+        return total + (circleMember?.avgMinPerWeek || 0)
+      }, 0),
+    [memberCircles]
+  )
+  const maxWorkedMin =
+    member.workedMinPerWeek || org?.defaultWorkedMinPerWeek || 0
 
   const selectedCircleIndex = useMemo(
     () =>
@@ -47,39 +65,52 @@ export default function MemberRoles({ memberId, selectedCircleId }: Props) {
     (index: ExpandedIndex) => {
       if (typeof index !== 'number') return
       if (index === -1) {
-        circleMemberContext?.goTo(undefined, memberId)
+        circleMemberContext?.goTo(undefined, member.id)
       } else {
         const memberCircle = memberCircles[index]
         if (!memberCircle) return
         const circle = memberCircle[memberCircle.length - 1]
-        circleMemberContext?.goTo(circle.id, memberId)
+        circleMemberContext?.goTo(circle.id, member.id)
       }
     },
     [selectedCircleIndex, memberCircles]
   )
 
+  if (memberCircles.length === 0) {
+    return <i>Aucun</i>
+  }
   return (
     <>
-      {memberCircles.length === 0 ? (
-        <i>Aucun</i>
-      ) : (
-        <Accordion
-          index={selectedCircleIndex}
-          allowToggle
-          mx={-4}
-          onChange={handleAccordeonChange}
-        >
-          {memberCircles.map((entries) => {
-            const circle = entries[entries.length - 1]
-            return (
-              <MemberRoleItem
-                key={circle.id}
-                memberId={memberId}
-                circlesWithRole={entries}
-              />
-            )
-          })}
-        </Accordion>
+      <Accordion
+        index={selectedCircleIndex}
+        allowToggle
+        mx={-4}
+        onChange={handleAccordeonChange}
+      >
+        {memberCircles.map((entries) => {
+          const circle = entries[entries.length - 1]
+          return (
+            <MemberRoleItem
+              key={circle.id}
+              memberId={member.id}
+              circlesWithRole={entries}
+            />
+          )
+        })}
+      </Accordion>
+
+      <Alert status="info" mt={5}>
+        <AlertIcon />
+        Temps total alloué : {Math.floor(totalWorkedMin / 6) / 10}h /{' '}
+        {Math.floor(maxWorkedMin / 6) / 10}h
+      </Alert>
+
+      {totalWorkedMin > maxWorkedMin && (
+        <Alert status="warning" mt={2}>
+          <AlertIcon />
+          Le temps total alloué est trop grand, vous devez baisser le temps
+          total alloué à un rôle ou augmenter le temps de travail du membre.
+        </Alert>
       )}
     </>
   )
