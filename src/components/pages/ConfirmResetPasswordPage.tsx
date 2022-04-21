@@ -3,17 +3,16 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  Box,
   Button,
   Container,
   FormControl,
   FormLabel,
   Heading,
-  Input,
   Spinner,
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import PasswordInput from '@components/atoms/PasswordInput'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -24,6 +23,8 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
+import PasswordConfirmInputDummy from './PasswordConfirmInputDummy'
+import PasswordEmailInputDummy from './PasswordEmailInputDummy'
 
 type Params = {
   oobCode: string
@@ -94,42 +95,19 @@ export default function ConfirmResetPasswordPage() {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={5}>
-            {/*
-              Hidden email field to make password generation
-              works with password managers
-            */}
-            <Box position="absolute" zIndex={-1} opacity="0">
-              <Input
-                name="email"
-                type="email"
-                autoComplete="email"
-                tabIndex={-1}
-              />
-            </Box>
+            <PasswordEmailInputDummy />
 
             <FormControl isInvalid={!!errors.password}>
               <FormLabel>Nouveau mot de passe</FormLabel>
-              <Input
+              <PasswordInput
                 {...register('password')}
-                type="password"
                 required
                 placeholder="Mot de passe..."
                 autoComplete="new-password"
               />
             </FormControl>
 
-            {/*
-              Second hidden password field to make password generation
-              works with password managers
-            */}
-            <Box position="absolute" zIndex={-1} opacity="0">
-              <Input
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                tabIndex={-1}
-              />
-            </Box>
+            <PasswordConfirmInputDummy />
 
             <Button colorScheme="blue" type="submit" isDisabled={loading}>
               Enregistrer

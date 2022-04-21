@@ -1,6 +1,5 @@
 import { emailSchema, nameSchema } from '@api/schemas'
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
@@ -8,6 +7,8 @@ import {
   Spinner,
   VStack,
 } from '@chakra-ui/react'
+import PasswordInput from '@components/atoms/PasswordInput'
+import PasswordConfirmInputDummy from '@components/pages/PasswordConfirmInputDummy'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -69,27 +70,15 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
 
         <FormControl isInvalid={!!errors.password}>
           <FormLabel>Mot de passe</FormLabel>
-          <Input
+          <PasswordInput
             {...register('password')}
-            type="password"
             required
             placeholder="Votre mot de passe..."
             autoComplete="new-password"
           />
         </FormControl>
 
-        {/*
-          Second hidden password field to make password generation
-          works with password managers
-        */}
-        <Box position="absolute" zIndex={-1} opacity="0">
-          <Input
-            name="confirmPassword"
-            type="password"
-            autoComplete="new-password"
-            tabIndex={-1}
-          />
-        </Box>
+        <PasswordConfirmInputDummy />
 
         <Button colorScheme="blue" type="submit" isDisabled={loading}>
           Créer mon compte

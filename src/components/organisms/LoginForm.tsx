@@ -7,6 +7,7 @@ import {
   Link,
   VStack,
 } from '@chakra-ui/react'
+import PasswordInput from '@components/atoms/PasswordInput'
 import { Title } from '@components/atoms/Title'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
@@ -61,9 +62,8 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
 
         <FormControl isInvalid={!!errors.password}>
           <FormLabel>Mot de passe</FormLabel>
-          <Input
+          <PasswordInput
             {...register('password')}
-            type="password"
             required
             placeholder="Votre mot de passe..."
             autoComplete="password"

@@ -16,6 +16,8 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import PasswordInput from '@components/atoms/PasswordInput'
+import PasswordConfirmInputDummy from '@components/pages/PasswordConfirmInputDummy'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useStoreState } from '@store/hooks'
 import { updateEmail, updatePassword, updateProfile } from 'firebase/auth'
@@ -131,26 +133,14 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
 
               <FormControl isInvalid={!!errors.password}>
                 <FormLabel>Modifier le mot de passe</FormLabel>
-                <Input
+                <PasswordInput
                   {...register('password')}
-                  type="password"
                   placeholder="Nouveau mot de passe..."
                   autoComplete="new-password"
                 />
               </FormControl>
 
-              {/*
-                  Second hidden password field to make password generation
-                  works with password managers
-                */}
-              <Box position="absolute" zIndex={-1} opacity="0">
-                <Input
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  tabIndex={-1}
-                />
-              </Box>
+              <PasswordConfirmInputDummy />
 
               <Box textAlign="right">
                 <Button colorScheme="blue" type="submit">
