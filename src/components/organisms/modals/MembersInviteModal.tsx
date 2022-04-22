@@ -184,6 +184,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                       />
                       <MemberButton
                         member={member}
+                        variant="ghost"
                         onClick={() =>
                           dispatch({
                             type: 'Toggle',

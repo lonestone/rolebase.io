@@ -1,8 +1,9 @@
-import { CloseIcon, DragHandleIcon } from '@chakra-ui/icons'
+import { DragHandleIcon } from '@chakra-ui/icons'
 import { Center, HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
+import { FiX } from 'react-icons/fi'
 import useSortableItem from '../../hooks/useSortableItem'
 import { fieldName, StepsValues } from './MeetingStepsConfigController'
 
@@ -57,9 +58,8 @@ export default function MeetingStepSortableItem({
       {onRemove && (
         <IconButton
           aria-label=""
-          size="sm"
           variant="ghost"
-          icon={<CloseIcon />}
+          icon={<FiX />}
           onClick={() => onRemove?.(index)}
         />
       )}

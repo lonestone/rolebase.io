@@ -1,6 +1,7 @@
-import { Avatar, AvatarProps } from '@chakra-ui/react'
+import { Avatar, AvatarProps, Tooltip } from '@chakra-ui/react'
 import useMember from '@hooks/useMember'
 import React from 'react'
+import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends AvatarProps {
   id: string
@@ -10,10 +11,14 @@ export default function MemberAvatar({ id, ...avatarProps }: Props) {
   const member = useMember(id)
 
   return member ? (
-    <Avatar
-      name={member.name}
-      src={member.picture || undefined}
-      {...avatarProps}
-    />
+    <CircleMemberLink memberId={member.id}>
+      <Tooltip label={member.name} placement="top" hasArrow>
+        <Avatar
+          name={member.name}
+          src={member.picture || undefined}
+          {...avatarProps}
+        />
+      </Tooltip>
+    </CircleMemberLink>
   ) : null
 }

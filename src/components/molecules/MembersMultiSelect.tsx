@@ -1,11 +1,10 @@
-import { CloseIcon } from '@chakra-ui/icons'
 import { ButtonGroup, IconButton, Wrap, WrapItem } from '@chakra-ui/react'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import MemberButton from '@components/atoms/MemberButton'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
-import { FiPlus } from 'react-icons/fi'
+import { FiPlus, FiX } from 'react-icons/fi'
 import MemberSearchButton from './search/entities/members/MemberSearchButton'
 
 interface Props {
@@ -46,11 +45,11 @@ export default function MembersMultiSelect({
       {selectedMembers.map((m) => (
         <WrapItem key={m.id}>
           <CircleMemberLink memberId={m.id} circleId={circleId} tabIndex={-1}>
-            <ButtonGroup size="sm" isAttached>
+            <ButtonGroup variant="ghost" size="sm" isAttached>
               <MemberButton member={m} />
               <IconButton
                 aria-label=""
-                icon={<CloseIcon />}
+                icon={<FiX />}
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
@@ -67,6 +66,7 @@ export default function MembersMultiSelect({
           <MemberSearchButton
             excludeIds={excludeMembersIdsMemo}
             size="sm"
+            variant="ghost"
             leftIcon={<FiPlus />}
             onSelect={onAdd}
           >

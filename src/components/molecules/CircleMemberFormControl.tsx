@@ -49,15 +49,15 @@ export default function CircleMemberFormControl({ circleId }: Props) {
 
   const handleRemoveMember = useCallback((memberId: string) => {
     setMemberId(memberId)
-    onDeleteCircleMemberOpen()
+    onDeleteOpen()
   }, [])
 
   // CircleMemberDeleteModal
   const [memberId, setMemberId] = useState<string | undefined>()
   const {
-    isOpen: isDeleteCircleMemberOpen,
-    onOpen: onDeleteCircleMemberOpen,
-    onClose: onDeleteCircleMemberClose,
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
   } = useDisclosure()
 
   return (
@@ -75,12 +75,12 @@ export default function CircleMemberFormControl({ circleId }: Props) {
         />
       )}
 
-      {isDeleteCircleMemberOpen && memberId && (
+      {isDeleteOpen && memberId && (
         <CircleMemberDeleteModal
           memberId={memberId}
           circleId={circleId}
           isOpen
-          onClose={onDeleteCircleMemberClose}
+          onClose={onDeleteClose}
         />
       )}
     </FormControl>

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ButtonProps,
   Input,
   InputGroup,
   InputLeftElement,
@@ -9,18 +10,16 @@ import {
   useColorMode,
 } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { ReactNode, useCallback, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import SearchResultItem from './SearchResultItem'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 import { useSearch } from './useSearch'
 
 const maxDisplayedItems = 25
 
-export interface SearchButtonProps {
-  children: ReactNode
+export interface SearchButtonProps extends Omit<ButtonProps, 'onSelect'> {
+  children: string
   items: SearchItem[]
-  size?: 'sm' | 'md' | 'lg'
-  leftIcon?: React.ReactElement
   onSelect(id: string): void
   onCreate?(name: string): Promise<string>
 }
@@ -28,10 +27,9 @@ export interface SearchButtonProps {
 export default function SearchButton({
   children,
   items,
-  size,
-  leftIcon,
   onSelect,
   onCreate,
+  ...buttonProps
 }: SearchButtonProps) {
   const { colorMode } = useColorMode()
   const { filteredItems, onInputValueChange } = useSearch(items, false, true)
@@ -98,14 +96,16 @@ export default function SearchButton({
 
   return (
     <Box position="relative" {...getComboboxProps()}>
-      <InputGroup size={size}>
+      <InputGroup size={buttonProps.size}>
         {!isOpen && (
-          <Button ref={buttonRef} leftIcon={leftIcon} onClick={handleClick}>
+          <Button ref={buttonRef} {...buttonProps} onClick={handleClick}>
             {children}
           </Button>
         )}
         {isOpen && (
-          <InputLeftElement pointerEvents="none">{leftIcon}</InputLeftElement>
+          <InputLeftElement pointerEvents="none">
+            {buttonProps.leftIcon}
+          </InputLeftElement>
         )}
         <Input
           type="text"
@@ -131,7 +131,7 @@ export default function SearchButton({
               {...getItemProps({ item, index })}
               item={item}
               highlighted={index === highlightedIndex}
-              size={size}
+              size={buttonProps.size}
               w="100%"
               _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
             />

@@ -1,6 +1,5 @@
 import { createActivity, updateActivity } from '@api/entities/activities'
 import { pollAnswersEntities } from '@api/entities/pollAnswers'
-import { CloseIcon } from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -40,7 +39,7 @@ import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { FiHelpCircle, FiPlus } from 'react-icons/fi'
+import { FiHelpCircle, FiPlus, FiX } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 
@@ -271,7 +270,8 @@ export default function ActivityPollModal({
                         {choicesFields.length > 2 ? (
                           <IconButton
                             aria-label=""
-                            icon={<CloseIcon />}
+                            variant="ghost"
+                            icon={<FiX />}
                             onClick={() => removeChoice(index)}
                           />
                         ) : null}

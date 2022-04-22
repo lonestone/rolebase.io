@@ -1,6 +1,7 @@
 import { Button, ButtonProps } from '@chakra-ui/react'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React from 'react'
+import { textEllipse } from 'src/utils'
 import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends ButtonProps {
@@ -11,7 +12,7 @@ export default function CircleButton({ circle, ...buttonProps }: Props) {
   return (
     <CircleMemberLink circleId={circle.id} tabIndex={-1}>
       <Button size="sm" borderRadius="full" {...buttonProps}>
-        {circle.role.name}
+        {textEllipse(circle.role.name, 20)}
       </Button>
     </CircleMemberLink>
   )

@@ -44,6 +44,7 @@ export default function MembersToCopyList({ onClick }: Props) {
         <MemberButton
           key={member.id}
           member={member}
+          variant="ghost"
           onClick={() => onClick(member)}
         />
       ))}

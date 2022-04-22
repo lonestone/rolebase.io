@@ -2,22 +2,28 @@ import {
   Button,
   FormControl,
   FormLabel,
+  StackItem,
   useDisclosure,
-  Wrap,
+  VStack,
   WrapItem,
 } from '@chakra-ui/react'
-import CircleButton from '@components/atoms/CircleButton'
 import CircleCreateModal from '@components/organisms/modals/CircleCreateModal'
+import { ParticipantMember } from '@hooks/useParticipants'
 import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
+import CircleWithLeaderItem from './CircleWithLeaderItem'
 
 interface Props {
   circleId: string
+  participants: ParticipantMember[]
 }
 
-export default function SubCirclesFormControl({ circleId }: Props) {
+export default function SubCirclesFormControl({
+  circleId,
+  participants,
+}: Props) {
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
 
@@ -46,40 +52,46 @@ export default function SubCirclesFormControl({ circleId }: Props) {
     <>
       <FormControl>
         <FormLabel>Rôles :</FormLabel>
-        <Wrap spacing={2}>
+        <VStack spacing={2} align="stretch">
           {childrenAndRoles
-            ?.filter((c) => c.role.singleMember)
-            .map((c) => (
-              <WrapItem key={c.id}>
-                <CircleButton circle={c} />
-              </WrapItem>
+            ?.filter((circle) => circle.role.singleMember)
+            .map((circle) => (
+              <CircleWithLeaderItem
+                key={circle.id}
+                circle={circle}
+                participants={participants}
+              />
             ))}
-          <WrapItem>
+          <StackItem>
             <Button
               size="sm"
+              variant="ghost"
               borderRadius="full"
               leftIcon={<FiPlus />}
               onClick={onCreateCircleSingleMemberOpen}
             >
               Ajouter un rôle
             </Button>
-          </WrapItem>
-        </Wrap>
+          </StackItem>
+        </VStack>
       </FormControl>
 
       <FormControl>
         <FormLabel>Cercles :</FormLabel>
-        <Wrap spacing={2}>
+        <VStack spacing={2} align="stretch">
           {childrenAndRoles
-            ?.filter((c) => !c.role.singleMember)
-            .map((c) => (
-              <WrapItem key={c.id}>
-                <CircleButton circle={c} />
-              </WrapItem>
+            ?.filter((circle) => !circle.role.singleMember)
+            .map((circle) => (
+              <CircleWithLeaderItem
+                key={circle.id}
+                circle={circle}
+                participants={participants}
+              />
             ))}
           <WrapItem>
             <Button
               size="sm"
+              variant="ghost"
               borderRadius="full"
               leftIcon={<FiPlus />}
               onClick={onCreateCircleOpen}
@@ -87,7 +99,7 @@ export default function SubCirclesFormControl({ circleId }: Props) {
               Ajouter un cercle
             </Button>
           </WrapItem>
-        </Wrap>
+        </VStack>
       </FormControl>
 
       {isCreateCircleOpen && (

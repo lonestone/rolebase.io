@@ -205,7 +205,10 @@ export default function CircleModalContent({
                 )}
 
                 {!role.singleMember ? (
-                  <SubCirclesFormControl circleId={id} />
+                  <SubCirclesFormControl
+                    circleId={id}
+                    participants={participants}
+                  />
                 ) : null}
 
                 <CircleMemberFormControl circleId={id} />
