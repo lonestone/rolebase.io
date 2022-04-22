@@ -5,7 +5,8 @@ import { RoleEntry } from '../role'
 export function getCircleParticipants(
   circleId: string,
   circles: CircleEntry[],
-  roles: RoleEntry[]
+  roles: RoleEntry[],
+  ignoreSingleMember = false
 ): Participant[] {
   const currentCircle = circles.find((c) => c.id === circleId)
 
@@ -25,6 +26,7 @@ export function getCircleParticipants(
       const role = roles.find((r) => r.id === circle.roleId)
       if (!role) return
       if (role.singleMember) {
+        if (ignoreSingleMember) return
         // Leader of Role
         const memberId = circle.members[0]?.memberId
         return memberId ? { circleId: circle.id, memberId } : undefined
@@ -38,18 +40,12 @@ export function getCircleParticipants(
           const subRole = roles.find((r) => r.id === subCircle.roleId)
           if (subRole?.link === true) {
             const memberId = subCircle.members[0]?.memberId
-            return memberId ? { circleId: subCircle.id, memberId } : undefined
+            return memberId ? { circleId: circle.id, memberId } : undefined
           }
           return
         })
         .filter(Boolean) as Participant[]
-      if (leaders) return leaders
-
-      // No leader, so we're using all direct members
-      return circle.members.map(({ memberId }) => ({
-        circleId: circle.id,
-        memberId,
-      }))
+      return leaders
     })
     .flat()
     .filter(Boolean) as Participant[]
@@ -65,7 +61,7 @@ export function getCircleParticipants(
         .map((circle) => {
           // Get Member id
           const memberId = circle.members[0]?.memberId
-          return memberId ? { circleId: circle.id, memberId } : undefined
+          return memberId ? { circleId: circle.parentId, memberId } : undefined
         })
     )
     .flat()

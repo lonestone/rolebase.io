@@ -28,3 +28,8 @@ export function readFile(file: File): Promise<string | null> {
     reader.readAsDataURL(file)
   })
 }
+
+export function textEllipse(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text
+  return text.substring(0, maxLength) + '…'
+}

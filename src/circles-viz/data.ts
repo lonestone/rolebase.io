@@ -1,6 +1,7 @@
 import { CircleEntry, CircleMemberEntry } from '@shared/circle'
 import { MemberEntry } from '@shared/member'
 import { RoleEntry } from '@shared/role'
+import { textEllipse } from 'src/utils'
 import settings from './settings'
 import { Data, NodeType } from './types'
 
@@ -27,8 +28,9 @@ export function circlesToD3Data(
       const data: Data = {
         id: circle.id,
         parentCircleId: circle.parentId,
-        name: nameEllipse(
-          roles.find((role) => role.id === circle.roleId)?.name || '?'
+        name: textEllipse(
+          roles.find((role) => role.id === circle.roleId)?.name || '?',
+          16
         ),
         type: NodeType.Circle,
       }
@@ -74,7 +76,7 @@ function memberstoD3Data(
         id: entry.id,
         memberId: entry.memberId,
         parentCircleId: circleId,
-        name: nameEllipse(member?.name || '?'),
+        name: textEllipse(member?.name || '?', 16),
         picture: member?.picture,
         value: settings.memberValue,
         type: NodeType.Member,
@@ -82,11 +84,4 @@ function memberstoD3Data(
     })
   }
   return node
-}
-
-function nameEllipse(name: string) {
-  if (name.length <= 16) {
-    return name
-  }
-  return name.substring(0, 16) + '…'
 }

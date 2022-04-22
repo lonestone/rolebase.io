@@ -48,18 +48,23 @@ export default function useParticipants(
     // with list of circles ids where it's participating
     const participantsMembers: ParticipantMember[] = []
     for (const participant of participants) {
-      let participantMember = participantsMembers.find(
+      const participantMember = participantsMembers.find(
         (p) => p.member.id === participant.memberId
       )
-      if (!participantMember) {
-        const member = members?.find((m) => m.id === participant.memberId)
-        if (member) {
-          participantMember = { member, circlesIds: [] }
-          participantsMembers.push(participantMember)
+      if (participantMember) {
+        if (
+          participant.circleId &&
+          participantMember.circlesIds.indexOf(participant.circleId) === -1
+        ) {
+          participantMember.circlesIds.push(participant.circleId)
         }
-      }
-      if (participantMember && participant.circleId) {
-        participantMember.circlesIds.push(participant.circleId)
+      } else {
+        const member = members?.find((m) => m.id === participant.memberId)
+        if (!member) continue
+        participantsMembers.push({
+          member,
+          circlesIds: participant.circleId ? [participant.circleId] : [],
+        })
       }
     }
 

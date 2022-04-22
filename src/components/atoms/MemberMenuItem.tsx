@@ -2,6 +2,7 @@ import { Avatar, MenuItem, MenuItemProps, Stack, Text } from '@chakra-ui/react'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
+import { textEllipse } from 'src/utils'
 
 interface Props extends MenuItemProps {
   member: MemberEntry
@@ -38,7 +39,7 @@ export default function MemberMenuItem({
       <Stack spacing={0}>
         <Text fontSize="sm">{member.name}</Text>
         {circlesNames.length !== 0 && (
-          <Text fontSize="xs">{circlesNames.join(', ')}</Text>
+          <Text fontSize="xs">{textEllipse(circlesNames.join(', '), 40)}</Text>
         )}
       </Stack>
     </MenuItem>
