@@ -1,6 +1,7 @@
 /*** Fullcalendar cutomizations ***/
 
 :root {
+  --fc-page-bg-color: transparent;
   --fc-small-font-size: 0.85em;
   --fc-event-resizer-thickness: 8px;
   --fc-event-resizer-dot-total-width: 8px;
@@ -27,31 +28,29 @@
 }
 
 .chakra-ui-light {
-  --fc-page-bg-color: #fff;
-  --fc-neutral-bg-color: #edf2f7;
-  --fc-neutral-text-color: #808080;
-  --fc-border-color: #d7dce0;
-  --fc-event-text-color: #1a202c;
-  --fc-button-text-color: #1a202c;
-  --fc-button-bg-color: #edf2f7;
-  --fc-button-hover-bg-color: #e2e8f0;
-  --fc-button-active-bg-color: hsl(214deg 32% 84%);
+  --fc-neutral-bg-color: var(--chakra-colors-gray-100);
+  --fc-neutral-text-color: var(--chakra-colors-gray-500);
+  --fc-border-color: var(--chakra-colors-gray-200);
+  --fc-event-text-color: var(--chakra-colors-gray-800);
+  --fc-button-text-color: var(--chakra-colors-gray-800);
+  --fc-button-bg-color: var(--chakra-colors-gray-100);
+  --fc-button-hover-bg-color: var(--chakra-colors-gray-200);
+  --fc-button-active-bg-color: var(--chakra-colors-gray-300);
   --fc-today-bg-color: rgba(255, 220, 40, 0.15);
-  --fc-list-event-hover-bg-color: #fafafa;
+  --fc-list-event-hover-bg-color: var(--chakra-colors-gray-50);
 }
 
 .chakra-ui-dark {
-  --fc-page-bg-color: transparent;
-  --fc-neutral-text-color: #808080;
-  --fc-neutral-bg-color: #2d3748;
-  --fc-border-color: #2d3748;
-  --fc-event-text-color: rgba(255, 255, 255, 0.92);
-  --fc-button-text-color: rgba(255, 255, 255, 0.92);
-  --fc-button-bg-color: rgba(255, 255, 255, 0.08);
-  --fc-button-hover-bg-color: rgba(255, 255, 255, 0.16);
-  --fc-button-active-bg-color: rgba(255, 255, 255, 0.24);
+  --fc-neutral-bg-color: var(--chakra-colors-gray-700);
+  --fc-neutral-text-color: var(--chakra-colors-gray-500);
+  --fc-border-color: var(--chakra-colors-gray-550);
+  --fc-event-text-color: var(--chakra-colors-gray-100);
+  --fc-button-text-color: var(--chakra-colors-gray-100);
+  --fc-button-bg-color: var(--chakra-colors-gray-600);
+  --fc-button-hover-bg-color: var(--chakra-colors-gray-550);
+  --fc-button-active-bg-color: var(--chakra-colors-gray-550);
   --fc-today-bg-color: rgba(255, 220, 40, 0.05);
-  --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
+  --fc-list-event-hover-bg-color: var(--chakra-colors-gray-600);
 }
 
 /* Event */
@@ -62,7 +61,7 @@
   border-color: transparent;
 }
 a.fc-event:hover {
-  border-color: #bbb;
+  border-color: var(--chakra-colors-gray-500);
 }
 
 /* Title */
@@ -95,7 +94,7 @@ a.fc-event:hover {
 .fc .fc-button-primary:focus,
 .fc .fc-button-primary:not(:disabled):active:focus,
 .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
-  box-shadow: 0 0 3px 0px rgb(0 0 0);
+  box-shadow: var(--chakra-shadows-outline);
 }
 
 /* Margins */

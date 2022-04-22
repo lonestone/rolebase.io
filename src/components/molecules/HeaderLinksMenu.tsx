@@ -80,8 +80,8 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
     <Menu>
       <MenuButton
         as={IconButton}
-        bg="transparent"
         icon={<FiMoreVertical />}
+        variant="ghost"
         size="sm"
         px={1}
         {...props}

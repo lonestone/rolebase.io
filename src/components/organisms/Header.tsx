@@ -95,7 +95,7 @@ export default function Header() {
       h={`${headerHeight}px`}
       alignItems="center"
       px={1}
-      bg={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+      bg={colorMode === 'light' ? 'gray.50' : 'gray.600'}
       borderBottom="1px solid"
       borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
     >
