@@ -145,6 +145,7 @@ export default function CircleModalContent({
             borderBottom="1px solid"
             borderTopColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
             borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+            overflow="auto"
           >
             <CirclePanelTab icon={<FiDisc />}>
               {role.singleMember ? 'Rôle' : 'Cercle'}
