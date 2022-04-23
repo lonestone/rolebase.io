@@ -35,6 +35,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
+import { useOrgRole } from '@hooks/useOrgRole'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/log'
 import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
@@ -68,6 +69,7 @@ const resolver = yupResolver(
 export default function MemberEditModal({ id, ...modalProps }: Props) {
   const member = useMember(id)
   const org = useCurrentOrg()
+  const userRole = useOrgRole()
   const toast = useToast()
   const createLog = useCreateLog()
 
@@ -171,60 +173,54 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
       <Modal {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <form onSubmit={onSubmit}>
-            <ModalHeader>
-              <Flex>
-                Modifier le membre {member.name}
-                <Spacer />
-                <ActionsMenu onDelete={onDeleteOpen} />
-                <ModalCloseStaticButton />
-              </Flex>
-            </ModalHeader>
+          <ModalHeader>
+            <Flex>
+              Modifier le membre {member.name}
+              <Spacer />
+              <ActionsMenu onDelete={onDeleteOpen} />
+              <ModalCloseStaticButton />
+            </Flex>
+          </ModalHeader>
 
-            <ModalBody>
-              <VStack spacing={5} align="stretch">
-                <HStack spacing={5} align="center">
-                  <MemberPictureEdit
-                    id={id}
-                    name={member.name}
-                    src={member.picture || undefined}
-                  />
+          <ModalBody>
+            <VStack spacing={5} align="stretch">
+              <HStack spacing={5} align="center">
+                <MemberPictureEdit
+                  id={id}
+                  name={member.name}
+                  src={member.picture || undefined}
+                />
 
-                  <FormControl isInvalid={!!errors.name}>
-                    <FormLabel>Nom</FormLabel>
-                    <Input
-                      {...register('name')}
-                      placeholder="Nom..."
-                      autoFocus
+                <FormControl isInvalid={!!errors.name}>
+                  <FormLabel>Nom</FormLabel>
+                  <Input {...register('name')} placeholder="Nom..." autoFocus />
+                </FormControl>
+              </HStack>
+              <FormControl isInvalid={!!errors.description}>
+                <FormLabel>Description</FormLabel>
+                <MarkdownEditorController
+                  name="description"
+                  placeholder={`Qui est ${member.name} ?`}
+                  control={control}
+                />
+              </FormControl>
+              <FormControl isInvalid={!!errors.workedMinPerWeek}>
+                <FormLabel>Temps de travail pour l'organisation</FormLabel>
+                <Controller
+                  name="workedMinPerWeek"
+                  control={control}
+                  render={({ field }) => (
+                    <DurationSelect
+                      placeholderValue={org?.defaultWorkedMinPerWeek}
+                      value={field.value ?? null}
+                      onChange={field.onChange}
                     />
-                  </FormControl>
-                </HStack>
+                  )}
+                />
+              </FormControl>
 
-                <FormControl isInvalid={!!errors.description}>
-                  <FormLabel>Description</FormLabel>
-                  <MarkdownEditorController
-                    name="description"
-                    placeholder={`Qui est ${member.name} ?`}
-                    control={control}
-                  />
-                </FormControl>
-
-                <FormControl isInvalid={!!errors.workedMinPerWeek}>
-                  <FormLabel>Temps de travail pour l'organisation</FormLabel>
-                  <Controller
-                    name="workedMinPerWeek"
-                    control={control}
-                    render={({ field }) => (
-                      <DurationSelect
-                        placeholderValue={org?.defaultWorkedMinPerWeek}
-                        value={field.value ?? null}
-                        onChange={field.onChange}
-                      />
-                    )}
-                  />
-                </FormControl>
-
-                {member.userId ? (
+              {userRole === ClaimRole.Admin &&
+                (member.userId ? (
                   <FormControl>
                     <FormLabel>Utilisateur invité</FormLabel>
                     <Select {...register('role')}>
@@ -279,16 +275,15 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                       />
                     </HStack>
                   </FormControl>
-                )}
-              </VStack>
-            </ModalBody>
+                ))}
+            </VStack>
+          </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="blue" type="submit">
-                Enregistrer
-              </Button>
-            </ModalFooter>
-          </form>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onSubmit}>
+              Enregistrer
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
 
