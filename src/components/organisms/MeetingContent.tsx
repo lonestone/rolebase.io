@@ -54,6 +54,7 @@ import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
+
 interface Props extends BoxProps {
   id: string
   changeTitle?: boolean

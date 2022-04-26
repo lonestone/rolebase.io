@@ -112,8 +112,9 @@ export default function MeetingEditModal({
   const initStartDate = useMemo(() => {
     if (defaultStartDate) return defaultStartDate
     const date = new Date()
-    date.setDate(date.getDate() + 1)
-    date.setHours(8, 0, 0, 0)
+    // Round up to the quarter hour
+    const rounded = date.getHours() * 4 + Math.round(date.getMinutes() / 15)
+    date.setHours(Math.floor(rounded / 4), (rounded % 4) * 15, 0, 0)
     return date
   }, [])
 
