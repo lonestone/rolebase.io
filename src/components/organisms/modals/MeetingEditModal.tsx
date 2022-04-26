@@ -1,5 +1,8 @@
 import { createMeeting, updateMeeting } from '@api/entities/meetings'
-import { createMissingMeetingSteps } from '@api/entities/meetingSteps'
+import {
+  createMissingMeetingSteps,
+  duplicateMeetingSteps,
+} from '@api/entities/meetingSteps'
 import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
 import { nameSchema } from '@api/schemas'
 import {
@@ -56,13 +59,15 @@ import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FiEdit3, FiHelpCircle } from 'react-icons/fi'
+import { useHistory } from 'react-router-dom'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 import MeetingTemplatesModal from './MeetingTemplatesModal'
 
 interface Props extends UseModalProps {
+  meeting?: MeetingEntry // If provided, the meeting will be updated
+  duplicate?: boolean // If true and meeting provided, the meeting will be duplicated
   defaultCircleId?: string
-  meeting?: MeetingEntry
   defaultStartDate?: Date
   onCreate?(meetingId: string): void
 }
@@ -99,24 +104,44 @@ enum VideoConfType {
 }
 
 export default function MeetingEditModal({
-  defaultCircleId,
   meeting,
+  duplicate,
+  defaultCircleId,
   defaultStartDate,
   onCreate,
   ...modalProps
 }: Props) {
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
+  const history = useHistory()
 
-  // Default date is tomorrow 8:00
-  const initStartDate = useMemo(() => {
-    if (defaultStartDate) return defaultStartDate
-    const date = new Date()
-    // Round up to the quarter hour
-    const rounded = date.getHours() * 4 + Math.round(date.getMinutes() / 15)
-    date.setHours(Math.floor(rounded / 4), (rounded % 4) * 15, 0, 0)
-    return date
-  }, [])
+  const defaultValues = useMemo(
+    () => ({
+      title: meeting?.title ?? '',
+      circleId: meeting?.circleId ?? (defaultCircleId || ''),
+      facilitatorMemberId: meeting?.facilitatorMemberId ?? '',
+      participantsScope:
+        meeting?.participantsScope ?? MembersScope.CircleLeaders,
+      startDate: getDateTimeLocal(
+        duplicate || !meeting
+          ? defaultStartDate || getRoundedDate()
+          : meeting.startDate.toDate()
+      ),
+      duration: meeting
+        ? Math.round((meeting.endDate.seconds - meeting.startDate.seconds) / 60)
+        : 60,
+      ended: meeting?.ended ?? false,
+      stepsConfig: meeting?.stepsConfig ?? [
+        {
+          id: nanoid(5),
+          type: MeetingStepTypes.Threads,
+          title: 'Ordre du jour',
+        },
+      ],
+      videoConf: meeting?.videoConf ?? false,
+    }),
+    [defaultCircleId, defaultStartDate, meeting]
+  )
 
   const {
     handleSubmit,
@@ -127,37 +152,7 @@ export default function MeetingEditModal({
     formState: { errors },
   } = useForm<Values>({
     resolver,
-    defaultValues: meeting
-      ? {
-          title: meeting.title,
-          circleId: meeting.circleId,
-          facilitatorMemberId: meeting.facilitatorMemberId,
-          participantsScope: meeting.participantsScope,
-          startDate: getDateTimeLocal(meeting.startDate.toDate()),
-          duration: Math.round(
-            (meeting.endDate.seconds - meeting.startDate.seconds) / 60
-          ),
-          ended: meeting.ended,
-          stepsConfig: meeting.stepsConfig,
-          videoConf: meeting.videoConf || false,
-        }
-      : {
-          title: '',
-          circleId: defaultCircleId || '',
-          facilitatorMemberId: '',
-          participantsScope: MembersScope.CircleLeaders,
-          startDate: getDateTimeLocal(initStartDate),
-          duration: 60,
-          ended: false,
-          stepsConfig: [
-            {
-              id: nanoid(5),
-              type: MeetingStepTypes.Threads,
-              title: 'Ordre du jour',
-            },
-          ],
-          videoConf: false,
-        },
+    defaultValues,
   })
 
   const templateId = watch('templateId')
@@ -201,7 +196,7 @@ export default function MeetingEditModal({
       ),
       participantsMembersIds,
     }
-    if (meeting) {
+    if (meeting && !duplicate) {
       // Update meeting
       await updateMeeting(meeting.id, meetingUpdate)
 
@@ -209,15 +204,25 @@ export default function MeetingEditModal({
       await createMissingMeetingSteps(meeting.id, meetingUpdate.stepsConfig)
     } else {
       // Create meeting
-      const meeting = await createMeeting({
+      const newMeeting = await createMeeting({
         orgId,
         initiatorMemberId: currentMember.id,
         ...meetingUpdate,
       })
-      onCreate?.(meeting.id)
+
+      if (meeting && duplicate) {
+        // Duplicate steps
+        await duplicateMeetingSteps(meeting.id, newMeeting)
+      }
 
       // Create missing steps
-      await createMissingMeetingSteps(meeting.id, meeting.stepsConfig)
+      await createMissingMeetingSteps(newMeeting.id, newMeeting.stepsConfig)
+
+      if (onCreate) {
+        onCreate(newMeeting.id)
+      } else {
+        history.push(`/orgs/${orgId}/meetings/${newMeeting.id}`)
+      }
     }
 
     modalProps.onClose()
@@ -254,7 +259,9 @@ export default function MeetingEditModal({
       <ModalContent>
         <form onSubmit={onSubmit}>
           <ModalHeader>
-            {meeting ? 'Modifier une réunion' : 'Nouvelle réunion'}
+            {meeting && !duplicate
+              ? 'Modifier une réunion'
+              : 'Nouvelle réunion'}
           </ModalHeader>
           <ModalCloseButton />
 
@@ -440,4 +447,12 @@ export default function MeetingEditModal({
       )}
     </Modal>
   )
+}
+
+// Returns current date with hour rounded up to the quarter hour
+function getRoundedDate(): Date {
+  const date = new Date()
+  const rounded = date.getHours() * 4 + Math.round(date.getMinutes() / 15)
+  date.setHours(Math.floor(rounded / 4), (rounded % 4) * 15, 0, 0)
+  return date
 }

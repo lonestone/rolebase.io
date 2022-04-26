@@ -7,14 +7,20 @@ import {
   MenuList,
 } from '@chakra-ui/react'
 import React from 'react'
-import { FiEdit3, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
+import { FiCopy, FiEdit3, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
 
 interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onEdit?(): void
+  onDuplicate?(): void
   onDelete?(): void
 }
 
-export default function ActionsMenu({ onEdit, onDelete, ...props }: Props) {
+export default function ActionsMenu({
+  onEdit,
+  onDelete,
+  onDuplicate,
+  ...props
+}: Props) {
   return (
     <Menu>
       <MenuButton
@@ -30,6 +36,11 @@ export default function ActionsMenu({ onEdit, onDelete, ...props }: Props) {
         {onEdit && (
           <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
             Editer
+          </MenuItem>
+        )}
+        {onDuplicate && (
+          <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
+            Dupliquer
           </MenuItem>
         )}
         {onDelete && (

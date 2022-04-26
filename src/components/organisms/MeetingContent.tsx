@@ -41,7 +41,7 @@ import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { format } from 'date-fns'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FaStop } from 'react-icons/fa'
 import {
   FiArrowDown,
@@ -113,11 +113,22 @@ export default function MeetingContent({
   const circle = useCircle(meeting?.circleId)
 
   // Meeting edition modal
+  const [duplicateInModal, setDuplicateInModal] = useState(false)
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
     onClose: onEditClose,
   } = useDisclosure()
+
+  const handleEdit = () => {
+    setDuplicateInModal(false)
+    onEditOpen()
+  }
+
+  const handleDuplicate = () => {
+    setDuplicateInModal(true)
+    onEditOpen()
+  }
 
   // Meeting deletion modal
   const {
@@ -178,12 +189,11 @@ export default function MeetingContent({
 
           <ParticipantsNumber participants={participants} mr={1} />
 
-          {(canEditConfig || canDelete) && (
-            <ActionsMenu
-              onEdit={canEditConfig ? onEditOpen : undefined}
-              onDelete={canDelete ? onDeleteOpen : undefined}
-            />
-          )}
+          <ActionsMenu
+            onEdit={canEditConfig ? handleEdit : undefined}
+            onDuplicate={handleDuplicate}
+            onDelete={canDelete ? onDeleteOpen : undefined}
+          />
 
           {headerIcons}
         </Flex>
@@ -336,7 +346,12 @@ export default function MeetingContent({
       )}
 
       {isEditOpen && (
-        <MeetingEditModal meeting={meeting} isOpen onClose={onEditClose} />
+        <MeetingEditModal
+          meeting={meeting}
+          duplicate={duplicateInModal}
+          isOpen
+          onClose={onEditClose}
+        />
       )}
 
       {isDeleteOpen && meeting && (
