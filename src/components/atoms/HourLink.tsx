@@ -16,7 +16,14 @@ export default function HourLink({ date, timestamp, ...linkProps }: Props) {
   )
 
   return (
-    <Link as={ReachLink} to="#" fontSize="sm" color="gray.500" {...linkProps}>
+    <Link
+      as={ReachLink}
+      to="#"
+      fontSize="sm"
+      fontWeight="normal"
+      color="gray.500"
+      {...linkProps}
+    >
       {format(computedDate, 'HH:mm')}
     </Link>
   )

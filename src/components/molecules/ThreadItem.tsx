@@ -4,13 +4,18 @@ import {
   forwardRef,
   LinkBox,
   LinkBoxProps,
+  LinkOverlay,
+  useDisclosure,
 } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
-import ThreadLinkOverlay from '@components/atoms/ThreadLinkOverlay'
+import ThreadModal from '@components/organisms/modals/ThreadModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import { useOrgId } from '@hooks/useOrgId'
 import { ThreadEntry } from '@shared/thread'
 import React from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
+import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {
   thread: ThreadEntry
@@ -20,34 +25,46 @@ interface Props extends LinkBoxProps {
 
 const ThreadItem = forwardRef<Props, 'div'>(
   ({ thread, unread, showCircle, children, ...linkBoxProps }, ref) => {
+    const orgId = useOrgId()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const handleOpen = useNormalClickHandler(onOpen)
     const hover = useHoverItemStyle()
 
     return (
-      <LinkBox
-        ref={ref}
-        p={1}
-        _hover={hover}
-        {...linkBoxProps}
-        tabIndex={
-          // Remove tabIndex because it's redondant with link
-          undefined
-        }
-      >
-        <Flex>
-          <Center w={6} h={6} mr={2}>
-            <FiMessageSquare />
-          </Center>
+      <>
+        <LinkBox
+          ref={ref}
+          p={1}
+          _hover={hover}
+          {...linkBoxProps}
+          tabIndex={
+            // Remove tabIndex because it's redondant with link
+            undefined
+          }
+        >
+          <Flex>
+            <Center w={6} h={6} mr={2}>
+              <FiMessageSquare />
+            </Center>
 
-          <ThreadLinkOverlay
-            thread={thread}
-            fontWeight={unread ? 'bold' : 'normal'}
-          />
+            <LinkOverlay
+              as={ReachLink}
+              flex={1}
+              to={`/orgs/${orgId}/threads/${thread.id}`}
+              fontWeight={unread ? 'bold' : 'normal'}
+              onClick={handleOpen}
+            >
+              {thread.title}
+            </LinkOverlay>
 
-          {showCircle && <CircleByIdButton circleId={thread.circleId} />}
+            {showCircle && <CircleByIdButton circleId={thread.circleId} />}
 
-          {children}
-        </Flex>
-      </LinkBox>
+            {children}
+          </Flex>
+        </LinkBox>
+
+        {isOpen && <ThreadModal id={thread.id} isOpen onClose={onClose} />}
+      </>
     )
   }
 )
