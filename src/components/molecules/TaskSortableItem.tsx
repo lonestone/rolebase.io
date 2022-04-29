@@ -1,22 +1,29 @@
+import { subscribeTask } from '@api/entities/tasks'
 import { CloseIcon } from '@chakra-ui/icons'
 import { IconButton } from '@chakra-ui/react'
 import useSortableItem from '@hooks/useSortableItem'
-import { TaskEntry } from '@shared/task'
+import useSubscription from '@hooks/useSubscription'
 import React from 'react'
 import TaskItem from './TaskItem'
 
 interface Props {
-  task: TaskEntry
+  taskId: string
   disabled: boolean
   onRemove?(taskId: string): void
 }
 
-export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
-  const { attributes, listeners } = useSortableItem(task.id, disabled)
+export default function TaskSortableItem({
+  taskId,
+  onRemove,
+  disabled,
+}: Props) {
+  const { data: task } = useSubscription(subscribeTask(taskId))
+  const { attributes, listeners } = useSortableItem(taskId, disabled)
 
+  if (!task) return null
   return (
     <TaskItem
-      key={task.id}
+      key={taskId}
       task={task}
       {...attributes}
       {...listeners}
@@ -33,7 +40,7 @@ export default function TaskSortableItem({ task, onRemove, disabled }: Props) {
           icon={<CloseIcon />}
           ml={2}
           zIndex={1}
-          onClick={() => onRemove(task.id)}
+          onClick={() => onRemove(taskId)}
         />
       )}
     </TaskItem>

@@ -1,14 +1,9 @@
-import {
-  subscribeAllTasks,
-  subscribeTasksByCircle,
-  subscribeTasksByIds,
-} from '@api/entities/tasks'
+import { subscribeAllTasks, subscribeTasksByCircle } from '@api/entities/tasks'
 import { Box, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
-import { TaskEntry } from '@shared/task'
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import TaskSearchButton from './search/entities/tasks/TaskSearchButton'
@@ -38,32 +33,8 @@ export default function TasksMultiSelect({
     : undefined
   const { data: tasks, loading, error } = useSubscription(subscribe)
 
-  // Add missing finished and archived tasks
-  const subscribeFinishedTasks = useMemo(() => {
-    if (!orgId || !tasks) return
-    const missingIds = tasksIds.filter(
-      (id) => !tasks.find((task) => task.id === id)
-    )
-    return subscribeTasksByIds(missingIds)
-  }, [orgId, tasks, tasksIds])
-  const {
-    data: extraTasks,
-    loading: extraLoading,
-    error: extraError,
-  } = useSubscription(subscribeFinishedTasks)
-
-  // Get selected tasks
-  const selectedTasks = useMemo(() => {
-    if (!tasksIds) return []
-
-    return tasksIds
-      .map(
-        (id) =>
-          tasks?.find((m) => m.id === id) ||
-          extraTasks?.find((m) => m.id === id)
-      )
-      .filter(Boolean) as TaskEntry[]
-  }, [tasksIds, tasks, extraTasks])
+  // Prepare sortable items
+  const items = useMemo(() => tasksIds.map((id) => ({ id })), [tasksIds])
 
   const handleAdd = useCallback(
     (id: string) => onChange?.([...tasksIds, id]),
@@ -88,15 +59,15 @@ export default function TasksMultiSelect({
 
   return (
     <>
-      {(loading || extraLoading) && <Loading active size="md" />}
-      <TextErrors errors={[error, extraError]} />
+      {loading && <Loading active size="md" />}
+      <TextErrors errors={[error]} />
 
       <VStack spacing={0} align="stretch">
-        <SortableList items={selectedTasks} onDragEnd={handleDragEnd}>
-          {selectedTasks.map((task) => (
+        <SortableList items={items} onDragEnd={handleDragEnd}>
+          {items.map((item) => (
             <TaskSortableItem
-              key={task.id}
-              task={task}
+              key={item.id}
+              taskId={item.id}
               onRemove={onChange && handleRemove}
               disabled={!onChange}
             />
@@ -104,7 +75,7 @@ export default function TasksMultiSelect({
         </SortableList>
       </VStack>
 
-      {onChange && (!max || selectedTasks.length < max) ? (
+      {onChange && (!max || items.length < max) ? (
         <Box mt={2}>
           <TaskSearchButton
             tasks={tasks || []}
