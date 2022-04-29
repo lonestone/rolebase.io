@@ -50,9 +50,7 @@ export default function Header() {
               label: 'Discussions',
             },
             {
-              to: `/orgs/${org.id}/meetings${
-                currentMember?.meetingId ? '/' + currentMember.meetingId : ''
-              }`,
+              to: `/orgs/${org.id}/meetings`,
               icon: <FiCalendar />,
               label: 'Réunions',
               bg: currentMember?.meetingId

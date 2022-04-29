@@ -5,6 +5,7 @@ import {
   updateMeeting,
 } from '@api/entities/meetings'
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
+import { stopMembersMeeting } from '@api/entities/members'
 import {
   Alert,
   AlertDescription,
@@ -43,7 +44,7 @@ import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FaStop } from 'react-icons/fa'
 import {
   FiArrowDown,
@@ -116,6 +117,13 @@ export default function MeetingContent({
     (p) => p.member.id === meeting?.facilitatorMemberId
   )
   const canEdit = isParticipant || isInitiator || isAdmin
+
+  // Fix current meeting for current member if meeting is not started
+  useEffect(() => {
+    if (!isStarted && currentMember?.meetingId === meeting.id) {
+      stopMembersMeeting([currentMember.id], meeting.id)
+    }
+  }, [isStarted, currentMember, meeting])
 
   // Circle
   const circle = useCircle(meeting?.circleId)
@@ -287,6 +295,16 @@ export default function MeetingContent({
               </Button>
             )}
 
+            {isStarted && canEdit && meeting.videoConf && (
+              <Button
+                leftIcon={<FiVideo />}
+                colorScheme="blue"
+                onClick={handleJoinVideoConf}
+              >
+                Rejoindre la visio
+              </Button>
+            )}
+
             {!meeting.ended && !canEdit && (
               <Alert status="info">
                 <AlertIcon />
@@ -296,16 +314,6 @@ export default function MeetingContent({
                   rejoindre.
                 </AlertDescription>
               </Alert>
-            )}
-
-            {!meeting.ended && isParticipant && meeting.videoConf && (
-              <Button
-                leftIcon={<FiVideo />}
-                colorScheme="blue"
-                onClick={handleJoinVideoConf}
-              >
-                Rejoindre la visio
-              </Button>
             )}
           </VStack>
 

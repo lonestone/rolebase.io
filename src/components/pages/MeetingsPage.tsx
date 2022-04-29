@@ -3,6 +3,9 @@ import {
   updateMeetingDates,
 } from '@api/entities/meetings'
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
   ColorMode,
@@ -33,6 +36,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar, { EventContentArg, EventInput } from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import { useOrgId } from '@hooks/useOrgId'
@@ -52,6 +56,7 @@ const getColors = (mode: ColorMode) => ({
 })
 
 export default function MeetingsPage() {
+  const currentMember = useCurrentMember()
   const { colorMode } = useColorMode()
   const colors = useMemo(() => getColors(colorMode), [colorMode])
   const getCircleById = useStoreState((state) => state.circles.getById)
@@ -163,6 +168,12 @@ export default function MeetingsPage() {
     onMeetingOpen()
   }, [])
 
+  const handleOpenCurrentMeeting = useCallback(() => {
+    if (!currentMember?.meetingId) return
+    setMeetingId(currentMember?.meetingId)
+    onMeetingOpen()
+  }, [currentMember?.meetingId])
+
   const handleEventClick = useCallback(
     ({ event }: EventClickArg) => {
       const meeting = meetings?.find((m) => m.id === event.id)
@@ -264,6 +275,17 @@ export default function MeetingsPage() {
           Nouvelle réunion
         </Button>
       </Flex>
+
+      {currentMember?.meetingId && (
+        <Alert status="info" mt={2} mb={3}>
+          <AlertIcon />
+          <AlertTitle>Réunion en cours</AlertTitle>
+          <Spacer />
+          <Button ml={3} colorScheme="blue" onClick={handleOpenCurrentMeeting}>
+            Ouvrir
+          </Button>
+        </Alert>
+      )}
 
       <Box flex={1}>
         <FullCalendar

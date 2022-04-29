@@ -67,11 +67,11 @@ export function updateMeetingDates(id: string, startDate: Date, endDate: Date) {
 
 // End meeting
 export async function endMeeting(meetingId: string, membersIds: string[]) {
-  stopMembersMeeting(membersIds, meetingId)
   await updateMeeting(meetingId, {
     currentStepId: null,
     ended: true,
   })
+  stopMembersMeeting(membersIds, meetingId)
 }
 
 export async function goToNextMeetingStep(
@@ -82,12 +82,12 @@ export async function goToNextMeetingStep(
   if (meeting.currentStepId === null) {
     const firstStep = meeting.stepsConfig[0]
     if (firstStep) {
-      startMembersMeeting(membersIds, meeting.id)
       // Go to first step
       await updateMeeting(meeting.id, {
         currentStepId: firstStep.id,
         ended: false,
       })
+      startMembersMeeting(membersIds, meeting.id)
     } else {
       // No first step -> end meeting
       await endMeeting(meeting.id, membersIds)
