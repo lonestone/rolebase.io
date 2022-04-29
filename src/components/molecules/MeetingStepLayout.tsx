@@ -19,22 +19,29 @@ export default function MeetingStepLayout({
   children,
 }: Props) {
   const { colorMode } = useColorMode()
-  const borderColor = colorMode === 'light' ? 'gray.200' : 'gray.550'
+  const borderColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.200'
+  const tagColor = borderColor
+  const tagCurrentColor = 'green.600'
+  const tagHoverColor = colorMode === 'light' ? 'gray.200' : 'whiteAlpha.300'
+  const tagTextColor = current
+    ? 'white'
+    : colorMode === 'light'
+    ? 'black'
+    : 'gray.300'
 
   return (
     <>
       <Flex alignItems="center">
         <Tag
-          color={
-            current ? 'white' : colorMode === 'light' ? 'black' : 'gray.300'
-          }
-          bg={current ? 'green.600' : borderColor}
+          color={tagTextColor}
+          bg={current ? tagCurrentColor : tagColor}
+          _hover={current ? undefined : { bg: tagHoverColor }}
           variant="solid"
           size="lg"
           fontWeight="bold"
           borderRadius="full"
           mr={4}
-          cursor={onNumberClick ? 'pointer' : 'default'}
+          cursor={!current && onNumberClick ? 'pointer' : 'default'}
           onClick={onNumberClick}
         >
           {index + 1}
