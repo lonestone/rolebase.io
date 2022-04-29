@@ -37,9 +37,11 @@ import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgRole } from '@hooks/useOrgRole'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
+import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { FaStop } from 'react-icons/fa'
@@ -47,8 +49,10 @@ import {
   FiArrowDown,
   FiCalendar,
   FiClock,
+  FiEdit3,
   FiPlay,
   FiVideo,
+  FiX,
 } from 'react-icons/fi'
 import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
@@ -70,6 +74,8 @@ export default function MeetingContent({
   ...boxProps
 }: Props) {
   const currentMember = useCurrentMember()
+  const userRole = useOrgRole()
+  const isAdmin = userRole === ClaimRole.Admin
 
   // Subscribe meeting
   const {
@@ -85,6 +91,9 @@ export default function MeetingContent({
     error: stepsError,
     loading: stepsLoading,
   } = useSubscription(subscribeMeetingSteps())
+
+  // Edit mode when meeting is ended
+  const [forceEdit, setForceEdit] = useState(false)
 
   // Meeting not started?
   const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
@@ -106,8 +115,7 @@ export default function MeetingContent({
   const facilitator = participants?.find(
     (p) => p.member.id === meeting?.facilitatorMemberId
   )
-  const canDelete = meeting && !meeting.ended && (isParticipant || isInitiator)
-  const canEditConfig = canDelete
+  const canEdit = isParticipant || isInitiator || isAdmin
 
   // Circle
   const circle = useCircle(meeting?.circleId)
@@ -190,9 +198,9 @@ export default function MeetingContent({
           <ParticipantsNumber participants={participants} mr={1} />
 
           <ActionsMenu
-            onEdit={canEditConfig ? handleEdit : undefined}
+            onEdit={canEdit && !meeting?.ended ? handleEdit : undefined}
             onDuplicate={handleDuplicate}
-            onDelete={canDelete ? onDeleteOpen : undefined}
+            onDelete={canEdit && !meeting?.ended ? onDeleteOpen : undefined}
           />
 
           {headerIcons}
@@ -225,47 +233,40 @@ export default function MeetingContent({
                 })}
               </StackItem>
               {meeting?.ended && <Tag ml={1}>Terminée</Tag>}
+              {isStarted && (
+                <Tag colorScheme="green" ml={1}>
+                  En cours
+                </Tag>
+              )}
             </HStack>
 
-            {meeting.ended ? (
-              <>
-                {isFacilitator && (
+            {meeting.ended && canEdit && (
+              <HStack>
+                {!forceEdit && (
                   <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
-                    Reprendre la réunion
+                    Reprendre
                   </Button>
                 )}
-              </>
-            ) : isFacilitator ? (
-              <>
+
+                <Button
+                  leftIcon={forceEdit ? <FiX /> : <FiEdit3 />}
+                  onClick={() => setForceEdit((e) => !e)}
+                >
+                  {forceEdit ? 'Arrêter' : 'Modifier'}
+                </Button>
+              </HStack>
+            )}
+
+            {!meeting.ended &&
+              (isFacilitator ? (
                 <Alert status="info">
                   <AlertIcon />
                   <AlertDescription>
                     Vous animez cette réunion.
                   </AlertDescription>
                 </Alert>
-
-                {isNotStarted && (
-                  <Button
-                    leftIcon={<FiPlay />}
-                    colorScheme="green"
-                    onClick={handleNextStep}
-                  >
-                    Démarrer
-                  </Button>
-                )}
-              </>
-            ) : (
-              <>
-                {!isParticipant && (
-                  <Alert status="info">
-                    <AlertIcon />
-                    <AlertDescription>
-                      Vous n'êtes pas participant dans cette réunion, vous ne
-                      pouvez donc pas la rejoindre.
-                    </AlertDescription>
-                  </Alert>
-                )}
-                {facilitator && (
+              ) : (
+                facilitator && (
                   <Text>
                     <MemberLink
                       id={facilitator.member.id}
@@ -273,11 +274,31 @@ export default function MeetingContent({
                     />{' '}
                     anime cette réunion.
                   </Text>
-                )}
-              </>
+                )
+              ))}
+
+            {isNotStarted && canEdit && (
+              <Button
+                leftIcon={<FiPlay />}
+                colorScheme="green"
+                onClick={handleNextStep}
+              >
+                Démarrer
+              </Button>
             )}
 
-            {isStarted && isParticipant && meeting.videoConf && (
+            {!meeting.ended && !canEdit && (
+              <Alert status="info">
+                <AlertIcon />
+                <AlertDescription>
+                  Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e)
+                  participant(e)s de vous inviter si vous souhaitez la
+                  rejoindre.
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {!meeting.ended && isParticipant && meeting.videoConf && (
               <Button
                 leftIcon={<FiVideo />}
                 colorScheme="blue"
@@ -302,7 +323,7 @@ export default function MeetingContent({
                   last={last}
                   current={current}
                   onNumberClick={
-                    isStarted && isFacilitator
+                    isStarted && canEdit
                       ? () => handleGoToStep(stepConfig.id)
                       : undefined
                   }
@@ -311,14 +332,14 @@ export default function MeetingContent({
                     <MeetingStepContent
                       meetingId={id}
                       circleId={meeting.circleId}
-                      editable={isParticipant && !meeting.ended}
+                      editable={canEdit && (!meeting.ended || forceEdit)}
                       current={current}
                       stepConfig={stepConfig}
                       step={step}
                     />
                   )}
 
-                  {isStarted && isFacilitator && (
+                  {isStarted && canEdit && (
                     <Collapse in={current || last} animateOpacity>
                       <Button
                         leftIcon={last ? <FaStop /> : <FiArrowDown />}

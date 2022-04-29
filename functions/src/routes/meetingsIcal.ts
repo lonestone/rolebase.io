@@ -61,7 +61,11 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
 
   // Get meetings
   const meetings = getQuerySnapshotData(
-    await collections.meetings.where('orgId', '==', orgId).get()
+    await collections.meetings
+      .where('orgId', '==', orgId)
+      .where('archived', '==', false)
+      .orderBy('startDate', 'asc')
+      .get()
   ).filter((meeting) => {
     if (memberId) {
       // Filter by member
