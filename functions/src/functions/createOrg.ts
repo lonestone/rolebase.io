@@ -59,6 +59,7 @@ export const createOrg = functions.https.onCall(
       defaultMinPerWeek: null,
       singleMember: false,
       link: false,
+      colorHue: null,
     })
 
     // Create circle

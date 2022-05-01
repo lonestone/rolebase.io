@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { useOrgId } from '@hooks/useOrgId'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useRef, useState } from 'react'
-import { mainColor } from 'src/theme'
+import { circleColor } from 'src/theme'
 import { ColorModeProps, mode } from 'src/utils'
 import { createGraph, Graph } from '../../circles-viz/createGraph'
 import useCirclesEvents from '../../hooks/useGraphEvents'
@@ -22,21 +22,23 @@ const StyledSVG = styled.svg<ColorModeProps>`
 
   [data-hover] circle {
     stroke: ${(p) =>
-      mainColor(
+      circleColor(
         mode(
           `calc(88% - (var(--depth) - 1) * 7%)`,
           `calc(22% + (var(--depth) - 1) * 7%)`
-        )(p)
+        )(p),
+        'var(--hue)'
       )};
     stroke-width: 2px;
   }
   [data-selected] circle {
     stroke: ${(p) =>
-      mainColor(
+      circleColor(
         mode(
           `calc(75% - (var(--depth) - 1) * 7%)`,
           `calc(35% + (var(--depth) - 1) * 7%)`
-        )(p)
+        )(p),
+        'var(--hue)'
       )};
     stroke-width: 2px;
   }
@@ -45,7 +47,7 @@ const StyledSVG = styled.svg<ColorModeProps>`
     fill-opacity: 0.5;
   }
   [data-drag-target] circle {
-    stroke: ${(p) => mainColor(mode('20%', '80%')(p))};
+    stroke: ${(p) => circleColor(mode('20%', '80%')(p))};
     stroke-width: 3px;
   }
 `

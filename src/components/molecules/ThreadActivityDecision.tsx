@@ -22,7 +22,7 @@ interface Props {
 export default function ThreadActivityDecision({ activity }: Props) {
   const userId = useStoreState((state) => state.auth.user?.id)
   const { colorMode } = useColorMode()
-  const bgColor = colorMode === 'light' ? '#EDF2F7' : 'rgba(255,255,255,0.05)'
+  const bgColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100'
 
   // Edit modal
   const {
@@ -42,11 +42,18 @@ export default function ThreadActivityDecision({ activity }: Props) {
     >
       <Box
         mt={3}
-        borderLeft={`2px solid ${bgColor}`}
+        border="1px solid"
+        borderColor={bgColor}
         borderRadius="lg"
         role="group"
       >
-        <HStack background={bgColor} borderRadius="lg" h="40px" pl={3} pr={1}>
+        <HStack
+          background={bgColor}
+          borderTopRadius="lg"
+          h="40px"
+          pl={3}
+          pr={1}
+        >
           <Text fontWeight="bold" mr={6}>
             Décision
           </Text>

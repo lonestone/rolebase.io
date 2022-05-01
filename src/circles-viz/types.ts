@@ -16,6 +16,7 @@ export interface Data {
   name: string
   picture?: string | null
   type: NodeType
+  hue?: number // Color
   value?: number
   children?: Array<Data>
 }

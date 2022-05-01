@@ -51,7 +51,7 @@ const TaskItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex>
+          <Flex align="center">
             <TaskStatusInput
               value={task.status}
               onChange={handleChangeStatus}

@@ -24,6 +24,9 @@ export function circlesToD3Data(
   return circles
     .filter((circle) => circle.parentId == parentId)
     .map((circle) => {
+      const role = roles.find((role) => role.id === circle.roleId)
+      if (!role) return
+
       // Define circle data with role name
       const data: Data = {
         id: circle.id,
@@ -33,6 +36,10 @@ export function circlesToD3Data(
           16
         ),
         type: NodeType.Circle,
+      }
+
+      if (typeof role.colorHue === 'number') {
+        data.hue = role.colorHue
       }
 
       // Add sub-circles to children
@@ -54,6 +61,7 @@ export function circlesToD3Data(
       }
       return data
     })
+    .filter(Boolean) as Data[]
 }
 
 function memberstoD3Data(

@@ -24,7 +24,7 @@ interface Props {
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const { colorMode } = useColorMode()
-  const hoverColor = colorMode === 'light' ? 'gray.50' : 'gray.600'
+  const hoverColor = colorMode === 'light' ? 'gray.50' : 'whiteAlpha.100'
   const expandedColor = colorMode === 'light' ? 'gray.100' : 'gray.550'
 
   const roleCircle = circlesWithRole[circlesWithRole.length - 1]

@@ -1,24 +1,25 @@
 import { lastColorMode } from '@components/pages/CirclesPage'
-import { mainColor } from 'src/theme'
-import { NodeType } from './types'
+import { circleColor } from 'src/theme'
+import { NodeData, NodeType } from './types'
 
-// const color = (n: number) => d3.schemePastel1[n % d3.schemePastel1.length]
+export function getNodeColor(nodeData: NodeData, depth?: number) {
+  if (!depth) depth = nodeData.depth
 
-function getCircleColor(depth: number) {
-  // Lightess from depth
-  const lightness = 94 - (depth - 1) * 7
-  return mainColor(
-    `${
-      // Use color mode (light/dark)
-      lastColorMode === 'light' ? lightness : 110 - lightness
-    }%`
-  )
-}
-
-export function getNodeColor(nodeType: NodeType, depth = 1) {
   // Circle color
-  if (nodeType === NodeType.Circle) return getCircleColor(depth)
-  if (nodeType === NodeType.MembersCircle) return 'transparent'
+  if (nodeData.data.type === NodeType.Circle) {
+    const lightness = 94 - (depth - 1) * 7
+    return circleColor(
+      `${
+        // Use color mode (light/dark)
+        lastColorMode === 'light' ? lightness : 110 - lightness
+      }%`,
+      nodeData.data.hue
+    )
+  }
+  // Members background color
+  if (nodeData.data.type === NodeType.MembersCircle) {
+    return 'transparent'
+  }
   // Member color
-  return lastColorMode == 'light' ? mainColor('95%') : mainColor('10%')
+  return lastColorMode == 'light' ? circleColor('95%') : circleColor('10%')
 }

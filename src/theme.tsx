@@ -1,6 +1,10 @@
 import { extendTheme } from '@chakra-ui/react'
+import { mode } from '@chakra-ui/theme-tools'
 
-export const mainColor = (lightness: string) => `hsl(252deg 52% ${lightness})`
+export const defaultCircleColorHue = 35
+
+export const circleColor = (lightness: string, hue?: number | string) =>
+  `hsl(${hue ?? defaultCircleColorHue} ${lightness} ${lightness})`
 
 // https://chakra-ui.com/docs/theming/theme
 // https://chakra-ui.com/docs/theming/customize-theme
@@ -13,36 +17,74 @@ const theme = extendTheme({
   },
   colors: {
     brand: {
-      50: mainColor('5%'),
-      100: mainColor('10%'),
-      200: mainColor('15%'),
-      300: mainColor('25%'),
-      400: mainColor('40%'),
-      500: mainColor('50%'),
-      600: mainColor('75%'),
-      700: mainColor('85%'),
-      800: mainColor('90%'),
-      900: mainColor('95%'),
+      50: 'hsl(35 97% 5%)',
+      100: 'hsl(35 97% 10%)',
+      200: 'hsl(35 97% 15%)',
+      300: 'hsl(35 97% 25%)',
+      400: 'hsl(35 97% 40%)',
+      500: 'hsl(35 97% 50%)',
+      600: 'hsl(35 97% 75%)',
+      700: 'hsl(35 97% 85%)',
+      800: 'hsl(35 97% 90%)',
+      900: 'hsl(35 97% 95%)',
     },
     gray: {
-      50: '#fbfaf7',
-      100: '#f2f1ee',
-      200: '#e8e4d5',
-      300: '#d8cfbc',
-      400: '#a6a29b',
-      500: '#7d7b78',
-      550: '#3c3b3b',
-      600: '#302f2f',
-      700: '#222121',
-      800: '#1e1d1d',
-      900: '#141414',
+      50: 'hsl(35 97% 98%)',
+      100: 'hsl(35 90% 92%)',
+      200: 'hsl(35 80% 86%)',
+      300: 'hsl(35 50% 79%)',
+      400: 'hsl(35 40% 63%)',
+      500: 'hsl(35 12% 50%)', // Readable gray on light and dark background
+      550: 'hsl(35 20% 20%)',
+      600: 'hsl(35 20% 15%)',
+      700: 'hsl(35 20% 11%)',
+      800: 'hsl(35 20% 9%)',
+      900: 'hsl(35 20% 5%)',
     },
     black: '#111111',
+    outline: 'hsl(35 97% 50%)',
+  },
+  styles: {
+    global: (props: any) => ({
+      '*::placeholder': {
+        color: 'gray.500',
+      },
+      '*, *::before, &::after': {
+        borderColor: mode('gray.300', 'whiteAlpha.400')(props),
+      },
+    }),
+  },
+  shadows: {
+    outline: `0 0 0 3px hsl(35 97% 50%)`,
   },
   components: {
     Link: {
       baseStyle: {
         fontWeight: 'bold',
+      },
+    },
+    Input: {
+      variants: {
+        outline: {
+          field: {
+            _focus: {
+              borderColor: 'outline',
+              boxShadow: `0 0 0 1px var(--chakra-colors-outline)`,
+            },
+          },
+        },
+      },
+    },
+    Select: {
+      variants: {
+        outline: {
+          field: {
+            _focus: {
+              borderColor: 'outline',
+              boxShadow: `0 0 0 1px var(--chakra-colors-outline)`,
+            },
+          },
+        },
       },
     },
   },

@@ -25,6 +25,7 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import ColorController from '@components/atoms/ColorController'
 import DurationSelect from '@components/atoms/DurationSelect'
 import { MarkdownEditorHandle } from '@components/molecules/editor/chunk/useMarkdownEditor'
 import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
@@ -54,6 +55,7 @@ interface Values {
   singleMember: boolean
   link: string | boolean
   defaultMinPerWeek: number | null
+  colorHue: number | null
 }
 
 const resolver = yupResolver(
@@ -89,9 +91,10 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
       accountabilities: role.accountabilities,
       checklist: role.checklist,
       indicators: role.indicators,
-      defaultMinPerWeek: role.defaultMinPerWeek || null,
-      singleMember: role.singleMember || false,
-      link: role.link || false,
+      defaultMinPerWeek: role.defaultMinPerWeek ?? null,
+      singleMember: role.singleMember ?? false,
+      link: role.link ?? false,
+      colorHue: role.colorHue ?? null,
     },
   })
 
@@ -299,6 +302,12 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <FormHelperText>
                   Temps alloué par défaut à chaque membre ayant ce rôle.
                 </FormHelperText>
+              </FormControl>
+
+              <FormControl>
+                <ColorController name="colorHue" control={control}>
+                  Personnaliser la couleur
+                </ColorController>
               </FormControl>
             </VStack>
           </ModalBody>

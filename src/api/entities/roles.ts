@@ -22,6 +22,7 @@ const methods = getEntityMethods(collection, {
       | 'singleMember'
       | 'link'
       | 'defaultMinPerWeek'
+      | 'colorHue'
     >
   ) => ({
     archived: false,
@@ -34,6 +35,7 @@ const methods = getEntityMethods(collection, {
     singleMember: false,
     link: false,
     defaultMinPerWeek: null,
+    colorHue: null,
     ...role,
   }),
 })

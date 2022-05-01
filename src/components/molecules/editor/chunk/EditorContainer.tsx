@@ -19,8 +19,8 @@ const EditorContainer = styled.div<ColorModeProps>`
     }
 
     &.ProseMirror-focused {
-      border-color: ${mode('#3182ce', '#63b3ed')};
-      box-shadow: 0 0 0 1px ${mode('#3182ce', '#63b3ed')};
+      border-color: var(--chakra-colors-outline);
+      box-shadow: 0 0 0 1px var(--chakra-colors-outline);
     }
   }
   &[aria-invalid='true'] .ProseMirror {
@@ -43,13 +43,15 @@ const EditorContainer = styled.div<ColorModeProps>`
 
     // "+" button
     .block-menu-trigger {
-      color: ${mode('#4E5C6E', '#CBD5E0')};
+      color: var(
+        ${mode('--chakra-colors-gray-800', '--chakra-colors-gray-100')}
+      );
       margin-left: -42px;
     }
 
     // Placeholder text
     .placeholder:before {
-      color: ${mode('#a0aebf', '#4c4b4e')};
+      color: var(--chakra-colors-gray-500);
     }
 
     // Headings annotations

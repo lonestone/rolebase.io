@@ -46,13 +46,13 @@ import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
-import { mainColor } from 'src/theme'
+import { circleColor } from 'src/theme'
 
 const getColors = (mode: ColorMode) => ({
-  bgNotStarted: mode === 'light' ? mainColor('85%') : mainColor('25%'),
+  bgNotStarted: mode === 'light' ? circleColor('85%') : circleColor('25%'),
   bgStarted: mode === 'light' ? 'hsl(144deg 76% 85%)' : 'hsl(144deg 76% 25%)',
   bgEnded: mode === 'light' ? 'hsl(192deg 34% 92%)' : 'hsl(192deg 34% 18%)',
-  bgCircleName: mode === 'light' ? mainColor('93%') : mainColor('17%'),
+  bgCircleName: mode === 'light' ? circleColor('93%') : circleColor('17%'),
 })
 
 export default function MeetingsPage() {
@@ -277,7 +277,7 @@ export default function MeetingsPage() {
       </Flex>
 
       {currentMember?.meetingId && (
-        <Alert status="info" mt={2} mb={3}>
+        <Alert status="info" mt={2} mb={3} maxW={400}>
           <AlertIcon />
           <AlertTitle>Réunion en cours</AlertTitle>
           <Spacer />

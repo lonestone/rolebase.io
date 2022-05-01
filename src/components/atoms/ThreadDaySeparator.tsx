@@ -1,4 +1,4 @@
-import { Box, Divider, Flex } from '@chakra-ui/react'
+import { Box, Divider, Flex, useColorMode } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import React from 'react'
 import { dateFnsLocale } from 'src/locale'
@@ -9,6 +9,8 @@ interface Props {
 }
 
 export default function ThreadDaySeparator({ date }: Props) {
+  const { colorMode } = useColorMode()
+
   return (
     <Flex py="10px" justifyContent="center">
       <Divider pt="15px" />
@@ -18,7 +20,8 @@ export default function ThreadDaySeparator({ date }: Props) {
         height="30px"
         lineHeight="30px"
         px="15px"
-        border="1px solid #E2E8F0"
+        border="1px solid"
+        borderColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
         borderRadius="full"
       >
         {capitalizeFirstLetter(

@@ -12,6 +12,7 @@ import { getTargetNodeData } from './getTargetNodeData'
 import { getHighlightTransition } from './highlightCircle'
 import { packData } from './packData'
 import selectAppend from './selectAppend'
+import { setNodeCSSVariables } from './setNodeCSSVariables'
 import settings from './settings'
 import {
   Data,
@@ -162,10 +163,7 @@ export default function updateCircles(
           })
 
         // Set CSS variables
-        nodeGroup.each((d, i, nodes) => {
-          const node = nodes[i]
-          node.style.setProperty('--depth', d.depth.toString())
-        })
+        setNodeCSSVariables(nodeGroup)
 
         // No events on members group
         nodeGroup
@@ -177,7 +175,7 @@ export default function updateCircles(
           .append('circle')
           .attr('id', (d) => `circle-${d.data.id}`)
           .attr('r', (d) => d.r)
-          .attr('fill', (d) => getNodeColor(d.data.type, d.depth))
+          .attr('fill', (d) => getNodeColor(d))
           .attr('cursor', 'pointer')
           .attr('stroke-width', '0') // Init stroke-width for transitions
 
@@ -323,7 +321,7 @@ export default function updateCircles(
                       .transition(transition as any)
                       .attr('fill', (d) =>
                         getNodeColor(
-                          d.data.type,
+                          d,
                           (targetData ? targetData.depth : 0) +
                             d.depth -
                             dragNode.depth +
@@ -396,7 +394,7 @@ export default function updateCircles(
                     .transition(transition as any)
                     .attr('transform', (d) => `translate(${d.x},${d.y})`)
                     .select('circle')
-                    .attr('fill', (d) => getNodeColor(d.data.type, d.depth))
+                    .attr('fill', (d) => getNodeColor(d))
 
                   // Reset circles names
                   dragNodes.data().forEach((d) => {
@@ -424,10 +422,7 @@ export default function updateCircles(
           .ease(settings.move.transition)
 
         // Set CSS variables
-        nodeUpdate.each((d, i, nodes) => {
-          const node = nodes[i] as SVGGElement
-          node.style.setProperty('--depth', d.depth.toString())
-        })
+        setNodeCSSVariables(nodeUpdate as any)
 
         // Update position
         nodeUpdate
@@ -442,7 +437,7 @@ export default function updateCircles(
           .select('circle')
           .transition(transition as any)
           .attr('r', (d) => d.r)
-          .attr('fill', (d) => getNodeColor(d.data.type, d.depth))
+          .attr('fill', (d) => getNodeColor(d))
           .attr('opacity', 1)
           .attr('stroke', 'none')
 

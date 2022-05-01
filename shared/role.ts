@@ -23,6 +23,8 @@ export interface Role {
   // Default work duration for this role
   // Can be overriden by circle member, uses org value by default
   defaultMinPerWeek: number | null
+  // Optional color for the circle
+  colorHue: number | null
 }
 
 export type RoleEntry = WithId<Role>

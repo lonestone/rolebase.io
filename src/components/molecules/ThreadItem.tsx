@@ -42,7 +42,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex>
+          <Flex align="center">
             <Center w={6} h={6} mr={2}>
               <FiMessageSquare />
             </Center>
