@@ -12,6 +12,7 @@ const roleBase = {
   singleMember: false,
   link: false,
   defaultMinPerWeek: null,
+  colorHue: null,
 }
 
 export const roles: RoleEntry[] = [
