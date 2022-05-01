@@ -1,10 +1,11 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
+import { Box, BoxProps } from '@chakra-ui/react'
 import { MeetingStepTasks } from '@shared/meetingStep'
 import { WithId } from '@shared/types'
 import React, { useCallback } from 'react'
 import TasksMultiSelect from './TasksMultiSelect'
 
-interface Props {
+interface Props extends BoxProps {
   meetingId: string
   circleId: string
   step: WithId<MeetingStepTasks>
@@ -16,6 +17,7 @@ export default function MeetingStepContentTasks({
   circleId,
   step,
   editable,
+  ...boxProps
 }: Props) {
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
 
@@ -27,10 +29,12 @@ export default function MeetingStepContentTasks({
   )
 
   return (
-    <TasksMultiSelect
-      tasksIds={step.tasksIds}
-      circleId={circleId}
-      onChange={editable ? handleChange : undefined}
-    />
+    <Box {...boxProps}>
+      <TasksMultiSelect
+        tasksIds={step.tasksIds}
+        circleId={circleId}
+        onChange={editable ? handleChange : undefined}
+      />
+    </Box>
   )
 }

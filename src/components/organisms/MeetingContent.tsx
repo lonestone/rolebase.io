@@ -310,8 +310,7 @@ export default function MeetingContent({
                 <AlertIcon />
                 <AlertDescription>
                   Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e)
-                  participant(e)s de vous inviter si vous souhaitez la
-                  rejoindre.
+                  participant(e) de vous inviter si vous souhaitez la rejoindre.
                 </AlertDescription>
               </Alert>
             )}

@@ -12,5 +12,5 @@ export const migration: express.RequestHandler = async (req, res) => {
     })
   })
 
-  res.send('ok')
+  res.send('description added to members')
 }

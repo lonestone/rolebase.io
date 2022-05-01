@@ -167,7 +167,11 @@ export default function CircleModalContent({
                   </FormControl>
                 )}
 
-                {(role.domain || role.accountabilities || role.notes) && (
+                {(role.domain ||
+                  role.accountabilities ||
+                  role.checklist ||
+                  role.indicators ||
+                  role.notes) && (
                   <>
                     <Button
                       variant="link"
@@ -191,6 +195,20 @@ export default function CircleModalContent({
                           <FormControl>
                             <FormLabel>Redevabilités :</FormLabel>
                             <Markdown>{role.accountabilities}</Markdown>
+                          </FormControl>
+                        )}
+
+                        {role.checklist && (
+                          <FormControl>
+                            <FormLabel>Checklist :</FormLabel>
+                            <Markdown>{role.checklist}</Markdown>
+                          </FormControl>
+                        )}
+
+                        {role.indicators && (
+                          <FormControl>
+                            <FormLabel>Indicateurs :</FormLabel>
+                            <Markdown>{role.indicators}</Markdown>
                           </FormControl>
                         )}
 

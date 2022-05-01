@@ -10,7 +10,13 @@ import { usePreventClose } from '@hooks/usePreventClose'
 import RichMarkdownEditor, { YCollab } from '@rolebase/editor'
 import { Bytes } from 'firebase/firestore'
 import throttle from 'lodash.throttle'
-import React, { forwardRef, useCallback, useEffect, useMemo } from 'react'
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react'
 import EditorContainer from './EditorContainer'
 import useFileUpload from './useFileUpload'
 import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
@@ -52,10 +58,22 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
     const collabPlugin = useMemo(() => new YCollab(docId), [docId])
 
     // Stop collab on unmount
-    useEffect(() => () => collabPlugin.stop(), [docId])
+    const prevDocId = useRef(docId)
+    useEffect(
+      () => () => {
+        if (prevDocId.current !== docId) {
+          prevDocId.current = docId
+          collabPlugin.stop()
+        }
+      },
+      [docId]
+    )
 
     // On mount
+    const valueApplied = useRef(false)
     useEffect(() => {
+      if (valueApplied.current) return
+      valueApplied.current = true
       if (updates) {
         // Apply saved updates
         collabPlugin.applyUpdates(updates.toUint8Array())
@@ -96,8 +114,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
     // to save it with throttling
     const handleChange = useCallback(() => {
       const newValue = getValue()
-      const hasChanged = newValue !== '' && newValue !== value
-      if (!hasChanged) return
+      if (newValue === value) return
       preventClose()
       handleSaveThrottle()
     }, [docId, value])

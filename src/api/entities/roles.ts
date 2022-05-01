@@ -16,6 +16,8 @@ const methods = getEntityMethods(collection, {
       | 'purpose'
       | 'domain'
       | 'accountabilities'
+      | 'checklist'
+      | 'indicators'
       | 'notes'
       | 'singleMember'
       | 'link'
@@ -26,6 +28,8 @@ const methods = getEntityMethods(collection, {
     purpose: '',
     domain: '',
     accountabilities: '',
+    checklist: '',
+    indicators: '',
     notes: '',
     singleMember: false,
     link: false,

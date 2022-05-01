@@ -1,12 +1,14 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
-import { Box } from '@chakra-ui/react'
 import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingStepConfig } from '@shared/meeting'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/meetingStep'
 import { Bytes } from 'firebase/firestore'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
+import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
 import MarkdownCollabEditor from './editor/MarkdownCollabEditor'
+import MeetingStepContentChecklist from './MeetingStepContentChecklist'
+import MeetingStepContentIndicators from './MeetingStepContentIndicators'
 
 interface Props {
   meetingId: string
@@ -28,6 +30,7 @@ export default function MeetingStepContent({
   step,
 }: Props) {
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
+  const editorRef = useRef<MarkdownEditorHandle>(null)
 
   // Update notes
   const handleNotesChange = useCallback(
@@ -43,28 +46,47 @@ export default function MeetingStepContent({
   return (
     <>
       {step.type === MeetingStepTypes.Threads && (
-        <Box mb={5}>
-          <MeetingStepContentThreads
-            meetingId={meetingId}
-            circleId={circleId}
-            step={step}
-            editable={editable}
-          />
-        </Box>
+        <MeetingStepContentThreads
+          meetingId={meetingId}
+          circleId={circleId}
+          step={step}
+          editable={editable}
+          mb={5}
+        />
       )}
 
       {step.type === MeetingStepTypes.Tasks && (
-        <Box mb={5}>
-          <MeetingStepContentTasks
-            meetingId={meetingId}
-            circleId={circleId}
-            step={step}
-            editable={editable}
-          />
-        </Box>
+        <MeetingStepContentTasks
+          meetingId={meetingId}
+          circleId={circleId}
+          step={step}
+          editable={editable}
+          mb={5}
+        />
+      )}
+
+      {step.type === MeetingStepTypes.Checklist && (
+        <MeetingStepContentChecklist
+          circleId={circleId}
+          step={step}
+          editorRef={editorRef}
+          editable={editable}
+          mb={5}
+        />
+      )}
+
+      {step.type === MeetingStepTypes.Indicators && (
+        <MeetingStepContentIndicators
+          circleId={circleId}
+          step={step}
+          editorRef={editorRef}
+          editable={editable}
+          mb={5}
+        />
       )}
 
       <MarkdownCollabEditor
+        ref={editorRef}
         docId={`meeting${meetingId}-step${step.id}`}
         value={step.notes}
         updates={step.notesUpdates}

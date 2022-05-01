@@ -53,6 +53,8 @@ export const createOrg = functions.https.onCall(
       purpose: '',
       domain: '',
       accountabilities: '',
+      checklist: '',
+      indicators: '',
       notes: '',
       defaultMinPerWeek: null,
       singleMember: false,

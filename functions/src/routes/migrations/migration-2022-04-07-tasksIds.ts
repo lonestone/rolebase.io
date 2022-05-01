@@ -20,5 +20,5 @@ export const migration: express.RequestHandler = async (req, res) => {
     })
   })
 
-  res.send('ok')
+  res.send('tasksIds added to meetings tasks steps')
 }

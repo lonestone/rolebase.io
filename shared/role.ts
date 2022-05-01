@@ -8,6 +8,8 @@ export interface Role {
   purpose: string
   domain: string
   accountabilities: string
+  checklist: string
+  indicators: string
   notes: string
   // Can only contain 0-1 member if true
   singleMember: boolean

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { ForwardedRef, forwardRef, RefAttributes } from 'react'
 import { Control, Controller, Path } from 'react-hook-form'
+import { MarkdownEditorHandle } from './chunk/useMarkdownEditor'
 import MarkdownEditor from './MarkdownEditor'
 
 interface Props<Values> {
@@ -9,12 +10,10 @@ interface Props<Values> {
   autoFocus?: boolean
 }
 
-export default function MarkdownEditorController<Values>({
-  name,
-  placeholder,
-  autoFocus,
-  control,
-}: Props<Values>) {
+function MarkdownEditorController<Values>(
+  { name, placeholder, autoFocus, control }: Props<Values>,
+  ref: ForwardedRef<MarkdownEditorHandle>
+) {
   return (
     <Controller
       name={name}
@@ -22,6 +21,7 @@ export default function MarkdownEditorController<Values>({
       defaultValue={'' as any}
       render={({ field }) => (
         <MarkdownEditor
+          ref={ref}
           value={field.value as string}
           onChange={field.onChange}
           placeholder={placeholder}
@@ -31,3 +31,7 @@ export default function MarkdownEditorController<Values>({
     />
   )
 }
+
+export default forwardRef(MarkdownEditorController) as any as <Values>(
+  props: Props<Values> & RefAttributes<MarkdownEditorHandle>
+) => ReturnType<typeof MarkdownEditorController>
