@@ -87,6 +87,13 @@ const theme = extendTheme({
         },
       },
     },
+    Kbd: {
+      baseStyle: {
+        fontSize: '1em',
+        fontFamily: 'inherit',
+        fontWeight: 'normal',
+      },
+    },
   },
 })
 

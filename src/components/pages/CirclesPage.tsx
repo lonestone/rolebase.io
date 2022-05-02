@@ -1,6 +1,7 @@
 import { Box, Flex, useColorMode } from '@chakra-ui/react'
 import ModalPanel from '@components/atoms/ModalPanel'
 import { Title } from '@components/atoms/Title'
+import CirclesKeyboardShortcuts from '@components/molecules/CirclesKeyboardShortcuts'
 import CircleModalContent from '@components/organisms/modals/CircleModalContent'
 import MemberModalContent from '@components/organisms/modals/MemberModalContent'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -99,6 +100,8 @@ export default function CirclesPage() {
       )}
 
       {panel === Panels.None && org && <Title>{org.name}</Title>}
+
+      <CirclesKeyboardShortcuts position="absolute" left={3} bottom={3} />
     </Flex>
   )
 }

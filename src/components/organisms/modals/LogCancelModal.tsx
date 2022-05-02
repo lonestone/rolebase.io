@@ -122,7 +122,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
               Voir les modifications
             </Button>
             <Collapse in={showDetails} animateOpacity>
-              <VStack spacing={3} wordBreak="break-word">
+              <VStack spacing={3} align="stretch" wordBreak="break-word">
                 {Object.keys(log.changes).flatMap((entityType) =>
                   log.changes[entityType as keyof EntitiesChanges]?.map(
                     (entityChange) => (
