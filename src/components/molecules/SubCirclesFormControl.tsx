@@ -12,6 +12,7 @@ import { ParticipantMember } from '@hooks/useParticipants'
 import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 
@@ -24,6 +25,7 @@ export default function SubCirclesFormControl({
   circleId,
   participants,
 }: Props) {
+  const { t } = useTranslation()
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
 
@@ -51,7 +53,7 @@ export default function SubCirclesFormControl({
   return (
     <>
       <FormControl>
-        <FormLabel>Rôles :</FormLabel>
+        <FormLabel>{t('molecules.SubCirclesFormControl.roles')}</FormLabel>
         <VStack spacing={2} align="stretch">
           {childrenAndRoles
             ?.filter((circle) => circle.role.singleMember)
@@ -70,14 +72,14 @@ export default function SubCirclesFormControl({
               leftIcon={<FiPlus />}
               onClick={onCreateCircleSingleMemberOpen}
             >
-              Ajouter un rôle
+              {t('molecules.SubCirclesFormControl.addRole')}
             </Button>
           </StackItem>
         </VStack>
       </FormControl>
 
       <FormControl>
-        <FormLabel>Cercles :</FormLabel>
+        <FormLabel>{t('molecules.SubCirclesFormControl.circles')}</FormLabel>
         <VStack spacing={2} align="stretch">
           {childrenAndRoles
             ?.filter((circle) => !circle.role.singleMember)
@@ -96,7 +98,7 @@ export default function SubCirclesFormControl({
               leftIcon={<FiPlus />}
               onClick={onCreateCircleOpen}
             >
-              Ajouter un cercle
+              {t('molecules.SubCirclesFormControl.addCircles')}
             </Button>
           </WrapItem>
         </VStack>

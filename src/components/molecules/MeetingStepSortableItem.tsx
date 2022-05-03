@@ -3,6 +3,7 @@ import { Center, HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
 import { MeetingStepTypes } from '@shared/meetingStep'
 import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
 import useSortableItem from '../../hooks/useSortableItem'
 import { fieldName, StepsValues } from './MeetingStepsConfigController'
@@ -16,14 +17,6 @@ interface Props {
   onRemove?(index: number): void
 }
 
-export const meetingStepNames: Record<MeetingStepTypes, string> = {
-  [MeetingStepTypes.Tour]: 'Tour de table',
-  [MeetingStepTypes.Threads]: 'Discussions',
-  [MeetingStepTypes.Checklist]: 'Checklist',
-  [MeetingStepTypes.Indicators]: 'Indicateurs',
-  [MeetingStepTypes.Tasks]: 'Tâches',
-}
-
 export default function MeetingStepSortableItem({
   id,
   index,
@@ -32,6 +25,7 @@ export default function MeetingStepSortableItem({
   errors,
   onRemove,
 }: Props) {
+  const { t } = useTranslation()
   const { attributes, listeners } = useSortableItem(id)
 
   return (
@@ -45,14 +39,14 @@ export default function MeetingStepSortableItem({
       </Tag>
 
       <Text flex={1} pl={5}>
-        {meetingStepNames[stepType]}
+        {t(`common.meetingSteps.${stepType}`)}
       </Text>
 
       <Input
         {...control.register(`${fieldName}.${index}.title`)}
         flex={1}
         isInvalid={!!errors?.[fieldName]?.[index]}
-        placeholder="Titre de l'étape..."
+        placeholder={t(`molecules.MeetingStepSortableItem.placeholder`)}
       />
 
       {onRemove && (

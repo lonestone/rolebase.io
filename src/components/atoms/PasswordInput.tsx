@@ -5,12 +5,15 @@ import {
   InputGroup,
   InputProps,
   InputRightElement,
+  Tooltip,
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 const PasswordInput = forwardRef<Omit<InputProps, 'type'>, 'input'>(
   ({ onChange, ...props }, ref) => {
+    const { t } = useTranslation()
     const [show, setShow] = useState(false)
     const [showButton, setShowButton] = useState(false)
 
@@ -31,14 +34,20 @@ const PasswordInput = forwardRef<Omit<InputProps, 'type'>, 'input'>(
         />
 
         {showButton && (
-          <InputRightElement>
-            <IconButton
-              aria-label={show ? 'Cacher' : 'Afficher'}
-              icon={show ? <FiEyeOff /> : <FiEye />}
-              size="sm"
-              onClick={() => setShow((s) => !s)}
-            />
-          </InputRightElement>
+          <Tooltip
+            hasArrow
+            openDelay={400}
+            label={t(show ? 'common.hide' : 'common.show')}
+          >
+            <InputRightElement>
+              <IconButton
+                aria-label={t(show ? 'common.hide' : 'common.show')}
+                icon={show ? <FiEyeOff /> : <FiEye />}
+                size="sm"
+                onClick={() => setShow((s) => !s)}
+              />
+            </InputRightElement>
+          </Tooltip>
         )}
       </InputGroup>
     )

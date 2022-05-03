@@ -14,6 +14,7 @@ import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
 import { LogType } from '@shared/log'
 import React, { useContext } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 
 interface Props
@@ -27,6 +28,7 @@ export default function CircleDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
+  const { t } = useTranslation()
   const circleMemberContext = useContext(CircleMemberContext)
   const circle = useCircle(id)
   const createLog = useCreateLog()
@@ -61,20 +63,23 @@ export default function CircleDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un cercle
+            {t('organisms.modals.CircleDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer le cercle{' '}
-              <strong>{circle.role.name}</strong> ?
+              <Trans
+                i18nKey="organisms.modals.CircleDeleteModal.info"
+                values={{ name: circle.role.name }}
+                components={{ b: <strong /> }}
+              />
             </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
-              Supprimer
+              {t('common.delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

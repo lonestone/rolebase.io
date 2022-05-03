@@ -18,12 +18,14 @@ import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { MeetingTempalteEntry } from '@shared/meetingTemplate'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import ListItemWithButtons from '../../molecules/ListItemWithButtons'
 import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'
 import MeetingTemplateModal from './MeetingTemplateModal'
 
 export default function MeetingTemplatesModal(modalProps: UseModalProps) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
   const {
     data: meetingTemplates,
@@ -68,7 +70,9 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
       <Modal {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Templates de réunions</ModalHeader>
+          <ModalHeader>
+            {t('organisms.modals.MeetingTemplatesModal.heading')}
+          </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
@@ -76,7 +80,7 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
             <TextErrors errors={[error]} />
 
             {!meetingTemplates?.length ? (
-              <i>Aucun template de réunion</i>
+              <i>{t('organisms.modals.MeetingTemplatesModal.empty')}</i>
             ) : (
               meetingTemplates?.map((mt) => (
                 <ListItemWithButtons
@@ -100,7 +104,7 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
 
           <ModalFooter justifyContent="center">
             <Button leftIcon={<FiPlus />} onClick={handleCreate}>
-              Créer un nouveau template de réunion
+              {t('organisms.modals.MeetingTemplatesModal.create')}
             </Button>
           </ModalFooter>
         </ModalContent>

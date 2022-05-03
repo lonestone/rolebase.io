@@ -2,6 +2,7 @@ import { useDisclosure } from '@chakra-ui/react'
 import LogCancelModal from '@components/organisms/modals/LogCancelModal'
 import { LogEntry } from '@shared/log'
 import React, { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import LogItem from './LogItem'
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export default function LogsList({ logs }: Props) {
+  const { t } = useTranslation()
+
   // Log modal
   const [cancelLog, setCancelLog] = useState<LogEntry | undefined>()
   const {
@@ -24,7 +27,7 @@ export default function LogsList({ logs }: Props) {
 
   return (
     <>
-      {logs.length === 0 && <i>Aucune action</i>}
+      {logs.length === 0 && <i>{t('molecules.LogsList.empty')}</i>}
 
       {logs.map((log) => (
         <LogItem

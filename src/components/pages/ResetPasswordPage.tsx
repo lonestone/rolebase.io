@@ -23,6 +23,7 @@ import useQueryParams from '@hooks/useQueryParams'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
 import settings from 'src/settings'
 import * as yup from 'yup'
@@ -40,6 +41,7 @@ const schema = yup.object().shape({
 })
 
 export default function ResetPasswordPage() {
+  const { t } = useTranslation()
   const queryParams = useQueryParams<Params>()
 
   const {
@@ -64,31 +66,29 @@ export default function ResetPasswordPage() {
 
   return (
     <Container maxW="sm" mt="60px">
-      <Title>Mot de passe oublié</Title>
+      <Title>{t('pages.ResetPasswordPage.heading')}</Title>
 
       <Heading size="md" mb={5}>
-        Mot de passe oublié ?
+        {t('pages.ResetPasswordPage.heading')}
       </Heading>
 
       {done ? (
         <Alert status="success">
           <AlertIcon />
           <AlertDescription>
-            <p>
-              Un email de réinitialisation de mot de passe vous a été envoyé !
-            </p>
-            <p>Vérifiez votre boîte email.</p>
+            <p>{t('pages.ResetPasswordPage.done1')}</p>
+            <p>{t('pages.ResetPasswordPage.done2')}</p>
           </AlertDescription>
         </Alert>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={5}>
             <FormControl isInvalid={!!errors.email}>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('pages.ResetPasswordPage.email')}</FormLabel>
               <Input
                 {...register('email')}
                 type="email"
-                placeholder="Votre adresse email..."
+                placeholder={t('pages.ResetPasswordPage.emailPlaceholder')}
                 autoComplete="email"
                 autoFocus
                 required
@@ -96,7 +96,7 @@ export default function ResetPasswordPage() {
             </FormControl>
 
             <Button colorScheme="blue" type="submit" isDisabled={loading}>
-              Réinitialiser mon mot de passe
+              {t('pages.ResetPasswordPage.reset')}
               {loading && <Spinner ml={2} />}
             </Button>
           </VStack>
@@ -105,7 +105,7 @@ export default function ResetPasswordPage() {
 
           <Center mt={4}>
             <Link to="/login" as={ReachLink}>
-              Connexion
+              {t('pages.ResetPasswordPage.signin')}
             </Link>
           </Center>
         </form>

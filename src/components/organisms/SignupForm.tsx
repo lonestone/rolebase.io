@@ -7,11 +7,12 @@ import {
   Spinner,
   VStack,
 } from '@chakra-ui/react'
+import PasswordConfirmInputDummy from '@components/atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@components/atoms/PasswordInput'
-import PasswordConfirmInputDummy from '@components/pages/PasswordConfirmInputDummy'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props {
@@ -33,6 +34,8 @@ const schema = yup.object().shape({
 })
 
 export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
+  const { t } = useTranslation()
+
   const {
     handleSubmit,
     register,
@@ -46,34 +49,34 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={5}>
         <FormControl isInvalid={!!errors.name}>
-          <FormLabel>Nom</FormLabel>
+          <FormLabel>{t('organisms.SignupForm.name')}</FormLabel>
           <Input
             {...register('name')}
             type="name"
             required
-            placeholder="Votre nom..."
+            placeholder={t('organisms.SignupForm.namePlaceholder')}
             autoComplete="name"
             autoFocus
           />
         </FormControl>
 
         <FormControl isInvalid={!!errors.email}>
-          <FormLabel>Email</FormLabel>
+          <FormLabel>{t('organisms.SignupForm.email')}</FormLabel>
           <Input
             {...register('email')}
             type="email"
             required
-            placeholder="Votre adresse email..."
+            placeholder={t('organisms.SignupForm.emailPlaceholder')}
             autoComplete="email"
           />
         </FormControl>
 
         <FormControl isInvalid={!!errors.password}>
-          <FormLabel>Mot de passe</FormLabel>
+          <FormLabel>{t('organisms.SignupForm.password')}</FormLabel>
           <PasswordInput
             {...register('password')}
             required
-            placeholder="Votre mot de passe..."
+            placeholder={t('organisms.SignupForm.passwordPlaceholder')}
             autoComplete="new-password"
           />
         </FormControl>
@@ -81,7 +84,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
         <PasswordConfirmInputDummy />
 
         <Button colorScheme="blue" type="submit" isDisabled={loading}>
-          Créer mon compte
+          {t('organisms.SignupForm.signup')}
           {loading && <Spinner ml={2} />}
         </Button>
       </VStack>

@@ -5,6 +5,7 @@ import LoginForm from '@components/organisms/LoginForm'
 import useQueryParams from '@hooks/useQueryParams'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link as ReachLink, useLocation } from 'react-router-dom'
 import SignupPage from './SignupPage'
 
@@ -13,6 +14,7 @@ type Params = {
 }
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const queryParams = useQueryParams<Params>()
   // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signinEmail = useStoreActions((actions) => actions.auth.signinEmail)
@@ -33,7 +35,7 @@ export default function LoginPage() {
       <Loading active={loading} center />
       <Container maxW="xs" mt="60px" display={loading ? 'none' : ''}>
         <Heading size="md" mb={5}>
-          Rolebase
+          {t('pages.LoginPage.heading')}
         </Heading>
 
         {/*
@@ -52,10 +54,12 @@ export default function LoginPage() {
         <Center mt={4}>
           {isLoginRoute ? (
             <Link to="/signup" as={ReachLink}>
-              Créer un compte
+              {t('pages.LoginPage.signup')}
             </Link>
           ) : (
-            <Link onClick={() => setSignupPage(true)}>Créer un compte</Link>
+            <Link onClick={() => setSignupPage(true)}>
+              {t('pages.LoginPage.signup')}
+            </Link>
           )}
         </Center>
       </Container>

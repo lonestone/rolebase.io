@@ -11,11 +11,10 @@ import { MeetingStepTypes } from '@shared/meetingStep'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
 import * as yup from 'yup'
-import MeetingStepSortableItem, {
-  meetingStepNames,
-} from './MeetingStepSortableItem'
+import MeetingStepSortableItem from './MeetingStepSortableItem'
 import SortableList from './SortableList'
 
 export const fieldName = 'stepsConfig' as const
@@ -39,6 +38,8 @@ export default function MeetingStepsConfigController({
   control,
   errors,
 }: Props) {
+  const { t } = useTranslation()
+
   // Steps
   const {
     fields: stepsFields,
@@ -55,7 +56,7 @@ export default function MeetingStepsConfigController({
     return appendStep({
       id: nanoid(5),
       type: stepType,
-      title: meetingStepNames[stepType],
+      title: t(`common.meetingSteps.${stepType}`),
     })
   }
 
@@ -78,7 +79,7 @@ export default function MeetingStepsConfigController({
       </SortableList>
       <Menu matchWidth={true}>
         <MenuButton as={Button} rightIcon={<FiChevronDown />} w="100%" mt={2}>
-          Ajouter une étape
+          {t(`molecules.MeetingStepsConfigController.addStep`)}
         </MenuButton>
         <MenuList w="100%">
           {[
@@ -89,7 +90,7 @@ export default function MeetingStepsConfigController({
             MeetingStepTypes.Tasks,
           ].map((type) => (
             <MenuItem key={type} onClick={() => handleAdd(type)}>
-              {meetingStepNames[type]}
+              {t(`common.meetingSteps.${type}`)}
             </MenuItem>
           ))}
         </MenuList>

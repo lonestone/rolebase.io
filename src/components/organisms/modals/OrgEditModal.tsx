@@ -21,6 +21,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 import OrgDeleteModal from './OrgDeleteModal'
 
@@ -41,6 +42,7 @@ const resolver = yupResolver(
 )
 
 export default function OrgEditModal({ id, ...modalProps }: Props) {
+  const { t } = useTranslation()
   const org = useOrg(id)
 
   const {
@@ -81,18 +83,24 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>Modifier l'organisation {org.name}</ModalHeader>
+            <ModalHeader>
+              {t('organisms.modals.OrgEditModal.heading', { org: org.name })}
+            </ModalHeader>
             <ModalCloseButton />
 
             <ModalBody>
               <VStack spacing={5}>
                 <FormControl isInvalid={!!errors.name}>
-                  <FormLabel>Nom</FormLabel>
+                  <FormLabel>
+                    {t('organisms.modals.OrgEditModal.name')}
+                  </FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>
-                  <FormLabel>Temps de travail par défaut</FormLabel>
+                  <FormLabel>
+                    {t('organisms.modals.OrgEditModal.workingTime')}
+                  </FormLabel>
                   <Controller
                     name="defaultWorkedMinPerWeek"
                     control={control}
@@ -109,10 +117,10 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
 
             <ModalFooter>
               <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
-                Supprimer
+                {t('common.delete')}
               </Button>
               <Button colorScheme="blue" type="submit">
-                Enregistrer
+                {t('common.save')}
               </Button>
             </ModalFooter>
           </form>

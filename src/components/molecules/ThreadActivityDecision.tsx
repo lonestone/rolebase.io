@@ -14,12 +14,14 @@ import { ActivityDecision } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   activity: WithId<ActivityDecision>
 }
 
 export default function ThreadActivityDecision({ activity }: Props) {
+  const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const { colorMode } = useColorMode()
   const bgColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100'
@@ -55,7 +57,7 @@ export default function ThreadActivityDecision({ activity }: Props) {
           pr={1}
         >
           <Text fontWeight="bold" mr={6}>
-            Décision
+            {t(`molecules.ThreadActivityDecision.heading`)}
           </Text>
           <CircleByIdButton circleId={activity.circleId} />
         </HStack>

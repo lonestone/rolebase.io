@@ -24,6 +24,7 @@ import {
 import CircleButton from '@components/atoms/CircleButton'
 import { CirclePanelTab } from '@components/atoms/CirclePanelTab'
 import Markdown from '@components/atoms/Markdown'
+import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
@@ -37,6 +38,7 @@ import useCircle from '@hooks/useCircle'
 import useParticipants from '@hooks/useParticipants'
 import { MembersScope } from '@shared/member'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import {
   FiCalendar,
   FiCheckSquare,
@@ -45,9 +47,8 @@ import {
   FiDisc,
   FiMessageSquare,
 } from 'react-icons/fi'
-import CircleDeleteModal from './CircleDeleteModal'
-import ModalCloseStaticButton from './ModalCloseStaticButton'
-import RoleEditModal from './RoleEditModal'
+import CircleDeleteModal from './modals/CircleDeleteModal'
+import RoleEditModal from './modals/RoleEditModal'
 
 interface Props {
   id: string
@@ -62,11 +63,8 @@ enum TabTypes {
   Tasks,
 }
 
-export default function CircleModalContent({
-  id,
-  changeTitle,
-  headerIcons,
-}: Props) {
+export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
+  const { t } = useTranslation()
   const circle = useCircle(id)
   const role = circle?.role
   const { colorMode } = useColorMode()
@@ -109,7 +107,7 @@ export default function CircleModalContent({
       <>
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>Rôle introuvable</AlertTitle>
+          <AlertTitle>{t('organisms.CircleContent.notFound')}</AlertTitle>
         </Alert>
         <ModalCloseButton />
       </>
@@ -148,13 +146,21 @@ export default function CircleModalContent({
             overflow="auto"
           >
             <CirclePanelTab icon={<FiDisc />}>
-              {role.singleMember ? 'Rôle' : 'Cercle'}
+              {t(
+                role.singleMember
+                  ? 'organisms.CircleContent.tabRole'
+                  : 'organisms.CircleContent.tabCircle'
+              )}
             </CirclePanelTab>
             <CirclePanelTab icon={<FiMessageSquare />}>
-              Discussions
+              {t('organisms.CircleContent.tabThreads')}
             </CirclePanelTab>
-            <CirclePanelTab icon={<FiCalendar />}>Réunions</CirclePanelTab>
-            <CirclePanelTab icon={<FiCheckSquare />}>Tâches</CirclePanelTab>
+            <CirclePanelTab icon={<FiCalendar />}>
+              {t('organisms.CircleContent.tabMeetings')}
+            </CirclePanelTab>
+            <CirclePanelTab icon={<FiCheckSquare />}>
+              {t('organisms.CircleContent.tabTasks')}
+            </CirclePanelTab>
           </TabList>
 
           <TabPanels mt={5}>
@@ -162,7 +168,9 @@ export default function CircleModalContent({
               <VStack spacing={5} align="stretch">
                 {role.purpose && (
                   <FormControl>
-                    <FormLabel>Raison d'être :</FormLabel>
+                    <FormLabel>
+                      {t('organisms.CircleContent.purpose')}
+                    </FormLabel>
                     <Markdown>{role.purpose}</Markdown>
                   </FormControl>
                 )}
@@ -180,41 +188,51 @@ export default function CircleModalContent({
                       }
                       onClick={onRoleInfoToggle}
                     >
-                      {isRoleInfoOpen ? 'Voir moins' : 'Voir plus'}
+                      {t(isRoleInfoOpen ? 'common.seeLess' : 'common.seeMore')}
                     </Button>
                     <Collapse in={isRoleInfoOpen} animateOpacity>
                       <VStack spacing={5} align="stretch">
                         {role.domain && (
                           <FormControl>
-                            <FormLabel>Domaine :</FormLabel>
+                            <FormLabel>
+                              {t('organisms.CircleContent.domain')}
+                            </FormLabel>
                             <Markdown>{role.domain}</Markdown>
                           </FormControl>
                         )}
 
                         {role.accountabilities && (
                           <FormControl>
-                            <FormLabel>Redevabilités :</FormLabel>
+                            <FormLabel>
+                              {t('organisms.CircleContent.accountabilities')}
+                            </FormLabel>
                             <Markdown>{role.accountabilities}</Markdown>
                           </FormControl>
                         )}
 
                         {role.checklist && (
                           <FormControl>
-                            <FormLabel>Checklist :</FormLabel>
+                            <FormLabel>
+                              {t('organisms.CircleContent.checklist')}
+                            </FormLabel>
                             <Markdown>{role.checklist}</Markdown>
                           </FormControl>
                         )}
 
                         {role.indicators && (
                           <FormControl>
-                            <FormLabel>Indicateurs :</FormLabel>
+                            <FormLabel>
+                              {t('organisms.CircleContent.indicators')}
+                            </FormLabel>
                             <Markdown>{role.indicators}</Markdown>
                           </FormControl>
                         )}
 
                         {role.notes && (
                           <FormControl>
-                            <FormLabel>Notes :</FormLabel>
+                            <FormLabel>
+                              {t('organisms.CircleContent.notes')}
+                            </FormLabel>
                             <Markdown>{role.notes}</Markdown>
                           </FormControl>
                         )}
@@ -234,9 +252,19 @@ export default function CircleModalContent({
 
                 {parentCircle && linkedCircle && (
                   <Text>
-                    Représente le Cercle <CircleButton circle={parentCircle} />
+                    <Trans
+                      i18nKey="organisms.CircleContent.representCircle"
+                      components={{
+                        link: <CircleButton circle={parentCircle} />,
+                      }}
+                    />
                     <br />
-                    dans le Cercle <CircleButton circle={linkedCircle} />
+                    <Trans
+                      i18nKey="organisms.CircleContent.representInCircle"
+                      components={{
+                        link: <CircleButton circle={linkedCircle} />,
+                      }}
+                    />
                   </Text>
                 )}
               </VStack>

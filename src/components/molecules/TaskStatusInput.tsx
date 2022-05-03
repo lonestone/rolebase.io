@@ -6,20 +6,13 @@ import {
   Tag,
   TagProps,
 } from '@chakra-ui/react'
-import { TaskStatus } from '@shared/task'
+import { TaskStatus, taskStatusList } from '@shared/task'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props extends Omit<TagProps, 'onChange'> {
   value: TaskStatus
   onChange(status: TaskStatus): void
-}
-
-export const taskStatusTexts: Record<TaskStatus, string> = {
-  [TaskStatus.Open]: 'À faire',
-  [TaskStatus.InProgress]: 'En cours',
-  [TaskStatus.InReview]: 'En revue',
-  [TaskStatus.Blocked]: 'Bloquée',
-  [TaskStatus.Done]: 'Terminée',
 }
 
 export const taskStatusColors: Record<TaskStatus, string> = {
@@ -35,6 +28,8 @@ export default function TaskStatusInput({
   onChange,
   ...tagProps
 }: Props) {
+  const { t } = useTranslation()
+
   return (
     <Menu>
       <MenuButton
@@ -48,11 +43,11 @@ export default function TaskStatusInput({
         }}
         {...tagProps}
       >
-        {taskStatusTexts[value]}
+        {t(`common.taskStatus.${value}`)}
       </MenuButton>
 
       <MenuList zIndex={2000} minW={0} p={0} shadow="md">
-        {(Object.keys(taskStatusTexts) as TaskStatus[]).map((status) => (
+        {taskStatusList.map((status) => (
           <MenuItem
             key={status}
             as={Tag}
@@ -65,7 +60,7 @@ export default function TaskStatusInput({
               opacity: 0.8,
             }}
           >
-            {taskStatusTexts[status]}
+            {t(`common.taskStatus.${status}`)}
           </MenuItem>
         ))}
       </MenuList>

@@ -5,6 +5,7 @@ import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import MemberRoleItem from './MemberRoleItem'
 
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function MemberRoles({ member, selectedCircleId }: Props) {
+  const { t } = useTranslation()
   const org = useCurrentOrg()
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
@@ -77,7 +79,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   )
 
   if (memberCircles.length === 0) {
-    return <i>Aucun</i>
+    return <i>{t(`molecules.MemberRoles.emptyRoles`)}</i>
   }
   return (
     <>
@@ -101,15 +103,15 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
 
       <Alert status="info" mt={5}>
         <AlertIcon />
-        Temps total alloué : {Math.floor(totalWorkedMin / 6) / 10}h /{' '}
+        {t(`molecules.MemberRoles.totalAllocatedTime`)}{' '}
+        {Math.floor(totalWorkedMin / 6) / 10}h /{' '}
         {Math.floor(maxWorkedMin / 6) / 10}h
       </Alert>
 
       {totalWorkedMin > maxWorkedMin && (
         <Alert status="warning" mt={2}>
           <AlertIcon />
-          Le temps total alloué est trop grand, vous devez baisser le temps
-          total alloué à un rôle ou augmenter le temps de travail du membre.
+          {t(`molecules.MemberRoles.alertTooMuchTime`)}
         </Alert>
       )}
     </>

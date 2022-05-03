@@ -4,6 +4,7 @@ import MemberButton from '@components/atoms/MemberButton'
 import { MemberEntry } from '@shared/member'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus, FiX } from 'react-icons/fi'
 import MemberSearchButton from './search/entities/members/MemberSearchButton'
 
@@ -24,6 +25,7 @@ export default function MembersMultiSelect({
   onAdd,
   onRemove,
 }: Props) {
+  const { t } = useTranslation()
   const members = useStoreState((state) => state.members.entries)
   const excludeMembersIdsMemo = useMemo(
     () =>
@@ -70,7 +72,9 @@ export default function MembersMultiSelect({
             leftIcon={<FiPlus />}
             onSelect={onAdd}
           >
-            {max === 1 ? 'Choisir un membre' : 'Ajouter un membre'}
+            {max === 1
+              ? t(`molecules.MembersMultiSelect.choose`)
+              : t(`molecules.MembersMultiSelect.add`)}
           </MemberSearchButton>
         </WrapItem>
       ) : null}

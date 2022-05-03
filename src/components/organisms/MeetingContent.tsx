@@ -38,6 +38,7 @@ import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useDateLocale from '@hooks/useDateLocale'
 import { useOrgRole } from '@hooks/useOrgRole'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
@@ -45,6 +46,7 @@ import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import {
   FiArrowDown,
@@ -55,7 +57,6 @@ import {
   FiVideo,
   FiX,
 } from 'react-icons/fi'
-import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './modals/MeetingDeleteModal'
 import MeetingEditModal from './modals/MeetingEditModal'
@@ -74,6 +75,8 @@ export default function MeetingContent({
   headerIcons,
   ...boxProps
 }: Props) {
+  const { t } = useTranslation()
+  const dateLocale = useDateLocale()
   const currentMember = useCurrentMember()
   const userRole = useOrgRole()
   const isAdmin = userRole === ClaimRole.Admin
@@ -191,11 +194,19 @@ export default function MeetingContent({
 
   return (
     <Box {...boxProps}>
-      {changeTitle && <Title>{`Réunion : ${meeting?.title}`}</Title>}
+      {changeTitle && (
+        <Title>
+          {t('organisms.MeetingContent.heading', {
+            title: meeting?.title || '…',
+          })}
+        </Title>
+      )}
 
       <Flex mb={3}>
         <Heading as="h1" size="md">
-          Réunion : {meeting?.title}
+          {t('organisms.MeetingContent.heading', {
+            title: meeting?.title || '…',
+          })}
         </Heading>
 
         <Spacer />
@@ -226,24 +237,24 @@ export default function MeetingContent({
               <StackItem>
                 {capitalizeFirstLetter(
                   format(meeting.startDate.toDate(), 'PPPP', {
-                    locale: dateFnsLocale,
+                    locale: dateLocale,
                   })
                 )}
               </StackItem>
               <FiClock />
               <StackItem>
                 {format(meeting.startDate.toDate(), 'p', {
-                  locale: dateFnsLocale,
+                  locale: dateLocale,
                 })}
                 {' - '}
                 {format(meeting.endDate.toDate(), 'p', {
-                  locale: dateFnsLocale,
+                  locale: dateLocale,
                 })}
               </StackItem>
               {meeting?.ended && <Tag ml={1}>Terminée</Tag>}
               {isStarted && (
                 <Tag colorScheme="green" ml={1}>
-                  En cours
+                  {t('organisms.MeetingContent.started')}
                 </Tag>
               )}
             </HStack>
@@ -252,7 +263,7 @@ export default function MeetingContent({
               <HStack>
                 {!forceEdit && (
                   <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
-                    Reprendre
+                    {t('organisms.MeetingContent.reopen')}
                   </Button>
                 )}
 
@@ -260,7 +271,11 @@ export default function MeetingContent({
                   leftIcon={forceEdit ? <FiX /> : <FiEdit3 />}
                   onClick={() => setForceEdit((e) => !e)}
                 >
-                  {forceEdit ? 'Arrêter' : 'Modifier'}
+                  {t(
+                    forceEdit
+                      ? 'organisms.MeetingContent.stop'
+                      : 'organisms.MeetingContent.edit'
+                  )}
                 </Button>
               </HStack>
             )}
@@ -270,17 +285,23 @@ export default function MeetingContent({
                 <Alert status="info">
                   <AlertIcon />
                   <AlertDescription>
-                    Vous animez cette réunion.
+                    {t('organisms.MeetingContent.facilitatorCurrent')}
                   </AlertDescription>
                 </Alert>
               ) : (
                 facilitator && (
                   <Text>
-                    <MemberLink
-                      id={facilitator.member.id}
-                      name={facilitator.member.name}
-                    />{' '}
-                    anime cette réunion.
+                    <Trans
+                      i18nKey="organisms.MeetingContent.facilitatorMember"
+                      components={{
+                        member: (
+                          <MemberLink
+                            id={facilitator.member.id}
+                            name={facilitator.member.name}
+                          />
+                        ),
+                      }}
+                    />
                   </Text>
                 )
               ))}
@@ -291,7 +312,7 @@ export default function MeetingContent({
                 colorScheme="green"
                 onClick={handleNextStep}
               >
-                Démarrer
+                {t('organisms.MeetingContent.start')}
               </Button>
             )}
 
@@ -301,7 +322,7 @@ export default function MeetingContent({
                 colorScheme="blue"
                 onClick={handleJoinVideoConf}
               >
-                Rejoindre la visio
+                {t('organisms.MeetingContent.videoConf')}
               </Button>
             )}
 
@@ -309,8 +330,7 @@ export default function MeetingContent({
               <Alert status="info">
                 <AlertIcon />
                 <AlertDescription>
-                  Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e)
-                  participant(e) de vous inviter si vous souhaitez la rejoindre.
+                  {t('organisms.MeetingContent.notInvited')}
                 </AlertDescription>
               </Alert>
             )}
@@ -354,7 +374,11 @@ export default function MeetingContent({
                         mt={5}
                         onClick={last ? handleEnd : handleNextStep}
                       >
-                        {last ? 'Terminer la réunion' : 'Étape suivante'}
+                        {t(
+                          last
+                            ? 'organisms.MeetingContent.end'
+                            : 'organisms.MeetingContent.nextStep'
+                        )}
                       </Button>
                     </Collapse>
                   )}

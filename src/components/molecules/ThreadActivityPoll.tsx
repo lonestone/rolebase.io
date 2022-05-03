@@ -19,6 +19,7 @@ import { ActivityPoll } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import ThreadActivityPollResult from './ThreadActivityPollResult'
 import ThreadActivityPollVote from './ThreadActivityPollVote'
 
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export default function ThreadActivityPoll({ activity }: Props) {
+  const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const { colorMode } = useColorMode()
   const bgColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100'
@@ -90,7 +92,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
           pr={1}
         >
           <Text fontWeight="bold" mr={6}>
-            Sondage
+            {t(`molecules.ThreadActivityPoll.heading`)}
           </Text>
           <Spacer />
         </HStack>
@@ -117,7 +119,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
                 />
                 {(ended || !activity.hideUntilEnd) && (
                   <Link mt={2} onClick={() => setEditing(false)}>
-                    Voir les résultats
+                    {t(`molecules.ThreadActivityPoll.showResults`)}
                   </Link>
                 )}
               </>
@@ -129,7 +131,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
                 />
                 {!ended && (
                   <Link mt={2} onClick={() => setEditing(true)}>
-                    Modifier mon vote
+                    {t(`molecules.ThreadActivityPoll.changeVote`)}
                   </Link>
                 )}
               </>

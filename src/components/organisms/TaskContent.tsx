@@ -34,6 +34,7 @@ import { TaskStatus } from '@shared/task'
 import { Timestamp } from 'firebase/firestore'
 import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 import TaskDeleteModal from './modals/TaskDeleteModal'
@@ -73,6 +74,7 @@ export default function TaskContent({
   onClose,
   ...boxProps
 }: Props) {
+  const { t } = useTranslation()
   const createLog = useCreateLog()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
@@ -185,7 +187,7 @@ export default function TaskContent({
 
       <Flex align="center" mb={5}>
         <Heading as="h1" size="md">
-          Tâche
+          {t('organisms.TaskContent.heading')}
         </Heading>
 
         {task && (
@@ -212,12 +214,16 @@ export default function TaskContent({
       <form onSubmit={onSubmit}>
         <VStack spacing={5} align="stretch">
           <FormControl isInvalid={!!errors.title}>
-            <FormLabel>Titre</FormLabel>
-            <Input {...register('title')} placeholder="Titre..." autoFocus />
+            <FormLabel>{t('organisms.TaskContent.title')}</FormLabel>
+            <Input
+              {...register('title')}
+              placeholder={t('organisms.TaskContent.titlePlaceholder')}
+              autoFocus
+            />
           </FormControl>
 
           <FormControl isInvalid={!!errors.circleId}>
-            <FormLabel>Cercle / Rôle</FormLabel>
+            <FormLabel>{t('organisms.TaskContent.circle')}</FormLabel>
             <Controller
               name="circleId"
               control={control}
@@ -232,7 +238,7 @@ export default function TaskContent({
 
           <FormControl isInvalid={!!errors.memberId} flex="1">
             <FormLabel display="flex" alignItems="center">
-              Membre assigné
+              {t('organisms.TaskContent.memberId')}
             </FormLabel>
             <Controller
               name="memberId"
@@ -248,7 +254,7 @@ export default function TaskContent({
 
           <FormControl>
             <Checkbox isChecked={!!dueDate} onChange={handleToggleDueDate}>
-              Date limite
+              {t('organisms.TaskContent.dueDate')}
             </Checkbox>
             {dueDate ? (
               <Box pl={6}>
@@ -263,10 +269,10 @@ export default function TaskContent({
           </FormControl>
 
           <FormControl isInvalid={!!errors.description}>
-            <FormLabel>Description</FormLabel>
+            <FormLabel>{t('organisms.TaskContent.description')}</FormLabel>
             <MarkdownEditorController
               name="description"
-              placeholder="Notes, liens..."
+              placeholder={t('organisms.TaskContent.notes')}
               control={control}
             />
           </FormControl>
@@ -274,7 +280,7 @@ export default function TaskContent({
           <Collapse in={isDirty}>
             <Box textAlign="right">
               <Button colorScheme="blue" type="submit">
-                {id ? 'Enregistrer' : 'Créer'}
+                {t(id ? 'common.save' : 'common.create')}
               </Button>
             </Box>
           </Collapse>

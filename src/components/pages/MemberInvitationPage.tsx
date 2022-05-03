@@ -5,6 +5,7 @@ import useOrg from '@hooks/useOrg'
 import useQueryParams from '@hooks/useQueryParams'
 import { useStoreActions } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Redirect, useParams } from 'react-router'
 
 type Params = {
@@ -13,6 +14,7 @@ type Params = {
 }
 
 export default function MemberInvitationPage() {
+  const { t } = useTranslation()
   const { orgId } = useParams<{ orgId: string }>()
   const { memberId, token } = useQueryParams<Params>()
   const refreshClaims = useStoreActions((actions) => actions.auth.refreshClaims)
@@ -27,7 +29,7 @@ export default function MemberInvitationPage() {
       .then(() => refreshClaims())
       .then(() => {
         toast({
-          title: 'Invitation acceptée',
+          title: t('pages.MemberInvitationPage.toastSuccess'),
           status: 'success',
           duration: 4000,
           isClosable: true,
@@ -37,7 +39,7 @@ export default function MemberInvitationPage() {
         console.error(error, JSON.stringify(error))
         setErrorOccurred(true)
         toast({
-          title: 'Erreur',
+          title: t('pages.MemberInvitationPage.toastError'),
           description: error instanceof Error ? error.message : '',
           status: 'error',
           duration: 4000,

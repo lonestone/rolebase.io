@@ -18,11 +18,13 @@ import useSubscription from '@hooks/useSubscription'
 import { MemberThreadStatus } from '@shared/member'
 import { isSameDay } from 'date-fns'
 import React, { forwardRef, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiMessageSquare } from 'react-icons/fi'
 import { ThreadContext } from 'src/contexts/ThreadContext'
 
 const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
   (stackProps, ref) => {
+    const { t } = useTranslation()
     const orgId = useOrgId()
     const thread = useContext(ThreadContext)
     const currentMember = useCurrentMember()
@@ -96,10 +98,10 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
           >
             <FiMessageSquare size={40} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              Discussion créée
+              {t('organisms.ThreadActivities.emptyTitle')}
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Vous pouvez envoyer un premier message 👇
+              {t('organisms.ThreadActivities.emptyDescription')}
             </AlertDescription>
           </Alert>
         )}

@@ -2,6 +2,7 @@ import { updateActivity } from '@api/entities/activities'
 import { Box, Button } from '@chakra-ui/react'
 import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
 import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   id: string
@@ -14,6 +15,7 @@ export default function ThreadActivityMessageEdit({
   defaultMessage,
   onClose,
 }: Props) {
+  const { t } = useTranslation()
   const [message, setMessage] = useState(defaultMessage)
 
   // Save message
@@ -49,7 +51,7 @@ export default function ThreadActivityMessageEdit({
         onSubmit={handleSubmit}
       />
       <Button size="sm" mt={2} onClick={onClose}>
-        Annuler
+        {t('common.cancel')}
       </Button>
       <Button
         colorScheme="blue"
@@ -57,7 +59,7 @@ export default function ThreadActivityMessageEdit({
         ml={2}
         onClick={() => handleSubmit(message)}
       >
-        Enregistrer
+        {t('common.save')}
       </Button>
     </Box>
   )

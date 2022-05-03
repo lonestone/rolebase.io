@@ -42,13 +42,14 @@ export default function ColorController<Values>({
               step={1}
               defaultValue={35}
               value={field.value as number}
+              mt={3}
               onChange={(value) => field.onChange(value)}
             >
               <SliderTrack bgGradient="linear(to-r, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)">
                 <SliderFilledTrack bg="transparent" />
               </SliderTrack>
               <SliderThumb
-                boxSize="1.5rem"
+                boxSize="1.8rem"
                 bg={`hsl(${field.value} 97% 75%)`}
               />
             </Slider>

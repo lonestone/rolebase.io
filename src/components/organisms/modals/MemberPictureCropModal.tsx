@@ -24,6 +24,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import React, { useCallback, useState } from 'react'
 import Cropper from 'react-easy-crop'
 import { Area } from 'react-easy-crop/types'
+import { useTranslation } from 'react-i18next'
 import { FiRotateCw } from 'react-icons/fi'
 import { getCroppedImg } from 'src/canvasUtils'
 import settings from 'src/settings'
@@ -39,6 +40,7 @@ export default function MemberPictureCropModal({
   file,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const toast = useToast()
   const orgId = useOrgId()
 
@@ -79,15 +81,14 @@ export default function MemberPictureCropModal({
 
       modalProps.onClose()
       toast({
-        title: 'Nouvelle photo enregistrée',
-        description: 'Vous êtes magnifique !',
+        title: t('organisms.modals.MemberPictureCropModal.toastSuccess'),
         status: 'success',
         duration: 3000,
         isClosable: true,
       })
     } catch (error) {
       toast({
-        title: 'Erreur',
+        title: t('organisms.modals.MemberPictureCropModal.toastError'),
         description: error instanceof Error ? error.message : '',
         status: 'error',
         duration: 4000,
@@ -100,7 +101,9 @@ export default function MemberPictureCropModal({
     <Modal size="xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Recadrez la photo</ModalHeader>
+        <ModalHeader>
+          {t('organisms.modals.MemberPictureCropModal.heading')}
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
@@ -150,10 +153,10 @@ export default function MemberPictureCropModal({
 
         <ModalFooter alignItems="end">
           <Button variant="ghost" mr={3} onClick={modalProps.onClose}>
-            Annuler
+            {t('common.cancel')}
           </Button>
           <Button colorScheme="blue" onClick={handleSubmit}>
-            Enregistrer
+            {t('common.save')}
           </Button>
         </ModalFooter>
       </ModalContent>

@@ -9,11 +9,12 @@ import {
 } from '@chakra-ui/react'
 import LogCancelText from '@components/molecules/LogCancelText'
 import LogText from '@components/molecules/LogText'
+import useDateLocale from '@hooks/useDateLocale'
 import { LogEntry } from '@shared/log'
 import { format } from 'date-fns'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiRotateCcw } from 'react-icons/fi'
-import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 
 interface Props {
@@ -22,7 +23,10 @@ interface Props {
 }
 
 export default function LogItem({ log, onCancel }: Props) {
+  const { t } = useTranslation()
   const { colorMode } = useColorMode()
+  const dateLocale = useDateLocale()
+
   return (
     <Flex
       py={3}
@@ -36,8 +40,8 @@ export default function LogItem({ log, onCancel }: Props) {
         </Text>
         <Text fontSize="sm" color="gray.500">
           {capitalizeFirstLetter(
-            format(log.createdAt.toDate(), 'PPpp ', {
-              locale: dateFnsLocale,
+            format(log.createdAt.toDate(), 'PPpp', {
+              locale: dateLocale,
             })
           )}
         </Text>
@@ -46,9 +50,9 @@ export default function LogItem({ log, onCancel }: Props) {
       <Spacer />
 
       {!log.canceled && (
-        <Tooltip label="Annuler cette action" placement="top" hasArrow>
+        <Tooltip label={t('molecules.LogItem.cancel')} placement="top" hasArrow>
           <IconButton
-            aria-label=""
+            aria-label={t('molecules.LogItem.cancel')}
             size="sm"
             variant="ghost"
             icon={<FiRotateCcw />}

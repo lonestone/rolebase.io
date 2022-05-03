@@ -4,8 +4,8 @@ import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props {
-  title: string
-  buttons: React.ReactNode
+  title: string | React.ReactNode
+  buttons?: React.ReactNode
   onClick(): void
 }
 
@@ -18,6 +18,7 @@ export default function ListItemWithButtons({
 
   return (
     <LinkBox
+      mx={-2}
       px={2}
       py={1}
       display="flex"
@@ -37,7 +38,7 @@ export default function ListItemWithButtons({
       >
         {title}
       </LinkOverlay>
-      <HStack spacing={2}>{buttons}</HStack>
+      {buttons && <HStack spacing={2}>{buttons}</HStack>}
     </LinkBox>
   )
 }

@@ -1,14 +1,16 @@
 import { CircleWithRoleEntry } from '@shared/circle'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import * as express from 'express'
+import i18next from 'i18next'
 import { ICalCalendar } from 'ical-generator'
 import { collections } from '../firebase'
 import { generateMeetingToken } from '../functions/getMeetingsToken'
+import { defaultLang } from '../i18n'
 import settings from '../settings'
 import { getQuerySnapshotData } from '../utils'
 
 export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
-  const { orgId, token, memberId, circleId } = req.query
+  const { orgId, token, memberId, circleId, lang } = req.query
 
   if (typeof orgId !== 'string') {
     res.status(400).send('orgId is required')
@@ -29,6 +31,9 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
     res.status(400).send('circleId must be a string')
     return
   }
+
+  // Locale
+  const lng = typeof lang === 'string' ? lang : defaultLang
 
   // Validate token
   if (token !== generateMeetingToken(orgId)) {
@@ -92,7 +97,11 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
     cal.createEvent({
       start: meeting.startDate.toDate(),
       end: meeting.endDate.toDate(),
-      summary: `Réunion ${meeting.title} - ${role?.name}`,
+      summary: i18next.t('meetingsIcal.meeting.title', {
+        title: meeting.title,
+        role: role?.name,
+        lng,
+      }),
       description: `${settings.url}/orgs/${orgId}/meetings/${meeting.id}`,
     })
   }

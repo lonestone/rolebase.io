@@ -8,10 +8,10 @@ import {
   AlertDialogOverlay,
   AlertDialogProps,
   Button,
-  Text,
 } from '@chakra-ui/react'
 import { MeetingTempalteEntry } from '@shared/meetingTemplate'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -24,6 +24,8 @@ export default function MeetingTemplateDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
+  const { t } = useTranslation()
+
   const handleDelete = () => {
     deleteMeetingTemplate(meetingTemplate.id)
     onDelete?.()
@@ -35,20 +37,21 @@ export default function MeetingTemplateDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un template de réunion
+            {t('organisms.modals.MeetingTemplateDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <Text>
-              Êtes-vous sûr de vouloir supprimer le template{' '}
-              <strong>{meetingTemplate.title}</strong> ?
-            </Text>
+            <Trans
+              i18nKey="organisms.modals.MeetingTemplateDeleteModal.info"
+              values={{ name: meetingTemplate.title }}
+              components={{ b: <strong /> }}
+            />
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
-              Supprimer
+              {t('common.delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

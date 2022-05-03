@@ -22,6 +22,7 @@ import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { ThreadContext } from 'src/contexts/ThreadContext'
 import ParticipantsNumber from '../atoms/ParticipantsNumber'
 
@@ -37,6 +38,8 @@ export default function ThreadContent({
   headerIcons,
   ...boxProps
 }: Props) {
+  const { t } = useTranslation()
+
   // Subscribe thread
   const { data: thread, error, loading } = useSubscription(subscribeThread(id))
 
@@ -91,10 +94,12 @@ export default function ThreadContent({
         }
       >
         <Heading as="h1" size="md">
-          {thread?.title || (loading ? 'Chargement...' : null)}
+          {thread?.title || (loading ? '…' : null)}
         </Heading>
 
-        {thread?.archived && <Tag ml={2}>Archivé</Tag>}
+        {thread?.archived && (
+          <Tag ml={2}>{t('organisms.ThreadContent.archived')}</Tag>
+        )}
 
         <Spacer />
 

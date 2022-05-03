@@ -1,4 +1,7 @@
-import { getMeetingsIcalUrl } from '@api/entities/meetings'
+import {
+  getMeetingsIcalToken,
+  getMeetingsIcalUrl,
+} from '@api/entities/meetings'
 import {
   Button,
   FormControl,
@@ -24,7 +27,8 @@ import CircleSearchInput from '@components/molecules/search/entities/circles/Cir
 import useCallbackState from '@hooks/useCallbackState'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 enum ExportType {
   Org = 'Org',
@@ -33,6 +37,10 @@ enum ExportType {
 }
 
 export default function MeetingExportModal(modalProps: UseModalProps) {
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const orgId = useOrgId()
   const member = useCurrentMember()
 
@@ -41,29 +49,35 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
   )
   const [circleId, setCircleId] = useState<string | undefined>()
 
+  // Get token
   const {
     call: update,
-    value: url,
+    value: token,
     loading,
     error,
   } = useCallbackState(async () => {
     if (!orgId) return
-    switch (exportType) {
-      case ExportType.Org:
-        return getMeetingsIcalUrl(orgId)
-      case ExportType.CurrentMember:
-        return getMeetingsIcalUrl(orgId, member?.id)
-      case ExportType.Circle:
-        if (circleId) {
-          return getMeetingsIcalUrl(orgId, undefined, circleId)
-        }
-    }
+    return getMeetingsIcalToken(orgId)
   })
 
-  // Update url when export type changes
   useEffect(() => {
     update()
-  }, [exportType, orgId, member?.id, circleId])
+  }, [orgId])
+
+  // Get URL
+  const url = useMemo(() => {
+    if (!orgId || !token) return
+    switch (exportType) {
+      case ExportType.Org:
+        return getMeetingsIcalUrl(orgId, token, language)
+      case ExportType.CurrentMember:
+        return getMeetingsIcalUrl(orgId, token, language, member?.id)
+      case ExportType.Circle:
+        if (circleId) {
+          return getMeetingsIcalUrl(orgId, token, language, undefined, circleId)
+        }
+    }
+  }, [orgId, token, language, member, circleId, exportType])
 
   // URL copy
   const { hasCopied, onCopy } = useClipboard(url || '')
@@ -72,7 +86,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
   useEffect(() => {
     if (!hasCopied) return
     toast({
-      title: 'URL copiée',
+      title: t('organisms.modals.MeetingExportModal.toastCopied'),
       status: 'info',
       duration: 1500,
     })
@@ -82,32 +96,38 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
     <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Exporter l'agenda des Réunions</ModalHeader>
+        <ModalHeader>
+          {t('organisms.modals.MeetingExportModal.heading')}
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={10}>
           <VStack spacing={5} align="stretch">
             <FormControl>
-              <FormLabel>Inclure</FormLabel>
+              <FormLabel>
+                {t('organisms.modals.MeetingExportModal.scope')}
+              </FormLabel>
               <Select
                 value={exportType}
                 onChange={(e) => setExportType(e.target.value as ExportType)}
               >
                 <option value={ExportType.Org}>
-                  Toutes les réunions de l'organisation
+                  {t('organisms.modals.MeetingExportModal.scopeOrg')}
                 </option>
                 <option value={ExportType.CurrentMember}>
-                  Toutes mes réunions
+                  {t('organisms.modals.MeetingExportModal.scopeMine')}
                 </option>
                 <option value={ExportType.Circle}>
-                  Toutes les réunions d'un cercle
+                  {t('organisms.modals.MeetingExportModal.scopeCircle')}
                 </option>
               </Select>
             </FormControl>
 
             {exportType === ExportType.Circle && (
               <FormControl>
-                <FormLabel>Cercle</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MeetingExportModal.circle')}
+                </FormLabel>
                 <CircleSearchInput
                   singleMember={false}
                   value={circleId}
@@ -121,7 +141,9 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
 
             {url && (
               <FormControl>
-                <FormLabel>URL iCal</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MeetingExportModal.url')}
+                </FormLabel>
                 <InputGroup>
                   <Input
                     autoFocus
@@ -133,7 +155,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                   />
                   <InputRightElement width="4.5rem" mr="0.1rem">
                     <Button size="sm" onClick={onCopy}>
-                      Copier
+                      {t('organisms.modals.MeetingExportModal.copy')}
                     </Button>
                   </InputRightElement>
                 </InputGroup>

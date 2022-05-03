@@ -7,6 +7,7 @@ import { ActivityType } from '@shared/activity'
 import { ThreadEntry } from '@shared/thread'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { IoMdSend } from 'react-icons/io'
 import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
 import MarkdownEditor from './editor/MarkdownEditor'
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function ThreadActivityCreate({ thread }: Props) {
+  const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useOrgId()
   const editorRef = useRef<MarkdownEditorHandle>(null)
@@ -51,7 +53,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
     <div>
       <MarkdownEditor
         ref={editorRef}
-        placeholder="Message..."
+        placeholder={t('molecules.ThreadActivityCreate.placeholder')}
         value=""
         autoFocus
         onSubmit={handleSubmit}
@@ -59,10 +61,10 @@ export default function ThreadActivityCreate({ thread }: Props) {
 
       <HStack spacing={2} my={2}>
         <Button size="sm" onClick={() => setModalType(ActivityType.Poll)}>
-          Sondage
+          {t(`molecules.ThreadActivityCreate.poll`)}
         </Button>
         <Button size="sm" onClick={() => setModalType(ActivityType.Decision)}>
-          Décision
+          {t(`molecules.ThreadActivityCreate.decision`)}
         </Button>
         <Spacer />
         <Button
@@ -71,7 +73,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
           rightIcon={<IoMdSend />}
           onClick={() => handleSubmit()}
         >
-          Envoyer
+          {t(`molecules.ThreadActivityCreate.send`)}
         </Button>
       </HStack>
 

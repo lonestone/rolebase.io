@@ -7,6 +7,7 @@ import {
   MenuList,
 } from '@chakra-ui/react'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiCopy, FiEdit3, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
 
 interface Props extends Omit<IconButtonProps, 'aria-label'> {
@@ -21,10 +22,12 @@ export default function ActionsMenu({
   onDuplicate,
   ...props
 }: Props) {
+  const { t } = useTranslation()
+
   return (
     <Menu>
       <MenuButton
-        aria-label="Actions"
+        aria-label={t('molecules.ActionsMenu.label')}
         as={IconButton}
         icon={<FiMoreVertical />}
         variant="ghost"
@@ -35,17 +38,17 @@ export default function ActionsMenu({
       <MenuList fontSize="1rem" zIndex={1000}>
         {onEdit && (
           <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
-            Editer
+            {t('molecules.ActionsMenu.edit')}
           </MenuItem>
         )}
         {onDuplicate && (
           <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
-            Dupliquer
+            {t('molecules.ActionsMenu.duplicate')}
           </MenuItem>
         )}
         {onDelete && (
           <MenuItem icon={<FiTrash2 />} onClick={onDelete}>
-            Supprimer
+            {t('molecules.ActionsMenu.delete')}
           </MenuItem>
         )}
       </MenuList>

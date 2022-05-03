@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import ListItemWithButtons from '../../molecules/ListItemWithButtons'
 import BaseRoleCreateModal from './BaseRoleCreateModal'
@@ -20,6 +21,7 @@ import RoleDeleteModal from './RoleDeleteModal'
 import RoleEditModal from './RoleEditModal'
 
 export default function BaseRolesModal(modalProps: UseModalProps) {
+  const { t } = useTranslation()
   const roles = useStoreState((state) => state.roles.entries)
   const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
 
@@ -60,12 +62,14 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
       <Modal size="sm" {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Rôles de base de l'organisation</ModalHeader>
+          <ModalHeader>
+            {t('organisms.modals.BaseRolesModal.heading')}
+          </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             {!baseRoles?.length ? (
-              <i>Aucun rôle de base</i>
+              <i>{t('organisms.modals.BaseRolesModal.empty')}</i>
             ) : (
               baseRoles?.map((role) => (
                 <ListItemWithButtons
@@ -89,7 +93,7 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
 
           <ModalFooter justifyContent="center">
             <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
-              Créer un nouveau rôle de base
+              {t('organisms.modals.BaseRolesModal.create')}
             </Button>
           </ModalFooter>
         </ModalContent>

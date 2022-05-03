@@ -1,12 +1,12 @@
 import { LinkOverlay, LinkOverlayProps, useDisclosure } from '@chakra-ui/react'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
+import useDateLocale from '@hooks/useDateLocale'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { useOrgId } from '@hooks/useOrgId'
 import { MeetingEntry } from '@shared/meeting'
 import { format } from 'date-fns'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { dateFnsLocale } from 'src/locale'
 
 interface Props extends LinkOverlayProps {
   meeting: MeetingEntry
@@ -17,6 +17,7 @@ export default function MeetingLinkOverlay({
   ...linkOverlayProps
 }: Props) {
   const orgId = useOrgId()
+  const dateLocale = useDateLocale()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const handleOpen = useNormalClickHandler(onOpen)
   const date = meeting.startDate.toDate()
@@ -31,7 +32,7 @@ export default function MeetingLinkOverlay({
         {...linkOverlayProps}
       >
         {format(date, 'p ', {
-          locale: dateFnsLocale,
+          locale: dateLocale,
         })}{' '}
         - {meeting.title}
       </LinkOverlay>

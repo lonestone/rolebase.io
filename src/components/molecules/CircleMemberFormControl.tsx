@@ -6,6 +6,7 @@ import useCreateLog from '@hooks/useCreateLog'
 import { LogType } from '@shared/log'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import MembersMultiSelect from './MembersMultiSelect'
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function CircleMemberFormControl({ circleId }: Props) {
+  const { t } = useTranslation()
   const createLog = useCreateLog()
   const circleAndParents = useCircleAndParents(circleId)
   const members = useStoreState((state) => state.members.entries)
@@ -63,7 +65,9 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   return (
     <FormControl>
       <FormLabel>
-        {role?.singleMember ? 'Occupé par :' : 'Membres directs :'}
+        {role?.singleMember
+          ? t('molecules.CircleMemberFormControl.labelSingleMember')
+          : t('molecules.CircleMemberFormControl.labelMultiMembers')}
       </FormLabel>
       {circle && membersIds && (
         <MembersMultiSelect

@@ -3,6 +3,7 @@ import { ActivityPoll, PollAnswer } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { memo, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   activity: WithId<ActivityPoll>
@@ -10,6 +11,7 @@ interface Props {
 }
 
 function ThreadActivityPollResult({ activity, answers }: Props) {
+  const { t } = useTranslation()
   const { colorMode } = useColorMode()
   const members = useStoreState((state) => state.members.entries)
 
@@ -52,7 +54,11 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
         return (
           <StackItem key={index} display="flex">
             <Tooltip
-              label={activity.anonymous ? 'Anonyme' : voters.join(', ')}
+              label={
+                activity.anonymous
+                  ? t('molecules.ThreadActivityPollResult.anonymous')
+                  : voters.join(', ')
+              }
               placement="top"
               hasArrow
               openDelay={300}

@@ -30,6 +30,7 @@ import { MembersScope } from '@shared/member'
 import { ThreadEntry } from '@shared/thread'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -57,6 +58,7 @@ export default function ThreadEditModal({
   thread,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const navigateOrg = useNavigateOrg()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
@@ -129,23 +131,33 @@ export default function ThreadEditModal({
       <ModalContent>
         <form onSubmit={onSubmit}>
           <ModalHeader>
-            {thread ? 'Modifier une discussion' : 'Nouvelle discussion'}
+            {t(
+              thread
+                ? 'organisms.modals.ThreadEditModal.headingEdit'
+                : 'organisms.modals.ThreadEditModal.headingCreate'
+            )}
           </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>Titre</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.ThreadEditModal.title')}
+                </FormLabel>
                 <Input
                   {...register('title')}
-                  placeholder="Titre..."
+                  placeholder={t(
+                    'organisms.modals.ThreadEditModal.titlePlaceholder'
+                  )}
                   autoFocus
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>Cercle / Rôle</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.ThreadEditModal.circle')}
+                </FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -162,7 +174,7 @@ export default function ThreadEditModal({
                 isInvalid={(circleId && participants.length === 0) || false}
               >
                 <FormLabel display="flex" alignItems="center">
-                  Inviter
+                  {t('organisms.modals.ThreadEditModal.invite')}
                   <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>
                 <ParticipantsScopeSelect {...register('participantsScope')} />
@@ -179,14 +191,18 @@ export default function ThreadEditModal({
 
               {thread && (
                 <FormControl>
-                  <FormLabel>Paramètres</FormLabel>
-                  <Checkbox {...register('archived')}>Archivé</Checkbox>
+                  <FormLabel>
+                    {t('organisms.modals.ThreadEditModal.settings')}
+                  </FormLabel>
+                  <Checkbox {...register('archived')}>
+                    {t('organisms.modals.ThreadEditModal.archived')}
+                  </Checkbox>
                 </FormControl>
               )}
 
               <Box textAlign="right" mt={2}>
                 <Button colorScheme="blue" type="submit">
-                  {thread ? 'Enregistrer' : 'Créer'}
+                  {t(thread ? 'common.save' : 'common.create')}
                 </Button>
               </Box>
             </VStack>

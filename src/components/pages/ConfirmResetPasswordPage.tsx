@@ -12,6 +12,8 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import PasswordConfirmInputDummy from '@components/atoms/PasswordConfirmInputDummy'
+import PasswordEmailInputDummy from '@components/atoms/PasswordEmailInputDummy'
 import PasswordInput from '@components/atoms/PasswordInput'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
@@ -21,10 +23,9 @@ import useQueryParams from '@hooks/useQueryParams'
 import { confirmPasswordReset } from 'firebase/auth'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
-import PasswordConfirmInputDummy from './PasswordConfirmInputDummy'
-import PasswordEmailInputDummy from './PasswordEmailInputDummy'
 
 type Params = {
   oobCode: string
@@ -40,6 +41,7 @@ const schema = yup.object().shape({
 })
 
 export default function ConfirmResetPasswordPage() {
+  const { t } = useTranslation()
   const { oobCode, continueUrl } = useQueryParams<Params>()
   const toast = useToast()
   const history = useHistory()
@@ -68,8 +70,7 @@ export default function ConfirmResetPasswordPage() {
 
     // Show toast
     toast({
-      title: 'Mot de passe changé',
-      description: 'Votre mot de passe a été changé avec succès.',
+      title: t('pages.ConfirmResetPasswordPage.toastSuccess'),
       status: 'success',
       duration: 5000,
       isClosable: true,
@@ -78,18 +79,18 @@ export default function ConfirmResetPasswordPage() {
 
   return (
     <Container maxW="sm" mt="60px">
-      <Title>Réinitialiser mon mot de passe</Title>
+      <Title>{t('pages.ConfirmResetPasswordPage.heading')}</Title>
 
       <Heading size="md" mb={5}>
-        Réinitialiser mon mot de passe
+        {t('pages.ConfirmResetPasswordPage.heading')}
       </Heading>
 
       {done ? (
         <Alert status="success">
           <AlertIcon />
           <AlertDescription>
-            <p>Email de réinitialisation de mot de passe envoyé !</p>
-            <p>Vérifiez votre boîte email.</p>
+            <p>{t('pages.ConfirmResetPasswordPage.success1')}</p>
+            <p>{t('pages.ConfirmResetPasswordPage.success2')}</p>
           </AlertDescription>
         </Alert>
       ) : (
@@ -98,11 +99,15 @@ export default function ConfirmResetPasswordPage() {
             <PasswordEmailInputDummy />
 
             <FormControl isInvalid={!!errors.password}>
-              <FormLabel>Nouveau mot de passe</FormLabel>
+              <FormLabel>
+                {t('pages.ConfirmResetPasswordPage.password')}
+              </FormLabel>
               <PasswordInput
                 {...register('password')}
                 required
-                placeholder="Mot de passe..."
+                placeholder={t(
+                  'pages.ConfirmResetPasswordPage.passwordPlaceholder'
+                )}
                 autoComplete="new-password"
               />
             </FormControl>
@@ -110,7 +115,7 @@ export default function ConfirmResetPasswordPage() {
             <PasswordConfirmInputDummy />
 
             <Button colorScheme="blue" type="submit" isDisabled={loading}>
-              Enregistrer
+              {t('common.save')}
               {loading && <Spinner ml={2} />}
             </Button>
           </VStack>

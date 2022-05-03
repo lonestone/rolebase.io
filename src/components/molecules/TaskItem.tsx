@@ -10,6 +10,7 @@ import {
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import MemberAvatar from '@components/atoms/MemberAvatar'
 import TaskModal from '@components/organisms/modals/TaskModal'
+import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { useOrgId } from '@hooks/useOrgId'
@@ -18,7 +19,6 @@ import { TaskEntry, TaskStatus } from '@shared/task'
 import { formatRelative } from 'date-fns'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { dateFnsLocale } from 'src/locale'
 import TaskStatusInput from './TaskStatusInput'
 
 interface Props extends LinkBoxProps {
@@ -31,6 +31,7 @@ const TaskItem = forwardRef<Props, 'div'>(
     const orgId = useOrgId()
     const hover = useHoverItemStyle()
     const updateTaskStatus = useUpdateTaskStatus()
+    const dateLocale = useDateLocale()
 
     const handleChangeStatus = (status: TaskStatus) => {
       updateTaskStatus(task, status)
@@ -71,7 +72,7 @@ const TaskItem = forwardRef<Props, 'div'>(
             {task.dueDate && (
               <Text fontSize="sm" color="gray.500" ml={2}>
                 {formatRelative(task.dueDate.toDate(), new Date(), {
-                  locale: dateFnsLocale,
+                  locale: dateLocale,
                 })}
               </Text>
             )}

@@ -13,10 +13,12 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiCircle, FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
 export default function HeaderOrgMenu(props: MenuButtonProps) {
+  const { t } = useTranslation()
   const org = useCurrentOrg()
   const orgs = useStoreState((state) => state.orgs.entries)
   const sortedOrgs = orgs?.sort((a, b) => (a.name < b.name ? -1 : 1))
@@ -58,7 +60,7 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
           </Link>
         ))}
         <MenuItem icon={<FiPlus />} onClick={onCreateOpen}>
-          Créer une organisation
+          {t('molecules.HeaderOrgMenu.create')}
         </MenuItem>
       </MenuList>
 

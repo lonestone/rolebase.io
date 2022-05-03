@@ -39,6 +39,7 @@ import { useStoreState } from '@store/hooks'
 import { Timestamp } from 'firebase/firestore'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { FiHelpCircle, FiPlus, FiX } from 'react-icons/fi'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
@@ -94,6 +95,7 @@ export default function ActivityPollModal({
   activity,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useOrgId()
 
@@ -204,15 +206,17 @@ export default function ActivityPollModal({
       <ModalContent>
         <ModalHeader>
           <Flex alignItems="center">
-            {activity ? 'Modifier un sondage' : 'Ajouter un sondage'}
+            {t(
+              activity
+                ? 'organisms.modals.ActivityPollModal.headingEdit'
+                : 'organisms.modals.ActivityPollModal.headingCreate'
+            )}
 
             {!activity && (
               <Tooltip
                 hasArrow
                 p={3}
-                label={
-                  'Utilisez un sondage pour obtenir des avis subjectifs. Pour prendre une décision objective, utilisez plutôt une "Décision" ou une "Élection".'
-                }
+                label={t('organisms.modals.ActivityPollModal.help')}
               >
                 <Box ml={3}>
                   <FiHelpCircle />
@@ -230,8 +234,7 @@ export default function ActivityPollModal({
                 <>
                   <Alert status="warning">
                     <AlertIcon />
-                    Ce sondage a déjà eu des réponses. Vous ne pouvez pas le
-                    modifier à moins de supprimer les réponses.
+                    {t('organisms.modals.ActivityPollModal.resetNeeded')}
                   </Alert>
                   <Checkbox
                     isChecked={acceptErasingAnswers}
@@ -239,23 +242,29 @@ export default function ActivityPollModal({
                       setAcceptErasingAnswers(!acceptErasingAnswers)
                     }
                   >
-                    Supprimer les réponses{' '}
+                    {t('organisms.modals.ActivityPollModal.resetBtn')}
                   </Checkbox>
                 </>
               )}
 
               <FormControl isInvalid={!!errors.question}>
-                <FormLabel>Question</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.ActivityPollModal.question')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="question"
-                  placeholder="Qui, que, où, quand ?"
+                  placeholder={t(
+                    'organisms.modals.ActivityPollModal.questionPlaceholder'
+                  )}
                   autoFocus
                   control={control}
                 />
               </FormControl>
 
               <Box>
-                <FormLabel>Choix</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.ActivityPollModal.choices')}
+                </FormLabel>
                 <Stack spacing={2}>
                   {choicesFields.map((field, index) => (
                     <FormControl
@@ -265,7 +274,10 @@ export default function ActivityPollModal({
                       <Stack spacing={2} direction="row">
                         <Input
                           {...register(`choices.${index}.title`)}
-                          placeholder={`Choix n°${index + 1}`}
+                          placeholder={t(
+                            'organisms.modals.ActivityPollModal.choicePlacholder',
+                            { n: index + 1 }
+                          )}
                         />
                         {choicesFields.length > 2 ? (
                           <IconButton
@@ -282,7 +294,7 @@ export default function ActivityPollModal({
                     leftIcon={<FiPlus />}
                     onClick={() => appendChoice({ title: '' })}
                   >
-                    Ajouter un choix
+                    {t('organisms.modals.ActivityPollModal.addChoice')}
                   </Button>
                 </Stack>
               </Box>
@@ -290,13 +302,15 @@ export default function ActivityPollModal({
               <Accordion allowToggle>
                 <AccordionItem>
                   <AccordionButton>
-                    <Text textAlign="left">Options</Text>
+                    <Text textAlign="left">
+                      {t('organisms.modals.ActivityPollModal.options')}
+                    </Text>
                     <AccordionIcon ml={2} />
                   </AccordionButton>
                   <AccordionPanel pb={4}>
                     <Stack spacing={1}>
                       <Checkbox {...register('multiple')}>
-                        Choix multiples
+                        {t('organisms.modals.ActivityPollModal.multiple')}
                       </Checkbox>
                       {multiple && (
                         <Stack spacing={1} pl={6}>
@@ -307,7 +321,9 @@ export default function ActivityPollModal({
                                 setValue('minAnswers', minAnswers ? null : 2)
                               }
                             >
-                              Minimum de choix à sélectionner
+                              {t(
+                                'organisms.modals.ActivityPollModal.minAnswers'
+                              )}
                             </Checkbox>
                             {minAnswers && (
                               <NumberInputController
@@ -331,7 +347,9 @@ export default function ActivityPollModal({
                                 )
                               }
                             >
-                              Maximum de choix sélectionnables
+                              {t(
+                                'organisms.modals.ActivityPollModal.maxAnswers'
+                              )}
                             </Checkbox>
                             {maxAnswers && (
                               <NumberInputController
@@ -355,7 +373,7 @@ export default function ActivityPollModal({
                                 )
                               }
                             >
-                              Points à répartir
+                              {t('organisms.modals.ActivityPollModal.points')}
                             </Checkbox>
                             {pointsPerUser && (
                               <NumberInputController
@@ -372,21 +390,23 @@ export default function ActivityPollModal({
 
                       {/*
                       <Checkbox {...register('canAddChoice')}>
-                        Autoriser les participants à rajouter des choix
+                        {t('organisms.modals.ActivityPollModal.canAddChoices')}
                       </Checkbox>
                       */}
                       <Checkbox {...register('anonymous')}>
-                        Réponses anonymes
+                        {t('organisms.modals.ActivityPollModal.anonymous')}
                       </Checkbox>
                       <Checkbox {...register('randomize')}>
-                        Afficher les choix dans un ordre aléatoire
+                        {t('organisms.modals.ActivityPollModal.randomize')}
                       </Checkbox>
                       <Checkbox {...register('hideUntilEnd')}>
-                        Cacher les résultats jusqu'à la clôture
+                        {t('organisms.modals.ActivityPollModal.hideUntilEnd')}
                       </Checkbox>
 
                       <Checkbox {...register('endWhenAllVoted')}>
-                        Clôturer quand tous les participants ont voté
+                        {t(
+                          'organisms.modals.ActivityPollModal.endWhenAllVoted'
+                        )}
                       </Checkbox>
                       <Checkbox
                         isChecked={!!endDate}
@@ -394,7 +414,7 @@ export default function ActivityPollModal({
                           setValue('endDate', endDate ? null : defaultEndDate)
                         }
                       >
-                        Date de clôture
+                        {t('organisms.modals.ActivityPollModal.endDate')}
                       </Checkbox>
                       {endDate ? (
                         <Box pl={6}>
@@ -417,7 +437,7 @@ export default function ActivityPollModal({
                   type="submit"
                   isDisabled={shouldAcceptErasingAnswers}
                 >
-                  {activity ? 'Enregistrer' : 'Créer'}
+                  {t(activity ? 'common.save' : 'common.create')}
                 </Button>
               </Box>
             </VStack>

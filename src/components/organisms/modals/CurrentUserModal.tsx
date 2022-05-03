@@ -16,13 +16,14 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import PasswordConfirmInputDummy from '@components/atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@components/atoms/PasswordInput'
-import PasswordConfirmInputDummy from '@components/pages/PasswordConfirmInputDummy'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useStoreState } from '@store/hooks'
 import { updateEmail, updatePassword, updateProfile } from 'firebase/auth'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Values {
@@ -47,6 +48,7 @@ const resolver = yupResolver(
 )
 
 export default function CurrentUserModal(modalProps: UseModalProps) {
+  const { t } = useTranslation()
   const firebaseUser = useStoreState((state) => state.auth.firebaseUser)
   const user = useStoreState((state) => state.auth.user)
   const toast = useToast()
@@ -89,7 +91,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
     }
 
     toast({
-      title: 'Informations mises à jour',
+      title: t('organisms.modals.CurrentUserModal.toastSuccess'),
       status: 'success',
       duration: 2000,
     })
@@ -104,13 +106,17 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Mes informations personnelles</ModalHeader>
+          <ModalHeader>
+            {t('organisms.modals.CurrentUserModal.heading')}
+          </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel>Nom</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.CurrentUserModal.name')}
+                </FormLabel>
                 <Input
                   {...register('name')}
                   placeholder="Nom..."
@@ -121,7 +127,9 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
               </FormControl>
 
               <FormControl isInvalid={!!errors.email}>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.CurrentUserModal.email')}
+                </FormLabel>
                 <Input
                   {...register('email')}
                   type="email"
@@ -132,7 +140,9 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
               </FormControl>
 
               <FormControl isInvalid={!!errors.password}>
-                <FormLabel>Modifier le mot de passe</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.CurrentUserModal.password')}
+                </FormLabel>
                 <PasswordInput
                   {...register('password')}
                   placeholder="Nouveau mot de passe..."
@@ -144,7 +154,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
 
               <Box textAlign="right">
                 <Button colorScheme="blue" type="submit">
-                  Enregistrer
+                  {t('common.save')}
                 </Button>
               </Box>
             </VStack>

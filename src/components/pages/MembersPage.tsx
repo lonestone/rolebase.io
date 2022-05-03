@@ -23,9 +23,11 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 
 export default function MembersPage() {
+  const { t } = useTranslation()
   const members = useStoreState((state) => state.members.entries)
   const hover = useHoverItemStyle()
 
@@ -69,18 +71,18 @@ export default function MembersPage() {
 
   return (
     <Container maxW="xl" py={10}>
-      <Title>Membres</Title>
+      <Title>{t('pages.MembersPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          Membres
+          {t('pages.MembersPage.heading')}
         </Heading>
         <Spacer />
 
         <InputGroup size="sm" w="auto">
           <Input
             type="text"
-            placeholder="Rechercher..."
+            placeholder={t('pages.MembersPage.searchPlaceholder')}
             borderRadius="md"
             w="200px"
             value={searchText}
@@ -96,10 +98,10 @@ export default function MembersPage() {
         </InputGroup>
 
         <Button size="sm" ml={2} leftIcon={<FiMail />} onClick={onInviteOpen}>
-          Inviter
+          {t('pages.MembersPage.invite')}
         </Button>
         <Button size="sm" ml={2} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          Créer
+          {t('common.create')}
         </Button>
       </Flex>
 
@@ -111,22 +113,30 @@ export default function MembersPage() {
             {member.userId ? (
               <>
                 {member.role === ClaimRole.Readonly && (
-                  <Tag colorScheme="gray">Lecture seule</Tag>
+                  <Tag colorScheme="gray">
+                    {t('pages.MembersPage.tags.readonly')}
+                  </Tag>
                 )}
                 {member.role === ClaimRole.Member && (
-                  <Tag colorScheme="blue">Membre</Tag>
+                  <Tag colorScheme="blue">
+                    {t('pages.MembersPage.tags.member')}
+                  </Tag>
                 )}
                 {member.role === ClaimRole.Admin && (
-                  <Tag colorScheme="red">Admin</Tag>
+                  <Tag colorScheme="red">
+                    {t('pages.MembersPage.tags.admin')}
+                  </Tag>
                 )}
               </>
             ) : (
               <>
                 {member.inviteDate ? (
-                  <Tag colorScheme="transparent">Invité.e</Tag>
+                  <Tag colorScheme="transparent">
+                    {t('pages.MembersPage.tags.invited')}
+                  </Tag>
                 ) : (
                   <Tag colorScheme="transparent" color="gray.500">
-                    Pas invité.e
+                    {t('pages.MembersPage.tags.notInvited')}
                   </Tag>
                 )}
               </>

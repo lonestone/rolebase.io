@@ -22,6 +22,7 @@ import { WithId } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -50,6 +51,7 @@ export default function ActivityDecisionModal({
   activity,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useOrgId()
 
@@ -102,7 +104,11 @@ export default function ActivityDecisionModal({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {activity ? 'Modifier une décision' : 'Ajouter une décision'}
+          {t(
+            activity
+              ? 'organisms.modals.ActivityDecisionModal.headingEdit'
+              : 'organisms.modals.ActivityDecisionModal.headingCreate'
+          )}
         </ModalHeader>
         <ModalCloseButton />
 
@@ -110,7 +116,9 @@ export default function ActivityDecisionModal({
           <form onSubmit={onSubmit}>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.decision}>
-                <FormLabel>Décision</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.ActivityDecisionModal.decision')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="decision"
                   placeholder="Qu'avez-vous décidé ?"
@@ -120,7 +128,9 @@ export default function ActivityDecisionModal({
               </FormControl>
 
               <FormControl isInvalid={!!errors.explanation}>
-                <FormLabel>Explications</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.ActivityDecisionModal.explanation')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="explanation"
                   placeholder="Pourquoi avez-vous pris cette décision ?"
@@ -129,7 +139,9 @@ export default function ActivityDecisionModal({
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>Cercle / Rôle</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.ActivityDecisionModal.circle')}
+                </FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -144,7 +156,7 @@ export default function ActivityDecisionModal({
 
               <Box textAlign="right">
                 <Button colorScheme="blue" type="submit">
-                  {activity ? 'Enregistrer' : 'Créer'}
+                  {t(activity ? 'common.save' : 'common.create')}
                 </Button>
               </Box>
             </VStack>

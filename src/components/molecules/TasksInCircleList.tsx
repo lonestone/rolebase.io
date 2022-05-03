@@ -7,6 +7,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import { useSortedTasks } from '@hooks/useSortedTasks'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import TaskItem from './TaskItem'
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function TasksInCircleList({ circleId }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
 
   // Subscribe to tasks
@@ -35,13 +37,15 @@ export default function TasksInCircleList({ circleId }: Props) {
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        Créer une tâche
+        {t('molecules.TasksInCircleList.create')}
       </Button>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {tasks?.length === 0 && <Text>Aucune tâche pour le moment</Text>}
+      {tasks?.length === 0 && (
+        <Text>{t('molecules.TasksInCircleList.empty')}</Text>
+      )}
 
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} />

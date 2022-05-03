@@ -3,6 +3,7 @@ import TaskModal from '@components/organisms/modals/TaskModal'
 import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function MeetingActions({ circleId }: Props) {
+  const { t } = useTranslation()
   const currentMember = useCurrentMember()
 
   const {
@@ -27,11 +29,11 @@ export default function MeetingActions({ circleId }: Props) {
   return (
     <HStack justifyContent="center">
       <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateTaskOpen}>
-        Nouvelle tâche
+        {t('molecules.MeetingActions.createTask')}
       </Button>
 
       <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateThreadOpen}>
-        Nouvelle discussion
+        {t('molecules.MeetingActions.createThread')}
       </Button>
 
       {isCreateTaskOpen && (

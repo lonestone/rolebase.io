@@ -5,6 +5,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import React, { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import TaskSearchButton from './search/entities/tasks/TaskSearchButton'
 import SortableList from './SortableList'
@@ -23,6 +24,7 @@ export default function TasksMultiSelect({
   max,
   onChange,
 }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
 
   // Subscribe tasks
@@ -85,7 +87,9 @@ export default function TasksMultiSelect({
             leftIcon={<FiPlus />}
             onSelect={handleAdd}
           >
-            {max === 1 ? 'Choisir une tâche' : 'Ajouter une tâche'}
+            {max === 1
+              ? t(`molecules.TasksMultiSelect.choose`)
+              : t(`molecules.TasksMultiSelect.add`)}
           </TaskSearchButton>
         </Box>
       ) : null}

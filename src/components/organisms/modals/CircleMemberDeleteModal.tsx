@@ -15,6 +15,7 @@ import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
 import { LogType } from '@shared/log'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -29,6 +30,7 @@ export default function CircleMemberDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
+  const { t } = useTranslation()
   const createLog = useCreateLog()
   const circle = useCircle(circleId)
   const member = useMember(memberId)
@@ -57,21 +59,23 @@ export default function CircleMemberDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer le rôle d'un membre
+            {t('organisms.modals.CircleMemberDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir retirer le rôle{' '}
-              <strong>{circle?.role.name}</strong> au membre{' '}
-              <strong>{member?.name}</strong> ?
+              <Trans
+                i18nKey="organisms.modals.CircleMemberDeleteModal.info"
+                values={{ role: circle?.role.name, member: member?.name }}
+                components={{ b: <strong /> }}
+              />
             </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
-              Supprimer
+              {t('common.delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

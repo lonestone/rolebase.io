@@ -14,6 +14,7 @@ import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/log'
 import { TaskEntry } from '@shared/task'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -26,6 +27,7 @@ export default function TaskDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
+  const { t } = useTranslation()
   const createLog = useCreateLog()
 
   const handleDelete = async () => {
@@ -56,20 +58,23 @@ export default function TaskDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer une tâche
+            {t('organisms.modals.TaskDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer la tâche{' '}
-              <strong>{task.title}</strong> ?
+              <Trans
+                i18nKey="organisms.modals.TaskDeleteModal.info"
+                values={{ name: task.title }}
+                components={{ b: <strong /> }}
+              />
             </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
-              Supprimer
+              {t('common.delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

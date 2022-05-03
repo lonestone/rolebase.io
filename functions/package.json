@@ -18,6 +18,7 @@
     "express": "^4.17.2",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.19.0",
+    "i18next": "^21.6.16",
     "ical-generator": "^3.1.1",
     "module-alias": "^2.2.2",
     "node-mailjet": "^3.3.4"

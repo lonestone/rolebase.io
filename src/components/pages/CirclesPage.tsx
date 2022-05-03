@@ -2,8 +2,8 @@ import { Box, Flex, useColorMode } from '@chakra-ui/react'
 import ModalPanel from '@components/atoms/ModalPanel'
 import { Title } from '@components/atoms/Title'
 import CirclesKeyboardShortcuts from '@components/molecules/CirclesKeyboardShortcuts'
-import CircleModalContent from '@components/organisms/modals/CircleModalContent'
-import MemberModalContent from '@components/organisms/modals/MemberModalContent'
+import CircleContent from '@components/organisms/CircleContent'
+import MemberContent from '@components/organisms/MemberContent'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
@@ -85,13 +85,13 @@ export default function CirclesPage() {
 
       {panel === Panels.Circle && circleId && (
         <ModalPanel onClose={handleClosePanel}>
-          <CircleModalContent id={circleId} changeTitle />
+          <CircleContent id={circleId} changeTitle />
         </ModalPanel>
       )}
 
       {panel === Panels.Member && memberId && (
         <ModalPanel onClose={handleClosePanel}>
-          <MemberModalContent
+          <MemberContent
             id={memberId}
             selectedCircleId={circleId || undefined}
             changeTitle

@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import useOrg from '@hooks/useOrg'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -20,6 +21,7 @@ interface Props
 }
 
 export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
+  const { t } = useTranslation()
   const org = useOrg(id)
 
   const handleDelete = () => {
@@ -35,20 +37,23 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer une organisation
+            {t('organisms.modals.OrgDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer l'organisation{' '}
-              <strong>{org.name}</strong> ?
+              <Trans
+                i18nKey="organisms.modals.OrgDeleteModal.info"
+                values={{ name: org.name }}
+                components={{ b: <strong /> }}
+              />
             </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
-              Supprimer
+              {t('common.delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

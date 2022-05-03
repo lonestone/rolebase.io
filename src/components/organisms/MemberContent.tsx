@@ -17,6 +17,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import Markdown from '@components/atoms/Markdown'
+import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import MemberRoles from '@components/molecules/MemberRoles'
@@ -25,8 +26,8 @@ import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
-import MemberEditModal from './MemberEditModal'
-import ModalCloseStaticButton from './ModalCloseStaticButton'
+import { useTranslation } from 'react-i18next'
+import MemberEditModal from './modals/MemberEditModal'
 
 interface Props {
   id: string
@@ -35,12 +36,13 @@ interface Props {
   headerIcons?: React.ReactNode
 }
 
-export default function MemberModalContent({
+export default function MemberContent({
   id,
   changeTitle,
   selectedCircleId,
   headerIcons,
 }: Props) {
+  const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const member = useMember(id)
   const role = useOrgRole()
@@ -59,7 +61,7 @@ export default function MemberModalContent({
       <>
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>Membre introuvable</AlertTitle>
+          <AlertTitle>{t('organisms.MemberContent.notFound')}</AlertTitle>
         </Alert>
         <ModalCloseButton />
       </>
@@ -100,7 +102,7 @@ export default function MemberModalContent({
           )}
 
           <FormControl>
-            <FormLabel>Rôles :</FormLabel>
+            <FormLabel>{t('organisms.MemberContent.roles')}</FormLabel>
             <MemberRoles member={member} selectedCircleId={selectedCircleId} />
           </FormControl>
         </VStack>

@@ -14,6 +14,7 @@ import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/log'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -26,6 +27,7 @@ export default function MemberDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
+  const { t } = useTranslation()
   const member = useMember(id)
   const createLog = useCreateLog()
 
@@ -62,20 +64,23 @@ export default function MemberDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un membre
+            {t('organisms.modals.MemberDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer le membre{' '}
-              <strong>{member.name}</strong> ?
+              <Trans
+                i18nKey="organisms.modals.MemberDeleteModal.info"
+                values={{ name: member.name }}
+                components={{ b: <strong /> }}
+              />
             </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
-              Supprimer
+              {t('common.delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

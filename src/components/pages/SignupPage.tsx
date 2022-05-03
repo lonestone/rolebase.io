@@ -4,6 +4,7 @@ import { Title } from '@components/atoms/Title'
 import SignupForm from '@components/organisms/SignupForm'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function SignupPage({ goToLoginPage }: Props) {
+  const { t } = useTranslation()
   // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signup = useStoreActions((actions) => actions.auth.signup)
   const loading = useStoreState((state) => state.auth.loading)
@@ -18,10 +20,10 @@ export default function SignupPage({ goToLoginPage }: Props) {
 
   return (
     <Container maxW="sm" mt="60px">
-      <Title>Inscription</Title>
+      <Title>{t('pages.SignupPage.heading')}</Title>
 
       <Heading size="md" mb={5}>
-        Inscription
+        {t('pages.SignupPage.heading')}
       </Heading>
 
       {/*
@@ -34,10 +36,10 @@ export default function SignupPage({ goToLoginPage }: Props) {
 
       <Center mt={4}>
         {goToLoginPage ? (
-          <Link onClick={goToLoginPage}>Connexion</Link>
+          <Link onClick={goToLoginPage}>{t('pages.SignupPage.signin')}</Link>
         ) : (
           <Link to="/login" as={ReachLink}>
-            Connexion
+            {t('pages.SignupPage.signin')}
           </Link>
         )}
       </Center>

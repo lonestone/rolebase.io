@@ -5,6 +5,7 @@ import LogsPage from '@components/pages/LogsPage'
 import MeetingPage from '@components/pages/MeetingPage'
 import MeetingsPage from '@components/pages/MeetingsPage'
 import MembersPage from '@components/pages/MembersPage'
+import Page404 from '@components/pages/Page404'
 import TaskPage from '@components/pages/TaskPage'
 import TasksPage from '@components/pages/TasksPage'
 import ThreadPage from '@components/pages/ThreadPage'
@@ -13,13 +14,7 @@ import useOrg from '@hooks/useOrg'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
 import React, { useEffect } from 'react'
-import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useParams,
-} from 'react-router-dom'
+import { Route, Switch, useHistory, useParams } from 'react-router-dom'
 
 export default function OrgRoutes() {
   const { orgId } = useParams<{ orgId: string }>()
@@ -104,7 +99,7 @@ export default function OrgRoutes() {
           <LogsPage />
         </Route>
         <Route>
-          <Redirect to={`/orgs/${orgId}`} />
+          <Page404 />
         </Route>
       </Switch>
     </>

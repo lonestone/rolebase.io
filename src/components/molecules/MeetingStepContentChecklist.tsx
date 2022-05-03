@@ -3,6 +3,7 @@ import useCircle from '@hooks/useCircle'
 import { MeetingStepChecklist } from '@shared/meetingStep'
 import { WithId } from '@shared/types'
 import React, { RefObject, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
 
 interface Props extends BoxProps {
@@ -19,6 +20,7 @@ export default function MeetingStepContentChecklist({
   editable,
   ...boxProps
 }: Props) {
+  const { t } = useTranslation()
   const circle = useCircle(circleId)
   const newValue = circle?.role.checklist
 
@@ -34,7 +36,9 @@ export default function MeetingStepContentChecklist({
     >
       <Box {...boxProps}>
         <Button size="sm" onClick={handleSet}>
-          Utiliser la checklist du cercle {circle?.role.name}
+          {t('molecules.MeetingStepContentChecklist.useCircle', {
+            circle: circle?.role.name,
+          })}
         </Button>
       </Box>
     </Collapse>

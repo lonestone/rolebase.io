@@ -58,6 +58,7 @@ import { Timestamp } from 'firebase/firestore'
 import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiHelpCircle } from 'react-icons/fi'
 import { useHistory } from 'react-router-dom'
 import { getDateTimeLocal } from 'src/utils'
@@ -111,6 +112,7 @@ export default function MeetingEditModal({
   onCreate,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const history = useHistory()
@@ -259,9 +261,11 @@ export default function MeetingEditModal({
       <ModalContent>
         <form onSubmit={onSubmit}>
           <ModalHeader>
-            {meeting && !duplicate
-              ? 'Modifier une réunion'
-              : 'Nouvelle réunion'}
+            {t(
+              meeting && !duplicate
+                ? 'organisms.modals.MeetingEditModal.headingEdit'
+                : 'organisms.modals.MeetingEditModal.headingCreate'
+            )}
           </ModalHeader>
           <ModalCloseButton />
 
@@ -269,12 +273,16 @@ export default function MeetingEditModal({
             <VStack spacing={7} align="stretch">
               {!meeting && (
                 <FormControl isInvalid={!!errors.title}>
-                  <FormLabel>Template</FormLabel>
+                  <FormLabel>
+                    {t('organisms.modals.MeetingEditModal.template')}
+                  </FormLabel>
                   {meetingTemplatesLoading && <Loading active size="md" />}
                   <TextErrors errors={[meetingTemplatesError]} />
                   <HStack spacing={2}>
                     <Select {...register('templateId')} autoFocus>
-                      <option value="">Aucun</option>
+                      <option value="">
+                        {t('organisms.modals.MeetingEditModal.noTemplate')}
+                      </option>
                       {meetingTemplates?.map((template) => (
                         <option key={template.id} value={template.id}>
                           {template.title}
@@ -291,16 +299,27 @@ export default function MeetingEditModal({
               )}
 
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>Titre</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MeetingEditModal.title')}
+                </FormLabel>
                 <InputGroup>
-                  <InputLeftAddon pointerEvents="none">Réunion</InputLeftAddon>
-                  <Input {...register('title')} placeholder="Titre..." />
+                  <InputLeftAddon pointerEvents="none">
+                    {t('organisms.modals.MeetingEditModal.titlePrefix')}
+                  </InputLeftAddon>
+                  <Input
+                    {...register('title')}
+                    placeholder={t(
+                      'organisms.modals.MeetingEditModal.titlePlaceholder'
+                    )}
+                  />
                 </InputGroup>
               </FormControl>
 
               <Flex>
                 <FormControl isInvalid={!!errors.startDate}>
-                  <FormLabel>Début</FormLabel>
+                  <FormLabel>
+                    {t('organisms.modals.MeetingEditModal.start')}
+                  </FormLabel>
                   <Input
                     {...register('startDate')}
                     type="datetime-local"
@@ -309,7 +328,9 @@ export default function MeetingEditModal({
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.duration} ml={5}>
-                  <FormLabel>Durée</FormLabel>
+                  <FormLabel>
+                    {t('organisms.modals.MeetingEditModal.duration')}
+                  </FormLabel>
                   <InputGroup>
                     <NumberInputController
                       name="duration"
@@ -319,13 +340,17 @@ export default function MeetingEditModal({
                       max={600}
                       step={10}
                     />
-                    <InputRightAddon bg="transparent">minutes</InputRightAddon>
+                    <InputRightAddon bg="transparent">
+                      {t('organisms.modals.MeetingEditModal.durationSuffix')}
+                    </InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </Flex>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>Cercle</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MeetingEditModal.circle')}
+                </FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -343,7 +368,7 @@ export default function MeetingEditModal({
                 isInvalid={(circleId && participants.length === 0) || false}
               >
                 <FormLabel display="flex" alignItems="center">
-                  Inviter
+                  {t('organisms.modals.MeetingEditModal.invite')}
                   <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>
                 <ParticipantsScopeSelect {...register('participantsScope')} />
@@ -361,13 +386,13 @@ export default function MeetingEditModal({
               {participants.length !== 0 && (
                 <FormControl isInvalid={!!errors.facilitatorMemberId} flex="1">
                   <FormLabel display="flex" alignItems="center">
-                    Facilitateur
+                    {t('organisms.modals.MeetingEditModal.facilitator')}
                     <Tooltip
                       hasArrow
                       p={2}
-                      label={
-                        'Le/la facilitateur anime la réunion en suivant le déroulé et en donnant la parole.'
-                      }
+                      label={t(
+                        'organisms.modals.MeetingEditModal.facilitatorHelp'
+                      )}
                     >
                       <Box ml={3}>
                         <FiHelpCircle />
@@ -389,7 +414,9 @@ export default function MeetingEditModal({
               )}
 
               <FormControl>
-                <FormLabel>Déroulé</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MeetingEditModal.steps')}
+                </FormLabel>
                 <MeetingStepsConfigController
                   control={control as any}
                   errors={errors}
@@ -402,7 +429,7 @@ export default function MeetingEditModal({
                     isChecked={!!videoConf}
                     onChange={() => setValue('videoConf', !videoConf)}
                   >
-                    Activer la vidéo-conférence
+                    {t('organisms.modals.MeetingEditModal.videoConf')}
                   </Checkbox>
 
                   <RadioGroup
@@ -421,9 +448,11 @@ export default function MeetingEditModal({
                   >
                     <Stack pl={6} mt={1} spacing={1} direction="column">
                       <Radio value={VideoConfType.generated}>
-                        Générer une URL Jitsi
+                        {t('organisms.modals.MeetingEditModal.videoConfJitsi')}
                       </Radio>
-                      <Radio value={VideoConfType.url}>URL personnalisée</Radio>
+                      <Radio value={VideoConfType.url}>
+                        {t('organisms.modals.MeetingEditModal.videoConfUrl')}
+                      </Radio>
                       {typeof videoConf === 'string' && (
                         <Input pl={6} {...register('videoConf')} />
                       )}
@@ -434,7 +463,7 @@ export default function MeetingEditModal({
 
               <Box textAlign="right" mt={2}>
                 <Button colorScheme="blue" type="submit">
-                  {meeting ? 'Enregistrer' : 'Créer'}
+                  {t(meeting ? 'common.save' : 'common.create')}
                 </Button>
               </Box>
             </VStack>

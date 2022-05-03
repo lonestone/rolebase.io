@@ -1,8 +1,9 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, ButtonProps, Tag } from '@chakra-ui/react'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
-import { taskStatusColors, taskStatusTexts } from '../TaskStatusInput'
+import { taskStatusColors } from '../TaskStatusInput'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 
 interface Props extends ButtonProps {
@@ -12,6 +13,8 @@ interface Props extends ButtonProps {
 
 const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
   ({ item, highlighted, ...buttonProps }, ref) => {
+    const { t } = useTranslation()
+
     return (
       <Button
         isActive={highlighted}
@@ -23,7 +26,11 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
         {item.type === SearchItemTypes.CreateAction && (
           <>
             <FiPlus />
-            <Box ml={2}>Créer "{item.text}"</Box>
+            <Box ml={2}>
+              {t(`molecules.search.SearchResultItem.create`, {
+                name: item.text,
+              })}
+            </Box>
           </>
         )}
 
@@ -77,7 +84,7 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
         {item.type === SearchItemTypes.Task && (
           <>
             <Tag colorScheme={taskStatusColors[item.task.status]}>
-              {taskStatusTexts[item.task.status]}
+              {t(`common.taskStatus.${item.task.status}`)}
             </Tag>
             <Box ml={2}>{item.task.title}</Box>
           </>

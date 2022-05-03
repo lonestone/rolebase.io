@@ -12,6 +12,7 @@ import { Title } from '@components/atoms/Title'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
 import * as yup from 'yup'
 
@@ -31,6 +32,8 @@ const schema = yup.object().shape({
 })
 
 export default function LoginForm({ defaultEmail, onSubmit }: Props) {
+  const { t } = useTranslation()
+
   const {
     handleSubmit,
     register,
@@ -45,27 +48,27 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Title>Connexion</Title>
+      <Title>{t('organisms.LoginForm.heading')}</Title>
 
       <VStack spacing={5}>
         <FormControl isInvalid={!!errors.email}>
-          <FormLabel>Email</FormLabel>
+          <FormLabel>{t('organisms.LoginForm.email')}</FormLabel>
           <Input
             {...register('email')}
             type="email"
             required
-            placeholder="Votre adresse email..."
+            placeholder={t('organisms.LoginForm.emailPlaceholder')}
             autoComplete="email"
             autoFocus
           />
         </FormControl>
 
         <FormControl isInvalid={!!errors.password}>
-          <FormLabel>Mot de passe</FormLabel>
+          <FormLabel>{t('organisms.LoginForm.password')}</FormLabel>
           <PasswordInput
             {...register('password')}
             required
-            placeholder="Votre mot de passe..."
+            placeholder={t('organisms.LoginForm.passwordPlaceholder')}
             autoComplete="password"
           />
           <Link
@@ -74,12 +77,12 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
             fontSize="sm"
             color="gray.500"
           >
-            Mot de passe oublié ?
+            {t('organisms.LoginForm.resetPassword')}
           </Link>
         </FormControl>
 
         <Button colorScheme="blue" type="submit">
-          Connexion
+          {t('organisms.LoginForm.submit')}
         </Button>
       </VStack>
     </form>

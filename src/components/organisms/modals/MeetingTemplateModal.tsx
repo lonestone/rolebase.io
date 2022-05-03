@@ -27,6 +27,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import { MeetingTempalteEntry } from '@shared/meetingTemplate'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -48,6 +49,7 @@ export default function MeetingTemplateModal({
   meetingTemplate,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
 
   const {
@@ -90,16 +92,20 @@ export default function MeetingTemplateModal({
       <ModalContent>
         <form onSubmit={onSubmit}>
           <ModalHeader>
-            {meetingTemplate
-              ? 'Modifier un template de réunion'
-              : 'Nouveau template de réunion'}
+            {t(
+              meetingTemplate
+                ? 'organisms.modals.MeetingTemplateModal.headingEdit'
+                : 'organisms.modals.MeetingTemplateModal.headingCreate'
+            )}
           </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>Titre</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MeetingTemplateModal.title')}
+                </FormLabel>
                 <Input
                   {...register('title')}
                   placeholder="Titre..."
@@ -108,7 +114,9 @@ export default function MeetingTemplateModal({
               </FormControl>
 
               <FormControl>
-                <FormLabel>Déroulé</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MeetingTemplateModal.steps')}
+                </FormLabel>
                 <MeetingStepsConfigController
                   control={control as any}
                   errors={errors}
@@ -117,7 +125,7 @@ export default function MeetingTemplateModal({
 
               <Box textAlign="right" mt={2}>
                 <Button colorScheme="blue" type="submit">
-                  {meetingTemplate ? 'Enregistrer' : 'Créer'}
+                  {t(meetingTemplate ? 'common.save' : 'common.create')}
                 </Button>
               </Box>
             </VStack>

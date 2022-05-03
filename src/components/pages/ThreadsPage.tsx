@@ -27,9 +27,11 @@ import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { EntityFilters } from '@shared/types'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
 export default function ThreadsPage() {
+  const { t } = useTranslation()
   const orgId = useOrgId()
 
   // Circles filter menu
@@ -62,14 +64,14 @@ export default function ThreadsPage() {
 
   return (
     <Container maxW="3xl" py={10}>
-      <Title>Discussions</Title>
+      <Title>{t('pages.ThreadsPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          Discussions
+          {t('pages.ThreadsPage.heading')}
         </Heading>
 
-        {archives && <Tag ml={2}>Archives</Tag>}
+        {archives && <Tag ml={2}>{t('common.archives')}</Tag>}
 
         <Spacer />
 
@@ -80,38 +82,38 @@ export default function ThreadsPage() {
             variant="ghost"
             rightIcon={<FiChevronDown />}
           >
-            Filtres
+            {t('common.filters')}
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
-              title="Participation"
+              title={t('pages.ThreadsPage.participation.title')}
               type="checkbox"
               value={filterValue}
               onChange={handleFilterChange}
             >
               <MenuItemOption value={EntityFilters.Invited}>
-                Mes discussions
+                {t('pages.ThreadsPage.participation.invited')}
               </MenuItemOption>
               <MenuItemOption value={EntityFilters.NotInvited}>
-                Autres discussions
+                {t('pages.ThreadsPage.participation.notInvited')}
               </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />
             <MenuOptionGroup
-              title="Archives"
+              title={t('pages.ThreadsPage.archives.title')}
               type="checkbox"
               value={archives ? ['archives'] : []}
               onChange={(value) => setArchives(value.includes('archives'))}
             >
               <MenuItemOption value="archives">
-                Afficher les archives
+                {t('pages.ThreadsPage.archives.show')}
               </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>
         </Menu>
 
         <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          Nouvelle discussion
+          {t('pages.ThreadsPage.create')}
         </Button>
       </Flex>
 
@@ -120,7 +122,7 @@ export default function ThreadsPage() {
 
       {threads && (
         <VStack spacing={0} align="stretch">
-          {threads.length === 0 && <i>Aucune discussion.</i>}
+          {threads.length === 0 && <i>{t('pages.ThreadsPage.empty')}</i>}
 
           {threads.map((thread) => (
             <ThreadItem

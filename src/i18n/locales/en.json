@@ -1,0 +1,28 @@
+{
+  "common": {
+    "save": "Save",
+    "create": "Create",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "show": "Show",
+    "hide": "Hide",
+    "seeMore": "See more",
+    "seeLess": "See less",
+    "filters": "Filters",
+    "archives": "Archives",
+    "meetingSteps": {
+      "Tour": "Round table",
+      "Threads": "Threads",
+      "Checklist": "Checklist",
+      "Indicators": "Indicators",
+      "Tasks": "Tasks"
+    },
+    "taskStatus": {
+      "Open": "To do",
+      "InProgress": "In progress",
+      "InReview": "In review",
+      "Blocked": "Blocked",
+      "Done": "Done"
+    }
+  }
+}

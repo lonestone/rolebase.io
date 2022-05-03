@@ -9,9 +9,11 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
 export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
+  const { t } = useTranslation()
   const { isOpen, onToggle } = useDisclosure()
 
   return (
@@ -22,16 +24,17 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
         rightIcon={isOpen ? <FiChevronDown /> : <FiChevronUp />}
         onClick={onToggle}
       >
-        Raccourcis clavier
+        {t('molecules.CirclesKeyboardShortcuts.label')}
       </Button>
       <Collapse in={isOpen} animateOpacity>
         <VStack mt={2} spacing={2} align="stretch">
           <StackItem>
-            <Kbd>⌘</Kbd> + <Kbd>Click</Kbd> : Déplacer un cercle
+            <Kbd>⌘</Kbd> + <Kbd>Click</Kbd>
+            {t('molecules.CirclesKeyboardShortcuts.CmdClick')}
           </StackItem>
           <StackItem>
-            <Kbd>⌘</Kbd> + <Kbd size="xl">⇧</Kbd> + <Kbd>Click</Kbd> : Copier un
-            cercle
+            <Kbd>⌘</Kbd> + <Kbd size="xl">⇧</Kbd> + <Kbd>Click</Kbd>
+            {t('molecules.CirclesKeyboardShortcuts.CmdShiftClick')}
           </StackItem>
         </VStack>
       </Collapse>

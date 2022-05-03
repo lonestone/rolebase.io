@@ -21,6 +21,7 @@ import { EntityChangeType, LogType } from '@shared/log'
 import { Role } from '@shared/role'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -37,6 +38,7 @@ export default function BaseRoleCreateModal({
   onCreate,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
   const createLog = useCreateLog()
 
@@ -78,19 +80,23 @@ export default function BaseRoleCreateModal({
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Créer un rôle de base</ModalHeader>
+          <ModalHeader>
+            {t('organisms.modals.BaseRoleCreateModal.heading')}
+          </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
-              <FormLabel>Nom</FormLabel>
+              <FormLabel>
+                {t('organisms.modals.BaseRoleCreateModal.name')}
+              </FormLabel>
               <Input {...register('name')} placeholder="Nom..." autoFocus />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" type="submit">
-              Créer
+              {t('common.create')}
             </Button>
           </ModalFooter>
         </form>

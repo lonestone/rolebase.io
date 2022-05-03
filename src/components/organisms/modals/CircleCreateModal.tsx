@@ -25,6 +25,7 @@ import { RoleEntry } from '@shared/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import * as yup from 'yup'
 
@@ -48,6 +49,7 @@ export default function CircleCreateModal({
   singleMember,
   ...modalProps
 }: Props) {
+  const { t } = useTranslation()
   const circleMemberContext = useContext(CircleMemberContext)
   const orgId = useOrgId()
   const roles = useStoreState((state) => state.roles.entries)
@@ -144,18 +146,24 @@ export default function CircleCreateModal({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {singleMember ? 'Ajouter un Rôle' : 'Ajouter un Cercle'}
+          {t(
+            singleMember
+              ? 'organisms.modals.CircleCreateModal.headingRole'
+              : 'organisms.modals.CircleCreateModal.headingCircle'
+          )}
         </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
           <form onSubmit={onSubmit}>
             <FormControl isInvalid={!!errors.name} mb={10}>
-              <FormLabel>Nom :</FormLabel>
+              <FormLabel>
+                {t('organisms.modals.CircleCreateModal.name')}
+              </FormLabel>
               <HStack>
                 <Input {...register('name')} placeholder="Nom..." autoFocus />
                 <Button colorScheme="blue" type="submit">
-                  Créer
+                  {t('common.create')}
                 </Button>
               </HStack>
             </FormControl>
@@ -163,7 +171,9 @@ export default function CircleCreateModal({
 
           {baseRoles && baseRoles.length > 0 && (
             <FormControl mb={5}>
-              <FormLabel>Ou utiliser un rôle de base :</FormLabel>
+              <FormLabel>
+                {t('organisms.modals.CircleCreateModal.baseRole')}
+              </FormLabel>
               <VStack>
                 {baseRoles &&
                   baseRoles?.map((role) => (

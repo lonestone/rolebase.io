@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaSearch } from 'react-icons/fa'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import { useCircleMemberSearchItems } from './entities/circleMembers/useCircleMemberSearchItems'
@@ -22,6 +23,7 @@ import { useSearch } from './useSearch'
 const maxDisplayedItems = 25
 
 export default function HeaderSearch() {
+  const { t } = useTranslation()
   const { colorMode } = useColorMode()
   const circleMemberContext = useContext(CircleMemberContext)
 
@@ -104,9 +106,13 @@ export default function HeaderSearch() {
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
       <InputGroup size="sm">
         {!isOpen && (
-          <Tooltip hasArrow openDelay={400} label="Rechercher (⌘ K)">
+          <Tooltip
+            hasArrow
+            openDelay={400}
+            label={t('molecules.search.HeaderSearch.tooltip')}
+          >
             <IconButton
-              aria-label="Rechercher"
+              aria-label={t('molecules.search.HeaderSearch.tooltip')}
               icon={<FaSearch />}
               variant="ghost"
               size="sm"
@@ -116,7 +122,7 @@ export default function HeaderSearch() {
         )}
         <Input
           type="text"
-          placeholder="Rechercher..."
+          placeholder={t('molecules.search.HeaderSearch.placeholder')}
           display={isOpen ? '' : 'none'}
           w="200px"
           borderRadius="md"

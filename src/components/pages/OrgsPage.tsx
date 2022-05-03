@@ -25,10 +25,12 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink, useHistory } from 'react-router-dom'
 
 export default function OrgsPage() {
+  const { t } = useTranslation()
   const orgs = useStoreState((state) => state.orgs.entries)
   const loading = useStoreState((state) => state.orgs.loading)
   const error = useStoreState((state) => state.orgs.error)
@@ -56,16 +58,16 @@ export default function OrgsPage() {
 
   return (
     <Container maxW="3xl" py={10}>
-      <Title>Organisations</Title>
+      <Title>{t('pages.OrgsPage.heading')}</Title>
 
       <HStack mb={5}>
         <Heading as="h1" size="md">
-          Organisations
+          {t('pages.OrgsPage.heading')}
         </Heading>
         <Spacer />
         {orgs?.length && (
           <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
-            Créer
+            {t('common.create')}
           </Button>
         )}
       </HStack>
@@ -84,17 +86,17 @@ export default function OrgsPage() {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} fontSize="lg">
-            Vous n'avez aucune organisation
+            {t('pages.OrgsPage.empty.title')}
           </AlertTitle>
           <AlertDescription mt={5}>
             <List textAlign="left">
               <ListItem my={2}>
                 <ListIcon as={FiArrowRight} color="gray.500" />
-                Créez une nouvelle organisation
+                {t('pages.OrgsPage.empty.info1')}
               </ListItem>
               <ListItem my={2}>
                 <ListIcon as={FiArrowRight} color="gray.500" />
-                Ou demandez à un admin d'une organisation de vous inviter.
+                {t('pages.OrgsPage.empty.info2')}
               </ListItem>
             </List>
             <Button
@@ -103,7 +105,7 @@ export default function OrgsPage() {
               mt={5}
               onClick={onCreateOpen}
             >
-              Créer une organisation
+              {t('pages.OrgsPage.empty.create')}
             </Button>
           </AlertDescription>
         </Alert>

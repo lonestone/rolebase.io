@@ -12,13 +12,14 @@ import MeetingLinkOverlay from '@components/atoms/MeetingLinkOverlay'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
+import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import { format, isSameDay } from 'date-fns'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiCalendar, FiPlus } from 'react-icons/fi'
-import { dateFnsLocale } from 'src/locale'
 import { capitalizeFirstLetter } from 'src/utils'
 
 interface Props {
@@ -26,8 +27,10 @@ interface Props {
 }
 
 export default function MeetingsInCircleList({ circleId }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
   const hover = useHoverItemStyle()
+  const dateLocale = useDateLocale()
 
   const {
     data: meetings,
@@ -60,13 +63,15 @@ export default function MeetingsInCircleList({ circleId }: Props) {
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        Créer une réunion
+        {t('molecules.MeetingsInCircleList.heading')}
       </Button>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {meetings?.length === 0 && <Text>Aucune réunion pour le moment</Text>}
+      {meetings?.length === 0 && (
+        <Text>{t('molecules.MeetingsInCircleList.empty')}</Text>
+      )}
 
       {meetings?.map((meeting, i) => {
         const date = meeting.startDate.toDate()
@@ -76,8 +81,8 @@ export default function MeetingsInCircleList({ circleId }: Props) {
               !isSameDay(date, meetings[i - 1].startDate.toDate())) && (
               <Text mt={2} px={2} fontSize="sm">
                 {capitalizeFirstLetter(
-                  format(date, 'PPPP ', {
-                    locale: dateFnsLocale,
+                  format(date, 'PPPP', {
+                    locale: dateLocale,
                   })
                 )}
               </Text>

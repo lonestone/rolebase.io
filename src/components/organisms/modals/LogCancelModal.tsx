@@ -25,6 +25,7 @@ import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntitiesChanges, EntityChange, LogEntry } from '@shared/log'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
 interface Props extends UseModalProps {
@@ -32,6 +33,7 @@ interface Props extends UseModalProps {
 }
 
 export default function LogCancelModal({ log, ...modalProps }: Props) {
+  const { t } = useTranslation()
   const toast = useToast()
   const createLog = useCreateLog()
 
@@ -70,7 +72,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
     })
 
     toast({
-      title: 'Action annulée',
+      title: t('organisms.modals.LogCancelModal.toastSuccess'),
       status: 'success',
       duration: 2000,
     })
@@ -80,7 +82,9 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
     <Modal returnFocusOnClose={false} size="lg" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Annuler une action</ModalHeader>
+        <ModalHeader>
+          {t('organisms.modals.LogCancelModal.heading')}
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
@@ -100,16 +104,14 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
                 <Alert status="warning" mb={5}>
                   <AlertIcon />
                   <AlertDescription>
-                    Des données ont changé depuis cette action. Vous risquez de
-                    perdre des modifications plus récentes si vous annulez cette
-                    action.
+                    {t('organisms.modals.LogCancelModal.hadChanges')}
                   </AlertDescription>
                 </Alert>
                 <Checkbox
                   isChecked={force}
                   onChange={() => setForce((f) => !f)}
                 >
-                  Je comprends que je peux perdre des modifications
+                  {t('organisms.modals.LogCancelModal.acceptCheckbox')}
                 </Checkbox>
               </>
             )}
@@ -119,7 +121,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
               rightIcon={showDetails ? <FiChevronUp /> : <FiChevronDown />}
               onClick={() => setShowDetails((s) => !s)}
             >
-              Voir les modifications
+              {t('organisms.modals.LogCancelModal.showChanges')}
             </Button>
             <Collapse in={showDetails} animateOpacity>
               <VStack spacing={3} align="stretch" wordBreak="break-word">
@@ -146,7 +148,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
             isDisabled={hadChanges && !force}
             onClick={handleCancelLog}
           >
-            Annuler cette action
+            {t('organisms.modals.LogCancelModal.cancel')}
           </Button>
         </ModalFooter>
       </ModalContent>

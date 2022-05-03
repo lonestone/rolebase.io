@@ -1,13 +1,14 @@
 import { Box, Button, Stack, StackItem, Text } from '@chakra-ui/react'
 import NumberInput from '@components/atoms/NumberInput'
+import useDateLocale from '@hooks/useDateLocale'
 import usePollState from '@hooks/usePollState'
 import { ActivityPoll, PollAnswer } from '@shared/activity'
 import { WithId } from '@shared/types'
 import { format } from 'date-fns'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'
-import { dateFnsLocale } from 'src/locale'
 
 interface Props {
   activity: WithId<ActivityPoll>
@@ -37,6 +38,8 @@ function getRandomIndexes(length: number): number[] {
 }
 
 function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
+  const { t } = useTranslation()
+  const dateLocale = useDateLocale()
   const { ended, userAnswer } = usePollState(activity, answers)
 
   // Prepare ordered or random indexes choices
@@ -131,21 +134,37 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
     <>
       {activity.multiple &&
         (activity.minAnswers && activity.minAnswers === activity.maxAnswers ? (
-          <Text>Sélectionnez {activity.minAnswers} choix.</Text>
+          <Text>
+            {t('molecules.ThreadActivityPollVote.chooseN', {
+              n: activity.minAnswers,
+            })}
+          </Text>
         ) : activity.minAnswers && activity.maxAnswers ? (
           <Text>
-            Sélectionnez entre {activity.minAnswers} et {activity.maxAnswers}{' '}
-            choix.
+            {t('molecules.ThreadActivityPollVote.chooseMinAndMax', {
+              min: activity.minAnswers,
+              max: activity.maxAnswers,
+            })}
           </Text>
         ) : activity.minAnswers ? (
-          <Text>Sélectionnez au moins {activity.minAnswers} choix.</Text>
+          <Text>
+            {t('molecules.ThreadActivityPollVote.chooseMin', {
+              min: activity.minAnswers,
+            })}
+          </Text>
         ) : activity.maxAnswers ? (
-          <Text>Maximum {activity.maxAnswers} choix.</Text>
+          <Text>
+            {t('molecules.ThreadActivityPollVote.chooseMax', {
+              max: activity.maxAnswers,
+            })}
+          </Text>
         ) : (
-          <Text>Plusieurs choix possibles.</Text>
+          <Text>{t('molecules.ThreadActivityPollVote.chooseMultiple')}</Text>
         ))}
 
-      {activity.anonymous && <Text>Les réponses sont anonymes.</Text>}
+      {activity.anonymous && (
+        <Text>{t('molecules.ThreadActivityPollVote.anonymous')}</Text>
+      )}
 
       <Stack spacing={1} mt={3} align="stretch">
         {displayOrder.map((index) => {
@@ -188,16 +207,20 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
         <>
           {activity.pointsPerUser &&
             (remainingPoints === 0 ? (
-              <Text>Vous avez distribué tous vos points.</Text>
+              <Text>
+                {t('molecules.ThreadActivityPollVote.pointsDistributed')}
+              </Text>
             ) : remainingPoints > 0 ? (
               <Text>
-                Il vous reste {remainingPoints}{' '}
-                {remainingPoints > 1 ? 'points' : 'point'} à distribuer.
+                {t('molecules.ThreadActivityPollVote.pointsRemaining', {
+                  count: remainingPoints,
+                })}
               </Text>
             ) : (
               <Text>
-                Vous avez distribué {-remainingPoints}{' '}
-                {-remainingPoints > 1 ? 'points' : 'point'} de trop.
+                {t('molecules.ThreadActivityPollVote.pointsExceeded', {
+                  count: -remainingPoints,
+                })}
               </Text>
             ))}
 
@@ -208,7 +231,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
               isDisabled={voteButtonDisabled}
               onClick={handleVote}
             >
-              Voter
+              {t('molecules.ThreadActivityPollVote.vote')}
             </Button>
           </Box>
         </>
@@ -216,17 +239,20 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
 
       {!ended && activity.hideUntilEnd && (
         <Text mt={2}>
-          Les résultats seront dévoilés{' '}
-          {activity.endDate &&
-            format(activity.endDate.toDate(), 'PPPP ', {
-              locale: dateFnsLocale,
-            })}
-          {activity.endWhenAllVoted && (
-            <>
-              {activity.endDate && ' ou '}
-              quand tous les participants auront voté.
-            </>
-          )}
+          {activity.endDate
+            ? t(
+                activity.endWhenAllVoted
+                  ? 'molecules.ThreadActivityPollVote.revealDateOrAllVoted'
+                  : 'molecules.ThreadActivityPollVote.revealDate',
+                {
+                  date: format(activity.endDate.toDate(), 'PPPP', {
+                    locale: dateLocale,
+                  }),
+                }
+              )
+            : activity.endWhenAllVoted
+            ? t('molecules.ThreadActivityPollVote.revealAllVoted')
+            : t('molecules.ThreadActivityPollVote.revealLater')}
         </Text>
       )}
     </>

@@ -41,9 +41,10 @@ import { ClaimRole } from '@shared/userClaims'
 import { format } from 'date-fns'
 import React, { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
+import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
 import MemberDeleteModal from './MemberDeleteModal'
-import ModalCloseStaticButton from './ModalCloseStaticButton'
 
 interface Props extends UseModalProps {
   id: string
@@ -67,6 +68,7 @@ const resolver = yupResolver(
 )
 
 export default function MemberEditModal({ id, ...modalProps }: Props) {
+  const { t } = useTranslation()
   const member = useMember(id)
   const org = useCurrentOrg()
   const userRole = useOrgRole()
@@ -130,8 +132,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           // Invite member
           inviteMember(member.id, newRole, inviteEmail)
           toast({
-            title: 'Membre invité',
-            description: `Vous avez invité ${member.name} à rejoindre l'organisation`,
+            title: t('organisms.modals.MemberEditModal.toastInvited', {
+              member: member.name,
+            }),
             status: 'success',
             duration: 4000,
             isClosable: true,
@@ -147,8 +150,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     if (!member?.inviteEmail || !member.role) return
     inviteMember(member.id, member.role, member.inviteEmail)
     toast({
-      title: 'Membre invité',
-      description: `Vous avez ré-invité ${member.name} à rejoindre l'organisation`,
+      title: t('organisms.modals.MemberEditModal.toastReInvited', {
+        member: member.name,
+      }),
       status: 'success',
       duration: 4000,
       isClosable: true,
@@ -159,7 +163,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     if (!member?.inviteEmail || !member.role) return
     updateMemberRole(member.id, undefined)
     toast({
-      title: 'Invitation révoquée',
+      title: t('organisms.modals.MemberEditModal.toastRevocated'),
       status: 'success',
       duration: 3000,
       isClosable: true,
@@ -175,7 +179,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         <ModalContent>
           <ModalHeader>
             <Flex>
-              Modifier le membre {member.name}
+              {t('organisms.modals.MemberEditModal.heading', {
+                member: member.name,
+              })}
               <Spacer />
               <ActionsMenu onDelete={onDeleteOpen} />
               <ModalCloseStaticButton />
@@ -192,12 +198,16 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 />
 
                 <FormControl isInvalid={!!errors.name}>
-                  <FormLabel>Nom</FormLabel>
+                  <FormLabel>
+                    {t('organisms.modals.MemberEditModal.name')}
+                  </FormLabel>
                   <Input {...register('name')} placeholder="Nom..." autoFocus />
                 </FormControl>
               </HStack>
               <FormControl isInvalid={!!errors.description}>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MemberEditModal.description')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="description"
                   placeholder={`Qui est ${member.name} ?`}
@@ -205,7 +215,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 />
               </FormControl>
               <FormControl isInvalid={!!errors.workedMinPerWeek}>
-                <FormLabel>Temps de travail pour l'organisation</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.MemberEditModal.workingTime')}
+                </FormLabel>
                 <Controller
                   name="workedMinPerWeek"
                   control={control}
@@ -222,28 +234,55 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
               {userRole === ClaimRole.Admin &&
                 (member.userId ? (
                   <FormControl>
-                    <FormLabel>Utilisateur invité</FormLabel>
+                    <FormLabel>
+                      {t(
+                        'organisms.modals.MemberEditModal.invitation.userInvited'
+                      )}
+                    </FormLabel>
                     <Select {...register('role')}>
-                      <option value={''}>Révoquer l'invitation</option>
-                      <option value={ClaimRole.Readonly}>Lecture seule</option>
-                      <option value={ClaimRole.Member}>Membre</option>
-                      <option value={ClaimRole.Admin}>Admin</option>
+                      <option value={''}>
+                        {t(
+                          'organisms.modals.MemberEditModal.invitation.options.revoke'
+                        )}
+                      </option>
+                      <option value={ClaimRole.Readonly}>
+                        {t(
+                          'organisms.modals.MemberEditModal.invitation.options.readonly'
+                        )}
+                      </option>
+                      <option value={ClaimRole.Member}>
+                        {t(
+                          'organisms.modals.MemberEditModal.invitation.options.member'
+                        )}
+                      </option>
+                      <option value={ClaimRole.Admin}>
+                        {t(
+                          'organisms.modals.MemberEditModal.invitation.options.admin'
+                        )}
+                      </option>
                     </Select>
                   </FormControl>
                 ) : member.inviteDate && member.inviteEmail ? (
                   <Alert status="info">
                     <AlertIcon />
                     <Box>
-                      Invitation envoyée à {member.inviteEmail} le{' '}
-                      {format(member.inviteDate.toDate(), 'P')}, en attente
-                      d'acceptation
+                      {t(
+                        'organisms.modals.MemberEditModal.invitation.awaiting',
+                        {
+                          email: member.inviteEmail,
+                          date: format(member.inviteDate.toDate(), 'P'),
+                          interpolation: { escapeValue: false },
+                        }
+                      )}
                       <Button
                         variant="link"
                         colorScheme="blue"
                         ml={3}
                         onClick={handleReInvite}
                       >
-                        Renvoyer
+                        {t(
+                          'organisms.modals.MemberEditModal.invitation.resend'
+                        )}
                       </Button>
                       <Button
                         variant="link"
@@ -251,27 +290,43 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         ml={3}
                         onClick={handleRevokeInvite}
                       >
-                        Révoquer
+                        {t(
+                          'organisms.modals.MemberEditModal.invitation.revoke'
+                        )}
                       </Button>
                     </Box>
                   </Alert>
                 ) : (
                   <FormControl isInvalid={!!errors.inviteEmail}>
-                    <FormLabel>Inviter</FormLabel>
+                    <FormLabel>
+                      {t('organisms.modals.MemberEditModal.invitation.invite')}
+                    </FormLabel>
                     <HStack>
                       <Select
                         {...register('role')}
                         placeholder="Choisir un rôle"
                       >
                         <option value={ClaimRole.Readonly}>
-                          Lecture seule
+                          {t(
+                            'organisms.modals.MemberEditModal.invitation.options.readonly'
+                          )}
                         </option>
-                        <option value={ClaimRole.Member}>Membre</option>
-                        <option value={ClaimRole.Admin}>Admin</option>
+                        <option value={ClaimRole.Member}>
+                          {t(
+                            'organisms.modals.MemberEditModal.invitation.options.member'
+                          )}
+                        </option>
+                        <option value={ClaimRole.Admin}>
+                          {t(
+                            'organisms.modals.MemberEditModal.invitation.options.admin'
+                          )}
+                        </option>
                       </Select>
                       <Input
                         {...register('inviteEmail')}
-                        placeholder="Adresse email..."
+                        placeholder={t(
+                          'organisms.modals.MemberEditModal.invitation.emailPlaceholder'
+                        )}
                       />
                     </HStack>
                   </FormControl>
@@ -281,7 +336,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
           <ModalFooter>
             <Button colorScheme="blue" onClick={onSubmit}>
-              Enregistrer
+              {t('common.save')}
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -7,19 +7,21 @@ import LogsList from '@components/molecules/LogsList'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function LogsPage() {
+  const { t } = useTranslation()
   const orgId = useOrgId()
   const subscribe = orgId ? subscribeLastLogs(orgId) : undefined
   const { data, error, loading } = useSubscription(subscribe)
 
   return (
     <Container maxW="xl" py={10}>
-      <Title>Historique</Title>
+      <Title>{t('pages.LogsPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          Historique
+          {t('pages.LogsPage.heading')}
         </Heading>
       </Flex>
 

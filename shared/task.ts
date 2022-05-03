@@ -22,3 +22,12 @@ export enum TaskStatus {
   Blocked = 'Blocked',
   Done = 'Done',
 }
+
+// Ordered list of task statuses
+export const taskStatusList = [
+  TaskStatus.Open,
+  TaskStatus.InProgress,
+  TaskStatus.InReview,
+  TaskStatus.Blocked,
+  TaskStatus.Done,
+]

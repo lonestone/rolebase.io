@@ -7,8 +7,8 @@ import {
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useOrgId } from '@hooks/useOrgId'
 import React from 'react'
+import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
 import TaskContent from '../TaskContent'
-import ModalCloseStaticButton from './ModalCloseStaticButton'
 
 interface Props extends UseModalProps {
   id?: string

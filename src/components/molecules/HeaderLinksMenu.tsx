@@ -15,6 +15,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
 import React, { ReactElement, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   FiCircle,
   FiClock,
@@ -38,6 +39,7 @@ interface Props extends MenuButtonProps {
 }
 
 export default function HeaderLinksMenu({ links, ...props }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
   const role = useOrgRole()
 
@@ -106,29 +108,29 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
               icon={<FiSettings />}
               onClick={() => handleOpenEdit(orgId)}
             >
-              Paramètres
+              {t('molecules.HeaderLinksMenu.settings')}
             </MenuItem>
             <MenuItem
               as={Link}
               to={`/orgs/${orgId}/members`}
               icon={<FiUsers />}
             >
-              Membres
+              {t('molecules.HeaderLinksMenu.members')}
             </MenuItem>
           </>
         )}
         <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
-          Rôles de base
+          {t('molecules.HeaderLinksMenu.baseRoles')}
         </MenuItem>
         <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
-          Rôles vacants
+          {t('molecules.HeaderLinksMenu.vacantRoles')}
         </MenuItem>
         <MenuItem icon={<FiCopy />} onClick={onMeetingTemplatesOpen}>
-          Templates de réunion
+          {t('molecules.HeaderLinksMenu.meetingTemplates')}
         </MenuItem>
         {role === ClaimRole.Admin && (
           <MenuItem as={Link} to={`/orgs/${orgId}/logs`} icon={<FiClock />}>
-            Historique
+            {t('molecules.HeaderLinksMenu.logs')}
           </MenuItem>
         )}
       </MenuList>

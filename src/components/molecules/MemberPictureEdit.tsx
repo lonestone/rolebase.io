@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiUpload } from 'react-icons/fi'
 
 const MemberPictureCropModal = lazy(
@@ -19,6 +20,8 @@ interface Props {
 }
 
 export default function MemberPictureEdit({ id, name, src }: Props) {
+  const { t } = useTranslation()
+
   // Image crop modal
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [file, setFile] = useState<File | undefined>()
@@ -34,7 +37,11 @@ export default function MemberPictureEdit({ id, name, src }: Props) {
 
   return (
     <chakra.label position="relative">
-      <Tooltip label="Modifier la photo" placement="top" hasArrow>
+      <Tooltip
+        label={t(`molecules.MemberPictureEdit.editPicture`)}
+        placement="top"
+        hasArrow
+      >
         <Box
           position="absolute"
           w="100%"

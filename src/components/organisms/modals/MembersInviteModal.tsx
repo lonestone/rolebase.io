@@ -25,6 +25,7 @@ import MemberButton from '@components/atoms/MemberButton'
 import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useReducer, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiMail } from 'react-icons/fi'
 import {
   getEmailFromName,
@@ -33,6 +34,7 @@ import {
 } from './membersInvite'
 
 export default function MembersInviteModal(modalProps: UseModalProps) {
+  const { t } = useTranslation()
   const toast = useToast()
   const members = useStoreState((state) => state.members.entries)
 
@@ -115,7 +117,9 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
         }
       }
       toast({
-        title: `${n} membre${n > 1 ? 's' : ''} invité${n > 1 ? 's' : ''}`,
+        title: t('organisms.modals.MembersInviteModal.toastSuccess', {
+          count: n,
+        }),
         status: 'success',
         duration: 4000,
         isClosable: true,
@@ -123,7 +127,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
       modalProps.onClose()
     } catch (error) {
       toast({
-        title: 'Erreur',
+        title: t('organisms.modals.MembersInviteModal.toastError'),
         description: error instanceof Error ? error.message : '',
         status: 'error',
         duration: 4000,
@@ -137,24 +141,25 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
     <Modal {...modalProps} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Inviter des membres par email</ModalHeader>
+        <ModalHeader>
+          {t('organisms.modals.MembersInviteModal.heading')}
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
           {notInvitedMembers.length === 0 ? (
             <Box mb={5}>
-              <p>
-                Tous les membres existants sont déjà liés à un compte
-                utilisateur.
-              </p>
-              <p>Vous pouvez créer un nouveau membre puis l'inviter</p>
+              <p>{t('organisms.modals.MembersInviteModal.empty1')}</p>
+              <p>{t('organisms.modals.MembersInviteModal.empty2')}</p>
             </Box>
           ) : (
             <VStack spacing={5} align="stretch">
               <InputGroup>
                 <Input
                   type="text"
-                  placeholder="Rechercher..."
+                  placeholder={t(
+                    'organisms.modals.MembersInviteModal.searchPlaceholder'
+                  )}
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -194,7 +199,9 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                       />
                       <Spacer />
                       <Input
-                        placeholder="Email..."
+                        placeholder={t(
+                          'organisms.modals.MembersInviteModal.emailPlaceholder'
+                        )}
                         width="220px"
                         value={memberState?.email || ''}
                         onChange={(e) =>
@@ -218,9 +225,15 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                   mr={2}
                   w="200px"
                 >
-                  <option value={ClaimRole.Readonly}>Lecture seule</option>
-                  <option value={ClaimRole.Member}>Membre</option>
-                  <option value={ClaimRole.Admin}>Admin</option>
+                  <option value={ClaimRole.Readonly}>
+                    {t('organisms.modals.MembersInviteModal.options.readonly')}
+                  </option>
+                  <option value={ClaimRole.Member}>
+                    {t('organisms.modals.MembersInviteModal.options.member')}
+                  </option>
+                  <option value={ClaimRole.Admin}>
+                    {t('organisms.modals.MembersInviteModal.options.admin')}
+                  </option>
                 </Select>
 
                 <Button
@@ -230,7 +243,9 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                   leftIcon={<FiMail />}
                   onClick={handleInvite}
                 >
-                  Inviter ({nbSelectedMembers})
+                  {t('organisms.modals.MembersInviteModal.invite', {
+                    count: nbSelectedMembers,
+                  })}
                 </Button>
               </HStack>
             </VStack>

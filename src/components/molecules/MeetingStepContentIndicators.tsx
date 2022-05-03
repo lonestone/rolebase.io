@@ -3,6 +3,7 @@ import useCircle from '@hooks/useCircle'
 import { MeetingStepIndicators } from '@shared/meetingStep'
 import { WithId } from '@shared/types'
 import React, { RefObject, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
 
 interface Props extends BoxProps {
@@ -19,6 +20,7 @@ export default function MeetingStepContentIndicators({
   editable,
   ...boxProps
 }: Props) {
+  const { t } = useTranslation()
   const circle = useCircle(circleId)
   const newValue = circle?.role.indicators
 
@@ -34,7 +36,9 @@ export default function MeetingStepContentIndicators({
     >
       <Box {...boxProps}>
         <Button size="sm" onClick={handleSet}>
-          Utiliser les indicateurs du cercle {circle?.role.name}
+          {t('molecules.MeetingStepContentIndicators.useCircle', {
+            circle: circle?.role.name,
+          })}
         </Button>
       </Box>
     </Collapse>

@@ -22,6 +22,7 @@ import { EntityChangeType, LogType } from '@shared/log'
 import { MemberEntry } from '@shared/member'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -39,6 +40,7 @@ const resolver = yupResolver(
 )
 
 export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
   const createLog = useCreateLog()
 
@@ -81,18 +83,22 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={handleSubmit(handleCreate)}>
-          <ModalHeader>Ajouter un membre</ModalHeader>
+          <ModalHeader>
+            {t('organisms.modals.MemberCreateModal.heading')}
+          </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
-              <FormLabel>Nom</FormLabel>
+              <FormLabel>
+                {t('organisms.modals.MemberCreateModal.name')}
+              </FormLabel>
               <Input {...register('name')} placeholder="Nom..." autoFocus />
             </FormControl>
 
             <Box textAlign="right" mt={2}>
               <Button colorScheme="blue" type="submit">
-                Créer
+                {t('common.create')}
               </Button>
             </Box>
 

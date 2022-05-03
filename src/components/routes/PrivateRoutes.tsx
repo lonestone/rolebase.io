@@ -1,7 +1,8 @@
 import MemberInvitationPage from '@components/pages/MemberInvitationPage'
 import OrgsPage from '@components/pages/OrgsPage'
+import Page404 from '@components/pages/Page404'
 import React from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import LoggedLayout from './LoggedLayout'
 import OrgRoutes from './OrgRoutes'
 
@@ -19,7 +20,7 @@ export default function PrivateRoutes() {
           <OrgRoutes />
         </Route>
         <Route>
-          <Redirect to="/" />
+          <Page404 />
         </Route>
       </Switch>
     </LoggedLayout>

@@ -14,6 +14,7 @@ import {
 import ThreadActivity from '@components/molecules/ThreadActivity'
 import { ActivityEntry } from '@shared/activity'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -26,6 +27,8 @@ export default function ActivityDeleteModal({
   onDelete,
   ...alertProps
 }: Props) {
+  const { t } = useTranslation()
+
   const handleDelete = () => {
     deleteActivity(activity.id)
     onDelete?.()
@@ -33,34 +36,36 @@ export default function ActivityDeleteModal({
   }
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog size="2xl" {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Supprimer un message
+            {t('organisms.modals.ActivityDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              Êtes-vous sûr de vouloir supprimer ce message ?<br />
-              Pas d'annulation possible !
+              {t('organisms.modals.ActivityDeleteModal.info1')}
+              <br />
+              {t('organisms.modals.ActivityDeleteModal.info2')}
             </Text>
 
             <Box
               mt={5}
+              maxH="300px"
               border="1px solid"
               borderColor="gray.500"
               borderRadius="md"
-              overflow="hidden"
+              overflow="auto"
             >
               <ThreadActivity activity={activity} />
             </Box>
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>Annuler</Button>
+            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
-              Supprimer
+              {t('common.delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -13,8 +13,10 @@ import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
 import { CircleEntry } from '@shared/circle'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function VacantRolesModal(modalProps: UseModalProps) {
+  const { t } = useTranslation()
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
 
@@ -36,12 +38,14 @@ export default function VacantRolesModal(modalProps: UseModalProps) {
     <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Rôles vacants</ModalHeader>
+        <ModalHeader>
+          {t('organisms.modals.VacantRolesModal.heading')}
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={5}>
           {!vacantCircles || vacantCircles.length === 0 ? (
-            <>Aucun rôle vacant 🎉</>
+            <>{t('organisms.modals.VacantRolesModal.empty')}</>
           ) : (
             <UnorderedList>
               {vacantCircles.map((circle) => (

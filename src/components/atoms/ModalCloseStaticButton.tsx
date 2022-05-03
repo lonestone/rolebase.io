@@ -1,5 +1,6 @@
 import { Icon, IconButton, IconProps, useModalContext } from '@chakra-ui/react'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 // From https://github.com/chakra-ui/chakra-ui/blob/main/packages/close-button/src/close-button.tsx
 const CloseIcon: React.FC<IconProps> = (props) => (
@@ -12,11 +13,12 @@ const CloseIcon: React.FC<IconProps> = (props) => (
 )
 
 export default function ModalCloseStaticButton() {
+  const { t } = useTranslation()
   const { onClose } = useModalContext()
 
   return (
     <IconButton
-      aria-label="Fermer"
+      aria-label={t('atoms.ModalCloseStaticButton.label')}
       icon={<CloseIcon width="12px" height="12px" />}
       variant="ghost"
       size="sm"

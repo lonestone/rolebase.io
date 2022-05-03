@@ -45,6 +45,7 @@ import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { EntityFilters } from '@shared/types'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
 import { circleColor } from 'src/theme'
 
@@ -56,6 +57,7 @@ const getColors = (mode: ColorMode) => ({
 })
 
 export default function MeetingsPage() {
+  const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const { colorMode } = useColorMode()
   const colors = useMemo(() => getColors(colorMode), [colorMode])
@@ -229,14 +231,14 @@ export default function MeetingsPage() {
 
   return (
     <Flex flex={1} p={5} flexDirection="column">
-      <Title>Réunions</Title>
+      <Title>{t('pages.MeetingsPage.heading')}</Title>
 
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
       <Flex mb={1} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          Réunions
+          {t('pages.MeetingsPage.heading')}
         </Heading>
 
         <Spacer />
@@ -248,41 +250,41 @@ export default function MeetingsPage() {
             variant="ghost"
             rightIcon={<FiChevronDown />}
           >
-            Filtres
+            {t('common.filters')}
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
-              title="Participation"
+              title={t('pages.MeetingsPage.participation.title')}
               type="checkbox"
               value={filterValue}
               onChange={handleFilterChange}
             >
               <MenuItemOption value={EntityFilters.Invited}>
-                Mes réunions
+                {t('pages.MeetingsPage.participation.invited')}
               </MenuItemOption>
               <MenuItemOption value={EntityFilters.NotInvited}>
-                Autres réunions
+                {t('pages.MeetingsPage.participation.notInvited')}
               </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>
         </Menu>
 
         <Button size="sm" ml={1} leftIcon={<FiUpload />} onClick={onExportOpen}>
-          Exporter
+          {t('pages.MeetingsPage.export')}
         </Button>
 
         <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={handleCreate}>
-          Nouvelle réunion
+          {t('pages.MeetingsPage.create')}
         </Button>
       </Flex>
 
       {currentMember?.meetingId && (
         <Alert status="info" mt={2} mb={3} maxW={400}>
           <AlertIcon />
-          <AlertTitle>Réunion en cours</AlertTitle>
+          <AlertTitle>{t('pages.MeetingsPage.current')}</AlertTitle>
           <Spacer />
           <Button ml={3} colorScheme="blue" onClick={handleOpenCurrentMeeting}>
-            Ouvrir
+            {t('pages.MeetingsPage.openCurrent')}
           </Button>
         </Alert>
       )}

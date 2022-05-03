@@ -26,17 +26,15 @@ import { Title } from '@components/atoms/Title'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import TaskItem from '@components/molecules/TaskItem'
-import {
-  taskStatusColors,
-  taskStatusTexts,
-} from '@components/molecules/TaskStatusInput'
+import { taskStatusColors } from '@components/molecules/TaskStatusInput'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { useSortedTasks } from '@hooks/useSortedTasks'
 import useSubscription from '@hooks/useSubscription'
-import { TaskStatus } from '@shared/task'
+import { TaskStatus, taskStatusList } from '@shared/task'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
 enum AssignationFilters {
@@ -52,6 +50,7 @@ type StatusFilter = TaskStatus | typeof statusNotDone
 export default function TasksPage() {
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
+  const { t } = useTranslation()
 
   // Assignation filter menu
   const [assignation, setAssignation] = useState(AssignationFilters.Mine)
@@ -91,16 +90,16 @@ export default function TasksPage() {
 
   return (
     <Container maxW="3xl" py={10}>
-      <Title>Tâches</Title>
+      <Title>{t('pages.TasksPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          Tâches
+          {t('pages.TasksPage.heading')}
         </Heading>
 
         {status && (
           <Tag colorScheme={taskStatusColors[status]} ml={2}>
-            {taskStatusTexts[status]}
+            {t(`common.taskStatus.${status}`)}
           </Tag>
         )}
 
@@ -113,38 +112,38 @@ export default function TasksPage() {
             variant="ghost"
             rightIcon={<FiChevronDown />}
           >
-            Filtres
+            {t('common.filters')}
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
-              title="Assignation"
+              title={t('pages.TasksPage.assignation.title')}
               type="radio"
               value={assignation}
               onChange={(value) => setAssignation(value as any)}
             >
               <MenuItemOption value={AssignationFilters.Mine}>
-                Mes tâches
+                {t('pages.TasksPage.assignation.mine')}
               </MenuItemOption>
               <MenuItemOption value={AssignationFilters.Circle}>
-                Tâches d'un cercle
+                {t('pages.TasksPage.assignation.circle')}
               </MenuItemOption>
               <MenuItemOption value={AssignationFilters.Member}>
-                Tâches d'un membre
+                {t('pages.TasksPage.assignation.member')}
               </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />
             <MenuOptionGroup
-              title="Statut"
+              title={t('pages.TasksPage.status.title')}
               type="radio"
               value={statusFilter}
               onChange={(value) => setStatusFilter(value as any)}
             >
               <MenuItemOption value={statusNotDone}>
-                Non terminée
+                {t('pages.TasksPage.status.notDone')}
               </MenuItemOption>
-              {(Object.keys(taskStatusTexts) as TaskStatus[]).map((status) => (
+              {taskStatusList.map((status) => (
                 <MenuItemOption key={status} value={status}>
-                  {taskStatusTexts[status]}
+                  {t(`common.taskStatus.${status}`)}
                 </MenuItemOption>
               ))}
             </MenuOptionGroup>
@@ -152,20 +151,20 @@ export default function TasksPage() {
         </Menu>
 
         <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          Nouvelle tâche
+          {t('pages.TasksPage.create')}
         </Button>
       </Flex>
 
       {assignation === AssignationFilters.Member && (
         <HStack mb={5}>
-          <StackItem>Membre :</StackItem>
+          <StackItem>{t('pages.TasksPage.memberInput')}</StackItem>
           <MemberSearchInput value={memberId} onChange={setMemberId} />
         </HStack>
       )}
 
       {assignation === AssignationFilters.Circle && (
         <HStack mb={5}>
-          <StackItem>Cercle / Rôle :</StackItem>
+          <StackItem>{t('pages.TasksPage.circleInput')}</StackItem>
           <CircleSearchInput value={circleId} onChange={setCircleId} />
         </HStack>
       )}
@@ -175,7 +174,7 @@ export default function TasksPage() {
 
       {tasks && (
         <VStack spacing={0} align="stretch">
-          {tasks.length === 0 && <i>Aucune tâche 🎉</i>}
+          {tasks.length === 0 && <i>{t('pages.TasksPage.empty')}</i>}
 
           {tasks.map((task) => (
             <TaskItem key={task.id} task={task} showCircle />

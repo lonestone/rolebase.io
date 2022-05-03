@@ -1,12 +1,13 @@
 import { updateTask } from '@api/entities/tasks'
 import { useToast } from '@chakra-ui/react'
-import { taskStatusTexts } from '@components/molecules/TaskStatusInput'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/log'
 import { TaskEntry, TaskStatus } from '@shared/task'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function useUpdateTaskStatus() {
+  const { t } = useTranslation()
   const toast = useToast()
   const createLog = useCreateLog()
 
@@ -37,7 +38,9 @@ export default function useUpdateTaskStatus() {
     toast({
       status: 'success',
       duration: 2000,
-      title: `Tâche marquée comme "${taskStatusTexts[status]}"`,
+      title: t('hooks.useUpdateTaskStatus.toast', {
+        status: t(`common.taskStatus.${status}`),
+      }),
     })
   }, [])
 }

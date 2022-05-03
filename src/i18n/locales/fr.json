@@ -1,0 +1,655 @@
+{
+  "common": {
+    "save": "Enregistrer",
+    "create": "Créer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "show": "Afficher",
+    "hide": "Masquer",
+    "seeMore": "Voir plus",
+    "seeLess": "Voir moins",
+    "filters": "Filtres",
+    "archives": "Archives",
+    "meetingSteps": {
+      "Tour": "Tour de table",
+      "Threads": "Discussions",
+      "Checklist": "Checklist",
+      "Indicators": "Indicateurs",
+      "Tasks": "Tâches"
+    },
+    "taskStatus": {
+      "Open": "À faire",
+      "InProgress": "En cours",
+      "InReview": "En revue",
+      "Blocked": "Bloquée",
+      "Done": "Terminée"
+    }
+  },
+  "atoms": {
+    "DurationSelect": {
+      "min": "Min / semaine",
+      "hours": "Heures / semaine"
+    },
+    "ModalCloseStaticButton": {
+      "label": "Fermer"
+    },
+    "ModalMaximizeButton": {
+      "label": "Ouvrir en pleine page"
+    },
+    "ParticipantsScopeSelect": {
+      "Organization": "Tous les membres de l'Organisation",
+      "CircleLeaders": "Les membres Leaders de Rôles et de sous-Cercles",
+      "CircleMembers": "Tous les membres du Cercle et des sous-Cercles",
+      "None": "Seulement les membres invités (ci-dessous)"
+    },
+    "TextError": {
+      "auth/invalid-email": "Adresse email invalide.",
+      "auth/user-disabled": "Votre compte est désactivé.",
+      "auth/user-not-found": "Aucun compte ne correspond à cette adresse.",
+      "auth/wrong-password": "Mot de passe incorrect.",
+      "auth/email-already-in-use": "Cette adresse email est déjà utilisée.",
+      "auth/weak-password": "Ce mot de passe est trop faible. Merci d'en choisir un plus long."
+    }
+  },
+  "molecules": {
+    "search": {
+      "HeaderSearch": {
+        "tooltip": "Rechercher (⌘ K)",
+        "placeholder": "Rechercher..."
+      },
+      "SearchResultItem": {
+        "create": "Créer \"{{name}}\""
+      }
+    },
+    "ActionsMenu": {
+      "label": "Actions",
+      "edit": "Editer",
+      "duplicate": "Dupliquer",
+      "delete": "Supprimer"
+    },
+    "CircleMemberFormControl": {
+      "labelSingleMember": "Occupé par :",
+      "labelMultiMembers": "Membres directs :"
+    },
+    "CirclesKeyboardShortcuts": {
+      "label": "Raccourcis clavier",
+      "CmdClick": " : Déplacer un cercle",
+      "CmdShiftClick": " : Copier un cercle"
+    },
+    "HeaderLinksMenu": {
+      "settings": "Paramètres",
+      "members": "Membres",
+      "baseRoles": "Rôles de base",
+      "vacantRoles": "Rôles vacants",
+      "meetingTemplates": "Modèles de réunion",
+      "logs": "Historique"
+    },
+    "HeaderOrgMenu": {
+      "create": "Créer une organisation"
+    },
+    "HeaderUserMenu": {
+      "member": "Ma fiche membre",
+      "user": "Informations personnelles",
+      "theme": "Thème clair/sombre",
+      "lang": "Langue",
+      "signout": "Déconnexion"
+    },
+    "LogCancelText": {
+      "canceled": "a annulé l'action :"
+    },
+    "LogItem": {
+      "cancel": "Annuler cette action"
+    },
+    "LogsList": {
+      "empty": "Aucune action"
+    },
+    "LogText": {
+      "circleRoot": "la racine",
+      "CircleCreate": "<author /> a créé le cercle <circle /> dans <parentCircle />",
+      "CircleMove": "<author /> a déplacé le cercle <circle /> dans <parentCircle />",
+      "CircleCopy": "<author /> a copié le cercle <circle /> dans <parentCircle />",
+      "CircleArchive": "<author /> a archivé le cercle <circle />",
+      "CircleMemberAdd": "<author /> a ajouté <member /> au cercle <circle />",
+      "CircleMemberRemove": "<author /> a retiré <member /> du cercle <circle />",
+      "CircleMemberMove": "<author /> a déplacé <member /> dans le cercle <circle />",
+      "RoleCreate": "<author /> a créé le rôle <role />",
+      "RoleUpdate": "<author /> a modifié le rôle <role />",
+      "RoleArchive": "<author /> a archivé le rôle <role />",
+      "MemberCreate": "<author /> a créé le membre <member />",
+      "MemberUpdate": "<author /> a modifié le membre <member />",
+      "MemberArchive": "<author /> a archivé le membre <member />",
+      "TaskCreate": "<author /> a créé la tâche <task />",
+      "TaskUpdate": "<author /> a modifié la tâche <task />",
+      "TaskStatusUpdate": "<author /> a marqué la tâche <task /> comme <status />",
+      "TaskArchive": "<author /> a archivé la tâche <task />"
+    },
+    "MeetingActions": {
+      "createTask": "Nouvelle tâche",
+      "createThread": "Nouvelle discussion"
+    },
+    "MeetingLogs": {
+      "heading": "Actions pendant la réunion"
+    },
+    "MeetingsInCircleList": {
+      "heading": "Créer une réunion",
+      "empty": "Aucune réunion pour le moment"
+    },
+    "MeetingStepContent": {
+      "notesPlaceholder": "Notes..."
+    },
+    "MeetingStepContentChecklist": {
+      "useCircle": "Utiliser la checklist du cercle {{circle}}"
+    },
+    "MeetingStepContentIndicators": {
+      "useCircle": "Utiliser les indicateurs du cercle {{circle}}"
+    },
+    "MeetingStepsConfigController": {
+      "addStep": "Ajouter un étape"
+    },
+    "MeetingStepSortableItem": {
+      "placeholder": "Titre de l'étape..."
+    },
+    "MemberPictureEdit": {
+      "editPicture": "Modifier la photo"
+    },
+    "MemberRoleItem": {
+      "purpose": "Raison d'être",
+      "workingTime": "Temps de travail"
+    },
+    "MemberRoles": {
+      "emptyRoles": "Aucun",
+      "totalAllocatedTime": "Temps total alloué :",
+      "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
+    },
+    "MembersMultiSelect": {
+      "choose": "Choisir un membre",
+      "add": "Ajouter un membre"
+    },
+    "SubCirclesFormControl": {
+      "roles": "Rôles :",
+      "addRole": "Ajouter un rôle",
+      "circles": "Cercles :",
+      "addCircles": "Ajouter un cercle"
+    },
+    "TasksInCircleList": {
+      "create": "Créer une tâche",
+      "empty": "Aucune tâche pour le moment"
+    },
+    "TasksMultiSelect": {
+      "choose": "Choisir une tâche",
+      "add": "Ajouter une tâche"
+    },
+    "ThreadActivityCreate": {
+      "placeholder": "Message...",
+      "send": "Envoyer",
+      "poll": "Sondage",
+      "decision": "Décision"
+    },
+    "ThreadActivityDecision": {
+      "heading": "Décision"
+    },
+    "ThreadActivityPoll": {
+      "heading": "Sondage",
+      "showResults": "Voir les résultats",
+      "changeVote": "Modifier mon vote"
+    },
+    "ThreadActivityPollResult": {
+      "anonymous": "Anonyme"
+    },
+    "ThreadActivityPollVote": {
+      "chooseN": "Sélectionnez {{n}} choix.",
+      "chooseMin": "Sélectionnez au moins {{min}} choix.",
+      "chooseMax": "Maximum {{max}} choix.",
+      "chooseMinAndMax": "Sélectionnez entre {{min}} et {{max}} choix.",
+      "chooseMultiple": "Plusieurs choix possibles.",
+      "anonymous": "Les réponses sont anonymes.",
+      "pointsDistributed": "Vous avez distribué tous vos points.",
+      "pointsRemaining_one": "Il vous reste {{count}} point à distribuer",
+      "pointsRemaining_other": "Il vous reste {{count}} points à distribuer",
+      "pointsExceeded_one": "Vous avez distribué {{count}} point de trop",
+      "pointsExceeded_other": "Vous avez distribué {{count}} points de trop",
+      "vote": "Voter",
+      "revealLater": "Les résultats seront dévoilés plus tard.",
+      "revealAllVoted": "Les résultats seront dévoilés quand tous les participants auront voté.",
+      "revealDate": "Les résultats seront dévoilés {{date}}.",
+      "revealDateOrAllVoted": "Les résultats seront dévoilés {{date}} ou quand tous les participants auront voté."
+    },
+    "ThreadsInCircleList": {
+      "heading": "Créer une discussion",
+      "empty": "Aucune discussion pour le moment"
+    },
+    "ThreadsMultiSelect": {
+      "choose": "Choisir une discussion",
+      "add": "Ajouter une discussion"
+    }
+  },
+  "organisms": {
+    "modals": {
+      "ActivityDecisionModal": {
+        "headingEdit": "Modifier une décision",
+        "headingCreate": "Ajouter une décision",
+        "decision": "Décision",
+        "explanation": "Explications",
+        "circle": "Cercle / Rôle"
+      },
+      "ActivityDeleteModal": {
+        "heading": "Supprimer un message",
+        "info1": "Êtes-vous sûr(e) de vouloir supprimer ce message ?",
+        "info2": "Pas d'annulation possible !"
+      },
+      "ActivityPollModal": {
+        "headingEdit": "Modifier un sondage",
+        "headingCreate": "Ajouter un sondage",
+        "help": "Utilisez un sondage pour obtenir des avis subjectifs. Pour prendre une décision collective, utilisez plutôt une \"Décision\" ou une \"Élection\".",
+        "resetNeeded": "Ce sondage a déjà eu des réponses. Vous ne pouvez pas le modifier à moins de supprimer les réponses.",
+        "resetBtn": "Supprimer les réponses",
+        "question": "Question",
+        "questionPlaceholder": "Qui, que, où, quand ?",
+        "choices": "Choix",
+        "choicePlacholder": "Choix n°{{n}}",
+        "addChoice": "Ajouter un choix",
+        "options": "Options",
+        "multiple": "Choix multiples",
+        "minAnswers": "Minimum de choix à sélectionner",
+        "maxAnswers": "Maximum de choix sélectionnables",
+        "points": "Points à répartir",
+        "canAddChoices": "Autoriser les participants à rajouter des choix",
+        "anonymous": "Réponses anonymes",
+        "randomize": "Afficher les choix dans un ordre aléatoire",
+        "hideUntilEnd": "Cacher les résultats jusqu'à la clôture",
+        "endWhenAllVoted": "Clôturer quand tous les participants ont voté",
+        "endDate": "Date de clôture"
+      },
+      "BaseRoleCreateModal": {
+        "heading": "Créer un rôle de base",
+        "name": "Nom"
+      },
+      "BaseRolesModal": {
+        "heading": "Rôles de base de l'organisation",
+        "empty": "Aucun rôle de base",
+        "create": "Créer un nouveau rôle de base"
+      },
+      "CircleCreateModal": {
+        "headingRole": "Ajouter un Rôle",
+        "headingCircle": "Ajouter un Cercle",
+        "name": "Nom",
+        "baseRole": "Ou utiliser un rôle de base :"
+      },
+      "CircleDeleteModal": {
+        "heading": "Supprimer un cercle",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer le cercle <b>{{name}}</b> ?"
+      },
+      "CircleMemberDeleteModal": {
+        "heading": "Supprimer le rôle d'un membre",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer le retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
+      },
+      "CurrentUserModal": {
+        "heading": "Mes informations personnelles",
+        "name": "Nom",
+        "email": "Email",
+        "password": "Modifier le mot de passe",
+        "passwordPlaceholder": "Modifier le mot de passe",
+        "toastSuccess": "Informations mises à jour"
+      },
+      "LangModal": {
+        "heading": "Langue"
+      },
+      "LogCancelModal": {
+        "heading": "Annuler une action",
+        "hadChanges": "Des données ont changé depuis cette action. Vous risquez de perdre des modifications plus récentes si vous annulez cette action.",
+        "acceptCheckbox": "Je comprends que je peux perdre des modifications",
+        "showChanges": "Voir les modifications",
+        "cancel": "Annuler cette action",
+        "toastSuccess": "Action annulée"
+      },
+      "MeetingDeleteModal": {
+        "heading": "Supprimer une réunion",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer la réunion <b>{{name}}</b> ?"
+      },
+      "MeetingEditModal": {
+        "headingEdit": "Modifier une réunion",
+        "headingCreate": "Nouvelle réunion",
+        "template": "Modèle",
+        "noTemplate": "Aucun",
+        "title": "Titre",
+        "titlePrefix": "Réunion",
+        "titlePlaceholder": "Titre...",
+        "start": "Début",
+        "duration": "Durée",
+        "durationSuffix": "minutes",
+        "circle": "Cercle",
+        "invite": "Inviter",
+        "facilitator": "Facilitateur",
+        "facilitatorHelp": "Le/la facilitateur anime la réunion en suivant le déroulé et en donnant la parole.",
+        "steps": "Déroulé",
+        "videoConf": "Activer la vidéo-conférence",
+        "videoConfJitsi": "Générer une URL Jitsi",
+        "videoConfUrl": "URL personnalisée"
+      },
+      "MeetingExportModal": {
+        "heading": "Exporter l'agenda des Réunions",
+        "scope": "Inclure",
+        "scopeOrg": "Toutes les réunions de l'organisation",
+        "scopeMine": "Toutes mes réunions",
+        "scopeCircle": "Toutes les réunions d'un cercle",
+        "circle": "Cercle",
+        "url": "URL iCal",
+        "copy": "Copier",
+        "toastCopied": "URL copiée"
+      },
+      "MeetingTemplateDeleteModal": {
+        "heading": "Supprimer un modèle de réunion",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer le modèle <b>{{name}}</b> ?"
+      },
+      "MeetingTemplateModal": {
+        "headingEdit": "Modifier un modèle de réunion",
+        "headingCreate": "Nouveau modèle de réunion",
+        "title": "Titre",
+        "steps": "Déroulé"
+      },
+      "MeetingTemplatesModal": {
+        "heading": "Modèles de réunions",
+        "empty": "Aucun modèle de réunion",
+        "create": "Créer un nouveau modèle de réunion"
+      },
+      "MemberCreateModal": {
+        "heading": "Ajouter un membre",
+        "name": "Nom"
+      },
+      "MemberDeleteModal": {
+        "heading": "Supprimer un membre",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer le membre <b>{{name}}</b> ?"
+      },
+      "MemberEditModal": {
+        "heading": "Modifier le membre {{member}}",
+        "toastInvited": "Vous avez invité {{member}} à rejoindre l'organisation !",
+        "toastReInvited": "Vous avez ré-invité {{member}} à rejoindre l'organisation.",
+        "toastRevocated": "Invitation révoquée",
+        "name": "Nom",
+        "description": "Description",
+        "workingTime": "Temps de travail pour l'organisation",
+        "invitation": {
+          "userInvited": "Utilisateur invité",
+          "options": {
+            "revoke": "Révoquer l'invitation",
+            "readonly": "Lecture seule",
+            "member": "Membre",
+            "admin": "Admin"
+          },
+          "awaiting": "Invitation envoyée à {{email}} le {{date,raw}}, en attente d'acceptation.",
+          "resend": "Renvoyer",
+          "revoke": "Révoquer",
+          "invite": "Inviter",
+          "emailPlaceholder": "Adresse email..."
+        }
+      },
+      "MemberPictureCropModal": {
+        "heading": "Recadrez la photo",
+        "toastSuccess": "Nouvelle photo enregistrée, vous êtes magnifique !",
+        "toastError": "Erreur"
+      },
+      "MembersInviteModal": {
+        "heading": "Inviter des membres par email",
+        "toastSuccess_one": "{{count}} membre invité !",
+        "toastSuccess_other": "{{count}} membres invités !",
+        "toastError": "Erreur",
+        "empty1": "Tous les membres existants sont déjà liés à un compte utilisateur.",
+        "empty2": "Vous pouvez créer un nouveau membre puis l'inviter.",
+        "searchPlaceholder": "Rechercher...",
+        "emailPlaceholder": "Email...",
+        "options": {
+          "readonly": "Lecture seule",
+          "member": "Membre",
+          "admin": "Admin"
+        },
+        "invite": "Inviter ({{count}})"
+      },
+      "OrgCreateModal": {
+        "heading": "Créer une organisation",
+        "name": "Nom"
+      },
+      "OrgDeleteModal": {
+        "heading": "Supprimer une organisation",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer l'organisation <b>{{name}}</b> ?"
+      },
+      "OrgEditModal": {
+        "heading": "Modifier l'organisation {{org}}",
+        "name": "Nom",
+        "workingTime": "Temps de travail par défaut"
+      },
+      "RoleDeleteModal": {
+        "heading": "Supprimer un rôle",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer le rôle <b>{{name}}</b> ?"
+      },
+      "RoleEditModal": {
+        "heading": "Modifier le rôle {{name}}",
+        "baseInfo": "Ce rôle est un Rôle de Base potentiellement utilisé dans plusieurs cercles.",
+        "name": "Nom du rôle",
+        "namePlaceholder": "Nom...",
+        "purpose": "Raison d'être",
+        "purposePlaceholder": "But qu'il poursuit...",
+        "domain": "Domaine",
+        "domainPlaceholder": "Ce qu'il est seul à pouvoir faire...",
+        "accountabilities": "Redevabilités",
+        "accountabilitiesPlaceholder": "Ce qu'il doit faire...",
+        "checklist": "Checklist",
+        "checklistAdd": "Ajouter",
+        "checklistPlaceholder": "Liste des actions récurrentes...",
+        "indicator": "Indicateurs",
+        "indicatorAdd": "Ajouter",
+        "indicatorPlaceholder": "Liste des indicateurs...",
+        "notes": "Notes",
+        "notesPlaceholder": "Notes, liens...",
+        "singleMember": "Ne peut être occupé que par un seul membre",
+        "linkParent": "Représente son cercle parent (lien)",
+        "linkToParent": "Dans le cercle parent",
+        "linkToCircle": "Dans un autre cercle",
+        "defaultWorkingTime": "Temps par défaut",
+        "defaultWorkingTimeHelp": "Temps alloué par défaut à chaque membre ayant ce rôle.",
+        "color": "Personnaliser la couleur"
+      },
+      "TaskDeleteModal": {
+        "heading": "Supprimer une tâche",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer la tâche <b>{{name}}</b> ?"
+      },
+      "ThreadEditModal": {
+        "headingEdit": "Modifier une discussion",
+        "headingCreate": "Nouvelle discussion",
+        "title": "Titre",
+        "titlePlaceholder": "On discute de quoi ?...",
+        "circle": "Cercle / Rôle",
+        "invite": "Inviter",
+        "settings": "Paramètres",
+        "archived": "Archivé"
+      },
+      "VacantRolesModal": {
+        "heading": "Rôles vacants",
+        "empty": "Aucun rôle vacant 🎉"
+      }
+    },
+    "CircleContent": {
+      "notFound": "Rôle introuvable",
+      "tabRole": "Rôle",
+      "tabCircle": "Cercle",
+      "tabThreads": "Discussions",
+      "tabMeetings": "Réunions",
+      "tabTasks": "Tâches",
+      "purpose": "Raison d'être :",
+      "domain": "Domaine :",
+      "accountabilities": "Redevabilités :",
+      "checklist": "Checklist :",
+      "indicators": "Indicateurs :",
+      "notes": "Notes :",
+      "representCircle": "Représente le Cercle <link />",
+      "representInCircle": "dans le Cercle <link />"
+    },
+    "Header": {
+      "circles": "Cercles",
+      "threads": "Discussions",
+      "meetings": "Réunions",
+      "tasks": "Tâches",
+      "help": "Aide"
+    },
+    "LoginForm": {
+      "heading": "Connexion",
+      "email": "Email",
+      "emailPlaceholder": "Votre adresse email...",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Votre mot de passe...",
+      "resetPassword": "Mot de passe oublié ?",
+      "submit": "Connexion"
+    },
+    "MeetingContent": {
+      "heading": "Réunion : {{title}}",
+      "started": "En cours",
+      "reopen": "Reprendre",
+      "stop": "Arrêter",
+      "edit": "Modifier",
+      "facilitatorCurrent": "Vous animez cette réunion.",
+      "facilitatorMember": "<member /> anime cette réunion.",
+      "start": "Démarrer",
+      "videoConf": "Rejoindre la visio",
+      "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
+      "end": "Terminer la réunion",
+      "nextStep": "Étape suivante"
+    },
+    "MemberContent": {
+      "notFound": "Membre introuvable",
+      "roles": "Rôles :"
+    },
+    "SignupForm": {
+      "name": "Nom",
+      "namePlaceholder": "Votre nom...",
+      "email": "Email",
+      "emailPlaceholder": "Votre adresse email...",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Votre mot de passe...",
+      "signup": "Créer mon compte"
+    },
+    "TaskContent": {
+      "heading": "Tâche",
+      "title": "Titre",
+      "titlePlaceholder": "Titre...",
+      "circle": "Cercle / Rôle",
+      "memberId": "Membre assigné",
+      "dueDate": "Date limite",
+      "description": "Description",
+      "notes": "Notes, liens..."
+    },
+    "ThreadActivities": {
+      "emptyTitle": "Discussion créée",
+      "emptyDescription": "Vous pouvez envoyer un premier message 👇"
+    },
+    "ThreadContent": {
+      "archived": "Archivé"
+    }
+  },
+  "pages": {
+    "ConfirmResetPasswordPage": {
+      "heading": "Réinitialiser mon mot de passe",
+      "success1": "Email de réinitialisation de mot de passe envoyé !",
+      "success2": "Vérifiez votre boîte email.",
+      "password": "Nouveau mot de passe",
+      "passwordPlaceholder": "Mot de passe...",
+      "toastSuccess": "Votre mot de passe a été changé avec succès !"
+    },
+    "LoginPage": {
+      "heading": "Rolebase",
+      "signup": "Créer un compte"
+    },
+    "LogsPage": {
+      "heading": "Historique"
+    },
+    "MeetingsPage": {
+      "heading": "Réunions",
+      "participation": {
+        "title": "Participation",
+        "invited": "Mes réunions",
+        "notInvited": "Autres réunions"
+      },
+      "export": "Exporter",
+      "create": "Nouvelle réunion",
+      "current": "Réunion en cours",
+      "openCurrent": "Ouvrir"
+    },
+    "MemberInvitationPage": {
+      "toastSuccess": "Invitation acceptée",
+      "toastError": "Erreur"
+    },
+    "MembersPage": {
+      "heading": "Membres",
+      "searchPlaceholder": "Rechercher...",
+      "invite": "Inviter",
+      "tags": {
+        "readonly": "Lecture seule",
+        "member": "Membre",
+        "admin": "Admin",
+        "invited": "Invité.e",
+        "notInvited": "Pas invité.e"
+      }
+    },
+    "OrgsPage": {
+      "heading": "Organisations",
+      "empty": {
+        "title": "Vous n'avez aucune organisation",
+        "info1": "Créez une nouvelle organisation",
+        "info2": "Ou demandez à un admin d'une organisation de vous inviter.",
+        "create": "Créer une organisation"
+      }
+    },
+    "Page404": {
+      "heading": "Page introuvable !",
+      "dialog1": "Elle est où ma page ?",
+      "dialog2": "Je sais pas, t'as regardé dans le placard à pages ?"
+    },
+    "ResetPasswordPage": {
+      "heading": "Mot de passe oublié ?",
+      "done1": "Un email de réinitialisation de mot de passe vous a été envoyé !",
+      "done2": "Vérifiez votre boîte email.",
+      "email": "Email",
+      "emailPlaceholder": "Votre adresse email...",
+      "reset": "Réinitialiser mon mot de passe",
+      "signin": "Connexion"
+    },
+    "SignupPage": {
+      "heading": "Inscription",
+      "signin": "Connexion"
+    },
+    "TasksPage": {
+      "heading": "Tâches",
+      "assignation": {
+        "title": "Assignation",
+        "mine": "Mes tâches",
+        "circle": "Tâches d'un cercle",
+        "member": "Tâches d'un membre"
+      },
+      "status": {
+        "title": "Statut",
+        "notDone": "Non terminée"
+      },
+      "create": "Nouvelle tâche",
+      "memberInput": "Membre :",
+      "circleInput": "Cercle / Rôle :",
+      "empty": "Aucune tâche 🎉"
+    },
+    "ThreadsPage": {
+      "heading": "Discussions",
+      "participation": {
+        "title": "Participation",
+        "invited": "Mes discussions",
+        "notInvited": "Autres discussions"
+      },
+      "archives": {
+        "title": "Archives",
+        "show": "Afficher les archives"
+      },
+      "create": "Nouvelle discussion",
+      "empty": "Aucune discussion."
+    }
+  },
+  "hooks": {
+    "useUpdateTaskStatus": {
+      "toast": "Tâche marquée comme \"{{status}}\""
+    }
+  }
+}

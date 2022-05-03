@@ -5,6 +5,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import LogsList from './LogsList'
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function MeetingLogs({ meetingId }: Props) {
+  const { t } = useTranslation()
   const orgId = useOrgId()
 
   const subscribeLogs = orgId
@@ -23,7 +25,7 @@ export default function MeetingLogs({ meetingId }: Props) {
   return (
     <>
       <Heading as="h3" size="sm" mb={2}>
-        Actions pendant la réunion
+        {t('molecules.MeetingLogs.heading')}
       </Heading>
 
       {loading && <Loading active size="md" />}

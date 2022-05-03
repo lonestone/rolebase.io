@@ -114,20 +114,26 @@ export async function goToNextMeetingStep(
   }
 }
 
-export async function getMeetingsIcalUrl(
-  orgId: string | undefined,
-  memberId?: string,
-  circleId?: string
-) {
-  const { data: token } = await httpsCallable(
+export async function getMeetingsIcalToken(orgId: string): Promise<string> {
+  const { data: token } = await httpsCallable<{}, string>(
     functions,
     'getMeetingsToken'
   )({
     orgId,
   })
+  return token
+}
+
+export function getMeetingsIcalUrl(
+  orgId: string | undefined,
+  token: string,
+  lang: string,
+  memberId?: string,
+  circleId?: string
+): string {
   return `${
     settings.firebaseFunctionsUrl
-  }api/meetings.ics?token=${token}&orgId=${orgId}${
+  }api/meetings.ics?token=${token}&lang=${lang}&orgId=${orgId}${
     memberId ? `&memberId=${memberId}` : circleId ? `&circleId=${circleId}` : ''
   }`
 }

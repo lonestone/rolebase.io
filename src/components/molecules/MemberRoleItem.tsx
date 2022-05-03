@@ -16,6 +16,7 @@ import Markdown from '@components/atoms/Markdown'
 import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
 import { CircleWithRoleEntry } from '@shared/circle'
 import React, { FormEvent, useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   memberId: string
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
+  const { t } = useTranslation()
   const { colorMode } = useColorMode()
   const hoverColor = colorMode === 'light' ? 'gray.50' : 'whiteAlpha.100'
   const expandedColor = colorMode === 'light' ? 'gray.100' : 'gray.550'
@@ -76,13 +78,17 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
               <VStack spacing={3} align="stretch">
                 {roleCircle.role.purpose && (
                   <FormControl>
-                    <FormLabel>Raison d'être</FormLabel>
+                    <FormLabel>
+                      {t(`molecules.MemberRoleItem.purpose`)}
+                    </FormLabel>
                     <Markdown>{roleCircle.role.purpose}</Markdown>
                   </FormControl>
                 )}
 
                 <FormControl>
-                  <FormLabel>Temps de travail</FormLabel>
+                  <FormLabel>
+                    {t(`molecules.MemberRoleItem.workingTime`)}
+                  </FormLabel>
                   <DurationSelect
                     size="sm"
                     placeholderValue={
@@ -96,7 +102,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                 {isDirty && (
                   <Box textAlign="right">
                     <Button size="sm" colorScheme="blue" type="submit">
-                      Enregistrer
+                      {t(`common.save`)}
                     </Button>
                   </Box>
                 )}

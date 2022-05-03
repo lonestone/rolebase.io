@@ -36,6 +36,7 @@ import useRole from '@hooks/useRole'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/log'
 import React, { useEffect, useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { FaPlus } from 'react-icons/fa'
 import * as yup from 'yup'
 
@@ -72,6 +73,7 @@ enum LinkType {
 const tmpCircleId = 'tmpCircleId'
 
 export default function RoleEditModal({ id, ...modalProps }: Props) {
+  const { t } = useTranslation()
   const role = useRole(id)
   const createLog = useCreateLog()
 
@@ -149,7 +151,9 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
       <Modal {...modalProps} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modifier le rôle {role.name}</ModalHeader>
+          <ModalHeader>
+            {t('organisms.modals.RoleEditModal.heading', { name: role.name })}
+          </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
@@ -158,49 +162,70 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <Alert status="warning">
                   <AlertIcon />
                   <AlertDescription>
-                    Ce rôle est un <strong>rôle de base</strong> potentiellement
-                    utilisé dans plusieurs cercles.
+                    {t('organisms.modals.RoleEditModal.baseInfo')}
                   </AlertDescription>
                 </Alert>
               ) : null}
 
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel>Nom du rôle</FormLabel>
-                <Input {...register('name')} placeholder="Nom..." autoFocus />
+                <FormLabel>
+                  {t('organisms.modals.RoleEditModal.name')}
+                </FormLabel>
+                <Input
+                  {...register('name')}
+                  placeholder={t(
+                    'organisms.modals.RoleEditModal.namePlaceholder'
+                  )}
+                  autoFocus
+                />
               </FormControl>
 
               <FormControl isInvalid={!!errors.purpose}>
-                <FormLabel>Raison d'être</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.RoleEditModal.purpose')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="purpose"
-                  placeholder="But qu'il poursuit..."
+                  placeholder={t(
+                    'organisms.modals.RoleEditModal.purposePlaceholder'
+                  )}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.domain}>
-                <FormLabel>Domaine</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.RoleEditModal.domain')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="domain"
-                  placeholder="Ce qu'il est seul à pouvoir faire..."
+                  placeholder={t(
+                    'organisms.modals.RoleEditModal.domainPlaceholder'
+                  )}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.accountabilities}>
-                <FormLabel>Redevabilités</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.RoleEditModal.accountabilities')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="accountabilities"
-                  placeholder="Ce qu'il doit faire..."
+                  placeholder={t(
+                    'organisms.modals.RoleEditModal.accountabilitiesPlaceholder'
+                  )}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.checklist}>
                 <FormLabel>
-                  Checklist
+                  {t('organisms.modals.RoleEditModal.checklist')}
                   <IconButton
-                    aria-label="Ajouter"
+                    aria-label={t(
+                      'organisms.modals.RoleEditModal.checklistAdd'
+                    )}
                     icon={<FaPlus />}
                     size="xs"
                     ml={2}
@@ -210,16 +235,20 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <MarkdownEditorController
                   ref={checklistEditor}
                   name="checklist"
-                  placeholder="Liste des actions récurrentes..."
+                  placeholder={t(
+                    'organisms.modals.RoleEditModal.checklistPlaceholder'
+                  )}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.indicators}>
                 <FormLabel>
-                  Indicateurs
+                  {t('organisms.modals.RoleEditModal.indicator')}
                   <IconButton
-                    aria-label="Ajouter"
+                    aria-label={t(
+                      'organisms.modals.RoleEditModal.indicatorAdd'
+                    )}
                     icon={<FaPlus />}
                     size="xs"
                     ml={2}
@@ -229,16 +258,22 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <MarkdownEditorController
                   ref={indicatorsEditor}
                   name="indicators"
-                  placeholder="Liste des indicateurs..."
+                  placeholder={t(
+                    'organisms.modals.RoleEditModal.indicatorPlaceholder'
+                  )}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.notes}>
-                <FormLabel>Notes</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.RoleEditModal.notes')}
+                </FormLabel>
                 <MarkdownEditorController
                   name="notes"
-                  placeholder="Notes, liens..."
+                  placeholder={t(
+                    'organisms.modals.RoleEditModal.notesPlaceholder'
+                  )}
                   control={control}
                 />
               </FormControl>
@@ -246,7 +281,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
               <FormControl>
                 <Stack spacing={1}>
                   <Checkbox {...register('singleMember')}>
-                    Ne peut être occupé que par un seul membre
+                    {t('organisms.modals.RoleEditModal.singleMember')}
                   </Checkbox>
 
                   <Checkbox
@@ -255,7 +290,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                     isChecked={!!link}
                     onChange={() => setValue('link', !link)}
                   >
-                    Représente son cercle parent (lien)
+                    {t('organisms.modals.RoleEditModal.linkParent')}
                   </Checkbox>
                   <RadioGroup
                     display={link ? '' : 'none'}
@@ -269,10 +304,10 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                   >
                     <Stack pl={6} mt={1} spacing={1} direction="column">
                       <Radio value={LinkType.parent}>
-                        Dans le cercle parent
+                        {t('organisms.modals.RoleEditModal.linkToParent')}
                       </Radio>
                       <Radio value={LinkType.other} isDisabled={role.base}>
-                        Dans un autre cercle
+                        {t('organisms.modals.RoleEditModal.linkToCircle')}
                       </Radio>
                       {typeof link === 'string' && (
                         <StackItem pl={6}>
@@ -288,7 +323,9 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
               </FormControl>
 
               <FormControl isInvalid={!!errors.defaultMinPerWeek}>
-                <FormLabel>Temps par défaut</FormLabel>
+                <FormLabel>
+                  {t('organisms.modals.RoleEditModal.defaultWorkingTime')}
+                </FormLabel>
                 <Controller
                   name="defaultMinPerWeek"
                   control={control}
@@ -300,13 +337,13 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                   )}
                 />
                 <FormHelperText>
-                  Temps alloué par défaut à chaque membre ayant ce rôle.
+                  {t('organisms.modals.RoleEditModal.defaultWorkingTimeHelp')}
                 </FormHelperText>
               </FormControl>
 
               <FormControl>
                 <ColorController name="colorHue" control={control}>
-                  Personnaliser la couleur
+                  {t('organisms.modals.RoleEditModal.color')}
                 </ColorController>
               </FormControl>
             </VStack>
@@ -314,7 +351,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
 
           <ModalFooter alignItems="end">
             <Button colorScheme="blue" onClick={onSubmit}>
-              Enregistrer
+              {t('common.save')}
             </Button>
           </ModalFooter>
         </ModalContent>

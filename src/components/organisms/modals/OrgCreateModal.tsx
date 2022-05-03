@@ -18,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 
@@ -32,6 +33,7 @@ const resolver = yupResolver(
 )
 
 export default function OrgCreateModal(modalProps: UseModalProps) {
+  const { t } = useTranslation()
   const user = useStoreState((state) => state.auth.user)
   const refreshClaims = useStoreActions((actions) => actions.auth.refreshClaims)
   const history = useHistory()
@@ -65,19 +67,21 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>Créer une organisation</ModalHeader>
+          <ModalHeader>
+            {t('organisms.modals.OrgCreateModal.heading')}
+          </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
-              <FormLabel>Nom</FormLabel>
-              <Input {...register('name')} placeholder="Nom..." autoFocus />
+              <FormLabel>{t('organisms.modals.OrgCreateModal.name')}</FormLabel>
+              <Input {...register('name')} autoFocus />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" type="submit">
-              Créer
+              {t('common.create')}
             </Button>
           </ModalFooter>
         </form>

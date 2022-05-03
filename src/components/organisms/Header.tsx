@@ -17,6 +17,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaQuestion } from 'react-icons/fa'
 import {
   FiCalendar,
@@ -28,6 +29,7 @@ import {
 export const headerHeight = 48
 
 export default function Header() {
+  const { t } = useTranslation()
   const user = useStoreState((state) => state.auth.user)
   const org = useCurrentOrg()
   const currentMember = useCurrentMember()
@@ -42,17 +44,17 @@ export default function Header() {
               to: `/orgs/${org.id}`,
               exact: true,
               icon: <FiDisc />,
-              label: 'Cercles',
+              label: t('organisms.Header.circles'),
             },
             {
               to: `/orgs/${org.id}/threads`,
               icon: <FiMessageSquare />,
-              label: 'Discussions',
+              label: t('organisms.Header.threads'),
             },
             {
               to: `/orgs/${org.id}/meetings`,
               icon: <FiCalendar />,
-              label: 'Réunions',
+              label: t('organisms.Header.meetings'),
               bg: currentMember?.meetingId
                 ? colorMode === 'light'
                   ? 'blue.100'
@@ -62,11 +64,11 @@ export default function Header() {
             {
               to: `/orgs/${org.id}/tasks`,
               icon: <FiCheckSquare />,
-              label: 'Tâches',
+              label: t('organisms.Header.tasks'),
             },
           ]
         : [],
-    [org, currentMember, colorMode]
+    [org, currentMember, colorMode, t]
   )
 
   // Open help chatbox
@@ -123,7 +125,7 @@ export default function Header() {
 
       <Tooltip hasArrow openDelay={400} label="Aide">
         <IconButton
-          aria-label="Aide"
+          aria-label={t('organisms.Header.help')}
           icon={<FaQuestion />}
           variant="ghost"
           size="sm"

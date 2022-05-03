@@ -8,8 +8,8 @@ import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { useOrgId } from '@hooks/useOrgId'
 import React from 'react'
-import CircleModalContent from './CircleModalContent'
-import MemberModalContent from './MemberModalContent'
+import CircleContent from '../CircleContent'
+import MemberContent from '../MemberContent'
 
 interface Props extends UseModalProps {
   circleId?: string
@@ -31,9 +31,9 @@ export default function CircleMemberModal({
     <Modal size="lg" autoFocus={false} {...modalProps}>
       <ModalOverlay />
 
-      {memberId ? (
-        <ModalContent>
-          <MemberModalContent
+      <ModalContent>
+        {memberId ? (
+          <MemberContent
             id={memberId}
             selectedCircleId={circleId}
             headerIcons={
@@ -45,11 +45,9 @@ export default function CircleMemberModal({
               />
             }
           />
-        </ModalContent>
-      ) : (
-        circleId && (
-          <ModalContent>
-            <CircleModalContent
+        ) : (
+          circleId && (
+            <CircleContent
               id={circleId}
               headerIcons={
                 <ModalMaximizeButton
@@ -58,9 +56,9 @@ export default function CircleMemberModal({
                 />
               }
             />
-          </ModalContent>
-        )
-      )}
+          )
+        )}
+      </ModalContent>
     </Modal>
   )
 }

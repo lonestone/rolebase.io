@@ -1,5 +1,6 @@
 import { Flex, Input, Select } from '@chakra-ui/react'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   value: number | null
@@ -32,6 +33,8 @@ export default function DurationSelect({
   size,
   onChange,
 }: Props) {
+  const { t } = useTranslation()
+
   const [unit, setUnit] = useState(() =>
     inferUnit(value ?? placeholderValue ?? null)
   )
@@ -76,8 +79,8 @@ export default function DurationSelect({
         size={size}
         onChange={handleUnitChange}
       >
-        <option value="Min">Min / semaine</option>
-        <option value="Hours">Heures / semaine</option>
+        <option value="Min">{t('atoms.DurationSelect.min')}</option>
+        <option value="Hours">{t('atoms.DurationSelect.hours')}</option>
       </Select>
     </Flex>
   )
