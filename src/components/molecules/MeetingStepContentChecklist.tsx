@@ -4,12 +4,12 @@ import { MeetingStepChecklist } from '@shared/meetingStep'
 import { WithId } from '@shared/types'
 import React, { RefObject, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
+import { EditorHandle } from './editor/useEditor'
 
 interface Props extends BoxProps {
   circleId: string
   step: WithId<MeetingStepChecklist>
-  editorRef: RefObject<MarkdownEditorHandle>
+  editorRef: RefObject<EditorHandle>
   editable?: Boolean
 }
 

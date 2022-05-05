@@ -1,6 +1,6 @@
 import { updateActivity } from '@api/entities/activities'
 import { Box, Button } from '@chakra-ui/react'
-import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
+import SimpleEditor from '@components/molecules/editor/SimpleEditor'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -44,7 +44,7 @@ export default function ThreadActivityMessageEdit({
 
   return (
     <Box mt={2}>
-      <MarkdownEditor
+      <SimpleEditor
         value={message}
         autoFocus
         onChange={setMessage}

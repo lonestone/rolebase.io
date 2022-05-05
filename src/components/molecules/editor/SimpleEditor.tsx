@@ -4,11 +4,11 @@ import {
   useFormControl,
 } from '@chakra-ui/react'
 import BasicStyle from '@components/atoms/BasicStyle'
-import RichMarkdownEditor from '@rolebase/editor'
+import RichSimpleEditor from '@rolebase/editor'
 import React, { forwardRef, useCallback } from 'react'
 import EditorContainer from './EditorContainer'
+import useSimpleEditor, { EditorHandle } from './useEditor'
 import useFileUpload from './useFileUpload'
-import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 
 // Simple Markdown editor
 
@@ -22,14 +22,14 @@ export interface Props extends FormControlOptions {
   onSubmit?(value: string): void // Called when Cmd+Enter is pressed
 }
 
-const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
+const SimpleEditor = forwardRef<EditorHandle, Props>(
   (
     { value, placeholder, autoFocus, readOnly, onChange, onSave, onSubmit },
     ref
   ) => {
     const formControlProps = useFormControl<HTMLInputElement>({})
     const { colorMode } = useColorMode()
-    const { editorRef, getValue } = useMarkdownEditor(ref)
+    const { editorRef, getValue } = useSimpleEditor(ref)
     const { handleUpload } = useFileUpload()
 
     // Save on blur
@@ -52,7 +52,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
     return (
       <BasicStyle>
         <EditorContainer colorMode={colorMode} {...formControlProps}>
-          <RichMarkdownEditor
+          <RichSimpleEditor
             ref={editorRef}
             value={value}
             placeholder={placeholder}
@@ -69,6 +69,6 @@ const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
   }
 )
 
-MarkdownEditor.displayName = 'MarkdownEditor'
+SimpleEditor.displayName = 'SimpleEditor'
 
-export default MarkdownEditor
+export default SimpleEditor

@@ -7,7 +7,7 @@ import { randomColor } from '@chakra-ui/theme-tools'
 import BasicStyle from '@components/atoms/BasicStyle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
-import RichMarkdownEditor, { YCollab } from '@rolebase/editor'
+import RichSimpleEditor, { YCollab } from '@rolebase/editor'
 import { Bytes } from 'firebase/firestore'
 import throttle from 'lodash.throttle'
 import React, {
@@ -18,8 +18,8 @@ import React, {
   useRef,
 } from 'react'
 import EditorContainer from './EditorContainer'
+import useEditor, { EditorHandle } from './useEditor'
 import useFileUpload from './useFileUpload'
-import useMarkdownEditor, { MarkdownEditorHandle } from './useMarkdownEditor'
 
 // Collaborative Markdown editor
 
@@ -34,7 +34,7 @@ export interface Props extends FormControlOptions {
   onSave?(value: string, updates: Uint8Array): void
 }
 
-const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
+const CollabEditor = forwardRef<EditorHandle, Props>(
   (
     {
       docId,
@@ -51,7 +51,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
     const formControlProps = useFormControl<HTMLInputElement>({})
     const { colorMode } = useColorMode()
     const currentMember = useCurrentMember()
-    const { editorRef, getValue } = useMarkdownEditor(ref)
+    const { editorRef, getValue } = useEditor(ref)
     const { handleUpload } = useFileUpload()
 
     // Connect provider and get context
@@ -122,7 +122,7 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
     return (
       <BasicStyle>
         <EditorContainer colorMode={colorMode} {...formControlProps}>
-          <RichMarkdownEditor
+          <RichSimpleEditor
             key={docId}
             ref={editorRef}
             placeholder={placeholder}
@@ -140,6 +140,6 @@ const MarkdownCollabEditor = forwardRef<MarkdownEditorHandle, Props>(
   }
 )
 
-MarkdownCollabEditor.displayName = 'MarkdownCollabEditor'
+CollabEditor.displayName = 'CollabEditor'
 
-export default MarkdownCollabEditor
+export default CollabEditor

@@ -6,8 +6,8 @@ import { MeetingStepEntry, MeetingStepTypes } from '@shared/meetingStep'
 import { Bytes } from 'firebase/firestore'
 import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
-import MarkdownCollabEditor from './editor/MarkdownCollabEditor'
+import CollabEditor from './editor/CollabEditor'
+import { EditorHandle } from './editor/useEditor'
 import MeetingStepContentChecklist from './MeetingStepContentChecklist'
 import MeetingStepContentIndicators from './MeetingStepContentIndicators'
 
@@ -32,7 +32,7 @@ export default function MeetingStepContent({
 }: Props) {
   const { t } = useTranslation()
   const { updateMeetingStep } = meetingStepsEntities(meetingId)
-  const editorRef = useRef<MarkdownEditorHandle>(null)
+  const editorRef = useRef<EditorHandle>(null)
 
   // Update notes
   const handleNotesChange = useCallback(
@@ -87,7 +87,7 @@ export default function MeetingStepContent({
         />
       )}
 
-      <MarkdownCollabEditor
+      <CollabEditor
         ref={editorRef}
         docId={`meeting${meetingId}-step${step.id}`}
         value={step.notes}

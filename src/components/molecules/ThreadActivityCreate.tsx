@@ -9,8 +9,8 @@ import { useStoreState } from '@store/hooks'
 import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IoMdSend } from 'react-icons/io'
-import { MarkdownEditorHandle } from './editor/chunk/useMarkdownEditor'
-import MarkdownEditor from './editor/MarkdownEditor'
+import SimpleEditor from './editor/SimpleEditor'
+import { EditorHandle } from './editor/useEditor'
 
 interface Props {
   thread: ThreadEntry
@@ -20,7 +20,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
   const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const orgId = useOrgId()
-  const editorRef = useRef<MarkdownEditorHandle>(null)
+  const editorRef = useRef<EditorHandle>(null)
 
   // Create modal
   const [modalType, setModalType] = useState<ActivityType | null>(null)
@@ -51,7 +51,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
 
   return (
     <div>
-      <MarkdownEditor
+      <SimpleEditor
         ref={editorRef}
         placeholder={t('molecules.ThreadActivityCreate.placeholder')}
         value=""

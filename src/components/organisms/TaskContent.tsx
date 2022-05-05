@@ -19,7 +19,7 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
-import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
+import SimpleEditorController from '@components/molecules/editor/EditorController'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import TaskStatusInput from '@components/molecules/TaskStatusInput'
@@ -270,7 +270,7 @@ export default function TaskContent({
 
           <FormControl isInvalid={!!errors.description}>
             <FormLabel>{t('organisms.TaskContent.description')}</FormLabel>
-            <MarkdownEditorController
+            <SimpleEditorController
               name="description"
               placeholder={t('organisms.TaskContent.notes')}
               control={control}

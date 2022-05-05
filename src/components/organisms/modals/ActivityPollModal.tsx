@@ -29,7 +29,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import NumberInputController from '@components/atoms/NumberInputController'
-import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
+import SimpleEditorController from '@components/molecules/editor/EditorController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
@@ -251,7 +251,7 @@ export default function ActivityPollModal({
                 <FormLabel>
                   {t('organisms.modals.ActivityPollModal.question')}
                 </FormLabel>
-                <MarkdownEditorController
+                <SimpleEditorController
                   name="question"
                   placeholder={t(
                     'organisms.modals.ActivityPollModal.questionPlaceholder'

@@ -13,7 +13,7 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import MarkdownEditorController from '@components/molecules/editor/MarkdownEditorController'
+import SimpleEditorController from '@components/molecules/editor/EditorController'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
@@ -119,7 +119,7 @@ export default function ActivityDecisionModal({
                 <FormLabel>
                   {t('organisms.modals.ActivityDecisionModal.decision')}
                 </FormLabel>
-                <MarkdownEditorController
+                <SimpleEditorController
                   name="decision"
                   placeholder="Qu'avez-vous décidé ?"
                   autoFocus
@@ -131,7 +131,7 @@ export default function ActivityDecisionModal({
                 <FormLabel>
                   {t('organisms.modals.ActivityDecisionModal.explanation')}
                 </FormLabel>
-                <MarkdownEditorController
+                <SimpleEditorController
                   name="explanation"
                   placeholder="Pourquoi avez-vous pris cette décision ?"
                   control={control}

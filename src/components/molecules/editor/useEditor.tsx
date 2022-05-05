@@ -1,4 +1,4 @@
-import RichMarkdownEditor, { YCollab } from '@rolebase/editor'
+import RichSimpleEditor, { YCollab } from '@rolebase/editor'
 import {
   ForwardedRef,
   RefObject,
@@ -7,8 +7,8 @@ import {
   useRef,
 } from 'react'
 
-export interface MarkdownEditorHandle {
-  editorRef: RefObject<RichMarkdownEditor>
+export interface EditorHandle {
+  editorRef: RefObject<RichSimpleEditor>
   setValue(value: string): void
   getValue(): string
   focus(): void
@@ -16,10 +16,8 @@ export interface MarkdownEditorHandle {
   addCheckboxList(): void
 }
 
-export default function useMarkdownEditor(
-  ref: ForwardedRef<MarkdownEditorHandle>
-) {
-  const editorRef = useRef<RichMarkdownEditor>(null)
+export default function useEditor(ref: ForwardedRef<EditorHandle>) {
+  const editorRef = useRef<RichSimpleEditor>(null)
 
   // Helper to get the current value
   const getValue = () => {

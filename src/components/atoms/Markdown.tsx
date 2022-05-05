@@ -1,5 +1,5 @@
 import { BoxProps } from '@chakra-ui/react'
-import MarkdownEditor from '@components/molecules/editor/MarkdownEditor'
+import SimpleEditor from '@components/molecules/editor/SimpleEditor'
 import React from 'react'
 
 interface Props extends BoxProps {
@@ -7,5 +7,5 @@ interface Props extends BoxProps {
 }
 
 export default function Markdown({ children }: Props) {
-  return <MarkdownEditor value={children} readOnly />
+  return <SimpleEditor value={children} readOnly />
 }
