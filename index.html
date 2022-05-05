@@ -25,6 +25,26 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Background during loading -->
+    <script type="text/javascript">
+      const mode = localStorage.getItem('chakra-ui-color-mode')
+      if (mode) {
+        const css = `
+          body {
+            background-color: ${mode === 'dark' ? '#1c1812' : 'white'};
+          }
+        `
+        const style = document.createElement('style')
+        if (style.styleSheet) {
+          style.styleSheet.cssText = css
+        } else {
+          style.appendChild(document.createTextNode(css))
+        }
+        document.head.appendChild(style)
+      }
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
