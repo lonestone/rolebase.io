@@ -339,7 +339,7 @@
         "circle": "Circle",
         "url": "iCal URL",
         "copy": "Copy",
-        "toastCopied": "Copied URL"
+        "toastCopied": "URL copied"
       },
       "MeetingTemplateDeleteModal": {
         "heading": "Delete meeting template",

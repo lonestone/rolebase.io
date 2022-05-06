@@ -52,10 +52,16 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
 
   // Get roles and circles
   const circles = getQuerySnapshotData(
-    await collections.circles.where('orgId', '==', orgId).get()
+    await collections.circles
+      .where('orgId', '==', orgId)
+      .where('archived', '==', false)
+      .get()
   )
   const roles = getQuerySnapshotData(
-    await collections.roles.where('orgId', '==', orgId).get()
+    await collections.roles
+      .where('orgId', '==', orgId)
+      .where('archived', '==', false)
+      .get()
   )
 
   // Get member's circles
