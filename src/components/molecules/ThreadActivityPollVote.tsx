@@ -136,7 +136,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
         (activity.minAnswers && activity.minAnswers === activity.maxAnswers ? (
           <Text>
             {t('molecules.ThreadActivityPollVote.chooseN', {
-              n: activity.minAnswers,
+              count: activity.minAnswers,
             })}
           </Text>
         ) : activity.minAnswers && activity.maxAnswers ? (
@@ -149,13 +149,13 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
         ) : activity.minAnswers ? (
           <Text>
             {t('molecules.ThreadActivityPollVote.chooseMin', {
-              min: activity.minAnswers,
+              count: activity.minAnswers,
             })}
           </Text>
         ) : activity.maxAnswers ? (
           <Text>
             {t('molecules.ThreadActivityPollVote.chooseMax', {
-              max: activity.maxAnswers,
+              count: activity.maxAnswers,
             })}
           </Text>
         ) : (

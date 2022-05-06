@@ -210,7 +210,10 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 </FormLabel>
                 <SimpleEditorController
                   name="description"
-                  placeholder={`Qui est ${member.name} ?`}
+                  placeholder={t(
+                    'organisms.modals.MemberEditModal.descriptionPlaceholder',
+                    { name: member.name }
+                  )}
                   control={control}
                 />
               </FormControl>

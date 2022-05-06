@@ -38,7 +38,7 @@
     },
     "ParticipantsScopeSelect": {
       "Organization": "Tous les membres de l'Organisation",
-      "CircleLeaders": "Les membres Leaders de Rôles et de sous-Cercles",
+      "CircleLeaders": "Les membres Leaders de Rôles ou de sous-Cercles",
       "CircleMembers": "Tous les membres du Cercle et des sous-Cercles",
       "None": "Seulement les membres invités (ci-dessous)"
     },
@@ -197,9 +197,9 @@
       "anonymous": "Anonyme"
     },
     "ThreadActivityPollVote": {
-      "chooseN": "Sélectionnez {{n}} choix.",
-      "chooseMin": "Sélectionnez au moins {{min}} choix.",
-      "chooseMax": "Maximum {{max}} choix.",
+      "chooseN": "Sélectionnez {{count}} choix.",
+      "chooseMin": "Sélectionnez au moins {{count}} choix.",
+      "chooseMax": "Maximum {{count}} choix.",
       "chooseMinAndMax": "Sélectionnez entre {{min}} et {{max}} choix.",
       "chooseMultiple": "Plusieurs choix possibles.",
       "anonymous": "Les réponses sont anonymes.",
@@ -265,9 +265,9 @@
         "name": "Nom"
       },
       "BaseRolesModal": {
-        "heading": "Rôles de base de l'organisation",
+        "heading": "Rôles de base",
         "empty": "Aucun rôle de base",
-        "create": "Créer un nouveau rôle de base"
+        "create": "Créer un rôle de base"
       },
       "CircleCreateModal": {
         "headingRole": "Ajouter un Rôle",
@@ -281,7 +281,7 @@
       },
       "CircleMemberDeleteModal": {
         "heading": "Supprimer le rôle d'un membre",
-        "info": "Êtes-vous sûr(e) de vouloir supprimer le retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
+        "info": "Êtes-vous sûr(e) de vouloir retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
       },
       "CurrentUserModal": {
         "heading": "Mes informations personnelles",
@@ -348,7 +348,7 @@
         "steps": "Déroulé"
       },
       "MeetingTemplatesModal": {
-        "heading": "Modèles de réunions",
+        "heading": "Modèles de réunion",
         "empty": "Aucun modèle de réunion",
         "create": "Créer un nouveau modèle de réunion"
       },
@@ -367,6 +367,7 @@
         "toastRevocated": "Invitation révoquée",
         "name": "Nom",
         "description": "Description",
+        "descriptionPlaceholder": "Qui est {{name}} ?",
         "workingTime": "Temps de travail pour l'organisation",
         "invitation": {
           "userInvited": "Utilisateur invité",
@@ -376,7 +377,7 @@
             "member": "Membre",
             "admin": "Admin"
           },
-          "awaiting": "Invitation envoyée à {{email}} le {{date,raw}}, en attente d'acceptation.",
+          "awaiting": "Invitation envoyée à {{email}} le {{date}}, en attente d'acceptation.",
           "resend": "Renvoyer",
           "revoke": "Révoquer",
           "invite": "Inviter",
