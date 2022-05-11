@@ -13,7 +13,7 @@ export function getNodeColor(nodeData: NodeData, depth?: number) {
         // Use color mode (light/dark)
         lastColorMode === 'light' ? lightness : 110 - lightness
       }%`,
-      nodeData.data.hue
+      nodeData.data.colorHue
     )
   }
   // Members background color

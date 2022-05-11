@@ -19,7 +19,8 @@ export function circlesToD3Data(
   circles: CircleEntry[],
   roles: RoleEntry[],
   members: MemberEntry[],
-  parentId: string | null = null
+  parentId: string | null = null,
+  defaultColorHue?: number
 ): Data[] {
   return circles
     .filter((circle) => circle.parentId == parentId)
@@ -36,10 +37,7 @@ export function circlesToD3Data(
           16
         ),
         type: NodeType.Circle,
-      }
-
-      if (typeof role.colorHue === 'number') {
-        data.hue = role.colorHue
+        colorHue: role.colorHue ?? defaultColorHue,
       }
 
       // Add sub-circles to children
@@ -47,12 +45,15 @@ export function circlesToD3Data(
         circles,
         roles,
         members,
-        circle.id
+        circle.id,
+        data.colorHue
       )
 
       // Add members in a circle to group them
       if (circle.members.length !== 0 || children.length === 0) {
-        children.push(memberstoD3Data(members, circle.id, circle.members))
+        children.push(
+          memberstoD3Data(members, circle.id, circle.members, data.colorHue)
+        )
       }
 
       // Set children if there is at least one
@@ -67,7 +68,8 @@ export function circlesToD3Data(
 function memberstoD3Data(
   members: MemberEntry[],
   circleId: string,
-  circleMembers: CircleMemberEntry[]
+  circleMembers: CircleMemberEntry[],
+  colorHue?: number
 ): Data {
   const node: Data = {
     id: `${circleId}-members`,
@@ -88,6 +90,7 @@ function memberstoD3Data(
         picture: member?.picture,
         value: settings.memberValue,
         type: NodeType.Member,
+        colorHue,
       }
     })
   }

@@ -7,7 +7,7 @@ export function setNodeCSSVariables(nodes: NodesSelection) {
     node.style.setProperty('--depth', d.depth.toString())
     node.style.setProperty(
       '--hue',
-      (d.data.hue ?? defaultCircleColorHue).toString()
+      (d.data.colorHue ?? defaultCircleColorHue).toString()
     )
   })
 }
