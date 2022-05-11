@@ -81,7 +81,6 @@ interface Values extends StepsValues {
   participantsScope: MembersScope
   startDate: string
   duration: number // In minutes
-  ended: boolean
   videoConf: boolean | string
 }
 
@@ -132,7 +131,6 @@ export default function MeetingEditModal({
       duration: meeting
         ? Math.round((meeting.endDate.seconds - meeting.startDate.seconds) / 60)
         : 60,
-      ended: meeting?.ended ?? false,
       stepsConfig: meeting?.stepsConfig ?? [
         {
           id: nanoid(5),
