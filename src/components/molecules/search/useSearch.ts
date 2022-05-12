@@ -1,5 +1,5 @@
+import { useIdleCallback } from '@hooks/useIdleCallback'
 import { UseComboboxStateChange } from 'downshift'
-import { debounce } from 'lodash'
 import { useMemo, useState } from 'react'
 import incrementalSearch from './incrementalSearch'
 import { SearchItem, SearchItemTypes } from './searchTypes'
@@ -32,15 +32,12 @@ export function useSearch(
     return searchItems
   }, [searchText, items, defaultEmpty])
 
-  // Search with debounce when input value changes
-  const onInputValueChange = useMemo(
-    () =>
-      debounce(
-        ({ inputValue }: UseComboboxStateChange<SearchItem>) =>
-          setSearchText(inputValue || ''),
-        250
-      ),
-    [items]
+  // Search when input value changes
+  const onInputValueChange = useIdleCallback(
+    ({ inputValue }: UseComboboxStateChange<SearchItem>) => {
+      setSearchText(inputValue || '')
+    },
+    []
   )
 
   return {

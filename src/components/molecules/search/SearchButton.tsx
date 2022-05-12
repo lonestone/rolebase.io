@@ -87,6 +87,12 @@ export default function SearchButton({
   const inputProps = getInputProps({
     ref: inputRef,
     onFocus: openMenu,
+    // onKeyDown(event) {
+    //   if (event.key === 'Enter') {
+    //     event.preventDefault()
+    //     console.log('enter')
+    //   }
+    // },
   })
 
   // Click on button to put it in editing mode
