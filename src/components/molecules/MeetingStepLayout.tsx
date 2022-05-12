@@ -35,7 +35,7 @@ export default function MeetingStepLayout({
         <Tag
           color={tagTextColor}
           bg={current ? tagCurrentColor : tagColor}
-          _hover={current ? undefined : { bg: tagHoverColor }}
+          _hover={current || !onNumberClick ? undefined : { bg: tagHoverColor }}
           variant="solid"
           size="lg"
           fontWeight="bold"
