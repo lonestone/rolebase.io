@@ -274,7 +274,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         {
                           email: member.inviteEmail,
                           date: format(member.inviteDate.toDate(), 'P'),
-                          interpolation: { escapeValue: false },
                         }
                       )}
                       <Button

@@ -28,7 +28,16 @@ declare module 'react-i18next' {
   }
 }
 
-i18n.use(LanguageDetector).use(initReactI18next).init({ defaultNS, resources })
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    defaultNS,
+    resources,
+    interpolation: {
+      escapeValue: false,
+    },
+  })
 
 export default i18n
 export const locales = resources
