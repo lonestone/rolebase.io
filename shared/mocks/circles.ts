@@ -1,4 +1,4 @@
-import { CircleEntry } from '@shared/circle'
+import { CircleEntry } from '@shared/model/circle'
 
 export const circles: CircleEntry[] = [
   {

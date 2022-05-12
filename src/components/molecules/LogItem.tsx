@@ -10,7 +10,7 @@ import {
 import LogCancelText from '@components/molecules/LogCancelText'
 import LogText from '@components/molecules/LogText'
 import useDateLocale from '@hooks/useDateLocale'
-import { LogEntry } from '@shared/log'
+import { LogEntry } from '@shared/model/log'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

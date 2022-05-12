@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react'
 import ThreadActivityMessage from '@components/molecules/ThreadActivityMessage'
-import { ActivityEntry, ActivityType } from '@shared/activity'
+import { ActivityEntry, ActivityType } from '@shared/model/activity'
 import React, { memo } from 'react'
 import ThreadActivityDecision from './ThreadActivityDecision'
 import ThreadActivityPoll from './ThreadActivityPoll'

@@ -1,4 +1,4 @@
-import { MemberEntry } from '@shared/member'
+import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem, SearchItemTypes } from '../../searchTypes'

@@ -1,6 +1,6 @@
-import { CircleWithRoleEntry } from '@shared/circle'
-import { MeetingEntry } from '@shared/meeting'
-import { MemberEntry } from '@shared/member'
+import { CircleWithRoleEntry } from '@shared/model/circle'
+import { MeetingEntry } from '@shared/model/meeting'
+import { MemberEntry } from '@shared/model/member'
 import slugify from 'slugify'
 
 export default function generateVideoConfUrl(

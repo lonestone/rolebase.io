@@ -1,7 +1,7 @@
 import { createUser, subscribeUser } from '@api/entities/users'
 import { auth } from '@api/firebase'
-import { UserEntry } from '@shared/user'
-import { UserClaims } from '@shared/userClaims'
+import { UserEntry } from '@shared/model/user'
+import { UserClaims } from '@shared/model/userClaims'
 import { action, Action, State, thunk, Thunk } from 'easy-peasy'
 import {
   createUserWithEmailAndPassword,

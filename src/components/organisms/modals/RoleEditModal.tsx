@@ -33,7 +33,7 @@ import CircleSearchInput from '@components/molecules/search/entities/circles/Cir
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
-import { EntityChangeType, getEntityChanges, LogType } from '@shared/log'
+import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
 import React, { useEffect, useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

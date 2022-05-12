@@ -1,4 +1,4 @@
-import { MemberEntry } from '@shared/member'
+import { MemberEntry } from '@shared/model/member'
 import React from 'react'
 import SearchInput, { SearchInputProps } from '../../SearchInput'
 import { useMemberSearchItems } from './useMemberSearchItems'

@@ -1,7 +1,7 @@
 import { ButtonGroup, IconButton, Wrap, WrapItem } from '@chakra-ui/react'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import MemberButton from '@components/atoms/MemberButton'
-import { MemberEntry } from '@shared/member'
+import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

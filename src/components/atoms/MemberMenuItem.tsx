@@ -1,5 +1,5 @@
 import { Avatar, MenuItem, MenuItemProps, Stack, Text } from '@chakra-ui/react'
-import { MemberEntry } from '@shared/member'
+import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { textEllipse } from 'src/utils'

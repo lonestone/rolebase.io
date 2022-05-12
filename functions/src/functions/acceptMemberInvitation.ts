@@ -1,5 +1,5 @@
-import { Member } from '@shared/member'
-import { ClaimRole } from '@shared/userClaims'
+import { Member } from '@shared/model/member'
+import { ClaimRole } from '@shared/model/userClaims'
 import * as functions from 'firebase-functions'
 import { collections } from '../firebase'
 import { guardArgument, guardAuth } from '../guards'

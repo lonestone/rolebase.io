@@ -1,5 +1,5 @@
 import { Tag, TagProps } from '@chakra-ui/react'
-import { TaskStatus } from '@shared/task'
+import { TaskStatus } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { taskStatusColors } from '../molecules/TaskStatusInput'

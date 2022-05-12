@@ -1,7 +1,7 @@
 import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
-import { MemberEntry, MembersScope, Participant } from '@shared/member'
-import { Optional } from '@shared/types'
+import { MemberEntry, MembersScope, Participant } from '@shared/model/member'
+import { Optional } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 

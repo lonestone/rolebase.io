@@ -1,4 +1,4 @@
-import { WithId } from '@shared/types'
+import { WithId } from '@shared/model/types'
 import { getDocs, Query } from 'firebase/firestore'
 
 // Get results from query once

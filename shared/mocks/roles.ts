@@ -1,4 +1,4 @@
-import { RoleEntry } from '@shared/role'
+import { RoleEntry } from '@shared/model/role'
 
 const roleBase = {
   archived: false,

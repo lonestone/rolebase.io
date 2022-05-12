@@ -1,6 +1,6 @@
 import { useDisclosure } from '@chakra-ui/react'
 import LogCancelModal from '@components/organisms/modals/LogCancelModal'
-import { LogEntry } from '@shared/log'
+import { LogEntry } from '@shared/model/log'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LogItem from './LogItem'

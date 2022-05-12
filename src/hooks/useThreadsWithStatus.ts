@@ -1,8 +1,8 @@
 import { memberThreadsStatus } from '@api/entities/memberThreadsStatus'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useSubscription from '@hooks/useSubscription'
-import { MemberThreadStatus } from '@shared/member'
-import { ThreadEntry } from '@shared/thread'
+import { MemberThreadStatus } from '@shared/model/member'
+import { ThreadEntry } from '@shared/model/thread'
 import { useMemo } from 'react'
 
 export interface ThreadWithStatus extends ThreadEntry {

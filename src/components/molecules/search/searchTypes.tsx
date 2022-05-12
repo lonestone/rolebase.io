@@ -2,10 +2,10 @@ import {
   CircleEntry,
   CircleMemberEntry,
   CircleWithRoleEntry,
-} from '@shared/circle'
-import { MemberEntry } from '@shared/member'
-import { TaskEntry } from '@shared/task'
-import { ThreadEntry } from '@shared/thread'
+} from '@shared/model/circle'
+import { MemberEntry } from '@shared/model/member'
+import { TaskEntry } from '@shared/model/task'
+import { ThreadEntry } from '@shared/model/thread'
 
 export enum SearchItemTypes {
   CreateAction,

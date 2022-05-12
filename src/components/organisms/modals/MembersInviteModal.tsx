@@ -22,7 +22,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import MemberButton from '@components/atoms/MemberButton'
-import { ClaimRole } from '@shared/userClaims'
+import { ClaimRole } from '@shared/model/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'

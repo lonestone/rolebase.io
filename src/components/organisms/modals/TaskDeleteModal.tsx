@@ -11,8 +11,8 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
-import { EntityChangeType, LogType } from '@shared/log'
-import { TaskEntry } from '@shared/task'
+import { EntityChangeType, LogType } from '@shared/model/log'
+import { TaskEntry } from '@shared/model/task'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

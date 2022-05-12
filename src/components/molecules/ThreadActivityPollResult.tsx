@@ -1,6 +1,6 @@
 import { Box, Stack, StackItem, Tooltip, useColorMode } from '@chakra-ui/react'
-import { ActivityPoll, PollAnswer } from '@shared/activity'
-import { WithId } from '@shared/types'
+import { ActivityPoll, PollAnswer } from '@shared/model/activity'
+import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

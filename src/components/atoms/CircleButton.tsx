@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from '@chakra-ui/react'
-import { CircleWithRoleEntry } from '@shared/circle'
+import { CircleWithRoleEntry } from '@shared/model/circle'
 import React from 'react'
 import { textEllipse } from 'src/utils'
 import CircleMemberLink from './CircleMemberLink'

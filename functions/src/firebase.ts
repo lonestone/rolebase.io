@@ -1,10 +1,10 @@
-import { Circle } from '@shared/circle'
-import { Log } from '@shared/log'
-import { Meeting } from '@shared/meeting'
-import { Member } from '@shared/member'
-import { Org } from '@shared/org'
-import { Role } from '@shared/role'
-import { User } from '@shared/user'
+import { Circle } from '@shared/model/circle'
+import { Log } from '@shared/model/log'
+import { Meeting } from '@shared/model/meeting'
+import { Member } from '@shared/model/member'
+import { Org } from '@shared/model/org'
+import { Role } from '@shared/model/role'
+import { User } from '@shared/model/user'
 import * as admin from 'firebase-admin'
 
 export const firebaseAdmin = admin.initializeApp()

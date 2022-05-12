@@ -1,4 +1,4 @@
-import { OrgEntry } from '@shared/org'
+import { OrgEntry } from '@shared/model/org'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 

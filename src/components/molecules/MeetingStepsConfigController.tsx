@@ -6,8 +6,8 @@ import {
   MenuList,
   Stack,
 } from '@chakra-ui/react'
-import { MeetingStepConfig } from '@shared/meeting'
-import { MeetingStepTypes } from '@shared/meetingStep'
+import { MeetingStepConfig } from '@shared/model/meeting'
+import { MeetingStepTypes } from '@shared/model/meetingStep'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'

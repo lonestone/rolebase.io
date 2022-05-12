@@ -6,7 +6,7 @@ import {
 } from '@api/entities/circles'
 import useCreateLog from '@hooks/useCreateLog'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
-import { LogType } from '@shared/log'
+import { LogType } from '@shared/model/log'
 import { useCallback } from 'react'
 import { GraphEvents } from 'src/circles-viz/createGraph'
 import { store } from '../store'

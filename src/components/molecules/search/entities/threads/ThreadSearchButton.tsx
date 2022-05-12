@@ -1,7 +1,7 @@
 import { createThread } from '@api/entities/threads'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
-import { ThreadEntry } from '@shared/thread'
+import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useThreadSearchItems } from './useThreadSearchItems'

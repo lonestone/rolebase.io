@@ -1,4 +1,4 @@
-import { ClaimRole, isRoleSufficient } from '@shared/userClaims'
+import { ClaimRole, isRoleSufficient } from '@shared/model/userClaims'
 import * as functions from 'firebase-functions'
 import { auth } from './firebase'
 

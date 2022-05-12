@@ -1,4 +1,4 @@
-import { CircleEntry } from '../circle'
+import { CircleEntry } from '../model/circle'
 
 // Find a circle and its parent
 export function getCircleAndParents(

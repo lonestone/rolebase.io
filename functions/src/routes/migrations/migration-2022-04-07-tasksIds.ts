@@ -1,4 +1,4 @@
-import { MeetingStepTypes } from '@shared/meetingStep'
+import { MeetingStepTypes } from '@shared/model/meetingStep'
 import * as express from 'express'
 import { collections } from '../../firebase'
 

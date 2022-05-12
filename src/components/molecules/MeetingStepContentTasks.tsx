@@ -1,7 +1,7 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import { Box, BoxProps } from '@chakra-ui/react'
-import { MeetingStepTasks } from '@shared/meetingStep'
-import { WithId } from '@shared/types'
+import { MeetingStepTasks } from '@shared/model/meetingStep'
+import { WithId } from '@shared/model/types'
 import React, { useCallback } from 'react'
 import TasksMultiSelect from './TasksMultiSelect'
 

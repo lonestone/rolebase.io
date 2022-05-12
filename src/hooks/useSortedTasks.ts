@@ -1,4 +1,4 @@
-import { TaskEntry } from '@shared/task'
+import { TaskEntry } from '@shared/model/task'
 import { useMemo } from 'react'
 
 export function useSortedTasks(tasks: TaskEntry[] | undefined) {

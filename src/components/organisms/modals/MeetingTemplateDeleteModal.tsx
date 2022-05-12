@@ -9,7 +9,7 @@ import {
   AlertDialogProps,
   Button,
 } from '@chakra-ui/react'
-import { MeetingTempalteEntry } from '@shared/meetingTemplate'
+import { MeetingTempalteEntry } from '@shared/model/meetingTemplate'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

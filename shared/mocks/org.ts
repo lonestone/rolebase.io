@@ -1,4 +1,4 @@
-import { OrgEntry } from '@shared/org'
+import { OrgEntry } from '@shared/model/org'
 
 export const org: OrgEntry = {
   id: 'org-1',

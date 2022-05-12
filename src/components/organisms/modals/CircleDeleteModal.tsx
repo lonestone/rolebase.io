@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
-import { LogType } from '@shared/log'
+import { LogType } from '@shared/model/log'
 import React, { useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'

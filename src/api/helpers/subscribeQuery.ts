@@ -1,4 +1,4 @@
-import { WithId } from '@shared/types'
+import { WithId } from '@shared/model/types'
 import { onSnapshot, Query } from 'firebase/firestore'
 import { stackSubscribe } from './stackSubscribe'
 import { SubscriptionFn } from './subscribe'

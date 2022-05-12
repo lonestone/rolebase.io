@@ -1,6 +1,6 @@
-import { CircleEntry } from '@shared/circle'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
+import { CircleEntry } from '@shared/model/circle'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem, SearchItemTypes } from '../../searchTypes'

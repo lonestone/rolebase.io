@@ -13,7 +13,7 @@ import {
 import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
-import { LogType } from '@shared/log'
+import { LogType } from '@shared/model/log'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

@@ -36,7 +36,7 @@ import TasksInCircleList from '@components/molecules/TasksInCircleList'
 import ThreadsInCircleList from '@components/molecules/ThreadsInCircleList'
 import useCircle from '@hooks/useCircle'
 import useParticipants from '@hooks/useParticipants'
-import { MembersScope } from '@shared/member'
+import { MembersScope } from '@shared/model/member'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {

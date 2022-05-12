@@ -1,4 +1,4 @@
-import { CircleEntry } from '@shared/circle'
+import { CircleEntry } from '@shared/model/circle'
 import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useCircleSearchItems } from './useCircleSearchItems'

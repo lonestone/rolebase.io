@@ -1,8 +1,8 @@
 import { updateTask } from '@api/entities/tasks'
 import { useToast } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
-import { EntityChangeType, LogType } from '@shared/log'
-import { TaskEntry, TaskStatus } from '@shared/task'
+import { EntityChangeType, LogType } from '@shared/model/log'
+import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 

@@ -1,5 +1,5 @@
-import { CircleWithRoleEntry } from '@shared/circle'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
+import { CircleWithRoleEntry } from '@shared/model/circle'
 import * as express from 'express'
 import i18next from 'i18next'
 import { ICalCalendar } from 'ical-generator'

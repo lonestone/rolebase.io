@@ -6,7 +6,7 @@ import {
   Tag,
   TagProps,
 } from '@chakra-ui/react'
-import { TaskStatus, taskStatusList } from '@shared/task'
+import { TaskStatus, taskStatusList } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 

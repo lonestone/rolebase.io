@@ -13,7 +13,7 @@ import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import { useOrgId } from '@hooks/useOrgId'
 import { useOrgRole } from '@hooks/useOrgRole'
-import { ClaimRole } from '@shared/userClaims'
+import { ClaimRole } from '@shared/model/userClaims'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {

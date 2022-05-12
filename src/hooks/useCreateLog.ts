@@ -1,6 +1,6 @@
 import { createLog } from '@api/entities/logs'
-import { Log } from '@shared/log'
-import { Optional } from '@shared/types'
+import { Log } from '@shared/model/log'
+import { Optional } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import { useCallback } from 'react'
 import useCurrentMember from './useCurrentMember'

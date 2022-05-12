@@ -1,4 +1,4 @@
-import { OrgEntry } from '@shared/org'
+import { OrgEntry } from '@shared/model/org'
 import useOrg from './useOrg'
 import { useOrgId } from './useOrgId'
 

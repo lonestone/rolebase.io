@@ -3,7 +3,7 @@ import MemberLink from '@components/atoms/MemberLink'
 import RoleEditLink from '@components/atoms/RoleEditLink'
 import TaskLink from '@components/atoms/TaskLink'
 import TaskStatusTag from '@components/atoms/TaskStatusTag'
-import { LogEntry, LogType } from '@shared/log'
+import { LogEntry, LogType } from '@shared/model/log'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

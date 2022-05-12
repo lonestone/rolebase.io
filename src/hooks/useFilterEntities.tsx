@@ -1,5 +1,5 @@
 import useCurrentMemberCircles from '@hooks/useCurrentMemberCircles'
-import { EntityFilters, EntityWithParticipants } from '@shared/types'
+import { EntityFilters, EntityWithParticipants } from '@shared/model/types'
 import { useMemo } from 'react'
 import useCurrentMember from './useCurrentMember'
 

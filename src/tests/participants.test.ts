@@ -1,7 +1,7 @@
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
+import { circles } from '@shared/mocks/circles'
+import { roles } from '@shared/mocks/roles'
 import { describe, expect, it } from 'vitest'
-import { circles } from './mockData/circles'
-import { roles } from './mockData/roles'
 
 describe('Participants', () => {
   it('Alice Invited', () => {

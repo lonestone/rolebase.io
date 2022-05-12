@@ -1,4 +1,4 @@
-import { ClaimRole } from '@shared/userClaims'
+import { ClaimRole } from '@shared/model/userClaims'
 import { auth, collections } from './firebase'
 
 export async function setUserClaim(

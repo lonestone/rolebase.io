@@ -1,8 +1,8 @@
 import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
-import { Role } from '@shared/role'
-import { Optional } from '@shared/types'
+import { Role } from '@shared/model/role'
+import { Optional } from '@shared/model/types'
 import { orderBy, query, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 

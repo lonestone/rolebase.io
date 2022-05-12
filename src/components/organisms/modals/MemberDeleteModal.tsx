@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
-import { EntityChangeType, LogType } from '@shared/log'
+import { EntityChangeType, LogType } from '@shared/model/log'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

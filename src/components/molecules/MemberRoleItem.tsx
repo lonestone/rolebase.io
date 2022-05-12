@@ -14,7 +14,7 @@ import {
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
 import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
-import { CircleWithRoleEntry } from '@shared/circle'
+import { CircleWithRoleEntry } from '@shared/model/circle'
 import React, { FormEvent, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 

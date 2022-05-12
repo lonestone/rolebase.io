@@ -1,4 +1,4 @@
-import { ThreadEntry } from '@shared/thread'
+import { ThreadEntry } from '@shared/model/thread'
 import { useMemo } from 'react'
 import { SearchItem, SearchItemTypes } from '../../searchTypes'
 

@@ -12,7 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import ThreadActivity from '@components/molecules/ThreadActivity'
-import { ActivityEntry } from '@shared/activity'
+import { ActivityEntry } from '@shared/model/activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 

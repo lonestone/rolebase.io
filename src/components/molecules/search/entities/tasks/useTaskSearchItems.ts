@@ -1,4 +1,4 @@
-import { TaskEntry } from '@shared/task'
+import { TaskEntry } from '@shared/model/task'
 import { useMemo } from 'react'
 import { SearchItem, SearchItemTypes } from '../../searchTypes'
 

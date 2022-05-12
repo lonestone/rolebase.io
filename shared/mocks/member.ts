@@ -1,4 +1,4 @@
-import { MemberEntry } from '@shared/member'
+import { MemberEntry } from '@shared/model/member'
 
 const memberBase = {
   description: '',

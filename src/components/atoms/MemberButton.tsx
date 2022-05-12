@@ -1,5 +1,5 @@
 import { Avatar, Button, ButtonProps } from '@chakra-ui/react'
-import { MemberEntry } from '@shared/member'
+import { MemberEntry } from '@shared/model/member'
 import React from 'react'
 import { textEllipse } from 'src/utils'
 

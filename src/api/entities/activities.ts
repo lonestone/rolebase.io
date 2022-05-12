@@ -1,8 +1,8 @@
 import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
-import { Activity, ActivityEntry, ActivityType } from '@shared/activity'
-import { Optional } from '@shared/types'
+import { Activity, ActivityEntry, ActivityType } from '@shared/model/activity'
+import { Optional } from '@shared/model/types'
 import { isSameDay } from 'date-fns'
 import {
   getDocs,

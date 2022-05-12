@@ -1,4 +1,4 @@
-import { ClaimRole } from '@shared/userClaims'
+import { ClaimRole } from '@shared/model/userClaims'
 import { useStoreState } from '@store/hooks'
 import { useOrgId } from './useOrgId'
 

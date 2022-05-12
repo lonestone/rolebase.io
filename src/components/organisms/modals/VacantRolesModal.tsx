@@ -10,7 +10,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
-import { CircleEntry } from '@shared/circle'
+import { CircleEntry } from '@shared/model/circle'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

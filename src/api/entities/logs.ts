@@ -7,8 +7,8 @@ import {
   EntityChangeType,
   Log,
   LogEntry,
-} from '@shared/log'
-import { Optional, WithId } from '@shared/types'
+} from '@shared/model/log'
+import { Optional, WithId } from '@shared/model/types'
 import { limit, orderBy, query, Timestamp, where } from 'firebase/firestore'
 import isEqual from 'lodash.isequal'
 import { memoize } from 'src/memoize'

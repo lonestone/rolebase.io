@@ -1,9 +1,9 @@
 import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
-import { Circle } from '@shared/circle'
-import { EntitiesChanges, EntityChangeType } from '@shared/log'
-import { Optional } from '@shared/types'
+import { Circle } from '@shared/model/circle'
+import { EntitiesChanges, EntityChangeType } from '@shared/model/log'
+import { Optional } from '@shared/model/types'
 import {
   arrayUnion,
   doc,

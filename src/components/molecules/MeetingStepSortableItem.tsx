@@ -1,6 +1,6 @@
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Center, HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
-import { MeetingStepTypes } from '@shared/meetingStep'
+import { MeetingStepTypes } from '@shared/model/meetingStep'
 import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

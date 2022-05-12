@@ -1,5 +1,5 @@
-import { ActivityPoll, PollAnswer } from '@shared/activity'
-import { WithId } from '@shared/types'
+import { ActivityPoll, PollAnswer } from '@shared/model/activity'
+import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import { useContext, useMemo } from 'react'
 import { ThreadContext } from 'src/contexts/ThreadContext'

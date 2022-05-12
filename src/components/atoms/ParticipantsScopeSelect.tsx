@@ -1,5 +1,5 @@
 import { Select, SelectProps } from '@chakra-ui/react'
-import { MembersScope } from '@shared/member'
+import { MembersScope } from '@shared/model/member'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 

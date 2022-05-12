@@ -1,5 +1,5 @@
 import { Box, Tag, Text } from '@chakra-ui/react'
-import { EntityChange, EntityChangeType } from '@shared/log'
+import { EntityChange, EntityChangeType } from '@shared/model/log'
 import React from 'react'
 import { ObjectProperties } from './ObjectProperties'
 

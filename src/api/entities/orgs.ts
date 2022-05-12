@@ -1,7 +1,7 @@
 import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeIdsChunks } from '@api/helpers/subscribeIdsChunks'
-import { Org } from '@shared/org'
+import { Org } from '@shared/model/org'
 import { query, where } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
 import { memoize } from 'src/memoize'

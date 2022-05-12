@@ -10,7 +10,7 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { MeetingEntry } from '@shared/meeting'
+import { MeetingEntry } from '@shared/model/meeting'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

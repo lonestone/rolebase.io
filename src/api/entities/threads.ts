@@ -1,9 +1,9 @@
 import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
-import { MembersScope } from '@shared/member'
-import { Thread } from '@shared/thread'
-import { Optional } from '@shared/types'
+import { MembersScope } from '@shared/model/member'
+import { Thread } from '@shared/model/thread'
+import { Optional } from '@shared/model/types'
 import { query, Timestamp, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 

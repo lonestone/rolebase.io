@@ -24,7 +24,7 @@ import MeetingStepsConfigController, {
 } from '@components/molecules/MeetingStepsConfigController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
-import { MeetingTempalteEntry } from '@shared/meetingTemplate'
+import { MeetingTempalteEntry } from '@shared/model/meetingTemplate'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

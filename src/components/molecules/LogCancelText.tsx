@@ -1,5 +1,5 @@
 import MemberLink from '@components/atoms/MemberLink'
-import { LogEntry } from '@shared/log'
+import { LogEntry } from '@shared/model/log'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCornerDownRight } from 'react-icons/fi'
