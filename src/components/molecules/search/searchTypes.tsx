@@ -4,12 +4,14 @@ import {
   CircleWithRoleEntry,
 } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
+import { RoleEntry } from '@shared/model/role'
 import { TaskEntry } from '@shared/model/task'
 import { ThreadEntry } from '@shared/model/thread'
 
 export enum SearchItemTypes {
   CreateAction,
   Member,
+  Role,
   Circle,
   CircleMember,
   Thread,
@@ -26,6 +28,10 @@ export type SearchItem = {
   | {
       type: SearchItemTypes.Member
       member: MemberEntry
+    }
+  | {
+      type: SearchItemTypes.Role
+      role: RoleEntry
     }
   | {
       type: SearchItemTypes.Circle

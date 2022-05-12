@@ -243,7 +243,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
 
                 {!role.singleMember ? (
                   <SubCirclesFormControl
-                    circleId={id}
+                    circle={circle}
                     participants={participants}
                   />
                 ) : null}

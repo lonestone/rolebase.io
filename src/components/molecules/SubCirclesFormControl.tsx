@@ -1,54 +1,127 @@
+import { createCircle } from '@api/entities/circles'
+import { createRole } from '@api/entities/roles'
 import {
-  Button,
   FormControl,
   FormLabel,
   StackItem,
-  useDisclosure,
   VStack,
   WrapItem,
 } from '@chakra-ui/react'
-import CircleCreateModal from '@components/organisms/modals/CircleCreateModal'
+import useCreateLog from '@hooks/useCreateLog'
+import { useOrgId } from '@hooks/useOrgId'
 import { ParticipantMember } from '@hooks/useParticipants'
 import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
+import { CircleWithRoleEntry } from '@shared/model/circle'
+import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
+import { RoleEntry } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
+import RoleSearchButton from './search/entities/roles/RoleSearchButton'
 
 interface Props {
-  circleId: string
+  circle: CircleWithRoleEntry
   participants: ParticipantMember[]
 }
 
-export default function SubCirclesFormControl({
-  circleId,
-  participants,
-}: Props) {
+export default function SubCirclesFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
+  const orgId = useOrgId()
+  const createLog = useCreateLog()
 
   // Get direct circles children and their roles
   const childrenAndRoles = useMemo(
     () =>
-      circles && roles && getCircleChildrenAndRoles(circles, roles, circleId),
-    [circles, roles, circleId]
+      circles && roles && getCircleChildrenAndRoles(circles, roles, circle.id),
+    [circles, roles, circle]
   )
 
-  // CreateCircle modal for multiple members
-  const {
-    isOpen: isCreateCircleOpen,
-    onOpen: onCreateCircleOpen,
-    onClose: onCreateCircleClose,
-  } = useDisclosure()
+  const childrenRolesIds = useMemo(
+    () => childrenAndRoles?.map((c) => c.role.id),
+    [childrenAndRoles]
+  )
 
-  // CreateCircle modal for single member
-  const {
-    isOpen: isCreateCircleSingleMemberOpen,
-    onOpen: onCreateCircleSingleMemberOpen,
-    onClose: onCreateCircleSingleMemberClose,
-  } = useDisclosure()
+  // Create circle and open it
+  const create = useCallback(
+    async (roleOrName: RoleEntry | string, singleMember: boolean) => {
+      if (!orgId) return
+
+      // Create role
+      let role: RoleEntry
+      if (typeof roleOrName === 'string') {
+        role = await createRole({
+          orgId,
+          base: false,
+          name: roleOrName,
+          singleMember: !!singleMember,
+        })
+      } else {
+        role = roleOrName
+      }
+
+      // Create circle
+      const newCircle = await createCircle({
+        orgId,
+        roleId: role.id,
+        parentId: circle.id,
+      })
+
+      // Log changes
+      const changes: EntitiesChanges = {
+        circles: [
+          { type: EntityChangeType.Create, id: newCircle.id, data: newCircle },
+        ],
+      }
+      if (typeof roleOrName === 'string') {
+        changes.roles = [
+          { type: EntityChangeType.Create, id: role.id, data: role },
+        ]
+      }
+      createLog({
+        display: {
+          type: LogType.CircleCreate,
+          id: newCircle.id,
+          name: role.name,
+          parentId: circle?.id || null,
+          parentName: circle?.role.name || null,
+        },
+        changes,
+      })
+    },
+    [orgId, circle]
+  )
+
+  const handleRoleAdd = useCallback(
+    (roleId: string) => {
+      const role = roles?.find((r) => r.id === roleId)
+      if (!role) return
+      create(role, true)
+    },
+    [create, roles]
+  )
+
+  const handleRoleCreate = useCallback(
+    async (name: string) => create(name, true),
+    [create, roles]
+  )
+
+  const handleCircleAdd = useCallback(
+    (roleId: string) => {
+      const role = roles?.find((r) => r.id === roleId)
+      if (!role) return
+      create(role, false)
+    },
+    [create, roles]
+  )
+
+  const handleCircleCreate = useCallback(
+    async (name: string) => create(name, false),
+    [create, roles]
+  )
 
   return (
     <>
@@ -65,15 +138,19 @@ export default function SubCirclesFormControl({
               />
             ))}
           <StackItem>
-            <Button
+            <RoleSearchButton
+              base
+              singleMember
+              excludeIds={childrenRolesIds}
               size="sm"
               variant="ghost"
               borderRadius="full"
               leftIcon={<FiPlus />}
-              onClick={onCreateCircleSingleMemberOpen}
+              onSelect={handleRoleAdd}
+              onCreate={handleRoleCreate}
             >
               {t('molecules.SubCirclesFormControl.addRole')}
-            </Button>
+            </RoleSearchButton>
           </StackItem>
         </VStack>
       </FormControl>
@@ -91,35 +168,22 @@ export default function SubCirclesFormControl({
               />
             ))}
           <WrapItem>
-            <Button
+            <RoleSearchButton
+              base
+              singleMember={false}
+              excludeIds={childrenRolesIds}
               size="sm"
               variant="ghost"
               borderRadius="full"
               leftIcon={<FiPlus />}
-              onClick={onCreateCircleOpen}
+              onSelect={handleCircleAdd}
+              onCreate={handleCircleCreate}
             >
-              {t('molecules.SubCirclesFormControl.addCircles')}
-            </Button>
+              {t('molecules.SubCirclesFormControl.addCircle')}
+            </RoleSearchButton>
           </WrapItem>
         </VStack>
       </FormControl>
-
-      {isCreateCircleOpen && (
-        <CircleCreateModal
-          parentId={circleId}
-          singleMember={false}
-          isOpen
-          onClose={onCreateCircleClose}
-        />
-      )}
-      {isCreateCircleSingleMemberOpen && (
-        <CircleCreateModal
-          parentId={circleId}
-          singleMember={true}
-          isOpen
-          onClose={onCreateCircleSingleMemberClose}
-        />
-      )}
     </>
   )
 }

@@ -170,7 +170,7 @@
       "roles": "Roles:",
       "addRole": "Add a role",
       "circles": "Circles:",
-      "addCircles": "Add a circle"
+      "addCircle": "Add a circle"
     },
     "TasksInCircleList": {
       "create": "Create a task",

@@ -5,23 +5,18 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  List,
-  ListItem,
-  useColorMode,
 } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useRef } from 'react'
-import SearchResultItem from './SearchResultItem'
+import SearchResultsList from './SearchResultsList'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 import { useSearch } from './useSearch'
-
-const maxDisplayedItems = 25
 
 export interface SearchButtonProps extends Omit<ButtonProps, 'onSelect'> {
   children: string
   items: SearchItem[]
   onSelect(id: string): void
-  onCreate?(name: string): Promise<string>
+  onCreate?(name: string): Promise<string | void>
 }
 
 export default function SearchButton({
@@ -31,7 +26,6 @@ export default function SearchButton({
   onCreate,
   ...buttonProps
 }: SearchButtonProps) {
-  const { colorMode } = useColorMode()
   const { filteredItems, onInputValueChange } = useSearch(
     items,
     false,
@@ -47,7 +41,7 @@ export default function SearchButton({
       if (onCreate && item.type === SearchItemTypes.CreateAction) {
         // Create entity then select it
         const id = await onCreate(item.text)
-        onSelect(id)
+        if (id) onSelect(id)
       } else {
         // Select existing entity
         onSelect(item.id)
@@ -87,12 +81,6 @@ export default function SearchButton({
   const inputProps = getInputProps({
     ref: inputRef,
     onFocus: openMenu,
-    // onKeyDown(event) {
-    //   if (event.key === 'Enter') {
-    //     event.preventDefault()
-    //     console.log('enter')
-    //   }
-    // },
   })
 
   // Click on button to put it in editing mode
@@ -121,33 +109,20 @@ export default function SearchButton({
           type="text"
           placeholder={children}
           display={isOpen ? '' : 'none'}
+          w="auto"
+          borderRadius={buttonProps.borderRadius}
           {...inputProps}
         />
       </InputGroup>
 
-      <List
-        {...getMenuProps({}, { suppressRefError: true })}
-        display={isOpen ? '' : 'none'}
-        position="absolute"
-        zIndex="2"
-        pt={1}
-        shadow="md"
-        bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
-        pointerEvents="none"
-      >
-        {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ListItem key={index}>
-            <SearchResultItem
-              {...getItemProps({ item, index })}
-              item={item}
-              highlighted={index === highlightedIndex}
-              size={buttonProps.size}
-              w="100%"
-              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <SearchResultsList
+        items={filteredItems}
+        isOpen={isOpen}
+        highlightedIndex={highlightedIndex}
+        getMenuProps={getMenuProps}
+        getItemProps={getItemProps}
+        inputRef={inputRef}
+      />
     </Box>
   )
 }

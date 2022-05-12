@@ -1,18 +1,10 @@
-import {
-  Box,
-  Input,
-  InputGroup,
-  List,
-  ListItem,
-  useColorMode,
-} from '@chakra-ui/react'
+import { Box, Input, InputGroup } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useMemo, useRef } from 'react'
 import SearchResultItem from './SearchResultItem'
+import SearchResultsList from './SearchResultsList'
 import { SearchItem } from './searchTypes'
 import { useSearch } from './useSearch'
-
-const maxDisplayedItems = 25
 
 export interface SearchInputProps {
   value?: string // Circle / Member / CircleMember id
@@ -27,7 +19,6 @@ export default function SearchInput({
   items,
   onChange,
 }: SearchInputProps) {
-  const { colorMode } = useColorMode()
   const { filteredItems, onInputValueChange } = useSearch(items, false)
 
   const onSelectedItemChange = useCallback(
@@ -106,33 +97,19 @@ export default function SearchInput({
           onFocus={openMenu}
           size={size}
           display={isOpen || !valueItem ? '' : 'none'}
+          w="auto"
           {...inputProps}
         />
       </InputGroup>
 
-      <List
-        {...getMenuProps()}
-        display={isOpen ? '' : 'none'}
-        pt={1}
-        position="absolute"
-        zIndex="2"
-        shadow="md"
-        bg={colorMode === 'light' ? 'gray.100' : 'gray.550'}
-        pointerEvents="none"
-      >
-        {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ListItem key={index}>
-            <SearchResultItem
-              {...getItemProps({ item, index })}
-              item={item}
-              highlighted={index === highlightedIndex}
-              size={size}
-              w="100%"
-              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.500' }}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <SearchResultsList
+        items={filteredItems}
+        isOpen={isOpen}
+        highlightedIndex={highlightedIndex}
+        getMenuProps={getMenuProps}
+        getItemProps={getItemProps}
+        inputRef={inputRef}
+      />
     </Box>
   )
 }

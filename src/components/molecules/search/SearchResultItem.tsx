@@ -34,6 +34,10 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
           </>
         )}
 
+        {item.type === SearchItemTypes.Role && (
+          <Box ml={2}>{item.role.name}</Box>
+        )}
+
         {item.type === SearchItemTypes.Circle &&
           item.circleRoles.map((circle, i) => (
             <React.Fragment key={circle.id}>
