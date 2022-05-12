@@ -19,6 +19,7 @@ import {
   Spacer,
   useColorMode,
   useDisclosure,
+  useMediaQuery,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
@@ -63,6 +64,7 @@ export default function MeetingsPage() {
   const colors = useMemo(() => getColors(colorMode), [colorMode])
   const getCircleById = useStoreState((state) => state.circles.getById)
   const roles = useStoreState((state) => state.roles.entries)
+  const [isSmallScreen] = useMediaQuery('(max-width: 700px)')
 
   // Circles filter menu
   const {
@@ -305,7 +307,7 @@ export default function MeetingsPage() {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
           }}
-          initialView="timeGridWeek"
+          initialView={isSmallScreen ? 'listWeek' : 'timeGridWeek'}
           scrollTime="08:00:00"
           weekends={false}
           allDaySlot={false}

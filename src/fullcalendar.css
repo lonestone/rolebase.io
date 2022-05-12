@@ -101,3 +101,12 @@ a.fc-event:hover {
 .fc .fc-toolbar.fc-header-toolbar {
   margin-bottom: 0.25em;
 }
+
+/* Change toolbar layout on small screens */
+@media (max-width: 700px) {
+  .fc .fc-toolbar.fc-header-toolbar {
+    flex-direction: column-reverse;
+    gap: 0.7em;
+    margin-bottom: 1em;
+  }
+}
