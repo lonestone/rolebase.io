@@ -314,7 +314,7 @@ export default function MeetingEditModal({
               </FormControl>
 
               <Flex>
-                <FormControl isInvalid={!!errors.startDate}>
+                <FormControl isInvalid={!!errors.startDate} maxW="50%">
                   <FormLabel>
                     {t('organisms.modals.MeetingEditModal.start')}
                   </FormLabel>
@@ -322,6 +322,7 @@ export default function MeetingEditModal({
                     {...register('startDate')}
                     type="datetime-local"
                     w="250px"
+                    maxW="100%"
                   />
                 </FormControl>
 

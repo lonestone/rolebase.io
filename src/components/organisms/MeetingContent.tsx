@@ -19,11 +19,11 @@ import {
   Heading,
   HStack,
   Spacer,
-  StackItem,
   Tag,
   Text,
   useDisclosure,
   VStack,
+  Wrap,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
@@ -232,17 +232,17 @@ export default function MeetingContent({
       {meeting && (
         <>
           <VStack spacing={5} align="start">
-            <HStack spacing={2}>
-              <FiCalendar />
-              <StackItem>
+            <Wrap spacing={5} align="center">
+              <Wrap spacing={3} align="center">
+                <FiCalendar />
                 {capitalizeFirstLetter(
                   format(meeting.startDate.toDate(), 'PPPP', {
                     locale: dateLocale,
                   })
                 )}
-              </StackItem>
-              <FiClock />
-              <StackItem>
+              </Wrap>
+              <Wrap spacing={3} align="center">
+                <FiClock />
                 {format(meeting.startDate.toDate(), 'p', {
                   locale: dateLocale,
                 })}
@@ -250,14 +250,16 @@ export default function MeetingContent({
                 {format(meeting.endDate.toDate(), 'p', {
                   locale: dateLocale,
                 })}
-              </StackItem>
+              </Wrap>
+
               {meeting?.ended && <Tag ml={1}>Terminée</Tag>}
+
               {isStarted && (
                 <Tag colorScheme="green" ml={1}>
                   {t('organisms.MeetingContent.started')}
                 </Tag>
               )}
-            </HStack>
+            </Wrap>
 
             {meeting.ended && canEdit && (
               <HStack>

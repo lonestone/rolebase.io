@@ -28,6 +28,7 @@ export default function ModalPanel({
       w="450px"
       maxW="100vw"
       overflow="auto"
+      zIndex={1}
       bg={colorMode === 'light' ? 'white' : 'gray.700'}
       borderRadius={0}
       borderLeftWidth={'1px'}

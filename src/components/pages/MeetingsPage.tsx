@@ -230,7 +230,7 @@ export default function MeetingsPage() {
   } = useDisclosure()
 
   return (
-    <Flex flex={1} p={5} flexDirection="column">
+    <Flex h="100%" p={5} flexDirection="column">
       <Title>{t('pages.MeetingsPage.heading')}</Title>
 
       {loading && <Loading active center />}

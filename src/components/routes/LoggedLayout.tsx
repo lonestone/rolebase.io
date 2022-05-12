@@ -1,5 +1,6 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Header, { headerHeight } from '@components/organisms/Header'
+import useWindowSize from '@hooks/useWindowSize'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { useEffect, useMemo } from 'react'
 import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
@@ -7,6 +8,7 @@ import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
 const LoggedLayout: React.FC = ({ children }) => {
   const userId = useStoreState((state) => state.auth.user?.id)
   const claims = useStoreState((state) => state.auth.claims)
+  const windowSize = useWindowSize()
 
   // Get orgs ids from user claims
   const orgIds = useMemo(
@@ -34,10 +36,13 @@ const LoggedLayout: React.FC = ({ children }) => {
   return (
     <CircleMemberProvider>
       <Header />
-      <Flex h="0" minH="100vh" flexDirection="column">
-        <Box pt={`${headerHeight}px`} />
+      <Box
+        h={0}
+        minH={`${windowSize.height - headerHeight}px`}
+        mt={`${headerHeight}px`}
+      >
         {children}
-      </Flex>
+      </Box>
     </CircleMemberProvider>
   )
 }

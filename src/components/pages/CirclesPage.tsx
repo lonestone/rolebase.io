@@ -70,7 +70,7 @@ export default function CirclesPage() {
   }
 
   return (
-    <Flex flex={1} position="relative" overflow="hidden">
+    <Flex h="100%" position="relative" overflow="hidden">
       <Box flex={1} ref={boxRef}>
         {org && boxSize && (
           <CirclesGraph
