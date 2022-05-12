@@ -1,5 +1,7 @@
 import {
+  Box,
   FormControlOptions,
+  Spinner,
   useColorMode,
   useFormControl,
 } from '@chakra-ui/react'
@@ -16,6 +18,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import EditorContainer from './EditorContainer'
 import useEditor, { EditorHandle } from './useEditor'
@@ -96,11 +99,13 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     }, [currentMember?.name])
 
     // Prevent from changing page when dirty
+    const [isDirty, setIsDirty] = useState(false)
     const { preventClose, allowClose } = usePreventClose()
 
     // Save now
     const handleSave = useCallback(() => {
       onSave?.(getValue(), collabPlugin.getUpdates())
+      setIsDirty(false)
       allowClose()
     }, [docId])
 
@@ -115,6 +120,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     const handleChange = useCallback(() => {
       const newValue = getValue()
       if (newValue === value) return
+      setIsDirty(true)
       preventClose()
       handleSaveThrottle()
     }, [docId, value])
@@ -134,6 +140,18 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
             onSave={handleSave}
             uploadImage={handleUpload}
           />
+
+          {isDirty && (
+            <Box textAlign="right">
+              <Spinner
+                size="xs"
+                color="gray"
+                position="absolute"
+                mt="-18px"
+                ml="-18px"
+              />
+            </Box>
+          )}
         </EditorContainer>
       </BasicStyle>
     )
