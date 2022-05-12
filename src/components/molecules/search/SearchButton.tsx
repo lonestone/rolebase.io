@@ -32,7 +32,11 @@ export default function SearchButton({
   ...buttonProps
 }: SearchButtonProps) {
   const { colorMode } = useColorMode()
-  const { filteredItems, onInputValueChange } = useSearch(items, false, true)
+  const { filteredItems, onInputValueChange } = useSearch(
+    items,
+    false,
+    !!onCreate
+  )
 
   const onSelectedItemChange = useCallback(
     async (changes: UseComboboxStateChange<SearchItem>) => {
