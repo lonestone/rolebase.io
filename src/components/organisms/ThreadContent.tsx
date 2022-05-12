@@ -4,10 +4,12 @@ import {
   BoxProps,
   Flex,
   Heading,
+  HStack,
   Spacer,
   Tag,
   useColorMode,
   useDisclosure,
+  Wrap,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
@@ -93,23 +95,26 @@ export default function ThreadContent({
             : 'none'
         }
       >
-        <Heading as="h1" size="md">
-          {thread?.title || (loading ? '…' : null)}
-        </Heading>
+        <Wrap spacing={2} flex={1}>
+          <Heading as="h1" size="md">
+            {thread?.title || (loading ? '…' : null)}
+          </Heading>
 
-        {thread?.archived && (
-          <Tag ml={2}>{t('organisms.ThreadContent.archived')}</Tag>
-        )}
+          <Spacer />
 
-        <Spacer />
+          <HStack spacing={2}>
+            {thread?.archived && (
+              <Tag>{t('organisms.ThreadContent.archived')}</Tag>
+            )}
+
+            {circle && <CircleButton circle={circle} />}
+
+            <ParticipantsNumber participants={participants} />
+          </HStack>
+        </Wrap>
 
         <Flex mr={headerIcons ? -2 : 0}>
-          {circle && <CircleButton circle={circle} ml={5} />}
-
-          <ParticipantsNumber participants={participants} ml={1} />
-
           <ActionsMenu onEdit={onEditOpen} ml={2} />
-
           {headerIcons}
         </Flex>
       </Flex>
