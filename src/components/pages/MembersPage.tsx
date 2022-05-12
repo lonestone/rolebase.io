@@ -20,6 +20,7 @@ import MemberCreateModal from '@components/organisms/modals/MemberCreateModal'
 import MemberEditModal from '@components/organisms/modals/MemberEditModal'
 import MembersInviteModal from '@components/organisms/modals/MembersInviteModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
@@ -28,6 +29,7 @@ import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 
 export default function MembersPage() {
   const { t } = useTranslation()
+  const role = useOrgRole()
   const members = useStoreState((state) => state.members.entries)
   const hover = useHoverItemStyle()
 
@@ -97,12 +99,26 @@ export default function MembersPage() {
           </InputRightElement>
         </InputGroup>
 
-        <Button size="sm" ml={2} leftIcon={<FiMail />} onClick={onInviteOpen}>
-          {t('pages.MembersPage.invite')}
-        </Button>
-        <Button size="sm" ml={2} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          {t('common.create')}
-        </Button>
+        {role === ClaimRole.Admin && (
+          <>
+            <Button
+              size="sm"
+              ml={2}
+              leftIcon={<FiMail />}
+              onClick={onInviteOpen}
+            >
+              {t('pages.MembersPage.invite')}
+            </Button>
+            <Button
+              size="sm"
+              ml={1}
+              leftIcon={<FiPlus />}
+              onClick={onCreateOpen}
+            >
+              {t('common.create')}
+            </Button>
+          </>
+        )}
       </Flex>
 
       {filteredMembers?.map((member) => (
@@ -142,13 +158,15 @@ export default function MembersPage() {
               </>
             )}
 
-            <IconButton
-              aria-label=""
-              size="sm"
-              icon={<FiEdit3 />}
-              zIndex={2}
-              onClick={() => handleOpenEdit(member.id)}
-            />
+            {role === ClaimRole.Admin && (
+              <IconButton
+                aria-label=""
+                size="sm"
+                icon={<FiEdit3 />}
+                zIndex={2}
+                onClick={() => handleOpenEdit(member.id)}
+              />
+            )}
           </HStack>
         </LinkBox>
       ))}

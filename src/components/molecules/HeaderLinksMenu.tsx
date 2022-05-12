@@ -103,22 +103,14 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         ))}
 
         {role === ClaimRole.Admin && (
-          <>
-            <MenuItem
-              icon={<FiSettings />}
-              onClick={() => handleOpenEdit(orgId)}
-            >
-              {t('molecules.HeaderLinksMenu.settings')}
-            </MenuItem>
-            <MenuItem
-              as={Link}
-              to={`/orgs/${orgId}/members`}
-              icon={<FiUsers />}
-            >
-              {t('molecules.HeaderLinksMenu.members')}
-            </MenuItem>
-          </>
+          <MenuItem icon={<FiSettings />} onClick={() => handleOpenEdit(orgId)}>
+            {t('molecules.HeaderLinksMenu.settings')}
+          </MenuItem>
         )}
+
+        <MenuItem as={Link} to={`/orgs/${orgId}/members`} icon={<FiUsers />}>
+          {t('molecules.HeaderLinksMenu.members')}
+        </MenuItem>
         <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
           {t('molecules.HeaderLinksMenu.baseRoles')}
         </MenuItem>
