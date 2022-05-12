@@ -123,7 +123,7 @@ export default function Header() {
 
       {org && <HeaderSearch />}
 
-      <Tooltip hasArrow openDelay={400} label="Aide">
+      <Tooltip label={t('organisms.Header.help')} hasArrow>
         <IconButton
           aria-label={t('organisms.Header.help')}
           icon={<FaQuestion />}

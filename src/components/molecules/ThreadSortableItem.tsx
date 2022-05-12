@@ -1,9 +1,10 @@
 import { subscribeThread } from '@api/entities/threads'
 import { CloseIcon } from '@chakra-ui/icons'
-import { IconButton } from '@chakra-ui/react'
+import { IconButton, Tooltip } from '@chakra-ui/react'
 import useSortableItem from '@hooks/useSortableItem'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import ThreadItem from './ThreadItem'
 
 interface Props {
@@ -17,6 +18,7 @@ export default function ThreadSortableItem({
   onRemove,
   disabled,
 }: Props) {
+  const { t } = useTranslation()
   const { data: thread } = useSubscription(subscribeThread(threadId))
   const { attributes, listeners } = useSortableItem(threadId, disabled)
 
@@ -24,15 +26,17 @@ export default function ThreadSortableItem({
   return (
     <ThreadItem key={threadId} thread={thread} {...attributes} {...listeners}>
       {onRemove && (
-        <IconButton
-          aria-label=""
-          size="xs"
-          variant="ghost"
-          icon={<CloseIcon />}
-          ml={2}
-          zIndex={1}
-          onClick={() => onRemove(threadId)}
-        />
+        <Tooltip label={t('common.remove')} placement="top" hasArrow>
+          <IconButton
+            aria-label=""
+            size="xs"
+            variant="ghost"
+            icon={<CloseIcon />}
+            ml={2}
+            zIndex={1}
+            onClick={() => onRemove(threadId)}
+          />
+        </Tooltip>
       )}
     </ThreadItem>
   )

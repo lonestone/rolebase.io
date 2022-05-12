@@ -106,11 +106,7 @@ export default function HeaderSearch() {
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
       <InputGroup size="sm">
         {!isOpen && (
-          <Tooltip
-            hasArrow
-            openDelay={400}
-            label={t('molecules.search.HeaderSearch.tooltip')}
-          >
+          <Tooltip label={t('molecules.search.HeaderSearch.tooltip')} hasArrow>
             <IconButton
               aria-label={t('molecules.search.HeaderSearch.tooltip')}
               icon={<FaSearch />}
