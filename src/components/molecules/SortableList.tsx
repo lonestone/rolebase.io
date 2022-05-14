@@ -12,19 +12,12 @@ import {
 } from '@dnd-kit/modifiers'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import React, { useCallback } from 'react'
-import * as yup from 'yup'
 
 interface Props {
   items: Array<{ id: string }>
   children: React.ReactNode
   onDragEnd(oldIndex: number, newIndex: number): void
 }
-
-export const stepsConfigSchema = yup.array().of(
-  yup.object().shape({
-    title: yup.string().required(),
-  })
-)
 
 export default function SortableList({ items, children, onDragEnd }: Props) {
   const sensors = useSensors(
