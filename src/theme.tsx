@@ -47,7 +47,7 @@ const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       html: {
-        fontSize: '15px',
+        fontSize: '16px',
       },
       '*::placeholder': {
         color: 'gray.500',
