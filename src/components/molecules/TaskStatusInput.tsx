@@ -53,6 +53,7 @@ export default function TaskStatusInput({
             as={Tag}
             colorScheme={taskStatusColors[status]}
             cursor="pointer"
+            py={2}
             borderRadius={0}
             onClick={() => onChange(status)}
             _focus={{

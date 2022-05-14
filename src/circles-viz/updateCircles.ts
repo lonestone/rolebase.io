@@ -193,7 +193,6 @@ export default function updateCircles(
         nodeCircles
           .append('text')
           .text((d) => d.data.name)
-          .attr('font-weight', 'bold')
           .attr('cursor', 'pointer')
           .call(d3CircleTopName(maxDepth))
 
@@ -220,7 +219,6 @@ export default function updateCircles(
           .text((d) => getFirstname(d.data.name))
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
           .attr('pointer-events', 'none')
-          .attr('font-weight', 'bold')
           .attr('paint-order', 'stroke')
           .attr('stroke-linecap', 'round')
           .attr('stroke-linejoin', 'round')
@@ -514,7 +512,6 @@ export default function updateCircles(
         nodeGroup
           .append('text')
           .text((d) => d.data.name)
-          .attr('font-weight', 'bold')
           .attr('pointer-events', 'none')
           .attr('y', 0)
           .attr('alignment-baseline', 'middle')

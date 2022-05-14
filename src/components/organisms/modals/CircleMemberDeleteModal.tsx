@@ -58,7 +58,7 @@ export default function CircleMemberDeleteModal({
     <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader>
             {t('organisms.modals.CircleMemberDeleteModal.heading')}
           </AlertDialogHeader>
 

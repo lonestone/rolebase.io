@@ -3,6 +3,10 @@ import { ColorModeProps, mode } from 'src/utils'
 
 // Custom styles
 const EditorContainer = styled.div<ColorModeProps>`
+  & > div > div {
+    font-family: inherit;
+  }
+
   // Borders and background
   .ProseMirror {
     padding: var(--chakra-space-2) var(--chakra-space-4);

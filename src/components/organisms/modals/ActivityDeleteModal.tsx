@@ -39,7 +39,7 @@ export default function ActivityDeleteModal({
     <AlertDialog size="2xl" {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader>
             {t('organisms.modals.ActivityDeleteModal.heading')}
           </AlertDialogHeader>
 

@@ -95,7 +95,7 @@ export default function ThreadContent({
             : 'none'
         }
       >
-        <Wrap spacing={2} flex={1}>
+        <Wrap spacing={2} flex={1} align="center">
           <Heading as="h1" size="md">
             {thread?.title || (loading ? '…' : null)}
           </Heading>

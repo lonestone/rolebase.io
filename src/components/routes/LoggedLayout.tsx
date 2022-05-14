@@ -36,11 +36,7 @@ const LoggedLayout: React.FC = ({ children }) => {
   return (
     <CircleMemberProvider>
       <Header />
-      <Box
-        h={0}
-        minH={`${windowSize.height - headerHeight}px`}
-        mt={`${headerHeight}px`}
-      >
+      <Box h={0} minH={`${windowSize.height}px`} pt={`${headerHeight}px`}>
         {children}
       </Box>
     </CircleMemberProvider>

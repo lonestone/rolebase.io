@@ -36,7 +36,7 @@ export default function MeetingDeleteModal({
     <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader>
             {t('organisms.modals.MeetingDeleteModal.heading')}
           </AlertDialogHeader>
 

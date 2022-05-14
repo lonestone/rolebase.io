@@ -57,7 +57,7 @@ export default function TaskDeleteModal({
     <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader>
             {t('organisms.modals.TaskDeleteModal.heading')}
           </AlertDialogHeader>
 

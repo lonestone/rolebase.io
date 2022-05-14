@@ -24,8 +24,9 @@ export default function ParticipantsNumber({
     () => participants.slice(0, 3).reverse(),
     [participants]
   )
-  const avatarsWidth =
-    participants.length && (someParticipants.length - 1) * 10 + 24
+
+  // Number of avatar slots displayed
+  const n = someParticipants.length
 
   return (
     <Menu isLazy autoSelect={false}>
@@ -38,7 +39,12 @@ export default function ParticipantsNumber({
         disabled={participants.length === 0}
         {...buttonProps}
       >
-        <Box h="24px" w={`${avatarsWidth}px`} position="relative">
+        <Box
+          h={6}
+          w={n ? 6 : 0}
+          mr={`calc((${n} - 1) * var(--chakra-sizes-6) / 2.4)`}
+          position="relative"
+        >
           {someParticipants.map(({ member }, i) => (
             <Avatar
               key={i}
@@ -47,7 +53,7 @@ export default function ParticipantsNumber({
               size="xs"
               position="absolute"
               top={0}
-              left={`${(someParticipants.length - 1 - i) * 10}px`}
+              left={`calc(${n - i - 1} * var(--chakra-sizes-6) / 2.4)`}
             />
           ))}
         </Box>

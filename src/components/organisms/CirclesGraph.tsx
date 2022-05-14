@@ -17,7 +17,9 @@ interface Props {
 
 const StyledSVG = styled.svg<ColorModeProps>`
   position: absolute;
-  font: 10px sans-serif;
+  font-family: var(--chakra-fonts-circles);
+  font-size: 8px;
+  font-weight: 600;
   fill: ${mode('#1a202c', 'rgba(255, 255, 255, 0.92)')};
 
   [data-hover] circle {

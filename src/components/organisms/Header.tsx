@@ -26,7 +26,7 @@ import {
   FiMessageSquare,
 } from 'react-icons/fi'
 
-export const headerHeight = 48
+export const headerHeight = 38
 
 export default function Header() {
   const { t } = useTranslation()
@@ -95,6 +95,7 @@ export default function Header() {
       h={`${headerHeight}px`}
       alignItems="center"
       px={1}
+      pt="1px"
       bg={colorMode === 'light' ? 'gray.50' : 'gray.600'}
       borderBottom="1px solid"
       borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}

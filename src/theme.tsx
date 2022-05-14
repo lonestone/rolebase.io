@@ -46,6 +46,9 @@ const theme = extendTheme({
   },
   styles: {
     global: (props: any) => ({
+      html: {
+        fontSize: '15px',
+      },
       '*::placeholder': {
         color: 'gray.500',
       },
@@ -53,6 +56,15 @@ const theme = extendTheme({
         borderColor: mode('gray.300', 'whiteAlpha.400')(props),
       },
     }),
+  },
+  fonts: {
+    body: 'Nunito, sans-serif',
+    heading: 'Montserrat, sans-serif',
+    circles: 'Nunito, sans-serif',
+  },
+  fontWeights: {
+    medium: 600,
+    semibold: 700,
   },
   shadows: {
     outline: `0 0 0 3px hsl(35 97% 50%)`,
@@ -92,6 +104,13 @@ const theme = extendTheme({
         fontSize: '1em',
         fontFamily: 'inherit',
         fontWeight: 'normal',
+      },
+    },
+    Modal: {
+      baseStyle: {
+        header: {
+          fontFamily: 'heading',
+        },
       },
     },
   },

@@ -14,7 +14,8 @@ const BasicStyle = styled(Box)`
   h5,
   h6 {
     margin: 1em 0 0.5em 0;
-    font-weight: bold;
+    font-weight: 700 !important;
+    font-family: var(--chakra-fonts-heading);
   }
   h1 {
     font-size: 1.5em;
@@ -48,6 +49,9 @@ const BasicStyle = styled(Box)`
     code {
       display: block;
     }
+  }
+  ul.checkbox_list li input {
+    margin: 0.3em 0.5em 0 0 !important;
   }
 `
 

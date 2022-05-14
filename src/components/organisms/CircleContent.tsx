@@ -8,9 +8,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  ModalBody,
   ModalCloseButton,
-  ModalHeader,
   Spacer,
   TabList,
   TabPanel,
@@ -118,23 +116,21 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
     <>
       {changeTitle && <Title>{role.name}</Title>}
 
-      <ModalHeader pt={2} pb={1} pr={3}>
-        <Flex>
-          <CircleAndParents id={id} />
-          <Spacer />
+      <Flex pt={2} pl={6} pr={2}>
+        <CircleAndParents id={id} />
+        <Spacer />
 
-          <Box>
-            <ParticipantsNumber participants={participants} />
-          </Box>
+        <Box>
+          <ParticipantsNumber participants={participants} />
+        </Box>
 
-          <ActionsMenu onEdit={onEditRoleOpen} onDelete={onDeleteOpen} />
+        <ActionsMenu onEdit={onEditRoleOpen} onDelete={onDeleteOpen} />
 
-          {headerIcons}
-          <ModalCloseStaticButton />
-        </Flex>
-      </ModalHeader>
+        {headerIcons}
+        <ModalCloseStaticButton />
+      </Flex>
 
-      <ModalBody pt={0} pb={5}>
+      <Box px={6} pb={5}>
         <Tabs isLazy variant="unstyled" index={tab} onChange={setTab}>
           <TabList
             mx="-1.5rem"
@@ -283,7 +279,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </ModalBody>
+      </Box>
 
       {isEditRoleOpen && circle && (
         <RoleEditModal id={circle.roleId} isOpen onClose={onEditRoleClose} />

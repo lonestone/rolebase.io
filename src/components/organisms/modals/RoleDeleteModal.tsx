@@ -63,7 +63,7 @@ export default function RoleDeleteModal({
     <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader>
             {t('organisms.modals.RoleDeleteModal.heading')}
           </AlertDialogHeader>
 

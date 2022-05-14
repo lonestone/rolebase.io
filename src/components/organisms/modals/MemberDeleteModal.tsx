@@ -63,7 +63,7 @@ export default function MemberDeleteModal({
     <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader>
             {t('organisms.modals.MemberDeleteModal.heading')}
           </AlertDialogHeader>
 
