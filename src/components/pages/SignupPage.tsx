@@ -2,10 +2,15 @@ import { Center, Container, Heading, Link } from '@chakra-ui/react'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import SignupForm from '@components/organisms/SignupForm'
+import useQueryParams from '@hooks/useQueryParams'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
+
+type Params = {
+  email: string
+}
 
 interface Props {
   goToLoginPage?(): void
@@ -13,6 +18,7 @@ interface Props {
 
 export default function SignupPage({ goToLoginPage }: Props) {
   const { t } = useTranslation()
+  const queryParams = useQueryParams<Params>()
   // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signup = useStoreActions((actions) => actions.auth.signup)
   const loading = useStoreState((state) => state.auth.loading)
@@ -30,7 +36,11 @@ export default function SignupPage({ goToLoginPage }: Props) {
         <Button onClick={() => signinGoogle()}>Connexion avec Google</Button>
       */}
 
-      <SignupForm onSubmit={signup} loading={loading} />
+      <SignupForm
+        defaultEmail={queryParams.email}
+        loading={loading}
+        onSubmit={signup}
+      />
 
       <TextErrors errors={[error]} />
 
