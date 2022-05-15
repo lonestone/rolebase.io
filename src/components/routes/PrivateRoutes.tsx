@@ -2,7 +2,7 @@ import MemberInvitationPage from '@components/pages/MemberInvitationPage'
 import OrgsPage from '@components/pages/OrgsPage'
 import Page404 from '@components/pages/Page404'
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import LoggedLayout from './LoggedLayout'
 import OrgRoutes from './OrgRoutes'
 
@@ -15,6 +15,12 @@ export default function PrivateRoutes() {
         </Route>
         <Route exact path="/orgs/:orgId/invitation">
           <MemberInvitationPage />
+        </Route>
+        <Route exact path="/login">
+          <Redirect to="/" />
+        </Route>
+        <Route exact path="/signup">
+          <Redirect to="/" />
         </Route>
         <Route path="/orgs/:orgId">
           <OrgRoutes />
