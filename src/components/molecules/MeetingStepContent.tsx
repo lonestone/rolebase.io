@@ -45,45 +45,37 @@ export default function MeetingStepContent({
     []
   )
 
+  // Common steps props
+  const stepProps = {
+    meetingId,
+    circleId,
+    editable,
+    mb: 5,
+  }
+
   return (
     <>
       {step.type === MeetingStepTypes.Threads && (
-        <MeetingStepContentThreads
-          meetingId={meetingId}
-          circleId={circleId}
-          step={step}
-          editable={editable}
-          mb={5}
-        />
+        <MeetingStepContentThreads step={step} {...stepProps} />
       )}
 
       {step.type === MeetingStepTypes.Tasks && (
-        <MeetingStepContentTasks
-          meetingId={meetingId}
-          circleId={circleId}
-          step={step}
-          editable={editable}
-          mb={5}
-        />
+        <MeetingStepContentTasks step={step} {...stepProps} />
       )}
 
       {step.type === MeetingStepTypes.Checklist && (
         <MeetingStepContentChecklist
-          circleId={circleId}
           step={step}
+          {...stepProps}
           editorRef={editorRef}
-          editable={editable}
-          mb={5}
         />
       )}
 
       {step.type === MeetingStepTypes.Indicators && (
         <MeetingStepContentIndicators
-          circleId={circleId}
           step={step}
+          {...stepProps}
           editorRef={editorRef}
-          editable={editable}
-          mb={5}
         />
       )}
 

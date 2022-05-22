@@ -1,4 +1,5 @@
 import { Bytes } from 'firebase/firestore'
+import { TaskStatus, TasksViewTypes } from './task'
 import { WithId } from './types'
 
 export enum MeetingStepTypes {
@@ -35,7 +36,9 @@ export interface MeetingStepIndicators extends MeetingStepBase {
 
 export interface MeetingStepTasks extends MeetingStepBase {
   type: MeetingStepTypes.Tasks
-  tasksIds: string[]
+  viewType: TasksViewTypes
+  filterStatus: TaskStatus | null
+  filterMemberId: string | null
 }
 
 export interface MeetingStepParticipant {

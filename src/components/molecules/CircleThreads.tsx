@@ -15,7 +15,7 @@ interface Props {
   circleId: string
 }
 
-export default function ThreadsInCircleList({ circleId }: Props) {
+export default function CircleThreads({ circleId }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
 
@@ -37,14 +37,14 @@ export default function ThreadsInCircleList({ circleId }: Props) {
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        {t('molecules.ThreadsInCircleList.heading')}
+        {t('molecules.CircleThreads.heading')}
       </Button>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       {threads?.length === 0 && (
-        <Text>{t('molecules.ThreadsInCircleList.empty')}</Text>
+        <Text>{t('molecules.CircleThreads.empty')}</Text>
       )}
 
       {threads?.map((thread) => (

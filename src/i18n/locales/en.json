@@ -23,7 +23,8 @@
       "InProgress": "In progress",
       "InReview": "In review",
       "Blocked": "Blocked",
-      "Done": "Done"
+      "Done": "Done",
+      "NotDone": "Not done"
     }
   },
   "atoms": {
@@ -58,6 +59,9 @@
         "tooltip": "Search (⌘ K)",
         "placeholder": "Search..."
       },
+      "SearchInput": {
+        "defaultPlaceholder": "Select..."
+      },
       "SearchResultItem": {
         "create": "Create \"{{name}}\""
       }
@@ -68,6 +72,10 @@
       "duplicate": "Duplicate",
       "delete": "Delete"
     },
+    "CircleMeetings": {
+      "heading": "Create a meeting",
+      "empty": "No meeting yet"
+    },
     "CircleMemberFormControl": {
       "labelSingleMember": "Occupied by :",
       "labelMultiMembers": "Direct members :"
@@ -76,6 +84,14 @@
       "label": "Keyboard shortcuts",
       "CmdClick": ": Move a circle",
       "CmdShiftClick": " : Copy a circle"
+    },
+    "CircleTasks": {
+      "create": "Create a task",
+      "empty": "No tasks at this time"
+    },
+    "CircleThreads": {
+      "heading": "Create a thread",
+      "empty": "No thread yet"
     },
     "HeaderLinksMenu": {
       "settings": "Settings",
@@ -128,13 +144,6 @@
       "createTask": "New Task",
       "createThread": "New Thread"
     },
-    "MeetingLogs": {
-      "heading": "Actions during the meeting"
-    },
-    "MeetingsInCircleList": {
-      "heading": "Create a meeting",
-      "empty": "No meeting yet"
-    },
     "MeetingStepContent": {
       "notesPlaceholder": "Notes..."
     },
@@ -143,6 +152,9 @@
     },
     "MeetingStepContentIndicators": {
       "useCircle": "Use circle indicators {{circle}}"
+    },
+    "MeetingStepContentTasks": {
+      "create": "New task"
     },
     "MeetingStepsConfigController": {
       "addStep": "Add a step"
@@ -171,10 +183,6 @@
       "addRole": "Add a role",
       "circles": "Circles:",
       "addCircle": "Add a circle"
-    },
-    "TasksInCircleList": {
-      "create": "Create a task",
-      "empty": "No tasks at this time"
     },
     "TasksMultiSelect": {
       "choose": "Choose a task",
@@ -217,10 +225,6 @@
       "revealAllVoted": "The results will be revealed when all participants have voted.",
       "revealDate": "Results will be revealed {{date}}.",
       "revealDateOrAllVoted": "Results will be revealed {{date}} or when all participants have voted."
-    },
-    "ThreadsInCircleList": {
-      "heading": "Create a thread",
-      "empty": "No thread yet"
     },
     "ThreadsMultiSelect": {
       "choose": "Choose a thread",
@@ -517,7 +521,8 @@
       "videoConf": "Join the videoconf",
       "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
       "end": "End meeting",
-      "nextStep": "Next step"
+      "nextStep": "Next step",
+      "logs": "Actions during the meeting"
     },
     "MemberContent": {
       "notFound": "Member not found",
@@ -534,13 +539,24 @@
     },
     "TaskContent": {
       "heading": "Task",
-      "title": "Title",
       "titlePlaceholder": "Title...",
       "circle": "Circle / Role",
       "memberId": "Assigned member",
       "dueDate": "Deadline",
       "description": "Description",
       "notes": "Notes, links..."
+    },
+    "TasksKanban": {
+      "showDoneTasks": "Show completed tasks"
+    },
+    "TasksList": {
+      "empty": "No task 🎉"
+    },
+    "TasksModule": {
+      "kanban": "Kanban",
+      "list": "List",
+      "filterCircle": "Circle",
+      "filterMember": "Member"
     },
     "ThreadActivities": {
       "emptyTitle": "Thread created",
@@ -623,20 +639,7 @@
     },
     "TasksPage": {
       "heading": "Tasks",
-      "assignation": {
-        "title": "Assignment",
-        "mine": "My Tasks",
-        "circle": "Circle Tasks",
-        "member": "Member Tasks"
-      },
-      "status": {
-        "title": "Status",
-        "notDone": "Not done"
-      },
-      "create": "New task",
-      "memberInput": "Member:",
-      "circleInput": "Circle / Role:",
-      "empty": "No task 🎉"
+      "create": "New task"
     },
     "ThreadsPage": {
       "heading": "Threads",

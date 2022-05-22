@@ -26,7 +26,7 @@ interface Props {
   circleId: string
 }
 
-export default function MeetingsInCircleList({ circleId }: Props) {
+export default function CircleMeetings({ circleId }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
   const hover = useHoverItemStyle()
@@ -63,14 +63,14 @@ export default function MeetingsInCircleList({ circleId }: Props) {
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        {t('molecules.MeetingsInCircleList.heading')}
+        {t('molecules.CircleMeetings.heading')}
       </Button>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       {meetings?.length === 0 && (
-        <Text>{t('molecules.MeetingsInCircleList.empty')}</Text>
+        <Text>{t('molecules.CircleMeetings.empty')}</Text>
       )}
 
       {meetings?.map((meeting, i) => {

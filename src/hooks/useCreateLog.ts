@@ -35,6 +35,6 @@ export default function useCreateLog() {
         ...log,
       })
     },
-    [orgId, userId]
+    [orgId, userId, currentMember]
   )
 }

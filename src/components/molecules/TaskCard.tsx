@@ -5,22 +5,21 @@ import {
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
+  Spacer,
   Text,
+  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import MemberAvatar from '@components/atoms/MemberAvatar'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import useDateLocale from '@hooks/useDateLocale'
-import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { useOrgId } from '@hooks/useOrgId'
-import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
-import { TaskEntry, TaskStatus } from '@shared/model/task'
+import { TaskEntry } from '@shared/model/task'
 import { formatRelative } from 'date-fns'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import TaskStatusInput from './TaskStatusInput'
 
 interface Props extends LinkBoxProps {
   task: TaskEntry
@@ -29,19 +28,14 @@ interface Props extends LinkBoxProps {
   isDragging?: boolean
 }
 
-const TaskItem = forwardRef<Props, 'div'>(
+const TaskCard = forwardRef<Props, 'div'>(
   (
     { task, showCircle, showMember, isDragging, children, ...linkBoxProps },
     ref
   ) => {
     const orgId = useOrgId()
-    const hover = useHoverItemStyle()
-    const updateTaskStatus = useUpdateTaskStatus()
     const dateLocale = useDateLocale()
-
-    const handleChangeStatus = (status: TaskStatus) => {
-      updateTaskStatus(task, status)
-    }
+    const { colorMode } = useColorMode()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
@@ -51,23 +45,31 @@ const TaskItem = forwardRef<Props, 'div'>(
         <LinkBox
           ref={ref}
           p={1}
+          pt={3}
+          pl={3}
+          bg={colorMode === 'light' ? 'white' : 'gray.700'}
+          borderRadius="md"
           boxShadow={isDragging ? 'lg' : 'none'}
-          _hover={hover}
+          _hover={{
+            boxShadow: 'md',
+          }}
           {...linkBoxProps}
           tabIndex={
             // Remove tabIndex because it's redondant with link
             undefined
           }
         >
-          <Flex align="center">
-            <LinkOverlay
-              as={ReachLink}
-              flex={1}
-              to={`/orgs/${orgId}/tasks/${task.id}`}
-              onClick={handleOpen}
-            >
-              {task.title}
-            </LinkOverlay>
+          <LinkOverlay
+            as={ReachLink}
+            flex={1}
+            to={`/orgs/${orgId}/tasks/${task.id}`}
+            onClick={handleOpen}
+          >
+            {task.title}
+          </LinkOverlay>
+
+          <Flex align="center" mt={1}>
+            <Spacer />
 
             {task.dueDate && (
               <Text fontSize="sm" color="gray.500" ml={2}>
@@ -78,7 +80,7 @@ const TaskItem = forwardRef<Props, 'div'>(
             )}
 
             {showCircle && (
-              <CircleByIdButton id={task.circleId} size="xs" ml={2} />
+              <CircleByIdButton id={task.circleId} ml={2} size="xs" />
             )}
 
             {showMember &&
@@ -87,13 +89,6 @@ const TaskItem = forwardRef<Props, 'div'>(
               ) : (
                 <Avatar name="?" size="xs" ml={2} />
               ))}
-
-            <TaskStatusInput
-              value={task.status}
-              onChange={handleChangeStatus}
-              zIndex={2}
-              ml={2}
-            />
 
             {children}
           </Flex>
@@ -105,6 +100,6 @@ const TaskItem = forwardRef<Props, 'div'>(
   }
 )
 
-TaskItem.displayName = 'TaskItem'
+TaskCard.displayName = 'TaskCard'
 
-export default TaskItem
+export default TaskCard

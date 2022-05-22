@@ -1,4 +1,4 @@
-import { subscribeAllTasks, subscribeTasksByCircle } from '@api/entities/tasks'
+import { subscribeAllTasks, subscribeTasks } from '@api/entities/tasks'
 import { Box, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
@@ -30,7 +30,7 @@ export default function TasksMultiSelect({
   // Subscribe tasks
   const subscribe = orgId
     ? circleId
-      ? subscribeTasksByCircle(orgId, circleId)
+      ? subscribeTasks(orgId, undefined, circleId)
       : subscribeAllTasks(orgId)
     : undefined
   const { data: tasks, loading, error } = useSubscription(subscribe)

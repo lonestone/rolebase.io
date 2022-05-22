@@ -58,8 +58,6 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    circleId: yup.string().required(),
-    memberId: yup.string().required(),
     title: nameSchema,
     description: yup.string(),
   })
@@ -111,7 +109,7 @@ export default function TaskContent({
     if (!task) return
     reset({
       circleId: task.circleId,
-      memberId: task.memberId,
+      memberId: task.memberId ?? '',
       title: task.title,
       description: task.description,
       dueDate: task.dueDate ? getDateTimeLocal(task.dueDate.toDate()) : null,
@@ -120,10 +118,11 @@ export default function TaskContent({
 
   const dueDate = watch('dueDate')
 
-  const onSubmit = handleSubmit(async ({ dueDate, ...data }) => {
+  const onSubmit = handleSubmit(async ({ dueDate, memberId, ...data }) => {
     if (!orgId || !currentMember) return
     const taskUpdate = {
       ...data,
+      memberId: memberId || null,
       dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate)) : null,
     }
     if (id) {
@@ -135,7 +134,7 @@ export default function TaskContent({
         orgId,
         ...taskUpdate,
       })
-      // Todo : refacto task status is in WIP
+
       createLog({
         display: {
           type: LogType.TaskCreate,
@@ -171,7 +170,7 @@ export default function TaskContent({
       if (!task) return
       updateTaskStatus(task, status)
     },
-    [task]
+    [task, updateTaskStatus]
   )
 
   // Task deletion modal
@@ -214,7 +213,6 @@ export default function TaskContent({
       <form onSubmit={onSubmit}>
         <VStack spacing={5} align="stretch">
           <FormControl isInvalid={!!errors.title}>
-            <FormLabel>{t('organisms.TaskContent.title')}</FormLabel>
             <Input
               {...register('title')}
               placeholder={t('organisms.TaskContent.titlePlaceholder')}
@@ -247,6 +245,7 @@ export default function TaskContent({
                 <MemberSearchInput
                   value={field.value}
                   onChange={field.onChange}
+                  onClear={() => field.onChange(undefined)}
                 />
               )}
             />

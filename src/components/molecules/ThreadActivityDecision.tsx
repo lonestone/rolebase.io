@@ -59,7 +59,7 @@ export default function ThreadActivityDecision({ activity }: Props) {
           <Text fontWeight="bold" mr={6}>
             {t(`molecules.ThreadActivityDecision.heading`)}
           </Text>
-          <CircleByIdButton circleId={activity.circleId} />
+          <CircleByIdButton id={activity.circleId} />
         </HStack>
         <VStack spacing={3} p={3} align="stretch">
           <Box flex={1} fontSize="1.2rem" fontWeight={500}>

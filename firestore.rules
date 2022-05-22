@@ -159,5 +159,13 @@ service cloud.firestore {
       allow update: if isOrgMember(resource.data.orgId) && !hasFieldsChange(['orgId']);
       allow delete: if false;
     }
+
+    // Tasks views
+    match /tasksViews/{id} {
+      allow read: if isOrgReader(resource.data.orgId);
+      allow create: if isOrgMember(request.resource.data.orgId);
+      allow update: if isOrgMember(resource.data.orgId) && !hasFieldsChange(['orgId']);
+      allow delete: if false;
+    }
   }
 }

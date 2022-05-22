@@ -4,10 +4,10 @@ import React from 'react'
 import CircleButton from './CircleButton'
 
 interface Props extends ButtonProps {
-  circleId: string
+  id: string
 }
 
-export default function CircleByIdButton({ circleId, ...buttonProps }: Props) {
-  const circle = useCircle(circleId)
+export default function CircleByIdButton({ id, ...buttonProps }: Props) {
+  const circle = useCircle(id)
   return circle ? <CircleButton circle={circle} {...buttonProps} /> : null
 }

@@ -1,3 +1,4 @@
+import useCurrentMember from '@hooks/useCurrentMember'
 import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
@@ -7,6 +8,7 @@ export function useMemberSearchItems(
   members?: MemberEntry[], // If not provided, use store
   excludeIds?: string[]
 ): SearchItem[] {
+  const currentMember = useCurrentMember()
   const membersInStore = useStoreState((state) => state.members.entries)
 
   return useMemo(
@@ -23,7 +25,16 @@ export function useMemberSearchItems(
             member,
           }
         })
+        .sort((a, b) => {
+          if (!a || !b) return 0
+          // Position current member at the top
+          if (currentMember) {
+            if (a.id === currentMember.id) return -1
+            if (b.id === currentMember.id) return 1
+          }
+          return a.text.localeCompare(b.text)
+        })
         .filter(Boolean) as SearchItem[]) || [],
-    [members, membersInStore, excludeIds]
+    [members, membersInStore, excludeIds, currentMember]
   )
 }

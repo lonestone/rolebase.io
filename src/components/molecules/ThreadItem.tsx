@@ -57,7 +57,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
               {thread.title}
             </LinkOverlay>
 
-            {showCircle && <CircleByIdButton circleId={thread.circleId} />}
+            {showCircle && <CircleByIdButton id={thread.circleId} size="xs" />}
 
             {children}
           </Flex>

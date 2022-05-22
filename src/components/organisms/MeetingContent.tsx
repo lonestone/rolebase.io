@@ -35,6 +35,7 @@ import ActionsMenu from '@components/molecules/ActionsMenu'
 import MeetingActions from '@components/molecules/MeetingActions'
 import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
+import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -392,7 +393,13 @@ export default function MeetingContent({
 
             {!isNotStarted && (
               <Container size="xs" mt={10}>
-                <MeetingLogs meetingId={meeting.id} />
+                <Heading as="h3" size="sm" mb={2}>
+                  {t('organisms.MeetingContent.logs')}
+                </Heading>
+                <MeetingLogs
+                  meetingId={meeting.id}
+                  excludeTypes={taskLogTypes}
+                />
               </Container>
             )}
           </Box>

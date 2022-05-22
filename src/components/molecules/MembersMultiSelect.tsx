@@ -48,7 +48,7 @@ export default function MembersMultiSelect({
         <WrapItem key={m.id}>
           <CircleMemberLink memberId={m.id} circleId={circleId} tabIndex={-1}>
             <ButtonGroup variant="ghost" size="sm" isAttached>
-              <MemberButton member={m} />
+              <MemberButton member={m} pr={1} />
               <IconButton
                 aria-label=""
                 icon={<FiX />}
