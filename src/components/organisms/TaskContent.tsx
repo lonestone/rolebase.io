@@ -59,6 +59,7 @@ interface Values {
 const resolver = yupResolver(
   yup.object().shape({
     title: nameSchema,
+    circleId: yup.string().required(),
     description: yup.string(),
   })
 )
