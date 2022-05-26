@@ -1,8 +1,8 @@
 diff --git a/node_modules/@dnd-kit/core/dist/core.esm.js b/node_modules/@dnd-kit/core/dist/core.esm.js
-index 9061ef9..4224095 100644
+index b3a357f..f794bfc 100644
 --- a/node_modules/@dnd-kit/core/dist/core.esm.js
 +++ b/node_modules/@dnd-kit/core/dist/core.esm.js
-@@ -2027,6 +2027,10 @@ class AbstractPointerSensor {
+@@ -1402,6 +1402,10 @@ class AbstractPointerSensor {
          capture: true
        }); // Remove any text selection from the document
  

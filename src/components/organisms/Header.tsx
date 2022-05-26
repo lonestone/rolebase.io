@@ -62,7 +62,7 @@ export default function Header() {
                 : undefined,
             },
             {
-              to: `/orgs/${org.id}/tasks`,
+              to: `/orgs/${org.id}/tasks?member=${currentMember?.id}`,
               icon: <FiCheckSquare />,
               label: t('organisms.Header.tasks'),
             },

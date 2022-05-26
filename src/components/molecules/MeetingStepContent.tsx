@@ -50,8 +50,8 @@ export default function MeetingStepContent({
       {step.type === MeetingStepTypes.Threads && (
         <MeetingStepContentThreads
           meetingId={meetingId}
-          circleId={circleId}
           step={step}
+          circleId={circleId}
           editable={editable}
           mb={5}
         />
@@ -60,8 +60,8 @@ export default function MeetingStepContent({
       {step.type === MeetingStepTypes.Tasks && (
         <MeetingStepContentTasks
           meetingId={meetingId}
-          circleId={circleId}
           step={step}
+          circleId={circleId}
           editable={editable}
           mb={5}
         />
@@ -71,9 +71,9 @@ export default function MeetingStepContent({
         <MeetingStepContentChecklist
           circleId={circleId}
           step={step}
-          editorRef={editorRef}
           editable={editable}
           mb={5}
+          editorRef={editorRef}
         />
       )}
 
@@ -81,8 +81,8 @@ export default function MeetingStepContent({
         <MeetingStepContentIndicators
           circleId={circleId}
           step={step}
-          editorRef={editorRef}
           editable={editable}
+          editorRef={editorRef}
           mb={5}
         />
       )}

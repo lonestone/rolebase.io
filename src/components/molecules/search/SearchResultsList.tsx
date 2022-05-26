@@ -1,4 +1,5 @@
 import { List, ListItem, useColorMode } from '@chakra-ui/react'
+import useWindowSize from '@hooks/useWindowSize'
 import {
   GetPropsCommonOptions,
   UseComboboxGetItemPropsOptions,
@@ -29,22 +30,34 @@ export default function SearchResultsList({
   inputRef,
 }: Props) {
   const { colorMode } = useColorMode()
+  const windowSize = useWindowSize()
+
+  const inputBounds = inputRef.current?.getBoundingClientRect()
+
+  const maxHeight = inputBounds?.bottom
+    ? Math.max(windowSize.height - inputBounds.bottom - 15, 200)
+    : 200
+
+  const maxWidth = inputBounds?.left
+    ? windowSize.width - inputBounds.left - 15
+    : 400
 
   return (
     <List
       {...getMenuProps()}
       display={isOpen && items.length > 0 ? '' : 'none'}
       position="absolute"
-      overflow="hidden"
-      zIndex="2"
+      overflow="auto"
+      zIndex="2000"
       minW={`${inputRef.current?.offsetWidth || 0}px`}
+      maxW={`${maxWidth}px`}
+      maxH={`${maxHeight}px`}
       mt={1}
       shadow="md"
       bg={colorMode === 'light' ? 'white' : 'gray.700'}
       border="1px solid"
       borderColor="inherit"
       borderRadius="md"
-      pointerEvents="none"
     >
       {items.map((item, index) => (
         <ListItem key={index}>

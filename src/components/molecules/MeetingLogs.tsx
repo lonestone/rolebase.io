@@ -1,19 +1,27 @@
 import { subscribeLogsByMeeting } from '@api/entities/logs'
-import { Heading } from '@chakra-ui/react'
+import { BoxProps } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { useOrgId } from '@hooks/useOrgId'
 import useSubscription from '@hooks/useSubscription'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { LogType } from '@shared/model/log'
+import React, { useMemo } from 'react'
 import LogsList from './LogsList'
 
-interface Props {
+interface Props extends BoxProps {
   meetingId: string
+  includeTypes?: LogType[]
+  excludeTypes?: LogType[]
+  hideEmpty?: boolean
 }
 
-export default function MeetingLogs({ meetingId }: Props) {
-  const { t } = useTranslation()
+export default function MeetingLogs({
+  meetingId,
+  includeTypes,
+  excludeTypes,
+  hideEmpty,
+  ...boxProps
+}: Props) {
   const orgId = useOrgId()
 
   const subscribeLogs = orgId
@@ -22,16 +30,26 @@ export default function MeetingLogs({ meetingId }: Props) {
 
   const { data, loading, error } = useSubscription(subscribeLogs)
 
+  const logs = useMemo(
+    () =>
+      data?.filter((log) => {
+        if (includeTypes && !includeTypes.includes(log.display.type)) {
+          return false
+        }
+        if (excludeTypes && excludeTypes.includes(log.display.type)) {
+          return false
+        }
+        return true
+      }),
+    [data, includeTypes, excludeTypes]
+  )
+
   return (
     <>
-      <Heading as="h3" size="sm" mb={2}>
-        {t('molecules.MeetingLogs.heading')}
-      </Heading>
-
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {data && <LogsList logs={data} />}
+      {logs && <LogsList logs={logs} hideEmpty={hideEmpty} {...boxProps} />}
     </>
   )
 }

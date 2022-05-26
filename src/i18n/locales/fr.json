@@ -23,7 +23,8 @@
       "InProgress": "En cours",
       "InReview": "En revue",
       "Blocked": "Bloquée",
-      "Done": "Terminée"
+      "Done": "Terminée",
+      "NotDone": "Non terminée"
     }
   },
   "atoms": {
@@ -58,6 +59,9 @@
         "tooltip": "Rechercher (⌘ K)",
         "placeholder": "Rechercher..."
       },
+      "SearchInput": {
+        "defaultPlaceholder": "Sélectionner..."
+      },
       "SearchResultItem": {
         "create": "Créer \"{{name}}\""
       }
@@ -68,6 +72,10 @@
       "duplicate": "Dupliquer",
       "delete": "Supprimer"
     },
+    "CircleMeetings": {
+      "heading": "Créer une réunion",
+      "empty": "Aucune réunion pour le moment"
+    },
     "CircleMemberFormControl": {
       "labelSingleMember": "Occupé par :",
       "labelMultiMembers": "Membres directs :"
@@ -76,6 +84,14 @@
       "label": "Raccourcis clavier",
       "CmdClick": " : Déplacer un cercle",
       "CmdShiftClick": " : Copier un cercle"
+    },
+    "CircleTasks": {
+      "create": "Créer une tâche",
+      "empty": "Aucune tâche pour le moment"
+    },
+    "CircleThreads": {
+      "heading": "Créer une discussion",
+      "empty": "Aucune discussion pour le moment"
     },
     "HeaderLinksMenu": {
       "settings": "Paramètres",
@@ -128,13 +144,6 @@
       "createTask": "Nouvelle tâche",
       "createThread": "Nouvelle discussion"
     },
-    "MeetingLogs": {
-      "heading": "Actions pendant la réunion"
-    },
-    "MeetingsInCircleList": {
-      "heading": "Créer une réunion",
-      "empty": "Aucune réunion pour le moment"
-    },
     "MeetingStepContent": {
       "notesPlaceholder": "Notes..."
     },
@@ -143,6 +152,9 @@
     },
     "MeetingStepContentIndicators": {
       "useCircle": "Utiliser les indicateurs du cercle {{circle}}"
+    },
+    "MeetingStepContentTasks": {
+      "create": "Nouvelle tâche"
     },
     "MeetingStepsConfigController": {
       "addStep": "Ajouter un étape"
@@ -171,10 +183,6 @@
       "addRole": "Ajouter un rôle",
       "circles": "Cercles :",
       "addCircle": "Ajouter un cercle"
-    },
-    "TasksInCircleList": {
-      "create": "Créer une tâche",
-      "empty": "Aucune tâche pour le moment"
     },
     "TasksMultiSelect": {
       "choose": "Choisir une tâche",
@@ -214,10 +222,6 @@
       "revealAllVoted": "Les résultats seront dévoilés quand tous les participants auront voté.",
       "revealDate": "Les résultats seront dévoilés {{date}}.",
       "revealDateOrAllVoted": "Les résultats seront dévoilés {{date}} ou quand tous les participants auront voté."
-    },
-    "ThreadsInCircleList": {
-      "heading": "Créer une discussion",
-      "empty": "Aucune discussion pour le moment"
     },
     "ThreadsMultiSelect": {
       "choose": "Choisir une discussion",
@@ -513,7 +517,8 @@
       "videoConf": "Rejoindre la visio",
       "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
       "end": "Terminer la réunion",
-      "nextStep": "Étape suivante"
+      "nextStep": "Étape suivante",
+      "logs": "Actions pendant la réunion"
     },
     "MemberContent": {
       "notFound": "Membre introuvable",
@@ -530,13 +535,24 @@
     },
     "TaskContent": {
       "heading": "Tâche",
-      "title": "Titre",
       "titlePlaceholder": "Titre...",
       "circle": "Cercle / Rôle",
       "memberId": "Membre assigné",
       "dueDate": "Date limite",
       "description": "Description",
       "notes": "Notes, liens..."
+    },
+    "TasksKanban": {
+      "showDoneTasks": "Voir les tâches terminées"
+    },
+    "TasksList": {
+      "empty": "Aucune tâche 🎉"
+    },
+    "TasksModule": {
+      "kanban": "Kanban",
+      "list": "Liste",
+      "filterCircle": "Cercle",
+      "filterMember": "Membre"
     },
     "ThreadActivities": {
       "emptyTitle": "Discussion créée",
@@ -619,20 +635,7 @@
     },
     "TasksPage": {
       "heading": "Tâches",
-      "assignation": {
-        "title": "Assignation",
-        "mine": "Mes tâches",
-        "circle": "Tâches d'un cercle",
-        "member": "Tâches d'un membre"
-      },
-      "status": {
-        "title": "Statut",
-        "notDone": "Non terminée"
-      },
-      "create": "Nouvelle tâche",
-      "memberInput": "Membre :",
-      "circleInput": "Cercle / Rôle :",
-      "empty": "Aucune tâche 🎉"
+      "create": "Nouvelle tâche"
     },
     "ThreadsPage": {
       "heading": "Discussions",

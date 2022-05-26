@@ -6,7 +6,7 @@ interface Props {
   children: string
 }
 
-export function CirclePanelTab({ icon, children }: Props) {
+export function StyledTab({ icon, children }: Props) {
   const { colorMode } = useColorMode()
   return (
     <Tab

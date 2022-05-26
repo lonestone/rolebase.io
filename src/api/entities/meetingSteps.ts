@@ -4,6 +4,7 @@ import { getSubCollection } from '@api/helpers/getSubCollection'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { MeetingEntry, MeetingStepConfig } from '@shared/model/meeting'
 import { MeetingStep, MeetingStepTypes } from '@shared/model/meetingStep'
+import { TasksViewTypes } from '@shared/model/task'
 import { doc } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 import { collection as meetingsCollection } from './meetings'
@@ -43,7 +44,9 @@ export function getDefaultMeetingStep(type: MeetingStepTypes): MeetingStep {
       return {
         type,
         notes: '',
-        tasksIds: [],
+        viewType: TasksViewTypes.Kanban,
+        filterMemberId: null,
+        filterStatus: null,
       }
     case MeetingStepTypes.Checklist:
     case MeetingStepTypes.Indicators:

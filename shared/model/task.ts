@@ -4,7 +4,7 @@ import { WithId } from './types'
 export interface Task {
   orgId: string
   circleId: string
-  memberId: string
+  memberId: string | null
   title: string
   description: string
   archived: boolean
@@ -31,3 +31,8 @@ export const taskStatusList = [
   TaskStatus.Blocked,
   TaskStatus.Done,
 ]
+
+export enum TasksViewTypes {
+  Kanban = 'Kanban',
+  List = 'List',
+}

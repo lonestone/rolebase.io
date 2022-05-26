@@ -20,18 +20,18 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
-import { CirclePanelTab } from '@components/atoms/CirclePanelTab'
 import Markdown from '@components/atoms/Markdown'
 import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
+import { StyledTab } from '@components/atoms/StyledTab'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
+import CircleMeetings from '@components/molecules/CircleMeetings'
 import CircleMemberFormControl from '@components/molecules/CircleMemberFormControl'
-import MeetingsInCircleList from '@components/molecules/MeetingsInCircleList'
+import CircleTasks from '@components/molecules/CircleTasks'
+import CircleThreads from '@components/molecules/CircleThreads'
 import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
-import TasksInCircleList from '@components/molecules/TasksInCircleList'
-import ThreadsInCircleList from '@components/molecules/ThreadsInCircleList'
 import useCircle from '@hooks/useCircle'
 import useParticipants from '@hooks/useParticipants'
 import { MembersScope } from '@shared/model/member'
@@ -141,22 +141,22 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
             overflow="auto"
           >
-            <CirclePanelTab icon={<FiDisc />}>
+            <StyledTab icon={<FiDisc />}>
               {t(
                 role.singleMember
                   ? 'organisms.CircleContent.tabRole'
                   : 'organisms.CircleContent.tabCircle'
               )}
-            </CirclePanelTab>
-            <CirclePanelTab icon={<FiMessageSquare />}>
+            </StyledTab>
+            <StyledTab icon={<FiMessageSquare />}>
               {t('organisms.CircleContent.tabThreads')}
-            </CirclePanelTab>
-            <CirclePanelTab icon={<FiCalendar />}>
+            </StyledTab>
+            <StyledTab icon={<FiCalendar />}>
               {t('organisms.CircleContent.tabMeetings')}
-            </CirclePanelTab>
-            <CirclePanelTab icon={<FiCheckSquare />}>
+            </StyledTab>
+            <StyledTab icon={<FiCheckSquare />}>
               {t('organisms.CircleContent.tabTasks')}
-            </CirclePanelTab>
+            </StyledTab>
           </TabList>
 
           <TabPanels mt={5}>
@@ -267,15 +267,15 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             </TabPanel>
 
             <TabPanel p={0}>
-              <ThreadsInCircleList circleId={id} />
+              <CircleThreads circleId={id} />
             </TabPanel>
 
             <TabPanel p={0}>
-              <MeetingsInCircleList circleId={id} />
+              <CircleMeetings circleId={id} />
             </TabPanel>
 
             <TabPanel p={0}>
-              <TasksInCircleList circleId={id} />
+              <CircleTasks circleId={id} />
             </TabPanel>
           </TabPanels>
         </Tabs>

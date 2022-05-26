@@ -12,35 +12,38 @@ export default function useUpdateTaskStatus() {
   const createLog = useCreateLog()
 
   // Toggle done status of a task
-  return useCallback(async (task: TaskEntry, status: TaskStatus) => {
-    await updateTask(task.id, { status })
+  return useCallback(
+    async (task: TaskEntry, status: TaskStatus) => {
+      await updateTask(task.id, { status })
 
-    await createLog({
-      display: {
-        type: LogType.TaskStatusUpdate,
-        id: task.id,
-        name: task.title,
-        status,
-      },
-      changes: {
-        tasks: [
-          {
-            type: EntityChangeType.Update,
-            id: task.id,
-            prevData: { status: task.status },
-            newData: { status },
-          },
-        ],
-      },
-    })
+      await createLog({
+        display: {
+          type: LogType.TaskStatusUpdate,
+          id: task.id,
+          name: task.title,
+          status,
+        },
+        changes: {
+          tasks: [
+            {
+              type: EntityChangeType.Update,
+              id: task.id,
+              prevData: { status: task.status },
+              newData: { status },
+            },
+          ],
+        },
+      })
 
-    // Toast to cancel
-    toast({
-      status: 'success',
-      duration: 2000,
-      title: t('hooks.useUpdateTaskStatus.toast', {
-        status: t(`common.taskStatus.${status}`),
-      }),
-    })
-  }, [])
+      // Toast to cancel
+      toast({
+        status: 'success',
+        duration: 2000,
+        title: t('hooks.useUpdateTaskStatus.toast', {
+          status: t(`common.taskStatus.${status}`),
+        }),
+      })
+    },
+    [createLog]
+  )
 }

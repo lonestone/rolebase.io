@@ -12,7 +12,7 @@ export default function MemberAvatar({ id, ...avatarProps }: Props) {
 
   return member ? (
     <CircleMemberLink memberId={member.id}>
-      <Tooltip label={member.name} placement="top" hasArrow>
+      <Tooltip label={member.name} placement="top" hasArrow openDelay={200}>
         <Avatar
           name={member.name}
           src={member.picture || undefined}

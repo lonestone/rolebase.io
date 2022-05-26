@@ -86,6 +86,7 @@ export default function CirclesPage() {
       {panel === Panels.Circle && circleId && (
         <ModalPanel onClose={handleClosePanel}>
           <CircleContent id={circleId} changeTitle />
+          <Box h={20} />
         </ModalPanel>
       )}
 

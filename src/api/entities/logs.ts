@@ -47,7 +47,7 @@ export const subscribeLogsByMeeting = memoize(
         collection,
         where('orgId', '==', orgId),
         where('meetingId', '==', meetingId),
-        orderBy('createdAt', 'desc')
+        orderBy('createdAt', 'asc')
       )
     )
 )

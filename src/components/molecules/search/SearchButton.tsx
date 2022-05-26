@@ -7,7 +7,7 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import SearchResultsList from './SearchResultsList'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 import { useSearch } from './useSearch'
@@ -51,7 +51,7 @@ export default function SearchButton({
       setInputValue('')
       buttonRef.current?.focus()
     },
-    [onSelect]
+    [onSelect, onCreate]
   )
 
   const {
@@ -75,6 +75,11 @@ export default function SearchButton({
 
   // Button
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const [buttonWidth, setButtonWidth] = useState<number | undefined>(undefined)
+
+  useLayoutEffect(() => {
+    setButtonWidth(buttonRef.current?.offsetWidth)
+  }, [children])
 
   // Input
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -100,7 +105,7 @@ export default function SearchButton({
             {children}
           </Button>
         )}
-        {isOpen && (
+        {isOpen && buttonProps.leftIcon && (
           <InputLeftElement pointerEvents="none">
             {buttonProps.leftIcon}
           </InputLeftElement>
@@ -109,7 +114,7 @@ export default function SearchButton({
           type="text"
           placeholder={children}
           display={isOpen ? '' : 'none'}
-          w="auto"
+          w={buttonWidth || 'auto'}
           borderRadius={buttonProps.borderRadius}
           {...inputProps}
         />
