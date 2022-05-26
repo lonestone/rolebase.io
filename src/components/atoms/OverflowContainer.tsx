@@ -44,7 +44,7 @@ export default function OverflowContainer({
       <Box
         {...boxProps}
         overflowX="auto"
-        overflowY="hidden"
+        overflowY={expandBottom ? 'auto' : 'hidden'}
         position="absolute"
         width={
           !expandRight && position
