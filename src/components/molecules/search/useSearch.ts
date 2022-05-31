@@ -21,7 +21,7 @@ export function useSearch(
         : incrementalSearch(items, (item) => item.text, searchText)
 
     // Add Create item
-    if (createItem && searchText.length >= 3) {
+    if (createItem && searchText.length >= 1) {
       return searchItems.concat({
         id: 'create',
         text: searchText,
