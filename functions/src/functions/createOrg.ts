@@ -1,4 +1,5 @@
 import { ClaimRole } from '@shared/model/userClaims'
+import { getSeedRoles } from '@shared/seeds/roles'
 import * as functions from 'firebase-functions'
 import { collections } from '../firebase'
 import { guardArgument, guardAuth } from '../guards'
@@ -70,6 +71,12 @@ export const createOrg = functions.https.onCall(
       members: [],
       archived: false,
     })
+
+    // Create seed roles
+    const roles = getSeedRoles(orgRef.id)
+    for (const role of roles) {
+      await collections.roles.add(role)
+    }
 
     return orgRef.id
   }
