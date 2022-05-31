@@ -105,7 +105,8 @@ export default function TasksPage() {
       {isCreateOpen && (
         <TaskModal
           isOpen
-          defaultMemberId={currentMember?.id}
+          defaultMemberId={memberId || currentMember?.id}
+          defaultCircleId={circleId}
           onClose={onCreateClose}
         />
       )}
