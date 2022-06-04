@@ -89,7 +89,7 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
                   onClick={() => handleEdit(mt)}
                   buttons={
                     <IconButton
-                      aria-label=""
+                      aria-label={t('common.delete')}
                       size="sm"
                       variant="ghost"
                       zIndex={2}

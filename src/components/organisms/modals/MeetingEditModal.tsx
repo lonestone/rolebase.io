@@ -181,7 +181,7 @@ export default function MeetingEditModal({
   const {
     items: participantsMembersIds,
     add: addParticipant,
-    remove: removeParticipant,
+    removeItem: removeParticipant,
   } = useItemsArray<string>(meeting ? meeting.participantsMembersIds : [])
 
   // Submit
@@ -288,7 +288,7 @@ export default function MeetingEditModal({
                       ))}
                     </Select>
                     <IconButton
-                      aria-label=""
+                      aria-label={t('common.edit')}
                       icon={<FiEdit3 />}
                       onClick={onMeetingTemplatesOpen}
                     />

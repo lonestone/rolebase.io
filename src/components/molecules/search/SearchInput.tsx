@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
 import SearchResultItem from './SearchResultItem'
 import SearchResultsList from './SearchResultsList'
-import { SearchItem } from './searchTypes'
+import { SearchItem, SearchItemTypes } from './searchTypes'
 import { useSearch } from './useSearch'
 
 export interface SearchInputProps
@@ -26,6 +26,7 @@ export interface SearchInputProps
   items: SearchItem[]
   onChange(value: string): void
   onClear?(): void
+  onCreate?(name: string): Promise<string | void>
 }
 
 export default function SearchInput({
@@ -33,17 +34,31 @@ export default function SearchInput({
   items,
   onChange,
   onClear,
+  onCreate,
   ...inputMoreProps
 }: SearchInputProps) {
   const { t } = useTranslation()
-  const { filteredItems, onInputValueChange } = useSearch(items, false)
+  const { filteredItems, onInputValueChange } = useSearch(
+    items,
+    false,
+    !!onCreate
+  )
 
   const onSelectedItemChange = useCallback(
-    (changes: UseComboboxStateChange<SearchItem>) => {
+    async (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
       closeMenu()
-      onChange(item.id)
+
+      if (onCreate && item.type === SearchItemTypes.CreateAction) {
+        // Create entity and set its id as value
+        const id = await onCreate(item.text)
+        if (id) onChange(id)
+      } else {
+        // Select existing entity
+        onChange(item.id)
+      }
+
       selectItem(undefined as any)
       buttonRef.current?.focus()
     },
@@ -117,7 +132,7 @@ export default function SearchInput({
           />
           {onClear && (
             <IconButton
-              aria-label=""
+              aria-label={t('common.clear')}
               icon={<FiX />}
               onClick={(e) => {
                 e.preventDefault()

@@ -93,7 +93,7 @@ export default function ThreadEditModal({
   const {
     items: participantsMembersIds,
     add: addParticipant,
-    remove: removeParticipant,
+    removeItem: removeParticipant,
   } = useItemsArray<string>(thread ? thread.participantsMembersIds : [])
 
   const onSubmit = handleSubmit(async (values) => {

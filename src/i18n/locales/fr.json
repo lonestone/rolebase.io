@@ -2,9 +2,11 @@
   "common": {
     "save": "Enregistrer",
     "create": "Créer",
+    "edit": "Editer",
     "cancel": "Annuler",
     "delete": "Supprimer",
     "remove": "Retirer",
+    "clear": "Effacer",
     "show": "Afficher",
     "hide": "Masquer",
     "seeMore": "Voir plus",
@@ -64,6 +66,9 @@
       },
       "SearchResultItem": {
         "create": "Créer \"{{name}}\""
+      },
+      "MemberSearchInput": {
+        "placeholder": "Membre..."
       }
     },
     "ActionsMenu": {
@@ -410,6 +415,16 @@
         },
         "invite": "Inviter ({{count}})"
       },
+      "OnboardingCircleMembersModal": {
+        "heading": "{{role}}",
+        "leader": "Qui représente le rôle {{role}} ?",
+        "choiceSingle": "{{member}} occupe ce rôle seul(e)",
+        "choiceCircle": "D'autres personnes participent"
+      },
+      "OnboardingCirclesModal": {
+        "heading": "Que fait-on chez {{org}} ?",
+        "info": "On va créer les rôles principaux de l’organisation. Dans une structure traditionnelle, on parlerait de fonctions, de pôles ou de départements."
+      },
       "OrgCreateModal": {
         "heading": "Créer une organisation",
         "name": "Nom"
@@ -447,6 +462,7 @@
         "notes": "Notes",
         "notesPlaceholder": "Notes, liens...",
         "singleMember": "Ne peut être occupé que par un seul membre",
+        "autoCreate": "Créer automatiquement dans tout nouveau cercle",
         "linkParent": "Représente son cercle parent (lien)",
         "linkToParent": "Dans le cercle parent",
         "linkToCircle": "Dans un autre cercle",

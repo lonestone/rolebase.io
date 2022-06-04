@@ -1,4 +1,3 @@
-import { createMember } from '@api/entities/members'
 import { nameSchema } from '@api/schemas'
 import {
   Box,
@@ -16,9 +15,8 @@ import {
 } from '@chakra-ui/react'
 import MembersToCopyList from '@components/molecules/MembersToCopyList'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useCreateLog from '@hooks/useCreateLog'
+import useCreateMember from '@hooks/useCreateMember'
 import { useOrgId } from '@hooks/useOrgId'
-import { EntityChangeType, LogType } from '@shared/model/log'
 import { MemberEntry } from '@shared/model/member'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -42,7 +40,7 @@ const resolver = yupResolver(
 export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const createLog = useCreateLog()
+  const createMember = useCreateMember()
 
   const {
     handleSubmit,
@@ -54,23 +52,9 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
 
   const handleCreate = async ({ name }: Values) => {
     if (!orgId) return
-    const member = await createMember({ orgId, name })
-    onCreate?.(member.id)
+    const memberId = await createMember(name)
+    onCreate?.(memberId)
     modalProps.onClose()
-
-    // Log change
-    createLog({
-      display: {
-        type: LogType.MemberCreate,
-        id: member.id,
-        name: member.name,
-      },
-      changes: {
-        members: [
-          { type: EntityChangeType.Create, id: member.id, data: member },
-        ],
-      },
-    })
   }
 
   const handleCopy = (memberToCopy: MemberEntry) =>

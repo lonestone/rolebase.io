@@ -54,6 +54,7 @@ interface Values {
   indicators: string
   notes: string
   singleMember: boolean
+  autoCreate: boolean
   link: string | boolean
   defaultMinPerWeek: number | null
   colorHue: number | null
@@ -95,6 +96,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
       indicators: role.indicators,
       defaultMinPerWeek: role.defaultMinPerWeek ?? null,
       singleMember: role.singleMember ?? false,
+      autoCreate: role.autoCreate ?? false,
       link: role.link ?? false,
       colorHue: role.colorHue ?? null,
     },
@@ -282,6 +284,13 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <Stack spacing={1}>
                   <Checkbox {...register('singleMember')}>
                     {t('organisms.modals.RoleEditModal.singleMember')}
+                  </Checkbox>
+
+                  <Checkbox
+                    {...register('autoCreate')}
+                    isDisabled={!singleMember}
+                  >
+                    {t('organisms.modals.RoleEditModal.autoCreate')}
                   </Checkbox>
 
                   <Checkbox

@@ -124,7 +124,10 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <ParticipantsNumber participants={participants} />
         </Box>
 
-        <ActionsMenu onEdit={onEditRoleOpen} onDelete={onDeleteOpen} />
+        <ActionsMenu
+          onEdit={onEditRoleOpen}
+          onDelete={circle.parentId ? onDeleteOpen : undefined}
+        />
 
         {headerIcons}
         <ModalCloseStaticButton />

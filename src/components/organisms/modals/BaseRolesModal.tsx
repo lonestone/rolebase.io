@@ -78,7 +78,7 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
                   onClick={() => handleEdit(role.id)}
                   buttons={
                     <IconButton
-                      aria-label=""
+                      aria-label={t('common.remove')}
                       size="sm"
                       variant="ghost"
                       zIndex={2}

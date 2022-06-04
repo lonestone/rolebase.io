@@ -35,7 +35,12 @@ export default function ActionsMenu({
         {...props}
       />
 
-      <MenuList fontSize="1rem" zIndex={1000}>
+      <MenuList
+        fontFamily="body"
+        fontSize="1rem"
+        fontWeight="normal"
+        zIndex={1000}
+      >
         {onEdit && (
           <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
             {t('molecules.ActionsMenu.edit')}

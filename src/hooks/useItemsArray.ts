@@ -3,7 +3,9 @@ import { Reducer, useCallback, useReducer } from 'react'
 type Action<Item> =
   | { type: 'Set'; items: Item[] }
   | { type: 'Add'; item: Item }
-  | { type: 'Remove'; item: Item }
+  | { type: 'Update'; index: number; item: Item }
+  | { type: 'Remove'; index: number }
+  | { type: 'RemoveItem'; item: Item }
 
 function reducer<Item>(state: Item[], action: Action<Item>): Item[] {
   switch (action.type) {
@@ -11,7 +13,17 @@ function reducer<Item>(state: Item[], action: Action<Item>): Item[] {
       return action.items
     case 'Add':
       return [...state, action.item]
-    case 'Remove':
+    case 'Update': {
+      const newState = [...state]
+      newState.splice(action.index, 1, action.item)
+      return newState
+    }
+    case 'Remove': {
+      const newState = [...state]
+      newState.splice(action.index, 1)
+      return newState
+    }
+    case 'RemoveItem':
       return state.filter((item) => item !== action.item)
     default:
       return state
@@ -28,11 +40,23 @@ export default function useItemsArray<Item>(defaultValue: Item[]) {
     (items: Item[]) => dispatch({ type: 'Set', items }),
     []
   )
+
   const add = useCallback((item: Item) => dispatch({ type: 'Add', item }), [])
-  const remove = useCallback(
-    (item: Item) => dispatch({ type: 'Remove', item }),
+
+  const update = useCallback(
+    (index: number, item: Item) => dispatch({ type: 'Update', index, item }),
     []
   )
 
-  return { items, set, add, remove }
+  const remove = useCallback(
+    (index: number) => dispatch({ type: 'Remove', index }),
+    []
+  )
+
+  const removeItem = useCallback(
+    (item: Item) => dispatch({ type: 'RemoveItem', item }),
+    []
+  )
+
+  return { items, set, add, update, remove, removeItem }
 }

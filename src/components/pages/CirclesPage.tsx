@@ -4,6 +4,7 @@ import { Title } from '@components/atoms/Title'
 import CirclesKeyboardShortcuts from '@components/molecules/CirclesKeyboardShortcuts'
 import CircleContent from '@components/organisms/CircleContent'
 import MemberContent from '@components/organisms/MemberContent'
+import Onboarding from '@components/organisms/Onboarding'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
@@ -103,6 +104,8 @@ export default function CirclesPage() {
       {panel === Panels.None && org && <Title>{org.name}</Title>}
 
       <CirclesKeyboardShortcuts position="absolute" left={3} bottom={3} />
+
+      <Onboarding />
     </Flex>
   )
 }

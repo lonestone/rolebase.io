@@ -13,6 +13,9 @@ export interface Role {
   notes: string
   // Can only contain 0-1 member if true
   singleMember: boolean
+  // Auto create on any new circle
+  // Only if singleMember is true
+  autoCreate: boolean
   // Link to another circle (parent or other)
   // to represent parent circle's purpose in this other circle.
   // Only if singleMember is true

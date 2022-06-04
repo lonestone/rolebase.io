@@ -16,6 +16,8 @@ import {
   FormLabel,
   IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -271,7 +273,7 @@ export default function ActivityPollModal({
                       isInvalid={!!errors.choices?.[index]}
                       key={field.id}
                     >
-                      <Stack spacing={2} direction="row">
+                      <InputGroup>
                         <Input
                           {...register(`choices.${index}.title`)}
                           placeholder={t(
@@ -280,14 +282,16 @@ export default function ActivityPollModal({
                           )}
                         />
                         {choicesFields.length > 2 ? (
-                          <IconButton
-                            aria-label=""
-                            variant="ghost"
-                            icon={<FiX />}
-                            onClick={() => removeChoice(index)}
-                          />
+                          <InputRightElement>
+                            <IconButton
+                              aria-label={t('common.remove')}
+                              variant="ghost"
+                              icon={<FiX />}
+                              onClick={() => removeChoice(index)}
+                            />
+                          </InputRightElement>
                         ) : null}
-                      </Stack>
+                      </InputGroup>
                     </FormControl>
                   ))}
                   <Button

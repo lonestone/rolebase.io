@@ -50,7 +50,7 @@ export default function MembersMultiSelect({
             <ButtonGroup variant="ghost" size="sm" isAttached>
               <MemberButton member={m} pr={1} />
               <IconButton
-                aria-label=""
+                aria-label={t('common.remove')}
                 icon={<FiX />}
                 onClick={(e) => {
                   e.preventDefault()

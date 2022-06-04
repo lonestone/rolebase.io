@@ -48,7 +48,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   // Create circle and open it
   const create = useCallback(
     async (roleOrName: RoleEntry | string, singleMember: boolean) => {
-      if (!orgId) return
+      if (!orgId || !roles) return
 
       // Create role
       let role: RoleEntry
@@ -70,12 +70,30 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         parentId: circle.id,
       })
 
-      // Log changes
       const changes: EntitiesChanges = {
         circles: [
           { type: EntityChangeType.Create, id: newCircle.id, data: newCircle },
         ],
       }
+
+      // Add roles with autoCreate=true
+      const autoCreateRoles = roles.filter((r) => r.autoCreate)
+      for (const autoCreateRole of autoCreateRoles) {
+        const autoCreateCircle = await createCircle({
+          orgId,
+          roleId: autoCreateRole.id,
+          parentId: newCircle.id,
+          members: [],
+        })
+
+        changes.circles?.push({
+          type: EntityChangeType.Create,
+          id: autoCreateCircle.id,
+          data: autoCreateCircle,
+        })
+      }
+
+      // Log changes
       if (typeof roleOrName === 'string') {
         changes.roles = [
           { type: EntityChangeType.Create, id: role.id, data: role },
@@ -92,7 +110,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         changes,
       })
     },
-    [orgId, circle]
+    [orgId, roles, circle]
   )
 
   const handleRoleAdd = useCallback(

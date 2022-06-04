@@ -2,9 +2,11 @@
   "common": {
     "save": "Save",
     "create": "Create",
+    "edit": "Edit",
     "cancel": "Cancel",
     "delete": "Delete",
     "remove": "Remove",
+    "clear": "Clear",
     "show": "Show",
     "hide": "Hide",
     "seeMore": "See more",
@@ -64,6 +66,9 @@
       },
       "SearchResultItem": {
         "create": "Create \"{{name}}\""
+      },
+      "MemberSearchInput": {
+        "placeholder": "Member..."
       }
     },
     "ActionsMenu": {
@@ -414,6 +419,16 @@
         },
         "invite": "Invite ({{count}})"
       },
+      "OnboardingCircleMembersModal": {
+        "heading": "{{role}}",
+        "leader": "Who represents the role {{role}}?",
+        "choiceSingle": "{{member}} holds this role alone",
+        "choiceCircle": "Other people are participating"
+      },
+      "OnboardingCirclesModal": {
+        "heading": "What do we do at {{org}}?",
+        "info": "Let's create the main roles of the organization. In a traditional structure, these would be positions, departments or business units."
+      },
       "OrgCreateModal": {
         "heading": "Create Organization",
         "name": "Name"
@@ -451,6 +466,7 @@
         "notes": "Notes",
         "notesPlaceholder": "Notes, links...",
         "singleMember": "Can only be occupied by a single member",
+        "autoCreate": "Create automatically in any new circle",
         "linkParent": "Represents its parent circle (link)",
         "linkToParent": "In parent circle",
         "linkToCircle": "In another circle",

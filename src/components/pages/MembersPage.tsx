@@ -160,7 +160,7 @@ export default function MembersPage() {
 
             {role === ClaimRole.Admin && (
               <IconButton
-                aria-label=""
+                aria-label={t('common.edit')}
                 size="sm"
                 icon={<FiEdit3 />}
                 zIndex={2}

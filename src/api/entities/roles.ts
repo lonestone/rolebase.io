@@ -20,6 +20,7 @@ const methods = getEntityMethods(collection, {
       | 'indicators'
       | 'notes'
       | 'singleMember'
+      | 'autoCreate'
       | 'link'
       | 'defaultMinPerWeek'
       | 'colorHue'
@@ -33,6 +34,7 @@ const methods = getEntityMethods(collection, {
     indicators: '',
     notes: '',
     singleMember: false,
+    autoCreate: false,
     link: false,
     defaultMinPerWeek: null,
     colorHue: null,

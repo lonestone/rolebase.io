@@ -1,11 +1,8 @@
-import { createMember } from '@api/entities/members'
-import useCreateLog from '@hooks/useCreateLog'
-import { useOrgId } from '@hooks/useOrgId'
+import useCreateMember from '@hooks/useCreateMember'
 import { useOrgRole } from '@hooks/useOrgRole'
-import { EntityChangeType, LogType } from '@shared/model/log'
 import { MemberEntry } from '@shared/model/member'
 import { ClaimRole } from '@shared/model/userClaims'
-import React, { useCallback } from 'react'
+import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useMemberSearchItems } from './useMemberSearchItems'
 
@@ -20,35 +17,8 @@ export default function MemberSearchButton({
   ...props
 }: Props) {
   const items = useMemberSearchItems(members, excludeIds)
-  const orgId = useOrgId()
   const role = useOrgRole()
-  const createLog = useCreateLog()
-
-  const handleCreate = useCallback(
-    async (name: string) => {
-      if (!orgId) throw new Error()
-
-      // Create member
-      const member = await createMember({ orgId, name })
-
-      // Log change
-      createLog({
-        display: {
-          type: LogType.MemberCreate,
-          id: member.id,
-          name: member.name,
-        },
-        changes: {
-          members: [
-            { type: EntityChangeType.Create, id: member.id, data: member },
-          ],
-        },
-      })
-
-      return member.id
-    },
-    [orgId]
-  )
+  const handleCreate = useCreateMember()
 
   return (
     <SearchButton

@@ -51,7 +51,7 @@ export default function MeetingStepSortableItem({
 
       {onRemove && (
         <IconButton
-          aria-label=""
+          aria-label={t('common.delete')}
           variant="ghost"
           icon={<FiX />}
           onClick={() => onRemove?.(index)}

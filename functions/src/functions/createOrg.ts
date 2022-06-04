@@ -59,6 +59,7 @@ export const createOrg = functions.https.onCall(
       notes: '',
       defaultMinPerWeek: null,
       singleMember: false,
+      autoCreate: false,
       link: false,
       colorHue: null,
     })

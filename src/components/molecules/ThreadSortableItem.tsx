@@ -28,7 +28,7 @@ export default function ThreadSortableItem({
       {onRemove && (
         <Tooltip label={t('common.remove')} placement="top" hasArrow>
           <IconButton
-            aria-label=""
+            aria-label={t('common.remove')}
             size="xs"
             variant="ghost"
             icon={<CloseIcon />}
