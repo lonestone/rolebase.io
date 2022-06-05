@@ -63,7 +63,7 @@ export default function TasksKanban({
       enableDefaultSensors={!!onOrderChange}
       onDragEnd={handleDragEnd}
     >
-      <HStack align="start" pb={5}>
+      <HStack align="start" pb={5} justifyContent="center" minW="min-content">
         {taskStatusList.map((status) => (
           <KanbanColumn
             key={status}

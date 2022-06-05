@@ -56,7 +56,12 @@ export default function OverflowContainer({
         left={expandLeft ? 0 : position?.left}
         bottom={expandBottom ? 0 : undefined}
       >
-        <Box ref={contentRef} pl={expandLeft ? 5 : 0} pr={expandRight ? 5 : 0}>
+        <Box
+          ref={contentRef}
+          pl={expandLeft ? 5 : 0}
+          pr={expandRight ? 5 : 0}
+          minW="min-content"
+        >
           {children}
         </Box>
       </Box>
