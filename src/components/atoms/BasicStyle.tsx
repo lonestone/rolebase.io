@@ -35,6 +35,9 @@ const BasicStyle = styled(Box)`
   a {
     text-decoration: underline;
   }
+  strong {
+    font-weight: 700 !important;
+  }
   blockquote {
     border-left: 0.25em solid #ccc;
     padding-left: 0.5em;
