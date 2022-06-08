@@ -93,6 +93,7 @@ export default function MeetingAttendees({
                   pt="2px"
                   icon={<>?</>}
                   colorScheme="gray"
+                  cursor={editable ? 'pointer' : 'default'}
                   _disabled={{ opacity: 1 }}
                   isActive={present === null}
                   onClick={() => handlePresentChange(member.id, null)}
@@ -108,6 +109,7 @@ export default function MeetingAttendees({
                   aria-label={t('molecules.MeetingAttendees.absent')}
                   icon={<FiX />}
                   colorScheme="red"
+                  cursor={editable ? 'pointer' : 'default'}
                   _disabled={{ opacity: 1 }}
                   isActive={present === false}
                   onClick={() => handlePresentChange(member.id, false)}
@@ -123,6 +125,7 @@ export default function MeetingAttendees({
                   aria-label={t('molecules.MeetingAttendees.present')}
                   icon={<FiCheck />}
                   colorScheme="green"
+                  cursor={editable ? 'pointer' : 'default'}
                   _disabled={{ opacity: 1 }}
                   isActive={present === true}
                   onClick={() => handlePresentChange(member.id, true)}
@@ -137,7 +140,7 @@ export default function MeetingAttendees({
               tabIndex={-1}
             >
               <ButtonGroup variant="ghost" size="sm" isAttached>
-                <MemberButton member={member} pr={1} />
+                <MemberButton member={member} pr={editable ? 1 : undefined} />
                 {editable && (
                   <IconButton
                     aria-label={t('common.remove')}
