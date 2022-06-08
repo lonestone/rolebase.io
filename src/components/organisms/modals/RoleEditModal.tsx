@@ -286,12 +286,14 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                     {t('organisms.modals.RoleEditModal.singleMember')}
                   </Checkbox>
 
-                  <Checkbox
-                    {...register('autoCreate')}
-                    isDisabled={!singleMember}
-                  >
-                    {t('organisms.modals.RoleEditModal.autoCreate')}
-                  </Checkbox>
+                  {role.base && (
+                    <Checkbox
+                      {...register('autoCreate')}
+                      isDisabled={!singleMember}
+                    >
+                      {t('organisms.modals.RoleEditModal.autoCreate')}
+                    </Checkbox>
+                  )}
 
                   <Checkbox
                     name="link"
