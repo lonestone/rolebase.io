@@ -85,14 +85,14 @@ export default function CirclesPage() {
       </Box>
 
       {panel === Panels.Circle && circleId && (
-        <ModalPanel onClose={handleClosePanel}>
+        <ModalPanel key={circleId} onClose={handleClosePanel}>
           <CircleContent id={circleId} changeTitle />
           <Box h={20} />
         </ModalPanel>
       )}
 
       {panel === Panels.Member && memberId && (
-        <ModalPanel onClose={handleClosePanel}>
+        <ModalPanel key={memberId} onClose={handleClosePanel}>
           <MemberContent
             id={memberId}
             selectedCircleId={circleId || undefined}
