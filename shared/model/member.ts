@@ -34,6 +34,14 @@ export interface Participant {
   memberId: string
 }
 
+// Member with its represented circles in a specific context (eg: a meeting)
+// Do not store! Only for UI.
+export interface ParticipantMember {
+  member: MemberEntry
+  // Represented circles
+  circlesIds: string[]
+}
+
 // Collection "threadStatus" in member doc
 export interface MemberThreadStatus {
   lastReadActivityId: string

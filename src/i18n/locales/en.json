@@ -149,6 +149,13 @@
       "createTask": "New Task",
       "createThread": "New Thread"
     },
+    "MeetingAttendees": {
+      "maybe": "Maybe",
+      "absent": "Absent",
+      "present": "Present",
+      "add": "Add an attendee",
+      "confirmRemove": "Are you sure you want to remove this attendee from the meeting?"
+    },
     "MeetingStepContent": {
       "notesPlaceholder": "Notes..."
     },

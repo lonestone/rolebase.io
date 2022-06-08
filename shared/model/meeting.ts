@@ -11,7 +11,11 @@ export interface Meeting extends EntityWithParticipants {
   endDate: Timestamp
   ended: boolean
   title: string
+  // List of participants with status, set at meeting start
+  attendees?: MeetingAttendee[]
+  // Config of steps. Steps contents are stored in a "steps" collection
   stepsConfig: MeetingStepConfig[]
+  //  Current step when meeting is started and not ended
   currentStepId: string | null
   archived: boolean
   // True for integrated videoconference, or custom URL
@@ -24,4 +28,11 @@ export interface MeetingStepConfig {
   id: string
   type: MeetingStepTypes
   title: string
+}
+
+export interface MeetingAttendee {
+  memberId: string
+  // Represented circles
+  circlesIds: string[]
+  present: boolean | null
 }

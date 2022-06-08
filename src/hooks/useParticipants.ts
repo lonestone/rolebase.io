@@ -1,14 +1,13 @@
 import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
-import { MemberEntry, MembersScope, Participant } from '@shared/model/member'
+import {
+  MembersScope,
+  Participant,
+  ParticipantMember,
+} from '@shared/model/member'
 import { Optional } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-
-export interface ParticipantMember {
-  member: MemberEntry
-  circlesIds: string[]
-}
 
 export default function useParticipants(
   circleId?: string,
@@ -45,7 +44,7 @@ export default function useParticipants(
     }
 
     // Map participants to members
-    // with list of circles ids where it's participating
+    // with list of circles ids where they're participating
     const participantsMembers: ParticipantMember[] = []
     for (const participant of participants) {
       const participantMember = participantsMembers.find(

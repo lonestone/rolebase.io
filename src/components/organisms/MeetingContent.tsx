@@ -33,6 +33,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import MeetingActions from '@components/molecules/MeetingActions'
+import MeetingAttendees from '@components/molecules/MeetingAttendees'
 import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
@@ -44,9 +45,11 @@ import { useOrgRole } from '@hooks/useOrgRole'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
+import { ParticipantMember } from '@shared/model/member'
 import { ClaimRole } from '@shared/model/userClaims'
+import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import {
@@ -81,6 +84,7 @@ export default function MeetingContent({
   const currentMember = useCurrentMember()
   const userRole = useOrgRole()
   const isAdmin = userRole === ClaimRole.Admin
+  const members = useStoreState((state) => state.members.entries)
 
   // Subscribe meeting
   const {
@@ -105,11 +109,28 @@ export default function MeetingContent({
   const isStarted = !meeting?.ended && meeting?.currentStepId !== null
 
   // Participants
-  const participants = useParticipants(
+  const initialParticipants = useParticipants(
     meeting?.circleId,
     meeting?.participantsScope,
     meeting?.participantsMembersIds
   )
+
+  const attendeesParticipants: ParticipantMember[] = useMemo(
+    () =>
+      (meeting?.attendees
+        ?.map(({ memberId, circlesIds }) => {
+          const member = members?.find((m) => m.id === memberId)
+          if (!member) return
+          return { member, circlesIds }
+        })
+        .filter(Boolean) as ParticipantMember[]) || [],
+    [meeting, members]
+  )
+
+  // If attendees are set, take them instead of initial participants
+  const participants = meeting?.attendees
+    ? attendeesParticipants
+    : initialParticipants
 
   // Is current member participant? facilitator?
   const isParticipant = currentMember
@@ -177,10 +198,7 @@ export default function MeetingContent({
   // Next step
   const handleNextStep = useCallback(() => {
     if (!meeting) return
-    goToNextMeetingStep(
-      meeting,
-      participants.map((p) => p.member.id)
-    )
+    goToNextMeetingStep(meeting, participants)
   }, [meeting, participants])
 
   // Join video conference
@@ -226,9 +244,6 @@ export default function MeetingContent({
           {headerIcons}
         </Flex>
       </Flex>
-
-      {(loading || stepsLoading) && <Loading active size="md" />}
-      <TextErrors errors={[error, stepsError]} />
 
       {meeting && (
         <>
@@ -337,9 +352,19 @@ export default function MeetingContent({
                 </AlertDescription>
               </Alert>
             )}
+
+            <Collapse in={!!meeting.attendees} animateOpacity>
+              {meeting.attendees && (
+                <MeetingAttendees
+                  meetingId={meeting.id}
+                  attendees={meeting.attendees}
+                  editable={canEdit && (!meeting.ended || forceEdit)}
+                />
+              )}
+            </Collapse>
           </VStack>
 
-          <Box mt={10}>
+          <Box mt={16}>
             {meeting.stepsConfig.map((stepConfig, index) => {
               const last = index === meeting.stepsConfig.length - 1
               const step = steps?.find((s) => s.id === stepConfig.id)
@@ -405,6 +430,9 @@ export default function MeetingContent({
           </Box>
         </>
       )}
+
+      {(loading || stepsLoading) && <Loading active size="md" />}
+      <TextErrors errors={[error, stepsError]} />
 
       {isEditOpen && (
         <MeetingEditModal

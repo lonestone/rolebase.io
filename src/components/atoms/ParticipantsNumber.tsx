@@ -7,7 +7,7 @@ import {
   MenuButtonProps,
   MenuList,
 } from '@chakra-ui/react'
-import { ParticipantMember } from '@hooks/useParticipants'
+import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
 import CircleMemberLink from './CircleMemberLink'
 import MemberMenuItem from './MemberMenuItem'

@@ -115,6 +115,7 @@ export default function MeetingEditModal({
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const history = useHistory()
+  const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
 
   const defaultValues = useMemo(
     () => ({
@@ -363,24 +364,26 @@ export default function MeetingEditModal({
                 />
               </FormControl>
 
-              <FormControl
-                isInvalid={(circleId && participants.length === 0) || false}
-              >
-                <FormLabel display="flex" alignItems="center">
-                  {t('organisms.modals.MeetingEditModal.invite')}
-                  <ParticipantsNumber ml={2} participants={participants} />
-                </FormLabel>
-                <ParticipantsScopeSelect {...register('participantsScope')} />
+              {isNotStarted && (
+                <FormControl
+                  isInvalid={(circleId && participants.length === 0) || false}
+                >
+                  <FormLabel display="flex" alignItems="center">
+                    {t('organisms.modals.MeetingEditModal.invite')}
+                    <ParticipantsNumber ml={2} participants={participants} />
+                  </FormLabel>
+                  <ParticipantsScopeSelect {...register('participantsScope')} />
 
-                <Box mt={2}>
-                  <MembersMultiSelect
-                    membersIds={participantsMembersIds}
-                    excludeMembersIds={participants.map((p) => p.member.id)}
-                    onAdd={addParticipant}
-                    onRemove={removeParticipant}
-                  />
-                </Box>
-              </FormControl>
+                  <Box mt={2}>
+                    <MembersMultiSelect
+                      membersIds={participantsMembersIds}
+                      excludeMembersIds={participants.map((p) => p.member.id)}
+                      onAdd={addParticipant}
+                      onRemove={removeParticipant}
+                    />
+                  </Box>
+                </FormControl>
+              )}
 
               {participants.length !== 0 && (
                 <FormControl isInvalid={!!errors.facilitatorMemberId} flex="1">

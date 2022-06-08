@@ -2,6 +2,7 @@ import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { Meeting, MeetingEntry } from '@shared/model/meeting'
+import { ParticipantMember } from '@shared/model/member'
 import { Optional } from '@shared/model/types'
 import { orderBy, query, Timestamp, where } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
@@ -76,17 +77,30 @@ export async function endMeeting(meetingId: string, membersIds: string[]) {
 
 export async function goToNextMeetingStep(
   meeting: MeetingEntry,
-  membersIds: string[]
+  participants: ParticipantMember[]
 ) {
+  const membersIds = participants.map((p) => p.member.id)
+
   // Meeting not started
   if (meeting.currentStepId === null) {
     const firstStep = meeting.stepsConfig[0]
     if (firstStep) {
       // Go to first step
-      await updateMeeting(meeting.id, {
+      const changedFields: Partial<Meeting> = {
         currentStepId: firstStep.id,
         ended: false,
-      })
+      }
+
+      if (!meeting.attendees) {
+        // Set attendees list
+        changedFields.attendees = participants.map((participant) => ({
+          memberId: participant.member.id,
+          circlesIds: participant.circlesIds,
+          present: null,
+        }))
+      }
+
+      await updateMeeting(meeting.id, changedFields)
       startMembersMeeting(membersIds, meeting.id)
     } else {
       // No first step -> end meeting

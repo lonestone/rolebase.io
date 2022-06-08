@@ -7,6 +7,7 @@ export type WithId<Entity> = Entity & { id: string }
 export interface EntityWithParticipants {
   circleId: string
   participantsScope: MembersScope
+  // Additional participants
   participantsMembersIds: string[]
 }
 

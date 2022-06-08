@@ -1,8 +1,8 @@
 import { Circle, Flex } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import MemberAvatar from '@components/atoms/MemberAvatar'
-import { ParticipantMember } from '@hooks/useParticipants'
 import { CircleWithRoleEntry } from '@shared/model/circle'
+import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
 
 interface Props {
