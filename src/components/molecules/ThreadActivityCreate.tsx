@@ -56,6 +56,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
         placeholder={t('molecules.ThreadActivityCreate.placeholder')}
         value=""
         autoFocus
+        maxHeight="50vh"
         onSubmit={handleSubmit}
       />
 

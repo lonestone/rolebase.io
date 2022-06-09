@@ -17,6 +17,7 @@ export interface Props extends FormControlOptions {
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
+  maxHeight?: string
   onChange?(value: string): void
   onSave?(value: string): void // Called when Ctrl+S is pressed
   onSubmit?(value: string): void // Called when Cmd+Enter is pressed
@@ -24,7 +25,16 @@ export interface Props extends FormControlOptions {
 
 const SimpleEditor = forwardRef<EditorHandle, Props>(
   (
-    { value, placeholder, autoFocus, readOnly, onChange, onSave, onSubmit },
+    {
+      value,
+      placeholder,
+      autoFocus,
+      readOnly,
+      maxHeight,
+      onChange,
+      onSave,
+      onSubmit,
+    },
     ref
   ) => {
     const formControlProps = useFormControl<HTMLInputElement>({})
@@ -51,7 +61,11 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
 
     return (
       <BasicStyle>
-        <EditorContainer colorMode={colorMode} {...formControlProps}>
+        <EditorContainer
+          colorMode={colorMode}
+          maxHeight={maxHeight}
+          {...formControlProps}
+        >
           <RichSimpleEditor
             ref={editorRef}
             value={value}

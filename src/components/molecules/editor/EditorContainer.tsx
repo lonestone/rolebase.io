@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { ColorModeProps, mode } from 'src/utils'
 
 // Custom styles
-const EditorContainer = styled.div<ColorModeProps>`
+const EditorContainer = styled.div<ColorModeProps & { maxHeight?: string }>`
   & > div > div {
     font-family: inherit;
   }
@@ -12,6 +12,14 @@ const EditorContainer = styled.div<ColorModeProps>`
     padding: var(--chakra-space-2) var(--chakra-space-4);
     border-width: 1px;
     border-radius: 6px;
+
+    ${({ maxHeight }) =>
+      maxHeight
+        ? `
+    max-height: ${maxHeight};
+    overflow-y: auto;
+    `
+        : ''}
 
     //overflow: hidden;
     // Force to contain floating elements
