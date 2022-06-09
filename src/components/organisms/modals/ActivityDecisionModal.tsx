@@ -1,5 +1,8 @@
 import { createActivity, updateActivity } from '@api/entities/activities'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   Button,
   FormControl,
@@ -115,6 +118,17 @@ export default function ActivityDecisionModal({
         <ModalBody>
           <form onSubmit={onSubmit}>
             <VStack spacing={5} align="stretch">
+              <Alert status="warning" mt={2}>
+                <AlertIcon />
+                <AlertDescription>
+                  Rolebase va beaucoup évoluer prochainement pour faciliter les
+                  processus décisionnels de votre organisation.
+                  <br />
+                  En attendant, vous pouvez juste consigner une décision dans la
+                  discussion.
+                </AlertDescription>
+              </Alert>
+
               <FormControl isInvalid={!!errors.decision}>
                 <FormLabel>
                   {t('organisms.modals.ActivityDecisionModal.decision')}
