@@ -535,9 +535,9 @@
     "MeetingContent": {
       "heading": "Meeting: {{title}}",
       "started": "Started",
+      "ended": "Ended",
       "reopen": "Reopen",
       "stop": "Stop",
-      "edit": "Edit",
       "facilitatorCurrent": "You are facilitating this meeting.",
       "facilitatorMember": "<member /> is facilitating this meeting.",
       "start": "Start",

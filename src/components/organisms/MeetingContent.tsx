@@ -56,7 +56,6 @@ import {
   FiArrowDown,
   FiCalendar,
   FiClock,
-  FiEdit3,
   FiPlay,
   FiVideo,
   FiX,
@@ -150,6 +149,13 @@ export default function MeetingContent({
     }
   }, [isStarted, currentMember, meeting])
 
+  // Reset forced edition when meeting is not ended anymore
+  useEffect(() => {
+    if (forceEdit && !meeting?.ended) {
+      setForceEdit(false)
+    }
+  }, [meeting?.ended, forceEdit])
+
   // Circle
   const circle = useCircle(meeting?.circleId)
 
@@ -236,7 +242,13 @@ export default function MeetingContent({
           <ParticipantsNumber participants={participants} mr={1} />
 
           <ActionsMenu
-            onEdit={canEdit && !meeting?.ended ? handleEdit : undefined}
+            onEdit={
+              canEdit
+                ? meeting?.ended && !forceEdit
+                  ? () => setForceEdit(true)
+                  : handleEdit
+                : undefined
+            }
             onDuplicate={handleDuplicate}
             onDelete={canEdit && !meeting?.ended ? onDeleteOpen : undefined}
           />
@@ -268,7 +280,9 @@ export default function MeetingContent({
                 })}
               </Wrap>
 
-              {meeting?.ended && <Tag ml={1}>Terminée</Tag>}
+              {meeting?.ended && (
+                <Tag ml={1}>{t('organisms.MeetingContent.ended')}</Tag>
+              )}
 
               {isStarted && (
                 <Tag colorScheme="green" ml={1}>
@@ -276,27 +290,6 @@ export default function MeetingContent({
                 </Tag>
               )}
             </Wrap>
-
-            {meeting.ended && canEdit && (
-              <HStack>
-                {!forceEdit && (
-                  <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
-                    {t('organisms.MeetingContent.reopen')}
-                  </Button>
-                )}
-
-                <Button
-                  leftIcon={forceEdit ? <FiX /> : <FiEdit3 />}
-                  onClick={() => setForceEdit((e) => !e)}
-                >
-                  {t(
-                    forceEdit
-                      ? 'organisms.MeetingContent.stop'
-                      : 'organisms.MeetingContent.edit'
-                  )}
-                </Button>
-              </HStack>
-            )}
 
             {!meeting.ended &&
               (isFacilitator ? (
@@ -332,6 +325,17 @@ export default function MeetingContent({
               >
                 {t('organisms.MeetingContent.start')}
               </Button>
+            )}
+
+            {meeting.ended && canEdit && forceEdit && (
+              <HStack>
+                <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
+                  {t('organisms.MeetingContent.reopen')}
+                </Button>
+                <Button leftIcon={<FiX />} onClick={() => setForceEdit(false)}>
+                  {t('organisms.MeetingContent.stop')}
+                </Button>
+              </HStack>
             )}
 
             {isStarted && canEdit && meeting.videoConf && (

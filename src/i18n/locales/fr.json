@@ -531,9 +531,9 @@
     "MeetingContent": {
       "heading": "Réunion : {{title}}",
       "started": "En cours",
+      "ended": "Terminée",
       "reopen": "Reprendre",
       "stop": "Arrêter",
-      "edit": "Modifier",
       "facilitatorCurrent": "Vous animez cette réunion.",
       "facilitatorMember": "<member /> anime cette réunion.",
       "start": "Démarrer",
