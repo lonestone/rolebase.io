@@ -2,8 +2,8 @@ import { Member } from '@shared/model/member'
 import { ClaimRole } from '@shared/model/userClaims'
 import * as functions from 'firebase-functions'
 import { collections } from '../firebase'
-import { guardArgument, guardAuth } from '../guards'
-import { setUserClaim } from '../setUserClaim'
+import { guardArgument, guardAuth } from '../helpers/guards'
+import { setUserClaimOrg } from '../helpers/setUserClaimOrg'
 import { generateInviteToken } from './inviteMember'
 
 interface Payload {
@@ -69,7 +69,7 @@ export const acceptMemberInvitation = functions.https.onCall(
       } as Member)
 
       // Update user claims
-      await setUserClaim(uid, member.orgId, role)
+      await setUserClaimOrg(uid, member.orgId, role)
     } catch (error) {
       console.error(error)
       throw error

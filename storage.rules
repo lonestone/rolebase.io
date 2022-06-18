@@ -11,6 +11,7 @@ service firebase.storage {
         request.auth.token['org-' + orgId] == 'Readonly'
         || request.auth.token['org-' + orgId] == 'Member'
         || request.auth.token['org-' + orgId] == 'Admin'
+        || request.auth.token.superAdmin == true
       );
     }
 
@@ -18,12 +19,9 @@ service firebase.storage {
     	return isSignedIn() && (
         request.auth.token['org-' + orgId] == 'Member'
         || request.auth.token['org-' + orgId] == 'Admin'
+        || request.auth.token.superAdmin == true
       );
     }
-
-    // function isOrgAdmin(orgId) {
-    //   return isSignedIn() && request.auth.token['org-' + orgId] == 'Admin';
-    // }
 
     match /orgs/{orgId} {
       match /members/{memberId} {

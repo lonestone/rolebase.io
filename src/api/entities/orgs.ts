@@ -1,8 +1,9 @@
 import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { subscribeIdsChunks } from '@api/helpers/subscribeIdsChunks'
+import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { Org } from '@shared/model/org'
-import { query, where } from 'firebase/firestore'
+import { orderBy, query, where } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
 import { memoize } from 'src/memoize'
 import { functions } from '../firebase'
@@ -17,6 +18,16 @@ export const subscribeOrgs = memoize(
     subscribeIdsChunks(ids, (constraint) =>
       query(collection, where('archived', '==', archived), constraint)
     )
+)
+
+export const subscribeAllOrgs = memoize(() =>
+  subscribeQuery(
+    query(
+      collection,
+      where('archived', '==', false),
+      orderBy('createdAt', 'desc')
+    )
+  )
 )
 
 export async function createOrg(name: string): Promise<string> {

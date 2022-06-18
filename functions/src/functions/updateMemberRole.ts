@@ -2,8 +2,8 @@ import { ClaimRole } from '@shared/model/userClaims'
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import { collections } from '../firebase'
-import { guardArgument, guardAuth, guardOrg } from '../guards'
-import { setUserClaim } from '../setUserClaim'
+import { guardArgument, guardAuth, guardOrg } from '../helpers/guards'
+import { setUserClaimOrg } from '../helpers/setUserClaimOrg'
 
 interface Payload {
   memberId: string
@@ -41,7 +41,7 @@ export const updateMemberRole = functions.https.onCall(
           inviteEmail: admin.firestore.FieldValue.delete(),
         })
         if (member.userId) {
-          await setUserClaim(member.userId, member.orgId, undefined)
+          await setUserClaimOrg(member.userId, member.orgId, undefined)
         }
       } else if (data.role in ClaimRole) {
         // Update role
@@ -49,7 +49,7 @@ export const updateMemberRole = functions.https.onCall(
           role: data.role,
         })
         if (member.userId) {
-          await setUserClaim(member.userId, member.orgId, data.role)
+          await setUserClaimOrg(member.userId, member.orgId, data.role)
         }
       } else {
         throw new functions.https.HttpsError('invalid-argument', 'Invalid role')

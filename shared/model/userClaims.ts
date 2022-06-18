@@ -7,6 +7,7 @@ export enum ClaimRole {
 }
 
 export interface UserClaims {
+  superAdmin?: boolean
   [orgId: `org-${string}`]: ClaimRole
 }
 

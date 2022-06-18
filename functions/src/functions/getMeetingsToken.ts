@@ -1,6 +1,6 @@
 import { ClaimRole } from '@shared/model/userClaims'
 import * as functions from 'firebase-functions'
-import { guardOrg } from '../guards'
+import { guardOrg } from '../helpers/guards'
 import settings from '../settings'
 import { md5 } from '../utils'
 

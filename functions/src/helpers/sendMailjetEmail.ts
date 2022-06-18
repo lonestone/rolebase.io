@@ -1,5 +1,5 @@
 import * as mailjet from 'node-mailjet'
-import settings from './settings'
+import settings from '../settings'
 
 let client: mailjet.Email.Client | undefined
 

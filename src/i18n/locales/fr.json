@@ -104,7 +104,8 @@
       "baseRoles": "Rôles de base",
       "vacantRoles": "Rôles vacants",
       "meetingTemplates": "Modèles de réunion",
-      "logs": "Historique"
+      "logs": "Historique",
+      "superAdmin": "Admin"
     },
     "HeaderOrgMenu": {
       "create": "Créer une organisation"
@@ -513,6 +514,7 @@
       "representInCircle": "dans le Cercle <link />"
     },
     "Header": {
+      "orgs": "Organisations",
       "circles": "Cercles",
       "threads": "Discussions",
       "meetings": "Réunions",
@@ -655,6 +657,9 @@
     "SignupPage": {
       "heading": "Inscription",
       "signin": "Connexion"
+    },
+    "SuperAdminPage": {
+      "heading": "Administration"
     },
     "TasksPage": {
       "heading": "Tâches",

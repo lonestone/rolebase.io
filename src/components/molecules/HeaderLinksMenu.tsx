@@ -13,10 +13,12 @@ import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import { useOrgId } from '@hooks/useOrgId'
 import { useOrgRole } from '@hooks/useOrgRole'
+import useSuperAdmin from '@hooks/useSuperAdmin'
 import { ClaimRole } from '@shared/model/userClaims'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  FiActivity,
   FiCircle,
   FiClock,
   FiCopy,
@@ -42,6 +44,7 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
   const role = useOrgRole()
+  const superAdmin = useSuperAdmin()
 
   // Edit modal
   const [editOrgId, setEditOrgId] = useState<string | undefined>()
@@ -123,6 +126,11 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         {role === ClaimRole.Admin && (
           <MenuItem as={Link} to={`/orgs/${orgId}/logs`} icon={<FiClock />}>
             {t('molecules.HeaderLinksMenu.logs')}
+          </MenuItem>
+        )}
+        {superAdmin && (
+          <MenuItem as={Link} to={`/admin`} icon={<FiActivity />}>
+            {t('molecules.HeaderLinksMenu.superAdmin')}
           </MenuItem>
         )}
       </MenuList>

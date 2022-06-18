@@ -1,9 +1,10 @@
 import { ClaimRole } from '@shared/model/userClaims'
 import { getSeedRoles } from '@shared/seeds/roles'
+import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import { collections } from '../firebase'
-import { guardArgument, guardAuth } from '../guards'
-import { setUserClaim } from '../setUserClaim'
+import { guardArgument, guardAuth } from '../helpers/guards'
+import { setUserClaimOrg } from '../helpers/setUserClaimOrg'
 
 interface Payload {
   name: string
@@ -28,6 +29,7 @@ export const createOrg = functions.https.onCall(
     const orgRef = await collections.orgs.add({
       name: data.name,
       archived: false,
+      createdAt: admin.firestore.Timestamp.now() as any,
       defaultWorkedMinPerWeek: 35 * 60,
     })
 
@@ -43,7 +45,7 @@ export const createOrg = functions.https.onCall(
     })
 
     // Set user claim for org
-    await setUserClaim(uid, orgRef.id, ClaimRole.Admin)
+    await setUserClaimOrg(uid, orgRef.id, ClaimRole.Admin)
 
     // Create role
     const roleRef = await collections.roles.add({

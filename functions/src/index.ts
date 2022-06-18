@@ -11,12 +11,13 @@ export { updateMemberRole } from './functions/updateMemberRole'
 
 const app = express()
 
-// Automatically allow cross-origin requests
-// app.use(cors({ origin: true }))
-
 // Routes
 app.get('/meetings.ics', meetingsIcalRoute)
 app.get('/migration', migration)
 
 // Expose Express API as a single Cloud Function:
 exports.api = functions.https.onRequest(app)
+
+// Grant super admin powers to some user
+// import { setUserClaim } from './helpers/setUserClaim'
+// setUserClaim('<user_id>', { superAdmin: true })

@@ -1,6 +1,7 @@
 import { createOrg } from '@api/entities/orgs'
 import { nameSchema } from '@api/schemas'
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -14,9 +15,10 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import TextError from '@components/atoms/TextError'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useStoreActions, useStoreState } from '@store/hooks'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -37,6 +39,8 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
   const user = useStoreState((state) => state.auth.user)
   const refreshClaims = useStoreActions((actions) => actions.auth.refreshClaims)
   const history = useHistory()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<Error | undefined>()
 
   const {
     handleSubmit,
@@ -51,15 +55,21 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
       console.error('User not logged in')
       return
     }
-    modalProps.onClose()
+    setLoading(true)
+    setError(undefined)
+    try {
+      // Create org
+      const orgId = await createOrg(name)
 
-    // Create org
-    const orgId = await createOrg(name)
+      // Refresh user claims
+      await refreshClaims()
 
-    // Refresh user claims
-    await refreshClaims()
-
-    history.push(`/orgs/${orgId}`)
+      modalProps.onClose()
+      history.push(`/orgs/${orgId}`)
+    } catch (e) {
+      setError(e as Error)
+    }
+    setLoading(false)
   })
 
   return (
@@ -80,9 +90,12 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" type="submit">
-              {t('common.create')}
-            </Button>
+            <Box>
+              <Button colorScheme="blue" type="submit" isLoading={loading}>
+                {t('common.create')}
+              </Button>
+              {error && <TextError error={error} />}
+            </Box>
           </ModalFooter>
         </form>
       </ModalContent>

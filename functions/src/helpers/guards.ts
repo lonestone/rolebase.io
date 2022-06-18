@@ -1,6 +1,6 @@
 import { ClaimRole, isRoleSufficient } from '@shared/model/userClaims'
 import * as functions from 'firebase-functions'
-import { auth } from './firebase'
+import { auth } from '../firebase'
 
 export function guardAuth(context: functions.https.CallableContext) {
   if (!context.auth) {

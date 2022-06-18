@@ -20,6 +20,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaQuestion } from 'react-icons/fa'
 import {
+  FiArrowLeft,
   FiCalendar,
   FiCheckSquare,
   FiDisc,
@@ -100,10 +101,16 @@ export default function Header() {
       borderBottom="1px solid"
       borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
     >
+      {org ? (
+        <HeaderOrgMenu />
+      ) : window.location.pathname !== '/' ? (
+        <HeaderButton to="/" exact leftIcon={<FiArrowLeft />}>
+          {t('organisms.Header.orgs')}
+        </HeaderButton>
+      ) : null}
+
       {org && (
         <>
-          <HeaderOrgMenu />
-
           {!isSmallScreen &&
             links.map((link, i) => (
               <HeaderButton

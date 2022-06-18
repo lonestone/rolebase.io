@@ -104,7 +104,8 @@
       "baseRoles": "Basic roles",
       "vacantRoles": "Vacant roles",
       "meetingTemplates": "Meeting templates",
-      "logs": "History"
+      "logs": "History",
+      "superAdmin": "Admin"
     },
     "HeaderOrgMenu": {
       "create": "Create an organization"
@@ -243,7 +244,6 @@
       "add": "Add a thread"
     }
   },
-
   "organisms": {
     "modals": {
       "ActivityDecisionModal": {
@@ -517,6 +517,7 @@
       "representInCircle": "in Circle <link />"
     },
     "Header": {
+      "orgs": "Organizations",
       "circles": "Circles",
       "threads": "Threads",
       "meetings": "Meetings",
@@ -659,6 +660,9 @@
     "SignupPage": {
       "heading": "Register",
       "signin": "Sign in"
+    },
+    "SuperAdminPage": {
+      "heading": "Admin dashboard"
     },
     "TasksPage": {
       "heading": "Tasks",

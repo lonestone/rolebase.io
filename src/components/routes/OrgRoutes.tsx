@@ -11,6 +11,7 @@ import TasksPage from '@components/pages/TasksPage'
 import ThreadPage from '@components/pages/ThreadPage'
 import ThreadsPage from '@components/pages/ThreadsPage'
 import useOrg from '@hooks/useOrg'
+import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
 import React, { useEffect } from 'react'
@@ -58,8 +59,9 @@ export default function OrgRoutes() {
 
   // If org doesn't exist, redirect to root
   const history = useHistory()
+  const superAdmin = useSuperAdmin()
   useEffect(() => {
-    if (!org && !orgLoading) {
+    if (!org && !orgLoading && !superAdmin) {
       localStorage.removeItem(orgIdKey)
       history.replace('/')
     }
