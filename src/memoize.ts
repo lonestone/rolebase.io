@@ -10,7 +10,7 @@ export function memoize<Args extends any[], Result>(
     const key = JSON.stringify(args)
     if (map.has(key)) {
       const result = map.get(key)
-      if (result) {
+      if (result !== undefined) {
         return result
       }
     }

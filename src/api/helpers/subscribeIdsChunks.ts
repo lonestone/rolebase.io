@@ -2,7 +2,7 @@ import { WithId } from '@shared/model/types'
 import { documentId, Query, QueryConstraint, where } from 'firebase/firestore'
 import { stackSubscribe } from './stackSubscribe'
 import { SubscriptionFn } from './subscribe'
-import { subscribeQuery } from './subscribeQuery'
+import { subscribeQueryChanges } from './subscribeQueryChanges'
 
 export function subscribeIdsChunks<Entity>(
   ids: string[],
@@ -20,7 +20,7 @@ export function subscribeIdsChunks<Entity>(
 
     // Subscribe by chunks of 10 ids
     for (let i = 0; i < ids.length; i += 10) {
-      const subscribe = subscribeQuery(
+      const subscribe = subscribeQueryChanges(
         getQuery(where(documentId(), 'in', ids.slice(i, i + 10)))
       )
 
@@ -31,7 +31,6 @@ export function subscribeIdsChunks<Entity>(
           onData(chunksData.flat())
         }
       }, onError)
-
       unsubscribeHandlers.push(unsubscribe)
     }
     return () => {

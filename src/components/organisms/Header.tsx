@@ -29,6 +29,9 @@ import {
 
 export const headerHeight = 38
 
+// Force reset with fast refresh
+// @refresh reset
+
 export default function Header() {
   const { t } = useTranslation()
   const user = useStoreState((state) => state.auth.user)
@@ -102,15 +105,9 @@ export default function Header() {
       borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
     >
       {org ? (
-        <HeaderOrgMenu />
-      ) : window.location.pathname !== '/' ? (
-        <HeaderButton to="/" exact leftIcon={<FiArrowLeft />}>
-          {t('organisms.Header.orgs')}
-        </HeaderButton>
-      ) : null}
-
-      {org && (
         <>
+          <HeaderOrgMenu />
+
           {!isSmallScreen &&
             links.map((link, i) => (
               <HeaderButton
@@ -126,7 +123,12 @@ export default function Header() {
 
           <HeaderLinksMenu links={isSmallScreen ? links : undefined} />
         </>
-      )}
+      ) : window.location.pathname !== '/' ? (
+        <HeaderButton to="/" exact leftIcon={<FiArrowLeft />}>
+          {t('organisms.Header.orgs')}
+        </HeaderButton>
+      ) : null}
+
       <Spacer />
 
       {org && <HeaderSearch />}

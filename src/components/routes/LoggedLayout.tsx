@@ -8,11 +8,13 @@ import { useLocation } from 'react-router-dom'
 import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
 
 const LoggedLayout: React.FC = ({ children }) => {
-  const userId = useStoreState((state) => state.auth.user?.id)
   const claims = useStoreState((state) => state.auth.claims)
   const windowSize = useWindowSize()
   const location = useLocation()
   const superAdmin = useSuperAdmin()
+
+  const orgIdFromPath =
+    superAdmin && location.pathname.match(/^\/orgs\/([^/]+)(?:\/|$)/)?.[1]
 
   // Get orgs ids from user claims
   const orgIds = useMemo(() => {
@@ -22,13 +24,12 @@ const LoggedLayout: React.FC = ({ children }) => {
       .filter(Boolean) as string[]
 
     // Add orgId from path to orgIds if super admin
-    if (superAdmin) {
-      const orgId = location.pathname.match(/^\/orgs\/([^/]+)(?:\/|$)/)?.[1]
-      if (orgId) ids.push(orgId)
+    if (orgIdFromPath && ids.indexOf(orgIdFromPath) === -1) {
+      ids.push(orgIdFromPath)
     }
 
     return ids
-  }, [claims, superAdmin, location.pathname])
+  }, [claims, superAdmin, orgIdFromPath])
 
   // Subscribe to orgs
   const actions = useStoreActions((actions) => ({
@@ -36,12 +37,12 @@ const LoggedLayout: React.FC = ({ children }) => {
     unsubscribeOrgs: actions.orgs.unsubscribe,
   }))
   useEffect(() => {
-    if (!userId || !orgIds) return
+    if (!orgIds) return
     actions.subscribeOrgs(orgIds)
     return () => {
       actions.unsubscribeOrgs()
     }
-  }, [userId, orgIds])
+  }, [orgIds])
 
   return (
     <CircleMemberProvider>
