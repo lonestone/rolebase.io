@@ -39,7 +39,7 @@ export default function MemberInvitationPage() {
         console.error(error, JSON.stringify(error))
         setErrorOccurred(true)
         toast({
-          title: t('pages.MemberInvitationPage.toastError'),
+          title: t('common.error'),
           description: error instanceof Error ? error.message : '',
           status: 'error',
           duration: 4000,

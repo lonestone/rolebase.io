@@ -123,26 +123,36 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
       })
 
       // Change role
-      const newRole = role || undefined
-      if (newRole !== member.role) {
-        if (member.userId) {
-          // Update role
-          updateMemberRole(id, newRole)
-        } else if (newRole && inviteEmail) {
-          // Invite member
-          inviteMember(member.id, newRole, inviteEmail)
-          toast({
-            title: t('organisms.modals.MemberEditModal.toastInvited', {
-              member: member.name,
-            }),
-            status: 'success',
-            duration: 4000,
-            isClosable: true,
-          })
+      try {
+        const newRole = role || undefined
+        if (newRole !== member.role) {
+          if (member.userId) {
+            // Update role
+            await updateMemberRole(id, newRole)
+          } else if (newRole && inviteEmail) {
+            // Invite member
+            await inviteMember(member.id, newRole, inviteEmail)
+            toast({
+              title: t('organisms.modals.MemberEditModal.toastInvited', {
+                member: member.name,
+              }),
+              status: 'success',
+              duration: 4000,
+              isClosable: true,
+            })
+          }
         }
-      }
 
-      modalProps.onClose()
+        modalProps.onClose()
+      } catch (error) {
+        toast({
+          title: t('common.error'),
+          description: error instanceof Error ? error.message : '',
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        })
+      }
     }
   )
 

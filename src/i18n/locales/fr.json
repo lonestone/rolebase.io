@@ -13,6 +13,7 @@
     "seeLess": "Voir moins",
     "filters": "Filtres",
     "archives": "Archives",
+    "error": "Erreur",
     "meetingSteps": {
       "Tour": "Tour de table",
       "Threads": "Discussions",
@@ -404,14 +405,12 @@
       },
       "MemberPictureCropModal": {
         "heading": "Recadrez la photo",
-        "toastSuccess": "Nouvelle photo enregistrée, vous êtes magnifique !",
-        "toastError": "Erreur"
+        "toastSuccess": "Nouvelle photo enregistrée, vous êtes magnifique !"
       },
       "MembersInviteModal": {
         "heading": "Inviter des membres par email",
         "toastSuccess_one": "{{count}} membre invité !",
         "toastSuccess_other": "{{count}} membres invités !",
-        "toastError": "Erreur",
         "empty1": "Tous les membres existants sont déjà liés à un compte utilisateur.",
         "empty2": "Vous pouvez créer un nouveau membre puis l'inviter.",
         "searchPlaceholder": "Rechercher...",
@@ -616,8 +615,7 @@
       "openCurrent": "Ouvrir"
     },
     "MemberInvitationPage": {
-      "toastSuccess": "Invitation acceptée",
-      "toastError": "Erreur"
+      "toastSuccess": "Invitation acceptée"
     },
     "MembersPage": {
       "heading": "Membres",

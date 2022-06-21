@@ -127,7 +127,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
       modalProps.onClose()
     } catch (error) {
       toast({
-        title: t('organisms.modals.MembersInviteModal.toastError'),
+        title: t('common.error'),
         description: error instanceof Error ? error.message : '',
         status: 'error',
         duration: 4000,

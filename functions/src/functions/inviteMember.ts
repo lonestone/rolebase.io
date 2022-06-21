@@ -44,6 +44,14 @@ export const inviteMember = functions.https.onCall(
       throw new functions.https.HttpsError('not-found', 'Org not found')
     }
 
+    // Email already invited?
+    const checkEmailSnapshot = await collections.members
+      .where('inviteEmail', '==', data.email)
+      .get()
+    if (checkEmailSnapshot.docs[0]) {
+      throw new functions.https.HttpsError('not-found', 'Email already invited')
+    }
+
     // Get inviter member
     const inviterSnapshot = await collections.members
       .where('orgId', '==', orgId)

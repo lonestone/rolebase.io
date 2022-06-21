@@ -13,6 +13,7 @@
     "seeLess": "See less",
     "filters": "Filters",
     "archives": "Archives",
+    "error": "Error",
     "meetingSteps": {
       "Tour": "Round table",
       "Threads": "Threads",
@@ -407,14 +408,12 @@
       },
       "MemberPictureCropModal": {
         "heading": "Crop photo",
-        "toastSuccess": "New photo saved, you look amazing!",
-        "toastError": "Error"
+        "toastSuccess": "New photo saved, you look amazing!"
       },
       "MembersInviteModal": {
         "heading": "Invite members by email",
         "toastSuccess_one": "{{count}} member have been invited!",
         "toastSuccess_other": "{{count}} members have been invited!",
-        "toastError": "Error",
         "empty1": "All existing members are already linked to a user account.",
         "empty2": "You can create a new member and then invite them.",
         "searchPlaceholder": "Search...",
@@ -619,8 +618,7 @@
       "openCurrent": "Open"
     },
     "MemberInvitationPage": {
-      "toastSuccess": "Invite accepted",
-      "toastError": "Error"
+      "toastSuccess": "Invite accepted"
     },
     "MembersPage": {
       "heading": "Members",

@@ -17,7 +17,7 @@
   "dependencies": {
     "express": "^4.17.2",
     "firebase-admin": "^10.0.2",
-    "firebase-functions": "^3.21.1",
+    "firebase-functions": "^3.21.2",
     "i18next": "^21.6.16",
     "ical-generator": "^3.1.1",
     "module-alias": "^2.2.2",

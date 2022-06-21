@@ -88,7 +88,7 @@ export default function MemberPictureCropModal({
       })
     } catch (error) {
       toast({
-        title: t('organisms.modals.MemberPictureCropModal.toastError'),
+        title: t('common.error'),
         description: error instanceof Error ? error.message : '',
         status: 'error',
         duration: 4000,
