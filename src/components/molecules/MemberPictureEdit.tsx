@@ -1,4 +1,11 @@
-import { Avatar, Box, chakra, Tooltip, useDisclosure } from '@chakra-ui/react'
+import {
+  Avatar,
+  AvatarProps,
+  Box,
+  chakra,
+  Tooltip,
+  useDisclosure,
+} from '@chakra-ui/react'
 import React, {
   ChangeEventHandler,
   lazy,
@@ -17,9 +24,10 @@ interface Props {
   id: string
   name?: string
   src?: string
+  size?: AvatarProps['size']
 }
 
-export default function MemberPictureEdit({ id, name, src }: Props) {
+export default function MemberPictureEdit({ id, name, src, size }: Props) {
   const { t } = useTranslation()
 
   // Image crop modal
@@ -46,20 +54,23 @@ export default function MemberPictureEdit({ id, name, src }: Props) {
           position="absolute"
           w="100%"
           h="100%"
+          p={3}
           zIndex={1}
+          borderRadius="full"
           cursor="pointer"
           opacity={0}
           _hover={{ opacity: 1 }}
+          bg="rgba(0, 0, 0, 0.2)"
           fontSize="2rem"
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
-          <FiUpload />
+          <FiUpload color="white" />
         </Box>
       </Tooltip>
 
-      <Avatar name={name} src={src || undefined} size="lg" />
+      <Avatar name={name} src={src || undefined} size={size} />
 
       <input
         onChange={handlePictureFileChange}

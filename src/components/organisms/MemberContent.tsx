@@ -20,6 +20,7 @@ import Markdown from '@components/atoms/Markdown'
 import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
+import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import MemberRoles from '@components/molecules/MemberRoles'
 import useMember from '@hooks/useMember'
 import { useOrgRole } from '@hooks/useOrgRole'
@@ -75,11 +76,20 @@ export default function MemberContent({
       <ModalHeader pt={2} pr={3}>
         <Flex>
           <HStack mt={3} spacing={5}>
-            <Avatar
-              name={member.name}
-              src={member.picture || undefined}
-              size="md"
-            />
+            {canEdit ? (
+              <MemberPictureEdit
+                id={id}
+                name={member.name}
+                src={member.picture || undefined}
+                size="md"
+              />
+            ) : (
+              <Avatar
+                name={member.name}
+                src={member.picture || undefined}
+                size="md"
+              />
+            )}
             <Heading as="h2" size="md">
               {member.name}
             </Heading>

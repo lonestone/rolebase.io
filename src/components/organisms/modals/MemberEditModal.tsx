@@ -205,6 +205,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                   id={id}
                   name={member.name}
                   src={member.picture || undefined}
+                  size="lg"
                 />
 
                 <FormControl isInvalid={!!errors.name}>
