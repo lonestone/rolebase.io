@@ -8,18 +8,26 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCopy, FiEdit3, FiMoreVertical, FiTrash2 } from 'react-icons/fi'
+import {
+  FiCopy,
+  FiEdit3,
+  FiMoreVertical,
+  FiMove,
+  FiTrash2,
+} from 'react-icons/fi'
 
 interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onEdit?(): void
+  onMove?(): void
   onDuplicate?(): void
   onDelete?(): void
 }
 
 export default function ActionsMenu({
   onEdit,
-  onDelete,
+  onMove,
   onDuplicate,
+  onDelete,
   ...props
 }: Props) {
   const { t } = useTranslation()
@@ -44,6 +52,11 @@ export default function ActionsMenu({
         {onEdit && (
           <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
             {t('molecules.ActionsMenu.edit')}
+          </MenuItem>
+        )}
+        {onMove && (
+          <MenuItem icon={<FiMove />} onClick={onMove}>
+            {t('molecules.ActionsMenu.move')}
           </MenuItem>
         )}
         {onDuplicate && (

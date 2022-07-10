@@ -76,7 +76,8 @@
       "label": "Actions",
       "edit": "Editer",
       "duplicate": "Dupliquer",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "move": "Déplacer"
     },
     "CircleMeetings": {
       "heading": "Créer une réunion",
@@ -291,6 +292,13 @@
         "empty": "Aucun rôle de base",
         "create": "Créer un rôle de base"
       },
+      "CircleCopyModal": {
+        "heading": "Dupliquer un cercle",
+        "action1": "Ouvrez le graphique des Cercles.",
+        "action2": "Appuyez sur les touches",
+        "action3": "Faites glisser le cercle avec la souris (clic sans relâcher) en maintenant les touches enfoncées.",
+        "action4": "Déposez-le dans le cercle souhaité."
+      },
       "CircleCreateModal": {
         "headingRole": "Ajouter un Rôle",
         "headingCircle": "Ajouter un Cercle",
@@ -304,6 +312,13 @@
       "CircleMemberDeleteModal": {
         "heading": "Supprimer le rôle d'un membre",
         "info": "Êtes-vous sûr(e) de vouloir retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
+      },
+      "CircleMoveModal": {
+        "heading": "Déplacer un cercle",
+        "action1": "Ouvrez le graphique des Cercles.",
+        "action2": "Appuyez sur la touche",
+        "action3": "Faites glisser le cercle avec la souris (clic sans relâcher) en maintenant la touche enfoncée.",
+        "action4": "Déposez-le dans le cercle souhaité."
       },
       "CurrentUserModal": {
         "heading": "Mes informations personnelles",

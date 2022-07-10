@@ -76,7 +76,8 @@
       "label": "Actions",
       "edit": "Edit",
       "duplicate": "Duplicate",
-      "delete": "Delete"
+      "delete": "Delete",
+      "move": "Move"
     },
     "CircleMeetings": {
       "heading": "Create a meeting",
@@ -294,6 +295,13 @@
         "empty": "No basic roles",
         "create": "Create a basic role"
       },
+      "CircleCopyModal": {
+        "heading": "Duplicate a circle",
+        "action1": "Open the Circles graph.",
+        "action2": "Press the keys",
+        "action3": "Drag the circle with your mouse (click without releasing) while holding down the key.",
+        "action4": "Drop it in the desired circle."
+      },
       "CircleCreateModal": {
         "headingRole": "Add Role",
         "headingCircle": "Add Circle",
@@ -307,6 +315,13 @@
       "CircleMemberDeleteModal": {
         "heading": "Remove a member's role",
         "info": "Are you sure you want to remove remove role <b>{{role}}</b> from member <b>{{member}}</b>?"
+      },
+      "CircleMoveModal": {
+        "heading": "Move a circle",
+        "action1": "Open the Circles graph.",
+        "action2": "Press the key",
+        "action3": "Drag the circle with your mouse (click without releasing) while holding down the key.",
+        "action4": "Drop it in the desired circle."
       },
       "CurrentUserModal": {
         "heading": "My personal information",

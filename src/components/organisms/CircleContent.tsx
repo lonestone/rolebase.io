@@ -45,7 +45,9 @@ import {
   FiDisc,
   FiMessageSquare,
 } from 'react-icons/fi'
+import CircleCopyModal from './modals/CircleCopyModal'
 import CircleDeleteModal from './modals/CircleDeleteModal'
+import CircleMoveModal from './modals/CircleMoveModal'
 import RoleEditModal from './modals/RoleEditModal'
 
 interface Props {
@@ -86,19 +88,11 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
   // Role info toggle
   const { isOpen: isRoleInfoOpen, onToggle: onRoleInfoToggle } = useDisclosure()
 
-  // Role edit modal
-  const {
-    isOpen: isEditRoleOpen,
-    onOpen: onEditRoleOpen,
-    onClose: onEditRoleClose,
-  } = useDisclosure()
-
-  // Delete modal
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
+  // Modals
+  const editRoleModal = useDisclosure()
+  const deleteModal = useDisclosure()
+  const duplicateModal = useDisclosure()
+  const moveModal = useDisclosure()
 
   if (!role) {
     return (
@@ -125,8 +119,10 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
         </Box>
 
         <ActionsMenu
-          onEdit={onEditRoleOpen}
-          onDelete={circle.parentId ? onDeleteOpen : undefined}
+          onEdit={editRoleModal.onOpen}
+          onDelete={circle.parentId ? deleteModal.onOpen : undefined}
+          onMove={moveModal.onOpen}
+          onDuplicate={duplicateModal.onOpen}
         />
 
         {headerIcons}
@@ -284,12 +280,24 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
         </Tabs>
       </Box>
 
-      {isEditRoleOpen && circle && (
-        <RoleEditModal id={circle.roleId} isOpen onClose={onEditRoleClose} />
+      {editRoleModal.isOpen && circle && (
+        <RoleEditModal
+          id={circle.roleId}
+          isOpen
+          onClose={editRoleModal.onClose}
+        />
       )}
 
-      {isDeleteOpen && (
-        <CircleDeleteModal id={id} isOpen onClose={onDeleteClose} />
+      {deleteModal.isOpen && (
+        <CircleDeleteModal id={id} isOpen onClose={deleteModal.onClose} />
+      )}
+
+      {moveModal.isOpen && (
+        <CircleMoveModal isOpen onClose={moveModal.onClose} />
+      )}
+
+      {duplicateModal.isOpen && (
+        <CircleCopyModal isOpen onClose={duplicateModal.onClose} />
       )}
     </>
   )
