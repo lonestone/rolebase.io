@@ -32,13 +32,7 @@ interface Props extends UseModalProps {
   onSubmit(circles: CircleWithRoleEntry[]): void
 }
 
-const defaultRolesNames = [
-  'Product',
-  'Business',
-  'Communication',
-  'Marketing',
-  '',
-]
+const defaultRolesNames = ['Product', 'Business', 'Marketing', '']
 
 export default function OnboardingCirclesModal({
   onSubmit,

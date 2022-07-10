@@ -450,7 +450,7 @@
         "choiceCircle": "Other people are participating"
       },
       "OnboardingCirclesModal": {
-        "heading": "What do we do at {{org}}?",
+        "heading": "What are the main activities at {{org}}?",
         "info": "Let's create the main roles of the organization. In a traditional structure, these would be positions, departments or business units."
       },
       "OrgCreateModal": {

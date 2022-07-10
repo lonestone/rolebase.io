@@ -447,7 +447,7 @@
         "choiceCircle": "D'autres personnes participent"
       },
       "OnboardingCirclesModal": {
-        "heading": "Que fait-on chez {{org}} ?",
+        "heading": "Quelles sont les grandes activités chez {{org}} ?",
         "info": "On va créer les rôles principaux de l’organisation. Dans une structure traditionnelle, on parlerait de fonctions, de pôles ou de départements."
       },
       "OrgCreateModal": {
