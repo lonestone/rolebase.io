@@ -28,8 +28,7 @@ export function getCircleParticipants(
       if (role.singleMember) {
         if (ignoreSingleMember) return
         // Leader of Role
-        const memberId = circle.members[0]?.memberId
-        return memberId ? { circleId: circle.id, memberId } : undefined
+        return optionalParticipant(circle.id, circle.members[0]?.memberId)
       }
 
       // Find sub-Circle Representants
@@ -39,10 +38,11 @@ export function getCircleParticipants(
           // Find sub-Role
           const subRole = roles.find((r) => r.id === subCircle.roleId)
           if (subRole?.link === true) {
-            const memberId = subCircle.members[0]?.memberId
-            return memberId ? { circleId: circle.id, memberId } : undefined
+            return optionalParticipant(
+              circle.id,
+              subCircle.members[0]?.memberId
+            )
           }
-          return
         })
         .filter(Boolean) as Participant[]
       return leaders
@@ -58,14 +58,20 @@ export function getCircleParticipants(
       // Find Circles using this Role
       circles
         .filter((c) => c.roleId === role.id)
-        .map((circle) => {
-          // Get Member id
-          const memberId = circle.members[0]?.memberId
-          return memberId ? { circleId: circle.parentId, memberId } : undefined
-        })
+        // Get Member id
+        .map((circle) =>
+          optionalParticipant(circle.parentId, circle.members[0]?.memberId)
+        )
     )
     .flat()
     .filter(Boolean) as Participant[]
 
   return [...leaders, ...representants, ...directParticipants]
+}
+
+function optionalParticipant(
+  circleId?: string | null,
+  memberId?: string | null
+): Participant | undefined {
+  return circleId && memberId ? { circleId, memberId } : undefined
 }

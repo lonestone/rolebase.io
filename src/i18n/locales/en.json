@@ -99,6 +99,9 @@
       "heading": "Create a thread",
       "empty": "No thread yet"
     },
+    "CircleWithLeaderItem": {
+      "notAssigned": "Not assigned"
+    },
     "HeaderLinksMenu": {
       "settings": "Settings",
       "members": "Members",

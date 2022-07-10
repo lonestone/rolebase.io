@@ -99,6 +99,9 @@
       "heading": "Créer une discussion",
       "empty": "Aucune discussion pour le moment"
     },
+    "CircleWithLeaderItem": {
+      "notAssigned": "Non assigné"
+    },
     "HeaderLinksMenu": {
       "settings": "Paramètres",
       "members": "Membres",
