@@ -111,6 +111,7 @@ export default function MembersPage() {
             </Button>
             <Button
               size="sm"
+              colorScheme="blue"
               ml={1}
               leftIcon={<FiPlus />}
               onClick={onCreateOpen}

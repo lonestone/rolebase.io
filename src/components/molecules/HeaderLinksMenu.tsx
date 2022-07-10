@@ -1,4 +1,5 @@
 import {
+  Circle,
   IconButton,
   Menu,
   MenuButton,
@@ -33,7 +34,7 @@ export interface HeaderLink {
   label: string
   icon: ReactElement
   exact?: boolean
-  bg?: string
+  alert?: boolean
 }
 
 interface Props extends MenuButtonProps {
@@ -94,14 +95,17 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
 
       <MenuList zIndex={10} shadow="lg">
         {links?.map((link, i) => (
-          <MenuItem
-            key={i}
-            as={Link}
-            to={link.to}
-            icon={link.icon}
-            bg={link.bg}
-          >
+          <MenuItem key={i} as={Link} to={link.to} icon={link.icon}>
             {link.label}
+            {link.alert && (
+              <Circle
+                display="inline-block"
+                ml={2}
+                size="8px"
+                bg="red.400"
+                _dark={{ bg: 'red.600' }}
+              />
+            )}
           </MenuItem>
         ))}
 

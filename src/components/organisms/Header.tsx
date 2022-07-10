@@ -3,7 +3,6 @@ import {
   IconButton,
   Spacer,
   Tooltip,
-  useColorMode,
   useMediaQuery,
 } from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
@@ -27,7 +26,7 @@ import {
   FiMessageSquare,
 } from 'react-icons/fi'
 
-export const headerHeight = 38
+export const headerHeight = 50
 
 // Force reset with fast refresh
 // @refresh reset
@@ -37,7 +36,6 @@ export default function Header() {
   const user = useStoreState((state) => state.auth.user)
   const org = useCurrentOrg()
   const currentMember = useCurrentMember()
-  const { colorMode } = useColorMode()
 
   // Links
   const links: HeaderLink[] = useMemo(
@@ -59,11 +57,7 @@ export default function Header() {
               to: `/orgs/${org.id}/meetings`,
               icon: <FiCalendar />,
               label: t('organisms.Header.meetings'),
-              bg: currentMember?.meetingId
-                ? colorMode === 'light'
-                  ? 'blue.100'
-                  : 'blue.900'
-                : undefined,
+              alert: !!currentMember?.meetingId,
             },
             {
               to: `/orgs/${org.id}/tasks?member=${currentMember?.id}`,
@@ -72,7 +66,7 @@ export default function Header() {
             },
           ]
         : [],
-    [org, currentMember, colorMode, t]
+    [org, currentMember, t]
   )
 
   // Open help chatbox
@@ -101,16 +95,16 @@ export default function Header() {
       px={1}
       pt="1px"
       borderBottom="1px solid"
-      bg={'gray.50'}
+      bg="gray.50"
       borderBottomColor={'gray.200'}
       _dark={{
-        bg: 'gray.600',
+        bg: 'gray.700',
         borderBottomColor: 'gray.550',
       }}
     >
       {org ? (
         <>
-          <HeaderOrgMenu />
+          <HeaderOrgMenu mr={2} />
 
           {!isSmallScreen &&
             links.map((link, i) => (
@@ -118,8 +112,8 @@ export default function Header() {
                 key={i}
                 to={link.to}
                 exact={link.exact}
-                leftIcon={link.icon}
-                bg={link.bg}
+                icon={link.icon}
+                alert={link.alert}
               >
                 {link.label}
               </HeaderButton>
@@ -128,7 +122,7 @@ export default function Header() {
           <HeaderLinksMenu links={isSmallScreen ? links : undefined} />
         </>
       ) : window.location.pathname !== '/' ? (
-        <HeaderButton to="/" exact leftIcon={<FiArrowLeft />}>
+        <HeaderButton to="/" exact icon={<FiArrowLeft />}>
           {t('organisms.Header.orgs')}
         </HeaderButton>
       ) : null}

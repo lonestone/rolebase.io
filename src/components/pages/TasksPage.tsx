@@ -81,7 +81,13 @@ export default function TasksPage() {
 
         <Spacer />
 
-        <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+        <Button
+          size="sm"
+          colorScheme="blue"
+          ml={1}
+          leftIcon={<FiPlus />}
+          onClick={onCreateOpen}
+        >
           {t('pages.TasksPage.create')}
         </Button>
       </Flex>

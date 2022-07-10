@@ -275,7 +275,13 @@ export default function MeetingsPage() {
           {t('pages.MeetingsPage.export')}
         </Button>
 
-        <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={handleCreate}>
+        <Button
+          size="sm"
+          colorScheme="blue"
+          ml={1}
+          leftIcon={<FiPlus />}
+          onClick={handleCreate}
+        >
           {t('pages.MeetingsPage.create')}
         </Button>
       </Flex>

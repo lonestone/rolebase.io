@@ -40,7 +40,7 @@ export default function ColorController<Values>({
               min={0}
               max={360}
               step={1}
-              defaultValue={35}
+              defaultValue={defaultCircleColorHue}
               value={field.value as number}
               mt={3}
               onChange={(value) => field.onChange(value)}

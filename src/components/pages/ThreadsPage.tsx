@@ -112,7 +112,13 @@ export default function ThreadsPage() {
           </MenuList>
         </Menu>
 
-        <Button size="sm" ml={1} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+        <Button
+          size="sm"
+          colorScheme="blue"
+          ml={1}
+          leftIcon={<FiPlus />}
+          onClick={onCreateOpen}
+        >
           {t('pages.ThreadsPage.create')}
         </Button>
       </Flex>

@@ -11,14 +11,14 @@ export function StyledTab({ icon, children }: Props) {
   return (
     <Tab
       fontWeight={600}
-      color="gray.500"
       pl={0}
       py={3}
-      _selected={{
-        color: colorMode === 'light' ? 'black' : 'white',
-      }}
+      color={colorMode === 'light' ? 'gray.500' : 'whiteAlpha.600'}
       _hover={{
-        color: colorMode === 'light' ? 'gray.550' : 'gray.400',
+        color: colorMode === 'light' ? 'gray.550' : 'whiteAlpha.800',
+      }}
+      _selected={{
+        color: colorMode === 'light' ? 'gray.900' : 'white',
       }}
     >
       {icon}

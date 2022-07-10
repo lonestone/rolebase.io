@@ -1,7 +1,7 @@
 import { extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 
-export const defaultCircleColorHue = 35
+export const defaultCircleColorHue = 200
 
 export const circleColor = (lightness: string, hue?: number | string) =>
   `hsl(${

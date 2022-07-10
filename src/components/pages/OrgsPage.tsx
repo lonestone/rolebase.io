@@ -66,7 +66,11 @@ export default function OrgsPage() {
         </Heading>
         <Spacer />
         {orgs?.length && (
-          <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
+          <Button
+            colorScheme="blue"
+            leftIcon={<FiPlus />}
+            onClick={onCreateOpen}
+          >
             {t('common.create')}
           </Button>
         )}
