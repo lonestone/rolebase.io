@@ -4,7 +4,9 @@ import { mode } from '@chakra-ui/theme-tools'
 export const defaultCircleColorHue = 35
 
 export const circleColor = (lightness: string, hue?: number | string) =>
-  `hsl(${hue ?? defaultCircleColorHue} ${lightness} ${lightness})`
+  `hsl(${
+    hue ?? defaultCircleColorHue
+  } calc(${lightness} / 2 + 25%) ${lightness})`
 
 // https://chakra-ui.com/docs/theming/theme
 // https://chakra-ui.com/docs/theming/customize-theme

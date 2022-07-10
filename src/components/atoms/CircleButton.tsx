@@ -1,6 +1,7 @@
-import { Button, ButtonProps } from '@chakra-ui/react'
+import { Button, ButtonProps, useColorMode } from '@chakra-ui/react'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import React from 'react'
+import { circleColor } from 'src/theme'
 import { textEllipse } from 'src/utils'
 import CircleMemberLink from './CircleMemberLink'
 
@@ -9,9 +10,19 @@ interface Props extends ButtonProps {
 }
 
 export default function CircleButton({ circle, ...buttonProps }: Props) {
+  const { colorMode } = useColorMode()
+
   return (
     <CircleMemberLink circleId={circle.id} tabIndex={-1}>
-      <Button size="sm" borderRadius="full" {...buttonProps}>
+      <Button
+        bg={circleColor(
+          colorMode === 'light' ? '92%' : '18%',
+          circle.role.colorHue || undefined
+        )}
+        size="sm"
+        borderRadius="full"
+        {...buttonProps}
+      >
         {textEllipse(circle.role.name, 20)}
       </Button>
     </CircleMemberLink>

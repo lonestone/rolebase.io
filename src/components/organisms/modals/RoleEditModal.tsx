@@ -122,10 +122,10 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
 
   const onSubmit = handleSubmit(async (values) => {
     if (!role) return
+    modalProps.onClose()
 
     // Update role data
     await updateRole(id, values)
-    modalProps.onClose()
 
     // Log change
     createLog({
