@@ -548,7 +548,8 @@
       "submit": "Connexion"
     },
     "MeetingContent": {
-      "heading": "Réunion : {{title}}",
+      "title": "Réunion {{circle}} : {{title}}",
+      "heading": "Réunion <circle /> {{title}}",
       "started": "En cours",
       "ended": "Terminée",
       "reopen": "Reprendre",

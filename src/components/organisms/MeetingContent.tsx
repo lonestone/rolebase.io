@@ -221,7 +221,8 @@ export default function MeetingContent({
     <Box {...boxProps}>
       {changeTitle && (
         <Title>
-          {t('organisms.MeetingContent.heading', {
+          {t('organisms.MeetingContent.title', {
+            circle: circle?.role.name || '',
             title: meeting?.title || '…',
           })}
         </Title>
@@ -229,16 +230,18 @@ export default function MeetingContent({
 
       <Flex mb={3}>
         <Heading as="h1" size="md">
-          {t('organisms.MeetingContent.heading', {
-            title: meeting?.title || '…',
-          })}
+          <Trans
+            i18nKey="organisms.MeetingContent.heading"
+            values={{ title: meeting?.title || '…' }}
+            components={{
+              circle: circle ? <CircleButton circle={circle} mx={1} /> : <></>,
+            }}
+          />
         </Heading>
 
         <Spacer />
 
         <Flex mr={headerIcons ? -2 : 0}>
-          {circle && <CircleButton circle={circle} mr={1} />}
-
           <ParticipantsNumber participants={participants} mr={1} />
 
           <ActionsMenu

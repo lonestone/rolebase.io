@@ -43,6 +43,7 @@ export function getCircleParticipants(
               subCircle.members[0]?.memberId
             )
           }
+          return
         })
         .filter(Boolean) as Participant[]
       return leaders

@@ -551,7 +551,8 @@
       "submit": "Sign in"
     },
     "MeetingContent": {
-      "heading": "Meeting: {{title}}",
+      "title": "Meeting {{circle}}: {{title}}",
+      "heading": "Meeting <circle /> {{title}}",
       "started": "Started",
       "ended": "Ended",
       "reopen": "Reopen",

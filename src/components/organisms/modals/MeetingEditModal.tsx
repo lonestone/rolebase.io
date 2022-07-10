@@ -70,6 +70,7 @@ interface Props extends UseModalProps {
   duplicate?: boolean // If true and meeting provided, the meeting will be duplicated
   defaultCircleId?: string
   defaultStartDate?: Date
+  defaultDuration?: number
   onCreate?(meetingId: string): void
 }
 
@@ -108,6 +109,7 @@ export default function MeetingEditModal({
   duplicate,
   defaultCircleId,
   defaultStartDate,
+  defaultDuration,
   onCreate,
   ...modalProps
 }: Props) {
@@ -132,7 +134,7 @@ export default function MeetingEditModal({
       ),
       duration: meeting
         ? Math.round((meeting.endDate.seconds - meeting.startDate.seconds) / 60)
-        : 60,
+        : defaultDuration || 30,
       stepsConfig: meeting?.stepsConfig ?? [
         {
           id: nanoid(5),

@@ -28,6 +28,7 @@ import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
 import MeetingExportModal from '@components/organisms/modals/MeetingExportModal'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
 import {
+  DateSelectArg,
   DatesSetArg,
   EventChangeArg,
   EventClickArg,
@@ -35,7 +36,7 @@ import {
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import FullCalendar, { EventContentArg, EventInput } from '@fullcalendar/react'
+import FullCalendar, { EventInput } from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
@@ -48,13 +49,20 @@ import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
-import { circleColor } from 'src/theme'
 
 const getColors = (mode: ColorMode) => ({
-  bgNotStarted: mode === 'light' ? circleColor('85%') : circleColor('25%'),
-  bgStarted: mode === 'light' ? 'hsl(144deg 76% 85%)' : 'hsl(144deg 76% 25%)',
-  bgEnded: mode === 'light' ? 'hsl(192deg 34% 92%)' : 'hsl(192deg 34% 18%)',
-  bgCircleName: mode === 'light' ? circleColor('93%') : circleColor('17%'),
+  bgNotStarted:
+    mode === 'light'
+      ? 'var(--chakra-colors-blue-100)'
+      : 'var(--chakra-colors-blue-800)',
+  bgStarted:
+    mode === 'light'
+      ? 'var(--chakra-colors-green-100)'
+      : 'var(--chakra-colors-green-800)',
+  bgEnded:
+    mode === 'light'
+      ? 'var(--chakra-colors-gray-100)'
+      : 'var(--chakra-colors-gray-550)',
 })
 
 export default function MeetingsPage() {
@@ -95,7 +103,6 @@ export default function MeetingsPage() {
   const events = useMemo(
     () =>
       meetings?.map((meeting): EventInput => {
-        let title = meeting.title
         let roleName = undefined
 
         // Add role name to title
@@ -104,6 +111,8 @@ export default function MeetingsPage() {
           const circleWithRole = enrichCircleWithRole(circle, roles)
           roleName = circleWithRole?.role.name
         }
+
+        const title = `${roleName} - ${meeting.title}`
 
         // Can move event or change duration?
         const isNotStarted = !meeting.ended && meeting.currentStepId === null
@@ -121,45 +130,10 @@ export default function MeetingsPage() {
             : meeting.currentStepId !== null
             ? colors.bgStarted
             : colors.bgNotStarted,
-          extendedProps: {
-            roleName,
-          },
           editable: canEditConfig,
         }
       }),
     [meetings, roles, colors]
-  )
-
-  // Customize event title
-  const handleEventContent = useCallback(
-    (eventContent: EventContentArg) => {
-      const {
-        title,
-        extendedProps: { roleName },
-      } = eventContent.event
-      const view = eventContent.view.type
-      return {
-        html: `
-          <div style="overflow: hidden;">
-            <span style="
-                padding: 2px 4px;
-              ">
-              ${title}
-            </span>
-            ${view === 'listWeek' ? '' : '<br />'}
-            <div style="
-                width: fit-content;
-                display: inline-block;
-                background: ${colors.bgCircleName};
-                padding: 2px 4px;
-                border-radius: 10px;
-              ">
-              ${roleName}
-            </div>
-          </div>`,
-      }
-    },
-    [roles, colors]
   )
 
   const handleCreate = useCallback(() => {
@@ -196,6 +170,12 @@ export default function MeetingsPage() {
     [meetings]
   )
 
+  const handleSelect = useCallback(({ start, end }: DateSelectArg) => {
+    setStartDate(start)
+    setDuration(Math.round((end.getTime() - start.getTime()) / (1000 * 60)))
+    onCreateOpen()
+  }, [])
+
   const handleDatesChange = useCallback(
     ({ start, end }: DatesSetArg) => {
       setDatesRange([start, end])
@@ -218,6 +198,7 @@ export default function MeetingsPage() {
 
   // Create meeting Modal
   const [startDate, setStartDate] = useState<Date | undefined>()
+  const [duration, setDuration] = useState<number>(30)
   const {
     isOpen: isCreateOpen,
     onOpen: onCreateOpen,
@@ -319,8 +300,9 @@ export default function MeetingsPage() {
           allDaySlot={false}
           nowIndicator
           editable
-          eventContent={handleEventContent}
+          selectable
           dateClick={handleDateClick}
+          select={handleSelect}
           eventClick={handleEventClick}
           eventChange={handleEventChange}
           datesSet={handleDatesChange}
@@ -334,6 +316,7 @@ export default function MeetingsPage() {
       {isCreateOpen && (
         <MeetingEditModal
           defaultStartDate={startDate}
+          defaultDuration={duration}
           isOpen
           onCreate={handleCreated}
           onClose={onCreateClose}
