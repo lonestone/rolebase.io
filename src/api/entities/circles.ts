@@ -175,6 +175,7 @@ async function copyCircleInternal(
     ...circle,
     parentId: targetCircleId,
     roleId,
+    members: circle.members.map((member) => ({ ...member, id: nanoid(10) })),
   }
   const newCircleDoc = doc(collection)
   batch.set(newCircleDoc, newCircle)
