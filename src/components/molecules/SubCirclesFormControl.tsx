@@ -77,20 +77,22 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
       }
 
       // Add roles with autoCreate=true
-      const autoCreateRoles = roles.filter((r) => r.autoCreate)
-      for (const autoCreateRole of autoCreateRoles) {
-        const autoCreateCircle = await createCircle({
-          orgId,
-          roleId: autoCreateRole.id,
-          parentId: newCircle.id,
-          members: [],
-        })
+      if (!singleMember) {
+        const autoCreateRoles = roles.filter((r) => r.autoCreate)
+        for (const autoCreateRole of autoCreateRoles) {
+          const autoCreateCircle = await createCircle({
+            orgId,
+            roleId: autoCreateRole.id,
+            parentId: newCircle.id,
+            members: [],
+          })
 
-        changes.circles?.push({
-          type: EntityChangeType.Create,
-          id: autoCreateCircle.id,
-          data: autoCreateCircle,
-        })
+          changes.circles?.push({
+            type: EntityChangeType.Create,
+            id: autoCreateCircle.id,
+            data: autoCreateCircle,
+          })
+        }
       }
 
       // Log changes
