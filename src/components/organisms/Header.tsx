@@ -100,9 +100,13 @@ export default function Header() {
       alignItems="center"
       px={1}
       pt="1px"
-      bg={colorMode === 'light' ? 'gray.50' : 'gray.600'}
       borderBottom="1px solid"
-      borderBottomColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+      bg={'gray.50'}
+      borderBottomColor={'gray.200'}
+      _dark={{
+        bg: 'gray.600',
+        borderBottomColor: 'gray.550',
+      }}
     >
       {org ? (
         <>

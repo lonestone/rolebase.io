@@ -3,7 +3,6 @@ import {
   ModalContextProvider,
   ModalProps,
   StylesProvider,
-  useColorMode,
   useModal,
   useMultiStyleConfig,
 } from '@chakra-ui/react'
@@ -15,7 +14,6 @@ export default function ModalPanel({
   children,
   ...props
 }: Omit<ModalProps, 'isOpen'>) {
-  const { colorMode } = useColorMode()
   const styles = useMultiStyleConfig('Modal', props)
   const modal = useModal({ isOpen: true, ...props })
 
@@ -29,10 +27,14 @@ export default function ModalPanel({
       maxW="100vw"
       overflow="auto"
       zIndex={1}
-      bg={colorMode === 'light' ? 'white' : 'gray.700'}
       borderRadius={0}
       borderLeftWidth={'1px'}
-      borderLeftColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+      bg={'white'}
+      borderLeftColor={'gray.200'}
+      _dark={{
+        bg: 'gray.700',
+        borderLeftColor: 'gray.550',
+      }}
     >
       <ModalContextProvider value={context}>
         <StylesProvider value={styles}>{children}</StylesProvider>

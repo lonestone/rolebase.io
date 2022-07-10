@@ -1,4 +1,4 @@
-import { Circle, Flex } from '@chakra-ui/react'
+import { Box, Circle, Flex } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import MemberAvatar from '@components/atoms/MemberAvatar'
 import { CircleWithRoleEntry } from '@shared/model/circle'
@@ -20,7 +20,7 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
   )
 
   return (
-    <Flex>
+    <Flex alignItems="center">
       {membersIds.length === 0 ? (
         <Circle size={8} bg="gray.50" _dark={{ bg: 'gray.700' }} />
       ) : (
@@ -28,7 +28,8 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
           <MemberAvatar key={memberId} id={memberId} size="sm" />
         ))
       )}
-      <CircleButton circle={circle} ml={1} />
+      <Box h="8px" w={1} bg={'gray.200'} _dark={{ bg: 'gray.550' }} />
+      <CircleButton circle={circle} />
     </Flex>
   )
 }
