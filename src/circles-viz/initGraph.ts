@@ -22,7 +22,7 @@ export function initGraph(
     .append('feDropShadow')
     .attr('flood-opacity', 0.3)
     .attr('dx', 0)
-    .attr('dy', 1)
+    .attr('dy', 3)
 
   // Zoom
   const zoomG = svg.append('g').attr('class', 'panzoom')
@@ -37,6 +37,12 @@ export function initGraph(
       zoom.scale = event.transform.k
       zoomG.attr('transform', event.transform)
       svgElement.style.setProperty('--zoom-scale', zoom.scale.toString())
+
+      // Prevent from interacting with members when zoom < 1
+      svgElement.style.setProperty(
+        '--member-pointer-events',
+        zoom.scale > 1 ? 'auto' : 'none'
+      )
     })
   svg.call(zoomBehaviour).attr('cursor', 'move')
 

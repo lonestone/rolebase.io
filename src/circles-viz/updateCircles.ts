@@ -7,7 +7,6 @@ import { d3CircleCenterName, d3CircleTopName } from './circleName'
 import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getFirstname } from './getFirstname'
-import { getNodeColor } from './getNodeColor'
 import { getTargetNodeData } from './getTargetNodeData'
 import { getHighlightTransition } from './highlightCircle'
 import { packData } from './packData'
@@ -77,10 +76,6 @@ export default function updateCircles(
     node.x *= nodeScale
     node.y *= nodeScale
   }
-  const maxDepth = nodesMap.reduce(
-    (max, node) => (node.depth > max ? node.depth : max),
-    0
-  )
 
   // Set focus functions
   const focusCircle = (
@@ -92,7 +87,7 @@ export default function updateCircles(
       zoom.to(
         node.x,
         node.y,
-        adaptScale ? Math.max(200, node.r + 40) : 0,
+        adaptScale ? Math.max(100, node.r * 1.1) : 0,
         instant
       )
     }
@@ -132,7 +127,7 @@ export default function updateCircles(
       (nodeEnter) => {
         const nodeGroup = nodeEnter
           .append('g')
-          .attr('class', 'circle')
+          .attr('class', (d) => `circle type-${d.data.type}`)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
           // Hover
@@ -175,8 +170,6 @@ export default function updateCircles(
           .append('circle')
           .attr('id', (d) => `circle-${d.data.id}`)
           .attr('r', (d) => d.r)
-          .attr('fill', (d) => getNodeColor(d))
-          .attr('cursor', 'pointer')
           .attr('stroke-width', '0') // Init stroke-width for transitions
 
         // Add clip-path with circle
@@ -193,8 +186,8 @@ export default function updateCircles(
         nodeCircles
           .append('text')
           .text((d) => d.data.name)
-          .attr('cursor', 'pointer')
-          .call(d3CircleTopName(maxDepth))
+          .attr('cursor', 'var(--circle-cursor)')
+          .call(d3CircleTopName)
 
         // Add member picture
         const nodeMembers = nodeGroup.filter(
@@ -215,6 +208,7 @@ export default function updateCircles(
         nodeMembers
           .append('text')
           .attr('font-size', `10px`)
+          .attr('fill', 'white')
           .attr('y', '0.5em')
           .text((d) => getFirstname(d.data.name))
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
@@ -280,7 +274,7 @@ export default function updateCircles(
                 // Highlight dragged circle
                 d3.select(this).attr('data-dragging', '')
               })
-              .on('drag', function (event, dragNode) {
+              .on('drag', function (event) {
                 const dX = event.x - dragOrigin.x
                 const dY = event.y - dragOrigin.y
                 if (dragNodes && dragTargets) {
@@ -302,8 +296,6 @@ export default function updateCircles(
                   const targetData = getTargetNodeData(dragTargets, event, zoom)
 
                   if (targetData !== dragTarget) {
-                    const transition = getHighlightTransition()
-
                     // Unhighlight previously targeted circle
                     dragTargets
                       .filter((node) => node === dragTarget)
@@ -313,25 +305,12 @@ export default function updateCircles(
                       .filter((node) => node === targetData)
                       .attr('data-drag-target', '')
 
-                    // Change color of dragged circle
-                    dragNodes
-                      .select('circle')
-                      .transition(transition as any)
-                      .attr('fill', (d) =>
-                        getNodeColor(
-                          d,
-                          (targetData ? targetData.depth : 0) +
-                            d.depth -
-                            dragNode.depth +
-                            1
-                        )
-                      )
                     dragTarget = targetData
                   }
                 }
               })
               .on('end', function (event, dragNode) {
-                const { shiftKey } = event.sourceEvent
+                const shiftKey: boolean = event.sourceEvent.shiftKey
                 const transition = getHighlightTransition()
 
                 // Drag end
@@ -392,7 +371,6 @@ export default function updateCircles(
                     .transition(transition as any)
                     .attr('transform', (d) => `translate(${d.x},${d.y})`)
                     .select('circle')
-                    .attr('fill', (d) => getNodeColor(d))
 
                   // Reset circles names
                   dragNodes.data().forEach((d) => {
@@ -435,7 +413,6 @@ export default function updateCircles(
           .select('circle')
           .transition(transition as any)
           .attr('r', (d) => d.r)
-          .attr('fill', (d) => getNodeColor(d))
           .attr('opacity', 1)
           .attr('stroke', 'none')
 
@@ -444,7 +421,7 @@ export default function updateCircles(
           .filter((d) => d.data.type === NodeType.Circle)
           .select<SVGTextElement>('text')
           .text((d) => d.data.name)
-          .call(d3CircleTopName(maxDepth))
+          .call(d3CircleTopName)
 
         // Update member name
         const nodeUpdateMembers = nodeUpdate.filter(

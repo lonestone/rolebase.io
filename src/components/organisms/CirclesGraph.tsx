@@ -15,42 +15,81 @@ interface Props {
   onReady?(): void
 }
 
-const StyledSVG = styled.svg<ColorModeProps>`
+type SVGProps = ColorModeProps & {
+  circleCursor: string
+  width: number
+  height: number
+}
+
+const StyledSVG = styled.svg<SVGProps>`
   position: absolute;
   font-family: var(--chakra-fonts-circles);
   font-size: 8px;
   font-weight: 600;
   fill: ${mode('#1a202c', 'rgba(255, 255, 255, 0.92)')};
 
-  [data-hover] circle {
-    stroke: ${(p) =>
-      circleColor(
-        mode(
-          `calc(88% - (var(--depth) - 1) * 7%)`,
-          `calc(22% + (var(--depth) - 1) * 7%)`
-        )(p),
-        'var(--hue)'
-      )};
-    stroke-width: 2px;
+  --circle-cursor: ${(p) => p.circleCursor};
+  --member-pointer-events: auto;
+  --graph-width: ${(p) => p.width};
+  --graph-height: ${(p) => p.height};
+  --graph-min-size: ${(p) => Math.min(p.width, p.height)};
+  --depth-color-variation: 5%;
+
+  circle {
+    fill: transparent;
+    cursor: var(--circle-cursor);
   }
-  [data-selected] circle {
-    stroke: ${(p) =>
-      circleColor(
-        mode(
-          `calc(75% - (var(--depth) - 1) * 7%)`,
-          `calc(35% + (var(--depth) - 1) * 7%)`
-        )(p),
-        'var(--hue)'
-      )};
-    stroke-width: 2px;
+
+  .type-Circle,
+  .type-Member {
+    circle {
+      fill: ${(p) =>
+        circleColor(
+          mode(
+            `calc(94% - (var(--depth) - 1) * var(--depth-color-variation))`, // Light theme
+            `calc(16% + (var(--depth) - 1) * var(--depth-color-variation))` // Dark theme
+          )(p),
+          'var(--hue)'
+        )};
+    }
+
+    &[data-hover] circle {
+      stroke: ${(p) =>
+        circleColor(
+          mode(
+            `calc(88% - (var(--depth) - 1) * var(--depth-color-variation))`,
+            `calc(22% + (var(--depth) - 1) * var(--depth-color-variation))`
+          )(p),
+          'var(--hue)'
+        )};
+      stroke-width: calc(4 / var(--zoom-scale));
+    }
+    &[data-selected] circle {
+      stroke: ${(p) =>
+        circleColor(
+          mode(
+            `calc(75% - (var(--depth) - 1) * var(--depth-color-variation))`,
+            `calc(35% + (var(--depth) - 1) * var(--depth-color-variation))`
+          )(p),
+          'var(--hue)'
+        )};
+      stroke-width: calc(4 / var(--zoom-scale));
+    }
+    &[data-dragging] circle {
+      filter: url(#${({ id }) => id}-shadow);
+      fill-opacity: 0.5;
+    }
+    &[data-drag-target] circle {
+      stroke: ${(p) => circleColor(mode('20%', '80%')(p))};
+      stroke-width: 3px;
+    }
   }
-  [data-dragging] circle {
-    filter: url(#${({ id }) => id}-shadow);
-    fill-opacity: 0.5;
-  }
-  [data-drag-target] circle {
-    stroke: ${(p) => circleColor(mode('20%', '80%')(p))};
-    stroke-width: 3px;
+
+  .type-Member {
+    // Hide member when zoom < 1
+    opacity: clamp(0, (var(--zoom-scale) - 1) * 7 + 1, 1);
+    // Allow click only when zoom >= 1
+    pointer-events: var(--member-pointer-events);
   }
 `
 
@@ -137,6 +176,29 @@ export default function CirclesGraph({
     }
   }, [ready])
 
+  // Cursor depending on ctrl and shift keys
+  // It's useful for the drag behavior
+  const [cursor, setCursor] = useState('pointer')
+  useEffect(() => {
+    let shift = false
+    let ctrl = false
+    const handler = (event: KeyboardEvent) => {
+      const newShift = event.shiftKey
+      const newCtrl = event.ctrlKey || event.metaKey
+      if (newShift !== shift || newCtrl !== ctrl) {
+        shift = newShift
+        ctrl = newCtrl
+        setCursor(ctrl ? (shift ? 'copy' : 'grab') : 'pointer')
+      }
+    }
+    document.body.addEventListener('keydown', handler)
+    document.body.addEventListener('keyup', handler)
+    return () => {
+      document.body.removeEventListener('keydown', handler)
+      document.body.removeEventListener('keyup', handler)
+    }
+  }, [])
+
   return (
     <StyledSVG
       ref={svgRef}
@@ -145,6 +207,7 @@ export default function CirclesGraph({
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       textAnchor="middle"
+      circleCursor={cursor}
       colorMode={colorMode}
     />
   )
