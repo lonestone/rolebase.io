@@ -47,27 +47,26 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
     const threadStatusMethods = currentMember
       ? memberThreadsStatus(currentMember?.id)
       : undefined
-    const { data: threadStatus, loading: loeadingThreadStatus } =
+    const { data: threadStatus, loading: loadingThreadStatus } =
       useSubscription(
         thread && threadStatusMethods?.subscribeThreadStatus?.(thread.id)
       )
     useEffect(() => {
-      if (!thread || !activities || !currentMember || loeadingThreadStatus)
+      if (!thread || !activities || !currentMember || loadingThreadStatus) {
         return
+      }
       const lastActivity = activities[activities.length - 1]
-      if (
-        lastActivity &&
-        threadStatus?.lastReadActivityId !== lastActivity.id
-      ) {
+      const lastReadActivityId = lastActivity?.id || '0'
+      if (threadStatus?.lastReadActivityId !== lastReadActivityId) {
         // Show a mark after previously seen activity
-        if (threadStatus && !markStatus) {
+        if (lastActivity && threadStatus && !markStatus) {
           setMarkStatus(threadStatus)
         }
 
         // Save new status
         threadStatusMethods?.createThreadStatus(
           {
-            lastReadActivityId: lastActivity.id,
+            lastReadActivityId,
           },
           thread.id
         )
@@ -77,7 +76,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
       activities,
       threadStatus,
       markStatus,
-      loeadingThreadStatus,
+      loadingThreadStatus,
       currentMember,
     ])
 

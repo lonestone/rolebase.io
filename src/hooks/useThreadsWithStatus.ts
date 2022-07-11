@@ -34,7 +34,8 @@ export default function useThreadsWithStatus(threads?: ThreadEntry[]) {
           if (!status) return { ...thread, read: false }
           // Thread is read if last seen activity is last in thread
           const read =
-            status && status.lastReadActivityId === thread.lastActivityId
+            !thread.lastActivityId ||
+            (status && status.lastReadActivityId === thread.lastActivityId)
           return { ...thread, status, read }
         })
         .sort((a, b) => {
