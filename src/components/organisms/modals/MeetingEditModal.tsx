@@ -118,7 +118,7 @@ export default function MeetingEditModal({
   const currentMember = useCurrentMember()
   const history = useHistory()
   const isNotStarted =
-    !meeting || (meeting.ended && meeting.currentStepId === null)
+    !meeting || (!meeting.ended && meeting.currentStepId === null)
 
   const defaultValues = useMemo(
     () => ({
