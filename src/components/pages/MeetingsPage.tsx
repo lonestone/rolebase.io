@@ -233,7 +233,7 @@ export default function MeetingsPage() {
             variant="ghost"
             rightIcon={<FiChevronDown />}
           >
-            {t('common.filters')}
+            {t(`pages.MeetingsPage.participation.${filter}` as any)}
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
@@ -243,10 +243,10 @@ export default function MeetingsPage() {
               onChange={handleFilterChange}
             >
               <MenuItemOption value={EntityFilters.Invited}>
-                {t('pages.MeetingsPage.participation.invited')}
+                {t('pages.MeetingsPage.participation.Invited')}
               </MenuItemOption>
               <MenuItemOption value={EntityFilters.NotInvited}>
-                {t('pages.MeetingsPage.participation.notInvited')}
+                {t('pages.MeetingsPage.participation.NotInvited')}
               </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>

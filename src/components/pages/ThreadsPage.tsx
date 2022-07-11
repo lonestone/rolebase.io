@@ -12,6 +12,7 @@ import {
   MenuOptionGroup,
   Spacer,
   Tag,
+  TagCloseButton,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -71,7 +72,12 @@ export default function ThreadsPage() {
           {t('pages.ThreadsPage.heading')}
         </Heading>
 
-        {archives && <Tag ml={2}>{t('common.archives')}</Tag>}
+        {archives && (
+          <Tag ml={2}>
+            {t('common.archives')}
+            <TagCloseButton onClick={() => setArchives(false)} />
+          </Tag>
+        )}
 
         <Spacer />
 
@@ -82,7 +88,7 @@ export default function ThreadsPage() {
             variant="ghost"
             rightIcon={<FiChevronDown />}
           >
-            {t('common.filters')}
+            {t(`pages.ThreadsPage.participation.${filter}` as any)}
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
@@ -92,10 +98,10 @@ export default function ThreadsPage() {
               onChange={handleFilterChange}
             >
               <MenuItemOption value={EntityFilters.Invited}>
-                {t('pages.ThreadsPage.participation.invited')}
+                {t('pages.ThreadsPage.participation.Invited')}
               </MenuItemOption>
               <MenuItemOption value={EntityFilters.NotInvited}>
-                {t('pages.ThreadsPage.participation.notInvited')}
+                {t('pages.ThreadsPage.participation.NotInvited')}
               </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />

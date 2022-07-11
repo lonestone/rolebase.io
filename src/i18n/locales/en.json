@@ -628,8 +628,9 @@
       "heading": "Meetings",
       "participation": {
         "title": "Participation",
-        "invited": "My meetings",
-        "notInvited": "Other meetings"
+        "Invited": "My meetings",
+        "NotInvited": "Other meetings",
+        "All": "All meetings"
       },
       "export": "Export",
       "create": "New meeting",
@@ -689,8 +690,9 @@
       "heading": "Threads",
       "participation": {
         "title": "Participation",
-        "invited": "My threads",
-        "notInvited": "Other threads"
+        "Invited": "My threads",
+        "NotInvited": "Other threads",
+        "All": "All threads"
       },
       "archives": {
         "title": "Archive",

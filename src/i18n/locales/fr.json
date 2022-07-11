@@ -625,8 +625,9 @@
       "heading": "Réunions",
       "participation": {
         "title": "Participation",
-        "invited": "Mes réunions",
-        "notInvited": "Autres réunions"
+        "Invited": "Mes réunions",
+        "NotInvited": "Autres réunions",
+        "All": "Toutes les réunions"
       },
       "export": "Exporter",
       "create": "Nouvelle réunion",
@@ -686,8 +687,9 @@
       "heading": "Discussions",
       "participation": {
         "title": "Participation",
-        "invited": "Mes discussions",
-        "notInvited": "Autres discussions"
+        "Invited": "Mes discussions",
+        "NotInvited": "Autres discussions",
+        "All": "Toutes les discussions"
       },
       "archives": {
         "title": "Archives",
