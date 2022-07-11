@@ -35,7 +35,7 @@
   --fc-button-text-color: var(--chakra-colors-gray-800);
   --fc-button-bg-color: var(--chakra-colors-gray-100);
   --fc-button-hover-bg-color: var(--chakra-colors-gray-200);
-  --fc-button-active-bg-color: var(--chakra-colors-gray-300);
+  --fc-button-active-bg-color: var(--chakra-colors-gray-200);
   --fc-today-bg-color: rgba(255, 220, 40, 0.15);
   --fc-list-event-hover-bg-color: var(--chakra-colors-gray-50);
 }
@@ -76,11 +76,15 @@ a.fc-daygrid-event:hover {
 
 /* Title */
 .fc .fc-toolbar-title {
-  font-size: 1.2em;
+  font-size: var(--chakra-fontSizes-lg);
+  font-family: var(--chakra-fonts-heading);
+  font-weight: bold;
 }
 
 /* Button */
 .fc .fc-button {
+  padding: 4px 12px;
+  font-size: var(--chakra-fontSizes-sm);
   border-radius: 0.375rem;
   border-color: transparent;
 }
@@ -91,12 +95,17 @@ a.fc-daygrid-event:hover {
 .fc .fc-button-primary:hover {
   border-color: transparent;
 }
+.fc .fc-next-button,
+.fc .fc-prev-button {
+  padding: 4px 8px;
+}
 
 /* Button active */
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
   color: inherit;
   border-color: transparent;
+  font-weight: bold;
 }
 
 /* Outline */
@@ -109,7 +118,7 @@ a.fc-daygrid-event:hover {
 
 /* Margins */
 .fc .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 0.25em;
+  margin-bottom: 8px;
 }
 
 /* Change toolbar layout on small screens */

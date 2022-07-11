@@ -219,7 +219,7 @@ export default function MeetingsPage() {
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      <Flex mb={1} alignItems="center" flexWrap="wrap">
+      <Flex mb={2} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           {t('pages.MeetingsPage.heading')}
         </Heading>
@@ -268,7 +268,7 @@ export default function MeetingsPage() {
       </Flex>
 
       {currentMember?.meetingId && (
-        <Alert status="info" mt={2} mb={3} maxW={400}>
+        <Alert status="info" mb={2} maxW={400}>
           <AlertIcon />
           <AlertTitle>{t('pages.MeetingsPage.current')}</AlertTitle>
           <Spacer />
