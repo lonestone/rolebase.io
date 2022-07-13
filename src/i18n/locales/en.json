@@ -14,6 +14,8 @@
     "filters": "Filters",
     "archives": "Archives",
     "error": "Error",
+    "name": "Name",
+    "namePlaceholder": "Name...",
     "meetingSteps": {
       "Tour": "Round table",
       "Threads": "Threads",
@@ -255,7 +257,9 @@
         "headingEdit": "Edit a decision",
         "headingCreate": "Add a decision",
         "decision": "Decision",
+        "decisionPlacerholder": "What did you decide?",
         "explanation": "Explanations",
+        "explanationPlaceholder": "Why did you make this decision?",
         "circle": "Circle / Role"
       },
       "ActivityDeleteModal": {
@@ -287,8 +291,7 @@
         "endDate": "Closing date"
       },
       "BaseRoleCreateModal": {
-        "heading": "Create a basic role",
-        "name": "Name"
+        "heading": "Create a basic role"
       },
       "BaseRolesModal": {
         "heading": "Organization's basic roles",
@@ -301,12 +304,6 @@
         "action2": "Press the keys",
         "action3": "Drag the circle with your mouse (click without releasing) while holding down the key.",
         "action4": "Drop it in the desired circle."
-      },
-      "CircleCreateModal": {
-        "headingRole": "Add Role",
-        "headingCircle": "Add Circle",
-        "name": "Name",
-        "baseRole": "Or use a basic role:"
       },
       "CircleDeleteModal": {
         "heading": "Delete circle",
@@ -325,10 +322,10 @@
       },
       "CurrentUserModal": {
         "heading": "My personal information",
-        "name": "Name",
         "email": "Email",
+        "emailPlaceholder": "Email address...",
         "password": "Change password",
-        "passwordPlaceholder": "Change Password",
+        "passwordPlaceholder": "New password...",
         "toastSuccess": "Information updated"
       },
       "LangModal": {
@@ -385,6 +382,7 @@
         "headingEdit": "Edit meeting template",
         "headingCreate": "New meeting template",
         "title": "Title",
+        "titlePlaceholder": "Title...",
         "steps": "Steps"
       },
       "MeetingTemplatesModal": {
@@ -393,8 +391,7 @@
         "create": "Create a new meeting template"
       },
       "MemberCreateModal": {
-        "heading": "Add Member",
-        "name": "Name"
+        "heading": "Add Member"
       },
       "MemberDeleteModal": {
         "heading": "Remove Member",
@@ -405,12 +402,12 @@
         "toastInvited": "You have invited {{member}} to join the organization!",
         "toastReInvited": "You have re-invited {{member}} to join the organization.",
         "toastRevocated": "Invite revoked",
-        "name": "Name",
         "description": "Description",
         "descriptionPlaceholder": "Who is {{name}}?",
         "workingTime": "Working time for organization",
         "invitation": {
           "userInvited": "Guest user",
+          "rolePlaceholder": "Choose a role",
           "options": {
             "revoke": "Revoke invitation",
             "readonly": "Read only",
@@ -454,8 +451,7 @@
         "info": "Let's create the main roles of the organization. In a traditional structure, these would be positions, departments or business units."
       },
       "OrgCreateModal": {
-        "heading": "Create Organization",
-        "name": "Name"
+        "heading": "Create Organization"
       },
       "OrgDeleteModal": {
         "heading": "Delete Organization",
@@ -463,7 +459,6 @@
       },
       "OrgEditModal": {
         "heading": "Edit Organization {{org}}",
-        "name": "Name",
         "workingTime": "Default working time"
       },
       "RoleDeleteModal": {

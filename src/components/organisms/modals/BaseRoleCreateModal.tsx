@@ -87,10 +87,12 @@ export default function BaseRoleCreateModal({
 
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
-              <FormLabel>
-                {t('organisms.modals.BaseRoleCreateModal.name')}
-              </FormLabel>
-              <Input {...register('name')} placeholder="Nom..." autoFocus />
+              <FormLabel>{t('common.name')}</FormLabel>
+              <Input
+                {...register('name')}
+                placeholder={t('common.namePlaceholder')}
+                autoFocus
+              />
             </FormControl>
           </ModalBody>
 

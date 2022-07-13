@@ -14,6 +14,8 @@
     "filters": "Filtres",
     "archives": "Archives",
     "error": "Erreur",
+    "name": "Nom",
+    "namePlaceholder": "Nom...",
     "meetingSteps": {
       "Tour": "Tour de table",
       "Threads": "Discussions",
@@ -252,7 +254,9 @@
         "headingEdit": "Modifier une décision",
         "headingCreate": "Ajouter une décision",
         "decision": "Décision",
+        "decisionPlacerholder": "Qu'avez-vous décidé ?",
         "explanation": "Explications",
+        "explanationPlaceholder": "Pourquoi avez-vous pris cette décision ?",
         "circle": "Cercle / Rôle"
       },
       "ActivityDeleteModal": {
@@ -284,8 +288,7 @@
         "endDate": "Date de clôture"
       },
       "BaseRoleCreateModal": {
-        "heading": "Créer un rôle de base",
-        "name": "Nom"
+        "heading": "Créer un rôle de base"
       },
       "BaseRolesModal": {
         "heading": "Rôles de base",
@@ -298,12 +301,6 @@
         "action2": "Appuyez sur les touches",
         "action3": "Faites glisser le cercle avec la souris (clic sans relâcher) en maintenant les touches enfoncées.",
         "action4": "Déposez-le dans le cercle souhaité."
-      },
-      "CircleCreateModal": {
-        "headingRole": "Ajouter un Rôle",
-        "headingCircle": "Ajouter un Cercle",
-        "name": "Nom",
-        "baseRole": "Ou utiliser un rôle de base :"
       },
       "CircleDeleteModal": {
         "heading": "Supprimer un cercle",
@@ -322,10 +319,10 @@
       },
       "CurrentUserModal": {
         "heading": "Mes informations personnelles",
-        "name": "Nom",
         "email": "Email",
+        "emailPlaceholder": "Adresse email...",
         "password": "Modifier le mot de passe",
-        "passwordPlaceholder": "Modifier le mot de passe",
+        "passwordPlaceholder": "Nouveau mot de passe...",
         "toastSuccess": "Informations mises à jour"
       },
       "LangModal": {
@@ -382,6 +379,7 @@
         "headingEdit": "Modifier un modèle de réunion",
         "headingCreate": "Nouveau modèle de réunion",
         "title": "Titre",
+        "titlePlaceholder": "Titre...",
         "steps": "Déroulé"
       },
       "MeetingTemplatesModal": {
@@ -390,8 +388,7 @@
         "create": "Créer un nouveau modèle de réunion"
       },
       "MemberCreateModal": {
-        "heading": "Ajouter un membre",
-        "name": "Nom"
+        "heading": "Ajouter un membre"
       },
       "MemberDeleteModal": {
         "heading": "Supprimer un membre",
@@ -402,12 +399,12 @@
         "toastInvited": "Vous avez invité {{member}} à rejoindre l'organisation !",
         "toastReInvited": "Vous avez ré-invité {{member}} à rejoindre l'organisation.",
         "toastRevocated": "Invitation révoquée",
-        "name": "Nom",
         "description": "Description",
         "descriptionPlaceholder": "Qui est {{name}} ?",
         "workingTime": "Temps de travail pour l'organisation",
         "invitation": {
           "userInvited": "Utilisateur invité",
+          "rolePlaceholder": "Choisir un rôle",
           "options": {
             "revoke": "Révoquer l'invitation",
             "readonly": "Lecture seule",
@@ -451,8 +448,7 @@
         "info": "On va créer les rôles principaux de l’organisation. Dans une structure traditionnelle, on parlerait de fonctions, de pôles ou de départements."
       },
       "OrgCreateModal": {
-        "heading": "Créer une organisation",
-        "name": "Nom"
+        "heading": "Créer une organisation"
       },
       "OrgDeleteModal": {
         "heading": "Supprimer une organisation",
@@ -460,7 +456,6 @@
       },
       "OrgEditModal": {
         "heading": "Modifier l'organisation {{org}}",
-        "name": "Nom",
         "workingTime": "Temps de travail par défaut"
       },
       "RoleDeleteModal": {

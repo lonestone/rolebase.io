@@ -108,7 +108,9 @@ export default function MeetingTemplateModal({
                 </FormLabel>
                 <Input
                   {...register('title')}
-                  placeholder="Titre..."
+                  placeholder={t(
+                    'organisms.modals.MeetingTemplateModal.titlePlaceholder'
+                  )}
                   autoFocus
                 />
               </FormControl>

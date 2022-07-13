@@ -114,12 +114,10 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel>
-                  {t('organisms.modals.CurrentUserModal.name')}
-                </FormLabel>
+                <FormLabel>{t('common.name')}</FormLabel>
                 <Input
                   {...register('name')}
-                  placeholder="Nom..."
+                  placeholder={t('common.namePlaceholder')}
                   autoFocus
                   autoComplete="off"
                   data-lpignore="true"
@@ -133,7 +131,9 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                 <Input
                   {...register('email')}
                   type="email"
-                  placeholder="Adresse email..."
+                  placeholder={t(
+                    'organisms.modals.CurrentUserModal.emailPlaceholder'
+                  )}
                   autoComplete="off"
                   data-lpignore="true"
                 />
@@ -145,7 +145,9 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                 </FormLabel>
                 <PasswordInput
                   {...register('password')}
-                  placeholder="Nouveau mot de passe..."
+                  placeholder={t(
+                    'organisms.modals.CurrentUserModal.passwordPlaceholder'
+                  )}
                   autoComplete="new-password"
                 />
               </FormControl>

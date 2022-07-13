@@ -91,10 +91,12 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
             <ModalBody>
               <VStack spacing={5}>
                 <FormControl isInvalid={!!errors.name}>
-                  <FormLabel>
-                    {t('organisms.modals.OrgEditModal.name')}
-                  </FormLabel>
-                  <Input {...register('name')} placeholder="Nom..." autoFocus />
+                  <FormLabel>{t('common.name')}</FormLabel>
+                  <Input
+                    {...register('name')}
+                    placeholder={t('common.namePlaceholder')}
+                    autoFocus
+                  />
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>

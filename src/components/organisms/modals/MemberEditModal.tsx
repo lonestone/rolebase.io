@@ -209,10 +209,12 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 />
 
                 <FormControl isInvalid={!!errors.name}>
-                  <FormLabel>
-                    {t('organisms.modals.MemberEditModal.name')}
-                  </FormLabel>
-                  <Input {...register('name')} placeholder="Nom..." autoFocus />
+                  <FormLabel>{t('common.name')}</FormLabel>
+                  <Input
+                    {...register('name')}
+                    placeholder={t('common.namePlaceholder')}
+                    autoFocus
+                  />
                 </FormControl>
               </HStack>
               <FormControl isInvalid={!!errors.description}>
@@ -317,7 +319,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                     <HStack>
                       <Select
                         {...register('role')}
-                        placeholder="Choisir un rôle"
+                        placeholder={t(
+                          'organisms.modals.MemberEditModal.invitation.rolePlaceholder'
+                        )}
                       >
                         <option value={ClaimRole.Readonly}>
                           {t(

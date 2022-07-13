@@ -135,7 +135,9 @@ export default function ActivityDecisionModal({
                 </FormLabel>
                 <SimpleEditorController
                   name="decision"
-                  placeholder="Qu'avez-vous décidé ?"
+                  placeholder={t(
+                    'organisms.modals.ActivityDecisionModal.decisionPlacerholder'
+                  )}
                   autoFocus
                   control={control}
                 />
@@ -147,7 +149,9 @@ export default function ActivityDecisionModal({
                 </FormLabel>
                 <SimpleEditorController
                   name="explanation"
-                  placeholder="Pourquoi avez-vous pris cette décision ?"
+                  placeholder={t(
+                    'organisms.modals.ActivityDecisionModal.explanationPlaceholder'
+                  )}
                   control={control}
                 />
               </FormControl>
