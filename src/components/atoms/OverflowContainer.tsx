@@ -1,5 +1,6 @@
 import { Box, BoxProps } from '@chakra-ui/react'
 import { useElementSize } from '@hooks/useElementSize'
+import useWindowSize from '@hooks/useWindowSize'
 import React, { useEffect, useRef, useState } from 'react'
 
 export interface OverflowContainerProps extends BoxProps {
@@ -24,8 +25,10 @@ export default function OverflowContainer({
   const placeholderRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const contentSize = useElementSize(contentRef)
+  const windowSize = useWindowSize()
   const [position, setPosition] = useState<Position | undefined>()
 
+  // Update box position when content or window size changes
   useEffect(() => {
     const placeholder = placeholderRef.current
     if (!placeholder) return
@@ -34,7 +37,12 @@ export default function OverflowContainer({
       left: placeholder.offsetLeft,
       width: placeholder.offsetWidth,
     })
-  }, [contentSize?.width, contentSize?.height])
+  }, [
+    contentSize?.width,
+    contentSize?.height,
+    windowSize.width,
+    windowSize.height,
+  ])
 
   return (
     <Box
@@ -51,9 +59,9 @@ export default function OverflowContainer({
             ? position.width + (expandLeft ? position.left : 0)
             : undefined
         }
-        top={expandBottom ? position?.top : undefined}
+        top={expandBottom ? `${position?.top}px` : undefined}
         right={expandRight ? 0 : undefined}
-        left={expandLeft ? 0 : position?.left}
+        left={expandLeft ? 0 : `${position?.left}px`}
         bottom={expandBottom ? 0 : undefined}
       >
         <Box
