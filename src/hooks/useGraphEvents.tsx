@@ -57,7 +57,7 @@ export default function useGraphEvents(): GraphEvents {
         changes,
       })
     },
-    []
+    [createLog]
   )
 
   // Copy a circle to a target circle
@@ -86,7 +86,7 @@ export default function useGraphEvents(): GraphEvents {
         changes,
       })
     },
-    []
+    [createLog]
   )
 
   // Move a circle member to another circle
@@ -121,7 +121,7 @@ export default function useGraphEvents(): GraphEvents {
         changes,
       })
     },
-    []
+    [createLog]
   )
 
   // Add a member to a circle
@@ -146,7 +146,7 @@ export default function useGraphEvents(): GraphEvents {
         changes,
       })
     },
-    []
+    [createLog]
   )
 
   return {
