@@ -39,12 +39,14 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
         )}
 
         {item.type === SearchItemTypes.Circle &&
-          item.circleRoles.map((circle, i) => (
-            <React.Fragment key={circle.id}>
-              {i !== 0 && <ChevronRightIcon />}
-              {circle.role.name}
-            </React.Fragment>
-          ))}
+          item.circleRoles
+            .slice(item.circleRoles.length == 1 ? 0 : 1)
+            .map((circle, i) => (
+              <React.Fragment key={circle.id}>
+                {i !== 0 && <ChevronRightIcon />}
+                {circle.role.name}
+              </React.Fragment>
+            ))}
 
         {item.type === SearchItemTypes.Member && (
           <>
@@ -61,12 +63,14 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
 
         {item.type === SearchItemTypes.CircleMember && (
           <>
-            {item.circleRoles.map((circle, i) => (
-              <React.Fragment key={circle.id}>
-                {i !== 0 && <ChevronRightIcon />}
-                {circle.role.name}
-              </React.Fragment>
-            ))}
+            {item.circleRoles
+              .slice(item.circleRoles.length == 1 ? 0 : 1)
+              .map((circle, i) => (
+                <React.Fragment key={circle.id}>
+                  {i !== 0 && <ChevronRightIcon />}
+                  {circle.role.name}
+                </React.Fragment>
+              ))}
 
             <Avatar
               name={item.member.name}
