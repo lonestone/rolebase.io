@@ -315,8 +315,8 @@ export default function updateCircles(
 
                 // Drag end
                 let actionMoved = false
-                if (dragTargets && dragTarget !== undefined) {
-                  const targetCircleId = dragTarget?.data.id || null
+                if (dragTargets && dragTarget) {
+                  const targetCircleId = dragTarget.data.id
 
                   // Move to another circle
                   const differentParent =
