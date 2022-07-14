@@ -5,7 +5,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import useWindowSize from '@hooks/useWindowSize'
 import React from 'react'
 import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
@@ -16,7 +16,7 @@ interface Props extends UseModalProps {
 }
 
 export default function ThreadModal({ id, ...modalProps }: Props) {
-  const orgId = useOrgId()
+  const path = usePathInOrg(`threads/${id}`)
   const windowSize = useWindowSize()
 
   return (
@@ -28,7 +28,7 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
           headerIcons={
             id && (
               <>
-                <ModalMaximizeButton to={`/orgs/${orgId}/threads/${id}`} />
+                <ModalMaximizeButton to={path} />
                 <ModalCloseStaticButton />
               </>
             )

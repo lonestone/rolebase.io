@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
 import CircleContent from '../CircleContent'
 import MemberContent from '../MemberContent'
@@ -22,8 +22,8 @@ export default function CircleMemberModal({
   memberId,
   ...modalProps
 }: Props) {
-  const orgId = useOrgId()
   const handleClose = useNormalClickHandler(modalProps.onClose, true)
+  const path = usePathInOrg('')
 
   if (!circleId && !memberId) return null
 
@@ -38,7 +38,7 @@ export default function CircleMemberModal({
             selectedCircleId={circleId}
             headerIcons={
               <ModalMaximizeButton
-                to={`/orgs/${orgId}?memberId=${memberId}${
+                to={`${path}?memberId=${memberId}${
                   circleId ? `&circleId=${circleId}` : ''
                 }`}
                 onClick={handleClose}
@@ -51,7 +51,7 @@ export default function CircleMemberModal({
               id={circleId}
               headerIcons={
                 <ModalMaximizeButton
-                  to={`/orgs/${orgId}?circleId=${circleId}`}
+                  to={`${path}?circleId=${circleId}`}
                   onClick={handleClose}
                 />
               }

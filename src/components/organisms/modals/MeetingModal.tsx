@@ -5,7 +5,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
 import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
 import MeetingContent from '../MeetingContent'
@@ -15,7 +15,7 @@ interface Props extends UseModalProps {
 }
 
 export default function MeetingModal({ id, ...modalProps }: Props) {
-  const orgId = useOrgId()
+  const path = usePathInOrg(`meetings/${id}`)
 
   return (
     <Modal
@@ -34,7 +34,7 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
           onClose={modalProps.onClose}
           headerIcons={
             <>
-              <ModalMaximizeButton to={`/orgs/${orgId}/meetings/${id}`} />
+              <ModalMaximizeButton to={path} />
               <ModalCloseStaticButton />
             </>
           }

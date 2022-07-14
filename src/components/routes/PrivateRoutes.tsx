@@ -6,7 +6,8 @@ import useSuperAdmin from '@hooks/useSuperAdmin'
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import LoggedLayout from './LoggedLayout'
-import OrgRoutes from './OrgRoutes'
+import OrgIdRoute from './OrgIdRoute'
+import OrgSlugRoute from './OrgSlugRoute'
 
 export default function PrivateRoutes() {
   const superAdmin = useSuperAdmin()
@@ -26,14 +27,17 @@ export default function PrivateRoutes() {
         <Route exact path="/signup">
           <Redirect to="/" />
         </Route>
-        <Route path="/orgs/:orgId">
-          <OrgRoutes />
-        </Route>
         {superAdmin && (
           <Route exact path="/admin">
             <SuperAdminPage />
           </Route>
         )}
+        <Route path="/orgs/:orgId">
+          <OrgIdRoute />
+        </Route>
+        <Route path="/:slug">
+          <OrgSlugRoute />
+        </Route>
         <Route>
           <Page404 />
         </Route>

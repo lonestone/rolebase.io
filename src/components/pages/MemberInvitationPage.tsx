@@ -3,6 +3,7 @@ import { useToast } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import useOrg from '@hooks/useOrg'
 import useQueryParams from '@hooks/useQueryParams'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreActions } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -50,7 +51,7 @@ export default function MemberInvitationPage() {
 
   // When org is joined and exist in the store, redirect to the org page
   if (storeOrg) {
-    return <Redirect to={`/orgs/${storeOrg.id}`} />
+    return <Redirect to={getOrgPath(storeOrg)} />
   } else if (errorOccurred) {
     return <Redirect to="/" />
   } else {

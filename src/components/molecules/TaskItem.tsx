@@ -14,7 +14,7 @@ import TaskModal from '@components/organisms/modals/TaskModal'
 import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { formatRelative } from 'date-fns'
@@ -34,7 +34,6 @@ const TaskItem = forwardRef<Props, 'div'>(
     { task, showCircle, showMember, isDragging, children, ...linkBoxProps },
     ref
   ) => {
-    const orgId = useOrgId()
     const hover = useHoverItemStyle()
     const updateTaskStatus = useUpdateTaskStatus()
     const dateLocale = useDateLocale()
@@ -43,6 +42,7 @@ const TaskItem = forwardRef<Props, 'div'>(
       updateTaskStatus(task, status)
     }
 
+    const path = usePathInOrg(`tasks/${task.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
 
@@ -60,12 +60,7 @@ const TaskItem = forwardRef<Props, 'div'>(
           }
         >
           <Flex align="center">
-            <LinkOverlay
-              as={ReachLink}
-              flex={1}
-              to={`/orgs/${orgId}/tasks/${task.id}`}
-              onClick={handleOpen}
-            >
+            <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
               {task.title}
             </LinkOverlay>
 

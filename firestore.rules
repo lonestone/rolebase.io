@@ -50,7 +50,7 @@ service cloud.firestore {
     // Organizations
   	match /orgs/{id} {
       allow read: if isOrgReader(id);
-      allow update: if isOrgAdmin(id);
+      allow update: if isOrgAdmin(id) && !hasFieldsChange(['slug']);
       allow create, delete: if false;
     }
 

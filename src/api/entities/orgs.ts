@@ -34,8 +34,10 @@ export async function createOrg(name: string): Promise<string> {
   const { data: id } = await httpsCallable<any, string>(
     functions,
     'createOrg'
-  )({
-    name,
-  })
+  )({ name })
   return id
+}
+
+export async function updateOrgSlug(id: string, slug: string): Promise<void> {
+  await httpsCallable<any, string>(functions, 'updateOrgSlug')({ id, slug })
 }

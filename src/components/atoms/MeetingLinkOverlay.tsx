@@ -2,7 +2,7 @@ import { LinkOverlay, LinkOverlayProps, useDisclosure } from '@chakra-ui/react'
 import MeetingModal from '@components/organisms/modals/MeetingModal'
 import useDateLocale from '@hooks/useDateLocale'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import { MeetingEntry } from '@shared/model/meeting'
 import { format } from 'date-fns'
 import React from 'react'
@@ -16,18 +16,18 @@ export default function MeetingLinkOverlay({
   meeting,
   ...linkOverlayProps
 }: Props) {
-  const orgId = useOrgId()
   const dateLocale = useDateLocale()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const handleOpen = useNormalClickHandler(onOpen)
   const date = meeting.startDate.toDate()
+  const path = usePathInOrg(`meetings/${meeting.id}`)
 
   return (
     <>
       <LinkOverlay
         as={ReachLink}
         flex={1}
-        to={`/orgs/${orgId}/meetings/${meeting.id}`}
+        to={path}
         onClick={handleOpen}
         {...linkOverlayProps}
       >

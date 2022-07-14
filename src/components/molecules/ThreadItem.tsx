@@ -11,7 +11,7 @@ import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import ThreadModal from '@components/organisms/modals/ThreadModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import { ThreadEntry } from '@shared/model/thread'
 import React from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
@@ -25,7 +25,7 @@ interface Props extends LinkBoxProps {
 
 const ThreadItem = forwardRef<Props, 'div'>(
   ({ thread, unread, showCircle, children, ...linkBoxProps }, ref) => {
-    const orgId = useOrgId()
+    const path = usePathInOrg(`threads/${thread.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
     const hover = useHoverItemStyle()
@@ -50,7 +50,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
             <LinkOverlay
               as={ReachLink}
               flex={1}
-              to={`/orgs/${orgId}/threads/${thread.id}`}
+              to={path}
               fontWeight={unread ? 'bold' : 'normal'}
               onClick={handleOpen}
             >

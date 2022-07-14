@@ -3,6 +3,19 @@ export default {
     ? 'http://localhost:3000'
     : 'https://rolebase.io',
 
+  forbiddenSlugs: [
+    'admin',
+    'signup',
+    'signin',
+    'login',
+    'logout',
+    'profile',
+    'settings',
+    'reset-password',
+    'www',
+    'backoffice',
+  ],
+
   mail: {
     sender: {
       name: 'Rolebase.io',

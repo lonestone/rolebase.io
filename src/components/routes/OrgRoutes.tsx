@@ -15,10 +15,14 @@ import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
 import React, { useEffect } from 'react'
-import { Route, Switch, useHistory, useParams } from 'react-router-dom'
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
 
-export default function OrgRoutes() {
-  const { orgId } = useParams<{ orgId: string }>()
+interface Props {
+  orgId: string
+}
+
+export default function OrgRoutes({ orgId }: Props) {
+  const { path } = useRouteMatch()
   const org = useOrg(orgId)
   const orgLoading = useStoreState(
     (state) => state.orgs.loading || !state.orgs.entries
@@ -73,31 +77,31 @@ export default function OrgRoutes() {
       <TextErrors errors={[membersError, rolesError, circlesError]} />
 
       <Switch key={orgId}>
-        <Route exact path="/orgs/:orgId">
+        <Route exact path={path}>
           <CirclesPage />
         </Route>
-        <Route exact path="/orgs/:orgId/members">
+        <Route exact path={`${path}/members`}>
           <MembersPage />
         </Route>
-        <Route exact path="/orgs/:orgId/threads/:threadId">
+        <Route exact path={`${path}/threads/:threadId`}>
           <ThreadPage />
         </Route>
-        <Route exact path="/orgs/:orgId/threads">
+        <Route exact path={`${path}/threads`}>
           <ThreadsPage />
         </Route>
-        <Route exact path="/orgs/:orgId/meetings/:meetingId">
+        <Route exact path={`${path}/meetings/:meetingId`}>
           <MeetingPage />
         </Route>
-        <Route exact path="/orgs/:orgId/meetings">
+        <Route exact path={`${path}/meetings`}>
           <MeetingsPage />
         </Route>
-        <Route exact path="/orgs/:orgId/tasks/:taskId">
+        <Route exact path={`${path}/tasks/:taskId`}>
           <TaskPage />
         </Route>
-        <Route exact path="/orgs/:orgId/tasks">
+        <Route exact path={`${path}/tasks`}>
           <TasksPage />
         </Route>
-        <Route exact path="/orgs/:orgId/logs">
+        <Route exact path={`${path}/logs`}>
           <LogsPage />
         </Route>
         <Route>

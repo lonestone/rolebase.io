@@ -113,7 +113,7 @@ export default function ThreadEditModal({
         ...threadUpdate,
       })
       // Go to thread page
-      navigateOrg(`/threads/${thread.id}`)
+      navigateOrg(`threads/${thread.id}`)
     }
     modalProps.onClose()
   })

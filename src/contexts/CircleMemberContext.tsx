@@ -8,7 +8,6 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { useLocation } from 'react-router-dom'
 
 interface CircleMemberContextValue {
   goTo(circleId?: string, memberId?: string): void
@@ -30,14 +29,10 @@ export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
 }
 
 export const CircleMemberProvider: React.FC = ({ children }) => {
-  const location = useLocation()
   const navigateOrg = useNavigateOrg()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [circleId, setCircleId] = useState<string | undefined>()
   const [memberId, setMemberId] = useState<string | undefined>()
-
-  // Use a modal only if we're not on org's visualisation
-  const modal = !location.pathname.match(/^\/orgs\/([^/]+)$/)
 
   const value = useMemo(
     () => ({
@@ -51,9 +46,16 @@ export const CircleMemberProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (!circleId && !memberId) return
-    if (modal) {
+    // Detect if at least one modal is open
+    const hasModal = !!document.getElementsByClassName(
+      'chakra-modal__content'
+    )[0]
+    const hasGraph = !!document.querySelector('svg .panzoom')
+    if (hasModal || !hasGraph) {
+      // Open modal
       onOpen()
     } else {
+      // Navigate to circle member page
       navigateOrg(getCircleMemberUrlSearch(circleId, memberId))
       setCircleId(undefined)
       setMemberId(undefined)

@@ -5,7 +5,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
 import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
 import TaskContent from '../TaskContent'
@@ -22,7 +22,7 @@ export default function TaskModal({
   defaultMemberId,
   ...modalProps
 }: Props) {
-  const orgId = useOrgId()
+  const path = usePathInOrg(`tasks/${id}`)
 
   return (
     <Modal size="xl" autoFocus={false} {...modalProps}>
@@ -35,7 +35,7 @@ export default function TaskModal({
           headerIcons={
             id && (
               <>
-                <ModalMaximizeButton to={`/orgs/${orgId}/tasks/${id}`} />
+                <ModalMaximizeButton to={path} />
                 <ModalCloseStaticButton />
               </>
             )

@@ -16,6 +16,8 @@
     "error": "Error",
     "name": "Name",
     "namePlaceholder": "Name...",
+    "copy": "Copy",
+    "toastCopied": "URL copied",
     "meetingSteps": {
       "Tour": "Round table",
       "Threads": "Threads",
@@ -370,9 +372,7 @@
         "scopeMine": "All my meetings",
         "scopeCircle": "All meetings in a circle",
         "circle": "Circle",
-        "url": "iCal URL",
-        "copy": "Copy",
-        "toastCopied": "URL copied"
+        "url": "iCal URL"
       },
       "MeetingTemplateDeleteModal": {
         "heading": "Delete meeting template",
@@ -460,6 +460,11 @@
       "OrgEditModal": {
         "heading": "Edit Organization {{org}}",
         "workingTime": "Default working time"
+      },
+      "OrgSlugModal": {
+        "heading": "URL of organization {{org}}",
+        "slug": "URL",
+        "already-exists": "This URL is already used."
       },
       "RoleDeleteModal": {
         "heading": "Remove Role",

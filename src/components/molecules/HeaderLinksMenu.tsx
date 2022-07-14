@@ -14,6 +14,7 @@ import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import { useOrgId } from '@hooks/useOrgId'
 import { useOrgRole } from '@hooks/useOrgRole'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import { ClaimRole } from '@shared/model/userClaims'
 import React, { ReactElement, useState } from 'react'
@@ -46,6 +47,10 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
   const orgId = useOrgId()
   const role = useOrgRole()
   const superAdmin = useSuperAdmin()
+
+  // Pages paths
+  const membersPath = usePathInOrg('members')
+  const logsPath = usePathInOrg('logs')
 
   // Edit modal
   const [editOrgId, setEditOrgId] = useState<string | undefined>()
@@ -115,7 +120,7 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
           </MenuItem>
         )}
 
-        <MenuItem as={Link} to={`/orgs/${orgId}/members`} icon={<FiUsers />}>
+        <MenuItem as={Link} to={membersPath} icon={<FiUsers />}>
           {t('molecules.HeaderLinksMenu.members')}
         </MenuItem>
         <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
@@ -128,7 +133,7 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
           {t('molecules.HeaderLinksMenu.meetingTemplates')}
         </MenuItem>
         {role === ClaimRole.Admin && (
-          <MenuItem as={Link} to={`/orgs/${orgId}/logs`} icon={<FiClock />}>
+          <MenuItem as={Link} to={logsPath} icon={<FiClock />}>
             {t('molecules.HeaderLinksMenu.logs')}
           </MenuItem>
         )}

@@ -5,6 +5,7 @@ import {
   getCircleMemberUrlSearch,
 } from 'src/contexts/CircleMemberContext'
 import { useOrgId } from './useOrgId'
+import { usePathInOrg } from './usePathInOrg'
 
 export default function useCircleMemberLink(
   circleId?: string,
@@ -12,6 +13,7 @@ export default function useCircleMemberLink(
 ) {
   const orgId = useOrgId()
   const circleMemberContext = useContext(CircleMemberContext)
+  const path = usePathInOrg('')
 
   const goToCircle = useCallback(() => {
     circleMemberContext?.goTo(circleId, memberId)
@@ -21,7 +23,7 @@ export default function useCircleMemberLink(
 
   return useMemo(
     () => ({
-      to: `/orgs/${orgId}${getCircleMemberUrlSearch(circleId, memberId)}`,
+      to: `${path}${getCircleMemberUrlSearch(circleId, memberId)}`,
       onClick: handleClick,
     }),
     [circleId, memberId, orgId, handleClick]

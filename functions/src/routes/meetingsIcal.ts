@@ -95,10 +95,13 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
   const cal = new ICalCalendar()
   cal.name(`Réunions ${org.name}`)
 
+  const meetingsUrl = `${settings.url}/${org.slug || `orgs/${orgId}`}/meetings`
+
   // Add events
   for (const meeting of meetings) {
     const circle = circles.find((c) => c.id === meeting.circleId)
     const role = circle && roles.find((r) => r.id === circle.roleId)
+    const url = `${meetingsUrl}/${meeting.id}`
 
     cal.createEvent({
       start: meeting.startDate.toDate(),
@@ -108,7 +111,7 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
         role: role?.name,
         lng,
       }),
-      description: `${settings.url}/orgs/${orgId}/meetings/${meeting.id}`,
+      description: url,
     })
   }
 

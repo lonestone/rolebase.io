@@ -8,6 +8,7 @@ export { createOrg } from './functions/createOrg'
 export { getMeetingsToken } from './functions/getMeetingsToken'
 export { inviteMember } from './functions/inviteMember'
 export { updateMemberRole } from './functions/updateMemberRole'
+export { updateOrgSlug } from './functions/updateOrgSlug'
 
 const app = express()
 

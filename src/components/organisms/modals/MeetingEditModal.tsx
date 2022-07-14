@@ -50,6 +50,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useOrgId } from '@hooks/useOrgId'
 import useParticipants from '@hooks/useParticipants'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/model/meeting'
 import { MeetingStepTypes } from '@shared/model/meetingStep'
@@ -117,6 +118,7 @@ export default function MeetingEditModal({
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const history = useHistory()
+  const meetingsPath = usePathInOrg('meetings')
   const isNotStarted =
     !meeting || (!meeting.ended && meeting.currentStepId === null)
 
@@ -225,7 +227,7 @@ export default function MeetingEditModal({
       if (onCreate) {
         onCreate(newMeeting.id)
       } else {
-        history.push(`/orgs/${orgId}/meetings/${newMeeting.id}`)
+        history.push(`${meetingsPath}/${newMeeting.id}`)
       }
     }
 

@@ -2,9 +2,13 @@ import { updateOrg } from '@api/entities/orgs'
 import { nameSchema } from '@api/schemas'
 import {
   Button,
+  Flex,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -12,6 +16,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tooltip,
   useDisclosure,
   UseModalProps,
   VStack,
@@ -19,11 +24,16 @@ import {
 import DurationSelect from '@components/atoms/DurationSelect'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { FiCopy, FiEdit3 } from 'react-icons/fi'
+import settings from 'src/settings'
 import * as yup from 'yup'
 import OrgDeleteModal from './OrgDeleteModal'
+import OrgSlugModal from './OrgSlugModal '
+import useCopyUrl from './useCopyUrl'
 
 interface Props extends UseModalProps {
   id: string
@@ -45,11 +55,8 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
 
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
+  const deleteModal = useDisclosure()
+  const slugModal = useDisclosure()
 
   const {
     handleSubmit,
@@ -75,11 +82,15 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
     modalProps.onClose()
   })
 
+  // URL
+  const url = settings.url + (org ? getOrgPath(org) : '')
+  const copyUrl = useCopyUrl(url)
+
   if (!org) return null
 
   return (
     <>
-      <Modal {...modalProps}>
+      <Modal size="lg" {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
@@ -97,6 +108,37 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
                     placeholder={t('common.namePlaceholder')}
                     autoFocus
                   />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>
+                    {t('organisms.modals.OrgEditModal.slug')}
+                  </FormLabel>
+                  <Flex>
+                    <InputGroup>
+                      <Input value={url} isReadOnly />
+                      <InputRightElement>
+                        <Tooltip
+                          label={t('common.copy')}
+                          placement="top"
+                          hasArrow
+                        >
+                          <IconButton
+                            aria-label={t('common.copy')}
+                            icon={<FiCopy />}
+                            onClick={copyUrl}
+                          />
+                        </Tooltip>
+                      </InputRightElement>
+                    </InputGroup>
+                    <Button
+                      ml={1}
+                      leftIcon={<FiEdit3 />}
+                      onClick={slugModal.onOpen}
+                    >
+                      {t('common.edit')}
+                    </Button>
+                  </Flex>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>
@@ -118,7 +160,11 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="red" variant="ghost" onClick={onDeleteOpen}>
+              <Button
+                colorScheme="red"
+                variant="ghost"
+                onClick={deleteModal.onOpen}
+              >
                 {t('common.delete')}
               </Button>
               <Button colorScheme="blue" type="submit">
@@ -129,13 +175,17 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
         </ModalContent>
       </Modal>
 
-      {isDeleteOpen && (
+      {deleteModal.isOpen && (
         <OrgDeleteModal
           id={id}
-          onDelete={modalProps.onClose}
           isOpen
-          onClose={onDeleteClose}
+          onDelete={modalProps.onClose}
+          onClose={deleteModal.onClose}
         />
+      )}
+
+      {slugModal.isOpen && (
+        <OrgSlugModal id={id} isOpen onClose={slugModal.onClose} />
       )}
     </>
   )

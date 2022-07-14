@@ -22,6 +22,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
 import React, { useEffect } from 'react'
@@ -53,8 +54,10 @@ export default function OrgsPage() {
   useEffect(() => {
     const orgId = localStorage.getItem(orgIdKey)
     if (!orgId) return
-    history.replace(`/orgs/${orgId}`)
-  }, [])
+    const org = orgs?.find((org) => org.id === orgId)
+    if (!org) return
+    history.replace(getOrgPath(org))
+  }, [orgs])
 
   return (
     <Container maxW="3xl" py={10}>
@@ -130,7 +133,7 @@ export default function OrgsPage() {
                 <LinkOverlay
                   flex={1}
                   as={ReachLink}
-                  to={`/orgs/${org.id}`}
+                  to={org.slug ? `/${org.slug}` : `/orgs/${org.id}`}
                   onClick={() => handleOrgClick(org.id)}
                 >
                   {org.name}

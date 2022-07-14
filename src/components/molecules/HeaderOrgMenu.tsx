@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
 import React from 'react'
@@ -53,7 +54,7 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
         {sortedOrgs?.map((org) => (
           <Link
             key={org.id}
-            to={`/orgs/${org.id}`}
+            to={getOrgPath(org)}
             onClick={() => handleOrgClick(org.id)}
           >
             <MenuItem icon={<FiCircle />}>{org.name}</MenuItem>

@@ -15,7 +15,7 @@ import MemberAvatar from '@components/atoms/MemberAvatar'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import useDateLocale from '@hooks/useDateLocale'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import { TaskEntry } from '@shared/model/task'
 import { formatRelative } from 'date-fns'
 import React from 'react'
@@ -33,10 +33,10 @@ const TaskCard = forwardRef<Props, 'div'>(
     { task, showCircle, showMember, isDragging, children, ...linkBoxProps },
     ref
   ) => {
-    const orgId = useOrgId()
     const dateLocale = useDateLocale()
     const { colorMode } = useColorMode()
 
+    const path = usePathInOrg(`tasks/${task.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
 
@@ -59,12 +59,7 @@ const TaskCard = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <LinkOverlay
-            as={ReachLink}
-            flex={1}
-            to={`/orgs/${orgId}/tasks/${task.id}`}
-            onClick={handleOpen}
-          >
+          <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
             {task.title}
           </LinkOverlay>
 

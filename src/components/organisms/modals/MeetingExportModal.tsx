@@ -3,9 +3,9 @@ import {
   getMeetingsIcalUrl,
 } from '@api/entities/meetings'
 import {
-  Button,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -16,9 +16,8 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  useClipboard,
+  Tooltip,
   UseModalProps,
-  useToast,
   VStack,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
@@ -29,6 +28,8 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FiCopy } from 'react-icons/fi'
+import useCopyUrl from './useCopyUrl'
 
 enum ExportType {
   Org = 'Org',
@@ -79,18 +80,8 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
     }
   }, [orgId, token, language, member, circleId, exportType])
 
-  // URL copy
-  const { hasCopied, onCopy } = useClipboard(url || '')
-  const toast = useToast()
-
-  useEffect(() => {
-    if (!hasCopied) return
-    toast({
-      title: t('organisms.modals.MeetingExportModal.toastCopied'),
-      status: 'info',
-      duration: 1500,
-    })
-  }, [hasCopied])
+  // Copy URL
+  const copyUrl = useCopyUrl(url)
 
   return (
     <Modal {...modalProps}>
@@ -153,10 +144,14 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                     pr="4.7rem"
                     onFocus={(e) => e.target.select()}
                   />
-                  <InputRightElement width="4.5rem" mr="0.1rem">
-                    <Button size="sm" onClick={onCopy}>
-                      {t('organisms.modals.MeetingExportModal.copy')}
-                    </Button>
+                  <InputRightElement>
+                    <Tooltip label={t('common.copy')} placement="top" hasArrow>
+                      <IconButton
+                        aria-label={t('common.copy')}
+                        icon={<FiCopy />}
+                        onClick={copyUrl}
+                      />
+                    </Tooltip>
                   </InputRightElement>
                 </InputGroup>
               </FormControl>

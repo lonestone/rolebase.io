@@ -14,6 +14,7 @@ import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
 import HeaderSearch from '@components/molecules/search/HeaderSearch'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -38,29 +39,30 @@ export default function Header() {
   const currentMember = useCurrentMember()
 
   // Links
+  const rootPath = usePathInOrg('')
   const links: HeaderLink[] = useMemo(
     () =>
       org
         ? [
             {
-              to: `/orgs/${org.id}`,
+              to: rootPath,
               exact: true,
               icon: <FiDisc />,
               label: t('organisms.Header.circles'),
             },
             {
-              to: `/orgs/${org.id}/threads`,
+              to: `${rootPath}threads`,
               icon: <FiMessageSquare />,
               label: t('organisms.Header.threads'),
             },
             {
-              to: `/orgs/${org.id}/meetings`,
+              to: `${rootPath}meetings`,
               icon: <FiCalendar />,
               label: t('organisms.Header.meetings'),
               alert: !!currentMember?.meetingId,
             },
             {
-              to: `/orgs/${org.id}/tasks?member=${currentMember?.id}`,
+              to: `${rootPath}tasks?member=${currentMember?.id}`,
               icon: <FiCheckSquare />,
               label: t('organisms.Header.tasks'),
             },

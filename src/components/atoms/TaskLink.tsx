@@ -1,7 +1,7 @@
 import { Link, LinkProps, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useOrgId } from '@hooks/useOrgId'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -11,15 +11,15 @@ interface Props extends LinkProps {
 }
 
 export default function TaskLink({ id, name, ...linkProps }: Props) {
-  const orgId = useOrgId()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const handleOpen = useNormalClickHandler(onOpen)
+  const path = usePathInOrg(`tasks/${id}`)
 
   return (
     <>
       <Link
         as={ReachLink}
-        to={`/orgs/${orgId}/tasks/${id}`}
+        to={path}
         tabIndex={-1}
         onClick={handleOpen}
         {...linkProps}

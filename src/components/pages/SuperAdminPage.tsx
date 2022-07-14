@@ -12,6 +12,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { formatRelative } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -39,7 +40,7 @@ export default function SuperAdminPage() {
       {data?.map((org) => (
         <LinkBox key={org.id} mx={-2} px={2} py={1} _hover={hover}>
           <Flex>
-            <LinkOverlay as={ReachLink} flex={1} to={`/orgs/${org.id}`}>
+            <LinkOverlay as={ReachLink} flex={1} to={getOrgPath(org)}>
               {org.name}
             </LinkOverlay>
             <Text fontSize="sm" color="gray.500" ml={2}>
