@@ -13,7 +13,13 @@ export default function CircleAndParentsLinks({ id, ...boxProps }: Props) {
   if (!circleAndParents || circleAndParents.length === 0) return null
 
   const circle = circleAndParents[circleAndParents.length - 1]
-  const parents = circleAndParents.slice(1, circleAndParents.length - 1)
+
+  // Take all parents
+  // Skip first parent (root circle) when there are other parents
+  const parents = circleAndParents.slice(
+    circleAndParents.length === 2 ? 0 : 1,
+    circleAndParents.length - 1
+  )
 
   return (
     <Box pb={3} {...boxProps}>
