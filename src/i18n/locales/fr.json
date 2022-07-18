@@ -179,7 +179,7 @@
       "create": "Nouvelle tâche"
     },
     "MeetingStepsConfigController": {
-      "addStep": "Ajouter un étape"
+      "addStep": "Ajouter une étape"
     },
     "MeetingStepSortableItem": {
       "placeholder": "Titre de l'étape..."
