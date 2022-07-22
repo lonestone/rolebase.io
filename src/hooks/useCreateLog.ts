@@ -1,16 +1,10 @@
 import { createLog } from '@api/entities/logs'
 import { Log } from '@shared/model/log'
 import { Optional } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
+import { store } from '@store/index'
 import { useCallback } from 'react'
-import useCurrentMember from './useCurrentMember'
-import { useOrgId } from './useOrgId'
 
 export default function useCreateLog() {
-  const orgId = useOrgId()
-  const userId = useStoreState((state) => state.auth.user?.id)
-  const currentMember = useCurrentMember()
-
   return useCallback(
     async (
       log: Optional<
@@ -23,9 +17,17 @@ export default function useCreateLog() {
         | 'meetingId'
       >
     ) => {
+      const orgId = store.getState().orgs.currentId
       if (!orgId) throw new Error('No orgId')
+
+      const userId = store.getState().auth.user?.id
       if (!userId) throw new Error('No userId')
+
+      const currentMember = store
+        .getState()
+        .members.entries?.find((member) => member.userId === userId)
       if (!currentMember) throw new Error('No currentMember')
+
       await createLog({
         orgId,
         userId,
@@ -35,6 +37,6 @@ export default function useCreateLog() {
         ...log,
       })
     },
-    [orgId, userId, currentMember]
+    []
   )
 }
