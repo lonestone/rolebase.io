@@ -44,6 +44,6 @@ export default function useUpdateTaskStatus() {
         }),
       })
     },
-    [createLog]
+    [t]
   )
 }

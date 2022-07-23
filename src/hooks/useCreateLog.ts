@@ -17,15 +17,16 @@ export default function useCreateLog() {
         | 'meetingId'
       >
     ) => {
-      const orgId = store.getState().orgs.currentId
+      const state = store.getState()
+      const orgId = state.orgs.currentId
       if (!orgId) throw new Error('No orgId')
 
-      const userId = store.getState().auth.user?.id
+      const userId = state.auth.user?.id
       if (!userId) throw new Error('No userId')
 
-      const currentMember = store
-        .getState()
-        .members.entries?.find((member) => member.userId === userId)
+      const currentMember = state.members.entries?.find(
+        (member) => member.userId === userId
+      )
       if (!currentMember) throw new Error('No currentMember')
 
       await createLog({

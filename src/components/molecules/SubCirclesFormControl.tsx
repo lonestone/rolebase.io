@@ -112,7 +112,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         changes,
       })
     },
-    [orgId, roles, circle, createLog]
+    [orgId, roles, circle]
   )
 
   const handleRoleAdd = useCallback(

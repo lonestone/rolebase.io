@@ -31,6 +31,6 @@ export default function useCreateMember() {
 
       return member.id
     },
-    [orgId, createLog]
+    [orgId]
   )
 }

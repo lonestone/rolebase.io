@@ -46,7 +46,7 @@ export default function CircleMemberFormControl({ circleId }: Props) {
         })
       }
     },
-    [circleId, circle, createLog]
+    [circleId, circle]
   )
 
   const handleRemoveMember = useCallback((memberId: string) => {
