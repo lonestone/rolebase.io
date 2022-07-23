@@ -1,7 +1,7 @@
 import { Box, Tag, Text } from '@chakra-ui/react'
 import { EntityChange, EntityChangeType } from '@shared/model/log'
 import React from 'react'
-import { ObjectProperties } from './ObjectProperties'
+import { ObjectDiff } from './ObjectDiff'
 
 interface Props<Entity> {
   type: string
@@ -14,7 +14,7 @@ export default function LogEntityChanges<Entity>({
 }: Props<Entity>) {
   return (
     <Box>
-      <Text fontSize="sm" color="gray.500">
+      <Text fontSize="sm" mb={2}>
         <Tag
           size="sm"
           colorScheme={
@@ -31,13 +31,13 @@ export default function LogEntityChanges<Entity>({
       </Text>
 
       {entityChange.type === EntityChangeType.Create && (
-        <ObjectProperties obj={entityChange.data} />
+        <ObjectDiff value={entityChange.data} />
       )}
 
       {entityChange.type === EntityChangeType.Update && (
-        <ObjectProperties
-          obj={entityChange.newData}
-          compareObj={entityChange.prevData}
+        <ObjectDiff
+          value={entityChange.newData}
+          compareValue={entityChange.prevData}
         />
       )}
     </Box>
