@@ -1,4 +1,5 @@
 import { updateMeeting } from '@api/entities/meetings'
+import { startMembersMeeting, stopMembersMeeting } from '@api/entities/members'
 import {
   BoxProps,
   ButtonGroup,
@@ -54,6 +55,7 @@ export default function MeetingAttendees({
         present: null,
       }),
     })
+    startMembersMeeting([memberId], meetingId)
   }
 
   const handleRemove = (memberId: string) => {
@@ -61,6 +63,7 @@ export default function MeetingAttendees({
     updateMeeting(meetingId, {
       attendees: attendees.filter((a) => a.memberId !== memberId),
     })
+    stopMembersMeeting([memberId], meetingId)
   }
 
   return (
