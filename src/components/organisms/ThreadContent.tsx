@@ -109,7 +109,9 @@ export default function ThreadContent({
 
             {circle && <CircleButton circle={circle} />}
 
-            <ParticipantsNumber participants={participants} />
+            <Box>
+              <ParticipantsNumber participants={participants} />
+            </Box>
           </HStack>
         </Wrap>
 
