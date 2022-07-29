@@ -39,7 +39,7 @@ import { useOrgRole } from '@hooks/useOrgRole'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
 import { ClaimRole } from '@shared/model/userClaims'
 import { format } from 'date-fns'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
@@ -85,6 +85,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     handleSubmit,
     register,
     control,
+    watch,
     formState: { errors },
   } = useForm<Values>({
     resolver,
@@ -97,9 +98,14 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     },
   })
 
+  const [loading, setLoading] = useState(false)
+  const role = watch('role')
+
   const onSubmit = handleSubmit(
     async ({ role, inviteEmail, ...memberUpdate }) => {
       if (!org || !member) return
+
+      setLoading(true)
 
       // Update member data
       await updateMember(id, memberUpdate)
@@ -153,12 +159,15 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           isClosable: true,
         })
       }
+      setLoading(false)
     }
   )
 
-  const handleReInvite = useCallback(() => {
+  const handleReInvite = useCallback(async () => {
     if (!member?.inviteEmail || !member.role) return
-    inviteMember(member.id, member.role, member.inviteEmail)
+    setLoading(true)
+    await inviteMember(member.id, member.role, member.inviteEmail)
+    setLoading(false)
     toast({
       title: t('organisms.modals.MemberEditModal.toastReInvited', {
         member: member.name,
@@ -169,9 +178,11 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     })
   }, [member])
 
-  const handleRevokeInvite = useCallback(() => {
+  const handleRevokeInvite = useCallback(async () => {
     if (!member?.inviteEmail || !member.role) return
-    updateMemberRole(member.id, undefined)
+    setLoading(true)
+    await updateMemberRole(member.id, undefined)
+    setLoading(false)
     toast({
       title: t('organisms.modals.MemberEditModal.toastRevocated'),
       status: 'success',
@@ -293,6 +304,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         variant="link"
                         colorScheme="blue"
                         ml={3}
+                        isLoading={loading}
                         onClick={handleReInvite}
                       >
                         {t(
@@ -303,6 +315,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         variant="link"
                         colorScheme="blue"
                         ml={3}
+                        isLoading={loading}
                         onClick={handleRevokeInvite}
                       >
                         {t(
@@ -339,12 +352,14 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                           )}
                         </option>
                       </Select>
-                      <Input
-                        {...register('inviteEmail')}
-                        placeholder={t(
-                          'organisms.modals.MemberEditModal.invitation.emailPlaceholder'
-                        )}
-                      />
+                      {role && (
+                        <Input
+                          {...register('inviteEmail')}
+                          placeholder={t(
+                            'organisms.modals.MemberEditModal.invitation.emailPlaceholder'
+                          )}
+                        />
+                      )}
                     </HStack>
                   </FormControl>
                 ))}
@@ -352,7 +367,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" onClick={onSubmit}>
+            <Button colorScheme="blue" isLoading={loading} onClick={onSubmit}>
               {t('common.save')}
             </Button>
           </ModalFooter>
