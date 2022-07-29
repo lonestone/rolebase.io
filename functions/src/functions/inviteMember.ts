@@ -47,6 +47,7 @@ export const inviteMember = functions.https.onCall(
     // Email already invited?
     const checkEmailSnapshot = await collections.members
       .where('inviteEmail', '==', data.email)
+      .where('memberId', '!=', data.memberId)
       .get()
     if (checkEmailSnapshot.docs[0]) {
       throw new functions.https.HttpsError('not-found', 'Email already invited')
