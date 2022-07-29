@@ -491,7 +491,7 @@ export default function updateCircles(
           .text((d) => d.data.name)
           .attr('pointer-events', 'none')
           .attr('y', 0)
-          .attr('alignment-baseline', 'middle')
+          .attr('dominant-baseline', 'central')
           .call(d3CircleCenterName)
 
         return nodeGroup
