@@ -13,7 +13,7 @@ import {
 import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
 import { LogType } from '@shared/model/log'
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 
@@ -32,6 +32,7 @@ export default function CircleDeleteModal({
   const circleMemberContext = useContext(CircleMemberContext)
   const circle = useCircle(id)
   const createLog = useCreateLog()
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!circle) return
@@ -59,7 +60,7 @@ export default function CircleDeleteModal({
   if (!circle) return null
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -77,7 +78,9 @@ export default function CircleDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>

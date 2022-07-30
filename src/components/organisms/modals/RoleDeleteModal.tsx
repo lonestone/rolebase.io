@@ -13,7 +13,7 @@ import {
 import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
@@ -30,6 +30,7 @@ export default function RoleDeleteModal({
   const { t } = useTranslation()
   const role = useRole(id)
   const createLog = useCreateLog()
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!role) return
@@ -60,7 +61,7 @@ export default function RoleDeleteModal({
   if (!role) return null
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -78,7 +79,9 @@ export default function RoleDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>

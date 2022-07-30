@@ -13,7 +13,7 @@ import {
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { TaskEntry } from '@shared/model/task'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
@@ -29,6 +29,7 @@ export default function TaskDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const createLog = useCreateLog()
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     updateTask(task.id, { archived: true })
@@ -54,7 +55,7 @@ export default function TaskDeleteModal({
   }
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -72,7 +73,9 @@ export default function TaskDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>

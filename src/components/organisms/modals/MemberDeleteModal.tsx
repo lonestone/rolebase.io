@@ -13,7 +13,7 @@ import {
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
@@ -30,6 +30,7 @@ export default function MemberDeleteModal({
   const { t } = useTranslation()
   const member = useMember(id)
   const createLog = useCreateLog()
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!member) return
@@ -60,7 +61,7 @@ export default function MemberDeleteModal({
   if (!member) return null
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -78,7 +79,9 @@ export default function MemberDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>

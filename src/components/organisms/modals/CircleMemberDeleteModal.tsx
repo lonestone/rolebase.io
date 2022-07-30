@@ -14,7 +14,7 @@ import useCircle from '@hooks/useCircle'
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
 import { LogType } from '@shared/model/log'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
@@ -34,6 +34,7 @@ export default function CircleMemberDeleteModal({
   const createLog = useCreateLog()
   const circle = useCircle(circleId)
   const member = useMember(memberId)
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!circle || !member) return
@@ -55,7 +56,7 @@ export default function CircleMemberDeleteModal({
   }
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -73,7 +74,9 @@ export default function CircleMemberDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>

@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useOrg from '@hooks/useOrg'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
@@ -23,6 +23,7 @@ interface Props
 export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = () => {
     updateOrg(id, { archived: true })
@@ -33,7 +34,7 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
   if (!org) return null
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -51,7 +52,9 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>

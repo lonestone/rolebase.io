@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { MeetingEntry } from '@shared/model/meeting'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
@@ -26,6 +26,8 @@ export default function MeetingDeleteModal({
   ...alertProps
 }: Props) {
   const { t } = useTranslation()
+  const cancelRef = useRef<HTMLButtonElement>(null)
+
   const handleDelete = () => {
     updateMeeting(meeting.id, { archived: true })
     onDelete?.()
@@ -33,7 +35,7 @@ export default function MeetingDeleteModal({
   }
 
   return (
-    <AlertDialog {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -51,7 +53,9 @@ export default function MeetingDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>

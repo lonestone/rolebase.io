@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import ThreadActivity from '@components/molecules/ThreadActivity'
 import { ActivityEntry } from '@shared/model/activity'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props
@@ -28,6 +28,7 @@ export default function ActivityDeleteModal({
   ...alertProps
 }: Props) {
   const { t } = useTranslation()
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = () => {
     deleteActivity(activity.id)
@@ -36,7 +37,7 @@ export default function ActivityDeleteModal({
   }
 
   return (
-    <AlertDialog size="2xl" {...alertProps} leastDestructiveRef={undefined}>
+    <AlertDialog size="2xl" {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -63,7 +64,9 @@ export default function ActivityDeleteModal({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={alertProps.onClose}>{t('common.cancel')}</Button>
+            <Button ref={cancelRef} onClick={alertProps.onClose}>
+              {t('common.cancel')}
+            </Button>
             <Button colorScheme="red" onClick={handleDelete} ml={3}>
               {t('common.delete')}
             </Button>
