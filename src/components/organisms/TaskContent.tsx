@@ -50,7 +50,7 @@ interface Props extends BoxProps {
 
 interface Values {
   circleId: string
-  memberId: string
+  memberId: string | null
   title: string
   description: string
   dueDate: string | null
@@ -98,7 +98,7 @@ export default function TaskContent({
     resolver,
     defaultValues: {
       circleId: defaultCircleId || '',
-      memberId: defaultMemberId || '',
+      memberId: defaultMemberId || null,
       title: '',
       description: '',
       dueDate: null,
@@ -110,7 +110,7 @@ export default function TaskContent({
     if (!task) return
     reset({
       circleId: task.circleId,
-      memberId: task.memberId ?? '',
+      memberId: task.memberId || null,
       title: task.title,
       description: task.description,
       dueDate: task.dueDate ? getDateTimeLocal(task.dueDate.toDate()) : null,
@@ -123,7 +123,7 @@ export default function TaskContent({
     if (!orgId || !currentMember) return
     const taskUpdate = {
       ...data,
-      memberId: memberId || null,
+      memberId: memberId ?? null,
       dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate)) : null,
     }
     if (id) {
@@ -244,9 +244,9 @@ export default function TaskContent({
               control={control}
               render={({ field }) => (
                 <MemberSearchInput
-                  value={field.value}
+                  value={field.value ?? undefined}
                   onChange={field.onChange}
-                  onClear={() => field.onChange(undefined)}
+                  onClear={() => field.onChange(null)}
                 />
               )}
             />
