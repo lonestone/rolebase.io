@@ -45,10 +45,16 @@ export default function SearchResultsList({
   return (
     <List
       {...getMenuProps()}
-      display={isOpen && items.length > 0 ? '' : 'none'}
+      display={
+        isOpen && items.length > 0 && inputRef.current?.offsetHeight
+          ? ''
+          : 'none'
+      }
       position="absolute"
       overflow="auto"
       zIndex="2000"
+      top={`${inputRef.current?.offsetHeight || 0}px`}
+      left={0}
       minW={`${inputRef.current?.offsetWidth || 0}px`}
       maxW={`${maxWidth}px`}
       maxH={`${maxHeight}px`}

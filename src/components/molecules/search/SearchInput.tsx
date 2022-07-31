@@ -119,7 +119,7 @@ export default function SearchInput({
   const inputVisible = isOpen || !valueItem
 
   return (
-    <Box position="relative" {...getComboboxProps()}>
+    <Box position="relative" display="flex" {...getComboboxProps()}>
       {!inputVisible && (
         <ButtonGroup ref={buttonGroupRef} {...inputMoreProps} isAttached>
           <SearchResultItem

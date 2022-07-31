@@ -87,7 +87,7 @@ export default function TasksModule({
         isLazy
         variant="unstyled"
       >
-        <TabList alignItems="center">
+        <TabList alignItems="center" flexWrap="wrap">
           <StyledTab icon={<FiTrello />}>
             {t('organisms.TasksModule.kanban')}
           </StyledTab>
@@ -99,7 +99,7 @@ export default function TasksModule({
 
           <Spacer />
 
-          <Flex h={8}>
+          <Flex flexWrap="wrap">
             {view === TasksViewTypes.List && onStatusChange && (
               <TasksStatusFilter value={status} onChange={onStatusChange} />
             )}
@@ -109,6 +109,7 @@ export default function TasksModule({
                   value={circleId}
                   size="sm"
                   mx={1}
+                  maxW="200px"
                   placeholder={t('organisms.TasksModule.filterCircle')}
                   onChange={onCircleChange}
                   onClear={() => onCircleChange(undefined)}
@@ -130,6 +131,7 @@ export default function TasksModule({
                   value={memberId}
                   size="sm"
                   mx={1}
+                  maxW="200px"
                   placeholder={t('organisms.TasksModule.filterMember')}
                   onChange={onMemberChange}
                   onClear={() => onMemberChange(undefined)}
