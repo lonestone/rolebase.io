@@ -24,4 +24,10 @@ export const members: MemberEntry[] = [
     name: 'Jean-Kévin',
     ...memberBase,
   },
+  {
+    id: 'member-pam',
+    orgId: 'org-1',
+    name: 'Pam',
+    ...memberBase,
+  },
 ]

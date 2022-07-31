@@ -5,8 +5,7 @@ import { RoleEntry } from '../model/role'
 export function getCircleParticipants(
   circleId: string,
   circles: CircleEntry[],
-  roles: RoleEntry[],
-  ignoreSingleMember = false
+  roles: RoleEntry[]
 ): Participant[] {
   const currentCircle = circles.find((c) => c.id === circleId)
 
@@ -26,7 +25,6 @@ export function getCircleParticipants(
       const role = roles.find((r) => r.id === circle.roleId)
       if (!role) return
       if (role.singleMember) {
-        if (ignoreSingleMember) return
         // Leader of Role
         return optionalParticipant(circle.id, circle.members[0]?.memberId)
       }

@@ -9,7 +9,7 @@ export function getAllCircleMembersParticipants(
   roles: RoleEntry[]
 ): Participant[] {
   // Circle participants
-  const participants = getCircleParticipants(circleId, circles, roles, true)
+  const participants = getCircleParticipants(circleId, circles, roles)
 
   // Add sub-Circles
   const subCirclesParticipants = circles

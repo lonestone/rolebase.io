@@ -1,3 +1,4 @@
+import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { circles } from '@shared/mocks/circles'
 import { roles } from '@shared/mocks/roles'
@@ -46,5 +47,17 @@ describe('Participants', () => {
     expect(memberCircles).includes('circle-studio')
     expect(memberCircles).includes('circle-studio-leader')
     expect(memberCircles).includes('circle-agence-dev')
+  })
+
+  it('All participants of a circle', () => {
+    const participantMemberIds = getAllCircleMembersParticipants(
+      'circle-agence-dev',
+      circles,
+      roles
+    ).map((participant) => participant.memberId)
+
+    expect(participantMemberIds).includes('member-alice')
+    expect(participantMemberIds).includes('member-jean-kevin')
+    expect(participantMemberIds).includes('member-pam')
   })
 })

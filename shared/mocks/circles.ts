@@ -43,6 +43,10 @@ export const circles: CircleEntry[] = [
         id: '1',
         memberId: 'member-jean-kevin',
       },
+      {
+        id: '2',
+        memberId: 'member-pam',
+      },
     ],
     archived: false,
   },
