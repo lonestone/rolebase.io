@@ -67,9 +67,10 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
 
   // Reset form when user answer changes
   useEffect(() => {
-    if (!userAnswer) return
     reset({
-      choices: userAnswer.choicesPoints.map((points) => ({ points })),
+      choices: userAnswer
+        ? userAnswer.choicesPoints.map((points) => ({ points }))
+        : activity.choices.map(() => ({ points: 0 })),
     })
   }, [userAnswer])
 
@@ -101,9 +102,10 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
 
   // Click on a choice button
   const handleToggleVote = (choiceId: number) => {
+    const points = choicesFields[choiceId]?.points
     if (activity.multiple) {
       // Multiple choice
-      if (choicesFields[choiceId].points) {
+      if (points) {
         // Remove vote
         updateChoice(choiceId, { points: 0 })
       } else {
@@ -112,7 +114,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
       }
     } else {
       // Single choice
-      if (!choicesFields[choiceId].points) {
+      if (!points) {
         // Change vote
         updateChoice(choiceId, { points: 1 })
         const existingVoteId = choicesFields.findIndex(
@@ -169,7 +171,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
       <Stack spacing={1} mt={3} align="stretch">
         {displayOrder.map((index) => {
           const choice = activity.choices[index]
-          const { points } = choicesFields[index]
+          const points = choicesFields[index]?.points || 0
           const checked = !!points
           return (
             <StackItem key={index} display="flex">
