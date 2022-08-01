@@ -10,7 +10,9 @@ export interface ThreadWithStatus extends ThreadEntry {
   status?: MemberThreadStatus
 }
 
-export default function useThreadsWithStatus(threads?: ThreadEntry[]) {
+export default function useThreadsWithStatus(
+  threads?: ThreadEntry[]
+): ThreadWithStatus[] | undefined {
   const currentMember = useCurrentMember()
 
   // Threads status for current member
@@ -44,16 +46,11 @@ export default function useThreadsWithStatus(threads?: ThreadEntry[]) {
             return a.read ? 1 : -1
           }
           // Sort by lastActivityDate
-          if (a.status && b.status) {
-            if (a.lastActivityDate && b.lastActivityDate) {
-              return (
-                a.lastActivityDate.nanoseconds - b.lastActivityDate.nanoseconds
-              )
-            }
-            if (a.lastActivityDate) return 1
-            if (b.lastActivityDate) return -1
-            return 0
+          if (a.lastActivityDate && b.lastActivityDate) {
+            return b.lastActivityDate.seconds - a.lastActivityDate.seconds
           }
+          if (a.lastActivityDate) return 1
+          if (b.lastActivityDate) return -1
           return 0
         })
     )
