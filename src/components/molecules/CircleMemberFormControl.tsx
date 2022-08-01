@@ -4,6 +4,7 @@ import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDe
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import useCreateLog from '@hooks/useCreateLog'
 import { LogType } from '@shared/model/log'
+import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,8 +23,18 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   const role = circle?.role
 
   const membersIds = useMemo(
-    () => circle?.members.map((m) => m.memberId),
-    [circle]
+    () =>
+      // Retrieve members
+      (
+        circle?.members
+          .map((cm) => members?.find((m) => m.id === cm.memberId))
+          .filter(Boolean) as MemberEntry[] | undefined
+      )
+        // Sort by name
+        ?.sort((a, b) => a.name.localeCompare(b.name))
+        // Keep ids
+        .map((m) => m.id),
+    [circle, members]
   )
 
   const handleAddMember = useCallback(
