@@ -5,13 +5,13 @@ import {
   BoxProps,
   Button,
   Checkbox,
-  Collapse,
   Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
   Spacer,
+  Spinner,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -27,12 +27,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import { usePreventClose } from '@hooks/usePreventClose'
 import useSubscription from '@hooks/useSubscription'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { TaskStatus } from '@shared/model/task'
 import { Timestamp } from 'firebase/firestore'
-import React, { useCallback, useEffect } from 'react'
+import debounce from 'lodash.debounce'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { getDateTimeLocal } from 'src/utils'
@@ -78,6 +80,7 @@ export default function TaskContent({
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const updateTaskStatus = useUpdateTaskStatus()
+  const { preventClose, allowClose } = usePreventClose()
 
   // Subscribe task
   const {
@@ -129,6 +132,7 @@ export default function TaskContent({
     if (id) {
       // Update task
       await updateTask(id, taskUpdate)
+      allowClose()
     } else {
       // Create task
       const newTask = await createTask({
@@ -152,6 +156,18 @@ export default function TaskContent({
       onClose()
     }
   })
+
+  // Save after X seconds
+  const watchedData = watch()
+  const onSubmitDebounced = useMemo(
+    () => debounce(onSubmit, 2000),
+    [id, orgId, currentMember]
+  )
+  useEffect(() => {
+    if (!id || !isDirty) return
+    preventClose()
+    onSubmitDebounced()
+  }, [id, isDirty, ...Object.values(watchedData)])
 
   // Toggle due date
   const handleToggleDueDate = useCallback(() => {
@@ -199,6 +215,8 @@ export default function TaskContent({
           />
         )}
 
+        {id && isDirty && <Spinner size="xs" color="gray" ml={5} />}
+
         <Spacer />
 
         <Flex mr={headerIcons ? -3 : 0}>
@@ -211,17 +229,17 @@ export default function TaskContent({
       {id && loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      <form onSubmit={onSubmit}>
-        <VStack spacing={5} align="stretch">
-          <FormControl isInvalid={!!errors.title}>
-            <Input
-              {...register('title')}
-              placeholder={t('organisms.TaskContent.titlePlaceholder')}
-              autoFocus
-            />
-          </FormControl>
+      <VStack spacing={5} alignItems="start" mb={3}>
+        <FormControl isInvalid={!!errors.title}>
+          <Input
+            {...register('title')}
+            placeholder={t('organisms.TaskContent.titlePlaceholder')}
+            autoFocus
+          />
+        </FormControl>
 
-          <FormControl isInvalid={!!errors.circleId}>
+        <Flex flexWrap="wrap">
+          <FormControl isInvalid={!!errors.circleId} w="auto" mr={5}>
             <FormLabel>{t('organisms.TaskContent.circle')}</FormLabel>
             <Controller
               name="circleId"
@@ -235,10 +253,8 @@ export default function TaskContent({
             />
           </FormControl>
 
-          <FormControl isInvalid={!!errors.memberId} flex="1">
-            <FormLabel display="flex" alignItems="center">
-              {t('organisms.TaskContent.memberId')}
-            </FormLabel>
+          <FormControl isInvalid={!!errors.memberId} w="auto">
+            <FormLabel>{t('organisms.TaskContent.memberId')}</FormLabel>
             <Controller
               name="memberId"
               control={control}
@@ -251,41 +267,41 @@ export default function TaskContent({
               )}
             />
           </FormControl>
+        </Flex>
 
-          <FormControl>
-            <Checkbox isChecked={!!dueDate} onChange={handleToggleDueDate}>
-              {t('organisms.TaskContent.dueDate')}
-            </Checkbox>
-            {dueDate ? (
-              <Box pl={6}>
-                <Input
-                  {...register('dueDate')}
-                  type="datetime-local"
-                  size="sm"
-                  maxW="250px"
-                />
-              </Box>
-            ) : null}
-          </FormControl>
-
-          <FormControl isInvalid={!!errors.description}>
-            <FormLabel>{t('organisms.TaskContent.description')}</FormLabel>
-            <SimpleEditorController
-              name="description"
-              placeholder={t('organisms.TaskContent.notes')}
-              control={control}
-            />
-          </FormControl>
-
-          <Collapse in={isDirty}>
-            <Box textAlign="right">
-              <Button colorScheme="blue" type="submit">
-                {t(id ? 'common.save' : 'common.create')}
-              </Button>
+        <FormControl>
+          <Checkbox isChecked={!!dueDate} onChange={handleToggleDueDate}>
+            {t('organisms.TaskContent.dueDate')}
+          </Checkbox>
+          {dueDate ? (
+            <Box pl={6}>
+              <Input
+                {...register('dueDate')}
+                type="datetime-local"
+                size="sm"
+                maxW="250px"
+              />
             </Box>
-          </Collapse>
-        </VStack>
-      </form>
+          ) : null}
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.description}>
+          <FormLabel>{t('organisms.TaskContent.description')}</FormLabel>
+          <SimpleEditorController
+            name="description"
+            placeholder={t('organisms.TaskContent.notes')}
+            control={control}
+          />
+        </FormControl>
+
+        {!id && (
+          <Box w="100%" textAlign="right">
+            <Button colorScheme="blue" onClick={onSubmit}>
+              {t('common.create')}
+            </Button>
+          </Box>
+        )}
+      </VStack>
 
       {isDeleteOpen && task && (
         <TaskDeleteModal
