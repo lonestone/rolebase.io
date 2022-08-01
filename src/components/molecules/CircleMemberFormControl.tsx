@@ -69,6 +69,7 @@ export default function CircleMemberFormControl({ circleId }: Props) {
           ? t('molecules.CircleMemberFormControl.labelSingleMember')
           : t('molecules.CircleMemberFormControl.labelMultiMembers')}
       </FormLabel>
+
       {circle && membersIds && (
         <MembersMultiSelect
           circleId={circleId}

@@ -48,7 +48,7 @@ export default function Header() {
               to: rootPath,
               exact: true,
               icon: <FiDisc />,
-              label: t('organisms.Header.circles'),
+              label: t('organisms.Header.roles'),
             },
             {
               to: `${rootPath}threads`,

@@ -47,9 +47,9 @@
     },
     "ParticipantsScopeSelect": {
       "Organization": "All members of the Organization",
-      "CircleLeaders": "Members who are Leaders of Roles or Sub-Circles",
-      "CircleMembers": "All members of the Circle and sub-circles",
-      "None": "Guest members only (below)"
+      "CircleLeaders": "Members of the Role",
+      "CircleMembers": "All members of the Role and sub-Roles",
+      "None": "Only some invited members"
     },
     "TextError": {
       "auth/invalid-email": "Invalid email address.",
@@ -89,12 +89,12 @@
     },
     "CircleMemberFormControl": {
       "labelSingleMember": "Occupied by :",
-      "labelMultiMembers": "Direct members :"
+      "labelMultiMembers": "Members :"
     },
     "CirclesKeyboardShortcuts": {
       "label": "Keyboard shortcuts",
-      "CmdClick": ": Move a circle",
-      "CmdShiftClick": " : Copy a circle"
+      "CmdClick": ": Move a role or a member",
+      "CmdShiftClick": " : Copy a role or a member"
     },
     "CircleTasks": {
       "create": "Create a task",
@@ -137,13 +137,13 @@
     },
     "LogText": {
       "circleRoot": "the root",
-      "CircleCreate": "<author /> created the circle <circle /> in <parentCircle />",
-      "CircleMove": "<author /> moved the circle <circle /> into <parentCircle />",
-      "CircleCopy": "<author /> copied the circle <circle /> into <parentCircle />",
-      "CircleArchive": "<author /> archived the circle <circle />",
-      "CircleMemberAdd": "<author /> added <member /> to circle <circle />",
-      "CircleMemberRemove": "<author /> removed <member /> from circle <circle />",
-      "CircleMemberMove": "<author /> moved <member /> into the <circle /> circle",
+      "CircleCreate": "<author /> created the role <circle /> in <parentCircle />",
+      "CircleMove": "<author /> moved the role <circle /> into <parentCircle />",
+      "CircleCopy": "<author /> copied the role <circle /> into <parentCircle />",
+      "CircleArchive": "<author /> archived the role <circle />",
+      "CircleMemberAdd": "<author /> added <member /> to role <circle />",
+      "CircleMemberRemove": "<author /> removed <member /> from role <circle />",
+      "CircleMemberMove": "<author /> moved <member /> into the role <circle />",
       "RoleCreate": "<author /> has created the role <role />",
       "RoleUpdate": "<author /> has modified the role <role />",
       "RoleArchive": "<author /> archived the role <role />",
@@ -170,10 +170,10 @@
       "notesPlaceholder": "Notes..."
     },
     "MeetingStepContentChecklist": {
-      "useCircle": "Use circle checklist {{circle}}"
+      "useCircle": "Use role checklist {{circle}}"
     },
     "MeetingStepContentIndicators": {
-      "useCircle": "Use circle indicators {{circle}}"
+      "useCircle": "Use role indicators {{circle}}"
     },
     "MeetingStepContentTasks": {
       "create": "New task"
@@ -202,9 +202,7 @@
     },
     "SubCirclesFormControl": {
       "roles": "Roles:",
-      "addRole": "Add a role",
-      "circles": "Circles:",
-      "addCircle": "Add a circle"
+      "addRole": "Add a role"
     },
     "TasksMultiSelect": {
       "choose": "Choose a task",
@@ -262,7 +260,7 @@
         "decisionPlacerholder": "What did you decide?",
         "explanation": "Explanations",
         "explanationPlaceholder": "Why did you make this decision?",
-        "circle": "Circle / Role"
+        "circle": "Role"
       },
       "ActivityDeleteModal": {
         "heading": "Delete a message",
@@ -301,26 +299,26 @@
         "create": "Create a basic role"
       },
       "CircleCopyModal": {
-        "heading": "Duplicate a circle",
-        "action1": "Open the Circles graph.",
+        "heading": "Duplicate a role",
+        "action1": "Open the Roles graph.",
         "action2": "Press the keys",
-        "action3": "Drag the circle with your mouse (click without releasing) while holding down the key.",
-        "action4": "Drop it in the desired circle."
+        "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
+        "action4": "Drop it in the desired role."
       },
       "CircleDeleteModal": {
-        "heading": "Delete circle",
-        "info": "Are you sure you want to delete the circle <b>{{name}}</b>?"
+        "heading": "Delete role",
+        "info": "Are you sure you want to delete the role <b>{{name}}</b>?"
       },
       "CircleMemberDeleteModal": {
         "heading": "Remove a member's role",
         "info": "Are you sure you want to remove remove role <b>{{role}}</b> from member <b>{{member}}</b>?"
       },
       "CircleMoveModal": {
-        "heading": "Move a circle",
-        "action1": "Open the Circles graph.",
+        "heading": "Move a role",
+        "action1": "Open the Roles graph.",
         "action2": "Press the key",
-        "action3": "Drag the circle with your mouse (click without releasing) while holding down the key.",
-        "action4": "Drop it in the desired circle."
+        "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
+        "action4": "Drop it in the desired role."
       },
       "CurrentUserModal": {
         "heading": "My personal information",
@@ -356,7 +354,7 @@
         "start": "Start",
         "duration": "Duration",
         "durationSuffix": "minutes",
-        "circle": "Circle",
+        "circle": "Role",
         "invite": "Invite",
         "facilitator": "Facilitator",
         "facilitatorHelp": "The facilitator facilitates the meeting by following the process and giving the floor.",
@@ -370,8 +368,8 @@
         "scope": "Include",
         "scopeOrg": "All meetings in the organization",
         "scopeMine": "All my meetings",
-        "scopeCircle": "All meetings in a circle",
-        "circle": "Circle",
+        "scopeCircle": "All meetings in a role",
+        "circle": "Role",
         "url": "iCal URL"
       },
       "MeetingTemplateDeleteModal": {
@@ -472,7 +470,7 @@
       },
       "RoleEditModal": {
         "heading": "Edit Role {{name}}",
-        "baseInfo": "This role is a Basic Role potentially used in multiple circles.",
+        "baseInfo": "This role is a Basic Role potentially used in multiple locations.",
         "name": "Role Name",
         "namePlaceholder": "Name...",
         "purpose": "Purpose",
@@ -490,10 +488,10 @@
         "notes": "Notes",
         "notesPlaceholder": "Notes, links...",
         "singleMember": "Can only be occupied by a single member",
-        "autoCreate": "Create automatically in any new circle",
-        "linkParent": "Represents its parent circle (link)",
-        "linkToParent": "In parent circle",
-        "linkToCircle": "In another circle",
+        "autoCreate": "Create automatically in any new role",
+        "linkParent": "Represents its parent rôle (link)",
+        "linkToParent": "In parent rôle",
+        "linkToCircle": "In another rôle",
         "defaultWorkingTime": "Default Time",
         "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
         "color": "Customize color"
@@ -507,7 +505,7 @@
         "headingCreate": "New Thread",
         "title": "Title",
         "titlePlaceholder": "What are we discussing?...",
-        "circle": "Circle / Role",
+        "circle": "Role",
         "invite": "Invite",
         "settings": "Settings",
         "archived": "Archived"
@@ -520,7 +518,6 @@
     "CircleContent": {
       "notFound": "Role not found",
       "tabRole": "Role",
-      "tabCircle": "Circle",
       "tabThreads": "Threads",
       "tabMeetings": "Meetings",
       "tabTasks": "Tasks",
@@ -530,12 +527,12 @@
       "checklist": "Checklist:",
       "indicators": "Indicators:",
       "notes": "Notes:",
-      "representCircle": "Represent Circle <link />",
-      "representInCircle": "in Circle <link />"
+      "representCircle": "Represent role <link />",
+      "representInCircle": "in role <link />"
     },
     "Header": {
       "orgs": "Organizations",
-      "circles": "Circles",
+      "roles": "Roles",
       "threads": "Threads",
       "meetings": "Meetings",
       "tasks": "Tasks",
@@ -582,7 +579,7 @@
     "TaskContent": {
       "heading": "Task",
       "titlePlaceholder": "Title...",
-      "circle": "Circle / Role",
+      "circle": "Role",
       "memberId": "Assigned member",
       "dueDate": "Deadline",
       "description": "Description",
@@ -597,7 +594,7 @@
     "TasksModule": {
       "kanban": "Kanban",
       "list": "List",
-      "filterCircle": "Circle",
+      "filterCircle": "Role",
       "filterMember": "Member"
     },
     "ThreadActivities": {

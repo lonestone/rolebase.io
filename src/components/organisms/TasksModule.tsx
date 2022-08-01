@@ -109,7 +109,7 @@ export default function TasksModule({
                   value={circleId}
                   size="sm"
                   mx={1}
-                  maxW="200px"
+                  maxW="300px"
                   placeholder={t('organisms.TasksModule.filterCircle')}
                   onChange={onCircleChange}
                   onClear={() => onCircleChange(undefined)}
@@ -131,7 +131,7 @@ export default function TasksModule({
                   value={memberId}
                   size="sm"
                   mx={1}
-                  maxW="200px"
+                  maxW="300px"
                   placeholder={t('organisms.TasksModule.filterMember')}
                   onChange={onMemberChange}
                   onClear={() => onMemberChange(undefined)}

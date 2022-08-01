@@ -18,7 +18,6 @@ export interface Role {
   autoCreate: boolean
   // Link to another circle (parent or other)
   // to represent parent circle's purpose in this other circle.
-  // Only if singleMember is true
   //   string = circleId
   //   true = grand parent circle
   //   false = not a link

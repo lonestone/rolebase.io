@@ -102,14 +102,6 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
     },
   })
 
-  // Single member
-  const singleMember = watch('singleMember')
-  useEffect(() => {
-    if (!singleMember) {
-      setValue('link', false)
-    }
-  }, [singleMember])
-
   // Register some fields
   const link = watch('link')
   useEffect(() => {
@@ -286,18 +278,14 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                     {t('organisms.modals.RoleEditModal.singleMember')}
                   </Checkbox>
 
-                  {role.base && (
-                    <Checkbox
-                      {...register('autoCreate')}
-                      isDisabled={!singleMember}
-                    >
+                  {/* role.base && (
+                    <Checkbox {...register('autoCreate')}>
                       {t('organisms.modals.RoleEditModal.autoCreate')}
                     </Checkbox>
-                  )}
+                  ) */}
 
                   <Checkbox
                     name="link"
-                    isDisabled={!singleMember}
                     isChecked={!!link}
                     onChange={() => setValue('link', !link)}
                   >

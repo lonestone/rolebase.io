@@ -1,5 +1,4 @@
 import { createCircle, updateCircle } from '@api/entities/circles'
-import { updateRole } from '@api/entities/roles'
 import {
   Button,
   FormControl,
@@ -63,13 +62,12 @@ export default function OnboardingCircleMembersModal({
     setLoading(true)
     try {
       if (singleMember) {
-        // Set single member
+        // Set member
         await updateCircle(circle.id, {
           members: [{ id: nanoid(10), memberId: leaderId }],
         })
       } else {
-        // Convert to circle with direct members
-        await updateRole(circle.role.id, { singleMember: false })
+        // Set members
         await updateCircle(circle.id, {
           members: membersIds.map((id) => ({ id: nanoid(10), memberId: id })),
         })

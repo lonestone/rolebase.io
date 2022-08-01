@@ -93,7 +93,6 @@ export default function OnboardingCirclesModal({
           orgId,
           base: false,
           name,
-          singleMember: true,
         })
 
         // Create circle

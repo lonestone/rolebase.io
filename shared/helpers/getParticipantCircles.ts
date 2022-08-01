@@ -18,40 +18,32 @@ export function getParticipantCircles(
   // Circles where the member is a representant
   const representedCircles = enrichCirclesWithRoles(
     directMemberCircles.reduce<CircleEntry[]>(
-      (acc, { parentId, role: { singleMember, link } }) => {
-        const parent = circles.find((c) => c.id === parentId)
-        if (!parent) return acc
+      (acc, { id, parentId, role: { link } }) => {
+        // Find Leader
+        const leader = circles.find((circle) => {
+          if (circle.parentId !== id) return false
+          const role = roles.find((r) => r.id === circle.roleId)
+          return role?.link === true
+        })
+        if (!leader) {
+          const parent = circles.find((c) => c.id === parentId)
+          if (!parent) return acc
 
-        if (singleMember) {
-          // Single member participate to its direct parent
+          // Member represents its role in its parent if there is no leader
           acc.push(parent)
 
-          // It represents its parent in grandparent
           if (link === true) {
+            // It represents its parent in grandparent
             const grandParent = circles.find((c) => c.id === parent.parentId)
             if (grandParent) {
               acc.push(grandParent)
             }
-          }
-
-          // It represents its parent in another circle
-          else if (typeof link === 'string') {
+          } else if (typeof link === 'string') {
+            // It represents its parent in another circle
             const circle = circles.find((c) => c.id === link)
             if (circle) {
               acc.push(circle)
             }
-          }
-        } else {
-          // Circle
-          // Member represents its role in its parent if there is no leader
-          const leader = circles.find((circle) => {
-            if (circle.parentId !== parent.id) return false
-            const role = roles.find((r) => r.id === circle.roleId)
-            if (!role) return false
-            return role.singleMember && role.link === true
-          })
-          if (!leader) {
-            acc.push(parent)
           }
         }
         return acc

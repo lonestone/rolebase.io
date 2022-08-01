@@ -24,6 +24,10 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
 
   return (
     <Flex alignItems="center">
+      <CircleButton circle={circle} />
+
+      <Box h="8px" w={1} bg={'gray.200'} _dark={{ bg: 'whiteAlpha.200' }} />
+
       {membersIds.length === 0 ? (
         <Tooltip
           label={t('molecules.CircleWithLeaderItem.notAssigned')}
@@ -37,8 +41,6 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
           <MemberAvatar key={memberId} id={memberId} size="sm" />
         ))
       )}
-      <Box h="8px" w={1} bg={'gray.100'} _dark={{ bg: 'whiteAlpha.100' }} />
-      <CircleButton circle={circle} />
     </Flex>
   )
 }

@@ -141,11 +141,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             overflow="auto"
           >
             <StyledTab icon={<FiDisc />}>
-              {t(
-                role.singleMember
-                  ? 'organisms.CircleContent.tabRole'
-                  : 'organisms.CircleContent.tabCircle'
-              )}
+              {t('organisms.CircleContent.tabRole')}
             </StyledTab>
             <StyledTab icon={<FiMessageSquare />}>
               {t('organisms.CircleContent.tabThreads')}
@@ -236,14 +232,14 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
                   </>
                 )}
 
+                <CircleMemberFormControl circleId={id} />
+
                 {!role.singleMember ? (
                   <SubCirclesFormControl
                     circle={circle}
                     participants={participants}
                   />
                 ) : null}
-
-                <CircleMemberFormControl circleId={id} />
 
                 {parentCircle && linkedCircle && (
                   <Text>

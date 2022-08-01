@@ -56,7 +56,6 @@ export default function BaseRoleCreateModal({
       orgId,
       base: true,
       name,
-      singleMember: true,
     })
     onCreate?.(role.id)
 

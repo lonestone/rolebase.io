@@ -1,12 +1,6 @@
 import { createCircle } from '@api/entities/circles'
 import { createRole } from '@api/entities/roles'
-import {
-  FormControl,
-  FormLabel,
-  StackItem,
-  VStack,
-  WrapItem,
-} from '@chakra-ui/react'
+import { FormControl, FormLabel, StackItem, VStack } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
@@ -36,7 +30,13 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   // Get direct circles children and their roles
   const childrenAndRoles = useMemo(
     () =>
-      circles && roles && getCircleChildrenAndRoles(circles, roles, circle.id),
+      circles &&
+      roles &&
+      getCircleChildrenAndRoles(circles, roles, circle.id).sort((a, b) => {
+        if (a.role.link === true && b.role.link !== true) return -1
+        if (a.role.link !== true && b.role.link === true) return 1
+        return a.role.name.localeCompare(b.role.name)
+      }),
     [circles, roles, circle]
   )
 
@@ -46,8 +46,8 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   )
 
   // Create circle and open it
-  const create = useCallback(
-    async (roleOrName: RoleEntry | string, singleMember: boolean) => {
+  const handleCreateRole = useCallback(
+    async (roleOrName: RoleEntry | string) => {
       if (!orgId || !roles) return
 
       // Create role
@@ -57,7 +57,6 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
           orgId,
           base: false,
           name: roleOrName,
-          singleMember: !!singleMember,
         })
       } else {
         role = roleOrName
@@ -77,6 +76,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
       }
 
       // Add roles with autoCreate=true
+      /*
       if (!singleMember) {
         const autoCreateRoles = roles.filter((r) => r.autoCreate)
         for (const autoCreateRole of autoCreateRoles) {
@@ -94,6 +94,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
           })
         }
       }
+      */
 
       // Log changes
       if (typeof roleOrName === 'string') {
@@ -115,95 +116,41 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
     [orgId, roles, circle]
   )
 
-  const handleRoleAdd = useCallback(
+  const handleAddRole = useCallback(
     (roleId: string) => {
       const role = roles?.find((r) => r.id === roleId)
       if (!role) return
-      create(role, true)
+      handleCreateRole(role)
     },
-    [create, roles]
-  )
-
-  const handleRoleCreate = useCallback(
-    async (name: string) => create(name, true),
-    [create, roles]
-  )
-
-  const handleCircleAdd = useCallback(
-    (roleId: string) => {
-      const role = roles?.find((r) => r.id === roleId)
-      if (!role) return
-      create(role, false)
-    },
-    [create, roles]
-  )
-
-  const handleCircleCreate = useCallback(
-    async (name: string) => create(name, false),
-    [create, roles]
+    [handleCreateRole, roles]
   )
 
   return (
-    <>
-      <FormControl>
-        <FormLabel>{t('molecules.SubCirclesFormControl.roles')}</FormLabel>
-        <VStack spacing={2} align="stretch">
-          {childrenAndRoles
-            ?.filter((circle) => circle.role.singleMember)
-            .map((circle) => (
-              <CircleWithLeaderItem
-                key={circle.id}
-                circle={circle}
-                participants={participants}
-              />
-            ))}
-          <StackItem>
-            <RoleSearchButton
-              base
-              singleMember
-              excludeIds={childrenRolesIds}
-              size="sm"
-              variant="ghost"
-              borderRadius="full"
-              leftIcon={<FiPlus />}
-              onSelect={handleRoleAdd}
-              onCreate={handleRoleCreate}
-            >
-              {t('molecules.SubCirclesFormControl.addRole')}
-            </RoleSearchButton>
-          </StackItem>
-        </VStack>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>{t('molecules.SubCirclesFormControl.circles')}</FormLabel>
-        <VStack spacing={2} align="stretch">
-          {childrenAndRoles
-            ?.filter((circle) => !circle.role.singleMember)
-            .map((circle) => (
-              <CircleWithLeaderItem
-                key={circle.id}
-                circle={circle}
-                participants={participants}
-              />
-            ))}
-          <WrapItem>
-            <RoleSearchButton
-              base
-              singleMember={false}
-              excludeIds={childrenRolesIds}
-              size="sm"
-              variant="ghost"
-              borderRadius="full"
-              leftIcon={<FiPlus />}
-              onSelect={handleCircleAdd}
-              onCreate={handleCircleCreate}
-            >
-              {t('molecules.SubCirclesFormControl.addCircle')}
-            </RoleSearchButton>
-          </WrapItem>
-        </VStack>
-      </FormControl>
-    </>
+    <FormControl>
+      <FormLabel>{t('molecules.SubCirclesFormControl.roles')}</FormLabel>
+      <VStack spacing={2} align="stretch">
+        {childrenAndRoles?.map((circle) => (
+          <CircleWithLeaderItem
+            key={circle.id}
+            circle={circle}
+            participants={participants}
+          />
+        ))}
+        <StackItem>
+          <RoleSearchButton
+            base
+            excludeIds={childrenRolesIds}
+            size="sm"
+            variant="ghost"
+            borderRadius="full"
+            leftIcon={<FiPlus />}
+            onSelect={handleAddRole}
+            onCreate={handleCreateRole}
+          >
+            {t('molecules.SubCirclesFormControl.addRole')}
+          </RoleSearchButton>
+        </StackItem>
+      </VStack>
+    </FormControl>
   )
 }
