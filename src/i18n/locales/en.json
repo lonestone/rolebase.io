@@ -170,10 +170,12 @@
       "notesPlaceholder": "Notes..."
     },
     "MeetingStepContentChecklist": {
-      "useCircle": "Use role checklist {{circle}}"
+      "useCircle": "Use role checklist {{circle}}",
+      "empty": "The role <circle /> does not have a checklist. You can edit it to add a checklist that will be used automatically in meetings."
     },
     "MeetingStepContentIndicators": {
-      "useCircle": "Use role indicators {{circle}}"
+      "useCircle": "Use role indicators {{circle}}",
+      "empty": "The role <circle /> has no indicators. You can edit it to add indicators that will be used automatically in meetings."
     },
     "MeetingStepContentTasks": {
       "create": "New task"

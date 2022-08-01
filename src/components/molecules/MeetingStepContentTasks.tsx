@@ -1,5 +1,5 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
-import { Box, BoxProps, Button, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/modals/TaskModal'
 import TasksModule from '@components/organisms/TasksModule'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import MeetingLogs from './MeetingLogs'
 
-interface Props extends BoxProps {
+interface Props {
   meetingId: string
   circleId: string
   step: WithId<MeetingStepTasks>
@@ -31,7 +31,6 @@ export default function MeetingStepContentTasks({
   circleId,
   step,
   editable,
-  ...boxProps
 }: Props) {
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
@@ -64,7 +63,7 @@ export default function MeetingStepContentTasks({
   } = useDisclosure()
 
   return (
-    <Box {...boxProps}>
+    <Box mb={5}>
       {editable && (
         <>
           <TasksModule

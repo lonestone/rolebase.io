@@ -170,10 +170,12 @@
       "notesPlaceholder": "Notes..."
     },
     "MeetingStepContentChecklist": {
-      "useCircle": "Utiliser la checklist du rôle {{circle}}"
+      "useCircle": "Utiliser la checklist du rôle {{circle}}",
+      "empty": "Le rôle <circle /> n'a pas de checklist. Vous pouvez l'éditer pour ajouter une checklist qui sera utilisée automatiquement en réunion."
     },
     "MeetingStepContentIndicators": {
-      "useCircle": "Utiliser les indicateurs du rôle {{circle}}"
+      "useCircle": "Utiliser les indicateurs du rôle {{circle}}",
+      "empty": "Le rôle <circle /> n'a pas d'indicateurs. Vous pouvez l'éditer pour ajouter des indicateurs qui seront utilisés automatiquement en réunion."
     },
     "MeetingStepContentTasks": {
       "create": "Nouvelle tâche"

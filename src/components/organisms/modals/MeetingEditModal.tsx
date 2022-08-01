@@ -46,6 +46,7 @@ import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useOrgId } from '@hooks/useOrgId'
@@ -167,6 +168,8 @@ export default function MeetingEditModal({
   const facilitatorMemberId = watch('facilitatorMemberId')
   const videoConf = watch('videoConf')
 
+  const circle = useCircle(circleId)
+
   // Templates
   const {
     data: meetingTemplates,
@@ -192,7 +195,7 @@ export default function MeetingEditModal({
 
   // Submit
   const onSubmit = handleSubmit(async ({ startDate, duration, ...data }) => {
-    if (!orgId || !currentMember) return
+    if (!orgId || !currentMember || !circle) return
     const startDateDate = new Date(startDate)
     const meetingUpdate = {
       ...data,
@@ -207,7 +210,11 @@ export default function MeetingEditModal({
       await updateMeeting(meeting.id, meetingUpdate)
 
       // Create missing steps
-      await createMissingMeetingSteps(meeting.id, meetingUpdate.stepsConfig)
+      await createMissingMeetingSteps(
+        meeting.id,
+        meetingUpdate.stepsConfig,
+        circle
+      )
     } else {
       // Create meeting
       const newMeeting = await createMeeting({
@@ -222,7 +229,11 @@ export default function MeetingEditModal({
       }
 
       // Create missing steps
-      await createMissingMeetingSteps(newMeeting.id, newMeeting.stepsConfig)
+      await createMissingMeetingSteps(
+        newMeeting.id,
+        newMeeting.stepsConfig,
+        circle
+      )
 
       if (onCreate) {
         onCreate(newMeeting.id)

@@ -1,12 +1,19 @@
-import { Box, BoxProps, Button, Collapse } from '@chakra-ui/react'
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Button,
+  Collapse,
+} from '@chakra-ui/react'
+import CircleButton from '@components/atoms/CircleButton'
 import useCircle from '@hooks/useCircle'
 import { MeetingStepIndicators } from '@shared/model/meetingStep'
 import { WithId } from '@shared/model/types'
 import React, { RefObject, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { EditorHandle } from './editor/useEditor'
 
-interface Props extends BoxProps {
+interface Props {
   circleId: string
   step: WithId<MeetingStepIndicators>
   editorRef: RefObject<EditorHandle>
@@ -18,7 +25,6 @@ export default function MeetingStepContentIndicators({
   step,
   editorRef,
   editable,
-  ...boxProps
 }: Props) {
   const { t } = useTranslation()
   const circle = useCircle(circleId)
@@ -30,17 +36,34 @@ export default function MeetingStepContentIndicators({
   }, [editorRef, circle])
 
   return (
-    <Collapse
-      in={circle && newValue && editable && !step.notes ? true : false}
-      animateOpacity
-    >
-      <Box {...boxProps}>
-        <Button size="sm" onClick={handleSet}>
+    <>
+      <Collapse
+        in={editable && newValue && !step.notes ? true : false}
+        animateOpacity
+      >
+        <Button size="sm" mb={5} onClick={handleSet}>
           {t('molecules.MeetingStepContentIndicators.useCircle', {
             circle: circle?.role.name,
           })}
         </Button>
-      </Box>
-    </Collapse>
+      </Collapse>
+
+      <Collapse
+        in={editable && !newValue && !step.notes ? true : false}
+        animateOpacity
+      >
+        <Alert status="info" mb={3}>
+          <AlertIcon />
+          <AlertDescription>
+            <Trans
+              i18nKey="molecules.MeetingStepContentIndicators.empty"
+              components={{
+                circle: circle ? <CircleButton circle={circle} /> : '...',
+              }}
+            />
+          </AlertDescription>
+        </Alert>
+      </Collapse>
+    </>
   )
 }

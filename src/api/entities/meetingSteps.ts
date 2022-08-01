@@ -2,6 +2,7 @@ import { executeQuery } from '@api/helpers/executeQuery'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
 import { getSubCollection } from '@api/helpers/getSubCollection'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
+import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MeetingEntry, MeetingStepConfig } from '@shared/model/meeting'
 import { MeetingStep, MeetingStepTypes } from '@shared/model/meetingStep'
 import { TasksViewTypes } from '@shared/model/task'
@@ -25,7 +26,10 @@ export const meetingStepsEntities = memoize((meetingId: string) => {
   }
 })
 
-export function getDefaultMeetingStep(type: MeetingStepTypes): MeetingStep {
+function getDefaultMeetingStep(
+  type: MeetingStepTypes,
+  circle: CircleWithRoleEntry
+): MeetingStep {
   switch (type) {
     case MeetingStepTypes.Tour:
       return {
@@ -49,10 +53,14 @@ export function getDefaultMeetingStep(type: MeetingStepTypes): MeetingStep {
         filterStatus: null,
       }
     case MeetingStepTypes.Checklist:
+      return {
+        type,
+        notes: circle.role.checklist,
+      }
     case MeetingStepTypes.Indicators:
       return {
         type,
-        notes: '',
+        notes: circle.role.indicators,
       }
   }
 }
@@ -62,7 +70,8 @@ export function getDefaultMeetingStep(type: MeetingStepTypes): MeetingStep {
 // So we need to create a step for each stepConfig after meeting edition
 export async function createMissingMeetingSteps(
   meetingId: string,
-  stepsConfig: MeetingStepConfig[]
+  stepsConfig: MeetingStepConfig[],
+  circle: CircleWithRoleEntry
 ) {
   const { getMeetingSteps, createMeetingStep } = meetingStepsEntities(meetingId)
   const meetingSteps = await getMeetingSteps()
@@ -72,7 +81,10 @@ export async function createMissingMeetingSteps(
 
   await Promise.all(
     missingSteps.map((stepConfig) =>
-      createMeetingStep(getDefaultMeetingStep(stepConfig.type), stepConfig.id)
+      createMeetingStep(
+        getDefaultMeetingStep(stepConfig.type, circle),
+        stepConfig.id
+      )
     )
   )
 }

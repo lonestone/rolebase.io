@@ -53,7 +53,6 @@ export default function MeetingStepContent({
           step={step}
           circleId={circleId}
           editable={editable}
-          mb={5}
         />
       )}
 
@@ -63,7 +62,6 @@ export default function MeetingStepContent({
           step={step}
           circleId={circleId}
           editable={editable}
-          mb={5}
         />
       )}
 
@@ -72,7 +70,6 @@ export default function MeetingStepContent({
           circleId={circleId}
           step={step}
           editable={editable}
-          mb={5}
           editorRef={editorRef}
         />
       )}
@@ -83,7 +80,6 @@ export default function MeetingStepContent({
           step={step}
           editable={editable}
           editorRef={editorRef}
-          mb={5}
         />
       )}
 
