@@ -64,7 +64,6 @@ export function createGraph(
     addDrawListener,
     removeListeners,
     updateDimensions(width, height) {
-      console.log('updateDimensions', width, height)
       // Update dimensions
       if (dimensions.width !== width || dimensions.height !== height) {
         dimensions.width = width
@@ -73,7 +72,6 @@ export function createGraph(
       }
     },
     updateData(circles, roles, members) {
-      console.log('updateData')
       // Create/update circles and menu
       updateCircles(svg, {
         circles,
