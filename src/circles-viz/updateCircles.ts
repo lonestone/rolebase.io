@@ -30,21 +30,12 @@ interface CirclesParams {
   members: MemberEntry[]
   events: GraphEvents
   zoom: Zoom
-  selectedCircleId?: string
   addDrawListener: DrawEventListener
 }
 
 export default function updateCircles(
   svgElement: SVGSVGElement,
-  {
-    circles,
-    roles,
-    members,
-    events,
-    zoom,
-    selectedCircleId,
-    addDrawListener,
-  }: CirclesParams
+  { circles, roles, members, events, zoom, addDrawListener }: CirclesParams
 ) {
   // Pack data with d3.pack
   const data: Data = {
@@ -127,7 +118,10 @@ export default function updateCircles(
       (nodeEnter) => {
         const nodeGroup = nodeEnter
           .append('g')
-          .attr('class', (d) => `circle type-${d.data.type}`)
+          .attr(
+            'class',
+            (d) => `circle circle-${d.data.id} type-${d.data.type}`
+          )
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
           // Hover
@@ -404,9 +398,6 @@ export default function updateCircles(
         nodeUpdate
           .transition(transition as any)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
-          .attr('data-selected', (d) =>
-            d.data.id === selectedCircleId ? true : null
-          )
 
         // Update circle style
         nodeUpdate

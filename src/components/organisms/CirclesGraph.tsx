@@ -17,6 +17,7 @@ interface Props {
 
 type SVGProps = ColorModeProps & {
   circleCursor: string
+  selectedCircleId?: string
   width: number
   height: number
 }
@@ -64,7 +65,9 @@ const StyledSVG = styled.svg<SVGProps>`
         )};
       stroke-width: calc(4 / var(--zoom-scale));
     }
-    &[data-selected] circle {
+
+    // Selected
+    &.circle-${(p) => p.selectedCircleId} circle {
       stroke: ${(p) =>
         circleColor(
           mode(
@@ -75,10 +78,12 @@ const StyledSVG = styled.svg<SVGProps>`
         )};
       stroke-width: calc(4 / var(--zoom-scale));
     }
+
     &[data-dragging] circle {
       filter: url(#${({ id }) => id}-shadow);
       fill-opacity: 0.5;
     }
+
     &[data-drag-target] circle {
       stroke: ${(p) => circleColor(mode('20%', '80%')(p))};
       stroke-width: 3px;
@@ -141,20 +146,11 @@ export default function CirclesGraph({
     graphRef.current.update({
       width,
       height,
-      selectedCircleId,
       circles,
       roles,
       members,
     })
-  }, [
-    members,
-    roles,
-    circles,
-    width,
-    height,
-    selectedCircleId,
-    ...Object.values(events),
-  ])
+  }, [members, roles, circles, width, height, ...Object.values(events)])
 
   // Remove SVG listeners on unmount
   useEffect(() => () => graphRef.current?.removeListeners(), [])
@@ -208,6 +204,7 @@ export default function CirclesGraph({
       viewBox={`0 0 ${width} ${height}`}
       textAnchor="middle"
       circleCursor={cursor}
+      selectedCircleId={selectedCircleId}
       colorMode={colorMode}
     />
   )

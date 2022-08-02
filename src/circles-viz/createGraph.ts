@@ -21,7 +21,6 @@ export interface GraphParams {
 export interface UpdateGraphParams {
   width: number
   height: number
-  selectedCircleId?: string
   circles: CircleEntry[]
   roles: RoleEntry[]
   members: MemberEntry[]
@@ -67,7 +66,7 @@ export function createGraph(
     zoom,
     addDrawListener,
     removeListeners,
-    update({ width, height, selectedCircleId, circles, roles, members }) {
+    update({ width, height, circles, roles, members }) {
       // Update dimensions
       if (dimensions.width !== width || dimensions.height !== height) {
         dimensions.width = width
@@ -83,7 +82,6 @@ export function createGraph(
         dimensions,
         events,
         zoom,
-        selectedCircleId,
         addDrawListener,
       })
 
