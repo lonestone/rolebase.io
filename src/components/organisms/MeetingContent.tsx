@@ -253,7 +253,7 @@ export default function MeetingContent({
                 : undefined
             }
             onDuplicate={handleDuplicate}
-            onDelete={canEdit && !meeting?.ended ? onDeleteOpen : undefined}
+            onDelete={canEdit && !isStarted ? onDeleteOpen : undefined}
           />
 
           {headerIcons}
