@@ -2,10 +2,10 @@ import { DragHandleIcon } from '@chakra-ui/icons'
 import { Center, HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
 import { MeetingStepTypes } from '@shared/model/meetingStep'
 import React from 'react'
+import { Draggable } from 'react-beautiful-dnd'
 import { Control, FieldErrors } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
-import useSortableItem from '../../hooks/useSortableItem'
 import { fieldName, StepsValues } from './MeetingStepsConfigController'
 
 interface Props {
@@ -26,37 +26,50 @@ export default function MeetingStepSortableItem({
   onRemove,
 }: Props) {
   const { t } = useTranslation()
-  const { attributes, listeners } = useSortableItem(id)
 
   return (
-    <HStack {...attributes} role="none">
-      <Center {...listeners} cursor="grab">
-        <DragHandleIcon />
-      </Center>
+    <Draggable draggableId={id} index={index}>
+      {(provided) => (
+        <HStack
+          ref={provided.innerRef}
+          role="none"
+          mb={2}
+          {...provided.draggableProps}
+        >
+          <Center {...provided.dragHandleProps} cursor="grab">
+            <DragHandleIcon />
+          </Center>
 
-      <Tag size="lg" borderRadius="full" cursor="grab" {...listeners}>
-        {index + 1}
-      </Tag>
+          <Tag
+            size="lg"
+            borderRadius="full"
+            cursor="grab"
+            {...provided.dragHandleProps}
+          >
+            {index + 1}
+          </Tag>
 
-      <Text flex={1} pl={5}>
-        {t(`common.meetingSteps.${stepType}`)}
-      </Text>
+          <Text flex={1} pl={5}>
+            {t(`common.meetingSteps.${stepType}`)}
+          </Text>
 
-      <Input
-        {...control.register(`${fieldName}.${index}.title`)}
-        flex={1}
-        isInvalid={!!errors?.[fieldName]?.[index]}
-        placeholder={t(`molecules.MeetingStepSortableItem.placeholder`)}
-      />
+          <Input
+            {...control.register(`${fieldName}.${index}.title`)}
+            flex={1}
+            isInvalid={!!errors?.[fieldName]?.[index]}
+            placeholder={t(`molecules.MeetingStepSortableItem.placeholder`)}
+          />
 
-      {onRemove && (
-        <IconButton
-          aria-label={t('common.delete')}
-          variant="ghost"
-          icon={<FiX />}
-          onClick={() => onRemove?.(index)}
-        />
+          {onRemove && (
+            <IconButton
+              aria-label={t('common.delete')}
+              variant="ghost"
+              icon={<FiX />}
+              onClick={() => onRemove?.(index)}
+            />
+          )}
+        </HStack>
       )}
-    </HStack>
+    </Draggable>
   )
 }

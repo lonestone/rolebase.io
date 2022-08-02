@@ -1,54 +1,35 @@
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import {
-  restrictToParentElement,
-  restrictToVerticalAxis,
-} from '@dnd-kit/modifiers'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { Box } from '@chakra-ui/react'
 import React, { useCallback } from 'react'
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 
 interface Props {
-  items: Array<{ id: string }>
   children: React.ReactNode
+  disabled?: boolean
   onDragEnd(oldIndex: number, newIndex: number): void
 }
 
-export default function SortableList({ items, children, onDragEnd }: Props) {
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 2,
-      },
-    })
-  )
-
+export default function SortableList({ children, disabled, onDragEnd }: Props) {
   const handleDragEnd = useCallback(
-    (event: DragEndEvent) => {
-      const { active, over } = event
-      if (!over || active.id === over.id) return
-      const oldIndex = items.findIndex((step) => step.id === active.id)
-      const newIndex = items.findIndex((step) => step.id === over.id)
+    (result: DropResult) => {
+      result.source.index
+      const oldIndex = result.source.index
+      const newIndex = result.destination?.index
+      if (newIndex === undefined || oldIndex === newIndex) return
       onDragEnd(oldIndex, newIndex)
     },
-    [items, onDragEnd]
+    [onDragEnd]
   )
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        {children}
-      </SortableContext>
-    </DndContext>
+    <DragDropContext enableDefaultSensors={!disabled} onDragEnd={handleDragEnd}>
+      <Droppable droppableId="list">
+        {(provided) => (
+          <Box ref={provided.innerRef} {...provided.droppableProps}>
+            {children}
+            {provided.placeholder}
+          </Box>
+        )}
+      </Droppable>
+    </DragDropContext>
   )
 }

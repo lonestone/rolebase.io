@@ -1,11 +1,4 @@
-import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-} from '@chakra-ui/react'
+import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { MeetingStepTypes } from '@shared/model/meetingStep'
 import { nanoid } from 'nanoid'
@@ -62,21 +55,20 @@ export default function MeetingStepsConfigController({
 
   return (
     <>
-      <SortableList items={stepsFields} onDragEnd={moveStep}>
-        <Stack spacing={2}>
-          {stepsFields.map((field, index) => (
-            <MeetingStepSortableItem
-              key={field.key}
-              id={field.id}
-              index={index}
-              control={control}
-              errors={errors}
-              onRemove={stepsFields.length > 1 ? removeStep : undefined}
-              stepType={field.type}
-            />
-          ))}
-        </Stack>
+      <SortableList onDragEnd={moveStep}>
+        {stepsFields.map((field, index) => (
+          <MeetingStepSortableItem
+            key={field.key}
+            id={field.id}
+            index={index}
+            control={control}
+            errors={errors}
+            onRemove={stepsFields.length > 1 ? removeStep : undefined}
+            stepType={field.type}
+          />
+        ))}
       </SortableList>
+
       <Menu matchWidth={true}>
         <MenuButton as={Button} rightIcon={<FiChevronDown />} w="100%" mt={2}>
           {t(`molecules.MeetingStepsConfigController.addStep`)}

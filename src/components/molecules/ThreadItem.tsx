@@ -21,10 +21,14 @@ interface Props extends LinkBoxProps {
   thread: ThreadEntry
   unread?: boolean
   showCircle?: boolean
+  isDragging?: boolean
 }
 
 const ThreadItem = forwardRef<Props, 'div'>(
-  ({ thread, unread, showCircle, children, ...linkBoxProps }, ref) => {
+  (
+    { thread, unread, showCircle, isDragging, children, ...linkBoxProps },
+    ref
+  ) => {
     const path = usePathInOrg(`threads/${thread.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
@@ -35,6 +39,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
         <LinkBox
           ref={ref}
           p={1}
+          boxShadow={isDragging ? 'lg' : 'none'}
           _hover={hover}
           {...linkBoxProps}
           tabIndex={

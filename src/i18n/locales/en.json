@@ -206,10 +206,6 @@
       "roles": "Roles:",
       "addRole": "Add a role"
     },
-    "TasksMultiSelect": {
-      "choose": "Choose a task",
-      "add": "Add a task"
-    },
     "ThreadActivityCreate": {
       "placeholder": "Message...",
       "send": "Send",

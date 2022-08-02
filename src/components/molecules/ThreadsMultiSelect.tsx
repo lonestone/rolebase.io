@@ -68,13 +68,13 @@ export default function ThreadsMultiSelect({
       <TextErrors errors={[error]} />
 
       <VStack spacing={0} align="stretch">
-        <SortableList items={items} onDragEnd={handleDragEnd}>
-          {items.map((item) => (
+        <SortableList onDragEnd={handleDragEnd}>
+          {items.map((item, i) => (
             <ThreadSortableItem
               key={item.id}
               threadId={item.id}
+              index={i}
               onRemove={onChange && handleRemove}
-              disabled={!onChange}
             />
           ))}
         </SortableList>
