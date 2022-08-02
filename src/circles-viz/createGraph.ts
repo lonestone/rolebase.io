@@ -9,21 +9,18 @@ export interface Graph {
   zoom: Zoom
   addDrawListener: DrawEventListener
   removeListeners(): void
-  update(params: UpdateGraphParams): void
+  updateDimensions(width: number, height: number): void
+  updateData(
+    circles: CircleEntry[],
+    roles: RoleEntry[],
+    members: MemberEntry[]
+  ): void
 }
 
 export interface GraphParams {
   width: number
   height: number
   events: GraphEvents
-}
-
-export interface UpdateGraphParams {
-  width: number
-  height: number
-  circles: CircleEntry[]
-  roles: RoleEntry[]
-  members: MemberEntry[]
 }
 
 export interface GraphEvents {
@@ -66,20 +63,22 @@ export function createGraph(
     zoom,
     addDrawListener,
     removeListeners,
-    update({ width, height, circles, roles, members }) {
+    updateDimensions(width, height) {
+      console.log('updateDimensions', width, height)
       // Update dimensions
       if (dimensions.width !== width || dimensions.height !== height) {
         dimensions.width = width
         dimensions.height = height
         zoom.changeDimensions(width, height)
       }
-
+    },
+    updateData(circles, roles, members) {
+      console.log('updateData')
       // Create/update circles and menu
       updateCircles(svg, {
         circles,
         roles,
         members,
-        dimensions,
         events,
         zoom,
         addDrawListener,

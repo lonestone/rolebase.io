@@ -15,7 +15,6 @@ import { setNodeCSSVariables } from './setNodeCSSVariables'
 import settings from './settings'
 import {
   Data,
-  Dimensions,
   DrawEventListener,
   NodeData,
   NodesSelection,
@@ -24,7 +23,6 @@ import {
 } from './types'
 
 interface CirclesParams {
-  dimensions: Dimensions
   circles: CircleEntry[]
   roles: RoleEntry[]
   members: MemberEntry[]

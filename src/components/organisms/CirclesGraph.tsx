@@ -121,16 +121,9 @@ export default function CirclesGraph({
   // Events
   const events = useCirclesEvents()
 
-  // Display viz
+  // Display viz and update data
   useEffect(() => {
-    if (
-      !svgRef.current ||
-      width === 0 ||
-      height === 0 ||
-      !members ||
-      !roles ||
-      !circles
-    ) {
+    if (!svgRef.current || !members || !roles || !circles) {
       return
     }
     // Init Graph
@@ -143,13 +136,16 @@ export default function CirclesGraph({
     }
 
     // (Re)-draw graph
-    graphRef.current.update({
-      width,
-      height,
-      circles,
-      roles,
-      members,
-    })
+    graphRef.current.updateData(circles, roles, members)
+  }, [members, roles, circles, ...Object.values(events)])
+
+  // Update dimensions
+  useEffect(() => {
+    if (width === 0 || height === 0) {
+      return
+    }
+    // (Re)-draw graph
+    graphRef.current?.updateDimensions(width, height)
   }, [members, roles, circles, width, height, ...Object.values(events)])
 
   // Remove SVG listeners on unmount
