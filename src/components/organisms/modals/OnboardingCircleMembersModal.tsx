@@ -105,7 +105,13 @@ export default function OnboardingCircleMembersModal({
                   role: circle.role.name,
                 })}
               </FormLabel>
-              <MemberSearchInput value={leaderId} onChange={setLeaderId} />
+              <MemberSearchInput
+                value={leaderId}
+                placeholder={t(
+                  'organisms.modals.OnboardingCircleMembersModal.memberPlaceholder'
+                )}
+                onChange={setLeaderId}
+              />
             </FormControl>
 
             <FormControl>

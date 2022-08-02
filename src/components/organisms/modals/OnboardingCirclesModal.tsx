@@ -1,8 +1,9 @@
 import { createCircle } from '@api/entities/circles'
 import { createRole } from '@api/entities/roles'
 import {
-  Box,
   Button,
+  FormControl,
+  FormHelperText,
   FormLabel,
   IconButton,
   Input,
@@ -144,7 +145,7 @@ export default function OnboardingCirclesModal({
         </ModalHeader>
 
         <ModalBody>
-          <Box>
+          <FormControl>
             <FormLabel>
               {t('organisms.modals.OnboardingCirclesModal.info')}
             </FormLabel>
@@ -169,7 +170,11 @@ export default function OnboardingCirclesModal({
                 </InputGroup>
               ))}
             </Stack>
-          </Box>
+
+            <FormHelperText mt={2}>
+              {t('organisms.modals.OnboardingCirclesModal.help')}
+            </FormHelperText>
+          </FormControl>
         </ModalBody>
 
         <ModalFooter>

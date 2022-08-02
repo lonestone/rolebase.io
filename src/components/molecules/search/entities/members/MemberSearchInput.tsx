@@ -26,7 +26,9 @@ export default function MemberSearchInput({
     <SearchInput
       {...props}
       items={items}
-      placeholder={t('molecules.search.MemberSearchInput.placeholder')}
+      placeholder={
+        props.placeholder || t('molecules.search.MemberSearchInput.placeholder')
+      }
       onCreate={role === ClaimRole.Admin ? handleCreate : undefined}
     />
   )

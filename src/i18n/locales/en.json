@@ -439,12 +439,14 @@
       "OnboardingCircleMembersModal": {
         "heading": "{{role}}",
         "leader": "Who represents the role {{role}}?",
+        "memberPlaceholder": "Firstname Name...",
         "choiceSingle": "{{member}} holds this role alone",
         "choiceCircle": "Other people are participating"
       },
       "OnboardingCirclesModal": {
         "heading": "What are the main activities at {{org}}?",
-        "info": "Let's create the main roles of the organization. In a traditional structure, these would be positions, departments or business units."
+        "info": "Let's create the main roles of the organization. In a traditional structure, these would be positions, departments or business units.",
+        "help": "You will be able to modify and add roles later."
       },
       "OrgCreateModal": {
         "heading": "Create Organization"
