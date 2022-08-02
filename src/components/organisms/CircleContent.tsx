@@ -121,8 +121,8 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
         <ActionsMenu
           onEdit={editRoleModal.onOpen}
           onDelete={circle.parentId ? deleteModal.onOpen : undefined}
-          onMove={moveModal.onOpen}
-          onDuplicate={duplicateModal.onOpen}
+          onMove={circle.parentId ? moveModal.onOpen : undefined}
+          onDuplicate={circle.parentId ? duplicateModal.onOpen : undefined}
         />
 
         {headerIcons}
