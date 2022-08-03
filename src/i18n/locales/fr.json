@@ -112,7 +112,6 @@
       "members": "Membres",
       "baseRoles": "Rôles de base",
       "vacantRoles": "Rôles vacants",
-      "meetingTemplates": "Modèles de réunion",
       "logs": "Historique",
       "superAdmin": "Admin"
     },
@@ -460,6 +459,7 @@
       "OrgSlugModal": {
         "heading": "URL de l'organisation {{org}}",
         "slug": "URL",
+        "slugPlaceholder": "{{slug}} (par exemple)",
         "already-exists": "Cette URL est déjà utilisée."
       },
       "RoleDeleteModal": {

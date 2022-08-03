@@ -9,7 +9,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
-import MeetingTemplatesModal from '@components/organisms/modals/MeetingTemplatesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
 import { useOrgId } from '@hooks/useOrgId'
@@ -23,7 +22,6 @@ import {
   FiActivity,
   FiCircle,
   FiClock,
-  FiCopy,
   FiMoreVertical,
   FiSettings,
   FiUsers,
@@ -79,13 +77,6 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
     onClose: onVacantRolesClose,
   } = useDisclosure()
 
-  // Meeting templates modal
-  const {
-    isOpen: isMeetingTemplatesOpen,
-    onOpen: onMeetingTemplatesOpen,
-    onClose: onMeetingTemplatesClose,
-  } = useDisclosure()
-
   if (!orgId) return null
   return (
     <Menu>
@@ -129,9 +120,6 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
           {t('molecules.HeaderLinksMenu.vacantRoles')}
         </MenuItem>
-        <MenuItem icon={<FiCopy />} onClick={onMeetingTemplatesOpen}>
-          {t('molecules.HeaderLinksMenu.meetingTemplates')}
-        </MenuItem>
         {role === ClaimRole.Admin && (
           <MenuItem as={Link} to={logsPath} icon={<FiClock />}>
             {t('molecules.HeaderLinksMenu.logs')}
@@ -152,10 +140,6 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
 
       {isVacantRolesOpen && (
         <VacantRolesModal isOpen onClose={onVacantRolesClose} />
-      )}
-
-      {isMeetingTemplatesOpen && (
-        <MeetingTemplatesModal isOpen onClose={onMeetingTemplatesClose} />
       )}
     </Menu>
   )

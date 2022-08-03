@@ -22,6 +22,7 @@ import useOrg from '@hooks/useOrg'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import slugify from 'slugify'
 import settings from 'src/settings'
 import * as yup from 'yup'
 
@@ -99,7 +100,14 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
                   <InputLeftAddon>{settings.url}/</InputLeftAddon>
                   <Input
                     {...register('slug')}
-                    placeholder={`orgs/${id}`}
+                    placeholder={t(
+                      'organisms.modals.OrgSlugModal.slugPlaceholder',
+                      {
+                        slug: slugify(org.name, {
+                          strict: true,
+                        }).toLowerCase(),
+                      }
+                    )}
                     maxLength={30}
                     autoFocus
                   />
