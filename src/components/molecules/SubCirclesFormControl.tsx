@@ -128,7 +128,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   return (
     <FormControl>
       <FormLabel>{t('molecules.SubCirclesFormControl.roles')}</FormLabel>
-      <VStack spacing={2} align="stretch">
+      <VStack spacing={2} align="start">
         {childrenAndRoles?.map((circle) => (
           <CircleWithLeaderItem
             key={circle.id}

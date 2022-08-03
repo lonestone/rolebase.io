@@ -1,4 +1,4 @@
-import { ButtonGroup, IconButton, Wrap, WrapItem } from '@chakra-ui/react'
+import { ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import MemberButton from '@components/atoms/MemberButton'
 import { MemberEntry } from '@shared/model/member'
@@ -43,41 +43,42 @@ export default function MembersMultiSelect({
   )
 
   return (
-    <Wrap spacing={2}>
+    <VStack spacing={2} alignItems="start">
       {selectedMembers.map((m) => (
-        <WrapItem key={m.id}>
-          <CircleMemberLink memberId={m.id} circleId={circleId} tabIndex={-1}>
-            <ButtonGroup variant="ghost" size="sm" isAttached>
-              <MemberButton member={m} pr={1} />
-              <IconButton
-                aria-label={t('common.remove')}
-                icon={<FiX />}
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  onRemove(m.id)
-                }}
-              />
-            </ButtonGroup>
-          </CircleMemberLink>
-        </WrapItem>
+        <CircleMemberLink
+          key={m.id}
+          memberId={m.id}
+          circleId={circleId}
+          tabIndex={-1}
+        >
+          <ButtonGroup variant="ghost" size="sm" isAttached>
+            <MemberButton member={m} pr={1} />
+            <IconButton
+              aria-label={t('common.remove')}
+              icon={<FiX />}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onRemove(m.id)
+              }}
+            />
+          </ButtonGroup>
+        </CircleMemberLink>
       ))}
 
       {!max || selectedMembers.length < max ? (
-        <WrapItem>
-          <MemberSearchButton
-            excludeIds={excludeMembersIdsMemo}
-            size="sm"
-            variant="ghost"
-            leftIcon={<FiPlus />}
-            onSelect={onAdd}
-          >
-            {max === 1
-              ? t(`molecules.MembersMultiSelect.choose`)
-              : t(`molecules.MembersMultiSelect.add`)}
-          </MemberSearchButton>
-        </WrapItem>
+        <MemberSearchButton
+          excludeIds={excludeMembersIdsMemo}
+          size="sm"
+          variant="ghost"
+          leftIcon={<FiPlus />}
+          onSelect={onAdd}
+        >
+          {max === 1
+            ? t(`molecules.MembersMultiSelect.choose`)
+            : t(`molecules.MembersMultiSelect.add`)}
+        </MemberSearchButton>
       ) : null}
-    </Wrap>
+    </VStack>
   )
 }
