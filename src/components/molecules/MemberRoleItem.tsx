@@ -27,7 +27,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const { t } = useTranslation()
   const { colorMode } = useColorMode()
   const hoverColor = colorMode === 'light' ? 'gray.50' : 'whiteAlpha.100'
-  const expandedColor = colorMode === 'light' ? 'gray.100' : 'gray.550'
+  const expandedColor = colorMode === 'light' ? 'gray.200' : 'gray.500'
 
   const roleCircle = circlesWithRole[circlesWithRole.length - 1]
   const circleMember = useMemo(
@@ -67,7 +67,6 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
           <AccordionButton
             as={Box}
             cursor="pointer"
-            _expanded={{ bg: expandedColor }}
             _hover={{ bg: hoverColor }}
           >
             <CircleAndParents id={roleCircle.id} flex={1} textAlign="left" />

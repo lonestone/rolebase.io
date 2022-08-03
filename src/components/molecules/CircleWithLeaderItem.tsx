@@ -38,7 +38,12 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
         </Tooltip>
       ) : (
         membersIds.map((memberId) => (
-          <MemberAvatar key={memberId} id={memberId} size="sm" />
+          <MemberAvatar
+            key={memberId}
+            id={memberId}
+            circleId={circle.id}
+            size="sm"
+          />
         ))
       )}
     </Flex>

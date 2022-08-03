@@ -5,13 +5,14 @@ import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends AvatarProps {
   id: string
+  circleId?: string
 }
 
-export default function MemberAvatar({ id, ...avatarProps }: Props) {
+export default function MemberAvatar({ id, circleId, ...avatarProps }: Props) {
   const member = useMember(id)
 
   return member ? (
-    <CircleMemberLink memberId={member.id}>
+    <CircleMemberLink memberId={member.id} circleId={circleId}>
       <Tooltip label={member.name} placement="top" hasArrow>
         <Avatar
           name={member.name}

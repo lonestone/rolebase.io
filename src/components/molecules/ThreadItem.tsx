@@ -21,12 +21,21 @@ interface Props extends LinkBoxProps {
   thread: ThreadEntry
   unread?: boolean
   showCircle?: boolean
+  showIcon?: boolean
   isDragging?: boolean
 }
 
 const ThreadItem = forwardRef<Props, 'div'>(
   (
-    { thread, unread, showCircle, isDragging, children, ...linkBoxProps },
+    {
+      thread,
+      unread,
+      showCircle,
+      showIcon,
+      isDragging,
+      children,
+      ...linkBoxProps
+    },
     ref
   ) => {
     const path = usePathInOrg(`threads/${thread.id}`)
@@ -48,9 +57,11 @@ const ThreadItem = forwardRef<Props, 'div'>(
           }
         >
           <Flex align="center">
-            <Center w={6} h={6} mr={2}>
-              <FiMessageSquare />
-            </Center>
+            {showIcon && (
+              <Center w={6} h={6} mr={2}>
+                <FiMessageSquare />
+              </Center>
+            )}
 
             <LinkOverlay
               as={ReachLink}

@@ -28,6 +28,7 @@ export default function ThreadSortableItem({
         <ThreadItem
           ref={provided.innerRef}
           thread={thread}
+          showIcon
           isDragging={snapshot.isDragging}
           {...provided.draggableProps}
           {...provided.dragHandleProps}

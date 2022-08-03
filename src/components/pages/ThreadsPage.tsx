@@ -141,6 +141,7 @@ export default function ThreadsPage() {
               key={thread.id}
               thread={thread}
               showCircle
+              showIcon
               unread={thread.read === false}
             />
           ))}

@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, BoxProps, chakra, Flex, Text } from '@chakra-ui/react'
+import { Box, BoxProps, chakra, Text } from '@chakra-ui/react'
+import CircleButton from '@components/atoms/CircleButton'
 import CircleLink from '@components/atoms/CircleLink'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import React from 'react'
@@ -22,30 +23,29 @@ export default function CircleAndParentsLinks({ id, ...boxProps }: Props) {
   )
 
   return (
-    <Box pb={3} {...boxProps}>
-      <Flex align="center" minH="32px">
-        <CircleLink id={circle.id} name={circle.role.name} fontSize="lg" />
-      </Flex>
+    <Box {...boxProps}>
+      {parents.length > 0 && (
+        <Text mb={1} color="gray.500" lineHeight="1rem">
+          {parents.map((c, i) => {
+            const last = i === parents.length - 1
+            return (
+              <chakra.span whiteSpace="nowrap" key={c.id}>
+                <CircleLink
+                  id={c.id}
+                  name={c.role.name}
+                  color="gray.500"
+                  fontSize="sm"
+                  fontWeight={400}
+                  whiteSpace="normal"
+                />
 
-      <Text mt="-0.2rem" color="gray.500" lineHeight="1rem">
-        {parents.map((c, i) => {
-          const last = i === parents.length - 1
-          return (
-            <chakra.span whiteSpace="nowrap" key={c.id}>
-              <CircleLink
-                id={c.id}
-                name={c.role.name}
-                color="gray.500"
-                fontSize="sm"
-                fontWeight={400}
-                whiteSpace="normal"
-              />
-
-              {!last && <ChevronRightIcon mx="0.1rem" />}
-            </chakra.span>
-          )
-        })}
-      </Text>
+                {!last && <ChevronRightIcon mx="0.1rem" />}
+              </chakra.span>
+            )
+          })}
+        </Text>
+      )}
+      <CircleButton circle={circle} />
     </Box>
   )
 }

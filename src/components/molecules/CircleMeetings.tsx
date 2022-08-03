@@ -1,12 +1,5 @@
 import { subscribeMeetingsByCircle } from '@api/entities/meetings'
-import {
-  Button,
-  Center,
-  Flex,
-  LinkBox,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Button, LinkBox, Text, useDisclosure } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import MeetingLinkOverlay from '@components/atoms/MeetingLinkOverlay'
 import TextErrors from '@components/atoms/TextErrors'
@@ -19,7 +12,7 @@ import useSubscription from '@hooks/useSubscription'
 import { format, isSameDay } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCalendar, FiPlus } from 'react-icons/fi'
+import { FiPlus } from 'react-icons/fi'
 import { capitalizeFirstLetter } from 'src/utils'
 
 interface Props {
@@ -89,13 +82,7 @@ export default function CircleMeetings({ circleId }: Props) {
             )}
 
             <LinkBox px={2} py={1} _hover={hover}>
-              <Flex>
-                <Center w={6} h={6} mr={2}>
-                  <FiCalendar />
-                </Center>
-
-                <MeetingLinkOverlay meeting={meeting} />
-              </Flex>
+              <MeetingLinkOverlay meeting={meeting} />
             </LinkBox>
           </React.Fragment>
         )
