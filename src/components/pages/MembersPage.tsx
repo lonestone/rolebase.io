@@ -19,8 +19,8 @@ import { Title } from '@components/atoms/Title'
 import MemberCreateModal from '@components/organisms/modals/MemberCreateModal'
 import MemberEditModal from '@components/organisms/modals/MemberEditModal'
 import MembersInviteModal from '@components/organisms/modals/MembersInviteModal'
+import useAdmin from '@hooks/useAdmin'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
-import { useOrgRole } from '@hooks/useOrgRole'
 import { ClaimRole } from '@shared/model/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
@@ -29,7 +29,7 @@ import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 
 export default function MembersPage() {
   const { t } = useTranslation()
-  const role = useOrgRole()
+  const isAdmin = useAdmin()
   const members = useStoreState((state) => state.members.entries)
   const hover = useHoverItemStyle()
 
@@ -99,7 +99,7 @@ export default function MembersPage() {
           </InputRightElement>
         </InputGroup>
 
-        {role === ClaimRole.Admin && (
+        {isAdmin && (
           <>
             <Button
               size="sm"
@@ -159,7 +159,7 @@ export default function MembersPage() {
               </>
             )}
 
-            {role === ClaimRole.Admin && (
+            {isAdmin && (
               <IconButton
                 aria-label={t('common.edit')}
                 size="sm"

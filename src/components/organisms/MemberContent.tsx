@@ -22,9 +22,8 @@ import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import MemberRoles from '@components/molecules/MemberRoles'
+import useAdmin from '@hooks/useAdmin'
 import useMember from '@hooks/useMember'
-import { useOrgRole } from '@hooks/useOrgRole'
-import { ClaimRole } from '@shared/model/userClaims'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -46,9 +45,8 @@ export default function MemberContent({
   const { t } = useTranslation()
   const userId = useStoreState((state) => state.auth.user?.id)
   const member = useMember(id)
-  const role = useOrgRole()
-  const canEdit =
-    role === ClaimRole.Admin || (userId ? member?.userId === userId : false)
+  const isAdmin = useAdmin()
+  const canEdit = isAdmin || (userId ? member?.userId === userId : false)
 
   // Edit modal
   const {

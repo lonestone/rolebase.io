@@ -1,7 +1,6 @@
+import useAdmin from '@hooks/useAdmin'
 import useCreateMember from '@hooks/useCreateMember'
-import { useOrgRole } from '@hooks/useOrgRole'
 import { MemberEntry } from '@shared/model/member'
-import { ClaimRole } from '@shared/model/userClaims'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import SearchInput, { SearchInputProps } from '../../SearchInput'
@@ -19,7 +18,7 @@ export default function MemberSearchInput({
 }: Props) {
   const { t } = useTranslation()
   const items = useMemberSearchItems(members, excludeIds)
-  const role = useOrgRole()
+  const isAdmin = useAdmin()
   const handleCreate = useCreateMember()
 
   return (
@@ -29,7 +28,7 @@ export default function MemberSearchInput({
       placeholder={
         props.placeholder || t('molecules.search.MemberSearchInput.placeholder')
       }
-      onCreate={role === ClaimRole.Admin ? handleCreate : undefined}
+      onCreate={isAdmin ? handleCreate : undefined}
     />
   )
 }

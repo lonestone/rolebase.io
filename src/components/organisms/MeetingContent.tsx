@@ -38,15 +38,14 @@ import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
+import useAdmin from '@hooks/useAdmin'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useDateLocale from '@hooks/useDateLocale'
-import { useOrgRole } from '@hooks/useOrgRole'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { ParticipantMember } from '@shared/model/member'
-import { ClaimRole } from '@shared/model/userClaims'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -81,8 +80,7 @@ export default function MeetingContent({
   const { t } = useTranslation()
   const dateLocale = useDateLocale()
   const currentMember = useCurrentMember()
-  const userRole = useOrgRole()
-  const isAdmin = userRole === ClaimRole.Admin
+  const isAdmin = useAdmin()
   const members = useStoreState((state) => state.members.entries)
 
   // Subscribe meeting

@@ -11,11 +11,10 @@ import {
 import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
 import OrgEditModal from '@components/organisms/modals/OrgEditModal'
 import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
+import useAdmin from '@hooks/useAdmin'
 import { useOrgId } from '@hooks/useOrgId'
-import { useOrgRole } from '@hooks/useOrgRole'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
-import { ClaimRole } from '@shared/model/userClaims'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -43,8 +42,8 @@ interface Props extends MenuButtonProps {
 export default function HeaderLinksMenu({ links, ...props }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const role = useOrgRole()
-  const superAdmin = useSuperAdmin()
+  const isAdmin = useAdmin()
+  const isSuperAdmin = useSuperAdmin()
 
   // Pages paths
   const membersPath = usePathInOrg('members')
@@ -105,7 +104,7 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
           </MenuItem>
         ))}
 
-        {role === ClaimRole.Admin && (
+        {isAdmin && (
           <MenuItem icon={<FiSettings />} onClick={() => handleOpenEdit(orgId)}>
             {t('molecules.HeaderLinksMenu.settings')}
           </MenuItem>
@@ -120,12 +119,12 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
           {t('molecules.HeaderLinksMenu.vacantRoles')}
         </MenuItem>
-        {role === ClaimRole.Admin && (
+        {isAdmin && (
           <MenuItem as={Link} to={logsPath} icon={<FiClock />}>
             {t('molecules.HeaderLinksMenu.logs')}
           </MenuItem>
         )}
-        {superAdmin && (
+        {isSuperAdmin && (
           <MenuItem as={Link} to={`/admin`} icon={<FiActivity />}>
             {t('molecules.HeaderLinksMenu.superAdmin')}
           </MenuItem>
