@@ -40,7 +40,7 @@ export const subscribeMeetingsByDates = memoize(
         collection,
         where('orgId', '==', orgId),
         where('archived', '==', false),
-        where('startDate', '>=', fromDate),
+        where('startDate', '>=', Timestamp.fromDate(fromDate)),
         where('startDate', '<', Timestamp.fromDate(toDate))
       )
     )
