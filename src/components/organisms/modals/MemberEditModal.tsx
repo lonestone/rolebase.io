@@ -29,7 +29,7 @@ import {
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import ActionsMenu from '@components/molecules/ActionsMenu'
-import SimpleEditorController from '@components/molecules/editor/EditorController'
+import EditorController from '@components/molecules/editor/EditorController'
 import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAdmin from '@hooks/useAdmin'
@@ -232,7 +232,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 <FormLabel>
                   {t('organisms.modals.MemberEditModal.description')}
                 </FormLabel>
-                <SimpleEditorController
+                <EditorController
                   name="description"
                   placeholder={t(
                     'organisms.modals.MemberEditModal.descriptionPlaceholder',

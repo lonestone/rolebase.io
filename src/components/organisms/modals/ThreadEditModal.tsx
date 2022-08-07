@@ -36,6 +36,7 @@ import * as yup from 'yup'
 interface Props extends UseModalProps {
   defaultCircleId?: string
   thread?: ThreadEntry
+  onCreate?(threadId: string): void
 }
 
 interface Values {
@@ -56,6 +57,7 @@ const resolver = yupResolver(
 export default function ThreadEditModal({
   defaultCircleId,
   thread,
+  onCreate,
   ...modalProps
 }: Props) {
   const { t } = useTranslation()
@@ -112,8 +114,13 @@ export default function ThreadEditModal({
         initiatorMemberId: currentMember.id,
         ...threadUpdate,
       })
-      // Go to thread page
-      navigateOrg(`threads/${thread.id}`)
+
+      if (onCreate) {
+        onCreate(thread.id)
+      } else {
+        // Go to thread page
+        navigateOrg(`threads/${thread.id}`)
+      }
     }
     modalProps.onClose()
   })
@@ -195,7 +202,7 @@ export default function ThreadEditModal({
                     {t('organisms.modals.ThreadEditModal.settings')}
                   </FormLabel>
                   <Checkbox {...register('archived')}>
-                    {t('organisms.modals.ThreadEditModal.archived')}
+                    {t('common.archived')}
                   </Checkbox>
                 </FormControl>
               )}

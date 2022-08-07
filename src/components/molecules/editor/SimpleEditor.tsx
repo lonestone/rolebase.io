@@ -17,6 +17,7 @@ export interface Props extends FormControlOptions {
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
+  minHeight?: string
   maxHeight?: string
   onChange?(value: string): void
   onSave?(value: string): void // Called when Ctrl+S is pressed
@@ -30,6 +31,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
       placeholder,
       autoFocus,
       readOnly,
+      minHeight,
       maxHeight,
       onChange,
       onSave,
@@ -63,6 +65,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
       <BasicStyle>
         <EditorContainer
           colorMode={colorMode}
+          minHeight={minHeight}
           maxHeight={maxHeight}
           {...formControlProps}
         >

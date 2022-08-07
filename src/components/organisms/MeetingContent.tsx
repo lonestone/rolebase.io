@@ -237,6 +237,8 @@ export default function MeetingContent({
           />
         </Heading>
 
+        {meeting?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
+
         <Spacer />
 
         <Flex mr={headerIcons ? -2 : 0}>

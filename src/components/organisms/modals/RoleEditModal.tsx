@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 import ColorController from '@components/atoms/ColorController'
 import DurationSelect from '@components/atoms/DurationSelect'
-import SimpleEditorController from '@components/molecules/editor/EditorController'
+import EditorController from '@components/molecules/editor/EditorController'
 import { EditorHandle } from '@components/molecules/editor/useEditor'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -178,7 +178,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <FormLabel>
                   {t('organisms.modals.RoleEditModal.purpose')}
                 </FormLabel>
-                <SimpleEditorController
+                <EditorController
                   name="purpose"
                   placeholder={t(
                     'organisms.modals.RoleEditModal.purposePlaceholder'
@@ -191,7 +191,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <FormLabel>
                   {t('organisms.modals.RoleEditModal.domain')}
                 </FormLabel>
-                <SimpleEditorController
+                <EditorController
                   name="domain"
                   placeholder={t(
                     'organisms.modals.RoleEditModal.domainPlaceholder'
@@ -204,7 +204,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <FormLabel>
                   {t('organisms.modals.RoleEditModal.accountabilities')}
                 </FormLabel>
-                <SimpleEditorController
+                <EditorController
                   name="accountabilities"
                   placeholder={t(
                     'organisms.modals.RoleEditModal.accountabilitiesPlaceholder'
@@ -226,7 +226,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                     onClick={() => checklistEditor.current?.addCheckboxList()}
                   />
                 </FormLabel>
-                <SimpleEditorController
+                <EditorController
                   ref={checklistEditor}
                   name="checklist"
                   placeholder={t(
@@ -249,7 +249,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                     onClick={() => indicatorsEditor.current?.addBulletList()}
                   />
                 </FormLabel>
-                <SimpleEditorController
+                <EditorController
                   ref={indicatorsEditor}
                   name="indicators"
                   placeholder={t(
@@ -263,7 +263,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <FormLabel>
                   {t('organisms.modals.RoleEditModal.notes')}
                 </FormLabel>
-                <SimpleEditorController
+                <EditorController
                   name="notes"
                   placeholder={t(
                     'organisms.modals.RoleEditModal.notesPlaceholder'

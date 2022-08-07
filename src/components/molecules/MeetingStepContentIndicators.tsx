@@ -58,7 +58,7 @@ export default function MeetingStepContentIndicators({
             <Trans
               i18nKey="molecules.MeetingStepContentIndicators.empty"
               components={{
-                circle: circle ? <CircleButton circle={circle} /> : '...',
+                circle: circle ? <CircleButton circle={circle} /> : '…',
               }}
             />
           </AlertDescription>

@@ -11,13 +11,12 @@ export default function AccordionIconButton({ icon, children }: Props) {
     <AccordionButton
       px={6}
       bg="gray.50"
+      fontSize="sm"
       _dark={{ bg: 'whiteAlpha.100' }}
       _expanded={{ fontWeight: 'bold' }}
     >
       {icon}
-      <Text fontSize="md" ml={2}>
-        {children}
-      </Text>
+      <Text ml={2}>{children}</Text>
       <Spacer />
       <AccordionIcon />
     </AccordionButton>

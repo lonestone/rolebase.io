@@ -1,4 +1,4 @@
-import { Box, BoxProps, useDisclosure } from '@chakra-ui/react'
+import { Box, BoxProps, Text, useDisclosure } from '@chakra-ui/react'
 import LogCancelModal from '@components/organisms/modals/LogCancelModal'
 import { LogEntry } from '@shared/model/log'
 import React, { useCallback, useState } from 'react'
@@ -30,7 +30,9 @@ export default function LogsList({ logs, hideEmpty, ...boxProps }: Props) {
 
   return (
     <Box {...boxProps}>
-      {logs.length === 0 && <i>{t('molecules.LogsList.empty')}</i>}
+      {logs.length === 0 && (
+        <Text fontStyle="italic">{t('molecules.LogsList.empty')}</Text>
+      )}
 
       {logs.map((log) => (
         <LogItem

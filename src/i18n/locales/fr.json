@@ -13,6 +13,7 @@
     "seeLess": "Voir moins",
     "filters": "Filtres",
     "archives": "Archives",
+    "archived": "Archivé",
     "error": "Erreur",
     "name": "Nom",
     "namePlaceholder": "Nom...",
@@ -83,13 +84,27 @@
       "delete": "Supprimer",
       "move": "Déplacer"
     },
+    "CircleDecisions": {
+      "create": "Créer une décision",
+      "empty": "Aucune décision"
+    },
     "CircleMeetings": {
-      "heading": "Créer une réunion",
+      "create": "Créer une réunion",
       "empty": "Aucune réunion pour le moment"
     },
     "CircleMemberFormControl": {
       "labelSingleMember": "Occupé par :",
       "labelMultiMembers": "Membres :"
+    },
+    "CircleRoleFormControl": {
+      "purpose": "Raison d'être :",
+      "domain": "Domaine :",
+      "accountabilities": "Redevabilités :",
+      "checklist": "Checklist :",
+      "indicators": "Indicateurs :",
+      "notes": "Notes :",
+      "representCircle": "Représente le rôle <link />",
+      "representInCircle": "dans le rôle <link />"
     },
     "CirclesKeyboardShortcuts": {
       "label": "Raccourcis clavier",
@@ -97,11 +112,10 @@
       "CmdShiftClick": " : Copier un rôle ou un membre"
     },
     "CircleTasks": {
-      "create": "Créer une tâche",
-      "empty": "Aucune tâche pour le moment"
+      "create": "Créer une tâche"
     },
     "CircleThreads": {
-      "heading": "Créer une discussion",
+      "create": "Créer une discussion",
       "empty": "Aucune discussion pour le moment"
     },
     "CircleWithLeaderItem": {
@@ -152,7 +166,10 @@
       "TaskCreate": "<author /> a créé la tâche <task />",
       "TaskUpdate": "<author /> a modifié la tâche <task />",
       "TaskStatusUpdate": "<author /> a marqué la tâche <task /> comme <status />",
-      "TaskArchive": "<author /> a archivé la tâche <task />"
+      "TaskArchive": "<author /> a archivé la tâche <task />",
+      "DecisionCreate": "<author /> a créé la décision <decision />",
+      "DecisionUpdate": "<author /> a modifié la décision <decision />",
+      "DecisionArchive": "<author /> a archivé la décision <decision />"
     },
     "MeetingActions": {
       "createTask": "Nouvelle tâche",
@@ -208,11 +225,18 @@
     "ThreadActivityCreate": {
       "placeholder": "Message...",
       "send": "Envoyer",
-      "poll": "Sondage",
-      "decision": "Décision"
+      "poll": "Créer un Sondage",
+      "thread": "Créer une Discussion",
+      "meeting": "Créer une Réunion",
+      "task": "Créer une Tâche",
+      "decision": "Créer une Décision",
+      "defaultEntityDescription": "Discussion : {{thread}}"
     },
     "ThreadActivityDecision": {
-      "heading": "Décision"
+      "text": "a créé une décision :"
+    },
+    "ThreadActivityMeeting": {
+      "text": "a créé une réunion :"
     },
     "ThreadActivityPoll": {
       "heading": "Sondage",
@@ -240,6 +264,12 @@
       "revealDate": "Les résultats seront dévoilés {{date}}.",
       "revealDateOrAllVoted": "Les résultats seront dévoilés {{date}} ou quand tous les participants auront voté."
     },
+    "ThreadActivityTask": {
+      "text": "a créé une tâche :"
+    },
+    "ThreadActivityThread": {
+      "text": "a créé une discussion :"
+    },
     "ThreadsMultiSelect": {
       "choose": "Choisir une discussion",
       "add": "Ajouter une discussion"
@@ -247,15 +277,6 @@
   },
   "organisms": {
     "modals": {
-      "ActivityDecisionModal": {
-        "headingEdit": "Modifier une décision",
-        "headingCreate": "Ajouter une décision",
-        "decision": "Décision",
-        "decisionPlacerholder": "Qu'avez-vous décidé ?",
-        "explanation": "Explications",
-        "explanationPlaceholder": "Pourquoi avez-vous pris cette décision ?",
-        "circle": "Rôle"
-      },
       "ActivityDeleteModal": {
         "heading": "Supprimer un message",
         "info1": "Êtes-vous sûr(e) de vouloir supprimer ce message ?",
@@ -321,6 +342,19 @@
         "password": "Modifier le mot de passe",
         "passwordPlaceholder": "Nouveau mot de passe...",
         "toastSuccess": "Informations mises à jour"
+      },
+      "DecisionDeleteModal": {
+        "heading": "Supprimer une décision",
+        "info": "Êtes-vous sûr(e) de vouloir supprimer la décision <b>{{name}}</b> ?"
+      },
+      "DecisionEditModal": {
+        "headingEdit": "Modifier une décision",
+        "headingCreate": "Nouvelle décision",
+        "title": "Décision",
+        "titlePlaceholder": "Qu'avez-vous décidé ?",
+        "description": "Description",
+        "descriptionPlaceholder": "Pourquoi avez-vous pris cette décision ?",
+        "circle": "Rôle"
       },
       "LangModal": {
         "heading": "Langue"
@@ -505,8 +539,7 @@
         "titlePlaceholder": "On discute de quoi ?...",
         "circle": "Rôle",
         "invite": "Inviter",
-        "settings": "Paramètres",
-        "archived": "Archivé"
+        "settings": "Paramètres"
       },
       "VacantRolesModal": {
         "heading": "Rôles vacants",
@@ -519,14 +552,10 @@
       "tabThreads": "Discussions",
       "tabMeetings": "Réunions",
       "tabTasks": "Tâches",
-      "purpose": "Raison d'être :",
-      "domain": "Domaine :",
-      "accountabilities": "Redevabilités :",
-      "checklist": "Checklist :",
-      "indicators": "Indicateurs :",
-      "notes": "Notes :",
-      "representCircle": "Représente le rôle <link />",
-      "representInCircle": "dans le rôle <link />"
+      "tabDecisions": "Décisions"
+    },
+    "DecisionContent": {
+      "heading": "Décision"
     },
     "Header": {
       "orgs": "Organisations",
@@ -575,7 +604,8 @@
       "signup": "Créer mon compte"
     },
     "TaskContent": {
-      "heading": "Tâche",
+      "headingEdit": "Tâche",
+      "headingCreate": "Nouvelle tâche",
       "titlePlaceholder": "Titre...",
       "circle": "Rôle",
       "memberId": "Membre assigné",
@@ -598,9 +628,6 @@
     "ThreadActivities": {
       "emptyTitle": "Discussion créée",
       "emptyDescription": "Vous pouvez envoyer un premier message 👇"
-    },
-    "ThreadContent": {
-      "archived": "Archivé"
     }
   },
   "pages": {

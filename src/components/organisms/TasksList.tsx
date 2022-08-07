@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import TaskItem from '@components/molecules/TaskItem'
 import { TaskEntry } from '@shared/model/task'
 import React, { useCallback } from 'react'
@@ -52,7 +52,9 @@ export default function TasksList({
       enableDefaultSensors={!!onOrderChange}
       onDragEnd={handleDragEnd}
     >
-      {tasks.length === 0 && <i>{t('organisms.TasksList.empty')}</i>}
+      {tasks.length === 0 && (
+        <Text fontStyle="italic">{t('organisms.TasksList.empty')}</Text>
+      )}
 
       <Droppable droppableId="TasksList">
         {(provided) => (

@@ -8,39 +8,21 @@ import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
 import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
-import TaskContent from '../TaskContent'
+import DecisionContent from '../DecisionContent'
 
 interface Props extends UseModalProps {
-  id?: string
-  defaultCircleId?: string
-  defaultMemberId?: string
-  defaultTitle?: string
-  defaultDescription?: string
-  onCreate?(taskId: string): void
+  id: string
 }
 
-export default function TaskModal({
-  id,
-  defaultCircleId,
-  defaultMemberId,
-  defaultTitle,
-  defaultDescription,
-  onCreate,
-  ...modalProps
-}: Props) {
-  const path = usePathInOrg(`tasks/${id}`)
+export default function DecisionModal({ id, ...modalProps }: Props) {
+  const path = usePathInOrg(`decisions/${id}`)
 
   return (
     <Modal size="xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <TaskContent
+        <DecisionContent
           id={id}
-          defaultCircleId={defaultCircleId}
-          defaultMemberId={defaultMemberId}
-          defaultTitle={defaultTitle}
-          defaultDescription={defaultDescription}
-          onCreate={onCreate}
           headerIcons={
             id && (
               <>

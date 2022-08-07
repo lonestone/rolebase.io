@@ -1,6 +1,7 @@
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import CirclesPage from '@components/pages/CirclesPage'
+import DecisionPage from '@components/pages/DecisionPage '
 import LogsPage from '@components/pages/LogsPage'
 import MeetingPage from '@components/pages/MeetingPage'
 import MeetingsPage from '@components/pages/MeetingsPage'
@@ -100,6 +101,9 @@ export default function OrgRoutes({ orgId }: Props) {
         </Route>
         <Route exact path={`${path}/tasks`}>
           <TasksPage />
+        </Route>
+        <Route exact path={`${path}/decisions/:decisionId`}>
+          <DecisionPage />
         </Route>
         <Route exact path={`${path}/logs`}>
           <LogsPage />

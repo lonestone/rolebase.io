@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Center,
   Flex,
   forwardRef,
   LinkBox,
@@ -19,6 +20,7 @@ import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { formatRelative } from 'date-fns'
 import React from 'react'
+import { FiCheckSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 import TaskStatusInput from './TaskStatusInput'
 
@@ -26,12 +28,21 @@ interface Props extends LinkBoxProps {
   task: TaskEntry
   showCircle?: boolean
   showMember?: boolean
+  showIcon?: boolean
   isDragging?: boolean
 }
 
 const TaskItem = forwardRef<Props, 'div'>(
   (
-    { task, showCircle, showMember, isDragging, children, ...linkBoxProps },
+    {
+      task,
+      showCircle,
+      showMember,
+      showIcon,
+      isDragging,
+      children,
+      ...linkBoxProps
+    },
     ref
   ) => {
     const hover = useHoverItemStyle()
@@ -60,6 +71,12 @@ const TaskItem = forwardRef<Props, 'div'>(
           }
         >
           <Flex align="center">
+            {showIcon && (
+              <Center w={6} h={6} mr={2}>
+                <FiCheckSquare />
+              </Center>
+            )}
+
             <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
               {task.title}
             </LinkOverlay>

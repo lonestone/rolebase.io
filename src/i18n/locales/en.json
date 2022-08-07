@@ -13,6 +13,7 @@
     "seeLess": "See less",
     "filters": "Filters",
     "archives": "Archives",
+    "archived": "Archived",
     "error": "Error",
     "name": "Name",
     "namePlaceholder": "Name...",
@@ -83,13 +84,27 @@
       "delete": "Delete",
       "move": "Move"
     },
+    "CircleDecisions": {
+      "create": "Create a decision",
+      "empty": "No decision yet"
+    },
     "CircleMeetings": {
-      "heading": "Create a meeting",
+      "create": "Create a meeting",
       "empty": "No meeting yet"
     },
     "CircleMemberFormControl": {
       "labelSingleMember": "Occupied by :",
       "labelMultiMembers": "Members :"
+    },
+    "CircleRoleFormControl": {
+      "purpose": "Purpose:",
+      "domain": "Domain:",
+      "accountabilities": "Accountabilities:",
+      "checklist": "Checklist:",
+      "indicators": "Indicators:",
+      "notes": "Notes:",
+      "representCircle": "Represent role <link />",
+      "representInCircle": "in role <link />"
     },
     "CirclesKeyboardShortcuts": {
       "label": "Keyboard shortcuts",
@@ -97,11 +112,10 @@
       "CmdShiftClick": " : Copy a role or a member"
     },
     "CircleTasks": {
-      "create": "Create a task",
-      "empty": "No tasks at this time"
+      "create": "Create a task"
     },
     "CircleThreads": {
-      "heading": "Create a thread",
+      "create": "Create a thread",
       "empty": "No thread yet"
     },
     "CircleWithLeaderItem": {
@@ -152,7 +166,10 @@
       "TaskCreate": "<author /> has created the task <task />",
       "TaskUpdate": "<author /> has modified the task <task />",
       "TaskStatusUpdate": "<author /> marked the task <task /> as <status />",
-      "TaskArchive": "<author /> has archived the task <task />"
+      "TaskArchive": "<author /> has archived the task <task />",
+      "DecisionCreate": "<author /> has created the decision <decision />",
+      "DecisionUpdate": "<author /> has modified the decision <decision />",
+      "DecisionArchive": "<author /> has archived the decision <decision />"
     },
     "MeetingActions": {
       "createTask": "New Task",
@@ -208,11 +225,18 @@
     "ThreadActivityCreate": {
       "placeholder": "Message...",
       "send": "Send",
-      "poll": "Poll",
-      "decision": "Decision"
+      "poll": "Create a Poll",
+      "thread": "Create a Thread",
+      "meeting": "Create a Meeting",
+      "task": "Create a Task",
+      "decision": "Create a Decision",
+      "defaultEntityDescription": "Thread: {{thread}}"
     },
     "ThreadActivityDecision": {
-      "heading": "Decision"
+      "text": "has created a decision:"
+    },
+    "ThreadActivityMeeting": {
+      "text": "has created a meeting:"
     },
     "ThreadActivityPoll": {
       "heading": "Poll",
@@ -243,6 +267,12 @@
       "revealDate": "Results will be revealed {{date}}.",
       "revealDateOrAllVoted": "Results will be revealed {{date}} or when all participants have voted."
     },
+    "ThreadActivityTask": {
+      "text": "has created a task:"
+    },
+    "ThreadActivityThread": {
+      "text": "has created a thread:"
+    },
     "ThreadsMultiSelect": {
       "choose": "Choose a thread",
       "add": "Add a thread"
@@ -250,15 +280,6 @@
   },
   "organisms": {
     "modals": {
-      "ActivityDecisionModal": {
-        "headingEdit": "Edit a decision",
-        "headingCreate": "Add a decision",
-        "decision": "Decision",
-        "decisionPlacerholder": "What did you decide?",
-        "explanation": "Explanations",
-        "explanationPlaceholder": "Why did you make this decision?",
-        "circle": "Role"
-      },
       "ActivityDeleteModal": {
         "heading": "Delete a message",
         "info1": "Are you sure you want to delete this message?",
@@ -324,6 +345,19 @@
         "password": "Change password",
         "passwordPlaceholder": "New password...",
         "toastSuccess": "Information updated"
+      },
+      "DecisionDeleteModal": {
+        "heading": "Delete decision",
+        "info": "Are you sure you want to delete decision <b>{{name}}</b>?"
+      },
+      "DecisionEditModal": {
+        "headingEdit": "Edit a decision",
+        "headingCreate": "New decision",
+        "title": "Decision",
+        "titlePlaceholder": "What did you decide?",
+        "description": "Descriptions",
+        "descriptionPlaceholder": "Why did you make this decision?",
+        "circle": "Role"
       },
       "LangModal": {
         "heading": "Language"
@@ -502,13 +536,12 @@
       },
       "ThreadEditModal": {
         "headingEdit": "Edit a thread",
-        "headingCreate": "New Thread",
+        "headingCreate": "New thread",
         "title": "Title",
         "titlePlaceholder": "What are we discussing?...",
         "circle": "Role",
         "invite": "Invite",
-        "settings": "Settings",
-        "archived": "Archived"
+        "settings": "Settings"
       },
       "VacantRolesModal": {
         "heading": "Vacant roles",
@@ -521,14 +554,10 @@
       "tabThreads": "Threads",
       "tabMeetings": "Meetings",
       "tabTasks": "Tasks",
-      "purpose": "Purpose:",
-      "domain": "Domain:",
-      "accountabilities": "Accountabilities:",
-      "checklist": "Checklist:",
-      "indicators": "Indicators:",
-      "notes": "Notes:",
-      "representCircle": "Represent role <link />",
-      "representInCircle": "in role <link />"
+      "tabDecisions": "Decisions"
+    },
+    "DecisionContent": {
+      "heading": "Decision"
     },
     "Header": {
       "orgs": "Organizations",
@@ -577,7 +606,8 @@
       "signup": "Create my account"
     },
     "TaskContent": {
-      "heading": "Task",
+      "headingEdit": "Task",
+      "headingCreate": "New task",
       "titlePlaceholder": "Title...",
       "circle": "Role",
       "memberId": "Assigned member",
@@ -600,9 +630,6 @@
     "ThreadActivities": {
       "emptyTitle": "Thread created",
       "emptyDescription": "You can send a first message 👇"
-    },
-    "ThreadContent": {
-      "archived": "Archived"
     }
   },
   "pages": {

@@ -1,6 +1,5 @@
 import { getCollection } from '@api/helpers/getCollection'
 import { getEntityMethods } from '@api/helpers/getEntityMethods'
-import { subscribeIdsChunks } from '@api/helpers/subscribeIdsChunks'
 import { subscribeQuery } from '@api/helpers/subscribeQuery'
 import { Task, TaskStatus } from '@shared/model/task'
 import { Optional } from '@shared/model/types'
@@ -25,21 +24,7 @@ export const updateTask = methods.update
 export const subscribeTask = methods.subscribe
 export const deleteTask = methods.delete
 
-// Subscribe to tasks assigned to a member
-// If status is provided, get tasks by status
-// Else, get all tasks that are not done
-export const subscribeAllTasks = memoize((orgId: string, status?: TaskStatus) =>
-  subscribeQuery(
-    query(
-      collection,
-      where('orgId', '==', orgId),
-      where('status', status ? '==' : '!=', status || TaskStatus.Done),
-      where('archived', '==', false)
-    )
-  )
-)
-
-// Subscribe to tasks assigned to a member
+// Subscribe to tasks assigned to a member or a circle
 // If status is provided, get tasks by status
 // Else, get all tasks that are not done
 export const subscribeTasks = memoize(
@@ -66,8 +51,4 @@ export const subscribeTasks = memoize(
       )
     )
   }
-)
-
-export const subscribeTasksByIds = memoize((ids: string[]) =>
-  subscribeIdsChunks(ids, (constraint) => query(collection, constraint))
 )

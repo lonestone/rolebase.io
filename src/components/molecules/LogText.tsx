@@ -1,4 +1,5 @@
 import CircleLink from '@components/atoms/CircleLink'
+import DecisionLink from '@components/atoms/DecisionLink'
 import MemberLink from '@components/atoms/MemberLink'
 import RoleEditLink from '@components/atoms/RoleEditLink'
 import TaskLink from '@components/atoms/TaskLink'
@@ -120,6 +121,21 @@ export default function LogText({ log }: Props) {
             author,
             task: <TaskLink id={log.display.id} name={log.display.name} />,
             status: <TaskStatusTag status={log.display.status} />,
+          }}
+        />
+      )
+
+    case LogType.DecisionCreate:
+    case LogType.DecisionUpdate:
+    case LogType.DecisionArchive:
+      return (
+        <Trans
+          i18nKey={`${i18nPrefix}.${type}`}
+          components={{
+            author,
+            decision: (
+              <DecisionLink id={log.display.id} name={log.display.name} />
+            ),
           }}
         />
       )

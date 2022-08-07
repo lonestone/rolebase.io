@@ -12,6 +12,7 @@ import {
   Input,
   Spacer,
   Spinner,
+  Tag,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -19,7 +20,8 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
-import SimpleEditorController from '@components/molecules/editor/EditorController'
+import DateInfo from '@components/molecules/DateInfo'
+import EditorController from '@components/molecules/editor/EditorController'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import TaskStatusInput from '@components/molecules/TaskStatusInput'
@@ -46,8 +48,11 @@ interface Props extends BoxProps {
   changeTitle?: boolean
   defaultCircleId?: string
   defaultMemberId?: string
+  defaultTitle?: string
+  defaultDescription?: string
   headerIcons?: React.ReactNode
   onClose(): void
+  onCreate?(taskId: string): void
 }
 
 interface Values {
@@ -71,8 +76,11 @@ export default function TaskContent({
   changeTitle,
   defaultCircleId,
   defaultMemberId,
+  defaultTitle,
+  defaultDescription,
   headerIcons,
   onClose,
+  onCreate,
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
@@ -102,8 +110,8 @@ export default function TaskContent({
     defaultValues: {
       circleId: defaultCircleId || '',
       memberId: defaultMemberId || null,
-      title: '',
-      description: '',
+      title: defaultTitle || '',
+      description: defaultDescription || '',
       dueDate: null,
     },
   })
@@ -153,6 +161,7 @@ export default function TaskContent({
         },
       })
 
+      onCreate?.(newTask.id)
       onClose()
     }
   })
@@ -203,7 +212,11 @@ export default function TaskContent({
 
       <Flex align="center" mb={5}>
         <Heading as="h1" size="md">
-          {t('organisms.TaskContent.heading')}
+          {t(
+            id
+              ? 'organisms.TaskContent.headingEdit'
+              : 'organisms.TaskContent.headingCreate'
+          )}
         </Heading>
 
         {task && (
@@ -214,6 +227,8 @@ export default function TaskContent({
             size="lg"
           />
         )}
+
+        {task?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
 
         {id && isDirty && <Spinner size="xs" color="gray" ml={5} />}
 
@@ -237,6 +252,8 @@ export default function TaskContent({
             autoFocus
           />
         </FormControl>
+
+        {task && <DateInfo date={task.createdAt.toDate()} />}
 
         <Flex flexWrap="wrap">
           <FormControl isInvalid={!!errors.circleId} w="auto" mr={5}>
@@ -287,7 +304,7 @@ export default function TaskContent({
 
         <FormControl isInvalid={!!errors.description}>
           <FormLabel>{t('organisms.TaskContent.description')}</FormLabel>
-          <SimpleEditorController
+          <EditorController
             name="description"
             placeholder={t('organisms.TaskContent.notes')}
             control={control}

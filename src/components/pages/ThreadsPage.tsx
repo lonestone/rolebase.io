@@ -13,6 +13,7 @@ import {
   Spacer,
   Tag,
   TagCloseButton,
+  Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -134,7 +135,9 @@ export default function ThreadsPage() {
 
       {threads && (
         <VStack spacing={0} align="stretch">
-          {threads.length === 0 && <i>{t('pages.ThreadsPage.empty')}</i>}
+          {threads.length === 0 && (
+            <Text fontStyle="italic">{t('pages.ThreadsPage.empty')}</Text>
+          )}
 
           {threads.map((thread) => (
             <ThreadItem

@@ -1,5 +1,6 @@
 import { Timestamp } from 'firebase/firestore'
 import { Circle } from './circle'
+import { Decision } from './decision'
 import { Member } from './member'
 import { Role } from './role'
 import { Task, TaskStatus } from './task'
@@ -23,6 +24,9 @@ export enum LogType {
   TaskUpdate = 'TaskUpdate',
   TaskStatusUpdate = 'TaskStatusUpdate',
   TaskArchive = 'TaskArchive',
+  DecisionCreate = 'DecisionCreate',
+  DecisionUpdate = 'DecisionUpdate',
+  DecisionArchive = 'DecisionArchive',
 }
 
 export type LogDisplay =
@@ -45,6 +49,9 @@ export type LogDisplay =
         | LogType.TaskCreate
         | LogType.TaskUpdate
         | LogType.TaskArchive
+        | LogType.DecisionCreate
+        | LogType.DecisionUpdate
+        | LogType.DecisionArchive
       id: string
       name: string
     }
@@ -94,6 +101,7 @@ export interface EntitiesChanges {
   roles?: EntityChange<Role>[]
   members?: EntityChange<Member>[]
   tasks?: EntityChange<Task>[]
+  decisions?: EntityChange<Decision>[]
 }
 
 // Log of changes to the organization

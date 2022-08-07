@@ -103,9 +103,7 @@ export default function ThreadContent({
           <Spacer />
 
           <HStack spacing={2}>
-            {thread?.archived && (
-              <Tag>{t('organisms.ThreadContent.archived')}</Tag>
-            )}
+            {thread?.archived && <Tag>{t('common.archived')}</Tag>}
 
             {circle && <CircleButton circle={circle} />}
 

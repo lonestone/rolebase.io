@@ -13,6 +13,7 @@ import { limit, orderBy, query, Timestamp, where } from 'firebase/firestore'
 import isEqual from 'lodash.isequal'
 import { memoize } from 'src/memoize'
 import { getCircle, updateCircle } from './circles'
+import { getDecision, updateDecision } from './decisions'
 import { getMember, updateMember } from './members'
 import { getRole, updateRole } from './roles'
 import { getTask, updateTask } from './tasks'
@@ -152,6 +153,11 @@ export async function cancelLog(log: LogEntry): Promise<EntitiesChanges> {
       updateMember
     ),
     tasks: await cancelEntityChanges(log.changes.tasks, getTask, updateTask),
+    decisions: await cancelEntityChanges(
+      log.changes.decisions,
+      getDecision,
+      updateDecision
+    ),
   }
 
   // Remove empty properties

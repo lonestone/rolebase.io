@@ -106,7 +106,9 @@ export default function MemberContent({
       <ModalBody pb={7}>
         <VStack spacing={5} align="stretch">
           {member.description && (
-            <Markdown mb={3}>{member.description}</Markdown>
+            <Box mb={3}>
+              <Markdown>{member.description}</Markdown>
+            </Box>
           )}
 
           <FormControl>

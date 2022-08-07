@@ -8,10 +8,11 @@ interface Props<Values> {
   control: Control<Values>
   placeholder?: string
   autoFocus?: boolean
+  minHeight?: string
 }
 
 function EditorController<Values>(
-  { name, placeholder, autoFocus, control }: Props<Values>,
+  { name, placeholder, autoFocus, control, minHeight }: Props<Values>,
   ref: ForwardedRef<EditorHandle>
 ) {
   return (
@@ -26,6 +27,7 @@ function EditorController<Values>(
           onChange={field.onChange}
           placeholder={placeholder}
           autoFocus={autoFocus}
+          minHeight={minHeight === undefined ? '4em' : minHeight}
         />
       )}
     />

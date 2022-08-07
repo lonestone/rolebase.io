@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
@@ -69,7 +70,9 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
 
           <ModalBody>
             {!baseRoles?.length ? (
-              <i>{t('organisms.modals.BaseRolesModal.empty')}</i>
+              <Text fontStyle="italic">
+                {t('organisms.modals.BaseRolesModal.empty')}
+              </Text>
             ) : (
               baseRoles?.map((role) => (
                 <ListItemWithButtons

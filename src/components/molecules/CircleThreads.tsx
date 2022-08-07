@@ -37,14 +37,14 @@ export default function CircleThreads({ circleId }: Props) {
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        {t('molecules.CircleThreads.heading')}
+        {t('molecules.CircleThreads.create')}
       </Button>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       {threads?.length === 0 && (
-        <Text>{t('molecules.CircleThreads.empty')}</Text>
+        <Text fontStyle="italic">{t('molecules.CircleThreads.empty')}</Text>
       )}
 
       {threads?.map((thread) => (

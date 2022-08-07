@@ -3,14 +3,15 @@ import { WithId } from './types'
 
 export enum ActivityType {
   Message = 'Message',
-  Meeting = 'Meeting',
-  Proposal = 'Proposal',
   Election = 'Election',
   Poll = 'Poll',
+  Thread = 'Thread',
+  Meeting = 'Meeting',
+  Task = 'Task',
   Decision = 'Decision',
 }
 
-interface ActivityBase {
+export interface ActivityBase {
   orgId: string
   threadId: string
   userId: string
@@ -20,14 +21,6 @@ interface ActivityBase {
 export interface ActivityMessage extends ActivityBase {
   type: ActivityType.Message
   message: string
-}
-
-export interface ActivityMeeting extends ActivityBase {
-  type: ActivityType.Meeting
-}
-
-export interface ActivityProposal extends ActivityBase {
-  type: ActivityType.Proposal
 }
 
 export interface ActivityElection extends ActivityBase {
@@ -61,19 +54,34 @@ export interface PollAnswer {
   createdAt: Timestamp
 }
 
+export interface ActivityThread extends ActivityBase {
+  type: ActivityType.Thread
+  entityId: string
+}
+
+export interface ActivityMeeting extends ActivityBase {
+  type: ActivityType.Meeting
+  entityId: string
+}
+
+export interface ActivityTask extends ActivityBase {
+  type: ActivityType.Task
+  entityId: string
+}
+
 export interface ActivityDecision extends ActivityBase {
   type: ActivityType.Decision
-  circleId: string
-  decision: string
-  explanation: string
+  entityId: string
 }
 
 export type Activity =
   | ActivityMessage
   | ActivityMeeting
-  | ActivityProposal
   | ActivityElection
   | ActivityPoll
+  | ActivityThread
+  | ActivityMeeting
+  | ActivityTask
   | ActivityDecision
 
 export type ActivityEntry = WithId<Activity>

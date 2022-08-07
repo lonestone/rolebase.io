@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
@@ -80,7 +81,9 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
             <TextErrors errors={[error]} />
 
             {!meetingTemplates?.length ? (
-              <i>{t('organisms.modals.MeetingTemplatesModal.empty')}</i>
+              <Text fontStyle="italic">
+                {t('organisms.modals.MeetingTemplatesModal.empty')}
+              </Text>
             ) : (
               meetingTemplates?.map((mt) => (
                 <ListItemWithButtons

@@ -1,4 +1,10 @@
-import { Accordion, Alert, AlertIcon, ExpandedIndex } from '@chakra-ui/react'
+import {
+  Accordion,
+  Alert,
+  AlertIcon,
+  ExpandedIndex,
+  Text,
+} from '@chakra-ui/react'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
@@ -79,7 +85,9 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   )
 
   if (memberCircles.length === 0) {
-    return <i>{t(`molecules.MemberRoles.emptyRoles`)}</i>
+    return (
+      <Text fontStyle="italic">{t(`molecules.MemberRoles.emptyRoles`)}</Text>
+    )
   }
   return (
     <>

@@ -17,6 +17,7 @@ import { Title } from '@components/atoms/Title'
 import AccordionIconButton from '@components/molecules/AccordionIconButton'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import CircleAndParentsLinks from '@components/molecules/CircleAndParentsLinks'
+import CircleDecisions from '@components/molecules/CircleDecisions'
 import CircleMeetings from '@components/molecules/CircleMeetings'
 import CircleRoleFormControl from '@components/molecules/CircleRoleFormControl'
 import CircleTasks from '@components/molecules/CircleTasks'
@@ -27,6 +28,7 @@ import { MembersScope } from '@shared/model/member'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  FiArrowRightCircle,
   FiCalendar,
   FiCheckSquare,
   FiDisc,
@@ -102,7 +104,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             <AccordionIconButton icon={<FiDisc />}>
               {t('organisms.CircleContent.tabRole')}
             </AccordionIconButton>
-            <AccordionPanel px={6} pb={5}>
+            <AccordionPanel px={6} py={5}>
               <CircleRoleFormControl
                 circle={circle}
                 participants={participants}
@@ -114,7 +116,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             <AccordionIconButton icon={<FiMessageSquare />}>
               {t('organisms.CircleContent.tabThreads')}
             </AccordionIconButton>
-            <AccordionPanel px={6}>
+            <AccordionPanel px={6} py={5}>
               <CircleThreads circleId={id} />
             </AccordionPanel>
           </AccordionItem>
@@ -123,7 +125,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             <AccordionIconButton icon={<FiCalendar />}>
               {t('organisms.CircleContent.tabMeetings')}
             </AccordionIconButton>
-            <AccordionPanel px={6}>
+            <AccordionPanel px={6} py={5}>
               <CircleMeetings circleId={id} />
             </AccordionPanel>
           </AccordionItem>
@@ -132,8 +134,17 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             <AccordionIconButton icon={<FiCheckSquare />}>
               {t('organisms.CircleContent.tabTasks')}
             </AccordionIconButton>
-            <AccordionPanel px={6}>
+            <AccordionPanel px={6} py={5}>
               <CircleTasks circleId={id} />
+            </AccordionPanel>
+          </AccordionItem>
+
+          <AccordionItem>
+            <AccordionIconButton icon={<FiArrowRightCircle />}>
+              {t('organisms.CircleContent.tabDecisions')}
+            </AccordionIconButton>
+            <AccordionPanel px={6} py={5}>
+              <CircleDecisions circleId={id} />
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
