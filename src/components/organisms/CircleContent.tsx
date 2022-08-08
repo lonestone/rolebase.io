@@ -101,51 +101,73 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
       <Box pb={5}>
         <Accordion allowToggle defaultIndex={[0]}>
           <AccordionItem>
-            <AccordionIconButton icon={<FiDisc />}>
-              {t('organisms.CircleContent.tabRole')}
-            </AccordionIconButton>
-            <AccordionPanel px={6} py={5}>
-              <CircleRoleFormControl
-                circle={circle}
-                participants={participants}
-              />
-            </AccordionPanel>
+            {({ isExpanded }) => (
+              <>
+                <AccordionIconButton icon={<FiDisc />}>
+                  {t('organisms.CircleContent.tabRole')}
+                </AccordionIconButton>
+                <AccordionPanel px={6} py={5}>
+                  {isExpanded && (
+                    <CircleRoleFormControl
+                      circle={circle}
+                      participants={participants}
+                    />
+                  )}
+                </AccordionPanel>
+              </>
+            )}
           </AccordionItem>
 
           <AccordionItem>
-            <AccordionIconButton icon={<FiMessageSquare />}>
-              {t('organisms.CircleContent.tabThreads')}
-            </AccordionIconButton>
-            <AccordionPanel px={6} py={5}>
-              <CircleThreads circleId={id} />
-            </AccordionPanel>
+            {({ isExpanded }) => (
+              <>
+                <AccordionIconButton icon={<FiMessageSquare />}>
+                  {t('organisms.CircleContent.tabThreads')}
+                </AccordionIconButton>
+                <AccordionPanel px={6} py={5}>
+                  {isExpanded && <CircleThreads circleId={id} />}
+                </AccordionPanel>
+              </>
+            )}
           </AccordionItem>
 
           <AccordionItem>
-            <AccordionIconButton icon={<FiCalendar />}>
-              {t('organisms.CircleContent.tabMeetings')}
-            </AccordionIconButton>
-            <AccordionPanel px={6} py={5}>
-              <CircleMeetings circleId={id} />
-            </AccordionPanel>
+            {({ isExpanded }) => (
+              <>
+                <AccordionIconButton icon={<FiCalendar />}>
+                  {t('organisms.CircleContent.tabMeetings')}
+                </AccordionIconButton>
+                <AccordionPanel px={6} py={5}>
+                  {isExpanded && <CircleMeetings circleId={id} />}
+                </AccordionPanel>
+              </>
+            )}
           </AccordionItem>
 
           <AccordionItem>
-            <AccordionIconButton icon={<FiCheckSquare />}>
-              {t('organisms.CircleContent.tabTasks')}
-            </AccordionIconButton>
-            <AccordionPanel px={6} py={5}>
-              <CircleTasks circleId={id} />
-            </AccordionPanel>
+            {({ isExpanded }) => (
+              <>
+                <AccordionIconButton icon={<FiCheckSquare />}>
+                  {t('organisms.CircleContent.tabTasks')}
+                </AccordionIconButton>
+                <AccordionPanel px={6} py={5}>
+                  {isExpanded && <CircleTasks circleId={id} />}
+                </AccordionPanel>
+              </>
+            )}
           </AccordionItem>
 
           <AccordionItem>
-            <AccordionIconButton icon={<FiArrowRightCircle />}>
-              {t('organisms.CircleContent.tabDecisions')}
-            </AccordionIconButton>
-            <AccordionPanel px={6} py={5}>
-              <CircleDecisions circleId={id} />
-            </AccordionPanel>
+            {({ isExpanded }) => (
+              <>
+                <AccordionIconButton icon={<FiArrowRightCircle />}>
+                  {t('organisms.CircleContent.tabDecisions')}
+                </AccordionIconButton>
+                <AccordionPanel px={6} py={5}>
+                  {isExpanded && <CircleDecisions circleId={id} />}
+                </AccordionPanel>
+              </>
+            )}
           </AccordionItem>
         </Accordion>
       </Box>
