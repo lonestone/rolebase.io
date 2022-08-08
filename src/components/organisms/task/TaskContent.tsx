@@ -41,7 +41,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
-import TaskDeleteModal from './modals/TaskDeleteModal'
+import TaskDeleteModal from './TaskDeleteModal'
 
 interface Props extends BoxProps {
   id?: string

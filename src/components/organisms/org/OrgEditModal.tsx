@@ -31,9 +31,9 @@ import { useTranslation } from 'react-i18next'
 import { FiCopy, FiEdit3 } from 'react-icons/fi'
 import settings from 'src/settings'
 import * as yup from 'yup'
+import useCopyUrl from '../../../hooks/useCopyUrl'
 import OrgDeleteModal from './OrgDeleteModal'
 import OrgSlugModal from './OrgSlugModal '
-import useCopyUrl from './useCopyUrl'
 
 interface Props extends UseModalProps {
   id: string

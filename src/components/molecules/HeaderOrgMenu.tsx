@@ -8,7 +8,7 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
+import OrgCreateModal from '@components/organisms/org/OrgCreateModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'

@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react'
-import MeetingContent from '@components/organisms/MeetingContent'
+import MeetingContent from '@components/organisms/meeting/MeetingContent'
 import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import Page404 from './Page404'

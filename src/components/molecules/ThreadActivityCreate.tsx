@@ -7,11 +7,11 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
-import ActivityPollModal from '@components/organisms/modals/ActivityPollModal'
-import DecisionEditModal from '@components/organisms/modals/DecisionEditModal'
-import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
-import TaskModal from '@components/organisms/modals/TaskModal'
-import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
+import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
+import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
+import TaskModal from '@components/organisms/task/TaskModal'
+import ActivityPollModal from '@components/organisms/thread/ActivityPollModal'
+import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { getOrgPath } from '@shared/helpers/getOrgPath'

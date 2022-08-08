@@ -1,9 +1,9 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, ButtonProps, Tag } from '@chakra-ui/react'
+import { taskStatusColors } from '@components/atoms/TaskStatusTag'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiMessageSquare, FiPlus } from 'react-icons/fi'
-import { taskStatusColors } from '../TaskStatusInput'
 import { SearchItem, SearchItemTypes } from './searchTypes'
 
 interface Props extends ButtonProps {

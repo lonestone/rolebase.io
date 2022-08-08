@@ -6,7 +6,11 @@ import { RoleEntry } from '@shared/model/role'
 import React, { useEffect, useRef, useState } from 'react'
 import { circleColor } from 'src/theme'
 import { ColorModeProps, mode } from 'src/utils'
-import { createGraph, Graph, GraphEvents } from '../../circles-viz/createGraph'
+import {
+  createGraph,
+  Graph,
+  GraphEvents,
+} from '../../../circles-viz/createGraph'
 
 interface Props {
   id: string

@@ -1,5 +1,5 @@
 import { Box, BoxProps, Text, useDisclosure } from '@chakra-ui/react'
-import LogCancelModal from '@components/organisms/modals/LogCancelModal'
+import LogCancelModal from '@components/organisms/log/LogCancelModal'
 import { LogEntry } from '@shared/model/log'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'

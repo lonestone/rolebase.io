@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { FiUpload } from 'react-icons/fi'
 
 const MemberPictureCropModal = lazy(
-  () => import('@components/organisms/modals/MemberPictureCropModal')
+  () => import('@components/organisms/member/MemberPictureCropModal')
 )
 
 interface Props {

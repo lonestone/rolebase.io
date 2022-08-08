@@ -1,8 +1,8 @@
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
-import OnboardingCircleMembersModal from './modals/OnboardingCircleMembersModal'
-import OnboardingCirclesModal from './modals/OnboardingCirclesModal'
+import OnboardingCircleMembersModal from './OnboardingCircleMembersModal'
+import OnboardingCirclesModal from './OnboardingCirclesModal'
 
 enum Steps {
   None,

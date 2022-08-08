@@ -9,7 +9,7 @@ import {
 import HourLink from '@components/atoms/HourLink'
 import MemberLink from '@components/atoms/MemberLink'
 import ActionsMenu from '@components/molecules/ActionsMenu'
-import ActivityDeleteModal from '@components/organisms/modals/ActivityDeleteModal'
+import ActivityDeleteModal from '@components/organisms/thread/ActivityDeleteModal'
 import { ActivityEntry } from '@shared/model/activity'
 import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'

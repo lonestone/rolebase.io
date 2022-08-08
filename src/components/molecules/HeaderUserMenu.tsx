@@ -11,8 +11,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
-import CurrentUserModal from '@components/organisms/modals/CurrentUserModal'
-import LangModal from '@components/organisms/modals/LangModal'
+import LangModal from '@components/organisms/layout/LangModal'
+import CurrentUserModal from '@components/organisms/user/CurrentUserModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useStoreState } from '@store/hooks'
 import React from 'react'

@@ -1,5 +1,5 @@
 import Markdown from '@components/atoms/Markdown'
-import ThreadActivityLayout from '@components/atoms/ThreadActivityLayout'
+import ThreadActivityLayout from '@components/molecules/ThreadActivityLayout'
 import { ActivityMessage } from '@shared/model/activity'
 import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'

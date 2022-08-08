@@ -1,4 +1,4 @@
-import ThreadContent from '@components/organisms/ThreadContent'
+import ThreadContent from '@components/organisms/thread/ThreadContent'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import React from 'react'
 import { useParams } from 'react-router-dom'

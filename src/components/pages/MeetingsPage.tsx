@@ -24,9 +24,9 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
-import MeetingEditModal from '@components/organisms/modals/MeetingEditModal'
-import MeetingExportModal from '@components/organisms/modals/MeetingExportModal'
-import MeetingModal from '@components/organisms/modals/MeetingModal'
+import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
+import MeetingExportModal from '@components/organisms/meeting/MeetingExportModal'
+import MeetingModal from '@components/organisms/meeting/MeetingModal'
 import {
   DateSelectArg,
   DatesSetArg,

@@ -28,6 +28,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
+import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import EditorController from '@components/molecules/editor/EditorController'
 import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
@@ -43,7 +44,6 @@ import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
-import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
 import MemberDeleteModal from './MemberDeleteModal'
 
 interface Props extends UseModalProps {

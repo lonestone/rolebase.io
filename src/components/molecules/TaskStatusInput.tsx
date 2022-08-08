@@ -6,6 +6,7 @@ import {
   Tag,
   TagProps,
 } from '@chakra-ui/react'
+import { taskStatusColors } from '@components/atoms/TaskStatusTag'
 import { TaskStatus, taskStatusList } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,14 +14,6 @@ import { useTranslation } from 'react-i18next'
 interface Props extends Omit<TagProps, 'onChange'> {
   value: TaskStatus
   onChange(status: TaskStatus): void
-}
-
-export const taskStatusColors: Record<TaskStatus, string> = {
-  [TaskStatus.Open]: 'gray',
-  [TaskStatus.InProgress]: 'blue',
-  [TaskStatus.InReview]: 'yellow',
-  [TaskStatus.Blocked]: 'red',
-  [TaskStatus.Done]: 'green',
 }
 
 export default function TaskStatusInput({

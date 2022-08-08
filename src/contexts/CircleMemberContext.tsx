@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react'
-import CircleMemberModal from '@components/organisms/modals/CircleMemberModal'
+import CircleMemberModal from '@components/organisms/circle/CircleMemberModal'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React, {
   createContext,

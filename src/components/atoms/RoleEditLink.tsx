@@ -1,5 +1,5 @@
 import { Link, useDisclosure } from '@chakra-ui/react'
-import RoleEditModal from '@components/organisms/modals/RoleEditModal'
+import RoleEditModal from '@components/organisms/role/RoleEditModal'
 import React from 'react'
 
 interface Props {

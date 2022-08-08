@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react'
-import TaskContent from '@components/organisms/TaskContent'
+import TaskContent from '@components/organisms/task/TaskContent'
 import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import Page404 from './Page404'

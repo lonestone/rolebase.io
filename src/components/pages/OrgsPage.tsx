@@ -20,7 +20,7 @@ import {
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
-import OrgCreateModal from '@components/organisms/modals/OrgCreateModal'
+import OrgCreateModal from '@components/organisms/org/OrgCreateModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'

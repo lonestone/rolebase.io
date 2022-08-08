@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
-import MeetingModal from '@components/organisms/modals/MeetingModal'
+import MeetingModal from '@components/organisms/meeting/MeetingModal'
 import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'

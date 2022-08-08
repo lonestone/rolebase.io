@@ -29,7 +29,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCopy } from 'react-icons/fi'
-import useCopyUrl from './useCopyUrl'
+import useCopyUrl from '../../../hooks/useCopyUrl'
 
 enum ExportType {
   Org = 'Org',

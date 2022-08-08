@@ -8,9 +8,9 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import BaseRolesModal from '@components/organisms/modals/BaseRolesModal'
-import OrgEditModal from '@components/organisms/modals/OrgEditModal'
-import VacantRolesModal from '@components/organisms/modals/VacantRolesModal'
+import OrgEditModal from '@components/organisms/org/OrgEditModal'
+import BaseRolesModal from '@components/organisms/role/BaseRolesModal'
+import VacantRolesModal from '@components/organisms/role/VacantRolesModal'
 import useAdmin from '@hooks/useAdmin'
 import { useOrgId } from '@hooks/useOrgId'
 import { usePathInOrg } from '@hooks/usePathInOrg'

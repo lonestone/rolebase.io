@@ -35,7 +35,6 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import NumberInputController from '@components/atoms/NumberInputController'
-import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingStepsConfigController, {
@@ -43,6 +42,7 @@ import MeetingStepsConfigController, {
   StepsValues,
 } from '@components/molecules/MeetingStepsConfigController'
 import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
+import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'

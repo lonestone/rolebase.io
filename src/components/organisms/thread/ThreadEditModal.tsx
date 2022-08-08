@@ -16,9 +16,9 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
 import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
+import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'

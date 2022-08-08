@@ -12,11 +12,11 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
+import ListItemWithButtons from '@components/molecules/ListItemWithButtons'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
-import ListItemWithButtons from '../../molecules/ListItemWithButtons'
 import BaseRoleCreateModal from './BaseRoleCreateModal'
 import RoleDeleteModal from './RoleDeleteModal'
 import RoleEditModal from './RoleEditModal'

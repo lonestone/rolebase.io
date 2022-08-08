@@ -7,10 +7,10 @@ import {
   Tag,
   useDisclosure,
 } from '@chakra-ui/react'
+import { taskStatusColors } from '@components/atoms/TaskStatusTag'
 import { Title } from '@components/atoms/Title'
-import { taskStatusColors } from '@components/molecules/TaskStatusInput'
-import TaskModal from '@components/organisms/modals/TaskModal'
-import TasksModule from '@components/organisms/TasksModule'
+import TaskModal from '@components/organisms/task/TaskModal'
+import TasksModule from '@components/organisms/task/TasksModule'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'

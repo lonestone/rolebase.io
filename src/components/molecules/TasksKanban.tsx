@@ -1,11 +1,11 @@
 import { Button, HStack } from '@chakra-ui/react'
+import { KanbanColumn } from '@components/molecules/KanbanColumn'
 import TaskCard from '@components/molecules/TaskCard'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { TaskEntry, TaskStatus, taskStatusList } from '@shared/model/task'
 import React, { useCallback } from 'react'
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
-import { KanbanColumn } from '../molecules/KanbanColumn'
 
 interface Props {
   tasks: TaskEntry[]

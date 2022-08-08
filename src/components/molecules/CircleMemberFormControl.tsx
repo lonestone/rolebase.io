@@ -1,6 +1,6 @@
 import { addMemberToCircle } from '@api/entities/circles'
 import { FormControl, FormLabel, useDisclosure } from '@chakra-ui/react'
-import CircleMemberDeleteModal from '@components/organisms/modals/CircleMemberDeleteModal'
+import CircleMemberDeleteModal from '@components/organisms/circle/CircleMemberDeleteModal'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import useCreateLog from '@hooks/useCreateLog'
 import { LogType } from '@shared/model/log'

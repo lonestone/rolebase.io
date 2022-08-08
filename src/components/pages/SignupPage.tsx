@@ -1,7 +1,7 @@
 import { Center, Container, Heading, Link } from '@chakra-ui/react'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
-import SignupForm from '@components/organisms/SignupForm'
+import SignupForm from '@components/organisms/user/SignupForm'
 import useQueryParams from '@hooks/useQueryParams'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React from 'react'

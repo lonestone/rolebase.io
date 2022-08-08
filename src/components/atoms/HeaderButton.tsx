@@ -5,7 +5,7 @@ import {
   Circle,
   useColorMode,
 } from '@chakra-ui/react'
-import { headerHeight } from '@components/organisms/Header'
+import { headerHeight } from '@components/organisms/layout/Header'
 import React, { ReactElement } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 

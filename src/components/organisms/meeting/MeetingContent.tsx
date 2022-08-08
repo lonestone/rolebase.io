@@ -28,7 +28,6 @@ import {
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
 import MemberLink from '@components/atoms/MemberLink'
-import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
@@ -38,6 +37,7 @@ import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
+import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import useAdmin from '@hooks/useAdmin'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -60,8 +60,8 @@ import {
   FiX,
 } from 'react-icons/fi'
 import { capitalizeFirstLetter } from 'src/utils'
-import MeetingDeleteModal from './modals/MeetingDeleteModal'
-import MeetingEditModal from './modals/MeetingEditModal'
+import MeetingDeleteModal from './MeetingDeleteModal'
+import MeetingEditModal from './MeetingEditModal'
 
 interface Props extends BoxProps {
   id: string

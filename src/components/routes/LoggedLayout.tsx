@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react'
-import Header, { headerHeight } from '@components/organisms/Header'
+import Header, { headerHeight } from '@components/organisms/layout/Header'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import useWindowSize from '@hooks/useWindowSize'
 import { useStoreActions, useStoreState } from '@store/hooks'

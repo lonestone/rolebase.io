@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import MemberAvatar from '@components/atoms/MemberAvatar'
-import TaskModal from '@components/organisms/modals/TaskModal'
+import TaskModal from '@components/organisms/task/TaskModal'
 import useDateLocale from '@hooks/useDateLocale'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'

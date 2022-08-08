@@ -1,6 +1,6 @@
 import { Button, HStack, useDisclosure } from '@chakra-ui/react'
-import TaskModal from '@components/organisms/modals/TaskModal'
-import ThreadEditModal from '@components/organisms/modals/ThreadEditModal'
+import TaskModal from '@components/organisms/task/TaskModal'
+import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

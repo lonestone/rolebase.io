@@ -12,7 +12,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
-import ParticipantsNumber from '@components/atoms/ParticipantsNumber'
 import { Title } from '@components/atoms/Title'
 import AccordionIconButton from '@components/molecules/AccordionIconButton'
 import ActionsMenu from '@components/molecules/ActionsMenu'
@@ -22,6 +21,7 @@ import CircleMeetings from '@components/molecules/CircleMeetings'
 import CircleRoleFormControl from '@components/molecules/CircleRoleFormControl'
 import CircleTasks from '@components/molecules/CircleTasks'
 import CircleThreads from '@components/molecules/CircleThreads'
+import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import useCircle from '@hooks/useCircle'
 import useParticipants from '@hooks/useParticipants'
 import { MembersScope } from '@shared/model/member'
@@ -34,10 +34,10 @@ import {
   FiDisc,
   FiMessageSquare,
 } from 'react-icons/fi'
-import CircleCopyModal from './modals/CircleCopyModal'
-import CircleDeleteModal from './modals/CircleDeleteModal'
-import CircleMoveModal from './modals/CircleMoveModal'
-import RoleEditModal from './modals/RoleEditModal'
+import RoleEditModal from '../role/RoleEditModal'
+import CircleCopyModal from './CircleCopyModal'
+import CircleDeleteModal from './CircleDeleteModal'
+import CircleMoveModal from './CircleMoveModal'
 
 interface Props {
   id: string

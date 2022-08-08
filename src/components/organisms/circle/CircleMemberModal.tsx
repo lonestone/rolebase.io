@@ -8,8 +8,8 @@ import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
-import CircleContent from '../CircleContent'
-import MemberContent from '../MemberContent'
+import MemberContent from '../member/MemberContent'
+import CircleContent from './CircleContent'
 
 interface Props extends UseModalProps {
   circleId?: string

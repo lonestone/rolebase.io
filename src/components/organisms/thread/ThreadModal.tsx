@@ -4,24 +4,26 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { usePathInOrg } from '@hooks/usePathInOrg'
+import useWindowSize from '@hooks/useWindowSize'
 import React from 'react'
-import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
-import DecisionContent from '../DecisionContent'
+import ThreadContent from './ThreadContent'
 
 interface Props extends UseModalProps {
   id: string
 }
 
-export default function DecisionModal({ id, ...modalProps }: Props) {
-  const path = usePathInOrg(`decisions/${id}`)
+export default function ThreadModal({ id, ...modalProps }: Props) {
+  const path = usePathInOrg(`threads/${id}`)
+  const windowSize = useWindowSize()
 
   return (
-    <Modal size="xl" autoFocus={false} {...modalProps}>
+    <Modal size="3xl" isCentered autoFocus={false} {...modalProps}>
       <ModalOverlay />
-      <ModalContent>
-        <DecisionContent
+      <ModalContent margin={0}>
+        <ThreadContent
           id={id}
           headerIcons={
             id && (
@@ -31,9 +33,8 @@ export default function DecisionModal({ id, ...modalProps }: Props) {
               </>
             )
           }
-          onClose={modalProps.onClose}
-          px={6}
-          py={4}
+          h={`${windowSize.height * 0.9}px`}
+          pt={2}
         />
       </ModalContent>
     </Modal>

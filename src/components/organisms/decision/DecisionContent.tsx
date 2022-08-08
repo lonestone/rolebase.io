@@ -19,8 +19,8 @@ import DateInfo from '@components/molecules/DateInfo'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import DecisionDeleteModal from './modals/DecisionDeleteModal '
-import DecisionEditModal from './modals/DecisionEditModal'
+import DecisionDeleteModal from './DecisionDeleteModal '
+import DecisionEditModal from './DecisionEditModal'
 
 interface Props extends BoxProps {
   id: string

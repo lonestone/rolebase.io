@@ -4,11 +4,11 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
-import ModalCloseStaticButton from '../../atoms/ModalCloseStaticButton'
-import MeetingContent from '../MeetingContent'
+import MeetingContent from '../meeting/MeetingContent'
 
 interface Props extends UseModalProps {
   id: string

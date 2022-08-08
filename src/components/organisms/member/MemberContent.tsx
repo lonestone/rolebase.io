@@ -27,7 +27,7 @@ import useMember from '@hooks/useMember'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import MemberEditModal from './modals/MemberEditModal'
+import MemberEditModal from './MemberEditModal'
 
 interface Props {
   id: string
