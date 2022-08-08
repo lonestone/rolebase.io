@@ -6,9 +6,10 @@ import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MeetingEntry, MeetingStepConfig } from '@shared/model/meeting'
 import { MeetingStep, MeetingStepTypes } from '@shared/model/meetingStep'
 import { TasksViewTypes } from '@shared/model/task'
-import { doc } from 'firebase/firestore'
+import { doc, getDocs, query, where } from 'firebase/firestore'
 import { memoize } from 'src/memoize'
 import { collection as meetingsCollection } from './meetings'
+import { collection as threadsCollection } from './threads'
 
 export const meetingStepsEntities = memoize((meetingId: string) => {
   const collection = getSubCollection<MeetingStep>(
@@ -26,10 +27,10 @@ export const meetingStepsEntities = memoize((meetingId: string) => {
   }
 })
 
-function getDefaultMeetingStep(
+async function getDefaultMeetingStep(
   type: MeetingStepTypes,
   circle: CircleWithRoleEntry
-): MeetingStep {
+): Promise<MeetingStep> {
   switch (type) {
     case MeetingStepTypes.Tour:
       return {
@@ -38,12 +39,24 @@ function getDefaultMeetingStep(
         participants: [],
         currentMemberId: '',
       }
-    case MeetingStepTypes.Threads:
+
+    case MeetingStepTypes.Threads: {
+      // Get circle's threads
+      const threads = await getDocs(
+        query(
+          threadsCollection,
+          where('orgId', '==', circle.orgId),
+          where('circleId', '==', circle.id),
+          where('archived', '==', false)
+        )
+      )
       return {
         type,
         notes: '',
-        threadsIds: [],
+        threadsIds: threads.docs.map((thread) => thread.id),
       }
+    }
+
     case MeetingStepTypes.Tasks:
       return {
         type,
@@ -52,11 +65,13 @@ function getDefaultMeetingStep(
         filterMemberId: null,
         filterStatus: null,
       }
+
     case MeetingStepTypes.Checklist:
       return {
         type,
         notes: circle.role.checklist,
       }
+
     case MeetingStepTypes.Indicators:
       return {
         type,
@@ -80,9 +95,9 @@ export async function createMissingMeetingSteps(
   )
 
   await Promise.all(
-    missingSteps.map((stepConfig) =>
+    missingSteps.map(async (stepConfig) =>
       createMeetingStep(
-        getDefaultMeetingStep(stepConfig.type, circle),
+        await getDefaultMeetingStep(stepConfig.type, circle),
         stepConfig.id
       )
     )
