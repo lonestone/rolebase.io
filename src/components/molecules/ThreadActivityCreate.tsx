@@ -19,7 +19,7 @@ import { Activity, ActivityType } from '@shared/model/activity'
 import { ThreadEntry } from '@shared/model/thread'
 import { Optional } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiArrowRightCircle,
@@ -44,6 +44,24 @@ export default function ThreadActivityCreate({ thread }: Props) {
   const org = useCurrentOrg()
   const editorRef = useRef<EditorHandle>(null)
 
+  // Save message draft
+  const draftKey = `thread-draft-${thread.id}`
+  const handleSaveDraft = useCallback(
+    (value: string) => {
+      localStorage.setItem(draftKey, value)
+    },
+    [draftKey]
+  )
+
+  // Restore message draft
+  useEffect(() => {
+    const draft = localStorage.getItem(draftKey)
+    if (draft) {
+      editorRef.current?.setValue(draft)
+    }
+  }, [draftKey])
+
+  // Create a new activity
   const handleCreateActivity = useCallback(
     async (
       data: Optional<Activity, 'createdAt' | 'orgId' | 'userId' | 'threadId'>
@@ -74,6 +92,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
       if (!value) return
 
       editorRef.current?.setValue('')
+      localStorage.setItem(draftKey, '')
       try {
         await handleCreateActivity({
           type: ActivityType.Message,
@@ -82,6 +101,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
       } catch (error) {
         console.error(error)
         editorRef.current?.setValue(value)
+        localStorage.setItem(draftKey, value)
       }
     },
     [handleCreateActivity]
@@ -135,6 +155,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
         value=""
         autoFocus
         maxHeight="50vh"
+        onChange={handleSaveDraft}
         onSubmit={handleSubmit}
       />
 
