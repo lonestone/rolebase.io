@@ -64,13 +64,13 @@ export default function CircleDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {t('organisms.modals.CircleDeleteModal.heading')}
+            {t('CircleDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.CircleDeleteModal.info"
+                i18nKey="CircleDeleteModal.info"
                 values={{ name: circle.role.name }}
                 components={{ b: <strong /> }}
               />

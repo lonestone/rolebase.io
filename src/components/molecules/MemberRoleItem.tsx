@@ -77,17 +77,13 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
               <VStack spacing={3} align="stretch">
                 {roleCircle.role.purpose && (
                   <FormControl>
-                    <FormLabel>
-                      {t(`molecules.MemberRoleItem.purpose`)}
-                    </FormLabel>
+                    <FormLabel>{t(`MemberRoleItem.purpose`)}</FormLabel>
                     <Markdown>{roleCircle.role.purpose}</Markdown>
                   </FormControl>
                 )}
 
                 <FormControl>
-                  <FormLabel>
-                    {t(`molecules.MemberRoleItem.workingTime`)}
-                  </FormLabel>
+                  <FormLabel>{t(`MemberRoleItem.workingTime`)}</FormLabel>
                   <DurationSelect
                     size="sm"
                     placeholderValue={

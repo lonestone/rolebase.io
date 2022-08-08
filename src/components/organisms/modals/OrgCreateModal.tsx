@@ -77,9 +77,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>
-            {t('organisms.modals.OrgCreateModal.heading')}
-          </ModalHeader>
+          <ModalHeader>{t('OrgCreateModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>

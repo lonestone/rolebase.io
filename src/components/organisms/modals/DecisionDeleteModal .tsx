@@ -59,13 +59,13 @@ export default function DecisionDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {t('organisms.modals.DecisionDeleteModal.heading')}
+            {t('DecisionDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.DecisionDeleteModal.info"
+                i18nKey="DecisionDeleteModal.info"
                 values={{ name: decision.title }}
                 components={{ b: <strong /> }}
               />

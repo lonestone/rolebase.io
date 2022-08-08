@@ -106,9 +106,9 @@ export default function HeaderSearch() {
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
       <InputGroup size="sm">
         {!isOpen && (
-          <Tooltip label={t('molecules.search.HeaderSearch.tooltip')} hasArrow>
+          <Tooltip label={t('HeaderSearch.tooltip')} hasArrow>
             <IconButton
-              aria-label={t('molecules.search.HeaderSearch.tooltip')}
+              aria-label={t('HeaderSearch.tooltip')}
               icon={<FaSearch />}
               variant="ghost"
               size="sm"
@@ -118,7 +118,7 @@ export default function HeaderSearch() {
         )}
         <Input
           type="text"
-          placeholder={t('molecules.search.HeaderSearch.placeholder')}
+          placeholder={t('HeaderSearch.placeholder')}
           display={isOpen ? '' : 'none'}
           w="200px"
           borderRadius="md"

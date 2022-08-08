@@ -18,7 +18,7 @@ export default function ModalCloseStaticButton() {
 
   return (
     <IconButton
-      aria-label={t('atoms.ModalCloseStaticButton.label')}
+      aria-label={t('ModalCloseStaticButton.label')}
       icon={<CloseIcon width="12px" height="12px" />}
       variant="ghost"
       size="sm"

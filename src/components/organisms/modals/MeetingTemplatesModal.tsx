@@ -71,9 +71,7 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
       <Modal {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {t('organisms.modals.MeetingTemplatesModal.heading')}
-          </ModalHeader>
+          <ModalHeader>{t('MeetingTemplatesModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
@@ -81,9 +79,7 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
             <TextErrors errors={[error]} />
 
             {!meetingTemplates?.length ? (
-              <Text fontStyle="italic">
-                {t('organisms.modals.MeetingTemplatesModal.empty')}
-              </Text>
+              <Text fontStyle="italic">{t('MeetingTemplatesModal.empty')}</Text>
             ) : (
               meetingTemplates?.map((mt) => (
                 <ListItemWithButtons
@@ -107,7 +103,7 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
 
           <ModalFooter justifyContent="center">
             <Button leftIcon={<FiPlus />} onClick={handleCreate}>
-              {t('organisms.modals.MeetingTemplatesModal.create')}
+              {t('MeetingTemplatesModal.create')}
             </Button>
           </ModalFooter>
         </ModalContent>

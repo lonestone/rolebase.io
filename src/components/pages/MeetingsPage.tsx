@@ -214,14 +214,14 @@ export default function MeetingsPage() {
 
   return (
     <Flex h="100%" p={5} flexDirection="column">
-      <Title>{t('pages.MeetingsPage.heading')}</Title>
+      <Title>{t('MeetingsPage.heading')}</Title>
 
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
       <Flex mb={2} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          {t('pages.MeetingsPage.heading')}
+          {t('MeetingsPage.heading')}
         </Heading>
 
         <Spacer />
@@ -233,27 +233,27 @@ export default function MeetingsPage() {
             variant="ghost"
             rightIcon={<FiChevronDown />}
           >
-            {t(`pages.MeetingsPage.participation.${filter}` as any)}
+            {t(`MeetingsPage.participation.${filter}` as any)}
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
-              title={t('pages.MeetingsPage.participation.title')}
+              title={t('MeetingsPage.participation.title')}
               type="checkbox"
               value={filterValue}
               onChange={handleFilterChange}
             >
               <MenuItemOption value={EntityFilters.Invited}>
-                {t('pages.MeetingsPage.participation.Invited')}
+                {t('MeetingsPage.participation.Invited')}
               </MenuItemOption>
               <MenuItemOption value={EntityFilters.NotInvited}>
-                {t('pages.MeetingsPage.participation.NotInvited')}
+                {t('MeetingsPage.participation.NotInvited')}
               </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>
         </Menu>
 
         <Button size="sm" ml={1} leftIcon={<FiUpload />} onClick={onExportOpen}>
-          {t('pages.MeetingsPage.export')}
+          {t('MeetingsPage.export')}
         </Button>
 
         <Button
@@ -263,17 +263,17 @@ export default function MeetingsPage() {
           leftIcon={<FiPlus />}
           onClick={handleCreate}
         >
-          {t('pages.MeetingsPage.create')}
+          {t('MeetingsPage.create')}
         </Button>
       </Flex>
 
       {currentMember?.meetingId && (
         <Alert status="info" mb={2} maxW={400}>
           <AlertIcon />
-          <AlertTitle>{t('pages.MeetingsPage.current')}</AlertTitle>
+          <AlertTitle>{t('MeetingsPage.current')}</AlertTitle>
           <Spacer />
           <Button ml={3} colorScheme="blue" onClick={handleOpenCurrentMeeting}>
-            {t('pages.MeetingsPage.openCurrent')}
+            {t('MeetingsPage.openCurrent')}
           </Button>
         </Alert>
       )}

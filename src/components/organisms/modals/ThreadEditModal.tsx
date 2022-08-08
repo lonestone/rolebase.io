@@ -140,8 +140,8 @@ export default function ThreadEditModal({
           <ModalHeader>
             {t(
               thread
-                ? 'organisms.modals.ThreadEditModal.headingEdit'
-                : 'organisms.modals.ThreadEditModal.headingCreate'
+                ? 'ThreadEditModal.headingEdit'
+                : 'ThreadEditModal.headingCreate'
             )}
           </ModalHeader>
           <ModalCloseButton />
@@ -149,22 +149,16 @@ export default function ThreadEditModal({
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>
-                  {t('organisms.modals.ThreadEditModal.title')}
-                </FormLabel>
+                <FormLabel>{t('ThreadEditModal.title')}</FormLabel>
                 <Input
                   {...register('title')}
-                  placeholder={t(
-                    'organisms.modals.ThreadEditModal.titlePlaceholder'
-                  )}
+                  placeholder={t('ThreadEditModal.titlePlaceholder')}
                   autoFocus
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>
-                  {t('organisms.modals.ThreadEditModal.circle')}
-                </FormLabel>
+                <FormLabel>{t('ThreadEditModal.circle')}</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -181,7 +175,7 @@ export default function ThreadEditModal({
                 isInvalid={(circleId && participants.length === 0) || false}
               >
                 <FormLabel display="flex" alignItems="center">
-                  {t('organisms.modals.ThreadEditModal.invite')}
+                  {t('ThreadEditModal.invite')}
                   <ParticipantsNumber ml={2} participants={participants} />
                 </FormLabel>
                 <ParticipantsScopeSelect {...register('participantsScope')} />
@@ -198,9 +192,7 @@ export default function ThreadEditModal({
 
               {thread && (
                 <FormControl>
-                  <FormLabel>
-                    {t('organisms.modals.ThreadEditModal.settings')}
-                  </FormLabel>
+                  <FormLabel>{t('ThreadEditModal.settings')}</FormLabel>
                   <Checkbox {...register('archived')}>
                     {t('common.archived')}
                   </Checkbox>

@@ -87,38 +87,32 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
     <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {t('organisms.modals.MeetingExportModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('MeetingExportModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={10}>
           <VStack spacing={5} align="stretch">
             <FormControl>
-              <FormLabel>
-                {t('organisms.modals.MeetingExportModal.scope')}
-              </FormLabel>
+              <FormLabel>{t('MeetingExportModal.scope')}</FormLabel>
               <Select
                 value={exportType}
                 onChange={(e) => setExportType(e.target.value as ExportType)}
               >
                 <option value={ExportType.Org}>
-                  {t('organisms.modals.MeetingExportModal.scopeOrg')}
+                  {t('MeetingExportModal.scopeOrg')}
                 </option>
                 <option value={ExportType.CurrentMember}>
-                  {t('organisms.modals.MeetingExportModal.scopeMine')}
+                  {t('MeetingExportModal.scopeMine')}
                 </option>
                 <option value={ExportType.Circle}>
-                  {t('organisms.modals.MeetingExportModal.scopeCircle')}
+                  {t('MeetingExportModal.scopeCircle')}
                 </option>
               </Select>
             </FormControl>
 
             {exportType === ExportType.Circle && (
               <FormControl>
-                <FormLabel>
-                  {t('organisms.modals.MeetingExportModal.circle')}
-                </FormLabel>
+                <FormLabel>{t('MeetingExportModal.circle')}</FormLabel>
                 <CircleSearchInput
                   singleMember={false}
                   value={circleId}
@@ -132,9 +126,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
 
             {url && (
               <FormControl>
-                <FormLabel>
-                  {t('organisms.modals.MeetingExportModal.url')}
-                </FormLabel>
+                <FormLabel>{t('MeetingExportModal.url')}</FormLabel>
                 <InputGroup>
                   <Input
                     autoFocus

@@ -34,7 +34,7 @@ export default function CircleTasks({ circleId }: Props) {
     <>
       <Flex mb={4}>
         <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          {t('molecules.CircleTasks.create')}
+          {t('CircleTasks.create')}
         </Button>
         <Spacer />
         <Button

@@ -51,29 +51,27 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
       <MenuList zIndex={10} shadow="lg">
         {member && (
           <CircleMemberLink memberId={member.id}>
-            <MenuItem icon={<FiUser />}>
-              {t('molecules.HeaderUserMenu.member')}
-            </MenuItem>
+            <MenuItem icon={<FiUser />}>{t('HeaderUserMenu.member')}</MenuItem>
           </CircleMemberLink>
         )}
 
         <MenuItem icon={<FiEdit3 />} onClick={onCurrentUserOpen}>
-          {t('molecules.HeaderUserMenu.user')}
+          {t('HeaderUserMenu.user')}
         </MenuItem>
 
         <MenuItem
           icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
           onClick={toggleColorMode}
         >
-          {t('molecules.HeaderUserMenu.theme')}
+          {t('HeaderUserMenu.theme')}
         </MenuItem>
 
         <MenuItem icon={<IoLanguage />} onClick={onLangOpen}>
-          {t('molecules.HeaderUserMenu.lang')}
+          {t('HeaderUserMenu.lang')}
         </MenuItem>
 
         <MenuItem icon={<FiLogOut />} onClick={() => auth.signOut()}>
-          {t('molecules.HeaderUserMenu.signout')}
+          {t('HeaderUserMenu.signout')}
         </MenuItem>
       </MenuList>
 

@@ -137,35 +137,35 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
       {activity.multiple &&
         (activity.minAnswers && activity.minAnswers === activity.maxAnswers ? (
           <Text>
-            {t('molecules.ThreadActivityPollVote.chooseN', {
+            {t('ThreadActivityPollVote.chooseN', {
               count: activity.minAnswers,
             })}
           </Text>
         ) : activity.minAnswers && activity.maxAnswers ? (
           <Text>
-            {t('molecules.ThreadActivityPollVote.chooseMinAndMax', {
+            {t('ThreadActivityPollVote.chooseMinAndMax', {
               min: activity.minAnswers,
               max: activity.maxAnswers,
             })}
           </Text>
         ) : activity.minAnswers ? (
           <Text>
-            {t('molecules.ThreadActivityPollVote.chooseMin', {
+            {t('ThreadActivityPollVote.chooseMin', {
               count: activity.minAnswers,
             })}
           </Text>
         ) : activity.maxAnswers ? (
           <Text>
-            {t('molecules.ThreadActivityPollVote.chooseMax', {
+            {t('ThreadActivityPollVote.chooseMax', {
               count: activity.maxAnswers,
             })}
           </Text>
         ) : (
-          <Text>{t('molecules.ThreadActivityPollVote.chooseMultiple')}</Text>
+          <Text>{t('ThreadActivityPollVote.chooseMultiple')}</Text>
         ))}
 
       {activity.anonymous && (
-        <Text>{t('molecules.ThreadActivityPollVote.anonymous')}</Text>
+        <Text>{t('ThreadActivityPollVote.anonymous')}</Text>
       )}
 
       <Stack spacing={1} mt={3} align="stretch">
@@ -209,18 +209,16 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
         <>
           {activity.pointsPerUser &&
             (remainingPoints === 0 ? (
-              <Text>
-                {t('molecules.ThreadActivityPollVote.pointsDistributed')}
-              </Text>
+              <Text>{t('ThreadActivityPollVote.pointsDistributed')}</Text>
             ) : remainingPoints > 0 ? (
               <Text>
-                {t('molecules.ThreadActivityPollVote.pointsRemaining', {
+                {t('ThreadActivityPollVote.pointsRemaining', {
                   count: remainingPoints,
                 })}
               </Text>
             ) : (
               <Text>
-                {t('molecules.ThreadActivityPollVote.pointsExceeded', {
+                {t('ThreadActivityPollVote.pointsExceeded', {
                   count: -remainingPoints,
                 })}
               </Text>
@@ -233,7 +231,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
               isDisabled={voteButtonDisabled}
               onClick={handleVote}
             >
-              {t('molecules.ThreadActivityPollVote.vote')}
+              {t('ThreadActivityPollVote.vote')}
             </Button>
           </Box>
         </>
@@ -244,8 +242,8 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
           {activity.endDate
             ? t(
                 activity.endWhenAllVoted
-                  ? 'molecules.ThreadActivityPollVote.revealDateOrAllVoted'
-                  : 'molecules.ThreadActivityPollVote.revealDate',
+                  ? 'ThreadActivityPollVote.revealDateOrAllVoted'
+                  : 'ThreadActivityPollVote.revealDate',
                 {
                   date: format(activity.endDate.toDate(), 'PPPP', {
                     locale: dateLocale,
@@ -253,8 +251,8 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
                 }
               )
             : activity.endWhenAllVoted
-            ? t('molecules.ThreadActivityPollVote.revealAllVoted')
-            : t('molecules.ThreadActivityPollVote.revealLater')}
+            ? t('ThreadActivityPollVote.revealAllVoted')
+            : t('ThreadActivityPollVote.revealLater')}
         </Text>
       )}
     </>

@@ -73,7 +73,7 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
       if (e instanceof Error) {
         const message =
           (e as any).code === 'functions/already-exists'
-            ? t('organisms.modals.OrgSlugModal.already-exists')
+            ? t('OrgSlugModal.already-exists')
             : e.message
         setError('slug', { message })
       }
@@ -89,25 +89,22 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
         <ModalContent>
           <form onSubmit={onSubmit}>
             <ModalHeader>
-              {t('organisms.modals.OrgSlugModal.heading', { org: org.name })}
+              {t('OrgSlugModal.heading', { org: org.name })}
             </ModalHeader>
             <ModalCloseButton />
 
             <ModalBody>
               <FormControl isInvalid={!!errors.slug}>
-                <FormLabel>{t('organisms.modals.OrgSlugModal.slug')}</FormLabel>
+                <FormLabel>{t('OrgSlugModal.slug')}</FormLabel>
                 <InputGroup>
                   <InputLeftAddon>{settings.url}/</InputLeftAddon>
                   <Input
                     {...register('slug')}
-                    placeholder={t(
-                      'organisms.modals.OrgSlugModal.slugPlaceholder',
-                      {
-                        slug: slugify(org.name, {
-                          strict: true,
-                        }).toLowerCase(),
-                      }
-                    )}
+                    placeholder={t('OrgSlugModal.slugPlaceholder', {
+                      slug: slugify(org.name, {
+                        strict: true,
+                      }).toLowerCase(),
+                    })}
                     maxLength={30}
                     autoFocus
                   />

@@ -20,19 +20,17 @@ export default function CircleMoveModal(modalProps: UseModalProps) {
     <Modal size="xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {t('organisms.modals.CircleMoveModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('CircleMoveModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={6}>
           <UnorderedList>
-            <ListItem>{t('organisms.modals.CircleMoveModal.action1')}</ListItem>
+            <ListItem>{t('CircleMoveModal.action1')}</ListItem>
             <ListItem>
-              {t('organisms.modals.CircleMoveModal.action2')} <Kbd>⌘</Kbd>
+              {t('CircleMoveModal.action2')} <Kbd>⌘</Kbd>
             </ListItem>
-            <ListItem>{t('organisms.modals.CircleMoveModal.action3')}</ListItem>
-            <ListItem>{t('organisms.modals.CircleMoveModal.action4')}</ListItem>
+            <ListItem>{t('CircleMoveModal.action3')}</ListItem>
+            <ListItem>{t('CircleMoveModal.action4')}</ListItem>
           </UnorderedList>
         </ModalBody>
       </ModalContent>

@@ -91,7 +91,7 @@ export default function TasksKanban({
 
             {status === TaskStatus.Done && onDoneTasksClick && (
               <Button variant="link" onClick={onDoneTasksClick} ml={1}>
-                {t('organisms.TasksKanban.showDoneTasks')}
+                {t('TasksKanban.showDoneTasks')}
               </Button>
             )}
           </KanbanColumn>

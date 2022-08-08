@@ -139,7 +139,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
   )
 
   const defaultEntityDescription = t(
-    'molecules.ThreadActivityCreate.defaultEntityDescription',
+    'ThreadActivityCreate.defaultEntityDescription',
     {
       thread: `[${thread.title}](${settings.url}${
         org ? getOrgPath(org) : ''
@@ -151,7 +151,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
     <div>
       <SimpleEditor
         ref={editorRef}
-        placeholder={t('molecules.ThreadActivityCreate.placeholder')}
+        placeholder={t('ThreadActivityCreate.placeholder')}
         value=""
         autoFocus
         maxHeight="50vh"
@@ -161,12 +161,12 @@ export default function ThreadActivityCreate({ thread }: Props) {
 
       <HStack spacing={2} my={2}>
         <Tooltip
-          label={t(`molecules.ThreadActivityCreate.poll`)}
+          label={t(`ThreadActivityCreate.poll`)}
           placement="top"
           hasArrow
         >
           <IconButton
-            aria-label={t(`molecules.ThreadActivityCreate.poll`)}
+            aria-label={t(`ThreadActivityCreate.poll`)}
             size="sm"
             icon={<FiBarChart2 />}
             onClick={pollModal.onOpen}
@@ -174,12 +174,12 @@ export default function ThreadActivityCreate({ thread }: Props) {
         </Tooltip>
 
         <Tooltip
-          label={t(`molecules.ThreadActivityCreate.decision`)}
+          label={t(`ThreadActivityCreate.decision`)}
           placement="top"
           hasArrow
         >
           <IconButton
-            aria-label={t(`molecules.ThreadActivityCreate.decision`)}
+            aria-label={t(`ThreadActivityCreate.decision`)}
             size="sm"
             icon={<FiArrowRightCircle />}
             onClick={decisionModal.onOpen}
@@ -187,12 +187,12 @@ export default function ThreadActivityCreate({ thread }: Props) {
         </Tooltip>
 
         <Tooltip
-          label={t(`molecules.ThreadActivityCreate.task`)}
+          label={t(`ThreadActivityCreate.task`)}
           placement="top"
           hasArrow
         >
           <IconButton
-            aria-label={t(`molecules.ThreadActivityCreate.task`)}
+            aria-label={t(`ThreadActivityCreate.task`)}
             size="sm"
             icon={<FiCheckSquare />}
             onClick={taskModal.onOpen}
@@ -200,12 +200,12 @@ export default function ThreadActivityCreate({ thread }: Props) {
         </Tooltip>
 
         <Tooltip
-          label={t(`molecules.ThreadActivityCreate.meeting`)}
+          label={t(`ThreadActivityCreate.meeting`)}
           placement="top"
           hasArrow
         >
           <IconButton
-            aria-label={t(`molecules.ThreadActivityCreate.meeting`)}
+            aria-label={t(`ThreadActivityCreate.meeting`)}
             size="sm"
             icon={<FiCalendar />}
             onClick={meetingModal.onOpen}
@@ -213,12 +213,12 @@ export default function ThreadActivityCreate({ thread }: Props) {
         </Tooltip>
 
         <Tooltip
-          label={t(`molecules.ThreadActivityCreate.thread`)}
+          label={t(`ThreadActivityCreate.thread`)}
           placement="top"
           hasArrow
         >
           <IconButton
-            aria-label={t(`molecules.ThreadActivityCreate.thread`)}
+            aria-label={t(`ThreadActivityCreate.thread`)}
             size="sm"
             icon={<FiMessageSquare />}
             onClick={threadModal.onOpen}
@@ -233,7 +233,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
           rightIcon={<IoMdSend />}
           onClick={() => handleSubmit()}
         >
-          {t(`molecules.ThreadActivityCreate.send`)}
+          {t(`ThreadActivityCreate.send`)}
         </Button>
       </HStack>
 

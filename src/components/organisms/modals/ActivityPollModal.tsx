@@ -210,16 +210,12 @@ export default function ActivityPollModal({
           <Flex alignItems="center">
             {t(
               activity
-                ? 'organisms.modals.ActivityPollModal.headingEdit'
-                : 'organisms.modals.ActivityPollModal.headingCreate'
+                ? 'ActivityPollModal.headingEdit'
+                : 'ActivityPollModal.headingCreate'
             )}
 
             {!activity && (
-              <Tooltip
-                hasArrow
-                p={3}
-                label={t('organisms.modals.ActivityPollModal.help')}
-              >
+              <Tooltip hasArrow p={3} label={t('ActivityPollModal.help')}>
                 <Box ml={3}>
                   <FiHelpCircle />
                 </Box>
@@ -236,7 +232,7 @@ export default function ActivityPollModal({
                 <>
                   <Alert status="warning">
                     <AlertIcon />
-                    {t('organisms.modals.ActivityPollModal.resetNeeded')}
+                    {t('ActivityPollModal.resetNeeded')}
                   </Alert>
                   <Checkbox
                     isChecked={acceptErasingAnswers}
@@ -244,29 +240,23 @@ export default function ActivityPollModal({
                       setAcceptErasingAnswers(!acceptErasingAnswers)
                     }
                   >
-                    {t('organisms.modals.ActivityPollModal.resetBtn')}
+                    {t('ActivityPollModal.resetBtn')}
                   </Checkbox>
                 </>
               )}
 
               <FormControl isInvalid={!!errors.question}>
-                <FormLabel>
-                  {t('organisms.modals.ActivityPollModal.question')}
-                </FormLabel>
+                <FormLabel>{t('ActivityPollModal.question')}</FormLabel>
                 <EditorController
                   name="question"
-                  placeholder={t(
-                    'organisms.modals.ActivityPollModal.questionPlaceholder'
-                  )}
+                  placeholder={t('ActivityPollModal.questionPlaceholder')}
                   autoFocus
                   control={control}
                 />
               </FormControl>
 
               <Box>
-                <FormLabel>
-                  {t('organisms.modals.ActivityPollModal.choices')}
-                </FormLabel>
+                <FormLabel>{t('ActivityPollModal.choices')}</FormLabel>
                 <Stack spacing={2}>
                   {choicesFields.map((field, index) => (
                     <FormControl
@@ -276,10 +266,9 @@ export default function ActivityPollModal({
                       <InputGroup>
                         <Input
                           {...register(`choices.${index}.title`)}
-                          placeholder={t(
-                            'organisms.modals.ActivityPollModal.choicePlacholder',
-                            { n: index + 1 }
-                          )}
+                          placeholder={t('ActivityPollModal.choicePlacholder', {
+                            n: index + 1,
+                          })}
                         />
                         {choicesFields.length > 2 ? (
                           <InputRightElement>
@@ -298,7 +287,7 @@ export default function ActivityPollModal({
                     leftIcon={<FiPlus />}
                     onClick={() => appendChoice({ title: '' })}
                   >
-                    {t('organisms.modals.ActivityPollModal.addChoice')}
+                    {t('ActivityPollModal.addChoice')}
                   </Button>
                 </Stack>
               </Box>
@@ -307,14 +296,14 @@ export default function ActivityPollModal({
                 <AccordionItem>
                   <AccordionButton>
                     <Text textAlign="left">
-                      {t('organisms.modals.ActivityPollModal.options')}
+                      {t('ActivityPollModal.options')}
                     </Text>
                     <AccordionIcon ml={2} />
                   </AccordionButton>
                   <AccordionPanel pb={4}>
                     <Stack spacing={1}>
                       <Checkbox {...register('multiple')}>
-                        {t('organisms.modals.ActivityPollModal.multiple')}
+                        {t('ActivityPollModal.multiple')}
                       </Checkbox>
                       {multiple && (
                         <Stack spacing={1} pl={6}>
@@ -325,9 +314,7 @@ export default function ActivityPollModal({
                                 setValue('minAnswers', minAnswers ? null : 2)
                               }
                             >
-                              {t(
-                                'organisms.modals.ActivityPollModal.minAnswers'
-                              )}
+                              {t('ActivityPollModal.minAnswers')}
                             </Checkbox>
                             {minAnswers && (
                               <NumberInputController
@@ -351,9 +338,7 @@ export default function ActivityPollModal({
                                 )
                               }
                             >
-                              {t(
-                                'organisms.modals.ActivityPollModal.maxAnswers'
-                              )}
+                              {t('ActivityPollModal.maxAnswers')}
                             </Checkbox>
                             {maxAnswers && (
                               <NumberInputController
@@ -377,7 +362,7 @@ export default function ActivityPollModal({
                                 )
                               }
                             >
-                              {t('organisms.modals.ActivityPollModal.points')}
+                              {t('ActivityPollModal.points')}
                             </Checkbox>
                             {pointsPerUser && (
                               <NumberInputController
@@ -394,23 +379,21 @@ export default function ActivityPollModal({
 
                       {/*
                       <Checkbox {...register('canAddChoice')}>
-                        {t('organisms.modals.ActivityPollModal.canAddChoices')}
+                        {t('ActivityPollModal.canAddChoices')}
                       </Checkbox>
                       */}
                       <Checkbox {...register('anonymous')}>
-                        {t('organisms.modals.ActivityPollModal.anonymous')}
+                        {t('ActivityPollModal.anonymous')}
                       </Checkbox>
                       <Checkbox {...register('randomize')}>
-                        {t('organisms.modals.ActivityPollModal.randomize')}
+                        {t('ActivityPollModal.randomize')}
                       </Checkbox>
                       <Checkbox {...register('hideUntilEnd')}>
-                        {t('organisms.modals.ActivityPollModal.hideUntilEnd')}
+                        {t('ActivityPollModal.hideUntilEnd')}
                       </Checkbox>
 
                       <Checkbox {...register('endWhenAllVoted')}>
-                        {t(
-                          'organisms.modals.ActivityPollModal.endWhenAllVoted'
-                        )}
+                        {t('ActivityPollModal.endWhenAllVoted')}
                       </Checkbox>
                       <Checkbox
                         isChecked={!!endDate}
@@ -418,7 +401,7 @@ export default function ActivityPollModal({
                           setValue('endDate', endDate ? null : defaultEndDate)
                         }
                       >
-                        {t('organisms.modals.ActivityPollModal.endDate')}
+                        {t('ActivityPollModal.endDate')}
                       </Checkbox>
                       {endDate ? (
                         <Box pl={6}>

@@ -60,13 +60,13 @@ export default function CircleMemberDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {t('organisms.modals.CircleMemberDeleteModal.heading')}
+            {t('CircleMemberDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.CircleMemberDeleteModal.info"
+                i18nKey="CircleMemberDeleteModal.info"
                 values={{ role: circle?.role.name, member: member?.name }}
                 components={{ b: <strong /> }}
               />

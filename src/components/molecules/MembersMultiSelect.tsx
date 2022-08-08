@@ -75,8 +75,8 @@ export default function MembersMultiSelect({
           onSelect={onAdd}
         >
           {max === 1
-            ? t(`molecules.MembersMultiSelect.choose`)
-            : t(`molecules.MembersMultiSelect.add`)}
+            ? t(`MembersMultiSelect.choose`)
+            : t(`MembersMultiSelect.add`)}
         </MemberSearchButton>
       ) : null}
     </VStack>

@@ -147,8 +147,8 @@ export default function DecisionEditModal({
           <ModalHeader>
             {t(
               decision
-                ? 'organisms.modals.DecisionEditModal.headingEdit'
-                : 'organisms.modals.DecisionEditModal.headingCreate'
+                ? 'DecisionEditModal.headingEdit'
+                : 'DecisionEditModal.headingCreate'
             )}
           </ModalHeader>
           <ModalCloseButton />
@@ -156,22 +156,16 @@ export default function DecisionEditModal({
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>
-                  {t('organisms.modals.DecisionEditModal.title')}
-                </FormLabel>
+                <FormLabel>{t('DecisionEditModal.title')}</FormLabel>
                 <Input
                   {...register('title')}
-                  placeholder={t(
-                    'organisms.modals.DecisionEditModal.titlePlaceholder'
-                  )}
+                  placeholder={t('DecisionEditModal.titlePlaceholder')}
                   autoFocus
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>
-                  {t('organisms.modals.DecisionEditModal.circle')}
-                </FormLabel>
+                <FormLabel>{t('DecisionEditModal.circle')}</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -185,14 +179,10 @@ export default function DecisionEditModal({
               </FormControl>
 
               <FormControl isInvalid={!!errors.description}>
-                <FormLabel>
-                  {t('organisms.modals.DecisionEditModal.description')}
-                </FormLabel>
+                <FormLabel>{t('DecisionEditModal.description')}</FormLabel>
                 <EditorController
                   name="description"
-                  placeholder={t(
-                    'organisms.modals.DecisionEditModal.descriptionPlaceholder'
-                  )}
+                  placeholder={t('DecisionEditModal.descriptionPlaceholder')}
                   control={control}
                 />
               </FormControl>

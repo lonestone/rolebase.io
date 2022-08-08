@@ -70,7 +70,7 @@ export default function ConfirmResetPasswordPage() {
 
     // Show toast
     toast({
-      title: t('pages.ConfirmResetPasswordPage.toastSuccess'),
+      title: t('ConfirmResetPasswordPage.toastSuccess'),
       status: 'success',
       duration: 5000,
       isClosable: true,
@@ -79,18 +79,18 @@ export default function ConfirmResetPasswordPage() {
 
   return (
     <Container maxW="sm" mt="60px">
-      <Title>{t('pages.ConfirmResetPasswordPage.heading')}</Title>
+      <Title>{t('ConfirmResetPasswordPage.heading')}</Title>
 
       <Heading size="md" mb={5}>
-        {t('pages.ConfirmResetPasswordPage.heading')}
+        {t('ConfirmResetPasswordPage.heading')}
       </Heading>
 
       {done ? (
         <Alert status="success">
           <AlertIcon />
           <AlertDescription>
-            <p>{t('pages.ConfirmResetPasswordPage.success1')}</p>
-            <p>{t('pages.ConfirmResetPasswordPage.success2')}</p>
+            <p>{t('ConfirmResetPasswordPage.success1')}</p>
+            <p>{t('ConfirmResetPasswordPage.success2')}</p>
           </AlertDescription>
         </Alert>
       ) : (
@@ -99,15 +99,11 @@ export default function ConfirmResetPasswordPage() {
             <PasswordEmailInputDummy />
 
             <FormControl isInvalid={!!errors.password}>
-              <FormLabel>
-                {t('pages.ConfirmResetPasswordPage.password')}
-              </FormLabel>
+              <FormLabel>{t('ConfirmResetPasswordPage.password')}</FormLabel>
               <PasswordInput
                 {...register('password')}
                 required
-                placeholder={t(
-                  'pages.ConfirmResetPasswordPage.passwordPlaceholder'
-                )}
+                placeholder={t('ConfirmResetPasswordPage.passwordPlaceholder')}
                 autoComplete="new-password"
               />
             </FormControl>

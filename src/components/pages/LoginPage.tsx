@@ -35,7 +35,7 @@ export default function LoginPage() {
       <Loading active={loading} center />
       <Container maxW="xs" mt="60px" display={loading ? 'none' : ''}>
         <Heading size="md" mb={5}>
-          {t('pages.LoginPage.heading')}
+          {t('LoginPage.heading')}
         </Heading>
 
         {/*
@@ -54,11 +54,11 @@ export default function LoginPage() {
         <Center mt={4}>
           {isLoginRoute ? (
             <Link to="/signup" as={ReachLink}>
-              {t('pages.LoginPage.signup')}
+              {t('LoginPage.signup')}
             </Link>
           ) : (
             <Link onClick={() => setSignupPage(true)}>
-              {t('pages.LoginPage.signup')}
+              {t('LoginPage.signup')}
             </Link>
           )}
         </Center>

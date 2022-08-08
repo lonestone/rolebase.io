@@ -92,7 +92,7 @@ export default function OnboardingCircleMembersModal({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {t('organisms.modals.OnboardingCircleMembersModal.heading', {
+          {t('OnboardingCircleMembersModal.heading', {
             role: circle.role.name,
           })}
         </ModalHeader>
@@ -101,14 +101,14 @@ export default function OnboardingCircleMembersModal({
           <Stack spacing={7} align="stretch">
             <FormControl>
               <FormLabel>
-                {t('organisms.modals.OnboardingCircleMembersModal.leader', {
+                {t('OnboardingCircleMembersModal.leader', {
                   role: circle.role.name,
                 })}
               </FormLabel>
               <MemberSearchInput
                 value={leaderId}
                 placeholder={t(
-                  'organisms.modals.OnboardingCircleMembersModal.memberPlaceholder'
+                  'OnboardingCircleMembersModal.memberPlaceholder'
                 )}
                 onChange={setLeaderId}
               />
@@ -121,15 +121,12 @@ export default function OnboardingCircleMembersModal({
               >
                 <Stack spacing={1}>
                   <Radio value="1">
-                    {t(
-                      'organisms.modals.OnboardingCircleMembersModal.choiceSingle',
-                      { member: leaderMember?.name }
-                    )}
+                    {t('OnboardingCircleMembersModal.choiceSingle', {
+                      member: leaderMember?.name,
+                    })}
                   </Radio>
                   <Radio value="0">
-                    {t(
-                      'organisms.modals.OnboardingCircleMembersModal.choiceCircle'
-                    )}
+                    {t('OnboardingCircleMembersModal.choiceCircle')}
                   </Radio>
                 </Stack>
               </RadioGroup>

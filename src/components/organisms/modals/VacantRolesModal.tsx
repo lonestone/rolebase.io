@@ -38,14 +38,12 @@ export default function VacantRolesModal(modalProps: UseModalProps) {
     <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {t('organisms.modals.VacantRolesModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('VacantRolesModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={5}>
           {!vacantCircles || vacantCircles.length === 0 ? (
-            <>{t('organisms.modals.VacantRolesModal.empty')}</>
+            <>{t('VacantRolesModal.empty')}</>
           ) : (
             <UnorderedList>
               {vacantCircles.map((circle) => (

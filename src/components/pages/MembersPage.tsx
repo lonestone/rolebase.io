@@ -73,18 +73,18 @@ export default function MembersPage() {
 
   return (
     <Container maxW="xl" py={10}>
-      <Title>{t('pages.MembersPage.heading')}</Title>
+      <Title>{t('MembersPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          {t('pages.MembersPage.heading')}
+          {t('MembersPage.heading')}
         </Heading>
         <Spacer />
 
         <InputGroup size="sm" w="auto">
           <Input
             type="text"
-            placeholder={t('pages.MembersPage.searchPlaceholder')}
+            placeholder={t('MembersPage.searchPlaceholder')}
             borderRadius="md"
             w="200px"
             value={searchText}
@@ -107,7 +107,7 @@ export default function MembersPage() {
               leftIcon={<FiMail />}
               onClick={onInviteOpen}
             >
-              {t('pages.MembersPage.invite')}
+              {t('MembersPage.invite')}
             </Button>
             <Button
               size="sm"
@@ -130,30 +130,24 @@ export default function MembersPage() {
             {member.userId ? (
               <>
                 {member.role === ClaimRole.Readonly && (
-                  <Tag colorScheme="gray">
-                    {t('pages.MembersPage.tags.readonly')}
-                  </Tag>
+                  <Tag colorScheme="gray">{t('MembersPage.tags.readonly')}</Tag>
                 )}
                 {member.role === ClaimRole.Member && (
-                  <Tag colorScheme="blue">
-                    {t('pages.MembersPage.tags.member')}
-                  </Tag>
+                  <Tag colorScheme="blue">{t('MembersPage.tags.member')}</Tag>
                 )}
                 {member.role === ClaimRole.Admin && (
-                  <Tag colorScheme="red">
-                    {t('pages.MembersPage.tags.admin')}
-                  </Tag>
+                  <Tag colorScheme="red">{t('MembersPage.tags.admin')}</Tag>
                 )}
               </>
             ) : (
               <>
                 {member.inviteDate ? (
                   <Tag colorScheme="transparent">
-                    {t('pages.MembersPage.tags.invited')}
+                    {t('MembersPage.tags.invited')}
                   </Tag>
                 ) : (
                   <Tag colorScheme="transparent" color="gray.500">
-                    {t('pages.MembersPage.tags.notInvited')}
+                    {t('MembersPage.tags.notInvited')}
                   </Tag>
                 )}
               </>

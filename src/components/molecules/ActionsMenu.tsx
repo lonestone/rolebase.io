@@ -35,7 +35,7 @@ export default function ActionsMenu({
   return (
     <Menu>
       <MenuButton
-        aria-label={t('molecules.ActionsMenu.label')}
+        aria-label={t('ActionsMenu.label')}
         as={IconButton}
         icon={<FiMoreVertical />}
         variant="ghost"
@@ -51,22 +51,22 @@ export default function ActionsMenu({
       >
         {onEdit && (
           <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
-            {t('molecules.ActionsMenu.edit')}
+            {t('ActionsMenu.edit')}
           </MenuItem>
         )}
         {onMove && (
           <MenuItem icon={<FiMove />} onClick={onMove}>
-            {t('molecules.ActionsMenu.move')}
+            {t('ActionsMenu.move')}
           </MenuItem>
         )}
         {onDuplicate && (
           <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
-            {t('molecules.ActionsMenu.duplicate')}
+            {t('ActionsMenu.duplicate')}
           </MenuItem>
         )}
         {onDelete && (
           <MenuItem icon={<FiTrash2 />} onClick={onDelete}>
-            {t('molecules.ActionsMenu.delete')}
+            {t('ActionsMenu.delete')}
           </MenuItem>
         )}
       </MenuList>

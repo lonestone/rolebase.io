@@ -10,16 +10,16 @@ const ParticipantsScopeSelect = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <Select ref={ref} {...selectProps}>
         <option value={MembersScope.Organization}>
-          {t('atoms.ParticipantsScopeSelect.Organization')}
+          {t('ParticipantsScopeSelect.Organization')}
         </option>
         <option value={MembersScope.CircleLeaders}>
-          {t('atoms.ParticipantsScopeSelect.CircleLeaders')}
+          {t('ParticipantsScopeSelect.CircleLeaders')}
         </option>
         <option value={MembersScope.CircleMembers}>
-          {t('atoms.ParticipantsScopeSelect.CircleMembers')}
+          {t('ParticipantsScopeSelect.CircleMembers')}
         </option>
         <option value={MembersScope.None}>
-          {t('atoms.ParticipantsScopeSelect.None')}
+          {t('ParticipantsScopeSelect.None')}
         </option>
       </Select>
     )

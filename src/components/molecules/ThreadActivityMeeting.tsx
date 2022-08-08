@@ -30,7 +30,7 @@ export default function ThreadActivityMeeting({ activity }: Props) {
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>
-      <Text color="gray.500">{t(`molecules.ThreadActivityMeeting.text`)}</Text>
+      <Text color="gray.500">{t(`ThreadActivityMeeting.text`)}</Text>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
       {meeting && <MeetingItem meeting={meeting} showDate showTime showIcon />}

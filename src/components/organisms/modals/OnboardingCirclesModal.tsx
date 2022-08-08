@@ -139,16 +139,14 @@ export default function OnboardingCirclesModal({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {t('organisms.modals.OnboardingCirclesModal.heading', {
+          {t('OnboardingCirclesModal.heading', {
             org: org?.name,
           })}
         </ModalHeader>
 
         <ModalBody>
           <FormControl>
-            <FormLabel>
-              {t('organisms.modals.OnboardingCirclesModal.info')}
-            </FormLabel>
+            <FormLabel>{t('OnboardingCirclesModal.info')}</FormLabel>
             <Stack spacing={2} mt={6}>
               {items.map((name, index) => (
                 <InputGroup key={index}>
@@ -172,7 +170,7 @@ export default function OnboardingCirclesModal({
             </Stack>
 
             <FormHelperText mt={2}>
-              {t('organisms.modals.OnboardingCirclesModal.help')}
+              {t('OnboardingCirclesModal.help')}
             </FormHelperText>
           </FormControl>
         </ModalBody>

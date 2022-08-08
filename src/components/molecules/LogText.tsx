@@ -17,7 +17,7 @@ export default function LogText({ log }: Props) {
   const memberId = log.cancelMemberId || log.memberId
   const memberName = log.cancelMemberName || log.memberName
   const type = log.display.type
-  const i18nPrefix = 'molecules.LogText'
+  const i18nPrefix = 'LogText'
 
   const author = <MemberLink id={memberId} name={memberName} />
 

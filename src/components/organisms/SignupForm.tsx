@@ -49,34 +49,34 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={5}>
         <FormControl isInvalid={!!errors.name}>
-          <FormLabel>{t('organisms.SignupForm.name')}</FormLabel>
+          <FormLabel>{t('SignupForm.name')}</FormLabel>
           <Input
             {...register('name')}
             type="name"
             required
-            placeholder={t('organisms.SignupForm.namePlaceholder')}
+            placeholder={t('SignupForm.namePlaceholder')}
             autoComplete="name"
             autoFocus
           />
         </FormControl>
 
         <FormControl isInvalid={!!errors.email}>
-          <FormLabel>{t('organisms.SignupForm.email')}</FormLabel>
+          <FormLabel>{t('SignupForm.email')}</FormLabel>
           <Input
             {...register('email')}
             type="email"
             required
-            placeholder={t('organisms.SignupForm.emailPlaceholder')}
+            placeholder={t('SignupForm.emailPlaceholder')}
             autoComplete="email"
           />
         </FormControl>
 
         <FormControl isInvalid={!!errors.password}>
-          <FormLabel>{t('organisms.SignupForm.password')}</FormLabel>
+          <FormLabel>{t('SignupForm.password')}</FormLabel>
           <PasswordInput
             {...register('password')}
             required
-            placeholder={t('organisms.SignupForm.passwordPlaceholder')}
+            placeholder={t('SignupForm.passwordPlaceholder')}
             autoComplete="new-password"
           />
         </FormControl>
@@ -84,7 +84,7 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
         <PasswordConfirmInputDummy />
 
         <Button colorScheme="blue" type="submit" isDisabled={loading}>
-          {t('organisms.SignupForm.signup')}
+          {t('SignupForm.signup')}
           {loading && <Spinner ml={2} />}
         </Button>
       </VStack>

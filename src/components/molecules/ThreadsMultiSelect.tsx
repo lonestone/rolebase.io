@@ -91,8 +91,8 @@ export default function ThreadsMultiSelect({
             onSelect={handleAdd}
           >
             {max === 1
-              ? t('molecules.ThreadsMultiSelect.choose')
-              : t('molecules.ThreadsMultiSelect.add')}
+              ? t('ThreadsMultiSelect.choose')
+              : t('ThreadsMultiSelect.add')}
           </ThreadSearchButton>
         </Box>
       ) : null}

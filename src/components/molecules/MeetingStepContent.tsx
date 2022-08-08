@@ -88,7 +88,7 @@ export default function MeetingStepContent({
         docId={`meeting${meetingId}-step${step.id}`}
         value={step.notes}
         updates={step.notesUpdates}
-        placeholder={t('molecules.MeetingStepContent.notesPlaceholder')}
+        placeholder={t('MeetingStepContent.notesPlaceholder')}
         readOnly={!editable}
         saveDelay={4000}
         onSave={handleNotesChange}

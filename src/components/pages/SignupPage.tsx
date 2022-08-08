@@ -26,10 +26,10 @@ export default function SignupPage({ goToLoginPage }: Props) {
 
   return (
     <Container maxW="sm" mt="60px">
-      <Title>{t('pages.SignupPage.heading')}</Title>
+      <Title>{t('SignupPage.heading')}</Title>
 
       <Heading size="md" mb={5}>
-        {t('pages.SignupPage.heading')}
+        {t('SignupPage.heading')}
       </Heading>
 
       {/*
@@ -46,10 +46,10 @@ export default function SignupPage({ goToLoginPage }: Props) {
 
       <Center mt={4}>
         {goToLoginPage ? (
-          <Link onClick={goToLoginPage}>{t('pages.SignupPage.signin')}</Link>
+          <Link onClick={goToLoginPage}>{t('SignupPage.signin')}</Link>
         ) : (
           <Link to="/login" as={ReachLink}>
-            {t('pages.SignupPage.signin')}
+            {t('SignupPage.signin')}
           </Link>
         )}
       </Center>

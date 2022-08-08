@@ -54,14 +54,14 @@ export default function CircleMeetings({ circleId }: Props) {
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        {t('molecules.CircleMeetings.create')}
+        {t('CircleMeetings.create')}
       </Button>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       {meetings?.length === 0 && (
-        <Text fontStyle="italic">{t('molecules.CircleMeetings.empty')}</Text>
+        <Text fontStyle="italic">{t('CircleMeetings.empty')}</Text>
       )}
 
       {meetings?.map((meeting, i) => {

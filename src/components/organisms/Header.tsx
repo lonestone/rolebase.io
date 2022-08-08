@@ -48,23 +48,23 @@ export default function Header() {
               to: rootPath,
               exact: true,
               icon: <FiDisc />,
-              label: t('organisms.Header.roles'),
+              label: t('Header.roles'),
             },
             {
               to: `${rootPath}threads`,
               icon: <FiMessageSquare />,
-              label: t('organisms.Header.threads'),
+              label: t('Header.threads'),
             },
             {
               to: `${rootPath}meetings`,
               icon: <FiCalendar />,
-              label: t('organisms.Header.meetings'),
+              label: t('Header.meetings'),
               alert: !!currentMember?.meetingId,
             },
             {
               to: `${rootPath}tasks?member=${currentMember?.id}`,
               icon: <FiCheckSquare />,
-              label: t('organisms.Header.tasks'),
+              label: t('Header.tasks'),
             },
           ]
         : [],
@@ -125,7 +125,7 @@ export default function Header() {
         </>
       ) : window.location.pathname !== '/' ? (
         <HeaderButton to="/" exact icon={<FiArrowLeft />}>
-          {t('organisms.Header.orgs')}
+          {t('Header.orgs')}
         </HeaderButton>
       ) : null}
 
@@ -133,9 +133,9 @@ export default function Header() {
 
       {org && <HeaderSearch />}
 
-      <Tooltip label={t('organisms.Header.help')} hasArrow>
+      <Tooltip label={t('Header.help')} hasArrow>
         <IconButton
-          aria-label={t('organisms.Header.help')}
+          aria-label={t('Header.help')}
           icon={<FaQuestion />}
           variant="ghost"
           size="sm"

@@ -85,9 +85,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   )
 
   if (memberCircles.length === 0) {
-    return (
-      <Text fontStyle="italic">{t(`molecules.MemberRoles.emptyRoles`)}</Text>
-    )
+    return <Text fontStyle="italic">{t(`MemberRoles.emptyRoles`)}</Text>
   }
   return (
     <>
@@ -111,7 +109,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
 
       <Alert status="info" mt={5}>
         <AlertIcon />
-        {t(`molecules.MemberRoles.totalAllocatedTime`)}{' '}
+        {t(`MemberRoles.totalAllocatedTime`)}{' '}
         {Math.floor(totalWorkedMin / 6) / 10}h /{' '}
         {Math.floor(maxWorkedMin / 6) / 10}h
       </Alert>
@@ -119,7 +117,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
       {totalWorkedMin > maxWorkedMin && (
         <Alert status="warning" mt={2}>
           <AlertIcon />
-          {t(`molecules.MemberRoles.alertTooMuchTime`)}
+          {t(`MemberRoles.alertTooMuchTime`)}
         </Alert>
       )}
     </>

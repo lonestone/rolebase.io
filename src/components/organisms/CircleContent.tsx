@@ -68,7 +68,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
       <>
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>{t('organisms.CircleContent.notFound')}</AlertTitle>
+          <AlertTitle>{t('CircleContent.notFound')}</AlertTitle>
         </Alert>
         <ModalCloseButton />
       </>
@@ -104,7 +104,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             {({ isExpanded }) => (
               <>
                 <AccordionIconButton icon={<FiDisc />}>
-                  {t('organisms.CircleContent.tabRole')}
+                  {t('CircleContent.tabRole')}
                 </AccordionIconButton>
                 <AccordionPanel px={6} py={5}>
                   {isExpanded && (
@@ -122,7 +122,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             {({ isExpanded }) => (
               <>
                 <AccordionIconButton icon={<FiMessageSquare />}>
-                  {t('organisms.CircleContent.tabThreads')}
+                  {t('CircleContent.tabThreads')}
                 </AccordionIconButton>
                 <AccordionPanel px={6} py={5}>
                   {isExpanded && <CircleThreads circleId={id} />}
@@ -135,7 +135,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             {({ isExpanded }) => (
               <>
                 <AccordionIconButton icon={<FiCalendar />}>
-                  {t('organisms.CircleContent.tabMeetings')}
+                  {t('CircleContent.tabMeetings')}
                 </AccordionIconButton>
                 <AccordionPanel px={6} py={5}>
                   {isExpanded && <CircleMeetings circleId={id} />}
@@ -148,7 +148,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             {({ isExpanded }) => (
               <>
                 <AccordionIconButton icon={<FiCheckSquare />}>
-                  {t('organisms.CircleContent.tabTasks')}
+                  {t('CircleContent.tabTasks')}
                 </AccordionIconButton>
                 <AccordionPanel px={6} py={5}>
                   {isExpanded && <CircleTasks circleId={id} />}
@@ -161,7 +161,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
             {({ isExpanded }) => (
               <>
                 <AccordionIconButton icon={<FiArrowRightCircle />}>
-                  {t('organisms.CircleContent.tabDecisions')}
+                  {t('CircleContent.tabDecisions')}
                 </AccordionIconButton>
                 <AccordionPanel px={6} py={5}>
                   {isExpanded && <CircleDecisions circleId={id} />}

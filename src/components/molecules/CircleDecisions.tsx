@@ -41,14 +41,14 @@ export default function CircleDecisions({ circleId }: Props) {
   return (
     <>
       <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={editModal.onOpen}>
-        {t('molecules.CircleDecisions.create')}
+        {t('CircleDecisions.create')}
       </Button>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       {decisions?.length === 0 && (
-        <Text fontStyle="italic">{t('molecules.CircleDecisions.empty')}</Text>
+        <Text fontStyle="italic">{t('CircleDecisions.empty')}</Text>
       )}
 
       {decisions?.map((decision) => (

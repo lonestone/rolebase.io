@@ -14,7 +14,7 @@ export default function LogCancelText({ log }: Props) {
   return log.cancelLogId ? (
     <>
       <MemberLink id={log.memberId} name={log.memberName} />{' '}
-      {t('molecules.LogCancelText.canceled')}
+      {t('LogCancelText.canceled')}
       <br />
       <FiCornerDownRight
         style={{ display: 'inline', margin: '3px 5px 0 7px' }}

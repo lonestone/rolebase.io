@@ -94,8 +94,8 @@ export default function MeetingTemplateModal({
           <ModalHeader>
             {t(
               meetingTemplate
-                ? 'organisms.modals.MeetingTemplateModal.headingEdit'
-                : 'organisms.modals.MeetingTemplateModal.headingCreate'
+                ? 'MeetingTemplateModal.headingEdit'
+                : 'MeetingTemplateModal.headingCreate'
             )}
           </ModalHeader>
           <ModalCloseButton />
@@ -103,22 +103,16 @@ export default function MeetingTemplateModal({
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>
-                  {t('organisms.modals.MeetingTemplateModal.title')}
-                </FormLabel>
+                <FormLabel>{t('MeetingTemplateModal.title')}</FormLabel>
                 <Input
                   {...register('title')}
-                  placeholder={t(
-                    'organisms.modals.MeetingTemplateModal.titlePlaceholder'
-                  )}
+                  placeholder={t('MeetingTemplateModal.titlePlaceholder')}
                   autoFocus
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel>
-                  {t('organisms.modals.MeetingTemplateModal.steps')}
-                </FormLabel>
+                <FormLabel>{t('MeetingTemplateModal.steps')}</FormLabel>
                 <MeetingStepsConfigController
                   control={control as any}
                   errors={errors}

@@ -66,11 +66,11 @@ export default function TasksPage() {
 
   return (
     <Column maxW="3xl" py={10}>
-      <Title>{t('pages.TasksPage.heading')}</Title>
+      <Title>{t('TasksPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          {t('pages.TasksPage.heading')}
+          {t('TasksPage.heading')}
         </Heading>
 
         {status && (
@@ -88,7 +88,7 @@ export default function TasksPage() {
           leftIcon={<FiPlus />}
           onClick={onCreateOpen}
         >
-          {t('pages.TasksPage.create')}
+          {t('TasksPage.create')}
         </Button>
       </Flex>
 

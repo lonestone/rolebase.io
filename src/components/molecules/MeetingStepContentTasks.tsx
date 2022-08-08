@@ -81,7 +81,7 @@ export default function MeetingStepContentTasks({
           />
 
           <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateOpen}>
-            {t('molecules.MeetingStepContentTasks.create')}
+            {t('MeetingStepContentTasks.create')}
           </Button>
         </>
       )}

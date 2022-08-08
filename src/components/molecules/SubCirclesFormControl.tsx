@@ -127,7 +127,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
 
   return (
     <FormControl>
-      <FormLabel>{t('molecules.SubCirclesFormControl.roles')}</FormLabel>
+      <FormLabel>{t('SubCirclesFormControl.roles')}</FormLabel>
       <VStack spacing={2} align="start">
         {childrenAndRoles?.map((circle) => (
           <CircleWithLeaderItem
@@ -147,7 +147,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
             onSelect={handleAddRole}
             onCreate={handleCreateRole}
           >
-            {t('molecules.SubCirclesFormControl.addRole')}
+            {t('SubCirclesFormControl.addRole')}
           </RoleSearchButton>
         </StackItem>
       </VStack>

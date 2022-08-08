@@ -95,7 +95,7 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
         <ModalContent>
           <form onSubmit={onSubmit}>
             <ModalHeader>
-              {t('organisms.modals.OrgEditModal.heading', { org: org.name })}
+              {t('OrgEditModal.heading', { org: org.name })}
             </ModalHeader>
             <ModalCloseButton />
 
@@ -111,9 +111,7 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>
-                    {t('organisms.modals.OrgEditModal.slug')}
-                  </FormLabel>
+                  <FormLabel>{t('OrgEditModal.slug')}</FormLabel>
                   <Flex>
                     <InputGroup>
                       <Input value={url} isReadOnly />
@@ -142,9 +140,7 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.defaultWorkedMinPerWeek}>
-                  <FormLabel>
-                    {t('organisms.modals.OrgEditModal.workingTime')}
-                  </FormLabel>
+                  <FormLabel>{t('OrgEditModal.workingTime')}</FormLabel>
                   <Controller
                     name="defaultWorkedMinPerWeek"
                     control={control}

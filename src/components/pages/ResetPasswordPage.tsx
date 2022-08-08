@@ -66,29 +66,29 @@ export default function ResetPasswordPage() {
 
   return (
     <Container maxW="sm" mt="60px">
-      <Title>{t('pages.ResetPasswordPage.heading')}</Title>
+      <Title>{t('ResetPasswordPage.heading')}</Title>
 
       <Heading size="md" mb={5}>
-        {t('pages.ResetPasswordPage.heading')}
+        {t('ResetPasswordPage.heading')}
       </Heading>
 
       {done ? (
         <Alert status="success">
           <AlertIcon />
           <AlertDescription>
-            <p>{t('pages.ResetPasswordPage.done1')}</p>
-            <p>{t('pages.ResetPasswordPage.done2')}</p>
+            <p>{t('ResetPasswordPage.done1')}</p>
+            <p>{t('ResetPasswordPage.done2')}</p>
           </AlertDescription>
         </Alert>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={5}>
             <FormControl isInvalid={!!errors.email}>
-              <FormLabel>{t('pages.ResetPasswordPage.email')}</FormLabel>
+              <FormLabel>{t('ResetPasswordPage.email')}</FormLabel>
               <Input
                 {...register('email')}
                 type="email"
-                placeholder={t('pages.ResetPasswordPage.emailPlaceholder')}
+                placeholder={t('ResetPasswordPage.emailPlaceholder')}
                 autoComplete="email"
                 autoFocus
                 required
@@ -96,7 +96,7 @@ export default function ResetPasswordPage() {
             </FormControl>
 
             <Button colorScheme="blue" type="submit" isDisabled={loading}>
-              {t('pages.ResetPasswordPage.reset')}
+              {t('ResetPasswordPage.reset')}
               {loading && <Spinner ml={2} />}
             </Button>
           </VStack>
@@ -105,7 +105,7 @@ export default function ResetPasswordPage() {
 
           <Center mt={4}>
             <Link to="/login" as={ReachLink}>
-              {t('pages.ResetPasswordPage.signin')}
+              {t('ResetPasswordPage.signin')}
             </Link>
           </Center>
         </form>

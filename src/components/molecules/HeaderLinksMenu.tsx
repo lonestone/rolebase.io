@@ -106,27 +106,27 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
 
         {isAdmin && (
           <MenuItem icon={<FiSettings />} onClick={() => handleOpenEdit(orgId)}>
-            {t('molecules.HeaderLinksMenu.settings')}
+            {t('HeaderLinksMenu.settings')}
           </MenuItem>
         )}
 
         <MenuItem as={Link} to={membersPath} icon={<FiUsers />}>
-          {t('molecules.HeaderLinksMenu.members')}
+          {t('HeaderLinksMenu.members')}
         </MenuItem>
         <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
-          {t('molecules.HeaderLinksMenu.baseRoles')}
+          {t('HeaderLinksMenu.baseRoles')}
         </MenuItem>
         <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
-          {t('molecules.HeaderLinksMenu.vacantRoles')}
+          {t('HeaderLinksMenu.vacantRoles')}
         </MenuItem>
         {isAdmin && (
           <MenuItem as={Link} to={logsPath} icon={<FiClock />}>
-            {t('molecules.HeaderLinksMenu.logs')}
+            {t('HeaderLinksMenu.logs')}
           </MenuItem>
         )}
         {isSuperAdmin && (
           <MenuItem as={Link} to={`/admin`} icon={<FiActivity />}>
-            {t('molecules.HeaderLinksMenu.superAdmin')}
+            {t('HeaderLinksMenu.superAdmin')}
           </MenuItem>
         )}
       </MenuList>

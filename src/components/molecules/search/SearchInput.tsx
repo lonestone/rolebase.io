@@ -152,8 +152,7 @@ export default function SearchInput({
         {...inputMoreProps}
         {...inputProps}
         placeholder={
-          inputMoreProps?.placeholder ||
-          t('molecules.search.SearchInput.defaultPlaceholder')
+          inputMoreProps?.placeholder || t('SearchInput.defaultPlaceholder')
         }
       />
 

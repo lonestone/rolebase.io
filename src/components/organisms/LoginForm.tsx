@@ -48,27 +48,27 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Title>{t('organisms.LoginForm.heading')}</Title>
+      <Title>{t('LoginForm.heading')}</Title>
 
       <VStack spacing={5}>
         <FormControl isInvalid={!!errors.email}>
-          <FormLabel>{t('organisms.LoginForm.email')}</FormLabel>
+          <FormLabel>{t('LoginForm.email')}</FormLabel>
           <Input
             {...register('email')}
             type="email"
             required
-            placeholder={t('organisms.LoginForm.emailPlaceholder')}
+            placeholder={t('LoginForm.emailPlaceholder')}
             autoComplete="email"
             autoFocus
           />
         </FormControl>
 
         <FormControl isInvalid={!!errors.password}>
-          <FormLabel>{t('organisms.LoginForm.password')}</FormLabel>
+          <FormLabel>{t('LoginForm.password')}</FormLabel>
           <PasswordInput
             {...register('password')}
             required
-            placeholder={t('organisms.LoginForm.passwordPlaceholder')}
+            placeholder={t('LoginForm.passwordPlaceholder')}
             autoComplete="password"
           />
           <Link
@@ -77,12 +77,12 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
             fontSize="sm"
             color="gray.500"
           >
-            {t('organisms.LoginForm.resetPassword')}
+            {t('LoginForm.resetPassword')}
           </Link>
         </FormControl>
 
         <Button colorScheme="blue" type="submit">
-          {t('organisms.LoginForm.submit')}
+          {t('LoginForm.submit')}
         </Button>
       </VStack>
     </form>

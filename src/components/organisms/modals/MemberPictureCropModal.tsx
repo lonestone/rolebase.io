@@ -81,7 +81,7 @@ export default function MemberPictureCropModal({
 
       modalProps.onClose()
       toast({
-        title: t('organisms.modals.MemberPictureCropModal.toastSuccess'),
+        title: t('MemberPictureCropModal.toastSuccess'),
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -101,9 +101,7 @@ export default function MemberPictureCropModal({
     <Modal size="xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {t('organisms.modals.MemberPictureCropModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('MemberPictureCropModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>

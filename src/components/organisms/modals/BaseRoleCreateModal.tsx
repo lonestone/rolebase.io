@@ -79,9 +79,7 @@ export default function BaseRoleCreateModal({
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>
-            {t('organisms.modals.BaseRoleCreateModal.heading')}
-          </ModalHeader>
+          <ModalHeader>{t('BaseRoleCreateModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>

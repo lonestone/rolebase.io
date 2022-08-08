@@ -31,7 +31,7 @@ export default function SuperAdminPage() {
       <TextErrors errors={[error]} />
 
       <Heading size="md" mb={10}>
-        {t('pages.SuperAdminPage.heading')}
+        {t('SuperAdminPage.heading')}
       </Heading>
 
       <Heading size="sm" mb={2}>

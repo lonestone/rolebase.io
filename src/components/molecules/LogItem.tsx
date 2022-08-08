@@ -50,9 +50,9 @@ export default function LogItem({ log, onCancel }: Props) {
       <Spacer />
 
       {!log.canceled && (
-        <Tooltip label={t('molecules.LogItem.cancel')} placement="top" hasArrow>
+        <Tooltip label={t('LogItem.cancel')} placement="top" hasArrow>
           <IconButton
-            aria-label={t('molecules.LogItem.cancel')}
+            aria-label={t('LogItem.cancel')}
             size="sm"
             variant="ghost"
             icon={<FiRotateCcw />}

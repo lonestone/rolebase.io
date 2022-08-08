@@ -57,7 +57,7 @@ export default function MeetingStepSortableItem({
             {...control.register(`${fieldName}.${index}.title`)}
             flex={1}
             isInvalid={!!errors?.[fieldName]?.[index]}
-            placeholder={t(`molecules.MeetingStepSortableItem.placeholder`)}
+            placeholder={t(`MeetingStepSortableItem.placeholder`)}
           />
 
           {onRemove && (

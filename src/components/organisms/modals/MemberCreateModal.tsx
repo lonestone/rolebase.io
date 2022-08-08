@@ -67,9 +67,7 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={handleSubmit(handleCreate)}>
-          <ModalHeader>
-            {t('organisms.modals.MemberCreateModal.heading')}
-          </ModalHeader>
+          <ModalHeader>{t('MemberCreateModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>

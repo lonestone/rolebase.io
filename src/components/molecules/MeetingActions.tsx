@@ -29,11 +29,11 @@ export default function MeetingActions({ circleId }: Props) {
   return (
     <HStack justifyContent="center">
       <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateTaskOpen}>
-        {t('molecules.MeetingActions.createTask')}
+        {t('MeetingActions.createTask')}
       </Button>
 
       <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateThreadOpen}>
-        {t('molecules.MeetingActions.createThread')}
+        {t('MeetingActions.createThread')}
       </Button>
 
       {isCreateTaskOpen && (

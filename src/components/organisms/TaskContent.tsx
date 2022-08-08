@@ -212,11 +212,7 @@ export default function TaskContent({
 
       <Flex align="center" mb={5}>
         <Heading as="h1" size="md">
-          {t(
-            id
-              ? 'organisms.TaskContent.headingEdit'
-              : 'organisms.TaskContent.headingCreate'
-          )}
+          {t(id ? 'TaskContent.headingEdit' : 'TaskContent.headingCreate')}
         </Heading>
 
         {task && (
@@ -248,7 +244,7 @@ export default function TaskContent({
         <FormControl isInvalid={!!errors.title}>
           <Input
             {...register('title')}
-            placeholder={t('organisms.TaskContent.titlePlaceholder')}
+            placeholder={t('TaskContent.titlePlaceholder')}
             autoFocus
           />
         </FormControl>
@@ -257,7 +253,7 @@ export default function TaskContent({
 
         <Flex flexWrap="wrap">
           <FormControl isInvalid={!!errors.circleId} w="auto" mr={5}>
-            <FormLabel>{t('organisms.TaskContent.circle')}</FormLabel>
+            <FormLabel>{t('TaskContent.circle')}</FormLabel>
             <Controller
               name="circleId"
               control={control}
@@ -271,7 +267,7 @@ export default function TaskContent({
           </FormControl>
 
           <FormControl isInvalid={!!errors.memberId} w="auto">
-            <FormLabel>{t('organisms.TaskContent.memberId')}</FormLabel>
+            <FormLabel>{t('TaskContent.memberId')}</FormLabel>
             <Controller
               name="memberId"
               control={control}
@@ -288,7 +284,7 @@ export default function TaskContent({
 
         <FormControl>
           <Checkbox isChecked={!!dueDate} onChange={handleToggleDueDate}>
-            {t('organisms.TaskContent.dueDate')}
+            {t('TaskContent.dueDate')}
           </Checkbox>
           {dueDate ? (
             <Box pl={6}>
@@ -303,10 +299,10 @@ export default function TaskContent({
         </FormControl>
 
         <FormControl isInvalid={!!errors.description}>
-          <FormLabel>{t('organisms.TaskContent.description')}</FormLabel>
+          <FormLabel>{t('TaskContent.description')}</FormLabel>
           <EditorController
             name="description"
-            placeholder={t('organisms.TaskContent.notes')}
+            placeholder={t('TaskContent.notes')}
             control={control}
           />
         </FormControl>

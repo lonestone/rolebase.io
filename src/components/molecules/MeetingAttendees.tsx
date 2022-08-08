@@ -59,7 +59,7 @@ export default function MeetingAttendees({
   }
 
   const handleRemove = (memberId: string) => {
-    if (!confirm(t('molecules.MeetingAttendees.confirmRemove'))) return
+    if (!confirm(t('MeetingAttendees.confirmRemove'))) return
     updateMeeting(meetingId, {
       attendees: attendees.filter((a) => a.memberId !== memberId),
     })
@@ -87,12 +87,12 @@ export default function MeetingAttendees({
               borderRadius="md"
             >
               <Tooltip
-                label={t('molecules.MeetingAttendees.maybe')}
+                label={t('MeetingAttendees.maybe')}
                 placement="top"
                 hasArrow
               >
                 <IconButton
-                  aria-label={t('molecules.MeetingAttendees.maybe')}
+                  aria-label={t('MeetingAttendees.maybe')}
                   pt="2px"
                   icon={<>?</>}
                   colorScheme="gray"
@@ -104,12 +104,12 @@ export default function MeetingAttendees({
               </Tooltip>
 
               <Tooltip
-                label={t('molecules.MeetingAttendees.absent')}
+                label={t('MeetingAttendees.absent')}
                 placement="top"
                 hasArrow
               >
                 <IconButton
-                  aria-label={t('molecules.MeetingAttendees.absent')}
+                  aria-label={t('MeetingAttendees.absent')}
                   icon={<FiX />}
                   colorScheme="red"
                   cursor={editable ? 'pointer' : 'default'}
@@ -120,12 +120,12 @@ export default function MeetingAttendees({
               </Tooltip>
 
               <Tooltip
-                label={t('molecules.MeetingAttendees.present')}
+                label={t('MeetingAttendees.present')}
                 placement="top"
                 hasArrow
               >
                 <IconButton
-                  aria-label={t('molecules.MeetingAttendees.present')}
+                  aria-label={t('MeetingAttendees.present')}
                   icon={<FiCheck />}
                   colorScheme="green"
                   cursor={editable ? 'pointer' : 'default'}
@@ -169,7 +169,7 @@ export default function MeetingAttendees({
           leftIcon={<FiPlus />}
           onSelect={handleAdd}
         >
-          {t('molecules.MeetingAttendees.add')}
+          {t('MeetingAttendees.add')}
         </MemberSearchButton>
       )}
     </VStack>

@@ -77,8 +77,8 @@ export default function CircleMemberFormControl({ circleId }: Props) {
     <FormControl>
       <FormLabel>
         {role?.singleMember
-          ? t('molecules.CircleMemberFormControl.labelSingleMember')
-          : t('molecules.CircleMemberFormControl.labelMultiMembers')}
+          ? t('CircleMemberFormControl.labelSingleMember')
+          : t('CircleMemberFormControl.labelMultiMembers')}
       </FormLabel>
 
       {circle && membersIds && (

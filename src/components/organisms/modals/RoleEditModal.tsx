@@ -146,7 +146,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {t('organisms.modals.RoleEditModal.heading', { name: role.name })}
+            {t('RoleEditModal.heading', { name: role.name })}
           </ModalHeader>
           <ModalCloseButton />
 
@@ -156,70 +156,52 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <Alert status="warning">
                   <AlertIcon />
                   <AlertDescription>
-                    {t('organisms.modals.RoleEditModal.baseInfo')}
+                    {t('RoleEditModal.baseInfo')}
                   </AlertDescription>
                 </Alert>
               ) : null}
 
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel>
-                  {t('organisms.modals.RoleEditModal.name')}
-                </FormLabel>
+                <FormLabel>{t('RoleEditModal.name')}</FormLabel>
                 <Input
                   {...register('name')}
-                  placeholder={t(
-                    'organisms.modals.RoleEditModal.namePlaceholder'
-                  )}
+                  placeholder={t('RoleEditModal.namePlaceholder')}
                   autoFocus
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.purpose}>
-                <FormLabel>
-                  {t('organisms.modals.RoleEditModal.purpose')}
-                </FormLabel>
+                <FormLabel>{t('RoleEditModal.purpose')}</FormLabel>
                 <EditorController
                   name="purpose"
-                  placeholder={t(
-                    'organisms.modals.RoleEditModal.purposePlaceholder'
-                  )}
+                  placeholder={t('RoleEditModal.purposePlaceholder')}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.domain}>
-                <FormLabel>
-                  {t('organisms.modals.RoleEditModal.domain')}
-                </FormLabel>
+                <FormLabel>{t('RoleEditModal.domain')}</FormLabel>
                 <EditorController
                   name="domain"
-                  placeholder={t(
-                    'organisms.modals.RoleEditModal.domainPlaceholder'
-                  )}
+                  placeholder={t('RoleEditModal.domainPlaceholder')}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.accountabilities}>
-                <FormLabel>
-                  {t('organisms.modals.RoleEditModal.accountabilities')}
-                </FormLabel>
+                <FormLabel>{t('RoleEditModal.accountabilities')}</FormLabel>
                 <EditorController
                   name="accountabilities"
-                  placeholder={t(
-                    'organisms.modals.RoleEditModal.accountabilitiesPlaceholder'
-                  )}
+                  placeholder={t('RoleEditModal.accountabilitiesPlaceholder')}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.checklist}>
                 <FormLabel>
-                  {t('organisms.modals.RoleEditModal.checklist')}
+                  {t('RoleEditModal.checklist')}
                   <IconButton
-                    aria-label={t(
-                      'organisms.modals.RoleEditModal.checklistAdd'
-                    )}
+                    aria-label={t('RoleEditModal.checklistAdd')}
                     icon={<FaPlus />}
                     size="xs"
                     ml={2}
@@ -229,20 +211,16 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <EditorController
                   ref={checklistEditor}
                   name="checklist"
-                  placeholder={t(
-                    'organisms.modals.RoleEditModal.checklistPlaceholder'
-                  )}
+                  placeholder={t('RoleEditModal.checklistPlaceholder')}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.indicators}>
                 <FormLabel>
-                  {t('organisms.modals.RoleEditModal.indicator')}
+                  {t('RoleEditModal.indicator')}
                   <IconButton
-                    aria-label={t(
-                      'organisms.modals.RoleEditModal.indicatorAdd'
-                    )}
+                    aria-label={t('RoleEditModal.indicatorAdd')}
                     icon={<FaPlus />}
                     size="xs"
                     ml={2}
@@ -252,22 +230,16 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                 <EditorController
                   ref={indicatorsEditor}
                   name="indicators"
-                  placeholder={t(
-                    'organisms.modals.RoleEditModal.indicatorPlaceholder'
-                  )}
+                  placeholder={t('RoleEditModal.indicatorPlaceholder')}
                   control={control}
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.notes}>
-                <FormLabel>
-                  {t('organisms.modals.RoleEditModal.notes')}
-                </FormLabel>
+                <FormLabel>{t('RoleEditModal.notes')}</FormLabel>
                 <EditorController
                   name="notes"
-                  placeholder={t(
-                    'organisms.modals.RoleEditModal.notesPlaceholder'
-                  )}
+                  placeholder={t('RoleEditModal.notesPlaceholder')}
                   control={control}
                 />
               </FormControl>
@@ -275,12 +247,12 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
               <FormControl>
                 <Stack spacing={1}>
                   <Checkbox {...register('singleMember')}>
-                    {t('organisms.modals.RoleEditModal.singleMember')}
+                    {t('RoleEditModal.singleMember')}
                   </Checkbox>
 
                   {/* role.base && (
                     <Checkbox {...register('autoCreate')}>
-                      {t('organisms.modals.RoleEditModal.autoCreate')}
+                      {t('RoleEditModal.autoCreate')}
                     </Checkbox>
                   ) */}
 
@@ -289,7 +261,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                     isChecked={!!link}
                     onChange={() => setValue('link', !link)}
                   >
-                    {t('organisms.modals.RoleEditModal.linkParent')}
+                    {t('RoleEditModal.linkParent')}
                   </Checkbox>
                   <RadioGroup
                     display={link ? '' : 'none'}
@@ -303,10 +275,10 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                   >
                     <Stack pl={6} mt={1} spacing={1} direction="column">
                       <Radio value={LinkType.parent}>
-                        {t('organisms.modals.RoleEditModal.linkToParent')}
+                        {t('RoleEditModal.linkToParent')}
                       </Radio>
                       <Radio value={LinkType.other} isDisabled={role.base}>
-                        {t('organisms.modals.RoleEditModal.linkToCircle')}
+                        {t('RoleEditModal.linkToCircle')}
                       </Radio>
                       {typeof link === 'string' && (
                         <StackItem pl={6}>
@@ -322,9 +294,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
               </FormControl>
 
               <FormControl isInvalid={!!errors.defaultMinPerWeek}>
-                <FormLabel>
-                  {t('organisms.modals.RoleEditModal.defaultWorkingTime')}
-                </FormLabel>
+                <FormLabel>{t('RoleEditModal.defaultWorkingTime')}</FormLabel>
                 <Controller
                   name="defaultMinPerWeek"
                   control={control}
@@ -336,13 +306,13 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
                   )}
                 />
                 <FormHelperText>
-                  {t('organisms.modals.RoleEditModal.defaultWorkingTimeHelp')}
+                  {t('RoleEditModal.defaultWorkingTimeHelp')}
                 </FormHelperText>
               </FormControl>
 
               <FormControl>
                 <ColorController name="colorHue" control={control}>
-                  {t('organisms.modals.RoleEditModal.color')}
+                  {t('RoleEditModal.color')}
                 </ColorController>
               </FormControl>
             </VStack>

@@ -92,7 +92,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
           pr={1}
         >
           <Text fontWeight="bold" mr={6}>
-            {t(`molecules.ThreadActivityPoll.heading`)}
+            {t(`ThreadActivityPoll.heading`)}
           </Text>
           <Spacer />
         </HStack>
@@ -119,7 +119,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
                 />
                 {(ended || !activity.hideUntilEnd) && (
                   <Link mt={2} onClick={() => setEditing(false)}>
-                    {t(`molecules.ThreadActivityPoll.showResults`)}
+                    {t(`ThreadActivityPoll.showResults`)}
                   </Link>
                 )}
               </>
@@ -131,7 +131,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
                 />
                 {!ended && (
                   <Link mt={2} onClick={() => setEditing(true)}>
-                    {t(`molecules.ThreadActivityPoll.changeVote`)}
+                    {t(`ThreadActivityPoll.changeVote`)}
                   </Link>
                 )}
               </>

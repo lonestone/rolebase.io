@@ -31,7 +31,7 @@ export default function LogsList({ logs, hideEmpty, ...boxProps }: Props) {
   return (
     <Box {...boxProps}>
       {logs.length === 0 && (
-        <Text fontStyle="italic">{t('molecules.LogsList.empty')}</Text>
+        <Text fontStyle="italic">{t('LogsList.empty')}</Text>
       )}
 
       {logs.map((log) => (

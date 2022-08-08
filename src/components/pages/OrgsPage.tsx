@@ -61,11 +61,11 @@ export default function OrgsPage() {
 
   return (
     <Container maxW="3xl" py={10}>
-      <Title>{t('pages.OrgsPage.heading')}</Title>
+      <Title>{t('OrgsPage.heading')}</Title>
 
       <HStack mb={5}>
         <Heading as="h1" size="md">
-          {t('pages.OrgsPage.heading')}
+          {t('OrgsPage.heading')}
         </Heading>
         <Spacer />
         {orgs?.length && (
@@ -93,17 +93,17 @@ export default function OrgsPage() {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} fontSize="lg">
-            {t('pages.OrgsPage.empty.title')}
+            {t('OrgsPage.empty.title')}
           </AlertTitle>
           <AlertDescription mt={5}>
             <List textAlign="left">
               <ListItem my={2}>
                 <ListIcon as={FiArrowRight} color="gray.500" />
-                {t('pages.OrgsPage.empty.info1')}
+                {t('OrgsPage.empty.info1')}
               </ListItem>
               <ListItem my={2}>
                 <ListIcon as={FiArrowRight} color="gray.500" />
-                {t('pages.OrgsPage.empty.info2')}
+                {t('OrgsPage.empty.info2')}
               </ListItem>
             </List>
             <Button
@@ -112,7 +112,7 @@ export default function OrgsPage() {
               mt={5}
               onClick={onCreateOpen}
             >
-              {t('pages.OrgsPage.empty.create')}
+              {t('OrgsPage.empty.create')}
             </Button>
           </AlertDescription>
         </Alert>

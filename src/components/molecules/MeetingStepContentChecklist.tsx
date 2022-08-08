@@ -42,7 +42,7 @@ export default function MeetingStepContentChecklist({
         animateOpacity
       >
         <Button size="sm" mb={5} onClick={handleSet}>
-          {t('molecules.MeetingStepContentChecklist.useCircle', {
+          {t('MeetingStepContentChecklist.useCircle', {
             circle: circle?.role.name,
           })}
         </Button>
@@ -56,7 +56,7 @@ export default function MeetingStepContentChecklist({
           <AlertIcon />
           <AlertDescription>
             <Trans
-              i18nKey="molecules.MeetingStepContentChecklist.empty"
+              i18nKey="MeetingStepContentChecklist.empty"
               components={{
                 circle: circle ? <CircleButton circle={circle} /> : '…',
               }}

@@ -278,8 +278,8 @@ export default function MeetingEditModal({
           <ModalHeader>
             {t(
               meeting && !duplicate
-                ? 'organisms.modals.MeetingEditModal.headingEdit'
-                : 'organisms.modals.MeetingEditModal.headingCreate'
+                ? 'MeetingEditModal.headingEdit'
+                : 'MeetingEditModal.headingCreate'
             )}
           </ModalHeader>
           <ModalCloseButton />
@@ -288,15 +288,13 @@ export default function MeetingEditModal({
             <VStack spacing={7} align="stretch">
               {!meeting && (
                 <FormControl isInvalid={!!errors.title}>
-                  <FormLabel>
-                    {t('organisms.modals.MeetingEditModal.template')}
-                  </FormLabel>
+                  <FormLabel>{t('MeetingEditModal.template')}</FormLabel>
                   {meetingTemplatesLoading && <Loading active size="md" />}
                   <TextErrors errors={[meetingTemplatesError]} />
                   <HStack spacing={2}>
                     <Select {...register('templateId')} autoFocus>
                       <option value="">
-                        {t('organisms.modals.MeetingEditModal.noTemplate')}
+                        {t('MeetingEditModal.noTemplate')}
                       </option>
                       {meetingTemplates?.map((template) => (
                         <option key={template.id} value={template.id}>
@@ -314,27 +312,21 @@ export default function MeetingEditModal({
               )}
 
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>
-                  {t('organisms.modals.MeetingEditModal.title')}
-                </FormLabel>
+                <FormLabel>{t('MeetingEditModal.title')}</FormLabel>
                 <InputGroup>
                   <InputLeftAddon pointerEvents="none">
-                    {t('organisms.modals.MeetingEditModal.titlePrefix')}
+                    {t('MeetingEditModal.titlePrefix')}
                   </InputLeftAddon>
                   <Input
                     {...register('title')}
-                    placeholder={t(
-                      'organisms.modals.MeetingEditModal.titlePlaceholder'
-                    )}
+                    placeholder={t('MeetingEditModal.titlePlaceholder')}
                   />
                 </InputGroup>
               </FormControl>
 
               <Flex>
                 <FormControl isInvalid={!!errors.startDate} maxW="50%">
-                  <FormLabel>
-                    {t('organisms.modals.MeetingEditModal.start')}
-                  </FormLabel>
+                  <FormLabel>{t('MeetingEditModal.start')}</FormLabel>
                   <Input
                     {...register('startDate')}
                     type="datetime-local"
@@ -344,9 +336,7 @@ export default function MeetingEditModal({
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.duration} ml={5}>
-                  <FormLabel>
-                    {t('organisms.modals.MeetingEditModal.duration')}
-                  </FormLabel>
+                  <FormLabel>{t('MeetingEditModal.duration')}</FormLabel>
                   <InputGroup>
                     <NumberInputController
                       name="duration"
@@ -357,16 +347,14 @@ export default function MeetingEditModal({
                       step={10}
                     />
                     <InputRightAddon bg="transparent">
-                      {t('organisms.modals.MeetingEditModal.durationSuffix')}
+                      {t('MeetingEditModal.durationSuffix')}
                     </InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </Flex>
 
               <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>
-                  {t('organisms.modals.MeetingEditModal.circle')}
-                </FormLabel>
+                <FormLabel>{t('MeetingEditModal.circle')}</FormLabel>
                 <Controller
                   name="circleId"
                   control={control}
@@ -385,7 +373,7 @@ export default function MeetingEditModal({
                   isInvalid={(circleId && participants.length === 0) || false}
                 >
                   <FormLabel display="flex" alignItems="center">
-                    {t('organisms.modals.MeetingEditModal.invite')}
+                    {t('MeetingEditModal.invite')}
                     <ParticipantsNumber ml={2} participants={participants} />
                   </FormLabel>
                   <ParticipantsScopeSelect {...register('participantsScope')} />
@@ -404,13 +392,11 @@ export default function MeetingEditModal({
               {participants.length !== 0 && (
                 <FormControl isInvalid={!!errors.facilitatorMemberId} flex="1">
                   <FormLabel display="flex" alignItems="center">
-                    {t('organisms.modals.MeetingEditModal.facilitator')}
+                    {t('MeetingEditModal.facilitator')}
                     <Tooltip
                       hasArrow
                       p={2}
-                      label={t(
-                        'organisms.modals.MeetingEditModal.facilitatorHelp'
-                      )}
+                      label={t('MeetingEditModal.facilitatorHelp')}
                     >
                       <Box ml={3}>
                         <FiHelpCircle />
@@ -432,9 +418,7 @@ export default function MeetingEditModal({
               )}
 
               <FormControl>
-                <FormLabel>
-                  {t('organisms.modals.MeetingEditModal.steps')}
-                </FormLabel>
+                <FormLabel>{t('MeetingEditModal.steps')}</FormLabel>
                 <MeetingStepsConfigController
                   control={control as any}
                   errors={errors}
@@ -447,7 +431,7 @@ export default function MeetingEditModal({
                     isChecked={!!videoConf}
                     onChange={() => setValue('videoConf', !videoConf)}
                   >
-                    {t('organisms.modals.MeetingEditModal.videoConf')}
+                    {t('MeetingEditModal.videoConf')}
                   </Checkbox>
 
                   <RadioGroup
@@ -466,10 +450,10 @@ export default function MeetingEditModal({
                   >
                     <Stack pl={6} mt={1} spacing={1} direction="column">
                       <Radio value={VideoConfType.generated}>
-                        {t('organisms.modals.MeetingEditModal.videoConfJitsi')}
+                        {t('MeetingEditModal.videoConfJitsi')}
                       </Radio>
                       <Radio value={VideoConfType.url}>
-                        {t('organisms.modals.MeetingEditModal.videoConfUrl')}
+                        {t('MeetingEditModal.videoConfUrl')}
                       </Radio>
                       {typeof videoConf === 'string' && (
                         <Input pl={6} {...register('videoConf')} />

@@ -40,7 +40,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
     <VStack spacing={5} align="stretch">
       {role.purpose && (
         <FormControl>
-          <FormLabel>{t('molecules.CircleRoleFormControl.purpose')}</FormLabel>
+          <FormLabel>{t('CircleRoleFormControl.purpose')}</FormLabel>
           <Markdown>{role.purpose}</Markdown>
         </FormControl>
       )}
@@ -62,9 +62,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
             <VStack spacing={5} align="stretch">
               {role.domain && (
                 <FormControl>
-                  <FormLabel>
-                    {t('molecules.CircleRoleFormControl.domain')}
-                  </FormLabel>
+                  <FormLabel>{t('CircleRoleFormControl.domain')}</FormLabel>
                   <Markdown>{role.domain}</Markdown>
                 </FormControl>
               )}
@@ -72,7 +70,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
               {role.accountabilities && (
                 <FormControl>
                   <FormLabel>
-                    {t('molecules.CircleRoleFormControl.accountabilities')}
+                    {t('CircleRoleFormControl.accountabilities')}
                   </FormLabel>
                   <Markdown>{role.accountabilities}</Markdown>
                 </FormControl>
@@ -80,27 +78,21 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
 
               {role.checklist && (
                 <FormControl>
-                  <FormLabel>
-                    {t('molecules.CircleRoleFormControl.checklist')}
-                  </FormLabel>
+                  <FormLabel>{t('CircleRoleFormControl.checklist')}</FormLabel>
                   <Markdown>{role.checklist}</Markdown>
                 </FormControl>
               )}
 
               {role.indicators && (
                 <FormControl>
-                  <FormLabel>
-                    {t('molecules.CircleRoleFormControl.indicators')}
-                  </FormLabel>
+                  <FormLabel>{t('CircleRoleFormControl.indicators')}</FormLabel>
                   <Markdown>{role.indicators}</Markdown>
                 </FormControl>
               )}
 
               {role.notes && (
                 <FormControl>
-                  <FormLabel>
-                    {t('molecules.CircleRoleFormControl.notes')}
-                  </FormLabel>
+                  <FormLabel>{t('CircleRoleFormControl.notes')}</FormLabel>
                   <Markdown>{role.notes}</Markdown>
                 </FormControl>
               )}
@@ -118,14 +110,14 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
       {parentCircle && linkedCircle && (
         <Text>
           <Trans
-            i18nKey="molecules.CircleRoleFormControl.representCircle"
+            i18nKey="CircleRoleFormControl.representCircle"
             components={{
               link: <CircleButton circle={parentCircle} />,
             }}
           />
           <br />
           <Trans
-            i18nKey="molecules.CircleRoleFormControl.representInCircle"
+            i18nKey="CircleRoleFormControl.representInCircle"
             components={{
               link: <CircleButton circle={linkedCircle} />,
             }}

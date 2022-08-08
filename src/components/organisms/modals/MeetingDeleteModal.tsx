@@ -39,13 +39,13 @@ export default function MeetingDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {t('organisms.modals.MeetingDeleteModal.heading')}
+            {t('MeetingDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.MeetingDeleteModal.info"
+                i18nKey="MeetingDeleteModal.info"
                 values={{ name: meeting.title }}
                 components={{ b: <strong /> }}
               />

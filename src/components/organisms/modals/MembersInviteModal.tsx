@@ -117,7 +117,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
         }
       }
       toast({
-        title: t('organisms.modals.MembersInviteModal.toastSuccess', {
+        title: t('MembersInviteModal.toastSuccess', {
           count: n,
         }),
         status: 'success',
@@ -141,25 +141,21 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
     <Modal {...modalProps} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {t('organisms.modals.MembersInviteModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('MembersInviteModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
           {notInvitedMembers.length === 0 ? (
             <Box mb={5}>
-              <p>{t('organisms.modals.MembersInviteModal.empty1')}</p>
-              <p>{t('organisms.modals.MembersInviteModal.empty2')}</p>
+              <p>{t('MembersInviteModal.empty1')}</p>
+              <p>{t('MembersInviteModal.empty2')}</p>
             </Box>
           ) : (
             <VStack spacing={5} align="stretch">
               <InputGroup>
                 <Input
                   type="text"
-                  placeholder={t(
-                    'organisms.modals.MembersInviteModal.searchPlaceholder'
-                  )}
+                  placeholder={t('MembersInviteModal.searchPlaceholder')}
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -199,9 +195,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                       />
                       <Spacer />
                       <Input
-                        placeholder={t(
-                          'organisms.modals.MembersInviteModal.emailPlaceholder'
-                        )}
+                        placeholder={t('MembersInviteModal.emailPlaceholder')}
                         width="220px"
                         value={memberState?.email || ''}
                         onChange={(e) =>
@@ -226,13 +220,13 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                   w="200px"
                 >
                   <option value={ClaimRole.Readonly}>
-                    {t('organisms.modals.MembersInviteModal.options.readonly')}
+                    {t('MembersInviteModal.options.readonly')}
                   </option>
                   <option value={ClaimRole.Member}>
-                    {t('organisms.modals.MembersInviteModal.options.member')}
+                    {t('MembersInviteModal.options.member')}
                   </option>
                   <option value={ClaimRole.Admin}>
-                    {t('organisms.modals.MembersInviteModal.options.admin')}
+                    {t('MembersInviteModal.options.admin')}
                   </option>
                 </Select>
 
@@ -243,7 +237,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                   leftIcon={<FiMail />}
                   onClick={handleInvite}
                 >
-                  {t('organisms.modals.MembersInviteModal.invite', {
+                  {t('MembersInviteModal.invite', {
                     count: nbSelectedMembers,
                   })}
                 </Button>

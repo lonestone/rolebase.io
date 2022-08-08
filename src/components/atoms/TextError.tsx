@@ -11,7 +11,7 @@ export default function TextError({ error }: Props) {
 
   return (
     <Text color="red" fontWeight="bold">
-      {t(`atoms.TextError.${(error as any).code}` as any, {
+      {t(`TextError.${(error as any).code}` as any, {
         defaultValue: error.message,
       })}
     </Text>

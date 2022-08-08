@@ -58,14 +58,12 @@ export default function TaskDeleteModal({
     <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            {t('organisms.modals.TaskDeleteModal.heading')}
-          </AlertDialogHeader>
+          <AlertDialogHeader>{t('TaskDeleteModal.heading')}</AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.TaskDeleteModal.info"
+                i18nKey="TaskDeleteModal.info"
                 values={{ name: task.title }}
                 components={{ b: <strong /> }}
               />

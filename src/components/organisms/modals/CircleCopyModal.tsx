@@ -20,20 +20,18 @@ export default function CircleCopyModal(modalProps: UseModalProps) {
     <Modal size="xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {t('organisms.modals.CircleCopyModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('CircleCopyModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={6}>
           <UnorderedList>
-            <ListItem>{t('organisms.modals.CircleCopyModal.action1')}</ListItem>
+            <ListItem>{t('CircleCopyModal.action1')}</ListItem>
             <ListItem>
-              {t('organisms.modals.CircleCopyModal.action2')} <Kbd>⌘</Kbd> +{' '}
+              {t('CircleCopyModal.action2')} <Kbd>⌘</Kbd> +{' '}
               <Kbd size="xl">⇧</Kbd>
             </ListItem>
-            <ListItem>{t('organisms.modals.CircleCopyModal.action3')}</ListItem>
-            <ListItem>{t('organisms.modals.CircleCopyModal.action4')}</ListItem>
+            <ListItem>{t('CircleCopyModal.action3')}</ListItem>
+            <ListItem>{t('CircleCopyModal.action4')}</ListItem>
           </UnorderedList>
         </ModalBody>
       </ModalContent>

@@ -66,11 +66,11 @@ export default function ThreadsPage() {
 
   return (
     <Container maxW="3xl" py={10}>
-      <Title>{t('pages.ThreadsPage.heading')}</Title>
+      <Title>{t('ThreadsPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          {t('pages.ThreadsPage.heading')}
+          {t('ThreadsPage.heading')}
         </Heading>
 
         {archives && (
@@ -89,31 +89,31 @@ export default function ThreadsPage() {
             variant="ghost"
             rightIcon={<FiChevronDown />}
           >
-            {t(`pages.ThreadsPage.participation.${filter}` as any)}
+            {t(`ThreadsPage.participation.${filter}` as any)}
           </MenuButton>
           <MenuList zIndex={2}>
             <MenuOptionGroup
-              title={t('pages.ThreadsPage.participation.title')}
+              title={t('ThreadsPage.participation.title')}
               type="checkbox"
               value={filterValue}
               onChange={handleFilterChange}
             >
               <MenuItemOption value={EntityFilters.Invited}>
-                {t('pages.ThreadsPage.participation.Invited')}
+                {t('ThreadsPage.participation.Invited')}
               </MenuItemOption>
               <MenuItemOption value={EntityFilters.NotInvited}>
-                {t('pages.ThreadsPage.participation.NotInvited')}
+                {t('ThreadsPage.participation.NotInvited')}
               </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />
             <MenuOptionGroup
-              title={t('pages.ThreadsPage.archives.title')}
+              title={t('ThreadsPage.archives.title')}
               type="checkbox"
               value={archives ? ['archives'] : []}
               onChange={(value) => setArchives(value.includes('archives'))}
             >
               <MenuItemOption value="archives">
-                {t('pages.ThreadsPage.archives.show')}
+                {t('ThreadsPage.archives.show')}
               </MenuItemOption>
             </MenuOptionGroup>
           </MenuList>
@@ -126,7 +126,7 @@ export default function ThreadsPage() {
           leftIcon={<FiPlus />}
           onClick={onCreateOpen}
         >
-          {t('pages.ThreadsPage.create')}
+          {t('ThreadsPage.create')}
         </Button>
       </Flex>
 
@@ -136,7 +136,7 @@ export default function ThreadsPage() {
       {threads && (
         <VStack spacing={0} align="stretch">
           {threads.length === 0 && (
-            <Text fontStyle="italic">{t('pages.ThreadsPage.empty')}</Text>
+            <Text fontStyle="italic">{t('ThreadsPage.empty')}</Text>
           )}
 
           {threads.map((thread) => (

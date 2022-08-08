@@ -25,7 +25,7 @@ export default function LangModal(modalProps: UseModalProps) {
     <Modal size="xs" isCentered {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{t('organisms.modals.LangModal.heading')}</ModalHeader>
+        <ModalHeader>{t('LangModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={6}>

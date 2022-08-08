@@ -139,7 +139,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
             // Invite member
             await inviteMember(member.id, newRole, inviteEmail)
             toast({
-              title: t('organisms.modals.MemberEditModal.toastInvited', {
+              title: t('MemberEditModal.toastInvited', {
                 member: member.name,
               }),
               status: 'success',
@@ -169,7 +169,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     await inviteMember(member.id, member.role, member.inviteEmail)
     setLoading(false)
     toast({
-      title: t('organisms.modals.MemberEditModal.toastReInvited', {
+      title: t('MemberEditModal.toastReInvited', {
         member: member.name,
       }),
       status: 'success',
@@ -184,7 +184,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     await updateMemberRole(member.id, undefined)
     setLoading(false)
     toast({
-      title: t('organisms.modals.MemberEditModal.toastRevocated'),
+      title: t('MemberEditModal.toastRevocated'),
       status: 'success',
       duration: 3000,
       isClosable: true,
@@ -200,7 +200,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         <ModalContent>
           <ModalHeader>
             <Flex>
-              {t('organisms.modals.MemberEditModal.heading', {
+              {t('MemberEditModal.heading', {
                 member: member.name,
               })}
               <Spacer />
@@ -229,22 +229,17 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 </FormControl>
               </HStack>
               <FormControl isInvalid={!!errors.description}>
-                <FormLabel>
-                  {t('organisms.modals.MemberEditModal.description')}
-                </FormLabel>
+                <FormLabel>{t('MemberEditModal.description')}</FormLabel>
                 <EditorController
                   name="description"
-                  placeholder={t(
-                    'organisms.modals.MemberEditModal.descriptionPlaceholder',
-                    { name: member.name }
-                  )}
+                  placeholder={t('MemberEditModal.descriptionPlaceholder', {
+                    name: member.name,
+                  })}
                   control={control}
                 />
               </FormControl>
               <FormControl isInvalid={!!errors.workedMinPerWeek}>
-                <FormLabel>
-                  {t('organisms.modals.MemberEditModal.workingTime')}
-                </FormLabel>
+                <FormLabel>{t('MemberEditModal.workingTime')}</FormLabel>
                 <Controller
                   name="workedMinPerWeek"
                   control={control}
@@ -262,30 +257,20 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 (member.userId ? (
                   <FormControl>
                     <FormLabel>
-                      {t(
-                        'organisms.modals.MemberEditModal.invitation.userInvited'
-                      )}
+                      {t('MemberEditModal.invitation.userInvited')}
                     </FormLabel>
                     <Select {...register('role')}>
                       <option value={''}>
-                        {t(
-                          'organisms.modals.MemberEditModal.invitation.options.revoke'
-                        )}
+                        {t('MemberEditModal.invitation.options.revoke')}
                       </option>
                       <option value={ClaimRole.Readonly}>
-                        {t(
-                          'organisms.modals.MemberEditModal.invitation.options.readonly'
-                        )}
+                        {t('MemberEditModal.invitation.options.readonly')}
                       </option>
                       <option value={ClaimRole.Member}>
-                        {t(
-                          'organisms.modals.MemberEditModal.invitation.options.member'
-                        )}
+                        {t('MemberEditModal.invitation.options.member')}
                       </option>
                       <option value={ClaimRole.Admin}>
-                        {t(
-                          'organisms.modals.MemberEditModal.invitation.options.admin'
-                        )}
+                        {t('MemberEditModal.invitation.options.admin')}
                       </option>
                     </Select>
                   </FormControl>
@@ -293,13 +278,10 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                   <Alert status="info">
                     <AlertIcon />
                     <Box>
-                      {t(
-                        'organisms.modals.MemberEditModal.invitation.awaiting',
-                        {
-                          email: member.inviteEmail,
-                          date: format(member.inviteDate.toDate(), 'P'),
-                        }
-                      )}
+                      {t('MemberEditModal.invitation.awaiting', {
+                        email: member.inviteEmail,
+                        date: format(member.inviteDate.toDate(), 'P'),
+                      })}
                       <Button
                         variant="link"
                         colorScheme="blue"
@@ -307,9 +289,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         isLoading={loading}
                         onClick={handleReInvite}
                       >
-                        {t(
-                          'organisms.modals.MemberEditModal.invitation.resend'
-                        )}
+                        {t('MemberEditModal.invitation.resend')}
                       </Button>
                       <Button
                         variant="link"
@@ -318,45 +298,37 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         isLoading={loading}
                         onClick={handleRevokeInvite}
                       >
-                        {t(
-                          'organisms.modals.MemberEditModal.invitation.revoke'
-                        )}
+                        {t('MemberEditModal.invitation.revoke')}
                       </Button>
                     </Box>
                   </Alert>
                 ) : (
                   <FormControl isInvalid={!!errors.inviteEmail}>
                     <FormLabel>
-                      {t('organisms.modals.MemberEditModal.invitation.invite')}
+                      {t('MemberEditModal.invitation.invite')}
                     </FormLabel>
                     <HStack>
                       <Select
                         {...register('role')}
                         placeholder={t(
-                          'organisms.modals.MemberEditModal.invitation.rolePlaceholder'
+                          'MemberEditModal.invitation.rolePlaceholder'
                         )}
                       >
                         <option value={ClaimRole.Readonly}>
-                          {t(
-                            'organisms.modals.MemberEditModal.invitation.options.readonly'
-                          )}
+                          {t('MemberEditModal.invitation.options.readonly')}
                         </option>
                         <option value={ClaimRole.Member}>
-                          {t(
-                            'organisms.modals.MemberEditModal.invitation.options.member'
-                          )}
+                          {t('MemberEditModal.invitation.options.member')}
                         </option>
                         <option value={ClaimRole.Admin}>
-                          {t(
-                            'organisms.modals.MemberEditModal.invitation.options.admin'
-                          )}
+                          {t('MemberEditModal.invitation.options.admin')}
                         </option>
                       </Select>
                       {role && (
                         <Input
                           {...register('inviteEmail')}
                           placeholder={t(
-                            'organisms.modals.MemberEditModal.invitation.emailPlaceholder'
+                            'MemberEditModal.invitation.emailPlaceholder'
                           )}
                         />
                       )}

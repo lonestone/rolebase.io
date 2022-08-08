@@ -64,14 +64,12 @@ export default function RoleDeleteModal({
     <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            {t('organisms.modals.RoleDeleteModal.heading')}
-          </AlertDialogHeader>
+          <AlertDialogHeader>{t('RoleDeleteModal.heading')}</AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.RoleDeleteModal.info"
+                i18nKey="RoleDeleteModal.info"
                 values={{ name: role.name }}
                 components={{ b: <strong /> }}
               />

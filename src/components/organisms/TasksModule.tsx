@@ -88,12 +88,8 @@ export default function TasksModule({
         variant="unstyled"
       >
         <TabList alignItems="center" flexWrap="wrap">
-          <StyledTab icon={<FiTrello />}>
-            {t('organisms.TasksModule.kanban')}
-          </StyledTab>
-          <StyledTab icon={<FiList />}>
-            {t('organisms.TasksModule.list')}
-          </StyledTab>
+          <StyledTab icon={<FiTrello />}>{t('TasksModule.kanban')}</StyledTab>
+          <StyledTab icon={<FiList />}>{t('TasksModule.list')}</StyledTab>
 
           {loading && <Loading active size="sm" />}
 
@@ -110,7 +106,7 @@ export default function TasksModule({
                   size="sm"
                   mx={1}
                   maxW="300px"
-                  placeholder={t('organisms.TasksModule.filterCircle')}
+                  placeholder={t('TasksModule.filterCircle')}
                   onChange={onCircleChange}
                   onClear={() => onCircleChange(undefined)}
                 />
@@ -121,7 +117,7 @@ export default function TasksModule({
                   rightIcon={<FiChevronDown />}
                   onSelect={onCircleChange}
                 >
-                  {t('organisms.TasksModule.filterCircle')}
+                  {t('TasksModule.filterCircle')}
                 </CircleSearchButton>
               ))}
 
@@ -132,7 +128,7 @@ export default function TasksModule({
                   size="sm"
                   mx={1}
                   maxW="300px"
-                  placeholder={t('organisms.TasksModule.filterMember')}
+                  placeholder={t('TasksModule.filterMember')}
                   onChange={onMemberChange}
                   onClear={() => onMemberChange(undefined)}
                 />
@@ -143,7 +139,7 @@ export default function TasksModule({
                   rightIcon={<FiChevronDown />}
                   onSelect={onMemberChange}
                 >
-                  {t('organisms.TasksModule.filterMember')}
+                  {t('TasksModule.filterMember')}
                 </MemberSearchButton>
               ))}
           </Flex>

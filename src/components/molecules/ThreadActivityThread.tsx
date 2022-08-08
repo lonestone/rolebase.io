@@ -30,7 +30,7 @@ export default function ThreadActivityThread({ activity }: Props) {
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>
-      <Text color="gray.500">{t(`molecules.ThreadActivityThread.text`)}</Text>
+      <Text color="gray.500">{t(`ThreadActivityThread.text`)}</Text>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
       {thread && <ThreadItem thread={thread} showIcon />}

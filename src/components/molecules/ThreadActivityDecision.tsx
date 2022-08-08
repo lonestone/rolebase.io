@@ -30,7 +30,7 @@ export default function ThreadActivityDecision({ activity }: Props) {
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>
-      <Text color="gray.500">{t(`molecules.ThreadActivityDecision.text`)}</Text>
+      <Text color="gray.500">{t(`ThreadActivityDecision.text`)}</Text>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
       {decision && <DecisionItem decision={decision} showIcon />}

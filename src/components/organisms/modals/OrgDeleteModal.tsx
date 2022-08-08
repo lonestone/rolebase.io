@@ -37,14 +37,12 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
     <AlertDialog {...alertProps} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            {t('organisms.modals.OrgDeleteModal.heading')}
-          </AlertDialogHeader>
+          <AlertDialogHeader>{t('OrgDeleteModal.heading')}</AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.OrgDeleteModal.info"
+                i18nKey="OrgDeleteModal.info"
                 values={{ name: org.name }}
                 components={{ b: <strong /> }}
               />

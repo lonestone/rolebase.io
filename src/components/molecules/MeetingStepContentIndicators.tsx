@@ -42,7 +42,7 @@ export default function MeetingStepContentIndicators({
         animateOpacity
       >
         <Button size="sm" mb={5} onClick={handleSet}>
-          {t('molecules.MeetingStepContentIndicators.useCircle', {
+          {t('MeetingStepContentIndicators.useCircle', {
             circle: circle?.role.name,
           })}
         </Button>
@@ -56,7 +56,7 @@ export default function MeetingStepContentIndicators({
           <AlertIcon />
           <AlertDescription>
             <Trans
-              i18nKey="molecules.MeetingStepContentIndicators.empty"
+              i18nKey="MeetingStepContentIndicators.empty"
               components={{
                 circle: circle ? <CircleButton circle={circle} /> : '…',
               }}

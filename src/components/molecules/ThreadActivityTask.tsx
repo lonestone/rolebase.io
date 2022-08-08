@@ -30,7 +30,7 @@ export default function ThreadActivityTask({ activity }: Props) {
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>
-      <Text color="gray.500">{t(`molecules.ThreadActivityTask.text`)}</Text>
+      <Text color="gray.500">{t(`ThreadActivityTask.text`)}</Text>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
       {task && <TaskItem task={task} showMember showIcon width="fit-content" />}

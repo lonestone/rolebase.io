@@ -39,7 +39,7 @@ export default function useUpdateTaskStatus() {
       toast({
         status: 'success',
         duration: 2000,
-        title: t('hooks.useUpdateTaskStatus.toast', {
+        title: t('useUpdateTaskStatus.toast', {
           status: t(`common.taskStatus.${status}`),
         }),
       })

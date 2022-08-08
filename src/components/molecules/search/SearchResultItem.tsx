@@ -27,7 +27,7 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
           <>
             <FiPlus />
             <Box ml={2}>
-              {t(`molecules.search.SearchResultItem.create`, {
+              {t(`SearchResultItem.create`, {
                 name: item.text,
               })}
             </Box>

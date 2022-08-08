@@ -61,7 +61,7 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
           </Link>
         ))}
         <MenuItem icon={<FiPlus />} onClick={onCreateOpen}>
-          {t('molecules.HeaderOrgMenu.create')}
+          {t('HeaderOrgMenu.create')}
         </MenuItem>
       </MenuList>
 

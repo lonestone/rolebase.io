@@ -79,8 +79,8 @@ export default function DurationSelect({
         size={size}
         onChange={handleUnitChange}
       >
-        <option value="Min">{t('atoms.DurationSelect.min')}</option>
-        <option value="Hours">{t('atoms.DurationSelect.hours')}</option>
+        <option value="Min">{t('DurationSelect.min')}</option>
+        <option value="Hours">{t('DurationSelect.hours')}</option>
       </Select>
     </Flex>
   )

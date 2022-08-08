@@ -9,13 +9,9 @@ export default function ModalMaximizeButton(props: LinkProps) {
 
   return (
     <Link {...props} tabIndex={-1}>
-      <Tooltip
-        hasArrow
-        openDelay={400}
-        label={t('atoms.ModalMaximizeButton.label')}
-      >
+      <Tooltip hasArrow openDelay={400} label={t('ModalMaximizeButton.label')}>
         <IconButton
-          aria-label={t('atoms.ModalMaximizeButton.label')}
+          aria-label={t('ModalMaximizeButton.label')}
           variant="ghost"
           size="sm"
           icon={<FiMaximize2 />}

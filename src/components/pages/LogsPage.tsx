@@ -17,11 +17,11 @@ export default function LogsPage() {
 
   return (
     <Container maxW="xl" py={10}>
-      <Title>{t('pages.LogsPage.heading')}</Title>
+      <Title>{t('LogsPage.heading')}</Title>
 
       <Flex mb={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
-          {t('pages.LogsPage.heading')}
+          {t('LogsPage.heading')}
         </Heading>
       </Flex>
 

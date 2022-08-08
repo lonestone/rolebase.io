@@ -219,7 +219,7 @@ export default function MeetingContent({
     <Box {...boxProps}>
       {changeTitle && (
         <Title>
-          {t('organisms.MeetingContent.title', {
+          {t('MeetingContent.title', {
             circle: circle?.role.name || '',
             title: meeting?.title || '…',
           })}
@@ -229,7 +229,7 @@ export default function MeetingContent({
       <Flex mb={3}>
         <Heading as="h1" size="md">
           <Trans
-            i18nKey="organisms.MeetingContent.heading"
+            i18nKey="MeetingContent.heading"
             values={{ title: meeting?.title || '…' }}
             components={{
               circle: circle ? <CircleButton circle={circle} mx={1} /> : <></>,
@@ -283,13 +283,11 @@ export default function MeetingContent({
                 })}
               </Wrap>
 
-              {meeting?.ended && (
-                <Tag ml={1}>{t('organisms.MeetingContent.ended')}</Tag>
-              )}
+              {meeting?.ended && <Tag ml={1}>{t('MeetingContent.ended')}</Tag>}
 
               {isStarted && (
                 <Tag colorScheme="green" ml={1}>
-                  {t('organisms.MeetingContent.started')}
+                  {t('MeetingContent.started')}
                 </Tag>
               )}
             </Wrap>
@@ -299,14 +297,14 @@ export default function MeetingContent({
                 <Alert status="info">
                   <AlertIcon />
                   <AlertDescription>
-                    {t('organisms.MeetingContent.facilitatorCurrent')}
+                    {t('MeetingContent.facilitatorCurrent')}
                   </AlertDescription>
                 </Alert>
               ) : (
                 facilitator && (
                   <Text>
                     <Trans
-                      i18nKey="organisms.MeetingContent.facilitatorMember"
+                      i18nKey="MeetingContent.facilitatorMember"
                       components={{
                         member: (
                           <MemberLink
@@ -326,17 +324,17 @@ export default function MeetingContent({
                 colorScheme="green"
                 onClick={handleNextStep}
               >
-                {t('organisms.MeetingContent.start')}
+                {t('MeetingContent.start')}
               </Button>
             )}
 
             {meeting.ended && canEdit && forceEdit && (
               <HStack>
                 <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
-                  {t('organisms.MeetingContent.reopen')}
+                  {t('MeetingContent.reopen')}
                 </Button>
                 <Button leftIcon={<FiX />} onClick={() => setForceEdit(false)}>
-                  {t('organisms.MeetingContent.stop')}
+                  {t('MeetingContent.stop')}
                 </Button>
               </HStack>
             )}
@@ -347,7 +345,7 @@ export default function MeetingContent({
                 colorScheme="blue"
                 onClick={handleJoinVideoConf}
               >
-                {t('organisms.MeetingContent.videoConf')}
+                {t('MeetingContent.videoConf')}
               </Button>
             )}
 
@@ -355,7 +353,7 @@ export default function MeetingContent({
               <Alert status="info">
                 <AlertIcon />
                 <AlertDescription>
-                  {t('organisms.MeetingContent.notInvited')}
+                  {t('MeetingContent.notInvited')}
                 </AlertDescription>
               </Alert>
             )}
@@ -411,8 +409,8 @@ export default function MeetingContent({
                       >
                         {t(
                           last
-                            ? 'organisms.MeetingContent.end'
-                            : 'organisms.MeetingContent.nextStep'
+                            ? 'MeetingContent.end'
+                            : 'MeetingContent.nextStep'
                         )}
                       </Button>
                     </Collapse>
@@ -426,7 +424,7 @@ export default function MeetingContent({
             {!isNotStarted && (
               <Container size="xs" mt={10}>
                 <Heading as="h3" size="sm" mb={2}>
-                  {t('organisms.MeetingContent.logs')}
+                  {t('MeetingContent.logs')}
                 </Heading>
                 <MeetingLogs
                   meetingId={meeting.id}

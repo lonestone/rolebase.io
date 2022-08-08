@@ -30,7 +30,7 @@ export default function MemberInvitationPage() {
       .then(() => refreshClaims())
       .then(() => {
         toast({
-          title: t('pages.MemberInvitationPage.toastSuccess'),
+          title: t('MemberInvitationPage.toastSuccess'),
           status: 'success',
           duration: 4000,
           isClosable: true,

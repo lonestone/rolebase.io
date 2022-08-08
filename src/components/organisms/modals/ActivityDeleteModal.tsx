@@ -41,14 +41,14 @@ export default function ActivityDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {t('organisms.modals.ActivityDeleteModal.heading')}
+            {t('ActivityDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
-              {t('organisms.modals.ActivityDeleteModal.info1')}
+              {t('ActivityDeleteModal.info1')}
               <br />
-              {t('organisms.modals.ActivityDeleteModal.info2')}
+              {t('ActivityDeleteModal.info2')}
             </Text>
 
             <Box

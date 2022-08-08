@@ -91,7 +91,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
     }
 
     toast({
-      title: t('organisms.modals.CurrentUserModal.toastSuccess'),
+      title: t('CurrentUserModal.toastSuccess'),
       status: 'success',
       duration: 2000,
     })
@@ -106,9 +106,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
-          <ModalHeader>
-            {t('organisms.modals.CurrentUserModal.heading')}
-          </ModalHeader>
+          <ModalHeader>{t('CurrentUserModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
@@ -125,29 +123,21 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
               </FormControl>
 
               <FormControl isInvalid={!!errors.email}>
-                <FormLabel>
-                  {t('organisms.modals.CurrentUserModal.email')}
-                </FormLabel>
+                <FormLabel>{t('CurrentUserModal.email')}</FormLabel>
                 <Input
                   {...register('email')}
                   type="email"
-                  placeholder={t(
-                    'organisms.modals.CurrentUserModal.emailPlaceholder'
-                  )}
+                  placeholder={t('CurrentUserModal.emailPlaceholder')}
                   autoComplete="off"
                   data-lpignore="true"
                 />
               </FormControl>
 
               <FormControl isInvalid={!!errors.password}>
-                <FormLabel>
-                  {t('organisms.modals.CurrentUserModal.password')}
-                </FormLabel>
+                <FormLabel>{t('CurrentUserModal.password')}</FormLabel>
                 <PasswordInput
                   {...register('password')}
-                  placeholder={t(
-                    'organisms.modals.CurrentUserModal.passwordPlaceholder'
-                  )}
+                  placeholder={t('CurrentUserModal.passwordPlaceholder')}
                   autoComplete="new-password"
                 />
               </FormControl>

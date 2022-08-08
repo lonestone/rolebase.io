@@ -24,17 +24,17 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
         rightIcon={isOpen ? <FiChevronDown /> : <FiChevronUp />}
         onClick={onToggle}
       >
-        {t('molecules.CirclesKeyboardShortcuts.label')}
+        {t('CirclesKeyboardShortcuts.label')}
       </Button>
       <Collapse in={isOpen} animateOpacity>
         <VStack mt={2} spacing={2} align="stretch">
           <StackItem>
             <Kbd>⌘</Kbd> + <Kbd>Click</Kbd>
-            {t('molecules.CirclesKeyboardShortcuts.CmdClick')}
+            {t('CirclesKeyboardShortcuts.CmdClick')}
           </StackItem>
           <StackItem>
             <Kbd>⌘</Kbd> + <Kbd size="xl">⇧</Kbd> + <Kbd>Click</Kbd>
-            {t('molecules.CirclesKeyboardShortcuts.CmdShiftClick')}
+            {t('CirclesKeyboardShortcuts.CmdShiftClick')}
           </StackItem>
         </VStack>
       </Collapse>

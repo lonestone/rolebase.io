@@ -72,7 +72,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
     })
 
     toast({
-      title: t('organisms.modals.LogCancelModal.toastSuccess'),
+      title: t('LogCancelModal.toastSuccess'),
       status: 'success',
       duration: 2000,
     })
@@ -82,9 +82,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
     <Modal returnFocusOnClose={false} size="lg" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {t('organisms.modals.LogCancelModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('LogCancelModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
@@ -104,14 +102,14 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
                 <Alert status="warning" mb={5}>
                   <AlertIcon />
                   <AlertDescription>
-                    {t('organisms.modals.LogCancelModal.hadChanges')}
+                    {t('LogCancelModal.hadChanges')}
                   </AlertDescription>
                 </Alert>
                 <Checkbox
                   isChecked={force}
                   onChange={() => setForce((f) => !f)}
                 >
-                  {t('organisms.modals.LogCancelModal.acceptCheckbox')}
+                  {t('LogCancelModal.acceptCheckbox')}
                 </Checkbox>
               </>
             )}
@@ -121,7 +119,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
               rightIcon={showDetails ? <FiChevronUp /> : <FiChevronDown />}
               onClick={() => setShowDetails((s) => !s)}
             >
-              {t('organisms.modals.LogCancelModal.showChanges')}
+              {t('LogCancelModal.showChanges')}
             </Button>
             <Collapse in={showDetails} animateOpacity>
               <VStack spacing={3} align="stretch" wordBreak="break-word">
@@ -148,7 +146,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
             isDisabled={hadChanges && !force}
             onClick={handleCancelLog}
           >
-            {t('organisms.modals.LogCancelModal.cancel')}
+            {t('LogCancelModal.cancel')}
           </Button>
         </ModalFooter>
       </ModalContent>

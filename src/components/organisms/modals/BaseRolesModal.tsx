@@ -63,16 +63,12 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
       <Modal size="sm" {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {t('organisms.modals.BaseRolesModal.heading')}
-          </ModalHeader>
+          <ModalHeader>{t('BaseRolesModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             {!baseRoles?.length ? (
-              <Text fontStyle="italic">
-                {t('organisms.modals.BaseRolesModal.empty')}
-              </Text>
+              <Text fontStyle="italic">{t('BaseRolesModal.empty')}</Text>
             ) : (
               baseRoles?.map((role) => (
                 <ListItemWithButtons
@@ -96,7 +92,7 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
 
           <ModalFooter justifyContent="center">
             <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
-              {t('organisms.modals.BaseRolesModal.create')}
+              {t('BaseRolesModal.create')}
             </Button>
           </ModalFooter>
         </ModalContent>

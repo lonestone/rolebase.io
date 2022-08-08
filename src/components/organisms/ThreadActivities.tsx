@@ -97,10 +97,10 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
           >
             <FiMessageSquare size={40} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              {t('organisms.ThreadActivities.emptyTitle')}
+              {t('ThreadActivities.emptyTitle')}
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              {t('organisms.ThreadActivities.emptyDescription')}
+              {t('ThreadActivities.emptyDescription')}
             </AlertDescription>
           </Alert>
         )}

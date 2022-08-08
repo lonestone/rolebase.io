@@ -60,7 +60,7 @@ export default function MemberContent({
       <>
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>{t('organisms.MemberContent.notFound')}</AlertTitle>
+          <AlertTitle>{t('MemberContent.notFound')}</AlertTitle>
         </Alert>
         <ModalCloseButton />
       </>
@@ -112,7 +112,7 @@ export default function MemberContent({
           )}
 
           <FormControl>
-            <FormLabel>{t('organisms.MemberContent.roles')}</FormLabel>
+            <FormLabel>{t('MemberContent.roles')}</FormLabel>
             <MemberRoles member={member} selectedCircleId={selectedCircleId} />
           </FormControl>
         </VStack>

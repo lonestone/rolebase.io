@@ -30,7 +30,7 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
 
       {membersIds.length === 0 ? (
         <Tooltip
-          label={t('molecules.CircleWithLeaderItem.notAssigned')}
+          label={t('CircleWithLeaderItem.notAssigned')}
           placement="top"
           hasArrow
         >

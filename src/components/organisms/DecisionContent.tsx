@@ -53,7 +53,7 @@ export default function DecisionContent({
 
       <Flex align="center" mb={5}>
         <Heading as="h1" size="md">
-          {t('organisms.DecisionContent.heading')}
+          {t('DecisionContent.heading')}
         </Heading>
 
         {decision && <CircleByIdButton id={decision.circleId} ml={3} />}

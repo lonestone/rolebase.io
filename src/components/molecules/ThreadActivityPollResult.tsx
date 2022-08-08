@@ -56,7 +56,7 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
             <Tooltip
               label={
                 activity.anonymous
-                  ? t('molecules.ThreadActivityPollResult.anonymous')
+                  ? t('ThreadActivityPollResult.anonymous')
                   : voters.join(', ')
               }
               placement="top"

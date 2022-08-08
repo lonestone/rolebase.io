@@ -65,13 +65,13 @@ export default function MemberDeleteModal({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {t('organisms.modals.MemberDeleteModal.heading')}
+            {t('MemberDeleteModal.heading')}
           </AlertDialogHeader>
 
           <AlertDialogBody>
             <Text>
               <Trans
-                i18nKey="organisms.modals.MemberDeleteModal.info"
+                i18nKey="MemberDeleteModal.info"
                 values={{ name: member.name }}
                 components={{ b: <strong /> }}
               />
