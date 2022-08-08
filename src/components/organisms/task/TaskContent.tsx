@@ -16,7 +16,11 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import Loading from '@components/atoms/Loading'
+import Markdown from '@components/atoms/Markdown'
+import MemberByIdButton from '@components/atoms/MemberByIdButton'
+import TaskStatusTag from '@components/atoms/TaskStatusTag'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
@@ -29,6 +33,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import useSubscription from '@hooks/useSubscription'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
@@ -86,6 +91,7 @@ export default function TaskContent({
   const { t } = useTranslation()
   const createLog = useCreateLog()
   const orgId = useOrgId()
+  const isMember = useOrgMember()
   const currentMember = useCurrentMember()
   const updateTaskStatus = useUpdateTaskStatus()
   const { preventClose, allowClose } = usePreventClose()
@@ -215,14 +221,17 @@ export default function TaskContent({
           {t(id ? 'TaskContent.headingEdit' : 'TaskContent.headingCreate')}
         </Heading>
 
-        {task && (
-          <TaskStatusInput
-            value={task.status}
-            onChange={handleChangeStatus}
-            ml={5}
-            size="lg"
-          />
-        )}
+        {task &&
+          (isMember ? (
+            <TaskStatusInput
+              value={task.status}
+              onChange={handleChangeStatus}
+              ml={5}
+              size="lg"
+            />
+          ) : (
+            <TaskStatusTag status={task.status} ml={5} size="lg" />
+          ))}
 
         {task?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
 
@@ -231,7 +240,7 @@ export default function TaskContent({
         <Spacer />
 
         <Flex mr={headerIcons ? -3 : 0}>
-          {id && <ActionsMenu ml={3} onDelete={onDeleteOpen} />}
+          {id && isMember && <ActionsMenu ml={3} onDelete={onDeleteOpen} />}
 
           {headerIcons}
         </Flex>
@@ -246,6 +255,7 @@ export default function TaskContent({
             {...register('title')}
             placeholder={t('TaskContent.titlePlaceholder')}
             autoFocus
+            readOnly={!isMember}
           />
         </FormControl>
 
@@ -257,12 +267,16 @@ export default function TaskContent({
             <Controller
               name="circleId"
               control={control}
-              render={({ field }) => (
-                <CircleSearchInput
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              )}
+              render={({ field }) =>
+                isMember ? (
+                  <CircleSearchInput
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                ) : (
+                  <CircleByIdButton id={field.value} />
+                )
+              }
             />
           </FormControl>
 
@@ -271,19 +285,29 @@ export default function TaskContent({
             <Controller
               name="memberId"
               control={control}
-              render={({ field }) => (
-                <MemberSearchInput
-                  value={field.value ?? undefined}
-                  onChange={field.onChange}
-                  onClear={() => field.onChange(null)}
-                />
-              )}
+              render={({ field }) =>
+                isMember ? (
+                  <MemberSearchInput
+                    value={field.value ?? undefined}
+                    onChange={field.onChange}
+                    onClear={() => field.onChange(null)}
+                  />
+                ) : field.value ? (
+                  <MemberByIdButton id={field.value} size="sm" />
+                ) : (
+                  <></>
+                )
+              }
             />
           </FormControl>
         </Flex>
 
         <FormControl>
-          <Checkbox isChecked={!!dueDate} onChange={handleToggleDueDate}>
+          <Checkbox
+            isChecked={!!dueDate}
+            readOnly={!isMember}
+            onChange={handleToggleDueDate}
+          >
             {t('TaskContent.dueDate')}
           </Checkbox>
           {dueDate ? (
@@ -293,6 +317,7 @@ export default function TaskContent({
                 type="datetime-local"
                 size="sm"
                 maxW="250px"
+                readOnly={!isMember}
               />
             </Box>
           ) : null}
@@ -300,14 +325,22 @@ export default function TaskContent({
 
         <FormControl isInvalid={!!errors.description}>
           <FormLabel>{t('TaskContent.description')}</FormLabel>
-          <EditorController
-            name="description"
-            placeholder={t('TaskContent.notes')}
-            control={control}
-          />
+          {isMember ? (
+            <EditorController
+              name="description"
+              placeholder={t('TaskContent.notes')}
+              control={control}
+            />
+          ) : (
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => <Markdown>{field.value}</Markdown>}
+            />
+          )}
         </FormControl>
 
-        {!id && (
+        {!id && isMember && (
           <Box w="100%" textAlign="right">
             <Button colorScheme="blue" onClick={onSubmit}>
               {t('common.create')}

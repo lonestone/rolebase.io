@@ -12,6 +12,7 @@ import { Title } from '@components/atoms/Title'
 import TaskModal from '@components/organisms/task/TaskModal'
 import TasksModule from '@components/organisms/task/TasksModule'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useOrgMember from '@hooks/useOrgMember'
 import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'
 import React from 'react'
@@ -26,8 +27,9 @@ type Params = {
 }
 
 export default function TasksPage() {
-  const currentMember = useCurrentMember()
   const { t } = useTranslation()
+  const currentMember = useCurrentMember()
+  const isMember = useOrgMember()
   const { params, changeParams } = useUpdatableQueryParams<Params>()
 
   // View param
@@ -81,15 +83,17 @@ export default function TasksPage() {
 
         <Spacer />
 
-        <Button
-          size="sm"
-          colorScheme="blue"
-          ml={1}
-          leftIcon={<FiPlus />}
-          onClick={onCreateOpen}
-        >
-          {t('TasksPage.create')}
-        </Button>
+        {isMember && (
+          <Button
+            size="sm"
+            colorScheme="blue"
+            ml={1}
+            leftIcon={<FiPlus />}
+            onClick={onCreateOpen}
+          >
+            {t('TasksPage.create')}
+          </Button>
+        )}
       </Flex>
 
       <TasksModule

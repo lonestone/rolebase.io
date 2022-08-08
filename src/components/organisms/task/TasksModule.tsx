@@ -21,6 +21,7 @@ import MemberSearchInput from '@components/molecules/search/entities/members/Mem
 import TasksKanban from '@components/molecules/TasksKanban'
 import TasksList from '@components/molecules/TasksList'
 import TasksStatusFilter from '@components/molecules/TasksStatusFilter'
+import useOrgMember from '@hooks/useOrgMember'
 import { useTasks } from '@hooks/useTasks'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'
 import React, { useEffect, useMemo } from 'react'
@@ -54,6 +55,7 @@ export default function TasksModule({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
 
   // Reset status filter when switching to kanban view
   useEffect(() => {
@@ -150,7 +152,7 @@ export default function TasksModule({
             <OverflowContainer {...overflowContainer}>
               <TasksKanban
                 tasks={tasks}
-                onOrderChange={changeOrder}
+                onOrderChange={isMember ? changeOrder : undefined}
                 showMember={!memberId}
                 showCircle={!circleId}
                 onDoneTasksClick={handleDoneTasksClick}
@@ -160,7 +162,7 @@ export default function TasksModule({
           <TabPanel px={0}>
             <TasksList
               tasks={tasks}
-              onOrderChange={changeOrder}
+              onOrderChange={isMember ? changeOrder : undefined}
               showMember={!memberId}
               showCircle={!circleId}
             />

@@ -21,6 +21,7 @@ import ThreadActivities from '@components/organisms/thread/ThreadActivities'
 import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import Page404 from '@components/pages/Page404'
 import useCircle from '@hooks/useCircle'
+import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
 import useSubscription from '@hooks/useSubscription'
@@ -41,6 +42,7 @@ export default function ThreadContent({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
 
   // Subscribe thread
   const { data: thread, error, loading } = useSubscription(subscribeThread(id))
@@ -114,7 +116,7 @@ export default function ThreadContent({
         </Wrap>
 
         <Flex mr={headerIcons ? -2 : 0}>
-          <ActionsMenu onEdit={onEditOpen} ml={2} />
+          {isMember && <ActionsMenu onEdit={onEditOpen} ml={2} />}
           {headerIcons}
         </Flex>
       </Flex>
@@ -125,7 +127,7 @@ export default function ThreadContent({
         </ThreadContext.Provider>
       </Box>
 
-      {thread && (
+      {thread && isMember && (
         <Box
           position="relative"
           zIndex={1}

@@ -1,5 +1,5 @@
-import useAdmin from '@hooks/useAdmin'
 import useCreateMember from '@hooks/useCreateMember'
+import useOrgAdmin from '@hooks/useOrgAdmin'
 import { MemberEntry } from '@shared/model/member'
 import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
@@ -16,7 +16,7 @@ export default function MemberSearchButton({
   ...props
 }: Props) {
   const items = useMemberSearchItems(members, excludeIds)
-  const isAdmin = useAdmin()
+  const isAdmin = useOrgAdmin()
   const handleCreate = useCreateMember()
 
   return (

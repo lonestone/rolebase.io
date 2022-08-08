@@ -33,10 +33,10 @@ import ActionsMenu from '@components/molecules/ActionsMenu'
 import EditorController from '@components/molecules/editor/EditorController'
 import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useAdmin from '@hooks/useAdmin'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
+import useOrgAdmin from '@hooks/useOrgAdmin'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
 import { ClaimRole } from '@shared/model/userClaims'
 import { format } from 'date-fns'
@@ -71,7 +71,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const { t } = useTranslation()
   const member = useMember(id)
   const org = useCurrentOrg()
-  const isAdmin = useAdmin()
+  const isAdmin = useOrgAdmin()
   const toast = useToast()
   const createLog = useCreateLog()
 

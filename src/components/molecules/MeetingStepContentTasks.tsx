@@ -3,6 +3,7 @@ import { Box, Button, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/task/TaskModal'
 import TasksModule from '@components/organisms/task/TasksModule'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useOrgMember from '@hooks/useOrgMember'
 import { LogType } from '@shared/model/log'
 import { MeetingStepTasks } from '@shared/model/meetingStep'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'
@@ -16,7 +17,7 @@ interface Props {
   meetingId: string
   circleId: string
   step: WithId<MeetingStepTasks>
-  editable?: boolean
+  started: boolean
 }
 
 export const taskLogTypes = [
@@ -30,9 +31,10 @@ export default function MeetingStepContentTasks({
   meetingId,
   circleId,
   step,
-  editable,
+  started,
 }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const currentMember = useCurrentMember()
 
   // Persisted filters
@@ -64,7 +66,7 @@ export default function MeetingStepContentTasks({
 
   return (
     <Box mb={5}>
-      {editable && (
+      {started && (
         <>
           <TasksModule
             view={step.viewType || TasksViewTypes.Kanban}
@@ -80,9 +82,11 @@ export default function MeetingStepContentTasks({
             mb={5}
           />
 
-          <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateOpen}>
-            {t('MeetingStepContentTasks.create')}
-          </Button>
+          {isMember && (
+            <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateOpen}>
+              {t('MeetingStepContentTasks.create')}
+            </Button>
+          )}
         </>
       )}
 

@@ -14,6 +14,7 @@ import {
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
 import CircleAndParents from '@components/molecules/CircleAndParentsLinks'
+import useOrgMember from '@hooks/useOrgMember'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import React, { FormEvent, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -25,6 +26,8 @@ interface Props {
 
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
+
   const { colorMode } = useColorMode()
   const hoverColor = colorMode === 'light' ? 'gray.50' : 'whiteAlpha.100'
   const expandedColor = colorMode === 'light' ? 'gray.200' : 'gray.500'
@@ -82,24 +85,28 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                   </FormControl>
                 )}
 
-                <FormControl>
-                  <FormLabel>{t(`MemberRoleItem.workingTime`)}</FormLabel>
-                  <DurationSelect
-                    size="sm"
-                    placeholderValue={
-                      roleCircle.role.defaultMinPerWeek ?? undefined
-                    }
-                    value={avgMinPerWeek}
-                    onChange={setAvgMinPerWeek}
-                  />
-                </FormControl>
+                {isMember && (
+                  <>
+                    <FormControl>
+                      <FormLabel>{t(`MemberRoleItem.workingTime`)}</FormLabel>
+                      <DurationSelect
+                        size="sm"
+                        placeholderValue={
+                          roleCircle.role.defaultMinPerWeek ?? undefined
+                        }
+                        value={avgMinPerWeek}
+                        onChange={setAvgMinPerWeek}
+                      />
+                    </FormControl>
 
-                {isDirty && (
-                  <Box textAlign="right">
-                    <Button size="sm" colorScheme="blue" type="submit">
-                      {t(`common.save`)}
-                    </Button>
-                  </Box>
+                    {isDirty && (
+                      <Box textAlign="right">
+                        <Button size="sm" colorScheme="blue" type="submit">
+                          {t(`common.save`)}
+                        </Button>
+                      </Box>
+                    )}
+                  </>
                 )}
               </VStack>
             </form>

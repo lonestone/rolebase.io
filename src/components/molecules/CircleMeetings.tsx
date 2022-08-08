@@ -6,6 +6,7 @@ import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
 import MeetingModal from '@components/organisms/meeting/MeetingModal'
 import useDateLocale from '@hooks/useDateLocale'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import useSubscription from '@hooks/useSubscription'
 import { format, isSameDay } from 'date-fns'
 import React, { useState } from 'react'
@@ -20,6 +21,7 @@ interface Props {
 
 export default function CircleMeetings({ circleId }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const orgId = useOrgId()
   const dateLocale = useDateLocale()
 
@@ -53,9 +55,11 @@ export default function CircleMeetings({ circleId }: Props) {
 
   return (
     <>
-      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        {t('CircleMeetings.create')}
-      </Button>
+      {isMember && (
+        <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+          {t('CircleMeetings.create')}
+        </Button>
+      )}
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />

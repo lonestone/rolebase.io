@@ -56,7 +56,7 @@ service cloud.firestore {
 
     // Logs
     match /logs/{id} {
-      allow read: if isOrgMember(resource.data.orgId);
+      allow read: if isOrgReader(resource.data.orgId);
       allow create: if isOrgMember(request.resource.data.orgId)
       allow update: if isOrgMember(request.resource.data.orgId) && hasFieldsOnly(['canceled']);
       allow delete: if false;

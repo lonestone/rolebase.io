@@ -3,6 +3,7 @@ import { FormControl, FormLabel, useDisclosure } from '@chakra-ui/react'
 import CircleMemberDeleteModal from '@components/organisms/circle/CircleMemberDeleteModal'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import useCreateLog from '@hooks/useCreateLog'
+import useOrgMember from '@hooks/useOrgMember'
 import { LogType } from '@shared/model/log'
 import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
@@ -16,6 +17,7 @@ interface Props {
 
 export default function CircleMemberFormControl({ circleId }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const createLog = useCreateLog()
   const circleAndParents = useCircleAndParents(circleId)
   const members = useStoreState((state) => state.members.entries)
@@ -86,8 +88,8 @@ export default function CircleMemberFormControl({ circleId }: Props) {
           circleId={circleId}
           membersIds={membersIds}
           max={role?.singleMember ? 1 : undefined}
-          onAdd={handleAddMember}
-          onRemove={handleRemoveMember}
+          onAdd={isMember ? handleAddMember : undefined}
+          onRemove={isMember ? handleRemoveMember : undefined}
         />
       )}
 

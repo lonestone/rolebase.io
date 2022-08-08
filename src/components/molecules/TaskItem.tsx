@@ -11,10 +11,12 @@ import {
 } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
 import MemberAvatar from '@components/atoms/MemberAvatar'
+import TaskStatusTag from '@components/atoms/TaskStatusTag'
 import TaskModal from '@components/organisms/task/TaskModal'
 import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import useOrgMember from '@hooks/useOrgMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
@@ -45,6 +47,7 @@ const TaskItem = forwardRef<Props, 'div'>(
     },
     ref
   ) => {
+    const isMember = useOrgMember()
     const hover = useHoverItemStyle()
     const updateTaskStatus = useUpdateTaskStatus()
     const dateLocale = useDateLocale()
@@ -100,12 +103,16 @@ const TaskItem = forwardRef<Props, 'div'>(
                 <Avatar name="?" size="xs" ml={2} />
               ))}
 
-            <TaskStatusInput
-              value={task.status}
-              onChange={handleChangeStatus}
-              zIndex={2}
-              ml={2}
-            />
+            {isMember ? (
+              <TaskStatusInput
+                value={task.status}
+                onChange={handleChangeStatus}
+                zIndex={2}
+                ml={2}
+              />
+            ) : (
+              <TaskStatusTag status={task.status} ml={2} />
+            )}
 
             {children}
           </Flex>

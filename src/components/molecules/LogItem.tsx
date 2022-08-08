@@ -19,7 +19,7 @@ import { capitalizeFirstLetter } from 'src/utils'
 
 interface Props {
   log: LogEntry
-  onCancel(): void
+  onCancel?(): void
 }
 
 export default function LogItem({ log, onCancel }: Props) {
@@ -49,7 +49,7 @@ export default function LogItem({ log, onCancel }: Props) {
 
       <Spacer />
 
-      {!log.canceled && (
+      {onCancel && !log.canceled && (
         <Tooltip label={t('LogItem.cancel')} placement="top" hasArrow>
           <IconButton
             aria-label={t('LogItem.cancel')}

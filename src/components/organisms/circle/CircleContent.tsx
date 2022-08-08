@@ -23,6 +23,7 @@ import CircleTasks from '@components/molecules/CircleTasks'
 import CircleThreads from '@components/molecules/CircleThreads'
 import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import useCircle from '@hooks/useCircle'
+import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import { MembersScope } from '@shared/model/member'
 import React from 'react'
@@ -47,6 +48,7 @@ interface Props {
 
 export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const circle = useCircle(id)
   const role = circle?.role
 
@@ -87,12 +89,14 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <ParticipantsNumber participants={participants} />
         </Box>
 
-        <ActionsMenu
-          onEdit={editRoleModal.onOpen}
-          onDelete={circle.parentId ? deleteModal.onOpen : undefined}
-          onMove={circle.parentId ? moveModal.onOpen : undefined}
-          onDuplicate={circle.parentId ? duplicateModal.onOpen : undefined}
-        />
+        {isMember && (
+          <ActionsMenu
+            onEdit={editRoleModal.onOpen}
+            onDelete={circle.parentId ? deleteModal.onOpen : undefined}
+            onMove={circle.parentId ? moveModal.onOpen : undefined}
+            onDuplicate={circle.parentId ? duplicateModal.onOpen : undefined}
+          />
+        )}
 
         {headerIcons}
         <ModalCloseStaticButton />

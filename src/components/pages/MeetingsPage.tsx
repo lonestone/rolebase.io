@@ -42,6 +42,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import useSubscription from '@hooks/useSubscription'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { EntityFilters } from '@shared/model/types'
@@ -68,6 +69,7 @@ const getColors = (mode: ColorMode) => ({
 export default function MeetingsPage() {
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
+  const isMember = useOrgMember()
   const { colorMode } = useColorMode()
   const colors = useMemo(() => getColors(colorMode), [colorMode])
   const getCircleById = useStoreState((state) => state.circles.getById)
@@ -256,15 +258,17 @@ export default function MeetingsPage() {
           {t('MeetingsPage.export')}
         </Button>
 
-        <Button
-          size="sm"
-          colorScheme="blue"
-          ml={1}
-          leftIcon={<FiPlus />}
-          onClick={handleCreate}
-        >
-          {t('MeetingsPage.create')}
-        </Button>
+        {isMember && (
+          <Button
+            size="sm"
+            colorScheme="blue"
+            ml={1}
+            leftIcon={<FiPlus />}
+            onClick={handleCreate}
+          >
+            {t('MeetingsPage.create')}
+          </Button>
+        )}
       </Flex>
 
       {currentMember?.meetingId && (
@@ -299,9 +303,11 @@ export default function MeetingsPage() {
           weekends={false}
           allDaySlot={false}
           nowIndicator
-          editable
-          selectable
-          dateClick={handleDateClick}
+          editable={isMember}
+          selectable={isMember}
+          eventAllow={() => isMember}
+          selectAllow={() => isMember}
+          dateClick={isMember ? handleDateClick : undefined}
           select={handleSelect}
           eventClick={handleEventClick}
           eventChange={handleEventChange}

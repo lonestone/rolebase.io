@@ -13,8 +13,8 @@ interface Props {
   membersIds: string[]
   excludeMembersIds?: string[]
   max?: number
-  onAdd(memberId: string): void
-  onRemove(memberId: string): void
+  onAdd?(memberId: string): void
+  onRemove?(memberId: string): void
 }
 
 export default function MembersMultiSelect({
@@ -53,20 +53,22 @@ export default function MembersMultiSelect({
         >
           <ButtonGroup variant="ghost" size="sm" isAttached>
             <MemberButton member={m} pr={1} />
-            <IconButton
-              aria-label={t('common.remove')}
-              icon={<FiX />}
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                onRemove(m.id)
-              }}
-            />
+            {onRemove && (
+              <IconButton
+                aria-label={t('common.remove')}
+                icon={<FiX />}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onRemove(m.id)
+                }}
+              />
+            )}
           </ButtonGroup>
         </CircleMemberLink>
       ))}
 
-      {!max || selectedMembers.length < max ? (
+      {onAdd && (!max || selectedMembers.length < max) ? (
         <MemberSearchButton
           excludeIds={excludeMembersIdsMemo}
           size="sm"

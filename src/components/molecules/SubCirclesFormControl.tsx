@@ -3,6 +3,7 @@ import { createRole } from '@api/entities/roles'
 import { FormControl, FormLabel, StackItem, VStack } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
@@ -22,6 +23,7 @@ interface Props {
 
 export default function SubCirclesFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
   const orgId = useOrgId()
@@ -136,20 +138,23 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
             participants={participants}
           />
         ))}
-        <StackItem>
-          <RoleSearchButton
-            base
-            excludeIds={childrenRolesIds}
-            size="sm"
-            variant="ghost"
-            borderRadius="full"
-            leftIcon={<FiPlus />}
-            onSelect={handleAddRole}
-            onCreate={handleCreateRole}
-          >
-            {t('SubCirclesFormControl.addRole')}
-          </RoleSearchButton>
-        </StackItem>
+
+        {isMember && (
+          <StackItem>
+            <RoleSearchButton
+              base
+              excludeIds={childrenRolesIds}
+              size="sm"
+              variant="ghost"
+              borderRadius="full"
+              leftIcon={<FiPlus />}
+              onSelect={handleAddRole}
+              onCreate={handleCreateRole}
+            >
+              {t('SubCirclesFormControl.addRole')}
+            </RoleSearchButton>
+          </StackItem>
+        )}
       </VStack>
     </FormControl>
   )

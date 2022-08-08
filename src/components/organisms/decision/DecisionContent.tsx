@@ -16,6 +16,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import DateInfo from '@components/molecules/DateInfo'
+import useOrgMember from '@hooks/useOrgMember'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -37,6 +38,7 @@ export default function DecisionContent({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const editModal = useDisclosure()
   const deleteModal = useDisclosure()
 
@@ -62,14 +64,16 @@ export default function DecisionContent({
 
         <Spacer />
 
-        <Flex mr={headerIcons ? -3 : 0}>
-          <ActionsMenu
-            ml={3}
-            onEdit={editModal.onOpen}
-            onDelete={deleteModal.onOpen}
-          />
-          {headerIcons}
-        </Flex>
+        {isMember && (
+          <Flex mr={headerIcons ? -3 : 0}>
+            <ActionsMenu
+              ml={3}
+              onEdit={editModal.onOpen}
+              onDelete={deleteModal.onOpen}
+            />
+            {headerIcons}
+          </Flex>
+        )}
       </Flex>
 
       {id && loading && <Loading active size="md" />}

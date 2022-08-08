@@ -11,8 +11,9 @@ import {
 import OrgEditModal from '@components/organisms/org/OrgEditModal'
 import BaseRolesModal from '@components/organisms/role/BaseRolesModal'
 import VacantRolesModal from '@components/organisms/role/VacantRolesModal'
-import useAdmin from '@hooks/useAdmin'
+import useOrgAdmin from '@hooks/useOrgAdmin'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import React, { ReactElement, useState } from 'react'
@@ -42,7 +43,8 @@ interface Props extends MenuButtonProps {
 export default function HeaderLinksMenu({ links, ...props }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const isAdmin = useAdmin()
+  const isMember = useOrgMember()
+  const isAdmin = useOrgAdmin()
   const isSuperAdmin = useSuperAdmin()
 
   // Pages paths
@@ -113,17 +115,22 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         <MenuItem as={Link} to={membersPath} icon={<FiUsers />}>
           {t('HeaderLinksMenu.members')}
         </MenuItem>
-        <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
-          {t('HeaderLinksMenu.baseRoles')}
-        </MenuItem>
-        <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
-          {t('HeaderLinksMenu.vacantRoles')}
-        </MenuItem>
-        {isAdmin && (
-          <MenuItem as={Link} to={logsPath} icon={<FiClock />}>
-            {t('HeaderLinksMenu.logs')}
-          </MenuItem>
+
+        {isMember && (
+          <>
+            <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
+              {t('HeaderLinksMenu.baseRoles')}
+            </MenuItem>
+            <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
+              {t('HeaderLinksMenu.vacantRoles')}
+            </MenuItem>
+          </>
         )}
+
+        <MenuItem as={Link} to={logsPath} icon={<FiClock />}>
+          {t('HeaderLinksMenu.logs')}
+        </MenuItem>
+
         {isSuperAdmin && (
           <MenuItem as={Link} to={`/admin`} icon={<FiActivity />}>
             {t('HeaderLinksMenu.superAdmin')}

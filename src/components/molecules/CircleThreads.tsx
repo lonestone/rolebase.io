@@ -4,6 +4,7 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import React from 'react'
@@ -17,6 +18,7 @@ interface Props {
 
 export default function CircleThreads({ circleId }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const orgId = useOrgId()
 
   // Subscribe to threads
@@ -36,9 +38,11 @@ export default function CircleThreads({ circleId }: Props) {
 
   return (
     <>
-      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-        {t('CircleThreads.create')}
-      </Button>
+      {isMember && (
+        <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+          {t('CircleThreads.create')}
+        </Button>
+      )}
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />

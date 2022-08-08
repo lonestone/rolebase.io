@@ -55,6 +55,7 @@ export const roles: RoleEntry[] = [
     base: true,
     singleMember: true,
     link: true,
+    colorHue: 0,
   },
   {
     id: 'role-facilitator',

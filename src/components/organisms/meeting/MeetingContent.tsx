@@ -38,10 +38,11 @@ import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
-import useAdmin from '@hooks/useAdmin'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useDateLocale from '@hooks/useDateLocale'
+import useOrgAdmin from '@hooks/useOrgAdmin'
+import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
@@ -80,7 +81,8 @@ export default function MeetingContent({
   const { t } = useTranslation()
   const dateLocale = useDateLocale()
   const currentMember = useCurrentMember()
-  const isAdmin = useAdmin()
+  const isMember = useOrgMember()
+  const isAdmin = useOrgAdmin()
   const members = useStoreState((state) => state.members.entries)
 
   // Subscribe meeting
@@ -133,12 +135,13 @@ export default function MeetingContent({
   const isParticipant = currentMember
     ? participants.some((p) => p.member.id === currentMember.id)
     : false
-  const isFacilitator = currentMember?.id === meeting?.facilitatorMemberId
+  const isFacilitator =
+    isMember && currentMember?.id === meeting?.facilitatorMemberId
   const isInitiator = currentMember?.id === meeting?.initiatorMemberId
   const facilitator = participants?.find(
     (p) => p.member.id === meeting?.facilitatorMemberId
   )
-  const canEdit = isParticipant || isInitiator || isAdmin
+  const canEdit = isMember && (isParticipant || isInitiator || isAdmin)
 
   // Fix current meeting for current member if meeting is not started
   useEffect(() => {
@@ -244,17 +247,19 @@ export default function MeetingContent({
         <Flex mr={headerIcons ? -2 : 0}>
           <ParticipantsNumber participants={participants} mr={1} />
 
-          <ActionsMenu
-            onEdit={
-              canEdit
-                ? meeting?.ended && !forceEdit
-                  ? () => setForceEdit(true)
-                  : handleEdit
-                : undefined
-            }
-            onDuplicate={handleDuplicate}
-            onDelete={canEdit && !isStarted ? onDeleteOpen : undefined}
-          />
+          {isMember && (
+            <ActionsMenu
+              onEdit={
+                canEdit
+                  ? meeting?.ended && !forceEdit
+                    ? () => setForceEdit(true)
+                    : handleEdit
+                  : undefined
+              }
+              onDuplicate={handleDuplicate}
+              onDelete={canEdit && !isStarted ? onDeleteOpen : undefined}
+            />
+          )}
 
           {headerIcons}
         </Flex>
@@ -393,8 +398,7 @@ export default function MeetingContent({
                       meetingId={id}
                       circleId={meeting.circleId}
                       editable={canEdit && (!meeting.ended || forceEdit)}
-                      current={current}
-                      stepConfig={stepConfig}
+                      started={isStarted}
                       step={step}
                     />
                   )}
@@ -419,7 +423,9 @@ export default function MeetingContent({
               )
             })}
 
-            {isStarted && <MeetingActions circleId={meeting.circleId} />}
+            {isStarted && canEdit && (
+              <MeetingActions circleId={meeting.circleId} />
+            )}
 
             {!isNotStarted && (
               <Container size="xs" mt={10}>

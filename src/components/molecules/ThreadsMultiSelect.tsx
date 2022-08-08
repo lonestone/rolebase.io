@@ -68,7 +68,7 @@ export default function ThreadsMultiSelect({
       <TextErrors errors={[error]} />
 
       <VStack spacing={0} align="stretch">
-        <SortableList onDragEnd={handleDragEnd}>
+        <SortableList disabled={!onChange} onDragEnd={handleDragEnd}>
           {items.map((item, i) => (
             <ThreadSortableItem
               key={item.id}

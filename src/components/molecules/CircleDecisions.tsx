@@ -5,6 +5,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import DecisionModal from '@components/organisms/decision/DecisionModal'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import useSubscription from '@hooks/useSubscription'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,6 +18,7 @@ interface Props {
 
 export default function CircleDecisions({ circleId }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const orgId = useOrgId()
 
   // Subscribe to threads
@@ -40,9 +42,16 @@ export default function CircleDecisions({ circleId }: Props) {
 
   return (
     <>
-      <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={editModal.onOpen}>
-        {t('CircleDecisions.create')}
-      </Button>
+      {isMember && (
+        <Button
+          size="sm"
+          mb={4}
+          leftIcon={<FiPlus />}
+          onClick={editModal.onOpen}
+        >
+          {t('CircleDecisions.create')}
+        </Button>
+      )}
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />

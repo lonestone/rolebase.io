@@ -4,6 +4,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import TasksList from '@components/molecules/TasksList'
 import TaskModal from '@components/organisms/task/TaskModal'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
+import useOrgMember from '@hooks/useOrgMember'
 import { useTasks } from '@hooks/useTasks'
 import { TasksViewTypes } from '@shared/model/task'
 import React from 'react'
@@ -16,6 +17,7 @@ interface Props {
 
 export default function CircleTasks({ circleId }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const navigateOrg = useNavigateOrg()
 
   // Subscribe to tasks
@@ -33,9 +35,12 @@ export default function CircleTasks({ circleId }: Props) {
   return (
     <>
       <Flex mb={4}>
-        <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          {t('CircleTasks.create')}
-        </Button>
+        {isMember && (
+          <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateOpen}>
+            {t('CircleTasks.create')}
+          </Button>
+        )}
+
         <Spacer />
         <Button
           size="sm"
@@ -50,7 +55,11 @@ export default function CircleTasks({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      <TasksList tasks={tasks} onOrderChange={changeOrder} showMember />
+      <TasksList
+        tasks={tasks}
+        onOrderChange={isMember ? changeOrder : undefined}
+        showMember
+      />
 
       {isCreateOpen && (
         <TaskModal defaultCircleId={circleId} isOpen onClose={onCreateClose} />

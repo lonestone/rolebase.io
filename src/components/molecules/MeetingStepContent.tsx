@@ -1,7 +1,6 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
-import { MeetingStepConfig } from '@shared/model/meeting'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/model/meetingStep'
 import { Bytes } from 'firebase/firestore'
 import React, { useCallback, useRef } from 'react'
@@ -14,20 +13,16 @@ import MeetingStepContentIndicators from './MeetingStepContentIndicators'
 interface Props {
   meetingId: string
   circleId: string
-  current: boolean
+  started: boolean
   editable: boolean
-  stepConfig: MeetingStepConfig
   step: MeetingStepEntry
 }
 
 export default function MeetingStepContent({
   meetingId,
   circleId,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  current,
+  started,
   editable,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  stepConfig,
   step,
 }: Props) {
   const { t } = useTranslation()
@@ -61,7 +56,7 @@ export default function MeetingStepContent({
           meetingId={meetingId}
           step={step}
           circleId={circleId}
-          editable={editable}
+          started={started}
         />
       )}
 

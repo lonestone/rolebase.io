@@ -25,6 +25,7 @@ import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import useSubscription from '@hooks/useSubscription'
 import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
 import { EntityFilters } from '@shared/model/types'
@@ -35,6 +36,7 @@ import { FiChevronDown, FiPlus } from 'react-icons/fi'
 export default function ThreadsPage() {
   const { t } = useTranslation()
   const orgId = useOrgId()
+  const isMember = useOrgMember()
 
   // Circles filter menu
   const {
@@ -119,15 +121,17 @@ export default function ThreadsPage() {
           </MenuList>
         </Menu>
 
-        <Button
-          size="sm"
-          colorScheme="blue"
-          ml={1}
-          leftIcon={<FiPlus />}
-          onClick={onCreateOpen}
-        >
-          {t('ThreadsPage.create')}
-        </Button>
+        {isMember && (
+          <Button
+            size="sm"
+            colorScheme="blue"
+            ml={1}
+            leftIcon={<FiPlus />}
+            onClick={onCreateOpen}
+          >
+            {t('ThreadsPage.create')}
+          </Button>
+        )}
       </Flex>
 
       {loading && <Loading active center />}

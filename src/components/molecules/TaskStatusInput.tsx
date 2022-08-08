@@ -13,11 +13,13 @@ import { useTranslation } from 'react-i18next'
 
 interface Props extends Omit<TagProps, 'onChange'> {
   value: TaskStatus
+  readOnly?: boolean
   onChange(status: TaskStatus): void
 }
 
 export default function TaskStatusInput({
   value,
+  readOnly,
   onChange,
   ...tagProps
 }: Props) {
@@ -31,6 +33,7 @@ export default function TaskStatusInput({
         colorScheme={taskStatusColors[value]}
         height="fit-content"
         cursor="pointer"
+        disabled={readOnly}
         _hover={{
           opacity: 0.8,
         }}
