@@ -7,9 +7,11 @@ import MemberContent from '@components/organisms/MemberContent'
 import Onboarding from '@components/organisms/Onboarding'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
+import useCirclesEvents from '@hooks/useGraphEvents'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
+import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import CirclesGraph from '../organisms/CirclesGraph'
 
@@ -34,6 +36,12 @@ export default function CirclesPage() {
   const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
   const [ready, setReady] = useState(false)
+
+  // Data
+  const circles = useStoreState((state) => state.circles.entries)
+  const roles = useStoreState((state) => state.roles.entries)
+  const members = useStoreState((state) => state.members.entries)
+  const events = useCirclesEvents()
 
   // Content size
   const boxRef = useRef<HTMLDivElement>(null)
@@ -73,9 +81,14 @@ export default function CirclesPage() {
   return (
     <Flex h="100%" position="relative" overflow="hidden">
       <Box flex={1} ref={boxRef}>
-        {org && boxSize && (
+        {org && circles && roles && members && boxSize && (
           <CirclesGraph
             key={colorMode}
+            id={`graph-${org.id}`}
+            circles={circles}
+            roles={roles}
+            members={members}
+            events={events}
             width={boxSize.width}
             height={boxSize.height}
             selectedCircleId={circleId}

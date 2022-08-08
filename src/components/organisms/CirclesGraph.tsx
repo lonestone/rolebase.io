@@ -1,14 +1,19 @@
 import { useColorMode } from '@chakra-ui/react'
 import styled from '@emotion/styled'
-import { useOrgId } from '@hooks/useOrgId'
-import { useStoreState } from '@store/hooks'
+import { CircleEntry } from '@shared/model/circle'
+import { MemberEntry } from '@shared/model/member'
+import { RoleEntry } from '@shared/model/role'
 import React, { useEffect, useRef, useState } from 'react'
 import { circleColor } from 'src/theme'
 import { ColorModeProps, mode } from 'src/utils'
-import { createGraph, Graph } from '../../circles-viz/createGraph'
-import useCirclesEvents from '../../hooks/useGraphEvents'
+import { createGraph, Graph, GraphEvents } from '../../circles-viz/createGraph'
 
 interface Props {
+  id: string
+  circles: CircleEntry[]
+  roles: RoleEntry[]
+  members: MemberEntry[]
+  events: GraphEvents
   width: number
   height: number
   selectedCircleId?: string
@@ -99,6 +104,11 @@ const StyledSVG = styled.svg<SVGProps>`
 `
 
 export default function CirclesGraph({
+  id,
+  circles,
+  roles,
+  members,
+  events,
   width,
   height,
   selectedCircleId,
@@ -107,25 +117,15 @@ export default function CirclesGraph({
   // Utils
   const { colorMode } = useColorMode()
 
-  // Data
-  const orgId = useOrgId()
-  const circles = useStoreState((state) => state.circles.entries)
-  const members = useStoreState((state) => state.members.entries)
-  const roles = useStoreState((state) => state.roles.entries)
-
   // Viz
   const svgRef = useRef<SVGSVGElement>(null)
   const graphRef = useRef<Graph>()
   const [ready, setReady] = useState(false)
 
-  // Events
-  const events = useCirclesEvents()
-
   // Display viz and update data
   useEffect(() => {
-    if (!svgRef.current || !members || !roles || !circles) {
-      return
-    }
+    if (!svgRef.current) return
+
     // Init Graph
     if (!graphRef.current) {
       const graph = createGraph(svgRef.current, { width, height, events })
@@ -194,7 +194,7 @@ export default function CirclesGraph({
   return (
     <StyledSVG
       ref={svgRef}
-      id={`graph-${orgId}`}
+      id={id}
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
