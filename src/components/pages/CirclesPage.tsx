@@ -80,7 +80,7 @@ export default function CirclesPage() {
 
   return (
     <Flex h="100%" position="relative" overflow="hidden">
-      <Box flex={1} ref={boxRef}>
+      <Box ref={boxRef} flex={1} overflow="hidden">
         {org && circles && roles && members && boxSize && (
           <CirclesGraph
             key={colorMode}

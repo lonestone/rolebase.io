@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react'
+import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -7,6 +8,15 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   build: {
     sourcemap: true,
+    rollupOptions: {
+      // Multiple entry points: https://stackoverflow.com/questions/70522494/multiple-entry-points-in-vite
+      input: {
+        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        demo1: fileURLToPath(
+          new URL('./src/demos/demo1.html', import.meta.url)
+        ),
+      },
+    },
   },
   optimizeDeps: {
     include: ['@rolebase/editor'],

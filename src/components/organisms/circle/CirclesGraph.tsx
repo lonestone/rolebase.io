@@ -3,7 +3,13 @@ import styled from '@emotion/styled'
 import { CircleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
 import { RoleEntry } from '@shared/model/role'
-import React, { useEffect, useRef, useState } from 'react'
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react'
 import { circleColor } from 'src/theme'
 import { ColorModeProps, mode } from 'src/utils'
 import {
@@ -21,6 +27,7 @@ interface Props {
   width: number
   height: number
   selectedCircleId?: string
+  panzoomDisabled?: boolean
   onReady?(): void
 }
 
@@ -32,7 +39,6 @@ type SVGProps = ColorModeProps & {
 }
 
 const StyledSVG = styled.svg<SVGProps>`
-  position: absolute;
   font-family: var(--chakra-fonts-circles);
   font-size: 8px;
   font-weight: 600;
@@ -107,17 +113,21 @@ const StyledSVG = styled.svg<SVGProps>`
   }
 `
 
-export default function CirclesGraph({
-  id,
-  circles,
-  roles,
-  members,
-  events,
-  width,
-  height,
-  selectedCircleId,
-  onReady,
-}: Props) {
+export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
+  {
+    id,
+    circles,
+    roles,
+    members,
+    events,
+    width,
+    height,
+    selectedCircleId,
+    panzoomDisabled,
+    onReady,
+  },
+  ref
+) {
   // Utils
   const { colorMode } = useColorMode()
 
@@ -125,6 +135,9 @@ export default function CirclesGraph({
   const svgRef = useRef<SVGSVGElement>(null)
   const graphRef = useRef<Graph>()
   const [ready, setReady] = useState(false)
+
+  // Expose ref
+  useImperativeHandle(ref, () => graphRef.current)
 
   // Display viz and update data
   useEffect(() => {
@@ -145,12 +158,16 @@ export default function CirclesGraph({
 
   // Update dimensions
   useEffect(() => {
-    if (width === 0 || height === 0) {
-      return
-    }
-    // (Re)-draw graph
-    graphRef.current?.updateDimensions(width, height)
-  }, [members, roles, circles, width, height, ...Object.values(events)])
+    if (width === 0 || height === 0) return
+    graphRef.current?.zoom.changeDimensions(width, height)
+  }, [width, height])
+
+  // Update panzoom disabled state
+  useEffect(() => {
+    const graph = graphRef.current
+    if (!graph) return
+    graph.zoom.disabled = panzoomDisabled || false
+  }, [panzoomDisabled])
 
   // Remove SVG listeners on unmount
   useEffect(() => () => graphRef.current?.removeListeners(), [])
@@ -176,6 +193,10 @@ export default function CirclesGraph({
   // It's useful for the drag behavior
   const [cursor, setCursor] = useState('pointer')
   useEffect(() => {
+    if (!events.onCircleClick || !events.onMemberClick) {
+      setCursor('default')
+      return
+    }
     let shift = false
     let ctrl = false
     const handler = (event: KeyboardEvent) => {
@@ -193,7 +214,7 @@ export default function CirclesGraph({
       document.body.removeEventListener('keydown', handler)
       document.body.removeEventListener('keyup', handler)
     }
-  }, [])
+  }, [events.onCircleClick, events.onMemberClick])
 
   return (
     <StyledSVG
@@ -208,4 +229,4 @@ export default function CirclesGraph({
       colorMode={colorMode}
     />
   )
-}
+})

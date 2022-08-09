@@ -68,7 +68,7 @@ export default function updateCircles(
 
   // Set focus functions
   const focusCircle = (
-    node: NodeData,
+    node: NodeData = root,
     adaptScale?: boolean,
     instant?: boolean
   ) => {
@@ -86,7 +86,7 @@ export default function updateCircles(
   zoom.changeExtent(root.r * 2, root.r * 2)
 
   // Set function to zoom on a circle
-  zoom.focusCircle = (circleId, adaptScale, instant) => {
+  zoom.focusCircle = (circleId = root.data.id, adaptScale, instant) => {
     const circle = nodesMap.find((c) => c.data.id === circleId)
     if (!circle) return
     focusCircle(circle, adaptScale, instant)
@@ -127,7 +127,11 @@ export default function updateCircles(
             const g = d3.select<SVGGElement, NodeData>(this)
 
             // Add circle border
-            if (!dragNodes) {
+            if (
+              !dragNodes &&
+              events.onCircleClick &&
+              events.onCircleMemberClick
+            ) {
               g.attr('data-hover', '')
             }
 
@@ -240,12 +244,13 @@ export default function updateCircles(
               .drag<SVGGElement, NodeData>()
               .filter(function (event) {
                 return (
-                  // Disable drag when space key is pressed
-                  !zoom.spaceKey &&
                   // Disable when mousewheel is pressed
                   event.button !== 1 &&
                   // Control/Command key is pressed
-                  (event.ctrlKey || event.metaKey)
+                  (event.ctrlKey || event.metaKey) &&
+                  // Disable when events are not provided
+                  events.onCircleMove &&
+                  events.onMemberMove
                 )
               })
               .on('start', function (event, dragNode) {

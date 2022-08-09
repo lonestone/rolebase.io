@@ -1,6 +1,15 @@
 import { extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 
+import '@fontsource/montserrat/600.css'
+import '@fontsource/montserrat/700.css'
+import '@fontsource/nunito/400.css'
+import '@fontsource/nunito/500.css'
+import '@fontsource/nunito/600.css'
+import '@fontsource/nunito/700.css'
+import 'focus-visible/dist/focus-visible'
+import './theme.css'
+
 export const defaultCircleColorHue = 200
 
 export const circleColor = (lightness: string, hue?: number | string) =>

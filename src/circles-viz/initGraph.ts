@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import { ZoomTransform } from 'd3'
 import settings from './settings'
-import { Dimensions, Zoom } from './types'
+import { Zoom } from './types'
 
 interface GraphReturn {
   zoom: Zoom
@@ -10,7 +10,8 @@ interface GraphReturn {
 
 export function initGraph(
   svgElement: SVGSVGElement,
-  dimensions: Dimensions
+  width: number,
+  height: number
 ): GraphReturn {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -29,7 +30,7 @@ export function initGraph(
 
   const zoomBehaviour = d3
     .zoom<SVGSVGElement, any>()
-    .filter(() => true) // Listen also to mouse wheel
+    .filter(() => !zoom.disabled) // Listen also to mouse wheel
     .scaleExtent(settings.zoom.scaleExtent as [number, number])
     .on('zoom', (event) => {
       zoom.x = event.transform.x
@@ -49,10 +50,10 @@ export function initGraph(
   const zoom: Zoom = {
     x: 0,
     y: 0,
-    width: dimensions.width,
-    height: dimensions.height,
+    width,
+    height,
     scale: 1,
-    spaceKey: false,
+    disabled: false,
 
     // Change extent to which we can zoom
     changeExtent(w, h) {
@@ -67,7 +68,7 @@ export function initGraph(
       const scale = radius
         ? Math.min(
             settings.zoom.scaleExtent[1],
-            Math.min(dimensions.width, dimensions.height) / (radius * 2)
+            Math.min(zoom.width, zoom.height) / (radius * 2)
           )
         : zoom.scale
       svg
@@ -78,21 +79,26 @@ export function initGraph(
           zoomBehaviour.transform,
           new ZoomTransform(
             scale,
-            -x * scale + dimensions.width / 2,
-            -y * scale + dimensions.height / 2
+            -x * scale + zoom.width / 2,
+            -y * scale + zoom.height / 2
           )
         )
     },
 
     // Conserve center on window resize
     changeDimensions(width: number, height: number, instant = false) {
+      if (width === zoom.width && height === zoom.height) return
+
       const transform = new ZoomTransform(
         zoom.scale,
+        // Reposition to conserve x,y
         zoom.x - zoom.width / 2 + width / 2,
         zoom.y - zoom.height / 2 + height / 2
       )
+
       zoom.width = width
       zoom.height = height
+
       svg
         .transition()
         .duration(instant ? 0 : settings.zoom.duration)
@@ -101,23 +107,10 @@ export function initGraph(
     },
   }
 
-  // Handle space key to prevent dragging circles during pan/zoom
-  // Usefull only when a simple click is sufficient to drag a circle
-  // const handleSpaceKey = (toggle: boolean) => (event: KeyboardEvent) => {
-  //   if (event.key === ' ') {
-  //     zoom.spaceKey = toggle
-  //   }
-  // }
-  // const handleSpaceKeyDown = handleSpaceKey(true)
-  // const handleSpaceKeyUp = handleSpaceKey(false)
-  // document.addEventListener('keydown', handleSpaceKeyDown)
-  // document.addEventListener('keyup', handleSpaceKeyUp)
-
   return {
     zoom,
     removeListeners() {
-      // document.removeEventListener('keydown', handleSpaceKeyDown)
-      // document.removeEventListener('keyup', handleSpaceKeyUp)
+      // Add listeners to remove when the graph is destroyed
     },
   }
 }

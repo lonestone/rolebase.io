@@ -2,14 +2,13 @@ import { CircleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
 import { RoleEntry } from '@shared/model/role'
 import { initGraph } from './initGraph'
-import { Dimensions, DrawEventHandler, DrawEventListener, Zoom } from './types'
+import { DrawEventHandler, DrawEventListener, Zoom } from './types'
 import updateCircles from './updateCircles'
 
 export interface Graph {
   zoom: Zoom
   addDrawListener: DrawEventListener
   removeListeners(): void
-  updateDimensions(width: number, height: number): void
   updateData(
     circles: CircleEntry[],
     roles: RoleEntry[],
@@ -43,8 +42,7 @@ export function createGraph(
   svg: SVGSVGElement,
   { width, height, events }: GraphParams
 ): Graph {
-  const dimensions: Dimensions = { width, height }
-  const { zoom, removeListeners } = initGraph(svg, dimensions)
+  const { zoom, removeListeners } = initGraph(svg, width, height)
 
   // Handle outside click
   svg.addEventListener('click', (event) => {
@@ -63,14 +61,6 @@ export function createGraph(
     zoom,
     addDrawListener,
     removeListeners,
-    updateDimensions(width, height) {
-      // Update dimensions
-      if (dimensions.width !== width || dimensions.height !== height) {
-        dimensions.width = width
-        dimensions.height = height
-        zoom.changeDimensions(width, height)
-      }
-    },
     updateData(circles, roles, members) {
       // Create/update circles and menu
       updateCircles(svg, {
