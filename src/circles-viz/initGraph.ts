@@ -45,7 +45,7 @@ export function initGraph(
         zoom.scale > 1 ? 'auto' : 'none'
       )
     })
-  svg.call(zoomBehaviour).attr('cursor', 'move')
+  svg.call(zoomBehaviour)
 
   const zoom: Zoom = {
     x: 0,
