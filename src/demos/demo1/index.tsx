@@ -116,7 +116,7 @@ function Demo1() {
       setTimeout(() => {
         const zoom = graphRef.current?.zoom
         if (!zoom) return
-        zoom.to(0, 0, (2 / 3) * Math.min(windowSize.width, windowSize.height))
+        zoom.to(0, 0, (2 / 3) * windowSize.height)
       }, settings.zoom.duration)
     } else if (step.circleId === null) {
       graphRef.current?.zoom.focusCircle?.(undefined, true)
