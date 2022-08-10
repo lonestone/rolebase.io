@@ -1,10 +1,4 @@
-import {
-  Box,
-  chakra,
-  ChakraProvider,
-  ColorModeScript,
-  Heading,
-} from '@chakra-ui/react'
+import { Box, chakra, ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import CirclesGraph from '@components/organisms/circle/CirclesGraph'
 import useWindowSize from '@hooks/useWindowSize'
 import React, { useEffect, useRef, useState } from 'react'
@@ -226,10 +220,7 @@ function Demo1() {
                     ]
                   }
                 >
-                  <Heading
-                    as="h2"
-                    className="color-1 weight-title-h font-title section__title"
-                  >
+                  <h2 className="color-1 weight-title-h font-title section__title">
                     <chakra.span
                       p={1}
                       bg="white"
@@ -237,7 +228,7 @@ function Demo1() {
                     >
                       {step.text}
                     </chakra.span>
-                  </Heading>
+                  </h2>
                 </Box>
               )}
             </Transition>

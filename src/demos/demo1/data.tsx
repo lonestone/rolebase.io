@@ -1,6 +1,7 @@
 import { CircleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
 import { RoleEntry } from '@shared/model/role'
+import settings from 'src/settings'
 
 import darryl from './pictures/darryl.jpg'
 import dwight from './pictures/dwight.jpg'
@@ -23,70 +24,70 @@ export const members: MemberEntry[] = [
     id: 'member-michael',
     orgId: 'org-1',
     name: 'Michael',
-    picture: michael,
+    picture: settings.url + michael,
     ...memberBase,
   },
   {
     id: 'member-jim',
     orgId: 'org-1',
     name: 'Jim',
-    picture: jim,
+    picture: settings.url + jim,
     ...memberBase,
   },
   {
     id: 'member-kevin',
     orgId: 'org-1',
     name: 'Kévin',
-    picture: kevin,
+    picture: settings.url + kevin,
     ...memberBase,
   },
   {
     id: 'member-pam',
     orgId: 'org-1',
     name: 'Pam',
-    picture: pam,
+    picture: settings.url + pam,
     ...memberBase,
   },
   {
     id: 'member-dwight',
     orgId: 'org-1',
     name: 'Dwight',
-    picture: dwight,
+    picture: settings.url + dwight,
     ...memberBase,
   },
   {
     id: 'member-oscar',
     orgId: 'org-1',
     name: 'Oscar',
-    picture: oscar,
+    picture: settings.url + oscar,
     ...memberBase,
   },
   {
     id: 'member-stanley',
     orgId: 'org-1',
     name: 'Stanley',
-    picture: stanley,
+    picture: settings.url + stanley,
     ...memberBase,
   },
   {
     id: 'member-darryl',
     orgId: 'org-1',
     name: 'Darryl',
-    picture: darryl,
+    picture: settings.url + darryl,
     ...memberBase,
   },
   {
     id: 'member-meredith',
     orgId: 'org-1',
     name: 'Meredith',
-    picture: meredith,
+    picture: settings.url + meredith,
     ...memberBase,
   },
   {
     id: 'member-karen',
     orgId: 'org-1',
     name: 'Karen',
-    picture: karen,
+    picture: settings.url + karen,
     ...memberBase,
   },
 ]
