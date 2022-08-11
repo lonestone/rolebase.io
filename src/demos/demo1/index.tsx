@@ -58,6 +58,8 @@ const steps: Step[] = [
 ]
 
 const stepHeight = 500
+const stepProgressionHeight = 50
+const stepFadeHeight = 100
 
 const textTransitions = {
   duration: 300,
@@ -65,15 +67,21 @@ const textTransitions = {
     toBottom: {
       entering: { opacity: 1, transform: 'translateY(0)' },
       entered: { opacity: 1, transform: 'translateY(0)' },
-      exiting: { opacity: 0, transform: 'translateY(-100px)' },
-      exited: { opacity: 0, transform: 'translateY(100px)' },
+      exiting: {
+        opacity: 0,
+        transform: `translateY(-${stepProgressionHeight + stepFadeHeight}px)`,
+      },
+      exited: { opacity: 0, transform: `translateY(${stepFadeHeight}px)` },
       unmounted: {},
     },
     toTop: {
       entering: { opacity: 1, transform: 'translateY(0)' },
       entered: { opacity: 1, transform: 'translateY(0)' },
-      exiting: { opacity: 0, transform: 'translateY(100px)' },
-      exited: { opacity: 0, transform: 'translateY(-100px)' },
+      exiting: { opacity: 0, transform: `translateY(${stepFadeHeight}px)` },
+      exited: {
+        opacity: 0,
+        transform: `translateY(-${stepProgressionHeight + stepFadeHeight}px)`,
+      },
       unmounted: {},
     },
   },
@@ -131,7 +139,6 @@ function Demo1() {
   useEffect(() => {
     const handleScroll = () => {
       const y = -Math.min(0, rootElement?.getBoundingClientRect().top || 0)
-      setStepProgression((y % stepHeight) / stepHeight)
 
       // Update sticky states
       if (containerBoxRef.current) {
@@ -157,6 +164,8 @@ function Demo1() {
           }
           setStepIndex(newStep)
         }, nextTime - time)
+      } else {
+        setStepProgression((y % stepHeight) / stepHeight)
       }
     }
     handleScroll()
@@ -217,7 +226,9 @@ function Demo1() {
                   transitionDuration={`${textTransitions.duration}ms`}
                   transitionTimingFunction="ease"
                   style={{
-                    marginBottom: `${50 * stepProgression}px`,
+                    marginBottom: `${
+                      stepProgressionHeight * stepProgression
+                    }px`,
                     ...textTransitions.states[toBottom ? 'toBottom' : 'toTop'][
                       state
                     ],
