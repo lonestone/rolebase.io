@@ -3,6 +3,7 @@ import { MemberEntry } from '@shared/model/member'
 import { RoleEntry } from '@shared/model/role'
 import settings from 'src/settings'
 
+import angela from './pictures/angela.jpg'
 import darryl from './pictures/darryl.jpg'
 import dwight from './pictures/dwight.jpg'
 import jim from './pictures/jim.jpg'
@@ -60,6 +61,13 @@ export const members: MemberEntry[] = [
     orgId: 'org-1',
     name: 'Oscar',
     picture: settings.url + oscar,
+    ...memberBase,
+  },
+  {
+    id: 'member-angela',
+    orgId: 'org-1',
+    name: 'Angela',
+    picture: settings.url + angela,
     ...memberBase,
   },
   {
@@ -229,7 +237,7 @@ export const circles: CircleEntry[] = [
     members: [
       {
         id: '1',
-        memberId: 'member-oscar',
+        memberId: 'member-angela',
       },
     ],
     archived: false,

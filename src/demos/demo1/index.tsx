@@ -28,7 +28,11 @@ const steps: Step[] = [
   },
   {
     circleId: 'circle-finance',
-    text: 'Oscar occupe par exemple le Rôle Finance.',
+    text: 'Angela occupe par exemple le Rôle Finance.',
+  },
+  {
+    circleId: 'circle-finance',
+    text: 'Passez la souris sur sa photo pour voir son prénom.',
   },
   {
     circleId: 'circle-product',
@@ -44,7 +48,11 @@ const steps: Step[] = [
   },
   {
     circleId: 'circle-product',
-    text: "Darryl, Karen et Pam représentent les Rôles de l'équipe Produit, donc participent automatiquement aux réunions et aux discussions du Rôle Produit.",
+    text: "Darryl, Karen et Pam représentent les Rôles de l'équipe Produit.",
+  },
+  {
+    circleId: 'circle-product',
+    text: 'Ils et elles participent automatiquement aux réunions et aux discussions du Rôle Produit.',
   },
   {
     circleId: 'circle-business',
@@ -118,15 +126,16 @@ function Demo1() {
 
   useEffect(() => {
     if (!step) return
-    // When selectedCircleId is undefined, focus don't change
-    // So we focus on root circle
+    // When selectedCircleId is undefined or null, focus don't change
     if (step.circleId === undefined) {
+      // Unzoom
       setTimeout(() => {
         const zoom = graphRef.current?.zoom
         if (!zoom) return
         zoom.to(0, 0, (2 / 3) * windowSize.height)
       }, settings.zoom.duration)
     } else if (step.circleId === null) {
+      // Focus on root circle
       graphRef.current?.zoom.focusCircle?.(undefined, true)
     }
   }, [step])
