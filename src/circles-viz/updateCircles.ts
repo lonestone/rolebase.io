@@ -204,14 +204,13 @@ export default function updateCircles(
         nodeMembers
           .append('text')
           .attr('font-size', `10px`)
+          .attr('font-weight', `bold`)
           .attr('fill', 'white')
-          .attr('y', '0.5em')
+          .attr('y', (d) => (d.data.picture ? `${d.r - 5}px` : '0.5em'))
           .text((d) => getFirstname(d.data.name))
           .attr('opacity', (d) => (d.data.picture ? 0 : 1))
           .attr('pointer-events', 'none')
           .attr('paint-order', 'stroke')
-          .attr('stroke-linecap', 'round')
-          .attr('stroke-linejoin', 'round')
 
         // Add events
         nodeGroup
