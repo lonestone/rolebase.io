@@ -79,8 +79,7 @@ const textTransitions = {
   },
 }
 
-function getCurrentStepIndex(): number {
-  const y = -Math.min(0, rootElement?.getBoundingClientRect().top || 0)
+function getStepIndex(y: number): number {
   for (let i = steps.length - 1; i >= 0; i--) {
     if (y >= i * stepHeight) {
       return i
@@ -107,6 +106,7 @@ function Demo1() {
   const [stepIndex, setStepIndex] = useState<number>()
   const [toBottom, setToBottom] = useState(true)
   const step = stepIndex === undefined ? undefined : steps[stepIndex]
+  const [stepProgression, setStepProgression] = useState(0)
 
   useEffect(() => {
     if (!step) return
@@ -130,6 +130,9 @@ function Demo1() {
 
   useEffect(() => {
     const handleScroll = () => {
+      const y = -Math.min(0, rootElement?.getBoundingClientRect().top || 0)
+      setStepProgression((y % stepHeight) / stepHeight)
+
       // Update sticky states
       if (containerBoxRef.current) {
         const boxRect = containerBoxRef.current.getBoundingClientRect()
@@ -138,7 +141,7 @@ function Demo1() {
       }
 
       // Show step
-      const newStep = getCurrentStepIndex()
+      const newStep = getStepIndex(y)
       if (newStep !== stepIndex && newStep !== nextStep.current) {
         const time = new Date().getTime()
         const nextTime = Math.max(
@@ -210,15 +213,15 @@ function Demo1() {
                   left={5}
                   right={5}
                   textAlign="center"
-                  opacity={0}
                   transitionProperty="opacity,transform"
                   transitionDuration={`${textTransitions.duration}ms`}
                   transitionTimingFunction="ease"
-                  style={
-                    textTransitions.states[toBottom ? 'toBottom' : 'toTop'][
+                  style={{
+                    marginBottom: `${50 * stepProgression}px`,
+                    ...textTransitions.states[toBottom ? 'toBottom' : 'toTop'][
                       state
-                    ]
-                  }
+                    ],
+                  }}
                 >
                   <h2 className="color-1 weight-title-h font-title section__title">
                     <chakra.span
