@@ -7,9 +7,14 @@ import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends ButtonProps {
   circle: CircleWithRoleEntry
+  noEllipsis?: boolean
 }
 
-export default function CircleButton({ circle, ...buttonProps }: Props) {
+export default function CircleButton({
+  circle,
+  noEllipsis,
+  ...buttonProps
+}: Props) {
   const { colorMode } = useColorMode()
 
   return (
@@ -23,7 +28,7 @@ export default function CircleButton({ circle, ...buttonProps }: Props) {
         borderRadius="full"
         {...buttonProps}
       >
-        {textEllipse(circle.role.name, 20)}
+        {noEllipsis ? circle.role.name : textEllipse(circle.role.name, 20)}
       </Button>
     </CircleMemberLink>
   )

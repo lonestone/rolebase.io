@@ -45,7 +45,7 @@ export default function CircleAndParentsLinks({ id, ...boxProps }: Props) {
           })}
         </Text>
       )}
-      <CircleButton circle={circle} />
+      <CircleButton circle={circle} noEllipsis />
     </Box>
   )
 }
