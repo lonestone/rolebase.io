@@ -44,7 +44,7 @@ export default function ThreadActivityLayout({
 
   return (
     <Flex
-      id={activity.id}
+      id={`activity-${activity.id}`}
       p={3}
       _hover={{
         bg:
@@ -74,7 +74,11 @@ export default function ThreadActivityLayout({
 
         <Text>
           {member && <MemberLink id={member.id} name={member.name} />}
-          <HourLink timestamp={activity.createdAt} ml={2} />
+          <HourLink
+            activityId={activity.id}
+            timestamp={activity.createdAt}
+            ml={2}
+          />
         </Text>
 
         {children}

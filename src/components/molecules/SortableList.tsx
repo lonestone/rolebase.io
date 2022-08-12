@@ -21,7 +21,11 @@ export default function SortableList({ children, disabled, onDragEnd }: Props) {
   )
 
   return (
-    <DragDropContext enableDefaultSensors={!disabled} onDragEnd={handleDragEnd}>
+    <DragDropContext
+      key={disabled ? 0 : 1}
+      enableDefaultSensors={!disabled}
+      onDragEnd={handleDragEnd}
+    >
       <Droppable droppableId="list">
         {(provided) => (
           <Box ref={provided.innerRef} {...provided.droppableProps}>

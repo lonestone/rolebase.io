@@ -3,6 +3,7 @@ import React from 'react'
 
 interface Props {
   index: number
+  stepId: string
   title: string
   current: boolean
   last: boolean
@@ -12,6 +13,7 @@ interface Props {
 
 export default function MeetingStepLayout({
   index,
+  stepId,
   title,
   current,
   last,
@@ -32,6 +34,9 @@ export default function MeetingStepLayout({
   return (
     <>
       <Flex alignItems="center">
+        {/* Anchor */}
+        <Box id={`step-${stepId}`} transform="translateY(-100px)" />
+
         <Tag
           color={tagTextColor}
           bg={current ? tagCurrentColor : tagColor}

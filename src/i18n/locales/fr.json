@@ -235,8 +235,11 @@
     "heading": "Historique"
   },
   "MeetingActions": {
-    "createTask": "Nouvelle tâche",
-    "createThread": "Nouvelle discussion"
+    "defaultEntityDescription": "Réunion : {{meeting}}",
+    "start": "Démarrer",
+    "reopen": "Démarrer à nouveau",
+    "stop": "Enregistrer et quitter l'édition",
+    "videoConf": "Rejoindre la visio"
   },
   "MeetingAttendees": {
     "maybe": "Peut-être",
@@ -250,12 +253,8 @@
     "heading": "Réunion <circle /> {{title}}",
     "started": "En cours",
     "ended": "Terminée",
-    "reopen": "Reprendre",
-    "stop": "Arrêter",
     "facilitatorCurrent": "Vous animez cette réunion.",
     "facilitatorMember": "<member /> anime cette réunion.",
-    "start": "Démarrer",
-    "videoConf": "Rejoindre la visio",
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
     "end": "Terminer la réunion",
     "nextStep": "Étape suivante",
@@ -600,10 +599,6 @@
     "placeholder": "Message...",
     "send": "Envoyer",
     "poll": "Créer un Sondage",
-    "thread": "Créer une Discussion",
-    "meeting": "Créer une Réunion",
-    "task": "Créer une Tâche",
-    "decision": "Créer une Décision",
     "defaultEntityDescription": "Discussion : {{thread}}"
   },
   "ThreadActivityDecision": {
@@ -679,6 +674,10 @@
   "common": {
     "save": "Enregistrer",
     "create": "Créer",
+    "createThread": "Créer une Discussion",
+    "createMeeting": "Créer une Réunion",
+    "createTask": "Créer une Tâche",
+    "createDecision": "Créer une Décision",
     "edit": "Editer",
     "cancel": "Annuler",
     "delete": "Supprimer",

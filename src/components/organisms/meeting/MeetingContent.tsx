@@ -1,12 +1,4 @@
 import {
-  endMeeting,
-  goToNextMeetingStep,
-  subscribeMeeting,
-  updateMeeting,
-} from '@api/entities/meetings'
-import { meetingStepsEntities } from '@api/entities/meetingSteps'
-import { stopMembersMeeting } from '@api/entities/members'
-import {
   Alert,
   AlertDescription,
   AlertIcon,
@@ -17,7 +9,6 @@ import {
   Container,
   Flex,
   Heading,
-  HStack,
   Spacer,
   Tag,
   Text,
@@ -38,28 +29,14 @@ import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
 import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
-import useCircle from '@hooks/useCircle'
-import useCurrentMember from '@hooks/useCurrentMember'
 import useDateLocale from '@hooks/useDateLocale'
-import useOrgAdmin from '@hooks/useOrgAdmin'
+import useMeetingState from '@hooks/useMeetingState'
 import useOrgMember from '@hooks/useOrgMember'
-import useParticipants from '@hooks/useParticipants'
-import useSubscription from '@hooks/useSubscription'
-import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
-import { ParticipantMember } from '@shared/model/member'
-import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
-import {
-  FiArrowDown,
-  FiCalendar,
-  FiClock,
-  FiPlay,
-  FiVideo,
-  FiX,
-} from 'react-icons/fi'
+import { FiArrowDown, FiCalendar, FiClock } from 'react-icons/fi'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
@@ -80,143 +57,47 @@ export default function MeetingContent({
 }: Props) {
   const { t } = useTranslation()
   const dateLocale = useDateLocale()
-  const currentMember = useCurrentMember()
   const isMember = useOrgMember()
-  const isAdmin = useOrgAdmin()
-  const members = useStoreState((state) => state.members.entries)
 
-  // Subscribe meeting
+  // Load meeting and steps
+  const meetingState = useMeetingState(id)
+
   const {
-    data: meeting,
+    meeting,
     loading,
     error,
-  } = useSubscription(subscribeMeeting(id))
-
-  // Subscribe meeting steps
-  const { subscribeMeetingSteps } = meetingStepsEntities(id)
-  const {
-    data: steps,
-    error: stepsError,
-    loading: stepsLoading,
-  } = useSubscription(subscribeMeetingSteps())
-
-  // Edit mode when meeting is ended
-  const [forceEdit, setForceEdit] = useState(false)
-
-  // Meeting not started?
-  const isNotStarted = !meeting?.ended && meeting?.currentStepId === null
-  const isStarted = !meeting?.ended && meeting?.currentStepId !== null
-
-  // Participants
-  const initialParticipants = useParticipants(
-    meeting?.circleId,
-    meeting?.participantsScope,
-    meeting?.participantsMembersIds
-  )
-
-  const attendeesParticipants: ParticipantMember[] = useMemo(
-    () =>
-      (meeting?.attendees
-        ?.map(({ memberId, circlesIds }) => {
-          const member = members?.find((m) => m.id === memberId)
-          if (!member) return
-          return { member, circlesIds }
-        })
-        .filter(Boolean) as ParticipantMember[]) || [],
-    [meeting, members]
-  )
-
-  // If attendees are set, take them instead of initial participants
-  const participants = meeting?.attendees
-    ? attendeesParticipants
-    : initialParticipants
-
-  // Is current member participant? facilitator?
-  const isParticipant = currentMember
-    ? participants.some((p) => p.member.id === currentMember.id)
-    : false
-  const isFacilitator =
-    isMember && currentMember?.id === meeting?.facilitatorMemberId
-  const isInitiator = currentMember?.id === meeting?.initiatorMemberId
-  const facilitator = participants?.find(
-    (p) => p.member.id === meeting?.facilitatorMemberId
-  )
-  const canEdit = isMember && (isParticipant || isInitiator || isAdmin)
-
-  // Fix current meeting for current member if meeting is not started
-  useEffect(() => {
-    if (!isStarted && currentMember?.meetingId === meeting.id) {
-      stopMembersMeeting([currentMember.id], meeting.id)
-    }
-  }, [isStarted, currentMember, meeting])
-
-  // Reset forced edition when meeting is not ended anymore
-  useEffect(() => {
-    if (forceEdit && !meeting?.ended) {
-      setForceEdit(false)
-    }
-  }, [meeting?.ended, forceEdit])
-
-  // Circle
-  const circle = useCircle(meeting?.circleId)
+    steps,
+    circle,
+    facilitator,
+    participants,
+    canEdit,
+    forceEdit,
+    isFacilitator,
+    isEnded,
+    isNotStarted,
+    isStarted,
+    handleGoToStep,
+    handleEnd,
+    handleNextStep,
+    handleChangeForceEdit,
+  } = meetingState
 
   // Meeting edition modal
   const [duplicateInModal, setDuplicateInModal] = useState(false)
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
+  const editModal = useDisclosure()
 
   const handleEdit = () => {
     setDuplicateInModal(false)
-    onEditOpen()
+    editModal.onOpen()
   }
 
   const handleDuplicate = () => {
     setDuplicateInModal(true)
-    onEditOpen()
+    editModal.onOpen()
   }
 
   // Meeting deletion modal
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
-
-  // Go to step
-  const handleGoToStep = (stepId: string) => {
-    if (!meeting) return
-    updateMeeting(meeting.id, {
-      currentStepId: stepId,
-    })
-  }
-
-  // End meeting
-  const handleEnd = useCallback(() => {
-    if (!meeting) return
-    endMeeting(
-      meeting.id,
-      participants.map((p) => p.member.id)
-    )
-  }, [meeting, participants])
-
-  // Next step
-  const handleNextStep = useCallback(() => {
-    if (!meeting) return
-    goToNextMeetingStep(meeting, participants)
-  }, [meeting, participants])
-
-  // Join video conference
-  const handleJoinVideoConf = useCallback(() => {
-    if (!meeting?.videoConf || !circle || !currentMember) return
-    const url =
-      typeof meeting.videoConf === 'string'
-        ? meeting.videoConf
-        : generateVideoConfUrl(meeting, circle, currentMember)
-    window.open(url, '_blank')
-  }, [meeting, circle, currentMember])
+  const deleteModal = useDisclosure()
 
   return (
     <Box {...boxProps}>
@@ -252,12 +133,12 @@ export default function MeetingContent({
               onEdit={
                 canEdit
                   ? meeting?.ended && !forceEdit
-                    ? () => setForceEdit(true)
+                    ? () => handleChangeForceEdit(true)
                     : handleEdit
                   : undefined
               }
               onDuplicate={handleDuplicate}
-              onDelete={canEdit && !isStarted ? onDeleteOpen : undefined}
+              onDelete={canEdit && !isStarted ? deleteModal.onOpen : undefined}
             />
           )}
 
@@ -297,7 +178,7 @@ export default function MeetingContent({
               )}
             </Wrap>
 
-            {!meeting.ended &&
+            {!isEnded &&
               (isFacilitator ? (
                 <Alert status="info">
                   <AlertIcon />
@@ -323,38 +204,7 @@ export default function MeetingContent({
                 )
               ))}
 
-            {isNotStarted && canEdit && (
-              <Button
-                leftIcon={<FiPlay />}
-                colorScheme="green"
-                onClick={handleNextStep}
-              >
-                {t('MeetingContent.start')}
-              </Button>
-            )}
-
-            {meeting.ended && canEdit && forceEdit && (
-              <HStack>
-                <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
-                  {t('MeetingContent.reopen')}
-                </Button>
-                <Button leftIcon={<FiX />} onClick={() => setForceEdit(false)}>
-                  {t('MeetingContent.stop')}
-                </Button>
-              </HStack>
-            )}
-
-            {isStarted && canEdit && meeting.videoConf && (
-              <Button
-                leftIcon={<FiVideo />}
-                colorScheme="blue"
-                onClick={handleJoinVideoConf}
-              >
-                {t('MeetingContent.videoConf')}
-              </Button>
-            )}
-
-            {!meeting.ended && !canEdit && (
+            {!isEnded && !canEdit && (
               <Alert status="info">
                 <AlertIcon />
                 <AlertDescription>
@@ -362,16 +212,6 @@ export default function MeetingContent({
                 </AlertDescription>
               </Alert>
             )}
-
-            <Collapse in={!!meeting.attendees} animateOpacity>
-              {meeting.attendees && (
-                <MeetingAttendees
-                  meetingId={meeting.id}
-                  attendees={meeting.attendees}
-                  editable={canEdit && (!meeting.ended || forceEdit)}
-                />
-              )}
-            </Collapse>
           </VStack>
 
           <Box mt={16}>
@@ -379,11 +219,13 @@ export default function MeetingContent({
               const last = index === meeting.stepsConfig.length - 1
               const step = steps?.find((s) => s.id === stepConfig.id)
               const current = meeting.currentStepId === stepConfig.id
+              if (!step) return null
 
               return (
                 <MeetingStepLayout
                   key={stepConfig.id}
                   index={index}
+                  stepId={step.id}
                   title={stepConfig.title}
                   last={last}
                   current={current}
@@ -393,15 +235,26 @@ export default function MeetingContent({
                       : undefined
                   }
                 >
-                  {step && (
-                    <MeetingStepContent
-                      meetingId={id}
-                      circleId={meeting.circleId}
-                      editable={canEdit && (!meeting.ended || forceEdit)}
-                      started={isStarted}
-                      step={step}
-                    />
+                  {index === 0 && (
+                    <Collapse in={!!meeting.attendees} animateOpacity>
+                      {meeting.attendees && (
+                        <MeetingAttendees
+                          meetingId={meeting.id}
+                          attendees={meeting.attendees}
+                          editable={canEdit && (!isEnded || forceEdit)}
+                          my={5}
+                        />
+                      )}
+                    </Collapse>
                   )}
+
+                  <MeetingStepContent
+                    meetingId={id}
+                    circleId={meeting.circleId}
+                    editable={canEdit && (!isEnded || forceEdit)}
+                    started={isStarted}
+                    step={step}
+                  />
 
                   {isStarted && canEdit && (
                     <Collapse in={current || last} animateOpacity>
@@ -423,8 +276,11 @@ export default function MeetingContent({
               )
             })}
 
-            {isStarted && canEdit && (
-              <MeetingActions circleId={meeting.circleId} />
+            {canEdit && (
+              <MeetingActions
+                meetingState={meetingState}
+                forceEdit={forceEdit}
+              />
             )}
 
             {!isNotStarted && (
@@ -438,27 +294,29 @@ export default function MeetingContent({
                 />
               </Container>
             )}
+
+            <Box h="100px" />
           </Box>
         </>
       )}
 
-      {(loading || stepsLoading) && <Loading active size="md" />}
-      <TextErrors errors={[error, stepsError]} />
+      {loading && <Loading active size="md" />}
+      <TextErrors errors={[error]} />
 
-      {isEditOpen && (
+      {editModal.isOpen && (
         <MeetingEditModal
           meeting={meeting}
           duplicate={duplicateInModal}
           isOpen
-          onClose={onEditClose}
+          onClose={editModal.onClose}
         />
       )}
 
-      {isDeleteOpen && meeting && (
+      {deleteModal.isOpen && meeting && (
         <MeetingDeleteModal
           meeting={meeting}
           isOpen
-          onClose={onDeleteClose}
+          onClose={deleteModal.onClose}
           onDelete={onClose}
         />
       )}

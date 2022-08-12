@@ -235,8 +235,11 @@
     "heading": "History"
   },
   "MeetingActions": {
-    "createTask": "New Task",
-    "createThread": "New Thread"
+    "defaultEntityDescription": "Meeting: {{meeting}}",
+    "start": "Start",
+    "reopen": "Start again",
+    "stop": "Save and stop editing",
+    "videoConf": "Join the videoconf"
   },
   "MeetingAttendees": {
     "maybe": "Maybe",
@@ -250,12 +253,8 @@
     "heading": "Meeting <circle /> {{title}}",
     "started": "Started",
     "ended": "Ended",
-    "reopen": "Reopen",
-    "stop": "Stop",
     "facilitatorCurrent": "You are facilitating this meeting.",
     "facilitatorMember": "<member /> is facilitating this meeting.",
-    "start": "Start",
-    "videoConf": "Join the videoconf",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
     "end": "End meeting",
     "nextStep": "Next step",
@@ -599,10 +598,6 @@
     "placeholder": "Message...",
     "send": "Send",
     "poll": "Create a Poll",
-    "thread": "Create a Thread",
-    "meeting": "Create a Meeting",
-    "task": "Create a Task",
-    "decision": "Create a Decision",
     "defaultEntityDescription": "Thread: {{thread}}"
   },
   "ThreadActivityDecision": {
@@ -681,6 +676,10 @@
   "common": {
     "save": "Save",
     "create": "Create",
+    "createThread": "Create a Thread",
+    "createMeeting": "Create a Meeting",
+    "createTask": "Create a Task",
+    "createDecision": "Create a Decision",
     "edit": "Edit",
     "cancel": "Cancel",
     "delete": "Delete",

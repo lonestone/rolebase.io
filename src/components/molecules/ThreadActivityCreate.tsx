@@ -19,7 +19,13 @@ import { Activity, ActivityType } from '@shared/model/activity'
 import { ThreadEntry } from '@shared/model/thread'
 import { Optional } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, {
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiArrowRightCircle,
@@ -111,31 +117,27 @@ export default function ThreadActivityCreate({ thread }: Props) {
   const pollModal = useDisclosure()
 
   // Thread
-  const threadModal = useDisclosure()
-  const handleThreadCreated = useCallback(
-    (id: string) => handleCreated(ActivityType.Thread, id),
-    [handleCreated]
+  const [entityType, setEntityType] = useState<ActivityType>(
+    ActivityType.Thread
+  )
+  const entityModal = useDisclosure()
+
+  const handleEntityOpen = useCallback(
+    (event: MouseEvent<HTMLButtonElement> | ActivityType) => {
+      const type =
+        typeof event === 'string'
+          ? event
+          : event.currentTarget.getAttribute('data-type')
+      if (!type) return
+      setEntityType(type as ActivityType)
+      entityModal.onOpen()
+    },
+    []
   )
 
-  // Meeting
-  const meetingModal = useDisclosure()
-  const handleMeetingCreated = useCallback(
-    (id: string) => handleCreated(ActivityType.Meeting, id),
-    [handleCreated]
-  )
-
-  // Task
-  const taskModal = useDisclosure()
-  const handleTaskCreated = useCallback(
-    (id: string) => handleCreated(ActivityType.Task, id),
-    [handleCreated]
-  )
-
-  // Decision
-  const decisionModal = useDisclosure()
-  const handleDecisionCreated = useCallback(
-    (id: string) => handleCreated(ActivityType.Decision, id),
-    [handleCreated]
+  const handleEntityCreated = useCallback(
+    (id: string) => handleCreated(entityType, id),
+    [handleCreated, entityType]
   )
 
   const defaultEntityDescription = t(
@@ -173,55 +175,43 @@ export default function ThreadActivityCreate({ thread }: Props) {
           />
         </Tooltip>
 
-        <Tooltip
-          label={t(`ThreadActivityCreate.decision`)}
-          placement="top"
-          hasArrow
-        >
+        <Tooltip label={t(`common.createDecision`)} placement="top" hasArrow>
           <IconButton
-            aria-label={t(`ThreadActivityCreate.decision`)}
+            aria-label={t(`common.createDecision`)}
             size="sm"
             icon={<FiArrowRightCircle />}
-            onClick={decisionModal.onOpen}
+            data-type={ActivityType.Decision}
+            onClick={handleEntityOpen}
           />
         </Tooltip>
 
-        <Tooltip
-          label={t(`ThreadActivityCreate.task`)}
-          placement="top"
-          hasArrow
-        >
+        <Tooltip label={t(`common.createTask`)} placement="top" hasArrow>
           <IconButton
-            aria-label={t(`ThreadActivityCreate.task`)}
+            aria-label={t(`common.createTask`)}
             size="sm"
             icon={<FiCheckSquare />}
-            onClick={taskModal.onOpen}
+            data-type={ActivityType.Task}
+            onClick={handleEntityOpen}
           />
         </Tooltip>
 
-        <Tooltip
-          label={t(`ThreadActivityCreate.meeting`)}
-          placement="top"
-          hasArrow
-        >
+        <Tooltip label={t(`common.createMeeting`)} placement="top" hasArrow>
           <IconButton
-            aria-label={t(`ThreadActivityCreate.meeting`)}
+            aria-label={t(`common.createMeeting`)}
             size="sm"
             icon={<FiCalendar />}
-            onClick={meetingModal.onOpen}
+            data-type={ActivityType.Meeting}
+            onClick={handleEntityOpen}
           />
         </Tooltip>
 
-        <Tooltip
-          label={t(`ThreadActivityCreate.thread`)}
-          placement="top"
-          hasArrow
-        >
+        <Tooltip label={t(`common.createThread`)} placement="top" hasArrow>
           <IconButton
-            aria-label={t(`ThreadActivityCreate.thread`)}
+            aria-label={t(`common.createThread`)}
             size="sm"
             icon={<FiMessageSquare />}
-            onClick={threadModal.onOpen}
+            data-type={ActivityType.Thread}
+            onClick={handleEntityOpen}
           />
         </Tooltip>
 
@@ -245,45 +235,49 @@ export default function ThreadActivityCreate({ thread }: Props) {
         />
       )}
 
-      {threadModal.isOpen && (
-        <ThreadEditModal
-          defaultCircleId={thread.circleId}
-          isOpen
-          onCreate={handleThreadCreated}
-          onClose={threadModal.onClose}
-        />
-      )}
+      {entityModal.isOpen && (
+        <>
+          {entityType === ActivityType.Thread && (
+            <ThreadEditModal
+              defaultCircleId={thread.circleId}
+              isOpen
+              onCreate={handleEntityCreated}
+              onClose={entityModal.onClose}
+            />
+          )}
 
-      {meetingModal.isOpen && (
-        <MeetingEditModal
-          defaultCircleId={thread.circleId}
-          isOpen
-          onCreate={handleMeetingCreated}
-          onClose={meetingModal.onClose}
-        />
-      )}
+          {entityType === ActivityType.Meeting && (
+            <MeetingEditModal
+              defaultCircleId={thread.circleId}
+              isOpen
+              onCreate={handleEntityCreated}
+              onClose={entityModal.onClose}
+            />
+          )}
 
-      {taskModal.isOpen && (
-        <TaskModal
-          defaultCircleId={thread.circleId}
-          defaultMemberId={currentMember?.id}
-          defaultTitle={thread.title}
-          defaultDescription={defaultEntityDescription}
-          isOpen
-          onCreate={handleTaskCreated}
-          onClose={taskModal.onClose}
-        />
-      )}
+          {entityType === ActivityType.Task && (
+            <TaskModal
+              defaultCircleId={thread.circleId}
+              defaultMemberId={currentMember?.id}
+              defaultTitle={thread.title}
+              defaultDescription={defaultEntityDescription}
+              isOpen
+              onCreate={handleEntityCreated}
+              onClose={entityModal.onClose}
+            />
+          )}
 
-      {decisionModal.isOpen && (
-        <DecisionEditModal
-          defaultCircleId={thread.circleId}
-          defaultTitle={thread.title}
-          defaultDescription={defaultEntityDescription}
-          isOpen
-          onCreate={handleDecisionCreated}
-          onClose={decisionModal.onClose}
-        />
+          {entityType === ActivityType.Decision && (
+            <DecisionEditModal
+              defaultCircleId={thread.circleId}
+              defaultTitle={thread.title}
+              defaultDescription={defaultEntityDescription}
+              isOpen
+              onCreate={handleEntityCreated}
+              onClose={entityModal.onClose}
+            />
+          )}
+        </>
       )}
     </div>
   )

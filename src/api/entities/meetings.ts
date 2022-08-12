@@ -75,10 +75,11 @@ export async function endMeeting(meetingId: string, membersIds: string[]) {
   stopMembersMeeting(membersIds, meetingId)
 }
 
+// Go to next step and returns new current step id
 export async function goToNextMeetingStep(
   meeting: MeetingEntry,
   participants: ParticipantMember[]
-) {
+): Promise<string | null> {
   const membersIds = participants.map((p) => p.member.id)
 
   // Meeting not started
@@ -102,11 +103,12 @@ export async function goToNextMeetingStep(
 
       await updateMeeting(meeting.id, changedFields)
       startMembersMeeting(membersIds, meeting.id)
+      return firstStep.id
     } else {
       // No first step -> end meeting
       await endMeeting(meeting.id, membersIds)
+      return null
     }
-    return
   }
 
   // Find current and next step
@@ -122,9 +124,11 @@ export async function goToNextMeetingStep(
     await updateMeeting(meeting.id, {
       currentStepId: nextStep.id,
     })
+    return nextStep.id
   } else {
     // No next step -> end meeting
     await endMeeting(meeting.id, membersIds)
+    return null
   }
 }
 

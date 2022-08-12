@@ -5,11 +5,17 @@ import React, { useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkProps {
+  activityId: string
   date?: Date
   timestamp?: Timestamp
 }
 
-export default function HourLink({ date, timestamp, ...linkProps }: Props) {
+export default function HourLink({
+  activityId,
+  date,
+  timestamp,
+  ...linkProps
+}: Props) {
   const computedDate = useMemo(
     () => date || timestamp?.toDate() || new Date(),
     [date, timestamp]
@@ -18,7 +24,7 @@ export default function HourLink({ date, timestamp, ...linkProps }: Props) {
   return (
     <Link
       as={ReachLink}
-      to="#"
+      to={`#activity-${activityId}`}
       fontSize="sm"
       fontWeight="normal"
       color="gray.500"
