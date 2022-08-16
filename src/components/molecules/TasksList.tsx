@@ -49,6 +49,7 @@ export default function TasksList({
 
   return (
     <DragDropContext
+      key={!onOrderChange ? 0 : 1}
       enableDefaultSensors={!!onOrderChange}
       onDragEnd={handleDragEnd}
     >
