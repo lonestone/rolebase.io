@@ -260,7 +260,9 @@ export default function MeetingContent({
                     <Collapse in={current || last} animateOpacity>
                       <Button
                         leftIcon={last ? <FaStop /> : <FiArrowDown />}
-                        colorScheme={current ? 'green' : 'gray'}
+                        colorScheme={
+                          current ? (last ? 'blue' : 'green') : 'gray'
+                        }
                         mt={5}
                         onClick={last ? handleEnd : handleNextStep}
                       >

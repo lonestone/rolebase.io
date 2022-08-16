@@ -36,10 +36,10 @@ export interface MeetingState {
   isEnded: boolean
   isNotStarted: boolean
   isStarted: boolean
+  videoConfUrl: string | undefined
   handleGoToStep(stepId: string): void
   handleEnd(): void
   handleNextStep(): void
-  handleJoinVideoConf(): void
   handleChangeForceEdit(forceEdit: boolean): void
 }
 
@@ -164,14 +164,12 @@ export default function useMeetingState(meetingId: string): MeetingState {
     }
   }, [meeting, participants])
 
-  // Join video conference
-  const handleJoinVideoConf = useCallback(() => {
+  // Video conference URL
+  const videoConfUrl = useMemo(() => {
     if (!meeting?.videoConf || !circle || !currentMember) return
-    const url =
-      typeof meeting.videoConf === 'string'
-        ? meeting.videoConf
-        : generateVideoConfUrl(meeting, circle, currentMember)
-    window.open(url, '_blank')
+    return typeof meeting.videoConf === 'string'
+      ? meeting.videoConf
+      : generateVideoConfUrl(meeting, circle, currentMember)
   }, [meeting, circle, currentMember])
 
   return {
@@ -190,10 +188,10 @@ export default function useMeetingState(meetingId: string): MeetingState {
     isEnded,
     isNotStarted,
     isStarted,
+    videoConfUrl,
     handleGoToStep,
     handleEnd,
     handleNextStep,
-    handleJoinVideoConf,
     handleChangeForceEdit: setForceEdit,
   }
 }

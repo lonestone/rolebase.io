@@ -16,8 +16,9 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import { MeetingState } from '@hooks/useMeetingState'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { ActivityType } from '@shared/model/activity'
-import React, { MouseEvent, useCallback, useState } from 'react'
+import React, { MouseEvent, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FaStop } from 'react-icons/fa'
 import {
   FiArrowRightCircle,
   FiCalendar,
@@ -46,11 +47,13 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
     isEnded,
     isNotStarted,
     isStarted,
+    videoConfUrl,
     handleNextStep,
-    handleJoinVideoConf,
+    handleEnd,
     handleChangeForceEdit,
   } = meetingState
 
+  // Entities creation
   const [entityType, setEntityType] = useState<ActivityType>(
     ActivityType.Thread
   )
@@ -69,10 +72,33 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
     []
   )
 
+  // Video conf
+  const [videoConfOpen, setVideoConfOpen] = useState(false)
+
+  // End time passed?
+  const [endTimePassed, setEndTimePassed] = useState(false)
+  useEffect(() => {
+    if (!meeting) return
+    const currentSeconds = new Date().getTime() / 1000
+
+    // Detect if end time has passed now
+    const endTimePassed = isStarted && meeting.endDate.seconds < currentSeconds
+    setEndTimePassed(endTimePassed)
+
+    if (!endTimePassed && isStarted) {
+      // If end time has not passed, schedule status change
+      const timeout = window.setTimeout(() => {
+        setEndTimePassed(true)
+      }, (meeting?.endDate.seconds - currentSeconds) * 1000)
+      return () => window.clearTimeout(timeout)
+    }
+  }, [isStarted, meeting?.endDate])
+
   if (!meeting || !canEdit || (isEnded && !forceEdit)) {
     return null
   }
 
+  // Default description when creating a decision or a task
   const defaultEntityDescription = t(
     'MeetingActions.defaultEntityDescription',
     {
@@ -122,18 +148,8 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
       )}
 
       {isStarted && (
-        <>
-          {meeting.videoConf && (
-            <Button
-              leftIcon={<FiVideo />}
-              colorScheme="blue"
-              onClick={handleJoinVideoConf}
-            >
-              {t('MeetingActions.videoConf')}
-            </Button>
-          )}
-
-          <HStack>
+        <HStack spacing={4}>
+          <HStack spacing={2}>
             <Tooltip
               label={t(`common.createDecision`)}
               placement="top"
@@ -178,7 +194,55 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
               />
             </Tooltip>
           </HStack>
-        </>
+
+          <HStack spacing={2}>
+            {videoConfUrl && !endTimePassed && (
+              <a href={videoConfUrl} target="_blank" rel="noreferrer">
+                {videoConfOpen ? (
+                  <Tooltip
+                    label={t('MeetingActions.videoConf')}
+                    placement="top"
+                    hasArrow
+                  >
+                    <IconButton
+                      aria-label={t('MeetingActions.videoConf')}
+                      icon={<FiVideo />}
+                      colorScheme="blue"
+                      onClick={() => setVideoConfOpen(true)}
+                    />
+                  </Tooltip>
+                ) : (
+                  <Button
+                    leftIcon={<FiVideo />}
+                    colorScheme="blue"
+                    onClick={() => setVideoConfOpen(true)}
+                  >
+                    {t('MeetingActions.videoConf')}
+                  </Button>
+                )}
+              </a>
+            )}
+
+            {endTimePassed ? (
+              <Button
+                leftIcon={<FaStop />}
+                colorScheme="blue"
+                onClick={handleEnd}
+              >
+                {t('MeetingActions.end')}
+              </Button>
+            ) : (
+              <Tooltip label={t('MeetingActions.end')} placement="top" hasArrow>
+                <IconButton
+                  aria-label={t('MeetingActions.end')}
+                  icon={<FaStop />}
+                  colorScheme="blue"
+                  onClick={handleEnd}
+                />
+              </Tooltip>
+            )}
+          </HStack>
+        </HStack>
       )}
 
       {entityModal.isOpen && (

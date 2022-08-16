@@ -237,6 +237,7 @@
   "MeetingActions": {
     "defaultEntityDescription": "Réunion : {{meeting}}",
     "start": "Démarrer",
+    "end": "Terminer",
     "reopen": "Démarrer à nouveau",
     "stop": "Enregistrer et quitter l'édition",
     "videoConf": "Rejoindre la visio"

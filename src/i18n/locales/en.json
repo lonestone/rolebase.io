@@ -237,6 +237,7 @@
   "MeetingActions": {
     "defaultEntityDescription": "Meeting: {{meeting}}",
     "start": "Start",
+    "end": "End",
     "reopen": "Start again",
     "stop": "Save and stop editing",
     "videoConf": "Join the videoconf"
