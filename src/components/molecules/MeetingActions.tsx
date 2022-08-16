@@ -2,11 +2,10 @@ import {
   Button,
   Flex,
   HStack,
-  IconButton,
-  Tooltip,
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
+import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
 import TaskModal from '@components/organisms/task/TaskModal'
@@ -137,110 +136,71 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
           <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
             {t('MeetingActions.reopen')}
           </Button>
-          <Tooltip label={t('MeetingActions.stop')} placement="left" hasArrow>
-            <IconButton
-              aria-label={t('MeetingActions.stop')}
-              icon={<FiX />}
-              onClick={() => handleChangeForceEdit(false)}
-            />
-          </Tooltip>
+          <IconTextButton
+            aria-label={t('MeetingActions.stop')}
+            icon={<FiX />}
+            tooltipPlacement="left"
+            onClick={() => handleChangeForceEdit(false)}
+          />
         </HStack>
       )}
 
       {isStarted && (
         <HStack spacing={4}>
           <HStack spacing={2}>
-            <Tooltip
-              label={t(`common.createDecision`)}
-              placement="top"
-              hasArrow
-            >
-              <IconButton
-                aria-label={t(`common.createDecision`)}
-                size="sm"
-                icon={<FiArrowRightCircle />}
-                data-type={ActivityType.Decision}
-                onClick={handleEntityOpen}
-              />
-            </Tooltip>
+            <IconTextButton
+              aria-label={t(`common.createDecision`)}
+              size="sm"
+              icon={<FiArrowRightCircle />}
+              data-type={ActivityType.Decision}
+              onClick={handleEntityOpen}
+            />
 
-            <Tooltip label={t(`common.createTask`)} placement="top" hasArrow>
-              <IconButton
-                aria-label={t(`common.createTask`)}
-                size="sm"
-                icon={<FiCheckSquare />}
-                data-type={ActivityType.Task}
-                onClick={handleEntityOpen}
-              />
-            </Tooltip>
+            <IconTextButton
+              aria-label={t(`common.createTask`)}
+              size="sm"
+              icon={<FiCheckSquare />}
+              data-type={ActivityType.Task}
+              onClick={handleEntityOpen}
+            />
 
-            <Tooltip label={t(`common.createMeeting`)} placement="top" hasArrow>
-              <IconButton
-                aria-label={t(`common.createMeeting`)}
-                size="sm"
-                icon={<FiCalendar />}
-                data-type={ActivityType.Meeting}
-                onClick={handleEntityOpen}
-              />
-            </Tooltip>
+            <IconTextButton
+              aria-label={t(`common.createMeeting`)}
+              size="sm"
+              icon={<FiCalendar />}
+              data-type={ActivityType.Meeting}
+              onClick={handleEntityOpen}
+            />
 
-            <Tooltip label={t(`common.createThread`)} placement="top" hasArrow>
-              <IconButton
-                aria-label={t(`common.createThread`)}
-                size="sm"
-                icon={<FiMessageSquare />}
-                data-type={ActivityType.Thread}
-                onClick={handleEntityOpen}
-              />
-            </Tooltip>
+            <IconTextButton
+              aria-label={t(`common.createThread`)}
+              size="sm"
+              icon={<FiMessageSquare />}
+              data-type={ActivityType.Thread}
+              onClick={handleEntityOpen}
+            />
           </HStack>
 
           <HStack spacing={2}>
             {videoConfUrl && !endTimePassed && (
               <a href={videoConfUrl} target="_blank" rel="noreferrer">
-                {videoConfOpen ? (
-                  <Tooltip
-                    label={t('MeetingActions.videoConf')}
-                    placement="top"
-                    hasArrow
-                  >
-                    <IconButton
-                      aria-label={t('MeetingActions.videoConf')}
-                      icon={<FiVideo />}
-                      colorScheme="blue"
-                      onClick={() => setVideoConfOpen(true)}
-                    />
-                  </Tooltip>
-                ) : (
-                  <Button
-                    leftIcon={<FiVideo />}
-                    colorScheme="blue"
-                    onClick={() => setVideoConfOpen(true)}
-                  >
-                    {t('MeetingActions.videoConf')}
-                  </Button>
-                )}
+                <IconTextButton
+                  aria-label={t('MeetingActions.videoConf')}
+                  icon={<FiVideo />}
+                  colorScheme="blue"
+                  showText={!videoConfOpen}
+                  onClick={() => setVideoConfOpen(true)}
+                />
               </a>
             )}
 
-            {endTimePassed ? (
-              <Button
-                leftIcon={<FaStop />}
-                colorScheme="blue"
-                onClick={handleEnd}
-              >
-                {t('MeetingActions.end')}
-              </Button>
-            ) : (
-              <Tooltip label={t('MeetingActions.end')} placement="top" hasArrow>
-                <IconButton
-                  aria-label={t('MeetingActions.end')}
-                  icon={<FaStop />}
-                  colorScheme="blue"
-                  onClick={handleEnd}
-                />
-              </Tooltip>
-            )}
+            <IconTextButton
+              aria-label={t('MeetingActions.end')}
+              icon={<FaStop />}
+              colorScheme="blue"
+              showText={endTimePassed}
+              onClick={handleEnd}
+            />
           </HStack>
         </HStack>
       )}

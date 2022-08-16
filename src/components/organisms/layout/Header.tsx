@@ -1,11 +1,6 @@
-import {
-  Flex,
-  IconButton,
-  Spacer,
-  Tooltip,
-  useMediaQuery,
-} from '@chakra-ui/react'
+import { Flex, Spacer, useMediaQuery } from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
+import IconTextButton from '@components/atoms/IconTextButton'
 import HeaderLinksMenu, {
   HeaderLink,
 } from '@components/molecules/HeaderLinksMenu'
@@ -133,15 +128,13 @@ export default function Header() {
 
       {org && <HeaderSearch />}
 
-      <Tooltip label={t('Header.help')} hasArrow>
-        <IconButton
-          aria-label={t('Header.help')}
-          icon={<FaQuestion />}
-          variant="ghost"
-          size="sm"
-          onClick={handleOpenHelp}
-        />
-      </Tooltip>
+      <IconTextButton
+        aria-label={t('Header.help')}
+        icon={<FaQuestion />}
+        variant="ghost"
+        size="sm"
+        onClick={handleOpenHelp}
+      />
 
       <HeaderUserMenu ml={2} />
     </Flex>

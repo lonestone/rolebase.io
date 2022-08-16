@@ -5,7 +5,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -16,12 +15,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Tooltip,
   useDisclosure,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
+import IconTextButton from '@components/atoms/IconTextButton'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
@@ -116,17 +115,11 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
                     <InputGroup>
                       <Input value={url} isReadOnly />
                       <InputRightElement>
-                        <Tooltip
-                          label={t('common.copy')}
-                          placement="top"
-                          hasArrow
-                        >
-                          <IconButton
-                            aria-label={t('common.copy')}
-                            icon={<FiCopy />}
-                            onClick={copyUrl}
-                          />
-                        </Tooltip>
+                        <IconTextButton
+                          aria-label={t('common.copy')}
+                          icon={<FiCopy />}
+                          onClick={copyUrl}
+                        />
                       </InputRightElement>
                     </InputGroup>
                     <Button

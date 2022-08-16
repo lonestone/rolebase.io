@@ -1,12 +1,5 @@
-import {
-  Box,
-  Flex,
-  IconButton,
-  Spacer,
-  Text,
-  Tooltip,
-  useColorMode,
-} from '@chakra-ui/react'
+import { Box, Flex, Spacer, Text, useColorMode } from '@chakra-ui/react'
+import IconTextButton from '@components/atoms/IconTextButton'
 import LogCancelText from '@components/molecules/LogCancelText'
 import LogText from '@components/molecules/LogText'
 import useDateLocale from '@hooks/useDateLocale'
@@ -50,15 +43,13 @@ export default function LogItem({ log, onCancel }: Props) {
       <Spacer />
 
       {onCancel && !log.canceled && (
-        <Tooltip label={t('LogItem.cancel')} placement="top" hasArrow>
-          <IconButton
-            aria-label={t('LogItem.cancel')}
-            size="sm"
-            variant="ghost"
-            icon={<FiRotateCcw />}
-            onClick={onCancel}
-          />
-        </Tooltip>
+        <IconTextButton
+          aria-label={t('LogItem.cancel')}
+          size="sm"
+          variant="ghost"
+          icon={<FiRotateCcw />}
+          onClick={onCancel}
+        />
       )}
     </Flex>
   )

@@ -1,6 +1,6 @@
 import { subscribeThread } from '@api/entities/threads'
 import { CloseIcon } from '@chakra-ui/icons'
-import { IconButton, Tooltip } from '@chakra-ui/react'
+import IconTextButton from '@components/atoms/IconTextButton'
 import useSubscription from '@hooks/useSubscription'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
@@ -34,17 +34,15 @@ export default function ThreadSortableItem({
           {...provided.dragHandleProps}
         >
           {onRemove && (
-            <Tooltip label={t('common.remove')} placement="top" hasArrow>
-              <IconButton
-                aria-label={t('common.remove')}
-                size="xs"
-                variant="ghost"
-                icon={<CloseIcon />}
-                ml={2}
-                zIndex={1}
-                onClick={() => onRemove(threadId)}
-              />
-            </Tooltip>
+            <IconTextButton
+              aria-label={t('common.remove')}
+              size="xs"
+              variant="ghost"
+              icon={<CloseIcon />}
+              ml={2}
+              zIndex={1}
+              onClick={() => onRemove(threadId)}
+            />
           )}
         </ThreadItem>
       )}

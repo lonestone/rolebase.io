@@ -5,11 +5,11 @@ import {
   ButtonGroup,
   Flex,
   IconButton,
-  Tooltip,
   useColorMode,
   VStack,
 } from '@chakra-ui/react'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
+import IconTextButton from '@components/atoms/IconTextButton'
 import MemberButton from '@components/atoms/MemberButton'
 import { MeetingAttendee } from '@shared/model/meeting'
 import { useStoreState } from '@store/hooks'
@@ -86,54 +86,36 @@ export default function MeetingAttendees({
               }
               borderRadius="md"
             >
-              <Tooltip
-                label={t('MeetingAttendees.maybe')}
-                placement="top"
-                hasArrow
-              >
-                <IconButton
-                  aria-label={t('MeetingAttendees.maybe')}
-                  pt="2px"
-                  icon={<>?</>}
-                  colorScheme="gray"
-                  cursor={editable ? 'pointer' : 'default'}
-                  _disabled={{ opacity: 1 }}
-                  isActive={present === null}
-                  onClick={() => handlePresentChange(member.id, null)}
-                />
-              </Tooltip>
+              <IconTextButton
+                aria-label={t('MeetingAttendees.maybe')}
+                pt="2px"
+                icon={<>?</>}
+                colorScheme="gray"
+                cursor={editable ? 'pointer' : 'default'}
+                _disabled={{ opacity: 1 }}
+                isActive={present === null}
+                onClick={() => handlePresentChange(member.id, null)}
+              />
 
-              <Tooltip
-                label={t('MeetingAttendees.absent')}
-                placement="top"
-                hasArrow
-              >
-                <IconButton
-                  aria-label={t('MeetingAttendees.absent')}
-                  icon={<FiX />}
-                  colorScheme="red"
-                  cursor={editable ? 'pointer' : 'default'}
-                  _disabled={{ opacity: 1 }}
-                  isActive={present === false}
-                  onClick={() => handlePresentChange(member.id, false)}
-                />
-              </Tooltip>
+              <IconTextButton
+                aria-label={t('MeetingAttendees.absent')}
+                icon={<FiX />}
+                colorScheme="red"
+                cursor={editable ? 'pointer' : 'default'}
+                _disabled={{ opacity: 1 }}
+                isActive={present === false}
+                onClick={() => handlePresentChange(member.id, false)}
+              />
 
-              <Tooltip
-                label={t('MeetingAttendees.present')}
-                placement="top"
-                hasArrow
-              >
-                <IconButton
-                  aria-label={t('MeetingAttendees.present')}
-                  icon={<FiCheck />}
-                  colorScheme="green"
-                  cursor={editable ? 'pointer' : 'default'}
-                  _disabled={{ opacity: 1 }}
-                  isActive={present === true}
-                  onClick={() => handlePresentChange(member.id, true)}
-                />
-              </Tooltip>
+              <IconTextButton
+                aria-label={t('MeetingAttendees.present')}
+                icon={<FiCheck />}
+                colorScheme="green"
+                cursor={editable ? 'pointer' : 'default'}
+                _disabled={{ opacity: 1 }}
+                isActive={present === true}
+                onClick={() => handlePresentChange(member.id, true)}
+              />
             </ButtonGroup>
 
             <CircleMemberLink

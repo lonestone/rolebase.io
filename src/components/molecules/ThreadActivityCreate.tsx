@@ -1,12 +1,6 @@
 import { createActivity } from '@api/entities/activities'
-import {
-  Button,
-  HStack,
-  IconButton,
-  Spacer,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Button, HStack, Spacer, useDisclosure } from '@chakra-ui/react'
+import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
 import TaskModal from '@components/organisms/task/TaskModal'
@@ -162,58 +156,44 @@ export default function ThreadActivityCreate({ thread }: Props) {
       />
 
       <HStack spacing={2} my={2}>
-        <Tooltip
-          label={t(`ThreadActivityCreate.poll`)}
-          placement="top"
-          hasArrow
-        >
-          <IconButton
-            aria-label={t(`ThreadActivityCreate.poll`)}
-            size="sm"
-            icon={<FiBarChart2 />}
-            onClick={pollModal.onOpen}
-          />
-        </Tooltip>
+        <IconTextButton
+          aria-label={t(`ThreadActivityCreate.poll`)}
+          size="sm"
+          icon={<FiBarChart2 />}
+          onClick={pollModal.onOpen}
+        />
 
-        <Tooltip label={t(`common.createDecision`)} placement="top" hasArrow>
-          <IconButton
-            aria-label={t(`common.createDecision`)}
-            size="sm"
-            icon={<FiArrowRightCircle />}
-            data-type={ActivityType.Decision}
-            onClick={handleEntityOpen}
-          />
-        </Tooltip>
+        <IconTextButton
+          aria-label={t(`common.createDecision`)}
+          size="sm"
+          icon={<FiArrowRightCircle />}
+          data-type={ActivityType.Decision}
+          onClick={handleEntityOpen}
+        />
 
-        <Tooltip label={t(`common.createTask`)} placement="top" hasArrow>
-          <IconButton
-            aria-label={t(`common.createTask`)}
-            size="sm"
-            icon={<FiCheckSquare />}
-            data-type={ActivityType.Task}
-            onClick={handleEntityOpen}
-          />
-        </Tooltip>
+        <IconTextButton
+          aria-label={t(`common.createTask`)}
+          size="sm"
+          icon={<FiCheckSquare />}
+          data-type={ActivityType.Task}
+          onClick={handleEntityOpen}
+        />
 
-        <Tooltip label={t(`common.createMeeting`)} placement="top" hasArrow>
-          <IconButton
-            aria-label={t(`common.createMeeting`)}
-            size="sm"
-            icon={<FiCalendar />}
-            data-type={ActivityType.Meeting}
-            onClick={handleEntityOpen}
-          />
-        </Tooltip>
+        <IconTextButton
+          aria-label={t(`common.createMeeting`)}
+          size="sm"
+          icon={<FiCalendar />}
+          data-type={ActivityType.Meeting}
+          onClick={handleEntityOpen}
+        />
 
-        <Tooltip label={t(`common.createThread`)} placement="top" hasArrow>
-          <IconButton
-            aria-label={t(`common.createThread`)}
-            size="sm"
-            icon={<FiMessageSquare />}
-            data-type={ActivityType.Thread}
-            onClick={handleEntityOpen}
-          />
-        </Tooltip>
+        <IconTextButton
+          aria-label={t(`common.createThread`)}
+          size="sm"
+          icon={<FiMessageSquare />}
+          data-type={ActivityType.Thread}
+          onClick={handleEntityOpen}
+        />
 
         <Spacer />
 

@@ -1,12 +1,11 @@
 import {
-  IconButton,
   Input,
   InputGroup,
   List,
   ListItem,
-  Tooltip,
   useColorMode,
 } from '@chakra-ui/react'
+import IconTextButton from '@components/atoms/IconTextButton'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -106,15 +105,13 @@ export default function HeaderSearch() {
     <div style={{ position: 'relative' }} {...getComboboxProps()}>
       <InputGroup size="sm">
         {!isOpen && (
-          <Tooltip label={t('HeaderSearch.tooltip')} hasArrow>
-            <IconButton
-              aria-label={t('HeaderSearch.tooltip')}
-              icon={<FaSearch />}
-              variant="ghost"
-              size="sm"
-              onClick={handleClick}
-            />
-          </Tooltip>
+          <IconTextButton
+            aria-label={t('HeaderSearch.tooltip')}
+            icon={<FaSearch />}
+            variant="ghost"
+            size="sm"
+            onClick={handleClick}
+          />
         )}
         <Input
           type="text"

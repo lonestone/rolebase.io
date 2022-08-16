@@ -5,7 +5,6 @@ import {
 import {
   FormControl,
   FormLabel,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -16,10 +15,10 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Tooltip,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import IconTextButton from '@components/atoms/IconTextButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
@@ -137,13 +136,11 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                     onFocus={(e) => e.target.select()}
                   />
                   <InputRightElement>
-                    <Tooltip label={t('common.copy')} placement="top" hasArrow>
-                      <IconButton
-                        aria-label={t('common.copy')}
-                        icon={<FiCopy />}
-                        onClick={copyUrl}
-                      />
-                    </Tooltip>
+                    <IconTextButton
+                      aria-label={t('common.copy')}
+                      icon={<FiCopy />}
+                      onClick={copyUrl}
+                    />
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
