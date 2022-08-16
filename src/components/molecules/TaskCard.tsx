@@ -50,6 +50,7 @@ const TaskCard = forwardRef<Props, 'div'>(
           bg={colorMode === 'light' ? 'white' : 'gray.700'}
           borderRadius="md"
           boxShadow={isDragging ? 'lg' : 'sm'}
+          transition="box-shadow 200ms ease-out"
           _hover={{
             boxShadow: 'md',
           }}
