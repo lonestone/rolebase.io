@@ -1,12 +1,17 @@
-import { CircleEntry, CircleMemberEntry } from '@shared/model/circle'
+import {
+  CircleEntry,
+  CircleMemberEntry,
+  CircleWithRoleEntry,
+} from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
-import { RoleEntry } from '@shared/model/role'
 import { textEllipse } from 'src/utils'
 import settings from './settings'
 import { Data, NodeType } from './types'
 
 // Move lost circles to root
-export function fixLostCircles(circles: CircleEntry[]) {
+export function fixLostCircles<Entry extends CircleEntry>(
+  circles: Entry[]
+): Entry[] {
   return circles.map((circle) => {
     if (!circles.find((c) => c.id === circle.parentId)) {
       return { ...circle, parentId: null }
@@ -16,8 +21,7 @@ export function fixLostCircles(circles: CircleEntry[]) {
 }
 
 export function circlesToD3Data(
-  circles: CircleEntry[],
-  roles: RoleEntry[],
+  circles: CircleWithRoleEntry[],
   members: MemberEntry[],
   parentId: string | null = null,
   defaultColorHue?: number
@@ -25,22 +29,18 @@ export function circlesToD3Data(
   return circles
     .filter((circle) => circle.parentId == parentId)
     .map((circle) => {
-      const role = roles.find((role) => role.id === circle.roleId)
-      if (!role) return
-
       // Define circle data with role name
       const data: Data = {
         id: circle.id,
         parentCircleId: circle.parentId,
-        name: textEllipse(role.name, 16),
+        name: textEllipse(circle.role.name, 16),
         type: NodeType.Circle,
-        colorHue: role.colorHue ?? defaultColorHue,
+        colorHue: circle.role.colorHue ?? defaultColorHue,
       }
 
       // Add sub-circles to children
       const children: Data[] = circlesToD3Data(
         circles,
-        roles,
         members,
         circle.id,
         data.colorHue
@@ -59,7 +59,6 @@ export function circlesToD3Data(
       }
       return data
     })
-    .filter(Boolean) as Data[]
 }
 
 function memberstoD3Data(

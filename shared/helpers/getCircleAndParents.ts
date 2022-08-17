@@ -1,10 +1,10 @@
 import { CircleEntry } from '../model/circle'
 
 // Find a circle and its parent
-export function getCircleAndParents(
-  circles: CircleEntry[],
+export function getCircleAndParents<Entry extends CircleEntry>(
+  circles: Entry[],
   circleId: string
-): CircleEntry[] {
+): Entry[] {
   // Find circle
   const circle = circles.find((c) => c.id === circleId)
   if (!circle) return []

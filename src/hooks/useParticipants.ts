@@ -1,3 +1,4 @@
+import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
 import {
@@ -31,10 +32,16 @@ export default function useParticipants(
           })) || []
       } else if (scope === MembersScope.CircleLeaders) {
         // Circle Leaders and links
-        participants = getCircleParticipants(circleId, circles, roles)
+        participants = getCircleParticipants(
+          circleId,
+          enrichCirclesWithRoles(circles, roles)
+        )
       } else if (scope === MembersScope.CircleMembers) {
         // All Circle Members
-        participants = getAllCircleMembersParticipants(circleId, circles, roles)
+        participants = getAllCircleMembersParticipants(
+          circleId,
+          enrichCirclesWithRoles(circles, roles)
+        )
       }
     }
 

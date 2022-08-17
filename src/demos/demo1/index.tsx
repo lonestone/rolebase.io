@@ -1,6 +1,7 @@
 import { Box, chakra, ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import CirclesGraph from '@components/organisms/circle/CirclesGraph'
 import useWindowSize from '@hooks/useWindowSize'
+import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import React, { useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { I18nextProvider } from 'react-i18next'
@@ -103,6 +104,8 @@ function getStepIndex(y: number): number {
   }
   return 0
 }
+
+const circlesWithRoles = enrichCirclesWithRoles(circles, roles)
 
 function Demo1() {
   // Dimensions
@@ -211,8 +214,7 @@ function Demo1() {
         <CirclesGraph
           ref={graphRef}
           id="graph"
-          circles={circles}
-          roles={roles}
+          circles={circlesWithRoles}
           members={members}
           events={events}
           selectedCircleId={step?.circleId ?? undefined}

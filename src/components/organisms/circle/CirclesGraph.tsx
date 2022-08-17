@@ -1,8 +1,7 @@
 import { useColorMode } from '@chakra-ui/react'
 import styled from '@emotion/styled'
-import { CircleEntry } from '@shared/model/circle'
+import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
-import { RoleEntry } from '@shared/model/role'
 import React, {
   forwardRef,
   useEffect,
@@ -20,8 +19,7 @@ import {
 
 interface Props {
   id: string
-  circles: CircleEntry[]
-  roles: RoleEntry[]
+  circles: CircleWithRoleEntry[]
   members: MemberEntry[]
   events: GraphEvents
   width: number
@@ -117,7 +115,6 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   {
     id,
     circles,
-    roles,
     members,
     events,
     width,
@@ -153,8 +150,8 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
     }
 
     // (Re)-draw graph
-    graphRef.current.updateData(circles, roles, members)
-  }, [members, roles, circles, ...Object.values(events)])
+    graphRef.current.updateData(circles, members)
+  }, [members, circles, ...Object.values(events)])
 
   // Update dimensions
   useEffect(() => {

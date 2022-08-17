@@ -1,11 +1,9 @@
-import { CircleEntry } from '../model/circle'
+import { CircleWithRoleEntry } from '../model/circle'
 import { Participant } from '../model/member'
-import { RoleEntry } from '../model/role'
 
 export function getCircleParticipants(
   circleId: string,
-  circles: CircleEntry[],
-  roles: RoleEntry[]
+  circles: CircleWithRoleEntry[]
 ): Participant[] {
   const currentCircle = circles.find((c) => c.id === circleId)
 
@@ -26,8 +24,7 @@ export function getCircleParticipants(
         .filter((c) => c.parentId === circle.id)
         .flatMap((subCircle) => {
           // Find sub-Role
-          const subRole = roles.find((r) => r.id === subCircle.roleId)
-          if (subRole?.link === true) {
+          if (subCircle.role.link === true) {
             return subCircle.members.map((member) =>
               optionalParticipant(circle.id, member.memberId)
             )
@@ -48,21 +45,17 @@ export function getCircleParticipants(
     .filter(Boolean) as Participant[]
 
   // Representants from other circles (links)
-  const representants = roles
-    // Link Roles to Circle
-    .filter((role) => role.link === circleId)
-    .flatMap((role) =>
-      // Find Circles using this Role
-      circles
-        .filter((c) => c.roleId === role.id)
-        // Get Member id
-        .flatMap((circle) =>
-          circle.members.map((member) =>
-            optionalParticipant(circle.parentId, member.memberId)
-          )
+  const representants =
+    // Find Circles using this Role
+    circles
+      .filter((c) => c.role.link === circleId)
+      // Get Member id
+      .flatMap((circle) =>
+        circle.members.map((member) =>
+          optionalParticipant(circle.parentId, member.memberId)
         )
-    )
-    .filter(Boolean) as Participant[]
+      )
+      .filter(Boolean) as Participant[]
 
   return [...leaders, ...representants, ...directParticipants]
 }

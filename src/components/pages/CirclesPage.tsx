@@ -12,8 +12,9 @@ import useCirclesEvents from '@hooks/useGraphEvents'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
+import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 type CirclesPageParams = {
   circleId: string
@@ -40,6 +41,10 @@ export default function CirclesPage() {
   // Data
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
+  const circlesWithRoles = useMemo(
+    () => circles && roles && enrichCirclesWithRoles(circles, roles),
+    [circles, roles]
+  )
   const members = useStoreState((state) => state.members.entries)
   const events = useCirclesEvents()
 
@@ -81,12 +86,11 @@ export default function CirclesPage() {
   return (
     <Flex h="100%" position="relative" overflow="hidden">
       <Box ref={boxRef} flex={1} overflow="hidden">
-        {org && circles && roles && members && boxSize && (
+        {org && circlesWithRoles && members && boxSize && (
           <CirclesGraph
             key={colorMode}
             id={`graph-${org.id}`}
-            circles={circles}
-            roles={roles}
+            circles={circlesWithRoles}
             members={members}
             events={events}
             width={boxSize.width}

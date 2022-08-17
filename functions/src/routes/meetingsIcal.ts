@@ -1,3 +1,4 @@
+import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import filterEntities from '@shared/helpers/filterEntities'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { CircleWithRoleEntry } from '@shared/model/circle'
@@ -66,10 +67,12 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
       .get()
   )
 
+  const circleswithRoles = enrichCirclesWithRoles(circles, roles)
+
   // Get member's circles
   let memberCircles: CircleWithRoleEntry[] | undefined
   if (memberId) {
-    memberCircles = getParticipantCircles(memberId, circles, roles)
+    memberCircles = getParticipantCircles(memberId, circleswithRoles)
   }
 
   // Get meetings
@@ -100,8 +103,7 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
 
   // Add events
   for (const meeting of meetings) {
-    const circle = circles.find((c) => c.id === meeting.circleId)
-    const role = circle && roles.find((r) => r.id === circle.roleId)
+    const circle = circleswithRoles.find((c) => c.id === meeting.circleId)
     const url = `${meetingsUrl}/${meeting.id}`
 
     cal.createEvent({
@@ -109,7 +111,7 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
       end: meeting.endDate.toDate(),
       summary: i18next.t('meetingsIcal.meeting.title', {
         title: meeting.title,
-        role: role?.name,
+        role: circle?.role.name,
         lng,
       }),
       description: url,

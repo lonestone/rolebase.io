@@ -1,6 +1,5 @@
-import { CircleEntry } from '@shared/model/circle'
+import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
-import { RoleEntry } from '@shared/model/role'
 import * as d3 from 'd3'
 import { HierarchyCircularNode } from 'd3'
 import { d3CircleCenterName, d3CircleTopName } from './circleName'
@@ -23,8 +22,7 @@ import {
 } from './types'
 
 interface CirclesParams {
-  circles: CircleEntry[]
-  roles: RoleEntry[]
+  circles: CircleWithRoleEntry[]
   members: MemberEntry[]
   events: GraphEvents
   zoom: Zoom
@@ -33,7 +31,7 @@ interface CirclesParams {
 
 export default function updateCircles(
   svgElement: SVGSVGElement,
-  { circles, roles, members, events, zoom, addDrawListener }: CirclesParams
+  { circles, members, events, zoom, addDrawListener }: CirclesParams
 ) {
   // Pack data with d3.pack
   const data: Data = {
@@ -41,7 +39,7 @@ export default function updateCircles(
     parentCircleId: null,
     type: NodeType.Circle,
     name: '',
-    children: circlesToD3Data(fixLostCircles(circles), roles, members),
+    children: circlesToD3Data(fixLostCircles(circles), members),
   }
   const root = packData(data)
   const svg = d3.select<SVGSVGElement, NodeData>(svgElement)
