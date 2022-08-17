@@ -1,5 +1,7 @@
+import filterEntities from '@shared/helpers/filterEntities'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { CircleWithRoleEntry } from '@shared/model/circle'
+import { EntityFilters } from '@shared/model/types'
 import * as express from 'express'
 import i18next from 'i18next'
 import { ICalCalendar } from 'ical-generator'
@@ -71,25 +73,24 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
   }
 
   // Get meetings
-  const meetings = getQuerySnapshotData(
+  const orgMeetings = getQuerySnapshotData(
     await collections.meetings
       .where('orgId', '==', orgId)
       .where('archived', '==', false)
       .orderBy('startDate', 'asc')
       .get()
-  ).filter((meeting) => {
-    if (memberId) {
-      // Filter by member
-      return (
-        meeting.participantsMembersIds.includes(memberId) ||
-        memberCircles?.some((c) => c.id === meeting.circleId)
-      )
-    } else if (circleId) {
-      // Filter by circle
-      return meeting.circleId === circleId
-    }
-    return true
-  })
+  )
+
+  // Filter meetings
+  const filter = inferFilter(memberId, circleId)
+
+  const meetings = filterEntities(
+    filter,
+    orgMeetings,
+    circleId,
+    memberId,
+    memberCircles?.map((c) => c.id)
+  )
 
   // Setup calendar
   const cal = new ICalCalendar()
@@ -118,4 +119,10 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
   res.set('Content-Type', 'text/calendar; charset=utf-8')
   res.set('Content-Disposition', 'attachment; filename=meetings.ics')
   res.send(cal.toString())
+}
+
+function inferFilter(memberId?: string, circleId?: string) {
+  if (memberId) return EntityFilters.Invited
+  if (circleId) return EntityFilters.Circle
+  return EntityFilters.All
 }
