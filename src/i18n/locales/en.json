@@ -165,7 +165,7 @@
     "create": "Create an organization"
   },
   "HeaderSearch": {
-    "tooltip": "Search (⌘ K)",
+    "tooltip": "Search ({{keys}})",
     "placeholder": "Search..."
   },
   "HeaderUserMenu": {

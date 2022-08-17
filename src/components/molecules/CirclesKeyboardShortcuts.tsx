@@ -6,15 +6,22 @@ import {
   Kbd,
   StackItem,
   useDisclosure,
+  useMediaQuery,
   VStack,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { cmdOrCtrlKey } from 'src/utils'
 
 export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
   const { t } = useTranslation()
   const { isOpen, onToggle } = useDisclosure()
+  const [isSmallScreen] = useMediaQuery('(max-width: 600px)')
+
+  if (isSmallScreen) {
+    return null
+  }
 
   return (
     <Box {...boxProps}>
@@ -29,11 +36,12 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
       <Collapse in={isOpen} animateOpacity>
         <VStack mt={2} spacing={2} align="stretch">
           <StackItem>
-            <Kbd>⌘</Kbd> + <Kbd>Click</Kbd>
+            <Kbd>{cmdOrCtrlKey}</Kbd> + <Kbd>Click</Kbd>
             {t('CirclesKeyboardShortcuts.CmdClick')}
           </StackItem>
           <StackItem>
-            <Kbd>⌘</Kbd> + <Kbd size="xl">⇧</Kbd> + <Kbd>Click</Kbd>
+            <Kbd>{cmdOrCtrlKey}</Kbd> + <Kbd size="xl">⇧</Kbd> +{' '}
+            <Kbd>Click</Kbd>
             {t('CirclesKeyboardShortcuts.CmdShiftClick')}
           </StackItem>
         </VStack>

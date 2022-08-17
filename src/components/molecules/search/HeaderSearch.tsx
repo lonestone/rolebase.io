@@ -11,6 +11,7 @@ import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaSearch } from 'react-icons/fa'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
+import { cmdOrCtrlKey } from 'src/utils'
 import { useCircleMemberSearchItems } from './entities/circleMembers/useCircleMemberSearchItems'
 import { useCircleSearchItems } from './entities/circles/useCircleSearchItems'
 import { useMemberSearchItems } from './entities/members/useMemberSearchItems'
@@ -106,7 +107,9 @@ export default function HeaderSearch() {
       <InputGroup size="sm">
         {!isOpen && (
           <IconTextButton
-            aria-label={t('HeaderSearch.tooltip')}
+            aria-label={t('HeaderSearch.tooltip', {
+              keys: `${cmdOrCtrlKey} + K`,
+            })}
             icon={<FaSearch />}
             variant="ghost"
             size="sm"

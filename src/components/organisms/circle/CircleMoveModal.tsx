@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { cmdOrCtrlKey } from 'src/utils'
 
 export default function CircleMoveModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
@@ -27,7 +28,7 @@ export default function CircleMoveModal(modalProps: UseModalProps) {
           <UnorderedList>
             <ListItem>{t('CircleMoveModal.action1')}</ListItem>
             <ListItem>
-              {t('CircleMoveModal.action2')} <Kbd>⌘</Kbd>
+              {t('CircleMoveModal.action2')} <Kbd>{cmdOrCtrlKey}</Kbd>
             </ListItem>
             <ListItem>{t('CircleMoveModal.action3')}</ListItem>
             <ListItem>{t('CircleMoveModal.action4')}</ListItem>

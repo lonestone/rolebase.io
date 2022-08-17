@@ -1,6 +1,11 @@
 import { ColorMode } from '@chakra-ui/react'
 import { format } from 'date-fns'
 
+export const isMac = /Mac/i.test(navigator.platform)
+export const isIOS = /(iPhone|iPod|iPad)/i.test(navigator.platform)
+
+export const cmdOrCtrlKey = isMac ? '⌘' : 'Ctrl'
+
 export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
