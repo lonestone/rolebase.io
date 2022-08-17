@@ -32,10 +32,7 @@ export function circlesToD3Data(
       const data: Data = {
         id: circle.id,
         parentCircleId: circle.parentId,
-        name: textEllipse(
-          roles.find((role) => role.id === circle.roleId)?.name || '?',
-          16
-        ),
+        name: textEllipse(role.name, 16),
         type: NodeType.Circle,
         colorHue: role.colorHue ?? defaultColorHue,
       }
@@ -80,19 +77,22 @@ function memberstoD3Data(
   if (circleMembers.length === 0) {
     node.value = settings.memberValue
   } else {
-    node.children = circleMembers.map((entry) => {
-      const member = members.find((member) => member.id === entry.memberId)
-      return {
-        id: entry.id,
-        memberId: entry.memberId,
-        parentCircleId: circleId,
-        name: textEllipse(member?.name || '?', 16),
-        picture: member?.picture,
-        value: settings.memberValue,
-        type: NodeType.Member,
-        colorHue,
-      }
-    })
+    node.children = circleMembers
+      .map((entry) => {
+        const member = members.find((member) => member.id === entry.memberId)
+        if (!member) return
+        return {
+          id: entry.id,
+          memberId: entry.memberId,
+          parentCircleId: circleId,
+          name: textEllipse(member.name, 16),
+          picture: member?.picture,
+          value: settings.memberValue,
+          type: NodeType.Member,
+          colorHue,
+        }
+      })
+      .filter(Boolean) as Data[]
   }
   return node
 }
