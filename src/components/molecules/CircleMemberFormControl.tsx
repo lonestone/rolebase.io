@@ -7,8 +7,9 @@ import useOrgMember from '@hooks/useOrgMember'
 import { LogType } from '@shared/model/log'
 import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { GraphZoomContext } from 'src/contexts/GraphZoomContext'
 import MembersMultiSelect from './MembersMultiSelect'
 
 interface Props {
@@ -19,6 +20,7 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const createLog = useCreateLog()
+  const zoomContext = useContext(GraphZoomContext)
   const circleAndParents = useCircleAndParents(circleId)
   const members = useStoreState((state) => state.members.entries)
   const circle = circleAndParents?.[circleAndParents.length - 1]
@@ -58,6 +60,9 @@ export default function CircleMemberFormControl({ circleId }: Props) {
           changes,
         })
       }
+
+      // Focus circle in graph
+      zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
     },
     [circleId, circle]
   )
@@ -65,6 +70,9 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   const handleRemoveMember = useCallback((memberId: string) => {
     setMemberId(memberId)
     onDeleteOpen()
+
+    // Focus circle in graph
+    zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
   }, [])
 
   // CircleMemberDeleteModal

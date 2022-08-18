@@ -85,6 +85,9 @@ export default function useGraphEvents(): GraphEvents {
         },
         changes,
       })
+
+      // Return the new circle id
+      return newCircleId
     },
     []
   )

@@ -90,17 +90,16 @@ export default function updateCircles(
     focusCircle(circle, adaptScale, instant)
   }
 
+  // Set function to zoom on a circle after redraw
+  zoom.focusCircleAfterDraw = (...args) =>
+    addDrawListener(
+      () => setTimeout(() => zoom.focusCircle?.(...args), 100),
+      true
+    )
+
   // Zoom on root circle at first draw
   if (firstDraw) {
     focusCircle(root, true, true)
-  }
-
-  function focusCircleAfterDraw(circleId?: string | null) {
-    if (!circleId) return
-    addDrawListener(
-      () => setTimeout(() => zoom.focusCircle?.(circleId), 100),
-      true
-    )
   }
 
   const panzoomSelection = svg.select('.panzoom')
@@ -312,16 +311,24 @@ export default function updateCircles(
                 if (dragTargets && dragTarget) {
                   const targetCircleId = dragTarget.data.id
 
-                  // Move to another circle
                   const differentParent =
                     dragNode.data.parentCircleId !== targetCircleId
                   if (dragNode.data.type === NodeType.Circle) {
                     if (shiftKey) {
-                      events.onCircleCopy?.(dragNode.data.id, targetCircleId)
-                      focusCircleAfterDraw(targetCircleId)
+                      // Copy circle to another circle
+                      events
+                        .onCircleCopy?.(dragNode.data.id, targetCircleId)
+                        .then((newCircleId) => {
+                          if (newCircleId) {
+                            // Focus new circle
+                            events.onCircleClick?.(newCircleId)
+                          }
+                        })
                     } else if (differentParent) {
+                      // Move circle to another circle
                       events.onCircleMove?.(dragNode.data.id, targetCircleId)
-                      focusCircleAfterDraw(dragNode.data.id)
+                      // (Re-)focus circle
+                      zoom.focusCircleAfterDraw?.(dragNode.data.id)
                       actionMoved = true
                     }
                   } else if (
@@ -332,18 +339,25 @@ export default function updateCircles(
                     targetCircleId
                   ) {
                     if (shiftKey) {
+                      // Copy member to another circle
                       events.onMemberAdd?.(
                         dragNode.data.memberId,
                         targetCircleId
                       )
-                      focusCircleAfterDraw(targetCircleId)
+                      // Focus new circle member
+                      events.onCircleMemberClick?.(
+                        targetCircleId,
+                        dragNode.data.memberId
+                      )
                     } else {
+                      // Move member to another circle
                       events.onMemberMove?.(
                         dragNode.data.memberId,
                         dragNode.data.parentCircleId,
                         targetCircleId
                       )
-                      focusCircleAfterDraw(dragNode.data.id)
+                      // (Re-)focus member
+                      zoom.focusCircleAfterDraw?.(dragNode.data.id)
                       actionMoved = true
                     }
                   }

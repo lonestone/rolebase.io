@@ -15,6 +15,7 @@ import useQueryParams from '@hooks/useQueryParams'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { GraphZoomProvider } from 'src/contexts/GraphZoomContext'
 
 type CirclesPageParams = {
   circleId: string
@@ -84,45 +85,47 @@ export default function CirclesPage() {
   }
 
   return (
-    <Flex h="100%" position="relative" overflow="hidden">
-      <Box ref={boxRef} flex={1} overflow="hidden">
-        {org && circlesWithRoles && members && boxSize && (
-          <CirclesGraph
-            key={colorMode}
-            id={`graph-${org.id}`}
-            circles={circlesWithRoles}
-            members={members}
-            events={events}
-            width={boxSize.width}
-            height={boxSize.height}
-            selectedCircleId={circleId}
-            onReady={() => setReady(true)}
-          />
+    <GraphZoomProvider>
+      <Flex h="100%" position="relative" overflow="hidden">
+        <Box ref={boxRef} flex={1} overflow="hidden">
+          {org && circlesWithRoles && members && boxSize && (
+            <CirclesGraph
+              key={colorMode}
+              id={`graph-${org.id}`}
+              circles={circlesWithRoles}
+              members={members}
+              events={events}
+              width={boxSize.width}
+              height={boxSize.height}
+              selectedCircleId={circleId}
+              onReady={() => setReady(true)}
+            />
+          )}
+        </Box>
+
+        {panel === Panels.Circle && circleId && (
+          <ModalPanel onClose={handleClosePanel}>
+            <CircleContent id={circleId} changeTitle />
+            <Box h={20} />
+          </ModalPanel>
         )}
-      </Box>
 
-      {panel === Panels.Circle && circleId && (
-        <ModalPanel onClose={handleClosePanel}>
-          <CircleContent id={circleId} changeTitle />
-          <Box h={20} />
-        </ModalPanel>
-      )}
+        {panel === Panels.Member && memberId && (
+          <ModalPanel onClose={handleClosePanel}>
+            <MemberContent
+              id={memberId}
+              selectedCircleId={circleId || undefined}
+              changeTitle
+            />
+          </ModalPanel>
+        )}
 
-      {panel === Panels.Member && memberId && (
-        <ModalPanel onClose={handleClosePanel}>
-          <MemberContent
-            id={memberId}
-            selectedCircleId={circleId || undefined}
-            changeTitle
-          />
-        </ModalPanel>
-      )}
+        {panel === Panels.None && org && <Title>{org.name}</Title>}
 
-      {panel === Panels.None && org && <Title>{org.name}</Title>}
+        <CirclesKeyboardShortcuts position="absolute" left={3} bottom={3} />
 
-      <CirclesKeyboardShortcuts position="absolute" left={3} bottom={3} />
-
-      <Onboarding />
-    </Flex>
+        <Onboarding />
+      </Flex>
+    </GraphZoomProvider>
   )
 }

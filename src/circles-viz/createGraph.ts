@@ -20,7 +20,10 @@ export interface GraphParams {
 export interface GraphEvents {
   onCircleClick?(circleId: string): void
   onCircleMove?(circleId: string, targetCircleId: string | null): void
-  onCircleCopy?(circleId: string, targetCircleId: string | null): void
+  onCircleCopy?(
+    circleId: string,
+    targetCircleId: string | null
+  ): Promise<string | undefined>
   onCircleMemberClick?(circleId: string, memberId: string): void
   onMemberClick?(memberId: string): void
   onMemberMove?(

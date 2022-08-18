@@ -4,11 +4,13 @@ import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
 import React, {
   forwardRef,
+  useContext,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
 } from 'react'
+import { GraphZoomContext } from 'src/contexts/GraphZoomContext'
 import { circleColor } from 'src/theme'
 import { ColorModeProps, mode } from 'src/utils'
 import {
@@ -127,6 +129,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
 ) {
   // Utils
   const { colorMode } = useColorMode()
+  const zoomContext = useContext(GraphZoomContext)
 
   // Viz
   const svgRef = useRef<SVGSVGElement>(null)
@@ -147,6 +150,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
       // Change ready state after first draw
       graph.addDrawListener(() => setReady(true), true)
       graphRef.current = graph
+      zoomContext?.setZoom(graph.zoom)
     }
 
     // (Re)-draw graph
@@ -166,8 +170,16 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
     graph.zoom.disabled = panzoomDisabled || false
   }, [panzoomDisabled])
 
-  // Remove SVG listeners on unmount
-  useEffect(() => () => graphRef.current?.removeListeners(), [])
+  // Unmount
+  useEffect(
+    () => () => {
+      // Reset zoom context
+      zoomContext?.setZoom(undefined)
+      // Remove SVG listeners on unmount
+      graphRef.current?.removeListeners()
+    },
+    []
+  )
 
   // Focus on a circle when focusCircleId is defined
   useEffect(() => {

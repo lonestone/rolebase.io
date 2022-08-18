@@ -41,6 +41,11 @@ export interface Zoom {
     adaptScale?: boolean,
     instant?: boolean
   ): void
+  focusCircleAfterDraw?(
+    circleId: string | undefined,
+    adaptScale?: boolean,
+    instant?: boolean
+  ): void
 }
 
 export type DrawEventListener = (handler: () => void, once?: boolean) => void
