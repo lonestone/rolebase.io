@@ -56,6 +56,7 @@ import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/model/meeting'
 import { MeetingStepTypes } from '@shared/model/meetingStep'
 import { MembersScope } from '@shared/model/member'
+import { store } from '@store/index'
 import { Timestamp } from 'firebase/firestore'
 import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
@@ -256,10 +257,33 @@ export default function MeetingEditModal({
     [participants]
   )
 
-  // Reset facilitator when not in participants anymore
+  // Reset facilitator when empty or not in participants anymore
   useEffect(() => {
-    if (!participants.some((p) => p.member.id === facilitatorMemberId)) {
-      setValue('facilitatorMemberId', '')
+    if (
+      !facilitatorMemberId ||
+      !participants.some((p) => p.member.id === facilitatorMemberId)
+    ) {
+      const {
+        circles: { entries: circles },
+        roles: { entries: roles },
+      } = store.getState()
+      setValue(
+        'facilitatorMemberId',
+        // Find a member with a role having name "Facil*"
+        participants.find((p) =>
+          circles?.some((c) => {
+            if (!p.circlesIds.includes(c.id)) return false
+            const role = roles?.find((r) => r.id === c.roleId)
+            return role && /Facil/i.test(role.name)
+          })
+        )?.member.id ||
+          // Or use current member
+          (participants.find((p) => p.member.id === currentMember?.id)
+            ? currentMember?.id
+            : // Or use first participant
+              participants[0]?.member.id) ||
+          ''
+      )
     }
   }, [participants, facilitatorMemberId])
 
