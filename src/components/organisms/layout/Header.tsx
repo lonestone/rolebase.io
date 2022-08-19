@@ -1,4 +1,12 @@
-import { Flex, Spacer, useMediaQuery } from '@chakra-ui/react'
+import {
+  Flex,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Spacer,
+  useDisclosure,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import HeaderButton from '@components/atoms/HeaderButton'
 import IconTextButton from '@components/atoms/IconTextButton'
 import HeaderLinksMenu, {
@@ -6,14 +14,14 @@ import HeaderLinksMenu, {
 } from '@components/molecules/HeaderLinksMenu'
 import HeaderOrgMenu from '@components/molecules/HeaderOrgMenu'
 import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
-import HeaderSearch from '@components/molecules/search/HeaderSearch'
+import SearchGlobal from '@components/molecules/search/SearchGlobal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaQuestion } from 'react-icons/fa'
+import { FaQuestion, FaSearch } from 'react-icons/fa'
 import {
   FiArrowLeft,
   FiCalendar,
@@ -21,6 +29,7 @@ import {
   FiDisc,
   FiMessageSquare,
 } from 'react-icons/fi'
+import { cmdOrCtrlKey } from 'src/utils'
 
 export const headerHeight = 50
 
@@ -79,6 +88,26 @@ export default function Header() {
   // Hider buttons when screen is too small
   const [isSmallScreen] = useMediaQuery('(max-width: 730px)')
 
+  // Search
+  const searchModal = useDisclosure()
+
+  // Use Cmd+K or Cmd+P keys to open search
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        (event.key === 'k' || event.key === 'p') &&
+        (event.ctrlKey || event.metaKey)
+      ) {
+        event.preventDefault()
+        searchModal.onOpen()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
   if (!user) return null
   return (
     <Flex
@@ -126,7 +155,28 @@ export default function Header() {
 
       <Spacer />
 
-      {org && <HeaderSearch />}
+      {org && (
+        <IconTextButton
+          aria-label={t('Header.search', {
+            keys: `${cmdOrCtrlKey} + K`,
+          })}
+          icon={<FaSearch />}
+          variant="ghost"
+          size="sm"
+          onClick={searchModal.onOpen}
+        />
+      )}
+
+      <Modal
+        isOpen={searchModal.isOpen}
+        size="lg"
+        onClose={searchModal.onClose}
+      >
+        <ModalOverlay />
+        <ModalContent position="relative">
+          <SearchGlobal onClose={searchModal.onClose} />
+        </ModalContent>
+      </Modal>
 
       <IconTextButton
         aria-label={t('Header.help')}

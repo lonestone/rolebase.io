@@ -151,6 +151,7 @@
     "threads": "Discussions",
     "meetings": "Réunions",
     "tasks": "Tâches",
+    "search": "Rechercher ({{keys}})",
     "help": "Aide"
   },
   "HeaderLinksMenu": {
@@ -164,9 +165,8 @@
   "HeaderOrgMenu": {
     "create": "Créer une organisation"
   },
-  "HeaderSearch": {
-    "tooltip": "Rechercher ({{keys}})",
-    "placeholder": "Rechercher..."
+  "SearchModal": {
+    "placeholder": "Rechercher dans {{org}}..."
   },
   "HeaderUserMenu": {
     "member": "Ma fiche membre",

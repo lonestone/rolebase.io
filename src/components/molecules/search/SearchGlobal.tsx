@@ -1,17 +1,17 @@
+import { SearchIcon } from '@chakra-ui/icons'
 import {
   Input,
   InputGroup,
+  InputLeftElement,
   List,
   ListItem,
   useColorMode,
 } from '@chakra-ui/react'
-import IconTextButton from '@components/atoms/IconTextButton'
+import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaSearch } from 'react-icons/fa'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
-import { cmdOrCtrlKey } from 'src/utils'
 import { useCircleMemberSearchItems } from './entities/circleMembers/useCircleMemberSearchItems'
 import { useCircleSearchItems } from './entities/circles/useCircleSearchItems'
 import { useMemberSearchItems } from './entities/members/useMemberSearchItems'
@@ -20,11 +20,16 @@ import { SearchItem, SearchItemTypes } from './searchTypes'
 import { useCombineArrays } from './useCombineArrays'
 import { useSearch } from './useSearch'
 
-const maxDisplayedItems = 25
+const maxDisplayedItems = 50
 
-export default function HeaderSearch() {
+interface Props {
+  onClose(): void
+}
+
+export default function SearchGlobal({ onClose }: Props) {
   const { t } = useTranslation()
   const { colorMode } = useColorMode()
+  const org = useCurrentOrg()
   const circleMemberContext = useContext(CircleMemberContext)
 
   // Get items
@@ -40,6 +45,7 @@ export default function HeaderSearch() {
     (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
+      onClose()
 
       if (item.type === SearchItemTypes.Member) {
         circleMemberContext?.goTo(undefined, item.member.id)
@@ -48,19 +54,12 @@ export default function HeaderSearch() {
       } else if (item.type === SearchItemTypes.CircleMember) {
         circleMemberContext?.goTo(item.circle.id, item.member.id)
       }
-
-      selectItem(undefined as any)
-      setInputValue('')
     },
     []
   )
 
   const {
-    isOpen,
-    openMenu,
     highlightedIndex,
-    setInputValue,
-    selectItem,
     getMenuProps,
     getInputProps,
     getComboboxProps,
@@ -77,50 +76,20 @@ export default function HeaderSearch() {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const inputProps = getInputProps({
     ref: inputRef,
-    onFocus: openMenu,
+    onBlur: (event) => {
+      ;(event.nativeEvent as any).preventDownshiftDefault = true
+    },
   })
 
-  // Click on button to put it in editing mode
-  const handleClick = () => {
-    openMenu()
-    // Wait for the input to appears, then focus it
-    setTimeout(() => {
-      inputRef.current?.focus()
-    }, 0)
-  }
-
-  // Use Cml+K key to open search
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'k' && (event.ctrlKey || event.metaKey)) {
-        handleClick()
-      }
-    }
-    document.addEventListener('keydown', handleKeyDown)
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
   return (
-    <div style={{ position: 'relative' }} {...getComboboxProps()}>
-      <InputGroup size="sm">
-        {!isOpen && (
-          <IconTextButton
-            aria-label={t('HeaderSearch.tooltip', {
-              keys: `${cmdOrCtrlKey} + K`,
-            })}
-            icon={<FaSearch />}
-            variant="ghost"
-            size="sm"
-            onClick={handleClick}
-          />
-        )}
+    <div {...getComboboxProps()}>
+      <InputGroup size="lg">
+        <InputLeftElement pointerEvents="none">
+          <SearchIcon color="gray.500" />
+        </InputLeftElement>
         <Input
           type="text"
-          placeholder={t('HeaderSearch.placeholder')}
-          display={isOpen ? '' : 'none'}
-          w="200px"
+          placeholder={t('SearchModal.placeholder', { org: org?.name })}
           borderRadius="md"
           background={colorMode === 'light' ? 'white' : 'gray.800'}
           {...inputProps}
@@ -128,23 +97,33 @@ export default function HeaderSearch() {
       </InputGroup>
 
       <List
-        display={isOpen ? '' : 'none'}
-        py={2}
-        {...getMenuProps()}
+        display={filteredItems.length === 0 ? 'none' : ''}
         position="absolute"
-        zIndex="1000"
-        right="0"
-        pointerEvents="none"
+        overflow="hidden"
+        left={0}
+        right={0}
+        mt="1px"
+        pt={3}
+        pb={2}
+        bg={colorMode === 'light' ? 'white' : 'gray.800'}
+        borderBottomRadius="md"
+        {...getMenuProps()}
       >
         {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
-          <ListItem textAlign="right" mb={1} key={index}>
+          <ListItem key={index} mb={1}>
             <SearchResultItem
               item={item}
               highlighted={index === highlightedIndex}
+              size="sm"
+              w="100%"
+              py={2}
+              px={5}
+              bg="transparent"
+              borderRadius="none"
+              _active={{
+                bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
+              }}
               {...getItemProps({ item, index })}
-              shadow="md"
-              bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
-              _active={{ bg: colorMode === 'light' ? 'gray.300' : 'gray.550' }}
             />
           </ListItem>
         ))}
