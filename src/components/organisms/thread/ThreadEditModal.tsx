@@ -3,7 +3,6 @@ import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
-  Checkbox,
   FormControl,
   FormLabel,
   Input,
@@ -43,14 +42,12 @@ interface Values {
   title: string
   circleId: string
   participantsScope: MembersScope
-  archived: boolean
 }
 
 const resolver = yupResolver(
   yup.object().shape({
     title: nameSchema,
     circleId: yup.string().required(),
-    archived: yup.boolean(),
   })
 )
 
@@ -78,13 +75,11 @@ export default function ThreadEditModal({
           title: thread.title,
           circleId: thread.circleId,
           participantsScope: thread.participantsScope,
-          archived: thread.archived,
         }
       : {
           title: '',
           circleId: defaultCircleId || '',
           participantsScope: MembersScope.CircleLeaders,
-          archived: false,
         },
   })
 
@@ -189,15 +184,6 @@ export default function ThreadEditModal({
                   />
                 </Box>
               </FormControl>
-
-              {thread && (
-                <FormControl>
-                  <FormLabel>{t('ThreadEditModal.settings')}</FormLabel>
-                  <Checkbox {...register('archived')}>
-                    {t('common.archived')}
-                  </Checkbox>
-                </FormControl>
-              )}
 
               <Box textAlign="right" mt={2}>
                 <Button colorScheme="blue" type="submit">

@@ -1,10 +1,6 @@
 {
   "ActionsMenu": {
-    "label": "Actions",
-    "edit": "Edit",
-    "duplicate": "Duplicate",
-    "delete": "Delete",
-    "move": "Move"
+    "label": "Actions"
   },
   "ActivityDeleteModal": {
     "heading": "Delete a message",
@@ -682,6 +678,10 @@
     "createTask": "Create a Task",
     "createDecision": "Create a Decision",
     "edit": "Edit",
+    "move": "Move",
+    "duplicate": "Duplicate",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
     "cancel": "Cancel",
     "delete": "Delete",
     "remove": "Remove",

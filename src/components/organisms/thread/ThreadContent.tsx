@@ -1,4 +1,4 @@
-import { subscribeThread } from '@api/entities/threads'
+import { subscribeThread, updateThread } from '@api/entities/threads'
 import {
   Box,
   BoxProps,
@@ -25,7 +25,7 @@ import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
 import useSubscription from '@hooks/useSubscription'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ThreadContext } from 'src/contexts/ThreadContext'
 
@@ -67,15 +67,22 @@ export default function ThreadContent({
   } = useScrollable()
 
   // Create modal
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
+  const editModal = useDisclosure()
 
+  // Theme
   const { colorMode } = useColorMode()
   const shadowColor =
     colorMode === 'light' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'
+
+  // Archive / unarchive
+  const handleArchive = useCallback(
+    () => updateThread(id, { archived: true }),
+    [id]
+  )
+  const handleUnarchive = useCallback(
+    () => updateThread(id, { archived: false }),
+    [id]
+  )
 
   if (error) {
     return <Page404 />
@@ -116,7 +123,14 @@ export default function ThreadContent({
         </Wrap>
 
         <Flex mr={headerIcons ? -2 : 0}>
-          {isMember && <ActionsMenu onEdit={onEditOpen} ml={2} />}
+          {isMember && (
+            <ActionsMenu
+              onEdit={editModal.onOpen}
+              onArchive={!thread?.archived ? handleArchive : undefined}
+              onUnarchive={thread?.archived ? handleUnarchive : undefined}
+              ml={2}
+            />
+          )}
           {headerIcons}
         </Flex>
       </Flex>
@@ -141,8 +155,8 @@ export default function ThreadContent({
         </Box>
       )}
 
-      {isEditOpen && (
-        <ThreadEditModal isOpen thread={thread} onClose={onEditClose} />
+      {editModal.isOpen && (
+        <ThreadEditModal isOpen thread={thread} onClose={editModal.onClose} />
       )}
     </Box>
   )

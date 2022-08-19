@@ -9,6 +9,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  FiArchive,
   FiCopy,
   FiEdit3,
   FiMoreVertical,
@@ -21,12 +22,16 @@ interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onMove?(): void
   onDuplicate?(): void
   onDelete?(): void
+  onArchive?(): void
+  onUnarchive?(): void
 }
 
 export default function ActionsMenu({
   onEdit,
   onMove,
   onDuplicate,
+  onArchive,
+  onUnarchive,
   onDelete,
   ...props
 }: Props) {
@@ -56,17 +61,27 @@ export default function ActionsMenu({
         )}
         {onMove && (
           <MenuItem icon={<FiMove />} onClick={onMove}>
-            {t('ActionsMenu.move')}
+            {t('common.move')}
           </MenuItem>
         )}
         {onDuplicate && (
           <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
-            {t('ActionsMenu.duplicate')}
+            {t('common.duplicate')}
+          </MenuItem>
+        )}
+        {onArchive && (
+          <MenuItem icon={<FiArchive />} onClick={onArchive}>
+            {t('common.archive')}
+          </MenuItem>
+        )}
+        {onUnarchive && (
+          <MenuItem icon={<FiArchive />} onClick={onUnarchive}>
+            {t('common.unarchive')}
           </MenuItem>
         )}
         {onDelete && (
           <MenuItem icon={<FiTrash2 />} onClick={onDelete}>
-            {t('ActionsMenu.delete')}
+            {t('common.delete')}
           </MenuItem>
         )}
       </MenuList>
