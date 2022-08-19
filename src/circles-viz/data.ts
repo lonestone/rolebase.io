@@ -4,7 +4,7 @@ import {
   CircleWithRoleEntry,
 } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
-import { textEllipse } from 'src/utils'
+import { textEllipsis } from 'src/utils'
 import settings from './settings'
 import { Data, NodeType } from './types'
 
@@ -33,7 +33,7 @@ export function circlesToD3Data(
       const data: Data = {
         id: circle.id,
         parentCircleId: circle.parentId,
-        name: textEllipse(circle.role.name, 16),
+        name: textEllipsis(circle.role.name, 20),
         type: NodeType.Circle,
         colorHue: circle.role.colorHue ?? defaultColorHue,
       }
@@ -84,7 +84,7 @@ function memberstoD3Data(
           id: entry.id,
           memberId: entry.memberId,
           parentCircleId: circleId,
-          name: textEllipse(member.name, 16),
+          name: textEllipsis(member.name, 20),
           picture: member?.picture,
           value: settings.memberValue,
           type: NodeType.Member,

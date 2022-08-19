@@ -2,7 +2,7 @@ import { Button, ButtonProps, useColorMode } from '@chakra-ui/react'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import React from 'react'
 import { circleColor } from 'src/theme'
-import { textEllipse } from 'src/utils'
+import { textEllipsis } from 'src/utils'
 import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends ButtonProps {
@@ -28,7 +28,7 @@ export default function CircleButton({
         borderRadius="full"
         {...buttonProps}
       >
-        {noEllipsis ? circle.role.name : textEllipse(circle.role.name, 20)}
+        {noEllipsis ? circle.role.name : textEllipsis(circle.role.name, 20)}
       </Button>
     </CircleMemberLink>
   )
