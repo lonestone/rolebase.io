@@ -89,7 +89,7 @@ export default function SearchGlobal({ onClose }: Props) {
         </InputLeftElement>
         <Input
           type="text"
-          placeholder={t('SearchModal.placeholder', { org: org?.name })}
+          placeholder={t('SearchGlobal.placeholder', { org: org?.name })}
           borderRadius="md"
           background={colorMode === 'light' ? 'white' : 'gray.800'}
           {...inputProps}

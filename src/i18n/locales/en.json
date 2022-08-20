@@ -147,6 +147,7 @@
     "threads": "Threads",
     "meetings": "Meetings",
     "tasks": "Tasks",
+    "search": "Search ({{keys}})",
     "help": "Help"
   },
   "HeaderLinksMenu": {
@@ -159,10 +160,6 @@
   },
   "HeaderOrgMenu": {
     "create": "Create an organization"
-  },
-  "HeaderSearch": {
-    "tooltip": "Search ({{keys}})",
-    "placeholder": "Search..."
   },
   "HeaderUserMenu": {
     "member": "My member record",
@@ -522,6 +519,9 @@
     "defaultWorkingTime": "Default Time",
     "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
     "color": "Customize color"
+  },
+  "SearchGlobal": {
+    "placeholder": "Search {{org}}..."
   },
   "SearchInput": {
     "defaultPlaceholder": "Select..."

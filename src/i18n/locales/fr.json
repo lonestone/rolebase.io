@@ -165,9 +165,6 @@
   "HeaderOrgMenu": {
     "create": "Créer une organisation"
   },
-  "SearchModal": {
-    "placeholder": "Rechercher dans {{org}}..."
-  },
   "HeaderUserMenu": {
     "member": "Ma fiche membre",
     "user": "Informations personnelles",
@@ -527,6 +524,9 @@
     "defaultWorkingTime": "Temps par défaut",
     "defaultWorkingTimeHelp": "Temps alloué par défaut à chaque membre ayant ce rôle.",
     "color": "Personnaliser la couleur"
+  },
+  "SearchGlobal": {
+    "placeholder": "Rechercher dans {{org}}..."
   },
   "SearchInput": {
     "defaultPlaceholder": "Sélectionner..."
