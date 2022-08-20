@@ -1,4 +1,5 @@
 import { Center, Container, Heading, Link } from '@chakra-ui/react'
+import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import SignupForm from '@components/organisms/user/SignupForm'
@@ -42,6 +43,7 @@ export default function SignupPage({ goToLoginPage }: Props) {
         onSubmit={signup}
       />
 
+      <Loading active={loading} center />
       <TextErrors errors={[error]} />
 
       <Center mt={4}>
