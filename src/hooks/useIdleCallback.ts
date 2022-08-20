@@ -12,11 +12,11 @@ export function useIdleCallback<Args extends any[]>(
   return useCallback((...args: Args) => {
     // Cancel previous callback
     if (idleRef.current) {
-      cancelIdleCallback(idleRef.current)
+      cancel(idleRef.current)
     }
 
     // Waits for idle
-    idleRef.current = requestIdleCallback(
+    idleRef.current = request(
       () => {
         callback(...args)
         idleRef.current = undefined
@@ -27,3 +27,8 @@ export function useIdleCallback<Args extends any[]>(
     )
   }, deps)
 }
+
+// requestIdleCallback with fallback
+const request =
+  window.requestIdleCallback || ((cb) => window.setTimeout(cb, 100))
+const cancel = window.cancelIdleCallback || window.clearTimeout
