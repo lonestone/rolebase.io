@@ -61,28 +61,6 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
           </>
         )}
 
-        {item.type === SearchItemTypes.CircleMember && (
-          <>
-            {item.circleRoles
-              .slice(item.circleRoles.length == 1 ? 0 : 1)
-              .map((circle, i) => (
-                <React.Fragment key={circle.id}>
-                  {i !== 0 && <ChevronRightIcon />}
-                  {circle.role.name}
-                </React.Fragment>
-              ))}
-
-            <Avatar
-              name={item.member.name}
-              src={item.member.picture || undefined}
-              size="sm"
-              ml={3}
-              mr={2}
-            />
-            {item.member.name}
-          </>
-        )}
-
         {item.type === SearchItemTypes.Thread && (
           <>
             <FiMessageSquare />

@@ -12,7 +12,6 @@ import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
-import { useCircleMemberSearchItems } from './entities/circleMembers/useCircleMemberSearchItems'
 import { useCircleSearchItems } from './entities/circles/useCircleSearchItems'
 import { useMemberSearchItems } from './entities/members/useMemberSearchItems'
 import SearchResultItem from './SearchResultItem'
@@ -35,8 +34,7 @@ export default function SearchGlobal({ onClose }: Props) {
   // Get items
   const memberItems = useMemberSearchItems()
   const circleItems = useCircleSearchItems()
-  const circleMemberItems = useCircleMemberSearchItems()
-  const items = useCombineArrays(memberItems, circleItems, circleMemberItems)
+  const items = useCombineArrays(memberItems, circleItems)
 
   // Search
   const { filteredItems, onInputValueChange } = useSearch(items, true)
@@ -51,8 +49,6 @@ export default function SearchGlobal({ onClose }: Props) {
         circleMemberContext?.goTo(undefined, item.member.id)
       } else if (item.type === SearchItemTypes.Circle) {
         circleMemberContext?.goTo(item.circle.id)
-      } else if (item.type === SearchItemTypes.CircleMember) {
-        circleMemberContext?.goTo(item.circle.id, item.member.id)
       }
     },
     []
