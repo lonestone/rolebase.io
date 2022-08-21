@@ -16,7 +16,6 @@ type Params = {
 export default function LoginPage() {
   const { t } = useTranslation()
   const queryParams = useQueryParams<Params>()
-  // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signinEmail = useStoreActions((actions) => actions.auth.signinEmail)
   const loading = useStoreState((state) => state.auth.loading)
   const error = useStoreState((state) => state.auth.error)
@@ -37,10 +36,6 @@ export default function LoginPage() {
         <Heading size="md" mb={5}>
           {t('LoginPage.heading')}
         </Heading>
-
-        {/*
-          <Button onClick={() => signinGoogle()}>Connexion avec Google</Button>
-        */}
 
         <LoginForm
           defaultEmail={queryParams.email || ''}

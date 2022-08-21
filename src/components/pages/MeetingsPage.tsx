@@ -1,3 +1,7 @@
+// Fix for fullcalendar with Vite
+// Must be imported first
+import '@fullcalendar/react/dist/vdom'
+
 import {
   subscribeMeetingsByDates,
   updateMeetingDates,
@@ -50,6 +54,9 @@ import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
+
+// Load additional CSS after all imports
+import 'src/fullcalendar.css'
 
 const getColors = (mode: ColorMode) => ({
   bgNotStarted:

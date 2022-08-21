@@ -20,7 +20,6 @@ interface Props {
 export default function SignupPage({ goToLoginPage }: Props) {
   const { t } = useTranslation()
   const queryParams = useQueryParams<Params>()
-  // const signinGoogle = useStoreActions((actions) => actions.auth.signinGoogle)
   const signup = useStoreActions((actions) => actions.auth.signup)
   const loading = useStoreState((state) => state.auth.loading)
   const error = useStoreState((state) => state.auth.error)
@@ -32,10 +31,6 @@ export default function SignupPage({ goToLoginPage }: Props) {
       <Heading size="md" mb={5}>
         {t('SignupPage.heading')}
       </Heading>
-
-      {/*
-        <Button onClick={() => signinGoogle()}>Connexion avec Google</Button>
-      */}
 
       <SignupForm
         defaultEmail={queryParams.email}

@@ -4,7 +4,6 @@ import CirclesPage from '@components/pages/CirclesPage'
 import DecisionPage from '@components/pages/DecisionPage '
 import LogsPage from '@components/pages/LogsPage'
 import MeetingPage from '@components/pages/MeetingPage'
-import MeetingsPage from '@components/pages/MeetingsPage'
 import MembersPage from '@components/pages/MembersPage'
 import Page404 from '@components/pages/Page404'
 import TaskPage from '@components/pages/TaskPage'
@@ -15,8 +14,11 @@ import useOrg from '@hooks/useOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import { orgIdKey } from '@store/orgs'
-import React, { useEffect } from 'react'
+import React, { lazy, Suspense, useEffect } from 'react'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
+
+// Lazy pages
+const MeetingsPage = lazy(() => import('@components/pages/MeetingsPage'))
 
 interface Props {
   orgId: string
@@ -73,7 +75,7 @@ export default function OrgRoutes({ orgId }: Props) {
   }, [org, orgLoading])
 
   return (
-    <>
+    <Suspense fallback={<Loading active center />}>
       <Loading center active={loading} />
       <TextErrors errors={[membersError, rolesError, circlesError]} />
 
@@ -112,6 +114,6 @@ export default function OrgRoutes({ orgId }: Props) {
           <Page404 />
         </Route>
       </Switch>
-    </>
+    </Suspense>
   )
 }

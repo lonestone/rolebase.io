@@ -1,11 +1,23 @@
 import react from '@vitejs/plugin-react'
+import { terser } from 'rollup-plugin-terser'
+import visualizer from 'rollup-plugin-visualizer'
 import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [
+    react(),
+    tsconfigPaths(),
+    terser({
+      format: {
+        comments: false,
+      },
+      compress: false,
+    }),
+    visualizer(),
+  ],
   build: {
     sourcemap: true,
     rollupOptions: {
@@ -20,5 +32,8 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['@rolebase/editor'],
+  },
+  server: {
+    port: 3000,
   },
 })

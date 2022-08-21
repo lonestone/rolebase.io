@@ -5,15 +5,11 @@ import { UserClaims } from '@shared/model/userClaims'
 import { action, Action, State, thunk, Thunk } from 'easy-peasy'
 import {
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signInWithPopup,
   User,
 } from 'firebase/auth'
 import { store, StoreModel } from '.'
-
-const googleAuthProvider = new GoogleAuthProvider()
 
 export interface AuthModel {
   firebaseUser: User | undefined
@@ -27,7 +23,6 @@ export interface AuthModel {
   setError: Action<AuthModel, Error>
   setUser: Action<AuthModel, { firebaseUser: User; user: UserEntry }>
   setClaims: Action<AuthModel, UserClaims>
-  signinGoogle: Thunk<AuthModel, undefined, any, StoreModel>
   signinEmail: Thunk<
     AuthModel,
     { email: string; password: string },
@@ -107,17 +102,6 @@ const model: AuthModel = {
     if (!firebaseUser) return
     const idTokenResult = await firebaseUser.getIdTokenResult(true)
     actions.setClaims(idTokenResult.claims as UserClaims)
-  }),
-
-  signinGoogle: thunk(async (actions) => {
-    actions.signout()
-    actions.setLoading(true)
-    try {
-      // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithpopup
-      await signInWithPopup(auth, googleAuthProvider)
-    } catch (error: any) {
-      actions.setError(error)
-    }
   }),
 
   signinEmail: thunk(async (actions, { email, password }) => {
