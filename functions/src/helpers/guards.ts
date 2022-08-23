@@ -31,6 +31,21 @@ export async function guardOrg(
   }
 }
 
+export async function guarSuperAdmin(context: functions.https.CallableContext) {
+  const uid = context.auth?.uid
+  if (!uid) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Authentication required'
+    )
+  }
+  const userRecord = await auth.getUser(uid)
+  const isSuperAdmin = userRecord.customClaims?.superAdmin
+  if (!isSuperAdmin) {
+    throw new functions.https.HttpsError('permission-denied', 'Not allowed')
+  }
+}
+
 export function guardArgument<Payload>(
   payload: Payload,
   argName: keyof Payload
@@ -38,7 +53,7 @@ export function guardArgument<Payload>(
   if (!(argName in payload)) {
     throw new functions.https.HttpsError(
       'invalid-argument',
-      `${argName} not provided`
+      `${String(argName)} not provided`
     )
   }
 }

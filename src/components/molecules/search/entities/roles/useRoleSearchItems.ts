@@ -1,7 +1,8 @@
 import { RoleEntry } from '@shared/model/role'
+import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-import { SearchItem, SearchItemTypes } from '../../searchTypes'
+import { SearchItem } from '../../searchTypes'
 
 export function useRoleSearchItems(
   roles?: RoleEntry[],
@@ -34,8 +35,8 @@ export function useRoleSearchItems(
           return {
             id: role.id,
             text: role.name.toLowerCase(),
-            type: SearchItemTypes.Role,
-            role,
+            type: SearchTypes.Role,
+            title: role.name,
           }
         })
         .filter(Boolean) as SearchItem[]) || [],

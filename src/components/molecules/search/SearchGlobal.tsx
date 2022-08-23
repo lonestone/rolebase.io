@@ -8,16 +8,15 @@ import {
   useColorMode,
 } from '@chakra-ui/react'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
+import { SearchTypes } from '@shared/model/search'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, { useCallback, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
-import { useCircleSearchItems } from './entities/circles/useCircleSearchItems'
-import { useMemberSearchItems } from './entities/members/useMemberSearchItems'
 import SearchResultItem from './SearchResultItem'
-import { SearchItem, SearchItemTypes } from './searchTypes'
-import { useCombineArrays } from './useCombineArrays'
-import { useSearch } from './useSearch'
+import { SearchItem } from './searchTypes'
+import { useAlgoliaSearch } from './useAlgoliaSearch'
 
 const maxDisplayedItems = 50
 
@@ -30,25 +29,28 @@ export default function SearchGlobal({ onClose }: Props) {
   const { colorMode } = useColorMode()
   const org = useCurrentOrg()
   const circleMemberContext = useContext(CircleMemberContext)
-
-  // Get items
-  const memberItems = useMemberSearchItems()
-  const circleItems = useCircleSearchItems()
-  const items = useCombineArrays(memberItems, circleItems)
+  const navigateOrg = useNavigateOrg()
 
   // Search
-  const { filteredItems, onInputValueChange } = useSearch(items, true)
+  const { filteredItems, onInputValueChange } = useAlgoliaSearch()
 
   const onSelectedItemChange = useCallback(
     (changes: UseComboboxStateChange<SearchItem>) => {
       const item = changes.selectedItem
       if (!item) return
       onClose()
-
-      if (item.type === SearchItemTypes.Member) {
-        circleMemberContext?.goTo(undefined, item.member.id)
-      } else if (item.type === SearchItemTypes.Circle) {
-        circleMemberContext?.goTo(item.circle.id)
+      if (item.type === SearchTypes.Member) {
+        circleMemberContext?.goTo(undefined, item.id)
+      } else if (item.type === SearchTypes.Circle) {
+        circleMemberContext?.goTo(item.id)
+      } else if (item.type === SearchTypes.Thread) {
+        navigateOrg(`threads/${item.id}`)
+      } else if (item.type === SearchTypes.Meeting) {
+        navigateOrg(`meetings/${item.id}`)
+      } else if (item.type === SearchTypes.Task) {
+        navigateOrg(`tasks/${item.id}`)
+      } else if (item.type === SearchTypes.Decision) {
+        navigateOrg(`decisions/${item.id}`)
       }
     },
     []

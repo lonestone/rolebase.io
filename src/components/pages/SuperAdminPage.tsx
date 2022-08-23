@@ -1,5 +1,9 @@
 import { subscribeAllOrgs } from '@api/entities/orgs'
+import { functions } from '@api/firebase'
+import { WarningIcon } from '@chakra-ui/icons'
 import {
+  Box,
+  Button,
   Container,
   Flex,
   Heading,
@@ -14,7 +18,8 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { formatRelative } from 'date-fns'
-import React from 'react'
+import { httpsCallable } from 'firebase/functions'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -25,6 +30,13 @@ export default function SuperAdminPage() {
 
   const { data, loading, error } = useSubscription(subscribeAllOrgs())
 
+  const [searchReindexLoading, setSearchReindexLoading] = useState(false)
+  const handleSearchReindex = async () => {
+    setSearchReindexLoading(true)
+    await httpsCallable<{}, string>(functions, 'searchReindexAll')()
+    setSearchReindexLoading(false)
+  }
+
   return (
     <Container maxW="md" mt="60px">
       <Loading active={loading} center />
@@ -33,6 +45,17 @@ export default function SuperAdminPage() {
       <Heading size="md" mb={10}>
         {t('SuperAdminPage.heading')}
       </Heading>
+
+      <Box mb={10}>
+        <Button
+          size="sm"
+          leftIcon={<WarningIcon />}
+          isLoading={searchReindexLoading}
+          onClick={handleSearchReindex}
+        >
+          {t('SuperAdminPage.searchReindex')}
+        </Button>
+      </Box>
 
       <Heading size="sm" mb={2}>
         Organizations ({data?.length})

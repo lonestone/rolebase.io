@@ -30,4 +30,10 @@ export default {
   security: {
     invitation_token: process.env.SECURITY_INVITATION_TOKEN || '',
   },
+  algolia: {
+    appId: process.env.ALGOLIA_APP_ID || '',
+    searchApiKey: process.env.ALGOLIA_SEARCH_API_KEY || '',
+    adminApiKey: process.env.ALGOLIA_ADMIN_API_KEY || '',
+    indexName: 'docs',
+  },
 }

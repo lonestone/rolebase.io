@@ -1,9 +1,10 @@
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { CircleEntry } from '@shared/model/circle'
+import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-import { SearchItem, SearchItemTypes } from '../../searchTypes'
+import { SearchItem } from '../../searchTypes'
 
 export function useCircleSearchItems(
   circles?: CircleEntry[],
@@ -39,11 +40,13 @@ export function useCircleSearchItems(
             id: circle.id,
             text: circleRoles
               .map((cr) => cr.role.name)
-              .join(' > ')
+              .join(' ')
               .toLowerCase(),
-            type: SearchItemTypes.Circle,
-            circle,
-            circleRoles,
+            type: SearchTypes.Circle,
+            title: circleRoles
+              .slice(circleRoles.length === 1 ? 0 : 1)
+              .map((cr) => cr.role.name)
+              .join(' › '),
           }
         })
         .filter(Boolean) as SearchItem[]) || [],

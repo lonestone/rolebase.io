@@ -1,14 +1,10 @@
 import express from 'express'
 import * as functions from 'firebase-functions'
 import './fixTsPaths'
+
+// API Routes
 import { meetingsIcalRoute } from './routes/meetingsIcal'
 import { migration } from './routes/migrations/migration-example'
-export { acceptMemberInvitation } from './functions/acceptMemberInvitation'
-export { createOrg } from './functions/createOrg'
-export { getMeetingsToken } from './functions/getMeetingsToken'
-export { inviteMember } from './functions/inviteMember'
-export { updateMemberRole } from './functions/updateMemberRole'
-export { updateOrgSlug } from './functions/updateOrgSlug'
 
 const app = express()
 
@@ -22,3 +18,23 @@ exports.api = functions.https.onRequest(app)
 // Grant super admin powers to some user
 // import { setUserClaim } from './helpers/setUserClaim'
 // setUserClaim('<user_id>', { superAdmin: true })
+
+// Functions exports
+export { acceptMemberInvitation } from './functions/acceptMemberInvitation'
+export { createOrg } from './functions/createOrg'
+export { getAlgoliaConfig } from './functions/getAlgoliaConfig'
+export { getMeetingsToken } from './functions/getMeetingsToken'
+export { inviteMember } from './functions/inviteMember'
+export { searchReindexAll } from './functions/searchReindexAll'
+export { updateMemberRole } from './functions/updateMemberRole'
+export { updateOrgSlug } from './functions/updateOrgSlug'
+// Search exports
+export { onCircleUpdateSearch } from './search/circles'
+export { onDecisionUpdateSearch } from './search/decisions'
+export {
+  onMeetingStepUpdateSearch,
+  onMeetingUpdateSearch,
+} from './search/meetings'
+export { onMemberUpdateSearch } from './search/member'
+export { onTaskUpdateSearch } from './search/tasks'
+export { onThreadUpdateSearch } from './search/threads'

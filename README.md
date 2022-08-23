@@ -27,6 +27,22 @@ It's an open source SaaS that helps various organizations implement Holacracy, S
     - **MAILJET_PUBIC_KEY**: Secret token. You can generate a token with Lastpass for example
     - **MAILJET_PRIVATE_KEY**: MailJet public key. You can find it here: https://app.mailjet.com/account/api_keys
     - **SECURITY_INVITATION_TOKEN**: MailJet private key
+    - **ALGOLIA_APP_ID**: Algolia application ID
+    - **ALGOLIA_SEARCH_API_KEY**: Algolia search API key (must remain secret!)
+    - **ALGOLIA_ADMIN_API_KEY**: Algolia admin API key (must remain secret!)
+
+### Algolia
+
+To use the search engine across an organization, you need to configure an Algolia index.
+
+1. Create an Algolia application
+
+2. Create an index and import config:
+
+   - Click "Manage index"
+   - Click "Import Configuration"
+   - Use `algolia-docs.json` present in this repo
+   - Set env variables (see previous section)
 
 ## Start dev environment
 
@@ -77,11 +93,13 @@ Push `storage.rules` file in production
 
 ### Deploy Functions
 
+Check that `functions/.env.default` exists and is configured for production.
+
+It can be based on `functions/.env.tempate` and it's used instead or in addition of `functions/.env`.
+
 Compile functions and push in production
 
     firebase deploy --only functions
-
-## Import Firebase config in project
 
 ### Import Firestore rules
 
