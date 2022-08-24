@@ -9,6 +9,7 @@ const indexMember = getIndexEntity<Member>(SearchTypes.Member, {
   getTitle: (member) => member.name,
   getDescription: (member) => member.description,
   getPicture: (member) => member.picture || undefined,
+  getBoost: () => 1,
 })
 
 export const indexMembers = getIndexEntities(collections.members, indexMember)

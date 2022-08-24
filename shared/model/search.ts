@@ -2,6 +2,7 @@
 
 export interface SearchDoc {
   objectID: string // Mandatory Algolia field
+  boost: number
   orgId: string
   type: SearchTypes
   title: string

@@ -33,7 +33,9 @@ export default function SuperAdminPage() {
   const [searchReindexLoading, setSearchReindexLoading] = useState(false)
   const handleSearchReindex = async () => {
     setSearchReindexLoading(true)
-    await httpsCallable<{}, string>(functions, 'searchReindexAll')()
+    await httpsCallable<{}, string>(functions, 'searchReindexAll', {
+      timeout: 540000,
+    })()
     setSearchReindexLoading(false)
   }
 

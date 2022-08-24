@@ -22,6 +22,7 @@ export function getIndexEntity<
     getTitle: SearchDocGetter<Entity>
     getDescription?: SearchDocGetter<Entity>
     getPicture?: SearchDocGetter<Entity, string | undefined>
+    getBoost?: SearchDocGetter<Entity, number | undefined>
   }
 ): IndexEntityFunction<Entity> {
   return async (index, doc) => {
@@ -34,6 +35,7 @@ export function getIndexEntity<
       type,
       title: await getters.getTitle(entity, doc),
       description: (await getters.getDescription?.(entity, doc)) ?? '',
+      boost: (await getters.getBoost?.(entity, doc)) ?? 0,
     }
 
     if (getters.getPicture) {

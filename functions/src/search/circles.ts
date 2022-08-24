@@ -11,6 +11,8 @@ const indexCircle = getIndexEntity<Circle>(SearchTypes.Circle, {
     const names = await getCircleNames(circle)
     return names.slice(names.length === 1 ? 0 : 1).join(' › ')
   },
+
+  getBoost: () => 2,
 })
 
 export const indexCircles = getIndexEntities(collections.circles, indexCircle)

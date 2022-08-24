@@ -1,6 +1,7 @@
 import { WithId } from '@shared/model/types'
 import { SearchIndex } from 'algoliasearch'
 import * as admin from 'firebase-admin'
+import { info } from 'firebase-functions/lib/logger'
 import { IndexEntityFunction } from './getIndexEntity'
 
 export type SearchDocGetter<Entity, Result = string> = (
@@ -16,6 +17,11 @@ export function getIndexEntities<
 ) {
   return async (index: SearchIndex) => {
     const snapshot = await collection.get()
-    snapshot.forEach((doc) => indexEntity(index, doc))
+    const docs: admin.firestore.QueryDocumentSnapshot<Entity>[] = []
+    snapshot.forEach((doc) => docs.push(doc))
+    for (const doc of docs) {
+      await indexEntity(index, doc)
+    }
+    info(`${collection.path} indexed`)
   }
 }
