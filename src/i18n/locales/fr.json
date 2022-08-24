@@ -531,9 +531,6 @@
   "SearchInput": {
     "defaultPlaceholder": "Sélectionner..."
   },
-  "SearchResultItem": {
-    "create": "Créer \"{{name}}\""
-  },
   "SignupForm": {
     "name": "Nom",
     "namePlaceholder": "Votre nom...",
@@ -552,7 +549,8 @@
     "addRole": "Ajouter un rôle"
   },
   "SuperAdminPage": {
-    "heading": "Administration"
+    "heading": "Administration",
+    "searchReindex": "Réindexer le moteur de recherche"
   },
   "TaskContent": {
     "headingEdit": "Tâche",
@@ -683,7 +681,7 @@
     "move": "Déplacer",
     "duplicate": "Dupliquer",
     "archive": "Archiver",
-    "unarchive": "Désarchiver",
+    "unarchive": "Restaurer",
     "cancel": "Annuler",
     "delete": "Supprimer",
     "remove": "Retirer",
@@ -715,6 +713,9 @@
       "Done": "Terminée",
       "NotDone": "Non terminée"
     }
+  },
+  "useSearch": {
+    "create": "Créer \"{{name}}\""
   },
   "useUpdateTaskStatus": {
     "toast": "Tâche marquée comme \"{{status}}\""

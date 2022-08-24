@@ -1,8 +1,9 @@
 import useCurrentMember from '@hooks/useCurrentMember'
 import { MemberEntry } from '@shared/model/member'
+import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
-import { SearchItem, SearchItemTypes } from '../../searchTypes'
+import { SearchItem } from '../../searchTypes'
 
 export function useMemberSearchItems(
   members?: MemberEntry[], // If not provided, use store
@@ -21,8 +22,9 @@ export function useMemberSearchItems(
           return {
             id: member.id,
             text: member.name.toLowerCase(),
-            type: SearchItemTypes.Member,
-            member,
+            type: SearchTypes.Member,
+            title: member.name,
+            picture: member.picture || undefined,
           }
         })
         .sort((a, b) => {

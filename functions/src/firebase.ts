@@ -6,6 +6,7 @@ import { Meeting } from '@shared/model/meeting'
 import { Member } from '@shared/model/member'
 import { Org } from '@shared/model/org'
 import { Role } from '@shared/model/role'
+import { Task } from '@shared/model/task'
 import { User } from '@shared/model/user'
 import * as admin from 'firebase-admin'
 
@@ -29,5 +30,7 @@ export const collections = {
   logs: getCollection<Log>('logs'),
   orgs: getCollection<Org>('orgs'),
   roles: getCollection<Role>('roles'),
+  tasks: getCollection<Task>('tasks'),
+  threads: getCollection<Meeting>('threads'),
   users: getCollection<User>('users'),
 }

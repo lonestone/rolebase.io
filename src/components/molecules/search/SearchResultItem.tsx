@@ -1,20 +1,15 @@
-import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Avatar, Box, Button, ButtonProps, Tag } from '@chakra-ui/react'
-import { taskStatusColors } from '@components/atoms/TaskStatusTag'
+import { Box, Button, ButtonProps } from '@chakra-ui/react'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { FiMessageSquare, FiPlus } from 'react-icons/fi'
-import { SearchItem, SearchItemTypes } from './searchTypes'
+import SearchResultIcon from './SearchResultIcon'
+import { SearchItem } from './searchTypes'
 
 interface Props extends ButtonProps {
   item: SearchItem
   highlighted: boolean
 }
 
-const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
-  ({ item, highlighted, ...buttonProps }, ref) => {
-    const { t } = useTranslation()
-
+export default React.forwardRef<HTMLButtonElement, Props>(
+  function SearchResultItem({ item, highlighted, ...buttonProps }, ref) {
     return (
       <Button
         isActive={highlighted}
@@ -23,63 +18,9 @@ const SearchResultItem = React.forwardRef<HTMLButtonElement, Props>(
         justifyContent="start"
         {...buttonProps}
       >
-        {item.type === SearchItemTypes.CreateAction && (
-          <>
-            <FiPlus />
-            <Box ml={2}>
-              {t(`SearchResultItem.create`, {
-                name: item.text,
-              })}
-            </Box>
-          </>
-        )}
-
-        {item.type === SearchItemTypes.Role && (
-          <Box ml={2}>{item.role.name}</Box>
-        )}
-
-        {item.type === SearchItemTypes.Circle &&
-          item.circleRoles
-            .slice(item.circleRoles.length == 1 ? 0 : 1)
-            .map((circle, i) => (
-              <React.Fragment key={circle.id}>
-                {i !== 0 && <ChevronRightIcon />}
-                {circle.role.name}
-              </React.Fragment>
-            ))}
-
-        {item.type === SearchItemTypes.Member && (
-          <>
-            <Avatar
-              name={item.member.name}
-              src={item.member.picture || undefined}
-              size="sm"
-              ml="-10px"
-              mr={2}
-            />
-            {item.member.name}
-          </>
-        )}
-
-        {item.type === SearchItemTypes.Thread && (
-          <>
-            <FiMessageSquare />
-            <Box ml={2}>{item.thread.title}</Box>
-          </>
-        )}
-        {item.type === SearchItemTypes.Task && (
-          <>
-            <Tag colorScheme={taskStatusColors[item.task.status]}>
-              {t(`common.taskStatus.${item.task.status}`)}
-            </Tag>
-            <Box ml={2}>{item.task.title}</Box>
-          </>
-        )}
+        <SearchResultIcon item={item} />
+        <Box ml={2}>{item.title}</Box>
       </Button>
     )
   }
 )
-
-SearchResultItem.displayName = 'SearchResultItem'
-
-export default SearchResultItem

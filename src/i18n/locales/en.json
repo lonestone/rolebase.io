@@ -526,9 +526,6 @@
   "SearchInput": {
     "defaultPlaceholder": "Select..."
   },
-  "SearchResultItem": {
-    "create": "Create \"{{name}}\""
-  },
   "SignupForm": {
     "name": "Name",
     "namePlaceholder": "Your name...",
@@ -547,7 +544,8 @@
     "addRole": "Add a role"
   },
   "SuperAdminPage": {
-    "heading": "Admin dashboard"
+    "heading": "Admin dashboard",
+    "searchReindex": "Reindex search engine"
   },
   "TaskContent": {
     "headingEdit": "Task",
@@ -681,7 +679,7 @@
     "move": "Move",
     "duplicate": "Duplicate",
     "archive": "Archive",
-    "unarchive": "Unarchive",
+    "unarchive": "Restore",
     "cancel": "Cancel",
     "delete": "Delete",
     "remove": "Remove",
@@ -713,6 +711,9 @@
       "Done": "Done",
       "NotDone": "Not done"
     }
+  },
+  "useSearch": {
+    "create": "Create \"{{name}}\""
   },
   "useUpdateTaskStatus": {
     "toast": "Task marked as \"{{status}}\""

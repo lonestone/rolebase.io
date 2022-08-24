@@ -1,6 +1,7 @@
+import { SearchTypes } from '@shared/model/search'
 import { ThreadEntry } from '@shared/model/thread'
 import { useMemo } from 'react'
-import { SearchItem, SearchItemTypes } from '../../searchTypes'
+import { SearchItem } from '../../searchTypes'
 
 export function useThreadSearchItems(
   threads: ThreadEntry[],
@@ -16,8 +17,8 @@ export function useThreadSearchItems(
           return {
             id: thread.id,
             text: thread.title.toLowerCase(),
-            type: SearchItemTypes.Thread,
-            thread,
+            type: SearchTypes.Thread,
+            title: thread.title,
           }
         })
         .filter(Boolean) as SearchItem[],

@@ -5,6 +5,7 @@ import {
   Input,
   InputProps,
 } from '@chakra-ui/react'
+import { SearchTypes } from '@shared/model/search'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
 import React, {
   useCallback,
@@ -17,7 +18,7 @@ import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
 import SearchResultItem from './SearchResultItem'
 import SearchResultsList from './SearchResultsList'
-import { SearchItem, SearchItemTypes } from './searchTypes'
+import { SearchItem } from './searchTypes'
 import { useSearch } from './useSearch'
 
 export interface SearchInputProps
@@ -50,7 +51,7 @@ export default function SearchInput({
       if (!item) return
       closeMenu()
 
-      if (onCreate && item.type === SearchItemTypes.CreateAction) {
+      if (onCreate && item.type === SearchTypes.CreateAction) {
         // Create entity and set its id as value
         const id = await onCreate(item.text)
         if (id) onChange(id)

@@ -15,28 +15,3 @@ i18next.init({
     },
   },
 })
-
-// const locales = {
-//   fr,
-//   en,
-// }
-
-// type Locales = keyof typeof locales
-
-// const defaultLang: Locales = 'fr'
-
-// export function t(
-//   lang: Locales | undefined,
-//   key: string,
-//   ...params: any[]
-// ): string {
-//   // Get translations
-//   let translations = lang && locales[lang]
-//   if (!translations) {
-//     translations = locales[defaultLang]
-//     console.warn(`Locale ${lang} not found`)
-//   }
-
-//   // Return translation from key
-//   return translations[key] ?? key
-// }

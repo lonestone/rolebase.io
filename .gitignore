@@ -6,6 +6,7 @@ dist-ssr
 *.cache
 *.log
 .env
+.env.default
 functions/lib
 firebase-emulator-data
 

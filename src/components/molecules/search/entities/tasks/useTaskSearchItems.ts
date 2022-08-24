@@ -1,6 +1,7 @@
+import { SearchTypes } from '@shared/model/search'
 import { TaskEntry } from '@shared/model/task'
 import { useMemo } from 'react'
-import { SearchItem, SearchItemTypes } from '../../searchTypes'
+import { SearchItem } from '../../searchTypes'
 
 export function useTaskSearchItems(
   tasks: TaskEntry[],
@@ -16,8 +17,8 @@ export function useTaskSearchItems(
           return {
             id: task.id,
             text: task.title.toLowerCase(),
-            type: SearchItemTypes.Task,
-            task,
+            type: SearchTypes.Task,
+            title: task.title,
           }
         })
         .filter(Boolean) as SearchItem[],
