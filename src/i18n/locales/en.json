@@ -183,7 +183,7 @@
     "canceled": "canceled the action:"
   },
   "LogItem": {
-    "cancel": "cancel this action."
+    "open": "See details"
   },
   "LogText": {
     "circleRoot": "the root",

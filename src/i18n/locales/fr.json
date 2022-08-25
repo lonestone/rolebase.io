@@ -183,7 +183,7 @@
     "canceled": "a annulé l'action :"
   },
   "LogItem": {
-    "cancel": "Annuler cette action"
+    "open": "Voir les détails"
   },
   "LogText": {
     "circleRoot": "la racine",

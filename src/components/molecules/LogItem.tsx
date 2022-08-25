@@ -44,7 +44,7 @@ export default function LogItem({ log, onCancel }: Props) {
 
       {onCancel && !log.canceled && (
         <IconTextButton
-          aria-label={t('LogItem.cancel')}
+          aria-label={t('LogItem.open')}
           size="sm"
           variant="ghost"
           icon={<FiEye />}
