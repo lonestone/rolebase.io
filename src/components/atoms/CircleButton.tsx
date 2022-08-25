@@ -22,7 +22,7 @@ export default function CircleButton({
       <Button
         bg={circleColor(
           colorMode === 'light' ? '92%' : '18%',
-          circle.role.colorHue || undefined
+          circle.role.colorHue ?? undefined
         )}
         size="sm"
         borderRadius="full"
