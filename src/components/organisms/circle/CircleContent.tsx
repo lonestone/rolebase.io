@@ -81,8 +81,8 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
     <>
       {changeTitle && <Title>{role.name}</Title>}
 
-      <Flex pt={2} pl={6} pr={2} pb={5}>
-        <CircleAndParentsLinks id={id} />
+      <Flex py={2} pl={6}>
+        <CircleAndParentsLinks id={id} size="md" />
         <Spacer />
 
         <Box>

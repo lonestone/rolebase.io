@@ -24,9 +24,9 @@ export default function CircleButton({
           colorMode === 'light' ? '92%' : '18%',
           circle.role.colorHue ?? undefined
         )}
-        size="sm"
         borderRadius="full"
         {...buttonProps}
+        size={buttonProps.size || 'sm'}
       >
         {noEllipsis ? circle.role.name : textEllipsis(circle.role.name, 20)}
       </Button>

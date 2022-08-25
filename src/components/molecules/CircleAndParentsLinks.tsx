@@ -7,9 +7,14 @@ import React from 'react'
 
 interface Props extends BoxProps {
   id: string
+  size?: 'sm' | 'md' | 'lg'
 }
 
-export default function CircleAndParentsLinks({ id, ...boxProps }: Props) {
+export default function CircleAndParentsLinks({
+  id,
+  size,
+  ...boxProps
+}: Props) {
   const circleAndParents = useCircleAndParents(id)
   if (!circleAndParents || circleAndParents.length === 0) return null
 
@@ -23,10 +28,10 @@ export default function CircleAndParentsLinks({ id, ...boxProps }: Props) {
   )
 
   return (
-    <Box {...boxProps}>
-      {parents.length > 0 && (
-        <Text mb={1} color="gray.500" lineHeight="1rem">
-          {parents.map((c, i) => {
+    <Box pb="1em" mb={1} {...boxProps}>
+      <Text mb={1} color="gray.500" h="1em" lineHeight="1em">
+        {parents.length > 0 &&
+          parents.map((c, i) => {
             const last = i === parents.length - 1
             return (
               <chakra.span whiteSpace="nowrap" key={c.id}>
@@ -43,9 +48,8 @@ export default function CircleAndParentsLinks({ id, ...boxProps }: Props) {
               </chakra.span>
             )
           })}
-        </Text>
-      )}
-      <CircleButton circle={circle} noEllipsis />
+      </Text>
+      <CircleButton circle={circle} size={size} noEllipsis />
     </Box>
   )
 }
