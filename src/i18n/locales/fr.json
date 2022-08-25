@@ -1,10 +1,6 @@
 {
   "ActionsMenu": {
-    "label": "Actions",
-    "edit": "Editer",
-    "duplicate": "Dupliquer",
-    "delete": "Supprimer",
-    "move": "Déplacer"
+    "label": "Actions"
   },
   "ActivityDeleteModal": {
     "heading": "Supprimer un message",

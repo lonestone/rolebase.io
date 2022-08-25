@@ -56,7 +56,7 @@ export default function ActionsMenu({
       >
         {onEdit && (
           <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
-            {t('ActionsMenu.edit')}
+            {t('common.edit')}
           </MenuItem>
         )}
         {onMove && (
