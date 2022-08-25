@@ -155,6 +155,7 @@
     "members": "Members",
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
+    "meetingTemplates": "Meeting templates",
     "logs": "History",
     "superAdmin": "Admin"
   },

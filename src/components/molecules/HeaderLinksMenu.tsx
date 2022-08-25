@@ -8,6 +8,7 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
+import MeetingTemplatesModal from '@components/organisms/meeting/MeetingTemplatesModal'
 import OrgEditModal from '@components/organisms/org/OrgEditModal'
 import BaseRolesModal from '@components/organisms/role/BaseRolesModal'
 import VacantRolesModal from '@components/organisms/role/VacantRolesModal'
@@ -22,6 +23,7 @@ import {
   FiActivity,
   FiCircle,
   FiClock,
+  FiCopy,
   FiMoreVertical,
   FiSettings,
   FiUsers,
@@ -51,32 +53,18 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
   const membersPath = usePathInOrg('members')
   const logsPath = usePathInOrg('logs')
 
+  // Modals
+  const editModal = useDisclosure()
+  const baseRolesModal = useDisclosure()
+  const vacantRolesModal = useDisclosure()
+  const meetingTemplatesModal = useDisclosure()
+
   // Edit modal
   const [editOrgId, setEditOrgId] = useState<string | undefined>()
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
-
   const handleOpenEdit = (id: string) => {
     setEditOrgId(id)
-    onEditOpen()
+    editModal.onOpen()
   }
-
-  // Base roles modal
-  const {
-    isOpen: isBaseRolesOpen,
-    onOpen: onBaseRolesOpen,
-    onClose: onBaseRolesClose,
-  } = useDisclosure()
-
-  // Vacant roles modal
-  const {
-    isOpen: isVacantRolesOpen,
-    onOpen: onVacantRolesOpen,
-    onClose: onVacantRolesClose,
-  } = useDisclosure()
 
   if (!orgId) return null
   return (
@@ -118,11 +106,14 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
 
         {isMember && (
           <>
-            <MenuItem icon={<FiCircle />} onClick={onBaseRolesOpen}>
+            <MenuItem icon={<FiCircle />} onClick={baseRolesModal.onOpen}>
               {t('HeaderLinksMenu.baseRoles')}
             </MenuItem>
-            <MenuItem icon={<FiCircle />} onClick={onVacantRolesOpen}>
+            <MenuItem icon={<FiCircle />} onClick={vacantRolesModal.onOpen}>
               {t('HeaderLinksMenu.vacantRoles')}
+            </MenuItem>
+            <MenuItem icon={<FiCopy />} onClick={meetingTemplatesModal.onOpen}>
+              {t('HeaderLinksMenu.meetingTemplates')}
             </MenuItem>
           </>
         )}
@@ -138,14 +129,20 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         )}
       </MenuList>
 
-      {isEditOpen && editOrgId && (
-        <OrgEditModal id={editOrgId} isOpen onClose={onEditClose} />
+      {editModal.isOpen && editOrgId && (
+        <OrgEditModal id={editOrgId} isOpen onClose={editModal.onClose} />
       )}
 
-      {isBaseRolesOpen && <BaseRolesModal isOpen onClose={onBaseRolesClose} />}
+      {baseRolesModal.isOpen && (
+        <BaseRolesModal isOpen onClose={baseRolesModal.onClose} />
+      )}
 
-      {isVacantRolesOpen && (
-        <VacantRolesModal isOpen onClose={onVacantRolesClose} />
+      {vacantRolesModal.isOpen && (
+        <VacantRolesModal isOpen onClose={vacantRolesModal.onClose} />
+      )}
+
+      {meetingTemplatesModal.isOpen && (
+        <MeetingTemplatesModal isOpen onClose={meetingTemplatesModal.onClose} />
       )}
     </Menu>
   )
