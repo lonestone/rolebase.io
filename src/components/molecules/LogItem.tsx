@@ -7,7 +7,7 @@ import { LogEntry } from '@shared/model/log'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiRotateCcw } from 'react-icons/fi'
+import { FiEye } from 'react-icons/fi'
 import { capitalizeFirstLetter } from 'src/utils'
 
 interface Props {
@@ -47,7 +47,7 @@ export default function LogItem({ log, onCancel }: Props) {
           aria-label={t('LogItem.cancel')}
           size="sm"
           variant="ghost"
-          icon={<FiRotateCcw />}
+          icon={<FiEye />}
           onClick={onCancel}
         />
       )}
