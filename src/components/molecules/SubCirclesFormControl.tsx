@@ -35,8 +35,10 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
       circles &&
       roles &&
       getCircleChildrenAndRoles(circles, roles, circle.id).sort((a, b) => {
+        // Put leaders at the top
         if (a.role.link === true && b.role.link !== true) return -1
         if (a.role.link !== true && b.role.link === true) return 1
+        // Sort by name
         return a.role.name.localeCompare(b.role.name)
       }),
     [circles, roles, circle]

@@ -30,20 +30,20 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
     if (!roles || !circles) return []
-    return (
-      circles
-        .filter((c) => c.members.some((m) => m.memberId === member.id))
-        .map((circle) =>
-          enrichCirclesWithRoles(getCircleAndParents(circles, circle.id), roles)
-        )
-        // Sort by circle ids path
-        .sort((a, b) =>
-          a.reduce((str, c) => str + c.id, '') <
-          b.reduce((str, c) => str + c.id, '')
-            ? -1
-            : 1
-        )
-    )
+    return circles
+      .filter((c) => c.members.some((m) => m.memberId === member.id))
+      .map((circle) =>
+        enrichCirclesWithRoles(getCircleAndParents(circles, circle.id), roles)
+      )
+      .sort((a, b) => {
+        const roleA = a[a.length - 1].role
+        const roleB = b[b.length - 1].role
+        // Put leaders at the top
+        if (roleA.link === true && roleB.link !== true) return -1
+        if (roleA.link !== true && roleB.link === true) return 1
+        // Sort by name
+        return roleA.name.localeCompare(roleB.name)
+      })
   }, [member.id, roles, circles])
 
   // Compute total number of allocated hours
@@ -95,16 +95,13 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
         mx={-4}
         onChange={handleAccordeonChange}
       >
-        {memberCircles.map((entries) => {
-          const circle = entries[entries.length - 1]
-          return (
-            <MemberRoleItem
-              key={circle.id}
-              memberId={member.id}
-              circlesWithRole={entries}
-            />
-          )
-        })}
+        {memberCircles.map((entries) => (
+          <MemberRoleItem
+            key={entries[entries.length - 1].id}
+            memberId={member.id}
+            circlesWithRole={entries}
+          />
+        ))}
       </Accordion>
 
       <Alert status="info" mt={5}>
