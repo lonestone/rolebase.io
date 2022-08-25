@@ -94,10 +94,7 @@ export default function Header() {
   // Use Cmd+K or Cmd+P keys to open search
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        (event.key === 'k' || event.key === 'p') &&
-        (event.ctrlKey || event.metaKey)
-      ) {
+      if (event.key === 'p' && (event.ctrlKey || event.metaKey)) {
         event.preventDefault()
         searchModal.onOpen()
       }
@@ -158,7 +155,7 @@ export default function Header() {
       {org && (
         <IconTextButton
           aria-label={t('Header.search', {
-            keys: `${cmdOrCtrlKey} + K`,
+            keys: `${cmdOrCtrlKey} + P`,
           })}
           icon={<FaSearch />}
           variant="ghost"
