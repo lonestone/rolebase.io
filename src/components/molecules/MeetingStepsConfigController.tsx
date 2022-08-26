@@ -1,7 +1,7 @@
+import { generateFirebaseId } from '@api/helpers/generateFirebaseId'
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { MeetingStepTypes } from '@shared/model/meetingStep'
-import { nanoid } from 'nanoid'
 import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -47,7 +47,7 @@ export default function MeetingStepsConfigController({
 
   const handleAdd = (stepType: MeetingStepTypes) => {
     return appendStep({
-      id: nanoid(5),
+      id: generateFirebaseId(),
       type: stepType,
       title: t(`common.meetingSteps.${stepType}`),
     })

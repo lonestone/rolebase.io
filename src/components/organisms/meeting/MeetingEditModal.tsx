@@ -4,6 +4,7 @@ import {
   duplicateMeetingSteps,
 } from '@api/entities/meetingSteps'
 import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
+import { generateFirebaseId } from '@api/helpers/generateFirebaseId'
 import { nameSchema } from '@api/schemas'
 import {
   Box,
@@ -58,7 +59,6 @@ import { MeetingStepTypes } from '@shared/model/meetingStep'
 import { MembersScope } from '@shared/model/member'
 import { store } from '@store/index'
 import { Timestamp } from 'firebase/firestore'
-import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -141,7 +141,7 @@ export default function MeetingEditModal({
         : defaultDuration || 30,
       stepsConfig: meeting?.stepsConfig ?? [
         {
-          id: nanoid(5),
+          id: generateFirebaseId(),
           type: MeetingStepTypes.Threads,
           title: 'Ordre du jour',
         },
