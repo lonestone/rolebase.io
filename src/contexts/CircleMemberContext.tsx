@@ -13,6 +13,11 @@ interface CircleMemberContextValue {
   goTo(circleId?: string, memberId?: string): void
 }
 
+interface State {
+  circleId?: string
+  memberId?: string
+}
+
 export const CircleMemberContext = createContext<
   CircleMemberContextValue | undefined
 >(undefined)
@@ -31,21 +36,19 @@ export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
 export const CircleMemberProvider: React.FC = ({ children }) => {
   const navigateOrg = useNavigateOrg()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [circleId, setCircleId] = useState<string | undefined>()
-  const [memberId, setMemberId] = useState<string | undefined>()
+  const [state, setState] = useState<State>({})
 
   const value = useMemo(
     () => ({
       goTo(circleId?: string, memberId?: string) {
-        setCircleId(circleId)
-        setMemberId(memberId)
+        setState({ circleId, memberId })
       },
     }),
     []
   )
 
   useEffect(() => {
-    if (!circleId && !memberId) return
+    if (!state.circleId && !state.memberId) return
     // Detect if at least one modal is open
     const hasModal = !!document.getElementsByClassName(
       'chakra-modal__content'
@@ -56,16 +59,15 @@ export const CircleMemberProvider: React.FC = ({ children }) => {
       onOpen()
     } else {
       // Navigate to circle member page
-      navigateOrg(getCircleMemberUrlSearch(circleId, memberId))
-      setCircleId(undefined)
-      setMemberId(undefined)
+      navigateOrg(getCircleMemberUrlSearch(state.circleId, state.memberId))
+      // Reset state
+      setState({})
     }
-  }, [circleId, memberId])
+  }, [state])
 
   const handleModalClose = useCallback(() => {
     onClose()
-    setCircleId(undefined)
-    setMemberId(undefined)
+    setState({})
   }, [])
 
   return (
@@ -74,8 +76,8 @@ export const CircleMemberProvider: React.FC = ({ children }) => {
 
       {isOpen && (
         <CircleMemberModal
-          circleId={circleId}
-          memberId={memberId}
+          circleId={state.circleId}
+          memberId={state.memberId}
           isOpen
           onClose={handleModalClose}
         />

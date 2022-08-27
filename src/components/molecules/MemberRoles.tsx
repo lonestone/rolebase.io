@@ -5,15 +5,21 @@ import {
   ExpandedIndex,
   Text,
 } from '@chakra-ui/react'
+import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
-import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
+import {
+  enrichCirclesWithRoles,
+  enrichCircleWithRole,
+} from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FiPlus } from 'react-icons/fi'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import MemberRoleItem from './MemberRoleItem'
+import CircleSearchButton from './search/entities/circles/CircleSearchButton'
 
 interface Props {
   member: MemberEntry
@@ -61,6 +67,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   const maxWorkedMin =
     member.workedMinPerWeek || org?.defaultWorkedMinPerWeek || 0
 
+  // Index of the currently selected circle in list
   const selectedCircleIndex = useMemo(
     () =>
       memberCircles.findIndex(
@@ -69,7 +76,8 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
     [memberCircles, selectedCircleId]
   )
 
-  const handleAccordeonChange = useCallback(
+  // Change URL path when a circle is selected in the accordion
+  const handleAccordionChange = useCallback(
     (index: ExpandedIndex) => {
       if (typeof index !== 'number') return
       if (index === -1) {
@@ -84,6 +92,20 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
     [selectedCircleIndex, memberCircles]
   )
 
+  // Add member to an existing circle
+  const addCircleMember = useAddCircleMember()
+  const handleAddCircle = useCallback(
+    async (circleId: string) => {
+      const circle = circles?.find((c) => c.id === circleId)
+      if (!circle || !roles) return
+      const circleWithRole = enrichCircleWithRole(circle, roles)
+      if (!circleWithRole) return
+      await addCircleMember(circleWithRole, member.id)
+      circleMemberContext?.goTo(circle.id, member.id)
+    },
+    [circles, roles, member]
+  )
+
   if (memberCircles.length === 0) {
     return <Text fontStyle="italic">{t(`MemberRoles.emptyRoles`)}</Text>
   }
@@ -93,7 +115,8 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
         index={selectedCircleIndex}
         allowToggle
         mx={-4}
-        onChange={handleAccordeonChange}
+        mb={5}
+        onChange={handleAccordionChange}
       >
         {memberCircles.map((entries) => (
           <MemberRoleItem
@@ -103,6 +126,17 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
           />
         ))}
       </Accordion>
+
+      <CircleSearchButton
+        excludeIds={memberCircles.map((mc) => mc[mc.length - 1].id)}
+        size="sm"
+        variant="ghost"
+        borderRadius="full"
+        leftIcon={<FiPlus />}
+        onSelect={handleAddCircle}
+      >
+        {t('MemberRoles.addRole')}
+      </CircleSearchButton>
 
       <Alert status="info" mt={5}>
         <AlertIcon />

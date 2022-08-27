@@ -388,6 +388,7 @@
   },
   "MemberRoles": {
     "emptyRoles": "Aucun",
+    "addRole": "Ajouter un rôle",
     "totalAllocatedTime": "Temps total alloué :",
     "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
   },

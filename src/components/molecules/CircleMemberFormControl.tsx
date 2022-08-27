@@ -1,10 +1,8 @@
-import { addMemberToCircle } from '@api/entities/circles'
 import { FormControl, FormLabel, useDisclosure } from '@chakra-ui/react'
 import CircleMemberDeleteModal from '@components/organisms/circle/CircleMemberDeleteModal'
+import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCircleAndParents from '@hooks/useCircleAndParents'
-import useCreateLog from '@hooks/useCreateLog'
 import useOrgMember from '@hooks/useOrgMember'
-import { LogType } from '@shared/model/log'
 import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
@@ -19,7 +17,6 @@ interface Props {
 export default function CircleMemberFormControl({ circleId }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const createLog = useCreateLog()
   const zoomContext = useContext(GraphZoomContext)
   const circleAndParents = useCircleAndParents(circleId)
   const members = useStoreState((state) => state.members.entries)
@@ -41,28 +38,13 @@ export default function CircleMemberFormControl({ circleId }: Props) {
     [circle, members]
   )
 
+  const addCircleMember = useAddCircleMember()
   const handleAddMember = useCallback(
     async (memberId: string) => {
       if (!circle) return
-      const changes = await addMemberToCircle(memberId, circleId)
-
-      // Log change
-      const member = members?.find((m) => m.id === memberId)
-      if (member) {
-        createLog({
-          display: {
-            type: LogType.CircleMemberAdd,
-            id: circle.id,
-            name: circle.role.name,
-            memberId: member.id,
-            memberName: member.name,
-          },
-          changes,
-        })
-      }
-
+      await addCircleMember(circle, memberId)
       // Focus circle in graph
-      zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
+      zoomContext?.zoom?.focusCircleAfterDraw?.(circle.id, true)
     },
     [circleId, circle]
   )

@@ -8,12 +8,15 @@ import {
   Button,
   FormControl,
   FormLabel,
+  HStack,
   useColorMode,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react'
 import DurationSelect from '@components/atoms/DurationSelect'
 import Markdown from '@components/atoms/Markdown'
 import CircleAndParentsLinks from '@components/molecules/CircleAndParentsLinks'
+import CircleMemberDeleteModal from '@components/organisms/circle/CircleMemberDeleteModal'
 import useOrgMember from '@hooks/useOrgMember'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import React, { FormEvent, useCallback, useMemo, useState } from 'react'
@@ -55,6 +58,8 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
     },
     [roleCircle, avgMinPerWeek]
   )
+
+  const deleteModal = useDisclosure()
 
   if (!circleMember) return null
 
@@ -99,18 +104,31 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                       />
                     </FormControl>
 
-                    {isDirty && (
-                      <Box textAlign="right">
+                    <HStack justifyContent="end">
+                      <Button size="sm" onClick={deleteModal.onOpen}>
+                        {t(`common.delete`)}
+                      </Button>
+
+                      {isDirty && (
                         <Button size="sm" colorScheme="blue" type="submit">
                           {t(`common.save`)}
                         </Button>
-                      </Box>
-                    )}
+                      )}
+                    </HStack>
                   </>
                 )}
               </VStack>
             </form>
           </AccordionPanel>
+
+          {deleteModal.isOpen && (
+            <CircleMemberDeleteModal
+              circleId={roleCircle.id}
+              memberId={memberId}
+              isOpen
+              onClose={deleteModal.onClose}
+            />
+          )}
         </Box>
       )}
     </AccordionItem>
