@@ -14,6 +14,7 @@ import HeaderLinksMenu, {
 } from '@components/molecules/HeaderLinksMenu'
 import HeaderOrgMenu from '@components/molecules/HeaderOrgMenu'
 import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
+import Notifications from '@components/molecules/Notifications'
 import SearchGlobal from '@components/molecules/search/SearchGlobal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -182,6 +183,8 @@ export default function Header() {
         size="sm"
         onClick={handleOpenHelp}
       />
+
+      <Notifications />
 
       <HeaderUserMenu ml={2} />
     </Flex>

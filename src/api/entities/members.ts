@@ -96,8 +96,8 @@ export async function updateMemberRole(
 export async function startMembersMeeting(
   membersId: string[],
   meetingId: string
-) {
-  return await Promise.all(
+): Promise<void> {
+  await Promise.all(
     membersId.map((memberId) => updateMember(memberId, { meetingId }))
   )
 }
@@ -105,8 +105,8 @@ export async function startMembersMeeting(
 export async function stopMembersMeeting(
   membersId: string[],
   meetingId: string
-) {
-  return await Promise.all(
+): Promise<void> {
+  await Promise.all(
     membersId.map(async (memberId) => {
       const member = await getMember(memberId)
       if (meetingId === member?.meetingId) {

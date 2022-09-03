@@ -23,7 +23,7 @@ import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import MeetingActions from '@components/molecules/MeetingActions'
-import MeetingAttendees from '@components/molecules/MeetingAttendees'
+import MeetingAttendeesList from '@components/molecules/MeetingAttendeesList'
 import MeetingLogs from '@components/molecules/MeetingLogs'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
@@ -204,7 +204,7 @@ export default function MeetingContent({
                 )
               ))}
 
-            {!isEnded && !canEdit && (
+            {isMember && !isEnded && !canEdit && (
               <Alert status="info">
                 <AlertIcon />
                 <AlertDescription>
@@ -237,11 +237,9 @@ export default function MeetingContent({
                 >
                   {index === 0 && (
                     <Collapse in={!!meeting.attendees} animateOpacity>
-                      {meeting.attendees && (
-                        <MeetingAttendees
-                          meetingId={meeting.id}
-                          attendees={meeting.attendees}
-                          editable={canEdit && (!isEnded || forceEdit)}
+                      {meeting.attendees && circle && (
+                        <MeetingAttendeesList
+                          meetingState={meetingState}
                           my={5}
                         />
                       )}
@@ -257,12 +255,10 @@ export default function MeetingContent({
                   />
 
                   {isStarted && canEdit && (
-                    <Collapse in={current || last} animateOpacity>
+                    <Collapse in={current} animateOpacity>
                       <Button
                         leftIcon={last ? <FaStop /> : <FiArrowDown />}
-                        colorScheme={
-                          current ? (last ? 'blue' : 'green') : 'gray'
-                        }
+                        colorScheme={last ? 'blue' : 'green'}
                         mt={5}
                         onClick={last ? handleEnd : handleNextStep}
                       >

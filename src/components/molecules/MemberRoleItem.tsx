@@ -80,7 +80,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
             <CircleAndParentsLinks id={roleCircle.id} flex={1} />
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel pt={3} pb={5}>
+          <AccordionPanel pt={3} pb={5} pl={10}>
             <form onSubmit={onSubmit}>
               <VStack spacing={3} align="stretch">
                 {roleCircle.role.purpose && (

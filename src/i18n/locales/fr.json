@@ -241,7 +241,7 @@
     "absent": "Absent(e)",
     "present": "Présent(e)",
     "add": "Ajouter un(e) participant(e)",
-    "confirmRemove": "Êtes vous sûr de vouloir retirer cet(te) participant(e) ?"
+    "confirmRemove": "Êtes-vous sûr(e) de vouloir retirer ce(tte) participant(e) ?"
   },
   "MeetingContent": {
     "title": "Réunion {{circle}} : {{title}}",
@@ -431,6 +431,9 @@
   },
   "ModalMaximizeButton": {
     "label": "Ouvrir en pleine page"
+  },
+  "Notifications": {
+    "tooltip": "Notifications"
   },
   "OnboardingCircleMembersModal": {
     "heading": "{{role}}",
@@ -710,6 +713,32 @@
       "Blocked": "Bloquée",
       "Done": "Terminée",
       "NotDone": "Non terminée"
+    }
+  },
+  "notifications": {
+    "ThreadMessage": {
+      "title": "",
+      "content": ""
+    },
+    "TaskAssigned": {
+      "title": "",
+      "content": ""
+    },
+    "MeetingInvited": {
+      "title": "Réunion {{role}} - {{title}}",
+      "content": "Invitation par {{sender}}."
+    },
+    "MeetingStarted": {
+      "title": "",
+      "content": ""
+    },
+    "RoleAssigned": {
+      "title": "",
+      "content": ""
+    },
+    "Decision": {
+      "title": "",
+      "content": ""
     }
   },
   "useSearch": {

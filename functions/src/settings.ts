@@ -30,10 +30,18 @@ export default {
   security: {
     invitation_token: process.env.SECURITY_INVITATION_TOKEN || '',
   },
+
+  // Search with Algolia
   algolia: {
     appId: process.env.ALGOLIA_APP_ID || '',
     searchApiKey: process.env.ALGOLIA_SEARCH_API_KEY || '',
     adminApiKey: process.env.ALGOLIA_ADMIN_API_KEY || '',
     indexName: 'docs',
+  },
+
+  // Notifications with MagicBell
+  magicbell: {
+    apiKey: process.env.MAGICBELL_API_KEY || '',
+    apiSecret: process.env.MAGICBELL_API_SECRET || '',
   },
 }

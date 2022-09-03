@@ -23,9 +23,11 @@ exports.api = functions.https.onRequest(app)
 export { acceptMemberInvitation } from './functions/acceptMemberInvitation'
 export { createOrg } from './functions/createOrg'
 export { getAlgoliaConfig } from './functions/getAlgoliaConfig'
+export { getMagicbellConfig } from './functions/getMagicbellConfig'
 export { getMeetingsToken } from './functions/getMeetingsToken'
 export { inviteMember } from './functions/inviteMember'
 export { searchReindexAll } from './functions/searchReindexAll'
+export { sendNotification } from './functions/sendNotification'
 export { updateMemberRole } from './functions/updateMemberRole'
 export { updateOrgSlug } from './functions/updateOrgSlug'
 // Search exports

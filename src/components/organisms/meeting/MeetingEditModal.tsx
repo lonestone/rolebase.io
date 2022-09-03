@@ -4,6 +4,7 @@ import {
   duplicateMeetingSteps,
 } from '@api/entities/meetingSteps'
 import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
+import { sendNotification } from '@api/entities/notifications'
 import { generateFirebaseId } from '@api/helpers/generateFirebaseId'
 import { nameSchema } from '@api/schemas'
 import {
@@ -57,6 +58,7 @@ import useSubscription from '@hooks/useSubscription'
 import { MeetingEntry } from '@shared/model/meeting'
 import { MeetingStepTypes } from '@shared/model/meetingStep'
 import { MembersScope } from '@shared/model/member'
+import { NotificationCategories } from '@shared/model/notification'
 import { store } from '@store/index'
 import { Timestamp } from 'firebase/firestore'
 import React, { useEffect, useMemo } from 'react'
@@ -121,8 +123,6 @@ export default function MeetingEditModal({
   const currentMember = useCurrentMember()
   const history = useHistory()
   const meetingsPath = usePathInOrg('meetings')
-  const isNotStarted =
-    !meeting || (!meeting.ended && meeting.currentStepId === null)
 
   const defaultValues = useMemo(
     () => ({
@@ -221,8 +221,14 @@ export default function MeetingEditModal({
       const newMeeting = await createMeeting({
         orgId,
         initiatorMemberId: currentMember.id,
+        attendees: participants.map((participant) => ({
+          memberId: participant.member.id,
+          circlesIds: participant.circlesIds,
+          present: null,
+        })),
         ...meetingUpdate,
       })
+      const url = `${meetingsPath}/${newMeeting.id}`
 
       if (meeting && duplicate) {
         // Duplicate steps
@@ -236,10 +242,27 @@ export default function MeetingEditModal({
         circle
       )
 
+      // Send notification
+      const notifParams = {
+        role: circle.role.name,
+        title: newMeeting.title,
+        sender: currentMember.name,
+      }
+      sendNotification({
+        category: NotificationCategories.MeetingInvited,
+        title: t('notifications.MeetingInvited.title', notifParams),
+        content: t('notifications.MeetingInvited.content', notifParams),
+        recipientMemberIds: (
+          newMeeting.attendees?.map((a) => a.memberId) || []
+        ).filter((id) => id !== currentMember.id),
+        topic: newMeeting.id,
+        url,
+      })
+
       if (onCreate) {
         onCreate(newMeeting.id)
       } else {
-        history.push(`${meetingsPath}/${newMeeting.id}`)
+        history.push(url)
       }
     }
 
@@ -392,7 +415,7 @@ export default function MeetingEditModal({
                 />
               </FormControl>
 
-              {isNotStarted && (
+              {(!meeting?.attendees || duplicate) && (
                 <FormControl
                   isInvalid={(circleId && participants.length === 0) || false}
                 >
