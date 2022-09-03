@@ -1,5 +1,5 @@
 import { subscribeAllOrgs } from '@api/entities/orgs'
-import { functions } from '@api/firebase'
+import { reindexAll } from '@api/entities/search'
 import { WarningIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -18,7 +18,6 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useSubscription from '@hooks/useSubscription'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { formatRelative } from 'date-fns'
-import { httpsCallable } from 'firebase/functions'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
@@ -33,9 +32,7 @@ export default function SuperAdminPage() {
   const [searchReindexLoading, setSearchReindexLoading] = useState(false)
   const handleSearchReindex = async () => {
     setSearchReindexLoading(true)
-    await httpsCallable<{}, string>(functions, 'searchReindexAll', {
-      timeout: 540000,
-    })()
+    await reindexAll()
     setSearchReindexLoading(false)
   }
 

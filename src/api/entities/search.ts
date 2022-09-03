@@ -11,3 +11,9 @@ export async function getAlgoliaConfig(orgId: string): Promise<AlgoliaConfig> {
   })
   return config
 }
+
+export async function reindexAll(): Promise<void> {
+  await httpsCallable<{}, string>(functions, 'searchReindexAll', {
+    timeout: 540000,
+  })()
+}
