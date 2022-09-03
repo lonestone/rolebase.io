@@ -8,7 +8,11 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      // Required to prevent error "pragma and pragmaFrag cannot be set when runtime is automatic"
+      // with @magicbell/magicbell-react
+      jsxRuntime: 'classic',
+    }),
     tsconfigPaths(),
     terser({
       format: {
