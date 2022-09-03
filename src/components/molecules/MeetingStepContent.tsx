@@ -1,6 +1,7 @@
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
+import { MeetingState } from '@hooks/useMeetingState'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/model/meetingStep'
 import { Bytes } from 'firebase/firestore'
 import React, { useCallback, useRef } from 'react'
@@ -11,22 +12,14 @@ import MeetingStepContentChecklist from './MeetingStepContentChecklist'
 import MeetingStepContentIndicators from './MeetingStepContentIndicators'
 
 interface Props {
-  meetingId: string
-  circleId: string
-  started: boolean
-  editable: boolean
+  meetingState: MeetingState
   step: MeetingStepEntry
 }
 
-export default function MeetingStepContent({
-  meetingId,
-  circleId,
-  started,
-  editable,
-  step,
-}: Props) {
+export default function MeetingStepContent({ meetingState, step }: Props) {
+  const { meeting, editable } = meetingState
   const { t } = useTranslation()
-  const { updateMeetingStep } = meetingStepsEntities(meetingId)
+  const { updateMeetingStep } = meetingStepsEntities(meeting?.id || '')
   const editorRef = useRef<EditorHandle>(null)
 
   // Update notes
@@ -40,47 +33,37 @@ export default function MeetingStepContent({
     []
   )
 
+  if (!meeting) return null
+
   return (
     <>
       {step.type === MeetingStepTypes.Threads && (
-        <MeetingStepContentThreads
-          meetingId={meetingId}
-          step={step}
-          circleId={circleId}
-          editable={editable}
-        />
+        <MeetingStepContentThreads meetingState={meetingState} step={step} />
       )}
 
       {step.type === MeetingStepTypes.Tasks && (
-        <MeetingStepContentTasks
-          meetingId={meetingId}
-          step={step}
-          circleId={circleId}
-          started={started}
-        />
+        <MeetingStepContentTasks meetingState={meetingState} step={step} />
       )}
 
       {step.type === MeetingStepTypes.Checklist && (
         <MeetingStepContentChecklist
-          circleId={circleId}
+          meetingState={meetingState}
           step={step}
-          editable={editable}
           editorRef={editorRef}
         />
       )}
 
       {step.type === MeetingStepTypes.Indicators && (
         <MeetingStepContentIndicators
-          circleId={circleId}
+          meetingState={meetingState}
           step={step}
-          editable={editable}
           editorRef={editorRef}
         />
       )}
 
       <CollabEditor
         ref={editorRef}
-        docId={`meeting${meetingId}-step${step.id}`}
+        docId={`meeting${meeting.id}-step${step.id}`}
         value={step.notes}
         updates={step.notesUpdates}
         placeholder={t('MeetingStepContent.notesPlaceholder')}

@@ -30,6 +30,7 @@ export interface MeetingState {
   participants: ParticipantMember[]
   canEdit: boolean
   forceEdit: boolean
+  editable: boolean
   isParticipant: boolean
   isFacilitator: boolean
   isInitiator: boolean
@@ -118,6 +119,9 @@ export default function useMeetingState(meetingId: string): MeetingState {
   // Edit mode when meeting is ended
   const [forceEdit, setForceEdit] = useState(false)
 
+  // Data is editable
+  const editable = canEdit && (!isEnded || forceEdit)
+
   // Reset forced edition when meeting is not ended anymore
   useEffect(() => {
     if (forceEdit && !meeting?.ended) {
@@ -182,6 +186,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
     participants,
     canEdit,
     forceEdit,
+    editable,
     isParticipant,
     isFacilitator,
     isInitiator,

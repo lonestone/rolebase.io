@@ -3,6 +3,7 @@ import { Box, Button, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/task/TaskModal'
 import TasksModule from '@components/organisms/task/TasksModule'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { MeetingState } from '@hooks/useMeetingState'
 import useOrgMember from '@hooks/useOrgMember'
 import { LogType } from '@shared/model/log'
 import { MeetingStepTasks } from '@shared/model/meetingStep'
@@ -14,10 +15,8 @@ import { FiPlus } from 'react-icons/fi'
 import MeetingLogs from './MeetingLogs'
 
 interface Props {
-  meetingId: string
-  circleId: string
+  meetingState: MeetingState
   step: WithId<MeetingStepTasks>
-  started: boolean
 }
 
 export const taskLogTypes = [
@@ -27,18 +26,14 @@ export const taskLogTypes = [
   LogType.TaskArchive,
 ]
 
-export default function MeetingStepContentTasks({
-  meetingId,
-  circleId,
-  step,
-  started,
-}: Props) {
+export default function MeetingStepContentTasks({ meetingState, step }: Props) {
+  const { meeting, circle, isEnded } = meetingState
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const currentMember = useCurrentMember()
 
   // Persisted filters
-  const { updateMeetingStep } = meetingStepsEntities(meetingId)
+  const { updateMeetingStep } = meetingStepsEntities(meeting?.id || '')
 
   const handleViewChange = useCallback(
     (viewType: TasksViewTypes) => updateMeetingStep(step.id, { viewType }),
@@ -64,13 +59,15 @@ export default function MeetingStepContentTasks({
     onClose: onCreateClose,
   } = useDisclosure()
 
+  if (!meeting || !circle) return null
+
   return (
     <Box mb={5}>
-      {started && (
+      {!isEnded && (
         <>
           <TasksModule
             view={step.viewType || TasksViewTypes.Kanban}
-            circleId={circleId}
+            circleId={circle.id}
             memberId={step.filterMemberId || undefined}
             status={step.filterStatus || undefined}
             overflowContainer={{
@@ -91,7 +88,7 @@ export default function MeetingStepContentTasks({
       )}
 
       <MeetingLogs
-        meetingId={meetingId}
+        meetingId={meeting.id}
         includeTypes={taskLogTypes}
         hideEmpty
         mt={5}
@@ -101,7 +98,7 @@ export default function MeetingStepContentTasks({
         <TaskModal
           isOpen
           defaultMemberId={currentMember?.id}
-          defaultCircleId={circleId}
+          defaultCircleId={circle.id}
           onClose={onCreateClose}
         />
       )}

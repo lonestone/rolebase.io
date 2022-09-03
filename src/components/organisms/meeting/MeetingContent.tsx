@@ -246,13 +246,7 @@ export default function MeetingContent({
                     </Collapse>
                   )}
 
-                  <MeetingStepContent
-                    meetingId={id}
-                    circleId={meeting.circleId}
-                    editable={canEdit && (!isEnded || forceEdit)}
-                    started={isStarted}
-                    step={step}
-                  />
+                  <MeetingStepContent meetingState={meetingState} step={step} />
 
                   {isStarted && canEdit && (
                     <Collapse in={current} animateOpacity>

@@ -20,9 +20,8 @@ export default function MeetingAttendeesList({
   meetingState,
   ...boxProps
 }: Props) {
-  const { meeting, circle, canEdit, isEnded, forceEdit } = meetingState
+  const { meeting, circle, editable } = meetingState
   const attendees = meeting?.attendees
-  const editable = canEdit && (!isEnded || forceEdit)
 
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
