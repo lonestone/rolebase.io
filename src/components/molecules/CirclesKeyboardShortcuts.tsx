@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   VStack,
 } from '@chakra-ui/react'
+import useOrgMember from '@hooks/useOrgMember'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
@@ -18,8 +19,9 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
   const { t } = useTranslation()
   const { isOpen, onToggle } = useDisclosure()
   const [isSmallScreen] = useMediaQuery('(max-width: 600px)')
+  const isMember = useOrgMember()
 
-  if (isSmallScreen) {
+  if (isSmallScreen || !isMember) {
     return null
   }
 

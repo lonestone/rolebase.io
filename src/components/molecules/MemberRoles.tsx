@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react'
 import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import useOrgMember from '@hooks/useOrgMember'
 import {
   enrichCirclesWithRoles,
   enrichCircleWithRole,
@@ -32,6 +33,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
   const circleMemberContext = useContext(CircleMemberContext)
+  const isMember = useOrgMember()
 
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
@@ -127,16 +129,18 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
         ))}
       </Accordion>
 
-      <CircleSearchButton
-        excludeIds={memberCircles.map((mc) => mc[mc.length - 1].id)}
-        size="sm"
-        variant="ghost"
-        borderRadius="full"
-        leftIcon={<FiPlus />}
-        onSelect={handleAddCircle}
-      >
-        {t('MemberRoles.addRole')}
-      </CircleSearchButton>
+      {isMember && (
+        <CircleSearchButton
+          excludeIds={memberCircles.map((mc) => mc[mc.length - 1].id)}
+          size="sm"
+          variant="ghost"
+          borderRadius="full"
+          leftIcon={<FiPlus />}
+          onSelect={handleAddCircle}
+        >
+          {t('MemberRoles.addRole')}
+        </CircleSearchButton>
+      )}
 
       <Alert status="info" mt={5}>
         <AlertIcon />

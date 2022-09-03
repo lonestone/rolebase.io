@@ -10,11 +10,11 @@ import { LogType } from '@shared/model/log'
 import { useCallback } from 'react'
 import { GraphEvents } from 'src/circles-viz/createGraph'
 import { store } from '../store'
+import useOrgMember from './useOrgMember'
 
 export default function useGraphEvents(): GraphEvents {
+  const isMember = useOrgMember()
   const createLog = useCreateLog()
-
-  // Navigation
   const navigateOrg = useNavigateOrg()
 
   // Navigation Events
@@ -157,9 +157,9 @@ export default function useGraphEvents(): GraphEvents {
     onMemberClick,
     onCircleMemberClick,
     onClickOutside: navigateOrg,
-    onCircleMove,
-    onCircleCopy,
-    onMemberMove,
-    onMemberAdd,
+    onCircleMove: isMember ? onCircleMove : undefined,
+    onCircleCopy: isMember ? onCircleCopy : undefined,
+    onMemberMove: isMember ? onMemberMove : undefined,
+    onMemberAdd: isMember ? onMemberAdd : undefined,
   }
 }
