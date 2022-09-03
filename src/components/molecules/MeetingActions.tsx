@@ -1,6 +1,7 @@
 import {
+  Box,
   Button,
-  Flex,
+  Container,
   HStack,
   useColorMode,
   useDisclosure,
@@ -108,142 +109,143 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
   )
 
   return (
-    <Flex
+    <Box
       position="fixed"
       zIndex={10}
       bottom={0}
       left={0}
       right={0}
       p={3}
-      justifyContent="end"
-      bg={colorMode === 'light' ? 'white' : 'gray.600'}
+      bg={colorMode === 'light' ? 'gray.50' : 'gray.600'}
       boxShadow={`0 -6px 11px -10px ${
         colorMode === 'light' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'
       }`}
     >
-      {isNotStarted && (
-        <Button
-          leftIcon={<FiPlay />}
-          colorScheme="green"
-          onClick={handleNextStep}
-        >
-          {t('MeetingActions.start')}
-        </Button>
-      )}
-
-      {isEnded && forceEdit && (
-        <HStack>
-          <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
-            {t('MeetingActions.reopen')}
+      <Container maxW="3xl" display="flex" justifyContent="end">
+        {isNotStarted && (
+          <Button
+            leftIcon={<FiPlay />}
+            colorScheme="green"
+            onClick={handleNextStep}
+          >
+            {t('MeetingActions.start')}
           </Button>
-          <IconTextButton
-            aria-label={t('MeetingActions.stop')}
-            icon={<FiX />}
-            tooltipPlacement="left"
-            onClick={() => handleChangeForceEdit(false)}
-          />
-        </HStack>
-      )}
+        )}
 
-      {isStarted && (
-        <HStack spacing={4}>
-          <HStack spacing={2}>
+        {isEnded && forceEdit && (
+          <HStack>
+            <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
+              {t('MeetingActions.reopen')}
+            </Button>
             <IconTextButton
-              aria-label={t(`common.createDecision`)}
-              size="sm"
-              icon={<FiArrowRightCircle />}
-              data-type={ActivityType.Decision}
-              onClick={handleEntityOpen}
-            />
-
-            <IconTextButton
-              aria-label={t(`common.createTask`)}
-              size="sm"
-              icon={<FiCheckSquare />}
-              data-type={ActivityType.Task}
-              onClick={handleEntityOpen}
-            />
-
-            <IconTextButton
-              aria-label={t(`common.createMeeting`)}
-              size="sm"
-              icon={<FiCalendar />}
-              data-type={ActivityType.Meeting}
-              onClick={handleEntityOpen}
-            />
-
-            <IconTextButton
-              aria-label={t(`common.createThread`)}
-              size="sm"
-              icon={<FiMessageSquare />}
-              data-type={ActivityType.Thread}
-              onClick={handleEntityOpen}
+              aria-label={t('MeetingActions.stop')}
+              icon={<FiX />}
+              tooltipPlacement="left"
+              onClick={() => handleChangeForceEdit(false)}
             />
           </HStack>
+        )}
 
-          <HStack spacing={2}>
-            {videoConfUrl && !endTimePassed && (
-              <a href={videoConfUrl} target="_blank" rel="noreferrer">
-                <IconTextButton
-                  aria-label={t('MeetingActions.videoConf')}
-                  icon={<FiVideo />}
-                  colorScheme="blue"
-                  showText={!videoConfOpen}
-                  onClick={() => setVideoConfOpen(true)}
-                />
-              </a>
+        {isStarted && (
+          <HStack spacing={4}>
+            <HStack spacing={2}>
+              <IconTextButton
+                aria-label={t(`common.createDecision`)}
+                size="sm"
+                icon={<FiArrowRightCircle />}
+                data-type={ActivityType.Decision}
+                onClick={handleEntityOpen}
+              />
+
+              <IconTextButton
+                aria-label={t(`common.createTask`)}
+                size="sm"
+                icon={<FiCheckSquare />}
+                data-type={ActivityType.Task}
+                onClick={handleEntityOpen}
+              />
+
+              <IconTextButton
+                aria-label={t(`common.createMeeting`)}
+                size="sm"
+                icon={<FiCalendar />}
+                data-type={ActivityType.Meeting}
+                onClick={handleEntityOpen}
+              />
+
+              <IconTextButton
+                aria-label={t(`common.createThread`)}
+                size="sm"
+                icon={<FiMessageSquare />}
+                data-type={ActivityType.Thread}
+                onClick={handleEntityOpen}
+              />
+            </HStack>
+
+            <HStack spacing={2}>
+              {videoConfUrl && !endTimePassed && (
+                <a href={videoConfUrl} target="_blank" rel="noreferrer">
+                  <IconTextButton
+                    aria-label={t('MeetingActions.videoConf')}
+                    icon={<FiVideo />}
+                    colorScheme="blue"
+                    showText={!videoConfOpen}
+                    onClick={() => setVideoConfOpen(true)}
+                  />
+                </a>
+              )}
+
+              <IconTextButton
+                aria-label={t('MeetingActions.end')}
+                icon={<FaStop />}
+                colorScheme="blue"
+                showText={endTimePassed}
+                onClick={handleEnd}
+              />
+            </HStack>
+          </HStack>
+        )}
+
+        {entityModal.isOpen && (
+          <>
+            {entityType === ActivityType.Thread && (
+              <ThreadEditModal
+                defaultCircleId={meeting.circleId}
+                isOpen
+                onClose={entityModal.onClose}
+              />
             )}
 
-            <IconTextButton
-              aria-label={t('MeetingActions.end')}
-              icon={<FaStop />}
-              colorScheme="blue"
-              showText={endTimePassed}
-              onClick={handleEnd}
-            />
-          </HStack>
-        </HStack>
-      )}
+            {entityType === ActivityType.Meeting && (
+              <MeetingEditModal
+                meeting={meeting}
+                duplicate
+                isOpen
+                onClose={entityModal.onClose}
+              />
+            )}
 
-      {entityModal.isOpen && (
-        <>
-          {entityType === ActivityType.Thread && (
-            <ThreadEditModal
-              defaultCircleId={meeting.circleId}
-              isOpen
-              onClose={entityModal.onClose}
-            />
-          )}
+            {entityType === ActivityType.Task && (
+              <TaskModal
+                defaultCircleId={meeting.circleId}
+                defaultMemberId={currentMember?.id}
+                defaultDescription={defaultEntityDescription}
+                isOpen
+                onClose={entityModal.onClose}
+              />
+            )}
 
-          {entityType === ActivityType.Meeting && (
-            <MeetingEditModal
-              meeting={meeting}
-              duplicate
-              isOpen
-              onClose={entityModal.onClose}
-            />
-          )}
-
-          {entityType === ActivityType.Task && (
-            <TaskModal
-              defaultCircleId={meeting.circleId}
-              defaultMemberId={currentMember?.id}
-              defaultDescription={defaultEntityDescription}
-              isOpen
-              onClose={entityModal.onClose}
-            />
-          )}
-
-          {entityType === ActivityType.Decision && (
-            <DecisionEditModal
-              defaultCircleId={meeting.circleId}
-              defaultDescription={defaultEntityDescription}
-              isOpen
-              onClose={entityModal.onClose}
-            />
-          )}
-        </>
-      )}
-    </Flex>
+            {entityType === ActivityType.Decision && (
+              <DecisionEditModal
+                defaultCircleId={meeting.circleId}
+                defaultDescription={defaultEntityDescription}
+                isOpen
+                onClose={entityModal.onClose}
+              />
+            )}
+          </>
+        )}
+      </Container>
+    </Box>
   )
 }
