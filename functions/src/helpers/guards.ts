@@ -51,7 +51,7 @@ export function guardArgument<Payload>(
   argName: keyof Payload,
   type?: 'string' | 'number' | 'boolean' | 'object'
 ) {
-  if (!(argName in payload) || typeof payload[argName] !== type) {
+  if (!(argName in payload) || (type && typeof payload[argName] !== type)) {
     throw new functions.https.HttpsError(
       'invalid-argument',
       `${String(argName)} not provided`
