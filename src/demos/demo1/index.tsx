@@ -21,7 +21,7 @@ interface Step {
 
 const steps: Step[] = [
   {
-    text: 'Voici une entreprise.',
+    text: 'Voici une organisation.',
   },
   {
     circleId: 'circle-super',
@@ -32,28 +32,12 @@ const steps: Step[] = [
     text: 'Angela occupe par exemple le Rôle Finance.',
   },
   {
-    circleId: 'circle-finance',
-    text: 'Passez la souris sur sa photo pour voir son prénom.',
-  },
-  {
     circleId: 'circle-product',
     text: 'Votre équipe Produit est aussi un Rôle...',
   },
   {
     circleId: 'circle-product-dev',
     text: "...qui contient d'autres Rôles.",
-  },
-  {
-    circleId: 'circle-product-dev-leader',
-    text: 'Un(e) Leader représente son Rôle dans le Rôle parent.',
-  },
-  {
-    circleId: 'circle-product',
-    text: "Darryl, Karen et Pam représentent les Rôles de l'équipe Produit.",
-  },
-  {
-    circleId: 'circle-product',
-    text: 'Ils et elles participent automatiquement aux réunions et aux discussions du Rôle Produit.',
   },
   {
     circleId: 'circle-business',
