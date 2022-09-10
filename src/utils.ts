@@ -6,6 +6,25 @@ export const isIOS = /(iPhone|iPod|iPad)/i.test(navigator.platform)
 
 export const cmdOrCtrlKey = isMac ? '⌘' : 'Ctrl'
 
+export enum UserLocalStorageKeys {
+  AlgoliaConfig = 'algolia-config-{id}',
+  MagicBellConfig = 'magicbell-config',
+  OrgId = 'orgId',
+  ThreadDrafts = 'thread-draft-{id}',
+}
+
+export function resetUserLocalStorage() {
+  for (const key in localStorage) {
+    for (const keyPattern of Object.values(UserLocalStorageKeys)) {
+      if (
+        new RegExp('^' + keyPattern.replace(/\{id\}/, '.*') + '$').test(key)
+      ) {
+        localStorage.removeItem(key)
+      }
+    }
+  }
+}
+
 export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }

@@ -24,11 +24,11 @@ import OrgCreateModal from '@components/organisms/org/OrgCreateModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
-import { orgIdKey } from '@store/orgs'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink, useHistory } from 'react-router-dom'
+import { UserLocalStorageKeys } from 'src/utils'
 
 export default function OrgsPage() {
   const { t } = useTranslation()
@@ -40,7 +40,7 @@ export default function OrgsPage() {
 
   // Set orgId in localStorage
   const handleOrgClick = (orgId: string) => {
-    localStorage.setItem(orgIdKey, orgId)
+    localStorage.setItem(UserLocalStorageKeys.OrgId, orgId)
   }
 
   // Create modal
@@ -52,7 +52,7 @@ export default function OrgsPage() {
 
   // Redirect to org page if orgId is set in localStorage
   useEffect(() => {
-    const orgId = localStorage.getItem(orgIdKey)
+    const orgId = localStorage.getItem(UserLocalStorageKeys.OrgId)
     if (!orgId) return
     const org = orgs?.find((org) => org.id === orgId)
     if (!org) return

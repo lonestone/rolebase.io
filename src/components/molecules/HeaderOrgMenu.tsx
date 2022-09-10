@@ -12,11 +12,11 @@ import OrgCreateModal from '@components/organisms/org/OrgCreateModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
-import { orgIdKey } from '@store/orgs'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCircle, FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { UserLocalStorageKeys } from 'src/utils'
 
 export default function HeaderOrgMenu(props: MenuButtonProps) {
   const { t } = useTranslation()
@@ -26,7 +26,7 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
 
   // Set orgId in localStorage
   const handleOrgClick = (orgId: string) => {
-    localStorage.setItem(orgIdKey, orgId)
+    localStorage.setItem(UserLocalStorageKeys.OrgId, orgId)
   }
 
   // Create modal

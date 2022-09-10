@@ -30,6 +30,7 @@ import {
 } from 'react-icons/fi'
 import { IoMdSend } from 'react-icons/io'
 import settings from 'src/settings'
+import { UserLocalStorageKeys } from 'src/utils'
 import SimpleEditor from './editor/SimpleEditor'
 import { EditorHandle } from './editor/useEditor'
 
@@ -45,7 +46,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
   const editorRef = useRef<EditorHandle>(null)
 
   // Save message draft
-  const draftKey = `thread-draft-${thread.id}`
+  const draftKey = UserLocalStorageKeys.ThreadDrafts.replace('{id}', thread.id)
   const handleSaveDraft = useCallback(
     (value: string) => {
       localStorage.setItem(draftKey, value)

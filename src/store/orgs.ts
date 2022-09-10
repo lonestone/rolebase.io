@@ -19,6 +19,3 @@ const extendedModel: OrgsModel = {
 }
 
 export default extendedModel
-
-// Key to store current orgId in localStorage
-export const orgIdKey = 'orgId'

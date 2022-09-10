@@ -9,6 +9,7 @@ import {
   signInWithEmailAndPassword,
   User,
 } from 'firebase/auth'
+import { resetUserLocalStorage } from 'src/utils'
 import { store, StoreModel } from '.'
 
 export interface AuthModel {
@@ -61,6 +62,7 @@ onAuthStateChanged(auth, (firebaseUser) => {
   } else {
     // Signout
     signout()
+    resetUserLocalStorage()
   }
 })
 

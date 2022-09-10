@@ -11,19 +11,21 @@ import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaBell } from 'react-icons/fa'
-
-const configStorageKey = 'magicbell-config'
+import { UserLocalStorageKeys } from 'src/utils'
 
 async function getConfig(): Promise<MagicbellConfig> {
   // Use config from localStorage
-  const localConfig = localStorage.getItem(configStorageKey)
+  const localConfig = localStorage.getItem(UserLocalStorageKeys.MagicBellConfig)
   if (localConfig) {
     return JSON.parse(localConfig)
   }
 
   // Query function to get Algolia config
   const config = await getMagicbellConfig()
-  localStorage.setItem(configStorageKey, JSON.stringify(config))
+  localStorage.setItem(
+    UserLocalStorageKeys.MagicBellConfig,
+    JSON.stringify(config)
+  )
   return config
 }
 

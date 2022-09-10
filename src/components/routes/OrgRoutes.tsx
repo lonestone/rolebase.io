@@ -13,9 +13,9 @@ import ThreadsPage from '@components/pages/ThreadsPage'
 import useOrg from '@hooks/useOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useStoreActions, useStoreState } from '@store/hooks'
-import { orgIdKey } from '@store/orgs'
 import React, { lazy, Suspense, useEffect } from 'react'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
+import { UserLocalStorageKeys } from 'src/utils'
 
 // Lazy pages
 const MeetingsPage = lazy(() => import('@components/pages/MeetingsPage'))
@@ -69,7 +69,7 @@ export default function OrgRoutes({ orgId }: Props) {
   const superAdmin = useSuperAdmin()
   useEffect(() => {
     if (!org && !orgLoading && !superAdmin) {
-      localStorage.removeItem(orgIdKey)
+      localStorage.removeItem(UserLocalStorageKeys.OrgId)
       history.replace('/')
     }
   }, [org, orgLoading])

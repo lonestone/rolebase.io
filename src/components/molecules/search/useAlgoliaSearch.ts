@@ -6,12 +6,11 @@ import algoliasearch from 'algoliasearch'
 import { UseComboboxStateChange } from 'downshift'
 import debounce from 'lodash.debounce'
 import { useMemo, useState } from 'react'
+import { UserLocalStorageKeys } from 'src/utils'
 import { SearchItem } from './searchTypes'
 
-const configStorageKey = 'algolia-config'
-
 async function getConfig(orgId: string): Promise<AlgoliaConfig> {
-  const key = `${configStorageKey}-${orgId}`
+  const key = UserLocalStorageKeys.AlgoliaConfig.replace('{id}', orgId)
 
   // Use config from localStorage
   const localConfig = localStorage.getItem(key)
