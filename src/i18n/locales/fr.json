@@ -212,9 +212,7 @@
   "LoginForm": {
     "heading": "Connexion",
     "email": "Email",
-    "emailPlaceholder": "Votre adresse email...",
     "password": "Mot de passe",
-    "passwordPlaceholder": "Votre mot de passe...",
     "resetPassword": "Mot de passe oublié ?",
     "submit": "Connexion"
   },
@@ -490,7 +488,6 @@
     "done1": "Un email de réinitialisation de mot de passe vous a été envoyé !",
     "done2": "Vérifiez votre boîte email.",
     "email": "Email",
-    "emailPlaceholder": "Votre adresse email...",
     "reset": "Réinitialiser mon mot de passe",
     "signin": "Connexion"
   },
@@ -534,11 +531,8 @@
   },
   "SignupForm": {
     "name": "Nom",
-    "namePlaceholder": "Votre nom...",
     "email": "Email",
-    "emailPlaceholder": "Votre adresse email...",
     "password": "Mot de passe",
-    "passwordPlaceholder": "Votre mot de passe...",
     "signup": "Créer mon compte"
   },
   "SignupPage": {

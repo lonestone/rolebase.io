@@ -25,7 +25,13 @@ export default function SignupPage({ goToLoginPage }: Props) {
   const error = useStoreState((state) => state.auth.error)
 
   return (
-    <Container maxW="sm" mt="60px">
+    <Container
+      maxW="xs"
+      h="100vh"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+    >
       <Title>{t('SignupPage.heading')}</Title>
 
       <Heading size="md" mb={5}>

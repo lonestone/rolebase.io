@@ -65,7 +65,13 @@ export default function ResetPasswordPage() {
   )
 
   return (
-    <Container maxW="sm" mt="60px">
+    <Container
+      maxW="xs"
+      h="100vh"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+    >
       <Title>{t('ResetPasswordPage.heading')}</Title>
 
       <Heading size="md" mb={5}>
@@ -88,7 +94,6 @@ export default function ResetPasswordPage() {
               <Input
                 {...register('email')}
                 type="email"
-                placeholder={t('ResetPasswordPage.emailPlaceholder')}
                 autoComplete="email"
                 autoFocus
                 required

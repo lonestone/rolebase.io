@@ -1,4 +1,4 @@
-import { Box, Center, Container, Heading, Link } from '@chakra-ui/react'
+import { Center, Container, Heading, Link } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import LoginForm from '@components/organisms/user/LoginForm'
@@ -30,34 +30,36 @@ export default function LoginPage() {
   }
 
   return (
-    <>
+    <Container
+      maxW="xs"
+      h="100vh"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+    >
+      <Heading size="md" mb={5}>
+        {t('LoginPage.heading')}
+      </Heading>
+
+      <LoginForm
+        defaultEmail={queryParams.email || ''}
+        onSubmit={signinEmail}
+      />
+
       <Loading active={loading} center />
-      <Container maxW="xs" mt="60px" display={loading ? 'none' : ''}>
-        <Heading size="md" mb={5}>
-          {t('LoginPage.heading')}
-        </Heading>
+      <TextErrors errors={[error]} />
 
-        <LoginForm
-          defaultEmail={queryParams.email || ''}
-          onSubmit={signinEmail}
-        />
-
-        <Box textAlign="center">
-          <TextErrors errors={[error]} />
-        </Box>
-
-        <Center mt={4}>
-          {isLoginRoute ? (
-            <Link to="/signup" as={ReachLink}>
-              {t('LoginPage.signup')}
-            </Link>
-          ) : (
-            <Link onClick={() => setSignupPage(true)}>
-              {t('LoginPage.signup')}
-            </Link>
-          )}
-        </Center>
-      </Container>
-    </>
+      <Center mt={4}>
+        {isLoginRoute ? (
+          <Link to="/signup" as={ReachLink}>
+            {t('LoginPage.signup')}
+          </Link>
+        ) : (
+          <Link onClick={() => setSignupPage(true)}>
+            {t('LoginPage.signup')}
+          </Link>
+        )}
+      </Center>
+    </Container>
   )
 }

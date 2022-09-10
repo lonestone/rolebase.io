@@ -57,7 +57,6 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
             {...register('email')}
             type="email"
             required
-            placeholder={t('LoginForm.emailPlaceholder')}
             autoComplete="email"
             autoFocus
           />
@@ -68,7 +67,6 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
           <PasswordInput
             {...register('password')}
             required
-            placeholder={t('LoginForm.passwordPlaceholder')}
             autoComplete="password"
           />
           <Link

@@ -54,7 +54,6 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
             {...register('name')}
             type="name"
             required
-            placeholder={t('SignupForm.namePlaceholder')}
             autoComplete="name"
             autoFocus
           />
@@ -66,7 +65,6 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
             {...register('email')}
             type="email"
             required
-            placeholder={t('SignupForm.emailPlaceholder')}
             autoComplete="email"
           />
         </FormControl>
@@ -76,7 +74,6 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
           <PasswordInput
             {...register('password')}
             required
-            placeholder={t('SignupForm.passwordPlaceholder')}
             autoComplete="new-password"
           />
         </FormControl>

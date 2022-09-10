@@ -110,7 +110,6 @@
     "success1": "Password reset email sent!",
     "success2": "Check your mailbox.",
     "password": "New Password",
-    "passwordPlaceholder": "Password...",
     "toastSuccess": "Your password has been successfully changed!"
   },
   "CurrentUserModal": {
@@ -212,9 +211,7 @@
   "LoginForm": {
     "heading": "Sign in",
     "email": "Email",
-    "emailPlaceholder": "Your email address...",
     "password": "Password",
-    "passwordPlaceholder": "Your password...",
     "resetPassword": "Forgot password?",
     "submit": "Sign in"
   },
@@ -533,11 +530,8 @@
   },
   "SignupForm": {
     "name": "Name",
-    "namePlaceholder": "Your name...",
     "email": "Email",
-    "emailPlaceholder": "Your email address...",
     "password": "Password",
-    "passwordPlaceholder": "Your password...",
     "signup": "Create my account"
   },
   "SignupPage": {
