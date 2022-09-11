@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react'
 import BasicStyle from '@components/atoms/BasicStyle'
 import RichSimpleEditor from '@rolebase/editor'
-import React, { forwardRef, useCallback } from 'react'
+import React, { forwardRef, useCallback, useRef } from 'react'
 import EditorContainer from './EditorContainer'
 import useSimpleEditor, { EditorHandle } from './useEditor'
 import useFileUpload from './useFileUpload'
@@ -44,10 +44,25 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
     const { editorRef, getValue } = useSimpleEditor(ref)
     const { handleUpload } = useFileUpload()
 
+    const isFocusRef = useRef<boolean>(false)
+
+    const handleFocus = useCallback(() => {
+      isFocusRef.current = true
+    }, [])
+
     // Save on blur
     const handleBlur = useCallback(() => {
+      isFocusRef.current = false
       onChange?.(getValue())
     }, [onChange])
+
+    // Save changes when user do not have focus
+    // eg: click on a Todo checkbox
+    const handleChange = useCallback(() => {
+      if (!isFocusRef.current) {
+        onChange?.(getValue())
+      }
+    }, [])
 
     // Save on Ctrl+S or Cmd+Enter
     const handleSave = useCallback(
@@ -76,8 +91,10 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
             autoFocus={autoFocus}
             readOnly={readOnly}
             dark={colorMode === 'dark'}
+            onFocus={handleFocus}
             onBlur={handleBlur}
             onSave={handleSave}
+            onChange={handleChange}
             uploadImage={handleUpload}
           />
         </EditorContainer>
