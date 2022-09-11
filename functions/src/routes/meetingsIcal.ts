@@ -110,9 +110,14 @@ export const meetingsIcalRoute: express.RequestHandler = async (req, res) => {
       start: meeting.startDate.toDate(),
       end: meeting.endDate.toDate(),
       summary: i18next.t('meetingsIcal.meeting.title', {
-        title: meeting.title,
-        role: circle?.role.name,
         lng,
+        interpolation: {
+          escapeValue: false,
+        },
+        replace: {
+          title: meeting.title,
+          role: circle?.role.name,
+        },
       }),
       description: url,
     })
