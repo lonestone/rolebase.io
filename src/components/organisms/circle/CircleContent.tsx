@@ -1,7 +1,5 @@
 import {
   Accordion,
-  AccordionItem,
-  AccordionPanel,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -13,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
 import { Title } from '@components/atoms/Title'
-import AccordionIconButton from '@components/molecules/AccordionIconButton'
+import AccordionLazyItem from '@components/molecules/AccordionLazyItem'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import CircleAndParentsLinks from '@components/molecules/CircleAndParentsLinks'
 import CircleDecisions from '@components/molecules/CircleDecisions'
@@ -104,75 +102,43 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
 
       <Box pb={5}>
         <Accordion allowToggle defaultIndex={[0]}>
-          <AccordionItem>
-            {({ isExpanded }) => (
-              <>
-                <AccordionIconButton icon={<FiDisc />}>
-                  {t('CircleContent.tabRole')}
-                </AccordionIconButton>
-                <AccordionPanel px={6} py={5}>
-                  {isExpanded && (
-                    <CircleRoleFormControl
-                      circle={circle}
-                      participants={participants}
-                    />
-                  )}
-                </AccordionPanel>
-              </>
-            )}
-          </AccordionItem>
+          <AccordionLazyItem
+            icon={<FiDisc />}
+            label={t('CircleContent.tabRole')}
+          >
+            <CircleRoleFormControl
+              circle={circle}
+              participants={participants}
+            />
+          </AccordionLazyItem>
 
-          <AccordionItem>
-            {({ isExpanded }) => (
-              <>
-                <AccordionIconButton icon={<FiMessageSquare />}>
-                  {t('CircleContent.tabThreads')}
-                </AccordionIconButton>
-                <AccordionPanel px={6} py={5}>
-                  {isExpanded && <CircleThreads circleId={id} />}
-                </AccordionPanel>
-              </>
-            )}
-          </AccordionItem>
+          <AccordionLazyItem
+            icon={<FiMessageSquare />}
+            label={t('CircleContent.tabThreads')}
+          >
+            <CircleThreads circleId={id} />
+          </AccordionLazyItem>
 
-          <AccordionItem>
-            {({ isExpanded }) => (
-              <>
-                <AccordionIconButton icon={<FiCalendar />}>
-                  {t('CircleContent.tabMeetings')}
-                </AccordionIconButton>
-                <AccordionPanel px={6} py={5}>
-                  {isExpanded && <CircleMeetings circleId={id} />}
-                </AccordionPanel>
-              </>
-            )}
-          </AccordionItem>
+          <AccordionLazyItem
+            icon={<FiCalendar />}
+            label={t('CircleContent.tabMeetings')}
+          >
+            <CircleMeetings circleId={id} />
+          </AccordionLazyItem>
 
-          <AccordionItem>
-            {({ isExpanded }) => (
-              <>
-                <AccordionIconButton icon={<FiCheckSquare />}>
-                  {t('CircleContent.tabTasks')}
-                </AccordionIconButton>
-                <AccordionPanel px={6} py={5}>
-                  {isExpanded && <CircleTasks circleId={id} />}
-                </AccordionPanel>
-              </>
-            )}
-          </AccordionItem>
+          <AccordionLazyItem
+            icon={<FiCheckSquare />}
+            label={t('CircleContent.tabTasks')}
+          >
+            <CircleTasks circleId={id} />
+          </AccordionLazyItem>
 
-          <AccordionItem>
-            {({ isExpanded }) => (
-              <>
-                <AccordionIconButton icon={<FiArrowRightCircle />}>
-                  {t('CircleContent.tabDecisions')}
-                </AccordionIconButton>
-                <AccordionPanel px={6} py={5}>
-                  {isExpanded && <CircleDecisions circleId={id} />}
-                </AccordionPanel>
-              </>
-            )}
-          </AccordionItem>
+          <AccordionLazyItem
+            icon={<FiArrowRightCircle />}
+            label={t('CircleContent.tabDecisions')}
+          >
+            <CircleDecisions circleId={id} />
+          </AccordionLazyItem>
         </Accordion>
       </Box>
 

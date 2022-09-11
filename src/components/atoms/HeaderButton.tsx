@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  ButtonProps,
-  Circle,
-  useColorMode,
-} from '@chakra-ui/react'
+import { Box, Button, ButtonProps, Circle } from '@chakra-ui/react'
 import { headerHeight } from '@components/organisms/layout/Header'
 import React, { ReactElement } from 'react'
 import { Link, useLocation } from 'react-router-dom'
@@ -24,7 +18,6 @@ export default function HeaderButton({
   children,
   ...buttonProps
 }: Props) {
-  const { colorMode } = useColorMode()
   const location = useLocation()
 
   const toPathname = to.match(/^[^?]*/)![0]
@@ -44,13 +37,23 @@ export default function HeaderButton({
         justifyContent="space-evenly"
         h={`${headerHeight - 8}px`}
         px={4}
-        color={colorMode === 'light' ? 'gray.500' : 'whiteAlpha.600'}
+        color="gray.500"
         _hover={{
-          color: colorMode === 'light' ? 'gray.550' : 'whiteAlpha.800',
+          color: 'gray.550',
         }}
         _active={{
-          color: colorMode === 'light' ? 'gray.900' : 'white',
-          bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
+          color: 'gray.900',
+          bg: 'gray.100',
+        }}
+        _dark={{
+          color: 'whiteAlpha.600',
+          _hover: {
+            color: 'whiteAlpha.800',
+          },
+          _active: {
+            color: 'white',
+            bg: 'whiteAlpha.100',
+          },
         }}
         {...buttonProps}
       >

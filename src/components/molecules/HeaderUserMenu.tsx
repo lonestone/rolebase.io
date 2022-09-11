@@ -29,17 +29,8 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
   const name = member?.name || firebaseUser?.displayName || '?'
   const picture = member?.picture || firebaseUser?.photoURL || '?'
 
-  const {
-    isOpen: isCurrentUserOpen,
-    onOpen: onCurrentUserOpen,
-    onClose: onCurrentUserClose,
-  } = useDisclosure()
-
-  const {
-    isOpen: isLangOpen,
-    onOpen: onLangOpen,
-    onClose: onLangClose,
-  } = useDisclosure()
+  const currentUserModal = useDisclosure()
+  const langModal = useDisclosure()
 
   if (!firebaseUser) return null
   return (
@@ -55,7 +46,7 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
           </CircleMemberLink>
         )}
 
-        <MenuItem icon={<FiEdit3 />} onClick={onCurrentUserOpen}>
+        <MenuItem icon={<FiEdit3 />} onClick={currentUserModal.onOpen}>
           {t('HeaderUserMenu.user')}
         </MenuItem>
 
@@ -66,7 +57,7 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
           {t('HeaderUserMenu.theme')}
         </MenuItem>
 
-        <MenuItem icon={<IoLanguage />} onClick={onLangOpen}>
+        <MenuItem icon={<IoLanguage />} onClick={langModal.onOpen}>
           {t('HeaderUserMenu.lang')}
         </MenuItem>
 
@@ -75,11 +66,11 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
         </MenuItem>
       </MenuList>
 
-      {isCurrentUserOpen && (
-        <CurrentUserModal isOpen onClose={onCurrentUserClose} />
+      {currentUserModal.isOpen && (
+        <CurrentUserModal isOpen onClose={currentUserModal.onClose} />
       )}
 
-      {isLangOpen && <LangModal isOpen onClose={onLangClose} />}
+      {langModal.isOpen && <LangModal isOpen onClose={langModal.onClose} />}
     </Menu>
   )
 }

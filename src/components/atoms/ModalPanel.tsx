@@ -28,9 +28,9 @@ export default function ModalPanel({
       overflow="auto"
       zIndex={1}
       borderRadius={0}
-      borderLeftWidth={'1px'}
-      bg={'white'}
-      borderLeftColor={'gray.200'}
+      borderLeftWidth="1px"
+      bg="white"
+      borderLeftColor="gray.300"
       _dark={{
         bg: 'gray.700',
         borderLeftColor: 'gray.550',

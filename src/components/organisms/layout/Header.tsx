@@ -120,7 +120,7 @@ export default function Header() {
       pt="1px"
       borderBottom="1px solid"
       bg="gray.50"
-      borderBottomColor={'gray.200'}
+      borderBottomColor="gray.300"
       _dark={{
         bg: 'gray.700',
         borderBottomColor: 'gray.550',
