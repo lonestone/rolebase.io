@@ -5,6 +5,8 @@ import {
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
+  Tag,
+  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
@@ -25,6 +27,7 @@ interface Props extends LinkBoxProps {
   showCircle?: boolean
   showIcon?: boolean
   showDate?: boolean
+  showDay?: boolean
   showTime?: boolean
 }
 
@@ -35,18 +38,23 @@ const MeetingItem = forwardRef<Props, 'div'>(
       showCircle,
       showIcon,
       showDate,
+      showDay,
       showTime,
       children,
       ...linkBoxProps
     },
     ref
   ) => {
+    const { colorMode } = useColorMode()
     const path = usePathInOrg(`meetings/${meeting.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
     const hover = useHoverItemStyle()
     const dateLocale = useDateLocale()
     const date = meeting.startDate.toDate()
+
+    const isStarted = meeting.currentStepId !== null
+    const isEnded = meeting.ended
 
     return (
       <>
@@ -60,26 +68,48 @@ const MeetingItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex align="center">
+          <Flex align="start">
             {showIcon && (
               <Center w={6} h={6} mr={2}>
                 <FiCalendar />
               </Center>
             )}
 
-            {showDate &&
-              capitalizeFirstLetter(
-                format(date, 'PPPP ', {
-                  locale: dateLocale,
-                })
-              )}
-
-            {showTime &&
-              format(date, 'p ', {
-                locale: dateLocale,
-              })}
-
-            {(showDate || showTime) && <>&bull;&nbsp;</>}
+            {(showDate || showDay || showTime) && (
+              <Tag
+                colorScheme={
+                  isEnded
+                    ? colorMode === 'light'
+                      ? 'blackAlpha'
+                      : 'whiteAlpha'
+                    : isStarted
+                    ? 'green'
+                    : 'blue'
+                }
+                _dark={{
+                  color: isEnded ? 'whiteAlpha.800' : undefined,
+                }}
+                mr={2}
+              >
+                {showDate &&
+                  capitalizeFirstLetter(
+                    format(date, 'eeee P', {
+                      locale: dateLocale,
+                    })
+                  )}
+                {showDay &&
+                  capitalizeFirstLetter(
+                    format(date, 'eeee d', {
+                      locale: dateLocale,
+                    })
+                  )}
+                {(showDate || showDay) && showTime && <>,&nbsp;</>}
+                {showTime &&
+                  format(date, 'p', {
+                    locale: dateLocale,
+                  })}
+              </Tag>
+            )}
 
             <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
               {meeting.title}

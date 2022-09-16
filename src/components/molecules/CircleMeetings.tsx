@@ -8,7 +8,7 @@ import useDateLocale from '@hooks/useDateLocale'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import useSubscription from '@hooks/useSubscription'
-import { format, isSameDay } from 'date-fns'
+import { format, isSameMonth } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
@@ -56,7 +56,7 @@ export default function CircleMeetings({ circleId }: Props) {
   return (
     <>
       {isMember && (
-        <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+        <Button size="sm" mb={3} leftIcon={<FiPlus />} onClick={onCreateOpen}>
           {t('CircleMeetings.create')}
         </Button>
       )}
@@ -73,17 +73,17 @@ export default function CircleMeetings({ circleId }: Props) {
         return (
           <React.Fragment key={meeting.id}>
             {(i === 0 ||
-              !isSameDay(date, meetings[i - 1].startDate.toDate())) && (
-              <Text mt={2} px={2} fontSize="sm">
+              !isSameMonth(date, meetings[i - 1].startDate.toDate())) && (
+              <Text mt={3} px={2} fontSize="sm">
                 {capitalizeFirstLetter(
-                  format(date, 'PPPP', {
+                  format(date, 'LLLL y', {
                     locale: dateLocale,
                   })
                 )}
               </Text>
             )}
 
-            <MeetingItem meeting={meeting} showTime pl={2} />
+            <MeetingItem meeting={meeting} showDay showTime pl={2} />
           </React.Fragment>
         )
       })}

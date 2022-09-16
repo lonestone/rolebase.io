@@ -33,7 +33,7 @@ export default function ThreadActivityMeeting({ activity }: Props) {
       <Text color="gray.500">{t(`ThreadActivityMeeting.text`)}</Text>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
-      {meeting && <MeetingItem meeting={meeting} showDate showTime showIcon />}
+      {meeting && <MeetingItem meeting={meeting} showDate showIcon />}
     </ThreadActivityLayout>
   )
 }

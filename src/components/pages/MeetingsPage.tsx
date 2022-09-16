@@ -124,7 +124,8 @@ export default function MeetingsPage() {
         const title = `${roleName} - ${meeting.title}`
 
         // Can move event or change duration?
-        const isNotStarted = !meeting.ended && meeting.currentStepId === null
+        const isStarted = meeting.currentStepId !== null
+        const isNotStarted = !isStarted && !meeting.ended
         const canEditConfig = isNotStarted
         // TODO: Use participants like in MeetingContent
         // const canEditConfig = isNotStarted && (isParticipant || isInitiator)
@@ -134,11 +135,11 @@ export default function MeetingsPage() {
           title,
           start: meeting.startDate.toDate(),
           end: meeting.endDate.toDate(),
-          backgroundColor: meeting.ended
-            ? colors.bgEnded
-            : meeting.currentStepId !== null
+          backgroundColor: isNotStarted
+            ? colors.bgNotStarted
+            : isStarted
             ? colors.bgStarted
-            : colors.bgNotStarted,
+            : colors.bgEnded,
           editable: canEditConfig,
         }
       }),
