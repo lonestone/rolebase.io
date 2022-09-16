@@ -204,7 +204,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
           rightIcon={<IoMdSend />}
           onClick={() => handleSubmit()}
         >
-          {t(`ThreadActivityCreate.send`)}
+          {t(`common.send`)}
         </Button>
       </HStack>
 

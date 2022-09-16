@@ -6,6 +6,7 @@ import {
 } from '@api/entities/meetings'
 import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import { stopMembersMeeting } from '@api/entities/members'
+import { sendNotification } from '@api/entities/notifications'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
@@ -17,11 +18,16 @@ import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MeetingEntry } from '@shared/model/meeting'
 import { MeetingStepEntry } from '@shared/model/meetingStep'
 import { ParticipantMember } from '@shared/model/member'
+import { NotificationCategories } from '@shared/model/notification'
 import { useStoreState } from '@store/hooks'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import settings from 'src/settings'
+import { usePathInOrg } from './usePathInOrg'
 
 export interface MeetingState {
   meeting: MeetingEntry | undefined
+  path: string
   loading: boolean
   error: Error | undefined
   steps: MeetingStepEntry[] | undefined
@@ -42,9 +48,11 @@ export interface MeetingState {
   handleEnd(): void
   handleNextStep(): void
   handleChangeForceEdit(forceEdit: boolean): void
+  handleSendStartNotification(): void
 }
 
 export default function useMeetingState(meetingId: string): MeetingState {
+  const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
@@ -56,6 +64,9 @@ export default function useMeetingState(meetingId: string): MeetingState {
     loading,
     error,
   } = useSubscription(subscribeMeeting(meetingId))
+
+  // Meeting page path
+  const path = usePathInOrg(`meetings/${meeting?.id}`)
 
   // Subscribe meeting steps
   const { subscribeMeetingSteps } = meetingStepsEntities(meetingId)
@@ -168,6 +179,28 @@ export default function useMeetingState(meetingId: string): MeetingState {
     }
   }, [meeting, participants])
 
+  // Next step
+  const handleSendStartNotification = useCallback(async () => {
+    if (!meeting || !meeting.attendees || !circle || !currentMember) return
+
+    // Send notification
+    const notifParams = {
+      role: circle.role.name,
+      title: meeting.title,
+      sender: currentMember.name,
+    }
+    sendNotification({
+      category: NotificationCategories.MeetingStarted,
+      title: t('notifications.MeetingStarted.title', notifParams),
+      content: t('notifications.MeetingStarted.content', notifParams),
+      recipientMemberIds: meeting.attendees
+        .map((a) => a.memberId)
+        .filter((id) => id !== currentMember.id),
+      topic: meeting.id,
+      url: `${settings.url}${path}`,
+    })
+  }, [meeting, path])
+
   // Video conference URL
   const videoConfUrl = useMemo(() => {
     if (!meeting?.videoConf || !circle || !currentMember) return
@@ -178,6 +211,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
 
   return {
     meeting,
+    path,
     loading: loading || stepsLoading,
     error: error || stepsError,
     steps,
@@ -198,5 +232,6 @@ export default function useMeetingState(meetingId: string): MeetingState {
     handleEnd,
     handleNextStep,
     handleChangeForceEdit: setForceEdit,
+    handleSendStartNotification,
   }
 }

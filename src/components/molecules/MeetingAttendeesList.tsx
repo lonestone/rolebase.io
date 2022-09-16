@@ -4,11 +4,11 @@ import { sendNotification } from '@api/entities/notifications'
 import { BoxProps, VStack } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { MeetingState } from '@hooks/useMeetingState'
-import { usePathInOrg } from '@hooks/usePathInOrg'
 import { NotificationCategories } from '@shared/model/notification'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
+import settings from 'src/settings'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 import MemberSearchButton from './search/entities/members/MemberSearchButton'
 
@@ -20,12 +20,11 @@ export default function MeetingAttendeesList({
   meetingState,
   ...boxProps
 }: Props) {
-  const { meeting, circle, editable } = meetingState
+  const { meeting, circle, editable, path } = meetingState
   const attendees = meeting?.attendees
 
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
-  const url = usePathInOrg(`meetings/${meeting?.id}`)
 
   const attendeesMemberIds = useMemo(
     () => attendees?.map((a) => a.memberId) || [],
@@ -67,7 +66,7 @@ export default function MeetingAttendeesList({
         content: t('notifications.MeetingInvited.content', notifParams),
         recipientMemberIds: [memberId],
         topic: meeting.id,
-        url,
+        url: `${settings.url}${path}`,
       })
     }
   }

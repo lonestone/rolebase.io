@@ -305,6 +305,11 @@
   "MeetingStepsConfigController": {
     "addStep": "Add a step"
   },
+  "MeetingStartNotificationModal": {
+    "heading": "Send a notification?",
+    "info": "Would you like to send a notification to participants to let them know when the meeting has started?",
+    "toastSent": "Notification sent!"
+  },
   "MeetingTemplateDeleteModal": {
     "heading": "Delete meeting template",
     "info": "Are you sure you want to delete template <b>{{name}}</b>?"
@@ -590,7 +595,6 @@
   },
   "ThreadActivityCreate": {
     "placeholder": "Message...",
-    "send": "Send",
     "poll": "Create a Poll",
     "defaultEntityDescription": "Thread: {{thread}}"
   },
@@ -670,6 +674,7 @@
   "common": {
     "save": "Save",
     "create": "Create",
+    "send": "Send",
     "createThread": "Create a Thread",
     "createMeeting": "Create a Meeting",
     "createTask": "Create a Task",

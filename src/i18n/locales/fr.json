@@ -306,6 +306,11 @@
   "MeetingStepsConfigController": {
     "addStep": "Ajouter une étape"
   },
+  "MeetingStartNotificationModal": {
+    "heading": "Envoyer une notification ?",
+    "info": "Souhaitez-vous envoyer une notification aux participant(e)s pour leur signaler le début de la réunion ?",
+    "toastSent": "Notification envoyée !"
+  },
   "MeetingTemplateDeleteModal": {
     "heading": "Supprimer un modèle de réunion",
     "info": "Êtes-vous sûr(e) de vouloir supprimer le modèle <b>{{name}}</b> ?"
@@ -591,7 +596,6 @@
   },
   "ThreadActivityCreate": {
     "placeholder": "Message...",
-    "send": "Envoyer",
     "poll": "Créer un Sondage",
     "defaultEntityDescription": "Discussion : {{thread}}"
   },
@@ -668,6 +672,7 @@
   "common": {
     "save": "Enregistrer",
     "create": "Créer",
+    "send": "Envoyer",
     "createThread": "Créer une Discussion",
     "createMeeting": "Créer une Réunion",
     "createTask": "Créer une Tâche",
@@ -723,8 +728,8 @@
       "content": "Invitation par {{sender}}."
     },
     "MeetingStarted": {
-      "title": "",
-      "content": ""
+      "title": "Réunion {{role}} - {{title}}",
+      "content": "{{sender}} a démarré la réunion !"
     },
     "RoleAssigned": {
       "title": "",

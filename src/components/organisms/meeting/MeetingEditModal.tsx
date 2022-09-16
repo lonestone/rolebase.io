@@ -66,6 +66,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiHelpCircle } from 'react-icons/fi'
 import { useHistory } from 'react-router-dom'
+import settings from 'src/settings'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 import MeetingTemplatesModal from './MeetingTemplatesModal'
@@ -228,7 +229,7 @@ export default function MeetingEditModal({
         })),
         ...meetingUpdate,
       })
-      const url = `${meetingsPath}/${newMeeting.id}`
+      const path = `${meetingsPath}/${newMeeting.id}`
 
       if (meeting && duplicate) {
         // Duplicate steps
@@ -256,13 +257,13 @@ export default function MeetingEditModal({
           newMeeting.attendees?.map((a) => a.memberId) || []
         ).filter((id) => id !== currentMember.id),
         topic: newMeeting.id,
-        url,
+        url: `${settings.url}${path}`,
       })
 
       if (onCreate) {
         onCreate(newMeeting.id)
       } else {
-        history.push(url)
+        history.push(path)
       }
     }
 

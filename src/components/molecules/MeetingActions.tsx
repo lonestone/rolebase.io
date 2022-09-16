@@ -9,6 +9,7 @@ import {
 import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
+import MeetingStartNotificationModal from '@components/organisms/meeting/MeetingStartNotificationModal'
 import TaskModal from '@components/organisms/task/TaskModal'
 import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -52,6 +53,16 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
     handleEnd,
     handleChangeForceEdit,
   } = meetingState
+
+  // Start notification modal
+  const startNotifModal = useDisclosure()
+
+  // Start meeting
+  const handleStart = useCallback(() => {
+    if (!meeting) return
+    handleNextStep()
+    startNotifModal.onOpen()
+  }, [meeting])
 
   // Entities creation
   const [entityType, setEntityType] = useState<ActivityType>(
@@ -126,7 +137,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
           <Button
             leftIcon={<FiPlay />}
             colorScheme="green"
-            onClick={handleNextStep}
+            onClick={handleStart}
           >
             {t('MeetingActions.start')}
           </Button>
@@ -134,7 +145,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
 
         {isEnded && forceEdit && (
           <HStack>
-            <Button leftIcon={<FiPlay />} onClick={handleNextStep}>
+            <Button leftIcon={<FiPlay />} onClick={handleStart}>
               {t('MeetingActions.reopen')}
             </Button>
             <IconTextButton
@@ -204,6 +215,14 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
               />
             </HStack>
           </HStack>
+        )}
+
+        {startNotifModal.isOpen && (
+          <MeetingStartNotificationModal
+            isOpen
+            meetingState={meetingState}
+            onClose={startNotifModal.onClose}
+          />
         )}
 
         {entityModal.isOpen && (
