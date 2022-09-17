@@ -17,7 +17,6 @@ export const d3CircleTopName = (
   // Reset font-size, then apply opacity and font-size
   selection
     .attr('y', (d) => -d.r + 2)
-    .attr('alignment-baseline', 'hanging')
     .attr('font-size', getTopFontSize)
     .attr('opacity', getTopNameOpacity)
 }

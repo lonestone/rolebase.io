@@ -180,6 +180,8 @@ export default function updateCircles(
           .append('text')
           .text((d) => d.data.name)
           .attr('cursor', 'var(--circle-cursor)')
+          .attr('alignment-baseline', 'hanging')
+          .attr('pointer-events', 'none')
           .call(d3CircleTopName)
 
         // Add member picture
