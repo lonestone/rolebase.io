@@ -23,41 +23,40 @@ export const d3CircleTopName = (
 
 // Opacity depends on zoom scale, circle size and graph size
 // Visible when:
+// - zoom less than 1
 // - circle is smaller than 2/3 of graph size
 // - parent is not visible
-// - zoom less than 1
 function getCenterNameOpacity(data: NodeData) {
   return `min(
+    clamp(0, (1 - var(--zoom-scale) - 0.1) * 10, 1),
     clamp(0,
-      1 - (var(--zoom-scale) * ${data.r * 2} - var(--graph-min-size) * 2/3)
-        / 100
+      1 - (var(--zoom-scale) * ${
+        data.r * 2
+      } / var(--graph-min-size) - 2/3 + 0.1) * 10
       , 1),
     ${
       // Inverse of parent opacity
-      data.parent?.data.id === 'root'
-        ? ''
-        : `clamp(0,
-        (var(--zoom-scale) * ${
-          (data.parent?.r || 0) * 2
-        } - var(--graph-min-size) * 2/3)
-          / 100 - 1
-        , 1),`
+      data.parent && data.parent.data.id !== 'root'
+        ? `clamp(0,
+            (var(--zoom-scale) * ${
+              data.parent.r * 2
+            } / var(--graph-min-size) - 2/3) * 10
+            , 1)`
+        : '1'
     }
-    clamp(0, (1 - var(--zoom-scale)) + 1, 1)
   )`
 }
 
 // Opacity depends on zoom scale and node depth
+// Visible when:
+// - zoom more than 1
+// - circle is bigger than 2/3 of graph size
 function getTopNameOpacity(data: NodeData) {
-  // return `clamp(0, calc(
-  //   5 * (var(--zoom-scale) - ${data.depth} / 5 - 0.3)
-  // ), 1)`
   return `max(
+    clamp(0, (var(--zoom-scale) - 1) * 10 + 1, 1),
     clamp(0,
-      (var(--zoom-scale) * ${data.r * 2} - var(--graph-min-size) * 2/3)
-        / 100 - 0.5
-      , 1),
-    clamp(0, var(--zoom-scale) - 1 - 0.5, 1)
+      (var(--zoom-scale) * ${data.r * 2} / var(--graph-min-size) - 2/3) * 10
+      , 1)
   )`
 }
 

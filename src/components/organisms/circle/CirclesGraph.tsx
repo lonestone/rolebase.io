@@ -107,7 +107,7 @@ const StyledSVG = styled.svg<SVGProps>`
 
   .type-Member {
     // Hide member when zoom < 1
-    opacity: clamp(0, (var(--zoom-scale) - 1) * 7 + 1, 1);
+    opacity: clamp(0, (var(--zoom-scale) - 1) * 10 + 1, 1);
     // Allow click only when zoom >= 1
     pointer-events: var(--member-pointer-events);
   }
