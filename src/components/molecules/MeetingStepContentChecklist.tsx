@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import { MeetingState } from '@hooks/useMeetingState'
-import { MeetingStepChecklist } from '@shared/model/meetingStep'
+import { MeetingStepChecklist } from '@shared/model/meeting_step'
 import { WithId } from '@shared/model/types'
 import React, { RefObject, useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'

@@ -105,14 +105,6 @@
     "CmdClick": " : Déplacer un rôle ou un membre",
     "CmdShiftClick": " : Copier un rôle ou un membre"
   },
-  "ConfirmResetPasswordPage": {
-    "heading": "Réinitialiser mon mot de passe",
-    "success1": "Email de réinitialisation de mot de passe envoyé !",
-    "success2": "Vérifiez votre boîte email.",
-    "password": "Nouveau mot de passe",
-    "passwordPlaceholder": "Mot de passe...",
-    "toastSuccess": "Votre mot de passe a été changé avec succès !"
-  },
   "CurrentUserModal": {
     "heading": "Mes informations personnelles",
     "email": "Email",
@@ -194,7 +186,6 @@
     "CircleArchive": "<author /> a archivé le rôle <circle />",
     "CircleMemberAdd": "<author /> a ajouté <member /> au rôle <circle />",
     "CircleMemberRemove": "<author /> a retiré <member /> du rôle <circle />",
-    "CircleMemberMove": "<author /> a déplacé <member /> dans le rôle <circle />",
     "RoleCreate": "<author /> a créé le rôle <role />",
     "RoleUpdate": "<author /> a modifié le rôle <role />",
     "RoleArchive": "<author /> a archivé le rôle <role />",
@@ -218,7 +209,10 @@
   },
   "LoginPage": {
     "heading": "Rolebase",
-    "signup": "Créer un compte"
+    "signup": "Créer un compte",
+    "needsEmailVerification": "Vous devez cliquer sur le lien de vérification dans votre boîte email pour vous connecter.",
+    "sendEmail": "Renvoyer",
+    "emailSent": "Envoyé"
   },
   "LogsList": {
     "empty": "Aucune action"
@@ -542,7 +536,8 @@
   },
   "SignupPage": {
     "heading": "Inscription",
-    "signin": "Connexion"
+    "signin": "Connexion",
+    "complete": "Bienvenue ! Vous n'avez plus qu'à cliquer sur le lien de vérification envoyé par email."
   },
   "SubCirclesFormControl": {
     "roles": "Rôles :",

@@ -1,0 +1,70 @@
+fragment CircleFields on circle {
+  id
+  orgId
+  roleId
+  parentId
+  archived
+}
+
+query getCircle($id: uuid!) {
+  circle_by_pk(id: $id) {
+    ...CircleFields
+    members(where: { archived: { _eq: false } }) {
+      id
+      memberId
+      avgMinPerWeek
+      archived
+    }
+  }
+}
+
+subscription subscribeCircles($orgId: uuid!, $archived: Boolean!) {
+  circle(where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }) {
+    ...CircleFields
+    members(where: { archived: { _eq: false } }) {
+      id
+      memberId
+      avgMinPerWeek
+      archived
+    }
+  }
+}
+
+mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
+  insert_circle_one(
+    object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }
+  ) {
+    ...CircleFields
+  }
+}
+
+mutation createCircles($circles: [circle_insert_input!]!) {
+  insert_circle(objects: $circles) {
+    returning {
+      ...CircleFields
+      role {
+        ...RoleFields
+      }
+    }
+  }
+}
+
+mutation updateCircle($id: uuid!, $values: circle_set_input!) {
+  update_circle_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...CircleFields
+    role {
+      name
+    }
+    parent {
+      role {
+        name
+      }
+    }
+  }
+}
+
+mutation archiveCircle($id: uuid!) {
+  update_circle_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

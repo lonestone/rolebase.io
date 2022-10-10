@@ -1,4 +1,3 @@
-import { getMembers } from '@api/entities/members'
 import { VStack } from '@chakra-ui/layout'
 import MemberButton from '@components/atoms/MemberButton'
 import { useOrgId } from '@hooks/useOrgId'
@@ -6,6 +5,7 @@ import { Member, MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import uniqBy from 'lodash.uniqby'
 import React, { useEffect, useState } from 'react'
+import { useGetOrgsMembersLazyQuery } from 'src/graphql.generated'
 
 interface Props {
   onClick(member: Member): void
@@ -16,24 +16,22 @@ export default function MembersToCopyList({ onClick }: Props) {
   const orgs = useStoreState((state) => state.orgs.entries)
   const members = useStoreState((state) => state.members.entries)
   const [membersToCopy, setMembersToCopy] = useState<MemberEntry[]>([])
+  const [getOrgsMembers] = useGetOrgsMembersLazyQuery()
 
   useEffect(() => {
     if (!orgId || !orgs || !members) return
-    Promise.all(
-      // Select all orgs other than current org
-      orgs
-        .filter((org) => org.id !== orgId)
-        // Get members
-        .map((org) => getMembers(org.id))
-    )
-      .then((orgsMembers) => {
-        // Flatten list of member
-        const otherOrgsMembers = orgsMembers
-          .flat()
-          // Filter out members whose names are already used in current org
-          .filter((member) => !members.some((m) => member.name === m.name))
+    const orgsIds = orgs.filter((org) => org.id !== orgId).map((org) => org.id)
+
+    getOrgsMembers({ variables: { orgsIds } })
+      .then(({ data }) => {
         // Return unique members by name
-        return uniqBy(otherOrgsMembers, (m) => m.name)
+        return uniqBy(
+          // Filter out members whose names are already used in current org
+          data?.member.filter(
+            (member) => !members.some((m) => member.name === m.name)
+          ) as MemberEntry[] | undefined,
+          (m) => m.name
+        )
       })
       .then(setMembersToCopy)
   }, [orgId, orgs, members])

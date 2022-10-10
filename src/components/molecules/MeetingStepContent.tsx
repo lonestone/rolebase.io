@@ -1,11 +1,11 @@
-import { meetingStepsEntities } from '@api/entities/meetingSteps'
+import { byteaToUint8Array, uint8ArrayToBytea } from '@api/bytea'
 import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingState } from '@hooks/useMeetingState'
-import { MeetingStepEntry, MeetingStepTypes } from '@shared/model/meetingStep'
-import { Bytes } from 'firebase/firestore'
-import React, { useCallback, useRef } from 'react'
+import { MeetingStepEntry, MeetingStepTypes } from '@shared/model/meeting_step'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useUpdateMeetingStepMutation } from 'src/graphql.generated'
 import CollabEditor from './editor/CollabEditor'
 import { EditorHandle } from './editor/useEditor'
 import MeetingStepContentChecklist from './MeetingStepContentChecklist'
@@ -19,15 +19,26 @@ interface Props {
 export default function MeetingStepContent({ meetingState, step }: Props) {
   const { meeting, editable } = meetingState
   const { t } = useTranslation()
-  const { updateMeetingStep } = meetingStepsEntities(meeting?.id || '')
   const editorRef = useRef<EditorHandle>(null)
+  const [updateMeetingStep] = useUpdateMeetingStepMutation()
+
+  const updates = useMemo(
+    () =>
+      step.notesUpdates ? byteaToUint8Array(step.notesUpdates) : undefined,
+    []
+  )
 
   // Update notes
   const handleNotesChange = useCallback(
     (value: string, updates: Uint8Array) => {
-      updateMeetingStep(step.id, {
-        notes: value,
-        notesUpdates: Bytes.fromUint8Array(updates),
+      updateMeetingStep({
+        variables: {
+          id: step.id,
+          values: {
+            notes: value,
+            notesUpdates: uint8ArrayToBytea(updates),
+          },
+        },
       })
     },
     []
@@ -65,7 +76,7 @@ export default function MeetingStepContent({ meetingState, step }: Props) {
         ref={editorRef}
         docId={`meeting${meeting.id}-step${step.id}`}
         value={step.notes}
-        updates={step.notesUpdates}
+        updates={updates}
         placeholder={t('MeetingStepContent.notesPlaceholder')}
         readOnly={!editable}
         saveDelay={4000}

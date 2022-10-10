@@ -12,18 +12,13 @@ export type NodesSelection = Selection<SVGGElement, NodeData, BaseType, unknown>
 export interface Data {
   id: string
   memberId?: string
-  parentCircleId: string | null
+  parentCircleId?: string | null
   name: string
   picture?: string | null
   type: NodeType
   colorHue?: number
   value?: number
   children?: Array<Data>
-}
-
-export interface Dimensions {
-  width: number
-  height: number
 }
 
 export interface Zoom {

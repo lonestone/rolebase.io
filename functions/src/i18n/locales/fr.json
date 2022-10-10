@@ -1,7 +1,0 @@
-{
-  "meetingsIcal": {
-    "meeting": {
-      "title": "{{role}} - {{title}}"
-    }
-  }
-}

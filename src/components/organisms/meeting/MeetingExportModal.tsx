@@ -1,7 +1,4 @@
-import {
-  getMeetingsIcalToken,
-  getMeetingsIcalUrl,
-} from '@api/entities/meetings'
+import { getMeetingsIcalUrl, getMeetingsToken } from '@api/functions'
 import {
   FormControl,
   FormLabel,
@@ -57,7 +54,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
     error,
   } = useCallbackState(async () => {
     if (!orgId) return
-    return getMeetingsIcalToken(orgId)
+    return getMeetingsToken({ orgId })
   })
 
   useEffect(() => {

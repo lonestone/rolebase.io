@@ -1,0 +1,109 @@
+table:
+  name: circle
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+  - name: parent
+    using:
+      foreign_key_constraint_on: parentId
+  - name: role
+    using:
+      foreign_key_constraint_on: roleId
+array_relationships:
+  - name: children
+    using:
+      foreign_key_constraint_on:
+        column: parentId
+        table:
+          name: circle
+          schema: public
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: circleId
+        table:
+          name: circle_member
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      columns:
+        - archived
+        - orgId
+        - parentId
+        - roleId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - id
+        - orgId
+        - parentId
+        - roleId
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - parentId
+        - roleId
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+event_triggers:
+  - name: index-circle
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

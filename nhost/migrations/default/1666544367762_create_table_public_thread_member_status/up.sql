@@ -1,0 +1,2 @@
+CREATE TABLE "public"."thread_member_status" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "threadId" uuid NOT NULL, "memberId" uuid NOT NULL, "lastReadActivityId" uuid NOT NULL, "lastReadDate" timestamptz NOT NULL DEFAULT now(), PRIMARY KEY ("id") , FOREIGN KEY ("threadId") REFERENCES "public"."thread"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("memberId") REFERENCES "public"."member"("id") ON UPDATE restrict ON DELETE cascade);
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

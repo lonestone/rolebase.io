@@ -1,4 +1,3 @@
-import { updateTask } from '@api/entities/tasks'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -15,6 +14,7 @@ import { EntityChangeType, LogType } from '@shared/model/log'
 import { TaskEntry } from '@shared/model/task'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useArchiveTaskMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -30,9 +30,10 @@ export default function TaskDeleteModal({
   const { t } = useTranslation()
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const [archiveTask] = useArchiveTaskMutation()
 
   const handleDelete = async () => {
-    updateTask(task.id, { archived: true })
+    await archiveTask({ variables: { id: task.id } })
     onDelete?.()
     createLog({
       display: {

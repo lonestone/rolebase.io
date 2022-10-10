@@ -1,24 +1,25 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "esnext",
-    "outDir": "lib",
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    },
+    "moduleResolution": "Node",
+    "target": "ES2022",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "sourceMap": true,
-    "strict": true,
-    "skipLibCheck": true
+    "isolatedModules": true,
+    "strictNullChecks": true,
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["./_shared/*"],
+      "@utils/*": ["./_utils/*"],
+      "@gql": ["./_gql/index.ts"],
+      "@i18n": ["./_i18n/index.ts"],
+      "@i18n/*": ["./_i18n/*"],
+      "@search/*": ["./_search/*"]
+    }
   },
-  "include": ["./src", "../shared"],
-  "compileOnSave": true,
-  "baseUrl": ".",
-  "paths": {
-    "@shared/*": ["../shared/*"]
-  }
+  "include": ["./", "../shared"]
 }

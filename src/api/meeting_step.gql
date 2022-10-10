@@ -1,0 +1,46 @@
+fragment MeetingStepFields on meeting_step {
+  id
+  meetingId
+  stepConfigId
+  notes
+  notesUpdates
+  type
+  data
+}
+
+query getMeetingStepsIds($meetingId: uuid!) {
+  meeting_step(where: { meetingId: { _eq: $meetingId } }) {
+    id
+    stepConfigId
+  }
+}
+
+query getMeetingSteps($meetingId: uuid!) {
+  meeting_step(where: { meetingId: { _eq: $meetingId } }) {
+    ...MeetingStepFields
+  }
+}
+
+subscription subscribeMeetingSteps($meetingId: uuid!) {
+  meeting_step(where: { meetingId: { _eq: $meetingId } }) {
+    ...MeetingStepFields
+  }
+}
+
+mutation createMeetingStep($values: meeting_step_insert_input!) {
+  insert_meeting_step_one(object: $values) {
+    ...MeetingStepFields
+  }
+}
+
+mutation updateMeetingStep($id: uuid!, $values: meeting_step_set_input!) {
+  update_meeting_step_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...MeetingStepFields
+  }
+}
+
+mutation deleteMeetingStep($id: uuid!) {
+  delete_meeting_step_by_pk(id: $id) {
+    id
+  }
+}

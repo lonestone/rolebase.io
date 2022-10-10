@@ -1,4 +1,3 @@
-import { meetingStepsEntities } from '@api/entities/meetingSteps'
 import { Box, Button, useDisclosure } from '@chakra-ui/react'
 import TaskModal from '@components/organisms/task/TaskModal'
 import TasksModule from '@components/organisms/task/TasksModule'
@@ -6,12 +5,13 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { MeetingState } from '@hooks/useMeetingState'
 import useOrgMember from '@hooks/useOrgMember'
 import { LogType } from '@shared/model/log'
-import { MeetingStepTasks } from '@shared/model/meetingStep'
+import { MeetingStepTasks } from '@shared/model/meeting_step'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'
 import { WithId } from '@shared/model/types'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
+import { useUpdateMeetingStepMutation } from 'src/graphql.generated'
 import MeetingLogs from './MeetingLogs'
 
 interface Props {
@@ -31,25 +31,39 @@ export default function MeetingStepContentTasks({ meetingState, step }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const currentMember = useCurrentMember()
+  const [updateMeetingStep] = useUpdateMeetingStepMutation()
 
   // Persisted filters
-  const { updateMeetingStep } = meetingStepsEntities(meeting?.id || '')
+
+  const updateData = useCallback(
+    (data: Partial<MeetingStepTasks['data']>) => {
+      updateMeetingStep({
+        variables: {
+          id: step.id,
+          values: {
+            data: { ...step.data, ...data },
+          },
+        },
+      })
+    },
+    [step.id]
+  )
 
   const handleViewChange = useCallback(
-    (viewType: TasksViewTypes) => updateMeetingStep(step.id, { viewType }),
-    [step.id]
+    (viewType: TasksViewTypes) => updateData({ viewType }),
+    [updateData]
   )
 
   const handleMemberChange = useCallback(
     (memberId: string | undefined) =>
-      updateMeetingStep(step.id, { filterMemberId: memberId || null }),
-    [step.id]
+      updateData({ filterMemberId: memberId || null }),
+    [updateData]
   )
 
   const handleStatusChange = useCallback(
     (status: TaskStatus | undefined) =>
-      updateMeetingStep(step.id, { filterStatus: status || null }),
-    [step.id]
+      updateData({ filterStatus: status || null }),
+    [updateData]
   )
 
   // Create modal
@@ -66,10 +80,10 @@ export default function MeetingStepContentTasks({ meetingState, step }: Props) {
       {!isEnded && (
         <>
           <TasksModule
-            view={step.viewType || TasksViewTypes.Kanban}
+            view={step.data.viewType || TasksViewTypes.Kanban}
             circleId={circle.id}
-            memberId={step.filterMemberId || undefined}
-            status={step.filterStatus || undefined}
+            memberId={step.data.filterMemberId || undefined}
+            status={step.data.filterStatus || undefined}
             overflowContainer={{
               expandRight: true,
             }}

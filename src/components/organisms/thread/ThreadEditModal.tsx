@@ -1,5 +1,3 @@
-import { createThread, updateThread } from '@api/entities/threads'
-import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
@@ -27,9 +25,14 @@ import { useOrgId } from '@hooks/useOrgId'
 import useParticipants from '@hooks/useParticipants'
 import { MembersScope } from '@shared/model/member'
 import { ThreadEntry } from '@shared/model/thread'
+import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import {
+  useCreateThreadMutation,
+  useUpdateThreadMutation,
+} from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -46,7 +49,7 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    title: nameSchema,
+    title: nameSchema.required(),
     circleId: yup.string().required(),
   })
 )
@@ -61,6 +64,8 @@ export default function ThreadEditModal({
   const navigateOrg = useNavigateOrg()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
+  const [updateThread] = useUpdateThreadMutation()
+  const [createThread] = useCreateThreadMutation()
 
   const {
     handleSubmit,
@@ -101,20 +106,26 @@ export default function ThreadEditModal({
     }
     if (thread) {
       // Update thread
-      await updateThread(thread.id, threadUpdate)
+      await updateThread({ variables: { id: thread.id, values: threadUpdate } })
     } else {
       // Create thread
-      const thread = await createThread({
-        orgId,
-        initiatorMemberId: currentMember.id,
-        ...threadUpdate,
+      const { data } = await createThread({
+        variables: {
+          values: {
+            orgId,
+            initiatorMemberId: currentMember.id,
+            ...threadUpdate,
+          },
+        },
       })
+      const createdThreadId = data?.insert_thread_one?.id
+      if (!createdThreadId) return
 
       if (onCreate) {
-        onCreate(thread.id)
+        onCreate(createdThreadId)
       } else {
         // Go to thread page
-        navigateOrg(`threads/${thread.id}`)
+        navigateOrg(`threads/${createdThreadId}`)
       }
     }
     modalProps.onClose()

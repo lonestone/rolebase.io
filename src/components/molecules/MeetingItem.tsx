@@ -51,7 +51,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
     const handleOpen = useNormalClickHandler(onOpen)
     const hover = useHoverItemStyle()
     const dateLocale = useDateLocale()
-    const date = meeting.startDate.toDate()
+    const date = new Date(meeting.startDate)
 
     const isStarted = meeting.currentStepId !== null
     const isEnded = meeting.ended

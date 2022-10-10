@@ -1,6 +1,6 @@
 import { CircleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
-import { RoleEntry } from '@shared/model/role'
+import { RoleEntry, RoleLink } from '@shared/model/role'
 import settings from 'src/settings'
 
 import angela from './pictures/angela.jpg'
@@ -118,6 +118,7 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-michael',
+        archived: false,
       },
     ],
     archived: false,
@@ -139,6 +140,7 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-darryl',
+        archived: false,
       },
     ],
     archived: false,
@@ -152,6 +154,7 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-pam',
+        archived: false,
       },
     ],
     archived: false,
@@ -165,10 +168,12 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-kevin',
+        archived: false,
       },
       {
         id: '2',
         memberId: 'member-meredith',
+        archived: false,
       },
     ],
     archived: false,
@@ -182,6 +187,7 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-karen',
+        archived: false,
       },
     ],
     archived: false,
@@ -195,6 +201,7 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-stanley',
+        archived: false,
       },
     ],
     archived: false,
@@ -208,10 +215,12 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-pam',
+        archived: false,
       },
       {
         id: '2',
         memberId: 'member-dwight',
+        archived: false,
       },
     ],
     archived: false,
@@ -225,6 +234,7 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-jim',
+        archived: false,
       },
     ],
     archived: false,
@@ -238,6 +248,7 @@ export const circles: CircleEntry[] = [
       {
         id: '1',
         memberId: 'member-angela',
+        archived: false,
       },
     ],
     archived: false,
@@ -255,7 +266,7 @@ const roleBase = {
   notes: '',
   singleMember: false,
   autoCreate: false,
-  link: false,
+  link: RoleLink.No,
   defaultMinPerWeek: null,
   colorHue: null,
 }
@@ -304,7 +315,7 @@ export const roles: RoleEntry[] = [
     ...roleBase,
     base: true,
     singleMember: true,
-    link: true,
+    link: RoleLink.Parent,
     colorHue: 0,
   },
   {

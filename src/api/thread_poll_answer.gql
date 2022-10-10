@@ -1,0 +1,36 @@
+fragment ThreadPollAnswerFields on thread_poll_answer {
+  id
+  activityId
+  userId
+  choicesPoints
+  createdAt
+}
+
+subscription subscribeThreadPollAnswers($activityId: uuid!) {
+  thread_poll_answer(where: { activityId: { _eq: $activityId } }) {
+    ...ThreadPollAnswerFields
+  }
+}
+
+mutation createThreadPollAnswer($values: thread_poll_answer_insert_input!) {
+  insert_thread_poll_answer_one(object: $values) {
+    ...ThreadPollAnswerFields
+  }
+}
+
+mutation updateThreadPollAnswer(
+  $id: uuid!
+  $values: thread_poll_answer_set_input!
+) {
+  update_thread_poll_answer_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...ThreadPollAnswerFields
+  }
+}
+
+mutation deleteThreadPollAnswers($activityId: uuid!) {
+  delete_thread_poll_answer(where: { activityId: { _eq: $activityId } }) {
+    returning {
+      id
+    }
+  }
+}

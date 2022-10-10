@@ -1,4 +1,3 @@
-import { subscribeDecision } from '@api/entities/decisions'
 import {
   Box,
   BoxProps,
@@ -17,9 +16,9 @@ import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import DateInfo from '@components/molecules/DateInfo'
 import useOrgMember from '@hooks/useOrgMember'
-import useSubscription from '@hooks/useSubscription'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSubscribeDecisionSubscription } from 'src/graphql.generated'
 import DecisionDeleteModal from './DecisionDeleteModal '
 import DecisionEditModal from './DecisionEditModal'
 
@@ -43,11 +42,10 @@ export default function DecisionContent({
   const deleteModal = useDisclosure()
 
   // Subscribe decision
-  const {
-    data: decision,
-    loading,
-    error,
-  } = useSubscription(id ? subscribeDecision(id) : undefined)
+  const { data, loading, error } = useSubscribeDecisionSubscription({
+    variables: { id },
+  })
+  const decision = data?.decision_by_pk || undefined
 
   return (
     <Box mb={3} {...boxProps}>
@@ -79,7 +77,7 @@ export default function DecisionContent({
       {id && loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {decision && <DateInfo date={decision.createdAt.toDate()} />}
+      {decision && <DateInfo date={decision.createdAt} />}
 
       <Text fontSize="lg" fontWeight="bold" mt={2} mb={5}>
         {decision?.title}

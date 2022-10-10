@@ -1,5 +1,3 @@
-import { createActivity, updateActivity } from '@api/entities/activities'
-import { pollAnswersEntities } from '@api/entities/pollAnswers'
 import {
   Accordion,
   AccordionButton,
@@ -34,15 +32,23 @@ import NumberInputController from '@components/atoms/NumberInputController'
 import EditorController from '@components/molecules/editor/EditorController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
-import useSubscription from '@hooks/useSubscription'
-import { ActivityPoll, ActivityType, PollChoice } from '@shared/model/activity'
+import { useUserId } from '@nhost/react'
+import {
+  ActivityPoll,
+  ActivityType,
+  PollChoice,
+} from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
-import { Timestamp } from 'firebase/firestore'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiHelpCircle, FiPlus, FiX } from 'react-icons/fi'
+import {
+  useCreateThreadActivityMutation,
+  useDeleteThreadPollAnswersMutation,
+  useSubscribeThreadPollAnswersSubscription,
+  useUpdateThreadActivityMutation,
+} from 'src/graphql.generated'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 
@@ -98,23 +104,28 @@ export default function ActivityPollModal({
   ...modalProps
 }: Props) {
   const { t } = useTranslation()
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
   const orgId = useOrgId()
+  const [updateActivity] = useUpdateThreadActivityMutation()
+  const [createActivity] = useCreateThreadActivityMutation()
+  const [deletePollAnswers] = useDeleteThreadPollAnswersMutation()
 
   // Answers
   const [acceptErasingAnswers, setAcceptErasingAnswers] = useState(false)
-  const { deletePollAnswer, subscribePollAnswers } = activity
-    ? pollAnswersEntities(activity.id)
-    : {
-        deletePollAnswer: () => {},
-        subscribePollAnswers: undefined,
-      }
-  const { data: answers } = useSubscription(subscribePollAnswers?.())
+  const { data } = useSubscribeThreadPollAnswersSubscription({
+    skip: !activity,
+    variables: { activityId: activity?.id! },
+  })
+  const answers = data?.thread_poll_answer
+
   const hasAnswers = (answers?.length || 0) > 0
   const shouldAcceptErasingAnswers = !acceptErasingAnswers && hasAnswers
 
   const defaultEndDate = useMemo(
-    () => getDateTimeLocal(activity?.endDate?.toDate() || new Date()),
+    () =>
+      getDateTimeLocal(
+        activity?.data.endDate ? new Date(activity.data.endDate) : new Date()
+      ),
     [activity]
   )
 
@@ -129,20 +140,20 @@ export default function ActivityPollModal({
     resolver,
     defaultValues: activity
       ? {
-          question: activity.question,
-          choices: activity.choices,
-          multiple: activity.multiple,
-          minAnswers: activity.minAnswers,
-          maxAnswers: activity.maxAnswers,
-          pointsPerUser: activity.pointsPerUser,
-          randomize: activity.randomize,
-          anonymous: activity.anonymous,
-          hideUntilEnd: activity.hideUntilEnd,
-          canAddChoice: activity.canAddChoice,
-          endDate: activity?.endDate
-            ? getDateTimeLocal(activity.endDate.toDate())
+          question: activity.data.question,
+          choices: activity.data.choices,
+          multiple: activity.data.multiple,
+          minAnswers: activity.data.minAnswers,
+          maxAnswers: activity.data.maxAnswers,
+          pointsPerUser: activity.data.pointsPerUser,
+          randomize: activity.data.randomize,
+          anonymous: activity.data.anonymous,
+          hideUntilEnd: activity.data.hideUntilEnd,
+          canAddChoice: activity.data.canAddChoice,
+          endDate: activity.data.endDate
+            ? getDateTimeLocal(new Date(activity.data.endDate))
             : null,
-          endWhenAllVoted: activity.endWhenAllVoted,
+          endWhenAllVoted: activity.data.endWhenAllVoted,
         }
       : defaultValues,
   })
@@ -177,23 +188,26 @@ export default function ActivityPollModal({
     if (!orgId || !userId) return
     try {
       const activityData = {
-        endDate: endDate ? Timestamp.fromDate(new Date(endDate)) : null,
+        endDate: endDate ? new Date(endDate).toISOString() : null,
         ...data,
       }
       if (activity) {
         // Erase answers
-        for (const answer of answers || []) {
-          await deletePollAnswer(answer.id)
-        }
+        await deletePollAnswers({ variables: { activityId: activity.id } })
+
         // Update poll
-        await updateActivity(activity.id, activityData)
+        await updateActivity({
+          variables: { id: activity.id, values: { data: activityData } },
+        })
       } else if (threadId) {
         await createActivity({
-          type: ActivityType.Poll,
-          orgId,
-          userId,
-          threadId,
-          ...activityData,
+          variables: {
+            values: {
+              threadId,
+              type: ActivityType.Poll,
+              data: activityData,
+            },
+          },
         })
       }
       modalProps.onClose()

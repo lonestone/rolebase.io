@@ -1,5 +1,6 @@
-import { useStoreState } from '@store/hooks'
+import { useUserRoles } from '@nhost/react'
 
 export default function useSuperAdmin(): boolean {
-  return useStoreState((state) => state.auth.claims?.superAdmin || false)
+  const roles = useUserRoles()
+  return roles.includes('admin')
 }

@@ -1,9 +1,4 @@
 import {
-  createMeetingTemplate,
-  updateMeetingTemplate,
-} from '@api/entities/meetingTemplates'
-import { nameSchema } from '@api/schemas'
-import {
   Box,
   Button,
   FormControl,
@@ -24,10 +19,15 @@ import MeetingStepsConfigController, {
 } from '@components/molecules/MeetingStepsConfigController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
-import { MeetingTempalteEntry } from '@shared/model/meetingTemplate'
+import { MeetingTempalteEntry } from '@shared/model/meeting_template'
+import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import {
+  useCreateMeetingTemplateMutation,
+  useUpdateMeetingTemplateMutation,
+} from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -40,7 +40,7 @@ interface Values extends StepsValues {
 
 const resolver = yupResolver(
   yup.object().shape({
-    title: nameSchema,
+    title: nameSchema.required(),
     stepsConfig: stepsConfigSchema,
   })
 )
@@ -51,6 +51,8 @@ export default function MeetingTemplateModal({
 }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
+  const [createMeetingTemplate] = useCreateMeetingTemplateMutation()
+  const [updateMeetingTemplate] = useUpdateMeetingTemplateMutation()
 
   const {
     handleSubmit,
@@ -75,12 +77,18 @@ export default function MeetingTemplateModal({
     if (!orgId) return
     if (meetingTemplate) {
       // Update meeting
-      await updateMeetingTemplate(meetingTemplate.id, meetingUpdate)
+      await updateMeetingTemplate({
+        variables: { id: meetingTemplate.id, values: meetingUpdate },
+      })
     } else {
       // Create meeting
       await createMeetingTemplate({
-        orgId,
-        ...meetingUpdate,
+        variables: {
+          values: {
+            orgId,
+            ...meetingUpdate,
+          },
+        },
       })
     }
     modalProps.onClose()

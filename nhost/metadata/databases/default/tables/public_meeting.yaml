@@ -1,0 +1,136 @@
+table:
+  name: meeting
+  schema: public
+object_relationships:
+  - name: circle
+    using:
+      foreign_key_constraint_on: circleId
+  - name: facilitatorMember
+    using:
+      foreign_key_constraint_on: facilitatorMemberId
+  - name: initiatorMember
+    using:
+      foreign_key_constraint_on: initiatorMemberId
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+array_relationships:
+  - name: steps
+    using:
+      foreign_key_constraint_on:
+        column: meetingId
+        table:
+          name: meeting_step
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      columns:
+        - attendees
+        - circleId
+        - endDate
+        - facilitatorMemberId
+        - initiatorMemberId
+        - orgId
+        - participantsMembersIds
+        - participantsScope
+        - startDate
+        - stepsConfig
+        - title
+        - videoConf
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - attendees
+        - circleId
+        - createdAt
+        - currentStepId
+        - endDate
+        - ended
+        - facilitatorMemberId
+        - id
+        - initiatorMemberId
+        - orgId
+        - participantsMembersIds
+        - participantsScope
+        - startDate
+        - stepsConfig
+        - title
+        - videoConf
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - attendees
+        - circleId
+        - currentStepId
+        - endDate
+        - ended
+        - facilitatorMemberId
+        - initiatorMemberId
+        - participantsMembersIds
+        - participantsScope
+        - startDate
+        - stepsConfig
+        - title
+        - videoConf
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+event_triggers:
+  - name: index-meeting
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

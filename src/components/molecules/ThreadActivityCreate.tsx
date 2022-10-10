@@ -1,4 +1,3 @@
-import { createActivity } from '@api/entities/activities'
 import { Button, HStack, Spacer, useDisclosure } from '@chakra-ui/react'
 import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
@@ -8,11 +7,12 @@ import ActivityPollModal from '@components/organisms/thread/ActivityPollModal'
 import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import { useUserId } from '@nhost/react'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { Activity, ActivityType } from '@shared/model/activity'
 import { ThreadEntry } from '@shared/model/thread'
+import { Activity, ActivityType } from '@shared/model/thread_activity'
 import { Optional } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
+import { isSameDay } from 'date-fns'
 import React, {
   MouseEvent,
   useCallback,
@@ -29,6 +29,12 @@ import {
   FiMessageSquare,
 } from 'react-icons/fi'
 import { IoMdSend } from 'react-icons/io'
+import {
+  useCreateThreadActivityMutation,
+  useGetLastThreadActivityLazyQuery,
+  useUpdateThreadActivityMutation,
+  useUpdateThreadMutation,
+} from 'src/graphql.generated'
 import settings from 'src/settings'
 import { UserLocalStorageKeys } from 'src/utils'
 import SimpleEditor from './editor/SimpleEditor'
@@ -40,9 +46,13 @@ interface Props {
 
 export default function ThreadActivityCreate({ thread }: Props) {
   const { t } = useTranslation()
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
   const currentMember = useCurrentMember()
   const org = useCurrentOrg()
+  const [createThreadActivity] = useCreateThreadActivityMutation()
+  const [updateThreadActivity] = useUpdateThreadActivityMutation()
+  const [updateThread] = useUpdateThreadMutation()
+  const [getLastThreadActivity] = useGetLastThreadActivityLazyQuery()
   const editorRef = useRef<EditorHandle>(null)
 
   // Save message draft
@@ -65,23 +75,60 @@ export default function ThreadActivityCreate({ thread }: Props) {
   // Create a new activity
   const handleCreateActivity = useCallback(
     async (
-      data: Optional<Activity, 'createdAt' | 'orgId' | 'userId' | 'threadId'>
+      activity: Optional<Activity, 'createdAt' | 'userId' | 'threadId'>
     ) => {
       if (!org || !userId) return
-      return createActivity({
-        orgId: org.id,
-        userId,
-        threadId: thread.id,
-        ...data,
+
+      // Append message to existing message if possible
+      if (activity.type === ActivityType.Message) {
+        const { data } = await getLastThreadActivity({
+          variables: { threadId: thread.id },
+          fetchPolicy: 'network-only',
+        })
+        const last = data?.thread_activity[0]
+        if (
+          last?.type === ActivityType.Message &&
+          // Same user
+          last.userId === userId &&
+          // Same day
+          isSameDay(new Date(last.createdAt), new Date())
+        ) {
+          return updateThreadActivity({
+            variables: {
+              id: last.id,
+              values: {
+                data: {
+                  message: last.data.message + '\n\n' + activity.data.message,
+                },
+              },
+            },
+          })
+        }
+      }
+
+      // Create activity
+      const { data } = await createThreadActivity({
+        variables: {
+          values: {
+            threadId: thread.id,
+            ...activity,
+          },
+        },
+      })
+      const id = data?.insert_thread_activity_one?.id
+
+      // Update thread
+      await updateThread({
+        variables: {
+          id: thread.id,
+          values: {
+            lastActivityId: id,
+            lastActivityDate: new Date().toISOString(),
+          },
+        },
       })
     },
     [org?.id, userId, thread]
-  )
-
-  const handleCreated = useCallback(
-    (type: ActivityType, entityId: string) =>
-      handleCreateActivity({ type, entityId }),
-    [handleCreateActivity]
   )
 
   // Send message
@@ -97,7 +144,9 @@ export default function ThreadActivityCreate({ thread }: Props) {
       try {
         await handleCreateActivity({
           type: ActivityType.Message,
-          message: value.trim(),
+          data: {
+            message: value.trim(),
+          },
         })
       } catch (error) {
         console.error(error)
@@ -112,9 +161,12 @@ export default function ThreadActivityCreate({ thread }: Props) {
   const pollModal = useDisclosure()
 
   // Thread
-  const [entityType, setEntityType] = useState<ActivityType>(
-    ActivityType.Thread
-  )
+  const [entityType, setEntityType] = useState<
+    | ActivityType.Thread
+    | ActivityType.Meeting
+    | ActivityType.Task
+    | ActivityType.Decision
+  >(ActivityType.Thread)
   const entityModal = useDisclosure()
 
   const handleEntityOpen = useCallback(
@@ -124,15 +176,16 @@ export default function ThreadActivityCreate({ thread }: Props) {
           ? event
           : event.currentTarget.getAttribute('data-type')
       if (!type) return
-      setEntityType(type as ActivityType)
+      setEntityType(type as typeof entityType)
       entityModal.onOpen()
     },
     []
   )
 
   const handleEntityCreated = useCallback(
-    (id: string) => handleCreated(entityType, id),
-    [handleCreated, entityType]
+    (id: string) =>
+      handleCreateActivity({ type: entityType, data: { entityId: id } }),
+    [handleCreateActivity, entityType]
   )
 
   const defaultEntityDescription = t(

@@ -10,7 +10,6 @@ import BasicStyle from '@components/atoms/BasicStyle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import RichSimpleEditor, { YCollab } from '@rolebase/editor'
-import { Bytes } from 'firebase/firestore'
 import throttle from 'lodash.throttle'
 import React, {
   forwardRef,
@@ -29,7 +28,7 @@ import useFileUpload from './useFileUpload'
 export interface Props extends FormControlOptions {
   docId: string
   value: string
-  updates?: Bytes
+  updates?: Uint8Array
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
@@ -79,7 +78,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
       valueApplied.current = true
       if (updates) {
         // Apply saved updates
-        collabPlugin.applyUpdates(updates.toUint8Array())
+        collabPlugin.applyUpdates(updates)
       } else {
         // Compute and apply updates from value
         collabPlugin.applyValue(value)

@@ -1,4 +1,3 @@
-import { updateMember } from '@api/entities/members'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -15,6 +14,7 @@ import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useArchiveMemberMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -29,12 +29,13 @@ export default function MemberDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const member = useMember(id)
+  const [archiveMember] = useArchiveMemberMutation()
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!member) return
-    await updateMember(id, { archived: true })
+    await archiveMember({ variables: { id } })
     onDelete?.()
     alertProps.onClose()
 

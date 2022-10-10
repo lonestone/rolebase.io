@@ -10,7 +10,7 @@ import HourLink from '@components/atoms/HourLink'
 import MemberLink from '@components/atoms/MemberLink'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import ActivityDeleteModal from '@components/organisms/thread/ActivityDeleteModal'
-import { ActivityEntry } from '@shared/model/activity'
+import { ActivityEntry } from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import React, { ReactNode, useMemo } from 'react'
@@ -74,11 +74,7 @@ export default function ThreadActivityLayout({
 
         <Text>
           {member && <MemberLink id={member.id} name={member.name} />}
-          <HourLink
-            activityId={activity.id}
-            timestamp={activity.createdAt}
-            ml={2}
-          />
+          <HourLink activityId={activity.id} date={activity.createdAt} ml={2} />
         </Text>
 
         {children}

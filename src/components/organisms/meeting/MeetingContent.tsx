@@ -153,18 +153,18 @@ export default function MeetingContent({
               <Wrap spacing={3} align="center">
                 <FiCalendar />
                 {capitalizeFirstLetter(
-                  format(meeting.startDate.toDate(), 'PPPP', {
+                  format(new Date(meeting.startDate), 'PPPP', {
                     locale: dateLocale,
                   })
                 )}
               </Wrap>
               <Wrap spacing={3} align="center">
                 <FiClock />
-                {format(meeting.startDate.toDate(), 'p', {
+                {format(new Date(meeting.startDate), 'p', {
                   locale: dateLocale,
                 })}
                 {' - '}
-                {format(meeting.endDate.toDate(), 'p', {
+                {format(new Date(meeting.endDate), 'p', {
                   locale: dateLocale,
                 })}
               </Wrap>
@@ -217,13 +217,13 @@ export default function MeetingContent({
           <Box mt={16}>
             {meeting.stepsConfig.map((stepConfig, index) => {
               const last = index === meeting.stepsConfig.length - 1
-              const step = steps?.find((s) => s.id === stepConfig.id)
-              const current = meeting.currentStepId === stepConfig.id
+              const step = steps?.find((s) => s.stepConfigId === stepConfig.id)
               if (!step) return null
+              const current = meeting.currentStepId === step.id
 
               return (
                 <MeetingStepLayout
-                  key={stepConfig.id}
+                  key={step.id}
                   index={index}
                   stepId={step.id}
                   title={stepConfig.title}
@@ -231,7 +231,7 @@ export default function MeetingContent({
                   current={current}
                   onNumberClick={
                     isStarted && canEdit
-                      ? () => handleGoToStep(stepConfig.id)
+                      ? () => handleGoToStep(step.id)
                       : undefined
                   }
                 >

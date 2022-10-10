@@ -1,4 +1,3 @@
-import { pollAnswersEntities } from '@api/entities/pollAnswers'
 import {
   Box,
   HStack,
@@ -14,12 +13,16 @@ import TextErrors from '@components/atoms/TextErrors'
 import ThreadActivityLayout from '@components/molecules/ThreadActivityLayout'
 import ActivityPollModal from '@components/organisms/thread/ActivityPollModal'
 import usePollState from '@hooks/usePollState'
-import useSubscription from '@hooks/useSubscription'
-import { ActivityPoll } from '@shared/model/activity'
+import { useUserId } from '@nhost/react'
+import { ActivityPoll } from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  useCreateThreadPollAnswerMutation,
+  useSubscribeThreadPollAnswersSubscription,
+  useUpdateThreadPollAnswerMutation,
+} from 'src/graphql.generated'
 import ThreadActivityPollResult from './ThreadActivityPollResult'
 import ThreadActivityPollVote from './ThreadActivityPollVote'
 
@@ -29,7 +32,7 @@ interface Props {
 
 export default function ThreadActivityPoll({ activity }: Props) {
   const { t } = useTranslation()
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
   const { colorMode } = useColorMode()
   const bgColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100'
 
@@ -42,13 +45,12 @@ export default function ThreadActivityPoll({ activity }: Props) {
   } = useDisclosure()
 
   // Answers
-  const { createPollAnswer, updatePollAnswer, subscribePollAnswers } =
-    pollAnswersEntities(activity.id)
-  const {
-    data: answers,
-    error,
-    loading,
-  } = useSubscription(subscribePollAnswers())
+  const [createPollAnswer] = useCreateThreadPollAnswerMutation()
+  const [updatePollAnswer] = useUpdateThreadPollAnswerMutation()
+  const { data, error, loading } = useSubscribeThreadPollAnswersSubscription({
+    variables: { activityId: activity.id },
+  })
+  const answers = data?.thread_poll_answer
 
   const { ended, userAnswer } = usePollState(activity, answers)
 
@@ -57,17 +59,31 @@ export default function ThreadActivityPoll({ activity }: Props) {
   // Show vote buttons by default if poll not ended
   // and user has not answered or results are hidden
   useEffect(() => {
-    setEditing(!ended && (!userAnswer || activity.hideUntilEnd))
-  }, [userAnswer, ended, activity.hideUntilEnd])
+    setEditing(!ended && (!userAnswer || activity.data.hideUntilEnd))
+  }, [userAnswer, ended, activity.data.hideUntilEnd])
 
   // Vote
   const handleVote = (choicesPoints: number[]) => {
     if (!answers || !userId) return
-    const existingAnswer = answers.find((a) => a.id === userId)
+    const existingAnswer = answers.find((a) => a.userId === userId)
     if (existingAnswer) {
-      updatePollAnswer(userId, { choicesPoints })
+      updatePollAnswer({
+        variables: {
+          id: existingAnswer.id,
+          values: {
+            choicesPoints,
+          },
+        },
+      })
     } else {
-      createPollAnswer({ choicesPoints }, userId)
+      createPollAnswer({
+        variables: {
+          values: {
+            activityId: activity.id,
+            choicesPoints,
+          },
+        },
+      })
     }
   }
 
@@ -103,7 +119,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
           flexDirection="column"
         >
           <Box fontSize="1.2rem" fontWeight={500}>
-            <Markdown>{activity.question}</Markdown>
+            <Markdown>{activity.data.question}</Markdown>
           </Box>
 
           {loading && <Loading active size="md" />}
@@ -117,7 +133,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
                   answers={answers}
                   onVote={handleVote}
                 />
-                {(ended || !activity.hideUntilEnd) && (
+                {(ended || !activity.data.hideUntilEnd) && (
                   <Link mt={2} onClick={() => setEditing(false)}>
                     {t(`ThreadActivityPoll.showResults`)}
                   </Link>

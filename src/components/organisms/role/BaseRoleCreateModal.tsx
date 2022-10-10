@@ -1,5 +1,3 @@
-import { createRole } from '@api/entities/roles'
-import { nameSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
@@ -19,9 +17,11 @@ import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { Role } from '@shared/model/role'
+import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useCreateRoleMutation } from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -30,7 +30,7 @@ interface Props extends UseModalProps {
 
 const resolver = yupResolver(
   yup.object().shape({
-    name: nameSchema,
+    name: nameSchema.required(),
   })
 )
 
@@ -40,6 +40,7 @@ export default function BaseRoleCreateModal({
 }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
+  const [createRole] = useCreateRoleMutation()
   const createLog = useCreateLog()
 
   const {
@@ -52,11 +53,13 @@ export default function BaseRoleCreateModal({
 
   const onSubmit = handleSubmit(async ({ name }) => {
     if (!orgId) return
-    const role = await createRole({
-      orgId,
-      base: true,
-      name,
+    const { data } = await createRole({
+      variables: {
+        orgId,
+        name,
+      },
     })
+    const role = data?.insert_role_one!
     onCreate?.(role.id)
 
     modalProps.onClose()

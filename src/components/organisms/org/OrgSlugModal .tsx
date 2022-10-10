@@ -1,5 +1,4 @@
-import { updateOrgSlug } from '@api/entities/orgs'
-import { slugSchema } from '@api/schemas'
+import { updateOrgSlug } from '@api/functions'
 import {
   Button,
   FormControl,
@@ -19,9 +18,11 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
+import { slugSchema } from '@shared/schemas'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 import slugify from 'slugify'
 import settings from 'src/settings'
 import * as yup from 'yup'
@@ -31,18 +32,19 @@ interface Props extends UseModalProps {
 }
 
 interface Values {
-  slug: string
+  slug: string | null
 }
 
 const resolver = yupResolver(
   yup.object().shape({
-    slug: slugSchema,
+    slug: slugSchema.required(),
   })
 )
 
 export default function OrgSlugModal({ id, ...modalProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
+  const history = useHistory()
 
   const {
     handleSubmit,
@@ -64,15 +66,20 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
   }, [org])
 
   const onSubmit = handleSubmit(async ({ slug }) => {
+    if (!slug) return
     try {
       setLoading(true)
-      await updateOrgSlug(id, slug)
+      await updateOrgSlug({ orgId: id, slug })
+
+      // Redirect to new path
+      history.push(`/${slug}`)
+
       modalProps.onClose()
     } catch (e) {
       setLoading(false)
       if (e instanceof Error) {
         const message =
-          (e as any).code === 'functions/already-exists'
+          (e as any).response.status === 409
             ? t('OrgSlugModal.already-exists')
             : e.message
         setError('slug', { message })

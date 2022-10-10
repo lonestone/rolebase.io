@@ -1,0 +1,67 @@
+fragment CircleMemberFields on circle_member {
+  id
+  circleId
+  memberId
+  avgMinPerWeek
+  createdAt
+  archived
+}
+
+query getCircleMember($id: uuid!) {
+  circle_member_by_pk(id: $id) {
+    ...CircleMemberFields
+  }
+}
+
+mutation createCircleMember(
+  $circleId: uuid!
+  $memberId: uuid!
+  $avgMinPerWeek: Int
+) {
+  insert_circle_member_one(
+    object: {
+      circleId: $circleId
+      memberId: $memberId
+      avgMinPerWeek: $avgMinPerWeek
+    }
+  ) {
+    ...CircleMemberFields
+    member {
+      id
+      name
+    }
+    circle {
+      role {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation updateCircleMember($id: uuid!, $values: circle_member_set_input!) {
+  update_circle_member_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...CircleMemberFields
+  }
+}
+
+mutation archiveCircleMember($circleId: uuid!, $memberId: uuid!) {
+  update_circle_member(
+    where: { circleId: { _eq: $circleId }, memberId: { _eq: $memberId } }
+    _set: { archived: true }
+  ) {
+    returning {
+      ...CircleMemberFields
+      member {
+        id
+        name
+      }
+      circle {
+        role {
+          id
+          name
+        }
+      }
+    }
+  }
+}

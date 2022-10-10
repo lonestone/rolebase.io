@@ -1,8 +1,9 @@
-import { updateActivity } from '@api/entities/activities'
 import { Box, Button } from '@chakra-ui/react'
 import SimpleEditor from '@components/molecules/editor/SimpleEditor'
+import { ActivityMessage } from '@shared/model/thread_activity'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useUpdateThreadActivityMutation } from 'src/graphql.generated'
 
 interface Props {
   id: string
@@ -17,6 +18,7 @@ export default function ThreadActivityMessageEdit({
 }: Props) {
   const { t } = useTranslation()
   const [message, setMessage] = useState(defaultMessage)
+  const [updateActivity] = useUpdateThreadActivityMutation()
 
   // Save message
   const handleSubmit = useCallback(
@@ -24,7 +26,10 @@ export default function ThreadActivityMessageEdit({
       if (message.trim() === '') {
         // Cancel if empty
       } else {
-        updateActivity(id, { message })
+        const values: Partial<ActivityMessage> = { data: { message } }
+        updateActivity({
+          variables: { id, values },
+        })
       }
       onClose()
     },

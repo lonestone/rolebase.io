@@ -1,5 +1,3 @@
-import { updateRole } from '@api/entities/roles'
-import { nameSchema } from '@api/schemas'
 import {
   Alert,
   AlertDescription,
@@ -34,10 +32,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
+import { RoleLink } from '@shared/model/role'
+import { nameSchema } from '@shared/schemas'
 import React, { useEffect, useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FaPlus } from 'react-icons/fa'
+import { useUpdateRoleMutation } from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -55,14 +56,14 @@ interface Values {
   notes: string
   singleMember: boolean
   autoCreate: boolean
-  link: string | boolean
+  link: string
   defaultMinPerWeek: number | null
   colorHue: number | null
 }
 
 const resolver = yupResolver(
   yup.object().shape({
-    name: nameSchema,
+    name: nameSchema.required(),
     defaultMinPerWeek: yup.number().nullable(),
   })
 )
@@ -76,6 +77,7 @@ const tmpCircleId = 'tmpCircleId'
 export default function RoleEditModal({ id, ...modalProps }: Props) {
   const { t } = useTranslation()
   const role = useRole(id)
+  const [updateRole] = useUpdateRoleMutation()
   const createLog = useCreateLog()
 
   const {
@@ -94,11 +96,11 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
       accountabilities: role.accountabilities,
       checklist: role.checklist,
       indicators: role.indicators,
-      defaultMinPerWeek: role.defaultMinPerWeek ?? null,
-      singleMember: role.singleMember ?? false,
-      autoCreate: role.autoCreate ?? false,
-      link: role.link ?? false,
-      colorHue: role.colorHue ?? null,
+      defaultMinPerWeek: role.defaultMinPerWeek,
+      singleMember: role.singleMember,
+      autoCreate: role.autoCreate,
+      link: role.link,
+      colorHue: role.colorHue,
     },
   })
 
@@ -117,7 +119,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
     modalProps.onClose()
 
     // Update role data
-    await updateRole(id, values)
+    await updateRole({ variables: { id, values } })
 
     // Log change
     createLog({
@@ -258,18 +260,29 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
 
                   <Checkbox
                     name="link"
-                    isChecked={!!link}
-                    onChange={() => setValue('link', !link)}
+                    isChecked={link !== RoleLink.No}
+                    onChange={() =>
+                      setValue(
+                        'link',
+                        link === RoleLink.No ? RoleLink.Parent : RoleLink.No
+                      )
+                    }
                   >
                     {t('RoleEditModal.linkParent')}
                   </Checkbox>
                   <RadioGroup
-                    display={link ? '' : 'none'}
-                    value={link !== true ? LinkType.other : LinkType.parent}
+                    display={link !== RoleLink.No ? '' : 'none'}
+                    value={
+                      link === RoleLink.Parent
+                        ? LinkType.parent
+                        : LinkType.other
+                    }
                     onChange={(value) =>
                       setValue(
                         'link',
-                        value === LinkType.parent ? true : tmpCircleId
+                        value === LinkType.parent
+                          ? RoleLink.Parent
+                          : tmpCircleId
                       )
                     }
                   >

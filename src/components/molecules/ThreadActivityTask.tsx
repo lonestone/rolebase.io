@@ -1,14 +1,14 @@
-import { subscribeTask } from '@api/entities/tasks'
 import { Text } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadActivityLayout from '@components/molecules/ThreadActivityLayout'
-import useSubscription from '@hooks/useSubscription'
-import { ActivityTask } from '@shared/model/activity'
+import { useUserId } from '@nhost/react'
+import { TaskEntry } from '@shared/model/task'
+import { ActivityTask } from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSubscribeTaskSubscription } from 'src/graphql.generated'
 import TaskItem from './TaskItem'
 
 interface Props {
@@ -17,16 +17,17 @@ interface Props {
 
 export default function ThreadActivityTask({ activity }: Props) {
   const { t } = useTranslation()
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
 
   // Edition
   const isUserOwner = userId === activity.userId
 
-  const {
-    data: task,
-    loading,
-    error,
-  } = useSubscription(subscribeTask(activity.entityId))
+  const { data, loading, error } = useSubscribeTaskSubscription({
+    variables: {
+      id: activity.data.entityId,
+    },
+  })
+  const task = data?.task_by_pk as TaskEntry | undefined
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>

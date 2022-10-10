@@ -1,0 +1,82 @@
+table:
+  name: org
+  schema: public
+array_relationships:
+  - name: circles
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: circle
+          schema: public
+  - name: decisions
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: decision
+          schema: public
+  - name: files
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: org_file
+          schema: public
+  - name: meetings
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: meeting
+          schema: public
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: member
+          schema: public
+  - name: roles
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: role
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - name
+        - archived
+        - createdAt
+        - defaultWorkedMinPerWeek
+        - slug
+      filter:
+        members:
+          userId:
+            _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - defaultWorkedMinPerWeek
+        - name
+      filter:
+        members:
+          _and:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - role:
+                _eq: Admin
+      check:
+        members:
+          _and:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - role:
+                _eq: Admin

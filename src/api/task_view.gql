@@ -1,0 +1,31 @@
+fragment TaskViewFields on task_view {
+  id
+  orgId
+  key
+  tasksIds
+}
+
+subscription subscribeTaskView($orgId: uuid!, $key: String!) {
+  task_view(where: { orgId: { _eq: $orgId }, key: { _eq: $key } }) {
+    ...TaskViewFields
+  }
+}
+
+mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
+  insert_task_view_one(
+    object: { orgId: $orgId, key: $key, tasksIds: $tasksIds }
+  ) {
+    ...TaskViewFields
+  }
+}
+
+mutation updateTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
+  update_task_view(
+    where: { orgId: { _eq: $orgId }, key: { _eq: $key } }
+    _set: { tasksIds: $tasksIds }
+  ) {
+    returning {
+      ...TaskViewFields
+    }
+  }
+}

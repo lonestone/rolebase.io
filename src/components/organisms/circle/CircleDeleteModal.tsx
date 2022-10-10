@@ -1,4 +1,3 @@
-import { archiveCircle } from '@api/entities/circles'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -10,9 +9,8 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import useArchiveCircle from '@hooks/useArchiveCircle'
 import useCircle from '@hooks/useCircle'
-import useCreateLog from '@hooks/useCreateLog'
-import { LogType } from '@shared/model/log'
 import React, { useContext, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
@@ -31,12 +29,12 @@ export default function CircleDeleteModal({
   const { t } = useTranslation()
   const circleMemberContext = useContext(CircleMemberContext)
   const circle = useCircle(id)
-  const createLog = useCreateLog()
+  const archiveCircle = useArchiveCircle()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!circle) return
-    const changes = await archiveCircle(id)
+    await archiveCircle(id)
     onDelete?.()
     alertProps.onClose()
 
@@ -45,16 +43,6 @@ export default function CircleDeleteModal({
       () => circleMemberContext?.goTo(circle?.parentId || undefined),
       1000
     )
-
-    // Log change
-    createLog({
-      display: {
-        type: LogType.CircleArchive,
-        id: circle.id,
-        name: circle.role.name,
-      },
-      changes,
-    })
   }
 
   if (!circle) return null

@@ -33,7 +33,7 @@ export default function LogItem({ log, onCancel }: Props) {
         </Text>
         <Text fontSize="sm" color="gray.500">
           {capitalizeFirstLetter(
-            format(log.createdAt.toDate(), 'PPpp', {
+            format(new Date(log.createdAt), 'PPpp', {
               locale: dateLocale,
             })
           )}

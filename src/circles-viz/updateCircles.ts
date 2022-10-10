@@ -7,7 +7,6 @@ import { GraphEvents } from './createGraph'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getFirstname } from './getFirstname'
 import { getTargetNodeData } from './getTargetNodeData'
-import { getHighlightTransition } from './highlightCircle'
 import { packData } from './packData'
 import selectAppend from './selectAppend'
 import { setNodeCSSVariables } from './setNodeCSSVariables'
@@ -306,7 +305,6 @@ export default function updateCircles(
               })
               .on('end', function (event, dragNode) {
                 const shiftKey: boolean = event.sourceEvent.shiftKey
-                const transition = getHighlightTransition()
 
                 // Drag end
                 let actionMoved = false
@@ -377,6 +375,11 @@ export default function updateCircles(
 
                 // Reset dragged circles
                 if (dragNodes && !actionMoved) {
+                  const transition = d3
+                    .transition()
+                    .duration(settings.move.duration)
+                    .ease(settings.move.transition)
+
                   dragNodes
                     .transition(transition as any)
                     .attr('transform', (d) => `translate(${d.x},${d.y})`)

@@ -2,7 +2,8 @@ import { Box, Button, Stack, StackItem, Text } from '@chakra-ui/react'
 import NumberInput from '@components/atoms/NumberInput'
 import useDateLocale from '@hooks/useDateLocale'
 import usePollState from '@hooks/usePollState'
-import { ActivityPoll, PollAnswer } from '@shared/model/activity'
+import { ActivityPoll } from '@shared/model/thread_activity'
+import { ThreadPollAnswerEntry } from '@shared/model/thread_poll_answer'
 import { WithId } from '@shared/model/types'
 import { format } from 'date-fns'
 import React, { memo, useEffect, useMemo } from 'react'
@@ -12,7 +13,7 @@ import { FiCheck } from 'react-icons/fi'
 
 interface Props {
   activity: WithId<ActivityPoll>
-  answers: WithId<PollAnswer>[]
+  answers: ThreadPollAnswerEntry[]
   onVote(choicesPoints: number[]): void
 }
 
@@ -41,14 +42,15 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
   const { t } = useTranslation()
   const dateLocale = useDateLocale()
   const { ended, userAnswer } = usePollState(activity, answers)
+  const { data } = activity
 
   // Prepare ordered or random indexes choices
   const displayOrder = useMemo(
     () =>
-      activity.randomize
-        ? getRandomIndexes(activity.choices.length)
-        : getRange(activity.choices.length),
-    [activity.randomize, activity.choices.length]
+      data.randomize
+        ? getRandomIndexes(data.choices.length)
+        : getRange(data.choices.length),
+    [data.randomize, data.choices.length]
   )
 
   // Vote form
@@ -61,7 +63,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
     defaultValues: {
       choices: userAnswer
         ? userAnswer.choicesPoints.map((points) => ({ points }))
-        : activity.choices.map(() => ({ points: 0 })),
+        : data.choices.map(() => ({ points: 0 })),
     },
   })
 
@@ -70,7 +72,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
     reset({
       choices: userAnswer
         ? userAnswer.choicesPoints.map((points) => ({ points }))
-        : activity.choices.map(() => ({ points: 0 })),
+        : data.choices.map(() => ({ points: 0 })),
     })
   }, [userAnswer])
 
@@ -89,13 +91,13 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
     () => choicesFields.reduce((sum, choice) => sum + choice.points, 0),
     [choicesFields]
   )
-  const remainingPoints = activity.pointsPerUser
-    ? activity.pointsPerUser - usedPoints
+  const remainingPoints = data.pointsPerUser
+    ? data.pointsPerUser - usedPoints
     : 0 // Stay at 0 if no points per user
   const notEnoughChoices =
-    !!activity.minAnswers && nbSelectedChoices < activity.minAnswers
+    !!data.minAnswers && nbSelectedChoices < data.minAnswers
   const tooMuchChoices =
-    !!activity.maxAnswers && nbSelectedChoices > activity.maxAnswers
+    !!data.maxAnswers && nbSelectedChoices > data.maxAnswers
 
   const voteButtonDisabled =
     remainingPoints !== 0 || notEnoughChoices || tooMuchChoices
@@ -103,7 +105,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
   // Click on a choice button
   const handleToggleVote = (choiceId: number) => {
     const points = choicesFields[choiceId]?.points
-    if (activity.multiple) {
+    if (data.multiple) {
       // Multiple choice
       if (points) {
         // Remove vote
@@ -134,43 +136,41 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
 
   return (
     <>
-      {activity.multiple &&
-        (activity.minAnswers && activity.minAnswers === activity.maxAnswers ? (
+      {data.multiple &&
+        (data.minAnswers && data.minAnswers === data.maxAnswers ? (
           <Text>
             {t('ThreadActivityPollVote.chooseN', {
-              count: activity.minAnswers,
+              count: data.minAnswers,
             })}
           </Text>
-        ) : activity.minAnswers && activity.maxAnswers ? (
+        ) : data.minAnswers && data.maxAnswers ? (
           <Text>
             {t('ThreadActivityPollVote.chooseMinAndMax', {
-              min: activity.minAnswers,
-              max: activity.maxAnswers,
+              min: data.minAnswers,
+              max: data.maxAnswers,
             })}
           </Text>
-        ) : activity.minAnswers ? (
+        ) : data.minAnswers ? (
           <Text>
             {t('ThreadActivityPollVote.chooseMin', {
-              count: activity.minAnswers,
+              count: data.minAnswers,
             })}
           </Text>
-        ) : activity.maxAnswers ? (
+        ) : data.maxAnswers ? (
           <Text>
             {t('ThreadActivityPollVote.chooseMax', {
-              count: activity.maxAnswers,
+              count: data.maxAnswers,
             })}
           </Text>
         ) : (
           <Text>{t('ThreadActivityPollVote.chooseMultiple')}</Text>
         ))}
 
-      {activity.anonymous && (
-        <Text>{t('ThreadActivityPollVote.anonymous')}</Text>
-      )}
+      {data.anonymous && <Text>{t('ThreadActivityPollVote.anonymous')}</Text>}
 
       <Stack spacing={1} mt={3} align="stretch">
         {displayOrder.map((index) => {
-          const choice = activity.choices[index]
+          const choice = data.choices[index]
           const points = choicesFields[index]?.points || 0
           const checked = !!points
           return (
@@ -190,7 +190,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
               </Button>
               {/* Fixed size box is used to keep buttons the same size */}
               <Box w="70px" pl={2} display="flex" alignItems="center">
-                {checked && activity.pointsPerUser ? (
+                {checked && data.pointsPerUser ? (
                   <NumberInput
                     value={points}
                     onChange={(value) => updateChoice(index, { points: value })}
@@ -205,9 +205,9 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
         })}
       </Stack>
 
-      {activity.multiple && nbSelectedChoices > 0 && (!userAnswer || isDirty) && (
+      {data.multiple && nbSelectedChoices > 0 && (!userAnswer || isDirty) && (
         <>
-          {activity.pointsPerUser &&
+          {data.pointsPerUser &&
             (remainingPoints === 0 ? (
               <Text>{t('ThreadActivityPollVote.pointsDistributed')}</Text>
             ) : remainingPoints > 0 ? (
@@ -237,20 +237,20 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
         </>
       )}
 
-      {!ended && activity.hideUntilEnd && (
+      {!ended && data.hideUntilEnd && (
         <Text mt={2}>
-          {activity.endDate
+          {data.endDate
             ? t(
-                activity.endWhenAllVoted
+                data.endWhenAllVoted
                   ? 'ThreadActivityPollVote.revealDateOrAllVoted'
                   : 'ThreadActivityPollVote.revealDate',
                 {
-                  date: format(activity.endDate.toDate(), 'PPPP', {
+                  date: format(new Date(data.endDate), 'PPPP', {
                     locale: dateLocale,
                   }),
                 }
               )
-            : activity.endWhenAllVoted
+            : data.endWhenAllVoted
             ? t('ThreadActivityPollVote.revealAllVoted')
             : t('ThreadActivityPollVote.revealLater')}
         </Text>

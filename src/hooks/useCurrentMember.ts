@@ -1,9 +1,10 @@
+import { useUserId } from '@nhost/react'
 import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 
 export default function useCurrentMember(): MemberEntry | undefined {
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
   const members = useStoreState((state) => state.members.entries)
 
   return useMemo(() => {

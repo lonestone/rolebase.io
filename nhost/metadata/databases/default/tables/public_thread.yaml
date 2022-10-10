@@ -1,0 +1,115 @@
+table:
+  name: thread
+  schema: public
+object_relationships:
+  - name: circle
+    using:
+      foreign_key_constraint_on: circleId
+  - name: initiatorMember
+    using:
+      foreign_key_constraint_on: initiatorMemberId
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+array_relationships:
+  - name: member_status
+    using:
+      foreign_key_constraint_on:
+        column: threadId
+        table:
+          name: thread_member_status
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      columns:
+        - archived
+        - circleId
+        - initiatorMemberId
+        - orgId
+        - participantsMembersIds
+        - participantsScope
+        - title
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - participantsMembersIds
+        - participantsScope
+        - title
+        - createdAt
+        - lastActivityDate
+        - circleId
+        - id
+        - initiatorMemberId
+        - lastActivityId
+        - orgId
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - circleId
+        - lastActivityDate
+        - lastActivityId
+        - participantsMembersIds
+        - participantsScope
+        - title
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+event_triggers:
+  - name: index-thread
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

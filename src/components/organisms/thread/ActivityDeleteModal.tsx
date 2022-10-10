@@ -1,4 +1,3 @@
-import { deleteActivity } from '@api/entities/activities'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -12,9 +11,10 @@ import {
   Text,
 } from '@chakra-ui/react'
 import ThreadActivity from '@components/molecules/ThreadActivity'
-import { ActivityEntry } from '@shared/model/activity'
+import { ActivityEntry } from '@shared/model/thread_activity'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDeleteThreadActivityMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -28,10 +28,11 @@ export default function ActivityDeleteModal({
   ...alertProps
 }: Props) {
   const { t } = useTranslation()
+  const [deleteActivity] = useDeleteThreadActivityMutation()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = () => {
-    deleteActivity(activity.id)
+    deleteActivity({ variables: { id: activity.id } })
     onDelete?.()
     alertProps.onClose()
   }

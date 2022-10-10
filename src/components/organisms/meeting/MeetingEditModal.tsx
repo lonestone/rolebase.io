@@ -1,12 +1,4 @@
-import { createMeeting, updateMeeting } from '@api/entities/meetings'
-import {
-  createMissingMeetingSteps,
-  duplicateMeetingSteps,
-} from '@api/entities/meetingSteps'
-import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
-import { sendNotification } from '@api/entities/notifications'
-import { generateFirebaseId } from '@api/helpers/generateFirebaseId'
-import { nameSchema } from '@api/schemas'
+import { sendNotification } from '@api/functions'
 import {
   Box,
   Button,
@@ -49,25 +41,38 @@ import CircleSearchInput from '@components/molecules/search/entities/circles/Cir
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
+import useCreateMissingMeetingSteps from '@hooks/useCreateMissingMeetingSteps'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useDuplicateMeetingSteps } from '@hooks/useDuplicateMeetingSteps'
 import useItemsArray from '@hooks/useItemsArray'
 import { useOrgId } from '@hooks/useOrgId'
 import useParticipants from '@hooks/useParticipants'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import useSubscription from '@hooks/useSubscription'
-import { MeetingEntry } from '@shared/model/meeting'
-import { MeetingStepTypes } from '@shared/model/meetingStep'
+import {
+  Meeting,
+  MeetingEntry,
+  VideoConf,
+  VideoConfTypes,
+} from '@shared/model/meeting'
+import { MeetingStepTypes } from '@shared/model/meeting_step'
+import { MeetingTempalteEntry } from '@shared/model/meeting_template'
 import { MembersScope } from '@shared/model/member'
 import { NotificationCategories } from '@shared/model/notification'
+import { nameSchema } from '@shared/schemas'
 import { store } from '@store/index'
-import { Timestamp } from 'firebase/firestore'
+import { nanoid } from 'nanoid'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiHelpCircle } from 'react-icons/fi'
 import { useHistory } from 'react-router-dom'
+import {
+  useCreateMeetingMutation,
+  useSubscribeMeetingTemplatesSubscription,
+  useUpdateMeetingMutation,
+} from 'src/graphql.generated'
 import settings from 'src/settings'
-import { getDateTimeLocal } from 'src/utils'
+import { getDateTimeLocal, omit } from 'src/utils'
 import * as yup from 'yup'
 import MeetingTemplatesModal from './MeetingTemplatesModal'
 
@@ -88,27 +93,21 @@ interface Values extends StepsValues {
   participantsScope: MembersScope
   startDate: string
   duration: number // In minutes
-  videoConf: boolean | string
+  videoConfType: VideoConfTypes | null
+  videoConfUrl: string
 }
 
 const resolver = yupResolver(
   yup.object().shape({
-    title: nameSchema,
+    title: nameSchema.required(),
     circleId: yup.string().required(),
     facilitatorMemberId: yup.string().required(),
     startDate: yup.string().required(),
     duration: yup.number().required(),
     stepsConfig: stepsConfigSchema,
-    videoConf: yup.lazy((value) =>
-      typeof value === 'boolean' ? yup.boolean() : yup.string().url().required()
-    ),
+    videoConf: yup.string().nullable(),
   })
 )
-
-enum VideoConfType {
-  generated = 'generated',
-  url = 'url',
-}
 
 export default function MeetingEditModal({
   meeting,
@@ -124,9 +123,14 @@ export default function MeetingEditModal({
   const currentMember = useCurrentMember()
   const history = useHistory()
   const meetingsPath = usePathInOrg('meetings')
+  const [createMeeting] = useCreateMeetingMutation()
+  const [updateMeeting] = useUpdateMeetingMutation()
+  const createMissingMeetingSteps = useCreateMissingMeetingSteps()
+  const duplicateMeetingSteps = useDuplicateMeetingSteps()
 
-  const defaultValues = useMemo(
+  const defaultValues: Values = useMemo(
     () => ({
+      templateId: '',
       title: meeting?.title ?? '',
       circleId: meeting?.circleId ?? (defaultCircleId || ''),
       facilitatorMemberId: meeting?.facilitatorMemberId ?? '',
@@ -135,19 +139,27 @@ export default function MeetingEditModal({
       startDate: getDateTimeLocal(
         duplicate || !meeting
           ? defaultStartDate || getRoundedDate()
-          : meeting.startDate.toDate()
+          : new Date(meeting.startDate)
       ),
       duration: meeting
-        ? Math.round((meeting.endDate.seconds - meeting.startDate.seconds) / 60)
+        ? Math.round(
+            (new Date(meeting.endDate).getTime() -
+              new Date(meeting.startDate).getTime()) /
+              60000
+          )
         : defaultDuration || 30,
       stepsConfig: meeting?.stepsConfig ?? [
         {
-          id: generateFirebaseId(),
+          id: nanoid(8),
           type: MeetingStepTypes.Threads,
           title: 'Ordre du jour',
         },
       ],
-      videoConf: meeting?.videoConf ?? false,
+      videoConfType: meeting?.videoConf?.type ?? null,
+      videoConfUrl:
+        meeting?.videoConf?.type === VideoConfTypes.Url
+          ? meeting.videoConf.url
+          : 'https://',
     }),
     [defaultCircleId, defaultStartDate, meeting]
   )
@@ -168,16 +180,22 @@ export default function MeetingEditModal({
   const circleId = watch('circleId')
   const participantsScope = watch('participantsScope')
   const facilitatorMemberId = watch('facilitatorMemberId')
-  const videoConf = watch('videoConf')
+  const videoConfType = watch('videoConfType')
 
   const circle = useCircle(circleId)
 
   // Templates
   const {
-    data: meetingTemplates,
+    data,
     loading: meetingTemplatesLoading,
     error: meetingTemplatesError,
-  } = useSubscription(orgId ? subscribeAllMeetingTemplates(orgId) : undefined)
+  } = useSubscribeMeetingTemplatesSubscription({
+    skip: !orgId,
+    variables: { orgId: orgId! },
+  })
+  const meetingTemplates = data?.meeting_template as
+    | MeetingTempalteEntry[]
+    | undefined
 
   // Template change
   useEffect(() => {
@@ -196,79 +214,101 @@ export default function MeetingEditModal({
   } = useItemsArray<string>(meeting ? meeting.participantsMembersIds : [])
 
   // Submit
-  const onSubmit = handleSubmit(async ({ startDate, duration, ...data }) => {
-    if (!orgId || !currentMember || !circle) return
-    const startDateDate = new Date(startDate)
-    const meetingUpdate = {
-      ...data,
-      startDate: Timestamp.fromDate(startDateDate),
-      endDate: Timestamp.fromDate(
-        new Date(startDateDate.getTime() + duration * 60 * 1000)
-      ),
-      participantsMembersIds,
-    }
-    if (meeting && !duplicate) {
-      // Update meeting
-      await updateMeeting(meeting.id, meetingUpdate)
+  const onSubmit = handleSubmit(
+    async ({ startDate, duration, videoConfType, videoConfUrl, ...data }) => {
+      if (!orgId || !currentMember || !circle) return
+      const startDateDate = new Date(startDate)
 
-      // Create missing steps
-      await createMissingMeetingSteps(
-        meeting.id,
-        meetingUpdate.stepsConfig,
-        circle
-      )
-    } else {
-      // Create meeting
-      const newMeeting = await createMeeting({
-        orgId,
-        initiatorMemberId: currentMember.id,
-        attendees: participants.map((participant) => ({
-          memberId: participant.member.id,
-          circlesIds: participant.circlesIds,
-          present: null,
-        })),
-        ...meetingUpdate,
-      })
-      const path = `${meetingsPath}/${newMeeting.id}`
+      const videoConf: VideoConf | null =
+        videoConfType === VideoConfTypes.Url
+          ? {
+              type: VideoConfTypes.Url,
+              url: videoConfUrl,
+            }
+          : videoConfType
+          ? {
+              type: videoConfType,
+            }
+          : null
 
-      if (meeting && duplicate) {
-        // Duplicate steps
-        await duplicateMeetingSteps(meeting.id, newMeeting)
+      const meetingUpdate: Partial<Meeting> = {
+        ...omit(data, 'templateId'),
+        startDate: startDateDate.toISOString(),
+        endDate: new Date(
+          startDateDate.getTime() + duration * 60 * 1000
+        ).toISOString(),
+        participantsMembersIds,
+        videoConf,
       }
 
-      // Create missing steps
-      await createMissingMeetingSteps(
-        newMeeting.id,
-        newMeeting.stepsConfig,
-        circle
-      )
+      if (meeting && !duplicate) {
+        // Update meeting
+        await updateMeeting({
+          variables: { id: meeting.id, values: meetingUpdate },
+        })
 
-      // Send notification
-      const notifParams = {
-        role: circle.role.name,
-        title: newMeeting.title,
-        sender: currentMember.name,
-      }
-      sendNotification({
-        category: NotificationCategories.MeetingInvited,
-        title: t('notifications.MeetingInvited.title', notifParams),
-        content: t('notifications.MeetingInvited.content', notifParams),
-        recipientMemberIds: (
-          newMeeting.attendees?.map((a) => a.memberId) || []
-        ).filter((id) => id !== currentMember.id),
-        topic: newMeeting.id,
-        url: `${settings.url}${path}`,
-      })
-
-      if (onCreate) {
-        onCreate(newMeeting.id)
+        // Create missing steps
+        await createMissingMeetingSteps(meeting.id, data.stepsConfig, circle)
       } else {
-        history.push(path)
-      }
-    }
+        // Create meeting
+        const { data, errors } = await createMeeting({
+          variables: {
+            values: {
+              orgId,
+              initiatorMemberId: currentMember.id,
+              attendees: participants.map((participant) => ({
+                memberId: participant.member.id,
+                circlesIds: participant.circlesIds,
+                present: null,
+              })),
+              ...meetingUpdate,
+            },
+          },
+        })
+        const newMeeting = data?.insert_meeting_one as MeetingEntry | undefined
+        if (!newMeeting) return console.error(errors)
 
-    modalProps.onClose()
-  })
+        const path = `${meetingsPath}/${newMeeting.id}`
+
+        if (meeting && duplicate) {
+          // Duplicate steps
+          await duplicateMeetingSteps(meeting.id, newMeeting)
+        }
+
+        // Create missing steps
+        await createMissingMeetingSteps(
+          newMeeting.id,
+          newMeeting.stepsConfig,
+          circle
+        )
+
+        // Send notification
+        const notifParams = {
+          role: circle.role.name,
+          title: newMeeting.title,
+          sender: currentMember.name,
+        }
+        sendNotification({
+          category: NotificationCategories.MeetingInvited,
+          title: t('notifications.MeetingInvited.title', notifParams),
+          content: t('notifications.MeetingInvited.content', notifParams),
+          recipientMemberIds: (
+            newMeeting.attendees?.map((a) => a.memberId) || []
+          ).filter((id) => id !== currentMember.id),
+          topic: newMeeting.id,
+          url: `${settings.url}${path}`,
+        })
+
+        if (onCreate) {
+          onCreate(newMeeting.id)
+        } else {
+          history.push(path)
+        }
+      }
+
+      modalProps.onClose()
+    }
+  )
 
   // Participants
   const participants = useParticipants(
@@ -473,38 +513,38 @@ export default function MeetingEditModal({
                 />
               </FormControl>
 
-              <FormControl isInvalid={!!errors.videoConf}>
+              <FormControl
+                isInvalid={!!errors.videoConfType || !!errors.videoConfUrl}
+              >
                 <Stack spacing={1}>
                   <Checkbox
-                    isChecked={!!videoConf}
-                    onChange={() => setValue('videoConf', !videoConf)}
+                    isChecked={!!videoConfType}
+                    onChange={() =>
+                      setValue(
+                        'videoConfType',
+                        videoConfType ? null : VideoConfTypes.Jitsi
+                      )
+                    }
                   >
                     {t('MeetingEditModal.videoConf')}
                   </Checkbox>
 
                   <RadioGroup
-                    display={videoConf ? '' : 'none'}
-                    value={
-                      videoConf === true
-                        ? VideoConfType.generated
-                        : VideoConfType.url
-                    }
+                    display={videoConfType ? '' : 'none'}
+                    value={videoConfType || VideoConfTypes.Jitsi}
                     onChange={(value) =>
-                      setValue(
-                        'videoConf',
-                        value === VideoConfType.generated ? true : 'https://'
-                      )
+                      setValue('videoConfType', value as VideoConfTypes)
                     }
                   >
                     <Stack pl={6} mt={1} spacing={1} direction="column">
-                      <Radio value={VideoConfType.generated}>
+                      <Radio value={VideoConfTypes.Jitsi}>
                         {t('MeetingEditModal.videoConfJitsi')}
                       </Radio>
-                      <Radio value={VideoConfType.url}>
+                      <Radio value={VideoConfTypes.Url}>
                         {t('MeetingEditModal.videoConfUrl')}
                       </Radio>
-                      {typeof videoConf === 'string' && (
-                        <Input pl={6} {...register('videoConf')} />
+                      {videoConfType === VideoConfTypes.Url && (
+                        <Input pl={6} {...register('videoConfUrl')} />
                       )}
                     </Stack>
                   </RadioGroup>

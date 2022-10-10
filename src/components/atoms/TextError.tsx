@@ -1,9 +1,10 @@
 import { Text } from '@chakra-ui/react'
+import { ErrorPayload } from '@nhost/core'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
-  error: Error
+  error: Error | ErrorPayload
 }
 
 export default function TextError({ error }: Props) {

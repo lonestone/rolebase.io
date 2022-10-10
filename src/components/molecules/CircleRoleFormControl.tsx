@@ -14,6 +14,7 @@ import SubCirclesFormControl from '@components/molecules/SubCirclesFormControl'
 import useCircle from '@hooks/useCircle'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { ParticipantMember } from '@shared/model/member'
+import { RoleLink } from '@shared/model/role'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
@@ -30,7 +31,8 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
   // Parent circles and linked circle
   const parentCircle = useCircle(circle.parentId || undefined)
   const linkedCircle = useCircle(
-    (role?.link === true ? parentCircle?.parentId : role?.link) || undefined
+    (role?.link === RoleLink.Parent ? parentCircle?.parentId : role?.link) ||
+      undefined
   )
 
   // Role info toggle

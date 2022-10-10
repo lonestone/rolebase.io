@@ -1,4 +1,3 @@
-import { updateMember, uploadPicture } from '@api/entities/members'
 import {
   Box,
   Button,
@@ -27,6 +26,8 @@ import { Area } from 'react-easy-crop/types'
 import { useTranslation } from 'react-i18next'
 import { FiRotateCw } from 'react-icons/fi'
 import { getCroppedImg } from 'src/canvasUtils'
+import { useUpdateMemberMutation } from 'src/graphql.generated'
+import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 import { readFile } from 'src/utils'
 
@@ -43,7 +44,9 @@ export default function MemberPictureCropModal({
   const { t } = useTranslation()
   const toast = useToast()
   const orgId = useOrgId()
+  const [updateMember] = useUpdateMemberMutation()
 
+  // Picture
   const imageSrc = useAsyncMemo(() => readFile(file), [file], null)
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [rotation, setRotation] = useState(0)
@@ -74,10 +77,23 @@ export default function MemberPictureCropModal({
       }
 
       // Upload picture
-      const picture = await uploadPicture(orgId, id, croppedImg)
+      const name = `orgs/${orgId}/members/${id}`
+      const file = new File([croppedImg], name)
+      const { error, fileMetadata } = await nhost.storage.upload({ name, file })
+      if (error) throw error
 
       // Save picture url to member
-      await updateMember(id, { picture })
+      const fileId = fileMetadata.id
+      const picture = nhost.storage.getPublicUrl({ fileId })
+      await updateMember({
+        variables: {
+          id,
+          values: {
+            pictureFileId: fileId,
+            picture,
+          },
+        },
+      })
 
       modalProps.onClose()
       toast({

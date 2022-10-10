@@ -1,13 +1,12 @@
-import { subscribeTasks } from '@api/entities/tasks'
-import {
-  createTasksView,
-  subscribeTasksView,
-  updateTasksView,
-} from '@api/entities/tasksViews'
 import { TaskEntry, TaskStatus, TasksViewTypes } from '@shared/model/task'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  useCreateTaskViewMutation,
+  useSubscribeTasksSubscription,
+  useSubscribeTaskViewSubscription,
+  useUpdateTaskViewMutation,
+} from 'src/graphql.generated'
 import { useOrgId } from './useOrgId'
-import useSubscription from './useSubscription'
 
 export function useTasks(
   view: TasksViewTypes,
@@ -15,31 +14,56 @@ export function useTasks(
     memberId?: string
     circleId?: string
     status?: TaskStatus
+    archived?: boolean
   }
 ) {
   const orgId = useOrgId()
 
-  const viewId = `${view}-${filters?.memberId || ''}-${
-    filters?.circleId || ''
-  }-${filters?.status || ''}`
+  const key = `${view}-${filters?.memberId || ''}-${filters?.circleId || ''}-${
+    filters?.status || ''
+  }`
 
-  // Subscribe to threads
-  const subscribe = useMemo(() => {
-    if (!orgId) return
-    return subscribeTasks(
-      orgId,
-      filters?.memberId,
-      filters?.circleId,
-      filters?.status
-    )
-  }, [orgId, filters?.memberId, filters?.circleId, filters?.status])
-
-  const { data, error, loading } = useSubscription(subscribe)
+  // Subscribe to tasks
+  const {
+    data: tasksData,
+    error,
+    loading,
+  } = useSubscribeTasksSubscription({
+    skip: !orgId,
+    variables: {
+      filters: [
+        { orgId: { _eq: orgId } },
+        {
+          archived: {
+            _eq: filters?.archived === undefined ? false : filters.archived,
+          },
+        },
+        {
+          status: filters?.status
+            ? { _eq: filters?.status }
+            : { _neq: TaskStatus.Done },
+        },
+        ...(filters?.circleId
+          ? [{ circleId: { _eq: filters?.circleId } }]
+          : []),
+        ...(filters?.memberId
+          ? [{ memberId: { _eq: filters?.memberId } }]
+          : []),
+      ],
+    },
+  })
+  const tasks = tasksData?.task
 
   // Subscribe to tasks view to get tasks order
-  const { data: tasksView, loading: tasksViewLoading } = useSubscription(
-    subscribeTasksView(viewId)
-  )
+  const { data: tasksViewData, loading: tasksViewLoading } =
+    useSubscribeTaskViewSubscription({
+      skip: !orgId,
+      variables: {
+        orgId: orgId!,
+        key,
+      },
+    })
+  const tasksView = tasksViewData?.task_view[0]
 
   // Keep last changed order and changed task until tasks view is updated
   // to avoid glitch after drag and drop
@@ -56,12 +80,12 @@ export function useTasks(
   useEffect(() => {
     if (!tasksView) return
     setChangedTaskCache(undefined)
-  }, [data])
+  }, [tasks])
 
   // Sort tasks according to view
-  const tasks = useMemo(() => {
-    if (!data || loading || tasksViewLoading) return []
-    const newTasks = [...data]
+  const sortedTasks = useMemo(() => {
+    if (!tasks || loading || tasksViewLoading) return []
+    const newTasks = [...tasks]
 
     // Replace changed task
     if (changedTaskCache) {
@@ -77,10 +101,12 @@ export function useTasks(
       const aIndex = tasksIdsCache.indexOf(a.id)
       const bIndex = tasksIdsCache.indexOf(b.id)
       return aIndex - bIndex
-    })
-  }, [data, tasksIdsCache, loading, tasksViewLoading])
+    }) as TaskEntry[]
+  }, [tasks, tasksIdsCache, loading, tasksViewLoading])
 
   // Save new ordered list
+  const [createTaskView] = useCreateTaskViewMutation()
+  const [updateTaskView] = useUpdateTaskViewMutation()
   const changeOrder = useCallback(
     (tasksIds: string[], changedTask?: TaskEntry) => {
       if (!orgId) return
@@ -89,13 +115,18 @@ export function useTasks(
         setChangedTaskCache(changedTask)
       }
       if (tasksView) {
-        updateTasksView(viewId, { tasksIds })
+        updateTaskView({ variables: { orgId, key, tasksIds } })
       } else {
-        createTasksView({ orgId, tasksIds }, viewId)
+        createTaskView({ variables: { orgId, key, tasksIds } })
       }
     },
-    [orgId, viewId, tasksView]
+    [orgId, key, tasksView]
   )
 
-  return { tasks, loading: loading || tasksViewLoading, error, changeOrder }
+  return {
+    tasks: sortedTasks,
+    loading: loading || tasksViewLoading,
+    error,
+    changeOrder,
+  }
 }

@@ -1,13 +1,17 @@
 import { sha1 } from 'crypto-hash'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { storage } from './firebase'
+import { nhost } from 'src/nhost'
 
-// Upload member picture and return URL
+// Upload file and return URL
 export async function uploadFile(orgId: string, file: File): Promise<string> {
   const hash = await getSHA1FromFile(file)
-  const fileRef = ref(storage, `orgs/${orgId}/uploads/${hash}`)
-  await uploadBytes(fileRef, file)
-  return getDownloadURL(fileRef)
+  const name = `orgs/${orgId}/uploads/${hash}`
+
+  // Upload file
+  const { error, fileMetadata } = await nhost.storage.upload({ file, name })
+  if (error) throw error
+
+  // Return URL
+  return nhost.storage.getPublicUrl({ fileId: fileMetadata.id })
 }
 
 // Generate a SHA1 hash from a file

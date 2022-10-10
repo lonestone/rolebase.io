@@ -1,8 +1,8 @@
 import Markdown from '@components/atoms/Markdown'
 import ThreadActivityLayout from '@components/molecules/ThreadActivityLayout'
-import { ActivityMessage } from '@shared/model/activity'
+import { useUserId } from '@nhost/react'
+import { ActivityMessage } from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import ThreadActivityMessageEdit from './ThreadActivityMessageEdit'
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function ThreadActivityMessage({ activity }: Props) {
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
 
   // Edition
   const isUserOwner = userId === activity.userId
@@ -24,11 +24,11 @@ export default function ThreadActivityMessage({ activity }: Props) {
       onEdit={isUserOwner ? () => setEditing(true) : undefined}
     >
       {!editing ? (
-        <Markdown>{activity.message}</Markdown>
+        <Markdown>{activity.data.message}</Markdown>
       ) : (
         <ThreadActivityMessageEdit
           id={activity.id}
-          defaultMessage={activity.message}
+          defaultMessage={activity.data.message}
           onClose={() => setEditing(false)}
         />
       )}

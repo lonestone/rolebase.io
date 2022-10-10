@@ -1,11 +1,10 @@
-import { subscribeOrgs } from '@api/entities/orgs'
 import { OrgEntry } from '@shared/model/org'
 import { action, Action } from 'easy-peasy'
 import { createModel, GenericModel } from './generic'
 
-const model = createModel(subscribeOrgs)
+const model = createModel<OrgEntry>()
 
-interface OrgsModel extends GenericModel<OrgEntry, string[]> {
+interface OrgsModel extends GenericModel<OrgEntry> {
   currentId: string | undefined
   setCurrentId: Action<OrgsModel, string | undefined>
 }

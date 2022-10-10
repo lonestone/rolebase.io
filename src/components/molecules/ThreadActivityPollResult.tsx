@@ -1,5 +1,6 @@
 import { Box, Stack, StackItem, Tooltip, useColorMode } from '@chakra-ui/react'
-import { ActivityPoll, PollAnswer } from '@shared/model/activity'
+import { ActivityPoll } from '@shared/model/thread_activity'
+import { ThreadPollAnswerEntry } from '@shared/model/thread_poll_answer'
 import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import React, { memo, useMemo } from 'react'
@@ -7,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 
 interface Props {
   activity: WithId<ActivityPoll>
-  answers: WithId<PollAnswer>[]
+  answers: ThreadPollAnswerEntry[]
 }
 
 function ThreadActivityPollResult({ activity, answers }: Props) {
@@ -17,7 +18,7 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
 
   const results = useMemo(
     () =>
-      activity.choices
+      activity.data.choices
         .map((choice, index) => ({
           // Choice's title
           title: choice.title,
@@ -32,7 +33,7 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
           voters: answers.reduce<string[]>((names, answer) => {
             if (answer.choicesPoints[index] > 0) {
               names.push(
-                members?.find((m) => m.userId === answer.id)?.name || '?'
+                members?.find((m) => m.userId === answer.userId)?.name || '?'
               )
             }
             return names
@@ -55,7 +56,7 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
           <StackItem key={index} display="flex">
             <Tooltip
               label={
-                activity.anonymous
+                activity.data.anonymous
                   ? t('ThreadActivityPollResult.anonymous')
                   : voters.join(', ')
               }
@@ -82,7 +83,7 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
             </Tooltip>
             {/* Fixed size box is used to keep buttons the same size */}
             <Box w="70px" pl={2} display="flex" alignItems="center">
-              {points} {activity.pointsPerUser ? 'point' : 'vote'}
+              {points} {activity.data.pointsPerUser ? 'point' : 'vote'}
               {points > 1 ? 's' : ''}
             </Box>
           </StackItem>

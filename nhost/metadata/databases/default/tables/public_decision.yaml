@@ -1,0 +1,102 @@
+table:
+  name: decision
+  schema: public
+object_relationships:
+  - name: circle
+    using:
+      foreign_key_constraint_on: circleId
+  - name: member
+    using:
+      foreign_key_constraint_on: memberId
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      columns:
+        - archived
+        - circleId
+        - createdAt
+        - description
+        - memberId
+        - orgId
+        - title
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - orgId
+        - circleId
+        - memberId
+        - title
+        - description
+        - archived
+        - createdAt
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - circleId
+        - description
+        - memberId
+        - title
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+event_triggers:
+  - name: index-decision
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

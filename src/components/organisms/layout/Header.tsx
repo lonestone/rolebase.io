@@ -19,7 +19,7 @@ import SearchGlobal from '@components/molecules/search/SearchGlobal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import { useStoreState } from '@store/hooks'
+import { useAuthenticated } from '@nhost/react'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaQuestion, FaSearch } from 'react-icons/fa'
@@ -39,7 +39,7 @@ export const headerHeight = 50
 
 export default function Header() {
   const { t } = useTranslation()
-  const user = useStoreState((state) => state.auth.user)
+  const isAuthenticated = useAuthenticated()
   const org = useCurrentOrg()
   const currentMember = useCurrentMember()
 
@@ -106,7 +106,7 @@ export default function Header() {
     }
   }, [])
 
-  if (!user) return null
+  if (!isAuthenticated) return null
   return (
     <Flex
       position="fixed"

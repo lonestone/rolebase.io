@@ -57,7 +57,6 @@ export default function LogText({ log }: Props) {
 
     case LogType.CircleMemberAdd:
     case LogType.CircleMemberRemove:
-    case LogType.CircleMemberMove:
       return (
         <Trans
           i18nKey={`${i18nPrefix}.${type}`}
@@ -139,5 +138,9 @@ export default function LogText({ log }: Props) {
           }}
         />
       )
+
+    default:
+      console.warn(`Log type ${type} is not supported`)
+      return type
   }
 }

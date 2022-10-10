@@ -105,13 +105,6 @@
     "CmdClick": ": Move a role or a member",
     "CmdShiftClick": " : Copy a role or a member"
   },
-  "ConfirmResetPasswordPage": {
-    "heading": "Reset my password",
-    "success1": "Password reset email sent!",
-    "success2": "Check your mailbox.",
-    "password": "New Password",
-    "toastSuccess": "Your password has been successfully changed!"
-  },
   "CurrentUserModal": {
     "heading": "My personal information",
     "email": "Email",
@@ -193,7 +186,6 @@
     "CircleArchive": "<author /> archived the role <circle />",
     "CircleMemberAdd": "<author /> added <member /> to role <circle />",
     "CircleMemberRemove": "<author /> removed <member /> from role <circle />",
-    "CircleMemberMove": "<author /> moved <member /> into the role <circle />",
     "RoleCreate": "<author /> has created the role <role />",
     "RoleUpdate": "<author /> has modified the role <role />",
     "RoleArchive": "<author /> archived the role <role />",
@@ -217,7 +209,10 @@
   },
   "LoginPage": {
     "heading": "Rolebase",
-    "signup": "Create an account"
+    "signup": "Create an account",
+    "needsEmailVerification": "You must click on the verification link in your email box to log in.",
+    "sendEmail": "Resend",
+    "emailSent": "Sent"
   },
   "LogsList": {
     "empty": "No action"
@@ -541,7 +536,8 @@
   },
   "SignupPage": {
     "heading": "Register",
-    "signin": "Sign in"
+    "signin": "Sign in",
+    "complete": "Welcome! All you have to do now is click on the verification link sent by email."
   },
   "SubCirclesFormControl": {
     "roles": "Roles:",

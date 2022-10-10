@@ -2,9 +2,9 @@ import { Center, Container, Heading, Link } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
-import SignupForm from '@components/organisms/user/SignupForm'
+import SignupForm, { Values } from '@components/organisms/user/SignupForm'
 import useQueryParams from '@hooks/useQueryParams'
-import { useStoreActions, useStoreState } from '@store/hooks'
+import { useSendVerificationEmail, useSignUpEmailPassword } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
@@ -18,11 +18,29 @@ interface Props {
 }
 
 export default function SignupPage({ goToLoginPage }: Props) {
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const queryParams = useQueryParams<Params>()
-  const signup = useStoreActions((actions) => actions.auth.signup)
-  const loading = useStoreState((state) => state.auth.loading)
-  const error = useStoreState((state) => state.auth.error)
+  const { signUpEmailPassword, isLoading, error } = useSignUpEmailPassword()
+  const { sendEmail } = useSendVerificationEmail()
+
+  const handleSubmit = async (values: Values) => {
+    // Sign up
+    const { isSuccess } = await signUpEmailPassword(
+      values.email,
+      values.password,
+      {
+        displayName: values.name,
+        locale: language.substring(0, 2),
+      }
+    )
+    if (!isSuccess) return
+
+    // Send verification email
+    await sendEmail(values.email)
+  }
 
   return (
     <Container
@@ -40,11 +58,11 @@ export default function SignupPage({ goToLoginPage }: Props) {
 
       <SignupForm
         defaultEmail={queryParams.email}
-        loading={loading}
-        onSubmit={signup}
+        loading={isLoading}
+        onSubmit={handleSubmit}
       />
 
-      <Loading active={loading} center />
+      <Loading active={isLoading} center />
       <TextErrors errors={[error]} />
 
       <Center mt={4}>

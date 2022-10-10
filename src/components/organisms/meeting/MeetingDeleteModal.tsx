@@ -1,4 +1,3 @@
-import { updateMeeting } from '@api/entities/meetings'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -13,6 +12,7 @@ import {
 import { MeetingEntry } from '@shared/model/meeting'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useArchiveMeetingMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -27,9 +27,10 @@ export default function MeetingDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const [archiveMeeting] = useArchiveMeetingMutation()
 
   const handleDelete = () => {
-    updateMeeting(meeting.id, { archived: true })
+    archiveMeeting({ variables: { id: meeting.id } })
     onDelete?.()
     alertProps.onClose()
   }

@@ -70,10 +70,6 @@ export default function MeetingStartNotificationModal({
         <ModalBody>{t('MeetingStartNotificationModal.info')}</ModalBody>
 
         <ModalFooter>
-          <Button size="sm" onClick={modalProps.onClose}>
-            {t(`common.cancel`)}
-          </Button>
-
           <Spacer />
 
           {participants && (

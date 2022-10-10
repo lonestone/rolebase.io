@@ -12,9 +12,15 @@ import ThreadPage from '@components/pages/ThreadPage'
 import ThreadsPage from '@components/pages/ThreadsPage'
 import useOrg from '@hooks/useOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
+import { MemberEntry } from '@shared/model/member'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { lazy, Suspense, useEffect } from 'react'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
+import {
+  useSubscribeCirclesSubscription,
+  useSubscribeMembersSubscription,
+  useSubscribeRolesSubscription,
+} from 'src/graphql.generated'
 import { UserLocalStorageKeys } from 'src/utils'
 
 // Lazy pages
@@ -40,29 +46,53 @@ export default function OrgRoutes({ orgId }: Props) {
   const membersError = useStoreState((state) => state.members.error)
   const rolesError = useStoreState((state) => state.roles.error)
 
+  // Set current org id
+  const setCurrentId = useStoreActions((actions) => actions.orgs.setCurrentId)
+  useEffect(() => {
+    setCurrentId(orgId)
+  }, [orgId])
+
   const actions = useStoreActions((actions) => ({
-    setOrgId: actions.orgs.setCurrentId,
-    subscribeCircles: actions.circles.subscribe,
-    unsubscribeCircles: actions.circles.unsubscribe,
-    subscribeMembers: actions.members.subscribe,
-    unsubscribeMembers: actions.members.unsubscribe,
-    subscribeRoles: actions.roles.subscribe,
-    unsubscribeRoles: actions.roles.unsubscribe,
+    setCircles: actions.circles.setSubscriptionResult,
+    setRoles: actions.roles.setSubscriptionResult,
+    setMembers: actions.members.setSubscriptionResult,
   }))
 
-  // Subscribe to circles, members and roles
+  // Subscribe to circles
+  const circlesResult = useSubscribeCirclesSubscription({
+    variables: { orgId, archived: false },
+  })
   useEffect(() => {
-    actions.setOrgId(orgId)
-    actions.subscribeCircles(orgId)
-    actions.subscribeMembers(orgId)
-    actions.subscribeRoles(orgId)
-    return () => {
-      actions.setOrgId(undefined)
-      actions.unsubscribeCircles()
-      actions.unsubscribeMembers()
-      actions.unsubscribeRoles()
-    }
-  }, [orgId])
+    actions.setCircles({
+      entries: circlesResult.data?.circle,
+      loading: circlesResult.loading,
+      error: circlesResult.error,
+    })
+  }, [circlesResult])
+
+  // Subscribe to roles
+  const rolesResult = useSubscribeRolesSubscription({
+    variables: { orgId, archived: false },
+  })
+  useEffect(() => {
+    actions.setRoles({
+      entries: rolesResult.data?.role,
+      loading: rolesResult.loading,
+      error: rolesResult.error,
+    })
+  }, [rolesResult])
+
+  // Subscribe to members
+  const membersResult = useSubscribeMembersSubscription({
+    variables: { orgId, archived: false },
+  })
+  useEffect(() => {
+    actions.setMembers({
+      entries: membersResult.data?.member as MemberEntry[] | undefined,
+      loading: membersResult.loading,
+      error: membersResult.error,
+    })
+  }, [membersResult])
 
   // If org doesn't exist, redirect to root
   const history = useHistory()

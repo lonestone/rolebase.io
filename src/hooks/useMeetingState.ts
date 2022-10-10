@@ -1,27 +1,27 @@
 import {
-  endMeeting,
-  goToNextMeetingStep,
-  subscribeMeeting,
-  updateMeeting,
-} from '@api/entities/meetings'
-import { meetingStepsEntities } from '@api/entities/meetingSteps'
-import { stopMembersMeeting } from '@api/entities/members'
-import { sendNotification } from '@api/entities/notifications'
+  sendNotification,
+  startMembersMeeting,
+  stopMembersMeeting,
+} from '@api/functions'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
-import useSubscription from '@hooks/useSubscription'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { CircleWithRoleEntry } from '@shared/model/circle'
-import { MeetingEntry } from '@shared/model/meeting'
-import { MeetingStepEntry } from '@shared/model/meetingStep'
+import { Meeting, MeetingEntry } from '@shared/model/meeting'
+import { MeetingStepEntry } from '@shared/model/meeting_step'
 import { ParticipantMember } from '@shared/model/member'
 import { NotificationCategories } from '@shared/model/notification'
 import { useStoreState } from '@store/hooks'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  useSubscribeMeetingStepsSubscription,
+  useSubscribeMeetingSubscription,
+  useUpdateMeetingMutation,
+} from 'src/graphql.generated'
 import settings from 'src/settings'
 import { usePathInOrg } from './usePathInOrg'
 
@@ -57,24 +57,24 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
   const members = useStoreState((state) => state.members.entries)
+  const [updateMeeting] = useUpdateMeetingMutation()
 
   // Subscribe meeting
-  const {
-    data: meeting,
-    loading,
-    error,
-  } = useSubscription(subscribeMeeting(meetingId))
+  const { data, loading, error } = useSubscribeMeetingSubscription({
+    variables: { id: meetingId },
+  })
+  const meeting = data?.meeting_by_pk as MeetingEntry | undefined
 
   // Meeting page path
   const path = usePathInOrg(`meetings/${meeting?.id}`)
 
   // Subscribe meeting steps
-  const { subscribeMeetingSteps } = meetingStepsEntities(meetingId)
   const {
-    data: steps,
+    data: stepsData,
     error: stepsError,
     loading: stepsLoading,
-  } = useSubscription(subscribeMeetingSteps())
+  } = useSubscribeMeetingStepsSubscription({ variables: { meetingId } })
+  const steps = stepsData?.meeting_step as MeetingStepEntry[] | undefined
 
   // Meeting not started?
   const isEnded = !!meeting?.ended
@@ -117,13 +117,6 @@ export default function useMeetingState(meetingId: string): MeetingState {
   )
   const canEdit = isMember && (isParticipant || isInitiator || isAdmin)
 
-  // Fix current meeting for current member if meeting is not started
-  useEffect(() => {
-    if (!isStarted && currentMember?.meetingId === meeting.id) {
-      stopMembersMeeting([currentMember.id], meeting.id)
-    }
-  }, [isStarted, currentMember, meeting])
-
   // Circle
   const circle = useCircle(meeting?.circleId)
 
@@ -140,44 +133,119 @@ export default function useMeetingState(meetingId: string): MeetingState {
     }
   }, [meeting?.ended, forceEdit])
 
-  // Scroll to step
-  const handleScrollToStep = useCallback((stepId: string) => {
-    const element = document.getElementById(`step-${stepId}`)
+  // Scroll to current step
+  useEffect(() => {
+    const stepId = meeting?.currentStepId
+    if (!stepId) return
     setTimeout(() => {
-      if (!element) return null
-      element.scrollIntoView({ behavior: 'smooth' })
-    }, 300)
-  }, [])
+      document
+        .getElementById(`step-${stepId}`)
+        ?.scrollIntoView({ behavior: 'smooth' })
+    }, 300) // Wait for animations that can change the height of above elements
+  }, [meeting?.currentStepId])
 
   // Go to step
   const handleGoToStep = useCallback(
     async (stepId: string) => {
       if (!meeting) return
-      await updateMeeting(meeting.id, {
-        currentStepId: stepId,
+      await updateMeeting({
+        variables: {
+          id: meeting.id,
+          values: {
+            currentStepId: stepId,
+          },
+        },
       })
-      handleScrollToStep(stepId)
     },
     [meeting]
   )
 
   // End meeting
-  const handleEnd = useCallback(() => {
+  const handleEnd = useCallback(async () => {
     if (!meeting) return
-    endMeeting(
-      meeting.id,
-      participants.map((p) => p.member.id)
-    )
+    await updateMeeting({
+      variables: {
+        id: meetingId,
+        values: {
+          currentStepId: null,
+          ended: true,
+        },
+      },
+    })
+    stopMembersMeeting({ meetingId: meeting.id })
   }, [meeting, participants])
 
   // Next step
   const handleNextStep = useCallback(async () => {
-    if (!meeting) return
-    const stepId = await goToNextMeetingStep(meeting, participants)
-    if (stepId) {
-      handleScrollToStep(stepId)
+    if (!meeting || !steps) return
+
+    // Meeting not started
+    if (meeting.currentStepId === null) {
+      const firstStepConfig = meeting.stepsConfig[0]
+      const firstStep =
+        firstStepConfig &&
+        steps.find((s) => s.stepConfigId === firstStepConfig.id)
+
+      if (!firstStep) {
+        // No first step -> end meeting
+        await handleEnd()
+        return
+      }
+
+      // Go to first step
+      const changedFields: Partial<Meeting> = {
+        currentStepId: firstStep.id,
+        ended: false,
+      }
+
+      if (!meeting.attendees) {
+        // Set attendees list
+        changedFields.attendees = participants.map((participant) => ({
+          memberId: participant.member.id,
+          circlesIds: participant.circlesIds,
+          present: null,
+        }))
+      }
+
+      await updateMeeting({
+        variables: { id: meeting.id, values: changedFields },
+      })
+      startMembersMeeting({
+        membersIds: participants.map((p) => p.member.id),
+        meetingId: meeting.id,
+      })
+      return
     }
-  }, [meeting, participants])
+
+    // Find current and next step
+    const currentStep = steps.find((s) => s.id === meeting.currentStepId)
+    const currentStepIndex = meeting.stepsConfig.findIndex(
+      (step) => step.id === currentStep?.stepConfigId
+    )
+    if (
+      currentStepIndex === -1 ||
+      currentStepIndex === meeting.stepsConfig.length - 1
+    ) {
+      // No next step -> end meeting
+      await handleEnd()
+      return
+    }
+
+    // Find next step
+    const nextStepConfig = meeting.stepsConfig[currentStepIndex + 1]
+    const nextStep = steps.find((s) => s.stepConfigId === nextStepConfig.id)
+    if (!nextStep) throw new Error('Next step not found')
+
+    // Go to next step
+    await updateMeeting({
+      variables: {
+        id: meeting.id,
+        values: {
+          currentStepId: nextStep.id,
+        },
+      },
+    })
+  }, [meeting, steps, participants, handleEnd])
 
   // Next step
   const handleSendStartNotification = useCallback(async () => {

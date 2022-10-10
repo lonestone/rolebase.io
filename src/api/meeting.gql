@@ -1,0 +1,68 @@
+fragment MeetingFields on meeting {
+  id
+  orgId
+  circleId
+  participantsScope
+  participantsMembersIds
+  initiatorMemberId
+  facilitatorMemberId
+  createdAt
+  startDate
+  endDate
+  ended
+  title
+  attendees
+  stepsConfig
+  currentStepId
+  archived
+  videoConf
+}
+
+subscription subscribeMeeting($id: uuid!) {
+  meeting_by_pk(id: $id) {
+    ...MeetingFields
+  }
+}
+
+subscription subscribeMeetingsByDates(
+  $orgId: uuid!
+  $fromDate: timestamptz!
+  $toDate: timestamptz!
+) {
+  meeting(
+    where: {
+      orgId: { _eq: $orgId }
+      startDate: { _gte: $fromDate, _lt: $toDate }
+      archived: { _eq: false }
+    }
+  ) {
+    ...MeetingFields
+  }
+}
+
+subscription subscribeCircleMeetings($circleId: uuid!) {
+  meeting(
+    where: { circleId: { _eq: $circleId }, archived: { _eq: false } }
+    order_by: { startDate: desc }
+  ) {
+    ...MeetingFields
+  }
+}
+
+mutation createMeeting($values: meeting_insert_input!) {
+  insert_meeting_one(object: $values) {
+    ...MeetingFields
+  }
+}
+
+mutation updateMeeting($id: uuid!, $values: meeting_set_input!) {
+  update_meeting_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...MeetingFields
+  }
+}
+
+mutation archiveMeeting($id: uuid!) {
+  update_meeting_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

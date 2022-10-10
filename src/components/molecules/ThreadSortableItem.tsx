@@ -1,10 +1,11 @@
-import { subscribeThread } from '@api/entities/threads'
 import { CloseIcon } from '@chakra-ui/icons'
 import IconTextButton from '@components/atoms/IconTextButton'
-import useSubscription from '@hooks/useSubscription'
+import useCurrentMember from '@hooks/useCurrentMember'
+import { ThreadEntry } from '@shared/model/thread'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
+import { useSubscribeThreadSubscription } from 'src/graphql.generated'
 import ThreadItem from './ThreadItem'
 
 interface Props {
@@ -19,7 +20,13 @@ export default function ThreadSortableItem({
   onRemove,
 }: Props) {
   const { t } = useTranslation()
-  const { data: thread } = useSubscription(subscribeThread(threadId))
+  const currentMember = useCurrentMember()
+
+  const { data } = useSubscribeThreadSubscription({
+    skip: !currentMember,
+    variables: { id: threadId, memberId: currentMember?.id! },
+  })
+  const thread = data?.thread_by_pk as ThreadEntry
 
   if (!thread) return null
   return (
