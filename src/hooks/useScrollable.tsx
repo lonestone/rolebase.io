@@ -23,7 +23,7 @@ export default function useScrollable() {
       const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
       if (scrollTop === 0) {
         setScrollPosition(ScrollPosition.Top)
-      } else if (scrollTop + clientHeight < scrollHeight) {
+      } else if (scrollTop + clientHeight + 1 < scrollHeight) {
         if (scrollPosition !== ScrollPosition.Middle) {
           setScrollPosition(ScrollPosition.Middle)
         }
