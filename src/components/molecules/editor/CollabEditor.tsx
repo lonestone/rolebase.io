@@ -16,7 +16,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
 import EditorContainer from './EditorContainer'
@@ -59,23 +58,8 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     // Connect provider and get context
     const collabPlugin = useMemo(() => new YCollab(docId), [docId])
 
-    // Stop collab on unmount
-    const prevDocId = useRef(docId)
-    useEffect(
-      () => () => {
-        if (prevDocId.current !== docId) {
-          prevDocId.current = docId
-          collabPlugin.stop()
-        }
-      },
-      [docId]
-    )
-
     // On mount
-    const valueApplied = useRef(false)
     useEffect(() => {
-      if (valueApplied.current) return
-      valueApplied.current = true
       if (updates) {
         // Apply saved updates
         collabPlugin.applyUpdates(updates)
@@ -86,7 +70,10 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
         // Save updates
         onSave?.(getValue(), collabPlugin.getUpdates())
       }
-    }, [docId])
+
+      // Stop collab on unmount
+      return () => collabPlugin.stop()
+    }, [collabPlugin])
 
     // Update member name
     useEffect(() => {
