@@ -43,6 +43,8 @@ export interface MeetingState {
   isEnded: boolean
   isNotStarted: boolean
   isStarted: boolean
+  isStartTimePassed: boolean
+  isEndTimePassed: boolean
   videoConfUrl: string | undefined
   handleGoToStep(stepId: string): void
   handleEnd(): void
@@ -80,6 +82,46 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const isEnded = !!meeting?.ended
   const isNotStarted = !isEnded && meeting?.currentStepId === null
   const isStarted = !isEnded && meeting?.currentStepId !== null
+
+  // Start time passed?
+  const [isStartTimePassed, setStartTimePassed] = useState(false)
+  useEffect(() => {
+    if (!meeting) return
+    const currentTime = new Date().getTime()
+    const startDateTime = new Date(meeting.startDate).getTime()
+
+    // Detect if start time has passed now
+    const startTimePassed = isNotStarted && currentTime > startDateTime
+    setStartTimePassed(startTimePassed)
+
+    if (!startTimePassed && isStarted) {
+      // If start time has not passed, schedule status change
+      const timeout = window.setTimeout(() => {
+        setStartTimePassed(true)
+      }, startDateTime - currentTime)
+      return () => window.clearTimeout(timeout)
+    }
+  }, [isStarted, meeting?.startDate])
+
+  // End time passed?
+  const [isEndTimePassed, setEndTimePassed] = useState(false)
+  useEffect(() => {
+    if (!meeting) return
+    const currentTime = new Date().getTime()
+    const endDateTime = new Date(meeting.endDate).getTime()
+
+    // Detect if end time has passed now
+    const endTimePassed = isStarted && currentTime > endDateTime
+    setEndTimePassed(endTimePassed)
+
+    if (!endTimePassed && isStarted) {
+      // If end time has not passed, schedule status change
+      const timeout = window.setTimeout(() => {
+        setEndTimePassed(true)
+      }, endDateTime - currentTime)
+      return () => window.clearTimeout(timeout)
+    }
+  }, [isStarted, meeting?.endDate])
 
   // Participants
   const initialParticipants = useParticipants(
@@ -295,6 +337,8 @@ export default function useMeetingState(meetingId: string): MeetingState {
     isEnded,
     isNotStarted,
     isStarted,
+    isStartTimePassed,
+    isEndTimePassed,
     videoConfUrl,
     handleGoToStep,
     handleEnd,

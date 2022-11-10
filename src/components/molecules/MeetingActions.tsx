@@ -6,6 +6,7 @@ import {
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
+import BounceAnimation from '@components/atoms/BounceAnimation'
 import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
@@ -17,7 +18,7 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import { MeetingState } from '@hooks/useMeetingState'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { ActivityType } from '@shared/model/thread_activity'
-import React, { MouseEvent, useCallback, useEffect, useState } from 'react'
+import React, { MouseEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import {
@@ -48,6 +49,8 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
     isEnded,
     isNotStarted,
     isStarted,
+    isStartTimePassed,
+    isEndTimePassed,
     videoConfUrl,
     handleNextStep,
     handleEnd,
@@ -86,25 +89,6 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
   // Video conf
   const [videoConfOpen, setVideoConfOpen] = useState(false)
 
-  // End time passed?
-  const [endTimePassed, setEndTimePassed] = useState(false)
-  useEffect(() => {
-    if (!meeting) return
-    const currentSeconds = new Date().getTime() / 1000
-
-    // Detect if end time has passed now
-    const endTimePassed = isStarted && meeting.endDate.seconds < currentSeconds
-    setEndTimePassed(endTimePassed)
-
-    if (!endTimePassed && isStarted) {
-      // If end time has not passed, schedule status change
-      const timeout = window.setTimeout(() => {
-        setEndTimePassed(true)
-      }, (meeting?.endDate.seconds - currentSeconds) * 1000)
-      return () => window.clearTimeout(timeout)
-    }
-  }, [isStarted, meeting?.endDate])
-
   if (!meeting || !canEdit || (isEnded && !forceEdit)) {
     return null
   }
@@ -134,13 +118,16 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
     >
       <Container maxW="3xl" display="flex" justifyContent="end">
         {isNotStarted && (
-          <Button
-            leftIcon={<FiPlay />}
-            colorScheme="green"
-            onClick={handleStart}
-          >
-            {t('MeetingActions.start')}
-          </Button>
+          <BounceAnimation active={isStartTimePassed}>
+            <Button
+              leftIcon={<FiPlay />}
+              colorScheme="green"
+              variant={isStartTimePassed ? 'solid' : 'outline'}
+              onClick={handleStart}
+            >
+              {t('MeetingActions.start')}
+            </Button>
+          </BounceAnimation>
         )}
 
         {isEnded && forceEdit && (
@@ -194,7 +181,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
             </HStack>
 
             <HStack spacing={2}>
-              {videoConfUrl && !endTimePassed && (
+              {videoConfUrl && !isEndTimePassed && (
                 <a href={videoConfUrl} target="_blank" rel="noreferrer">
                   <IconTextButton
                     aria-label={t('MeetingActions.videoConf')}
@@ -206,13 +193,15 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
                 </a>
               )}
 
-              <IconTextButton
-                aria-label={t('MeetingActions.end')}
-                icon={<FaStop />}
-                colorScheme="blue"
-                showText={endTimePassed}
-                onClick={handleEnd}
-              />
+              <BounceAnimation active={isEndTimePassed}>
+                <IconTextButton
+                  aria-label={t('MeetingActions.end')}
+                  icon={<FaStop />}
+                  colorScheme="blue"
+                  showText={isEndTimePassed}
+                  onClick={handleEnd}
+                />
+              </BounceAnimation>
             </HStack>
           </HStack>
         )}
