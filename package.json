@@ -10,7 +10,9 @@
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix",
     "lint:format": "prettier --loglevel warn --write \"./src/**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "test": "vitest",
-    "codegen": "graphql-codegen --config codegen.yml --errors-only"
+    "codegen": "graphql-codegen --config codegen.yml --errors-only",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -63,11 +65,19 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.2",
     "@graphql-codegen/cli": "^2.12.1",
     "@graphql-codegen/introspection": "^2.2.1",
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
     "@graphql-codegen/typescript-react-apollo": "^3.3.3",
+    "@storybook/addon-actions": "^6.5.13",
+    "@storybook/addon-essentials": "^6.5.13",
+    "@storybook/addon-interactions": "^6.5.13",
+    "@storybook/addon-links": "^6.5.13",
+    "@storybook/builder-vite": "^0.2.5",
+    "@storybook/react": "^6.5.13",
+    "@storybook/testing-library": "0.0.13",
     "@types/d3": "^7.1.0",
     "@types/d3-hierarchy": "^3.0.2",
     "@types/diff": "^5.0.2",
@@ -83,6 +93,7 @@
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "@vitejs/plugin-react": "^2.0.1",
+    "babel-loader": "^8.3.0",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
