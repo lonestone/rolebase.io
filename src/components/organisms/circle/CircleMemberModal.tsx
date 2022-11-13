@@ -49,6 +49,7 @@ export default function CircleMemberModal({
           circleId && (
             <CircleContent
               id={circleId}
+              isFirstTabOpen
               headerIcons={
                 <ModalMaximizeButton
                   to={`${path}?circleId=${circleId}`}

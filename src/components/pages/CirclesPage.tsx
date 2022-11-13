@@ -1,4 +1,4 @@
-import { Box, Flex, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, useColorMode, useMediaQuery } from '@chakra-ui/react'
 import ModalPanel from '@components/atoms/ModalPanel'
 import { Title } from '@components/atoms/Title'
 import CirclesKeyboardShortcuts from '@components/molecules/CirclesKeyboardShortcuts'
@@ -52,6 +52,7 @@ export default function CirclesPage() {
   // Content size
   const boxRef = useRef<HTMLDivElement>(null)
   const boxSize = useElementSize(boxRef)
+  const [isSmallScreen] = useMediaQuery('(max-width: 450px)')
 
   // Panels
   const [panel, setPanel] = useState<Panels>(Panels.None)
@@ -86,7 +87,12 @@ export default function CirclesPage() {
 
   return (
     <GraphZoomProvider>
-      <Flex h="100%" position="relative" overflow="hidden">
+      <Flex
+        h="100%"
+        position="relative"
+        overflow="hidden"
+        flexDirection={isSmallScreen ? 'column' : 'row'}
+      >
         <Box ref={boxRef} flex={1} overflow="hidden">
           {org && circlesWithRoles && members && boxSize && (
             <CirclesGraph
@@ -105,8 +111,12 @@ export default function CirclesPage() {
 
         {panel === Panels.Circle && circleId && (
           <ModalPanel onClose={handleClosePanel}>
-            <CircleContent id={circleId} changeTitle />
-            <Box h={20} />
+            <CircleContent
+              id={circleId}
+              changeTitle
+              extendBottom={!isSmallScreen}
+              isFirstTabOpen={!isSmallScreen}
+            />
           </ModalPanel>
         )}
 

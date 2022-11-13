@@ -23,8 +23,9 @@ import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import useCircle from '@hooks/useCircle'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
+import useWindowSize from '@hooks/useWindowSize'
 import { MembersScope } from '@shared/model/member'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiArrowRightCircle,
@@ -41,10 +42,18 @@ import CircleMoveModal from './CircleMoveModal'
 interface Props {
   id: string
   changeTitle?: boolean
+  extendBottom?: boolean
+  isFirstTabOpen?: boolean
   headerIcons?: React.ReactNode
 }
 
-export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
+export default function CircleContent({
+  id,
+  changeTitle,
+  extendBottom,
+  isFirstTabOpen,
+  headerIcons,
+}: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const circle = useCircle(id)
@@ -62,6 +71,26 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
   const deleteModal = useDisclosure()
   const duplicateModal = useDisclosure()
   const moveModal = useDisclosure()
+
+  // Adapt accordion height to window height
+  const accordionContainer = useRef<HTMLDivElement>(null)
+  const accordionButtonsHeight = useRef<number>(0)
+  const windowSize = useWindowSize()
+  const [accordionHeight, setAccordionHeight] = useState<number | undefined>()
+
+  useEffect(() => {
+    const box = accordionContainer.current
+    if (!box) return
+    const { top, height } = box.getBoundingClientRect()
+    if (accordionButtonsHeight.current === 0) {
+      accordionButtonsHeight.current = height
+    }
+    setAccordionHeight(
+      extendBottom
+        ? windowSize.height - top - accordionButtonsHeight.current - 1
+        : undefined
+    )
+  }, [windowSize, extendBottom])
 
   if (!role) {
     return (
@@ -100,11 +129,12 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
         <ModalCloseStaticButton />
       </Flex>
 
-      <Box pb={5}>
-        <Accordion allowToggle defaultIndex={[0]}>
+      <Box ref={accordionContainer}>
+        <Accordion allowToggle defaultIndex={isFirstTabOpen ? [0] : []}>
           <AccordionLazyItem
             icon={<FiDisc />}
             label={t('CircleContent.tabRole')}
+            h={accordionHeight}
           >
             <CircleRoleFormControl
               circle={circle}
@@ -115,6 +145,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <AccordionLazyItem
             icon={<FiMessageSquare />}
             label={t('CircleContent.tabThreads')}
+            h={accordionHeight}
           >
             <CircleThreads circleId={id} />
           </AccordionLazyItem>
@@ -122,6 +153,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <AccordionLazyItem
             icon={<FiCalendar />}
             label={t('CircleContent.tabMeetings')}
+            h={accordionHeight}
           >
             <CircleMeetings circleId={id} />
           </AccordionLazyItem>
@@ -129,6 +161,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <AccordionLazyItem
             icon={<FiCheckSquare />}
             label={t('CircleContent.tabTasks')}
+            h={accordionHeight}
           >
             <CircleTasks circleId={id} />
           </AccordionLazyItem>
@@ -136,6 +169,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <AccordionLazyItem
             icon={<FiArrowRightCircle />}
             label={t('CircleContent.tabDecisions')}
+            h={accordionHeight}
           >
             <CircleDecisions circleId={id} />
           </AccordionLazyItem>

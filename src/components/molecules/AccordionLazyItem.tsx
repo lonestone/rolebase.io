@@ -6,15 +6,16 @@ interface Props {
   icon?: React.ReactNode
   children: React.ReactNode
   label: string
+  h?: number
 }
 
-export default function AccordionLazyItem({ icon, label, children }: Props) {
+export default function AccordionLazyItem({ icon, label, h, children }: Props) {
   return (
     <AccordionItem borderColor="gray.300" _dark={{ borderColor: 'gray.550' }}>
       {({ isExpanded }) => (
         <>
           <AccordionIconButton icon={icon}>{label}</AccordionIconButton>
-          <AccordionPanel px={6} py={5}>
+          <AccordionPanel px={6} py={5} h={h} overflow="auto">
             {isExpanded && children}
           </AccordionPanel>
         </>
