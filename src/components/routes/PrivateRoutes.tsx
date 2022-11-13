@@ -28,6 +28,9 @@ export default function PrivateRoutes() {
         <Route exact path="/login">
           <Redirect to="/" />
         </Route>
+        <Route exact path="/reset-password">
+          <Redirect to="/" />
+        </Route>
         <Route exact path="/signup">
           <Redirect to="/" />
         </Route>
