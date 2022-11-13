@@ -1,17 +1,16 @@
-import { subscribeMeetingsByCircle } from '@api/entities/meetings'
 import { Button, Text, useDisclosure } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
 import MeetingModal from '@components/organisms/meeting/MeetingModal'
 import useDateLocale from '@hooks/useDateLocale'
-import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
-import useSubscription from '@hooks/useSubscription'
+import { MeetingEntry } from '@shared/model/meeting'
 import { format, isSameMonth } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
+import { useSubscribeCircleMeetingsSubscription } from 'src/graphql.generated'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingItem from './MeetingItem'
 
@@ -22,16 +21,14 @@ interface Props {
 export default function CircleMeetings({ circleId }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const orgId = useOrgId()
   const dateLocale = useDateLocale()
 
-  const {
-    data: meetings,
-    error,
-    loading,
-  } = useSubscription(
-    orgId ? subscribeMeetingsByCircle(orgId, circleId) : undefined
-  )
+  const { data, error, loading } = useSubscribeCircleMeetingsSubscription({
+    variables: {
+      circleId,
+    },
+  })
+  const meetings = data?.meeting as MeetingEntry[] | undefined
 
   // Meeting modal
   const [meetingId, setMeetingId] = useState<string | undefined>()
@@ -69,11 +66,11 @@ export default function CircleMeetings({ circleId }: Props) {
       )}
 
       {meetings?.map((meeting, i) => {
-        const date = meeting.startDate.toDate()
+        const date = new Date(meeting.startDate)
         return (
           <React.Fragment key={meeting.id}>
             {(i === 0 ||
-              !isSameMonth(date, meetings[i - 1].startDate.toDate())) && (
+              !isSameMonth(date, new Date(meetings[i - 1].startDate))) && (
               <Text mt={3} px={2} fontSize="sm">
                 {capitalizeFirstLetter(
                   format(date, 'LLLL y', {

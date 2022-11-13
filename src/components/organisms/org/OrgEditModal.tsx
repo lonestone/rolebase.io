@@ -1,5 +1,3 @@
-import { updateOrg } from '@api/entities/orgs'
-import { nameSchema } from '@api/schemas'
 import {
   Button,
   Flex,
@@ -24,10 +22,12 @@ import IconTextButton from '@components/atoms/IconTextButton'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { nameSchema } from '@shared/schemas'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiCopy, FiEdit3 } from 'react-icons/fi'
+import { useUpdateOrgMutation } from 'src/graphql.generated'
 import settings from 'src/settings'
 import * as yup from 'yup'
 import useCopyUrl from '../../../hooks/useCopyUrl'
@@ -45,7 +45,7 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    name: nameSchema,
+    name: nameSchema.required(),
     defaultWorkedMinPerWeek: yup.number(),
   })
 )
@@ -53,6 +53,7 @@ const resolver = yupResolver(
 export default function OrgEditModal({ id, ...modalProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
+  const [editOrg] = useUpdateOrgMutation()
 
   const deleteModal = useDisclosure()
   const slugModal = useDisclosure()
@@ -77,7 +78,7 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
   }, [org])
 
   const onSubmit = handleSubmit((values) => {
-    updateOrg(id, values)
+    editOrg({ variables: { id, ...values } })
     modalProps.onClose()
   })
 

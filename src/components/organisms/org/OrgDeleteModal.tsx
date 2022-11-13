@@ -1,4 +1,3 @@
-import { updateOrg } from '@api/entities/orgs'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -13,6 +12,7 @@ import {
 import useOrg from '@hooks/useOrg'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useArchiveOrgMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -24,9 +24,10 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const [archiveOrg] = useArchiveOrgMutation()
 
   const handleDelete = () => {
-    updateOrg(id, { archived: true })
+    archiveOrg({ variables: { id } })
     onDelete()
     alertProps.onClose()
   }

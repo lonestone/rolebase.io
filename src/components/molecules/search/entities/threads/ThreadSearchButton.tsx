@@ -1,8 +1,9 @@
-import { createThread } from '@api/entities/threads'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import { MembersScope } from '@shared/model/member'
 import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback } from 'react'
+import { useCreateThreadMutation } from 'src/graphql.generated'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useThreadSearchItems } from './useThreadSearchItems'
 
@@ -21,6 +22,7 @@ export default function ThreadSearchButton({
   const items = useThreadSearchItems(threads, excludeIds)
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
+  const [createThread] = useCreateThreadMutation()
 
   const handleCreate = useCallback(
     async (title: string) => {
@@ -29,13 +31,19 @@ export default function ThreadSearchButton({
       }
 
       // Create member
-      const thread = await createThread({
-        orgId,
-        title,
-        circleId: createCircleId,
-        initiatorMemberId: currentMember.id,
+      const { data } = await createThread({
+        variables: {
+          values: {
+            orgId,
+            title,
+            circleId: createCircleId,
+            participantsScope: MembersScope.CircleLeaders,
+            participantsMembersIds: [],
+            initiatorMemberId: currentMember.id,
+          },
+        },
       })
-      return thread.id
+      return data?.insert_thread_one?.id
     },
     [orgId, createCircleId, currentMember]
   )

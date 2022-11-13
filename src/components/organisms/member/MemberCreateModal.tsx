@@ -1,4 +1,3 @@
-import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
@@ -18,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateMember from '@hooks/useCreateMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { MemberEntry } from '@shared/model/member'
+import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -33,7 +33,7 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    name: nameSchema,
+    name: nameSchema.required(),
   })
 )
 

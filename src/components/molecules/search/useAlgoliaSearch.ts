@@ -1,4 +1,4 @@
-import { getAlgoliaConfig } from '@api/entities/search'
+import { getAlgoliaConfig } from '@api/functions'
 import { useIdleCallback } from '@hooks/useIdleCallback'
 import { useOrgId } from '@hooks/useOrgId'
 import { AlgoliaConfig, SearchDoc } from '@shared/model/search'
@@ -19,7 +19,7 @@ async function getConfig(orgId: string): Promise<AlgoliaConfig> {
   }
 
   // Query function to get Algolia config
-  const config = await getAlgoliaConfig(orgId)
+  const config = await getAlgoliaConfig({ orgId })
   localStorage.setItem(key, JSON.stringify(config))
   return config
 }

@@ -1,48 +1,43 @@
+import { replaceOldIds } from '@api/functions'
 import { Box } from '@chakra-ui/react'
 import Header, { headerHeight } from '@components/organisms/layout/Header'
-import useSuperAdmin from '@hooks/useSuperAdmin'
 import useWindowSize from '@hooks/useWindowSize'
-import { useStoreActions, useStoreState } from '@store/hooks'
-import React, { useEffect, useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useStoreActions } from '@store/hooks'
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
+import { useSubscribeOrgsSubscription } from 'src/graphql.generated'
 
 const LoggedLayout: React.FC = ({ children }) => {
-  const claims = useStoreState((state) => state.auth.claims)
   const windowSize = useWindowSize()
-  const location = useLocation()
-  const superAdmin = useSuperAdmin()
-
-  const orgIdFromPath =
-    superAdmin && location.pathname.match(/^\/orgs\/([^/]+)(?:\/|$)/)?.[1]
-
-  // Get orgs ids from user claims
-  const orgIds = useMemo(() => {
-    if (!claims) return
-    const ids = Object.keys(claims)
-      .map((value) => value?.match(/^org-(.+)$/)?.[1])
-      .filter(Boolean) as string[]
-
-    // Add orgId from path to orgIds if super admin
-    if (orgIdFromPath && ids.indexOf(orgIdFromPath) === -1) {
-      ids.push(orgIdFromPath)
-    }
-
-    return ids
-  }, [claims, superAdmin, orgIdFromPath])
+  const history = useHistory()
 
   // Subscribe to orgs
-  const actions = useStoreActions((actions) => ({
-    subscribeOrgs: actions.orgs.subscribe,
-    unsubscribeOrgs: actions.orgs.unsubscribe,
-  }))
+  const result = useSubscribeOrgsSubscription({
+    variables: { archived: false },
+  })
+  const setSubscriptionResult = useStoreActions(
+    (actions) => actions.orgs.setSubscriptionResult
+  )
   useEffect(() => {
-    if (!orgIds) return
-    actions.subscribeOrgs(orgIds)
-    return () => {
-      actions.unsubscribeOrgs()
+    setSubscriptionResult({
+      entries: result.data?.org,
+      loading: result.loading,
+      error: result.error,
+    })
+  }, [result])
+
+  // Redirect old urls
+  // TODO: Delete this block in 2023
+  useEffect(() => {
+    const path = window.location.pathname + window.location.search
+    // If path contains a Firebase id
+    if (/[/=][a-zA-Z0-9]{20}([/&]|$)/.test(path)) {
+      replaceOldIds({ text: path }).then((newPath) => {
+        history.push(newPath)
+      })
     }
-  }, [orgIds])
+  }, [])
 
   return (
     <CircleMemberProvider>

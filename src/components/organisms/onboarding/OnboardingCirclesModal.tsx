@@ -1,5 +1,3 @@
-import { createCircle } from '@api/entities/circles'
-import { createRole } from '@api/entities/roles'
 import {
   Button,
   FormControl,
@@ -28,6 +26,11 @@ import { useStoreState } from '@store/hooks'
 import React, { ChangeEventHandler, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
+import {
+  useCreateCircleMutation,
+  useCreateRoleMutation,
+} from 'src/graphql.generated'
+import { omit } from 'src/utils'
 
 interface Props extends UseModalProps {
   onSubmit(circles: CircleWithRoleEntry[]): void
@@ -44,6 +47,8 @@ export default function OnboardingCirclesModal({
   const orgId = useOrgId()
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
+  const [createRole] = useCreateRoleMutation()
+  const [createCircle] = useCreateCircleMutation()
   const createLog = useCreateLog()
 
   const { items, add, update, remove } =
@@ -90,20 +95,27 @@ export default function OnboardingCirclesModal({
     try {
       for (const name of names) {
         // Create role
-        const newRole = await createRole({
-          orgId,
-          base: false,
-          name,
+        const roleResult = await createRole({
+          variables: {
+            orgId,
+            name,
+          },
         })
+        const newRole = roleResult.data?.insert_role_one
+        if (!newRole) throw new Error('Error creating role')
 
         // Create circle
-        const newCircle = await createCircle({
-          orgId,
-          roleId: newRole.id,
-          parentId: parentCircle.id,
+        const circleResult = await createCircle({
+          variables: {
+            orgId,
+            roleId: newRole.id,
+            parentId: parentCircle.id,
+          },
         })
+        const newCircle = circleResult.data?.insert_circle_one
+        if (!newCircle) throw new Error('Error creating circle')
 
-        newCircles.push({ ...newCircle, role: newRole })
+        newCircles.push({ ...newCircle, role: newRole, members: [] })
 
         createLog({
           display: {
@@ -118,7 +130,7 @@ export default function OnboardingCirclesModal({
               {
                 type: EntityChangeType.Create,
                 id: newCircle.id,
-                data: newCircle,
+                data: { ...omit(newCircle, '__typename'), members: [] },
               },
             ],
             roles: [

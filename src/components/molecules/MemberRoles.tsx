@@ -2,12 +2,10 @@ import { Accordion, Alert, AlertIcon, ExpandedIndex } from '@chakra-ui/react'
 import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useOrgMember from '@hooks/useOrgMember'
-import {
-  enrichCirclesWithRoles,
-  enrichCircleWithRole,
-} from '@shared/helpers/enrichCirclesWithRoles'
+import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { MemberEntry } from '@shared/model/member'
+import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -41,8 +39,12 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
         const roleA = a[a.length - 1].role
         const roleB = b[b.length - 1].role
         // Put leaders at the top
-        if (roleA.link === true && roleB.link !== true) return -1
-        if (roleA.link !== true && roleB.link === true) return 1
+        if (roleA.link === RoleLink.Parent && roleB.link !== RoleLink.Parent) {
+          return -1
+        }
+        if (roleA.link !== RoleLink.Parent && roleB.link === RoleLink.Parent) {
+          return 1
+        }
         // Sort by name
         return roleA.name.localeCompare(roleB.name)
       })
@@ -92,12 +94,8 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   const addCircleMember = useAddCircleMember()
   const handleAddCircle = useCallback(
     async (circleId: string) => {
-      const circle = circles?.find((c) => c.id === circleId)
-      if (!circle || !roles) return
-      const circleWithRole = enrichCircleWithRole(circle, roles)
-      if (!circleWithRole) return
-      await addCircleMember(circleWithRole, member.id)
-      circleMemberContext?.goTo(circle.id, member.id)
+      await addCircleMember(circleId, member.id)
+      circleMemberContext?.goTo(circleId, member.id)
     },
     [circles, roles, member]
   )

@@ -1,5 +1,3 @@
-import { createCircle } from '@api/entities/circles'
-import { createRole } from '@api/entities/roles'
 import { FormControl, FormLabel, StackItem, VStack } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
@@ -8,11 +6,16 @@ import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
 import { ParticipantMember } from '@shared/model/member'
-import { RoleEntry } from '@shared/model/role'
+import { RoleEntry, RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
+import {
+  useCreateCircleMutation,
+  useCreateRoleMutation,
+} from 'src/graphql.generated'
+import { omit } from 'src/utils'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 import RoleSearchButton from './search/entities/roles/RoleSearchButton'
 
@@ -27,6 +30,8 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   const circles = useStoreState((state) => state.circles.entries)
   const roles = useStoreState((state) => state.roles.entries)
   const orgId = useOrgId()
+  const [createCircle] = useCreateCircleMutation()
+  const [createRole] = useCreateRoleMutation()
   const createLog = useCreateLog()
 
   // Get direct circles children and their roles
@@ -36,8 +41,18 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
       roles &&
       getCircleChildrenAndRoles(circles, roles, circle.id).sort((a, b) => {
         // Put leaders at the top
-        if (a.role.link === true && b.role.link !== true) return -1
-        if (a.role.link !== true && b.role.link === true) return 1
+        if (
+          a.role.link === RoleLink.Parent &&
+          b.role.link !== RoleLink.Parent
+        ) {
+          return -1
+        }
+        if (
+          a.role.link !== RoleLink.Parent &&
+          b.role.link === RoleLink.Parent
+        ) {
+          return 1
+        }
         // Sort by name
         return a.role.name.localeCompare(b.role.name)
       }),
@@ -57,25 +72,34 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
       // Create role
       let role: RoleEntry
       if (typeof roleOrName === 'string') {
-        role = await createRole({
-          orgId,
-          base: false,
-          name: roleOrName,
+        const { data } = await createRole({
+          variables: {
+            orgId,
+            name: roleOrName,
+          },
         })
+        role = data?.insert_role_one!
       } else {
         role = roleOrName
       }
 
       // Create circle
-      const newCircle = await createCircle({
-        orgId,
-        roleId: role.id,
-        parentId: circle.id,
+      const { data } = await createCircle({
+        variables: {
+          orgId,
+          roleId: role.id,
+          parentId: circle.id,
+        },
       })
+      const newCircle = data?.insert_circle_one!
 
       const changes: EntitiesChanges = {
         circles: [
-          { type: EntityChangeType.Create, id: newCircle.id, data: newCircle },
+          {
+            type: EntityChangeType.Create,
+            id: newCircle.id,
+            data: { ...omit(newCircle, '__typename'), members: [] },
+          },
         ],
       }
 

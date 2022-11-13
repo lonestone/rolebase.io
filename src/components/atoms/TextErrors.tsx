@@ -1,8 +1,9 @@
+import { ErrorPayload } from '@nhost/core'
 import React from 'react'
 import TextError from './TextError'
 
 interface Props {
-  errors: Array<Error | undefined>
+  errors: Array<Error | ErrorPayload | null | undefined>
 }
 
 export default function TextErrors({ errors }: Props) {

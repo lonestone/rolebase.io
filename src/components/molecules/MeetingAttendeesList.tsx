@@ -1,13 +1,17 @@
-import { updateMeeting } from '@api/entities/meetings'
-import { startMembersMeeting, stopMembersMeeting } from '@api/entities/members'
-import { sendNotification } from '@api/entities/notifications'
+import {
+  sendNotification,
+  startMembersMeeting,
+  stopMembersMeeting,
+} from '@api/functions'
 import { BoxProps, VStack } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { MeetingState } from '@hooks/useMeetingState'
+import { MeetingAttendee } from '@shared/model/meeting'
 import { NotificationCategories } from '@shared/model/notification'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
+import { useUpdateMeetingMutation } from 'src/graphql.generated'
 import settings from 'src/settings'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 import MemberSearchButton from './search/entities/members/MemberSearchButton'
@@ -25,33 +29,47 @@ export default function MeetingAttendeesList({
 
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
+  const [updateMeeting] = useUpdateMeetingMutation()
 
   const attendeesMemberIds = useMemo(
     () => attendees?.map((a) => a.memberId) || [],
     [attendees]
   )
 
+  const updateAttendees = (attendees: MeetingAttendee[]) => {
+    if (!meeting) return
+    return updateMeeting({
+      variables: {
+        id: meeting.id,
+        values: {
+          attendees,
+        },
+      },
+    })
+  }
+
   const handlePresentChange = (memberId: string, present: boolean | null) => {
     if (!meeting || !attendees) return
-    updateMeeting(meeting.id, {
-      attendees: attendees.map((a) =>
-        a.memberId === memberId ? { ...a, present } : a
-      ),
-    })
+    updateAttendees(
+      attendees.map((a) => (a.memberId === memberId ? { ...a, present } : a))
+    )
   }
 
   const handleAdd = (memberId: string) => {
     if (!meeting || !attendees) return
-    updateMeeting(meeting.id, {
-      attendees: attendees.concat({
+    updateAttendees(
+      attendees.concat({
         memberId,
         circlesIds: [],
         present: null,
-      }),
-    })
+      })
+    )
 
     // Set user's current meeting
-    startMembersMeeting([memberId], meeting.id)
+    startMembersMeeting({
+      membersIds: [memberId],
+      meetingId: meeting.id,
+    })
 
     // Send notification
     if (circle && currentMember && currentMember.id !== memberId) {
@@ -74,12 +92,10 @@ export default function MeetingAttendeesList({
   const handleRemove = (memberId: string) => {
     if (!meeting || !attendees) return
     if (!confirm(t('MeetingAttendees.confirmRemove'))) return
-    updateMeeting(meeting.id, {
-      attendees: attendees.filter((a) => a.memberId !== memberId),
-    })
+    updateAttendees(attendees.filter((a) => a.memberId !== memberId))
 
     // Reset user's current meeting
-    stopMembersMeeting([memberId], meeting.id)
+    stopMembersMeeting({ meetingId: meeting.id })
   }
 
   if (!attendees) return null

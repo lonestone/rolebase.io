@@ -6,7 +6,3 @@ html {
 body {
   overscroll-behavior: none; /* Prevent overscroll */
 }
-
-.firebase-emulator-warning {
-  display: none;
-}

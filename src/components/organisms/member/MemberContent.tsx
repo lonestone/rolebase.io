@@ -24,7 +24,7 @@ import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
 import MemberRoles from '@components/molecules/MemberRoles'
 import useMember from '@hooks/useMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
-import { useStoreState } from '@store/hooks'
+import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import MemberEditModal from './MemberEditModal'
@@ -43,7 +43,7 @@ export default function MemberContent({
   headerIcons,
 }: Props) {
   const { t } = useTranslation()
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
   const member = useMember(id)
   const isAdmin = useOrgAdmin()
   const canEdit = isAdmin || (userId ? member?.userId === userId : false)

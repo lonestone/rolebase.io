@@ -1,0 +1,48 @@
+fragment TaskFields on task {
+  id
+  orgId
+  circleId
+  memberId
+  title
+  description
+  archived
+  createdAt
+  dueDate
+  status
+}
+
+query getTask($id: uuid!) {
+  task_by_pk(id: $id) {
+    ...TaskFields
+  }
+}
+
+subscription subscribeTask($id: uuid!) {
+  task_by_pk(id: $id) {
+    ...TaskFields
+  }
+}
+
+subscription subscribeTasks($filters: [task_bool_exp!]) {
+  task(where: { _and: $filters }) {
+    ...TaskFields
+  }
+}
+
+mutation createTask($values: task_insert_input!) {
+  insert_task_one(object: $values) {
+    ...TaskFields
+  }
+}
+
+mutation updateTask($id: uuid!, $values: task_set_input!) {
+  update_task_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...TaskFields
+  }
+}
+
+mutation archiveTask($id: uuid!) {
+  update_task_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

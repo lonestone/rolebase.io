@@ -1,4 +1,3 @@
-import { emailSchema, nameSchema } from '@api/schemas'
 import {
   Button,
   FormControl,
@@ -10,6 +9,7 @@ import {
 import PasswordConfirmInputDummy from '@components/atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@components/atoms/PasswordInput'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { emailSchema, nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -21,15 +21,15 @@ interface Props {
   onSubmit(values: Values): void
 }
 
-interface Values {
+export interface Values {
   name: string
   email: string
   password: string
 }
 
 const schema = yup.object().shape({
-  name: nameSchema,
-  email: emailSchema,
+  name: nameSchema.required(),
+  email: emailSchema.required(),
   password: yup.string().required(),
 })
 

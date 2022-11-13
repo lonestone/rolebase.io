@@ -8,6 +8,7 @@ dist-ssr
 .env
 .env.default
 functions/lib
+.nhost
 firebase-emulator-data
 
 # Rollup visualizer

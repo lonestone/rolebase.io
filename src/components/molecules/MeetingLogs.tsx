@@ -1,11 +1,10 @@
-import { subscribeLogsByMeeting } from '@api/entities/logs'
 import { BoxProps } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { useOrgId } from '@hooks/useOrgId'
-import useSubscription from '@hooks/useSubscription'
 import { LogType } from '@shared/model/log'
 import React, { useMemo } from 'react'
+import { useSubscribeMeetingLogsSubscription } from 'src/graphql.generated'
 import LogsList from './LogsList'
 
 interface Props extends BoxProps {
@@ -24,15 +23,15 @@ export default function MeetingLogs({
 }: Props) {
   const orgId = useOrgId()
 
-  const subscribeLogs = orgId
-    ? subscribeLogsByMeeting(orgId, meetingId)
-    : undefined
-
-  const { data, loading, error } = useSubscription(subscribeLogs)
+  // Subscribe to logs
+  const { data, error, loading } = useSubscribeMeetingLogsSubscription({
+    skip: !orgId,
+    variables: { meetingId },
+  })
 
   const logs = useMemo(
     () =>
-      data?.filter((log) => {
+      data?.log.filter((log) => {
         if (includeTypes && !includeTypes.includes(log.display.type)) {
           return false
         }

@@ -1,4 +1,4 @@
-import { getMagicbellConfig } from '@api/entities/notifications'
+import { getMagicbellConfig } from '@api/functions'
 import { useColorMode, useTheme } from '@chakra-ui/react'
 import IconTextButton from '@components/atoms/IconTextButton'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
@@ -6,22 +6,28 @@ import MagicBell, {
   FloatingNotificationInbox,
 } from '@magicbell/magicbell-react'
 import { MagicBellProps } from '@magicbell/magicbell-react/dist/components/MagicBell'
+import { useUserId } from '@nhost/react'
 import { MagicbellConfig } from '@shared/model/notification'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaBell } from 'react-icons/fa'
 import { UserLocalStorageKeys } from 'src/utils'
 
-async function getConfig(): Promise<MagicbellConfig> {
+async function getConfig(): Promise<MagicbellConfig | undefined> {
   // Use config from localStorage
   const localConfig = localStorage.getItem(UserLocalStorageKeys.MagicBellConfig)
   if (localConfig) {
-    return JSON.parse(localConfig)
+    const config = JSON.parse(localConfig)
+    if (config && config.expiration > new Date().getTime()) {
+      return config
+    }
   }
 
+  // Quick fix: wait for Nhost Auth to be ready
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+
   // Query function to get Algolia config
-  const config = await getMagicbellConfig()
+  const config = await getMagicbellConfig({})
   localStorage.setItem(
     UserLocalStorageKeys.MagicBellConfig,
     JSON.stringify(config)
@@ -30,7 +36,7 @@ async function getConfig(): Promise<MagicbellConfig> {
 }
 
 export default function Notifications() {
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
   const { t } = useTranslation()
   const theme = useTheme()
   const { colorMode } = useColorMode()

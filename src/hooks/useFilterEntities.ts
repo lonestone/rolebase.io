@@ -6,7 +6,9 @@ import { useMemo } from 'react'
 import useCurrentMember from './useCurrentMember'
 
 export default function useFilterEntities<
-  Entity extends EntityWithParticipants & { attendees?: MeetingAttendee[] }
+  Entity extends EntityWithParticipants & {
+    attendees?: MeetingAttendee[] | null
+  }
 >(
   filter: EntityFilters,
   data?: Entity[],

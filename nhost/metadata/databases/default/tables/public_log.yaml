@@ -1,0 +1,98 @@
+table:
+  name: log
+  schema: public
+object_relationships:
+  - name: cancelLog
+    using:
+      foreign_key_constraint_on: cancelLogId
+  - name: cancelMember
+    using:
+      foreign_key_constraint_on: cancelMemberId
+  - name: member
+    using:
+      foreign_key_constraint_on: memberId
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+  - name: user
+    using:
+      foreign_key_constraint_on: userId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      set:
+        userId: x-hasura-User-Id
+      columns:
+        - cancelLogId
+        - cancelMemberId
+        - cancelMemberName
+        - canceled
+        - changes
+        - createdAt
+        - display
+        - meetingId
+        - memberId
+        - memberName
+        - orgId
+        - userId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - canceled
+        - changes
+        - display
+        - memberName
+        - createdAt
+        - cancelLogId
+        - cancelMemberId
+        - cancelMemberName
+        - id
+        - meetingId
+        - memberId
+        - orgId
+        - userId
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - canceled
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin

@@ -86,7 +86,7 @@ const TaskItem = forwardRef<Props, 'div'>(
 
             {task.dueDate && (
               <Text fontSize="sm" color="gray.500" ml={2}>
-                {formatRelative(task.dueDate.toDate(), new Date(), {
+                {formatRelative(new Date(task.dueDate), new Date(), {
                   locale: dateLocale,
                 })}
               </Text>

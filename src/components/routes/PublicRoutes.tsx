@@ -1,4 +1,3 @@
-import ConfirmResetPasswordPage from '@components/pages/ConfirmResetPasswordPage'
 import Homepage from '@components/pages/Homepage'
 import LoginPage from '@components/pages/LoginPage'
 import ResetPasswordPage from '@components/pages/ResetPasswordPage'
@@ -17,9 +16,6 @@ export default function PublicRoutes() {
       </Route>
       <Route exact path="/reset-password">
         <ResetPasswordPage />
-      </Route>
-      <Route exact path="/reset-password/confirm">
-        <ConfirmResetPasswordPage />
       </Route>
       <Route>
         <LoginPage />

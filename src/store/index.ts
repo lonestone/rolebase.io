@@ -1,16 +1,15 @@
+import { CircleEntry } from '@shared/model/circle'
+import { MemberEntry } from '@shared/model/member'
+import { RoleEntry } from '@shared/model/role'
 import { createStore } from 'easy-peasy'
-import auth from './auth'
-import circles from './circles'
-import members from './members'
+import { createModel } from './generic'
 import orgs from './orgs'
-import roles from './roles'
 
 const model = {
-  auth,
-  circles,
-  members,
+  circles: createModel<CircleEntry>(),
+  members: createModel<MemberEntry>(),
   orgs,
-  roles,
+  roles: createModel<RoleEntry>(),
 }
 
 export type StoreModel = typeof model

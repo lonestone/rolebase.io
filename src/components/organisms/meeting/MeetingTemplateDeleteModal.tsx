@@ -1,4 +1,3 @@
-import { deleteMeetingTemplate } from '@api/entities/meetingTemplates'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -9,9 +8,10 @@ import {
   AlertDialogProps,
   Button,
 } from '@chakra-ui/react'
-import { MeetingTempalteEntry } from '@shared/model/meetingTemplate'
+import { MeetingTempalteEntry } from '@shared/model/meeting_template'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useDeleteMeetingTemplateMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -26,9 +26,10 @@ export default function MeetingTemplateDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const [deleteMeetingTemplate] = useDeleteMeetingTemplateMutation()
 
   const handleDelete = () => {
-    deleteMeetingTemplate(meetingTemplate.id)
+    deleteMeetingTemplate({ variables: { id: meetingTemplate.id } })
     onDelete?.()
     alertProps.onClose()
   }

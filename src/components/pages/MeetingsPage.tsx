@@ -3,10 +3,6 @@
 import '@fullcalendar/react/dist/vdom'
 
 import {
-  subscribeMeetingsByDates,
-  updateMeetingDates,
-} from '@api/entities/meetings'
-import {
   Alert,
   AlertIcon,
   AlertTitle,
@@ -47,7 +43,6 @@ import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
-import useSubscription from '@hooks/useSubscription'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { EntityFilters } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
@@ -56,7 +51,12 @@ import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
 
 // Load additional CSS after all imports
+import { MeetingEntry } from '@shared/model/meeting'
 import 'src/fullcalendar.css'
+import {
+  useSubscribeMeetingsByDatesSubscription,
+  useUpdateMeetingMutation,
+} from 'src/graphql.generated'
 
 const getColors = (mode: ColorMode) => ({
   bgNotStarted:
@@ -99,14 +99,20 @@ export default function MeetingsPage() {
   const orgId = useOrgId()
 
   // Subscribe to meetings
-  const { data, error, loading } = useSubscription(
-    orgId && datesRange
-      ? subscribeMeetingsByDates(orgId, datesRange[0], datesRange[1])
-      : undefined
-  )
+  const { data, error, loading } = useSubscribeMeetingsByDatesSubscription({
+    skip: !orgId || !datesRange,
+    variables: {
+      orgId: orgId!,
+      fromDate: datesRange?.[0].toISOString()!,
+      toDate: datesRange?.[1].toISOString()!,
+    },
+  })
 
   // Filter meetings
-  const meetings = useFilterEntities(filter, data)
+  const meetings = useFilterEntities(
+    filter,
+    (data?.meeting || undefined) as MeetingEntry[] | undefined
+  )
 
   // Prepare events for Fullcalendar
   const events = useMemo(
@@ -133,8 +139,8 @@ export default function MeetingsPage() {
         return {
           id: meeting.id,
           title,
-          start: meeting.startDate.toDate(),
-          end: meeting.endDate.toDate(),
+          start: new Date(meeting.startDate),
+          end: new Date(meeting.endDate),
           backgroundColor: isNotStarted
             ? colors.bgNotStarted
             : isStarted
@@ -193,9 +199,19 @@ export default function MeetingsPage() {
     [meetings]
   )
 
+  const [updateMeeting] = useUpdateMeetingMutation()
+
   const handleEventChange = useCallback(({ event }: EventChangeArg) => {
     if (!event.start || !event.end) return
-    updateMeetingDates(event.id, event.start, event.end)
+    updateMeeting({
+      variables: {
+        id: event.id,
+        values: {
+          startDate: event.start.toISOString(),
+          endDate: event.end.toISOString(),
+        },
+      },
+    })
   }, [])
 
   // Meeting Modal

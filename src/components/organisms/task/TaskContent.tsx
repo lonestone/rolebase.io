@@ -1,5 +1,3 @@
-import { createTask, subscribeTask, updateTask } from '@api/entities/tasks'
-import { nameSchema } from '@api/schemas'
 import {
   Box,
   BoxProps,
@@ -35,15 +33,19 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { usePreventClose } from '@hooks/usePreventClose'
-import useSubscription from '@hooks/useSubscription'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import { TaskStatus } from '@shared/model/task'
-import { Timestamp } from 'firebase/firestore'
+import { TaskEntry, TaskStatus } from '@shared/model/task'
+import { nameSchema } from '@shared/schemas'
 import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import {
+  useCreateTaskMutation,
+  useSubscribeTaskSubscription,
+  useUpdateTaskMutation,
+} from 'src/graphql.generated'
 import { getDateTimeLocal } from 'src/utils'
 import * as yup from 'yup'
 import TaskDeleteModal from './TaskDeleteModal'
@@ -70,7 +72,7 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    title: nameSchema,
+    title: nameSchema.required(),
     circleId: yup.string().required(),
     description: yup.string(),
   })
@@ -94,14 +96,17 @@ export default function TaskContent({
   const isMember = useOrgMember()
   const currentMember = useCurrentMember()
   const updateTaskStatus = useUpdateTaskStatus()
+  const [createTask] = useCreateTaskMutation()
+  const [updateTask] = useUpdateTaskMutation()
   const { preventClose, allowClose } = usePreventClose()
 
-  // Subscribe task
-  const {
-    data: task,
-    loading,
-    error,
-  } = useSubscription(id ? subscribeTask(id) : undefined)
+  const { data, loading, error } = useSubscribeTaskSubscription({
+    skip: !id,
+    variables: {
+      id: id!,
+    },
+  })
+  const task = data?.task_by_pk as TaskEntry | undefined
 
   const {
     handleSubmit,
@@ -130,7 +135,7 @@ export default function TaskContent({
       memberId: task.memberId || null,
       title: task.title,
       description: task.description,
-      dueDate: task.dueDate ? getDateTimeLocal(task.dueDate.toDate()) : null,
+      dueDate: task.dueDate ? getDateTimeLocal(new Date(task.dueDate)) : null,
     })
   }, [task])
 
@@ -141,19 +146,28 @@ export default function TaskContent({
     const taskUpdate = {
       ...data,
       memberId: memberId ?? null,
-      dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate)) : null,
+      dueDate: dueDate ? new Date(dueDate).toISOString() : null,
     }
     if (id) {
       // Update task
-      await updateTask(id, taskUpdate)
+      await updateTask({
+        variables: { id, values: taskUpdate },
+      })
       allowClose()
     } else {
       // Create task
-      const newTask = await createTask({
-        orgId,
-        ...taskUpdate,
+      const { data: newTaskData } = await createTask({
+        variables: {
+          values: {
+            orgId,
+            status: TaskStatus.Open,
+            ...taskUpdate,
+          },
+        },
       })
+      const newTask = newTaskData?.insert_task_one as TaskEntry | undefined
 
+      if (!newTask) return
       createLog({
         display: {
           type: LogType.TaskCreate,
@@ -259,7 +273,7 @@ export default function TaskContent({
           />
         </FormControl>
 
-        {task && <DateInfo date={task.createdAt.toDate()} />}
+        {task && <DateInfo date={task.createdAt} />}
 
         <Flex flexWrap="wrap">
           <FormControl isInvalid={!!errors.circleId} w="auto" mr={5}>

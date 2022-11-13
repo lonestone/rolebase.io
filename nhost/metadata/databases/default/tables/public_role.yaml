@@ -1,0 +1,111 @@
+table:
+  name: role
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+array_relationships:
+  - name: circles
+    using:
+      foreign_key_constraint_on:
+        column: roleId
+        table:
+          name: circle
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      columns:
+        - accountabilities
+        - archived
+        - autoCreate
+        - base
+        - checklist
+        - colorHue
+        - defaultMinPerWeek
+        - domain
+        - indicators
+        - link
+        - name
+        - notes
+        - orgId
+        - purpose
+        - singleMember
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - autoCreate
+        - base
+        - singleMember
+        - defaultMinPerWeek
+        - colorHue
+        - accountabilities
+        - checklist
+        - domain
+        - indicators
+        - link
+        - name
+        - notes
+        - purpose
+        - id
+        - orgId
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - accountabilities
+        - archived
+        - autoCreate
+        - base
+        - checklist
+        - colorHue
+        - defaultMinPerWeek
+        - domain
+        - indicators
+        - link
+        - name
+        - notes
+        - purpose
+        - singleMember
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin

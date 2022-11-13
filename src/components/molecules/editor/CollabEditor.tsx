@@ -10,14 +10,12 @@ import BasicStyle from '@components/atoms/BasicStyle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import RichSimpleEditor, { YCollab } from '@rolebase/editor'
-import { Bytes } from 'firebase/firestore'
 import throttle from 'lodash.throttle'
 import React, {
   forwardRef,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
 import EditorContainer from './EditorContainer'
@@ -29,7 +27,7 @@ import useFileUpload from './useFileUpload'
 export interface Props extends FormControlOptions {
   docId: string
   value: string
-  updates?: Bytes
+  updates?: Uint8Array
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
@@ -60,26 +58,11 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     // Connect provider and get context
     const collabPlugin = useMemo(() => new YCollab(docId), [docId])
 
-    // Stop collab on unmount
-    const prevDocId = useRef(docId)
-    useEffect(
-      () => () => {
-        if (prevDocId.current !== docId) {
-          prevDocId.current = docId
-          collabPlugin.stop()
-        }
-      },
-      [docId]
-    )
-
     // On mount
-    const valueApplied = useRef(false)
     useEffect(() => {
-      if (valueApplied.current) return
-      valueApplied.current = true
       if (updates) {
         // Apply saved updates
-        collabPlugin.applyUpdates(updates.toUint8Array())
+        collabPlugin.applyUpdates(updates)
       } else {
         // Compute and apply updates from value
         collabPlugin.applyValue(value)
@@ -87,7 +70,10 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
         // Save updates
         onSave?.(getValue(), collabPlugin.getUpdates())
       }
-    }, [docId])
+
+      // Stop collab on unmount
+      return () => collabPlugin.stop()
+    }, [collabPlugin])
 
     // Update member name
     useEffect(() => {

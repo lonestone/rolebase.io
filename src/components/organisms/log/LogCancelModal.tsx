@@ -1,4 +1,3 @@
-import { cancelLog, detectRecentEntitiesChanges } from '@api/entities/logs'
 import {
   Alert,
   AlertDescription,
@@ -21,8 +20,7 @@ import {
 import LogCancelText from '@components/molecules/LogCancelText'
 import LogEntityChanges from '@components/molecules/LogEntityChanges'
 import LogText from '@components/molecules/LogText'
-import { useAsyncMemo } from '@hooks/useAsyncMemo'
-import useCreateLog from '@hooks/useCreateLog'
+import { useCancelLog } from '@hooks/useCancelLog'
 import { EntitiesChanges, EntityChange, LogEntry } from '@shared/model/log'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -35,14 +33,7 @@ interface Props extends UseModalProps {
 export default function LogCancelModal({ log, ...modalProps }: Props) {
   const { t } = useTranslation()
   const toast = useToast()
-  const createLog = useCreateLog()
-
-  // Detect changes in logged updated entities since the log
-  const hadChanges = useAsyncMemo(
-    () => detectRecentEntitiesChanges(log.changes),
-    [log],
-    false
-  )
+  const { hasChanged, cancel } = useCancelLog(log)
 
   // Show details
   const [showDetails, setShowDetails] = useState(false)
@@ -52,24 +43,8 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
 
   // Cancel log
   const handleCancelLog = async () => {
+    await cancel()
     modalProps.onClose()
-
-    // Revert changes
-    const changes = await cancelLog(log)
-
-    // Log cancelation
-    createLog({
-      meetingId: log.meetingId || null,
-      display: log.display,
-      changes,
-      ...(!log.cancelLogId
-        ? {
-            cancelLogId: log.id,
-            cancelMemberId: log.memberId,
-            cancelMemberName: log.memberName,
-          }
-        : {}),
-    })
 
     toast({
       title: t('LogCancelModal.toastSuccess'),
@@ -97,7 +72,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
               <LogText log={log} />
             </Box>
 
-            {hadChanges && (
+            {hasChanged && (
               <>
                 <Alert status="warning" mb={5}>
                   <AlertIcon />
@@ -143,7 +118,7 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
           <Button
             colorScheme="red"
             type="submit"
-            isDisabled={hadChanges && !force}
+            isDisabled={hasChanged && !force}
             onClick={handleCancelLog}
           >
             {t('LogCancelModal.cancel')}

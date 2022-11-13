@@ -1,4 +1,3 @@
-import { updateCircle } from '@api/entities/circles'
 import {
   AccordionButton,
   AccordionIcon,
@@ -19,8 +18,15 @@ import CircleAndParentsLinks from '@components/molecules/CircleAndParentsLinks'
 import CircleMemberDeleteModal from '@components/organisms/circle/CircleMemberDeleteModal'
 import useOrgMember from '@hooks/useOrgMember'
 import { CircleWithRoleEntry } from '@shared/model/circle'
-import React, { FormEvent, useCallback, useMemo, useState } from 'react'
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
+import { useUpdateCircleMemberMutation } from 'src/graphql.generated'
 
 interface Props {
   memberId: string
@@ -30,6 +36,7 @@ interface Props {
 export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
+  const [updateCircleMember] = useUpdateCircleMemberMutation()
 
   const { colorMode } = useColorMode()
   const hoverColor = colorMode === 'light' ? 'gray.50' : 'whiteAlpha.100'
@@ -45,19 +52,27 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
     circleMember?.avgMinPerWeek ?? null
   )
 
+  const [saving, setSaving] = useState(false)
   const isDirty = avgMinPerWeek !== circleMember?.avgMinPerWeek ?? null
 
   const onSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault()
-      updateCircle(roleCircle.id, {
-        members: roleCircle.members.map((m) =>
-          m.memberId === memberId ? { ...m, avgMinPerWeek } : m
-        ),
+      if (!circleMember) return
+      setSaving(true)
+      updateCircleMember({
+        variables: { id: circleMember.id, values: { avgMinPerWeek } },
       })
     },
     [roleCircle, avgMinPerWeek]
   )
+
+  // Reset saving state when circleMember changes after save
+  useEffect(() => {
+    if (saving) {
+      setSaving(false)
+    }
+  }, [circleMember])
 
   const deleteModal = useDisclosure()
 
@@ -110,7 +125,12 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                       </Button>
 
                       {isDirty && (
-                        <Button size="sm" colorScheme="blue" type="submit">
+                        <Button
+                          size="sm"
+                          colorScheme="blue"
+                          type="submit"
+                          isLoading={saving}
+                        >
                           {t(`common.save`)}
                         </Button>
                       )}

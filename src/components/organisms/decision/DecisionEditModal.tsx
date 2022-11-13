@@ -1,5 +1,3 @@
-import { createDecision, updateDecision } from '@api/entities/decisions'
-import { nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
@@ -23,9 +21,14 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { DecisionEntry } from '@shared/model/decision'
 import { EntityChangeType, LogType } from '@shared/model/log'
+import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import {
+  useCreateDecisionMutation,
+  useUpdateDecisionMutation,
+} from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -44,7 +47,7 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    title: nameSchema,
+    title: nameSchema.required(),
     circleId: yup.string().required(),
   })
 )
@@ -60,6 +63,8 @@ export default function DecisionEditModal({
   const { t } = useTranslation()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
+  const [createDecision] = useCreateDecisionMutation()
+  const [updateDecision] = useUpdateDecisionMutation()
   const createLog = useCreateLog()
 
   const defaultValues = decision
@@ -88,7 +93,7 @@ export default function DecisionEditModal({
     if (!orgId || !currentMember) return
     if (decision) {
       // Update decision
-      await updateDecision(decision.id, values)
+      await updateDecision({ variables: { id: decision.id, values } })
 
       // Log
       createLog({
@@ -110,11 +115,17 @@ export default function DecisionEditModal({
       })
     } else {
       // Create decision
-      const newDecision = await createDecision({
-        orgId,
-        memberId: currentMember.id,
-        ...values,
+      const { data } = await createDecision({
+        variables: {
+          values: {
+            orgId,
+            memberId: currentMember.id,
+            ...values,
+          },
+        },
       })
+      const newDecision = data?.insert_decision_one
+      if (!newDecision) return
 
       // Log
       createLog({

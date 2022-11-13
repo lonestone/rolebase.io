@@ -1,0 +1,51 @@
+fragment ThreadActivityFields on thread_activity {
+  id
+  threadId
+  userId
+  createdAt
+  type
+  data
+}
+
+query getLastThreadActivity($threadId: uuid!) {
+  thread_activity(
+    where: { threadId: { _eq: $threadId } }
+    order_by: { createdAt: desc }
+    limit: 1
+  ) {
+    ...ThreadActivityFields
+  }
+}
+
+subscription subscribeThreadActivity($id: uuid!) {
+  thread_activity_by_pk(id: $id) {
+    ...ThreadActivityFields
+  }
+}
+
+subscription subscribeThreadActivities($threadId: uuid!) {
+  thread_activity(
+    where: { threadId: { _eq: $threadId } }
+    order_by: { createdAt: asc }
+  ) {
+    ...ThreadActivityFields
+  }
+}
+
+mutation createThreadActivity($values: thread_activity_insert_input!) {
+  insert_thread_activity_one(object: $values) {
+    ...ThreadActivityFields
+  }
+}
+
+mutation updateThreadActivity($id: uuid!, $values: thread_activity_set_input!) {
+  update_thread_activity_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...ThreadActivityFields
+  }
+}
+
+mutation deleteThreadActivity($id: uuid!) {
+  delete_thread_activity_by_pk(id: $id) {
+    id
+  }
+}

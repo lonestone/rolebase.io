@@ -1,15 +1,16 @@
-import { ActivityPoll, PollAnswer } from '@shared/model/activity'
+import { useUserId } from '@nhost/react'
+import { ActivityPoll } from '@shared/model/thread_activity'
+import { ThreadPollAnswerEntry } from '@shared/model/thread_poll_answer'
 import { WithId } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
 import { useContext, useMemo } from 'react'
 import { ThreadContext } from 'src/contexts/ThreadContext'
 import useParticipants from './useParticipants'
 
 export default function usePollState(
   activity: WithId<ActivityPoll>,
-  answers?: WithId<PollAnswer>[]
+  answers?: ThreadPollAnswerEntry[]
 ) {
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
   const thread = useContext(ThreadContext)
 
   const participants = useParticipants(
@@ -22,18 +23,18 @@ export default function usePollState(
   const ended = useMemo(
     () =>
       // End date reached?
-      (activity.endDate && activity.endDate.toDate() < new Date()) ||
+      (activity.data.endDate && new Date(activity.data.endDate) < new Date()) ||
       // All participants voted?
-      (activity.endWhenAllVoted &&
+      (activity.data.endWhenAllVoted &&
         answers &&
         participants.every((p) =>
-          answers.some((answer) => answer.id === p.member.userId)
+          answers.some((answer) => answer.userId === p.member.userId)
         )),
     [answers]
   )
 
   const userAnswer = useMemo(
-    () => userId && answers?.find((answer) => answer.id === userId),
+    () => userId && answers?.find((answer) => answer.userId === userId),
     [userId, answers]
   )
 

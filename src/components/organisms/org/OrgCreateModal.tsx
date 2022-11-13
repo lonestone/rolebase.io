@@ -1,7 +1,5 @@
-import { createOrg } from '@api/entities/orgs'
-import { nameSchema } from '@api/schemas'
+import { createOrg } from '@api/functions'
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
@@ -17,8 +15,9 @@ import {
 } from '@chakra-ui/react'
 import TextError from '@components/atoms/TextError'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useStoreActions, useStoreState } from '@store/hooks'
-import React, { useState } from 'react'
+import { nameSchema } from '@shared/schemas'
+import { useStoreState } from '@store/hooks'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -30,17 +29,17 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    name: nameSchema,
+    name: nameSchema.required(),
   })
 )
 
 export default function OrgCreateModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const user = useStoreState((state) => state.auth.user)
-  const refreshClaims = useStoreActions((actions) => actions.auth.refreshClaims)
   const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | undefined>()
+  const orgs = useStoreState((state) => state.orgs.entries)
+  const [orgId, setOrgId] = useState<string | undefined>()
 
   const {
     handleSubmit,
@@ -51,26 +50,25 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
   })
 
   const onSubmit = handleSubmit(async ({ name }) => {
-    if (!user) {
-      console.error('User not logged in')
-      return
-    }
     setLoading(true)
     setError(undefined)
     try {
       // Create org
-      const orgId = await createOrg(name)
-
-      // Refresh user claims
-      await refreshClaims()
-
-      modalProps.onClose()
-      history.push(`/orgs/${orgId}`)
+      const orgId = await createOrg({ name })
+      setOrgId(orgId)
     } catch (e) {
       setError(e as Error)
+      setLoading(false)
     }
-    setLoading(false)
   })
+
+  // Redirect after creation and loading of new organization
+  useEffect(() => {
+    if (orgId && orgs?.some((org) => org.id === orgId)) {
+      modalProps.onClose()
+      history.push(`/orgs/${orgId}`)
+    }
+  }, [orgs])
 
   return (
     <Modal {...modalProps}>
@@ -92,12 +90,10 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
           </ModalBody>
 
           <ModalFooter>
-            <Box>
-              <Button colorScheme="blue" type="submit" isLoading={loading}>
-                {t('common.create')}
-              </Button>
-              {error && <TextError error={error} />}
-            </Box>
+            {error && <TextError error={error} />}
+            <Button colorScheme="blue" type="submit" isLoading={loading} ml={3}>
+              {t('common.create')}
+            </Button>
           </ModalFooter>
         </form>
       </ModalContent>

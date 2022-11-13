@@ -1,4 +1,3 @@
-import { subscribeAllMeetingTemplates } from '@api/entities/meetingTemplates'
 import {
   Button,
   IconButton,
@@ -17,22 +16,26 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ListItemWithButtons from '@components/molecules/ListItemWithButtons'
 import { useOrgId } from '@hooks/useOrgId'
-import useSubscription from '@hooks/useSubscription'
-import { MeetingTempalteEntry } from '@shared/model/meetingTemplate'
+import { MeetingTempalteEntry } from '@shared/model/meeting_template'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
+import { useSubscribeMeetingTemplatesSubscription } from 'src/graphql.generated'
 import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'
 import MeetingTemplateModal from './MeetingTemplateModal'
 
 export default function MeetingTemplatesModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const {
-    data: meetingTemplates,
-    loading,
-    error,
-  } = useSubscription(orgId ? subscribeAllMeetingTemplates(orgId) : undefined)
+
+  // Subscribe to templates
+  const { data, loading, error } = useSubscribeMeetingTemplatesSubscription({
+    skip: !orgId,
+    variables: { orgId: orgId! },
+  })
+  const meetingTemplates = data?.meeting_template as
+    | MeetingTempalteEntry[]
+    | undefined
 
   // Create/Edit modal
   const [meetingTemplate, setMeetingTemplate] = useState<

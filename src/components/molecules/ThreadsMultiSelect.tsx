@@ -1,12 +1,7 @@
-import {
-  subscribeAllThreads,
-  subscribeThreadsByCircle,
-} from '@api/entities/threads'
 import { Box, VStack } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
-import { useOrgId } from '@hooks/useOrgId'
-import useSubscription from '@hooks/useSubscription'
+import useThreads from '@hooks/useThreads'
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
@@ -28,15 +23,9 @@ export default function ThreadsMultiSelect({
   onChange,
 }: Props) {
   const { t } = useTranslation()
-  const orgId = useOrgId()
 
   // Subscribe threads
-  const subscribe = orgId
-    ? circleId
-      ? subscribeThreadsByCircle(orgId, circleId, false)
-      : subscribeAllThreads(orgId, false)
-    : undefined
-  const { data: threads, loading, error } = useSubscription(subscribe)
+  const { threads, loading, error } = useThreads({ circleId })
 
   // Prepare sortable items
   const items = useMemo(() => threadsIds.map((id) => ({ id })), [threadsIds])

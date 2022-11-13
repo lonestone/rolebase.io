@@ -1,4 +1,3 @@
-import { removeCircleMember } from '@api/entities/circles'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,9 +10,8 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useCircle from '@hooks/useCircle'
-import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
-import { LogType } from '@shared/model/log'
+import useRemoveCircleMember from '@hooks/useRemoveCircleMember'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -31,28 +29,16 @@ export default function CircleMemberDeleteModal({
   ...alertProps
 }: Props) {
   const { t } = useTranslation()
-  const createLog = useCreateLog()
   const circle = useCircle(circleId)
   const member = useMember(memberId)
+  const removeCircleMember = useRemoveCircleMember()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!circle || !member) return
-    const changes = await removeCircleMember(memberId, circleId)
+    await removeCircleMember(circleId, memberId)
     onDelete?.()
     alertProps.onClose()
-
-    // Log change
-    createLog({
-      display: {
-        type: LogType.CircleMemberRemove,
-        id: circle.id,
-        name: circle.role.name,
-        memberId: member.id,
-        memberName: member.name,
-      },
-      changes,
-    })
   }
 
   return (

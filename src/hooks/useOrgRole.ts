@@ -1,9 +1,7 @@
 import { ClaimRole } from '@shared/model/userClaims'
-import { useStoreState } from '@store/hooks'
-import { useOrgId } from './useOrgId'
+import useCurrentMember from './useCurrentMember'
 
 export function useOrgRole(): ClaimRole | undefined {
-  const orgId = useOrgId()
-  const claims = useStoreState((state) => state.auth.claims)
-  return orgId && claims ? claims[`org-${orgId}`] : undefined
+  const currentMember = useCurrentMember()
+  return currentMember?.role || undefined
 }

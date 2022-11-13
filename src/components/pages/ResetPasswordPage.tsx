@@ -1,5 +1,3 @@
-import { auth } from '@api/firebase'
-import { emailSchema } from '@api/schemas'
 import {
   Alert,
   AlertDescription,
@@ -18,14 +16,13 @@ import {
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useCallbackState from '@hooks/useCallbackState'
 import useQueryParams from '@hooks/useQueryParams'
-import { sendPasswordResetEmail } from 'firebase/auth'
+import { useResetPassword } from '@nhost/react'
+import { emailSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
-import settings from 'src/settings'
 import * as yup from 'yup'
 
 type Params = {
@@ -37,12 +34,13 @@ interface Values {
 }
 
 const schema = yup.object().shape({
-  email: emailSchema,
+  email: emailSchema.required(),
 })
 
 export default function ResetPasswordPage() {
   const { t } = useTranslation()
   const queryParams = useQueryParams<Params>()
+  const { resetPassword, isLoading, error, isSent } = useResetPassword()
 
   const {
     handleSubmit,
@@ -52,17 +50,6 @@ export default function ResetPasswordPage() {
     resolver: yupResolver(schema),
     defaultValues: { email: queryParams.email || '' },
   })
-
-  const {
-    call: onSubmit,
-    loading,
-    error,
-    done,
-  } = useCallbackState(({ email }: Values) =>
-    sendPasswordResetEmail(auth, email, {
-      url: `${settings.url}/login?email=${email}`,
-    })
-  )
 
   return (
     <Container
@@ -78,7 +65,7 @@ export default function ResetPasswordPage() {
         {t('ResetPasswordPage.heading')}
       </Heading>
 
-      {done ? (
+      {isSent ? (
         <Alert status="success">
           <AlertIcon />
           <AlertDescription>
@@ -87,7 +74,11 @@ export default function ResetPasswordPage() {
           </AlertDescription>
         </Alert>
       ) : (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(({ email }: Values) =>
+            resetPassword(email, { redirectTo: '/user-info' })
+          )}
+        >
           <VStack spacing={5}>
             <FormControl isInvalid={!!errors.email}>
               <FormLabel>{t('ResetPasswordPage.email')}</FormLabel>
@@ -100,9 +91,9 @@ export default function ResetPasswordPage() {
               />
             </FormControl>
 
-            <Button colorScheme="blue" type="submit" isDisabled={loading}>
+            <Button colorScheme="blue" type="submit" isDisabled={isLoading}>
               {t('ResetPasswordPage.reset')}
-              {loading && <Spinner ml={2} />}
+              {isLoading && <Spinner ml={2} />}
             </Button>
           </VStack>
 

@@ -1,0 +1,57 @@
+fragment MemberFields on member {
+  id
+  orgId
+  archived
+  name
+  description
+  pictureFileId
+  picture
+  userId
+  inviteEmail
+  inviteDate
+  workedMinPerWeek
+  role
+  meetingId
+}
+
+query getMember($id: uuid!) {
+  member_by_pk(id: $id) {
+    ...MemberFields
+  }
+}
+
+query getOrgsMembers($orgsIds: [uuid!]!) {
+  member(
+    where: { orgId: { _in: $orgsIds }, archived: { _eq: false } }
+    order_by: { name: asc }
+  ) {
+    ...MemberFields
+  }
+}
+
+subscription subscribeMembers($orgId: uuid!, $archived: Boolean!) {
+  member(
+    where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }
+    order_by: { name: asc }
+  ) {
+    ...MemberFields
+  }
+}
+
+mutation createMember($orgId: uuid!, $name: String!) {
+  insert_member_one(object: { orgId: $orgId, name: $name }) {
+    ...MemberFields
+  }
+}
+
+mutation updateMember($id: uuid!, $values: member_set_input!) {
+  update_member_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...MemberFields
+  }
+}
+
+mutation archiveMember($id: uuid!) {
+  update_member_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

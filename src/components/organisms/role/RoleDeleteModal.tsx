@@ -1,4 +1,3 @@
-import { updateRole } from '@api/entities/roles'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -15,6 +14,7 @@ import useRole from '@hooks/useRole'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useArchiveRoleMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -29,12 +29,13 @@ export default function RoleDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const role = useRole(id)
+  const [archiveRole] = useArchiveRoleMutation()
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!role) return
-    await updateRole(id, { archived: true })
+    await archiveRole({ variables: { id } })
     onDelete?.()
     alertProps.onClose()
 

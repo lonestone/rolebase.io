@@ -1,4 +1,3 @@
-import { createCircle, updateCircle } from '@api/entities/circles'
 import {
   Button,
   FormControl,
@@ -22,9 +21,12 @@ import useMember from '@hooks/useMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { useStoreState } from '@store/hooks'
-import { nanoid } from 'nanoid'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  useCreateCircleMemberMutation,
+  useCreateCircleMutation,
+} from 'src/graphql.generated'
 
 interface Props extends UseModalProps {
   circle: CircleWithRoleEntry
@@ -43,6 +45,9 @@ export default function OnboardingCircleMembersModal({
     () => roles?.find((role) => role.autoCreate),
     [roles]
   )
+
+  const [createCircleMember] = useCreateCircleMemberMutation()
+  const [createCircle] = useCreateCircleMutation()
 
   const [loading, setLoading] = useState(false)
   const [singleMember, setSingleMember] = useState(true)
@@ -63,22 +68,40 @@ export default function OnboardingCircleMembersModal({
     try {
       if (singleMember) {
         // Set member
-        await updateCircle(circle.id, {
-          members: [{ id: nanoid(10), memberId: leaderId }],
+        await createCircleMember({
+          variables: {
+            circleId: circle.id,
+            memberId: leaderId,
+          },
         })
       } else {
         // Set members
-        await updateCircle(circle.id, {
-          members: membersIds.map((id) => ({ id: nanoid(10), memberId: id })),
-        })
+        for (const memberId of membersIds) {
+          await createCircleMember({
+            variables: {
+              circleId: circle.id,
+              memberId,
+            },
+          })
+        }
 
         // Add leader circle
-        await createCircle({
-          orgId,
-          roleId: leaderRole.id,
-          parentId: circle.id,
-          members: [{ id: nanoid(10), memberId: leaderId }],
+        const circleResult = await createCircle({
+          variables: {
+            orgId,
+            roleId: leaderRole.id,
+            parentId: circle.id,
+          },
         })
+        const leaderCircleId = circleResult.data?.insert_circle_one?.id
+        if (leaderCircleId) {
+          await createCircleMember({
+            variables: {
+              circleId: leaderCircleId,
+              memberId: leaderId,
+            },
+          })
+        }
       }
       onSubmit()
     } catch (error) {

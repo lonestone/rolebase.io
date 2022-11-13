@@ -1,4 +1,3 @@
-import { auth } from '@api/firebase'
 import {
   Avatar,
   Button,
@@ -14,7 +13,8 @@ import CircleMemberLink from '@components/atoms/CircleMemberLink'
 import LangModal from '@components/organisms/layout/LangModal'
 import CurrentUserModal from '@components/organisms/user/CurrentUserModal'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { useStoreState } from '@store/hooks'
+import useUserSignOut from '@hooks/useUserSignOut'
+import { useUserData } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiLogOut, FiMoon, FiSun, FiUser } from 'react-icons/fi'
@@ -22,17 +22,18 @@ import { IoLanguage } from 'react-icons/io5'
 
 export default function HeaderUserMenu(props: MenuButtonProps) {
   const { t } = useTranslation()
-  const firebaseUser = useStoreState((state) => state.auth.firebaseUser)
+  const user = useUserData()
   const member = useCurrentMember()
+  const signOut = useUserSignOut()
   const { colorMode, toggleColorMode } = useColorMode()
 
-  const name = member?.name || firebaseUser?.displayName || '?'
-  const picture = member?.picture || firebaseUser?.photoURL || '?'
+  const name = member?.name || user?.displayName || '?'
+  const picture = member?.picture || user?.avatarUrl || '?'
 
   const currentUserModal = useDisclosure()
   const langModal = useDisclosure()
 
-  if (!firebaseUser) return null
+  if (!user) return null
   return (
     <Menu>
       <MenuButton as={Button} variant="ghost" size="sm" px={1} {...props}>
@@ -61,7 +62,7 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
           {t('HeaderUserMenu.lang')}
         </MenuItem>
 
-        <MenuItem icon={<FiLogOut />} onClick={() => auth.signOut()}>
+        <MenuItem icon={<FiLogOut />} onClick={signOut}>
           {t('HeaderUserMenu.signout')}
         </MenuItem>
       </MenuList>

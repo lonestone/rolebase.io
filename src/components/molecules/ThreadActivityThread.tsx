@@ -1,14 +1,15 @@
-import { subscribeThread } from '@api/entities/threads'
 import { Text } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadActivityLayout from '@components/molecules/ThreadActivityLayout'
-import useSubscription from '@hooks/useSubscription'
-import { ActivityThread } from '@shared/model/activity'
+import useCurrentMember from '@hooks/useCurrentMember'
+import { useUserId } from '@nhost/react'
+import { ThreadEntry } from '@shared/model/thread'
+import { ActivityThread } from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
-import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSubscribeThreadSubscription } from 'src/graphql.generated'
 import ThreadItem from './ThreadItem'
 
 interface Props {
@@ -17,16 +18,17 @@ interface Props {
 
 export default function ThreadActivityThread({ activity }: Props) {
   const { t } = useTranslation()
-  const userId = useStoreState((state) => state.auth.user?.id)
+  const userId = useUserId()
+  const currentMember = useCurrentMember()
 
   // Edition
   const isUserOwner = userId === activity.userId
 
-  const {
-    data: thread,
-    loading,
-    error,
-  } = useSubscription(subscribeThread(activity.entityId))
+  const { data, loading, error } = useSubscribeThreadSubscription({
+    skip: !currentMember,
+    variables: { id: activity.data.entityId, memberId: currentMember?.id! },
+  })
+  const thread = data?.thread_by_pk as ThreadEntry
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>

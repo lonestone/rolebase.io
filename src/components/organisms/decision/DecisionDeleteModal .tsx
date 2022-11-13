@@ -1,4 +1,3 @@
-import { updateDecision } from '@api/entities/decisions'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -15,6 +14,7 @@ import { DecisionEntry } from '@shared/model/decision'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useArchiveDecisionMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -28,11 +28,12 @@ export default function DecisionDeleteModal({
   ...alertProps
 }: Props) {
   const { t } = useTranslation()
+  const [archiveDecision] = useArchiveDecisionMutation()
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
-    updateDecision(decision.id, { archived: true })
+    await archiveDecision({ variables: { id: decision.id } })
     onDelete?.()
     createLog({
       display: {

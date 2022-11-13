@@ -1,12 +1,9 @@
-import { subscribeThreadsByCircle } from '@api/entities/threads'
 import { Button, Text, useDisclosure } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
-import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
-import useSubscription from '@hooks/useSubscription'
-import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
+import useThreads from '@hooks/useThreads'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
@@ -19,15 +16,9 @@ interface Props {
 export default function CircleThreads({ circleId }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const orgId = useOrgId()
 
   // Subscribe to threads
-  const { data, error, loading } = useSubscription(
-    orgId ? subscribeThreadsByCircle(orgId, circleId, false) : undefined
-  )
-
-  // Enrich with status and sort
-  const threads = useThreadsWithStatus(data)
+  const { threads, loading, error } = useThreads({ circleId })
 
   // Thread create modal
   const {

@@ -1,5 +1,3 @@
-import { updateUser } from '@api/entities/users'
-import { emailSchema, nameSchema } from '@api/schemas'
 import {
   Box,
   Button,
@@ -19,11 +17,13 @@ import {
 import PasswordConfirmInputDummy from '@components/atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@components/atoms/PasswordInput'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useStoreState } from '@store/hooks'
-import { updateEmail, updatePassword, updateProfile } from 'firebase/auth'
+import { useUserDisplayName, useUserEmail, useUserId } from '@nhost/react'
+import { emailSchema, nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useChangeDisplayNameMutation } from 'src/graphql.generated'
+import { nhost } from 'src/nhost'
 import * as yup from 'yup'
 
 interface Values {
@@ -34,24 +34,28 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    name: nameSchema,
-    email: emailSchema,
+    name: nameSchema.required(),
+    email: emailSchema.required(),
     password: yup
       .string()
       .test(
         'length',
-        'Password must be at least 6 characters',
+        'Password must be at least 8 characters',
         (value) =>
-          value === undefined || value.length === 0 || value.length >= 6
+          value === undefined || value.length === 0 || value.length >= 8
       ),
   })
 )
 
 export default function CurrentUserModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const firebaseUser = useStoreState((state) => state.auth.firebaseUser)
-  const user = useStoreState((state) => state.auth.user)
+  const userId = useUserId()
+  const userName = useUserDisplayName()
+  const userEmail = useUserEmail()
   const toast = useToast()
+
+  // Mutations
+  const [changeDisplayName] = useChangeDisplayNameMutation()
 
   const {
     handleSubmit,
@@ -60,34 +64,28 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
   } = useForm<Values>({
     resolver,
     defaultValues: {
-      name: user?.name || '',
-      email: user?.email || '',
+      name: userName || '',
+      email: userEmail || '',
       password: '',
     },
   })
 
   const onSubmit = handleSubmit(async ({ name, email, password }) => {
-    if (!user || !firebaseUser) return
+    if (!userId) return
 
-    // Update user in firestore
-    updateUser(user.id, {
-      name,
-      email,
-    })
-
-    // Update display name in firebase auth
-    if (name !== firebaseUser.displayName) {
-      updateProfile(firebaseUser, { displayName: name })
+    // Update display name
+    if (name !== userName) {
+      changeDisplayName({ variables: { userId, displayName: name } })
     }
 
-    // Update email in firebase auth
-    if (email !== firebaseUser.email) {
-      updateEmail(firebaseUser, email)
+    // Update email
+    if (email !== userEmail) {
+      nhost.auth.changeEmail({ newEmail: email })
     }
 
-    // Update password in firebase auth
+    // Update password
     if (password) {
-      updatePassword(firebaseUser, password)
+      nhost.auth.changePassword({ newPassword: password })
     }
 
     toast({
@@ -98,8 +96,6 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
 
     modalProps.onClose()
   })
-
-  if (!user || !firebaseUser) return null
 
   return (
     <Modal {...modalProps}>

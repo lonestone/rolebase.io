@@ -19,7 +19,7 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["shared/*"],
+      "@shared/*": ["functions/_shared/*"],
       "@api/*": ["src/api/*"],
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],

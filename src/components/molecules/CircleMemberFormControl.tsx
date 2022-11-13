@@ -41,10 +41,9 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   const addCircleMember = useAddCircleMember()
   const handleAddMember = useCallback(
     async (memberId: string) => {
-      if (!circle) return
-      await addCircleMember(circle, memberId)
+      await addCircleMember(circleId, memberId)
       // Focus circle in graph
-      zoomContext?.zoom?.focusCircleAfterDraw?.(circle.id, true)
+      zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
     },
     [circleId, circle]
   )

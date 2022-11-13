@@ -1,4 +1,3 @@
-import { subscribeAllThreads } from '@api/entities/threads'
 import {
   Button,
   Container,
@@ -24,10 +23,8 @@ import ThreadItem from '@components/molecules/ThreadItem'
 import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
-import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
-import useSubscription from '@hooks/useSubscription'
-import useThreadsWithStatus from '@hooks/useThreadsWithStatus'
+import useThreads from '@hooks/useThreads'
 import { EntityFilters } from '@shared/model/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -35,7 +32,6 @@ import { FiChevronDown, FiPlus } from 'react-icons/fi'
 
 export default function ThreadsPage() {
   const { t } = useTranslation()
-  const orgId = useOrgId()
   const isMember = useOrgMember()
 
   // Circles filter menu
@@ -49,15 +45,10 @@ export default function ThreadsPage() {
   const [archives, setArchives] = useState(false)
 
   // Subscribe to threads
-  const { data, error, loading } = useSubscription(
-    orgId ? subscribeAllThreads(orgId, archives) : undefined
-  )
+  const { threads, error, loading } = useThreads({ archived: archives })
 
   // Filter threads
-  const filteredThreads = useFilterEntities(filter, data)
-
-  // Enrich with status and sort
-  const threads = useThreadsWithStatus(filteredThreads)
+  const filteredThreads = useFilterEntities(filter, threads)
 
   // Create modal
   const {
@@ -137,13 +128,13 @@ export default function ThreadsPage() {
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      {threads && (
+      {filteredThreads && (
         <VStack spacing={0} align="stretch">
-          {threads.length === 0 && (
+          {filteredThreads.length === 0 && (
             <Text fontStyle="italic">{t('ThreadsPage.empty')}</Text>
           )}
 
-          {threads.map((thread) => (
+          {filteredThreads.map((thread) => (
             <ThreadItem
               key={thread.id}
               thread={thread}

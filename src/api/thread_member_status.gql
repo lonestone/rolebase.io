@@ -1,0 +1,28 @@
+fragment ThreadMemberStatusFields on thread_member_status {
+  id
+  threadId
+  memberId
+  lastReadActivityId
+  lastReadDate
+}
+
+mutation createThreadMemberStatus($values: thread_member_status_insert_input!) {
+  insert_thread_member_status_one(object: $values) {
+    ...ThreadMemberStatusFields
+  }
+}
+
+mutation updateThreadMemberStatus(
+  $threadId: uuid!
+  $memberId: uuid!
+  $values: thread_member_status_set_input!
+) {
+  update_thread_member_status(
+    where: { threadId: { _eq: $threadId }, memberId: { _eq: $memberId } }
+    _set: $values
+  ) {
+    returning {
+      ...ThreadMemberStatusFields
+    }
+  }
+}

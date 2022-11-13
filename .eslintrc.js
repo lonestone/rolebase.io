@@ -38,4 +38,5 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',
   },
+  ignorePatterns: ['**/*generated.ts'],
 }

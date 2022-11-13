@@ -1,9 +1,4 @@
-import {
-  inviteMember,
-  updateMember,
-  updateMemberRole,
-} from '@api/entities/members'
-import { nameSchema } from '@api/schemas'
+import { inviteMember, updateMemberRole } from '@api/functions'
 import {
   Alert,
   AlertIcon,
@@ -39,10 +34,12 @@ import useMember from '@hooks/useMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
 import { ClaimRole } from '@shared/model/userClaims'
+import { nameSchema } from '@shared/schemas'
 import { format } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useUpdateMemberMutation } from 'src/graphql.generated'
 import * as yup from 'yup'
 import MemberDeleteModal from './MemberDeleteModal'
 
@@ -60,7 +57,7 @@ interface Values {
 
 const resolver = yupResolver(
   yup.object().shape({
-    name: nameSchema,
+    name: nameSchema.required(),
     description: yup.string(),
     workedMinPerWeek: yup.number().nullable(),
     inviteEmail: yup.string().email(),
@@ -74,6 +71,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const isAdmin = useOrgAdmin()
   const toast = useToast()
   const createLog = useCreateLog()
+  const [updateMember] = useUpdateMemberMutation()
 
   const {
     isOpen: isDeleteOpen,
@@ -108,7 +106,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
       setLoading(true)
 
       // Update member data
-      await updateMember(id, memberUpdate)
+      await updateMember({ variables: { id, values: memberUpdate } })
 
       // Log change
       createLog({
@@ -134,10 +132,14 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         if (newRole !== member.role) {
           if (member.userId) {
             // Update role
-            await updateMemberRole(id, newRole)
+            await updateMemberRole({ memberId: id, role: newRole })
           } else if (newRole && inviteEmail) {
             // Invite member
-            await inviteMember(member.id, newRole, inviteEmail)
+            await inviteMember({
+              memberId: member.id,
+              role: newRole,
+              email: inviteEmail,
+            })
             toast({
               title: t('MemberEditModal.toastInvited', {
                 member: member.name,
@@ -150,13 +152,11 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         }
 
         modalProps.onClose()
-      } catch (error) {
+      } catch (error: any) {
         toast({
           title: t('common.error'),
-          description: error instanceof Error ? error.message : '',
+          description: error?.response?.data || error?.message || undefined,
           status: 'error',
-          duration: 4000,
-          isClosable: true,
         })
       }
       setLoading(false)
@@ -166,22 +166,34 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const handleReInvite = useCallback(async () => {
     if (!member?.inviteEmail || !member.role) return
     setLoading(true)
-    await inviteMember(member.id, member.role, member.inviteEmail)
+    try {
+      await inviteMember({
+        memberId: member.id,
+        role: member.role,
+        email: member.inviteEmail,
+      })
+      toast({
+        title: t('MemberEditModal.toastReInvited', {
+          member: member.name,
+        }),
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+    } catch (error: any) {
+      toast({
+        title: t('common.error'),
+        description: error?.response?.data || error?.message || undefined,
+        status: 'error',
+      })
+    }
     setLoading(false)
-    toast({
-      title: t('MemberEditModal.toastReInvited', {
-        member: member.name,
-      }),
-      status: 'success',
-      duration: 4000,
-      isClosable: true,
-    })
   }, [member])
 
   const handleRevokeInvite = useCallback(async () => {
     if (!member?.inviteEmail || !member.role) return
     setLoading(true)
-    await updateMemberRole(member.id, undefined)
+    await updateMemberRole({ memberId: member.id })
     setLoading(false)
     toast({
       title: t('MemberEditModal.toastRevocated'),
@@ -280,7 +292,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                     <Box>
                       {t('MemberEditModal.invitation.awaiting', {
                         email: member.inviteEmail,
-                        date: format(member.inviteDate.toDate(), 'P'),
+                        date: format(new Date(member.inviteDate), 'P'),
                       })}
                       <Button
                         variant="link"

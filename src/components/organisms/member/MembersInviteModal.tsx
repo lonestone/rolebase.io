@@ -1,4 +1,4 @@
-import { inviteMember } from '@api/entities/members'
+import { inviteMember } from '@api/functions'
 import {
   Box,
   Button,
@@ -67,7 +67,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
     [state]
   )
 
-  // Auto-fill email addresses from a detected pattern
+  // Auto-fill email addresses from a detected patterxn
   const handleEmailBlur = useCallback(
     (id: string) => {
       if (!notInvitedMembers) return
@@ -112,7 +112,11 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
       for (const member of notInvitedMembers) {
         const memberState = state[member.id]
         if (memberState && memberState.email && memberState.selected) {
-          await inviteMember(member.id, role, memberState.email)
+          await inviteMember({
+            memberId: member.id,
+            role,
+            email: memberState.email,
+          })
           n++
         }
       }

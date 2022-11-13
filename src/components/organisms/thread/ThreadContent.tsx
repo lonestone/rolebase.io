@@ -1,4 +1,3 @@
-import { subscribeThread, updateThread } from '@api/entities/threads'
 import {
   Box,
   BoxProps,
@@ -21,13 +20,18 @@ import ThreadActivities from '@components/organisms/thread/ThreadActivities'
 import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import Page404 from '@components/pages/Page404'
 import useCircle from '@hooks/useCircle'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
-import useSubscription from '@hooks/useSubscription'
+import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ThreadContext } from 'src/contexts/ThreadContext'
+import {
+  useSubscribeThreadSubscription,
+  useUpdateThreadMutation,
+} from 'src/graphql.generated'
 
 interface Props extends BoxProps {
   id: string
@@ -42,10 +46,17 @@ export default function ThreadContent({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
+  const currentMember = useCurrentMember()
   const isMember = useOrgMember()
+  const [updateThread] = useUpdateThreadMutation()
 
   // Subscribe thread
-  const { data: thread, error, loading } = useSubscription(subscribeThread(id))
+  const { data, loading, error } = useSubscribeThreadSubscription({
+    skip: !currentMember,
+    variables: { id, memberId: currentMember?.id! },
+  })
+  const thread = data?.thread_by_pk as ThreadEntry
+  const memberStatus = data?.thread_by_pk?.member_status[0]
 
   // Circle
   const circle = useCircle(thread?.circleId)
@@ -76,11 +87,11 @@ export default function ThreadContent({
 
   // Archive / unarchive
   const handleArchive = useCallback(
-    () => updateThread(id, { archived: true }),
+    () => updateThread({ variables: { id, values: { archived: true } } }),
     [id]
   )
   const handleUnarchive = useCallback(
-    () => updateThread(id, { archived: false }),
+    () => updateThread({ variables: { id, values: { archived: false } } }),
     [id]
   )
 
@@ -137,7 +148,7 @@ export default function ThreadContent({
 
       <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>
         <ThreadContext.Provider value={thread}>
-          <ThreadActivities ref={contentRef} />
+          <ThreadActivities ref={contentRef} memberStatus={memberStatus} />
         </ThreadContext.Provider>
       </Box>
 

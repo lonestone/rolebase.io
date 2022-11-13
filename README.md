@@ -12,13 +12,13 @@ It's an open source SaaS that helps various organizations implement Holacracy, S
         cd functions
         npm i
 
-2.  Install Firebase CLI
+2.  Install Nhost CLI (https://docs.nhost.io/platform/overview/get-started-with-nhost-cli)
 
-        npm i -g firebase-tools
+        sudo curl -L https://raw.githubusercontent.com/nhost/cli/main/get.sh | bash
 
-3.  Log in to Firebase
+3.  Log in to Nhost
 
-        firebase login
+        nhost login
 
 4.  Check webapp config: `settings.ts`
 
@@ -46,61 +46,24 @@ To use the search engine across an organization, you need to configure an Algoli
 
 ## Start dev environment
 
-1.  Run webapp with Vite in terminal #1:
+1.  Launch Nhost:
+
+        nhost dev
+
+2.  Run webapp with Vite + Codegen watcher:
 
         npm run dev
 
-2.  Compile and watch functions in terminal #2:
+3.  Open in browser: http://localhost:3000
 
-        cd functions
-        npm run watch
+## Upgrade Nhost
 
-3.  Run Firebase Emulator in terminal #3:
+1.  First, stop Nhost:
 
-        npm run firebase:emulator
+        nhost down
 
-4.  Open in browser:
+2.  Upgrade Nhost CLI:
 
-    Webapp: http://localhost:3000
+        sudo nhost upgrade
 
-    Firebase Emulator UI : http://localhost:4000/
-
-## Deploy
-
-### Deploy webapp
-
-Just push on the main branch 😉
-
-It will be compiled then hosted on Firebase Hosting.
-
-### Deploy Firestore rules
-
-Push `firestore.rules` file in production
-
-    firebase deploy --only firestore:rules
-
-### Deploy Firestore indexes
-
-Push `firestore.indexes.json` file in production
-
-    firebase deploy --only firestore:indexes
-
-### Deploy Storage rules
-
-Push `storage.rules` file in production
-
-    firebase deploy --only storage:rules
-
-### Deploy Functions
-
-Check that `functions/.env.default` exists and is configured for production.
-
-It can be based on `functions/.env.tempate` and it's used instead or in addition of `functions/.env`.
-
-Compile functions and push in production
-
-    firebase deploy --only functions
-
-### Import Firestore rules
-
-    firebase firestore:indexes > firestore.indexes.json
+3.  Upgrade package `@nhost/nhost-js`.

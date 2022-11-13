@@ -2,6 +2,7 @@ import MemberInvitationPage from '@components/pages/MemberInvitationPage'
 import OrgsPage from '@components/pages/OrgsPage'
 import Page404 from '@components/pages/Page404'
 import SuperAdminPage from '@components/pages/SuperAdminPage'
+import UserInfoPage from '@components/pages/UserInfoPage'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
@@ -21,7 +22,13 @@ export default function PrivateRoutes() {
         <Route exact path="/orgs/:orgId/invitation">
           <MemberInvitationPage />
         </Route>
+        <Route exact path="/user-info">
+          <UserInfoPage />
+        </Route>
         <Route exact path="/login">
+          <Redirect to="/" />
+        </Route>
+        <Route exact path="/reset-password">
           <Redirect to="/" />
         </Route>
         <Route exact path="/signup">

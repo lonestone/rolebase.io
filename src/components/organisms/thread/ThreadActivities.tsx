@@ -1,5 +1,3 @@
-import { subscribeActivities } from '@api/entities/activities'
-import { memberThreadsStatus } from '@api/entities/memberThreadsStatus'
 import {
   Alert,
   AlertDescription,
@@ -13,72 +11,94 @@ import TextErrors from '@components/atoms/TextErrors'
 import ThreadDaySeparator from '@components/atoms/ThreadDaySeparator'
 import ThreadActivity from '@components/molecules/ThreadActivity'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { useOrgId } from '@hooks/useOrgId'
-import useSubscription from '@hooks/useSubscription'
-import { MemberThreadStatus } from '@shared/model/member'
+import { ActivityEntry } from '@shared/model/thread_activity'
 import { isSameDay } from 'date-fns'
 import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiMessageSquare } from 'react-icons/fi'
 import { ThreadContext } from 'src/contexts/ThreadContext'
+import {
+  useCreateThreadMemberStatusMutation,
+  useSubscribeThreadActivitiesSubscription,
+  useUpdateThreadMemberStatusMutation,
+} from 'src/graphql.generated'
 
-const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
-  (stackProps, ref) => {
+interface Props extends StackProps {
+  memberStatus?: MemberStatus
+}
+
+interface MemberStatus {
+  lastReadActivityId?: string | null | undefined
+  lastReadDate: string
+}
+
+const ThreadActivities = forwardRef<HTMLDivElement, Props>(
+  ({ memberStatus, ...stackProps }, ref) => {
     const { t } = useTranslation()
-    const orgId = useOrgId()
     const thread = useContext(ThreadContext)
     const currentMember = useCurrentMember()
+    const [createThreadMemberStatus] = useCreateThreadMemberStatusMutation()
+    const [updateThreadMemberStatus] = useUpdateThreadMemberStatusMutation()
 
     // Subscribe to activities
-    const {
-      data: activities,
-      error,
-      loading,
-    } = useSubscription(
-      orgId && thread ? subscribeActivities(orgId, thread.id) : undefined
-    )
+    const { data, error, loading } = useSubscribeThreadActivitiesSubscription({
+      skip: !thread,
+      variables: { threadId: thread?.id! },
+    })
+    const activities = data?.thread_activity as ActivityEntry[] | undefined
 
     // Previous status to show a mark
-    const [markStatus, setMarkStatus] = useState<
-      MemberThreadStatus | undefined
+    const [lastReadActivityId, setLastReadActivityId] = useState<
+      string | null | undefined
     >()
 
     // Update read status
-    const threadStatusMethods = currentMember
-      ? memberThreadsStatus(currentMember?.id)
-      : undefined
-    const { data: threadStatus, loading: loadingThreadStatus } =
-      useSubscription(
-        thread && threadStatusMethods?.subscribeThreadStatus?.(thread.id)
-      )
     useEffect(() => {
-      if (!thread || !activities || !currentMember || loadingThreadStatus) {
+      if (!thread || !activities || !currentMember) {
         return
       }
-      const lastActivity = activities[activities.length - 1]
-      const lastReadActivityId = lastActivity?.id || '0'
-      if (threadStatus?.lastReadActivityId !== lastReadActivityId) {
+      const lastActivityId = activities[activities.length - 1]?.id || null
+
+      // Up to date
+      if (memberStatus?.lastReadActivityId === lastActivityId) {
+        if (lastReadActivityId === undefined) {
+          // No mark
+          setLastReadActivityId(null)
+        }
+      }
+      // Unread activities
+      else {
         // Show a mark after previously seen activity
-        if (lastActivity && threadStatus && !markStatus) {
-          setMarkStatus(threadStatus)
+        if (lastReadActivityId === undefined) {
+          setLastReadActivityId(memberStatus?.lastReadActivityId || null)
         }
 
         // Save new status
-        threadStatusMethods?.createThreadStatus(
-          {
-            lastReadActivityId,
-          },
-          thread.id
-        )
+        if (memberStatus) {
+          updateThreadMemberStatus({
+            variables: {
+              threadId: thread.id,
+              memberId: currentMember.id,
+              values: {
+                lastReadActivityId: lastActivityId,
+                lastReadDate: new Date().toISOString(),
+              },
+            },
+          })
+        } else {
+          createThreadMemberStatus({
+            variables: {
+              values: {
+                threadId: thread.id,
+                memberId: currentMember.id,
+                lastReadActivityId: lastActivityId,
+                lastReadDate: new Date().toISOString(),
+              },
+            },
+          })
+        }
       }
-    }, [
-      thread,
-      activities,
-      threadStatus,
-      markStatus,
-      loadingThreadStatus,
-      currentMember,
-    ])
+    }, [thread, activities, memberStatus, currentMember])
 
     return (
       <VStack spacing={0} mb={2} align="stretch" ref={ref} {...stackProps}>
@@ -110,13 +130,13 @@ const ThreadActivities = forwardRef<HTMLDivElement, StackProps>(
             <React.Fragment key={activity.id}>
               {(i === 0 ||
                 !isSameDay(
-                  activity.createdAt.toDate(),
-                  activities[i - 1].createdAt.toDate()
-                )) && <ThreadDaySeparator date={activity.createdAt.toDate()} />}
+                  new Date(activity.createdAt),
+                  new Date(activities[i - 1].createdAt)
+                )) && <ThreadDaySeparator date={activity.createdAt} />}
 
               <ThreadActivity activity={activity} />
 
-              {markStatus?.lastReadActivityId === activity.id && (
+              {lastReadActivityId === activity.id && (
                 <Divider borderColor="#ffa0a0" borderBottomWidth="3px" />
               )}
             </React.Fragment>
