@@ -8,11 +8,9 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  HStack,
   ModalBody,
   ModalCloseButton,
   ModalHeader,
-  Spacer,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -71,39 +69,36 @@ export default function MemberContent({
     <>
       {changeTitle && <Title>{member.name}</Title>}
 
-      <ModalHeader pt={2} pr={3}>
-        <Flex>
-          <HStack mt={3} spacing={5}>
-            {canEdit ? (
-              <MemberPictureEdit
-                id={id}
-                name={member.name}
-                src={member.picture || undefined}
-                size="md"
-              />
-            ) : (
-              <Avatar
-                name={member.name}
-                src={member.picture || undefined}
-                size="md"
-              />
-            )}
-            <Heading as="h2" size="md">
-              {member.name}
-            </Heading>
-          </HStack>
+      <ModalHeader pt={3} pb={7} pr={3} position="relative">
+        <Box position="absolute" top={2} right={2}>
+          {canEdit && <ActionsMenu onEdit={onEditOpen} />}
+          {headerIcons}
+          <ModalCloseStaticButton />
+        </Box>
 
-          <Spacer />
+        <Flex flexDirection="column" alignItems="center">
+          {canEdit ? (
+            <MemberPictureEdit
+              id={id}
+              name={member.name}
+              src={member.picture || undefined}
+              size="2xl"
+            />
+          ) : (
+            <Avatar
+              name={member.name}
+              src={member.picture || undefined}
+              size="2xl"
+            />
+          )}
 
-          <Box>
-            {canEdit && <ActionsMenu onEdit={onEditOpen} />}
-            {headerIcons}
-            <ModalCloseStaticButton />
-          </Box>
+          <Heading as="h2" size="md" textAlign="center" mt={2}>
+            {member.name}
+          </Heading>
         </Flex>
       </ModalHeader>
 
-      <ModalBody pb={7}>
+      <ModalBody pt={0} pb={7}>
         <VStack spacing={5} align="stretch">
           {member.description && (
             <Box mb={3}>
