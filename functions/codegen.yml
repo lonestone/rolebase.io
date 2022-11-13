@@ -7,7 +7,6 @@ documents:
   - 'routes/*.ts'
   - '_utils/*.ts'
   - '_search/*.ts'
-  - '_migration/*.ts'
   - '!_gql/**/*'
 generates:
   _gql/:

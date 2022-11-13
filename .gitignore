@@ -1,15 +1,12 @@
 node_modules
 .DS_Store
 dist
-dist-ssr
 *.local
 *.cache
 *.log
 .env
 .env.default
-functions/lib
 .nhost
-firebase-emulator-data
 
 # Rollup visualizer
 stats.html
