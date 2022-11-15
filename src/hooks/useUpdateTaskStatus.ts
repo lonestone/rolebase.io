@@ -15,8 +15,10 @@ export default function useUpdateTaskStatus() {
   // Toggle done status of a task
   return useCallback(
     async (task: TaskEntry, status: TaskStatus) => {
+      // Update task
       await updateTask({ variables: { id: task.id, values: { status } } })
 
+      // Record log
       await createLog({
         display: {
           type: LogType.TaskStatusUpdate,
@@ -36,7 +38,7 @@ export default function useUpdateTaskStatus() {
         },
       })
 
-      // Toast to cancel
+      // Toast
       toast({
         status: 'success',
         duration: 2000,

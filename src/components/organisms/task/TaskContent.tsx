@@ -28,13 +28,12 @@ import CircleSearchInput from '@components/molecules/search/entities/circles/Cir
 import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
 import TaskStatusInput from '@components/molecules/TaskStatusInput'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useCreateLog from '@hooks/useCreateLog'
+import useCreateTask from '@hooks/useCreateTask'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
-import { EntityChangeType, LogType } from '@shared/model/log'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { nameSchema } from '@shared/schemas'
 import debounce from 'lodash.debounce'
@@ -42,7 +41,6 @@ import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
-  useCreateTaskMutation,
   useSubscribeTaskSubscription,
   useUpdateTaskMutation,
 } from 'src/graphql.generated'
@@ -91,12 +89,11 @@ export default function TaskContent({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
-  const createLog = useCreateLog()
   const orgId = useOrgId()
   const isMember = useOrgMember()
   const currentMember = useCurrentMember()
   const updateTaskStatus = useUpdateTaskStatus()
-  const [createTask] = useCreateTaskMutation()
+  const createTask = useCreateTask()
   const [updateTask] = useUpdateTaskMutation()
   const { preventClose, allowClose } = usePreventClose()
 
@@ -156,30 +153,12 @@ export default function TaskContent({
       allowClose()
     } else {
       // Create task
-      const { data: newTaskData } = await createTask({
-        variables: {
-          values: {
-            orgId,
-            status: TaskStatus.Open,
-            ...taskUpdate,
-          },
-        },
+      const newTask = await createTask({
+        orgId,
+        status: TaskStatus.Open,
+        ...taskUpdate,
       })
-      const newTask = newTaskData?.insert_task_one as TaskEntry | undefined
-
       if (!newTask) return
-      createLog({
-        display: {
-          type: LogType.TaskCreate,
-          id: newTask.id,
-          name: newTask.title,
-        },
-        changes: {
-          tasks: [
-            { type: EntityChangeType.Create, id: newTask.id, data: newTask },
-          ],
-        },
-      })
 
       onCreate?.(newTask.id)
       onClose()

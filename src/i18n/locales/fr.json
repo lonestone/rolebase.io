@@ -735,6 +735,9 @@
       "content": ""
     }
   },
+  "useCreateTask": {
+    "toast": "Tâche créée !"
+  },
   "useSearch": {
     "create": "Créer \"{{name}}\""
   },

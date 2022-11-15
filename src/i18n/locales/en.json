@@ -738,6 +738,9 @@
       "content": ""
     }
   },
+  "useCreateTask": {
+    "toast": "Task created!"
+  },
   "useSearch": {
     "create": "Create \"{{name}}\""
   },

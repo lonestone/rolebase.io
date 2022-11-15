@@ -1,8 +1,8 @@
+import useCreateTask from '@hooks/useCreateTask'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
 import React, { useCallback } from 'react'
-import { useCreateTaskMutation } from 'src/graphql.generated'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useTaskSearchItems } from './useTaskSearchItems'
 
@@ -21,7 +21,7 @@ export default function TaskSearchButton({
   const items = useTaskSearchItems(tasks, excludeIds)
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
-  const [createTask] = useCreateTaskMutation()
+  const createTask = useCreateTask()
 
   const handleCreate = useCallback(
     async (title: string) => {
@@ -30,18 +30,14 @@ export default function TaskSearchButton({
       }
 
       // Create member
-      const { data } = await createTask({
-        variables: {
-          values: {
-            orgId,
-            title,
-            circleId: createCircleId,
-            memberId: currentMember.id,
-            status: TaskStatus.Open,
-          },
-        },
+      const task = await createTask({
+        orgId,
+        title,
+        circleId: createCircleId,
+        memberId: currentMember.id,
+        status: TaskStatus.Open,
       })
-      return data?.insert_task_one?.id
+      return task?.id
     },
     [orgId, createCircleId, currentMember]
   )
