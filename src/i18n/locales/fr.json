@@ -280,6 +280,10 @@
     "circle": "Rôle",
     "url": "URL iCal"
   },
+  "MeetingOpenCurrent": {
+    "heading": "Réunion en cours",
+    "info": "Vous avez une réunion en cours, souhaitez-vous la rejoindre ?"
+  },
   "MeetingStepContent": {
     "notesPlaceholder": "Notes..."
   },
@@ -330,9 +334,7 @@
       "All": "Toutes les réunions"
     },
     "export": "Exporter",
-    "create": "Nouvelle réunion",
-    "current": "Réunion en cours",
-    "openCurrent": "Ouvrir"
+    "create": "Nouvelle réunion"
   },
   "MemberContent": {
     "notFound": "Membre introuvable",
@@ -668,6 +670,7 @@
     "save": "Enregistrer",
     "create": "Créer",
     "send": "Envoyer",
+    "open": "Ouvrir",
     "createThread": "Créer une Discussion",
     "createMeeting": "Créer une Réunion",
     "createTask": "Créer une Tâche",

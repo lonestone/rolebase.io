@@ -3,9 +3,6 @@
 import '@fullcalendar/react/dist/vdom'
 
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
   Box,
   Button,
   ColorMode,
@@ -20,6 +17,7 @@ import {
   useColorMode,
   useDisclosure,
   useMediaQuery,
+  Wrap,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
@@ -38,7 +36,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar, { EventInput } from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import useCurrentMember from '@hooks/useCurrentMember'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import { useOrgId } from '@hooks/useOrgId'
@@ -51,6 +48,7 @@ import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
 
 // Load additional CSS after all imports
+import MeetingOpenCurrent from '@components/organisms/meeting/MeetingOpenCurrent'
 import { MeetingEntry } from '@shared/model/meeting'
 import 'src/fullcalendar.css'
 import {
@@ -75,7 +73,6 @@ const getColors = (mode: ColorMode) => ({
 
 export default function MeetingsPage() {
   const { t } = useTranslation()
-  const currentMember = useCurrentMember()
   const isMember = useOrgMember()
   const { colorMode } = useColorMode()
   const colors = useMemo(() => getColors(colorMode), [colorMode])
@@ -154,26 +151,20 @@ export default function MeetingsPage() {
 
   const handleCreate = useCallback(() => {
     setStartDate(undefined)
-    onCreateOpen()
+    createModal.onOpen()
   }, [])
 
   const handleCreated = useCallback((id: string) => {
     setMeetingId(id)
-    onMeetingOpen()
+    meetingModal.onOpen()
   }, [])
-
-  const handleOpenCurrentMeeting = useCallback(() => {
-    if (!currentMember?.meetingId) return
-    setMeetingId(currentMember?.meetingId)
-    onMeetingOpen()
-  }, [currentMember?.meetingId])
 
   const handleEventClick = useCallback(
     ({ event }: EventClickArg) => {
       const meeting = meetings?.find((m) => m.id === event.id)
       if (!meeting) return
       setMeetingId(meeting.id)
-      onMeetingOpen()
+      meetingModal.onOpen()
     },
     [meetings]
   )
@@ -181,7 +172,7 @@ export default function MeetingsPage() {
   const handleDateClick = useCallback(
     ({ date }: { date: Date }) => {
       setStartDate(date)
-      onCreateOpen()
+      createModal.onOpen()
     },
     [meetings]
   )
@@ -189,7 +180,7 @@ export default function MeetingsPage() {
   const handleSelect = useCallback(({ start, end }: DateSelectArg) => {
     setStartDate(start)
     setDuration(Math.round((end.getTime() - start.getTime()) / (1000 * 60)))
-    onCreateOpen()
+    createModal.onOpen()
   }, [])
 
   const handleDatesChange = useCallback(
@@ -214,29 +205,18 @@ export default function MeetingsPage() {
     })
   }, [])
 
-  // Meeting Modal
+  // Meeting id for modal
   const [meetingId, setMeetingId] = useState<string | undefined>()
-  const {
-    isOpen: isMeetingOpen,
-    onOpen: onMeetingOpen,
-    onClose: onMeetingClose,
-  } = useDisclosure()
 
-  // Create meeting Modal
+  // Dates for meeting creation modal
   const [startDate, setStartDate] = useState<Date | undefined>()
   const [duration, setDuration] = useState<number>(30)
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
 
-  // Export Modal
-  const {
-    isOpen: isExportOpen,
-    onOpen: onExportOpen,
-    onClose: onExportClose,
-  } = useDisclosure()
+  // Modals
+  const meetingModal = useDisclosure()
+  const createModal = useDisclosure()
+  const exportModal = useDisclosure()
+  const currentMeetingModal = useDisclosure({ defaultIsOpen: true })
 
   return (
     <Flex h="100%" p={5} flexDirection="column">
@@ -245,7 +225,7 @@ export default function MeetingsPage() {
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      <Flex mb={2} alignItems="center" flexWrap="wrap">
+      <Wrap mb={2} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           {t('MeetingsPage.heading')}
         </Heading>
@@ -278,7 +258,12 @@ export default function MeetingsPage() {
           </MenuList>
         </Menu>
 
-        <Button size="sm" ml={1} leftIcon={<FiUpload />} onClick={onExportOpen}>
+        <Button
+          size="sm"
+          ml={1}
+          leftIcon={<FiUpload />}
+          onClick={exportModal.onOpen}
+        >
           {t('MeetingsPage.export')}
         </Button>
 
@@ -293,18 +278,7 @@ export default function MeetingsPage() {
             {t('MeetingsPage.create')}
           </Button>
         )}
-      </Flex>
-
-      {currentMember?.meetingId && (
-        <Alert status="info" mb={2} maxW={400}>
-          <AlertIcon />
-          <AlertTitle>{t('MeetingsPage.current')}</AlertTitle>
-          <Spacer />
-          <Button ml={3} colorScheme="blue" onClick={handleOpenCurrentMeeting}>
-            {t('MeetingsPage.openCurrent')}
-          </Button>
-        </Alert>
-      )}
+      </Wrap>
 
       <Box flex={1}>
         <FullCalendar
@@ -339,21 +313,27 @@ export default function MeetingsPage() {
         />
       </Box>
 
-      {isMeetingOpen && meetingId && (
-        <MeetingModal id={meetingId} isOpen onClose={onMeetingClose} />
+      {meetingModal.isOpen && meetingId && (
+        <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />
       )}
 
-      {isCreateOpen && (
+      {createModal.isOpen && (
         <MeetingEditModal
           defaultStartDate={startDate}
           defaultDuration={duration}
           isOpen
           onCreate={handleCreated}
-          onClose={onCreateClose}
+          onClose={createModal.onClose}
         />
       )}
 
-      {isExportOpen && <MeetingExportModal isOpen onClose={onExportClose} />}
+      {exportModal.isOpen && (
+        <MeetingExportModal isOpen onClose={exportModal.onClose} />
+      )}
+
+      {currentMeetingModal.isOpen && (
+        <MeetingOpenCurrent isOpen onClose={currentMeetingModal.onClose} />
+      )}
     </Flex>
   )
 }

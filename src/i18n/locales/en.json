@@ -280,6 +280,10 @@
     "circle": "Role",
     "url": "iCal URL"
   },
+  "MeetingOpenCurrent": {
+    "heading": "Meeting in progress",
+    "info": "You have a meeting in progress, would you like to join it?"
+  },
   "MeetingStepContent": {
     "notesPlaceholder": "Notes..."
   },
@@ -330,9 +334,7 @@
       "All": "All meetings"
     },
     "export": "Export",
-    "create": "New meeting",
-    "current": "Meeting in progress",
-    "openCurrent": "Open"
+    "create": "New meeting"
   },
   "MemberContent": {
     "notFound": "Member not found",
@@ -671,6 +673,7 @@
     "save": "Save",
     "create": "Create",
     "send": "Send",
+    "open": "Open",
     "createThread": "Create a Thread",
     "createMeeting": "Create a Meeting",
     "createTask": "Create a Task",

@@ -65,7 +65,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
     if (!meeting) return
     handleNextStep()
     startNotifModal.onOpen()
-  }, [meeting])
+  }, [meeting, handleNextStep])
 
   // Entities creation
   const [entityType, setEntityType] = useState<ActivityType>(
