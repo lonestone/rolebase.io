@@ -226,8 +226,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
 
             {entityType === ActivityType.Meeting && (
               <MeetingEditModal
-                meeting={meeting}
-                duplicate
+                defaultCircleId={meeting.circleId}
                 isOpen
                 onClose={entityModal.onClose}
               />
