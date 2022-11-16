@@ -28,7 +28,6 @@ export default function MeetingOpenCurrent(modalProps: UseModalProps) {
 
   // Send notification to all participants
   const handleOpen = () => {
-    modalProps.onClose()
     navigate(`meetings/${currentMember?.meetingId}`)
   }
 
