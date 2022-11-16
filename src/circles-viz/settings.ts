@@ -10,7 +10,7 @@ export default {
   },
   zoom: {
     scaleExtent: [0.1, 5],
-    transition: d3.easeCubicInOut,
+    transition: d3.easeCubicOut,
     duration: 500,
   },
   highlight: {
