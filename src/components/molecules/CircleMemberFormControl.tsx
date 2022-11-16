@@ -51,9 +51,6 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   const handleRemoveMember = useCallback((memberId: string) => {
     setMemberId(memberId)
     onDeleteOpen()
-
-    // Focus circle in graph
-    zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
   }, [])
 
   // CircleMemberDeleteModal

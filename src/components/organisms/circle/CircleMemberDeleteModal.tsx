@@ -12,8 +12,9 @@ import {
 import useCircle from '@hooks/useCircle'
 import useMember from '@hooks/useMember'
 import useRemoveCircleMember from '@hooks/useRemoveCircleMember'
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { GraphZoomContext } from 'src/contexts/GraphZoomContext'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -33,12 +34,16 @@ export default function CircleMemberDeleteModal({
   const member = useMember(memberId)
   const removeCircleMember = useRemoveCircleMember()
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const zoomContext = useContext(GraphZoomContext)
 
   const handleDelete = async () => {
     if (!circle || !member) return
     await removeCircleMember(circleId, memberId)
     onDelete?.()
     alertProps.onClose()
+
+    // Focus circle in graph
+    zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
   }
 
   return (
