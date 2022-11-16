@@ -9,6 +9,7 @@ const Fragment = gql(`
     id
     orgId
     name
+    picture
   }
 `)
 
@@ -18,6 +19,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Member,
   title: fragment.name,
   description: '',
+  picture: fragment.picture || undefined,
   boost: 1,
 })
 
