@@ -24,7 +24,7 @@ export default function MeetingAttendeesList({
   meetingState,
   ...boxProps
 }: Props) {
-  const { meeting, circle, editable, path } = meetingState
+  const { meeting, circle, editable, path, isStarted } = meetingState
   const attendees = meeting?.attendees
 
   const { t } = useTranslation()
@@ -66,10 +66,12 @@ export default function MeetingAttendeesList({
     )
 
     // Set user's current meeting
-    startMembersMeeting({
-      membersIds: [memberId],
-      meetingId: meeting.id,
-    })
+    if (isStarted) {
+      startMembersMeeting({
+        membersIds: [memberId],
+        meetingId: meeting.id,
+      })
+    }
 
     // Send notification
     if (circle && currentMember && currentMember.id !== memberId) {
