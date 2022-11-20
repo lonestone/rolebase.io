@@ -524,6 +524,36 @@
     "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
     "color": "Customize color"
   },
+  "RRuleEditor": {
+    "repeat": "Repeat every",
+    "freqs": {
+      "YEARLY_one": "year",
+      "YEARLY_other": "years",
+      "MONTHLY_one": "month",
+      "MONTHLY_other": "months",
+      "WEEKLY_one": "week",
+      "WEEKLY_other": "weeks",
+      "DAILY_one": "day",
+      "DAILY_other": "dayes"
+    },
+    "startDate": "Start date",
+    "end": "End",
+    "never": "Never",
+    "until": "On date",
+    "count": "After",
+    "count-suffix": "times",
+    "byweekday": "On",
+    "bymonthday": "On",
+    "bymonthday-suffix": "of the month",
+    "bysetpos": {
+      "1": "First",
+      "2": "Second",
+      "3": "Third",
+      "4": "Fourth",
+      "-1": "Last"
+    },
+    "bymonth": "In"
+  },
   "SearchGlobal": {
     "placeholder": "Search {{org}}..."
   },

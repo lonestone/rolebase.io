@@ -60,6 +60,7 @@
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.4.5",
+    "rrule": "^2.7.1",
     "slugify": "^1.6.5",
     "styled-components": "^5.3.5",
     "yup": "^0.32.11"
