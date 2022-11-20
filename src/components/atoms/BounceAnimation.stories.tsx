@@ -5,9 +5,6 @@ import BounceAnimation from './BounceAnimation'
 export default {
   title: 'BounceAnimation',
   component: BounceAnimation,
-  parameters: {
-    active: true,
-  },
 } as ComponentMeta<typeof BounceAnimation>
 
 const Template: ComponentStory<typeof BounceAnimation> = (args) => (
