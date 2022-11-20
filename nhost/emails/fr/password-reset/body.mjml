@@ -1,0 +1,25 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="20px">Rolebase</mj-text>
+        <mj-divider border-color="#fdc577" />
+        <mj-text font-size="16px">
+          Vous avez fait une demande réinitialisation de votre mot de passe
+          Rolebase.
+        </mj-text>
+        <mj-text>
+          Si vous n'êtes pas à l'origine de cette demande, vous pouvez
+          l'ignorer.
+        </mj-text>
+        <mj-text
+          >Pour vous connecter et changer votre mot de passe, cliquez ici
+          :</mj-text
+        >
+        <mj-button href="${link}" background-color="#4caf50" font-size="16px"
+          >Changer mon mot de passe</mj-button
+        >
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
