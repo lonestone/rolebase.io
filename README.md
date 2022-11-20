@@ -67,3 +67,26 @@ To use the search engine across an organization, you need to configure an Algoli
         sudo nhost upgrade
 
 3.  Upgrade package `@nhost/nhost-js`.
+
+## Storybook
+
+You can preview and test some components in Storybook.
+
+        npm run storybook
+
+## Email templates
+
+### Nhost emails
+
+Email templates for Nhost are defined in `nhost/emails` folder.
+
+They must be translated in french and english.
+
+We're using MJML templates to generate HTML templates.
+
+VSCode extension "MJML" is useful to get syntax highlighting and export to HTML:
+https://marketplace.visualstudio.com/items?itemName=attilabuti.vscode-mjml
+
+### Mailjet templates
+
+All other templates are defined in the Mailjet interface.

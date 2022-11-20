@@ -1,0 +1,17 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="20px">Rolebase</mj-text>
+        <mj-divider border-color="#fdc577" />
+        <mj-text font-size="16px">
+          You have requested a change of email address for your account.
+        </mj-text>
+        <mj-text> Click on Confirm to validate the change: </mj-text>
+        <mj-button href="${link}" background-color="#4caf50" font-size="16px"
+          >Confirm</mj-button
+        >
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
