@@ -176,9 +176,11 @@ export default function MembersPage() {
 
       {isInviteOpen && <MembersInviteModal isOpen onClose={onInviteClose} />}
 
-      {isEditOpen && editMemberId && (
-        <MemberEditModal id={editMemberId} isOpen onClose={onEditClose} />
-      )}
+      {isEditOpen &&
+        editMemberId &&
+        members?.some((m) => m.id === editMemberId) && (
+          <MemberEditModal id={editMemberId} isOpen onClose={onEditClose} />
+        )}
     </Container>
   )
 }
