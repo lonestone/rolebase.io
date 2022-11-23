@@ -73,5 +73,5 @@ export function omit<T, K extends keyof T>(obj: T, ...keys: K[]): Omit<T, K> {
 }
 
 export function range(start: number, end: number): number[] {
-  return Array.from({ length: end - start }, (_, i) => i + start)
+  return Array.from({ length: end - start + 1 }, (_, i) => i + start)
 }

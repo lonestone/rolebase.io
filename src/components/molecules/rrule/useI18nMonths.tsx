@@ -9,7 +9,7 @@ export default function useI18nMonths() {
   return useMemo(() => {
     const date = new Date()
     date.setDate(1)
-    return range(0, 12).map((month) =>
+    return range(0, 11).map((month) =>
       capitalizeFirstLetter(
         format(setMonth(date, month), 'MMMM', { locale: dateLocale })
       )

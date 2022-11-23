@@ -8,7 +8,7 @@ export default function useI18nDays() {
 
   return useMemo(() => {
     const firstDay = startOfWeek(new Date(), { weekStartsOn: 1 })
-    return range(0, 7).map((day) =>
+    return range(0, 6).map((day) =>
       capitalizeFirstLetter(
         format(addDays(firstDay, day), 'EEEE', { locale: dateLocale })
       )
