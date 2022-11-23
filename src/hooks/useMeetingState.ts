@@ -10,7 +10,7 @@ import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { CircleWithRoleEntry } from '@shared/model/circle'
-import { Meeting, MeetingEntry } from '@shared/model/meeting'
+import { Meeting, MeetingEntry, VideoConfTypes } from '@shared/model/meeting'
 import { MeetingStepEntry } from '@shared/model/meeting_step'
 import { ParticipantMember } from '@shared/model/member'
 import { NotificationCategories } from '@shared/model/notification'
@@ -314,9 +314,12 @@ export default function useMeetingState(meetingId: string): MeetingState {
   // Video conference URL
   const videoConfUrl = useMemo(() => {
     if (!meeting?.videoConf || !circle || !currentMember) return
-    return typeof meeting.videoConf === 'string'
-      ? meeting.videoConf
-      : generateVideoConfUrl(meeting, circle, currentMember)
+    if (meeting.videoConf.type === VideoConfTypes.Jitsi) {
+      return generateVideoConfUrl(meeting, circle, currentMember)
+    }
+    if (meeting.videoConf.type === VideoConfTypes.Url) {
+      return meeting.videoConf.url
+    }
   }, [meeting, circle, currentMember])
 
   return {

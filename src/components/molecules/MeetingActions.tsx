@@ -181,7 +181,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
             </HStack>
 
             <HStack spacing={2}>
-              {videoConfUrl && !isEndTimePassed && (
+              {videoConfUrl && (
                 <a href={videoConfUrl} target="_blank" rel="noreferrer">
                   <IconTextButton
                     aria-label={t('MeetingActions.videoConf')}
