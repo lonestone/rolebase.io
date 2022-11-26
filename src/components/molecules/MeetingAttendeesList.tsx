@@ -8,7 +8,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { MeetingState } from '@hooks/useMeetingState'
 import { MeetingAttendee } from '@shared/model/meeting'
 import { NotificationCategories } from '@shared/model/notification'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import { useUpdateMeetingMutation } from 'src/graphql.generated'
@@ -25,11 +25,16 @@ export default function MeetingAttendeesList({
   ...boxProps
 }: Props) {
   const { meeting, circle, editable, path, isStarted } = meetingState
-  const attendees = meeting?.attendees
-
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const [updateMeeting] = useUpdateMeetingMutation()
+
+  // Attendees state for optimistic UI
+  // and to handle multiple updates in a short time
+  const [attendees, setAttendees] = useState(meeting?.attendees)
+  useEffect(() => {
+    setAttendees(meeting?.attendees)
+  }, [meeting?.attendees])
 
   const attendeesMemberIds = useMemo(
     () => attendees?.map((a) => a.memberId) || [],
@@ -38,6 +43,7 @@ export default function MeetingAttendeesList({
 
   const updateAttendees = (attendees: MeetingAttendee[]) => {
     if (!meeting) return
+    setAttendees(attendees)
     return updateMeeting({
       variables: {
         id: meeting.id,
