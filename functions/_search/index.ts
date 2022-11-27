@@ -1,5 +1,5 @@
 import getAlgoliaIndex from '@utils/getAlgoliaClient'
-import { IndexCircle } from './circle'
+import { IndexCircle, IndexRole } from './circle'
 import { IndexDecision } from './decision'
 import { IndexMeeting, IndexMeetingStep } from './meeting'
 import { IndexMember } from './member'
@@ -12,6 +12,7 @@ export const indexTables = [
   IndexMeeting,
   IndexMeetingStep,
   IndexMember,
+  IndexRole,
   IndexTask,
   IndexThread,
 ]

@@ -1,7 +1,9 @@
 import { DocumentType, gql } from '@gql'
 import { CircleEntry } from '@shared/model/circle'
+import { RoleEntry } from '@shared/model/role'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
+import { HasuraEvent } from '@utils/nhost'
 import { IndexEntity } from './IndexEntity'
 
 const Fragment = gql(`
@@ -76,5 +78,35 @@ export class IndexCircle extends IndexEntity<CircleEntry> {
       `)
     )
     return circle.map(transform)
+  }
+}
+
+// When a role is updated, we need to update the circles that use it
+export class IndexRole extends IndexEntity<RoleEntry> {
+  static table = 'public.role'
+
+  async applyEvent(event: HasuraEvent<RoleEntry>) {
+    const { data } = event.event
+    const id = data.new?.id ?? data.old?.id
+
+    // Have name changed?
+    if (id && data.new?.name !== data.old?.name) {
+      const { role } = await adminRequest(
+        gql(`
+          query GetRoleCirclesForSearch($id: uuid!) {
+            role(where: { id: { _eq: $id } }) {
+              circles(where: { archived: { _eq: false } }) {
+                ...CircleSearch
+              }
+            }
+          }
+        `),
+        { id }
+      )
+
+      // Update circles
+      const circleDocs = role[0].circles.map(transform)
+      await this.index.saveObjects(circleDocs).catch(console.error)
+    }
   }
 }
