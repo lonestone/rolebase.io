@@ -74,8 +74,10 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
       if (typeof roleOrName === 'string') {
         const { data } = await createRole({
           variables: {
-            orgId,
-            name: roleOrName,
+            values: {
+              orgId,
+              name: roleOrName,
+            },
           },
         })
         role = data?.insert_role_one!

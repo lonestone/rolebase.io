@@ -26,36 +26,20 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
   const roles = useStoreState((state) => state.roles.entries)
   const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
 
-  // Create modal
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
-
-  // Delete modal
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
-
-  // Edit modal
+  // Modals
   const [roleId, setRoleId] = useState<string | undefined>()
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
+  const editModal = useDisclosure()
+  const createModal = useDisclosure()
+  const deleteModal = useDisclosure()
 
   const handleEdit = (id: string) => {
     setRoleId(id)
-    onEditOpen()
+    editModal.onOpen()
   }
 
   const handleDelete = (id: string) => {
     setRoleId(id)
-    onDeleteOpen()
+    deleteModal.onOpen()
   }
 
   return (
@@ -91,27 +75,29 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
           </ModalBody>
 
           <ModalFooter justifyContent="center">
-            <Button leftIcon={<FiPlus />} onClick={onCreateOpen}>
+            <Button leftIcon={<FiPlus />} onClick={createModal.onOpen}>
               {t('BaseRolesModal.create')}
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
 
-      {isCreateOpen && (
+      {createModal.isOpen && (
         <BaseRoleCreateModal
           isOpen
-          onClose={onCreateClose}
+          onClose={createModal.onClose}
           onCreate={(id) => handleEdit(id)}
         />
       )}
 
-      {isEditOpen && roleId && (
-        <RoleEditModal id={roleId} isOpen onClose={onEditClose} />
-      )}
+      {editModal.isOpen &&
+        roleId &&
+        roles?.some((role) => role.id === roleId) && (
+          <RoleEditModal id={roleId} isOpen onClose={editModal.onClose} />
+        )}
 
-      {isDeleteOpen && roleId && (
-        <RoleDeleteModal id={roleId} isOpen onClose={onDeleteClose} />
+      {deleteModal.isOpen && roleId && (
+        <RoleDeleteModal id={roleId} isOpen onClose={deleteModal.onClose} />
       )}
     </>
   )

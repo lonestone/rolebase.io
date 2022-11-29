@@ -97,8 +97,10 @@ export default function OnboardingCirclesModal({
         // Create role
         const roleResult = await createRole({
           variables: {
-            orgId,
-            name,
+            values: {
+              orgId,
+              name,
+            },
           },
         })
         const newRole = roleResult.data?.insert_role_one

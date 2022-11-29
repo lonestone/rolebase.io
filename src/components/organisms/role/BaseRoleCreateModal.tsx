@@ -55,8 +55,11 @@ export default function BaseRoleCreateModal({
     if (!orgId) return
     const { data } = await createRole({
       variables: {
-        orgId,
-        name,
+        values: {
+          orgId,
+          name,
+          base: true,
+        },
       },
     })
     const role = data?.insert_role_one!

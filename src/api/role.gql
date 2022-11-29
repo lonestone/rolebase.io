@@ -32,8 +32,8 @@ subscription subscribeRoles($orgId: uuid!, $archived: Boolean!) {
   }
 }
 
-mutation createRole($orgId: uuid!, $name: String!) {
-  insert_role_one(object: { orgId: $orgId, name: $name }) {
+mutation createRole($values: role_insert_input!) {
+  insert_role_one(object: $values) {
     ...RoleFields
   }
 }

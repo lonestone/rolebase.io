@@ -12122,8 +12122,7 @@ export type SubscribeRolesSubscriptionVariables = Exact<{
 export type SubscribeRolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: any | null }> };
 
 export type CreateRoleMutationVariables = Exact<{
-  orgId: Scalars['uuid'];
-  name: Scalars['String'];
+  values: Role_Insert_Input;
 }>;
 
 
@@ -14286,8 +14285,8 @@ export function useSubscribeRolesSubscription(baseOptions: Apollo.SubscriptionHo
 export type SubscribeRolesSubscriptionHookResult = ReturnType<typeof useSubscribeRolesSubscription>;
 export type SubscribeRolesSubscriptionResult = Apollo.SubscriptionResult<SubscribeRolesSubscription>;
 export const CreateRoleDocument = gql`
-    mutation createRole($orgId: uuid!, $name: String!) {
-  insert_role_one(object: {orgId: $orgId, name: $name}) {
+    mutation createRole($values: role_insert_input!) {
+  insert_role_one(object: $values) {
     ...RoleFields
   }
 }
@@ -14307,8 +14306,7 @@ export type CreateRoleMutationFn = Apollo.MutationFunction<CreateRoleMutation, C
  * @example
  * const [createRoleMutation, { data, loading, error }] = useCreateRoleMutation({
  *   variables: {
- *      orgId: // value for 'orgId'
- *      name: // value for 'name'
+ *      values: // value for 'values'
  *   },
  * });
  */
