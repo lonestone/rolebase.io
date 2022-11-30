@@ -18,7 +18,7 @@ export default function useAddCircleMember() {
     createLog({
       display: {
         type: LogType.CircleMemberAdd,
-        id: circleMember.id,
+        id: circleMember.circleId,
         name: circleMember.circle.role.name,
         memberId: circleMember.member.id,
         memberName: circleMember.member.name,

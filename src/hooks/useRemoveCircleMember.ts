@@ -18,7 +18,7 @@ export default function useRemoveCircleMember() {
     createLog({
       display: {
         type: LogType.CircleMemberRemove,
-        id: circleMember.id,
+        id: circleMember.circleId,
         name: circleMember.circle.role.name,
         memberId: circleMember.member.id,
         memberName: circleMember.member.name,
