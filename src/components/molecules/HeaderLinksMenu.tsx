@@ -8,7 +8,6 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import MeetingTemplatesModal from '@components/organisms/meeting/MeetingTemplatesModal'
 import OrgEditModal from '@components/organisms/org/OrgEditModal'
 import BaseRolesModal from '@components/organisms/role/BaseRolesModal'
 import VacantRolesModal from '@components/organisms/role/VacantRolesModal'
@@ -23,7 +22,6 @@ import {
   FiActivity,
   FiCircle,
   FiClock,
-  FiCopy,
   FiMoreVertical,
   FiSettings,
   FiUsers,
@@ -57,7 +55,6 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
   const editModal = useDisclosure()
   const baseRolesModal = useDisclosure()
   const vacantRolesModal = useDisclosure()
-  const meetingTemplatesModal = useDisclosure()
 
   // Edit modal
   const [editOrgId, setEditOrgId] = useState<string | undefined>()
@@ -112,9 +109,6 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
             <MenuItem icon={<FiCircle />} onClick={vacantRolesModal.onOpen}>
               {t('HeaderLinksMenu.vacantRoles')}
             </MenuItem>
-            <MenuItem icon={<FiCopy />} onClick={meetingTemplatesModal.onOpen}>
-              {t('HeaderLinksMenu.meetingTemplates')}
-            </MenuItem>
           </>
         )}
 
@@ -139,10 +133,6 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
 
       {vacantRolesModal.isOpen && (
         <VacantRolesModal isOpen onClose={vacantRolesModal.onClose} />
-      )}
-
-      {meetingTemplatesModal.isOpen && (
-        <MeetingTemplatesModal isOpen onClose={meetingTemplatesModal.onClose} />
       )}
     </Menu>
   )

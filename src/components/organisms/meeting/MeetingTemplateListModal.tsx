@@ -16,15 +16,15 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import ListItemWithButtons from '@components/molecules/ListItemWithButtons'
 import { useOrgId } from '@hooks/useOrgId'
-import { MeetingTempalteEntry } from '@shared/model/meeting_template'
+import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import { useSubscribeMeetingTemplatesSubscription } from 'src/graphql.generated'
 import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'
-import MeetingTemplateModal from './MeetingTemplateModal'
+import MeetingTemplateEditModal from './MeetingTemplateEditModal'
 
-export default function MeetingTemplatesModal(modalProps: UseModalProps) {
+export default function MeetingTemplateListModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
 
@@ -34,39 +34,31 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
     variables: { orgId: orgId! },
   })
   const meetingTemplates = data?.meeting_template as
-    | MeetingTempalteEntry[]
+    | MeetingTemplateEntry[]
     | undefined
 
   // Create/Edit modal
   const [meetingTemplate, setMeetingTemplate] = useState<
-    MeetingTempalteEntry | undefined
+    MeetingTemplateEntry | undefined
   >()
-  const {
-    isOpen: isEditOpen,
-    onOpen: onEditOpen,
-    onClose: onEditClose,
-  } = useDisclosure()
+  const editModal = useDisclosure()
 
   // Delete modal
-  const {
-    isOpen: isDeleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useDisclosure()
+  const deleteModal = useDisclosure()
 
   const handleCreate = () => {
     setMeetingTemplate(undefined)
-    onEditOpen()
+    editModal.onOpen()
   }
 
-  const handleEdit = (mt: MeetingTempalteEntry) => {
+  const handleEdit = (mt: MeetingTemplateEntry) => {
     setMeetingTemplate(mt)
-    onEditOpen()
+    editModal.onOpen()
   }
 
-  const handleDelete = (mt: MeetingTempalteEntry) => {
+  const handleDelete = (mt: MeetingTemplateEntry) => {
     setMeetingTemplate(mt)
-    onDeleteOpen()
+    deleteModal.onOpen()
   }
 
   return (
@@ -74,20 +66,21 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
       <Modal {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t('MeetingTemplatesModal.heading')}</ModalHeader>
+          <ModalHeader>{t('MeetingTemplateListModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             {loading && <Loading active size="md" />}
             <TextErrors errors={[error]} />
 
-            {!meetingTemplates?.length ? (
-              <Text fontStyle="italic">{t('MeetingTemplatesModal.empty')}</Text>
+            {!loading && !meetingTemplates?.length ? (
+              <Text fontStyle="italic">
+                {t('MeetingTemplateListModal.empty')}
+              </Text>
             ) : (
               meetingTemplates?.map((mt) => (
                 <ListItemWithButtons
                   key={mt.id}
-                  title={mt.title}
                   onClick={() => handleEdit(mt)}
                   buttons={
                     <IconButton
@@ -99,32 +92,34 @@ export default function MeetingTemplatesModal(modalProps: UseModalProps) {
                       icon={<FiTrash2 />}
                     />
                   }
-                />
+                >
+                  {mt.title}
+                </ListItemWithButtons>
               ))
             )}
           </ModalBody>
 
           <ModalFooter justifyContent="center">
             <Button leftIcon={<FiPlus />} onClick={handleCreate}>
-              {t('MeetingTemplatesModal.create')}
+              {t('MeetingTemplateListModal.create')}
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
 
-      {isEditOpen && (
-        <MeetingTemplateModal
+      {editModal.isOpen && (
+        <MeetingTemplateEditModal
           meetingTemplate={meetingTemplate}
           isOpen
-          onClose={onEditClose}
+          onClose={editModal.onClose}
         />
       )}
 
-      {isDeleteOpen && meetingTemplate && (
+      {deleteModal.isOpen && meetingTemplate && (
         <MeetingTemplateDeleteModal
           meetingTemplate={meetingTemplate}
           isOpen
-          onClose={onDeleteClose}
+          onClose={deleteModal.onClose}
         />
       )}
     </>

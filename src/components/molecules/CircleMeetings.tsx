@@ -1,15 +1,16 @@
-import { Button, Text, useDisclosure } from '@chakra-ui/react'
+import { Button, Flex, Spacer, Text, useDisclosure } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
 import MeetingModal from '@components/organisms/meeting/MeetingModal'
+import MeetingRecurringListModal from '@components/organisms/meeting/MeetingRecurringListModal'
 import useDateLocale from '@hooks/useDateLocale'
 import useOrgMember from '@hooks/useOrgMember'
 import { MeetingEntry } from '@shared/model/meeting'
 import { format, isSameMonth } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { FiPlus, FiRepeat } from 'react-icons/fi'
 import { useSubscribeCircleMeetingsSubscription } from 'src/graphql.generated'
 import { capitalizeFirstLetter } from 'src/utils'
 import MeetingItem from './MeetingItem'
@@ -30,33 +31,36 @@ export default function CircleMeetings({ circleId }: Props) {
   })
   const meetings = data?.meeting as MeetingEntry[] | undefined
 
-  // Meeting modal
+  // Modals
   const [meetingId, setMeetingId] = useState<string | undefined>()
-  const {
-    isOpen: isMeetingOpen,
-    onOpen: onMeetingOpen,
-    onClose: onMeetingClose,
-  } = useDisclosure()
-
-  // Create Meeting modal
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
+  const meetingModal = useDisclosure()
+  const createModal = useDisclosure()
+  const recurringModal = useDisclosure()
 
   const handleCreate = (id: string) => {
     setMeetingId(id)
-    onMeetingOpen()
+    meetingModal.onOpen()
   }
 
   return (
     <>
-      {isMember && (
-        <Button size="sm" mb={3} leftIcon={<FiPlus />} onClick={onCreateOpen}>
-          {t('CircleMeetings.create')}
+      <Flex mb={4}>
+        {isMember && (
+          <Button size="sm" leftIcon={<FiPlus />} onClick={createModal.onOpen}>
+            {t('CircleMeetings.create')}
+          </Button>
+        )}
+
+        <Spacer />
+        <Button
+          size="sm"
+          variant="ghost"
+          leftIcon={<FiRepeat />}
+          onClick={recurringModal.onOpen}
+        >
+          {t('CircleMeetings.recurring')}
         </Button>
-      )}
+      </Flex>
 
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
@@ -85,16 +89,24 @@ export default function CircleMeetings({ circleId }: Props) {
         )
       })}
 
-      {isMeetingOpen && meetingId && (
-        <MeetingModal id={meetingId} isOpen onClose={onMeetingClose} />
+      {meetingModal.isOpen && meetingId && (
+        <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />
       )}
 
-      {isCreateOpen && (
+      {createModal.isOpen && (
         <MeetingEditModal
           defaultCircleId={circleId}
           isOpen
-          onClose={onCreateClose}
+          onClose={createModal.onClose}
           onCreate={handleCreate}
+        />
+      )}
+
+      {recurringModal.isOpen && (
+        <MeetingRecurringListModal
+          circleId={circleId}
+          isOpen
+          onClose={recurringModal.onClose}
         />
       )}
     </>

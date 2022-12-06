@@ -14,6 +14,7 @@ export interface Member {
   workedMinPerWeek?: number | null
   role?: ClaimRole | null
   meetingId?: string | null
+  preferences?: Partial<MemberPreferences> | null
 }
 
 export type MemberEntry = WithId<Member>
@@ -40,4 +41,8 @@ export interface ParticipantMember {
   member: MemberEntry
   // Represented circles
   circlesIds: string[]
+}
+
+export interface MemberPreferences {
+  calendarShowWeekend: boolean
 }

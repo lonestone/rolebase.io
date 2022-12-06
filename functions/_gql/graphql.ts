@@ -12,12 +12,12 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  bigint: any;
+  bigint: number;
   bytea: any;
   citext: string;
   json: any;
   jsonb: any;
-  smallint: any;
+  smallint: number;
   timestamptz: string;
   uuid: string;
 };
@@ -3625,18 +3625,16 @@ export type Meeting = {
   currentStepId?: Maybe<Scalars['uuid']>;
   endDate: Scalars['timestamptz'];
   ended: Scalars['Boolean'];
-  /** An object relationship */
-  facilitatorMember: Member;
-  facilitatorMemberId: Scalars['uuid'];
   id: Scalars['uuid'];
-  /** An object relationship */
-  initiatorMember: Member;
-  initiatorMemberId: Scalars['uuid'];
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
   participantsMembersIds: Scalars['json'];
   participantsScope: Scalars['String'];
+  /** An object relationship */
+  recurring?: Maybe<Meeting_Recurring>;
+  recurringDate?: Maybe<Scalars['timestamptz']>;
+  recurringId?: Maybe<Scalars['uuid']>;
   startDate: Scalars['timestamptz'];
   /** An array relationship */
   steps: Array<Meeting_Step>;
@@ -3740,15 +3738,14 @@ export type Meeting_Bool_Exp = {
   currentStepId?: InputMaybe<Uuid_Comparison_Exp>;
   endDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   ended?: InputMaybe<Boolean_Comparison_Exp>;
-  facilitatorMember?: InputMaybe<Member_Bool_Exp>;
-  facilitatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  initiatorMember?: InputMaybe<Member_Bool_Exp>;
-  initiatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
   participantsScope?: InputMaybe<String_Comparison_Exp>;
+  recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  recurringDate?: InputMaybe<Timestamptz_Comparison_Exp>;
+  recurringId?: InputMaybe<Uuid_Comparison_Exp>;
   startDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   steps?: InputMaybe<Meeting_Step_Bool_Exp>;
   stepsConfig?: InputMaybe<Json_Comparison_Exp>;
@@ -3772,15 +3769,14 @@ export type Meeting_Insert_Input = {
   currentStepId?: InputMaybe<Scalars['uuid']>;
   endDate?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
-  facilitatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
-  facilitatorMemberId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initiatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
-  initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Scalars['String']>;
+  recurring?: InputMaybe<Meeting_Recurring_Obj_Rel_Insert_Input>;
+  recurringDate?: InputMaybe<Scalars['timestamptz']>;
+  recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   steps?: InputMaybe<Meeting_Step_Arr_Rel_Insert_Input>;
   stepsConfig?: InputMaybe<Scalars['json']>;
@@ -3795,11 +3791,11 @@ export type Meeting_Max_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   currentStepId?: Maybe<Scalars['uuid']>;
   endDate?: Maybe<Scalars['timestamptz']>;
-  facilitatorMemberId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
-  initiatorMemberId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   participantsScope?: Maybe<Scalars['String']>;
+  recurringDate?: Maybe<Scalars['timestamptz']>;
+  recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
   title?: Maybe<Scalars['String']>;
 };
@@ -3810,11 +3806,11 @@ export type Meeting_Max_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
-  facilitatorMemberId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  recurringDate?: InputMaybe<Order_By>;
+  recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
@@ -3826,11 +3822,11 @@ export type Meeting_Min_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   currentStepId?: Maybe<Scalars['uuid']>;
   endDate?: Maybe<Scalars['timestamptz']>;
-  facilitatorMemberId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
-  initiatorMemberId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   participantsScope?: Maybe<Scalars['String']>;
+  recurringDate?: Maybe<Scalars['timestamptz']>;
+  recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
   title?: Maybe<Scalars['String']>;
 };
@@ -3841,11 +3837,11 @@ export type Meeting_Min_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
-  facilitatorMemberId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  recurringDate?: InputMaybe<Order_By>;
+  recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
@@ -3883,15 +3879,14 @@ export type Meeting_Order_By = {
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
   ended?: InputMaybe<Order_By>;
-  facilitatorMember?: InputMaybe<Member_Order_By>;
-  facilitatorMemberId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initiatorMember?: InputMaybe<Member_Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  recurring?: InputMaybe<Meeting_Recurring_Order_By>;
+  recurringDate?: InputMaybe<Order_By>;
+  recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
   stepsConfig?: InputMaybe<Order_By>;
   steps_aggregate?: InputMaybe<Meeting_Step_Aggregate_Order_By>;
@@ -3902,6 +3897,441 @@ export type Meeting_Order_By = {
 /** primary key columns input for table: meeting */
 export type Meeting_Pk_Columns_Input = {
   id: Scalars['uuid'];
+};
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_Recurring = {
+  __typename?: 'meeting_recurring';
+  /** An object relationship */
+  circle: Circle;
+  circleId: Scalars['uuid'];
+  createdAt: Scalars['timestamptz'];
+  duration: Scalars['smallint'];
+  id: Scalars['uuid'];
+  /** An array relationship */
+  meetings: Array<Meeting>;
+  /** An aggregate relationship */
+  meetings_aggregate: Meeting_Aggregate;
+  /** An object relationship */
+  org: Org;
+  orgId: Scalars['uuid'];
+  participantsMembersIds: Scalars['json'];
+  participantsScope: Scalars['String'];
+  rrule: Scalars['String'];
+  /** An object relationship */
+  template: Meeting_Template;
+  templateId: Scalars['uuid'];
+  videoConf?: Maybe<Scalars['json']>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringMeetingsArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Order_By>>;
+  where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringMeetings_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Order_By>>;
+  where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringParticipantsMembersIdsArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringVideoConfArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "meeting_recurring" */
+export type Meeting_Recurring_Aggregate = {
+  __typename?: 'meeting_recurring_aggregate';
+  aggregate?: Maybe<Meeting_Recurring_Aggregate_Fields>;
+  nodes: Array<Meeting_Recurring>;
+};
+
+/** aggregate fields of "meeting_recurring" */
+export type Meeting_Recurring_Aggregate_Fields = {
+  __typename?: 'meeting_recurring_aggregate_fields';
+  avg?: Maybe<Meeting_Recurring_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Meeting_Recurring_Max_Fields>;
+  min?: Maybe<Meeting_Recurring_Min_Fields>;
+  stddev?: Maybe<Meeting_Recurring_Stddev_Fields>;
+  stddev_pop?: Maybe<Meeting_Recurring_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Meeting_Recurring_Stddev_Samp_Fields>;
+  sum?: Maybe<Meeting_Recurring_Sum_Fields>;
+  var_pop?: Maybe<Meeting_Recurring_Var_Pop_Fields>;
+  var_samp?: Maybe<Meeting_Recurring_Var_Samp_Fields>;
+  variance?: Maybe<Meeting_Recurring_Variance_Fields>;
+};
+
+
+/** aggregate fields of "meeting_recurring" */
+export type Meeting_Recurring_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "meeting_recurring" */
+export type Meeting_Recurring_Aggregate_Order_By = {
+  avg?: InputMaybe<Meeting_Recurring_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Meeting_Recurring_Max_Order_By>;
+  min?: InputMaybe<Meeting_Recurring_Min_Order_By>;
+  stddev?: InputMaybe<Meeting_Recurring_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Meeting_Recurring_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Meeting_Recurring_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Meeting_Recurring_Sum_Order_By>;
+  var_pop?: InputMaybe<Meeting_Recurring_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Meeting_Recurring_Var_Samp_Order_By>;
+  variance?: InputMaybe<Meeting_Recurring_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "meeting_recurring" */
+export type Meeting_Recurring_Arr_Rel_Insert_Input = {
+  data: Array<Meeting_Recurring_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Meeting_Recurring_Avg_Fields = {
+  __typename?: 'meeting_recurring_avg_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Avg_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "meeting_recurring". All fields are combined with a logical 'AND'. */
+export type Meeting_Recurring_Bool_Exp = {
+  _and?: InputMaybe<Array<Meeting_Recurring_Bool_Exp>>;
+  _not?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  _or?: InputMaybe<Array<Meeting_Recurring_Bool_Exp>>;
+  circle?: InputMaybe<Circle_Bool_Exp>;
+  circleId?: InputMaybe<Uuid_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  duration?: InputMaybe<Smallint_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  meetings?: InputMaybe<Meeting_Bool_Exp>;
+  org?: InputMaybe<Org_Bool_Exp>;
+  orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
+  participantsScope?: InputMaybe<String_Comparison_Exp>;
+  rrule?: InputMaybe<String_Comparison_Exp>;
+  template?: InputMaybe<Meeting_Template_Bool_Exp>;
+  templateId?: InputMaybe<Uuid_Comparison_Exp>;
+  videoConf?: InputMaybe<Json_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "meeting_recurring" */
+export enum Meeting_Recurring_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  MeetingRecurringPkey = 'meeting_recurring_pkey'
+}
+
+/** input type for incrementing numeric columns in table "meeting_recurring" */
+export type Meeting_Recurring_Inc_Input = {
+  duration?: InputMaybe<Scalars['smallint']>;
+};
+
+/** input type for inserting data into table "meeting_recurring" */
+export type Meeting_Recurring_Insert_Input = {
+  circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
+  circleId?: InputMaybe<Scalars['uuid']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  duration?: InputMaybe<Scalars['smallint']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
+  org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  participantsMembersIds?: InputMaybe<Scalars['json']>;
+  participantsScope?: InputMaybe<Scalars['String']>;
+  rrule?: InputMaybe<Scalars['String']>;
+  template?: InputMaybe<Meeting_Template_Obj_Rel_Insert_Input>;
+  templateId?: InputMaybe<Scalars['uuid']>;
+  videoConf?: InputMaybe<Scalars['json']>;
+};
+
+/** aggregate max on columns */
+export type Meeting_Recurring_Max_Fields = {
+  __typename?: 'meeting_recurring_max_fields';
+  circleId?: Maybe<Scalars['uuid']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  duration?: Maybe<Scalars['smallint']>;
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  participantsScope?: Maybe<Scalars['String']>;
+  rrule?: Maybe<Scalars['String']>;
+  templateId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  participantsScope?: InputMaybe<Order_By>;
+  rrule?: InputMaybe<Order_By>;
+  templateId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Meeting_Recurring_Min_Fields = {
+  __typename?: 'meeting_recurring_min_fields';
+  circleId?: Maybe<Scalars['uuid']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  duration?: Maybe<Scalars['smallint']>;
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  participantsScope?: Maybe<Scalars['String']>;
+  rrule?: Maybe<Scalars['String']>;
+  templateId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  participantsScope?: InputMaybe<Order_By>;
+  rrule?: InputMaybe<Order_By>;
+  templateId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "meeting_recurring" */
+export type Meeting_Recurring_Mutation_Response = {
+  __typename?: 'meeting_recurring_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Meeting_Recurring>;
+};
+
+/** input type for inserting object relation for remote table "meeting_recurring" */
+export type Meeting_Recurring_Obj_Rel_Insert_Input = {
+  data: Meeting_Recurring_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
+};
+
+/** on_conflict condition type for table "meeting_recurring" */
+export type Meeting_Recurring_On_Conflict = {
+  constraint: Meeting_Recurring_Constraint;
+  update_columns?: Array<Meeting_Recurring_Update_Column>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "meeting_recurring". */
+export type Meeting_Recurring_Order_By = {
+  circle?: InputMaybe<Circle_Order_By>;
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
+  org?: InputMaybe<Org_Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  participantsMembersIds?: InputMaybe<Order_By>;
+  participantsScope?: InputMaybe<Order_By>;
+  rrule?: InputMaybe<Order_By>;
+  template?: InputMaybe<Meeting_Template_Order_By>;
+  templateId?: InputMaybe<Order_By>;
+  videoConf?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: meeting_recurring */
+export type Meeting_Recurring_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "meeting_recurring" */
+export enum Meeting_Recurring_Select_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Duration = 'duration',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  ParticipantsMembersIds = 'participantsMembersIds',
+  /** column name */
+  ParticipantsScope = 'participantsScope',
+  /** column name */
+  Rrule = 'rrule',
+  /** column name */
+  TemplateId = 'templateId',
+  /** column name */
+  VideoConf = 'videoConf'
+}
+
+/** input type for updating data in table "meeting_recurring" */
+export type Meeting_Recurring_Set_Input = {
+  circleId?: InputMaybe<Scalars['uuid']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  duration?: InputMaybe<Scalars['smallint']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  participantsMembersIds?: InputMaybe<Scalars['json']>;
+  participantsScope?: InputMaybe<Scalars['String']>;
+  rrule?: InputMaybe<Scalars['String']>;
+  templateId?: InputMaybe<Scalars['uuid']>;
+  videoConf?: InputMaybe<Scalars['json']>;
+};
+
+/** aggregate stddev on columns */
+export type Meeting_Recurring_Stddev_Fields = {
+  __typename?: 'meeting_recurring_stddev_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Stddev_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Meeting_Recurring_Stddev_Pop_Fields = {
+  __typename?: 'meeting_recurring_stddev_pop_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Stddev_Pop_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Meeting_Recurring_Stddev_Samp_Fields = {
+  __typename?: 'meeting_recurring_stddev_samp_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Stddev_Samp_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "meeting_recurring" */
+export type Meeting_Recurring_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Meeting_Recurring_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Meeting_Recurring_Stream_Cursor_Value_Input = {
+  circleId?: InputMaybe<Scalars['uuid']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  duration?: InputMaybe<Scalars['smallint']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  participantsMembersIds?: InputMaybe<Scalars['json']>;
+  participantsScope?: InputMaybe<Scalars['String']>;
+  rrule?: InputMaybe<Scalars['String']>;
+  templateId?: InputMaybe<Scalars['uuid']>;
+  videoConf?: InputMaybe<Scalars['json']>;
+};
+
+/** aggregate sum on columns */
+export type Meeting_Recurring_Sum_Fields = {
+  __typename?: 'meeting_recurring_sum_fields';
+  duration?: Maybe<Scalars['smallint']>;
+};
+
+/** order by sum() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Sum_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "meeting_recurring" */
+export enum Meeting_Recurring_Update_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Duration = 'duration',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  ParticipantsMembersIds = 'participantsMembersIds',
+  /** column name */
+  ParticipantsScope = 'participantsScope',
+  /** column name */
+  Rrule = 'rrule',
+  /** column name */
+  TemplateId = 'templateId',
+  /** column name */
+  VideoConf = 'videoConf'
+}
+
+export type Meeting_Recurring_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Meeting_Recurring_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Meeting_Recurring_Set_Input>;
+  where: Meeting_Recurring_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Meeting_Recurring_Var_Pop_Fields = {
+  __typename?: 'meeting_recurring_var_pop_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Var_Pop_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Meeting_Recurring_Var_Samp_Fields = {
+  __typename?: 'meeting_recurring_var_samp_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Var_Samp_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Meeting_Recurring_Variance_Fields = {
+  __typename?: 'meeting_recurring_variance_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Variance_Order_By = {
+  duration?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "meeting" */
@@ -3921,17 +4351,17 @@ export enum Meeting_Select_Column {
   /** column name */
   Ended = 'ended',
   /** column name */
-  FacilitatorMemberId = 'facilitatorMemberId',
-  /** column name */
   Id = 'id',
-  /** column name */
-  InitiatorMemberId = 'initiatorMemberId',
   /** column name */
   OrgId = 'orgId',
   /** column name */
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  RecurringDate = 'recurringDate',
+  /** column name */
+  RecurringId = 'recurringId',
   /** column name */
   StartDate = 'startDate',
   /** column name */
@@ -3951,12 +4381,12 @@ export type Meeting_Set_Input = {
   currentStepId?: InputMaybe<Scalars['uuid']>;
   endDate?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
-  facilitatorMemberId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Scalars['String']>;
+  recurringDate?: InputMaybe<Scalars['timestamptz']>;
+  recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   stepsConfig?: InputMaybe<Scalars['json']>;
   title?: InputMaybe<Scalars['String']>;
@@ -4212,12 +4642,12 @@ export type Meeting_Stream_Cursor_Value_Input = {
   currentStepId?: InputMaybe<Scalars['uuid']>;
   endDate?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
-  facilitatorMemberId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Scalars['String']>;
+  recurringDate?: InputMaybe<Scalars['timestamptz']>;
+  recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   stepsConfig?: InputMaybe<Scalars['json']>;
   title?: InputMaybe<Scalars['String']>;
@@ -4315,6 +4745,13 @@ export type Meeting_Template_Mutation_Response = {
   returning: Array<Meeting_Template>;
 };
 
+/** input type for inserting object relation for remote table "meeting_template" */
+export type Meeting_Template_Obj_Rel_Insert_Input = {
+  data: Meeting_Template_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Template_On_Conflict>;
+};
+
 /** on_conflict condition type for table "meeting_template" */
 export type Meeting_Template_On_Conflict = {
   constraint: Meeting_Template_Constraint;
@@ -4407,17 +4844,17 @@ export enum Meeting_Update_Column {
   /** column name */
   Ended = 'ended',
   /** column name */
-  FacilitatorMemberId = 'facilitatorMemberId',
-  /** column name */
   Id = 'id',
-  /** column name */
-  InitiatorMemberId = 'initiatorMemberId',
   /** column name */
   OrgId = 'orgId',
   /** column name */
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  RecurringDate = 'recurringDate',
+  /** column name */
+  RecurringId = 'recurringId',
   /** column name */
   StartDate = 'startDate',
   /** column name */
@@ -4455,6 +4892,7 @@ export type Member = {
   /** An object relationship */
   pictureFile?: Maybe<Files>;
   pictureFileId?: Maybe<Scalars['uuid']>;
+  preferences?: Maybe<Scalars['json']>;
   role?: Maybe<Scalars['String']>;
   /** An object relationship */
   user?: Maybe<Users>;
@@ -4480,6 +4918,12 @@ export type MemberCircle_Members_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Circle_Member_Order_By>>;
   where?: InputMaybe<Circle_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "member" */
+export type MemberPreferencesArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregated selection of "member" */
@@ -4563,6 +5007,7 @@ export type Member_Bool_Exp = {
   picture?: InputMaybe<String_Comparison_Exp>;
   pictureFile?: InputMaybe<Files_Bool_Exp>;
   pictureFileId?: InputMaybe<Uuid_Comparison_Exp>;
+  preferences?: InputMaybe<Json_Comparison_Exp>;
   role?: InputMaybe<String_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -4597,6 +5042,7 @@ export type Member_Insert_Input = {
   picture?: InputMaybe<Scalars['String']>;
   pictureFile?: InputMaybe<Files_Obj_Rel_Insert_Input>;
   pictureFileId?: InputMaybe<Scalars['uuid']>;
+  preferences?: InputMaybe<Scalars['json']>;
   role?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['uuid']>;
@@ -4707,6 +5153,7 @@ export type Member_Order_By = {
   picture?: InputMaybe<Order_By>;
   pictureFile?: InputMaybe<Files_Order_By>;
   pictureFileId?: InputMaybe<Order_By>;
+  preferences?: InputMaybe<Order_By>;
   role?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
@@ -4741,6 +5188,8 @@ export enum Member_Select_Column {
   /** column name */
   PictureFileId = 'pictureFileId',
   /** column name */
+  Preferences = 'preferences',
+  /** column name */
   Role = 'role',
   /** column name */
   UserId = 'userId',
@@ -4760,6 +5209,7 @@ export type Member_Set_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   picture?: InputMaybe<Scalars['String']>;
   pictureFileId?: InputMaybe<Scalars['uuid']>;
+  preferences?: InputMaybe<Scalars['json']>;
   role?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['uuid']>;
   workedMinPerWeek?: InputMaybe<Scalars['Int']>;
@@ -4818,6 +5268,7 @@ export type Member_Stream_Cursor_Value_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   picture?: InputMaybe<Scalars['String']>;
   pictureFileId?: InputMaybe<Scalars['uuid']>;
+  preferences?: InputMaybe<Scalars['json']>;
   role?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['uuid']>;
   workedMinPerWeek?: InputMaybe<Scalars['Int']>;
@@ -4856,6 +5307,8 @@ export enum Member_Update_Column {
   Picture = 'picture',
   /** column name */
   PictureFileId = 'pictureFileId',
+  /** column name */
+  Preferences = 'preferences',
   /** column name */
   Role = 'role',
   /** column name */
@@ -4968,6 +5421,10 @@ export type Mutation_Root = {
   delete_meeting?: Maybe<Meeting_Mutation_Response>;
   /** delete single row from the table: "meeting" */
   delete_meeting_by_pk?: Maybe<Meeting>;
+  /** delete data from the table: "meeting_recurring" */
+  delete_meeting_recurring?: Maybe<Meeting_Recurring_Mutation_Response>;
+  /** delete single row from the table: "meeting_recurring" */
+  delete_meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
   /** delete data from the table: "meeting_step" */
   delete_meeting_step?: Maybe<Meeting_Step_Mutation_Response>;
   /** delete single row from the table: "meeting_step" */
@@ -5080,6 +5537,10 @@ export type Mutation_Root = {
   insert_meeting?: Maybe<Meeting_Mutation_Response>;
   /** insert a single row into the table: "meeting" */
   insert_meeting_one?: Maybe<Meeting>;
+  /** insert data into the table: "meeting_recurring" */
+  insert_meeting_recurring?: Maybe<Meeting_Recurring_Mutation_Response>;
+  /** insert a single row into the table: "meeting_recurring" */
+  insert_meeting_recurring_one?: Maybe<Meeting_Recurring>;
   /** insert data into the table: "meeting_step" */
   insert_meeting_step?: Maybe<Meeting_Step_Mutation_Response>;
   /** insert a single row into the table: "meeting_step" */
@@ -5220,6 +5681,12 @@ export type Mutation_Root = {
   update_meeting_by_pk?: Maybe<Meeting>;
   /** update multiples rows of table: "meeting" */
   update_meeting_many?: Maybe<Array<Maybe<Meeting_Mutation_Response>>>;
+  /** update data of the table: "meeting_recurring" */
+  update_meeting_recurring?: Maybe<Meeting_Recurring_Mutation_Response>;
+  /** update single row of the table: "meeting_recurring" */
+  update_meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
+  /** update multiples rows of table: "meeting_recurring" */
+  update_meeting_recurring_many?: Maybe<Array<Maybe<Meeting_Recurring_Mutation_Response>>>;
   /** update data of the table: "meeting_step" */
   update_meeting_step?: Maybe<Meeting_Step_Mutation_Response>;
   /** update single row of the table: "meeting_step" */
@@ -5479,6 +5946,18 @@ export type Mutation_RootDelete_MeetingArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Meeting_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Meeting_RecurringArgs = {
+  where: Meeting_Recurring_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Meeting_Recurring_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -5846,6 +6325,20 @@ export type Mutation_RootInsert_MeetingArgs = {
 export type Mutation_RootInsert_Meeting_OneArgs = {
   object: Meeting_Insert_Input;
   on_conflict?: InputMaybe<Meeting_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Meeting_RecurringArgs = {
+  objects: Array<Meeting_Recurring_Insert_Input>;
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Meeting_Recurring_OneArgs = {
+  object: Meeting_Recurring_Insert_Input;
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
 };
 
 
@@ -6354,6 +6847,28 @@ export type Mutation_RootUpdate_Meeting_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Meeting_RecurringArgs = {
+  _inc?: InputMaybe<Meeting_Recurring_Inc_Input>;
+  _set?: InputMaybe<Meeting_Recurring_Set_Input>;
+  where: Meeting_Recurring_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Meeting_Recurring_By_PkArgs = {
+  _inc?: InputMaybe<Meeting_Recurring_Inc_Input>;
+  _set?: InputMaybe<Meeting_Recurring_Set_Input>;
+  pk_columns: Meeting_Recurring_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Meeting_Recurring_ManyArgs = {
+  updates: Array<Meeting_Recurring_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Meeting_StepArgs = {
   _set?: InputMaybe<Meeting_Step_Set_Input>;
   where: Meeting_Step_Bool_Exp;
@@ -6811,6 +7326,10 @@ export type Org = {
   /** An aggregate relationship */
   meetings_aggregate: Meeting_Aggregate;
   /** An array relationship */
+  meetings_recurring: Array<Meeting_Recurring>;
+  /** An aggregate relationship */
+  meetings_recurring_aggregate: Meeting_Recurring_Aggregate;
+  /** An array relationship */
   members: Array<Member>;
   /** An aggregate relationship */
   members_aggregate: Member_Aggregate;
@@ -6904,6 +7423,26 @@ export type OrgMeetings_AggregateArgs = {
 
 
 /** columns and relationships of "org" */
+export type OrgMeetings_RecurringArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgMeetings_Recurring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
 export type OrgMembersArgs = {
   distinct_on?: InputMaybe<Array<Member_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6991,6 +7530,7 @@ export type Org_Bool_Exp = {
   files?: InputMaybe<Org_File_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   meetings?: InputMaybe<Meeting_Bool_Exp>;
+  meetings_recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
   members?: InputMaybe<Member_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
@@ -7203,6 +7743,7 @@ export type Org_Insert_Input = {
   files?: InputMaybe<Org_File_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
+  meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
@@ -7262,6 +7803,7 @@ export type Org_Order_By = {
   files_aggregate?: InputMaybe<Org_File_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
+  meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
@@ -7469,6 +8011,12 @@ export type Query_Root = {
   meeting_aggregate: Meeting_Aggregate;
   /** fetch data from the table: "meeting" using primary key columns */
   meeting_by_pk?: Maybe<Meeting>;
+  /** fetch data from the table: "meeting_recurring" */
+  meeting_recurring: Array<Meeting_Recurring>;
+  /** fetch aggregated fields from the table: "meeting_recurring" */
+  meeting_recurring_aggregate: Meeting_Recurring_Aggregate;
+  /** fetch data from the table: "meeting_recurring" using primary key columns */
+  meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -7874,6 +8422,29 @@ export type Query_RootMeeting_AggregateArgs = {
 
 
 export type Query_RootMeeting_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootMeeting_RecurringArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_Recurring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_Recurring_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -8830,6 +9401,14 @@ export type Subscription_Root = {
   meeting_aggregate: Meeting_Aggregate;
   /** fetch data from the table: "meeting" using primary key columns */
   meeting_by_pk?: Maybe<Meeting>;
+  /** fetch data from the table: "meeting_recurring" */
+  meeting_recurring: Array<Meeting_Recurring>;
+  /** fetch aggregated fields from the table: "meeting_recurring" */
+  meeting_recurring_aggregate: Meeting_Recurring_Aggregate;
+  /** fetch data from the table: "meeting_recurring" using primary key columns */
+  meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
+  /** fetch data from the table in a streaming manner : "meeting_recurring" */
+  meeting_recurring_stream: Array<Meeting_Recurring>;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -9357,6 +9936,36 @@ export type Subscription_RootMeeting_AggregateArgs = {
 
 export type Subscription_RootMeeting_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMeeting_RecurringArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Recurring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Recurring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMeeting_Recurring_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Meeting_Recurring_Stream_Cursor_Input>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
 };
 
 
@@ -11857,6 +12466,18 @@ export type CheckOrgUserQueryVariables = Exact<{
 
 export type CheckOrgUserQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', members: Array<{ __typename?: 'member', id: string }> } | null };
 
+export type GetRecurringMeetingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRecurringMeetingsQuery = { __typename?: 'query_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any }, meetings: Array<{ __typename?: 'meeting', recurringDate?: string | null }> }> };
+
+export type CreateMeetingMutationVariables = Exact<{
+  meeting: Meeting_Insert_Input;
+}>;
+
+
+export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string } | null };
+
 export type GetUserQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -11905,11 +12526,11 @@ export type GetMemberByUserIdQueryVariables = Exact<{
 export type GetMemberByUserIdQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, name: string }> };
 
 export type GetOrgAndCirclesQueryVariables = Exact<{
-  id: Scalars['uuid'];
+  orgId: Scalars['uuid'];
 }>;
 
 
-export type GetOrgAndCirclesQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', name: string, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, roleId: string, parentId?: string | null, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, role: { __typename?: 'role', name: string, singleMember: boolean, link: string } }>, meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, initiatorMemberId: string, facilitatorMemberId: string, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null }> } | null };
+export type GetOrgAndCirclesQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', name: string, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, roleId: string, parentId?: string | null, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, role: { __typename?: 'role', name: string, singleMember: boolean, link: string } }>, meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, attendees?: any | null, startDate: string, endDate: string, title: string, recurringId?: string | null, recurringDate?: string | null, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } } }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, rrule: string, duration: number, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string } }> } | null };
 
 export type GetOldIdsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11969,13 +12590,15 @@ export const GetMemberDocument = {"kind":"Document","definitions":[{"kind":"Oper
 export const GetOrgRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgRoleQuery, GetOrgRoleQueryVariables>;
 export const UpdateMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"values"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"member_set_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_member_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"values"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateMemberMutation, UpdateMemberMutationVariables>;
 export const CheckOrgUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"checkOrgUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CheckOrgUserQuery, CheckOrgUserQueryVariables>;
+export const GetRecurringMeetingsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRecurringMeetings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meeting_recurring"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"templateId"}},{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rrule"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}}]}}]}}]}}]} as unknown as DocumentNode<GetRecurringMeetingsQuery, GetRecurringMeetingsQueryVariables>;
+export const CreateMeetingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMeeting"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"meeting"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_insert_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_meeting_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"Variable","name":{"kind":"Name","value":"meeting"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateMeetingMutation, CreateMeetingMutationVariables>;
 export const GetUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
 export const CreateOrgDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createOrg"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memberName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_org_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"BooleanValue","value":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"defaultWorkedMinPerWeek"},"value":{"kind":"IntValue","value":"2100"}},{"kind":"ObjectField","name":{"kind":"Name","value":"members"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"data"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memberName"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"role"},"value":{"kind":"StringValue","value":"Admin","block":false}}]}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateOrgMutation, CreateOrgMutationVariables>;
 export const CreateRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_role_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateRoleMutation, CreateRoleMutationVariables>;
 export const CreateRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roles"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"role_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roles"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CreateRolesMutation, CreateRolesMutationVariables>;
 export const CreateCircleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createCircle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_circle_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"roleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roleId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateCircleMutation, CreateCircleMutationVariables>;
 export const GetMemberByUserIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMemberByUserId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"member"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetMemberByUserIdQuery, GetMemberByUserIdQueryVariables>;
-export const GetOrgAndCirclesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgAndCircles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"link"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"startDate"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"initiatorMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"facilitatorMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"attendees"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgAndCirclesQuery, GetOrgAndCirclesQueryVariables>;
+export const GetOrgAndCirclesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgAndCircles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"link"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"startDate"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"attendees"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings_recurring"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rrule"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgAndCirclesQuery, GetOrgAndCirclesQueryVariables>;
 export const GetOldIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOldIds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"old_id"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"oldId"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<GetOldIdsQuery, GetOldIdsQueryVariables>;
 export const GetRecipientsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getRecipients"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memberIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"member"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memberIds"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetRecipientsQuery, GetRecipientsQueryVariables>;
 export const StartMembersMeetingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"startMembersMeeting"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"membersIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"meetingId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_member"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"membersIds"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"meetingId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"meetingId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<StartMembersMeetingMutation, StartMembersMeetingMutationVariables>;

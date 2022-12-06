@@ -16,5 +16,7 @@ config:
   # Set scalars to avoid "any" type
   scalars:
     uuid: string
+    smallint: number
+    bigint: number
     timestamptz: string
     citext: string

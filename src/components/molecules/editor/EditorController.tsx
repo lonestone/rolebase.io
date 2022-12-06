@@ -1,9 +1,9 @@
 import React, { ForwardedRef, forwardRef, RefAttributes } from 'react'
-import { Control, Controller, Path } from 'react-hook-form'
+import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 import SimpleEditor from './SimpleEditor'
 import { EditorHandle } from './useEditor'
 
-interface Props<Values> {
+interface Props<Values extends FieldValues> {
   name: Path<Values>
   control: Control<Values>
   placeholder?: string
@@ -11,7 +11,7 @@ interface Props<Values> {
   minHeight?: string
 }
 
-function EditorController<Values>(
+function EditorController<Values extends FieldValues>(
   { name, placeholder, autoFocus, control, minHeight }: Props<Values>,
   ref: ForwardedRef<EditorHandle>
 ) {
@@ -34,6 +34,8 @@ function EditorController<Values>(
   )
 }
 
-export default forwardRef(EditorController) as any as <Values>(
+export default forwardRef(EditorController) as any as <
+  Values extends FieldValues
+>(
   props: Props<Values> & RefAttributes<EditorHandle>
 ) => ReturnType<typeof EditorController>

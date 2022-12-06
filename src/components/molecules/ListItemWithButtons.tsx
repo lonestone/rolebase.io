@@ -1,18 +1,19 @@
-import { HStack, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { HStack, LinkBox, LinkBoxProps, LinkOverlay } from '@chakra-ui/react'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
-interface Props {
-  title: string | React.ReactNode
+interface Props extends LinkBoxProps {
+  children: React.ReactNode
   buttons?: React.ReactNode
   onClick(): void
 }
 
 export default function ListItemWithButtons({
-  title,
+  children,
   buttons,
   onClick,
+  ...linkBoxProps
 }: Props) {
   const hover = useHoverItemStyle()
 
@@ -26,6 +27,7 @@ export default function ListItemWithButtons({
       alignItems="center"
       role="group"
       _hover={hover}
+      {...linkBoxProps}
     >
       <LinkOverlay
         flex={1}
@@ -36,7 +38,7 @@ export default function ListItemWithButtons({
           onClick()
         }}
       >
-        {title}
+        {children}
       </LinkOverlay>
       {buttons && <HStack spacing={2}>{buttons}</HStack>}
     </LinkBox>

@@ -10,7 +10,7 @@ import RRuleStartDate from './RRuleStartDate'
 import RRuleWeekly from './RRuleWeekly'
 import RRuleYearly from './RRuleYearly'
 
-interface Props {
+export interface RRuleEditorProps {
   value?: string
   onChange: (value: string) => void
 }
@@ -38,7 +38,7 @@ const rruleParams: Array<keyof ParsedOptions> = [
   'byweekday',
 ]
 
-export default function RRuleEditor({ value, onChange }: Props) {
+export default function RRuleEditor({ value, onChange }: RRuleEditorProps) {
   // Build RRule options from value
   const options = useMemo(() => {
     if (!value) {

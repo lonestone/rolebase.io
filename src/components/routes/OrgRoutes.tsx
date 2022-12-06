@@ -4,6 +4,7 @@ import CirclesPage from '@components/pages/CirclesPage'
 import DecisionPage from '@components/pages/DecisionPage '
 import LogsPage from '@components/pages/LogsPage'
 import MeetingPage from '@components/pages/MeetingPage'
+import MeetingRecurringPage from '@components/pages/MeetingRecurringPage'
 import MembersPage from '@components/pages/MembersPage'
 import Page404 from '@components/pages/Page404'
 import TaskPage from '@components/pages/TaskPage'
@@ -124,6 +125,9 @@ export default function OrgRoutes({ orgId }: Props) {
         </Route>
         <Route exact path={`${path}/meetings/:meetingId`}>
           <MeetingPage />
+        </Route>
+        <Route exact path={`${path}/meetings-recurring/:id`}>
+          <MeetingRecurringPage />
         </Route>
         <Route exact path={`${path}/meetings`}>
           <MeetingsPage />

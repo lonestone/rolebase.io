@@ -6,16 +6,16 @@ import {
   SliderTrack,
 } from '@chakra-ui/react'
 import React from 'react'
-import { Control, Controller, Path } from 'react-hook-form'
+import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 import { defaultCircleColorHue } from 'src/theme'
 
-interface Props<Values> {
+interface Props<Values extends FieldValues> {
   name: Path<Values>
   control: Control<Values>
   children: string
 }
 
-export default function ColorController<Values>({
+export default function ColorController<Values extends FieldValues>({
   name,
   control,
   children,

@@ -30,6 +30,13 @@ array_relationships:
         table:
           name: meeting
           schema: public
+  - name: meetings_recurring
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: meeting_recurring
+          schema: public
   - name: members
     using:
       foreign_key_constraint_on:

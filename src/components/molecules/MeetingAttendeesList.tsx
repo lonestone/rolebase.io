@@ -80,16 +80,16 @@ export default function MeetingAttendeesList({
     }
 
     // Send notification
-    if (circle && currentMember && currentMember.id !== memberId) {
+    if (isStarted && circle && currentMember && currentMember.id !== memberId) {
       const notifParams = {
         role: circle.role.name,
         title: meeting.title,
         sender: currentMember.name,
       }
       sendNotification({
-        category: NotificationCategories.MeetingInvited,
-        title: t('notifications.MeetingInvited.title', notifParams),
-        content: t('notifications.MeetingInvited.content', notifParams),
+        category: NotificationCategories.MeetingStarted,
+        title: t('notifications.MeetingStarted.title', notifParams),
+        content: t('notifications.MeetingStarted.content', notifParams),
         recipientMemberIds: [memberId],
         topic: meeting.id,
         url: `${settings.url}${path}`,

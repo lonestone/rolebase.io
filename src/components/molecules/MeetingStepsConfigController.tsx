@@ -69,11 +69,11 @@ export default function MeetingStepsConfigController({
         ))}
       </SortableList>
 
-      <Menu matchWidth={true}>
-        <MenuButton as={Button} rightIcon={<FiChevronDown />} w="100%" mt={2}>
+      <Menu>
+        <MenuButton as={Button} rightIcon={<FiChevronDown />} mt={2}>
           {t(`MeetingStepsConfigController.addStep`)}
         </MenuButton>
-        <MenuList w="100%">
+        <MenuList>
           {[
             MeetingStepTypes.Tour,
             MeetingStepTypes.Threads,

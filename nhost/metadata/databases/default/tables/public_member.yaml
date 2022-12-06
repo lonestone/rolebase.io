@@ -42,6 +42,7 @@ insert_permissions:
         - name
         - orgId
         - picture
+        - preferences
         - workedMinPerWeek
 select_permissions:
   - role: user
@@ -57,6 +58,7 @@ select_permissions:
         - orgId
         - picture
         - pictureFileId
+        - preferences
         - role
         - userId
         - workedMinPerWeek
@@ -76,6 +78,7 @@ update_permissions:
         - name
         - picture
         - pictureFileId
+        - preferences
         - workedMinPerWeek
       filter:
         _or:
@@ -111,9 +114,16 @@ event_triggers:
         columns: '*'
     retry_conf:
       interval_sec: 10
-      num_retries: 0
+      num_retries: 3
       timeout_sec: 60
     webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
     headers:
       - name: x-nhost-webhook-secret
         value_from_env: NHOST_WEBHOOK_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60

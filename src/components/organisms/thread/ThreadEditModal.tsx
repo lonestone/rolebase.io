@@ -14,9 +14,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
+import CircleFormController from '@components/molecules/CircleFormController'
 import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
 import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
-import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
@@ -27,7 +27,7 @@ import { MembersScope } from '@shared/model/member'
 import { ThreadEntry } from '@shared/model/thread'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
   useCreateThreadMutation,
@@ -67,13 +67,7 @@ export default function ThreadEditModal({
   const [updateThread] = useUpdateThreadMutation()
   const [createThread] = useCreateThreadMutation()
 
-  const {
-    handleSubmit,
-    register,
-    control,
-    watch,
-    formState: { errors },
-  } = useForm<Values>({
+  const formMethods = useForm<Values>({
     resolver,
     defaultValues: thread
       ? {
@@ -87,6 +81,13 @@ export default function ThreadEditModal({
           participantsScope: MembersScope.CircleLeaders,
         },
   })
+
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = formMethods
 
   const circleId = watch('circleId')
   const participantsScope = watch('participantsScope')
@@ -139,72 +140,62 @@ export default function ThreadEditModal({
   )
 
   return (
-    <Modal size="xl" {...modalProps}>
-      <ModalOverlay />
-      <ModalContent>
-        <form onSubmit={onSubmit}>
-          <ModalHeader>
-            {t(
-              thread
-                ? 'ThreadEditModal.headingEdit'
-                : 'ThreadEditModal.headingCreate'
-            )}
-          </ModalHeader>
-          <ModalCloseButton />
+    <FormProvider {...formMethods}>
+      <Modal size="xl" {...modalProps}>
+        <ModalOverlay />
+        <ModalContent>
+          <form onSubmit={onSubmit}>
+            <ModalHeader>
+              {t(
+                thread
+                  ? 'ThreadEditModal.headingEdit'
+                  : 'ThreadEditModal.headingCreate'
+              )}
+            </ModalHeader>
+            <ModalCloseButton />
 
-          <ModalBody>
-            <VStack spacing={5} align="stretch">
-              <FormControl isInvalid={!!errors.title}>
-                <FormLabel>{t('ThreadEditModal.title')}</FormLabel>
-                <Input
-                  {...register('title')}
-                  placeholder={t('ThreadEditModal.titlePlaceholder')}
-                  autoFocus
-                />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>{t('ThreadEditModal.circle')}</FormLabel>
-                <Controller
-                  name="circleId"
-                  control={control}
-                  render={({ field }) => (
-                    <CircleSearchInput
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-              </FormControl>
-
-              <FormControl
-                isInvalid={(circleId && participants.length === 0) || false}
-              >
-                <FormLabel display="flex" alignItems="center">
-                  {t('ThreadEditModal.invite')}
-                  <ParticipantsNumber ml={2} participants={participants} />
-                </FormLabel>
-                <ParticipantsScopeSelect {...register('participantsScope')} />
-
-                <Box mt={2}>
-                  <MembersMultiSelect
-                    membersIds={participantsMembersIds}
-                    excludeMembersIds={participants.map((p) => p.member.id)}
-                    onAdd={addParticipant}
-                    onRemove={removeParticipant}
+            <ModalBody>
+              <VStack spacing={5} align="stretch">
+                <FormControl isInvalid={!!errors.title}>
+                  <FormLabel>{t('ThreadEditModal.title')}</FormLabel>
+                  <Input
+                    {...register('title')}
+                    placeholder={t('ThreadEditModal.titlePlaceholder')}
+                    autoFocus
                   />
-                </Box>
-              </FormControl>
+                </FormControl>
 
-              <Box textAlign="right" mt={2}>
-                <Button colorScheme="blue" type="submit">
-                  {t(thread ? 'common.save' : 'common.create')}
-                </Button>
-              </Box>
-            </VStack>
-          </ModalBody>
-        </form>
-      </ModalContent>
-    </Modal>
+                <CircleFormController />
+
+                <FormControl
+                  isInvalid={(circleId && participants.length === 0) || false}
+                >
+                  <FormLabel display="flex" alignItems="center">
+                    {t('ThreadEditModal.invite')}
+                    <ParticipantsNumber ml={2} participants={participants} />
+                  </FormLabel>
+                  <ParticipantsScopeSelect {...register('participantsScope')} />
+
+                  <Box mt={2}>
+                    <MembersMultiSelect
+                      membersIds={participantsMembersIds}
+                      excludeMembersIds={participants.map((p) => p.member.id)}
+                      onAdd={addParticipant}
+                      onRemove={removeParticipant}
+                    />
+                  </Box>
+                </FormControl>
+
+                <Box textAlign="right" mt={2}>
+                  <Button colorScheme="blue" type="submit">
+                    {t(thread ? 'common.save' : 'common.create')}
+                  </Button>
+                </Box>
+              </VStack>
+            </ModalBody>
+          </form>
+        </ModalContent>
+      </Modal>
+    </FormProvider>
   )
 }

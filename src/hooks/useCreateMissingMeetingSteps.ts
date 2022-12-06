@@ -83,14 +83,18 @@ export default function useCreateMissingMeetingSteps() {
     async (
       meetingId: string,
       stepsConfig: MeetingStepConfig[],
-      circle: CircleWithRoleEntry
+      circle: CircleWithRoleEntry,
+      existingStepsConfigIds?: string[]
     ) => {
-      const { data } = await getMeetingStepsIds({ variables: { meetingId } })
-      const meetingSteps = data?.meeting_step
+      if (!existingStepsConfigIds) {
+        const { data } = await getMeetingStepsIds({ variables: { meetingId } })
+        existingStepsConfigIds =
+          data?.meeting_step?.map((step) => step.stepConfigId) || []
+      }
+
       const missingSteps =
         stepsConfig.filter(
-          (stepConfig) =>
-            !meetingSteps?.find((step) => step.stepConfigId === stepConfig.id)
+          (stepConfig) => !existingStepsConfigIds?.includes(stepConfig.id)
         ) || []
 
       await Promise.all(

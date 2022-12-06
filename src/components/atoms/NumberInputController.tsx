@@ -1,14 +1,14 @@
 import { NumberInputProps } from '@chakra-ui/react'
 import React from 'react'
-import { Control, Controller, Path } from 'react-hook-form'
+import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 import NumberInput from './NumberInput'
 
-interface Props<Values> extends NumberInputProps {
+interface Props<Values extends FieldValues> extends NumberInputProps {
   name: Path<Values>
   control: Control<Values>
 }
 
-export default function NumberInputController<Values>({
+export default function NumberInputController<Values extends FieldValues>({
   name,
   control,
   ...inputProps

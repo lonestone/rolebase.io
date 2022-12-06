@@ -12,6 +12,7 @@ fragment MemberFields on member {
   workedMinPerWeek
   role
   meetingId
+  preferences
 }
 
 query getMember($id: uuid!) {
