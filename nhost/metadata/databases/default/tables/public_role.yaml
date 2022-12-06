@@ -117,7 +117,7 @@ event_triggers:
         columns: '*'
     retry_conf:
       interval_sec: 10
-      num_retries: 0
+      num_retries: 3
       timeout_sec: 60
     webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
     headers:

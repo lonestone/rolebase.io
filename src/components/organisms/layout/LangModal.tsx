@@ -34,14 +34,11 @@ export default function LangModal(modalProps: UseModalProps) {
             return (
               <ListItemWithButtons
                 key={locale}
-                title={
-                  <>
-                    {emoji}&nbsp;&nbsp;&nbsp;{name}
-                  </>
-                }
                 buttons={locale === language ? <FiCheck /> : null}
                 onClick={() => changeLanguage(locale)}
-              />
+              >
+                {emoji}&nbsp;&nbsp;&nbsp;{name}
+              </ListItemWithButtons>
             )
           })}
         </ModalBody>

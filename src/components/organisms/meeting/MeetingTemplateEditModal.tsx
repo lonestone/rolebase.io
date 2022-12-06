@@ -19,7 +19,7 @@ import MeetingStepsConfigController, {
 } from '@components/molecules/MeetingStepsConfigController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
-import { MeetingTempalteEntry } from '@shared/model/meeting_template'
+import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,7 +31,7 @@ import {
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
-  meetingTemplate?: MeetingTempalteEntry
+  meetingTemplate?: MeetingTemplateEntry
 }
 
 interface Values extends StepsValues {
@@ -45,7 +45,7 @@ const resolver = yupResolver(
   })
 )
 
-export default function MeetingTemplateModal({
+export default function MeetingTemplateEditModal({
   meetingTemplate,
   ...modalProps
 }: Props) {
@@ -102,8 +102,8 @@ export default function MeetingTemplateModal({
           <ModalHeader>
             {t(
               meetingTemplate
-                ? 'MeetingTemplateModal.headingEdit'
-                : 'MeetingTemplateModal.headingCreate'
+                ? 'MeetingTemplateEditModal.headingEdit'
+                : 'MeetingTemplateEditModal.headingCreate'
             )}
           </ModalHeader>
           <ModalCloseButton />
@@ -111,16 +111,16 @@ export default function MeetingTemplateModal({
           <ModalBody>
             <VStack spacing={5} align="stretch">
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel>{t('MeetingTemplateModal.title')}</FormLabel>
+                <FormLabel>{t('MeetingTemplateEditModal.title')}</FormLabel>
                 <Input
                   {...register('title')}
-                  placeholder={t('MeetingTemplateModal.titlePlaceholder')}
+                  placeholder={t('MeetingTemplateEditModal.titlePlaceholder')}
                   autoFocus
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel>{t('MeetingTemplateModal.steps')}</FormLabel>
+                <FormLabel>{t('MeetingTemplateEditModal.steps')}</FormLabel>
                 <MeetingStepsConfigController
                   control={control as any}
                   errors={errors}

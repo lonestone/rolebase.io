@@ -5,15 +5,12 @@ object_relationships:
   - name: circle
     using:
       foreign_key_constraint_on: circleId
-  - name: facilitatorMember
-    using:
-      foreign_key_constraint_on: facilitatorMemberId
-  - name: initiatorMember
-    using:
-      foreign_key_constraint_on: initiatorMemberId
   - name: org
     using:
       foreign_key_constraint_on: orgId
+  - name: recurring
+    using:
+      foreign_key_constraint_on: recurringId
 array_relationships:
   - name: steps
     using:
@@ -40,11 +37,11 @@ insert_permissions:
         - attendees
         - circleId
         - endDate
-        - facilitatorMemberId
-        - initiatorMemberId
         - orgId
         - participantsMembersIds
         - participantsScope
+        - recurringDate
+        - recurringId
         - startDate
         - stepsConfig
         - title
@@ -60,12 +57,12 @@ select_permissions:
         - currentStepId
         - endDate
         - ended
-        - facilitatorMemberId
         - id
-        - initiatorMemberId
         - orgId
         - participantsMembersIds
         - participantsScope
+        - recurringDate
+        - recurringId
         - startDate
         - stepsConfig
         - title
@@ -86,8 +83,6 @@ update_permissions:
         - currentStepId
         - endDate
         - ended
-        - facilitatorMemberId
-        - initiatorMemberId
         - participantsMembersIds
         - participantsScope
         - startDate
@@ -128,9 +123,16 @@ event_triggers:
         columns: '*'
     retry_conf:
       interval_sec: 10
-      num_retries: 0
+      num_retries: 3
       timeout_sec: 60
     webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
     headers:
       - name: x-nhost-webhook-secret
         value_from_env: NHOST_WEBHOOK_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60

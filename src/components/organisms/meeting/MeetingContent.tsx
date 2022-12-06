@@ -11,14 +11,12 @@ import {
   Heading,
   Spacer,
   Tag,
-  Text,
   useDisclosure,
   VStack,
   Wrap,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
-import MemberLink from '@components/atoms/MemberLink'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
@@ -68,11 +66,9 @@ export default function MeetingContent({
     error,
     steps,
     circle,
-    facilitator,
     participants,
     canEdit,
     forceEdit,
-    isFacilitator,
     isEnded,
     isNotStarted,
     isStarted,
@@ -177,32 +173,6 @@ export default function MeetingContent({
                 </Tag>
               )}
             </Wrap>
-
-            {!isEnded &&
-              (isFacilitator ? (
-                <Alert status="info">
-                  <AlertIcon />
-                  <AlertDescription>
-                    {t('MeetingContent.facilitatorCurrent')}
-                  </AlertDescription>
-                </Alert>
-              ) : (
-                facilitator && (
-                  <Text>
-                    <Trans
-                      i18nKey="MeetingContent.facilitatorMember"
-                      components={{
-                        member: (
-                          <MemberLink
-                            id={facilitator.member.id}
-                            name={facilitator.member.name}
-                          />
-                        ),
-                      }}
-                    />
-                  </Text>
-                )
-              ))}
 
             {isMember && !isEnded && !canEdit && (
               <Alert status="info">

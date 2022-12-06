@@ -1,1 +1,8 @@
-[]
+- name: recurring-meetings
+  webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/createNextRecurringMeetings'
+  schedule: 0 * * * *
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: x-nhost-webhook-secret
+      value_from_env: NHOST_WEBHOOK_SECRET

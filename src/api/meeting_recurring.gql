@@ -1,0 +1,60 @@
+fragment MeetingRecurringFields on meeting_recurring {
+  id
+  orgId
+  circleId
+  circle {
+    role {
+      name
+    }
+  }
+  participantsScope
+  participantsMembersIds
+  templateId
+  template {
+    title
+    stepsConfig
+  }
+  rrule
+  duration
+  videoConf
+  createdAt
+}
+
+subscription subscribeMeetingRecurring($id: uuid!) {
+  meeting_recurring_by_pk(id: $id) {
+    ...MeetingRecurringFields
+    meetings {
+      id
+      recurringDate
+    }
+  }
+}
+
+subscription subscribeCircleMeetingRecurrings(
+  $where: meeting_recurring_bool_exp!
+) {
+  meeting_recurring(where: $where, order_by: { template: { title: asc } }) {
+    ...MeetingRecurringFields
+  }
+}
+
+mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
+  insert_meeting_recurring_one(object: $values) {
+    ...MeetingRecurringFields
+  }
+}
+
+mutation updateMeetingRecurring(
+  $id: uuid!
+  $values: meeting_recurring_set_input!
+) {
+  update_meeting_recurring_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...MeetingRecurringFields
+  }
+}
+
+mutation deleteMeetingRecurring($id: uuid!) {
+  delete_meeting_recurring_by_pk(id: $id) {
+    id
+  }
+}

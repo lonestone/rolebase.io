@@ -4,8 +4,6 @@ fragment MeetingFields on meeting {
   circleId
   participantsScope
   participantsMembersIds
-  initiatorMemberId
-  facilitatorMemberId
   createdAt
   startDate
   endDate
@@ -16,6 +14,8 @@ fragment MeetingFields on meeting {
   currentStepId
   archived
   videoConf
+  recurringId
+  recurringDate
 }
 
 subscription subscribeMeeting($id: uuid!) {

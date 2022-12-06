@@ -1,84 +1,88 @@
-// Fix for fullcalendar with Vite
-// Must be imported first
-import '@fullcalendar/react/dist/vdom'
-
 import {
   Box,
   Button,
-  ColorMode,
   Flex,
   Heading,
+  IconButton,
   Menu,
   MenuButton,
+  MenuItem,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
   Spacer,
   useColorMode,
   useDisclosure,
-  useMediaQuery,
-  Wrap,
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import Calendar from '@components/molecules/Calendar'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
 import MeetingExportModal from '@components/organisms/meeting/MeetingExportModal'
 import MeetingModal from '@components/organisms/meeting/MeetingModal'
+import MeetingOpenCurrent from '@components/organisms/meeting/MeetingOpenCurrent'
+import MeetingRecurringListModal from '@components/organisms/meeting/MeetingRecurringListModal'
+import MeetingRecurringModal from '@components/organisms/meeting/MeetingRecurringModal'
+import MeetingTemplateListModal from '@components/organisms/meeting/MeetingTemplateListModal'
 import {
   DateSelectArg,
   DatesSetArg,
   EventChangeArg,
   EventClickArg,
 } from '@fullcalendar/common'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import listPlugin from '@fullcalendar/list'
-import FullCalendar, { EventInput } from '@fullcalendar/react'
-import timeGridPlugin from '@fullcalendar/timegrid'
+import { EventInput } from '@fullcalendar/react'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
+import useMemberPreferences from '@hooks/useMemberPreferences'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
+import { MeetingEntry } from '@shared/model/meeting'
+import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import { EntityFilters } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiPlus, FiUpload } from 'react-icons/fi'
-
-// Load additional CSS after all imports
-import MeetingOpenCurrent from '@components/organisms/meeting/MeetingOpenCurrent'
-import { MeetingEntry } from '@shared/model/meeting'
-import 'src/fullcalendar.css'
 import {
+  FiChevronDown,
+  FiCopy,
+  FiEye,
+  FiEyeOff,
+  FiMoreVertical,
+  FiPlus,
+  FiRepeat,
+  FiUpload,
+} from 'react-icons/fi'
+import { RRule } from 'rrule'
+import {
+  useSubscribeCircleMeetingRecurringsSubscription,
   useSubscribeMeetingsByDatesSubscription,
   useUpdateMeetingMutation,
 } from 'src/graphql.generated'
 
-const getColors = (mode: ColorMode) => ({
-  bgNotStarted:
-    mode === 'light'
-      ? 'var(--chakra-colors-blue-100)'
-      : 'var(--chakra-colors-blue-800)',
-  bgStarted:
-    mode === 'light'
-      ? 'var(--chakra-colors-green-100)'
-      : 'var(--chakra-colors-green-800)',
-  bgEnded:
-    mode === 'light'
-      ? 'var(--chakra-colors-gray-100)'
-      : 'var(--chakra-colors-gray-550)',
-})
+const colorsSettings = {
+  light: {
+    bgNotStarted: 'var(--chakra-colors-blue-100)',
+    bgStarted: 'var(--chakra-colors-green-100)',
+    bgEnded: 'var(--chakra-colors-gray-100)',
+    bgRecurring: 'var(--chakra-colors-blue-200)',
+  },
+  dark: {
+    bgNotStarted: 'var(--chakra-colors-blue-800)',
+    bgStarted: 'var(--chakra-colors-green-800)',
+    bgEnded: 'var(--chakra-colors-gray-550)',
+    bgRecurring: 'var(--chakra-colors-blue-700)',
+  },
+}
 
 export default function MeetingsPage() {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const { colorMode } = useColorMode()
-  const colors = useMemo(() => getColors(colorMode), [colorMode])
+  const colors = useMemo(() => colorsSettings[colorMode], [colorMode])
   const getCircleById = useStoreState((state) => state.circles.getById)
   const roles = useStoreState((state) => state.roles.entries)
-  const [isSmallScreen] = useMediaQuery('(max-width: 700px)')
 
   // Circles filter menu
   const {
@@ -111,43 +115,116 @@ export default function MeetingsPage() {
     (data?.meeting || undefined) as MeetingEntry[] | undefined
   )
 
+  // Subscribe to recurring meetings
+  const { data: recurringData } =
+    useSubscribeCircleMeetingRecurringsSubscription({
+      skip: !orgId,
+      variables: {
+        where: { orgId: { _eq: orgId } },
+      },
+    })
+
+  // Filter recurring meetings
+  const meetingsRecurring = useFilterEntities(
+    filter,
+    (recurringData?.meeting_recurring || undefined) as
+      | MeetingRecurringEntry[]
+      | undefined
+  )
+
   // Prepare events for Fullcalendar
   const events = useMemo(
     () =>
-      meetings?.map((meeting): EventInput => {
-        let roleName = undefined
+      // Add events from meetings
+      meetings
+        ?.map((meeting): EventInput => {
+          let roleName = undefined
 
-        // Add role name to title
-        const circle = getCircleById(meeting.circleId)
-        if (circle && roles) {
-          const circleWithRole = enrichCircleWithRole(circle, roles)
-          roleName = circleWithRole?.role.name
-        }
+          // Add role name to title
+          const circle = getCircleById(meeting.circleId)
+          if (circle && roles) {
+            const circleWithRole = enrichCircleWithRole(circle, roles)
+            roleName = circleWithRole?.role.name
+          }
 
-        const title = `${roleName} - ${meeting.title}`
+          const title = `${roleName} - ${meeting.title}`
 
-        // Can move event or change duration?
-        const isStarted = meeting.currentStepId !== null
-        const isNotStarted = !isStarted && !meeting.ended
-        const canEditConfig = isNotStarted
-        // TODO: Use participants like in MeetingContent
-        // const canEditConfig = isNotStarted && (isParticipant || isInitiator)
+          // Can move event or change duration?
+          const isStarted = meeting.currentStepId !== null
+          const isNotStarted = !isStarted && !meeting.ended
+          const canEditConfig = isNotStarted
 
-        return {
-          id: meeting.id,
-          title,
-          start: new Date(meeting.startDate),
-          end: new Date(meeting.endDate),
-          backgroundColor: isNotStarted
-            ? colors.bgNotStarted
-            : isStarted
-            ? colors.bgStarted
-            : colors.bgEnded,
-          editable: canEditConfig,
-        }
-      }),
-    [meetings, roles, colors]
+          return {
+            id: meeting.id,
+            title,
+            start: new Date(meeting.startDate),
+            end: new Date(meeting.endDate),
+            backgroundColor: isNotStarted
+              ? colors.bgNotStarted
+              : isStarted
+              ? colors.bgStarted
+              : colors.bgEnded,
+            editable: canEditConfig,
+          }
+        })
+
+        // Add events from recurring meetings
+        .concat(
+          (meetingsRecurring || []).map((mr): EventInput => {
+            // Parse RRule and exclude past events by redefining start date
+            const rrule = RRule.fromString(mr.rrule)
+            const start = rrule.after(new Date(), true)
+            const rruleFuture = new RRule({
+              ...rrule.origOptions,
+              dtstart: start,
+            })
+
+            // Exclude dates of meetings from the serie
+            const exdate = meetings
+              ?.filter((m) => m.recurringId === mr.id && m.recurringDate)
+              .map((m) => m.recurringDate!)
+
+            return {
+              id: mr.id,
+              title: `${mr.circle.role.name} - ${mr.template.title}`,
+              rrule: rruleFuture.toString(),
+              exdate,
+              duration: {
+                minutes: mr.duration,
+              },
+              backgroundColor: colors.bgRecurring,
+              editable: false,
+            }
+          })
+        ),
+    [meetings, meetingsRecurring, roles, colors]
   )
+
+  // Show/hide weekends
+  const { preferences, setPreference } = useMemberPreferences()
+  const weekend = preferences.calendarShowWeekend ?? false
+
+  // Modals
+  const meetingModal = useDisclosure()
+  const createModal = useDisclosure()
+  const templatesModal = useDisclosure()
+  const recurringModal = useDisclosure()
+  const recurringListModal = useDisclosure()
+  const exportModal = useDisclosure()
+  const currentMeetingModal = useDisclosure({ defaultIsOpen: true })
+
+  // Meeting id for modal
+  const [meetingId, setMeetingId] = useState<string | undefined>()
+
+  // Dates for meeting creation modal
+  const [startDate, setStartDate] = useState<Date | undefined>()
+  const [duration, setDuration] = useState<number>(30)
+
+  // Recurring meeting id and date for modal
+  const [recurringId, setRecurringId] = useState<string | undefined>()
+  const [recurringDate, setRecurringDate] = useState<Date | undefined>()
+
+  // Handlers
 
   const handleCreate = useCallback(() => {
     setStartDate(undefined)
@@ -161,12 +238,23 @@ export default function MeetingsPage() {
 
   const handleEventClick = useCallback(
     ({ event }: EventClickArg) => {
+      // Open meeting
       const meeting = meetings?.find((m) => m.id === event.id)
-      if (!meeting) return
-      setMeetingId(meeting.id)
-      meetingModal.onOpen()
+      if (meeting) {
+        setMeetingId(meeting.id)
+        meetingModal.onOpen()
+        return
+      }
+
+      // Ope recurring meeting
+      const meetingRecurring = meetingsRecurring?.find((m) => m.id === event.id)
+      if (meetingRecurring && event.start) {
+        setRecurringId(meetingRecurring.id)
+        setRecurringDate(event.start)
+        recurringModal.onOpen()
+      }
     },
-    [meetings]
+    [meetings, meetingsRecurring]
   )
 
   const handleDateClick = useCallback(
@@ -205,19 +293,6 @@ export default function MeetingsPage() {
     })
   }, [])
 
-  // Meeting id for modal
-  const [meetingId, setMeetingId] = useState<string | undefined>()
-
-  // Dates for meeting creation modal
-  const [startDate, setStartDate] = useState<Date | undefined>()
-  const [duration, setDuration] = useState<number>(30)
-
-  // Modals
-  const meetingModal = useDisclosure()
-  const createModal = useDisclosure()
-  const exportModal = useDisclosure()
-  const currentMeetingModal = useDisclosure({ defaultIsOpen: true })
-
   return (
     <Flex h="100%" p={5} flexDirection="column">
       <Title>{t('MeetingsPage.heading')}</Title>
@@ -225,7 +300,7 @@ export default function MeetingsPage() {
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      <Wrap mb={2} alignItems="center" flexWrap="wrap">
+      <Flex mb={2} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           {t('MeetingsPage.heading')}
         </Heading>
@@ -258,14 +333,39 @@ export default function MeetingsPage() {
           </MenuList>
         </Menu>
 
-        <Button
-          size="sm"
-          ml={1}
-          leftIcon={<FiUpload />}
-          onClick={exportModal.onOpen}
-        >
-          {t('MeetingsPage.export')}
-        </Button>
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            size="sm"
+            variant="ghost"
+            icon={<FiMoreVertical />}
+            aria-label={t('ActionsMenu.label')}
+          />
+          <MenuList
+            fontFamily="body"
+            fontSize="1rem"
+            fontWeight="normal"
+            zIndex={1000}
+          >
+            <MenuItem icon={<FiCopy />} onClick={templatesModal.onOpen}>
+              {t('MeetingsPage.templates')}
+            </MenuItem>
+            <MenuItem icon={<FiRepeat />} onClick={recurringListModal.onOpen}>
+              {t('MeetingsPage.recurring')}
+            </MenuItem>
+            <MenuItem
+              icon={weekend ? <FiEyeOff /> : <FiEye />}
+              onClick={() => setPreference('calendarShowWeekend', !weekend)}
+            >
+              {weekend
+                ? t('MeetingsPage.hideWeekend')
+                : t('MeetingsPage.showWeekend')}
+            </MenuItem>
+            <MenuItem icon={<FiUpload />} onClick={exportModal.onOpen}>
+              {t('MeetingsPage.export')}
+            </MenuItem>
+          </MenuList>
+        </Menu>
 
         {isMember && (
           <Button
@@ -278,29 +378,12 @@ export default function MeetingsPage() {
             {t('MeetingsPage.create')}
           </Button>
         )}
-      </Wrap>
+      </Flex>
 
       <Box flex={1}>
-        <FullCalendar
+        <Calendar
           events={events}
-          height="100%"
-          locale="fr"
-          plugins={[
-            dayGridPlugin,
-            timeGridPlugin,
-            listPlugin,
-            interactionPlugin,
-          ]}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-          }}
-          initialView={isSmallScreen ? 'listWeek' : 'timeGridWeek'}
-          scrollTime="08:00:00"
-          weekends={false}
-          allDaySlot={false}
-          nowIndicator
+          weekends={weekend}
           editable={isMember}
           selectable={isMember}
           eventAllow={() => isMember}
@@ -324,6 +407,26 @@ export default function MeetingsPage() {
           isOpen
           onCreate={handleCreated}
           onClose={createModal.onClose}
+        />
+      )}
+
+      {templatesModal.isOpen && (
+        <MeetingTemplateListModal isOpen onClose={templatesModal.onClose} />
+      )}
+
+      {recurringModal.isOpen && recurringId && (
+        <MeetingRecurringModal
+          id={recurringId}
+          defaultDate={recurringDate}
+          isOpen
+          onClose={recurringModal.onClose}
+        />
+      )}
+
+      {recurringListModal.isOpen && (
+        <MeetingRecurringListModal
+          isOpen
+          onClose={recurringListModal.onClose}
         />
       )}
 

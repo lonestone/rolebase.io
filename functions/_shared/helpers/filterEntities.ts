@@ -28,15 +28,14 @@ export default function filterEntities<
     if (!currentMemberId) return []
     // Invited or not
     return data.filter((entry) => {
-      const invited =
-        // Check attendees list first
-        entry.attendees?.some(
-          (attendee) => attendee.memberId === currentMemberId
-        ) ||
-        // If no attendees list, check participants list and current member circles
-        (!entry.attendees &&
-          entry.participantsMembersIds.includes(currentMemberId)) ||
-        currentMemberCirclesIds?.includes(entry.circleId)
+      const invited = entry.attendees
+        ? // Check attendees if there is one
+          entry.attendees.some(
+            (attendee) => attendee.memberId === currentMemberId
+          )
+        : // Otherwise, check participants list and current member circles
+          entry.participantsMembersIds.includes(currentMemberId) ||
+          currentMemberCirclesIds?.includes(entry.circleId)
 
       return (filter === EntityFilters.Invited) === invited
     })

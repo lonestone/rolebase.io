@@ -3,14 +3,14 @@ import i18n from '@i18n'
 import filterEntities from '@shared/helpers/filterEntities'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { CircleWithRoleEntry } from '@shared/model/circle'
-import { MeetingEntry } from '@shared/model/meeting'
-import { EntityFilters } from '@shared/model/types'
+import { EntityFilters, EntityWithParticipants } from '@shared/model/types'
 import { adminRequest } from '@utils/adminRequest'
 import { generateMeetingToken } from '@utils/generateMeetingToken'
 import { guardQueryParams } from '@utils/guardQueryParams'
 import { route, RouteError } from '@utils/route'
 import settings from '@utils/settings'
 import { ICalCalendar } from 'ical-generator'
+import { RRule, RRuleSet } from 'rrule'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -33,7 +33,7 @@ export default route(async (context) => {
   }
 
   // Get org and circles
-  const orgResult = await adminRequest(GET_ORG_AND_CIRCLES, { id: orgId })
+  const orgResult = await adminRequest(GET_MEETINGS, { orgId })
   const org = orgResult.org_by_pk
 
   if (!org) {
@@ -53,22 +53,21 @@ export default route(async (context) => {
 
   const meetings = filterEntities(
     filter,
-    org.meetings as MeetingEntry[],
+    org.meetings as EntityWithParticipants[],
     circleId,
     memberId,
     memberCircles?.map((c) => c.id)
-  )
+  ) as typeof org.meetings
 
   // Setup calendar
   const cal = new ICalCalendar()
   cal.name(`Réunions ${org.name}`)
 
-  const meetingsUrl = `${settings.url}/${org.slug || `orgs/${orgId}`}/meetings`
+  const orgUrl = `${settings.url}/${org.slug || `orgs/${orgId}`}`
 
   // Add events
   for (const meeting of meetings) {
-    const circle = circleswithRoles.find((c) => c.id === meeting.circleId)
-    const url = `${meetingsUrl}/${meeting.id}`
+    const url = `${orgUrl}/meetings/${meeting.id}`
 
     cal.createEvent({
       start: new Date(meeting.startDate),
@@ -80,7 +79,62 @@ export default route(async (context) => {
         },
         replace: {
           title: meeting.title,
-          role: circle?.role.name,
+          role: meeting.circle.role.name,
+        },
+      }),
+      description: url,
+    })
+  }
+
+  // Filter recurring meetings
+  const recurringMeetings = filterEntities(
+    filter,
+    org.meetings_recurring as EntityWithParticipants[],
+    circleId,
+    memberId,
+    memberCircles?.map((c) => c.id)
+  ) as typeof org.meetings_recurring
+
+  // Add recurring events
+  for (const recurringMeeting of recurringMeetings) {
+    const url = `${orgUrl}/meetings-recurring/${recurringMeeting.id}`
+
+    // Parse RRule and exclude past events by redefining start date
+    const rrule = RRule.fromString(recurringMeeting.rrule)
+    const start = rrule.after(new Date(), true)
+    const end = new Date(
+      start.getTime() + recurringMeeting.duration * 60 * 1000
+    )
+    const rruleFuture = new RRuleSet()
+    rruleFuture.rrule(
+      new RRule({
+        ...rrule.origOptions,
+        dtstart: start,
+      })
+    )
+
+    // Exclude dates of meetings from the serie
+    for (const meeting of meetings) {
+      if (
+        meeting.recurringId === recurringMeeting.id &&
+        meeting.recurringDate
+      ) {
+        rruleFuture.exdate(new Date(meeting.recurringDate))
+      }
+    }
+
+    cal.createEvent({
+      start,
+      end,
+      repeating: rruleFuture.toString(),
+      summary: i18n.t('meetingsIcal.meetingTitle', {
+        lng: lang,
+        interpolation: {
+          escapeValue: false,
+        },
+        replace: {
+          title: recurringMeeting.template.title,
+          role: recurringMeeting.circle.role.name,
         },
       }),
       description: url,
@@ -98,9 +152,9 @@ function inferFilter(memberId?: string, circleId?: string) {
   return EntityFilters.All
 }
 
-const GET_ORG_AND_CIRCLES = gql(`
-  query getOrgAndCircles($id: uuid!) {
-    org_by_pk(id: $id) {
+const GET_MEETINGS = gql(`
+  query getOrgAndCircles($orgId: uuid!) {
+    org_by_pk(id: $orgId) {
       name
       slug
       circles(where: { archived: { _eq: false } }) {
@@ -124,20 +178,36 @@ const GET_ORG_AND_CIRCLES = gql(`
         id
         orgId
         circleId
+        circle {
+          role {
+            name
+          }
+        }
         participantsScope
         participantsMembersIds
-        initiatorMemberId
-        facilitatorMemberId
-        createdAt
+        attendees
         startDate
         endDate
-        ended
         title
-        attendees
-        stepsConfig
-        currentStepId
-        archived
-        videoConf
+        recurringId
+        recurringDate
+      }
+      meetings_recurring {
+        id
+        orgId
+        circleId
+        circle {
+          role {
+            name
+          }
+        }
+        participantsScope
+        participantsMembersIds
+        template {
+          title
+        }
+        rrule
+        duration
       }
     }
   }

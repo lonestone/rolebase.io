@@ -7,4 +7,4 @@ export interface MeetingTemplate {
   stepsConfig: MeetingStepConfig[]
 }
 
-export type MeetingTempalteEntry = WithId<MeetingTemplate>
+export type MeetingTemplateEntry = WithId<MeetingTemplate>

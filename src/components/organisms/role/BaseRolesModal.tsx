@@ -57,7 +57,6 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
               baseRoles?.map((role) => (
                 <ListItemWithButtons
                   key={role.id}
-                  title={role.name}
                   onClick={() => handleEdit(role.id)}
                   buttons={
                     <IconButton
@@ -69,7 +68,9 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
                       icon={<FiTrash2 />}
                     />
                   }
-                />
+                >
+                  {role.name}
+                </ListItemWithButtons>
               ))
             )}
           </ModalBody>

@@ -11,6 +11,7 @@
 - "!include public_decision.yaml"
 - "!include public_log.yaml"
 - "!include public_meeting.yaml"
+- "!include public_meeting_recurring.yaml"
 - "!include public_meeting_step.yaml"
 - "!include public_meeting_template.yaml"
 - "!include public_member.yaml"

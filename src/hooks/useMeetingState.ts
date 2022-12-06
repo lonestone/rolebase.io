@@ -23,6 +23,7 @@ import {
   useUpdateMeetingMutation,
 } from 'src/graphql.generated'
 import settings from 'src/settings'
+import useCreateMissingMeetingSteps from './useCreateMissingMeetingSteps'
 import { usePathInOrg } from './usePathInOrg'
 
 export interface MeetingState {
@@ -32,14 +33,11 @@ export interface MeetingState {
   error: Error | undefined
   steps: MeetingStepEntry[] | undefined
   circle: CircleWithRoleEntry | undefined
-  facilitator: ParticipantMember | undefined
   participants: ParticipantMember[]
   canEdit: boolean
   forceEdit: boolean
   editable: boolean
   isParticipant: boolean
-  isFacilitator: boolean
-  isInitiator: boolean
   isEnded: boolean
   isNotStarted: boolean
   isStarted: boolean
@@ -59,6 +57,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
   const members = useStoreState((state) => state.members.entries)
+  const createMissingMeetingSteps = useCreateMissingMeetingSteps()
   const [updateMeeting] = useUpdateMeetingMutation()
 
   // Subscribe meeting
@@ -70,6 +69,9 @@ export default function useMeetingState(meetingId: string): MeetingState {
   // Meeting page path
   const path = usePathInOrg(`meetings/${meeting?.id}`)
 
+  // Circle
+  const circle = useCircle(meeting?.circleId)
+
   // Subscribe meeting steps
   const {
     data: stepsData,
@@ -77,6 +79,17 @@ export default function useMeetingState(meetingId: string): MeetingState {
     loading: stepsLoading,
   } = useSubscribeMeetingStepsSubscription({ variables: { meetingId } })
   const steps = stepsData?.meeting_step as MeetingStepEntry[] | undefined
+
+  // Create missing steps
+  useEffect(() => {
+    if (!meeting || !circle || !steps) return
+    createMissingMeetingSteps(
+      meeting.id,
+      meeting.stepsConfig,
+      circle,
+      steps.map((s) => s.stepConfigId)
+    )
+  }, [meeting?.stepsConfig, steps])
 
   // Meeting not started?
   const isEnded = !!meeting?.ended
@@ -147,20 +160,11 @@ export default function useMeetingState(meetingId: string): MeetingState {
     ? attendeesParticipants
     : initialParticipants
 
-  // Is current member participant? facilitator?
+  // Is current member participant? initiator?
   const isParticipant = currentMember
     ? participants.some((p) => p.member.id === currentMember.id)
     : false
-  const isFacilitator =
-    isMember && currentMember?.id === meeting?.facilitatorMemberId
-  const isInitiator = currentMember?.id === meeting?.initiatorMemberId
-  const facilitator = participants?.find(
-    (p) => p.member.id === meeting?.facilitatorMemberId
-  )
-  const canEdit = isMember && (isParticipant || isInitiator || isAdmin)
-
-  // Circle
-  const circle = useCircle(meeting?.circleId)
+  const canEdit = isMember && (isParticipant || isAdmin)
 
   // Edit mode when meeting is ended
   const [forceEdit, setForceEdit] = useState(false)
@@ -329,14 +333,11 @@ export default function useMeetingState(meetingId: string): MeetingState {
     error: error || stepsError,
     steps,
     circle,
-    facilitator,
     participants,
     canEdit,
     forceEdit,
     editable,
     isParticipant,
-    isFacilitator,
-    isInitiator,
     isEnded,
     isNotStarted,
     isStarted,

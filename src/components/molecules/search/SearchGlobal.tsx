@@ -11,9 +11,8 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { SearchTypes } from '@shared/model/search'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 import SearchResultItem from './SearchResultItem'
 import { SearchItem } from './searchTypes'
 import { useAlgoliaSearch } from './useAlgoliaSearch'
@@ -28,7 +27,6 @@ export default function SearchGlobal({ onClose }: Props) {
   const { t } = useTranslation()
   const { colorMode } = useColorMode()
   const org = useCurrentOrg()
-  const circleMemberContext = useContext(CircleMemberContext)
   const navigateOrg = useNavigateOrg()
 
   // Search
@@ -40,9 +38,9 @@ export default function SearchGlobal({ onClose }: Props) {
       if (!item) return
       onClose()
       if (item.type === SearchTypes.Member) {
-        circleMemberContext?.goTo(undefined, item.id)
+        navigateOrg(`?memberId=${item.id}`)
       } else if (item.type === SearchTypes.Circle) {
-        circleMemberContext?.goTo(item.id)
+        navigateOrg(`?circleId=${item.id}`)
       } else if (item.type === SearchTypes.Thread) {
         navigateOrg(`threads/${item.id}`)
       } else if (item.type === SearchTypes.Meeting) {

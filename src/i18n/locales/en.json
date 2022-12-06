@@ -61,9 +61,13 @@
     "heading": "Delete role",
     "info": "Are you sure you want to delete the role <b>{{name}}</b>?"
   },
+  "CircleFormController": {
+    "label": "Role"
+  },
   "CircleMeetings": {
     "create": "Create a meeting",
-    "empty": "No meeting yet"
+    "empty": "No meeting yet",
+    "recurring": "Recurring meetings"
   },
   "CircleMemberDeleteModal": {
     "heading": "Remove a member's role",
@@ -126,8 +130,7 @@
     "title": "Decision",
     "titlePlaceholder": "What did you decide?",
     "description": "Descriptions",
-    "descriptionPlaceholder": "Why did you make this decision?",
-    "circle": "Role"
+    "descriptionPlaceholder": "Why did you make this decision?"
   },
   "DurationSelect": {
     "min": "Min / week",
@@ -147,7 +150,6 @@
     "members": "Members",
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
-    "meetingTemplates": "Meeting templates",
     "logs": "History",
     "superAdmin": "Admin"
   },
@@ -240,8 +242,6 @@
     "heading": "Meeting <circle /> {{title}}",
     "started": "Started",
     "ended": "Ended",
-    "facilitatorCurrent": "You are facilitating this meeting.",
-    "facilitatorMember": "<member /> is facilitating this meeting.",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
     "end": "End meeting",
     "nextStep": "Next step",
@@ -254,22 +254,14 @@
   "MeetingEditModal": {
     "headingEdit": "Edit meeting",
     "headingCreate": "New meeting",
-    "template": "Template",
-    "noTemplate": "None",
     "title": "Title",
     "titlePrefix": "Meeting",
     "titlePlaceholder": "Title...",
     "start": "Start",
     "duration": "Duration",
     "durationSuffix": "minutes",
-    "circle": "Role",
     "invite": "Invite",
-    "facilitator": "Facilitator",
-    "facilitatorHelp": "The facilitator facilitates the meeting by following the process and giving the floor.",
-    "steps": "Steps",
-    "videoConf": "Enable video conferencing",
-    "videoConfJitsi": "Generate a Jitsi URL",
-    "videoConfUrl": "Custom URL"
+    "steps": "Steps"
   },
   "MeetingExportModal": {
     "heading": "Export Meetings agenda",
@@ -283,6 +275,28 @@
   "MeetingOpenCurrent": {
     "heading": "Meeting in progress",
     "info": "You have a meeting in progress, would you like to join it?"
+  },
+  "MeetingRecurringDeleteModal": {
+    "heading": "Delete a recurring meeting",
+    "info": "Are you sure you want to delete the recurring meeting <b>{{name}}</b> from <b>{{circle}}</b>?"
+  },
+  "MeetingRecurringEditModal": {
+    "headingEdit": "Edit recurring meeting",
+    "headingCreate": "New recurring meeting",
+    "recurrence": "Recurrence"
+  },
+  "MeetingRecurringListModal": {
+    "heading": "Recurring Meetings",
+    "empty": "No recurring meetings at this time.",
+    "create": "Create a recurring meeting"
+  },
+  "MeetingRecurringModal": {
+    "info": "This meeting is recurring.",
+    "createLabel": "Create and modify the meeting of",
+    "edit": "Modify the recurrence"
+  },
+  "MeetingRecurringPage": {
+    "title": "Recurring Meeting"
   },
   "MeetingStepContent": {
     "notesPlaceholder": "Notes..."
@@ -313,14 +327,21 @@
     "heading": "Delete meeting template",
     "info": "Are you sure you want to delete template <b>{{name}}</b>?"
   },
-  "MeetingTemplateModal": {
+  "MeetingTemplateIdFormControl": {
+    "template": "Template"
+  },
+  "MeetingTemplateMenu": {
+    "menu": "Use a template",
+    "edit": "Edit templates"
+  },
+  "MeetingTemplateEditModal": {
     "headingEdit": "Edit meeting template",
     "headingCreate": "New meeting template",
     "title": "Title",
     "titlePlaceholder": "Title...",
     "steps": "Steps"
   },
-  "MeetingTemplatesModal": {
+  "MeetingTemplateListModal": {
     "heading": "Meeting templates",
     "empty": "No meeting template",
     "create": "Create a new meeting template"
@@ -333,7 +354,12 @@
       "NotInvited": "Other meetings",
       "All": "All meetings"
     },
-    "export": "Export",
+    "options": "Options",
+    "templates": "Meeting templates",
+    "recurring": "Recurring meetings",
+    "export": "Export (iCal)",
+    "showWeekend": "Show weekend",
+    "hideWeekend": "Hide weekend",
     "create": "New meeting"
   },
   "MemberContent": {
@@ -672,7 +698,6 @@
     "headingCreate": "New thread",
     "title": "Title",
     "titlePlaceholder": "What are we discussing?...",
-    "circle": "Role",
     "invite": "Invite",
     "settings": "Settings"
   },
@@ -698,6 +723,11 @@
   "VacantRolesModal": {
     "heading": "Vacant roles",
     "empty": "No vacant roles 🎉"
+  },
+  "VideoConfFormControl": {
+    "enable": "Enable video conferencing",
+    "jitsi": "Generate a Jitsi URL",
+    "url": "Custom URL"
   },
   "common": {
     "save": "Save",

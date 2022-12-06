@@ -3,8 +3,6 @@ import { EntityWithParticipants, WithId } from './types'
 
 export interface Meeting extends EntityWithParticipants {
   orgId: string
-  initiatorMemberId: string
-  facilitatorMemberId: string
   createdAt: string
   startDate: string
   endDate: string
@@ -19,6 +17,9 @@ export interface Meeting extends EntityWithParticipants {
   archived: boolean
   // True for integrated videoconference, or custom URL
   videoConf?: VideoConf | null
+  // Instance of a recurring meeting?
+  recurringId?: string | null
+  recurringDate?: string | null
 }
 
 export type MeetingEntry = WithId<Meeting>

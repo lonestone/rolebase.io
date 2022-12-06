@@ -13,12 +13,12 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  bigint: any;
+  bigint: number;
   bytea: any;
   citext: string;
   json: any;
   jsonb: any;
-  smallint: any;
+  smallint: number;
   timestamptz: string;
   uuid: string;
 };
@@ -3626,18 +3626,16 @@ export type Meeting = {
   currentStepId?: Maybe<Scalars['uuid']>;
   endDate: Scalars['timestamptz'];
   ended: Scalars['Boolean'];
-  /** An object relationship */
-  facilitatorMember: Member;
-  facilitatorMemberId: Scalars['uuid'];
   id: Scalars['uuid'];
-  /** An object relationship */
-  initiatorMember: Member;
-  initiatorMemberId: Scalars['uuid'];
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
   participantsMembersIds: Scalars['json'];
   participantsScope: Scalars['String'];
+  /** An object relationship */
+  recurring?: Maybe<Meeting_Recurring>;
+  recurringDate?: Maybe<Scalars['timestamptz']>;
+  recurringId?: Maybe<Scalars['uuid']>;
   startDate: Scalars['timestamptz'];
   /** An array relationship */
   steps: Array<Meeting_Step>;
@@ -3741,15 +3739,14 @@ export type Meeting_Bool_Exp = {
   currentStepId?: InputMaybe<Uuid_Comparison_Exp>;
   endDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   ended?: InputMaybe<Boolean_Comparison_Exp>;
-  facilitatorMember?: InputMaybe<Member_Bool_Exp>;
-  facilitatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  initiatorMember?: InputMaybe<Member_Bool_Exp>;
-  initiatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
   participantsScope?: InputMaybe<String_Comparison_Exp>;
+  recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  recurringDate?: InputMaybe<Timestamptz_Comparison_Exp>;
+  recurringId?: InputMaybe<Uuid_Comparison_Exp>;
   startDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   steps?: InputMaybe<Meeting_Step_Bool_Exp>;
   stepsConfig?: InputMaybe<Json_Comparison_Exp>;
@@ -3773,15 +3770,14 @@ export type Meeting_Insert_Input = {
   currentStepId?: InputMaybe<Scalars['uuid']>;
   endDate?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
-  facilitatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
-  facilitatorMemberId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initiatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
-  initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Scalars['String']>;
+  recurring?: InputMaybe<Meeting_Recurring_Obj_Rel_Insert_Input>;
+  recurringDate?: InputMaybe<Scalars['timestamptz']>;
+  recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   steps?: InputMaybe<Meeting_Step_Arr_Rel_Insert_Input>;
   stepsConfig?: InputMaybe<Scalars['json']>;
@@ -3796,11 +3792,11 @@ export type Meeting_Max_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   currentStepId?: Maybe<Scalars['uuid']>;
   endDate?: Maybe<Scalars['timestamptz']>;
-  facilitatorMemberId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
-  initiatorMemberId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   participantsScope?: Maybe<Scalars['String']>;
+  recurringDate?: Maybe<Scalars['timestamptz']>;
+  recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
   title?: Maybe<Scalars['String']>;
 };
@@ -3811,11 +3807,11 @@ export type Meeting_Max_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
-  facilitatorMemberId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  recurringDate?: InputMaybe<Order_By>;
+  recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
@@ -3827,11 +3823,11 @@ export type Meeting_Min_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   currentStepId?: Maybe<Scalars['uuid']>;
   endDate?: Maybe<Scalars['timestamptz']>;
-  facilitatorMemberId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
-  initiatorMemberId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   participantsScope?: Maybe<Scalars['String']>;
+  recurringDate?: Maybe<Scalars['timestamptz']>;
+  recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
   title?: Maybe<Scalars['String']>;
 };
@@ -3842,11 +3838,11 @@ export type Meeting_Min_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
-  facilitatorMemberId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  recurringDate?: InputMaybe<Order_By>;
+  recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
@@ -3884,15 +3880,14 @@ export type Meeting_Order_By = {
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
   ended?: InputMaybe<Order_By>;
-  facilitatorMember?: InputMaybe<Member_Order_By>;
-  facilitatorMemberId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initiatorMember?: InputMaybe<Member_Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  recurring?: InputMaybe<Meeting_Recurring_Order_By>;
+  recurringDate?: InputMaybe<Order_By>;
+  recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
   stepsConfig?: InputMaybe<Order_By>;
   steps_aggregate?: InputMaybe<Meeting_Step_Aggregate_Order_By>;
@@ -3903,6 +3898,441 @@ export type Meeting_Order_By = {
 /** primary key columns input for table: meeting */
 export type Meeting_Pk_Columns_Input = {
   id: Scalars['uuid'];
+};
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_Recurring = {
+  __typename?: 'meeting_recurring';
+  /** An object relationship */
+  circle: Circle;
+  circleId: Scalars['uuid'];
+  createdAt: Scalars['timestamptz'];
+  duration: Scalars['smallint'];
+  id: Scalars['uuid'];
+  /** An array relationship */
+  meetings: Array<Meeting>;
+  /** An aggregate relationship */
+  meetings_aggregate: Meeting_Aggregate;
+  /** An object relationship */
+  org: Org;
+  orgId: Scalars['uuid'];
+  participantsMembersIds: Scalars['json'];
+  participantsScope: Scalars['String'];
+  rrule: Scalars['String'];
+  /** An object relationship */
+  template: Meeting_Template;
+  templateId: Scalars['uuid'];
+  videoConf?: Maybe<Scalars['json']>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringMeetingsArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Order_By>>;
+  where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringMeetings_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Order_By>>;
+  where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringParticipantsMembersIdsArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringVideoConfArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "meeting_recurring" */
+export type Meeting_Recurring_Aggregate = {
+  __typename?: 'meeting_recurring_aggregate';
+  aggregate?: Maybe<Meeting_Recurring_Aggregate_Fields>;
+  nodes: Array<Meeting_Recurring>;
+};
+
+/** aggregate fields of "meeting_recurring" */
+export type Meeting_Recurring_Aggregate_Fields = {
+  __typename?: 'meeting_recurring_aggregate_fields';
+  avg?: Maybe<Meeting_Recurring_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Meeting_Recurring_Max_Fields>;
+  min?: Maybe<Meeting_Recurring_Min_Fields>;
+  stddev?: Maybe<Meeting_Recurring_Stddev_Fields>;
+  stddev_pop?: Maybe<Meeting_Recurring_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Meeting_Recurring_Stddev_Samp_Fields>;
+  sum?: Maybe<Meeting_Recurring_Sum_Fields>;
+  var_pop?: Maybe<Meeting_Recurring_Var_Pop_Fields>;
+  var_samp?: Maybe<Meeting_Recurring_Var_Samp_Fields>;
+  variance?: Maybe<Meeting_Recurring_Variance_Fields>;
+};
+
+
+/** aggregate fields of "meeting_recurring" */
+export type Meeting_Recurring_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "meeting_recurring" */
+export type Meeting_Recurring_Aggregate_Order_By = {
+  avg?: InputMaybe<Meeting_Recurring_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Meeting_Recurring_Max_Order_By>;
+  min?: InputMaybe<Meeting_Recurring_Min_Order_By>;
+  stddev?: InputMaybe<Meeting_Recurring_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Meeting_Recurring_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Meeting_Recurring_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Meeting_Recurring_Sum_Order_By>;
+  var_pop?: InputMaybe<Meeting_Recurring_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Meeting_Recurring_Var_Samp_Order_By>;
+  variance?: InputMaybe<Meeting_Recurring_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "meeting_recurring" */
+export type Meeting_Recurring_Arr_Rel_Insert_Input = {
+  data: Array<Meeting_Recurring_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Meeting_Recurring_Avg_Fields = {
+  __typename?: 'meeting_recurring_avg_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Avg_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "meeting_recurring". All fields are combined with a logical 'AND'. */
+export type Meeting_Recurring_Bool_Exp = {
+  _and?: InputMaybe<Array<Meeting_Recurring_Bool_Exp>>;
+  _not?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  _or?: InputMaybe<Array<Meeting_Recurring_Bool_Exp>>;
+  circle?: InputMaybe<Circle_Bool_Exp>;
+  circleId?: InputMaybe<Uuid_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  duration?: InputMaybe<Smallint_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  meetings?: InputMaybe<Meeting_Bool_Exp>;
+  org?: InputMaybe<Org_Bool_Exp>;
+  orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
+  participantsScope?: InputMaybe<String_Comparison_Exp>;
+  rrule?: InputMaybe<String_Comparison_Exp>;
+  template?: InputMaybe<Meeting_Template_Bool_Exp>;
+  templateId?: InputMaybe<Uuid_Comparison_Exp>;
+  videoConf?: InputMaybe<Json_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "meeting_recurring" */
+export enum Meeting_Recurring_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  MeetingRecurringPkey = 'meeting_recurring_pkey'
+}
+
+/** input type for incrementing numeric columns in table "meeting_recurring" */
+export type Meeting_Recurring_Inc_Input = {
+  duration?: InputMaybe<Scalars['smallint']>;
+};
+
+/** input type for inserting data into table "meeting_recurring" */
+export type Meeting_Recurring_Insert_Input = {
+  circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
+  circleId?: InputMaybe<Scalars['uuid']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  duration?: InputMaybe<Scalars['smallint']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
+  org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  participantsMembersIds?: InputMaybe<Scalars['json']>;
+  participantsScope?: InputMaybe<Scalars['String']>;
+  rrule?: InputMaybe<Scalars['String']>;
+  template?: InputMaybe<Meeting_Template_Obj_Rel_Insert_Input>;
+  templateId?: InputMaybe<Scalars['uuid']>;
+  videoConf?: InputMaybe<Scalars['json']>;
+};
+
+/** aggregate max on columns */
+export type Meeting_Recurring_Max_Fields = {
+  __typename?: 'meeting_recurring_max_fields';
+  circleId?: Maybe<Scalars['uuid']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  duration?: Maybe<Scalars['smallint']>;
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  participantsScope?: Maybe<Scalars['String']>;
+  rrule?: Maybe<Scalars['String']>;
+  templateId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  participantsScope?: InputMaybe<Order_By>;
+  rrule?: InputMaybe<Order_By>;
+  templateId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Meeting_Recurring_Min_Fields = {
+  __typename?: 'meeting_recurring_min_fields';
+  circleId?: Maybe<Scalars['uuid']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  duration?: Maybe<Scalars['smallint']>;
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  participantsScope?: Maybe<Scalars['String']>;
+  rrule?: Maybe<Scalars['String']>;
+  templateId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  participantsScope?: InputMaybe<Order_By>;
+  rrule?: InputMaybe<Order_By>;
+  templateId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "meeting_recurring" */
+export type Meeting_Recurring_Mutation_Response = {
+  __typename?: 'meeting_recurring_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Meeting_Recurring>;
+};
+
+/** input type for inserting object relation for remote table "meeting_recurring" */
+export type Meeting_Recurring_Obj_Rel_Insert_Input = {
+  data: Meeting_Recurring_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
+};
+
+/** on_conflict condition type for table "meeting_recurring" */
+export type Meeting_Recurring_On_Conflict = {
+  constraint: Meeting_Recurring_Constraint;
+  update_columns?: Array<Meeting_Recurring_Update_Column>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "meeting_recurring". */
+export type Meeting_Recurring_Order_By = {
+  circle?: InputMaybe<Circle_Order_By>;
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
+  org?: InputMaybe<Org_Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  participantsMembersIds?: InputMaybe<Order_By>;
+  participantsScope?: InputMaybe<Order_By>;
+  rrule?: InputMaybe<Order_By>;
+  template?: InputMaybe<Meeting_Template_Order_By>;
+  templateId?: InputMaybe<Order_By>;
+  videoConf?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: meeting_recurring */
+export type Meeting_Recurring_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "meeting_recurring" */
+export enum Meeting_Recurring_Select_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Duration = 'duration',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  ParticipantsMembersIds = 'participantsMembersIds',
+  /** column name */
+  ParticipantsScope = 'participantsScope',
+  /** column name */
+  Rrule = 'rrule',
+  /** column name */
+  TemplateId = 'templateId',
+  /** column name */
+  VideoConf = 'videoConf'
+}
+
+/** input type for updating data in table "meeting_recurring" */
+export type Meeting_Recurring_Set_Input = {
+  circleId?: InputMaybe<Scalars['uuid']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  duration?: InputMaybe<Scalars['smallint']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  participantsMembersIds?: InputMaybe<Scalars['json']>;
+  participantsScope?: InputMaybe<Scalars['String']>;
+  rrule?: InputMaybe<Scalars['String']>;
+  templateId?: InputMaybe<Scalars['uuid']>;
+  videoConf?: InputMaybe<Scalars['json']>;
+};
+
+/** aggregate stddev on columns */
+export type Meeting_Recurring_Stddev_Fields = {
+  __typename?: 'meeting_recurring_stddev_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Stddev_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Meeting_Recurring_Stddev_Pop_Fields = {
+  __typename?: 'meeting_recurring_stddev_pop_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Stddev_Pop_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Meeting_Recurring_Stddev_Samp_Fields = {
+  __typename?: 'meeting_recurring_stddev_samp_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Stddev_Samp_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "meeting_recurring" */
+export type Meeting_Recurring_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Meeting_Recurring_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Meeting_Recurring_Stream_Cursor_Value_Input = {
+  circleId?: InputMaybe<Scalars['uuid']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  duration?: InputMaybe<Scalars['smallint']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  participantsMembersIds?: InputMaybe<Scalars['json']>;
+  participantsScope?: InputMaybe<Scalars['String']>;
+  rrule?: InputMaybe<Scalars['String']>;
+  templateId?: InputMaybe<Scalars['uuid']>;
+  videoConf?: InputMaybe<Scalars['json']>;
+};
+
+/** aggregate sum on columns */
+export type Meeting_Recurring_Sum_Fields = {
+  __typename?: 'meeting_recurring_sum_fields';
+  duration?: Maybe<Scalars['smallint']>;
+};
+
+/** order by sum() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Sum_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "meeting_recurring" */
+export enum Meeting_Recurring_Update_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Duration = 'duration',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  ParticipantsMembersIds = 'participantsMembersIds',
+  /** column name */
+  ParticipantsScope = 'participantsScope',
+  /** column name */
+  Rrule = 'rrule',
+  /** column name */
+  TemplateId = 'templateId',
+  /** column name */
+  VideoConf = 'videoConf'
+}
+
+export type Meeting_Recurring_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Meeting_Recurring_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Meeting_Recurring_Set_Input>;
+  where: Meeting_Recurring_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Meeting_Recurring_Var_Pop_Fields = {
+  __typename?: 'meeting_recurring_var_pop_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Var_Pop_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Meeting_Recurring_Var_Samp_Fields = {
+  __typename?: 'meeting_recurring_var_samp_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Var_Samp_Order_By = {
+  duration?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Meeting_Recurring_Variance_Fields = {
+  __typename?: 'meeting_recurring_variance_fields';
+  duration?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "meeting_recurring" */
+export type Meeting_Recurring_Variance_Order_By = {
+  duration?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "meeting" */
@@ -3922,17 +4352,17 @@ export enum Meeting_Select_Column {
   /** column name */
   Ended = 'ended',
   /** column name */
-  FacilitatorMemberId = 'facilitatorMemberId',
-  /** column name */
   Id = 'id',
-  /** column name */
-  InitiatorMemberId = 'initiatorMemberId',
   /** column name */
   OrgId = 'orgId',
   /** column name */
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  RecurringDate = 'recurringDate',
+  /** column name */
+  RecurringId = 'recurringId',
   /** column name */
   StartDate = 'startDate',
   /** column name */
@@ -3952,12 +4382,12 @@ export type Meeting_Set_Input = {
   currentStepId?: InputMaybe<Scalars['uuid']>;
   endDate?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
-  facilitatorMemberId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Scalars['String']>;
+  recurringDate?: InputMaybe<Scalars['timestamptz']>;
+  recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   stepsConfig?: InputMaybe<Scalars['json']>;
   title?: InputMaybe<Scalars['String']>;
@@ -4213,12 +4643,12 @@ export type Meeting_Stream_Cursor_Value_Input = {
   currentStepId?: InputMaybe<Scalars['uuid']>;
   endDate?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
-  facilitatorMemberId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Scalars['String']>;
+  recurringDate?: InputMaybe<Scalars['timestamptz']>;
+  recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   stepsConfig?: InputMaybe<Scalars['json']>;
   title?: InputMaybe<Scalars['String']>;
@@ -4316,6 +4746,13 @@ export type Meeting_Template_Mutation_Response = {
   returning: Array<Meeting_Template>;
 };
 
+/** input type for inserting object relation for remote table "meeting_template" */
+export type Meeting_Template_Obj_Rel_Insert_Input = {
+  data: Meeting_Template_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Template_On_Conflict>;
+};
+
 /** on_conflict condition type for table "meeting_template" */
 export type Meeting_Template_On_Conflict = {
   constraint: Meeting_Template_Constraint;
@@ -4408,17 +4845,17 @@ export enum Meeting_Update_Column {
   /** column name */
   Ended = 'ended',
   /** column name */
-  FacilitatorMemberId = 'facilitatorMemberId',
-  /** column name */
   Id = 'id',
-  /** column name */
-  InitiatorMemberId = 'initiatorMemberId',
   /** column name */
   OrgId = 'orgId',
   /** column name */
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  RecurringDate = 'recurringDate',
+  /** column name */
+  RecurringId = 'recurringId',
   /** column name */
   StartDate = 'startDate',
   /** column name */
@@ -4456,6 +4893,7 @@ export type Member = {
   /** An object relationship */
   pictureFile?: Maybe<Files>;
   pictureFileId?: Maybe<Scalars['uuid']>;
+  preferences?: Maybe<Scalars['json']>;
   role?: Maybe<Scalars['String']>;
   /** An object relationship */
   user?: Maybe<Users>;
@@ -4481,6 +4919,12 @@ export type MemberCircle_Members_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Circle_Member_Order_By>>;
   where?: InputMaybe<Circle_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "member" */
+export type MemberPreferencesArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregated selection of "member" */
@@ -4564,6 +5008,7 @@ export type Member_Bool_Exp = {
   picture?: InputMaybe<String_Comparison_Exp>;
   pictureFile?: InputMaybe<Files_Bool_Exp>;
   pictureFileId?: InputMaybe<Uuid_Comparison_Exp>;
+  preferences?: InputMaybe<Json_Comparison_Exp>;
   role?: InputMaybe<String_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -4598,6 +5043,7 @@ export type Member_Insert_Input = {
   picture?: InputMaybe<Scalars['String']>;
   pictureFile?: InputMaybe<Files_Obj_Rel_Insert_Input>;
   pictureFileId?: InputMaybe<Scalars['uuid']>;
+  preferences?: InputMaybe<Scalars['json']>;
   role?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['uuid']>;
@@ -4708,6 +5154,7 @@ export type Member_Order_By = {
   picture?: InputMaybe<Order_By>;
   pictureFile?: InputMaybe<Files_Order_By>;
   pictureFileId?: InputMaybe<Order_By>;
+  preferences?: InputMaybe<Order_By>;
   role?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
@@ -4742,6 +5189,8 @@ export enum Member_Select_Column {
   /** column name */
   PictureFileId = 'pictureFileId',
   /** column name */
+  Preferences = 'preferences',
+  /** column name */
   Role = 'role',
   /** column name */
   UserId = 'userId',
@@ -4761,6 +5210,7 @@ export type Member_Set_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   picture?: InputMaybe<Scalars['String']>;
   pictureFileId?: InputMaybe<Scalars['uuid']>;
+  preferences?: InputMaybe<Scalars['json']>;
   role?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['uuid']>;
   workedMinPerWeek?: InputMaybe<Scalars['Int']>;
@@ -4819,6 +5269,7 @@ export type Member_Stream_Cursor_Value_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   picture?: InputMaybe<Scalars['String']>;
   pictureFileId?: InputMaybe<Scalars['uuid']>;
+  preferences?: InputMaybe<Scalars['json']>;
   role?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['uuid']>;
   workedMinPerWeek?: InputMaybe<Scalars['Int']>;
@@ -4857,6 +5308,8 @@ export enum Member_Update_Column {
   Picture = 'picture',
   /** column name */
   PictureFileId = 'pictureFileId',
+  /** column name */
+  Preferences = 'preferences',
   /** column name */
   Role = 'role',
   /** column name */
@@ -4969,6 +5422,10 @@ export type Mutation_Root = {
   delete_meeting?: Maybe<Meeting_Mutation_Response>;
   /** delete single row from the table: "meeting" */
   delete_meeting_by_pk?: Maybe<Meeting>;
+  /** delete data from the table: "meeting_recurring" */
+  delete_meeting_recurring?: Maybe<Meeting_Recurring_Mutation_Response>;
+  /** delete single row from the table: "meeting_recurring" */
+  delete_meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
   /** delete data from the table: "meeting_step" */
   delete_meeting_step?: Maybe<Meeting_Step_Mutation_Response>;
   /** delete single row from the table: "meeting_step" */
@@ -5081,6 +5538,10 @@ export type Mutation_Root = {
   insert_meeting?: Maybe<Meeting_Mutation_Response>;
   /** insert a single row into the table: "meeting" */
   insert_meeting_one?: Maybe<Meeting>;
+  /** insert data into the table: "meeting_recurring" */
+  insert_meeting_recurring?: Maybe<Meeting_Recurring_Mutation_Response>;
+  /** insert a single row into the table: "meeting_recurring" */
+  insert_meeting_recurring_one?: Maybe<Meeting_Recurring>;
   /** insert data into the table: "meeting_step" */
   insert_meeting_step?: Maybe<Meeting_Step_Mutation_Response>;
   /** insert a single row into the table: "meeting_step" */
@@ -5221,6 +5682,12 @@ export type Mutation_Root = {
   update_meeting_by_pk?: Maybe<Meeting>;
   /** update multiples rows of table: "meeting" */
   update_meeting_many?: Maybe<Array<Maybe<Meeting_Mutation_Response>>>;
+  /** update data of the table: "meeting_recurring" */
+  update_meeting_recurring?: Maybe<Meeting_Recurring_Mutation_Response>;
+  /** update single row of the table: "meeting_recurring" */
+  update_meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
+  /** update multiples rows of table: "meeting_recurring" */
+  update_meeting_recurring_many?: Maybe<Array<Maybe<Meeting_Recurring_Mutation_Response>>>;
   /** update data of the table: "meeting_step" */
   update_meeting_step?: Maybe<Meeting_Step_Mutation_Response>;
   /** update single row of the table: "meeting_step" */
@@ -5480,6 +5947,18 @@ export type Mutation_RootDelete_MeetingArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Meeting_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Meeting_RecurringArgs = {
+  where: Meeting_Recurring_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Meeting_Recurring_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -5847,6 +6326,20 @@ export type Mutation_RootInsert_MeetingArgs = {
 export type Mutation_RootInsert_Meeting_OneArgs = {
   object: Meeting_Insert_Input;
   on_conflict?: InputMaybe<Meeting_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Meeting_RecurringArgs = {
+  objects: Array<Meeting_Recurring_Insert_Input>;
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Meeting_Recurring_OneArgs = {
+  object: Meeting_Recurring_Insert_Input;
+  on_conflict?: InputMaybe<Meeting_Recurring_On_Conflict>;
 };
 
 
@@ -6355,6 +6848,28 @@ export type Mutation_RootUpdate_Meeting_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Meeting_RecurringArgs = {
+  _inc?: InputMaybe<Meeting_Recurring_Inc_Input>;
+  _set?: InputMaybe<Meeting_Recurring_Set_Input>;
+  where: Meeting_Recurring_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Meeting_Recurring_By_PkArgs = {
+  _inc?: InputMaybe<Meeting_Recurring_Inc_Input>;
+  _set?: InputMaybe<Meeting_Recurring_Set_Input>;
+  pk_columns: Meeting_Recurring_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Meeting_Recurring_ManyArgs = {
+  updates: Array<Meeting_Recurring_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Meeting_StepArgs = {
   _set?: InputMaybe<Meeting_Step_Set_Input>;
   where: Meeting_Step_Bool_Exp;
@@ -6812,6 +7327,10 @@ export type Org = {
   /** An aggregate relationship */
   meetings_aggregate: Meeting_Aggregate;
   /** An array relationship */
+  meetings_recurring: Array<Meeting_Recurring>;
+  /** An aggregate relationship */
+  meetings_recurring_aggregate: Meeting_Recurring_Aggregate;
+  /** An array relationship */
   members: Array<Member>;
   /** An aggregate relationship */
   members_aggregate: Member_Aggregate;
@@ -6905,6 +7424,26 @@ export type OrgMeetings_AggregateArgs = {
 
 
 /** columns and relationships of "org" */
+export type OrgMeetings_RecurringArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgMeetings_Recurring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
 export type OrgMembersArgs = {
   distinct_on?: InputMaybe<Array<Member_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6992,6 +7531,7 @@ export type Org_Bool_Exp = {
   files?: InputMaybe<Org_File_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   meetings?: InputMaybe<Meeting_Bool_Exp>;
+  meetings_recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
   members?: InputMaybe<Member_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
@@ -7204,6 +7744,7 @@ export type Org_Insert_Input = {
   files?: InputMaybe<Org_File_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
+  meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
@@ -7263,6 +7804,7 @@ export type Org_Order_By = {
   files_aggregate?: InputMaybe<Org_File_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
+  meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
@@ -7470,6 +8012,12 @@ export type Query_Root = {
   meeting_aggregate: Meeting_Aggregate;
   /** fetch data from the table: "meeting" using primary key columns */
   meeting_by_pk?: Maybe<Meeting>;
+  /** fetch data from the table: "meeting_recurring" */
+  meeting_recurring: Array<Meeting_Recurring>;
+  /** fetch aggregated fields from the table: "meeting_recurring" */
+  meeting_recurring_aggregate: Meeting_Recurring_Aggregate;
+  /** fetch data from the table: "meeting_recurring" using primary key columns */
+  meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -7875,6 +8423,29 @@ export type Query_RootMeeting_AggregateArgs = {
 
 
 export type Query_RootMeeting_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootMeeting_RecurringArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_Recurring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_Recurring_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -8831,6 +9402,14 @@ export type Subscription_Root = {
   meeting_aggregate: Meeting_Aggregate;
   /** fetch data from the table: "meeting" using primary key columns */
   meeting_by_pk?: Maybe<Meeting>;
+  /** fetch data from the table: "meeting_recurring" */
+  meeting_recurring: Array<Meeting_Recurring>;
+  /** fetch aggregated fields from the table: "meeting_recurring" */
+  meeting_recurring_aggregate: Meeting_Recurring_Aggregate;
+  /** fetch data from the table: "meeting_recurring" using primary key columns */
+  meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
+  /** fetch data from the table in a streaming manner : "meeting_recurring" */
+  meeting_recurring_stream: Array<Meeting_Recurring>;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -9358,6 +9937,36 @@ export type Subscription_RootMeeting_AggregateArgs = {
 
 export type Subscription_RootMeeting_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMeeting_RecurringArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Recurring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Recurring_Order_By>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Recurring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMeeting_Recurring_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Meeting_Recurring_Stream_Cursor_Input>>;
+  where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
 };
 
 
@@ -11767,7 +12376,7 @@ export type CreateCirclesMutationVariables = Exact<{
 }>;
 
 
-export type CreateCirclesMutation = { __typename?: 'mutation_root', insert_circle?: { __typename?: 'circle_mutation_response', returning: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: any | null } }> } | null };
+export type CreateCirclesMutation = { __typename?: 'mutation_root', insert_circle?: { __typename?: 'circle_mutation_response', returning: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }> } | null };
 
 export type UpdateCircleMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -11894,14 +12503,14 @@ export type CancelLogMutationVariables = Exact<{
 
 export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
 
-export type MeetingFieldsFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, initiatorMemberId: string, facilitatorMemberId: string, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null };
+export type MeetingFieldsFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null, recurringId?: string | null, recurringDate?: string | null };
 
 export type SubscribeMeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, initiatorMemberId: string, facilitatorMemberId: string, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null } | null };
+export type SubscribeMeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null, recurringId?: string | null, recurringDate?: string | null } | null };
 
 export type SubscribeMeetingsByDatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -11910,21 +12519,21 @@ export type SubscribeMeetingsByDatesSubscriptionVariables = Exact<{
 }>;
 
 
-export type SubscribeMeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, initiatorMemberId: string, facilitatorMemberId: string, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null }> };
+export type SubscribeMeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null, recurringId?: string | null, recurringDate?: string | null }> };
 
 export type SubscribeCircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeCircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, initiatorMemberId: string, facilitatorMemberId: string, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null }> };
+export type SubscribeCircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null, recurringId?: string | null, recurringDate?: string | null }> };
 
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
 }>;
 
 
-export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, initiatorMemberId: string, facilitatorMemberId: string, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null } | null };
+export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null, recurringId?: string | null, recurringDate?: string | null } | null };
 
 export type UpdateMeetingMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -11932,7 +12541,7 @@ export type UpdateMeetingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, initiatorMemberId: string, facilitatorMemberId: string, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null } | null };
+export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: any | null, stepsConfig: any, currentStepId?: string | null, archived: boolean, videoConf?: any | null, recurringId?: string | null, recurringDate?: string | null } | null };
 
 export type ArchiveMeetingMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -11940,6 +12549,44 @@ export type ArchiveMeetingMutationVariables = Exact<{
 
 
 export type ArchiveMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string } | null };
+
+export type MeetingRecurringFieldsFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } };
+
+export type SubscribeMeetingRecurringSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type SubscribeMeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
+
+export type SubscribeCircleMeetingRecurringsSubscriptionVariables = Exact<{
+  where: Meeting_Recurring_Bool_Exp;
+}>;
+
+
+export type SubscribeCircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } }> };
+
+export type CreateMeetingRecurringMutationVariables = Exact<{
+  values: Meeting_Recurring_Insert_Input;
+}>;
+
+
+export type CreateMeetingRecurringMutation = { __typename?: 'mutation_root', insert_meeting_recurring_one?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
+
+export type UpdateMeetingRecurringMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  values: Meeting_Recurring_Set_Input;
+}>;
+
+
+export type UpdateMeetingRecurringMutation = { __typename?: 'mutation_root', update_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
+
+export type DeleteMeetingRecurringMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteMeetingRecurringMutation = { __typename?: 'mutation_root', delete_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string } | null };
 
 export type MeetingStepFieldsFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, notesUpdates?: any | null, type: string, data: any };
 
@@ -12017,21 +12664,21 @@ export type DeleteMeetingTemplateMutationVariables = Exact<{
 
 export type DeleteMeetingTemplateMutation = { __typename?: 'mutation_root', delete_meeting_template_by_pk?: { __typename?: 'meeting_template', id: string } | null };
 
-export type MemberFieldsFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null };
+export type MemberFieldsFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null, preferences?: any | null };
 
 export type GetMemberQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetMemberQuery = { __typename?: 'query_root', member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null } | null };
+export type GetMemberQuery = { __typename?: 'query_root', member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null, preferences?: any | null } | null };
 
 export type GetOrgsMembersQueryVariables = Exact<{
   orgsIds: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
 
-export type GetOrgsMembersQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null }> };
+export type GetOrgsMembersQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null, preferences?: any | null }> };
 
 export type SubscribeMembersSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -12039,7 +12686,7 @@ export type SubscribeMembersSubscriptionVariables = Exact<{
 }>;
 
 
-export type SubscribeMembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null }> };
+export type SubscribeMembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null, preferences?: any | null }> };
 
 export type CreateMemberMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -12047,7 +12694,7 @@ export type CreateMemberMutationVariables = Exact<{
 }>;
 
 
-export type CreateMemberMutation = { __typename?: 'mutation_root', insert_member_one?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null } | null };
+export type CreateMemberMutation = { __typename?: 'mutation_root', insert_member_one?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null, preferences?: any | null } | null };
 
 export type UpdateMemberMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -12055,7 +12702,7 @@ export type UpdateMemberMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null } | null };
+export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: string | null, meetingId?: string | null, preferences?: any | null } | null };
 
 export type ArchiveMemberMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -12104,14 +12751,14 @@ export type ArchiveOrgMutationVariables = Exact<{
 
 export type ArchiveOrgMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
-export type RoleFieldsFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: any | null };
+export type RoleFieldsFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
 export type GetRoleQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetRoleQuery = { __typename?: 'query_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: any | null } | null };
+export type GetRoleQuery = { __typename?: 'query_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
 
 export type SubscribeRolesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -12119,14 +12766,14 @@ export type SubscribeRolesSubscriptionVariables = Exact<{
 }>;
 
 
-export type SubscribeRolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: any | null }> };
+export type SubscribeRolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }> };
 
 export type CreateRoleMutationVariables = Exact<{
   values: Role_Insert_Input;
 }>;
 
 
-export type CreateRoleMutation = { __typename?: 'mutation_root', insert_role_one?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: any | null } | null };
+export type CreateRoleMutation = { __typename?: 'mutation_root', insert_role_one?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
 
 export type UpdateRoleMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -12134,7 +12781,7 @@ export type UpdateRoleMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRoleMutation = { __typename?: 'mutation_root', update_role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: any | null } | null };
+export type UpdateRoleMutation = { __typename?: 'mutation_root', update_role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
 
 export type ArchiveRoleMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -12420,8 +13067,6 @@ export const MeetingFieldsFragmentDoc = gql`
   circleId
   participantsScope
   participantsMembersIds
-  initiatorMemberId
-  facilitatorMemberId
   createdAt
   startDate
   endDate
@@ -12432,6 +13077,31 @@ export const MeetingFieldsFragmentDoc = gql`
   currentStepId
   archived
   videoConf
+  recurringId
+  recurringDate
+}
+    `;
+export const MeetingRecurringFieldsFragmentDoc = gql`
+    fragment MeetingRecurringFields on meeting_recurring {
+  id
+  orgId
+  circleId
+  circle {
+    role {
+      name
+    }
+  }
+  participantsScope
+  participantsMembersIds
+  templateId
+  template {
+    title
+    stepsConfig
+  }
+  rrule
+  duration
+  videoConf
+  createdAt
 }
     `;
 export const MeetingStepFieldsFragmentDoc = gql`
@@ -12468,6 +13138,7 @@ export const MemberFieldsFragmentDoc = gql`
   workedMinPerWeek
   role
   meetingId
+  preferences
 }
     `;
 export const OrgFieldsFragmentDoc = gql`
@@ -13488,6 +14159,170 @@ export function useArchiveMeetingMutation(baseOptions?: Apollo.MutationHookOptio
 export type ArchiveMeetingMutationHookResult = ReturnType<typeof useArchiveMeetingMutation>;
 export type ArchiveMeetingMutationResult = Apollo.MutationResult<ArchiveMeetingMutation>;
 export type ArchiveMeetingMutationOptions = Apollo.BaseMutationOptions<ArchiveMeetingMutation, ArchiveMeetingMutationVariables>;
+export const SubscribeMeetingRecurringDocument = gql`
+    subscription subscribeMeetingRecurring($id: uuid!) {
+  meeting_recurring_by_pk(id: $id) {
+    ...MeetingRecurringFields
+    meetings {
+      id
+      recurringDate
+    }
+  }
+}
+    ${MeetingRecurringFieldsFragmentDoc}`;
+
+/**
+ * __useSubscribeMeetingRecurringSubscription__
+ *
+ * To run a query within a React component, call `useSubscribeMeetingRecurringSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMeetingRecurringSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscribeMeetingRecurringSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSubscribeMeetingRecurringSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingRecurringSubscription, SubscribeMeetingRecurringSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscribeMeetingRecurringSubscription, SubscribeMeetingRecurringSubscriptionVariables>(SubscribeMeetingRecurringDocument, options);
+      }
+export type SubscribeMeetingRecurringSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingRecurringSubscription>;
+export type SubscribeMeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingRecurringSubscription>;
+export const SubscribeCircleMeetingRecurringsDocument = gql`
+    subscription subscribeCircleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
+  meeting_recurring(where: $where, order_by: {template: {title: asc}}) {
+    ...MeetingRecurringFields
+  }
+}
+    ${MeetingRecurringFieldsFragmentDoc}`;
+
+/**
+ * __useSubscribeCircleMeetingRecurringsSubscription__
+ *
+ * To run a query within a React component, call `useSubscribeCircleMeetingRecurringsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeCircleMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscribeCircleMeetingRecurringsSubscription({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useSubscribeCircleMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCircleMeetingRecurringsSubscription, SubscribeCircleMeetingRecurringsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscribeCircleMeetingRecurringsSubscription, SubscribeCircleMeetingRecurringsSubscriptionVariables>(SubscribeCircleMeetingRecurringsDocument, options);
+      }
+export type SubscribeCircleMeetingRecurringsSubscriptionHookResult = ReturnType<typeof useSubscribeCircleMeetingRecurringsSubscription>;
+export type SubscribeCircleMeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<SubscribeCircleMeetingRecurringsSubscription>;
+export const CreateMeetingRecurringDocument = gql`
+    mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
+  insert_meeting_recurring_one(object: $values) {
+    ...MeetingRecurringFields
+  }
+}
+    ${MeetingRecurringFieldsFragmentDoc}`;
+export type CreateMeetingRecurringMutationFn = Apollo.MutationFunction<CreateMeetingRecurringMutation, CreateMeetingRecurringMutationVariables>;
+
+/**
+ * __useCreateMeetingRecurringMutation__
+ *
+ * To run a mutation, you first call `useCreateMeetingRecurringMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMeetingRecurringMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMeetingRecurringMutation, { data, loading, error }] = useCreateMeetingRecurringMutation({
+ *   variables: {
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useCreateMeetingRecurringMutation(baseOptions?: Apollo.MutationHookOptions<CreateMeetingRecurringMutation, CreateMeetingRecurringMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMeetingRecurringMutation, CreateMeetingRecurringMutationVariables>(CreateMeetingRecurringDocument, options);
+      }
+export type CreateMeetingRecurringMutationHookResult = ReturnType<typeof useCreateMeetingRecurringMutation>;
+export type CreateMeetingRecurringMutationResult = Apollo.MutationResult<CreateMeetingRecurringMutation>;
+export type CreateMeetingRecurringMutationOptions = Apollo.BaseMutationOptions<CreateMeetingRecurringMutation, CreateMeetingRecurringMutationVariables>;
+export const UpdateMeetingRecurringDocument = gql`
+    mutation updateMeetingRecurring($id: uuid!, $values: meeting_recurring_set_input!) {
+  update_meeting_recurring_by_pk(pk_columns: {id: $id}, _set: $values) {
+    ...MeetingRecurringFields
+  }
+}
+    ${MeetingRecurringFieldsFragmentDoc}`;
+export type UpdateMeetingRecurringMutationFn = Apollo.MutationFunction<UpdateMeetingRecurringMutation, UpdateMeetingRecurringMutationVariables>;
+
+/**
+ * __useUpdateMeetingRecurringMutation__
+ *
+ * To run a mutation, you first call `useUpdateMeetingRecurringMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMeetingRecurringMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMeetingRecurringMutation, { data, loading, error }] = useUpdateMeetingRecurringMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useUpdateMeetingRecurringMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMeetingRecurringMutation, UpdateMeetingRecurringMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMeetingRecurringMutation, UpdateMeetingRecurringMutationVariables>(UpdateMeetingRecurringDocument, options);
+      }
+export type UpdateMeetingRecurringMutationHookResult = ReturnType<typeof useUpdateMeetingRecurringMutation>;
+export type UpdateMeetingRecurringMutationResult = Apollo.MutationResult<UpdateMeetingRecurringMutation>;
+export type UpdateMeetingRecurringMutationOptions = Apollo.BaseMutationOptions<UpdateMeetingRecurringMutation, UpdateMeetingRecurringMutationVariables>;
+export const DeleteMeetingRecurringDocument = gql`
+    mutation deleteMeetingRecurring($id: uuid!) {
+  delete_meeting_recurring_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteMeetingRecurringMutationFn = Apollo.MutationFunction<DeleteMeetingRecurringMutation, DeleteMeetingRecurringMutationVariables>;
+
+/**
+ * __useDeleteMeetingRecurringMutation__
+ *
+ * To run a mutation, you first call `useDeleteMeetingRecurringMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMeetingRecurringMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMeetingRecurringMutation, { data, loading, error }] = useDeleteMeetingRecurringMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteMeetingRecurringMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMeetingRecurringMutation, DeleteMeetingRecurringMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMeetingRecurringMutation, DeleteMeetingRecurringMutationVariables>(DeleteMeetingRecurringDocument, options);
+      }
+export type DeleteMeetingRecurringMutationHookResult = ReturnType<typeof useDeleteMeetingRecurringMutation>;
+export type DeleteMeetingRecurringMutationResult = Apollo.MutationResult<DeleteMeetingRecurringMutation>;
+export type DeleteMeetingRecurringMutationOptions = Apollo.BaseMutationOptions<DeleteMeetingRecurringMutation, DeleteMeetingRecurringMutationVariables>;
 export const GetMeetingStepsIdsDocument = gql`
     query getMeetingStepsIds($meetingId: uuid!) {
   meeting_step(where: {meetingId: {_eq: $meetingId}}) {

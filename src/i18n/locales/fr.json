@@ -61,9 +61,13 @@
     "heading": "Supprimer un rôle",
     "info": "Êtes-vous sûr(e) de vouloir supprimer le rôle <b>{{name}}</b> ?"
   },
+  "CircleFormController": {
+    "label": "Rôle"
+  },
   "CircleMeetings": {
     "create": "Créer une réunion",
-    "empty": "Aucune réunion pour le moment"
+    "empty": "Aucune réunion pour le moment",
+    "recurring": "Réunions récurrentes"
   },
   "CircleMemberDeleteModal": {
     "heading": "Supprimer le rôle d'un membre",
@@ -126,8 +130,7 @@
     "title": "Décision",
     "titlePlaceholder": "Qu'avez-vous décidé ?",
     "description": "Description",
-    "descriptionPlaceholder": "Pourquoi avez-vous pris cette décision ?",
-    "circle": "Rôle"
+    "descriptionPlaceholder": "Pourquoi avez-vous pris cette décision ?"
   },
   "DurationSelect": {
     "min": "Min / semaine",
@@ -147,7 +150,6 @@
     "members": "Membres",
     "baseRoles": "Rôles de base",
     "vacantRoles": "Rôles vacants",
-    "meetingTemplates": "Modèles de réunion",
     "logs": "Historique",
     "superAdmin": "Admin"
   },
@@ -240,8 +242,6 @@
     "heading": "Réunion <circle /> {{title}}",
     "started": "En cours",
     "ended": "Terminée",
-    "facilitatorCurrent": "Vous animez cette réunion.",
-    "facilitatorMember": "<member /> anime cette réunion.",
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
     "end": "Terminer la réunion",
     "nextStep": "Étape suivante",
@@ -254,22 +254,14 @@
   "MeetingEditModal": {
     "headingEdit": "Modifier une réunion",
     "headingCreate": "Nouvelle réunion",
-    "template": "Modèle",
-    "noTemplate": "Aucun",
     "title": "Titre",
     "titlePrefix": "Réunion",
     "titlePlaceholder": "Titre...",
     "start": "Début",
     "duration": "Durée",
     "durationSuffix": "minutes",
-    "circle": "Rôle",
     "invite": "Inviter",
-    "facilitator": "Facilitateur",
-    "facilitatorHelp": "Le/la facilitateur anime la réunion en suivant le déroulé et en donnant la parole.",
-    "steps": "Déroulé",
-    "videoConf": "Activer la vidéo-conférence",
-    "videoConfJitsi": "Générer une URL Jitsi",
-    "videoConfUrl": "URL personnalisée"
+    "steps": "Déroulé"
   },
   "MeetingExportModal": {
     "heading": "Exporter l'agenda des Réunions",
@@ -283,6 +275,28 @@
   "MeetingOpenCurrent": {
     "heading": "Réunion en cours",
     "info": "Vous avez une réunion en cours, souhaitez-vous la rejoindre ?"
+  },
+  "MeetingRecurringDeleteModal": {
+    "heading": "Supprimer une réunion récurrente",
+    "info": "Êtes-vous sûr(e) de vouloir supprimer la réunion récurrente <b>{{name}}</b> de <b>{{circle}}</b> ?"
+  },
+  "MeetingRecurringEditModal": {
+    "headingEdit": "Modifier une réunion récurrente",
+    "headingCreate": "Nouvelle réunion récurrente",
+    "recurrence": "Récurrence"
+  },
+  "MeetingRecurringListModal": {
+    "heading": "Réunion récurrentes",
+    "empty": "Aucune réunion récurrente pour le moment.",
+    "create": "Créer une réunion récurrente"
+  },
+  "MeetingRecurringModal": {
+    "info": "Cette réunion est récurrente. L'occurrence que vous avez sélectionnée n'existe pas encore, vous pouvez la créer ou attendre qu'elle soit créée automatiquement.",
+    "createLabel": "Créer et modifier la réunion du",
+    "edit": "Modifier la récurrence"
+  },
+  "MeetingRecurringPage": {
+    "title": "Réunion récurrente"
   },
   "MeetingStepContent": {
     "notesPlaceholder": "Notes..."
@@ -313,14 +327,21 @@
     "heading": "Supprimer un modèle de réunion",
     "info": "Êtes-vous sûr(e) de vouloir supprimer le modèle <b>{{name}}</b> ?"
   },
-  "MeetingTemplateModal": {
+  "MeetingTemplateIdFormControl": {
+    "template": "Modèle"
+  },
+  "MeetingTemplateMenu": {
+    "menu": "Utiliser un modèle",
+    "edit": "Modifier les modèles"
+  },
+  "MeetingTemplateEditModal": {
     "headingEdit": "Modifier un modèle de réunion",
     "headingCreate": "Nouveau modèle de réunion",
     "title": "Titre",
     "titlePlaceholder": "Titre...",
     "steps": "Déroulé"
   },
-  "MeetingTemplatesModal": {
+  "MeetingTemplateListModal": {
     "heading": "Modèles de réunion",
     "empty": "Aucun modèle de réunion",
     "create": "Créer un nouveau modèle de réunion"
@@ -333,7 +354,12 @@
       "NotInvited": "Autres réunions",
       "All": "Toutes les réunions"
     },
-    "export": "Exporter",
+    "options": "Options",
+    "templates": "Modèles de réunion",
+    "recurring": "Réunions récurrentes",
+    "export": "Exporter (iCal)",
+    "showWeekend": "Afficher le week-end",
+    "hideWeekend": "Masquer le week-end",
     "create": "Nouvelle réunion"
   },
   "MemberContent": {
@@ -668,7 +694,6 @@
     "headingCreate": "Nouvelle discussion",
     "title": "Titre",
     "titlePlaceholder": "On discute de quoi ?...",
-    "circle": "Rôle",
     "invite": "Inviter",
     "settings": "Paramètres"
   },
@@ -694,6 +719,11 @@
   "VacantRolesModal": {
     "heading": "Rôles vacants",
     "empty": "Aucun rôle vacant 🎉"
+  },
+  "VideoConfFormControl": {
+    "enable": "Activer la vidéo-conférence",
+    "jitsi": "Générer une URL Jitsi",
+    "url": "URL personnalisée"
   },
   "common": {
     "save": "Enregistrer",

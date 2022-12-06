@@ -13,8 +13,8 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import CircleFormController from '@components/molecules/CircleFormController'
 import EditorController from '@components/molecules/editor/EditorController'
-import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -23,7 +23,7 @@ import { DecisionEntry } from '@shared/model/decision'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
   useCreateDecisionMutation,
@@ -79,15 +79,16 @@ export default function DecisionEditModal({
         circleId: defaultCircleId || '',
       }
 
+  const formMethods = useForm<Values>({
+    resolver,
+    defaultValues,
+  })
   const {
     handleSubmit,
     register,
     control,
     formState: { errors },
-  } = useForm<Values>({
-    resolver,
-    defaultValues,
-  })
+  } = formMethods
 
   const onSubmit = handleSubmit(async (values) => {
     if (!orgId || !currentMember) return
@@ -151,62 +152,52 @@ export default function DecisionEditModal({
   })
 
   return (
-    <Modal size="xl" {...modalProps}>
-      <ModalOverlay />
-      <ModalContent>
-        <form onSubmit={onSubmit}>
-          <ModalHeader>
-            {t(
-              decision
-                ? 'DecisionEditModal.headingEdit'
-                : 'DecisionEditModal.headingCreate'
-            )}
-          </ModalHeader>
-          <ModalCloseButton />
+    <FormProvider {...formMethods}>
+      <Modal size="xl" {...modalProps}>
+        <ModalOverlay />
+        <ModalContent>
+          <form onSubmit={onSubmit}>
+            <ModalHeader>
+              {t(
+                decision
+                  ? 'DecisionEditModal.headingEdit'
+                  : 'DecisionEditModal.headingCreate'
+              )}
+            </ModalHeader>
+            <ModalCloseButton />
 
-          <ModalBody>
-            <VStack spacing={5} align="stretch">
-              <FormControl isInvalid={!!errors.title}>
-                <FormLabel>{t('DecisionEditModal.title')}</FormLabel>
-                <Input
-                  {...register('title')}
-                  placeholder={t('DecisionEditModal.titlePlaceholder')}
-                  autoFocus
-                />
-              </FormControl>
+            <ModalBody>
+              <VStack spacing={5} align="stretch">
+                <FormControl isInvalid={!!errors.title}>
+                  <FormLabel>{t('DecisionEditModal.title')}</FormLabel>
+                  <Input
+                    {...register('title')}
+                    placeholder={t('DecisionEditModal.titlePlaceholder')}
+                    autoFocus
+                  />
+                </FormControl>
 
-              <FormControl isInvalid={!!errors.circleId}>
-                <FormLabel>{t('DecisionEditModal.circle')}</FormLabel>
-                <Controller
-                  name="circleId"
-                  control={control}
-                  render={({ field }) => (
-                    <CircleSearchInput
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-              </FormControl>
+                <CircleFormController />
 
-              <FormControl isInvalid={!!errors.description}>
-                <FormLabel>{t('DecisionEditModal.description')}</FormLabel>
-                <EditorController
-                  name="description"
-                  placeholder={t('DecisionEditModal.descriptionPlaceholder')}
-                  control={control}
-                />
-              </FormControl>
+                <FormControl isInvalid={!!errors.description}>
+                  <FormLabel>{t('DecisionEditModal.description')}</FormLabel>
+                  <EditorController
+                    name="description"
+                    placeholder={t('DecisionEditModal.descriptionPlaceholder')}
+                    control={control}
+                  />
+                </FormControl>
 
-              <Box textAlign="right" mt={2}>
-                <Button colorScheme="blue" type="submit">
-                  {t(decision ? 'common.save' : 'common.create')}
-                </Button>
-              </Box>
-            </VStack>
-          </ModalBody>
-        </form>
-      </ModalContent>
-    </Modal>
+                <Box textAlign="right" mt={2}>
+                  <Button colorScheme="blue" type="submit">
+                    {t(decision ? 'common.save' : 'common.create')}
+                  </Button>
+                </Box>
+              </VStack>
+            </ModalBody>
+          </form>
+        </ModalContent>
+      </Modal>
+    </FormProvider>
   )
 }

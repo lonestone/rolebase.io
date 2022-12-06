@@ -1,24 +1,24 @@
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { useCallback } from 'react'
-import { useArchiveCircleMemberMutation } from 'src/graphql.generated'
+import { useCreateCircleMemberMutation } from 'src/graphql.generated'
 
-export default function useRemoveCircleMember() {
-  const [archiveCircleMember] = useArchiveCircleMemberMutation()
+export default function useAddCircleMember() {
+  const [createCircleMember] = useCreateCircleMemberMutation()
   const createLog = useCreateLog()
 
   return useCallback(async (circleId: string, memberId: string) => {
-    const { data, errors } = await archiveCircleMember({
+    const { data, errors } = await createCircleMember({
       variables: { memberId, circleId },
     })
     if (errors?.length) throw errors[0]
-    const circleMember = data?.update_circle_member?.returning[0]!
+    const circleMember = data?.insert_circle_member_one!
 
     // Log change
     createLog({
       display: {
-        type: LogType.CircleMemberRemove,
-        id: circleMember.id,
+        type: LogType.CircleMemberAdd,
+        id: circleMember.circleId,
         name: circleMember.circle.role.name,
         memberId: circleMember.member.id,
         memberName: circleMember.member.name,
@@ -26,10 +26,12 @@ export default function useRemoveCircleMember() {
       changes: {
         circlesMembers: [
           {
-            type: EntityChangeType.Update,
+            type: EntityChangeType.Create,
             id: circleMember.id,
-            prevData: { archived: false },
-            newData: { archived: true },
+            data: {
+              memberId,
+              archived: false,
+            },
           },
         ],
       },
