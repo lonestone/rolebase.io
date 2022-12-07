@@ -4,14 +4,14 @@ import { useUpdateMemberMutation } from 'src/graphql.generated'
 import useCurrentMember from './useCurrentMember'
 
 // Return current member preferences and a function to set a preference
-
 export default function useMemberPreferences() {
   const currentMember = useCurrentMember()
   const [updateMember] = useUpdateMemberMutation()
-  const preferences = currentMember?.preferences || {}
+  const preferences = currentMember?.preferences
   const [cachedPreferences, setCachedPreferences] = useState(preferences)
 
   useEffect(() => {
+    if (!preferences) return
     setCachedPreferences(preferences)
   }, [preferences])
 

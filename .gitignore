@@ -10,3 +10,6 @@ dist
 
 # Rollup visualizer
 stats.html
+
+# Local Netlify folder
+.netlify
