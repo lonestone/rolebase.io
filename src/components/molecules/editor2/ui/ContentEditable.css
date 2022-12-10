@@ -6,13 +6,10 @@
  *
  *
  */
-.ContentEditable__root {
-  border: 0;
-  font-size: 15px;
-  display: block;
+
+.ContentEditable {
   position: relative;
+  padding: var(--chakra-sizes-2) var(--chakra-sizes-4);
   tab-size: 1;
   outline: 0;
-  padding: 8px 28px;
-  min-height: calc(100% - 16px);
 }

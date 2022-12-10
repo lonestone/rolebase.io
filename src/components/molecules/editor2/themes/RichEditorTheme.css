@@ -6,86 +6,91 @@
  *
  *
  */
-.PlaygroundEditorTheme__ltr {
+.RichEditor__ltr {
   text-align: left;
 }
-.PlaygroundEditorTheme__rtl {
+.RichEditor__rtl {
   text-align: right;
 }
-.PlaygroundEditorTheme__paragraph {
+.RichEditor__paragraph {
   margin: 0;
   position: relative;
 }
-.PlaygroundEditorTheme__quote {
-  margin: 0;
-  margin-left: 20px;
-  margin-bottom: 10px;
-  font-size: 15px;
+.RichEditor__quote {
+  margin: var(--chakra-sizes-2) 0;
   color: rgb(101, 103, 107);
   border-left-color: rgb(206, 208, 212);
   border-left-width: 4px;
   border-left-style: solid;
   padding-left: 16px;
 }
-.PlaygroundEditorTheme__h1 {
-  font-size: 24px;
-  color: rgb(5, 5, 5);
-  font-weight: 400;
-  margin: 0;
+
+.RichEditor__h1,
+.RichEditor__h2,
+.RichEditor__h3,
+.RichEditor__h4,
+.RichEditor__h5,
+.RichEditor__h6 {
+  margin: 1em 0 0.5em 0;
+  font-weight: 700 !important;
+  font-family: var(--chakra-fonts-heading);
 }
-.PlaygroundEditorTheme__h2 {
-  font-size: 15px;
-  color: rgb(101, 103, 107);
-  font-weight: 700;
-  margin: 0;
-  text-transform: uppercase;
+.RichEditor__h1 {
+  font-size: 1.5em;
 }
-.PlaygroundEditorTheme__h3 {
-  font-size: 12px;
-  margin: 0;
-  text-transform: uppercase;
+.RichEditor__h2 {
+  font-size: 1.35em;
 }
-.PlaygroundEditorTheme__textBold {
+.RichEditor__h3 {
+  font-size: 1.25em;
+}
+.RichEditor__h4 {
+  font-size: 1.2em;
+}
+.RichEditor__h5 {
+  font-size: 1.1em;
+}
+
+.RichEditor__textBold {
   font-weight: bold;
 }
-.PlaygroundEditorTheme__textItalic {
+.RichEditor__textItalic {
   font-style: italic;
 }
-.PlaygroundEditorTheme__textUnderline {
+.RichEditor__textUnderline {
   text-decoration: underline;
 }
-.PlaygroundEditorTheme__textStrikethrough {
+.RichEditor__textStrikethrough {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__textUnderlineStrikethrough {
+.RichEditor__textUnderlineStrikethrough {
   text-decoration: underline line-through;
 }
-.PlaygroundEditorTheme__textSubscript {
+.RichEditor__textSubscript {
   font-size: 0.8em;
   vertical-align: sub !important;
 }
-.PlaygroundEditorTheme__textSuperscript {
+.RichEditor__textSuperscript {
   font-size: 0.8em;
   vertical-align: super;
 }
-.PlaygroundEditorTheme__textCode {
+.RichEditor__textCode {
   background-color: rgb(240, 242, 245);
   padding: 1px 0.25rem;
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 94%;
 }
-.PlaygroundEditorTheme__hashtag {
+.RichEditor__hashtag {
   background-color: rgba(88, 144, 255, 0.15);
   border-bottom: 1px solid rgba(88, 144, 255, 0.3);
 }
-.PlaygroundEditorTheme__link {
-  color: rgb(33, 111, 219);
-  text-decoration: none;
-}
-.PlaygroundEditorTheme__link:hover {
+.RichEditor__link {
   text-decoration: underline;
 }
-.PlaygroundEditorTheme__code {
+.RichEditor__link:hover {
+  text-decoration: underline;
+}
+.RichEditor__code {
   background-color: rgb(240, 242, 245);
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
@@ -100,7 +105,7 @@
   overflow-x: auto;
   position: relative;
 }
-.PlaygroundEditorTheme__code:before {
+.RichEditor__code:before {
   content: attr(data-gutter);
   position: absolute;
   background-color: #eee;
@@ -113,7 +118,7 @@
   text-align: right;
   min-width: 25px;
 }
-.PlaygroundEditorTheme__table {
+.RichEditor__table {
   border-collapse: collapse;
   border-spacing: 0;
   max-width: 100%;
@@ -122,10 +127,10 @@
   width: calc(100% - 25px);
   margin: 30px 0;
 }
-.PlaygroundEditorTheme__tableSelected {
+.RichEditor__tableSelected {
   outline: 2px solid rgb(60, 132, 244);
 }
-.PlaygroundEditorTheme__tableCell {
+.RichEditor__tableCell {
   border: 1px solid #bbb;
   min-width: 75px;
   vertical-align: top;
@@ -135,7 +140,7 @@
   cursor: default;
   outline: none;
 }
-.PlaygroundEditorTheme__tableCellSortedIndicator {
+.RichEditor__tableCellSortedIndicator {
   display: block;
   opacity: 0.5;
   position: absolute;
@@ -145,7 +150,7 @@
   height: 4px;
   background-color: #999;
 }
-.PlaygroundEditorTheme__tableCellResizer {
+.RichEditor__tableCellResizer {
   position: absolute;
   right: -4px;
   height: 100%;
@@ -154,14 +159,14 @@
   z-index: 10;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellHeader {
+.RichEditor__tableCellHeader {
   background-color: #f2f3f5;
   text-align: start;
 }
-.PlaygroundEditorTheme__tableCellSelected {
+.RichEditor__tableCellSelected {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableCellPrimarySelected {
+.RichEditor__tableCellPrimarySelected {
   border: 2px solid rgb(60, 132, 244);
   display: block;
   height: calc(100% - 2px);
@@ -171,11 +176,11 @@
   top: -1px;
   z-index: 2;
 }
-.PlaygroundEditorTheme__tableCellEditing {
+.RichEditor__tableCellEditing {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   border-radius: 3px;
 }
-.PlaygroundEditorTheme__tableAddColumns {
+.RichEditor__tableAddColumns {
   position: absolute;
   top: 0;
   width: 20px;
@@ -186,7 +191,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddColumns:after {
+.RichEditor__tableAddColumns:after {
   background-image: url(../images/icons/plus.svg);
   background-size: contain;
   background-position: center;
@@ -200,10 +205,10 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddColumns:hover {
+.RichEditor__tableAddColumns:hover {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableAddRows {
+.RichEditor__tableAddRows {
   position: absolute;
   bottom: -25px;
   width: calc(100% - 25px);
@@ -214,7 +219,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddRows:after {
+.RichEditor__tableAddRows:after {
   background-image: url(../images/icons/plus.svg);
   background-size: contain;
   background-position: center;
@@ -228,7 +233,7 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddRows:hover {
+.RichEditor__tableAddRows:hover {
   background-color: #c9dbf0;
 }
 @keyframes table-controls {
@@ -239,7 +244,7 @@
     opacity: 1;
   }
 }
-.PlaygroundEditorTheme__tableCellResizeRuler {
+.RichEditor__tableCellResizeRuler {
   display: block;
   position: absolute;
   width: 1px;
@@ -247,7 +252,7 @@
   height: 100%;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellActionButtonContainer {
+.RichEditor__tableCellActionButtonContainer {
   display: block;
   right: 5px;
   top: 6px;
@@ -256,7 +261,7 @@
   width: 20px;
   height: 20px;
 }
-.PlaygroundEditorTheme__tableCellActionButton {
+.RichEditor__tableCellActionButton {
   background-color: #eee;
   display: block;
   border: 0;
@@ -266,71 +271,68 @@
   color: #222;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableCellActionButton:hover {
+.RichEditor__tableCellActionButton:hover {
   background-color: #ddd;
 }
-.PlaygroundEditorTheme__characterLimit {
+.RichEditor__characterLimit {
   display: inline;
   background-color: #ffbbbb !important;
 }
-.PlaygroundEditorTheme__ol1 {
+.RichEditor__ol1 {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol2 {
+.RichEditor__ol2 {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
   list-style-type: upper-alpha;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol3 {
+.RichEditor__ol3 {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
   list-style-type: lower-alpha;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol4 {
+.RichEditor__ol4 {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
   list-style-type: upper-roman;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol5 {
+.RichEditor__ol5 {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
   list-style-type: lower-roman;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ul {
+.RichEditor__ul {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__listItem {
-  margin: 0 32px;
+.RichEditor__listItem {
+  margin: 0;
+  padding-left: 4px;
 }
-.PlaygroundEditorTheme__listItemChecked,
-.PlaygroundEditorTheme__listItemUnchecked {
+.RichEditor__listItem[dir='rtl'] {
+  padding-right: 4px;
+  padding-left: 0;
+}
+.RichEditor__listItemChecked,
+.RichEditor__listItemUnchecked {
   position: relative;
-  margin-left: 8px;
-  margin-right: 8px;
   padding-left: 24px;
   padding-right: 24px;
   list-style-type: none;
   outline: none;
 }
-.PlaygroundEditorTheme__listItemChecked {
+.RichEditor__listItemChecked {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before,
-.PlaygroundEditorTheme__listItemChecked:before {
+.RichEditor__listItemUnchecked:before,
+.RichEditor__listItemChecked:before {
   content: '';
   width: 16px;
   height: 16px;
@@ -341,27 +343,27 @@
   background-size: cover;
   position: absolute;
 }
-.PlaygroundEditorTheme__listItemUnchecked[dir='rtl']:before,
-.PlaygroundEditorTheme__listItemChecked[dir='rtl']:before {
+.RichEditor__listItemUnchecked[dir='rtl']:before,
+.RichEditor__listItemChecked[dir='rtl']:before {
   left: auto;
   right: 0;
 }
-.PlaygroundEditorTheme__listItemUnchecked:focus:before,
-.PlaygroundEditorTheme__listItemChecked:focus:before {
+.RichEditor__listItemUnchecked:focus:before,
+.RichEditor__listItemChecked:focus:before {
   box-shadow: 0 0 0 2px #a6cdfe;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before {
+.RichEditor__listItemUnchecked:before {
   border: 1px solid #999;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemChecked:before {
+.RichEditor__listItemChecked:before {
   border: 1px solid rgb(61, 135, 245);
   border-radius: 2px;
   background-color: #3d87f5;
   background-repeat: no-repeat;
 }
-.PlaygroundEditorTheme__listItemChecked:after {
+.RichEditor__listItemChecked:after {
   content: '';
   cursor: pointer;
   border-color: #fff;
@@ -375,57 +377,57 @@
   transform: rotate(45deg);
   border-width: 0 2px 2px 0;
 }
-.PlaygroundEditorTheme__nestedListItem {
+.RichEditor__nestedListItem {
   list-style-type: none;
 }
-.PlaygroundEditorTheme__nestedListItem:before,
-.PlaygroundEditorTheme__nestedListItem:after {
+.RichEditor__nestedListItem:before,
+.RichEditor__nestedListItem:after {
   display: none;
 }
-.PlaygroundEditorTheme__tokenComment {
+.RichEditor__tokenComment {
   color: slategray;
 }
-.PlaygroundEditorTheme__tokenPunctuation {
+.RichEditor__tokenPunctuation {
   color: #999;
 }
-.PlaygroundEditorTheme__tokenProperty {
+.RichEditor__tokenProperty {
   color: #905;
 }
-.PlaygroundEditorTheme__tokenSelector {
+.RichEditor__tokenSelector {
   color: #690;
 }
-.PlaygroundEditorTheme__tokenOperator {
+.RichEditor__tokenOperator {
   color: #9a6e3a;
 }
-.PlaygroundEditorTheme__tokenAttr {
+.RichEditor__tokenAttr {
   color: #07a;
 }
-.PlaygroundEditorTheme__tokenVariable {
+.RichEditor__tokenVariable {
   color: #e90;
 }
-.PlaygroundEditorTheme__tokenFunction {
+.RichEditor__tokenFunction {
   color: #dd4a68;
 }
-.PlaygroundEditorTheme__mark {
+.RichEditor__mark {
   background: rgba(255, 212, 0, 0.14);
   border-bottom: 2px solid rgba(255, 212, 0, 0.3);
   padding-bottom: 2px;
 }
-.PlaygroundEditorTheme__markOverlap {
+.RichEditor__markOverlap {
   background: rgba(255, 212, 0, 0.3);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__mark.selected {
+.RichEditor__mark.selected {
   background: rgba(255, 212, 0, 0.5);
   border-bottom: 2px solid rgba(255, 212, 0, 1);
 }
-.PlaygroundEditorTheme__markOverlap.selected {
+.RichEditor__markOverlap.selected {
   background: rgba(255, 212, 0, 0.7);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__embedBlock {
+.RichEditor__embedBlock {
   user-select: none;
 }
-.PlaygroundEditorTheme__embedBlockFocus {
+.RichEditor__embedBlockFocus {
   outline: 2px solid rgb(60, 132, 244);
 }

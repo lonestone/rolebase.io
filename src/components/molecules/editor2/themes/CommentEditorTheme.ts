@@ -10,7 +10,7 @@ import type { EditorThemeClasses } from 'lexical'
 
 import './CommentEditorTheme.css'
 
-import baseTheme from './PlaygroundEditorTheme'
+import baseTheme from './RichEditorTheme'
 
 const theme: EditorThemeClasses = {
   ...baseTheme,

@@ -8,14 +8,12 @@
  */
 
 .Placeholder__root {
-  font-size: 15px;
   color: #999;
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 8px;
-  left: 28px;
-  right: 28px;
+  top: calc(var(--chakra-sizes-2) + 1px);
+  left: calc(var(--chakra-sizes-4) + 1px);
   user-select: none;
   white-space: nowrap;
   display: inline-block;

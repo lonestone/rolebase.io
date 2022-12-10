@@ -8,247 +8,6 @@
 
 @import 'https://fonts.googleapis.com/css?family=Reenie+Beanie';
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #eee;
-  padding: 0 20px;
-}
-
-header {
-  max-width: 580px;
-  margin: auto;
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-header a {
-  max-width: 220px;
-  margin: 20px 0 0 0;
-  display: block;
-}
-
-header img {
-  display: block;
-  height: 100%;
-  width: 100%;
-}
-
-header h1 {
-  text-align: left;
-  color: #333;
-  display: inline-block;
-  margin: 20px 0 0 0;
-}
-
-.editor-shell {
-  margin: 20px auto;
-  border-radius: 2px;
-  max-width: 1100px;
-  color: #000;
-  position: relative;
-  line-height: 1.7;
-  font-weight: 400;
-}
-
-.editor-shell .editor-container {
-  background: #fff;
-  position: relative;
-  cursor: text;
-  display: block;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-.editor-shell .editor-container.tree-view {
-  border-radius: 0;
-}
-
-.editor-shell .editor-container.plain-text {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.editor-scroller {
-  min-height: 150px;
-  border: 0;
-  resize: none;
-  cursor: text;
-  display: block;
-  position: relative;
-  outline: 0;
-  overflow: auto;
-  resize: vertical;
-}
-
-.editor {
-  height: 100%;
-  position: relative;
-}
-
-.test-recorder-output {
-  margin: 20px auto 20px auto;
-  width: 100%;
-}
-
-pre {
-  line-height: 1.1;
-  background: #222;
-  color: #fff;
-  margin: 0;
-  padding: 10px;
-  font-size: 12px;
-  overflow: auto;
-  max-height: 180px;
-}
-
-.tree-view-output {
-  display: block;
-  background: #222;
-  color: #fff;
-  padding: 0;
-  font-size: 12px;
-  margin: 1px auto 10px auto;
-  max-height: 250px;
-  position: relative;
-  overflow: hidden;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-pre::-webkit-scrollbar {
-  background: transparent;
-  width: 10px;
-}
-
-pre::-webkit-scrollbar-thumb {
-  background: #999;
-}
-
-.editor-dev-button {
-  position: relative;
-  display: block;
-  width: 40px;
-  height: 40px;
-  font-size: 12px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.3);
-  background-color: #444;
-}
-
-.editor-dev-button::after {
-  content: '';
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  bottom: 10px;
-  left: 10px;
-  display: block;
-  background-size: contain;
-  filter: invert(1);
-}
-
-.editor-dev-button:hover {
-  background-color: #555;
-}
-
-.editor-dev-button.active {
-  background-color: rgb(233, 35, 35);
-}
-
-.test-recorder-toolbar {
-  display: flex;
-}
-
-.test-recorder-button {
-  position: relative;
-  display: block;
-  width: 32px;
-  height: 32px;
-  font-size: 10px;
-  padding: 6px 6px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.4);
-  background-color: #222;
-  transition: box-shadow 50ms ease-out;
-}
-
-.test-recorder-button:active {
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-.test-recorder-button + .test-recorder-button {
-  margin-left: 4px;
-}
-
-.test-recorder-button::after {
-  content: '';
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  bottom: 8px;
-  left: 8px;
-  display: block;
-  background-size: contain;
-  filter: invert(1);
-}
-
-#options-button {
-  position: fixed;
-  left: 20px;
-  bottom: 20px;
-}
-
-#test-recorder-button {
-  position: fixed;
-  left: 70px;
-  bottom: 20px;
-}
-
-#paste-log-button {
-  position: fixed;
-  left: 120px;
-  bottom: 20px;
-}
-
-#options-button::after {
-  background-image: url(images/icons/gear.svg);
-}
-
-#test-recorder-button::after {
-  background-image: url(images/icons/journal-code.svg);
-}
-
-#paste-log-button::after {
-  background-image: url(images/icons/clipboard.svg);
-}
-
-#test-recorder-button-snapshot {
-  margin-right: auto;
-}
-
-#test-recorder-button-snapshot::after {
-  background-image: url(images/icons/camera.svg);
-}
-
-#test-recorder-button-copy::after {
-  background-image: url(images/icons/clipboard.svg);
-}
-
-#test-recorder-button-download::after {
-  background-image: url(images/icons/download.svg);
-}
-
 .typeahead-popover {
   background: #fff;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
@@ -488,10 +247,6 @@ i.redo {
   background-image: url(images/icons/arrow-clockwise.svg);
 }
 
-i.sticky {
-  background-image: url(images/icons/sticky.svg);
-}
-
 i.mic {
   background-image: url(images/icons/mic.svg);
 }
@@ -534,68 +289,6 @@ i.prettier {
 
 i.prettier-error {
   background-image: url(images/icons/prettier-error.svg);
-}
-
-.link-editor .button.active,
-.toolbar .button.active {
-  background-color: rgb(223, 232, 250);
-}
-
-.link-editor .link-input {
-  display: block;
-  width: calc(100% - 24px);
-  box-sizing: border-box;
-  margin: 8px 12px;
-  padding: 8px 12px;
-  border-radius: 15px;
-  background-color: #eee;
-  font-size: 15px;
-  color: rgb(5, 5, 5);
-  border: 0;
-  outline: 0;
-  position: relative;
-  font-family: inherit;
-}
-
-.link-editor div.link-edit {
-  background-image: url(images/icons/pencil-fill.svg);
-  background-size: 16px;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 35px;
-  vertical-align: -0.25em;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  cursor: pointer;
-}
-
-.link-editor .link-input a {
-  color: rgb(33, 111, 219);
-  text-decoration: none;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-right: 30px;
-  text-overflow: ellipsis;
-}
-
-.link-editor .link-input a:hover {
-  text-decoration: underline;
-}
-
-.link-editor .font-size-wrapper,
-.link-editor .font-family-wrapper {
-  display: flex;
-  margin: 0 4px;
-}
-
-.link-editor select {
-  padding: 6px;
-  border: none;
-  background-color: rgba(0, 0, 0, 0.075);
-  border-radius: 4px;
 }
 
 .mention:focus {
@@ -914,37 +607,37 @@ i.prettier-error {
   transform: translateX(20px);
 }
 
-.editor-shell span.editor-image {
+span.editor-image {
   cursor: default;
   display: inline-block;
   position: relative;
   user-select: none;
 }
 
-.editor-shell .editor-image img {
+.editor-image img {
   max-width: 100%;
   cursor: default;
 }
 
-.editor-shell .editor-image img.focused {
+.editor-image img.focused {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
 
-.editor-shell .editor-image img.focused.draggable {
+.editor-image img.focused.draggable {
   cursor: grab;
 }
 
-.editor-shell .editor-image img.focused.draggable:active {
+.editor-image img.focused.draggable:active {
   cursor: grabbing;
 }
 
-.editor-shell .editor-image .image-caption-container .tree-view-output {
+.editor-image .image-caption-container .tree-view-output {
   margin: 0;
   border-radius: 0;
 }
 
-.editor-shell .editor-image .image-caption-container {
+.editor-image .image-caption-container {
   display: block;
   position: absolute;
   bottom: 4px;
@@ -959,7 +652,7 @@ i.prettier-error {
   overflow: hidden;
 }
 
-.editor-shell .editor-image .image-caption-button {
+.editor-image .image-caption-button {
   display: block;
   position: absolute;
   bottom: 20px;
@@ -977,11 +670,11 @@ i.prettier-error {
   user-select: none;
 }
 
-.editor-shell .editor-image .image-caption-button:hover {
+.editor-image .image-caption-button:hover {
   background-color: rgba(60, 132, 244, 0.5);
 }
 
-.editor-shell .editor-image .image-resizer {
+.editor-image .image-resizer {
   display: block;
   width: 7px;
   height: 7px;
@@ -990,49 +683,49 @@ i.prettier-error {
   border: 1px solid #fff;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-n {
+.editor-image .image-resizer.image-resizer-n {
   top: -6px;
   left: 48%;
   cursor: n-resize;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-ne {
+.editor-image .image-resizer.image-resizer-ne {
   top: -6px;
   right: -6px;
   cursor: ne-resize;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-e {
+.editor-image .image-resizer.image-resizer-e {
   bottom: 48%;
   right: -6px;
   cursor: e-resize;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-se {
+.editor-image .image-resizer.image-resizer-se {
   bottom: -2px;
   right: -6px;
   cursor: nwse-resize;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-s {
+.editor-image .image-resizer.image-resizer-s {
   bottom: -2px;
   left: 48%;
   cursor: s-resize;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-sw {
+.editor-image .image-resizer.image-resizer-sw {
   bottom: -2px;
   left: -6px;
   cursor: sw-resize;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-w {
+.editor-image .image-resizer.image-resizer-w {
   bottom: 48%;
   left: -6px;
   cursor: w-resize;
 }
 
-.editor-shell .editor-image .image-resizer.image-resizer-nw {
+.editor-image .image-resizer.image-resizer-nw {
   top: -6px;
   left: -6px;
   cursor: nw-resize;
@@ -1399,108 +1092,6 @@ button.action-button:disabled {
   margin: 0 4px;
 }
 
-.sticky-note-container {
-  position: absolute;
-  z-index: 9;
-  width: 120px;
-  display: inline-block;
-}
-
-.sticky-note {
-  line-height: 1;
-  text-align: left;
-  width: 120px;
-  margin: 25px;
-  padding: 20px 10px;
-  position: relative;
-  border: 1px solid #e8e8e8;
-  font-family: 'Reenie Beanie';
-  font-size: 24px;
-  border-bottom-right-radius: 60px 5px;
-  display: block;
-  cursor: move;
-}
-
-.sticky-note:after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  right: -0px;
-  bottom: 20px;
-  width: 120px;
-  height: 25px;
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: 2px 15px 5px rgba(0, 0, 0, 0.4);
-  transform: matrix(-1, -0.1, 0, 1, 0, 0);
-}
-
-.sticky-note.yellow {
-  border-top: 1px solid #fdfd86;
-  background: linear-gradient(
-    135deg,
-    #ffff88 81%,
-    #ffff88 82%,
-    #ffff88 82%,
-    #ffffc6 100%
-  );
-}
-
-.sticky-note.pink {
-  border-top: 1px solid #e7d1e4;
-  background: linear-gradient(
-    135deg,
-    #f7cbe8 81%,
-    #f7cbe8 82%,
-    #f7cbe8 82%,
-    #e7bfe1 100%
-  );
-}
-
-.sticky-note-container.dragging {
-  transition: none !important;
-}
-
-.sticky-note div {
-  cursor: text;
-}
-
-.sticky-note .delete {
-  border: 0;
-  background: none;
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  font-size: 10px;
-  cursor: pointer;
-  opacity: 0.5;
-}
-
-.sticky-note .delete:hover {
-  font-weight: bold;
-  opacity: 1;
-}
-
-.sticky-note .color {
-  border: 0;
-  background: none;
-  position: absolute;
-  top: 8px;
-  right: 25px;
-  cursor: pointer;
-  opacity: 0.5;
-}
-
-.sticky-note .color:hover {
-  opacity: 1;
-}
-
-.sticky-note .color i {
-  display: block;
-  width: 12px;
-  height: 12px;
-  background-size: contain;
-}
-
 .github-corner:hover .octo-arm {
   animation: octocat-wave 560ms ease-in-out;
 }
@@ -1580,13 +1171,13 @@ hr.selected {
   z-index: 3;
 }
 
-.PlaygroundEditorTheme__blockCursor {
+.RichEditor__blockCursor {
   display: block;
   pointer-events: none;
   position: absolute;
 }
 
-.PlaygroundEditorTheme__blockCursor:after {
+.RichEditor__blockCursor:after {
   content: '';
   display: block;
   position: absolute;

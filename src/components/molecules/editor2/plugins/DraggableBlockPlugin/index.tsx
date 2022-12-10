@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import './index.css'
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { eventFiles } from '@lexical/rich-text'
@@ -27,15 +26,15 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
+import { DragHandleIcon } from '@chakra-ui/icons'
+import { Box, IconButton } from '@chakra-ui/react'
 import { isHTMLElement } from '../../utils/guard'
 import { Point } from '../../utils/point'
 import { Rect } from '../../utils/rect'
 
-const SPACE = 4
-const TARGET_LINE_HALF_HEIGHT = 2
+const TARGET_LINE_HEIGHT = 3
 const DRAGGABLE_BLOCK_MENU_CLASSNAME = 'draggable-block-menu'
 const DRAG_DATA_FORMAT = 'application/x-lexical-drag-block'
-const TEXT_BOX_HORIZONTAL_PADDING = 28
 
 const Downward = 1
 const Upward = -1
@@ -119,7 +118,7 @@ function getBlockElement(
   return blockElem
 }
 
-function isOnMenu(element: HTMLElement): boolean {
+function isOnMenu(element: HTMLElement | SVGElement): boolean {
   return !!element.closest(`.${DRAGGABLE_BLOCK_MENU_CLASSNAME}`)
 }
 
@@ -144,9 +143,9 @@ function setMenuPosition(
     (parseInt(targetStyle.lineHeight, 10) - floatingElemRect.height) / 2 -
     anchorElementRect.top
 
-  const left = SPACE
+  const left = -12.5
 
-  floatingElem.style.opacity = '1'
+  floatingElem.style.opacity = '0.5'
   floatingElem.style.transform = `translate(${left}px, ${top}px)`
 }
 
@@ -185,13 +184,11 @@ function setTargetLine(
     lineTop -= parseFloat(targetStyle.marginTop)
   }
 
-  const top = lineTop - anchorTop - TARGET_LINE_HALF_HEIGHT
-  const left = TEXT_BOX_HORIZONTAL_PADDING - SPACE
+  const top = lineTop - anchorTop - TARGET_LINE_HEIGHT / 2
+  const left = 0
 
   targetLineElem.style.transform = `translate(${left}px, ${top}px)`
-  targetLineElem.style.width = `${
-    anchorWidth - (TEXT_BOX_HORIZONTAL_PADDING - SPACE) * 2
-  }px`
+  targetLineElem.style.width = `${anchorWidth}px`
   targetLineElem.style.opacity = '.4'
 }
 
@@ -209,7 +206,7 @@ function useDraggableBlockMenu(
 ) {
   const scrollerElem = anchorElem.parentElement
 
-  const menuRef = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLButtonElement>(null)
   const targetLineRef = useRef<HTMLDivElement>(null)
   const [draggableBlockElem, setDraggableBlockElem] =
     useState<HTMLElement | null>(null)
@@ -311,22 +308,18 @@ function useDraggableBlockMenu(
     return mergeRegister(
       editor.registerCommand(
         DRAGOVER_COMMAND,
-        (event) => {
-          return onDragover(event)
-        },
+        (event) => onDragover(event),
         COMMAND_PRIORITY_LOW
       ),
       editor.registerCommand(
         DROP_COMMAND,
-        (event) => {
-          return onDrop(event)
-        },
+        (event) => onDrop(event),
         COMMAND_PRIORITY_HIGH
       )
     )
   }, [anchorElem, editor])
 
-  function onDragStart(event: ReactDragEvent<HTMLDivElement>): void {
+  function onDragStart(event: ReactDragEvent<HTMLButtonElement>): void {
     const dataTransfer = event.dataTransfer
     if (!dataTransfer || !draggableBlockElem) {
       return
@@ -348,16 +341,38 @@ function useDraggableBlockMenu(
 
   return createPortal(
     <>
-      <div
-        className="icon draggable-block-menu"
+      <IconButton
+        className={DRAGGABLE_BLOCK_MENU_CLASSNAME}
         ref={menuRef}
-        draggable={true}
+        aria-label="Drag to move block"
+        icon={<DragHandleIcon />}
+        variant="ghost"
+        draggable
+        size="xs"
+        p={0}
+        cursor="grab"
+        position="absolute"
+        top={0}
+        left={0}
+        opacity={0}
+        transition="none"
+        _active={{
+          cursor: 'grabbing',
+        }}
+        display={isEditable ? '' : 'none'}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
-      >
-        <div className={isEditable ? 'icon' : ''} />
-      </div>
-      <div className="draggable-block-target-line" ref={targetLineRef} />
+      />
+      <Box
+        ref={targetLineRef}
+        pointerEvents="none"
+        bg="blue"
+        h={`${TARGET_LINE_HEIGHT}px`}
+        position="absolute"
+        left={0}
+        top={0}
+        opacity={0}
+      />
     </>,
     anchorElem
   )

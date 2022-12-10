@@ -13,7 +13,9 @@ import { SharedHistoryContext } from './context/SharedHistoryContext'
 import Editor from './Editor'
 import PlaygroundNodes from './nodes'
 import { TableContext } from './plugins/TablePlugin'
-import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme'
+import RichEditorTheme from './themes/RichEditorTheme'
+
+import './index.css'
 
 export function App() {
   const initialConfig = {
@@ -23,7 +25,7 @@ export function App() {
     onError: (error: Error) => {
       throw error
     },
-    theme: PlaygroundEditorTheme,
+    theme: RichEditorTheme,
   }
 
   return (
@@ -31,7 +33,12 @@ export function App() {
       <SharedHistoryContext>
         <TableContext>
           <SharedAutocompleteContext>
-            <Editor isCollab />
+            <Editor
+              placeholder="Enter some text..."
+              isCollab
+              username="Godefroy"
+              minH="4em"
+            />
           </SharedAutocompleteContext>
         </TableContext>
       </SharedHistoryContext>

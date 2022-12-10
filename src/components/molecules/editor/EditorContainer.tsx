@@ -19,7 +19,6 @@ const EditorContainer = styled.div<
     ${({ maxHeight }) =>
       maxHeight && `max-height: ${maxHeight}; overflow-y: auto;`}
 
-    //overflow: hidden;
     // Force to contain floating elements
     // https://www.cssmojo.com/latest-new-clearfix-so-far/#why-is-that
     &:after {

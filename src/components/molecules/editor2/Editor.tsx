@@ -16,8 +16,10 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
+import { Box } from '@chakra-ui/react'
+import { randomColor } from '@chakra-ui/theme-tools'
 import { createWebsocketProvider } from './collaboration'
 import { useSharedHistoryContext } from './context/SharedHistoryContext'
 import TableCellNodes from './nodes/TableCellNodes'
@@ -50,15 +52,25 @@ import TableCellResizer from './plugins/TableCellResizer'
 import { TablePlugin as NewTablePlugin } from './plugins/TablePlugin'
 import TwitterPlugin from './plugins/TwitterPlugin'
 import YouTubePlugin from './plugins/YouTubePlugin'
-import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme'
+import RichEditorTheme from './themes/RichEditorTheme'
 import ContentEditable from './ui/ContentEditable'
 import Placeholder from './ui/Placeholder'
 
 interface Props {
+  placeholder?: string
   isCollab: boolean
+  username?: string
+  minH?: string
+  maxH?: string
 }
 
-export default function Editor({ isCollab }: Props) {
+export default function Editor({
+  placeholder,
+  isCollab,
+  username,
+  minH,
+  maxH,
+}: Props) {
   const { historyState } = useSharedHistoryContext()
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
@@ -75,90 +87,105 @@ export default function Editor({ isCollab }: Props) {
     onError: (error: Error) => {
       throw error
     },
-    theme: PlaygroundEditorTheme,
+    theme: RichEditorTheme,
   }
 
-  return (
-    <>
-      <div className="editor-container">
-        <DragDropPaste />
-        <AutoFocusPlugin />
-        <ClearEditorPlugin />
-        <ComponentPickerPlugin />
-        <EmojiPickerPlugin />
-        <AutoEmbedPlugin />
-        <MentionsPlugin />
-        <EmojisPlugin />
-        <HashtagPlugin />
-        <SpeechToTextPlugin />
-        <AutoLinkPlugin />
-        <CommentPlugin
-          providerFactory={isCollab ? createWebsocketProvider : undefined}
-        />
+  const cursorColor = useMemo(
+    () => randomColor({ string: username || '' }),
+    [username]
+  )
 
-        {isCollab ? (
-          <CollaborationPlugin
-            id="main"
-            providerFactory={createWebsocketProvider}
-            shouldBootstrap
-          />
-        ) : (
-          <HistoryPlugin externalHistoryState={historyState} />
-        )}
+  return (
+    <Box position="relative">
+      <DragDropPaste />
+      <AutoFocusPlugin />
+      <ClearEditorPlugin />
+      <ComponentPickerPlugin />
+      <EmojiPickerPlugin />
+      <AutoEmbedPlugin />
+      <MentionsPlugin />
+      <EmojisPlugin />
+      <HashtagPlugin />
+      <SpeechToTextPlugin />
+      <AutoLinkPlugin />
+      <CommentPlugin
+        providerFactory={isCollab ? createWebsocketProvider : undefined}
+      />
+
+      {isCollab ? (
+        <CollaborationPlugin
+          id="main"
+          username={username}
+          cursorColor={cursorColor}
+          providerFactory={createWebsocketProvider}
+          shouldBootstrap
+        />
+      ) : (
+        <HistoryPlugin externalHistoryState={historyState} />
+      )}
+      <RichTextPlugin
+        contentEditable={
+          <Box
+            borderWidth="1px"
+            borderRadius="md"
+            outline={0}
+            overflowY={maxH ? 'auto' : 'visible'}
+            minH={minH}
+            maxH={maxH}
+          >
+            <Box ref={onRef} position="relative">
+              <ContentEditable />
+              <Box sx={{ clear: 'both' }} />
+            </Box>
+          </Box>
+        }
+        placeholder={<Placeholder>{placeholder}</Placeholder>}
+        ErrorBoundary={LexicalErrorBoundary}
+      />
+      <MarkdownShortcutPlugin />
+      <CodeHighlightPlugin />
+      <ListPlugin />
+      <CheckListPlugin />
+      <ListMaxIndentLevelPlugin maxDepth={7} />
+      <TablePlugin />
+      <TableCellResizer />
+      <NewTablePlugin cellEditorConfig={cellEditorConfig}>
+        <AutoFocusPlugin />
         <RichTextPlugin
           contentEditable={
-            <div className="editor-scroller">
-              <div className="editor" ref={onRef}>
-                <ContentEditable />
-              </div>
-            </div>
+            <Box position="relative">
+              <ContentEditable />
+            </Box>
           }
-          placeholder={<Placeholder>Enter some text...</Placeholder>}
+          placeholder=""
           ErrorBoundary={LexicalErrorBoundary}
         />
-        <MarkdownShortcutPlugin />
-        <CodeHighlightPlugin />
-        <ListPlugin />
-        <CheckListPlugin />
-        <ListMaxIndentLevelPlugin maxDepth={7} />
-        <TablePlugin />
-        <TableCellResizer />
-        <NewTablePlugin cellEditorConfig={cellEditorConfig}>
-          <AutoFocusPlugin />
-          <RichTextPlugin
-            contentEditable={
-              <ContentEditable className="TableNode__contentEditable" />
-            }
-            placeholder=""
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <MentionsPlugin />
-          <HistoryPlugin />
-          <ImagesPlugin captionsEnabled={false} />
-          <LinkPlugin />
-          <ClickableLinkPlugin />
-          <FloatingTextFormatToolbarPlugin />
-        </NewTablePlugin>
-        <ImagesPlugin />
+        <MentionsPlugin />
+        <HistoryPlugin />
+        <ImagesPlugin captionsEnabled={false} />
         <LinkPlugin />
-        <TwitterPlugin />
-        <YouTubePlugin />
-        <FigmaPlugin />
         <ClickableLinkPlugin />
-        <HorizontalRulePlugin />
-        <EquationsPlugin />
-        <TabFocusPlugin />
-        <CollapsiblePlugin />
-        {floatingAnchorElem && (
-          <>
-            <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-            <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
-            <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
-            <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} />
-            <FloatingTextFormatToolbarPlugin anchorElem={floatingAnchorElem} />
-          </>
-        )}
-      </div>
-    </>
+        <FloatingTextFormatToolbarPlugin />
+      </NewTablePlugin>
+      <ImagesPlugin />
+      <LinkPlugin />
+      <TwitterPlugin />
+      <YouTubePlugin />
+      <FigmaPlugin />
+      <ClickableLinkPlugin />
+      <HorizontalRulePlugin />
+      <EquationsPlugin />
+      <TabFocusPlugin />
+      <CollapsiblePlugin />
+      {floatingAnchorElem && (
+        <>
+          <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+          <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+          <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
+          <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} />
+          <FloatingTextFormatToolbarPlugin anchorElem={floatingAnchorElem} />
+        </>
+      )}
+    </Box>
   )
 }

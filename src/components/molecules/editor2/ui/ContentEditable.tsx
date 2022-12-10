@@ -16,5 +16,5 @@ export default function LexicalContentEditable({
 }: {
   className?: string
 }) {
-  return <ContentEditable className={className || 'ContentEditable__root'} />
+  return <ContentEditable className={className || 'ContentEditable'} />
 }

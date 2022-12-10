@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import './index.css'
 
 import {
   $isAutoLinkNode,
@@ -36,10 +35,14 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
+import { Box, IconButton, Input, Link } from '@chakra-ui/react'
+import { FiEdit3 } from 'react-icons/fi'
 import LinkPreview from '../../ui/LinkPreview'
 import { getSelectedNode } from '../../utils/getSelectedNode'
 import { setFloatingElemPosition } from '../../utils/setFloatingElemPosition'
 import { sanitizeUrl } from '../../utils/url'
+
+export const defaultUrl = 'https://'
 
 function FloatingLinkEditor({
   editor,
@@ -182,13 +185,32 @@ function FloatingLinkEditor({
     }
   }, [isEditMode])
 
+  // Force edit mode if default url
+  useEffect(() => {
+    if (linkUrl === defaultUrl) {
+      setEditMode(true)
+    }
+  }, [linkUrl])
+
   return (
-    <div ref={editorRef} className="link-editor">
+    <Box
+      ref={editorRef}
+      bg="gray.50"
+      position="absolute"
+      zIndex={1000}
+      top={0}
+      left={0}
+      maxW="95%"
+      p={1}
+      borderRadius="md"
+      boxShadow="lg"
+    >
       {isEditMode ? (
-        <input
+        <Input
           ref={inputRef}
-          className="link-input"
           value={linkUrl}
+          size="sm"
+          w="250px"
           onChange={(event) => {
             setLinkUrl(event.target.value)
           }}
@@ -196,12 +218,10 @@ function FloatingLinkEditor({
             if (event.key === 'Enter' || event.key === 'Escape') {
               event.preventDefault()
               if (lastSelection !== null) {
-                if (linkUrl !== '') {
-                  editor.dispatchCommand(
-                    TOGGLE_LINK_COMMAND,
-                    sanitizeUrl(linkUrl)
-                  )
-                }
+                editor.dispatchCommand(
+                  TOGGLE_LINK_COMMAND,
+                  sanitizeUrl(linkUrl) || null
+                )
                 setEditMode(false)
               }
             }
@@ -209,24 +229,21 @@ function FloatingLinkEditor({
         />
       ) : (
         <>
-          <div className="link-input">
-            <a href={linkUrl} target="_blank" rel="noopener noreferrer">
-              {linkUrl}
-            </a>
-            <div
-              className="link-edit"
-              role="button"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                setEditMode(true)
-              }}
-            />
-          </div>
+          <Link href={linkUrl} target="_blank" rel="noopener noreferrer" mx={2}>
+            {linkUrl}
+          </Link>
+          <IconButton
+            aria-label="Edit link"
+            tabIndex={0}
+            size="sm"
+            icon={<FiEdit3 />}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => setEditMode(true)}
+          />
           <LinkPreview url={linkUrl} />
         </>
       )}
-    </div>
+    </Box>
   )
 }
 

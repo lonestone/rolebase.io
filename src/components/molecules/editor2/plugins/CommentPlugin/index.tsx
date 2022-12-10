@@ -76,54 +76,6 @@ export const INSERT_INLINE_COMMAND: LexicalCommand<void> = createCommand(
   'INSERT_INLINE_COMMAND'
 )
 
-function AddCommentBox({
-  anchorKey,
-  editor,
-  onAddComment,
-}: {
-  anchorKey: NodeKey
-  editor: LexicalEditor
-  onAddComment: () => void
-}) {
-  const boxRef = useRef<HTMLDivElement>(null)
-
-  const updatePosition = useCallback(() => {
-    const boxElem = boxRef.current
-    const rootElement = editor.getRootElement()
-    const anchorElement = editor.getElementByKey(anchorKey)
-
-    if (boxElem !== null && rootElement !== null && anchorElement !== null) {
-      const { right } = rootElement.getBoundingClientRect()
-      const { top } = anchorElement.getBoundingClientRect()
-      boxElem.style.left = `${right - 20}px`
-      boxElem.style.top = `${top - 30}px`
-    }
-  }, [anchorKey, editor])
-
-  useEffect(() => {
-    window.addEventListener('resize', updatePosition)
-
-    return () => {
-      window.removeEventListener('resize', updatePosition)
-    }
-  }, [editor, updatePosition])
-
-  useLayoutEffect(() => {
-    updatePosition()
-  }, [anchorKey, editor, updatePosition])
-
-  return (
-    <div className="CommentPlugin_AddCommentBox" ref={boxRef}>
-      <button
-        className="CommentPlugin_AddCommentBox_button"
-        onClick={onAddComment}
-      >
-        <i className="icon add-comment" />
-      </button>
-    </div>
-  )
-}
-
 function EditorRefPlugin({
   editorRef,
 }: {
@@ -726,7 +678,6 @@ export default function CommentPlugin({
   const markNodeMap = useMemo<Map<string, Set<NodeKey>>>(() => {
     return new Map()
   }, [])
-  const [activeAnchorKey, setActiveAnchorKey] = useState<NodeKey | null>()
   const [activeIDs, setActiveIDs] = useState<Array<string>>([])
   const [showCommentInput, setShowCommentInput] = useState(false)
   const [showComments, setShowComments] = useState(false)
@@ -899,7 +850,6 @@ export default function CommentPlugin({
         editorState.read(() => {
           const selection = $getSelection()
           let hasActiveIds = false
-          let hasAnchorKey = false
 
           if ($isRangeSelection(selection)) {
             const anchorNode = selection.anchor.getNode()
@@ -913,19 +863,12 @@ export default function CommentPlugin({
                 setActiveIDs(commentIDs)
                 hasActiveIds = true
               }
-              if (!selection.isCollapsed()) {
-                setActiveAnchorKey(anchorNode.getKey())
-                hasAnchorKey = true
-              }
             }
           }
           if (!hasActiveIds) {
             setActiveIDs((_activeIds) =>
               _activeIds.length === 0 ? _activeIds : []
             )
-          }
-          if (!hasAnchorKey) {
-            setActiveAnchorKey(null)
           }
         })
         if (!tags.has('collaboration')) {
@@ -947,10 +890,6 @@ export default function CommentPlugin({
     )
   }, [editor, markNodeMap])
 
-  const onAddComment = () => {
-    editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined)
-  }
-
   return (
     <>
       {showCommentInput &&
@@ -959,17 +898,6 @@ export default function CommentPlugin({
             editor={editor}
             cancelAddComment={cancelAddComment}
             submitAddComment={submitAddComment}
-          />,
-          document.body
-        )}
-      {activeAnchorKey !== null &&
-        activeAnchorKey !== undefined &&
-        !showCommentInput &&
-        createPortal(
-          <AddCommentBox
-            anchorKey={activeAnchorKey}
-            editor={editor}
-            onAddComment={onAddComment}
           />,
           document.body
         )}
