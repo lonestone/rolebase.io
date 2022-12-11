@@ -19,17 +19,9 @@ import React, { useCallback, useEffect, useRef } from 'react'
 
 import { ButtonGroup, IconButton } from '@chakra-ui/react'
 import { FaStrikethrough } from 'react-icons/fa'
-import {
-  FiBold,
-  FiCode,
-  FiItalic,
-  FiLink,
-  FiMessageSquare,
-  FiUnderline,
-} from 'react-icons/fi'
+import { FiBold, FiCode, FiItalic, FiLink, FiUnderline } from 'react-icons/fi'
 import { getDOMRangeRect } from '../../utils/getDOMRangeRect'
 import { setFloatingElemPosition } from '../../utils/setFloatingElemPosition'
-import { INSERT_INLINE_COMMAND } from '../CommentPlugin'
 import { defaultUrl } from '../FloatingLinkEditorPlugin'
 
 interface Props {
@@ -131,6 +123,8 @@ export function TextFormatFloatingToolbar({
     )
   }, [editor, updateTextFormatFloatingToolbar])
 
+  if (!editor.isEditable()) return null
+
   return (
     <ButtonGroup
       ref={popupCharStylesEditorRef}
@@ -146,63 +140,60 @@ export function TextFormatFloatingToolbar({
       borderRadius="md"
       boxShadow="lg"
     >
-      {editor.isEditable() && (
-        <>
-          <IconButton
-            aria-label="Format text as bold"
-            isActive={isBold}
-            icon={<FiBold />}
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
-            }}
-          />
-          <IconButton
-            aria-label="Format text as italics"
-            isActive={isItalic}
-            icon={<FiItalic />}
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
-            }}
-          />
-          <IconButton
-            aria-label="Format text to underlined"
-            isActive={isUnderline}
-            icon={<FiUnderline />}
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
-            }}
-          />
-          <IconButton
-            aria-label="Format text with a strikethrough"
-            isActive={isStrikethrough}
-            icon={<FaStrikethrough />}
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
-            }}
-          />
-          <IconButton
-            aria-label="Insert code block"
-            isActive={isCode}
-            icon={<FiCode />}
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
-            }}
-          />
-          <IconButton
-            aria-label="Insert link"
-            icon={<FiLink />}
-            isActive={isLink}
-            onClick={insertLink}
-          />
-        </>
-      )}
+      <IconButton
+        aria-label="Format text as bold"
+        isActive={isBold}
+        icon={<FiBold />}
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
+        }}
+      />
+      <IconButton
+        aria-label="Format text as italics"
+        isActive={isItalic}
+        icon={<FiItalic />}
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
+        }}
+      />
+      <IconButton
+        aria-label="Format text to underlined"
+        isActive={isUnderline}
+        icon={<FiUnderline />}
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
+        }}
+      />
+      <IconButton
+        aria-label="Format text with a strikethrough"
+        isActive={isStrikethrough}
+        icon={<FaStrikethrough />}
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
+        }}
+      />
+      <IconButton
+        aria-label="Insert code block"
+        isActive={isCode}
+        icon={<FiCode />}
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
+        }}
+      />
+      <IconButton
+        aria-label="Insert link"
+        icon={<FiLink />}
+        isActive={isLink}
+        onClick={insertLink}
+      />
+      {/*
       <IconButton
         aria-label="Insert comment"
         icon={<FiMessageSquare />}
         onClick={() => {
           editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined)
         }}
-      />
+      */}
     </ButtonGroup>
   )
 }

@@ -19,9 +19,8 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import React, { useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 
+import { Button, Input, ModalBody, ModalFooter } from '@chakra-ui/react'
 import useModal from '../../hooks/useModal'
-import Button from '../../ui/Button'
-import { DialogActions } from '../../ui/Dialog'
 import { INSERT_FIGMA_COMMAND } from '../FigmaPlugin'
 import { INSERT_TWEET_COMMAND } from '../TwitterPlugin'
 import { INSERT_YOUTUBE_COMMAND } from '../YouTubePlugin'
@@ -260,11 +259,9 @@ export function AutoEmbedDialog({
   }
 
   return (
-    <div style={{ width: '600px' }}>
-      <div className="Input__wrapper">
-        <input
-          type="text"
-          className="Input__input"
+    <>
+      <ModalBody>
+        <Input
           placeholder={embedConfig.exampleUrl}
           value={text}
           data-test-id={`${embedConfig.type}-embed-modal-url`}
@@ -274,17 +271,17 @@ export function AutoEmbedDialog({
             validateText(value)
           }}
         />
-      </div>
-      <DialogActions>
+      </ModalBody>
+      <ModalFooter>
         <Button
-          disabled={!embedResult}
+          isDisabled={!embedResult}
           onClick={onClick}
           data-test-id={`${embedConfig.type}-embed-modal-submit-btn`}
         >
           Embed
         </Button>
-      </DialogActions>
-    </div>
+      </ModalFooter>
+    </>
   )
 }
 

@@ -34,12 +34,10 @@ import React, { useCallback, useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 
 import useModal from '../../hooks/useModal'
-import catTypingGif from '../../images/cat-typing.gif'
 import { EmbedConfigs } from '../AutoEmbedPlugin'
 import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
 import { InsertEquationDialog } from '../EquationsPlugin'
-import { InsertImageDialog, INSERT_IMAGE_COMMAND } from '../ImagesPlugin'
-import { InsertTableDialog } from '../TablePlugin'
+import { InsertImageDialog } from '../ImagesPlugin'
 
 class ComponentPickerOption extends TypeaheadOption {
   // What shows up in the editor
@@ -196,9 +194,11 @@ export default function ComponentPickerMenuPlugin() {
         icon: <i className="icon table" />,
         keywords: ['table', 'grid', 'spreadsheet', 'rows', 'columns'],
         onSelect: () =>
-          showModal('Insert Table', (onClose) => (
-            <InsertTableDialog activeEditor={editor} onClose={onClose} />
-          )),
+          editor.dispatchCommand(INSERT_TABLE_COMMAND, {
+            columns: '3',
+            rows: '3',
+            includeHeaders: true,
+          }),
       }),
       new ComponentPickerOption('Numbered List', {
         icon: <i className="icon number" />,
@@ -228,6 +228,20 @@ export default function ComponentPickerMenuPlugin() {
               $wrapNodes(selection, () => $createQuoteNode())
             }
           }),
+      }),
+      new ComponentPickerOption('Collapsible', {
+        icon: <i className="icon caret-right" />,
+        keywords: ['collapse', 'collapsible', 'toggle'],
+        onSelect: () =>
+          editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined),
+      }),
+      new ComponentPickerOption('Image', {
+        icon: <i className="icon image" />,
+        keywords: ['image', 'photo', 'picture', 'file'],
+        onSelect: () =>
+          showModal('Insert Image', (onClose) => (
+            <InsertImageDialog activeEditor={editor} onClose={onClose} />
+          )),
       }),
       new ComponentPickerOption('Code', {
         icon: <i className="icon code" />,
@@ -271,29 +285,6 @@ export default function ComponentPickerMenuPlugin() {
           showModal('Insert Equation', (onClose) => (
             <InsertEquationDialog activeEditor={editor} onClose={onClose} />
           )),
-      }),
-      new ComponentPickerOption('GIF', {
-        icon: <i className="icon gif" />,
-        keywords: ['gif', 'animate', 'image', 'file'],
-        onSelect: () =>
-          editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-            altText: 'Cat typing on a laptop',
-            src: catTypingGif,
-          }),
-      }),
-      new ComponentPickerOption('Image', {
-        icon: <i className="icon image" />,
-        keywords: ['image', 'photo', 'picture', 'file'],
-        onSelect: () =>
-          showModal('Insert Image', (onClose) => (
-            <InsertImageDialog activeEditor={editor} onClose={onClose} />
-          )),
-      }),
-      new ComponentPickerOption('Collapsible', {
-        icon: <i className="icon caret-right" />,
-        keywords: ['collapse', 'collapsible', 'toggle'],
-        onSelect: () =>
-          editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined),
       }),
       ...['left', 'center', 'right', 'justify'].map(
         (alignment) =>

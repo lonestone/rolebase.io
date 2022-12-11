@@ -29,6 +29,7 @@ import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { useCollaborationContext } from '@lexical/react/LexicalCollaborationContext'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
@@ -57,6 +58,7 @@ import React, {
 import { createPortal } from 'react-dom'
 import { WebsocketProvider } from 'y-websocket'
 
+import { Button } from '@chakra-ui/react'
 import {
   Comment,
   Comments,
@@ -68,8 +70,6 @@ import {
 } from '../../commenting'
 import useModal from '../../hooks/useModal'
 import CommentEditorTheme from '../../themes/CommentEditorTheme'
-import Button from '../../ui/Button'
-import ContentEditable from '../../ui/ContentEditable'
 import Placeholder from '../../ui/Placeholder'
 
 export const INSERT_INLINE_COMMAND: LexicalCommand<void> = createCommand(

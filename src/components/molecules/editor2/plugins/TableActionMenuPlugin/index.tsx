@@ -6,6 +6,15 @@
  *
  */
 
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+} from '@chakra-ui/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import {
   $deleteTableColumn,
@@ -38,23 +47,17 @@ import React, {
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
+import { FiChevronDown } from 'react-icons/fi'
 import useLexicalEditable from '../../utils/useLexicalEditable'
 
 type TableCellActionMenuProps = Readonly<{
-  contextRef: { current: null | HTMLElement }
-  onClose: () => void
-  setIsMenuOpen: (isOpen: boolean) => void
   tableCellNode: TableCellNode
 }>
 
 function TableActionMenu({
-  onClose,
   tableCellNode: _tableCellNode,
-  setIsMenuOpen,
-  contextRef,
 }: TableCellActionMenuProps) {
   const [editor] = useLexicalComposerContext()
-  const dropDownRef = useRef<HTMLDivElement | null>(null)
   const [tableCellNode, updateTableCellNode] = useState(_tableCellNode)
   const [selectionCounts, updateSelectionCounts] = useState({
     columns: 1,
@@ -88,40 +91,6 @@ function TableActionMenu({
       }
     })
   }, [editor])
-
-  useEffect(() => {
-    const menuButtonElement = contextRef.current
-    const dropDownElement = dropDownRef.current
-
-    if (menuButtonElement != null && dropDownElement != null) {
-      const menuButtonRect = menuButtonElement.getBoundingClientRect()
-
-      dropDownElement.style.opacity = '1'
-
-      dropDownElement.style.left = `${
-        menuButtonRect.left + menuButtonRect.width + window.pageXOffset + 5
-      }px`
-
-      dropDownElement.style.top = `${menuButtonRect.top + window.pageYOffset}px`
-    }
-  }, [contextRef, dropDownRef])
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropDownRef.current != null &&
-        contextRef.current != null &&
-        !dropDownRef.current.contains(event.target as Node) &&
-        !contextRef.current.contains(event.target as Node)
-      ) {
-        setIsMenuOpen(false)
-      }
-    }
-
-    window.addEventListener('click', handleClickOutside)
-
-    return () => window.removeEventListener('click', handleClickOutside)
-  }, [setIsMenuOpen, contextRef])
 
   const clearTableSelection = useCallback(() => {
     editor.update(() => {
@@ -178,11 +147,9 @@ function TableActionMenu({
         )
 
         clearTableSelection()
-
-        onClose()
       })
     },
-    [editor, tableCellNode, selectionCounts.rows, clearTableSelection, onClose]
+    [editor, tableCellNode, selectionCounts.rows, clearTableSelection]
   )
 
   const insertTableColumnAtSelection = useCallback(
@@ -215,17 +182,9 @@ function TableActionMenu({
         )
 
         clearTableSelection()
-
-        onClose()
       })
     },
-    [
-      editor,
-      tableCellNode,
-      selectionCounts.columns,
-      clearTableSelection,
-      onClose,
-    ]
+    [editor, tableCellNode, selectionCounts.columns, clearTableSelection]
   )
 
   const deleteTableRowAtSelection = useCallback(() => {
@@ -236,9 +195,8 @@ function TableActionMenu({
       $removeTableRowAtIndex(tableNode, tableRowIndex)
 
       clearTableSelection()
-      onClose()
     })
-  }, [editor, tableCellNode, clearTableSelection, onClose])
+  }, [editor, tableCellNode, clearTableSelection])
 
   const deleteTableAtSelection = useCallback(() => {
     editor.update(() => {
@@ -246,9 +204,8 @@ function TableActionMenu({
       tableNode.remove()
 
       clearTableSelection()
-      onClose()
     })
-  }, [editor, tableCellNode, clearTableSelection, onClose])
+  }, [editor, tableCellNode, clearTableSelection])
 
   const deleteTableColumnAtSelection = useCallback(() => {
     editor.update(() => {
@@ -260,9 +217,8 @@ function TableActionMenu({
       $deleteTableColumn(tableNode, tableColumnIndex)
 
       clearTableSelection()
-      onClose()
     })
-  }, [editor, tableCellNode, clearTableSelection, onClose])
+  }, [editor, tableCellNode, clearTableSelection])
 
   const toggleTableRowIsHeader = useCallback(() => {
     editor.update(() => {
@@ -291,9 +247,8 @@ function TableActionMenu({
       })
 
       clearTableSelection()
-      onClose()
     })
-  }, [editor, tableCellNode, clearTableSelection, onClose])
+  }, [editor, tableCellNode, clearTableSelection])
 
   const toggleTableColumnIsHeader = useCallback(() => {
     editor.update(() => {
@@ -327,88 +282,85 @@ function TableActionMenu({
       }
 
       clearTableSelection()
-      onClose()
     })
-  }, [editor, tableCellNode, clearTableSelection, onClose])
+  }, [editor, tableCellNode, clearTableSelection])
 
-  return createPortal(
-    <div
-      className="dropdown"
-      ref={dropDownRef}
-      onClick={(e) => {
-        e.stopPropagation()
-      }}
-    >
-      <button className="item" onClick={() => insertTableRowAtSelection(false)}>
-        <span className="text">
-          Insert{' '}
-          {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`}{' '}
-          above
-        </span>
-      </button>
-      <button className="item" onClick={() => insertTableRowAtSelection(true)}>
-        <span className="text">
-          Insert{' '}
-          {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`}{' '}
-          below
-        </span>
-      </button>
-      <hr />
-      <button
-        className="item"
-        onClick={() => insertTableColumnAtSelection(false)}
-      >
-        <span className="text">
-          Insert{' '}
-          {selectionCounts.columns === 1
-            ? 'column'
-            : `${selectionCounts.columns} columns`}{' '}
-          left
-        </span>
-      </button>
-      <button
-        className="item"
-        onClick={() => insertTableColumnAtSelection(true)}
-      >
-        <span className="text">
-          Insert{' '}
-          {selectionCounts.columns === 1
-            ? 'column'
-            : `${selectionCounts.columns} columns`}{' '}
-          right
-        </span>
-      </button>
-      <hr />
-      <button className="item" onClick={() => deleteTableColumnAtSelection()}>
-        <span className="text">Delete column</span>
-      </button>
-      <button className="item" onClick={() => deleteTableRowAtSelection()}>
-        <span className="text">Delete row</span>
-      </button>
-      <button className="item" onClick={() => deleteTableAtSelection()}>
-        <span className="text">Delete table</span>
-      </button>
-      <hr />
-      <button className="item" onClick={() => toggleTableRowIsHeader()}>
-        <span className="text">
-          {(tableCellNode.__headerState & TableCellHeaderStates.ROW) ===
-          TableCellHeaderStates.ROW
-            ? 'Remove'
-            : 'Add'}{' '}
-          row header
-        </span>
-      </button>
-      <button className="item" onClick={() => toggleTableColumnIsHeader()}>
-        <span className="text">
-          {(tableCellNode.__headerState & TableCellHeaderStates.COLUMN) ===
-          TableCellHeaderStates.COLUMN
-            ? 'Remove'
-            : 'Add'}{' '}
-          column header
-        </span>
-      </button>
-    </div>,
-    document.body
+  return (
+    <Menu>
+      {({ isOpen }) => (
+        <>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<FiChevronDown />}
+            size="sm"
+            variant="unstyled"
+            w="auto"
+            minW="auto"
+          />
+
+          {isOpen && (
+            <MenuList>
+              <MenuItem onClick={() => insertTableRowAtSelection(false)}>
+                Insert{' '}
+                {selectionCounts.rows === 1
+                  ? 'row'
+                  : `${selectionCounts.rows} rows`}{' '}
+                above
+              </MenuItem>
+              <MenuItem onClick={() => insertTableRowAtSelection(true)}>
+                Insert{' '}
+                {selectionCounts.rows === 1
+                  ? 'row'
+                  : `${selectionCounts.rows} rows`}{' '}
+                below
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={() => insertTableColumnAtSelection(false)}>
+                Insert{' '}
+                {selectionCounts.columns === 1
+                  ? 'column'
+                  : `${selectionCounts.columns} columns`}{' '}
+                left
+              </MenuItem>
+              <MenuItem onClick={() => insertTableColumnAtSelection(true)}>
+                Insert{' '}
+                {selectionCounts.columns === 1
+                  ? 'column'
+                  : `${selectionCounts.columns} columns`}{' '}
+                right
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={() => deleteTableColumnAtSelection()}>
+                Delete column
+              </MenuItem>
+              <MenuItem onClick={() => deleteTableRowAtSelection()}>
+                Delete row
+              </MenuItem>
+              <MenuItem onClick={() => deleteTableAtSelection()}>
+                Delete table
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={() => toggleTableRowIsHeader()}>
+                {(tableCellNode.__headerState & TableCellHeaderStates.ROW) ===
+                TableCellHeaderStates.ROW
+                  ? 'Remove'
+                  : 'Add'}{' '}
+                row header
+              </MenuItem>
+              <MenuItem onClick={() => toggleTableColumnIsHeader()}>
+                {(tableCellNode.__headerState &
+                  TableCellHeaderStates.COLUMN) ===
+                TableCellHeaderStates.COLUMN
+                  ? 'Remove'
+                  : 'Add'}{' '}
+                column header
+              </MenuItem>
+            </MenuList>
+          )}
+        </>
+      )}
+    </Menu>
   )
 }
 
@@ -420,8 +372,6 @@ function TableCellActionMenuContainer({
   const [editor] = useLexicalComposerContext()
 
   const menuButtonRef = useRef(null)
-  const menuRootRef = useRef(null)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const [tableCellNode, setTableMenuCellNode] = useState<TableCellNode | null>(
     null
@@ -490,7 +440,7 @@ function TableCellActionMenuContainer({
         const anchorRect = anchorElem.getBoundingClientRect()
 
         const top = tableCellRect.top - anchorRect.top + 4
-        const left = tableCellRect.right - menuRect.width - 10 - anchorRect.left
+        const left = tableCellRect.right - menuRect.width - 2 - anchorRect.left
 
         menuButtonDOM.style.opacity = '1'
         menuButtonDOM.style.transform = `translate(${left}px, ${top}px)`
@@ -501,41 +451,18 @@ function TableCellActionMenuContainer({
     }
   }, [menuButtonRef, tableCellNode, editor, anchorElem])
 
-  const prevTableCellDOM = useRef(tableCellNode)
-
-  useEffect(() => {
-    if (prevTableCellDOM.current !== tableCellNode) {
-      setIsMenuOpen(false)
-    }
-
-    prevTableCellDOM.current = tableCellNode
-  }, [prevTableCellDOM, tableCellNode])
-
   return (
-    <div className="table-cell-action-button-container" ref={menuButtonRef}>
+    <Box
+      ref={menuButtonRef}
+      position="absolute"
+      top={0}
+      left={0}
+      willChange="transform"
+    >
       {tableCellNode != null && (
-        <>
-          <button
-            className="table-cell-action-button chevron-down"
-            onClick={(e) => {
-              e.stopPropagation()
-              setIsMenuOpen(!isMenuOpen)
-            }}
-            ref={menuRootRef}
-          >
-            <i className="chevron-down" />
-          </button>
-          {isMenuOpen && (
-            <TableActionMenu
-              contextRef={menuRootRef}
-              setIsMenuOpen={setIsMenuOpen}
-              onClose={() => setIsMenuOpen(false)}
-              tableCellNode={tableCellNode}
-            />
-          )}
-        </>
+        <TableActionMenu tableCellNode={tableCellNode} />
       )}
-    </div>
+    </Box>
   )
 }
 

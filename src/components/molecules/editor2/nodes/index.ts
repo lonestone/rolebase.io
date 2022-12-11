@@ -27,17 +27,15 @@ import { FigmaNode } from './FigmaNode'
 import { ImageNode } from './ImageNode'
 import { KeywordNode } from './KeywordNode'
 import { MentionNode } from './MentionNode'
-import { TableNode as NewTableNode } from './TableNode'
 import { TweetNode } from './TweetNode'
 import { YouTubeNode } from './YouTubeNode'
 
-const PlaygroundNodes: Array<Klass<LexicalNode>> = [
+const nodes: Array<Klass<LexicalNode>> = [
   HeadingNode,
   ListNode,
   ListItemNode,
   QuoteNode,
   CodeNode,
-  NewTableNode,
   TableNode,
   TableCellNode,
   TableRowNode,
@@ -61,4 +59,4 @@ const PlaygroundNodes: Array<Klass<LexicalNode>> = [
   CollapsibleTitleNode,
 ]
 
-export default PlaygroundNodes
+export default nodes

@@ -4,7 +4,7 @@ import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'src/i18n'
 import theme from 'src/theme'
-import { App } from './App'
+import Editor from './Editor'
 
 const decorators: DecoratorFn[] = [
   (Story) => (
@@ -19,12 +19,19 @@ const decorators: DecoratorFn[] = [
 
 export default {
   title: 'RichEditor',
-  component: App,
+  component: Editor,
   decorators,
-} as ComponentMeta<typeof App>
+} as ComponentMeta<typeof Editor>
 
-const Template: ComponentStory<typeof App> = () => {
-  return <App />
+const Template: ComponentStory<typeof Editor> = () => {
+  return (
+    <Editor
+      placeholder="Enter some text..."
+      isCollab
+      username="Godefroy"
+      minH="4em"
+    />
+  )
 }
 
 export const Example = Template.bind({})

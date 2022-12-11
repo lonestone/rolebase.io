@@ -6,16 +6,20 @@
  *
  */
 
+import {
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+} from '@chakra-ui/react'
 import React, { useCallback, useMemo, useState } from 'react'
-
-import Modal from '../ui/Modal'
 
 export default function useModal(): [
   React.ReactNode | null,
   (title: string, showModal: (onClose: () => void) => React.ReactNode) => void
 ] {
   const [modalContent, setModalContent] = useState<null | {
-    closeOnClickOutside: boolean
     content: React.ReactNode
     title: string
   }>(null)
@@ -28,14 +32,15 @@ export default function useModal(): [
     if (modalContent === null) {
       return null
     }
-    const { title, content, closeOnClickOutside } = modalContent
+    const { title, content } = modalContent
     return (
-      <Modal
-        onClose={onClose}
-        title={title}
-        closeOnClickOutside={closeOnClickOutside}
-      >
-        {content}
+      <Modal isOpen onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{title}</ModalHeader>
+          <ModalCloseButton />
+          {content}
+        </ModalContent>
       </Modal>
     )
   }, [modalContent, onClose])
@@ -44,11 +49,9 @@ export default function useModal(): [
     (
       title: string,
       // eslint-disable-next-line no-shadow
-      getContent: (onClose: () => void) => React.ReactNode,
-      closeOnClickOutside = false
+      getContent: (onClose: () => void) => React.ReactNode
     ) => {
       setModalContent({
-        closeOnClickOutside,
         content: getContent(onClose),
         title,
       })

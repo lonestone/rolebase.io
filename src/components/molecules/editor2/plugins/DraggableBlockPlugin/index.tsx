@@ -143,7 +143,7 @@ function setMenuPosition(
     (parseInt(targetStyle.lineHeight, 10) - floatingElemRect.height) / 2 -
     anchorElementRect.top
 
-  const left = -12.5
+  const left = -6
 
   floatingElem.style.opacity = '0.5'
   floatingElem.style.transform = `translate(${left}px, ${top}px)`

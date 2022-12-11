@@ -5,6 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalBody,
+  ModalFooter,
+  VStack,
+} from '@chakra-ui/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $wrapNodeInElement, mergeRegister } from '@lexical/utils'
 import {
@@ -25,20 +34,14 @@ import {
   LexicalCommand,
   LexicalEditor,
 } from 'lexical'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import landscapeImage from '../../images/landscape.jpg'
-import yellowFlowerImage from '../../images/yellow-flower.jpg'
 import {
   $createImageNode,
   $isImageNode,
   ImageNode,
   ImagePayload,
 } from '../../nodes/ImageNode'
-import Button from '../../ui/Button'
-import { DialogActions, DialogButtonsList } from '../../ui/Dialog'
-import FileInput from '../../ui/FileInput'
-import TextInput from '../../ui/TextInput'
 
 export type InsertImagePayload = Readonly<ImagePayload>
 
@@ -57,29 +60,34 @@ export function InsertImageUriDialogBody({
 
   return (
     <>
-      <TextInput
-        label="Image URL"
-        placeholder="i.e. https://source.unsplash.com/random"
-        onChange={setSrc}
-        value={src}
-        data-test-id="image-modal-url-input"
-      />
-      <TextInput
-        label="Alt Text"
-        placeholder="Random unsplash image"
-        onChange={setAltText}
-        value={altText}
-        data-test-id="image-modal-alt-text-input"
-      />
-      <DialogActions>
+      <ModalBody>
+        <VStack spacing={5}>
+          <FormControl>
+            <FormLabel>Image URL</FormLabel>
+            <Input
+              placeholder="i.e. https://source.unsplash.com/random"
+              onChange={(e) => setSrc(e.target.value)}
+              value={src}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Alt Text</FormLabel>
+            <Input
+              placeholder="Random unsplash image"
+              onChange={(e) => setAltText(e.target.value)}
+              value={altText}
+            />
+          </FormControl>
+        </VStack>
+      </ModalBody>
+      <ModalFooter>
         <Button
-          data-test-id="image-modal-confirm-btn"
-          disabled={isDisabled}
+          isDisabled={isDisabled}
           onClick={() => onClick({ altText, src })}
         >
           Confirm
         </Button>
-      </DialogActions>
+      </ModalFooter>
     </>
   )
 }
@@ -109,28 +117,34 @@ export function InsertImageUploadedDialogBody({
 
   return (
     <>
-      <FileInput
-        label="Image Upload"
-        onChange={loadImage}
-        accept="image/*"
-        data-test-id="image-modal-file-upload"
-      />
-      <TextInput
-        label="Alt Text"
-        placeholder="Descriptive alternative text"
-        onChange={setAltText}
-        value={altText}
-        data-test-id="image-modal-alt-text-input"
-      />
-      <DialogActions>
+      <ModalBody>
+        <VStack spacing={5}>
+          <FormControl>
+            <FormLabel>Image Upload</FormLabel>
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={(e) => loadImage(e.target.files)}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Alt Text</FormLabel>
+            <Input
+              placeholder="Descriptive alternative text"
+              onChange={(e) => setAltText(e.target.value)}
+              value={altText}
+            />
+          </FormControl>
+        </VStack>
+      </ModalBody>
+      <ModalFooter>
         <Button
-          data-test-id="image-modal-file-upload-btn"
-          disabled={isDisabled}
+          isDisabled={isDisabled}
           onClick={() => onClick({ altText, src })}
         >
           Confirm
         </Button>
-      </DialogActions>
+      </ModalFooter>
     </>
   )
 }
@@ -143,18 +157,6 @@ export function InsertImageDialog({
   onClose: () => void
 }) {
   const [mode, setMode] = useState<null | 'url' | 'file'>(null)
-  const hasModifier = useRef(false)
-
-  useEffect(() => {
-    hasModifier.current = false
-    const handler = (e: KeyboardEvent) => {
-      hasModifier.current = e.altKey
-    }
-    document.addEventListener('keydown', handler)
-    return () => {
-      document.removeEventListener('keydown', handler)
-    }
-  }, [activeEditor])
 
   const onClick = (payload: InsertImagePayload) => {
     activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
@@ -164,39 +166,12 @@ export function InsertImageDialog({
   return (
     <>
       {!mode && (
-        <DialogButtonsList>
-          <Button
-            data-test-id="image-modal-option-sample"
-            onClick={() =>
-              onClick(
-                hasModifier.current
-                  ? {
-                      altText:
-                        'Daylight fir trees forest glacier green high ice landscape',
-                      src: landscapeImage,
-                    }
-                  : {
-                      altText: 'Yellow flower in tilt shift lens',
-                      src: yellowFlowerImage,
-                    }
-              )
-            }
-          >
-            Sample
-          </Button>
-          <Button
-            data-test-id="image-modal-option-url"
-            onClick={() => setMode('url')}
-          >
-            URL
-          </Button>
-          <Button
-            data-test-id="image-modal-option-file"
-            onClick={() => setMode('file')}
-          >
-            File
-          </Button>
-        </DialogButtonsList>
+        <ModalBody>
+          <VStack>
+            <Button onClick={() => setMode('url')}>URL</Button>
+            <Button onClick={() => setMode('file')}>File</Button>
+          </VStack>
+        </ModalBody>
       )}
       {mode === 'url' && <InsertImageUriDialogBody onClick={onClick} />}
       {mode === 'file' && <InsertImageUploadedDialogBody onClick={onClick} />}

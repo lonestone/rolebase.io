@@ -10,7 +10,17 @@ import './KatexEquationAlterer.css'
 
 import React, { useCallback, useState } from 'react'
 
-import Button from '../ui/Button'
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalBody,
+  ModalFooter,
+  Switch,
+  Textarea,
+  VStack,
+} from '@chakra-ui/react'
 import KatexRenderer from './KatexRenderer'
 
 type Props = {
@@ -35,41 +45,42 @@ export default function KatexEquationAlterer({
 
   return (
     <>
-      <div className="KatexEquationAlterer_defaultRow">
-        Inline
-        <input type="checkbox" checked={inline} onChange={onCheckboxChange} />
-      </div>
-      <div className="KatexEquationAlterer_defaultRow">Equation </div>
-      <div className="KatexEquationAlterer_centerRow">
-        {inline ? (
-          <input
-            onChange={(event) => {
-              setEquation(event.target.value)
-            }}
-            value={equation}
-            className="KatexEquationAlterer_textArea"
-          />
-        ) : (
-          <textarea
-            onChange={(event) => {
-              setEquation(event.target.value)
-            }}
-            value={equation}
-            className="KatexEquationAlterer_textArea"
-          />
-        )}
-      </div>
-      <div className="KatexEquationAlterer_defaultRow">Visualization </div>
-      <div className="KatexEquationAlterer_centerRow">
-        <KatexRenderer
-          equation={equation}
-          inline={false}
-          onClick={() => null}
-        />
-      </div>
-      <div className="KatexEquationAlterer_dialogActions">
+      <ModalBody>
+        <VStack spacing={5}>
+          <FormControl>
+            <Switch isChecked={inline} onChange={onCheckboxChange}>
+              Inline
+            </Switch>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Equation</FormLabel>
+            {inline ? (
+              <Input
+                value={equation}
+                onChange={(event) => setEquation(event.target.value)}
+              />
+            ) : (
+              <Textarea
+                value={equation}
+                onChange={(event) => setEquation(event.target.value)}
+              />
+            )}
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Visualization</FormLabel>
+            <KatexRenderer
+              equation={equation}
+              inline={false}
+              onClick={() => null}
+            />
+          </FormControl>
+        </VStack>
+      </ModalBody>
+      <ModalFooter>
         <Button onClick={onClick}>Confirm</Button>
-      </div>
+      </ModalFooter>
     </>
   )
 }
