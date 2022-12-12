@@ -65,6 +65,7 @@ interface Props {
   username?: string
   minH?: string
   maxH?: string
+  mentionables?: string[]
 }
 
 export default function Editor({
@@ -73,6 +74,7 @@ export default function Editor({
   username,
   minH,
   maxH,
+  mentionables,
 }: Props) {
   const { historyState } = useSharedHistoryContext()
   const [floatingAnchorElem, setFloatingAnchorElem] =
@@ -109,7 +111,7 @@ export default function Editor({
           <ComponentPickerPlugin />
           <EmojiPickerPlugin />
           <AutoEmbedPlugin />
-          <MentionsPlugin />
+          <MentionsPlugin mentionables={mentionables || []} />
           <HashtagPlugin />
           <SpeechToTextPlugin />
           <AutoLinkPlugin />
