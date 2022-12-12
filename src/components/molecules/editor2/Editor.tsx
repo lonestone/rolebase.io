@@ -101,6 +101,20 @@ export default function Editor({
     [username]
   )
 
+  // Mock file upload
+  const onUpload = (file: File) => {
+    return new Promise<string>((resolve) => {
+      const reader = new FileReader()
+      reader.onload = function () {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result)
+        }
+        resolve('')
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <SharedHistoryContext>
@@ -160,7 +174,7 @@ export default function Editor({
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <TablePlugin />
           <TableCellResizer />
-          <ImagesPlugin />
+          <ImagesPlugin onUpload={onUpload} />
           <LinkPlugin />
           <TwitterPlugin />
           <YouTubePlugin />

@@ -26,7 +26,7 @@ import {
   LexicalCommand,
   LexicalEditor,
 } from 'lexical'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useCallback } from 'react'
 
 import {
   $createImageNode,
@@ -36,25 +36,26 @@ import {
 } from '../../nodes/ImageNode'
 
 export type InsertImagePayload = Readonly<ImagePayload>
+export type UploadImagePayload = Readonly<
+  Omit<ImagePayload, 'src'> & { file: File }
+>
 
+export const UPLOAD_IMAGE_COMMAND: LexicalCommand<UploadImagePayload> =
+  createCommand('UPLOAD_IMAGE_COMMAND')
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
   createCommand('INSERT_IMAGE_COMMAND')
 
-export function useImagePicker(activeEditor: LexicalEditor) {
-  const loadImage = (files: FileList | null) => {
-    if (files !== null) {
-      const reader = new FileReader()
-      reader.onload = function () {
-        if (typeof reader.result === 'string') {
-          activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-            src: reader.result,
-          })
-        }
-        return ''
+export function useImagePicker(editor: LexicalEditor) {
+  const loadImage = useCallback(
+    async (files: FileList | null) => {
+      if (files !== null) {
+        editor.dispatchCommand(UPLOAD_IMAGE_COMMAND, {
+          file: files[0],
+        })
       }
-      reader.readAsDataURL(files[0])
-    }
-  }
+    },
+    [editor]
+  )
 
   const inputRef = useRef<HTMLInputElement>(null)
   const input = useMemo(() => {
@@ -77,10 +78,24 @@ export function useImagePicker(activeEditor: LexicalEditor) {
 
 export default function ImagesPlugin({
   captionsEnabled,
+  onUpload,
 }: {
   captionsEnabled?: boolean
+  onUpload: (file: File) => Promise<string>
 }) {
   const [editor] = useLexicalComposerContext()
+
+  const uploadImageFile = useCallback(
+    async ({ file, ...payload }: UploadImagePayload) => {
+      try {
+        const src = await onUpload(file)
+        editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, ...payload })
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    [onUpload, editor]
+  )
 
   useEffect(() => {
     if (!editor.hasNodes([ImageNode])) {
@@ -88,6 +103,14 @@ export default function ImagesPlugin({
     }
 
     return mergeRegister(
+      editor.registerCommand<UploadImagePayload>(
+        UPLOAD_IMAGE_COMMAND,
+        (payload) => {
+          uploadImageFile(payload)
+          return true
+        },
+        COMMAND_PRIORITY_EDITOR
+      ),
       editor.registerCommand<InsertImagePayload>(
         INSERT_IMAGE_COMMAND,
         (payload) => {
@@ -96,11 +119,11 @@ export default function ImagesPlugin({
           if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
             $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd()
           }
-
           return true
         },
         COMMAND_PRIORITY_EDITOR
       ),
+      // TODO: Add a "DELETE_IMAGE" command (when image is removed from text)
       editor.registerCommand<DragEvent>(
         DRAGSTART_COMMAND,
         (event) => {
@@ -123,7 +146,7 @@ export default function ImagesPlugin({
         COMMAND_PRIORITY_HIGH
       )
     )
-  }, [captionsEnabled, editor])
+  }, [captionsEnabled, editor, uploadImageFile])
 
   return null
 }
@@ -186,6 +209,7 @@ function onDrop(event: DragEvent, editor: LexicalEditor): boolean {
   }
   event.preventDefault()
   if (canDropImage(event)) {
+    // TODO: Upload image instead
     const range = getDragSelection(event)
     node.remove()
     const rangeSelection = $createRangeSelection()

@@ -29,8 +29,8 @@ export interface ImagePayload {
   height?: number
   key?: NodeKey
   maxWidth?: number
-  src: string
   width?: number
+  src: string
 }
 
 function convertImageElement(domNode: Node): null | DOMConversionOutput {

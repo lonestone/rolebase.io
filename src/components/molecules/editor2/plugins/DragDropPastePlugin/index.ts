@@ -29,6 +29,7 @@ export default function DragDropPaste(): null {
       DRAG_DROP_PASTE,
       (files) => {
         ;(async () => {
+          // TODO: replace file reader with customizable upload
           const filesResult = await mediaFileReader(
             files,
             [ACCEPTABLE_IMAGE_TYPES].flatMap((x) => x)
@@ -36,7 +37,6 @@ export default function DragDropPaste(): null {
           for (const { file, result } of filesResult) {
             if (isMimeType(file, ACCEPTABLE_IMAGE_TYPES)) {
               editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                altText: file.name,
                 src: result,
               })
             }
