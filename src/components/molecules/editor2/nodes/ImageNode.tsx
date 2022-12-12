@@ -26,7 +26,6 @@ const ImageComponent = React.lazy(
 )
 
 export interface ImagePayload {
-  altText: string
   height?: number
   key?: NodeKey
   maxWidth?: number
@@ -36,8 +35,8 @@ export interface ImagePayload {
 
 function convertImageElement(domNode: Node): null | DOMConversionOutput {
   if (domNode instanceof HTMLImageElement) {
-    const { alt: altText, src } = domNode
-    const node = $createImageNode({ altText, src })
+    const { src } = domNode
+    const node = $createImageNode({ src })
     return { node }
   }
   return null
@@ -45,7 +44,6 @@ function convertImageElement(domNode: Node): null | DOMConversionOutput {
 
 export type SerializedImageNode = Spread<
   {
-    altText: string
     height?: number
     maxWidth: number
     src: string
@@ -58,7 +56,6 @@ export type SerializedImageNode = Spread<
 
 export class ImageNode extends DecoratorNode<React.ReactNode> {
   __src: string
-  __altText: string
   __width: 'inherit' | number
   __height: 'inherit' | number
   __maxWidth: number
@@ -70,7 +67,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
   static clone(node: ImageNode): ImageNode {
     return new ImageNode(
       node.__src,
-      node.__altText,
       node.__maxWidth,
       node.__width,
       node.__height,
@@ -79,9 +75,8 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
   }
 
   static importJSON(serializedNode: SerializedImageNode): ImageNode {
-    const { altText, height, width, maxWidth, src } = serializedNode
+    const { height, width, maxWidth, src } = serializedNode
     const node = $createImageNode({
-      altText,
       height,
       maxWidth,
       src,
@@ -93,7 +88,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
   exportDOM(): DOMExportOutput {
     const element = document.createElement('img')
     element.setAttribute('src', this.__src)
-    element.setAttribute('alt', this.__altText)
     return { element }
   }
 
@@ -108,7 +102,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
 
   constructor(
     src: string,
-    altText: string,
     maxWidth: number,
     width?: 'inherit' | number,
     height?: 'inherit' | number,
@@ -116,7 +109,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
   ) {
     super(key)
     this.__src = src
-    this.__altText = altText
     this.__maxWidth = maxWidth
     this.__width = width || 'inherit'
     this.__height = height || 'inherit'
@@ -124,7 +116,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
 
   exportJSON(): SerializedImageNode {
     return {
-      altText: this.getAltText(),
       height: this.__height === 'inherit' ? 0 : this.__height,
       maxWidth: this.__maxWidth,
       src: this.getSrc(),
@@ -163,16 +154,11 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
     return this.__src
   }
 
-  getAltText(): string {
-    return this.__altText
-  }
-
   decorate() {
     return (
       <Suspense fallback={null}>
         <ImageComponent
           src={this.__src}
-          altText={this.__altText}
           width={this.__width}
           height={this.__height}
           maxWidth={this.__maxWidth}
@@ -185,16 +171,13 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
 }
 
 export function $createImageNode({
-  altText,
   height,
   maxWidth = 500,
   src,
   width,
   key,
 }: ImagePayload): ImageNode {
-  return $applyNodeReplacement(
-    new ImageNode(src, altText, maxWidth, width, height, key)
-  )
+  return $applyNodeReplacement(new ImageNode(src, maxWidth, width, height, key))
 }
 
 export function $isImageNode(

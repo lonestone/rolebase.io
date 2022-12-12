@@ -5,15 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  ModalBody,
-  ModalFooter,
-  VStack,
-} from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $wrapNodeInElement, mergeRegister } from '@lexical/utils'
 import {
@@ -34,7 +26,7 @@ import {
   LexicalCommand,
   LexicalEditor,
 } from 'lexical'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 
 import {
   $createImageNode,
@@ -48,135 +40,39 @@ export type InsertImagePayload = Readonly<ImagePayload>
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
   createCommand('INSERT_IMAGE_COMMAND')
 
-export function InsertImageUriDialogBody({
-  onClick,
-}: {
-  onClick: (payload: InsertImagePayload) => void
-}) {
-  const [src, setSrc] = useState('')
-  const [altText, setAltText] = useState('')
-
-  const isDisabled = src === ''
-
-  return (
-    <>
-      <ModalBody>
-        <VStack spacing={5}>
-          <FormControl>
-            <FormLabel>Image URL</FormLabel>
-            <Input
-              placeholder="i.e. https://source.unsplash.com/random"
-              onChange={(e) => setSrc(e.target.value)}
-              value={src}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Alt Text</FormLabel>
-            <Input
-              placeholder="Random unsplash image"
-              onChange={(e) => setAltText(e.target.value)}
-              value={altText}
-            />
-          </FormControl>
-        </VStack>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          isDisabled={isDisabled}
-          onClick={() => onClick({ altText, src })}
-        >
-          Confirm
-        </Button>
-      </ModalFooter>
-    </>
-  )
-}
-
-export function InsertImageUploadedDialogBody({
-  onClick,
-}: {
-  onClick: (payload: InsertImagePayload) => void
-}) {
-  const [src, setSrc] = useState('')
-  const [altText, setAltText] = useState('')
-
-  const isDisabled = src === ''
-
+export function useImagePicker(activeEditor: LexicalEditor) {
   const loadImage = (files: FileList | null) => {
-    const reader = new FileReader()
-    reader.onload = function () {
-      if (typeof reader.result === 'string') {
-        setSrc(reader.result)
-      }
-      return ''
-    }
     if (files !== null) {
+      const reader = new FileReader()
+      reader.onload = function () {
+        if (typeof reader.result === 'string') {
+          activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+            src: reader.result,
+          })
+        }
+        return ''
+      }
       reader.readAsDataURL(files[0])
     }
   }
 
-  return (
-    <>
-      <ModalBody>
-        <VStack spacing={5}>
-          <FormControl>
-            <FormLabel>Image Upload</FormLabel>
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={(e) => loadImage(e.target.files)}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Alt Text</FormLabel>
-            <Input
-              placeholder="Descriptive alternative text"
-              onChange={(e) => setAltText(e.target.value)}
-              value={altText}
-            />
-          </FormControl>
-        </VStack>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          isDisabled={isDisabled}
-          onClick={() => onClick({ altText, src })}
-        >
-          Confirm
-        </Button>
-      </ModalFooter>
-    </>
-  )
-}
-
-export function InsertImageDialog({
-  activeEditor,
-  onClose,
-}: {
-  activeEditor: LexicalEditor
-  onClose: () => void
-}) {
-  const [mode, setMode] = useState<null | 'url' | 'file'>(null)
-
-  const onClick = (payload: InsertImagePayload) => {
-    activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
-    onClose()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const input = useMemo(() => {
+    return (
+      <Input
+        type="file"
+        ref={inputRef}
+        display="none"
+        accept="image/*"
+        onChange={(e) => loadImage(e.target.files)}
+      />
+    )
+  }, [])
+  const openPicker = () => {
+    inputRef.current?.click()
   }
 
-  return (
-    <>
-      {!mode && (
-        <ModalBody>
-          <VStack>
-            <Button onClick={() => setMode('url')}>URL</Button>
-            <Button onClick={() => setMode('file')}>File</Button>
-          </VStack>
-        </ModalBody>
-      )}
-      {mode === 'url' && <InsertImageUriDialogBody onClick={onClick} />}
-      {mode === 'file' && <InsertImageUploadedDialogBody onClick={onClick} />}
-    </>
-  )
+  return [input, openPicker] as const
 }
 
 export default function ImagesPlugin({

@@ -37,7 +37,7 @@ import useModal from '../../hooks/useModal'
 import { EmbedConfigs } from '../AutoEmbedPlugin'
 import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
 import { InsertEquationDialog } from '../EquationsPlugin'
-import { InsertImageDialog } from '../ImagesPlugin'
+import { useImagePicker } from '../ImagesPlugin'
 
 class ComponentPickerOption extends TypeaheadOption {
   // What shows up in the editor
@@ -108,6 +108,7 @@ export default function ComponentPickerMenuPlugin() {
   const [editor] = useLexicalComposerContext()
   const [modal, showModal] = useModal()
   const [queryString, setQueryString] = useState<string | null>(null)
+  const [filePicker, openPicker] = useImagePicker(editor)
 
   const checkForTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
@@ -238,10 +239,7 @@ export default function ComponentPickerMenuPlugin() {
       new ComponentPickerOption('Image', {
         icon: <i className="icon image" />,
         keywords: ['image', 'photo', 'picture', 'file'],
-        onSelect: () =>
-          showModal('Insert Image', (onClose) => (
-            <InsertImageDialog activeEditor={editor} onClose={onClose} />
-          )),
+        onSelect: () => openPicker(),
       }),
       new ComponentPickerOption('Code', {
         icon: <i className="icon code" />,
@@ -336,6 +334,7 @@ export default function ComponentPickerMenuPlugin() {
   return (
     <>
       {modal}
+      {filePicker}
       <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
         onQueryChange={setQueryString}
         onSelectOption={onSelectOption}
