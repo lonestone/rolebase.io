@@ -4,8 +4,8 @@ import {
   useFormControl,
 } from '@chakra-ui/react'
 import BasicStyle from '@components/atoms/BasicStyle'
-import RichSimpleEditor from '@rolebase/editor'
 import React, { forwardRef, useCallback, useRef } from 'react'
+import Editor from '../editor2/Editor'
 import EditorContainer from './EditorContainer'
 import useSimpleEditor, { EditorHandle } from './useEditor'
 import useFileUpload from './useFileUpload'
@@ -84,8 +84,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
           maxHeight={maxHeight}
           {...formControlProps}
         >
-          <RichSimpleEditor
-            ref={editorRef}
+          <Editor
             value={value}
             placeholder={placeholder}
             autoFocus={autoFocus}

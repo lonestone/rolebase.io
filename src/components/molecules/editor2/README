@@ -1,1 +1,7 @@
 Forked from https://github.com/facebook/lexical/tree/main/packages/lexical-playground
+
+commit 8cb0c5ba04fa546e869aa8e35653aaac5f0adcab (HEAD -> main, origin/main, origin/HEAD)
+Author: John Flockton <thegreatercurve@users.noreply.github.com>
+Date: Wed Dec 7 19:59:45 2022 +0000
+
+    ⏸ [0.7] Remove indentation keyboard shortcuts in RTE set up (#2855)

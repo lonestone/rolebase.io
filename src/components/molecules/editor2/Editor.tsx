@@ -18,7 +18,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
-import React, { useMemo, useState } from 'react'
+import React, { forwardRef, useMemo, useState } from 'react'
 
 import { Box } from '@chakra-ui/react'
 import { randomColor } from '@chakra-ui/theme-tools'
@@ -37,6 +37,7 @@ import CollapsiblePlugin from './plugins/CollapsiblePlugin'
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin'
 import DragDropPaste from './plugins/DragDropPastePlugin'
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin'
+import EditorRefPlugin, { EditorHandle } from './plugins/EditorRefPlugin'
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin'
 import EquationsPlugin from './plugins/EquationsPlugin'
 import FigmaPlugin from './plugins/FigmaPlugin'
@@ -68,14 +69,10 @@ interface Props {
   mentionables?: string[]
 }
 
-export default function Editor({
-  placeholder,
-  isCollab,
-  username,
-  minH,
-  maxH,
-  mentionables,
-}: Props) {
+export default forwardRef<EditorHandle, Props>(function Editor(
+  { placeholder, isCollab, username, minH, maxH, mentionables },
+  ref
+) {
   const { historyState } = useSharedHistoryContext()
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
@@ -90,7 +87,7 @@ export default function Editor({
     theme: RichEditorTheme,
   }
 
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+  const contentRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
       setFloatingAnchorElem(_floatingAnchorElem)
     }
@@ -119,8 +116,9 @@ export default function Editor({
     <LexicalComposer initialConfig={initialConfig}>
       <SharedHistoryContext>
         <Box position="relative">
+          <EditorRefPlugin ref={ref} />
           <DragDropPaste />
-          <AutoFocusPlugin />
+          <AutoFocusPlugin defaultSelection="rootEnd" />
           <ClearEditorPlugin />
           <ComponentPickerPlugin />
           <EmojiPickerPlugin />
@@ -155,7 +153,7 @@ export default function Editor({
                 overflowY={maxH ? 'auto' : 'visible'}
                 maxH={maxH}
               >
-                <Box ref={onRef} position="relative">
+                <Box ref={contentRef} position="relative">
                   <ContentEditable
                     className="ContentEditable"
                     style={minH ? { minHeight: minH } : undefined}
@@ -199,4 +197,4 @@ export default function Editor({
       </SharedHistoryContext>
     </LexicalComposer>
   )
-}
+})

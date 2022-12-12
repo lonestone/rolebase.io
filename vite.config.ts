@@ -34,9 +34,6 @@ export default defineConfig({
       },
     },
   },
-  optimizeDeps: {
-    include: ['@rolebase/editor'],
-  },
   server: {
     port: 3000,
   },

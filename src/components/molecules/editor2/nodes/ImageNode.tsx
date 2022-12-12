@@ -159,6 +159,7 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
       <Suspense fallback={null}>
         <ImageComponent
           src={this.__src}
+          altText=""
           width={this.__width}
           height={this.__height}
           maxWidth={this.__maxWidth}

@@ -1,4 +1,3 @@
-import RichSimpleEditor, { YCollab } from '@rolebase/editor'
 import {
   ForwardedRef,
   RefObject,
@@ -8,7 +7,7 @@ import {
 } from 'react'
 
 export interface EditorHandle {
-  editorRef: RefObject<RichSimpleEditor>
+  editorRef: RefObject<Editor>
   setValue(value: string): void
   getValue(): string
   focus(): void
@@ -17,7 +16,7 @@ export interface EditorHandle {
 }
 
 export default function useEditor(ref: ForwardedRef<EditorHandle>) {
-  const editorRef = useRef<RichSimpleEditor>(null)
+  const editorRef = useRef<Editor>(null)
 
   // Helper to get the current value
   const getValue = () => {
@@ -31,11 +30,12 @@ export default function useEditor(ref: ForwardedRef<EditorHandle>) {
   const setValue = useCallback((value: string) => {
     const editor = editorRef.current
     if (!editor) return
-    const yCollabPlugin = editor.extensions.extensions.find(
-      (e) => e.name === 'y-collab'
-    ) as YCollab | undefined
+    // const yCollabPlugin = editor.extensions.extensions.find(
+    //   (e) => e.name === 'y-collab'
+    // ) as YCollab | undefined
+    const yCollabPlugin = false
     if (yCollabPlugin) {
-      yCollabPlugin.applyValue(value)
+      // yCollabPlugin.applyValue(value)
     } else {
       const newState = editor.createState(value)
       editor.view.updateState(newState)

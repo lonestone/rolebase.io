@@ -58,11 +58,13 @@ export default function KatexEquationAlterer({
             {inline ? (
               <Input
                 value={equation}
+                autoFocus
                 onChange={(event) => setEquation(event.target.value)}
               />
             ) : (
               <Textarea
                 value={equation}
+                autoFocus
                 onChange={(event) => setEquation(event.target.value)}
               />
             )}

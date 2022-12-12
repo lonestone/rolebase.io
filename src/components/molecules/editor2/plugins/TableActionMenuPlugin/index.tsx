@@ -14,6 +14,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Portal,
 } from '@chakra-ui/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import {
@@ -300,63 +301,65 @@ function TableActionMenu({
           />
 
           {isOpen && (
-            <MenuList>
-              <MenuItem onClick={() => insertTableRowAtSelection(false)}>
-                Insert{' '}
-                {selectionCounts.rows === 1
-                  ? 'row'
-                  : `${selectionCounts.rows} rows`}{' '}
-                above
-              </MenuItem>
-              <MenuItem onClick={() => insertTableRowAtSelection(true)}>
-                Insert{' '}
-                {selectionCounts.rows === 1
-                  ? 'row'
-                  : `${selectionCounts.rows} rows`}{' '}
-                below
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={() => insertTableColumnAtSelection(false)}>
-                Insert{' '}
-                {selectionCounts.columns === 1
-                  ? 'column'
-                  : `${selectionCounts.columns} columns`}{' '}
-                left
-              </MenuItem>
-              <MenuItem onClick={() => insertTableColumnAtSelection(true)}>
-                Insert{' '}
-                {selectionCounts.columns === 1
-                  ? 'column'
-                  : `${selectionCounts.columns} columns`}{' '}
-                right
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={() => deleteTableColumnAtSelection()}>
-                Delete column
-              </MenuItem>
-              <MenuItem onClick={() => deleteTableRowAtSelection()}>
-                Delete row
-              </MenuItem>
-              <MenuItem onClick={() => deleteTableAtSelection()}>
-                Delete table
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={() => toggleTableRowIsHeader()}>
-                {(tableCellNode.__headerState & TableCellHeaderStates.ROW) ===
-                TableCellHeaderStates.ROW
-                  ? 'Remove'
-                  : 'Add'}{' '}
-                row header
-              </MenuItem>
-              <MenuItem onClick={() => toggleTableColumnIsHeader()}>
-                {(tableCellNode.__headerState &
-                  TableCellHeaderStates.COLUMN) ===
-                TableCellHeaderStates.COLUMN
-                  ? 'Remove'
-                  : 'Add'}{' '}
-                column header
-              </MenuItem>
-            </MenuList>
+            <Portal>
+              <MenuList zIndex={2000}>
+                <MenuItem onClick={() => insertTableRowAtSelection(false)}>
+                  Insert{' '}
+                  {selectionCounts.rows === 1
+                    ? 'row'
+                    : `${selectionCounts.rows} rows`}{' '}
+                  above
+                </MenuItem>
+                <MenuItem onClick={() => insertTableRowAtSelection(true)}>
+                  Insert{' '}
+                  {selectionCounts.rows === 1
+                    ? 'row'
+                    : `${selectionCounts.rows} rows`}{' '}
+                  below
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => insertTableColumnAtSelection(false)}>
+                  Insert{' '}
+                  {selectionCounts.columns === 1
+                    ? 'column'
+                    : `${selectionCounts.columns} columns`}{' '}
+                  left
+                </MenuItem>
+                <MenuItem onClick={() => insertTableColumnAtSelection(true)}>
+                  Insert{' '}
+                  {selectionCounts.columns === 1
+                    ? 'column'
+                    : `${selectionCounts.columns} columns`}{' '}
+                  right
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => deleteTableColumnAtSelection()}>
+                  Delete column
+                </MenuItem>
+                <MenuItem onClick={() => deleteTableRowAtSelection()}>
+                  Delete row
+                </MenuItem>
+                <MenuItem onClick={() => deleteTableAtSelection()}>
+                  Delete table
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => toggleTableRowIsHeader()}>
+                  {(tableCellNode.__headerState & TableCellHeaderStates.ROW) ===
+                  TableCellHeaderStates.ROW
+                    ? 'Remove'
+                    : 'Add'}{' '}
+                  row header
+                </MenuItem>
+                <MenuItem onClick={() => toggleTableColumnIsHeader()}>
+                  {(tableCellNode.__headerState &
+                    TableCellHeaderStates.COLUMN) ===
+                  TableCellHeaderStates.COLUMN
+                    ? 'Remove'
+                    : 'Add'}{' '}
+                  column header
+                </MenuItem>
+              </MenuList>
+            </Portal>
           )}
         </>
       )}

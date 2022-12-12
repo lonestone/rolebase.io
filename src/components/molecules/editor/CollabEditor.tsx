@@ -5,19 +5,12 @@ import {
   useColorMode,
   useFormControl,
 } from '@chakra-ui/react'
-import { randomColor } from '@chakra-ui/theme-tools'
 import BasicStyle from '@components/atoms/BasicStyle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
-import RichSimpleEditor, { YCollab } from '@rolebase/editor'
 import throttle from 'lodash.throttle'
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { forwardRef, useCallback, useMemo, useState } from 'react'
+import Editor from '../editor2/Editor'
 import EditorContainer from './EditorContainer'
 import useEditor, { EditorHandle } from './useEditor'
 import useFileUpload from './useFileUpload'
@@ -55,34 +48,31 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     const { editorRef, getValue } = useEditor(ref)
     const { handleUpload } = useFileUpload()
 
-    // Connect provider and get context
-    const collabPlugin = useMemo(() => new YCollab(docId), [docId])
-
     // On mount
-    useEffect(() => {
-      if (updates) {
-        // Apply saved updates
-        collabPlugin.applyUpdates(updates)
-      } else {
-        // Compute and apply updates from value
-        collabPlugin.applyValue(value)
+    // useEffect(() => {
+    //   if (updates) {
+    //     // Apply saved updates
+    //     collabPlugin.applyUpdates(updates)
+    //   } else {
+    //     // Compute and apply updates from value
+    //     collabPlugin.applyValue(value)
 
-        // Save updates
-        onSave?.(getValue(), collabPlugin.getUpdates())
-      }
+    //     // Save updates
+    //     onSave?.(getValue(), collabPlugin.getUpdates())
+    //   }
 
-      // Stop collab on unmount
-      return () => collabPlugin.stop()
-    }, [collabPlugin])
+    //   // Stop collab on unmount
+    //   return () => collabPlugin.stop()
+    // }, [collabPlugin])
 
-    // Update member name
-    useEffect(() => {
-      if (!currentMember) return
-      collabPlugin.setUserName(
-        currentMember.name,
-        randomColor({ string: currentMember.name })
-      )
-    }, [currentMember?.name])
+    // // Update member name
+    // useEffect(() => {
+    //   if (!currentMember) return
+    //   collabPlugin.setUserName(
+    //     currentMember.name,
+    //     randomColor({ string: currentMember.name })
+    //   )
+    // }, [currentMember?.name])
 
     // Prevent from changing page when dirty
     const [isDirty, setIsDirty] = useState(false)
@@ -90,7 +80,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
 
     // Save now
     const handleSave = useCallback(() => {
-      onSave?.(getValue(), collabPlugin.getUpdates())
+      // onSave?.(getValue(), collabPlugin.getUpdates())
       setIsDirty(false)
       allowClose()
     }, [docId])
@@ -114,14 +104,14 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     return (
       <BasicStyle>
         <EditorContainer colorMode={colorMode} {...formControlProps}>
-          <RichSimpleEditor
+          <Editor
             key={docId}
             ref={editorRef}
+            isCollab
             placeholder={placeholder}
             autoFocus={autoFocus}
             readOnly={readOnly}
             dark={colorMode === 'dark'}
-            extensions={[collabPlugin]}
             onChange={handleChange}
             onSave={handleSave}
             uploadImage={handleUpload}

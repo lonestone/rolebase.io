@@ -264,7 +264,7 @@ export function AutoEmbedDialog({
         <Input
           placeholder={embedConfig.exampleUrl}
           value={text}
-          data-test-id={`${embedConfig.type}-embed-modal-url`}
+          autoFocus
           onChange={(e) => {
             const { value } = e.target
             setText(value)
@@ -273,11 +273,7 @@ export function AutoEmbedDialog({
         />
       </ModalBody>
       <ModalFooter>
-        <Button
-          isDisabled={!embedResult}
-          onClick={onClick}
-          data-test-id={`${embedConfig.type}-embed-modal-submit-btn`}
-        >
+        <Button isDisabled={!embedResult} onClick={onClick}>
           Embed
         </Button>
       </ModalFooter>

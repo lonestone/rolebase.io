@@ -295,90 +295,6 @@ i.prettier-error {
   outline: none;
 }
 
-#block-controls {
-  display: block;
-  position: absolute;
-  right: 10px;
-  width: 32px;
-  height: 32px;
-  box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-  top: 16px;
-  z-index: 10;
-  border-radius: 8px;
-  border: 1px solid rgb(206, 208, 212);
-  overflow: hidden;
-}
-
-#block-controls button {
-  border: 1px solid white;
-  background-color: #fff;
-  display: block;
-  transition: background-color 0.1s ease;
-  cursor: pointer;
-  outline: none;
-  border-radius: 8px;
-  padding: 3px;
-}
-
-#block-controls button:hover {
-  background-color: #efefef;
-}
-
-#block-controls button:focus-visible {
-  border-color: blue;
-}
-
-#block-controls span.block-type {
-  background-size: contain;
-  display: block;
-  width: 18px;
-  height: 18px;
-  margin: 2px;
-}
-
-#block-controls span.block-type.paragraph {
-  background-image: url(images/icons/text-paragraph.svg);
-}
-
-#block-controls span.block-type.h1 {
-  background-image: url(images/icons/type-h1.svg);
-}
-
-#block-controls span.block-type.h2 {
-  background-image: url(images/icons/type-h2.svg);
-}
-
-#block-controls span.block-type.quote {
-  background-image: url(images/icons/chat-square-quote.svg);
-}
-
-#block-controls span.block-type.ul {
-  background-image: url(images/icons/list-ul.svg);
-}
-
-#block-controls span.block-type.ol {
-  background-image: url(images/icons/list-ol.svg);
-}
-
-#block-controls span.block-type.code {
-  background-image: url(images/icons/code.svg);
-}
-
-.characters-limit {
-  color: #888;
-  font-size: 12px;
-  text-align: right;
-  display: block;
-  position: absolute;
-  left: 12px;
-  bottom: 5px;
-}
-
-.characters-limit.characters-limit-exceeded {
-  color: red;
-}
-
 .icon.paragraph {
   background-image: url(images/icons/text-paragraph.svg);
 }
@@ -430,14 +346,6 @@ i.prettier-error {
   background-image: url(images/icons/code.svg);
 }
 
-.switches {
-  z-index: 6;
-  position: fixed;
-  left: 10px;
-  bottom: 70px;
-  animation: slide-in 0.4s ease;
-}
-
 @keyframes slide-in {
   0% {
     opacity: 0;
@@ -464,54 +372,6 @@ i.prettier-error {
 
 #character-count-switch {
   right: 130px;
-}
-
-.switch label {
-  margin-right: 5px;
-  line-height: 24px;
-  width: 100px;
-  font-size: 14px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.switch button {
-  background-color: rgb(206, 208, 212);
-  height: 24px;
-  box-sizing: border-box;
-  border-radius: 12px;
-  width: 44px;
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
-  outline: none;
-  cursor: pointer;
-  transition: background-color 0.1s;
-  border: 2px solid transparent;
-}
-
-.switch button:focus-visible {
-  border-color: blue;
-}
-
-.switch button span {
-  top: 0px;
-  left: 0px;
-  display: block;
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 12px;
-  background-color: white;
-  transition: transform 0.2s;
-}
-
-.switch button[aria-checked='true'] {
-  background-color: rgb(24, 119, 242);
-}
-
-.switch button[aria-checked='true'] span {
-  transform: translateX(20px);
 }
 
 span.editor-image {
