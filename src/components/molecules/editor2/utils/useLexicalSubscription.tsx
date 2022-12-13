@@ -1,3 +1,6 @@
+// This should be imported from @lexical/selection
+// Try again with a next version
+
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
