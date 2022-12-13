@@ -28,8 +28,8 @@ export default function DragDropPaste({
     return editor.registerCommand(
       DRAG_DROP_PASTE,
       (files) => {
-        for (const file of files) {
-          ;(async () => {
+        ;(async () => {
+          for (const file of files) {
             if (
               isMimeType(
                 file,
@@ -38,7 +38,9 @@ export default function DragDropPaste({
               )
             ) {
               try {
+                editor.setEditable(false)
                 const src = await onUpload(file)
+                editor.setEditable(true)
                 // Images
                 if (src && file.type.startsWith('image/')) {
                   editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
@@ -46,12 +48,11 @@ export default function DragDropPaste({
                   })
                 }
               } catch (e) {
-                // TODO: behavior on error
-                console.error(e)
+                editor.setEditable(true)
               }
             }
-          })()
-        }
+          }
+        })()
         return true
       },
       COMMAND_PRIORITY_LOW

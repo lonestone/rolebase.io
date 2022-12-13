@@ -29,7 +29,10 @@ const Template: ComponentStory<typeof Editor> = (props) => {
   // Mock file upload
   const onUpload = async (file: File) => {
     const [{ result }] = await mediaFileReader([file], ['image/'])
-    return result
+    // Simulate a newtork delay
+    return new Promise<string>((resolve) => {
+      setTimeout(() => resolve(result), 400)
+    })
   }
 
   return (

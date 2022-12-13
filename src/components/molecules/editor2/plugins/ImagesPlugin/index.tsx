@@ -90,13 +90,15 @@ export default function ImagesPlugin({
 
   const uploadImageFile = useCallback(
     async ({ file, ...payload }: UploadImagePayload) => {
+      editor.setEditable(false)
       try {
         const src = await onUpload(file)
+        editor.setEditable(true)
         if (src) {
           editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, ...payload })
         }
       } catch (e) {
-        console.error(e)
+        editor.setEditable(true)
       }
     },
     [onUpload, editor]
