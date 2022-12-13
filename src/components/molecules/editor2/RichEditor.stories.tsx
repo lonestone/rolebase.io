@@ -1,6 +1,7 @@
 import { Button, ButtonGroup, Textarea } from '@chakra-ui/react'
+import { $convertFromMarkdownString } from '@lexical/markdown'
+import { mediaFileReader } from '@lexical/utils'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { SerializedEditorState } from 'lexical'
 import React, { useRef, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiCheckSquare, FiList } from 'react-icons/fi'
 import { decorators } from '../../../stories'
@@ -16,7 +17,23 @@ export default {
 } as ComponentMeta<typeof Editor>
 
 const Template: ComponentStory<typeof Editor> = (args) => {
-  return <Editor mentionables={DUMMY_USERNAMES} {...args} />
+  // Mock file upload
+  const onUpload = async (file: File) => {
+    const [{ result }] = await mediaFileReader([file], ['image/'])
+    // Simulate a newtork delay
+    return new Promise<string>((resolve) => {
+      setTimeout(() => resolve(result), 400)
+    })
+  }
+
+  return (
+    <Editor
+      mentionables={DUMMY_USERNAMES}
+      onUpload={onUpload}
+      acceptFileTypes={['image/*']}
+      {...args}
+    />
+  )
 }
 
 export const Placeholder = Template.bind({})
@@ -32,13 +49,27 @@ MinHeight.args = {
 export const MaxHeight = Template.bind({})
 MaxHeight.args = {
   maxH: '200px',
-  value: DUMMY_VALUE as SerializedEditorState,
+  value: JSON.stringify(DUMMY_VALUE),
 }
 
 export const Collab = Template.bind({})
 Collab.args = {
   collaboration: true,
   username: DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)],
+}
+
+const MARKDOWN_VALUE = `# Welcome to the Editor story
+  
+  This is a **story** for the richtext editor. It contains:
+  * List
+  * [link](https://rolebase.io), 
+  * \`code\`
+  * _style!_
+  `
+
+export const Markdown = Template.bind({})
+Markdown.args = {
+  value: () => $convertFromMarkdownString(MARKDOWN_VALUE),
 }
 
 export const EditorRef: ComponentStory<typeof Editor> = (args) => {
@@ -49,7 +80,8 @@ export const EditorRef: ComponentStory<typeof Editor> = (args) => {
     <>
       <Editor
         ref={ref}
-        value={DUMMY_VALUE as SerializedEditorState}
+        value={JSON.stringify(DUMMY_VALUE)}
+        maxH="300px"
         mentionables={DUMMY_USERNAMES}
         {...args}
       />

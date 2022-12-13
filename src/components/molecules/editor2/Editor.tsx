@@ -12,6 +12,7 @@ import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
 import {
   InitialConfigType,
+  InitialEditorStateType,
   LexicalComposer,
 } from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
@@ -21,7 +22,6 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
-import { SerializedEditorState } from 'lexical'
 import React, { forwardRef, useMemo, useState } from 'react'
 
 import { Box } from '@chakra-ui/react'
@@ -64,33 +64,48 @@ import Placeholder from './ui/Placeholder'
 
 import './index.css'
 
-interface Props {
-  value?: SerializedEditorState
+interface EditorProps {
+  value?: InitialEditorStateType
   placeholder?: string
   collaboration?: boolean
   username?: string
   minH?: string
   maxH?: string
   mentionables?: string[]
+  onUpload?: (file: File) => Promise<string>
+  acceptFileTypes?: string[]
 }
 
-export default forwardRef<EditorHandle, Props>(function Editor(
-  { value, placeholder, collaboration, username, minH, maxH, mentionables },
+export default forwardRef<EditorHandle, EditorProps>(function Editor(
+  {
+    value,
+    placeholder,
+    collaboration,
+    username,
+    minH,
+    maxH,
+    mentionables,
+    onUpload = async () => '',
+    acceptFileTypes = [],
+  },
   ref
 ) {
   const { historyState } = useSharedHistoryContext()
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
 
-  const initialConfig: InitialConfigType = {
-    editorState: collaboration ? null : JSON.stringify(value),
-    namespace: 'Playground',
-    nodes: [...nodes],
-    onError: (error: Error) => {
-      throw error
-    },
-    theme: RichEditorTheme,
-  }
+  const initialConfig: InitialConfigType = useMemo(
+    () => ({
+      editorState: value ?? null,
+      namespace: 'Playground',
+      nodes: [...nodes],
+      onError: (error: Error) => {
+        throw error
+      },
+      theme: RichEditorTheme,
+    }),
+    [value]
+  )
 
   const contentRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
@@ -103,26 +118,12 @@ export default forwardRef<EditorHandle, Props>(function Editor(
     [username]
   )
 
-  // Mock file upload
-  const onUpload = (file: File) => {
-    return new Promise<string>((resolve) => {
-      const reader = new FileReader()
-      reader.onload = function () {
-        if (typeof reader.result === 'string') {
-          resolve(reader.result)
-        }
-        resolve('')
-      }
-      reader.readAsDataURL(file)
-    })
-  }
-
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <SharedHistoryContext>
         <Box position="relative">
           <EditorRefPlugin ref={ref} />
-          <DragDropPaste />
+          <DragDropPaste onUpload={onUpload} accept={acceptFileTypes} />
           <AutoFocusPlugin defaultSelection="rootEnd" />
           <ClearEditorPlugin />
           <ComponentPickerPlugin />

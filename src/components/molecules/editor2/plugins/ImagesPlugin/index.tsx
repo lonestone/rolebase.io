@@ -6,6 +6,7 @@
  *
  */
 import { Input } from '@chakra-ui/react'
+import { TOGGLE_LINK_COMMAND } from '@lexical/link'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $wrapNodeInElement, mergeRegister } from '@lexical/utils'
 import {
@@ -25,8 +26,9 @@ import {
   DROP_COMMAND,
   LexicalCommand,
   LexicalEditor,
+  PASTE_COMMAND,
 } from 'lexical'
-import React, { useEffect, useMemo, useRef, useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 
 import {
   $createImageNode,
@@ -34,6 +36,7 @@ import {
   ImageNode,
   ImagePayload,
 } from '../../nodes/ImageNode'
+import { validateImgUrl } from '../../utils/url'
 
 export type InsertImagePayload = Readonly<ImagePayload>
 export type UploadImagePayload = Readonly<
@@ -87,11 +90,15 @@ export default function ImagesPlugin({
 
   const uploadImageFile = useCallback(
     async ({ file, ...payload }: UploadImagePayload) => {
+      editor.setEditable(false)
       try {
         const src = await onUpload(file)
-        editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, ...payload })
+        editor.setEditable(true)
+        if (src) {
+          editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, ...payload })
+        }
       } catch (e) {
-        console.error(e)
+        editor.setEditable(true)
       }
     },
     [onUpload, editor]
@@ -123,7 +130,7 @@ export default function ImagesPlugin({
         },
         COMMAND_PRIORITY_EDITOR
       ),
-      // TODO: Add a "DELETE_IMAGE" command (when image is removed from text)
+      // Drag'n drop existing images inside the document
       editor.registerCommand<DragEvent>(
         DRAGSTART_COMMAND,
         (event) => {
@@ -142,6 +149,23 @@ export default function ImagesPlugin({
         DROP_COMMAND,
         (event) => {
           return onDrop(event, editor)
+        },
+        COMMAND_PRIORITY_HIGH
+      ),
+      // Paste image URL
+      editor.registerCommand<ClipboardEvent>(
+        PASTE_COMMAND,
+        (event) => {
+          const src = event.clipboardData?.getData('text')
+          if (!src || !validateImgUrl(src)) {
+            return false
+          }
+          const selection = $getSelection()
+          if (selection?.getTextContent().length) {
+            return editor.dispatchCommand(TOGGLE_LINK_COMMAND, src)
+          }
+
+          return editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src })
         },
         COMMAND_PRIORITY_HIGH
       )
@@ -209,7 +233,6 @@ function onDrop(event: DragEvent, editor: LexicalEditor): boolean {
   }
   event.preventDefault()
   if (canDropImage(event)) {
-    // TODO: Upload image instead
     const range = getDragSelection(event)
     node.remove()
     const rangeSelection = $createRangeSelection()
