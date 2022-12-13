@@ -8,44 +8,54 @@
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { DRAG_DROP_PASTE } from '@lexical/rich-text'
-import { isMimeType, mediaFileReader } from '@lexical/utils'
+import { isMimeType } from '@lexical/utils'
 import { COMMAND_PRIORITY_LOW } from 'lexical'
 import { useEffect } from 'react'
 
 import { INSERT_IMAGE_COMMAND } from '../ImagesPlugin'
 
-const ACCEPTABLE_IMAGE_TYPES = [
-  'image/',
-  'image/heic',
-  'image/heif',
-  'image/gif',
-  'image/webp',
-]
+interface DragDropProps {
+  accept: string[]
+  onUpload: (file: File) => Promise<string>
+}
 
-export default function DragDropPaste(): null {
+export default function DragDropPaste({
+  accept,
+  onUpload,
+}: DragDropProps): null {
   const [editor] = useLexicalComposerContext()
   useEffect(() => {
     return editor.registerCommand(
       DRAG_DROP_PASTE,
       (files) => {
-        ;(async () => {
-          // TODO: replace file reader with customizable upload
-          const filesResult = await mediaFileReader(
-            files,
-            [ACCEPTABLE_IMAGE_TYPES].flatMap((x) => x)
-          )
-          for (const { file, result } of filesResult) {
-            if (isMimeType(file, ACCEPTABLE_IMAGE_TYPES)) {
-              editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                src: result,
-              })
+        for (const file of files) {
+          ;(async () => {
+            if (
+              isMimeType(
+                file,
+                // IsMimeType don't accept blobs
+                accept.map((x) => x.replace(/\/\*$/, ''))
+              )
+            ) {
+              try {
+                const src = await onUpload(file)
+                // Images
+                if (src && file.type.startsWith('image/')) {
+                  editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                    src,
+                  })
+                }
+              } catch (e) {
+                // TODO: behavior on error
+                console.error(e)
+              }
             }
-          }
-        })()
+          })()
+        }
         return true
       },
       COMMAND_PRIORITY_LOW
     )
-  }, [editor])
+  }, [editor, accept, onUpload])
   return null
 }

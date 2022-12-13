@@ -67,10 +67,21 @@ interface Props {
   minH?: string
   maxH?: string
   mentionables?: string[]
+  onUpload?: (file: File) => Promise<string>
+  acceptFileTypes?: string[]
 }
 
 export default forwardRef<EditorHandle, Props>(function Editor(
-  { placeholder, isCollab, username, minH, maxH, mentionables },
+  {
+    placeholder,
+    isCollab,
+    username,
+    minH,
+    maxH,
+    mentionables,
+    onUpload = async () => '',
+    acceptFileTypes = [],
+  },
   ref
 ) {
   const { historyState } = useSharedHistoryContext()
@@ -98,26 +109,12 @@ export default forwardRef<EditorHandle, Props>(function Editor(
     [username]
   )
 
-  // Mock file upload
-  const onUpload = (file: File) => {
-    return new Promise<string>((resolve) => {
-      const reader = new FileReader()
-      reader.onload = function () {
-        if (typeof reader.result === 'string') {
-          resolve(reader.result)
-        }
-        resolve('')
-      }
-      reader.readAsDataURL(file)
-    })
-  }
-
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <SharedHistoryContext>
         <Box position="relative">
           <EditorRefPlugin ref={ref} />
-          <DragDropPaste />
+          <DragDropPaste onUpload={onUpload} accept={acceptFileTypes} />
           <AutoFocusPlugin defaultSelection="rootEnd" />
           <ClearEditorPlugin />
           <ComponentPickerPlugin />

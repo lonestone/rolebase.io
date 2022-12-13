@@ -5,6 +5,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from 'src/i18n'
 import theme from 'src/theme'
 import Editor from './Editor'
+import { mediaFileReader } from '@lexical/utils'
 
 const decorators: DecoratorFn[] = [
   (Story) => (
@@ -24,6 +25,12 @@ export default {
 } as ComponentMeta<typeof Editor>
 
 const Template: ComponentStory<typeof Editor> = () => {
+  // Mock file upload
+  const onUpload = async (file: File) => {
+    const [{ result }] = await mediaFileReader([file], ['image/'])
+    return result
+  }
+
   return (
     <Editor
       placeholder="Enter some text..."
@@ -31,6 +38,8 @@ const Template: ComponentStory<typeof Editor> = () => {
       username="Godefroy"
       minH="4em"
       mentionables={DUMMY_MENTION_DATA}
+      onUpload={onUpload}
+      acceptFileTypes={['image/*']}
     />
   )
 }

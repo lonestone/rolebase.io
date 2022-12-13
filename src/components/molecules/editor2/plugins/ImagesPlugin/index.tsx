@@ -89,7 +89,9 @@ export default function ImagesPlugin({
     async ({ file, ...payload }: UploadImagePayload) => {
       try {
         const src = await onUpload(file)
-        editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, ...payload })
+        if (src) {
+          editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, ...payload })
+        }
       } catch (e) {
         console.error(e)
       }
@@ -123,7 +125,7 @@ export default function ImagesPlugin({
         },
         COMMAND_PRIORITY_EDITOR
       ),
-      // TODO: Add a "DELETE_IMAGE" command (when image is removed from text)
+      // Drag'n drop existing images inside the document
       editor.registerCommand<DragEvent>(
         DRAGSTART_COMMAND,
         (event) => {
@@ -209,7 +211,6 @@ function onDrop(event: DragEvent, editor: LexicalEditor): boolean {
   }
   event.preventDefault()
   if (canDropImage(event)) {
-    // TODO: Upload image instead
     const range = getDragSelection(event)
     node.remove()
     const rangeSelection = $createRangeSelection()
