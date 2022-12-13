@@ -39,8 +39,6 @@ const Template: ComponentStory<typeof Editor> = (props) => {
     <Editor
       {...props}
       placeholder="Enter some text..."
-      isCollab
-      username="Godefroy"
       minH="4em"
       mentionables={DUMMY_MENTION_DATA}
       onUpload={onUpload}
@@ -62,6 +60,13 @@ const INITIAL_TEXT = `# Welcome to the Editor story
 
 export const WithValue = Template.bind({})
 WithValue.args = {
+  value: () => $convertFromMarkdownString(INITIAL_TEXT),
+}
+
+export const Collab = Template.bind({})
+Collab.args = {
+  isCollab: true,
+  username: 'user_' + Math.random().toString(24).slice(2),
   value: () => $convertFromMarkdownString(INITIAL_TEXT),
 }
 
