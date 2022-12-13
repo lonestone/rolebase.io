@@ -10,7 +10,10 @@ import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import {
+  InitialConfigType,
+  LexicalComposer,
+} from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin'
@@ -18,6 +21,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
+import { SerializedEditorState } from 'lexical'
 import React, { forwardRef, useMemo, useState } from 'react'
 
 import { Box } from '@chakra-ui/react'
@@ -61,8 +65,9 @@ import Placeholder from './ui/Placeholder'
 import './index.css'
 
 interface Props {
+  value?: SerializedEditorState
   placeholder?: string
-  isCollab: boolean
+  collaboration?: boolean
   username?: string
   minH?: string
   maxH?: string
@@ -70,15 +75,15 @@ interface Props {
 }
 
 export default forwardRef<EditorHandle, Props>(function Editor(
-  { placeholder, isCollab, username, minH, maxH, mentionables },
+  { value, placeholder, collaboration, username, minH, maxH, mentionables },
   ref
 ) {
   const { historyState } = useSharedHistoryContext()
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
 
-  const initialConfig = {
-    editorState: null,
+  const initialConfig: InitialConfigType = {
+    editorState: collaboration ? null : JSON.stringify(value),
     namespace: 'Playground',
     nodes: [...nodes],
     onError: (error: Error) => {
@@ -133,7 +138,7 @@ export default forwardRef<EditorHandle, Props>(function Editor(
       />
       */}
 
-          {isCollab ? (
+          {collaboration ? (
             <CollaborationPlugin
               id="main"
               username={username}

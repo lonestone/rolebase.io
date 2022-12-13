@@ -107,7 +107,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
           <Editor
             key={docId}
             ref={editorRef}
-            isCollab
+            collaboration
             placeholder={placeholder}
             autoFocus={autoFocus}
             readOnly={readOnly}

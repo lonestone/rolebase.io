@@ -1,10 +1,12 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
+import { decorators } from '../../stories'
 import BounceAnimation from './BounceAnimation'
 
 export default {
   title: 'BounceAnimation',
   component: BounceAnimation,
+  decorators,
 } as ComponentMeta<typeof BounceAnimation>
 
 const Template: ComponentStory<typeof BounceAnimation> = (args) => (

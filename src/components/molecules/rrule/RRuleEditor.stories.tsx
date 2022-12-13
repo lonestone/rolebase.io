@@ -1,21 +1,7 @@
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import { ComponentMeta, ComponentStory, DecoratorFn } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
-import { I18nextProvider } from 'react-i18next'
-import i18n from 'src/i18n'
-import theme from 'src/theme'
+import { decorators } from '../../../stories'
 import RRuleEditor from './RRuleEditor'
-
-const decorators: DecoratorFn[] = [
-  (Story) => (
-    <I18nextProvider i18n={i18n}>
-      <ChakraProvider theme={theme}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <Story />
-      </ChakraProvider>
-    </I18nextProvider>
-  ),
-]
 
 export default {
   title: 'RRuleEditor',
