@@ -1,11 +1,12 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import { $convertFromMarkdownString } from '@lexical/markdown'
+import { mediaFileReader } from '@lexical/utils'
 import { ComponentMeta, ComponentStory, DecoratorFn } from '@storybook/react'
 import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'src/i18n'
 import theme from 'src/theme'
 import Editor from './Editor'
-import { mediaFileReader } from '@lexical/utils'
 
 const decorators: DecoratorFn[] = [
   (Story) => (
@@ -24,7 +25,7 @@ export default {
   decorators,
 } as ComponentMeta<typeof Editor>
 
-const Template: ComponentStory<typeof Editor> = () => {
+const Template: ComponentStory<typeof Editor> = (props) => {
   // Mock file upload
   const onUpload = async (file: File) => {
     const [{ result }] = await mediaFileReader([file], ['image/'])
@@ -33,6 +34,7 @@ const Template: ComponentStory<typeof Editor> = () => {
 
   return (
     <Editor
+      {...props}
       placeholder="Enter some text..."
       isCollab
       username="Godefroy"
@@ -44,7 +46,21 @@ const Template: ComponentStory<typeof Editor> = () => {
   )
 }
 
-export const Example = Template.bind({})
+export const Default = Template.bind({})
+
+const INITIAL_TEXT = `# Welcome to the Editor story
+  
+  This is a **story** for the richtext editor. It contains:
+  * List
+  * [link](https://rolebase.io), 
+  * \`code\`
+  * _style!_
+  `
+
+export const WithValue = Template.bind({})
+WithValue.args = {
+  value: () => $convertFromMarkdownString(INITIAL_TEXT),
+}
 
 const DUMMY_MENTION_DATA = [
   'Aayla Secura',

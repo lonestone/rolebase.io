@@ -10,7 +10,11 @@ import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import {
+  InitialConfigType,
+  InitialEditorStateType,
+  LexicalComposer,
+} from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin'
@@ -60,7 +64,7 @@ import Placeholder from './ui/Placeholder'
 
 import './index.css'
 
-interface Props {
+interface EditorProps {
   placeholder?: string
   isCollab: boolean
   username?: string
@@ -69,9 +73,10 @@ interface Props {
   mentionables?: string[]
   onUpload?: (file: File) => Promise<string>
   acceptFileTypes?: string[]
+  value?: InitialEditorStateType
 }
 
-export default forwardRef<EditorHandle, Props>(function Editor(
+export default forwardRef<EditorHandle, EditorProps>(function Editor(
   {
     placeholder,
     isCollab,
@@ -81,6 +86,7 @@ export default forwardRef<EditorHandle, Props>(function Editor(
     mentionables,
     onUpload = async () => '',
     acceptFileTypes = [],
+    value,
   },
   ref
 ) {
@@ -88,15 +94,18 @@ export default forwardRef<EditorHandle, Props>(function Editor(
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
 
-  const initialConfig = {
-    editorState: null,
-    namespace: 'Playground',
-    nodes: [...nodes],
-    onError: (error: Error) => {
-      throw error
-    },
-    theme: RichEditorTheme,
-  }
+  const initialConfig: InitialConfigType = useMemo(
+    () => ({
+      editorState: value ?? null,
+      namespace: 'Playground',
+      nodes: [...nodes],
+      onError: (error: Error) => {
+        throw error
+      },
+      theme: RichEditorTheme,
+    }),
+    [value]
+  )
 
   const contentRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
