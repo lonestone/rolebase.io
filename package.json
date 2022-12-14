@@ -68,6 +68,7 @@
     "slugify": "^1.6.5",
     "styled-components": "^5.3.5",
     "y-websocket": "^1.4.5",
+    "yjs": "^13.5.43",
     "yup": "^0.32.11"
   },
   "devDependencies": {
