@@ -36,7 +36,7 @@ import useModal from '../../hooks/useModal'
 import { $setBlocksType_experimental } from '../../utils/setBlocksType_experimental'
 import { EmbedConfigs } from '../AutoEmbedPlugin'
 import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
-import { InsertEquationDialog } from '../EquationsPlugin'
+import { INSERT_EQUATION_COMMAND } from '../EquationsPlugin'
 import { useImagePicker } from '../ImagesPlugin'
 
 class ComponentPickerOption extends TypeaheadOption {
@@ -278,13 +278,23 @@ export default function ComponentPickerMenuPlugin() {
               editor.dispatchCommand(INSERT_EMBED_COMMAND, embedConfig.type),
           })
       ),
-      new ComponentPickerOption('Equation', {
+      new ComponentPickerOption('Inline Equation', {
         icon: <i className="icon equation" />,
-        keywords: ['equation', 'latex', 'math'],
+        keywords: ['equation', 'latex', 'math', 'inline'],
         onSelect: () =>
-          showModal('Insert Equation', (onClose) => (
-            <InsertEquationDialog activeEditor={editor} onClose={onClose} />
-          )),
+          editor.dispatchCommand(INSERT_EQUATION_COMMAND, {
+            equation: '',
+            inline: true,
+          }),
+      }),
+      new ComponentPickerOption('Block Equation', {
+        icon: <i className="icon equation" />,
+        keywords: ['equation', 'latex', 'math', 'block'],
+        onSelect: () =>
+          editor.dispatchCommand(INSERT_EQUATION_COMMAND, {
+            equation: '',
+            inline: false,
+          }),
       }),
       ...['left', 'center', 'right', 'justify'].map(
         (alignment) =>

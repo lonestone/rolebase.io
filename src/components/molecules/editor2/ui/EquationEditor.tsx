@@ -90,6 +90,7 @@ function BlockEquationEditor({
         className="EquationEditor_blockEditor"
         value={equation}
         onChange={onChange}
+        autoFocus={true}
         ref={inputRef}
       />
       <span className="EquationEditor_dollarSign">{'\n$$'}</span>

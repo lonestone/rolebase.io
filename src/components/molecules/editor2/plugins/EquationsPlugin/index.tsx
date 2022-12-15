@@ -17,12 +17,10 @@ import {
   COMMAND_PRIORITY_EDITOR,
   createCommand,
   LexicalCommand,
-  LexicalEditor,
 } from 'lexical'
-import React, { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { $createEquationNode, EquationNode } from '../../nodes/EquationNode'
-import KatexEquationAlterer from '../../ui/KatexEquationAlterer'
 
 type CommandPayload = {
   equation: string
@@ -31,27 +29,6 @@ type CommandPayload = {
 
 export const INSERT_EQUATION_COMMAND: LexicalCommand<CommandPayload> =
   createCommand('INSERT_EQUATION_COMMAND')
-
-export function InsertEquationDialog({
-  activeEditor,
-  onClose,
-}: {
-  activeEditor: LexicalEditor
-  onClose: () => void
-}) {
-  const onEquationConfirm = useCallback(
-    (equation: string, inline: boolean) => {
-      activeEditor.dispatchCommand(INSERT_EQUATION_COMMAND, {
-        equation,
-        inline,
-      })
-      onClose()
-    },
-    [activeEditor, onClose]
-  )
-
-  return <KatexEquationAlterer onConfirm={onEquationConfirm} />
-}
 
 export default function EquationsPlugin() {
   const [editor] = useLexicalComposerContext()

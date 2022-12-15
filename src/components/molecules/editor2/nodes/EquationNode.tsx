@@ -34,25 +34,33 @@ export type SerializedEquationNode = Spread<
 export class EquationNode extends DecoratorNode<React.ReactNode> {
   __equation: string
   __inline: boolean
+  __isNew: boolean
 
   static getType(): string {
     return 'equation'
   }
 
   static clone(node: EquationNode): EquationNode {
-    return new EquationNode(node.__equation, node.__inline, node.__key)
+    return new EquationNode(node.__equation, node.__inline, true, node.__key)
   }
 
-  constructor(equation: string, inline?: boolean, key?: NodeKey) {
+  constructor(
+    equation: string,
+    inline?: boolean,
+    isNew?: boolean,
+    key?: NodeKey
+  ) {
     super(key)
     this.__equation = equation
     this.__inline = inline ?? false
+    this.__isNew = isNew ?? false
   }
 
   static importJSON(serializedNode: SerializedEquationNode): EquationNode {
     const node = $createEquationNode(
       serializedNode.equation,
-      serializedNode.inline
+      serializedNode.inline,
+      false
     )
     return node
   }
@@ -91,6 +99,7 @@ export class EquationNode extends DecoratorNode<React.ReactNode> {
           equation={this.__equation}
           inline={this.__inline}
           nodeKey={this.__key}
+          showEditor={this.__isNew}
         />
       </Suspense>
     )
@@ -99,9 +108,10 @@ export class EquationNode extends DecoratorNode<React.ReactNode> {
 
 export function $createEquationNode(
   equation = '',
-  inline = false
+  inline = false,
+  isNew = true
 ): EquationNode {
-  const equationNode = new EquationNode(equation, inline)
+  const equationNode = new EquationNode(equation, inline, isNew)
   return $applyNodeReplacement(equationNode)
 }
 

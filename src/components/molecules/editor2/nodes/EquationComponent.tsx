@@ -27,17 +27,20 @@ import { $isEquationNode } from './EquationNode'
 type EquationComponentProps = {
   equation: string
   inline: boolean
+  showEditor?: boolean
   nodeKey: NodeKey
 }
 
 export default function EquationComponent({
   equation,
   inline,
+  showEditor = false,
   nodeKey,
 }: EquationComponentProps) {
   const [editor] = useLexicalComposerContext()
   const [equationValue, setEquationValue] = useState(equation)
-  const [showEquationEditor, setShowEquationEditor] = useState<boolean>(false)
+  const [showEquationEditor, setShowEquationEditor] =
+    useState<boolean>(showEditor)
   const inputRef = useRef(null)
 
   const onHide = useCallback(
