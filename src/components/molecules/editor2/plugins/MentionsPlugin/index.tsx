@@ -288,6 +288,8 @@ export default function NewMentionsPlugin({
     [checkForSlashTriggerMatch, editor]
   )
 
+  if (!editor.isEditable()) return null
+
   return (
     <LexicalTypeaheadMenuPlugin<MentionTypeaheadOption>
       onQueryChange={setQueryString}

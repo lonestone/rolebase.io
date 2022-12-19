@@ -11,7 +11,7 @@ import { MagicbellConfig } from '@shared/model/notification'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaBell } from 'react-icons/fa'
-import { UserLocalStorageKeys } from 'src/utils'
+import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 async function getConfig(): Promise<MagicbellConfig | undefined> {
   // Use config from localStorage

@@ -12,7 +12,7 @@ import React, {
 } from 'react'
 import { GraphZoomContext } from 'src/contexts/GraphZoomContext'
 import { circleColor } from 'src/theme'
-import { ColorModeProps, mode } from 'src/utils'
+import { ColorModeProps, mode } from 'src/utils/colorMode'
 import {
   createGraph,
   Graph,

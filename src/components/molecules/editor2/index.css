@@ -8,7 +8,7 @@
 
 @import 'https://fonts.googleapis.com/css?family=Reenie+Beanie';
 
-.ContentEditable {
+.ContentEditable[contenteditable='true'] {
   position: relative;
   padding: var(--chakra-sizes-2) var(--chakra-sizes-4);
   tab-size: 1;

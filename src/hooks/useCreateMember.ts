@@ -3,7 +3,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { useCallback } from 'react'
 import { useCreateMemberMutation } from 'src/graphql.generated'
-import { pick } from 'src/utils'
+import { pick } from 'src/utils/pick'
 
 export default function useCreateMember() {
   const orgId = useOrgId()

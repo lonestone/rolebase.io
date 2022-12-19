@@ -80,10 +80,8 @@ export function useImagePicker(editor: LexicalEditor) {
 }
 
 export default function ImagesPlugin({
-  captionsEnabled,
   onUpload,
 }: {
-  captionsEnabled?: boolean
   onUpload: (file: File) => Promise<string>
 }) {
   const [editor] = useLexicalComposerContext()
@@ -170,7 +168,7 @@ export default function ImagesPlugin({
         COMMAND_PRIORITY_HIGH
       )
     )
-  }, [captionsEnabled, editor, uploadImageFile])
+  }, [editor, uploadImageFile])
 
   return null
 }

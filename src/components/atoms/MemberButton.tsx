@@ -1,7 +1,7 @@
 import { Avatar, Button, ButtonProps } from '@chakra-ui/react'
 import { MemberEntry } from '@shared/model/member'
 import React from 'react'
-import { textEllipsis } from 'src/utils'
+import { textEllipsis } from 'src/utils/textEllipsis'
 
 interface Props extends ButtonProps {
   member: MemberEntry

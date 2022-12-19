@@ -8,13 +8,21 @@
 
 import { insertList } from '@lexical/list'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { LexicalEditor, SerializedEditorState } from 'lexical'
+import { $rootTextContent } from '@lexical/text'
+import {
+  $createParagraphNode,
+  $getRoot,
+  LexicalEditor,
+  SerializedEditorState,
+} from 'lexical'
 import { forwardRef, useImperativeHandle } from 'react'
 
 export interface EditorHandle {
   editor: LexicalEditor
   getValue(): SerializedEditorState
+  getText(): string
   setValue(value: SerializedEditorState): void
+  clear(): void
   addBulletList(): void
   addCheckboxList(): void
 }
@@ -25,13 +33,25 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
 ): null {
   const [editor] = useLexicalComposerContext()
 
-  // Helper to get the current value
+  // Get the current JSON state
   const getValue = () => editor.getEditorState().toJSON()
+
+  // Get the current text
+  const getText = () => editor.getEditorState().read($rootTextContent)
 
   // Update value of editor without rendering the component
   const setValue = (value: SerializedEditorState) => {
     const editorState = editor.parseEditorState(value)
     editor.setEditorState(editorState)
+  }
+
+  // Clear root
+  const clear = () => {
+    editor.update(() => {
+      const root = $getRoot()
+      root.clear()
+      root.append($createParagraphNode())
+    })
   }
 
   // Add bullet list at the end
@@ -45,8 +65,10 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
     ref,
     () => ({
       editor,
-      setValue,
       getValue,
+      getText,
+      setValue,
+      clear,
       addBulletList,
       addCheckboxList,
     }),

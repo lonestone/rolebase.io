@@ -1,4 +1,4 @@
-import { Button, HStack, Spacer, useDisclosure } from '@chakra-ui/react'
+import { Button, HStack, Spacer, Text, useDisclosure } from '@chakra-ui/react'
 import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
@@ -12,7 +12,6 @@ import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { ThreadEntry } from '@shared/model/thread'
 import { Activity, ActivityType } from '@shared/model/thread_activity'
 import { Optional } from '@shared/model/types'
-import { isSameDay } from 'date-fns'
 import React, {
   MouseEvent,
   useCallback,
@@ -31,14 +30,13 @@ import {
 import { IoMdSend } from 'react-icons/io'
 import {
   useCreateThreadActivityMutation,
-  useGetLastThreadActivityLazyQuery,
-  useUpdateThreadActivityMutation,
   useUpdateThreadMutation,
 } from 'src/graphql.generated'
 import settings from 'src/settings'
-import { UserLocalStorageKeys } from 'src/utils'
+import { cmdOrCtrlKey } from 'src/utils/env'
+import { UserLocalStorageKeys } from 'src/utils/localStorage'
 import SimpleEditor from './editor/SimpleEditor'
-import { EditorHandle } from './editor/useEditor'
+import { EditorHandle } from './editor2/plugins/EditorRefPlugin'
 
 interface Props {
   thread: ThreadEntry
@@ -50,9 +48,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
   const currentMember = useCurrentMember()
   const org = useCurrentOrg()
   const [createThreadActivity] = useCreateThreadActivityMutation()
-  const [updateThreadActivity] = useUpdateThreadActivityMutation()
   const [updateThread] = useUpdateThreadMutation()
-  const [getLastThreadActivity] = useGetLastThreadActivityLazyQuery()
   const editorRef = useRef<EditorHandle>(null)
 
   // Save message draft
@@ -67,9 +63,11 @@ export default function ThreadActivityCreate({ thread }: Props) {
   // Restore message draft
   useEffect(() => {
     const draft = localStorage.getItem(draftKey)
-    if (draft) {
-      editorRef.current?.setValue(draft)
-    }
+    if (!draft) return
+    const state = JSON.parse(draft)
+    if (!state) return
+    editorRef.current?.setValue(state)
+    editorRef.current?.editor.focus()
   }, [draftKey])
 
   // Create a new activity
@@ -78,33 +76,6 @@ export default function ThreadActivityCreate({ thread }: Props) {
       activity: Optional<Activity, 'createdAt' | 'userId' | 'threadId'>
     ) => {
       if (!org || !userId) return
-
-      // Append message to existing message if possible
-      if (activity.type === ActivityType.Message) {
-        const { data } = await getLastThreadActivity({
-          variables: { threadId: thread.id },
-          fetchPolicy: 'network-only',
-        })
-        const last = data?.thread_activity[0]
-        if (
-          last?.type === ActivityType.Message &&
-          // Same user
-          last.userId === userId &&
-          // Same day
-          isSameDay(new Date(last.createdAt), new Date())
-        ) {
-          return updateThreadActivity({
-            variables: {
-              id: last.id,
-              values: {
-                data: {
-                  message: last.data.message + '\n\n' + activity.data.message,
-                },
-              },
-            },
-          })
-        }
-      }
 
       // Create activity
       const { data } = await createThreadActivity({
@@ -132,30 +103,31 @@ export default function ThreadActivityCreate({ thread }: Props) {
   )
 
   // Send message
-  const handleSubmit = useCallback(
-    async (value?: string) => {
-      if (!value) {
-        value = editorRef.current?.getValue()
-      }
-      if (!value) return
+  const handleSubmit = useCallback(async () => {
+    const length = editorRef.current?.getText().trim().length
+    if (!length) return
 
-      editorRef.current?.setValue('')
-      localStorage.setItem(draftKey, '')
-      try {
-        await handleCreateActivity({
-          type: ActivityType.Message,
-          data: {
-            message: value.trim(),
-          },
-        })
-      } catch (error) {
-        console.error(error)
-        editorRef.current?.setValue(value)
-        localStorage.setItem(draftKey, value)
-      }
-    },
-    [handleCreateActivity]
-  )
+    // Get value
+    const value = JSON.stringify(editorRef.current?.getValue())
+
+    // Clear editor
+    editorRef.current?.clear()
+    localStorage.setItem(draftKey, '')
+
+    // Create message activity
+    try {
+      await handleCreateActivity({
+        type: ActivityType.Message,
+        data: {
+          message: value,
+        },
+      })
+    } catch (error) {
+      console.error(error)
+      editorRef.current?.setValue(JSON.parse(value))
+      localStorage.setItem(draftKey, value)
+    }
+  }, [handleCreateActivity])
 
   // Poll
   const pollModal = useDisclosure()
@@ -250,6 +222,12 @@ export default function ThreadActivityCreate({ thread }: Props) {
         />
 
         <Spacer />
+
+        <Text
+          color="gray.500"
+          fontSize="xs"
+          pr={2}
+        >{`${cmdOrCtrlKey} + Enter`}</Text>
 
         <Button
           colorScheme="blue"

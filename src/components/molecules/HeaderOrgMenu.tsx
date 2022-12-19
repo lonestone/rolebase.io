@@ -16,7 +16,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCircle, FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-import { UserLocalStorageKeys } from 'src/utils'
+import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 export default function HeaderOrgMenu(props: MenuButtonProps) {
   const { t } = useTranslation()

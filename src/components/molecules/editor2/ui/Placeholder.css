@@ -8,7 +8,7 @@
  */
 
 .Placeholder__root {
-  color: #999;
+  color: var(--chakra-colors-gray-500);
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;

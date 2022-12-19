@@ -7,7 +7,7 @@ import {
   useCreateMeetingStepMutation,
   useGetMeetingStepsLazyQuery,
 } from 'src/graphql.generated'
-import { pick } from 'src/utils'
+import { pick } from 'src/utils/pick'
 
 // We use id to match steps that can be duplicated.
 export function useDuplicateMeetingSteps() {

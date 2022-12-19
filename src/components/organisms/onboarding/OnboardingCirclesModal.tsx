@@ -30,7 +30,7 @@ import {
   useCreateCircleMutation,
   useCreateRoleMutation,
 } from 'src/graphql.generated'
-import { omit } from 'src/utils'
+import { omit } from 'src/utils/omit'
 
 interface Props extends UseModalProps {
   onSubmit(circles: CircleWithRoleEntry[]): void

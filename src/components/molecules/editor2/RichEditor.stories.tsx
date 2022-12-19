@@ -1,14 +1,15 @@
 import { Button, ButtonGroup, Textarea } from '@chakra-ui/react'
-import { $convertFromMarkdownString } from '@lexical/markdown'
-import { mediaFileReader } from '@lexical/utils'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React, { useRef, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiCheckSquare, FiList } from 'react-icons/fi'
+import { readFile } from 'src/utils/readFile'
 import { decorators } from '../../../stories'
 import DUMMY_USERNAMES from './dummy-usernames.json'
 import DUMMY_VALUE from './dummy-value.json'
-import Editor from './Editor'
+import Editor, { EditorProps } from './Editor'
 import { EditorHandle } from './plugins/EditorRefPlugin'
+
+const dummyValueString = JSON.stringify(DUMMY_VALUE)
 
 export default {
   title: 'RichEditor',
@@ -17,28 +18,17 @@ export default {
 } as ComponentMeta<typeof Editor>
 
 const Template: ComponentStory<typeof Editor> = (args) => {
-  // Mock file upload
-  const onUpload = async (file: File) => {
-    const [{ result }] = await mediaFileReader([file], ['image/'])
-    // Simulate a newtork delay
-    return new Promise<string>((resolve) => {
-      setTimeout(() => resolve(result), 400)
-    })
-  }
-
-  return (
-    <Editor
-      mentionables={DUMMY_USERNAMES}
-      onUpload={onUpload}
-      acceptFileTypes={['image/*']}
-      {...args}
-    />
-  )
+  return <Editor mentionables={DUMMY_USERNAMES} onUpload={onUpload} {...args} />
 }
 
 export const Placeholder = Template.bind({})
 Placeholder.args = {
   placeholder: 'Enter some text...',
+}
+
+export const Autofocus = Template.bind({})
+Autofocus.args = {
+  autoFocus: true,
 }
 
 export const MinHeight = Template.bind({})
@@ -49,7 +39,13 @@ MinHeight.args = {
 export const MaxHeight = Template.bind({})
 MaxHeight.args = {
   maxH: '200px',
-  value: JSON.stringify(DUMMY_VALUE),
+  value: dummyValueString,
+}
+
+export const Readonly = Template.bind({})
+Readonly.args = {
+  readOnly: true,
+  value: dummyValueString,
 }
 
 export const Collab = Template.bind({})
@@ -69,8 +65,26 @@ const MARKDOWN_VALUE = `# Welcome to the Editor story
 
 export const Markdown = Template.bind({})
 Markdown.args = {
-  value: () => $convertFromMarkdownString(MARKDOWN_VALUE),
+  value: MARKDOWN_VALUE,
 }
+
+export const Multiple: ComponentStory<typeof Editor> = (args) => {
+  const props: EditorProps = {
+    maxH: '200px',
+    mentionables: DUMMY_USERNAMES,
+    onUpload,
+    ...args,
+  }
+
+  return (
+    <>
+      <Editor value="Editor 1" {...props} />
+      <Editor value="Editor 2" {...props} />
+      <Editor value="Editor 3" {...props} />
+    </>
+  )
+}
+Multiple.args = {}
 
 export const EditorRef: ComponentStory<typeof Editor> = (args) => {
   const ref = useRef<EditorHandle>(null)
@@ -80,9 +94,10 @@ export const EditorRef: ComponentStory<typeof Editor> = (args) => {
     <>
       <Editor
         ref={ref}
-        value={JSON.stringify(DUMMY_VALUE)}
+        value={dummyValueString}
         maxH="300px"
         mentionables={DUMMY_USERNAMES}
+        onUpload={onUpload}
         {...args}
       />
 
@@ -120,3 +135,11 @@ export const EditorRef: ComponentStory<typeof Editor> = (args) => {
   )
 }
 EditorRef.args = {}
+
+// Mock file upload
+const onUpload = async (file: File) => {
+  await new Promise((resolve) => setTimeout(resolve, 400)) // Simulate a newtork delay
+  const url = await readFile(file)
+  if (!url) throw new Error('Failed to read file')
+  return url
+}

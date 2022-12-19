@@ -8,21 +8,17 @@
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { DRAG_DROP_PASTE } from '@lexical/rich-text'
-import { isMimeType } from '@lexical/utils'
 import { COMMAND_PRIORITY_LOW } from 'lexical'
 import { useEffect } from 'react'
+import { INSERT_FILE_COMMAND } from '../FilePlugin'
 
 import { INSERT_IMAGE_COMMAND } from '../ImagesPlugin'
 
 interface DragDropProps {
-  accept: string[]
   onUpload: (file: File) => Promise<string>
 }
 
-export default function DragDropPaste({
-  accept,
-  onUpload,
-}: DragDropProps): null {
+export default function DragDropPaste({ onUpload }: DragDropProps): null {
   const [editor] = useLexicalComposerContext()
   useEffect(() => {
     return editor.registerCommand(
@@ -30,26 +26,27 @@ export default function DragDropPaste({
       (files) => {
         ;(async () => {
           for (const file of files) {
-            if (
-              isMimeType(
-                file,
-                // IsMimeType don't accept blobs
-                accept.map((x) => x.replace(/\/\*$/, ''))
-              )
-            ) {
-              try {
-                editor.setEditable(false)
-                const src = await onUpload(file)
-                editor.setEditable(true)
-                // Images
-                if (src && file.type.startsWith('image/')) {
-                  editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                    src,
-                  })
-                }
-              } catch (e) {
-                editor.setEditable(true)
+            try {
+              editor.setEditable(false)
+              // TODO: Show loading
+              const url = await onUpload(file)
+              editor.setEditable(true)
+              // Images
+              if (url && file.type.startsWith('image/')) {
+                editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                  src: url,
+                })
+              } else {
+                // Other type of file
+                editor.dispatchCommand(INSERT_FILE_COMMAND, {
+                  url,
+                  name: file.name,
+                  size: file.size,
+                  mime: file.type,
+                })
               }
+            } catch (e) {
+              editor.setEditable(true)
             }
           }
         })()
@@ -57,6 +54,6 @@ export default function DragDropPaste({
       },
       COMMAND_PRIORITY_LOW
     )
-  }, [editor, accept, onUpload])
+  }, [editor, onUpload])
   return null
 }

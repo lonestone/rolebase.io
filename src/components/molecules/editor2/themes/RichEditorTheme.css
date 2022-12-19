@@ -92,6 +92,7 @@
 }
 .RichEditor__code {
   background-color: rgb(240, 242, 245);
+  color: #222;
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
   padding: 8px 8px 8px 52px;
@@ -140,6 +141,9 @@
   cursor: default;
   outline: none;
 }
+.chakra-ui-dark .RichEditor__tableCell {
+  border-color: #444;
+}
 .RichEditor__tableCellSortedIndicator {
   display: block;
   opacity: 0.5;
@@ -162,6 +166,9 @@
 .RichEditor__tableCellHeader {
   background-color: #f8f8fa;
   text-align: start;
+}
+.chakra-ui-dark .RichEditor__tableCellHeader {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 .RichEditor__tableCellSelected {
   background-color: #c9dbf0;

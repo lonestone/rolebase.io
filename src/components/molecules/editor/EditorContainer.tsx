@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { ColorModeProps, mode } from 'src/utils'
+import { ColorModeProps, mode } from 'src/utils/colorMode'
 
 // Custom styles
 const EditorContainer = styled.div<

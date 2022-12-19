@@ -26,7 +26,7 @@ import {
 import ColorController from '@components/atoms/ColorController'
 import DurationSelect from '@components/atoms/DurationSelect'
 import EditorController from '@components/molecules/editor/EditorController'
-import { EditorHandle } from '@components/molecules/editor/useEditor'
+import { EditorHandle } from '@components/molecules/editor2/plugins/EditorRefPlugin'
 import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'

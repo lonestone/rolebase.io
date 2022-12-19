@@ -6,7 +6,7 @@
  *
  */
 
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
+import { $convertFromMarkdownString } from '@lexical/markdown'
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
@@ -22,9 +22,9 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
-import React, { forwardRef, useMemo, useState } from 'react'
+import React, { forwardRef, useCallback, useMemo, useState } from 'react'
 
-import { Box } from '@chakra-ui/react'
+import { Box, BoxProps } from '@chakra-ui/react'
 import { randomColor } from '@chakra-ui/theme-tools'
 import { createWebsocketProvider } from './collaboration'
 import {
@@ -62,31 +62,60 @@ import YouTubePlugin from './plugins/YouTubePlugin'
 import RichEditorTheme from './themes/RichEditorTheme'
 import Placeholder from './ui/Placeholder'
 
+import { nanoid } from 'nanoid'
 import './index.css'
+import { AutoFocusPlugin } from './plugins/AutoFocusPlugin'
+import ControlledValuePlugin from './plugins/ControlledValuePlugin'
+import EditablePlugin from './plugins/EditablePlugin'
+import FilePlugin from './plugins/FilePlugin'
+import MainEventsPlugin from './plugins/MainEventsPlugin'
 
-interface EditorProps {
+export interface EditorProps extends BoxProps {
+  id?: string
   value?: InitialEditorStateType
   placeholder?: string
+  readOnly?: boolean
+  autoFocus?: boolean
   collaboration?: boolean
   username?: string
   minH?: string
   maxH?: string
   mentionables?: string[]
   onUpload?: (file: File) => Promise<string>
-  acceptFileTypes?: string[]
+  onFocus?: () => void
+  onBlur?: () => void
+  onSubmit?: () => void
+}
+
+function fixInitialState(
+  value?: InitialEditorStateType
+): InitialEditorStateType | undefined {
+  if (!value) return undefined
+  // Markdown
+  if (typeof value === 'string' && value[0] !== '{') {
+    return () => $convertFromMarkdownString(value)
+  }
+  // Other types: EditorState, string, function
+  return value
 }
 
 export default forwardRef<EditorHandle, EditorProps>(function Editor(
   {
+    id,
     value,
     placeholder,
+    readOnly,
+    autoFocus,
     collaboration,
     username,
     minH,
     maxH,
     mentionables,
     onUpload = async () => '',
-    acceptFileTypes = [],
+    onFocus,
+    onBlur,
+    onSubmit,
+    ...boxProps
   },
   ref
 ) {
@@ -96,15 +125,16 @@ export default forwardRef<EditorHandle, EditorProps>(function Editor(
 
   const initialConfig: InitialConfigType = useMemo(
     () => ({
-      editorState: value ?? null,
-      namespace: 'Playground',
+      editorState: fixInitialState(value),
+      namespace: id || 'RichEditor' + nanoid(6),
+      editable: !readOnly,
       nodes: [...nodes],
       onError: (error: Error) => {
         throw error
       },
       theme: RichEditorTheme,
     }),
-    [value]
+    []
   )
 
   const contentRef = (_floatingAnchorElem: HTMLDivElement) => {
@@ -118,13 +148,33 @@ export default forwardRef<EditorHandle, EditorProps>(function Editor(
     [username]
   )
 
+  // Focus
+  const [isFocused, setIsFocused] = useState(false)
+
+  const handleFocus = useCallback(() => {
+    setIsFocused(true)
+    onFocus?.()
+  }, [onFocus])
+
+  const handleBlur = useCallback(() => {
+    setIsFocused(false)
+    onBlur?.()
+  }, [onBlur])
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <SharedHistoryContext>
         <Box position="relative">
           <EditorRefPlugin ref={ref} />
-          <DragDropPaste onUpload={onUpload} accept={acceptFileTypes} />
-          <AutoFocusPlugin defaultSelection="rootEnd" />
+          {typeof value === 'string' && <ControlledValuePlugin value={value} />}
+          <MainEventsPlugin
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onSubmit={onSubmit}
+          />
+          <EditablePlugin editable={!readOnly} />
+          <DragDropPaste onUpload={onUpload} />
+          {autoFocus && <AutoFocusPlugin />}
           <ClearEditorPlugin />
           <ComponentPickerPlugin />
           <EmojiPickerPlugin />
@@ -153,11 +203,24 @@ export default forwardRef<EditorHandle, EditorProps>(function Editor(
           <RichTextPlugin
             contentEditable={
               <Box
-                borderWidth="1px"
-                borderRadius="md"
+                borderWidth={readOnly ? 0 : '1px'}
+                borderRadius={readOnly ? 0 : 'md'}
+                borderColor={isFocused ? 'outline' : undefined}
+                boxShadow={
+                  isFocused
+                    ? '0 0 0 1px var(--chakra-colors-outline)'
+                    : undefined
+                }
                 outline={0}
                 overflowY={maxH ? 'auto' : 'visible'}
                 maxH={maxH}
+                _invalid={{
+                  borderColor: 'red.500',
+                  _dark: {
+                    borderColor: 'red.300',
+                  },
+                }}
+                {...boxProps}
               >
                 <Box ref={contentRef} position="relative">
                   <ContentEditable
@@ -179,6 +242,7 @@ export default forwardRef<EditorHandle, EditorProps>(function Editor(
           <TablePlugin />
           <TableCellResizer />
           <ImagesPlugin onUpload={onUpload} />
+          <FilePlugin />
           <LinkPlugin />
           <TwitterPlugin />
           <YouTubePlugin />

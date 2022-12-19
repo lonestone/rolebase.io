@@ -13,7 +13,7 @@ import useOrgMember from '@hooks/useOrgMember'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
-import { cmdOrCtrlKey } from 'src/utils'
+import { cmdOrCtrlKey } from 'src/utils/env'
 
 export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
   const { t } = useTranslation()

@@ -8,7 +8,7 @@ import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiEye } from 'react-icons/fi'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 
 interface Props {
   log: LogEntry

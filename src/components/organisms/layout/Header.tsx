@@ -30,7 +30,7 @@ import {
   FiDisc,
   FiMessageSquare,
 } from 'react-icons/fi'
-import { cmdOrCtrlKey } from 'src/utils'
+import { cmdOrCtrlKey } from 'src/utils/env'
 
 export const headerHeight = 50
 

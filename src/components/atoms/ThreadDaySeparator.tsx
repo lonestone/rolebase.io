@@ -2,7 +2,7 @@ import { Box, Divider, Flex, useColorMode } from '@chakra-ui/react'
 import useDateLocale from '@hooks/useDateLocale'
 import { format } from 'date-fns'
 import React, { memo } from 'react'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 
 interface Props {
   date: string

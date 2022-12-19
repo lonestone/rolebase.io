@@ -15,7 +15,7 @@ import {
   useCreateCircleMutation,
   useCreateRoleMutation,
 } from 'src/graphql.generated'
-import { omit } from 'src/utils'
+import { omit } from 'src/utils/omit'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 import RoleSearchButton from './search/entities/roles/RoleSearchButton'
 

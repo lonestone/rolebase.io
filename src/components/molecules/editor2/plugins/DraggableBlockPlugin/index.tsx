@@ -345,6 +345,7 @@ function useDraggableBlockMenu(
         className={DRAGGABLE_BLOCK_MENU_CLASSNAME}
         ref={menuRef}
         aria-label="Drag to move block"
+        tabIndex={-1}
         icon={<DragHandleIcon />}
         variant="ghost"
         draggable
@@ -366,7 +367,8 @@ function useDraggableBlockMenu(
       <Box
         ref={targetLineRef}
         pointerEvents="none"
-        bg="blue"
+        bg="blue.200"
+        _dark={{ bg: 'blue.200' }}
         h={`${TARGET_LINE_HEIGHT}px`}
         position="absolute"
         left={0}

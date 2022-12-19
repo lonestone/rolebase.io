@@ -1,13 +1,13 @@
-import {
-  FormControlOptions,
-  useColorMode,
-  useFormControl,
-} from '@chakra-ui/react'
-import BasicStyle from '@components/atoms/BasicStyle'
-import React, { forwardRef, useCallback, useRef } from 'react'
+import { FormControlOptions, useFormControl } from '@chakra-ui/react'
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from 'react'
+import { pick } from 'src/utils/pick'
 import Editor from '../editor2/Editor'
-import EditorContainer from './EditorContainer'
-import useSimpleEditor, { EditorHandle } from './useEditor'
+import { EditorHandle } from '../editor2/plugins/EditorRefPlugin'
 import useFileUpload from './useFileUpload'
 
 // Simple Markdown editor
@@ -20,8 +20,7 @@ export interface Props extends FormControlOptions {
   minHeight?: string
   maxHeight?: string
   onChange?(value: string): void
-  onSave?(value: string): void // Called when Ctrl+S is pressed
-  onSubmit?(value: string): void // Called when Cmd+Enter is pressed
+  onSubmit?(value: string): void // When the user presses Cmd/Ctrl + Enter
 }
 
 const SimpleEditor = forwardRef<EditorHandle, Props>(
@@ -34,70 +33,52 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
       minHeight,
       maxHeight,
       onChange,
-      onSave,
       onSubmit,
     },
     ref
   ) => {
+    const localRef = useRef<EditorHandle>(null)
     const formControlProps = useFormControl<HTMLInputElement>({})
-    const { colorMode } = useColorMode()
-    const { editorRef, getValue } = useSimpleEditor(ref)
     const { handleUpload } = useFileUpload()
 
-    const isFocusRef = useRef<boolean>(false)
+    useImperativeHandle(ref, () => localRef.current!, [])
 
-    const handleFocus = useCallback(() => {
-      isFocusRef.current = true
-    }, [])
+    const computedReadOnly =
+      readOnly || formControlProps.readOnly || formControlProps.disabled
+    const ariaProps = pick(
+      formControlProps,
+      'aria-describedby',
+      'aria-invalid',
+      'aria-readonly',
+      'aria-required'
+    )
 
     // Save on blur
     const handleBlur = useCallback(() => {
-      isFocusRef.current = false
-      onChange?.(getValue())
+      if (!localRef.current) return
+      onChange?.(JSON.stringify(localRef.current.getValue()))
     }, [onChange])
 
-    // Save changes when user do not have focus
-    // eg: click on a Todo checkbox
-    const handleChange = useCallback(() => {
-      if (!isFocusRef.current) {
-        onChange?.(getValue())
-      }
-    }, [])
-
     // Save on Ctrl+S or Cmd+Enter
-    const handleSave = useCallback(
-      ({ done }) => {
-        if (done) {
-          onSubmit?.(getValue())
-        } else {
-          onSave?.(getValue())
-        }
-      },
-      [onSubmit, onSave]
-    )
+    const handleSubmit = useCallback(() => {
+      if (!localRef.current) return
+      onSubmit?.(JSON.stringify(localRef.current.getValue()))
+    }, [onSubmit])
 
     return (
-      <BasicStyle>
-        <EditorContainer
-          colorMode={colorMode}
-          minHeight={minHeight}
-          maxHeight={maxHeight}
-          {...formControlProps}
-        >
-          <Editor
-            value={value}
-            placeholder={placeholder}
-            autoFocus={autoFocus}
-            readOnly={readOnly}
-            dark={colorMode === 'dark'}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onSave={handleSave}
-            onChange={handleChange}
-            uploadImage={handleUpload}
-          />
-        </EditorContainer>
-      </BasicStyle>
+      <Editor
+        ref={localRef}
+        value={value}
+        placeholder={placeholder}
+        autoFocus={autoFocus}
+        readOnly={computedReadOnly}
+        minH={minHeight}
+        maxH={maxHeight}
+        onBlur={handleBlur}
+        onSubmit={handleSubmit}
+        onUpload={handleUpload}
+        {...ariaProps}
+      />
     )
   }
 )

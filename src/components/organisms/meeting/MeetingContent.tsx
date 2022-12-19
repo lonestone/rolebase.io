@@ -35,7 +35,7 @@ import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import { FiArrowDown, FiCalendar, FiClock } from 'react-icons/fi'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
 

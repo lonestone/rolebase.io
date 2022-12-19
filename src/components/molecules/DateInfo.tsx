@@ -3,7 +3,7 @@ import useDateLocale from '@hooks/useDateLocale'
 import { format } from 'date-fns'
 import React, { useMemo } from 'react'
 import { FiClock } from 'react-icons/fi'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 
 interface Props extends BoxProps {
   date: Date | string

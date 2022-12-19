@@ -44,7 +44,7 @@ import {
   useSubscribeTaskSubscription,
   useUpdateTaskMutation,
 } from 'src/graphql.generated'
-import { getDateTimeLocal } from 'src/utils'
+import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import * as yup from 'yup'
 import TaskDeleteModal from './TaskDeleteModal'
 

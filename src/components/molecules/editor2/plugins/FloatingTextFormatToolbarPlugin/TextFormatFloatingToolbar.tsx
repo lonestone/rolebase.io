@@ -129,6 +129,9 @@ export function TextFormatFloatingToolbar({
     <ButtonGroup
       ref={popupCharStylesEditorRef}
       bg="gray.50"
+      _dark={{
+        bg: 'gray.600',
+      }}
       size="sm"
       variant="ghost"
       spacing={1}

@@ -34,7 +34,7 @@ import { FiCalendar, FiRepeat } from 'react-icons/fi'
 import { useHistory } from 'react-router-dom'
 import { RRule } from 'rrule'
 import { useSubscribeMeetingRecurringSubscription } from 'src/graphql.generated'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 
 interface Props extends UseModalProps {

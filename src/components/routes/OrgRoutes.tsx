@@ -22,7 +22,7 @@ import {
   useSubscribeMembersSubscription,
   useSubscribeRolesSubscription,
 } from 'src/graphql.generated'
-import { UserLocalStorageKeys } from 'src/utils'
+import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 // Lazy pages
 const MeetingsPage = lazy(() => import('@components/pages/MeetingsPage'))
