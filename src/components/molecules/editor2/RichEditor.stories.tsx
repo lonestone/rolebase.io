@@ -6,8 +6,8 @@ import { readFile } from 'src/utils/readFile'
 import { decorators } from '../../../stories'
 import DUMMY_USERNAMES from './dummy-usernames.json'
 import DUMMY_VALUE from './dummy-value.json'
-import Editor, { EditorProps } from './Editor'
 import { EditorHandle } from './plugins/EditorRefPlugin'
+import Editor, { RichEditorProps } from './RichEditor'
 
 const dummyValueString = JSON.stringify(DUMMY_VALUE)
 
@@ -69,7 +69,7 @@ Markdown.args = {
 }
 
 export const Multiple: ComponentStory<typeof Editor> = (args) => {
-  const props: EditorProps = {
+  const props: RichEditorProps = {
     maxH: '200px',
     mentionables: DUMMY_USERNAMES,
     onUpload,

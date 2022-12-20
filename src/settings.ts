@@ -15,6 +15,10 @@ export default {
     ? 'http://localhost:1337/v1/functions/'
     : 'https://fsudktxishllphxeibqs.nhost.run/v1/functions/',
 
+  yjsCollab: {
+    url: 'ws://localhost:1234',
+  },
+
   // Files
   memberPicture: {
     maxSize: 300, // in px

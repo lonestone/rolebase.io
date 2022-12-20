@@ -2,9 +2,16 @@ import { Box, FormControlOptions, Spinner } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import throttle from 'lodash.throttle'
-import React, { forwardRef, useCallback, useMemo, useState } from 'react'
-import Editor from '../editor2/Editor'
-import useEditor, { EditorHandle } from './useEditor'
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { EditorHandle } from '../editor2/plugins/EditorRefPlugin'
+import RichEditor from '../editor2/RichEditor'
 import useFileUpload from './useFileUpload'
 
 // Collaborative Markdown editor
@@ -17,7 +24,7 @@ export interface Props extends FormControlOptions {
   autoFocus?: boolean
   readOnly?: boolean
   saveDelay: number
-  onSave?(value: string, updates: Uint8Array): void
+  onSave?(value: string): void
 }
 
 const CollabEditor = forwardRef<EditorHandle, Props>(
@@ -35,75 +42,54 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     ref
   ) => {
     const currentMember = useCurrentMember()
-    const { editorRef, getValue } = useEditor(ref)
+    const localRef = useRef<EditorHandle>(null)
     const { handleUpload } = useFileUpload()
 
-    // On mount
-    // useEffect(() => {
-    //   if (updates) {
-    //     // Apply saved updates
-    //     collabPlugin.applyUpdates(updates)
-    //   } else {
-    //     // Compute and apply updates from value
-    //     collabPlugin.applyValue(value)
-
-    //     // Save updates
-    //     onSave?.(getValue(), collabPlugin.getUpdates())
-    //   }
-
-    //   // Stop collab on unmount
-    //   return () => collabPlugin.stop()
-    // }, [collabPlugin])
-
-    // // Update member name
-    // useEffect(() => {
-    //   if (!currentMember) return
-    //   collabPlugin.setUserName(
-    //     currentMember.name,
-    //     randomColor({ string: currentMember.name })
-    //   )
-    // }, [currentMember?.name])
+    useImperativeHandle(ref, () => localRef.current!, [])
 
     // Prevent from changing page when dirty
     const [isDirty, setIsDirty] = useState(false)
     const { preventClose, allowClose } = usePreventClose()
 
-    // Save now
-    const handleSave = useCallback(() => {
-      // onSave?.(getValue(), collabPlugin.getUpdates())
-      setIsDirty(false)
-      allowClose()
-    }, [docId])
-
     // Save with throttling
     const handleSaveThrottle = useMemo(
-      () => throttle(handleSave, saveDelay, { leading: false }),
-      [handleSave, saveDelay]
+      () =>
+        throttle(
+          (value: string) => {
+            setIsDirty(false)
+            allowClose()
+            onSave?.(value)
+          },
+          saveDelay,
+          { leading: false }
+        ),
+      [docId, saveDelay]
     )
 
     // Handle every little change in the doc
     // to save it with throttling
     const handleChange = useCallback(() => {
-      const newValue = getValue()
+      const newValue = JSON.stringify(localRef.current?.getValue())
       if (newValue === value) return
       setIsDirty(true)
       preventClose()
-      handleSaveThrottle()
+      handleSaveThrottle(newValue)
     }, [docId, value])
 
     return (
       <>
-        <Editor
+        <RichEditor
           key={docId}
+          ref={localRef}
           id={docId}
-          ref={editorRef}
           collaboration
           username={currentMember?.name}
+          value={value}
           placeholder={placeholder}
           autoFocus={autoFocus}
           readOnly={readOnly}
-          onBlur={handleSave}
-          onSubmit={handleSave}
+          onBlur={handleChange}
+          onSubmit={handleChange}
           onUpload={handleUpload}
         />
 

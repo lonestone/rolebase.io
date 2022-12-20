@@ -11,7 +11,7 @@ import { MeetingStepIndicators } from '@shared/model/meeting_step'
 import { WithId } from '@shared/model/types'
 import React, { RefObject, useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { EditorHandle } from './editor/useEditor'
+import { EditorHandle } from './editor2/plugins/EditorRefPlugin'
 
 interface Props {
   meetingState: MeetingState
@@ -30,7 +30,7 @@ export default function MeetingStepContentIndicators({
 
   const handleSet = useCallback(() => {
     if (!newValue) return
-    editorRef.current?.setValue(newValue)
+    editorRef.current?.setValue(JSON.parse(newValue))
   }, [editorRef, circle])
 
   return (

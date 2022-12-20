@@ -70,7 +70,7 @@ import EditablePlugin from './plugins/EditablePlugin'
 import FilePlugin from './plugins/FilePlugin'
 import MainEventsPlugin from './plugins/MainEventsPlugin'
 
-export interface EditorProps extends BoxProps {
+export interface RichEditorProps extends BoxProps {
   id?: string
   value?: InitialEditorStateType
   placeholder?: string
@@ -99,7 +99,7 @@ function fixInitialState(
   return value
 }
 
-export default forwardRef<EditorHandle, EditorProps>(function Editor(
+export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
   {
     id,
     value,
@@ -166,7 +166,9 @@ export default forwardRef<EditorHandle, EditorProps>(function Editor(
       <SharedHistoryContext>
         <Box position="relative">
           <EditorRefPlugin ref={ref} />
-          {typeof value === 'string' && <ControlledValuePlugin value={value} />}
+          {!collaboration && typeof value === 'string' && (
+            <ControlledValuePlugin value={value} />
+          )}
           <MainEventsPlugin
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -189,9 +191,9 @@ export default forwardRef<EditorHandle, EditorProps>(function Editor(
       />
       */}
 
-          {collaboration ? (
+          {collaboration && id ? (
             <CollaborationPlugin
-              id="main"
+              id={id}
               username={username}
               cursorColor={cursorColor}
               providerFactory={createWebsocketProvider}

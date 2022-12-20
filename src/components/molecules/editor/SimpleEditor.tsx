@@ -6,8 +6,8 @@ import React, {
   useRef,
 } from 'react'
 import { pick } from 'src/utils/pick'
-import Editor from '../editor2/Editor'
 import { EditorHandle } from '../editor2/plugins/EditorRefPlugin'
+import RichEditor from '../editor2/RichEditor'
 import useFileUpload from './useFileUpload'
 
 // Simple Markdown editor
@@ -66,7 +66,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
     }, [onSubmit])
 
     return (
-      <Editor
+      <RichEditor
         ref={localRef}
         value={value}
         placeholder={placeholder}
