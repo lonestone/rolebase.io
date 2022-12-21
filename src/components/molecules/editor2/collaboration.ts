@@ -17,12 +17,12 @@ export function createWebsocketProvider(
 ): WebsocketProvider {
   let doc = yjsDocMap.get(id)
 
-  if (doc) {
-    doc.load()
-  } else {
-    doc = new Doc()
-    yjsDocMap.set(id, doc)
-  }
+  // if (doc) {
+  //   doc.load()
+  // } else {
+  doc = new Doc()
+  yjsDocMap.set(id, doc)
+  // }
 
   return new WebsocketProvider(settings.yjsCollab.url, id, doc, {
     connect: false,

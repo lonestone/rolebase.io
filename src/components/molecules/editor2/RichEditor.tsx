@@ -24,7 +24,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
 import React, { forwardRef, useCallback, useMemo, useState } from 'react'
 
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Box, BoxProps, Center, Icon, Text } from '@chakra-ui/react'
 import { randomColor } from '@chakra-ui/theme-tools'
 import { createWebsocketProvider } from './collaboration'
 import {
@@ -63,6 +63,7 @@ import RichEditorTheme from './themes/RichEditorTheme'
 import Placeholder from './ui/Placeholder'
 
 import { nanoid } from 'nanoid'
+import { FiAlertTriangle } from 'react-icons/fi'
 import './index.css'
 import { AutoFocusPlugin } from './plugins/AutoFocusPlugin'
 import ControlledValuePlugin from './plugins/ControlledValuePlugin'
@@ -123,9 +124,11 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
 
+  const initialEditorState = useMemo(() => fixInitialState(value), [value])
+
   const initialConfig: InitialConfigType = useMemo(
     () => ({
-      editorState: fixInitialState(value),
+      editorState: collaboration ? null : initialEditorState,
       namespace: id || 'RichEditor' + nanoid(6),
       editable: !readOnly,
       nodes: [...nodes],
@@ -161,47 +164,43 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
     onBlur?.()
   }, [onBlur])
 
+  // Collaboration status
+  const [collaborationStatus, setCollaborationStatus] = useState(true)
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <SharedHistoryContext>
         <Box position="relative">
           <EditorRefPlugin ref={ref} />
-          {!collaboration && typeof value === 'string' && (
-            <ControlledValuePlugin value={value} />
-          )}
           <MainEventsPlugin
             onFocus={handleFocus}
             onBlur={handleBlur}
             onSubmit={onSubmit}
+            onCollaborationStatusChange={setCollaborationStatus}
           />
           <EditablePlugin editable={!readOnly} />
           <DragDropPaste onUpload={onUpload} />
           {autoFocus && <AutoFocusPlugin />}
-          <ClearEditorPlugin />
-          <ComponentPickerPlugin />
-          <EmojiPickerPlugin />
-          <AutoEmbedPlugin />
           <MentionsPlugin mentionables={mentionables || []} />
-          <HashtagPlugin />
-          <SpeechToTextPlugin />
-          <AutoLinkPlugin />
-          {/*
-      <CommentPlugin
-        providerFactory={isCollab ? createWebsocketProvider : undefined}
-      />
-      */}
 
           {collaboration && id ? (
             <CollaborationPlugin
               id={id}
+              initialEditorState={initialEditorState}
               username={username}
               cursorColor={cursorColor}
               providerFactory={createWebsocketProvider}
               shouldBootstrap
             />
           ) : (
-            <HistoryPlugin externalHistoryState={historyState} />
+            <>
+              <HistoryPlugin externalHistoryState={historyState} />
+              {typeof value === 'string' && (
+                <ControlledValuePlugin value={value} />
+              )}
+            </>
           )}
+
           <RichTextPlugin
             contentEditable={
               <Box
@@ -236,6 +235,14 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
             placeholder={<Placeholder>{placeholder}</Placeholder>}
             ErrorBoundary={LexicalErrorBoundary}
           />
+
+          <ClearEditorPlugin />
+          <ComponentPickerPlugin />
+          <EmojiPickerPlugin />
+          <AutoEmbedPlugin />
+          <HashtagPlugin />
+          <SpeechToTextPlugin />
+          <AutoLinkPlugin />
           <MarkdownShortcutPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />
@@ -254,6 +261,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           <EquationsPlugin />
           <TabFocusPlugin />
           <CollapsiblePlugin />
+
           {floatingAnchorElem && (
             <>
               <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
@@ -264,6 +272,17 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
                 anchorElem={floatingAnchorElem}
               />
             </>
+          )}
+
+          {!collaborationStatus && (
+            <Box position="absolute" top={0} left={0} right={0} bottom={0}>
+              <Center h="100%">
+                <Text fontSize="sm" color="gray.500">
+                  <Icon as={FiAlertTriangle} mr={2} />
+                  You are offline. Connection to server..
+                </Text>
+              </Center>
+            </Box>
           )}
         </Box>
       </SharedHistoryContext>

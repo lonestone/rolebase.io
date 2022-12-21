@@ -24,6 +24,10 @@
   border-left-style: solid;
   padding-left: 16px;
 }
+.chakra-ui-dark .RichEditor__quote {
+  color: rgb(206, 208, 212);
+  border-left-color: rgb(101, 103, 107);
+}
 
 .RichEditor__h1,
 .RichEditor__h2,
@@ -89,6 +93,7 @@
 }
 .RichEditor__link:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 .RichEditor__code {
   background-color: rgb(240, 242, 245);

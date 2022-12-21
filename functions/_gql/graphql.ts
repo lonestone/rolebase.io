@@ -312,6 +312,7 @@ export type AuthProviders_Bool_Exp = {
   _or?: InputMaybe<Array<AuthProviders_Bool_Exp>>;
   id?: InputMaybe<String_Comparison_Exp>;
   userProviders?: InputMaybe<AuthUserProviders_Bool_Exp>;
+  userProviders_aggregate?: InputMaybe<AuthUserProviders_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "auth.providers" */
@@ -424,6 +425,17 @@ export type AuthRefreshTokens_Aggregate = {
   __typename?: 'authRefreshTokens_aggregate';
   aggregate?: Maybe<AuthRefreshTokens_Aggregate_Fields>;
   nodes: Array<AuthRefreshTokens>;
+};
+
+export type AuthRefreshTokens_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthRefreshTokens_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthRefreshTokens_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthRefreshTokens_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "auth.refresh_tokens" */
@@ -683,7 +695,9 @@ export type AuthRoles_Bool_Exp = {
   _or?: InputMaybe<Array<AuthRoles_Bool_Exp>>;
   role?: InputMaybe<String_Comparison_Exp>;
   userRoles?: InputMaybe<AuthUserRoles_Bool_Exp>;
+  userRoles_aggregate?: InputMaybe<AuthUserRoles_Aggregate_Bool_Exp>;
   usersByDefaultRole?: InputMaybe<Users_Bool_Exp>;
+  usersByDefaultRole_aggregate?: InputMaybe<Users_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "auth.roles" */
@@ -804,6 +818,17 @@ export type AuthUserProviders_Aggregate = {
   __typename?: 'authUserProviders_aggregate';
   aggregate?: Maybe<AuthUserProviders_Aggregate_Fields>;
   nodes: Array<AuthUserProviders>;
+};
+
+export type AuthUserProviders_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthUserProviders_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthUserProviders_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthUserProviders_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthUserProviders_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "auth.user_providers" */
@@ -1059,6 +1084,17 @@ export type AuthUserRoles_Aggregate = {
   nodes: Array<AuthUserRoles>;
 };
 
+export type AuthUserRoles_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthUserRoles_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthUserRoles_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthUserRoles_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthUserRoles_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "auth.user_roles" */
 export type AuthUserRoles_Aggregate_Fields = {
   __typename?: 'authUserRoles_aggregate_fields';
@@ -1257,6 +1293,17 @@ export type AuthUserSecurityKeys_Aggregate = {
   __typename?: 'authUserSecurityKeys_aggregate';
   aggregate?: Maybe<AuthUserSecurityKeys_Aggregate_Fields>;
   nodes: Array<AuthUserSecurityKeys>;
+};
+
+export type AuthUserSecurityKeys_Aggregate_Bool_Exp = {
+  count?: InputMaybe<AuthUserSecurityKeys_Aggregate_Bool_Exp_Count>;
+};
+
+export type AuthUserSecurityKeys_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "auth.user_security_keys" */
@@ -1678,6 +1725,7 @@ export type Buckets_Bool_Exp = {
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   downloadExpiration?: InputMaybe<Int_Comparison_Exp>;
   files?: InputMaybe<Files_Bool_Exp>;
+  files_aggregate?: InputMaybe<Files_Aggregate_Bool_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
   maxUploadFileSize?: InputMaybe<Int_Comparison_Exp>;
   minUploadFileSize?: InputMaybe<Int_Comparison_Exp>;
@@ -1996,6 +2044,33 @@ export type Circle_Aggregate = {
   nodes: Array<Circle>;
 };
 
+export type Circle_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Circle_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Circle_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Circle_Aggregate_Bool_Exp_Count>;
+};
+
+export type Circle_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Circle_Select_Column_Circle_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Circle_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Circle_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Circle_Select_Column_Circle_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Circle_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Circle_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Circle_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Circle_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "circle" */
 export type Circle_Aggregate_Fields = {
   __typename?: 'circle_aggregate_fields';
@@ -2032,8 +2107,10 @@ export type Circle_Bool_Exp = {
   _or?: InputMaybe<Array<Circle_Bool_Exp>>;
   archived?: InputMaybe<Boolean_Comparison_Exp>;
   children?: InputMaybe<Circle_Bool_Exp>;
+  children_aggregate?: InputMaybe<Circle_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   members?: InputMaybe<Circle_Member_Bool_Exp>;
+  members_aggregate?: InputMaybe<Circle_Member_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   parent?: InputMaybe<Circle_Bool_Exp>;
@@ -2099,6 +2176,33 @@ export type Circle_Member_Aggregate = {
   __typename?: 'circle_member_aggregate';
   aggregate?: Maybe<Circle_Member_Aggregate_Fields>;
   nodes: Array<Circle_Member>;
+};
+
+export type Circle_Member_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Circle_Member_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Circle_Member_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Circle_Member_Aggregate_Bool_Exp_Count>;
+};
+
+export type Circle_Member_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Circle_Member_Select_Column_Circle_Member_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Circle_Member_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Circle_Member_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Circle_Member_Select_Column_Circle_Member_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Circle_Member_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Circle_Member_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Circle_Member_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Circle_Member_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "circle_member" */
@@ -2280,6 +2384,18 @@ export enum Circle_Member_Select_Column {
   Id = 'id',
   /** column name */
   MemberId = 'memberId'
+}
+
+/** select "circle_member_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circle_member" */
+export enum Circle_Member_Select_Column_Circle_Member_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
+/** select "circle_member_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circle_member" */
+export enum Circle_Member_Select_Column_Circle_Member_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
 }
 
 /** input type for updating data in table "circle_member" */
@@ -2484,6 +2600,18 @@ export enum Circle_Select_Column {
   RoleId = 'roleId'
 }
 
+/** select "circle_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circle" */
+export enum Circle_Select_Column_Circle_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
+/** select "circle_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circle" */
+export enum Circle_Select_Column_Circle_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
 /** input type for updating data in table "circle" */
 export type Circle_Set_Input = {
   archived?: InputMaybe<Scalars['Boolean']>;
@@ -2595,6 +2723,33 @@ export type Decision_Aggregate = {
   __typename?: 'decision_aggregate';
   aggregate?: Maybe<Decision_Aggregate_Fields>;
   nodes: Array<Decision>;
+};
+
+export type Decision_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Decision_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Decision_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Decision_Aggregate_Bool_Exp_Count>;
+};
+
+export type Decision_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Decision_Select_Column_Decision_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Decision_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Decision_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Decision_Select_Column_Decision_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Decision_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Decision_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Decision_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Decision_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "decision" */
@@ -2767,6 +2922,18 @@ export enum Decision_Select_Column {
   Title = 'title'
 }
 
+/** select "decision_aggregate_bool_exp_bool_and_arguments_columns" columns of table "decision" */
+export enum Decision_Select_Column_Decision_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
+/** select "decision_aggregate_bool_exp_bool_or_arguments_columns" columns of table "decision" */
+export enum Decision_Select_Column_Decision_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
 /** input type for updating data in table "decision" */
 export type Decision_Set_Input = {
   archived?: InputMaybe<Scalars['Boolean']>;
@@ -2897,6 +3064,33 @@ export type Files_Aggregate = {
   nodes: Array<Files>;
 };
 
+export type Files_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Files_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Files_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Files_Aggregate_Bool_Exp_Count>;
+};
+
+export type Files_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Files_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Files_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Files_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Files_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Files_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Files_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "storage.files" */
 export type Files_Aggregate_Fields = {
   __typename?: 'files_aggregate_fields';
@@ -2965,9 +3159,11 @@ export type Files_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   isUploaded?: InputMaybe<Boolean_Comparison_Exp>;
   members?: InputMaybe<Member_Bool_Exp>;
+  members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   mimeType?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   orgs?: InputMaybe<Org_File_Bool_Exp>;
+  orgs_aggregate?: InputMaybe<Org_File_Aggregate_Bool_Exp>;
   size?: InputMaybe<Int_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   uploadedByUserId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3122,6 +3318,18 @@ export enum Files_Select_Column {
   UpdatedAt = 'updatedAt',
   /** column name */
   UploadedByUserId = 'uploadedByUserId'
+}
+
+/** select "files_aggregate_bool_exp_bool_and_arguments_columns" columns of table "storage.files" */
+export enum Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  IsUploaded = 'isUploaded'
+}
+
+/** select "files_aggregate_bool_exp_bool_or_arguments_columns" columns of table "storage.files" */
+export enum Files_Select_Column_Files_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  IsUploaded = 'isUploaded'
 }
 
 /** input type for updating data in table "storage.files" */
@@ -3696,6 +3904,33 @@ export type Meeting_Aggregate = {
   nodes: Array<Meeting>;
 };
 
+export type Meeting_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Meeting_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Meeting_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Meeting_Aggregate_Bool_Exp_Count>;
+};
+
+export type Meeting_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Meeting_Select_Column_Meeting_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Meeting_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Meeting_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Meeting_Select_Column_Meeting_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Meeting_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Meeting_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Meeting_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Meeting_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "meeting" */
 export type Meeting_Aggregate_Fields = {
   __typename?: 'meeting_aggregate_fields';
@@ -3749,6 +3984,7 @@ export type Meeting_Bool_Exp = {
   startDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   steps?: InputMaybe<Meeting_Step_Bool_Exp>;
   stepsConfig?: InputMaybe<Json_Comparison_Exp>;
+  steps_aggregate?: InputMaybe<Meeting_Step_Aggregate_Bool_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
   videoConf?: InputMaybe<Json_Comparison_Exp>;
 };
@@ -3963,6 +4199,17 @@ export type Meeting_Recurring_Aggregate = {
   nodes: Array<Meeting_Recurring>;
 };
 
+export type Meeting_Recurring_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Meeting_Recurring_Aggregate_Bool_Exp_Count>;
+};
+
+export type Meeting_Recurring_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Meeting_Recurring_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "meeting_recurring" */
 export type Meeting_Recurring_Aggregate_Fields = {
   __typename?: 'meeting_recurring_aggregate_fields';
@@ -4030,6 +4277,7 @@ export type Meeting_Recurring_Bool_Exp = {
   duration?: InputMaybe<Smallint_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   meetings?: InputMaybe<Meeting_Bool_Exp>;
+  meetings_aggregate?: InputMaybe<Meeting_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
@@ -4372,6 +4620,22 @@ export enum Meeting_Select_Column {
   VideoConf = 'videoConf'
 }
 
+/** select "meeting_aggregate_bool_exp_bool_and_arguments_columns" columns of table "meeting" */
+export enum Meeting_Select_Column_Meeting_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived',
+  /** column name */
+  Ended = 'ended'
+}
+
+/** select "meeting_aggregate_bool_exp_bool_or_arguments_columns" columns of table "meeting" */
+export enum Meeting_Select_Column_Meeting_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived',
+  /** column name */
+  Ended = 'ended'
+}
+
 /** input type for updating data in table "meeting" */
 export type Meeting_Set_Input = {
   archived?: InputMaybe<Scalars['Boolean']>;
@@ -4418,6 +4682,17 @@ export type Meeting_Step_Aggregate = {
   __typename?: 'meeting_step_aggregate';
   aggregate?: Maybe<Meeting_Step_Aggregate_Fields>;
   nodes: Array<Meeting_Step>;
+};
+
+export type Meeting_Step_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Meeting_Step_Aggregate_Bool_Exp_Count>;
+};
+
+export type Meeting_Step_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Meeting_Step_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Meeting_Step_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "meeting_step" */
@@ -4933,6 +5208,33 @@ export type Member_Aggregate = {
   nodes: Array<Member>;
 };
 
+export type Member_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Member_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Member_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Member_Aggregate_Bool_Exp_Count>;
+};
+
+export type Member_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Member_Select_Column_Member_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Member_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Member_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Member_Select_Column_Member_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Member_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Member_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Member_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Member_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "member" */
 export type Member_Aggregate_Fields = {
   __typename?: 'member_aggregate_fields';
@@ -4996,6 +5298,7 @@ export type Member_Bool_Exp = {
   _or?: InputMaybe<Array<Member_Bool_Exp>>;
   archived?: InputMaybe<Boolean_Comparison_Exp>;
   circle_members?: InputMaybe<Circle_Member_Bool_Exp>;
+  circle_members_aggregate?: InputMaybe<Circle_Member_Aggregate_Bool_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   inviteDate?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -5195,6 +5498,18 @@ export enum Member_Select_Column {
   UserId = 'userId',
   /** column name */
   WorkedMinPerWeek = 'workedMinPerWeek'
+}
+
+/** select "member_aggregate_bool_exp_bool_and_arguments_columns" columns of table "member" */
+export enum Member_Select_Column_Member_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
+/** select "member_aggregate_bool_exp_bool_or_arguments_columns" columns of table "member" */
+export enum Member_Select_Column_Member_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
 }
 
 /** input type for updating data in table "member" */
@@ -7524,16 +7839,23 @@ export type Org_Bool_Exp = {
   _or?: InputMaybe<Array<Org_Bool_Exp>>;
   archived?: InputMaybe<Boolean_Comparison_Exp>;
   circles?: InputMaybe<Circle_Bool_Exp>;
+  circles_aggregate?: InputMaybe<Circle_Aggregate_Bool_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   decisions?: InputMaybe<Decision_Bool_Exp>;
+  decisions_aggregate?: InputMaybe<Decision_Aggregate_Bool_Exp>;
   defaultWorkedMinPerWeek?: InputMaybe<Int_Comparison_Exp>;
   files?: InputMaybe<Org_File_Bool_Exp>;
+  files_aggregate?: InputMaybe<Org_File_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   meetings?: InputMaybe<Meeting_Bool_Exp>;
+  meetings_aggregate?: InputMaybe<Meeting_Aggregate_Bool_Exp>;
   meetings_recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Bool_Exp>;
   members?: InputMaybe<Member_Bool_Exp>;
+  members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
+  roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -7562,6 +7884,17 @@ export type Org_File_Aggregate = {
   __typename?: 'org_file_aggregate';
   aggregate?: Maybe<Org_File_Aggregate_Fields>;
   nodes: Array<Org_File>;
+};
+
+export type Org_File_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Org_File_Aggregate_Bool_Exp_Count>;
+};
+
+export type Org_File_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Org_File_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Org_File_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "org_file" */
@@ -8824,6 +9157,33 @@ export type Role_Aggregate = {
   nodes: Array<Role>;
 };
 
+export type Role_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Role_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Role_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Role_Aggregate_Bool_Exp_Count>;
+};
+
+export type Role_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Role_Select_Column_Role_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Role_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Role_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Role_Select_Column_Role_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Role_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Role_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Role_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Role_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "role" */
 export type Role_Aggregate_Fields = {
   __typename?: 'role_aggregate_fields';
@@ -8893,6 +9253,7 @@ export type Role_Bool_Exp = {
   base?: InputMaybe<Boolean_Comparison_Exp>;
   checklist?: InputMaybe<String_Comparison_Exp>;
   circles?: InputMaybe<Circle_Bool_Exp>;
+  circles_aggregate?: InputMaybe<Circle_Aggregate_Bool_Exp>;
   colorHue?: InputMaybe<Smallint_Comparison_Exp>;
   defaultMinPerWeek?: InputMaybe<Int_Comparison_Exp>;
   domain?: InputMaybe<String_Comparison_Exp>;
@@ -9089,6 +9450,30 @@ export enum Role_Select_Column {
   OrgId = 'orgId',
   /** column name */
   Purpose = 'purpose',
+  /** column name */
+  SingleMember = 'singleMember'
+}
+
+/** select "role_aggregate_bool_exp_bool_and_arguments_columns" columns of table "role" */
+export enum Role_Select_Column_Role_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived',
+  /** column name */
+  AutoCreate = 'autoCreate',
+  /** column name */
+  Base = 'base',
+  /** column name */
+  SingleMember = 'singleMember'
+}
+
+/** select "role_aggregate_bool_exp_bool_or_arguments_columns" columns of table "role" */
+export enum Role_Select_Column_Role_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived',
+  /** column name */
+  AutoCreate = 'autoCreate',
+  /** column name */
+  Base = 'base',
   /** column name */
   SingleMember = 'singleMember'
 }
@@ -9299,13 +9684,13 @@ export type Subscription_Root = {
   authProviderRequests: Array<AuthProviderRequests>;
   /** fetch aggregated fields from the table: "auth.provider_requests" */
   authProviderRequestsAggregate: AuthProviderRequests_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.provider_requests" */
+  /** fetch data from the table in a streaming manner: "auth.provider_requests" */
   authProviderRequests_stream: Array<AuthProviderRequests>;
   /** fetch data from the table: "auth.providers" */
   authProviders: Array<AuthProviders>;
   /** fetch aggregated fields from the table: "auth.providers" */
   authProvidersAggregate: AuthProviders_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.providers" */
+  /** fetch data from the table in a streaming manner: "auth.providers" */
   authProviders_stream: Array<AuthProviders>;
   /** fetch data from the table: "auth.refresh_tokens" using primary key columns */
   authRefreshToken?: Maybe<AuthRefreshTokens>;
@@ -9313,7 +9698,7 @@ export type Subscription_Root = {
   authRefreshTokens: Array<AuthRefreshTokens>;
   /** fetch aggregated fields from the table: "auth.refresh_tokens" */
   authRefreshTokensAggregate: AuthRefreshTokens_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.refresh_tokens" */
+  /** fetch data from the table in a streaming manner: "auth.refresh_tokens" */
   authRefreshTokens_stream: Array<AuthRefreshTokens>;
   /** fetch data from the table: "auth.roles" using primary key columns */
   authRole?: Maybe<AuthRoles>;
@@ -9321,7 +9706,7 @@ export type Subscription_Root = {
   authRoles: Array<AuthRoles>;
   /** fetch aggregated fields from the table: "auth.roles" */
   authRolesAggregate: AuthRoles_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.roles" */
+  /** fetch data from the table in a streaming manner: "auth.roles" */
   authRoles_stream: Array<AuthRoles>;
   /** fetch data from the table: "auth.user_providers" using primary key columns */
   authUserProvider?: Maybe<AuthUserProviders>;
@@ -9329,7 +9714,7 @@ export type Subscription_Root = {
   authUserProviders: Array<AuthUserProviders>;
   /** fetch aggregated fields from the table: "auth.user_providers" */
   authUserProvidersAggregate: AuthUserProviders_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.user_providers" */
+  /** fetch data from the table in a streaming manner: "auth.user_providers" */
   authUserProviders_stream: Array<AuthUserProviders>;
   /** fetch data from the table: "auth.user_roles" using primary key columns */
   authUserRole?: Maybe<AuthUserRoles>;
@@ -9337,7 +9722,7 @@ export type Subscription_Root = {
   authUserRoles: Array<AuthUserRoles>;
   /** fetch aggregated fields from the table: "auth.user_roles" */
   authUserRolesAggregate: AuthUserRoles_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.user_roles" */
+  /** fetch data from the table in a streaming manner: "auth.user_roles" */
   authUserRoles_stream: Array<AuthUserRoles>;
   /** fetch data from the table: "auth.user_security_keys" using primary key columns */
   authUserSecurityKey?: Maybe<AuthUserSecurityKeys>;
@@ -9345,7 +9730,7 @@ export type Subscription_Root = {
   authUserSecurityKeys: Array<AuthUserSecurityKeys>;
   /** fetch aggregated fields from the table: "auth.user_security_keys" */
   authUserSecurityKeysAggregate: AuthUserSecurityKeys_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.user_security_keys" */
+  /** fetch data from the table in a streaming manner: "auth.user_security_keys" */
   authUserSecurityKeys_stream: Array<AuthUserSecurityKeys>;
   /** fetch data from the table: "storage.buckets" using primary key columns */
   bucket?: Maybe<Buckets>;
@@ -9353,7 +9738,7 @@ export type Subscription_Root = {
   buckets: Array<Buckets>;
   /** fetch aggregated fields from the table: "storage.buckets" */
   bucketsAggregate: Buckets_Aggregate;
-  /** fetch data from the table in a streaming manner : "storage.buckets" */
+  /** fetch data from the table in a streaming manner: "storage.buckets" */
   buckets_stream: Array<Buckets>;
   /** fetch data from the table: "circle" */
   circle: Array<Circle>;
@@ -9367,9 +9752,9 @@ export type Subscription_Root = {
   circle_member_aggregate: Circle_Member_Aggregate;
   /** fetch data from the table: "circle_member" using primary key columns */
   circle_member_by_pk?: Maybe<Circle_Member>;
-  /** fetch data from the table in a streaming manner : "circle_member" */
+  /** fetch data from the table in a streaming manner: "circle_member" */
   circle_member_stream: Array<Circle_Member>;
-  /** fetch data from the table in a streaming manner : "circle" */
+  /** fetch data from the table in a streaming manner: "circle" */
   circle_stream: Array<Circle>;
   /** fetch data from the table: "decision" */
   decision: Array<Decision>;
@@ -9377,7 +9762,7 @@ export type Subscription_Root = {
   decision_aggregate: Decision_Aggregate;
   /** fetch data from the table: "decision" using primary key columns */
   decision_by_pk?: Maybe<Decision>;
-  /** fetch data from the table in a streaming manner : "decision" */
+  /** fetch data from the table in a streaming manner: "decision" */
   decision_stream: Array<Decision>;
   /** fetch data from the table: "storage.files" using primary key columns */
   file?: Maybe<Files>;
@@ -9385,7 +9770,7 @@ export type Subscription_Root = {
   files: Array<Files>;
   /** fetch aggregated fields from the table: "storage.files" */
   filesAggregate: Files_Aggregate;
-  /** fetch data from the table in a streaming manner : "storage.files" */
+  /** fetch data from the table in a streaming manner: "storage.files" */
   files_stream: Array<Files>;
   /** fetch data from the table: "log" */
   log: Array<Log>;
@@ -9393,7 +9778,7 @@ export type Subscription_Root = {
   log_aggregate: Log_Aggregate;
   /** fetch data from the table: "log" using primary key columns */
   log_by_pk?: Maybe<Log>;
-  /** fetch data from the table in a streaming manner : "log" */
+  /** fetch data from the table in a streaming manner: "log" */
   log_stream: Array<Log>;
   /** fetch data from the table: "meeting" */
   meeting: Array<Meeting>;
@@ -9407,7 +9792,7 @@ export type Subscription_Root = {
   meeting_recurring_aggregate: Meeting_Recurring_Aggregate;
   /** fetch data from the table: "meeting_recurring" using primary key columns */
   meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
-  /** fetch data from the table in a streaming manner : "meeting_recurring" */
+  /** fetch data from the table in a streaming manner: "meeting_recurring" */
   meeting_recurring_stream: Array<Meeting_Recurring>;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
@@ -9415,9 +9800,9 @@ export type Subscription_Root = {
   meeting_step_aggregate: Meeting_Step_Aggregate;
   /** fetch data from the table: "meeting_step" using primary key columns */
   meeting_step_by_pk?: Maybe<Meeting_Step>;
-  /** fetch data from the table in a streaming manner : "meeting_step" */
+  /** fetch data from the table in a streaming manner: "meeting_step" */
   meeting_step_stream: Array<Meeting_Step>;
-  /** fetch data from the table in a streaming manner : "meeting" */
+  /** fetch data from the table in a streaming manner: "meeting" */
   meeting_stream: Array<Meeting>;
   /** fetch data from the table: "meeting_template" */
   meeting_template: Array<Meeting_Template>;
@@ -9425,7 +9810,7 @@ export type Subscription_Root = {
   meeting_template_aggregate: Meeting_Template_Aggregate;
   /** fetch data from the table: "meeting_template" using primary key columns */
   meeting_template_by_pk?: Maybe<Meeting_Template>;
-  /** fetch data from the table in a streaming manner : "meeting_template" */
+  /** fetch data from the table in a streaming manner: "meeting_template" */
   meeting_template_stream: Array<Meeting_Template>;
   /** fetch data from the table: "member" */
   member: Array<Member>;
@@ -9433,7 +9818,7 @@ export type Subscription_Root = {
   member_aggregate: Member_Aggregate;
   /** fetch data from the table: "member" using primary key columns */
   member_by_pk?: Maybe<Member>;
-  /** fetch data from the table in a streaming manner : "member" */
+  /** fetch data from the table in a streaming manner: "member" */
   member_stream: Array<Member>;
   /** fetch data from the table: "old_id" */
   old_id: Array<Old_Id>;
@@ -9441,7 +9826,7 @@ export type Subscription_Root = {
   old_id_aggregate: Old_Id_Aggregate;
   /** fetch data from the table: "old_id" using primary key columns */
   old_id_by_pk?: Maybe<Old_Id>;
-  /** fetch data from the table in a streaming manner : "old_id" */
+  /** fetch data from the table in a streaming manner: "old_id" */
   old_id_stream: Array<Old_Id>;
   /** fetch data from the table: "org" */
   org: Array<Org>;
@@ -9455,9 +9840,9 @@ export type Subscription_Root = {
   org_file_aggregate: Org_File_Aggregate;
   /** fetch data from the table: "org_file" using primary key columns */
   org_file_by_pk?: Maybe<Org_File>;
-  /** fetch data from the table in a streaming manner : "org_file" */
+  /** fetch data from the table in a streaming manner: "org_file" */
   org_file_stream: Array<Org_File>;
-  /** fetch data from the table in a streaming manner : "org" */
+  /** fetch data from the table in a streaming manner: "org" */
   org_stream: Array<Org>;
   /** fetch data from the table: "role" */
   role: Array<Role>;
@@ -9465,7 +9850,7 @@ export type Subscription_Root = {
   role_aggregate: Role_Aggregate;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
-  /** fetch data from the table in a streaming manner : "role" */
+  /** fetch data from the table in a streaming manner: "role" */
   role_stream: Array<Role>;
   /** fetch data from the table: "task" */
   task: Array<Task>;
@@ -9473,7 +9858,7 @@ export type Subscription_Root = {
   task_aggregate: Task_Aggregate;
   /** fetch data from the table: "task" using primary key columns */
   task_by_pk?: Maybe<Task>;
-  /** fetch data from the table in a streaming manner : "task" */
+  /** fetch data from the table in a streaming manner: "task" */
   task_stream: Array<Task>;
   /** fetch data from the table: "task_view" */
   task_view: Array<Task_View>;
@@ -9481,7 +9866,7 @@ export type Subscription_Root = {
   task_view_aggregate: Task_View_Aggregate;
   /** fetch data from the table: "task_view" using primary key columns */
   task_view_by_pk?: Maybe<Task_View>;
-  /** fetch data from the table in a streaming manner : "task_view" */
+  /** fetch data from the table in a streaming manner: "task_view" */
   task_view_stream: Array<Task_View>;
   /** fetch data from the table: "thread" */
   thread: Array<Thread>;
@@ -9491,7 +9876,7 @@ export type Subscription_Root = {
   thread_activity_aggregate: Thread_Activity_Aggregate;
   /** fetch data from the table: "thread_activity" using primary key columns */
   thread_activity_by_pk?: Maybe<Thread_Activity>;
-  /** fetch data from the table in a streaming manner : "thread_activity" */
+  /** fetch data from the table in a streaming manner: "thread_activity" */
   thread_activity_stream: Array<Thread_Activity>;
   /** fetch aggregated fields from the table: "thread" */
   thread_aggregate: Thread_Aggregate;
@@ -9503,7 +9888,7 @@ export type Subscription_Root = {
   thread_member_status_aggregate: Thread_Member_Status_Aggregate;
   /** fetch data from the table: "thread_member_status" using primary key columns */
   thread_member_status_by_pk?: Maybe<Thread_Member_Status>;
-  /** fetch data from the table in a streaming manner : "thread_member_status" */
+  /** fetch data from the table in a streaming manner: "thread_member_status" */
   thread_member_status_stream: Array<Thread_Member_Status>;
   /** fetch data from the table: "thread_poll_answer" */
   thread_poll_answer: Array<Thread_Poll_Answer>;
@@ -9511,9 +9896,9 @@ export type Subscription_Root = {
   thread_poll_answer_aggregate: Thread_Poll_Answer_Aggregate;
   /** fetch data from the table: "thread_poll_answer" using primary key columns */
   thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
-  /** fetch data from the table in a streaming manner : "thread_poll_answer" */
+  /** fetch data from the table in a streaming manner: "thread_poll_answer" */
   thread_poll_answer_stream: Array<Thread_Poll_Answer>;
-  /** fetch data from the table in a streaming manner : "thread" */
+  /** fetch data from the table in a streaming manner: "thread" */
   thread_stream: Array<Thread>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
@@ -9521,7 +9906,7 @@ export type Subscription_Root = {
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   usersAggregate: Users_Aggregate;
-  /** fetch data from the table in a streaming manner : "auth.users" */
+  /** fetch data from the table in a streaming manner: "auth.users" */
   users_stream: Array<Users>;
 };
 
@@ -11096,6 +11481,7 @@ export type Thread_Bool_Exp = {
   lastActivityDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   lastActivityId?: InputMaybe<Uuid_Comparison_Exp>;
   member_status?: InputMaybe<Thread_Member_Status_Bool_Exp>;
+  member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
@@ -11161,6 +11547,17 @@ export type Thread_Member_Status_Aggregate = {
   __typename?: 'thread_member_status_aggregate';
   aggregate?: Maybe<Thread_Member_Status_Aggregate_Fields>;
   nodes: Array<Thread_Member_Status>;
+};
+
+export type Thread_Member_Status_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Thread_Member_Status_Aggregate_Bool_Exp_Count>;
+};
+
+export type Thread_Member_Status_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Thread_Member_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Thread_Member_Status_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "thread_member_status" */
@@ -11846,6 +12243,33 @@ export type Users_Aggregate = {
   nodes: Array<Users>;
 };
 
+export type Users_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Users_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Users_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Users_Aggregate_Bool_Exp_Count>;
+};
+
+export type Users_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Users_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Users_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Users_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Users_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Users_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "auth.users" */
 export type Users_Aggregate_Fields = {
   __typename?: 'users_aggregate_fields';
@@ -11908,13 +12332,17 @@ export type Users_Bool_Exp = {
   phoneNumber?: InputMaybe<String_Comparison_Exp>;
   phoneNumberVerified?: InputMaybe<Boolean_Comparison_Exp>;
   refreshTokens?: InputMaybe<AuthRefreshTokens_Bool_Exp>;
+  refreshTokens_aggregate?: InputMaybe<AuthRefreshTokens_Aggregate_Bool_Exp>;
   roles?: InputMaybe<AuthUserRoles_Bool_Exp>;
+  roles_aggregate?: InputMaybe<AuthUserRoles_Aggregate_Bool_Exp>;
   securityKeys?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
+  securityKeys_aggregate?: InputMaybe<AuthUserSecurityKeys_Aggregate_Bool_Exp>;
   ticket?: InputMaybe<String_Comparison_Exp>;
   ticketExpiresAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   totpSecret?: InputMaybe<String_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   userProviders?: InputMaybe<AuthUserProviders_Bool_Exp>;
+  userProviders_aggregate?: InputMaybe<AuthUserProviders_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "auth.users" */
@@ -12193,6 +12621,30 @@ export enum Users_Select_Column {
   TotpSecret = 'totpSecret',
   /** column name */
   UpdatedAt = 'updatedAt'
+}
+
+/** select "users_aggregate_bool_exp_bool_and_arguments_columns" columns of table "auth.users" */
+export enum Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Disabled = 'disabled',
+  /** column name */
+  EmailVerified = 'emailVerified',
+  /** column name */
+  IsAnonymous = 'isAnonymous',
+  /** column name */
+  PhoneNumberVerified = 'phoneNumberVerified'
+}
+
+/** select "users_aggregate_bool_exp_bool_or_arguments_columns" columns of table "auth.users" */
+export enum Users_Select_Column_Users_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Disabled = 'disabled',
+  /** column name */
+  EmailVerified = 'emailVerified',
+  /** column name */
+  IsAnonymous = 'isAnonymous',
+  /** column name */
+  PhoneNumberVerified = 'phoneNumberVerified'
 }
 
 /** input type for updating data in table "auth.users" */

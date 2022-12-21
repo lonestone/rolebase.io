@@ -43,6 +43,9 @@ export type UploadImagePayload = Readonly<
   Omit<ImagePayload, 'src'> & { file: File }
 >
 
+const getDOMSelection = (targetWindow: Window | null): Selection | null =>
+  (targetWindow || window).getSelection()
+
 export const UPLOAD_IMAGE_COMMAND: LexicalCommand<UploadImagePayload> =
   createCommand('UPLOAD_IMAGE_COMMAND')
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
@@ -88,15 +91,13 @@ export default function ImagesPlugin({
 
   const uploadImageFile = useCallback(
     async ({ file, ...payload }: UploadImagePayload) => {
-      editor.setEditable(false)
       try {
         const src = await onUpload(file)
-        editor.setEditable(true)
         if (src) {
           editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, ...payload })
         }
       } catch (e) {
-        editor.setEditable(true)
+        console.error(e)
       }
     },
     [onUpload, editor]
@@ -286,7 +287,14 @@ function canDropImage(event: DragEvent): boolean {
 
 function getDragSelection(event: DragEvent): Range | null | undefined {
   let range
-  const domSelection = getSelection()
+  const target = event.target as null | Element | Document
+  const targetWindow =
+    target == null
+      ? null
+      : target.nodeType === 9
+      ? (target as Document).defaultView
+      : (target as Element).ownerDocument.defaultView
+  const domSelection = getDOMSelection(targetWindow)
   if (document.caretRangeFromPoint) {
     range = document.caretRangeFromPoint(event.clientX, event.clientY)
   } else if (event.rangeParent && domSelection !== null) {

@@ -8,10 +8,14 @@
  */
 
 .Collapsible__container {
-  background: #fcfcfc;
-  border: 1px solid #eee;
+  background: #f8f8fa;
+  border: 1px solid #ddd;
   border-radius: 10px;
   margin-bottom: 8px;
+}
+.chakra-ui-dark .Collapsible__container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #444;
 }
 
 .Collapsible__title {
@@ -40,11 +44,17 @@
   top: 50%;
   transform: translateY(-50%);
 }
+.chakra-ui-dark .Collapsible__title:before {
+  border-left-color: var(--chakra-colors-whiteAlpha-900);
+}
 
 .Collapsible__container[open] .Collapsible__title:before {
   border-color: transparent;
   border-width: 6px 4px 0 4px;
   border-top-color: #000;
+}
+.chakra-ui-dark .Collapsible__container[open] .Collapsible__title:before {
+  border-top-color: var(--chakra-colors-whiteAlpha-900);
 }
 
 .Collapsible__content {

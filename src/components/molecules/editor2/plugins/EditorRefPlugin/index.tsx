@@ -10,8 +10,7 @@ import { insertList } from '@lexical/list'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $rootTextContent } from '@lexical/text'
 import {
-  $createParagraphNode,
-  $getRoot,
+  CLEAR_EDITOR_COMMAND,
   LexicalEditor,
   SerializedEditorState,
 } from 'lexical'
@@ -46,13 +45,7 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
   }
 
   // Clear root
-  const clear = () => {
-    editor.update(() => {
-      const root = $getRoot()
-      root.clear()
-      root.append($createParagraphNode())
-    })
-  }
+  const clear = () => editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
 
   // Add bullet list at the end
   const addBulletList = () => insertList(editor, 'bullet')
