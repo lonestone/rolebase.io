@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Input } from '@chakra-ui/react'
 import { TOGGLE_LINK_COMMAND } from '@lexical/link'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $wrapNodeInElement, mergeRegister } from '@lexical/utils'
@@ -57,6 +56,7 @@ export function useImagePicker(editor: LexicalEditor) {
       if (files !== null) {
         editor.dispatchCommand(UPLOAD_IMAGE_COMMAND, {
           file: files[0],
+          alt: '',
         })
       }
     },
@@ -66,11 +66,12 @@ export function useImagePicker(editor: LexicalEditor) {
   const inputRef = useRef<HTMLInputElement>(null)
   const input = useMemo(() => {
     return (
-      <Input
+      <input
         type="file"
         ref={inputRef}
-        display="none"
+        style={{ display: 'none' }}
         accept="image/*"
+        tabIndex={-1}
         onChange={(e) => loadImage(e.target.files)}
       />
     )
@@ -164,7 +165,7 @@ export default function ImagesPlugin({
             return editor.dispatchCommand(TOGGLE_LINK_COMMAND, src)
           }
 
-          return editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src })
+          return editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src, alt: '' })
         },
         COMMAND_PRIORITY_HIGH
       )
@@ -195,11 +196,9 @@ function onDragStart(event: DragEvent): boolean {
     JSON.stringify({
       data: {
         altText: node.__altText,
-        caption: node.__caption,
         height: node.__height,
         key: node.getKey(),
         maxWidth: node.__maxWidth,
-        showCaption: node.__showCaption,
         src: node.__src,
         width: node.__width,
       },

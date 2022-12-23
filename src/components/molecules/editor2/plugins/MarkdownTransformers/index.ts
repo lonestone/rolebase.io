@@ -11,7 +11,14 @@ import type {
   TextMatchTransformer,
   Transformer,
 } from '@lexical/markdown'
-import type { ElementNode, LexicalNode } from 'lexical'
+import { createMarkdownImport } from '@lexical/markdown'
+import {
+  $isTableCellNode,
+  $isTableRowNode,
+  TableCellHeaderStates,
+  TableCellNode,
+} from '@lexical/table'
+import { $createTextNode, ElementNode, LexicalNode } from 'lexical'
 
 import {
   CHECK_LIST,
@@ -29,15 +36,11 @@ import {
   $createTableNode,
   $createTableRowNode,
   $isTableNode,
-  $isTableRowNode,
-  TableCellHeaderStates,
-  TableCellNode,
   TableNode,
   TableRowNode,
 } from '@lexical/table'
 import {
   $createParagraphNode,
-  $createTextNode,
   $isElementNode,
   $isParagraphNode,
   $isTextNode,
@@ -58,6 +61,39 @@ import {
   $isTweetNode,
   TweetNode,
 } from '../../nodes/TweetNode'
+import emojiList from '../EmojiPickerPlugin/emoji-list'
+
+// Remove backslashes that can appear in old values of the editor
+// using outline/rich-markdown-editor
+export const EOL_SLASH: TextMatchTransformer = {
+  dependencies: [],
+  regExp: /^\\$/,
+  importRegExp: /^\\$/,
+  export: () => null,
+  replace: (textNode) => {
+    textNode.replace($createParagraphNode())
+  },
+  trigger: '\\',
+  type: 'text-match',
+}
+
+// Emojis
+export const EMOJI: TextMatchTransformer = {
+  dependencies: [],
+  regExp: /:([a-z0-9_]+):/,
+  importRegExp: /:([a-z0-9_]+):/,
+  export: () => null,
+  replace: (textNode, match) => {
+    const emoji = emojiList.find((emoji) =>
+      emoji.aliases.includes(match[1])
+    )?.emoji
+    if (emoji) {
+      textNode.replace($createTextNode(emoji))
+    }
+  },
+  trigger: ':',
+  type: 'text-match',
+}
 
 export const HR: ElementTransformer = {
   dependencies: [HorizontalRuleNode],
@@ -82,7 +118,7 @@ export const HR: ElementTransformer = {
 
 export const IMAGE: TextMatchTransformer = {
   dependencies: [ImageNode],
-  export: (node, exportChildren, exportFormat) => {
+  export: (node) => {
     if (!$isImageNode(node)) {
       return null
     }
@@ -92,11 +128,11 @@ export const IMAGE: TextMatchTransformer = {
   importRegExp: /!(?:\[([^[]*)\])(?:\(([^(]+)\))/,
   regExp: /!(?:\[([^[]*)\])(?:\(([^(]+)\))$/,
   replace: (textNode, match) => {
-    const [, altText, src] = match
+    const [, alt, src] = match
     const imageNode = $createImageNode({
-      altText,
-      maxWidth: 800,
       src,
+      alt,
+      maxWidth: 800,
     })
     textNode.replace(imageNode)
   },
@@ -106,7 +142,7 @@ export const IMAGE: TextMatchTransformer = {
 
 export const EQUATION: TextMatchTransformer = {
   dependencies: [EquationNode],
-  export: (node, exportChildren, exportFormat) => {
+  export: (node) => {
     if (!$isEquationNode(node)) {
       return null
     }
@@ -144,6 +180,7 @@ export const TWEET: ElementTransformer = {
 
 // Very primitive table setup
 const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/
+const TABLE_ROW_DIVIDER_REG_EXP = /^(?:\|)[-|]+(?:\|)\s?$/
 
 export const TABLE: ElementTransformer = {
   // TODO: refactor transformer for new TableNode
@@ -176,7 +213,27 @@ export const TABLE: ElementTransformer = {
     return output.join('\n')
   },
   regExp: TABLE_ROW_REG_EXP,
-  replace: (parentNode, _1, match) => {
+  replace: (parentNode, _, match) => {
+    // Header row
+    if (match[0].match(TABLE_ROW_DIVIDER_REG_EXP)) {
+      const table = parentNode.getPreviousSibling()
+      if (!table || !$isTableNode(table)) return
+
+      const rows = table.getChildren()
+      const lastRow = rows[rows.length - 1]
+      if (!lastRow || !$isTableRowNode(lastRow)) return
+
+      // Add header state to row cells
+      lastRow.getChildren().forEach((cell) => {
+        if (!$isTableCellNode(cell)) return
+        cell.toggleHeaderStyle(TableCellHeaderStates.ROW)
+      })
+
+      // Remove line
+      parentNode.remove()
+      return
+    }
+
     const matchCells = mapToTableCells(match[0])
 
     if (matchCells == null) {
@@ -222,7 +279,7 @@ export const TABLE: ElementTransformer = {
       table.append(tableRow)
 
       for (let i = 0; i < maxCells; i++) {
-        tableRow.append(i < cells.length ? cells[i] : createTableCell(null))
+        tableRow.append(i < cells.length ? cells[i] : createTableCell(''))
       }
     }
 
@@ -247,35 +304,23 @@ function getTableColumnsSize(table: TableNode) {
   return $isTableRowNode(row) ? row.getChildrenSize() : 0
 }
 
-const createTableCell = (
-  textContent: string | null | undefined
-): TableCellNode => {
+const createTableCell = (textContent: string): TableCellNode => {
+  textContent = textContent.replace(/\\n/g, '\n')
   const cell = $createTableCellNode(TableCellHeaderStates.NO_STATUS)
-  const paragraph = $createParagraphNode()
-
-  if (textContent != null) {
-    paragraph.append($createTextNode(textContent.trim()))
-  }
-
-  cell.append(paragraph)
+  createMarkdownImport(markdownTransformers)(textContent, cell)
   return cell
 }
 
 const mapToTableCells = (textContent: string): Array<TableCellNode> | null => {
-  // TODO:
-  // For now plain text, single node. Can be expanded to more complex content
-  // including formatted text
   const match = textContent.match(TABLE_ROW_REG_EXP)
-
-  if (!match || !match[1]) {
-    return null
-  }
-
+  if (!match || !match[1]) return null
   return match[1].split('|').map((text) => createTableCell(text))
 }
 
-export const PLAYGROUND_TRANSFORMERS: Array<Transformer> = [
+export const markdownTransformers: Array<Transformer> = [
   TABLE,
+  EOL_SLASH,
+  EMOJI,
   HR,
   IMAGE,
   EQUATION,

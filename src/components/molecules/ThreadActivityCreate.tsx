@@ -64,9 +64,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
   useEffect(() => {
     const draft = localStorage.getItem(draftKey)
     if (!draft) return
-    const state = JSON.parse(draft)
-    if (!state) return
-    editorRef.current?.setValue(state)
+    editorRef.current?.setValue(draft)
     editorRef.current?.editor.focus()
   }, [draftKey])
 
@@ -108,7 +106,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
     if (!length) return
 
     // Get value
-    const value = JSON.stringify(editorRef.current?.getValue())
+    const value = editorRef.current?.getValue()
 
     // Clear editor
     editorRef.current?.clear()
@@ -124,7 +122,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
       })
     } catch (error) {
       console.error(error)
-      editorRef.current?.setValue(JSON.parse(value))
+      editorRef.current?.setValue(value)
       localStorage.setItem(draftKey, value)
     }
   }, [handleCreateActivity])

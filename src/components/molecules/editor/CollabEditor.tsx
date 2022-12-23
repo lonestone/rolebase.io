@@ -69,8 +69,8 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     // Handle every little change in the doc
     // to save it with throttling
     const handleChange = useCallback(() => {
-      const newValue = JSON.stringify(localRef.current?.getValue())
-      if (newValue === value) return
+      const newValue = localRef.current?.getValue()
+      if (!newValue || newValue === value) return
       setIsDirty(true)
       preventClose()
       handleSaveThrottle(newValue)

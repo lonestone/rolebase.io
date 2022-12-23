@@ -3,7 +3,6 @@ import { getFileSHA1 } from '../utils/getFileSHA1'
 
 // Upload file and return URL
 export async function uploadFile(orgId: string, file: File): Promise<string> {
-  console.log('uploadFile')
   const hash = await getFileSHA1(file)
   const name = `orgs/${orgId}/uploads/${hash}`
 

@@ -56,13 +56,13 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
     // Save on blur
     const handleBlur = useCallback(() => {
       if (!localRef.current) return
-      onChange?.(JSON.stringify(localRef.current.getValue()))
+      onChange?.(localRef.current.getValue(true))
     }, [onChange])
 
     // Save on Ctrl+S or Cmd+Enter
     const handleSubmit = useCallback(() => {
       if (!localRef.current) return
-      onSubmit?.(JSON.stringify(localRef.current.getValue()))
+      onSubmit?.(localRef.current.getValue(true))
     }, [onSubmit])
 
     return (

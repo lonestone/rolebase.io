@@ -22,10 +22,19 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
-import React, { forwardRef, useCallback, useMemo, useState } from 'react'
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
-import { Box, BoxProps, Center, Icon, Text } from '@chakra-ui/react'
+import { Box, BoxProps, Center, Icon, keyframes, Text } from '@chakra-ui/react'
 import { randomColor } from '@chakra-ui/theme-tools'
+import { nanoid } from 'nanoid'
+import { FiAlertTriangle } from 'react-icons/fi'
 import { createWebsocketProvider } from './collaboration'
 import {
   SharedHistoryContext,
@@ -33,24 +42,29 @@ import {
 } from './context/SharedHistoryContext'
 import nodes from './nodes'
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin'
+import { AutoFocusPlugin } from './plugins/AutoFocusPlugin'
 import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 import ClickableLinkPlugin from './plugins/ClickableLinkPlugin'
 import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin'
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
 import CollapsiblePlugin from './plugins/CollapsiblePlugin'
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin'
+import ControlledValuePlugin from './plugins/ControlledValuePlugin'
 import DragDropPaste from './plugins/DragDropPastePlugin'
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin'
+import EditablePlugin from './plugins/EditablePlugin'
 import EditorRefPlugin, { EditorHandle } from './plugins/EditorRefPlugin'
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin'
 import EquationsPlugin from './plugins/EquationsPlugin'
 import FigmaPlugin from './plugins/FigmaPlugin'
+import FilePlugin from './plugins/FilePlugin'
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin'
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin'
 import HorizontalRulePlugin from './plugins/HorizontalRulePlugin'
 import ImagesPlugin from './plugins/ImagesPlugin'
 import LinkPlugin from './plugins/LinkPlugin'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
+import MainEventsPlugin from './plugins/MainEventsPlugin'
 import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin'
 import MentionsPlugin from './plugins/MentionsPlugin'
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin'
@@ -62,14 +76,9 @@ import YouTubePlugin from './plugins/YouTubePlugin'
 import RichEditorTheme from './themes/RichEditorTheme'
 import Placeholder from './ui/Placeholder'
 
-import { nanoid } from 'nanoid'
-import { FiAlertTriangle } from 'react-icons/fi'
-import './index.css'
-import { AutoFocusPlugin } from './plugins/AutoFocusPlugin'
-import ControlledValuePlugin from './plugins/ControlledValuePlugin'
-import EditablePlugin from './plugins/EditablePlugin'
-import FilePlugin from './plugins/FilePlugin'
-import MainEventsPlugin from './plugins/MainEventsPlugin'
+import { useElementSize } from '@hooks/useElementSize'
+import { markdownTransformers } from './plugins/MarkdownTransformers'
+import './RichEditor.css'
 
 export interface RichEditorProps extends BoxProps {
   id?: string
@@ -94,7 +103,7 @@ function fixInitialState(
   if (!value) return undefined
   // Markdown
   if (typeof value === 'string' && value[0] !== '{') {
-    return () => $convertFromMarkdownString(value)
+    return () => $convertFromMarkdownString(value, markdownTransformers)
   }
   // Other types: EditorState, string, function
   return value
@@ -140,11 +149,15 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
     []
   )
 
-  const contentRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const contentSize = useElementSize(contentRef)
+
+  useEffect(() => {
+    if (!contentRef.current) {
+      throw new Error('RichEditor: Content ref not found at mount')
     }
-  }
+    setFloatingAnchorElem(contentRef.current)
+  }, [])
 
   const cursorColor = useMemo(
     () => randomColor({ string: username || '' }),
@@ -213,7 +226,9 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
                     : undefined
                 }
                 outline={0}
-                overflowY={maxH ? 'auto' : 'visible'}
+                overflowY={
+                  maxH && (contentSize?.height || 0) > 100 ? 'auto' : 'visible'
+                }
                 maxH={maxH}
                 _invalid={{
                   borderColor: 'red.500',
@@ -275,7 +290,16 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           )}
 
           {!collaborationStatus && (
-            <Box position="absolute" top={0} left={0} right={0} bottom={0}>
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
+              background="linear-gradient(110deg, rgba(128, 128, 128, 0.05) 8%, rgba(128, 128, 128, 0.15) 28%, rgba(128, 128, 128, 0.05) 33%)"
+              backgroundSize="200% 100%"
+              animation={`1.5s ${shine} linear infinite`}
+            >
               <Center h="100%">
                 <Text fontSize="sm" color="gray.500">
                   <Icon as={FiAlertTriangle} mr={2} />
@@ -289,3 +313,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
     </LexicalComposer>
   )
 })
+
+const shine = keyframes`
+  to { background-position-x: -200%; }
+`

@@ -4666,7 +4666,6 @@ export type Meeting_Step = {
   meeting: Meeting;
   meetingId: Scalars['uuid'];
   notes: Scalars['String'];
-  notesUpdates?: Maybe<Scalars['bytea']>;
   stepConfigId: Scalars['String'];
   type: Scalars['String'];
 };
@@ -4734,7 +4733,6 @@ export type Meeting_Step_Bool_Exp = {
   meeting?: InputMaybe<Meeting_Bool_Exp>;
   meetingId?: InputMaybe<Uuid_Comparison_Exp>;
   notes?: InputMaybe<String_Comparison_Exp>;
-  notesUpdates?: InputMaybe<Bytea_Comparison_Exp>;
   stepConfigId?: InputMaybe<String_Comparison_Exp>;
   type?: InputMaybe<String_Comparison_Exp>;
 };
@@ -4752,7 +4750,6 @@ export type Meeting_Step_Insert_Input = {
   meeting?: InputMaybe<Meeting_Obj_Rel_Insert_Input>;
   meetingId?: InputMaybe<Scalars['uuid']>;
   notes?: InputMaybe<Scalars['String']>;
-  notesUpdates?: InputMaybe<Scalars['bytea']>;
   stepConfigId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
@@ -4818,7 +4815,6 @@ export type Meeting_Step_Order_By = {
   meeting?: InputMaybe<Meeting_Order_By>;
   meetingId?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
-  notesUpdates?: InputMaybe<Order_By>;
   stepConfigId?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
 };
@@ -4839,8 +4835,6 @@ export enum Meeting_Step_Select_Column {
   /** column name */
   Notes = 'notes',
   /** column name */
-  NotesUpdates = 'notesUpdates',
-  /** column name */
   StepConfigId = 'stepConfigId',
   /** column name */
   Type = 'type'
@@ -4852,7 +4846,6 @@ export type Meeting_Step_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['uuid']>;
   notes?: InputMaybe<Scalars['String']>;
-  notesUpdates?: InputMaybe<Scalars['bytea']>;
   stepConfigId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
@@ -4871,7 +4864,6 @@ export type Meeting_Step_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['uuid']>;
   notes?: InputMaybe<Scalars['String']>;
-  notesUpdates?: InputMaybe<Scalars['bytea']>;
   stepConfigId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
@@ -4886,8 +4878,6 @@ export enum Meeting_Step_Update_Column {
   MeetingId = 'meetingId',
   /** column name */
   Notes = 'notes',
-  /** column name */
-  NotesUpdates = 'notesUpdates',
   /** column name */
   StepConfigId = 'stepConfigId',
   /** column name */

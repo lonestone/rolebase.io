@@ -4667,7 +4667,6 @@ export type Meeting_Step = {
   meeting: Meeting;
   meetingId: Scalars['uuid'];
   notes: Scalars['String'];
-  notesUpdates?: Maybe<Scalars['bytea']>;
   stepConfigId: Scalars['String'];
   type: Scalars['String'];
 };
@@ -4735,7 +4734,6 @@ export type Meeting_Step_Bool_Exp = {
   meeting?: InputMaybe<Meeting_Bool_Exp>;
   meetingId?: InputMaybe<Uuid_Comparison_Exp>;
   notes?: InputMaybe<String_Comparison_Exp>;
-  notesUpdates?: InputMaybe<Bytea_Comparison_Exp>;
   stepConfigId?: InputMaybe<String_Comparison_Exp>;
   type?: InputMaybe<String_Comparison_Exp>;
 };
@@ -4753,7 +4751,6 @@ export type Meeting_Step_Insert_Input = {
   meeting?: InputMaybe<Meeting_Obj_Rel_Insert_Input>;
   meetingId?: InputMaybe<Scalars['uuid']>;
   notes?: InputMaybe<Scalars['String']>;
-  notesUpdates?: InputMaybe<Scalars['bytea']>;
   stepConfigId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
@@ -4819,7 +4816,6 @@ export type Meeting_Step_Order_By = {
   meeting?: InputMaybe<Meeting_Order_By>;
   meetingId?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
-  notesUpdates?: InputMaybe<Order_By>;
   stepConfigId?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
 };
@@ -4840,8 +4836,6 @@ export enum Meeting_Step_Select_Column {
   /** column name */
   Notes = 'notes',
   /** column name */
-  NotesUpdates = 'notesUpdates',
-  /** column name */
   StepConfigId = 'stepConfigId',
   /** column name */
   Type = 'type'
@@ -4853,7 +4847,6 @@ export type Meeting_Step_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['uuid']>;
   notes?: InputMaybe<Scalars['String']>;
-  notesUpdates?: InputMaybe<Scalars['bytea']>;
   stepConfigId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
@@ -4872,7 +4865,6 @@ export type Meeting_Step_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['uuid']>;
   notes?: InputMaybe<Scalars['String']>;
-  notesUpdates?: InputMaybe<Scalars['bytea']>;
   stepConfigId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
@@ -4887,8 +4879,6 @@ export enum Meeting_Step_Update_Column {
   MeetingId = 'meetingId',
   /** column name */
   Notes = 'notes',
-  /** column name */
-  NotesUpdates = 'notesUpdates',
   /** column name */
   StepConfigId = 'stepConfigId',
   /** column name */
@@ -13040,7 +13030,7 @@ export type DeleteMeetingRecurringMutationVariables = Exact<{
 
 export type DeleteMeetingRecurringMutation = { __typename?: 'mutation_root', delete_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string } | null };
 
-export type MeetingStepFieldsFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, notesUpdates?: any | null, type: string, data: any };
+export type MeetingStepFieldsFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: string, data: any };
 
 export type GetMeetingStepsIdsQueryVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -13054,21 +13044,21 @@ export type GetMeetingStepsQueryVariables = Exact<{
 }>;
 
 
-export type GetMeetingStepsQuery = { __typename?: 'query_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, notesUpdates?: any | null, type: string, data: any }> };
+export type GetMeetingStepsQuery = { __typename?: 'query_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: string, data: any }> };
 
 export type SubscribeMeetingStepsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingStepsSubscription = { __typename?: 'subscription_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, notesUpdates?: any | null, type: string, data: any }> };
+export type SubscribeMeetingStepsSubscription = { __typename?: 'subscription_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: string, data: any }> };
 
 export type CreateMeetingStepMutationVariables = Exact<{
   values: Meeting_Step_Insert_Input;
 }>;
 
 
-export type CreateMeetingStepMutation = { __typename?: 'mutation_root', insert_meeting_step_one?: { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, notesUpdates?: any | null, type: string, data: any } | null };
+export type CreateMeetingStepMutation = { __typename?: 'mutation_root', insert_meeting_step_one?: { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: string, data: any } | null };
 
 export type UpdateMeetingStepMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -13076,7 +13066,7 @@ export type UpdateMeetingStepMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMeetingStepMutation = { __typename?: 'mutation_root', update_meeting_step_by_pk?: { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, notesUpdates?: any | null, type: string, data: any } | null };
+export type UpdateMeetingStepMutation = { __typename?: 'mutation_root', update_meeting_step_by_pk?: { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: string, data: any } | null };
 
 export type DeleteMeetingStepMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -13562,7 +13552,6 @@ export const MeetingStepFieldsFragmentDoc = gql`
   meetingId
   stepConfigId
   notes
-  notesUpdates
   type
   data
 }

@@ -7,20 +7,18 @@
  */
 
 import { insertList } from '@lexical/list'
+import { $convertFromMarkdownString } from '@lexical/markdown'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $rootTextContent } from '@lexical/text'
-import {
-  CLEAR_EDITOR_COMMAND,
-  LexicalEditor,
-  SerializedEditorState,
-} from 'lexical'
+import { CLEAR_EDITOR_COMMAND, LexicalEditor } from 'lexical'
 import { forwardRef, useImperativeHandle } from 'react'
+import { markdownTransformers } from '../MarkdownTransformers'
 
 export interface EditorHandle {
   editor: LexicalEditor
-  getValue(): SerializedEditorState
+  getValue(cleanEmpty?: boolean): string
   getText(): string
-  setValue(value: SerializedEditorState): void
+  setValue(value: string): void
   clear(): void
   addBulletList(): void
   addCheckboxList(): void
@@ -33,16 +31,22 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
   const [editor] = useLexicalComposerContext()
 
   // Get the current JSON state
-  const getValue = () => editor.getEditorState().toJSON()
+  const getValue = (cleanEmpty?: boolean): string => {
+    if (cleanEmpty) {
+      // If text value is empty or only contains spaces, return empty string
+      const text = getText()
+      if (text.trim() === '') {
+        return ''
+      }
+    }
+    return JSON.stringify(editor.getEditorState().toJSON())
+  }
 
   // Get the current text
-  const getText = () => editor.getEditorState().read($rootTextContent)
+  const getText = (): string => editor.getEditorState().read($rootTextContent)
 
   // Update value of editor without rendering the component
-  const setValue = (value: SerializedEditorState) => {
-    const editorState = editor.parseEditorState(value)
-    editor.setEditorState(editorState)
-  }
+  const setValue = (value: string) => setEditorValue(editor, value)
 
   // Clear root
   const clear = () => editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
@@ -70,3 +74,14 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
 
   return null
 })
+
+export function setEditorValue(editor: LexicalEditor, value: string) {
+  // JSON
+  if (value[0] === '{') {
+    const editorState = editor.parseEditorState(value)
+    editor.setEditorState(editorState)
+  } else {
+    // Markdown
+    editor.update(() => $convertFromMarkdownString(value, markdownTransformers))
+  }
+}

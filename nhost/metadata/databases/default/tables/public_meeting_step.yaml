@@ -24,7 +24,6 @@ insert_permissions:
         - data
         - meetingId
         - notes
-        - notesUpdates
         - stepConfigId
         - type
 select_permissions:
@@ -35,7 +34,6 @@ select_permissions:
         - id
         - meetingId
         - notes
-        - notesUpdates
         - stepConfigId
         - type
       filter:
@@ -50,7 +48,6 @@ update_permissions:
       columns:
         - data
         - notes
-        - notesUpdates
       filter:
         meeting:
           org:

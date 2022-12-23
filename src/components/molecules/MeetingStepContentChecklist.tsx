@@ -30,7 +30,7 @@ export default function MeetingStepContentChecklist({
 
   const handleSet = useCallback(() => {
     if (!newValue) return
-    editorRef.current?.setValue(JSON.parse(newValue))
+    editorRef.current?.setValue(newValue)
   }, [editorRef, circle])
 
   return (

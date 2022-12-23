@@ -104,9 +104,7 @@ export const EditorRef: ComponentStory<typeof Editor> = (args) => {
       <ButtonGroup size="sm" my={2}>
         <Button
           leftIcon={<FiArrowDown />}
-          onClick={() =>
-            setResult(JSON.stringify(ref.current?.getValue(), null, 2))
-          }
+          onClick={() => ref.current && setResult(ref.current?.getValue())}
         >
           Get
         </Button>

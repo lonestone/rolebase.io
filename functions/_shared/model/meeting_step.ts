@@ -13,7 +13,6 @@ interface MeetingStepBase {
   meetingId: string
   stepConfigId: string
   notes: string
-  notesUpdates?: string | null
 }
 
 export interface MeetingStepTour extends MeetingStepBase {

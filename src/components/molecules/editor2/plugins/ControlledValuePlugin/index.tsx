@@ -1,6 +1,6 @@
-import { $convertFromMarkdownString } from '@lexical/markdown'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useEffect, useRef } from 'react'
+import { setEditorValue } from '../EditorRefPlugin'
 
 interface Props {
   value: string
@@ -16,14 +16,8 @@ export default function ControlledValuePlugin({ value }: Props) {
     // because it's already set by by initial state
     if (!mounted.current) return
 
-    // JSON
-    if (value[0] === '{') {
-      const editorState = editor.parseEditorState(value)
-      editor.setEditorState(editorState)
-    } else {
-      // Markdown
-      editor.update(() => $convertFromMarkdownString(value))
-    }
+    // Set new value
+    setEditorValue(editor, value)
   }, [editor, value])
 
   useEffect(() => {

@@ -35,6 +35,7 @@ export default function DragDropPaste({ onUpload }: DragDropProps): null {
               if (url && file.type.startsWith('image/')) {
                 editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                   src: url,
+                  alt: '',
                 })
               } else {
                 // Other type of file
