@@ -13,6 +13,7 @@ import React, {
 import { EditorHandle } from '../editor2/plugins/EditorRefPlugin'
 import RichEditor from '../editor2/RichEditor'
 import useFileUpload from './useFileUpload'
+import useMentionables from './useMentionables'
 
 // Collaborative Markdown editor
 
@@ -44,6 +45,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     const currentMember = useCurrentMember()
     const localRef = useRef<EditorHandle>(null)
     const { handleUpload } = useFileUpload()
+    const mentionables = useMentionables()
 
     useImperativeHandle(ref, () => localRef.current!, [])
 
@@ -88,6 +90,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
           placeholder={placeholder}
           autoFocus={autoFocus}
           readOnly={readOnly}
+          mentionables={mentionables}
           onBlur={handleChange}
           onSubmit={handleChange}
           onUpload={handleUpload}

@@ -20,44 +20,37 @@ import {
   type SerializedTextNode,
 } from 'lexical'
 
+export enum MentionEntities {
+  Member = 'Member',
+}
+
 export type SerializedMentionNode = Spread<
   {
-    mentionName: string
+    entity: MentionEntities
+    id: string
     type: 'mention'
     version: 1
   },
   SerializedTextNode
 >
 
-function convertMentionElement(
-  domNode: HTMLElement
-): DOMConversionOutput | null {
-  const textContent = domNode.textContent
-
-  if (textContent !== null) {
-    const node = $createMentionNode(textContent)
-    return {
-      node,
-    }
-  }
-
-  return null
-}
-
-const mentionStyle = 'background-color: rgba(24, 119, 232, 0.2)'
 export class MentionNode extends TextNode {
-  __mention: string
+  __entity: MentionEntities
+  __id: string
 
   static getType(): string {
     return 'mention'
   }
 
   static clone(node: MentionNode): MentionNode {
-    return new MentionNode(node.__mention, node.__text, node.__key)
+    return new MentionNode(node.__entity, node.__id, node.__text, node.__key)
   }
   static importJSON(serializedNode: SerializedMentionNode): MentionNode {
-    const node = $createMentionNode(serializedNode.mentionName)
-    node.setTextContent(serializedNode.text)
+    const node = $createMentionNode(
+      serializedNode.entity,
+      serializedNode.id,
+      serializedNode.text
+    )
     node.setFormat(serializedNode.format)
     node.setDetail(serializedNode.detail)
     node.setMode(serializedNode.mode)
@@ -65,15 +58,22 @@ export class MentionNode extends TextNode {
     return node
   }
 
-  constructor(mentionName: string, text?: string, key?: NodeKey) {
-    super(text ?? mentionName, key)
-    this.__mention = mentionName
+  constructor(
+    entity: MentionEntities,
+    id: string,
+    text: string,
+    key?: NodeKey
+  ) {
+    super(text, key)
+    this.__entity = entity
+    this.__id = id
   }
 
   exportJSON(): SerializedMentionNode {
     return {
       ...super.exportJSON(),
-      mentionName: this.__mention,
+      entity: this.__entity,
+      id: this.__id,
       type: 'mention',
       version: 1,
     }
@@ -81,14 +81,14 @@ export class MentionNode extends TextNode {
 
   createDOM(config: EditorConfig): HTMLElement {
     const dom = super.createDOM(config)
-    dom.style.cssText = mentionStyle
     dom.className = 'mention'
     return dom
   }
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('span')
-    element.setAttribute('data-lexical-mention', 'true')
+    element.setAttribute('data-lexical-mention-entity', this.__entity)
+    element.setAttribute('data-lexical-mention-id', this.__id)
     element.textContent = this.__text
     return { element }
   }
@@ -96,11 +96,26 @@ export class MentionNode extends TextNode {
   static importDOM(): DOMConversionMap | null {
     return {
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-mention')) {
+        const entity = domNode.getAttribute(
+          'data-lexical-mention-entity'
+        ) as MentionEntities | null
+        const id = domNode.getAttribute('data-lexical-mention-id')
+        if (!entity || !id) {
           return null
         }
         return {
-          conversion: convertMentionElement,
+          conversion: (domNode: HTMLElement): DOMConversionOutput | null => {
+            const textContent = domNode.textContent
+
+            if (textContent !== null) {
+              const node = $createMentionNode(entity, id, textContent)
+              return {
+                node,
+              }
+            }
+
+            return null
+          },
           priority: 1,
         }
       },
@@ -112,8 +127,12 @@ export class MentionNode extends TextNode {
   }
 }
 
-export function $createMentionNode(mentionName: string): MentionNode {
-  const mentionNode = new MentionNode(mentionName)
+export function $createMentionNode(
+  entity: MentionEntities,
+  id: string,
+  text: string
+): MentionNode {
+  const mentionNode = new MentionNode(entity, id, text)
   mentionNode.setMode('segmented').toggleDirectionless()
   return $applyNodeReplacement(mentionNode)
 }

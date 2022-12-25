@@ -66,7 +66,7 @@ import LinkPlugin from './plugins/LinkPlugin'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
 import MainEventsPlugin from './plugins/MainEventsPlugin'
 import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin'
-import MentionsPlugin from './plugins/MentionsPlugin'
+import MentionsPlugin, { Mentionable } from './plugins/MentionsPlugin'
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin'
 import TabFocusPlugin from './plugins/TabFocusPlugin'
 import TableActionMenuPlugin from './plugins/TableActionMenuPlugin'
@@ -90,7 +90,7 @@ export interface RichEditorProps extends BoxProps {
   username?: string
   minH?: string
   maxH?: string
-  mentionables?: string[]
+  mentionables?: Mentionable[]
   onUpload?: (file: File) => Promise<string>
   onFocus?: () => void
   onBlur?: () => void
@@ -194,7 +194,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           <EditablePlugin editable={!readOnly} />
           <DragDropPaste onUpload={onUpload} />
           {autoFocus && <AutoFocusPlugin />}
-          <MentionsPlugin mentionables={mentionables || []} />
+          {mentionables && <MentionsPlugin mentionables={mentionables} />}
 
           {collaboration && id ? (
             <CollaborationPlugin
@@ -227,7 +227,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
                 }
                 outline={0}
                 overflowY={
-                  maxH && (contentSize?.height || 0) > 100 ? 'auto' : 'visible'
+                  maxH && (contentSize?.height || 0) > 60 ? 'auto' : 'visible'
                 }
                 maxH={maxH}
                 _invalid={{

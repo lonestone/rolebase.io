@@ -9,6 +9,7 @@ import { pick } from 'src/utils/pick'
 import { EditorHandle } from '../editor2/plugins/EditorRefPlugin'
 import RichEditor from '../editor2/RichEditor'
 import useFileUpload from './useFileUpload'
+import useMentionables from './useMentionables'
 
 // Simple Markdown editor
 
@@ -40,6 +41,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
     const localRef = useRef<EditorHandle>(null)
     const formControlProps = useFormControl<HTMLInputElement>({})
     const { handleUpload } = useFileUpload()
+    const mentionables = useMentionables()
 
     useImperativeHandle(ref, () => localRef.current!, [])
 
@@ -74,6 +76,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
         readOnly={computedReadOnly}
         minH={minHeight}
         maxH={maxHeight}
+        mentionables={mentionables}
         onBlur={handleBlur}
         onSubmit={handleSubmit}
         onUpload={handleUpload}

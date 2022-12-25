@@ -1,15 +1,26 @@
 import { Button, ButtonGroup, Textarea } from '@chakra-ui/react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { nanoid } from 'nanoid'
 import React, { useRef, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiCheckSquare, FiList } from 'react-icons/fi'
 import { readFile } from 'src/utils/readFile'
 import { decorators } from '../../../stories'
 import DUMMY_USERNAMES from './dummy-usernames.json'
 import DUMMY_VALUE from './dummy-value.json'
+import { MentionEntities } from './nodes/MentionNode'
 import { EditorHandle } from './plugins/EditorRefPlugin'
+import { Mentionable } from './plugins/MentionsPlugin'
 import Editor, { RichEditorProps } from './RichEditor'
 
+// Dummy values
 const dummyValueString = JSON.stringify(DUMMY_VALUE)
+const dummyMentionables = DUMMY_USERNAMES.map(
+  (username): Mentionable => ({
+    id: nanoid(6),
+    name: username,
+    entity: MentionEntities.Member,
+  })
+)
 
 export default {
   title: 'RichEditor',
@@ -18,7 +29,9 @@ export default {
 } as ComponentMeta<typeof Editor>
 
 const Template: ComponentStory<typeof Editor> = (args) => {
-  return <Editor mentionables={DUMMY_USERNAMES} onUpload={onUpload} {...args} />
+  return (
+    <Editor mentionables={dummyMentionables} onUpload={onUpload} {...args} />
+  )
 }
 
 export const Placeholder = Template.bind({})
@@ -71,7 +84,7 @@ Markdown.args = {
 export const Multiple: ComponentStory<typeof Editor> = (args) => {
   const props: RichEditorProps = {
     maxH: '200px',
-    mentionables: DUMMY_USERNAMES,
+    mentionables: dummyMentionables,
     onUpload,
     ...args,
   }
@@ -96,7 +109,7 @@ export const EditorRef: ComponentStory<typeof Editor> = (args) => {
         ref={ref}
         value={dummyValueString}
         maxH="300px"
-        mentionables={DUMMY_USERNAMES}
+        mentionables={dummyMentionables}
         onUpload={onUpload}
         {...args}
       />

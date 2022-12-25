@@ -294,6 +294,9 @@ i.prettier-error {
   background-image: url(images/icons/prettier-error.svg);
 }
 
+.mention {
+  background-color: rgba(76, 153, 247, 0.17);
+}
 .mention:focus {
   box-shadow: rgb(180 213 255) 0px 0px 0px 2px;
   outline: none;

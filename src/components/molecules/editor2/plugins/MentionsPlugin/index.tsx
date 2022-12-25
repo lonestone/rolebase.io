@@ -6,6 +6,7 @@
  *
  */
 
+import { Center } from '@chakra-ui/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import {
   LexicalTypeaheadMenuPlugin,
@@ -14,187 +15,99 @@ import {
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import { TextNode } from 'lexical'
+import throttle from 'lodash.throttle'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom'
+import { FiUser } from 'react-icons/fi'
+import { $createMentionNode, MentionEntities } from '../../nodes/MentionNode'
 
-import { $createMentionNode } from '../../nodes/MentionNode'
-
-const PUNCTUATION =
-  '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;'
-const NAME = '\\b[A-Z][^\\s' + PUNCTUATION + ']'
-
-const DocumentMentionsRegex = {
-  NAME,
-  PUNCTUATION,
+export interface Mentionable {
+  name: string
+  entity: MentionEntities
+  id: string
 }
 
-const CapitalizedNameMentionsRegex = new RegExp(
-  '(^|[^#])((?:' + DocumentMentionsRegex.NAME + '{' + 1 + ',})$)'
-)
-
-const PUNC = DocumentMentionsRegex.PUNCTUATION
-
-const TRIGGERS = ['@'].join('')
-
-// Chars we expect to see in a mention (non-space, non-punctuation).
-const VALID_CHARS = '[^' + TRIGGERS + PUNC + '\\s]'
-
-// Non-standard series of chars. Each series must be preceded and followed by
-// a valid char.
-const VALID_JOINS =
-  '(?:' +
-  '\\.[ |$]|' + // E.g. "r. " in "Mr. Smith"
-  ' |' + // E.g. " " in "Josh Duck"
-  '[' +
-  PUNC +
-  ']|' + // E.g. "-' in "Salier-Hellendag"
-  ')'
-
-const LENGTH_LIMIT = 75
+const TRIGGERS = '@'
+const VALID_CHARS = '.*'
+const LENGTH_LIMIT = 20
 
 const AtSignMentionsRegex = new RegExp(
   '(^|\\s|\\()(' +
     '[' +
     TRIGGERS +
     ']' +
-    '((?:' +
+    '(' +
     VALID_CHARS +
-    VALID_JOINS +
     '){0,' +
     LENGTH_LIMIT +
-    '})' +
-    ')$'
-)
-
-// 50 is the longest alias length limit.
-const ALIAS_LENGTH_LIMIT = 50
-
-// Regex used to match alias.
-const AtSignMentionsRegexAliasRegex = new RegExp(
-  '(^|\\s|\\()(' +
-    '[' +
-    TRIGGERS +
-    ']' +
-    '((?:' +
-    VALID_CHARS +
-    '){0,' +
-    ALIAS_LENGTH_LIMIT +
-    '})' +
-    ')$'
+    '})$'
 )
 
 // At most, 5 suggestions are shown in the popup.
 const SUGGESTION_LIST_LENGTH_LIMIT = 5
 
-const mentionsCache = new Map()
-
-const lookupService = {
-  search(
-    values: string[],
-    string: string,
-    callback: (results: Array<string>) => void
-  ): void {
-    setTimeout(() => {
-      const results = values.filter((mention) =>
-        mention.toLowerCase().includes(string.toLowerCase())
-      )
-      callback(results)
-    }, 500)
-  },
-}
-
-function useMentionLookupService(
-  mentionableList: string[],
-  mentionString: string | null
+function useMentionableSearch(
+  mentionables: Mentionable[],
+  query: string | null
 ) {
-  const [results, setResults] = useState<Array<string>>([])
+  const [results, setResults] = useState<Mentionable[]>([])
+
+  const updateThrottle = useMemo(
+    () =>
+      throttle(
+        (query: string) => {
+          const results = mentionables.filter((mention) =>
+            mention.name.toLowerCase().includes(query.toLowerCase())
+          )
+          setResults(results)
+        },
+        300,
+        { leading: false }
+      ),
+    [mentionables]
+  )
 
   useEffect(() => {
-    const cachedResults = mentionsCache.get(mentionString)
-
-    if (mentionString == null) {
+    if (!query) {
       setResults([])
       return
     }
-
-    if (cachedResults === null) {
-      return
-    } else if (cachedResults !== undefined) {
-      setResults(cachedResults)
-      return
-    }
-
-    mentionsCache.set(mentionString, null)
-    lookupService.search(mentionableList, mentionString, (newResults) => {
-      mentionsCache.set(mentionString, newResults)
-      setResults(newResults)
-    })
-  }, [mentionableList, mentionString])
+    updateThrottle(query)
+  }, [updateThrottle, query])
 
   return results
-}
-
-function checkForCapitalizedNameMentions(
-  text: string,
-  minMatchLength: number
-): QueryMatch | null {
-  const match = CapitalizedNameMentionsRegex.exec(text)
-  if (match !== null) {
-    // The strategy ignores leading whitespace but we need to know it's
-    // length to add it to the leadOffset
-    const maybeLeadingWhitespace = match[1]
-
-    const matchingString = match[2]
-    if (matchingString != null && matchingString.length >= minMatchLength) {
-      return {
-        leadOffset: match.index + maybeLeadingWhitespace.length,
-        matchingString,
-        replaceableString: matchingString,
-      }
-    }
-  }
-  return null
 }
 
 function checkForAtSignMentions(
   text: string,
   minMatchLength: number
 ): QueryMatch | null {
-  let match = AtSignMentionsRegex.exec(text)
+  const match = AtSignMentionsRegex.exec(text)
+  if (match === null) return null
 
-  if (match === null) {
-    match = AtSignMentionsRegexAliasRegex.exec(text)
+  // The strategy ignores leading whitespace but we need to know it's
+  // length to add it to the leadOffset
+  const maybeLeadingWhitespace = match[1]
+
+  const matchingString = match[3]
+  if (matchingString.length < minMatchLength) return null
+  return {
+    leadOffset: match.index + maybeLeadingWhitespace.length,
+    matchingString,
+    replaceableString: match[2],
   }
-  if (match !== null) {
-    // The strategy ignores leading whitespace but we need to know it's
-    // length to add it to the leadOffset
-    const maybeLeadingWhitespace = match[1]
-
-    const matchingString = match[3]
-    if (matchingString.length >= minMatchLength) {
-      return {
-        leadOffset: match.index + maybeLeadingWhitespace.length,
-        matchingString,
-        replaceableString: match[2],
-      }
-    }
-  }
-  return null
-}
-
-function getPossibleQueryMatch(text: string): QueryMatch | null {
-  const match = checkForAtSignMentions(text, 1)
-  return match === null ? checkForCapitalizedNameMentions(text, 3) : match
 }
 
 class MentionTypeaheadOption extends TypeaheadOption {
   name: string
-  picture: React.ReactNode
+  entity: MentionEntities
+  id: string
 
-  constructor(name: string, picture: React.ReactNode) {
-    super(name)
+  constructor({ name, entity, id }: Mentionable) {
+    super(id)
     this.name = name
-    this.picture = picture
+    this.entity = entity
+    this.id = id
   }
 }
 
@@ -211,15 +124,11 @@ function MentionsTypeaheadMenuItem({
   onMouseEnter: () => void
   option: MentionTypeaheadOption
 }) {
-  let className = 'item'
-  if (isSelected) {
-    className += ' selected'
-  }
   return (
     <li
       key={option.key}
       tabIndex={-1}
-      className={className}
+      className={`item ${isSelected ? 'selected' : ''}`}
       ref={option.setRefElement}
       role="option"
       aria-selected={isSelected}
@@ -227,24 +136,26 @@ function MentionsTypeaheadMenuItem({
       onMouseEnter={onMouseEnter}
       onClick={onClick}
     >
-      {option.picture}
+      {option.entity === MentionEntities.Member && (
+        <Center mr={2}>
+          <FiUser />
+        </Center>
+      )}
       <span className="text">{option.name}</span>
     </li>
   )
 }
 
 interface MentionPluginProps {
-  mentionables: string[]
+  mentionables: Mentionable[]
 }
 
-export default function NewMentionsPlugin({
-  mentionables,
-}: MentionPluginProps) {
+export default function MentionsPlugin({ mentionables }: MentionPluginProps) {
   const [editor] = useLexicalComposerContext()
 
   const [queryString, setQueryString] = useState<string | null>(null)
 
-  const results = useMentionLookupService(mentionables, queryString)
+  const results = useMentionableSearch(mentionables, queryString)
 
   const checkForSlashTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
@@ -253,10 +164,7 @@ export default function NewMentionsPlugin({
   const options = useMemo(
     () =>
       results
-        .map(
-          (result) =>
-            new MentionTypeaheadOption(result, <i className="icon user" />)
-        )
+        .map((result) => new MentionTypeaheadOption(result))
         .slice(0, SUGGESTION_LIST_LENGTH_LIMIT),
     [results]
   )
@@ -268,7 +176,11 @@ export default function NewMentionsPlugin({
       closeMenu: () => void
     ) => {
       editor.update(() => {
-        const mentionNode = $createMentionNode(selectedOption.name)
+        const mentionNode = $createMentionNode(
+          selectedOption.entity,
+          selectedOption.id,
+          selectedOption.name
+        )
         if (nodeToReplace) {
           nodeToReplace.replace(mentionNode)
         }
@@ -281,7 +193,7 @@ export default function NewMentionsPlugin({
 
   const checkForMentionMatch = useCallback(
     (text: string) => {
-      const mentionMatch = getPossibleQueryMatch(text)
+      const mentionMatch = checkForAtSignMentions(text, 1)
       const slashMatch = checkForSlashTriggerMatch(text, editor)
       return !slashMatch && mentionMatch ? mentionMatch : null
     },
