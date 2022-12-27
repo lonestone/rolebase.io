@@ -1,12 +1,13 @@
-import { Button, ButtonGroup, Textarea } from '@chakra-ui/react'
+import { Button, ButtonGroup, Textarea, VStack } from '@chakra-ui/react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { nanoid } from 'nanoid'
 import React, { useRef, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiCheckSquare, FiList } from 'react-icons/fi'
 import { readFile } from 'src/utils/readFile'
-import { decorators } from '../../../stories'
-import DUMMY_USERNAMES from './dummy-usernames.json'
-import DUMMY_VALUE from './dummy-value.json'
+import { decorators } from '../../../../stories'
+import { DUMMY_MARKDOWN } from './dummies/dummy-markdown'
+import DUMMY_USERNAMES from './dummies/dummy-usernames.json'
+import DUMMY_VALUE from './dummies/dummy-value.json'
 import { MentionEntities } from './nodes/MentionNode'
 import { EditorHandle } from './plugins/EditorRefPlugin'
 import { Mentionable } from './plugins/MentionsPlugin'
@@ -61,29 +62,24 @@ Readonly.args = {
   value: dummyValueString,
 }
 
+export const Markdown = Template.bind({})
+Markdown.args = {
+  value: DUMMY_MARKDOWN,
+}
+
 export const Collab = Template.bind({})
 Collab.args = {
+  id: 'storybook-rich-editor',
   collaboration: true,
   username: DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)],
 }
 
-const MARKDOWN_VALUE = `# Welcome to the Editor story
-
-This is a **story** for the richtext editor. It contains:
-* List
-* [link](https://rolebase.io), 
-* \`code\`
-* _style!_
-
-| Table | Col 1 | Col 2 |
-|-------|-------|-------|
-| Line 1 | *Content* | Multi\\nlines |
-| Line 2 | Emoji :smile: | \`Code\` |
-`
-
-export const Markdown = Template.bind({})
-Markdown.args = {
-  value: MARKDOWN_VALUE,
+export const CollabMarkdown = Template.bind({})
+CollabMarkdown.args = {
+  id: 'storybook-rich-editor-markdown',
+  value: DUMMY_MARKDOWN,
+  collaboration: true,
+  username: DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)],
 }
 
 export const Multiple: ComponentStory<typeof Editor> = (args) => {
@@ -95,11 +91,11 @@ export const Multiple: ComponentStory<typeof Editor> = (args) => {
   }
 
   return (
-    <>
+    <VStack align="stretch">
       <Editor value="Editor 1" {...props} />
       <Editor value="Editor 2" {...props} />
       <Editor value="Editor 3" {...props} />
-    </>
+    </VStack>
   )
 }
 Multiple.args = {}

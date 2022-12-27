@@ -35,8 +35,8 @@ import {
 import settings from 'src/settings'
 import { cmdOrCtrlKey } from 'src/utils/env'
 import { UserLocalStorageKeys } from 'src/utils/localStorage'
+import { EditorHandle } from './editor'
 import SimpleEditor from './editor/SimpleEditor'
-import { EditorHandle } from './editor2/plugins/EditorRefPlugin'
 
 interface Props {
   thread: ThreadEntry

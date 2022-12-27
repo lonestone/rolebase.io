@@ -10,8 +10,8 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { EditorHandle } from '../editor2/plugins/EditorRefPlugin'
-import RichEditor from '../editor2/RichEditor'
+import { EditorHandle } from './lib/plugins/EditorRefPlugin'
+import RichEditor from './lib/RichEditor'
 import useFileUpload from './useFileUpload'
 import useMentionables from './useMentionables'
 
@@ -20,7 +20,6 @@ import useMentionables from './useMentionables'
 export interface Props extends FormControlOptions {
   docId: string
   value: string
-  updates?: Uint8Array
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
@@ -30,16 +29,7 @@ export interface Props extends FormControlOptions {
 
 const CollabEditor = forwardRef<EditorHandle, Props>(
   (
-    {
-      docId,
-      value,
-      updates,
-      placeholder,
-      autoFocus,
-      readOnly,
-      saveDelay,
-      onSave,
-    },
+    { docId, value, placeholder, autoFocus, readOnly, saveDelay, onSave },
     ref
   ) => {
     const currentMember = useCurrentMember()

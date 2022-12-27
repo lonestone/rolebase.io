@@ -4,7 +4,7 @@ import { ActivityMessage } from '@shared/model/thread_activity'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useUpdateThreadActivityMutation } from 'src/graphql.generated'
-import { EditorHandle } from './editor2/plugins/EditorRefPlugin'
+import { EditorHandle } from './editor'
 
 interface Props {
   id: string

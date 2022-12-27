@@ -31,10 +31,10 @@ import React, {
   useState,
 } from 'react'
 
-import { Box, BoxProps, Center, Icon, keyframes, Text } from '@chakra-ui/react'
+import { Box, BoxProps } from '@chakra-ui/react'
 import { randomColor } from '@chakra-ui/theme-tools'
+import { useElementSize } from '@hooks/useElementSize'
 import { nanoid } from 'nanoid'
-import { FiAlertTriangle } from 'react-icons/fi'
 import { createWebsocketProvider } from './collaboration'
 import {
   SharedHistoryContext,
@@ -66,6 +66,7 @@ import LinkPlugin from './plugins/LinkPlugin'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
 import MainEventsPlugin from './plugins/MainEventsPlugin'
 import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin'
+import { markdownTransformers } from './plugins/MarkdownTransformers'
 import MentionsPlugin, { Mentionable } from './plugins/MentionsPlugin'
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin'
 import TabFocusPlugin from './plugins/TabFocusPlugin'
@@ -74,10 +75,9 @@ import TableCellResizer from './plugins/TableCellResizer'
 import TwitterPlugin from './plugins/TwitterPlugin'
 import YouTubePlugin from './plugins/YouTubePlugin'
 import RichEditorTheme from './themes/RichEditorTheme'
+import { CollabOfflineOverlay } from './ui/CollabOfflineOverlay'
 import Placeholder from './ui/Placeholder'
 
-import { useElementSize } from '@hooks/useElementSize'
-import { markdownTransformers } from './plugins/MarkdownTransformers'
 import './RichEditor.css'
 
 export interface RichEditorProps extends BoxProps {
@@ -289,31 +289,9 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
             </>
           )}
 
-          {!collaborationStatus && (
-            <Box
-              position="absolute"
-              top={0}
-              left={0}
-              right={0}
-              bottom={0}
-              background="linear-gradient(110deg, rgba(128, 128, 128, 0.05) 8%, rgba(128, 128, 128, 0.15) 28%, rgba(128, 128, 128, 0.05) 33%)"
-              backgroundSize="200% 100%"
-              animation={`1.5s ${shine} linear infinite`}
-            >
-              <Center h="100%">
-                <Text fontSize="sm" color="gray.500">
-                  <Icon as={FiAlertTriangle} mr={2} />
-                  You are offline. Connection to server..
-                </Text>
-              </Center>
-            </Box>
-          )}
+          {!collaborationStatus && CollabOfflineOverlay()}
         </Box>
       </SharedHistoryContext>
     </LexicalComposer>
   )
 })
-
-const shine = keyframes`
-  to { background-position-x: -200%; }
-`

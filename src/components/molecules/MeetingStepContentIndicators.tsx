@@ -11,7 +11,7 @@ import { MeetingStepIndicators } from '@shared/model/meeting_step'
 import { WithId } from '@shared/model/types'
 import React, { RefObject, useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { EditorHandle } from './editor2/plugins/EditorRefPlugin'
+import { EditorHandle } from './editor'
 
 interface Props {
   meetingState: MeetingState

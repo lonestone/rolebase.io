@@ -6,8 +6,8 @@ import React, {
   useRef,
 } from 'react'
 import { pick } from 'src/utils/pick'
-import { EditorHandle } from '../editor2/plugins/EditorRefPlugin'
-import RichEditor from '../editor2/RichEditor'
+import { EditorHandle } from './lib/plugins/EditorRefPlugin'
+import RichEditor from './lib/RichEditor'
 import useFileUpload from './useFileUpload'
 import useMentionables from './useMentionables'
 

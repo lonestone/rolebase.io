@@ -154,6 +154,8 @@ export default function EmojiPickerPlugin() {
     [editor]
   )
 
+  if (!editor.isEditable()) return null
+
   return (
     <LexicalTypeaheadMenuPlugin
       onQueryChange={setQueryString}
