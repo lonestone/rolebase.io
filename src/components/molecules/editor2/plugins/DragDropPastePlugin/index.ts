@@ -27,10 +27,7 @@ export default function DragDropPaste({ onUpload }: DragDropProps): null {
         ;(async () => {
           for (const file of files) {
             try {
-              editor.setEditable(false)
-              // TODO: Show loading
               const url = await onUpload(file)
-              editor.setEditable(true)
               // Images
               if (url && file.type.startsWith('image/')) {
                 editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
@@ -47,7 +44,7 @@ export default function DragDropPaste({ onUpload }: DragDropProps): null {
                 })
               }
             } catch (e) {
-              editor.setEditable(true)
+              console.error(e)
             }
           }
         })()

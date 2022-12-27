@@ -90,7 +90,9 @@ function checkForAtSignMentions(
   const maybeLeadingWhitespace = match[1]
 
   const matchingString = match[3]
-  if (matchingString.length < minMatchLength) return null
+  if (!matchingString || matchingString.length < minMatchLength) {
+    return null
+  }
   return {
     leadOffset: match.index + maybeLeadingWhitespace.length,
     matchingString,
