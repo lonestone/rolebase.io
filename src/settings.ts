@@ -16,7 +16,7 @@ export default {
     : 'https://fsudktxishllphxeibqs.nhost.run/v1/functions/',
 
   yjsCollab: {
-    url: 'ws://localhost:1234',
+    url: isLocal ? 'ws://localhost:1234' : 'wss://collab.rolebase.io',
   },
 
   // Files

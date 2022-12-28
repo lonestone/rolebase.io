@@ -61,7 +61,7 @@ export default function MeetingStepContent({ meetingState, step }: Props) {
 
       <CollabEditor
         ref={editorRef}
-        docId={`meeting${meeting.id}-step${step.id}`}
+        docId={`meeting-step-${step.id}`}
         value={step.notes}
         placeholder={t('MeetingStepContent.notesPlaceholder')}
         readOnly={!editable}

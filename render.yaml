@@ -1,0 +1,18 @@
+previewsEnabled: false
+
+services:
+  - type: web
+    region: frankfurt
+    plan: free
+    name: rolebase-collab
+    env: node
+    branch: wip
+    domains:
+      - collab.rolebase.io
+    buildCommand: npm i yjs y-websocket
+    startCommand: npx y-websocket
+    envVars:
+      - key: PORT
+        value: 1234
+    autoDeploy: true
+    pullRequestPreviewsEnabled: false
