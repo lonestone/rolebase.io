@@ -18,15 +18,7 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
   const path = usePathInOrg(`meetings/${id}`)
 
   return (
-    <Modal
-      size="3xl"
-      autoFocus={false}
-      trapFocus={
-        /* Prevent a bug with the editor toolbar scrolling to top on click */
-        false
-      }
-      {...modalProps}
-    >
+    <Modal size="3xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <MeetingContent
