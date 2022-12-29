@@ -247,7 +247,9 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
                 </Box>
               </Box>
             }
-            placeholder={<Placeholder>{placeholder}</Placeholder>}
+            placeholder={
+              !readOnly ? <Placeholder>{placeholder}</Placeholder> : null
+            }
             ErrorBoundary={LexicalErrorBoundary}
           />
 
