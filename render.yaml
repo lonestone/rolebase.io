@@ -16,10 +16,10 @@ services:
     headers:
       - path: /src/demos/*
         name: Access-Control-Allow-Origin
-        value: *
+        value: '*'
       - path: /assets/*
         name: Access-Control-Allow-Origin
-        value: *
+        value: '*'
     autoDeploy: true
   - type: web
     region: frankfurt
