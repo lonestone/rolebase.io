@@ -2,11 +2,31 @@ previewsEnabled: false
 
 services:
   - type: web
+    name: rolebase-front
+    env: static
+    branch: main
+    domains:
+      - rolebase.io
+    buildCommand: npm i && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /src/demos/*
+        name: Access-Control-Allow-Origin
+        value: *
+      - path: /assets/*
+        name: Access-Control-Allow-Origin
+        value: *
+    autoDeploy: true
+  - type: web
     region: frankfurt
     plan: free
     name: rolebase-collab
     env: node
-    branch: wip
+    branch: main
     domains:
       - collab.rolebase.io
     buildCommand: npm i yjs y-websocket
