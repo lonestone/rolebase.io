@@ -1,6 +1,7 @@
 previewsEnabled: false
 
 services:
+  # Front webapp
   - type: web
     name: rolebase-front
     env: static
@@ -21,6 +22,19 @@ services:
         name: Access-Control-Allow-Origin
         value: '*'
     autoDeploy: true
+
+  # Storybook
+  - type: web
+    name: rolebase-storybook
+    env: static
+    branch: main
+    domains:
+      - storybook.rolebase.io
+    buildCommand: npm i && npm run build-storybook
+    staticPublishPath: ./storybook-static
+    autoDeploy: true
+
+  # Collab (y-websocket)
   - type: web
     region: frankfurt
     plan: free
