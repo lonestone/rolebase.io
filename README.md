@@ -90,3 +90,22 @@ https://marketplace.visualstudio.com/items?itemName=attilabuti.vscode-mjml
 ### Mailjet templates
 
 All other templates are defined in the Mailjet interface.
+
+## Production env
+
+[OVH](https://www.ovh.com/manager/#/web/domain/rolebase.io/zone)
+
+- DNS
+
+[Render.com](https://render.com)
+
+- Front (static)
+- Collab (Node + y-websocket)
+
+[Nhost.io](https://nhost.io)
+
+- Auth
+- Database
+- GraphQL API
+- Storage
+- Functions
