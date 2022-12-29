@@ -25,10 +25,10 @@ import Cropper from 'react-easy-crop'
 import { Area } from 'react-easy-crop/types'
 import { useTranslation } from 'react-i18next'
 import { FiRotateCw } from 'react-icons/fi'
-import { getCroppedImg } from 'src/canvasUtils'
 import { useUpdateMemberMutation } from 'src/graphql.generated'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
+import { getCroppedImg } from 'src/utils/canvas'
 import { readFile } from 'src/utils/readFile'
 
 interface Props extends UseModalProps {
