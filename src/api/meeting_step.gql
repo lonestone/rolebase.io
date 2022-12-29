@@ -3,7 +3,6 @@ fragment MeetingStepFields on meeting_step {
   meetingId
   stepConfigId
   notes
-  notesUpdates
   type
   data
 }

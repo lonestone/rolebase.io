@@ -8,7 +8,8 @@ import {
   Circle_Insert_Input,
   useCreateCirclesMutation,
 } from 'src/graphql.generated'
-import { omit, pick } from 'src/utils'
+import { omit } from 'src/utils/omit'
+import { pick } from 'src/utils/pick'
 
 function getCircleAndChildren(
   circles: CircleEntry[],

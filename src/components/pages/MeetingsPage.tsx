@@ -202,7 +202,7 @@ export default function MeetingsPage() {
 
   // Show/hide weekends
   const { preferences, setPreference } = useMemberPreferences()
-  const weekend = preferences.calendarShowWeekend ?? false
+  const weekend = preferences?.calendarShowWeekend ?? false
 
   // Modals
   const meetingModal = useDisclosure()

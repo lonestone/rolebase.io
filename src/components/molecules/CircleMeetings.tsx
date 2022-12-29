@@ -12,7 +12,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiRepeat } from 'react-icons/fi'
 import { useSubscribeCircleMeetingsSubscription } from 'src/graphql.generated'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 import MeetingItem from './MeetingItem'
 
 interface Props {

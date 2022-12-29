@@ -1,9 +1,10 @@
 import { Box, Button } from '@chakra-ui/react'
 import SimpleEditor from '@components/molecules/editor/SimpleEditor'
 import { ActivityMessage } from '@shared/model/thread_activity'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useUpdateThreadActivityMutation } from 'src/graphql.generated'
+import { EditorHandle } from './editor'
 
 interface Props {
   id: string
@@ -19,6 +20,7 @@ export default function ThreadActivityMessageEdit({
   const { t } = useTranslation()
   const [message, setMessage] = useState(defaultMessage)
   const [updateActivity] = useUpdateThreadActivityMutation()
+  const editorRef = useRef<EditorHandle>(null)
 
   // Save message
   const handleSubmit = useCallback(
@@ -47,9 +49,16 @@ export default function ThreadActivityMessageEdit({
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [])
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     editorRef.current?.editor.focus()
+  //   }, 0)
+  // }, [])
+
   return (
     <Box mt={2}>
       <SimpleEditor
+        ref={editorRef}
         value={message}
         autoFocus
         onChange={setMessage}

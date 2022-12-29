@@ -1,7 +1,8 @@
 import useDateLocale from '@hooks/useDateLocale'
 import { addDays, format, startOfWeek } from 'date-fns'
 import { useMemo } from 'react'
-import { capitalizeFirstLetter, range } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
+import { range } from 'src/utils/range'
 
 export default function useI18nDays() {
   const dateLocale = useDateLocale()

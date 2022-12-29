@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react'
+import path from 'path'
 import { terser } from 'rollup-plugin-terser'
 import visualizer from 'rollup-plugin-visualizer'
 import { fileURLToPath } from 'url'
@@ -34,10 +35,17 @@ export default defineConfig({
       },
     },
   },
-  optimizeDeps: {
-    include: ['@rolebase/editor'],
-  },
   server: {
     port: 3000,
+  },
+  resolve: {
+    alias: [
+      {
+        // Prevent yjs from being imported twice (from its CommonJS and ECMAScript version), by forcing an alias on it
+        // More info: https://github.com/yjs/yjs/issues/438
+        find: 'yjs',
+        replacement: path.resolve(__dirname, './node_modules/yjs/dist/yjs.mjs'),
+      },
+    ],
   },
 })

@@ -43,7 +43,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { useUpdateMeetingMutation } from 'src/graphql.generated'
-import { getDateTimeLocal } from 'src/utils'
+import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

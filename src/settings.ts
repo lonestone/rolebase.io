@@ -15,6 +15,10 @@ export default {
     ? 'http://localhost:1337/v1/functions/'
     : 'https://fsudktxishllphxeibqs.nhost.run/v1/functions/',
 
+  yjsCollab: {
+    url: isLocal ? 'ws://localhost:1234' : 'wss://collab.rolebase.io',
+  },
+
   // Files
   memberPicture: {
     maxSize: 300, // in px

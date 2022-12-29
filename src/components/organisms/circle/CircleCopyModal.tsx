@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { cmdOrCtrlKey } from 'src/utils'
+import { cmdOrCtrlKey } from 'src/utils/env'
 
 export default function CircleCopyModal(modalProps: UseModalProps) {
   const { t } = useTranslation()

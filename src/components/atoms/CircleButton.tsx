@@ -2,7 +2,7 @@ import { Button, ButtonProps, useColorMode } from '@chakra-ui/react'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import React from 'react'
 import { circleColor } from 'src/theme'
-import { textEllipsis } from 'src/utils'
+import { textEllipsis } from 'src/utils/textEllipsis'
 import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends ButtonProps {

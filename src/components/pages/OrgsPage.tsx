@@ -28,7 +28,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink, useHistory } from 'react-router-dom'
-import { UserLocalStorageKeys } from 'src/utils'
+import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 export default function OrgsPage() {
   const { t } = useTranslation()

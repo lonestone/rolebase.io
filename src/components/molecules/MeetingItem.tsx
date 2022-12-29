@@ -20,7 +20,7 @@ import { format } from 'date-fns'
 import React from 'react'
 import { FiCalendar } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 
 interface Props extends LinkBoxProps {
   meeting: MeetingEntry

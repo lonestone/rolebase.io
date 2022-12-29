@@ -56,7 +56,6 @@ update_permissions:
 delete_permissions:
   - role: user
     permission:
-      backend_only: false
       filter:
         _or:
           - activity:

@@ -9,4 +9,4 @@ alter table "public"."meeting" add constraint "meeting_recurringId_fkey"
 alter table "public"."meeting" drop column "facilitatorMemberId" cascade;
 alter table "public"."meeting" drop column "initiatorMemberId" cascade;
 alter table "public"."meeting" add column "recurringDate" timestamptz null;
-alter table "public"."meeting" add column "preferences" json;
+alter table "public"."member" add column "preferences" json;

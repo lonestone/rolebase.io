@@ -8,7 +8,7 @@ import {
 import NumberInput from '@components/atoms/NumberInput'
 import React, { ChangeEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
-import { getDateTimeLocal } from 'src/utils'
+import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'
 

@@ -29,7 +29,7 @@ import { getCroppedImg } from 'src/canvasUtils'
 import { useUpdateMemberMutation } from 'src/graphql.generated'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
-import { readFile } from 'src/utils'
+import { readFile } from 'src/utils/readFile'
 
 interface Props extends UseModalProps {
   id: string

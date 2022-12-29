@@ -1,13 +1,12 @@
-import { byteaToUint8Array, uint8ArrayToBytea } from '@api/bytea'
 import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
 import { MeetingState } from '@hooks/useMeetingState'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/model/meeting_step'
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useUpdateMeetingStepMutation } from 'src/graphql.generated'
+import { EditorHandle } from './editor'
 import CollabEditor from './editor/CollabEditor'
-import { EditorHandle } from './editor/useEditor'
 import MeetingStepContentChecklist from './MeetingStepContentChecklist'
 import MeetingStepContentIndicators from './MeetingStepContentIndicators'
 
@@ -22,27 +21,15 @@ export default function MeetingStepContent({ meetingState, step }: Props) {
   const editorRef = useRef<EditorHandle>(null)
   const [updateMeetingStep] = useUpdateMeetingStepMutation()
 
-  const updates = useMemo(
-    () =>
-      step.notesUpdates ? byteaToUint8Array(step.notesUpdates) : undefined,
-    []
-  )
-
   // Update notes
-  const handleNotesChange = useCallback(
-    (value: string, updates: Uint8Array) => {
-      updateMeetingStep({
-        variables: {
-          id: step.id,
-          values: {
-            notes: value,
-            notesUpdates: uint8ArrayToBytea(updates),
-          },
-        },
-      })
-    },
-    []
-  )
+  const handleNotesChange = useCallback((notes: string) => {
+    updateMeetingStep({
+      variables: {
+        id: step.id,
+        values: { notes },
+      },
+    })
+  }, [])
 
   if (!meeting) return null
 
@@ -74,9 +61,8 @@ export default function MeetingStepContent({ meetingState, step }: Props) {
 
       <CollabEditor
         ref={editorRef}
-        docId={`meeting${meeting.id}-step${step.id}`}
+        docId={`meeting-step-${step.id}`}
         value={step.notes}
-        updates={updates}
         placeholder={t('MeetingStepContent.notesPlaceholder')}
         readOnly={!editable}
         saveDelay={4000}

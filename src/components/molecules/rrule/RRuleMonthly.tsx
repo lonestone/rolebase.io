@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { range } from 'src/utils'
+import { range } from 'src/utils/range'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'
 import useI18nDays from './useI18nDays'

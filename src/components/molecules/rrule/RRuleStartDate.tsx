@@ -1,7 +1,7 @@
 import { Input } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { getDateTimeLocal } from 'src/utils'
+import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'
 

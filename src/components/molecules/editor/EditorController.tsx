@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef, RefAttributes } from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
+import { EditorHandle } from './lib/plugins/EditorRefPlugin'
 import SimpleEditor from './SimpleEditor'
-import { EditorHandle } from './useEditor'
 
 interface Props<Values extends FieldValues> {
   name: Path<Values>

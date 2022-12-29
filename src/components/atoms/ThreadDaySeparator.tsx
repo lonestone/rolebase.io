@@ -1,8 +1,8 @@
-import { Box, Divider, Flex, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, useColorMode } from '@chakra-ui/react'
 import useDateLocale from '@hooks/useDateLocale'
 import { format } from 'date-fns'
 import React, { memo } from 'react'
-import { capitalizeFirstLetter } from 'src/utils'
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 
 interface Props {
   date: string
@@ -11,10 +11,11 @@ interface Props {
 export default memo(function ThreadDaySeparator({ date }: Props) {
   const dateLocale = useDateLocale()
   const { colorMode } = useColorMode()
+  const borderColor = colorMode === 'light' ? 'gray.200' : 'gray.550'
 
   return (
-    <Flex py="10px" justifyContent="center">
-      <Divider pt="15px" />
+    <Flex py="10px" alignItems="center">
+      <Box flex={1} bg={borderColor} h="1px" />
       <Box
         fontSize="0.9em"
         whiteSpace="nowrap"
@@ -22,14 +23,14 @@ export default memo(function ThreadDaySeparator({ date }: Props) {
         lineHeight="30px"
         px="15px"
         border="1px solid"
-        borderColor={colorMode === 'light' ? 'gray.200' : 'gray.550'}
+        borderColor={borderColor}
         borderRadius="full"
       >
         {capitalizeFirstLetter(
           format(new Date(date), 'PPPP', { locale: dateLocale })
         )}
       </Box>
-      <Divider pt="15px" />
+      <Box flex={1} bg={borderColor} h="1px" />
     </Flex>
   )
 })

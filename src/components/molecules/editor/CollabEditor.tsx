@@ -1,145 +1,103 @@
-import {
-  Box,
-  FormControlOptions,
-  Spinner,
-  useColorMode,
-  useFormControl,
-} from '@chakra-ui/react'
-import { randomColor } from '@chakra-ui/theme-tools'
-import BasicStyle from '@components/atoms/BasicStyle'
+import { Box, FormControlOptions, Spinner } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { usePreventClose } from '@hooks/usePreventClose'
-import RichSimpleEditor, { YCollab } from '@rolebase/editor'
 import throttle from 'lodash.throttle'
 import React, {
   forwardRef,
   useCallback,
-  useEffect,
+  useImperativeHandle,
   useMemo,
+  useRef,
   useState,
 } from 'react'
-import EditorContainer from './EditorContainer'
-import useEditor, { EditorHandle } from './useEditor'
+import { EditorHandle } from './lib/plugins/EditorRefPlugin'
+import RichEditor from './lib/RichEditor'
 import useFileUpload from './useFileUpload'
+import useMentionables from './useMentionables'
 
 // Collaborative Markdown editor
 
 export interface Props extends FormControlOptions {
   docId: string
   value: string
-  updates?: Uint8Array
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
   saveDelay: number
-  onSave?(value: string, updates: Uint8Array): void
+  onSave?(value: string): void
 }
 
 const CollabEditor = forwardRef<EditorHandle, Props>(
   (
-    {
-      docId,
-      value,
-      updates,
-      placeholder,
-      autoFocus,
-      readOnly,
-      saveDelay,
-      onSave,
-    },
+    { docId, value, placeholder, autoFocus, readOnly, saveDelay, onSave },
     ref
   ) => {
-    const formControlProps = useFormControl<HTMLInputElement>({})
-    const { colorMode } = useColorMode()
     const currentMember = useCurrentMember()
-    const { editorRef, getValue } = useEditor(ref)
+    const localRef = useRef<EditorHandle>(null)
     const { handleUpload } = useFileUpload()
+    const mentionables = useMentionables()
 
-    // Connect provider and get context
-    const collabPlugin = useMemo(() => new YCollab(docId), [docId])
-
-    // On mount
-    useEffect(() => {
-      if (updates) {
-        // Apply saved updates
-        collabPlugin.applyUpdates(updates)
-      } else {
-        // Compute and apply updates from value
-        collabPlugin.applyValue(value)
-
-        // Save updates
-        onSave?.(getValue(), collabPlugin.getUpdates())
-      }
-
-      // Stop collab on unmount
-      return () => collabPlugin.stop()
-    }, [collabPlugin])
-
-    // Update member name
-    useEffect(() => {
-      if (!currentMember) return
-      collabPlugin.setUserName(
-        currentMember.name,
-        randomColor({ string: currentMember.name })
-      )
-    }, [currentMember?.name])
+    useImperativeHandle(ref, () => localRef.current!, [])
 
     // Prevent from changing page when dirty
     const [isDirty, setIsDirty] = useState(false)
     const { preventClose, allowClose } = usePreventClose()
 
-    // Save now
-    const handleSave = useCallback(() => {
-      onSave?.(getValue(), collabPlugin.getUpdates())
-      setIsDirty(false)
-      allowClose()
-    }, [docId])
-
     // Save with throttling
     const handleSaveThrottle = useMemo(
-      () => throttle(handleSave, saveDelay, { leading: false }),
-      [handleSave, saveDelay]
+      () =>
+        throttle(
+          (value: string) => {
+            setIsDirty(false)
+            allowClose()
+            onSave?.(value)
+          },
+          saveDelay,
+          { leading: false }
+        ),
+      [docId, saveDelay]
     )
 
     // Handle every little change in the doc
     // to save it with throttling
     const handleChange = useCallback(() => {
-      const newValue = getValue()
-      if (newValue === value) return
+      const newValue = localRef.current?.getValue()
+      if (!newValue || newValue === value) return
       setIsDirty(true)
       preventClose()
-      handleSaveThrottle()
+      handleSaveThrottle(newValue)
     }, [docId, value])
 
     return (
-      <BasicStyle>
-        <EditorContainer colorMode={colorMode} {...formControlProps}>
-          <RichSimpleEditor
-            key={docId}
-            ref={editorRef}
-            placeholder={placeholder}
-            autoFocus={autoFocus}
-            readOnly={readOnly}
-            dark={colorMode === 'dark'}
-            extensions={[collabPlugin]}
-            onChange={handleChange}
-            onSave={handleSave}
-            uploadImage={handleUpload}
-          />
+      <>
+        <RichEditor
+          key={docId}
+          ref={localRef}
+          id={docId}
+          collaboration
+          username={currentMember?.name}
+          value={value}
+          placeholder={placeholder}
+          autoFocus={autoFocus}
+          readOnly={readOnly}
+          mentionables={mentionables}
+          onBlur={handleChange}
+          onSubmit={handleChange}
+          onUpload={handleUpload}
+        />
 
-          {isDirty && (
-            <Box textAlign="right">
-              <Spinner
-                size="xs"
-                color="gray"
-                position="absolute"
-                mt="-18px"
-                ml="-18px"
-              />
-            </Box>
-          )}
-        </EditorContainer>
-      </BasicStyle>
+        {isDirty && (
+          <Box textAlign="right">
+            <Spinner
+              size="xs"
+              color="gray"
+              position="absolute"
+              mt="-18px"
+              ml="-18px"
+            />
+          </Box>
+        )}
+      </>
     )
   }
 )

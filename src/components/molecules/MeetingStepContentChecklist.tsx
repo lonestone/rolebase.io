@@ -11,7 +11,7 @@ import { MeetingStepChecklist } from '@shared/model/meeting_step'
 import { WithId } from '@shared/model/types'
 import React, { RefObject, useCallback } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { EditorHandle } from './editor/useEditor'
+import { EditorHandle } from './editor'
 
 interface Props {
   meetingState: MeetingState
