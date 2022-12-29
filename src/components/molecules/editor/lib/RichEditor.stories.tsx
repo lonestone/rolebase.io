@@ -1,4 +1,13 @@
-import { Button, ButtonGroup, Textarea, VStack } from '@chakra-ui/react'
+import {
+  Button,
+  ButtonGroup,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Textarea,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { nanoid } from 'nanoid'
 import React, { useRef, useState } from 'react'
@@ -22,6 +31,7 @@ const dummyMentionables = DUMMY_USERNAMES.map(
     entity: MentionEntities.Member,
   })
 )
+const placeholder = 'Enter some text...'
 
 export default {
   title: 'RichEditor',
@@ -37,7 +47,7 @@ const Template: ComponentStory<typeof Editor> = (args) => {
 
 export const Placeholder = Template.bind({})
 Placeholder.args = {
-  placeholder: 'Enter some text...',
+  placeholder,
 }
 
 export const Autofocus = Template.bind({})
@@ -60,6 +70,13 @@ export const Readonly = Template.bind({})
 Readonly.args = {
   readOnly: true,
   value: dummyValueString,
+}
+
+export const ReadonlyEmpty = Template.bind({})
+ReadonlyEmpty.args = {
+  readOnly: true,
+  placeholder,
+  value: '',
 }
 
 export const Markdown = Template.bind({})
@@ -147,6 +164,27 @@ export const EditorRef: ComponentStory<typeof Editor> = (args) => {
   )
 }
 EditorRef.args = {}
+
+export const InModal: ComponentStory<typeof Editor> = (args) => {
+  const modal = useDisclosure()
+  return (
+    <>
+      <Button onClick={modal.onOpen}>Open Modal</Button>
+      <Modal size="xl" isOpen={modal.isOpen} onClose={modal.onOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <Editor
+            value={dummyValueString}
+            mentionables={dummyMentionables}
+            onUpload={onUpload}
+            {...args}
+          />
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
+InModal.args = {}
 
 // Mock file upload
 const onUpload = async (file: File) => {
