@@ -18,7 +18,7 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import { MeetingState } from '@hooks/useMeetingState'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { ActivityType } from '@shared/model/thread_activity'
-import React, { MouseEvent, useCallback, useState } from 'react'
+import React, { MouseEvent, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import {
@@ -30,6 +30,7 @@ import {
   FiVideo,
   FiX,
 } from 'react-icons/fi'
+import { SidebarContext } from 'src/contexts/SidebarContext'
 import settings from 'src/settings'
 
 interface Props {
@@ -42,6 +43,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
   const currentMember = useCurrentMember()
   const org = useCurrentOrg()
   const { colorMode } = useColorMode()
+  const sidebarContext = useContext(SidebarContext)
 
   const {
     meeting,
@@ -108,7 +110,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
       position="fixed"
       zIndex={10}
       bottom={0}
-      left={0}
+      left={sidebarContext?.width}
       right={0}
       p={3}
       bg={colorMode === 'light' ? 'gray.50' : 'gray.600'}

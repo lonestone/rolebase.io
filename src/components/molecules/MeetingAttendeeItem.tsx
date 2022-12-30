@@ -43,7 +43,7 @@ export default function MeetingAttendeeItem({
         isDisabled={!editable}
         mr={3}
         border="1px solid"
-        borderColor={colorMode === 'light' ? 'gray.300' : 'whiteAlpha.400'}
+        borderColor={colorMode === 'light' ? 'gray.200' : 'whiteAlpha.400'}
         borderRadius="md"
       >
         <IconTextButton

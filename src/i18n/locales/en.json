@@ -142,11 +142,12 @@
     "threads": "Threads",
     "meetings": "Meetings",
     "tasks": "Tasks",
+    "settings": "Settings",
     "search": "Search ({{keys}})",
     "help": "Help"
   },
   "HeaderLinksMenu": {
-    "settings": "Settings",
+    "org": "Organization",
     "members": "Members",
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
@@ -210,7 +211,6 @@
     "submit": "Sign in"
   },
   "LoginPage": {
-    "heading": "Rolebase",
     "signup": "Create an account",
     "needsEmailVerification": "You must click on the verification link in your email box to log in.",
     "sendEmail": "Resend",
@@ -481,6 +481,7 @@
   },
   "OrgEditModal": {
     "heading": "Edit Organization {{org}}",
+    "slug": "URL",
     "workingTime": "Default working time"
   },
   "OrgSlugModal": {

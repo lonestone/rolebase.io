@@ -26,11 +26,18 @@ export interface Zoom {
   y: number
   width: number
   height: number
+  focusCrop: Position
+  focusOffsetX: number
+  focusOffsetY: number
   scale: number
   disabled: boolean
   to(x: number, y: number, radius?: number, instant?: boolean): void
   changeExtent(width: number, height: number): void
-  changeDimensions: (width: number, height: number, instant?: boolean) => void
+  changeDimensions: (
+    width: number,
+    height: number,
+    focusCrop?: Position
+  ) => void
   focusCircle?(
     circleId: string | undefined,
     adaptScale?: boolean,
@@ -48,4 +55,11 @@ export type DrawEventListener = (handler: () => void, once?: boolean) => void
 export interface DrawEventHandler {
   once: boolean
   handler: () => void
+}
+
+export interface Position {
+  top: number
+  right: number
+  bottom: number
+  left: number
 }

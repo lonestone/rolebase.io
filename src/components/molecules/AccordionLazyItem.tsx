@@ -11,7 +11,7 @@ interface Props {
 
 export default function AccordionLazyItem({ icon, label, h, children }: Props) {
   return (
-    <AccordionItem borderColor="gray.300" _dark={{ borderColor: 'gray.550' }}>
+    <AccordionItem borderColor="gray.200" _dark={{ borderColor: 'gray.550' }}>
       {({ isExpanded }) => (
         <>
           <AccordionIconButton icon={icon}>{label}</AccordionIconButton>

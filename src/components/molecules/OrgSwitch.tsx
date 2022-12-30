@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from '@chakra-ui/icons'
+import { UpDownIcon } from '@chakra-ui/icons'
 import {
   Button,
   Menu,
@@ -12,14 +12,16 @@ import OrgCreateModal from '@components/organisms/org/OrgCreateModal'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCircle, FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { SidebarContext } from 'src/contexts/SidebarContext'
 import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
-export default function HeaderOrgMenu(props: MenuButtonProps) {
+export default function OrgSwitch(props: MenuButtonProps) {
   const { t } = useTranslation()
+  const sidebarContext = useContext(SidebarContext)
   const org = useCurrentOrg()
   const orgs = useStoreState((state) => state.orgs.entries)
   const sortedOrgs = orgs?.sort((a, b) => (a.name < b.name ? -1 : 1))
@@ -27,6 +29,7 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
   // Set orgId in localStorage
   const handleOrgClick = (orgId: string) => {
     localStorage.setItem(UserLocalStorageKeys.OrgId, orgId)
+    sidebarContext?.expand.onClose()
   }
 
   // Create modal
@@ -42,15 +45,21 @@ export default function HeaderOrgMenu(props: MenuButtonProps) {
       <MenuButton
         as={Button}
         variant="ghost"
-        size="sm"
         fontWeight="bold"
-        rightIcon={<ChevronDownIcon />}
+        display="block"
+        h="auto"
+        py={3}
+        px={5}
+        textAlign="left"
+        whiteSpace="normal"
+        borderRadius="none"
+        rightIcon={<UpDownIcon pt={1} opacity={0.6} />}
         {...props}
       >
         {org.name}
       </MenuButton>
 
-      <MenuList zIndex={10} shadow="lg">
+      <MenuList zIndex={10} shadow="lg" ml={2}>
         {sortedOrgs?.map((org) => (
           <Link
             key={org.id}

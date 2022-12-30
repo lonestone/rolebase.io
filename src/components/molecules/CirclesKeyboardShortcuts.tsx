@@ -1,8 +1,8 @@
 import {
   Box,
   BoxProps,
-  Button,
   Collapse,
+  IconButton,
   Kbd,
   StackItem,
   useDisclosure,
@@ -12,7 +12,7 @@ import {
 import useOrgMember from '@hooks/useOrgMember'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { FaKeyboard } from 'react-icons/fa'
 import { cmdOrCtrlKey } from 'src/utils/env'
 
 export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
@@ -26,17 +26,22 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
   }
 
   return (
-    <Box {...boxProps}>
-      <Button
-        variant="link"
-        colorScheme="gray"
-        rightIcon={isOpen ? <FiChevronDown /> : <FiChevronUp />}
+    <Box pointerEvents="none" {...boxProps}>
+      <IconButton
+        variant="ghost"
+        aria-label={t('CirclesKeyboardShortcuts.label')}
+        pointerEvents="auto"
+        icon={<FaKeyboard />}
         onClick={onToggle}
-      >
-        {t('CirclesKeyboardShortcuts.label')}
-      </Button>
+      />
       <Collapse in={isOpen} animateOpacity>
-        <VStack mt={2} spacing={2} align="stretch">
+        <VStack
+          mt={2}
+          spacing={2}
+          align="stretch"
+          fontSize="sm"
+          pointerEvents="auto"
+        >
           <StackItem>
             <Kbd>{cmdOrCtrlKey}</Kbd> + <Kbd>Click</Kbd>
             {t('CirclesKeyboardShortcuts.CmdClick')}

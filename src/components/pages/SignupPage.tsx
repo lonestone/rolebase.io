@@ -2,6 +2,7 @@ import { Center, Container, Heading, Link } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import BrandIcon from '@components/molecules/BrandIcon'
 import SignupForm, { Values } from '@components/organisms/user/SignupForm'
 import useQueryParams from '@hooks/useQueryParams'
 import { useSendVerificationEmail, useSignUpEmailPassword } from '@nhost/react'
@@ -52,7 +53,9 @@ export default function SignupPage({ goToLoginPage }: Props) {
     >
       <Title>{t('SignupPage.heading')}</Title>
 
-      <Heading size="md" mb={5}>
+      <BrandIcon />
+
+      <Heading size="md" mt={10} mb={5}>
         {t('SignupPage.heading')}
       </Heading>
 

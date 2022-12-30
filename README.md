@@ -100,6 +100,7 @@ All other templates are defined in the Mailjet interface.
 [Render.com](https://render.com)
 
 - Front (static)
+- Storybook (static)
 - Collab (Node + y-websocket)
 
 [Nhost.io](https://nhost.io)

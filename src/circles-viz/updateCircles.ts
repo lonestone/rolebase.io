@@ -98,7 +98,7 @@ export default function updateCircles(
 
   // Zoom on root circle at first draw
   if (firstDraw) {
-    focusCircle(root, true, true)
+    setTimeout(() => focusCircle(root, true, true), 0)
   }
 
   const panzoomSelection = svg.select('.panzoom')

@@ -1,11 +1,7 @@
 import {
-  Circle,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuButtonProps,
   MenuItem,
   MenuList,
+  MenuListProps,
   useDisclosure,
 } from '@chakra-ui/react'
 import OrgEditModal from '@components/organisms/org/OrgEditModal'
@@ -16,17 +12,17 @@ import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiActivity,
   FiCircle,
   FiClock,
-  FiMoreVertical,
   FiSettings,
   FiUsers,
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { SidebarContext } from 'src/contexts/SidebarContext'
 
 export interface HeaderLink {
   to: string
@@ -36,23 +32,20 @@ export interface HeaderLink {
   alert?: boolean
 }
 
-interface Props extends MenuButtonProps {
-  links?: HeaderLink[]
-}
-
-export default function HeaderLinksMenu({ links, ...props }: Props) {
+export default function SettingsMenuList(props: MenuListProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
   const isSuperAdmin = useSuperAdmin()
+  const sidebarContext = useContext(SidebarContext)
 
   // Pages paths
   const membersPath = usePathInOrg('members')
   const logsPath = usePathInOrg('logs')
 
   // Modals
-  const editModal = useDisclosure()
+  const orgEditModal = useDisclosure()
   const baseRolesModal = useDisclosure()
   const vacantRolesModal = useDisclosure()
 
@@ -60,44 +53,25 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
   const [editOrgId, setEditOrgId] = useState<string | undefined>()
   const handleOpenEdit = (id: string) => {
     setEditOrgId(id)
-    editModal.onOpen()
+    orgEditModal.onOpen()
   }
 
   if (!orgId) return null
   return (
-    <Menu>
-      <MenuButton
-        as={IconButton}
-        icon={<FiMoreVertical />}
-        variant="ghost"
-        size="sm"
-        px={1}
-        {...props}
-      />
-
-      <MenuList zIndex={10} shadow="lg">
-        {links?.map((link, i) => (
-          <MenuItem key={i} as={Link} to={link.to} icon={link.icon}>
-            {link.label}
-            {link.alert && (
-              <Circle
-                display="inline-block"
-                ml={2}
-                size="8px"
-                bg="red.400"
-                _dark={{ bg: 'red.600' }}
-              />
-            )}
-          </MenuItem>
-        ))}
-
+    <>
+      <MenuList zIndex={10} shadow="lg" {...props}>
         {isAdmin && (
           <MenuItem icon={<FiSettings />} onClick={() => handleOpenEdit(orgId)}>
-            {t('HeaderLinksMenu.settings')}
+            {t('HeaderLinksMenu.org')}
           </MenuItem>
         )}
 
-        <MenuItem as={Link} to={membersPath} icon={<FiUsers />}>
+        <MenuItem
+          as={Link}
+          to={membersPath}
+          icon={<FiUsers />}
+          onClick={sidebarContext?.expand.onClose}
+        >
           {t('HeaderLinksMenu.members')}
         </MenuItem>
 
@@ -112,7 +86,12 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
           </>
         )}
 
-        <MenuItem as={Link} to={logsPath} icon={<FiClock />}>
+        <MenuItem
+          as={Link}
+          to={logsPath}
+          icon={<FiClock />}
+          onClick={sidebarContext?.expand.onClose}
+        >
           {t('HeaderLinksMenu.logs')}
         </MenuItem>
 
@@ -123,8 +102,8 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
         )}
       </MenuList>
 
-      {editModal.isOpen && editOrgId && (
-        <OrgEditModal id={editOrgId} isOpen onClose={editModal.onClose} />
+      {orgEditModal.isOpen && editOrgId && (
+        <OrgEditModal id={editOrgId} isOpen onClose={orgEditModal.onClose} />
       )}
 
       {baseRolesModal.isOpen && (
@@ -134,6 +113,6 @@ export default function HeaderLinksMenu({ links, ...props }: Props) {
       {vacantRolesModal.isOpen && (
         <VacantRolesModal isOpen onClose={vacantRolesModal.onClose} />
       )}
-    </Menu>
+    </>
   )
 }

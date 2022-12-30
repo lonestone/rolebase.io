@@ -5,6 +5,7 @@ import { StoreProvider } from 'easy-peasy'
 import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { SidebarProvider } from 'src/contexts/SidebarContext'
 import { nhost } from 'src/nhost'
 import i18n from '../i18n'
 import { store } from '../store'
@@ -18,11 +19,13 @@ export default function App() {
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <NhostReactProvider nhost={nhost}>
           <NhostApolloProvider nhost={nhost}>
-            <StoreProvider store={store}>
-              <Router>
-                <Routes />
-              </Router>
-            </StoreProvider>
+            <SidebarProvider>
+              <StoreProvider store={store}>
+                <Router>
+                  <Routes />
+                </Router>
+              </StoreProvider>
+            </SidebarProvider>
           </NhostApolloProvider>
         </NhostReactProvider>
       </ChakraProvider>

@@ -17,6 +17,11 @@ export const circleColor = (lightness: string, hue?: number | string) =>
     hue ?? defaultCircleColorHue
   } calc(${lightness} / 2 + 25%) ${lightness})`
 
+export const bgForBlurLight =
+  'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1))'
+export const bgForBlurDark =
+  'linear-gradient(135deg, rgba(59, 59, 81, 0.9), rgba(59, 59, 81, 0.1))'
+
 // https://chakra-ui.com/docs/theming/theme
 // https://chakra-ui.com/docs/theming/customize-theme
 // https://github.com/chakra-ui/chakra-ui/blob/main/packages/theme/src
@@ -27,44 +32,33 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   colors: {
-    brand: {
-      50: 'hsl(35 97% 5%)',
-      100: 'hsl(35 97% 10%)',
-      200: 'hsl(35 97% 15%)',
-      300: 'hsl(35 97% 25%)',
-      400: 'hsl(35 97% 40%)',
-      500: 'hsl(35 97% 50%)',
-      600: 'hsl(35 97% 75%)',
-      700: 'hsl(35 97% 85%)',
-      800: 'hsl(35 97% 90%)',
-      900: 'hsl(35 97% 95%)',
-    },
     gray: {
-      50: 'hsl(35 97% 98%)',
-      100: 'hsl(35 90% 92%)',
-      200: 'hsl(35 80% 86%)',
-      300: 'hsl(35 50% 79%)',
-      400: 'hsl(35 40% 63%)',
-      500: 'hsl(35 12% 50%)', // Readable gray on light and dark background
-      550: 'hsl(35 20% 20%)',
-      600: 'hsl(35 20% 15%)',
-      700: 'hsl(35 20% 11%)',
-      800: 'hsl(35 20% 9%)',
-      900: 'hsl(35 20% 5%)',
+      50: '#F6F6F9',
+      100: '#ECECF2',
+      200: '#D6D6E1',
+      300: '#B2B3C7',
+      400: '#8788A9',
+      500: '#696C8E', // Readable gray on light and dark background
+      550: '#535476',
+      600: '#444460',
+      700: '#3B3B51',
+      800: '#1F1F29',
+      900: '#0e0e12',
     },
     black: '#111111',
     outline: 'hsl(35 97% 50%)',
+    brand: 'hsla(262, 89%, 68%, 1)',
   },
   styles: {
     global: (props: any) => ({
       html: {
-        fontSize: '16px',
+        fontSize: '15px',
       },
       '*::placeholder': {
         color: 'gray.500',
       },
       '*, *::before, &::after': {
-        borderColor: mode('gray.300', 'whiteAlpha.400')(props),
+        borderColor: mode('gray.200', 'whiteAlpha.400')(props),
       },
     }),
   },

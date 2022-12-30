@@ -1,5 +1,5 @@
-import { Box, Flex, useColorMode, useMediaQuery } from '@chakra-ui/react'
-import ModalPanel from '@components/atoms/ModalPanel'
+import { Box, useColorMode, useMediaQuery } from '@chakra-ui/react'
+import ModalPanel, { modalPanelWidth } from '@components/atoms/ModalPanel'
 import { Title } from '@components/atoms/Title'
 import CirclesKeyboardShortcuts from '@components/molecules/CirclesKeyboardShortcuts'
 import CircleContent from '@components/organisms/circle/CircleContent'
@@ -14,8 +14,16 @@ import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { GraphZoomProvider } from 'src/contexts/GraphZoomContext'
+import { SidebarContext } from 'src/contexts/SidebarContext'
 
 type CirclesPageParams = {
   circleId: string
@@ -37,6 +45,7 @@ export default function CirclesPage() {
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
+  const sidebarContext = useContext(SidebarContext)
   const [ready, setReady] = useState(false)
 
   // Data
@@ -60,6 +69,23 @@ export default function CirclesPage() {
   const [memberId, setMemberId] = useState<string | null | undefined>()
 
   const handleClosePanel = useCallback(() => navigateOrg(), [])
+
+  // Zoom offsets when focusing
+  const focusCrop = useMemo(
+    () =>
+      sidebarContext
+        ? {
+            top: 0,
+            left: sidebarContext.width,
+            right:
+              sidebarContext.height || panel === Panels.None
+                ? 0
+                : modalPanelWidth,
+            bottom: 0,
+          }
+        : undefined,
+    [sidebarContext?.width, sidebarContext?.height, panel]
+  )
 
   // URL params
   useEffect(() => {
@@ -87,55 +113,57 @@ export default function CirclesPage() {
 
   return (
     <GraphZoomProvider>
-      <Flex
-        h="100%"
-        position="relative"
+      <Box
+        ref={boxRef}
+        position="absolute"
+        top={sidebarContext?.height || 0}
+        bottom={0}
+        left={0}
+        right={0}
         overflow="hidden"
-        flexDirection={isSmallScreen ? 'column' : 'row'}
       >
-        <Box ref={boxRef} flex={1} overflow="hidden">
-          {org && circlesWithRoles && members && boxSize && (
-            <CirclesGraph
-              key={colorMode}
-              id={`graph-${org.id}`}
-              circles={circlesWithRoles}
-              members={members}
-              events={events}
-              width={boxSize.width}
-              height={boxSize.height}
-              selectedCircleId={circleId}
-              onReady={() => setReady(true)}
-            />
-          )}
-        </Box>
-
-        {panel === Panels.Circle && circleId && (
-          <ModalPanel onClose={handleClosePanel}>
-            <CircleContent
-              id={circleId}
-              changeTitle
-              extendBottom={!isSmallScreen}
-              isFirstTabOpen={!isSmallScreen}
-            />
-          </ModalPanel>
+        {org && circlesWithRoles && members && boxSize && (
+          <CirclesGraph
+            key={colorMode}
+            id={`graph-${org.id}`}
+            circles={circlesWithRoles}
+            members={members}
+            events={events}
+            width={boxSize.width}
+            height={boxSize.height}
+            focusCrop={focusCrop}
+            selectedCircleId={circleId}
+            onReady={() => setReady(true)}
+          />
         )}
+      </Box>
 
-        {panel === Panels.Member && memberId && (
-          <ModalPanel onClose={handleClosePanel}>
-            <MemberContent
-              id={memberId}
-              selectedCircleId={circleId || undefined}
-              changeTitle
-            />
-          </ModalPanel>
-        )}
+      {panel === Panels.Circle && circleId && (
+        <ModalPanel onClose={handleClosePanel}>
+          <CircleContent
+            id={circleId}
+            changeTitle
+            extendBottom={!isSmallScreen}
+            isFirstTabOpen={!isSmallScreen}
+          />
+        </ModalPanel>
+      )}
 
-        {panel === Panels.None && org && <Title>{org.name}</Title>}
+      {panel === Panels.Member && memberId && (
+        <ModalPanel onClose={handleClosePanel}>
+          <MemberContent
+            id={memberId}
+            selectedCircleId={circleId || undefined}
+            changeTitle
+          />
+        </ModalPanel>
+      )}
 
-        <CirclesKeyboardShortcuts position="absolute" left={3} bottom={3} />
+      {panel === Panels.None && org && <Title>{org.name}</Title>}
 
-        <Onboarding />
-      </Flex>
+      <CirclesKeyboardShortcuts position="absolute" left={3} bottom={3} />
+
+      <Onboarding />
     </GraphZoomProvider>
   )
 }

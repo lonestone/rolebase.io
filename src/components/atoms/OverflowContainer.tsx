@@ -1,7 +1,8 @@
 import { Box, BoxProps } from '@chakra-ui/react'
 import { useElementSize } from '@hooks/useElementSize'
 import useWindowSize from '@hooks/useWindowSize'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { SidebarContext } from 'src/contexts/SidebarContext'
 
 export interface OverflowContainerProps extends BoxProps {
   expandRight?: boolean
@@ -27,6 +28,7 @@ export default function OverflowContainer({
   const contentSize = useElementSize(contentRef)
   const windowSize = useWindowSize()
   const [position, setPosition] = useState<Position | undefined>()
+  const sidebarContext = useContext(SidebarContext)
 
   // Update box position when content or window size changes
   useEffect(() => {
@@ -61,7 +63,7 @@ export default function OverflowContainer({
         }
         top={expandBottom ? `${position?.top}px` : undefined}
         right={expandRight ? 0 : undefined}
-        left={expandLeft ? 0 : `${position?.left}px`}
+        left={expandLeft ? sidebarContext?.width : `${position?.left}px`}
         bottom={expandBottom ? 0 : undefined}
       >
         <Box

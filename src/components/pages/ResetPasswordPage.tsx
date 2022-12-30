@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
+import BrandIcon from '@components/molecules/BrandIcon'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useQueryParams from '@hooks/useQueryParams'
 import { useResetPassword } from '@nhost/react'
@@ -61,7 +62,9 @@ export default function ResetPasswordPage() {
     >
       <Title>{t('ResetPasswordPage.heading')}</Title>
 
-      <Heading size="md" mb={5}>
+      <BrandIcon />
+
+      <Heading size="md" mt={10} mb={5}>
         {t('ResetPasswordPage.heading')}
       </Heading>
 

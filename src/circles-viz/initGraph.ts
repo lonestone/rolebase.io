@@ -1,17 +1,25 @@
 import * as d3 from 'd3'
 import { ZoomTransform } from 'd3'
 import settings from './settings'
-import { Zoom } from './types'
+import { Position, Zoom } from './types'
 
 interface GraphReturn {
   zoom: Zoom
   removeListeners: () => void
 }
 
+const defaultFocusCrop: Position = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+}
+
 export function initGraph(
   svgElement: SVGSVGElement,
   width: number,
-  height: number
+  height: number,
+  focusCrop?: Position
 ): GraphReturn {
   const svg = d3.select(svgElement)
   const svgId = svg.attr('id')
@@ -52,14 +60,17 @@ export function initGraph(
     y: 0,
     width,
     height,
+    focusCrop: focusCrop || defaultFocusCrop,
+    focusOffsetX: getFocusOffsetX(width, focusCrop || defaultFocusCrop),
+    focusOffsetY: getFocusOffsetY(height, focusCrop || defaultFocusCrop),
     scale: 1,
     disabled: false,
 
     // Change extent to which we can zoom
     changeExtent(w, h) {
       zoomBehaviour.translateExtent([
-        [-w, -h],
-        [w, h],
+        [-2 * w, -2 * h],
+        [2 * w, 2 * h],
       ])
     },
 
@@ -68,7 +79,11 @@ export function initGraph(
       const scale = radius
         ? Math.min(
             settings.zoom.scaleExtent[1],
-            Math.min(zoom.width, zoom.height) / (radius * 2)
+            Math.min(
+              zoom.width - zoom.focusCrop.left - zoom.focusCrop.right,
+              zoom.height - zoom.focusCrop.top - zoom.focusCrop.bottom
+            ) /
+              (radius * 2)
           )
         : zoom.scale
       svg
@@ -79,29 +94,35 @@ export function initGraph(
           zoomBehaviour.transform,
           new ZoomTransform(
             scale,
-            -x * scale + zoom.width / 2,
-            -y * scale + zoom.height / 2
+            -x * scale + zoom.focusOffsetX,
+            -y * scale + zoom.focusOffsetY
           )
         )
     },
 
     // Conserve center on window resize
-    changeDimensions(width: number, height: number, instant = false) {
-      if (width === zoom.width && height === zoom.height) return
+    changeDimensions(width: number, height: number, focusCrop?: Position) {
+      focusCrop = focusCrop || defaultFocusCrop
+
+      const focusOffsetX = getFocusOffsetX(width, focusCrop)
+      const focusOffsetY = getFocusOffsetY(height, focusCrop)
 
       const transform = new ZoomTransform(
         zoom.scale,
         // Reposition to conserve x,y
-        zoom.x - zoom.width / 2 + width / 2,
-        zoom.y - zoom.height / 2 + height / 2
+        zoom.x - zoom.focusOffsetX + focusOffsetX,
+        zoom.y - zoom.focusOffsetY + focusOffsetY
       )
 
       zoom.width = width
       zoom.height = height
+      zoom.focusCrop = focusCrop
+      zoom.focusOffsetX = focusOffsetX
+      zoom.focusOffsetY = focusOffsetY
 
       svg
         .transition()
-        .duration(instant ? 0 : settings.zoom.duration)
+        .duration(settings.zoom.duration)
         .ease(settings.zoom.transition)
         .call(zoomBehaviour.transform, transform)
     },
@@ -114,3 +135,9 @@ export function initGraph(
     },
   }
 }
+
+const getFocusOffsetX = (width: number, focusCrop: Position) =>
+  (width - focusCrop.left - focusCrop.right) / 2 + focusCrop.left
+
+const getFocusOffsetY = (height: number, focusCrop: Position) =>
+  (height - focusCrop.top - focusCrop.bottom) / 2 + focusCrop.top

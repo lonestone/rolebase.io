@@ -1,7 +1,7 @@
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
 import { initGraph } from './initGraph'
-import { DrawEventHandler, DrawEventListener, Zoom } from './types'
+import { DrawEventHandler, DrawEventListener, Position, Zoom } from './types'
 import updateCircles from './updateCircles'
 
 export interface Graph {
@@ -14,6 +14,7 @@ export interface Graph {
 export interface GraphParams {
   width: number
   height: number
+  focusCrop?: Position
   events: GraphEvents
 }
 
@@ -38,9 +39,9 @@ export interface GraphEvents {
 
 export function createGraph(
   svg: SVGSVGElement,
-  { width, height, events }: GraphParams
+  { width, height, focusCrop, events }: GraphParams
 ): Graph {
-  const { zoom, removeListeners } = initGraph(svg, width, height)
+  const { zoom, removeListeners } = initGraph(svg, width, height, focusCrop)
 
   // Handle outside click
   svg.addEventListener('click', (event) => {

@@ -6,9 +6,13 @@ import {
   useModal,
   useMultiStyleConfig,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useContext } from 'react'
+import { SidebarContext } from 'src/contexts/SidebarContext'
+import { bgForBlurDark, bgForBlurLight } from 'src/theme'
 
 // Inspired by https://github.com/chakra-ui/chakra-ui/blob/main/packages/modal/src/modal.tsx
+
+export const modalPanelWidth = 450
 
 export default function ModalPanel({
   children,
@@ -16,6 +20,7 @@ export default function ModalPanel({
 }: Omit<ModalProps, 'isOpen'>) {
   const styles = useMultiStyleConfig('Modal', props)
   const modal = useModal({ isOpen: true, ...props })
+  const sidebarContext = useContext(SidebarContext)
 
   const context = {
     ...modal,
@@ -23,16 +28,24 @@ export default function ModalPanel({
 
   return (
     <Box
-      w="450px"
+      position="absolute"
+      bottom={0}
+      right={0}
+      w={`${modalPanelWidth}px`}
       maxW="100vw"
+      h={sidebarContext?.height ? undefined : '100vh'}
+      maxH={`calc(100vh - ${sidebarContext?.height || 0}px)`}
       overflow="auto"
       zIndex={1}
+      bg={bgForBlurLight}
+      backdropFilter="auto"
+      backdropBlur="xl"
       borderRadius={0}
-      borderLeftWidth="1px"
-      bg="white"
-      borderLeftColor="gray.300"
+      borderLeftWidth={sidebarContext?.height ? 0 : '1px'}
+      borderTopWidth={sidebarContext?.height ? '1px' : 0}
+      borderColor="gray.200"
       _dark={{
-        bg: 'gray.700',
+        bg: bgForBlurDark,
         borderLeftColor: 'gray.550',
       }}
     >

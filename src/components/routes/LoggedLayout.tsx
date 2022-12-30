@@ -1,16 +1,18 @@
 import { replaceOldIds } from '@api/functions'
 import { Box } from '@chakra-ui/react'
-import Header, { headerHeight } from '@components/organisms/layout/Header'
+import Sidebar from '@components/organisms/layout/Sidebar'
 import useWindowSize from '@hooks/useWindowSize'
 import { useStoreActions } from '@store/hooks'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
+import { SidebarContext } from 'src/contexts/SidebarContext'
 import { useSubscribeOrgsSubscription } from 'src/graphql.generated'
 
 const LoggedLayout: React.FC = ({ children }) => {
   const windowSize = useWindowSize()
   const history = useHistory()
+  const sidebarContext = useContext(SidebarContext)
 
   // Subscribe to orgs
   const result = useSubscribeOrgsSubscription({
@@ -41,8 +43,13 @@ const LoggedLayout: React.FC = ({ children }) => {
 
   return (
     <CircleMemberProvider>
-      <Header />
-      <Box h={0} minH={`${windowSize.height}px`} pt={`${headerHeight}px`}>
+      <Sidebar />
+      <Box
+        h={0}
+        minH={`${windowSize.height}px`}
+        pl={sidebarContext?.width ? `${sidebarContext?.width}px` : 0}
+        pt={sidebarContext?.height ? `${sidebarContext?.height}px` : 0}
+      >
         {children}
       </Box>
     </CircleMemberProvider>

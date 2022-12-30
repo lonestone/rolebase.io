@@ -4,11 +4,13 @@ import { terser } from 'rollup-plugin-terser'
 import visualizer from 'rollup-plugin-visualizer'
 import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
+import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    svgr({ exportAsDefault: true }),
     react({
       // Required to prevent error "pragma and pragmaFrag cannot be set when runtime is automatic"
       // with @magicbell/magicbell-react

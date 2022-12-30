@@ -142,11 +142,12 @@
     "threads": "Discussions",
     "meetings": "Réunions",
     "tasks": "Tâches",
+    "settings": "Paramètres",
     "search": "Rechercher ({{keys}})",
     "help": "Aide"
   },
   "HeaderLinksMenu": {
-    "settings": "Paramètres",
+    "org": "Organisation",
     "members": "Membres",
     "baseRoles": "Rôles de base",
     "vacantRoles": "Rôles vacants",
@@ -210,7 +211,6 @@
     "submit": "Connexion"
   },
   "LoginPage": {
-    "heading": "Rolebase",
     "signup": "Créer un compte",
     "needsEmailVerification": "Vous devez cliquer sur le lien de vérification dans votre boîte email pour vous connecter.",
     "sendEmail": "Renvoyer",

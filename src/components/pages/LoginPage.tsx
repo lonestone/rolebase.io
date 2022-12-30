@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
+import BrandIcon from '@components/molecules/BrandIcon'
 import LoginForm, { Values } from '@components/organisms/user/LoginForm'
 import useQueryParams from '@hooks/useQueryParams'
 import { useSendVerificationEmail, useSignInEmailPassword } from '@nhost/react'
@@ -65,8 +66,8 @@ export default function LoginPage() {
       flexDirection="column"
       justifyContent="center"
     >
-      <Heading size="md" mb={5}>
-        {t('LoginPage.heading')}
+      <Heading size="md" mb={10}>
+        <BrandIcon />
       </Heading>
 
       {needsEmailVerification && (
