@@ -1,12 +1,6 @@
-import {
-  Box,
-  Button,
-  Container,
-  HStack,
-  useColorMode,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Button, Container, HStack, useDisclosure } from '@chakra-ui/react'
 import BounceAnimation from '@components/atoms/BounceAnimation'
+import GlassBox from '@components/atoms/GlassBox'
 import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
@@ -42,7 +36,6 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const org = useCurrentOrg()
-  const { colorMode } = useColorMode()
   const sidebarContext = useContext(SidebarContext)
 
   const {
@@ -106,17 +99,14 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
   )
 
   return (
-    <Box
+    <GlassBox
       position="fixed"
       zIndex={10}
       bottom={0}
       left={sidebarContext?.width}
       right={0}
       p={3}
-      bg={colorMode === 'light' ? 'gray.50' : 'gray.600'}
-      boxShadow={`0 -6px 11px -10px ${
-        colorMode === 'light' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'
-      }`}
+      borderTopWidth="1px"
     >
       <Container maxW="3xl" display="flex" justifyContent="end">
         {isNotStarted && (
@@ -255,6 +245,6 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
           </>
         )}
       </Container>
-    </Box>
+    </GlassBox>
   )
 }

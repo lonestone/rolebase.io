@@ -136,34 +136,6 @@
     "min": "Min / semaine",
     "hours": "Heures / semaine"
   },
-  "Header": {
-    "orgs": "Organisations",
-    "roles": "Rôles",
-    "threads": "Discussions",
-    "meetings": "Réunions",
-    "tasks": "Tâches",
-    "settings": "Paramètres",
-    "search": "Rechercher ({{keys}})",
-    "help": "Aide"
-  },
-  "HeaderLinksMenu": {
-    "org": "Organisation",
-    "members": "Membres",
-    "baseRoles": "Rôles de base",
-    "vacantRoles": "Rôles vacants",
-    "logs": "Historique",
-    "superAdmin": "Admin"
-  },
-  "HeaderOrgMenu": {
-    "create": "Créer une organisation"
-  },
-  "HeaderUserMenu": {
-    "member": "Ma fiche membre",
-    "user": "Informations personnelles",
-    "theme": "Thème clair/sombre",
-    "lang": "Langue",
-    "signout": "Déconnexion"
-  },
   "LangModal": {
     "heading": "Langue"
   },
@@ -490,6 +462,9 @@
     "slugPlaceholder": "{{slug}} (par exemple)",
     "already-exists": "Cette URL est déjà utilisée."
   },
+  "OrgSwitch": {
+    "create": "Créer une organisation"
+  },
   "OrgsPage": {
     "heading": "Organisations",
     "empty": {
@@ -584,6 +559,24 @@
   },
   "SearchInput": {
     "defaultPlaceholder": "Sélectionner..."
+  },
+  "SettingsMenuList": {
+    "org": "Organisation",
+    "members": "Membres",
+    "baseRoles": "Rôles de base",
+    "vacantRoles": "Rôles vacants",
+    "logs": "Historique",
+    "superAdmin": "Admin"
+  },
+  "Sidebar": {
+    "orgs": "Organisations",
+    "roles": "Rôles",
+    "threads": "Discussions",
+    "meetings": "Réunions",
+    "tasks": "Tâches",
+    "settings": "Paramètres",
+    "search": "Rechercher ({{keys}})",
+    "help": "Aide"
   },
   "SignupForm": {
     "name": "Nom",
@@ -715,6 +708,14 @@
     },
     "create": "Nouvelle discussion",
     "empty": "Aucune discussion."
+  },
+  "UserMenu": {
+    "tooltip": "Mes paramètres",
+    "member": "Ma fiche membre",
+    "user": "Informations personnelles",
+    "theme": "Thème clair/sombre",
+    "lang": "Langue",
+    "signout": "Déconnexion"
   },
   "VacantRolesModal": {
     "heading": "Rôles vacants",

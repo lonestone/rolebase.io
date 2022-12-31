@@ -1,5 +1,6 @@
 import {
   Button,
+  forwardRef,
   IconButton,
   IconButtonProps,
   PlacementWithLogical,
@@ -12,20 +13,17 @@ interface Props extends IconButtonProps {
   tooltipPlacement?: PlacementWithLogical | undefined
 }
 
-export default function IconTextButton({
-  showText,
-  tooltipPlacement,
-  icon,
-  'aria-label': label,
-  ...props
-}: Props) {
+export default forwardRef(function IconTextButton(
+  { showText, tooltipPlacement, icon, 'aria-label': label, ...props }: Props,
+  ref
+) {
   return showText ? (
-    <Button leftIcon={icon} colorScheme="blue" {...props}>
+    <Button ref={ref} leftIcon={icon} colorScheme="blue" {...props}>
       {label}
     </Button>
   ) : (
     <Tooltip label={label} placement={tooltipPlacement || 'top'} hasArrow>
-      <IconButton aria-label={label} icon={icon} {...props} />
+      <IconButton ref={ref} aria-label={label} icon={icon} {...props} />
     </Tooltip>
   )
-}
+})

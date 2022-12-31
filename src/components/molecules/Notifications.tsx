@@ -1,5 +1,5 @@
 import { getMagicbellConfig } from '@api/functions'
-import { useColorMode, useTheme } from '@chakra-ui/react'
+import { Box, useColorMode, useTheme } from '@chakra-ui/react'
 import IconTextButton from '@components/atoms/IconTextButton'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import MagicBell, {
@@ -120,43 +120,50 @@ export default function Notifications() {
   }
 
   return (
-    <MagicBell
-      apiKey={config.apiKey}
-      userExternalId={userId}
-      userKey={config.userKey}
-      theme={magicbellTheme}
-      locale="en"
-      BellIcon={
-        <div>
-          <IconTextButton
-            aria-label={t('Notifications.tooltip')}
-            size="sm"
-            icon={<FaBell />}
-          />
-        </div>
-      }
-      images={{
-        // Transparent gif
-        emptyInboxUrl:
-          'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+    <Box
+      sx={{
+        'a[data-magicbell-bell]': {
+          width: 'auto !important',
+        },
       }}
     >
-      {(props) => (
-        <FloatingNotificationInbox
-          height={500}
-          popperOptions={{
-            modifiers: [
-              {
-                name: 'offset',
-                options: {
-                  offset: [0, 16],
+      <MagicBell
+        apiKey={config.apiKey}
+        userExternalId={userId}
+        userKey={config.userKey}
+        theme={magicbellTheme}
+        locale="en"
+        BellIcon={
+          <div>
+            <IconTextButton
+              aria-label={t('Notifications.tooltip')}
+              icon={<FaBell />}
+            />
+          </div>
+        }
+        images={{
+          // Transparent gif
+          emptyInboxUrl:
+            'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+        }}
+      >
+        {(props) => (
+          <FloatingNotificationInbox
+            height={500}
+            popperOptions={{
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [0, 16],
+                  },
                 },
-              },
-            ],
-          }}
-          {...props}
-        />
-      )}
-    </MagicBell>
+              ],
+            }}
+            {...props}
+          />
+        )}
+      </MagicBell>
+    </Box>
   )
 }

@@ -62,7 +62,7 @@ export default function SettingsMenuList(props: MenuListProps) {
       <MenuList zIndex={10} shadow="lg" {...props}>
         {isAdmin && (
           <MenuItem icon={<FiSettings />} onClick={() => handleOpenEdit(orgId)}>
-            {t('HeaderLinksMenu.org')}
+            {t('SettingsMenuList.org')}
           </MenuItem>
         )}
 
@@ -72,16 +72,16 @@ export default function SettingsMenuList(props: MenuListProps) {
           icon={<FiUsers />}
           onClick={sidebarContext?.expand.onClose}
         >
-          {t('HeaderLinksMenu.members')}
+          {t('SettingsMenuList.members')}
         </MenuItem>
 
         {isMember && (
           <>
             <MenuItem icon={<FiCircle />} onClick={baseRolesModal.onOpen}>
-              {t('HeaderLinksMenu.baseRoles')}
+              {t('SettingsMenuList.baseRoles')}
             </MenuItem>
             <MenuItem icon={<FiCircle />} onClick={vacantRolesModal.onOpen}>
-              {t('HeaderLinksMenu.vacantRoles')}
+              {t('SettingsMenuList.vacantRoles')}
             </MenuItem>
           </>
         )}
@@ -92,12 +92,12 @@ export default function SettingsMenuList(props: MenuListProps) {
           icon={<FiClock />}
           onClick={sidebarContext?.expand.onClose}
         >
-          {t('HeaderLinksMenu.logs')}
+          {t('SettingsMenuList.logs')}
         </MenuItem>
 
         {isSuperAdmin && (
           <MenuItem as={Link} to={`/admin`} icon={<FiActivity />}>
-            {t('HeaderLinksMenu.superAdmin')}
+            {t('SettingsMenuList.superAdmin')}
           </MenuItem>
         )}
       </MenuList>

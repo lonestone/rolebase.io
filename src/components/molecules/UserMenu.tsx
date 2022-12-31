@@ -1,15 +1,16 @@
 import {
   Avatar,
-  Button,
   Menu,
   MenuButton,
   MenuButtonProps,
   MenuItem,
   MenuList,
+  useButtonGroup,
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import CircleMemberLink from '@components/atoms/CircleMemberLink'
+import IconTextButton from '@components/atoms/IconTextButton'
 import LangModal from '@components/organisms/layout/LangModal'
 import CurrentUserModal from '@components/organisms/user/CurrentUserModal'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -20,7 +21,7 @@ import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiLogOut, FiMoon, FiSun, FiUser } from 'react-icons/fi'
 import { IoLanguage } from 'react-icons/io5'
 
-export default function HeaderUserMenu(props: MenuButtonProps) {
+export default function UserMenu(props: MenuButtonProps) {
   const { t } = useTranslation()
   const user = useUserData()
   const member = useCurrentMember()
@@ -32,38 +33,45 @@ export default function HeaderUserMenu(props: MenuButtonProps) {
 
   const currentUserModal = useDisclosure()
   const langModal = useDisclosure()
+  const { size } = useButtonGroup()
+  const avatarSize = size === 'sm' ? 'xs' : 'sm'
 
   if (!user) return null
+
   return (
     <Menu>
-      <MenuButton as={Button} variant="ghost" size="sm" px={1} {...props}>
-        <Avatar name={name} src={picture || undefined} size="xs" />
+      <MenuButton
+        as={IconTextButton}
+        aria-label={t('UserMenu.settings')}
+        {...props}
+      >
+        <Avatar name={name} src={picture || undefined} size={avatarSize} />
       </MenuButton>
 
       <MenuList zIndex={10} shadow="lg">
         {member && (
           <CircleMemberLink memberId={member.id}>
-            <MenuItem icon={<FiUser />}>{t('HeaderUserMenu.member')}</MenuItem>
+            <MenuItem icon={<FiUser />}>{t('UserMenu.member')}</MenuItem>
           </CircleMemberLink>
         )}
 
         <MenuItem icon={<FiEdit3 />} onClick={currentUserModal.onOpen}>
-          {t('HeaderUserMenu.user')}
+          {t('UserMenu.user')}
         </MenuItem>
 
         <MenuItem
           icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
           onClick={toggleColorMode}
         >
-          {t('HeaderUserMenu.theme')}
+          {t('UserMenu.theme')}
         </MenuItem>
 
         <MenuItem icon={<IoLanguage />} onClick={langModal.onOpen}>
-          {t('HeaderUserMenu.lang')}
+          {t('UserMenu.lang')}
         </MenuItem>
 
         <MenuItem icon={<FiLogOut />} onClick={signOut}>
-          {t('HeaderUserMenu.signout')}
+          {t('UserMenu.signout')}
         </MenuItem>
       </MenuList>
 

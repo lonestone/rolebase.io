@@ -70,7 +70,7 @@ export default function OrgSwitch(props: MenuButtonProps) {
           </Link>
         ))}
         <MenuItem icon={<FiPlus />} onClick={onCreateOpen}>
-          {t('HeaderOrgMenu.create')}
+          {t('OrgSwitch.create')}
         </MenuItem>
       </MenuList>
 

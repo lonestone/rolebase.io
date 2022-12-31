@@ -1,5 +1,4 @@
 import {
-  Box,
   ModalContextProvider,
   ModalProps,
   StylesProvider,
@@ -8,7 +7,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useContext } from 'react'
 import { SidebarContext } from 'src/contexts/SidebarContext'
-import { bgForBlurDark, bgForBlurLight } from 'src/theme'
+import GlassBox from './GlassBox'
 
 // Inspired by https://github.com/chakra-ui/chakra-ui/blob/main/packages/modal/src/modal.tsx
 
@@ -27,7 +26,7 @@ export default function ModalPanel({
   }
 
   return (
-    <Box
+    <GlassBox
       position="absolute"
       bottom={0}
       right={0}
@@ -37,21 +36,12 @@ export default function ModalPanel({
       maxH={`calc(100vh - ${sidebarContext?.height || 0}px)`}
       overflow="auto"
       zIndex={1}
-      bg={bgForBlurLight}
-      backdropFilter="auto"
-      backdropBlur="xl"
-      borderRadius={0}
       borderLeftWidth={sidebarContext?.height ? 0 : '1px'}
       borderTopWidth={sidebarContext?.height ? '1px' : 0}
-      borderColor="gray.200"
-      _dark={{
-        bg: bgForBlurDark,
-        borderLeftColor: 'gray.550',
-      }}
     >
       <ModalContextProvider value={context}>
         <StylesProvider value={styles}>{children}</StylesProvider>
       </ModalContextProvider>
-    </Box>
+    </GlassBox>
   )
 }

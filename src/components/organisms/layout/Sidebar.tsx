@@ -1,5 +1,6 @@
 import {
   Box,
+  ButtonGroup,
   Flex,
   Link,
   Menu,
@@ -11,16 +12,17 @@ import {
   useDisclosure,
   useMediaQuery,
 } from '@chakra-ui/react'
+import GlassBox from '@components/atoms/GlassBox'
 import IconTextButton from '@components/atoms/IconTextButton'
 import SidebarIconButton from '@components/atoms/SidebarIconButton'
 import SidebarItem from '@components/atoms/SidebarItem'
 import SidebarLinkItem from '@components/atoms/SidebarLinkItem'
 import BrandIcon from '@components/molecules/BrandIcon'
-import HeaderUserMenu from '@components/molecules/HeaderUserMenu'
 import Notifications from '@components/molecules/Notifications'
 import OrgSwitch from '@components/molecules/OrgSwitch'
 import SearchGlobal from '@components/molecules/search/SearchGlobal'
 import SettingsMenuList from '@components/molecules/SettingsMenuList'
+import UserMenu from '@components/molecules/UserMenu'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { usePathInOrg } from '@hooks/usePathInOrg'
@@ -43,7 +45,6 @@ import {
   SidebarContext,
 } from 'src/contexts/SidebarContext'
 import settings from 'src/settings'
-import { bgForBlurDark, bgForBlurLight } from 'src/theme'
 import { cmdOrCtrlKey } from 'src/utils/env'
 
 // Force reset with fast refresh
@@ -111,25 +112,18 @@ export default function Sidebar() {
 
   if (!isAuthenticated) return null
   return (
-    <Flex
+    <GlassBox
       position="fixed"
+      display="flex"
       flexDirection="column"
-      align="stretch"
+      alignItems="stretch"
       top={0}
       left={0}
       zIndex={1000}
       w={isSmall ? '100%' : `${context.width}px`}
       h={isSmall && !context.expand.isOpen ? context.height + 1 : '100vh'}
-      bg={bgForBlurLight}
-      backdropFilter="auto"
-      backdropBlur="xl"
       borderRightWidth={isSmall ? 0 : '1px'}
       borderBottomWidth={isSmall ? '1px' : 0}
-      borderColor="gray.200"
-      _dark={{
-        bg: bgForBlurDark,
-        borderColor: 'gray.550',
-      }}
     >
       <Flex
         h={`${context.height || logoContainerWidth}px`}
@@ -149,14 +143,14 @@ export default function Sidebar() {
                 <Spacer />
 
                 <SidebarIconButton to={rootPath} exact icon={<FiDisc />}>
-                  {t('Header.roles')}
+                  {t('Sidebar.roles')}
                 </SidebarIconButton>
 
                 <SidebarIconButton
                   to={`${rootPath}threads`}
                   icon={<FiMessageSquare />}
                 >
-                  {t('Header.threads')}
+                  {t('Sidebar.threads')}
                 </SidebarIconButton>
 
                 <SidebarIconButton
@@ -164,14 +158,14 @@ export default function Sidebar() {
                   icon={<FiCalendar />}
                   alert={!!currentMember?.meetingId}
                 >
-                  {t('Header.meetings')}
+                  {t('Sidebar.meetings')}
                 </SidebarIconButton>
 
                 <SidebarIconButton
                   to={`${rootPath}tasks?member=${currentMember?.id}`}
                   icon={<FiCheckSquare />}
                 >
-                  {t('Header.tasks')}
+                  {t('Sidebar.tasks')}
                 </SidebarIconButton>
               </>
             )}
@@ -199,14 +193,14 @@ export default function Sidebar() {
               <OrgSwitch mb={5} />
 
               <SidebarLinkItem to={rootPath} exact icon={<FiDisc />}>
-                {t('Header.roles')}
+                {t('Sidebar.roles')}
               </SidebarLinkItem>
 
               <SidebarLinkItem
                 to={`${rootPath}threads`}
                 icon={<FiMessageSquare />}
               >
-                {t('Header.threads')}
+                {t('Sidebar.threads')}
               </SidebarLinkItem>
 
               <SidebarLinkItem
@@ -214,20 +208,20 @@ export default function Sidebar() {
                 icon={<FiCalendar />}
                 alert={!!currentMember?.meetingId}
               >
-                {t('Header.meetings')}
+                {t('Sidebar.meetings')}
               </SidebarLinkItem>
 
               <SidebarLinkItem
                 to={`${rootPath}tasks?member=${currentMember?.id}`}
                 icon={<FiCheckSquare />}
               >
-                {t('Header.tasks')}
+                {t('Sidebar.tasks')}
               </SidebarLinkItem>
 
               <Box>
                 <Menu>
                   <MenuButton as={SidebarItem} icon={<FiSettings />}>
-                    {t('Header.settings')}
+                    {t('Sidebar.settings')}
                   </MenuButton>
                   <SettingsMenuList mt={-2} ml={2} />
                 </Menu>
@@ -235,55 +229,59 @@ export default function Sidebar() {
             </>
           ) : window.location.pathname !== '/' ? (
             <SidebarLinkItem to="/" exact icon={<FiArrowLeft />}>
-              {t('Header.orgs')}
+              {t('Sidebar.orgs')}
             </SidebarLinkItem>
           ) : null}
 
           <Spacer />
 
-          <Flex alignItems="center" justifyContent="space-between" p={3}>
-            {org && (
-              <IconTextButton
-                aria-label={t('Header.search', {
-                  keys: `${cmdOrCtrlKey} + P`,
-                })}
-                icon={<FaSearch />}
-                variant="ghost"
-                size="sm"
-                onClick={searchModal.onOpen}
-              />
-            )}
-
-            <Modal
-              isOpen={searchModal.isOpen}
-              size="lg"
-              onClose={searchModal.onClose}
-            >
-              <ModalOverlay />
-              <ModalContent position="relative">
-                <SearchGlobal
-                  onClose={() => {
-                    searchModal.onClose()
-                    context.expand.onClose()
-                  }}
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            p={isSmall ? 10 : 3}
+            w={isSmall ? '250px' : '100%'}
+            mx="auto"
+          >
+            <ButtonGroup variant="ghost" size={isSmall ? 'lg' : 'sm'}>
+              {org && (
+                <IconTextButton
+                  aria-label={t('Sidebar.search', {
+                    keys: `${cmdOrCtrlKey} + P`,
+                  })}
+                  icon={<FaSearch />}
+                  onClick={searchModal.onOpen}
                 />
-              </ModalContent>
-            </Modal>
+              )}
 
-            <IconTextButton
-              aria-label={t('Header.help')}
-              icon={<FaQuestion />}
-              variant="ghost"
-              size="sm"
-              onClick={handleOpenHelp}
-            />
+              <IconTextButton
+                aria-label={t('Sidebar.help')}
+                icon={<FaQuestion />}
+                onClick={handleOpenHelp}
+              />
 
-            <Notifications />
+              <Notifications />
 
-            <HeaderUserMenu ml={2} />
+              <UserMenu />
+            </ButtonGroup>
           </Flex>
         </Flex>
       )}
-    </Flex>
+
+      <Modal
+        isOpen={searchModal.isOpen}
+        size="lg"
+        onClose={searchModal.onClose}
+      >
+        <ModalOverlay />
+        <ModalContent position="relative">
+          <SearchGlobal
+            onClose={() => {
+              searchModal.onClose()
+              context.expand.onClose()
+            }}
+          />
+        </ModalContent>
+      </Modal>
+    </GlassBox>
   )
 }

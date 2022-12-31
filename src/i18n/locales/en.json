@@ -136,34 +136,6 @@
     "min": "Min / week",
     "hours": "Heures / week"
   },
-  "Header": {
-    "orgs": "Organizations",
-    "roles": "Roles",
-    "threads": "Threads",
-    "meetings": "Meetings",
-    "tasks": "Tasks",
-    "settings": "Settings",
-    "search": "Search ({{keys}})",
-    "help": "Help"
-  },
-  "HeaderLinksMenu": {
-    "org": "Organization",
-    "members": "Members",
-    "baseRoles": "Basic roles",
-    "vacantRoles": "Vacant roles",
-    "logs": "History",
-    "superAdmin": "Admin"
-  },
-  "HeaderOrgMenu": {
-    "create": "Create an organization"
-  },
-  "HeaderUserMenu": {
-    "member": "My member record",
-    "user": "Personal information",
-    "theme": "Light/dark theme",
-    "lang": "Language",
-    "signout": "Logout"
-  },
   "LangModal": {
     "heading": "Language"
   },
@@ -490,6 +462,9 @@
     "slugPlaceholder": "{{slug}} (for example)",
     "already-exists": "This URL is already used."
   },
+  "OrgSwitch": {
+    "create": "Create an organization"
+  },
   "OrgsPage": {
     "heading": "Organizations",
     "empty": {
@@ -586,6 +561,24 @@
   },
   "SearchInput": {
     "defaultPlaceholder": "Select..."
+  },
+  "SettingsMenuList": {
+    "org": "Organization",
+    "members": "Members",
+    "baseRoles": "Basic roles",
+    "vacantRoles": "Vacant roles",
+    "logs": "History",
+    "superAdmin": "Admin"
+  },
+  "Sidebar": {
+    "orgs": "Organizations",
+    "roles": "Roles",
+    "threads": "Threads",
+    "meetings": "Meetings",
+    "tasks": "Tasks",
+    "settings": "Settings",
+    "search": "Search ({{keys}})",
+    "help": "Help"
   },
   "SignupForm": {
     "name": "Name",
@@ -729,6 +722,14 @@
     "enable": "Enable video conferencing",
     "jitsi": "Generate a Jitsi URL",
     "url": "Custom URL"
+  },
+  "UserMenu": {
+    "settings": "My settings",
+    "member": "My member record",
+    "user": "Personal information",
+    "theme": "Light/dark theme",
+    "lang": "Language",
+    "signout": "Logout"
   },
   "common": {
     "save": "Save",
