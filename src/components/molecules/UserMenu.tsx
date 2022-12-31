@@ -33,8 +33,8 @@ export default function UserMenu(props: MenuButtonProps) {
 
   const currentUserModal = useDisclosure()
   const langModal = useDisclosure()
-  const { size } = useButtonGroup()
-  const avatarSize = size === 'sm' ? 'xs' : 'sm'
+  const buttonGroup = useButtonGroup()
+  const avatarSize = buttonGroup?.size === 'sm' ? 'xs' : 'sm'
 
   if (!user) return null
 
@@ -42,7 +42,7 @@ export default function UserMenu(props: MenuButtonProps) {
     <Menu>
       <MenuButton
         as={IconTextButton}
-        aria-label={t('UserMenu.settings')}
+        aria-label={t('UserMenu.tooltip')}
         {...props}
       >
         <Avatar name={name} src={picture || undefined} size={avatarSize} />

@@ -79,7 +79,7 @@ export default function ThreadsPage() {
           <MenuButton
             as={Button}
             size="sm"
-            variant="ghost"
+            variant="outline"
             rightIcon={<FiChevronDown />}
           >
             {t(`ThreadsPage.participation.${filter}` as any)}

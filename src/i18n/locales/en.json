@@ -281,9 +281,6 @@
     "useCircle": "Use role indicators {{circle}}",
     "empty": "The role <circle /> has no indicators. You can edit it to add indicators that will be used automatically in meetings."
   },
-  "MeetingStepContentTasks": {
-    "create": "New task"
-  },
   "MeetingStepSortableItem": {
     "placeholder": "Step title..."
   },

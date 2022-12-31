@@ -54,7 +54,7 @@ export default function CircleMeetings({ circleId }: Props) {
         <Spacer />
         <Button
           size="sm"
-          variant="ghost"
+          variant="outline"
           leftIcon={<FiRepeat />}
           onClick={recurringModal.onOpen}
         >

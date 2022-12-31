@@ -4,8 +4,8 @@ import SearchResultIcon from './SearchResultIcon'
 import { SearchItem } from './searchTypes'
 
 interface Props extends ButtonProps {
-  item: SearchItem
-  highlighted: boolean
+  item?: SearchItem
+  highlighted?: boolean
 }
 
 export default React.forwardRef<HTMLButtonElement, Props>(
@@ -16,10 +16,15 @@ export default React.forwardRef<HTMLButtonElement, Props>(
         ref={ref}
         pointerEvents="auto"
         justifyContent="start"
+        variant="solid"
         {...buttonProps}
       >
-        <SearchResultIcon item={item} />
-        <Box ml={2}>{item.title}</Box>
+        {item && (
+          <>
+            <SearchResultIcon item={item} />
+            <Box ml={2}>{item.title}</Box>
+          </>
+        )}
       </Button>
     )
   }

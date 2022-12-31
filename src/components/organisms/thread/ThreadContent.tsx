@@ -6,11 +6,11 @@ import {
   HStack,
   Spacer,
   Tag,
-  useColorMode,
   useDisclosure,
   Wrap,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
+import GlassBox from '@components/atoms/GlassBox'
 import Loading from '@components/atoms/Loading'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
@@ -21,11 +21,12 @@ import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import Page404 from '@components/pages/Page404'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { useElementSize } from '@hooks/useElementSize'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
 import { ThreadEntry } from '@shared/model/thread'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ThreadContext } from 'src/contexts/ThreadContext'
 import {
@@ -69,6 +70,10 @@ export default function ThreadContent({
   )
 
   // Scrollable content
+  const topRef = useRef<HTMLDivElement>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const topSize = useElementSize(topRef)
+  const bottomSize = useElementSize(bottomRef)
   const {
     containerRef,
     contentRef,
@@ -79,11 +84,6 @@ export default function ThreadContent({
 
   // Create modal
   const editModal = useDisclosure()
-
-  // Theme
-  const { colorMode } = useColorMode()
-  const shadowColor =
-    colorMode === 'light' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'
 
   // Archive / unarchive
   const handleArchive = useCallback(
@@ -100,20 +100,42 @@ export default function ThreadContent({
   }
 
   return (
-    <Box mx={5} display="flex" flexDirection="column" {...boxProps}>
+    <Box
+      position="relative"
+      display="flex"
+      flexDirection="column"
+      {...boxProps}
+    >
       {changeTitle && <Title>{thread?.title || '…'}</Title>}
 
       {loading && <Loading active center />}
 
-      <Flex
-        pb={2}
-        position="relative"
-        zIndex={1}
-        boxShadow={
-          isScrollable && scrollPosition !== ScrollPosition.Top
-            ? `0 6px 11px -10px ${shadowColor}`
-            : 'none'
-        }
+      <Box
+        ref={containerRef}
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+        px={5}
+        overflow="auto"
+        onScroll={handleScroll}
+      >
+        <Box h={`${topSize?.height}px`} />
+        <ThreadContext.Provider value={thread}>
+          <ThreadActivities ref={contentRef} memberStatus={memberStatus} />
+        </ThreadContext.Provider>
+        <Box h={`${bottomSize?.height}px`} />
+      </Box>
+
+      <GlassBox
+        ref={topRef}
+        display="flex"
+        w="100%"
+        px={5}
+        py={2}
+        borderBottomWidth={1}
+        borderTopRadius="lg"
       >
         <Wrap spacing={2} flex={1} align="center">
           <Heading as="h1" size="md">
@@ -144,27 +166,22 @@ export default function ThreadContent({
           )}
           {headerIcons}
         </Flex>
-      </Flex>
+      </GlassBox>
 
-      <Box ref={containerRef} flex={1} overflow="auto" onScroll={handleScroll}>
-        <ThreadContext.Provider value={thread}>
-          <ThreadActivities ref={contentRef} memberStatus={memberStatus} />
-        </ThreadContext.Provider>
-      </Box>
+      <Box flex={1} />
 
-      {thread && isMember && (
-        <Box
-          position="relative"
-          zIndex={1}
-          boxShadow={
-            isScrollable && scrollPosition !== ScrollPosition.Bottom
-              ? `0 -6px 11px -10px ${shadowColor}`
-              : 'none'
-          }
-        >
-          <ThreadActivityCreate thread={thread} />
-        </Box>
-      )}
+      <GlassBox
+        ref={bottomRef}
+        p={5}
+        borderTopWidth={
+          isScrollable && scrollPosition !== ScrollPosition.Bottom ? 3 : 1
+        }
+        borderBottomRadius="lg"
+      >
+        {thread && isMember && (
+          <ThreadActivityCreate thread={thread} w="100%" />
+        )}
+      </GlassBox>
 
       {editModal.isOpen && (
         <ThreadEditModal isOpen thread={thread} onClose={editModal.onClose} />

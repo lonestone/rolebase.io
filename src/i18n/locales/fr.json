@@ -281,9 +281,6 @@
     "useCircle": "Utiliser les indicateurs du rôle {{circle}}",
     "empty": "Le rôle <circle /> n'a pas d'indicateurs. Vous pouvez l'éditer pour ajouter des indicateurs qui seront utilisés automatiquement en réunion."
   },
-  "MeetingStepContentTasks": {
-    "create": "Nouvelle tâche"
-  },
   "MeetingStepSortableItem": {
     "placeholder": "Titre de l'étape..."
   },

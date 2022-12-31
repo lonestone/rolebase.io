@@ -261,7 +261,9 @@ export default function Sidebar() {
 
               <Notifications />
 
-              <UserMenu />
+              <Box>
+                <UserMenu />
+              </Box>
             </ButtonGroup>
           </Flex>
         </Flex>

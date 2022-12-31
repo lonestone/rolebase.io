@@ -34,7 +34,6 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
             )
           }
           h={`${windowSize.height * 0.9}px`}
-          pt={2}
         />
       </ModalContent>
     </Modal>

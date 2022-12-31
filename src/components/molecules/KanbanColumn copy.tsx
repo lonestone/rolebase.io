@@ -48,6 +48,7 @@ export function KanbanColumn({
             transition="background-color 0.2s ease"
             borderRadius="md"
             userSelect="none"
+            backdropFilter="opacity(0.1)"
             bg={
               snapshot.isDraggingOver
                 ? `${colorScheme}.100`

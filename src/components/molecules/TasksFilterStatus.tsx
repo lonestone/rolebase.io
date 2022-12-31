@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonProps,
   Menu,
   MenuButton,
   MenuItemOption,
@@ -11,7 +12,7 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
 
-interface Props {
+interface Props extends Omit<ButtonProps, 'value' | 'onChange'> {
   value: TaskStatus | undefined
   onChange: (value: TaskStatus | undefined) => void
 }
@@ -25,7 +26,11 @@ const taskStatusFilterList: TaskStatusFilter[] = [
   ...taskStatusList,
 ]
 
-export default function TasksStatusFilter({ value, onChange }: Props) {
+export default function TasksFilterStatus({
+  value,
+  onChange,
+  ...boxProps
+}: Props) {
   const { t } = useTranslation()
   const statusFilter: TaskStatusFilter = value ?? taskStatusNotDone
 
@@ -35,12 +40,12 @@ export default function TasksStatusFilter({ value, onChange }: Props) {
   }, [])
 
   return (
-    <Menu closeOnSelect={false}>
+    <Menu>
       <MenuButton
         as={Button}
-        size="sm"
-        variant="ghost"
         rightIcon={<FiChevronDown />}
+        {...(value ? { variant: 'solid' } : {})}
+        {...boxProps}
       >
         {t(`common.taskStatus.${statusFilter}`)}
       </MenuButton>

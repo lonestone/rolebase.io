@@ -173,7 +173,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
               base
               excludeIds={childrenRolesIds}
               size="sm"
-              variant="ghost"
+              variant="outline"
               borderRadius="full"
               leftIcon={<FiPlus />}
               onSelect={handleAddRole}

@@ -311,7 +311,7 @@ export default function MeetingsPage() {
           <MenuButton
             as={Button}
             size="sm"
-            variant="ghost"
+            variant="outline"
             rightIcon={<FiChevronDown />}
           >
             {t(`MeetingsPage.participation.${filter}` as any)}

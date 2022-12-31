@@ -5,6 +5,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  useButtonGroup,
 } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
@@ -77,6 +78,8 @@ export default function SearchButton({
   // Button
   const buttonRef = useRef<HTMLButtonElement>(null)
   const [buttonWidth, setButtonWidth] = useState<number | undefined>(undefined)
+  const buttonGroup = useButtonGroup()
+  const size = buttonProps.size || buttonGroup?.size
 
   useLayoutEffect(() => {
     setButtonWidth(buttonRef.current?.offsetWidth)
@@ -100,7 +103,7 @@ export default function SearchButton({
 
   return (
     <Box position="relative" {...getComboboxProps()}>
-      <InputGroup size={buttonProps.size}>
+      <InputGroup size={size}>
         {!isOpen && (
           <Button ref={buttonRef} {...buttonProps} onClick={handleClick}>
             {children}

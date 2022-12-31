@@ -44,7 +44,7 @@ export default function CircleTasks({ circleId }: Props) {
         <Spacer />
         <Button
           size="sm"
-          variant="ghost"
+          variant="outline"
           leftIcon={<FiTrello />}
           onClick={() => navigateOrg(`tasks?circle=${circleId}&view=Kanban`)}
         >

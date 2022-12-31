@@ -17,5 +17,5 @@ export default function ThreadPage() {
     return <Page404 />
   }
 
-  return <ThreadContent id={threadId} changeTitle h="100%" pt={5} />
+  return <ThreadContent id={threadId} changeTitle h="100%" />
 }

@@ -1,4 +1,5 @@
 import { Button, HStack } from '@chakra-ui/react'
+import { taskStatusColors } from '@components/atoms/TaskStatusTag'
 import { KanbanColumn } from '@components/molecules/KanbanColumn'
 import TaskCard from '@components/molecules/TaskCard'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
@@ -65,15 +66,17 @@ export default function TasksKanban({
       onDragEnd={handleDragEnd}
     >
       <HStack align="start" pb={5} justifyContent="center" minW="min-content">
-        {taskStatusList.map((status) => (
-          <KanbanColumn
-            key={status}
-            id={status}
-            title={t(`common.taskStatus.${status}`)}
-          >
-            {tasks
-              .filter((task) => task.status === status)
-              .map((task, index) => (
+        {taskStatusList.map((status) => {
+          const filteredTasks = tasks.filter((task) => task.status === status)
+          return (
+            <KanbanColumn
+              key={status}
+              id={status}
+              title={t(`common.taskStatus.${status}`)}
+              colorScheme={taskStatusColors[status]}
+              count={filteredTasks.length}
+            >
+              {filteredTasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
                   {(provided, snapshot) => (
                     <TaskCard
@@ -90,13 +93,19 @@ export default function TasksKanban({
                 </Draggable>
               ))}
 
-            {status === TaskStatus.Done && onDoneTasksClick && (
-              <Button variant="link" onClick={onDoneTasksClick} ml={1}>
-                {t('TasksKanban.showDoneTasks')}
-              </Button>
-            )}
-          </KanbanColumn>
-        ))}
+              {status === TaskStatus.Done && onDoneTasksClick && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onDoneTasksClick}
+                  ml={1}
+                >
+                  {t('TasksKanban.showDoneTasks')}
+                </Button>
+              )}
+            </KanbanColumn>
+          )
+        })}
       </HStack>
     </DragDropContext>
   )

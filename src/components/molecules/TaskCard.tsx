@@ -7,7 +7,6 @@ import {
   LinkOverlay,
   Spacer,
   Text,
-  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
 import CircleByIdButton from '@components/atoms/CircleByIdButton'
@@ -34,7 +33,6 @@ const TaskCard = forwardRef<Props, 'div'>(
     ref
   ) => {
     const dateLocale = useDateLocale()
-    const { colorMode } = useColorMode()
 
     const path = usePathInOrg(`tasks/${task.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -47,8 +45,12 @@ const TaskCard = forwardRef<Props, 'div'>(
           p={1}
           pt={3}
           pl={3}
-          bg={colorMode === 'light' ? 'white' : 'gray.700'}
+          bg="white"
+          _dark={{
+            bg: 'blackAlpha.500',
+          }}
           borderRadius="md"
+          borderWidth={1}
           boxShadow={isDragging ? 'lg' : 'sm'}
           transition="box-shadow 200ms ease-out"
           _hover={{

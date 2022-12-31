@@ -4,16 +4,12 @@ import {
   IconButton,
   Input,
   InputProps,
+  useButtonGroup,
 } from '@chakra-ui/react'
+import { useElementSize } from '@hooks/useElementSize'
 import { SearchTypes } from '@shared/model/search'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, {
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
 import SearchResultItem from './SearchResultItem'
@@ -95,11 +91,15 @@ export default function SearchInput({
   // Button
   const buttonRef = useRef<HTMLButtonElement>(null)
   const buttonGroupRef = useRef<HTMLDivElement>(null)
-  const [buttonWidth, setButtonWidth] = useState<number | undefined>(undefined)
+  const buttonDimensions = useElementSize(buttonGroupRef)
+  const [buttonWidth, setButtonWidth] = useState<number>(0)
+  const buttonGroup = useButtonGroup()
+  const size = inputMoreProps.size || buttonGroup?.size
 
-  useLayoutEffect(() => {
-    setButtonWidth(buttonGroupRef.current?.offsetWidth)
-  }, [valueItem])
+  useEffect(() => {
+    const width = buttonDimensions?.width
+    if (width) setButtonWidth(width)
+  }, [buttonDimensions?.width])
 
   // Input
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -121,35 +121,42 @@ export default function SearchInput({
 
   return (
     <Box position="relative" display="flex" {...getComboboxProps()}>
-      {!inputVisible && (
-        <ButtonGroup ref={buttonGroupRef} {...inputMoreProps} isAttached>
-          <SearchResultItem
-            ref={buttonRef}
-            item={valueItem}
-            highlighted={false}
-            pr={onClear ? 1 : undefined}
-            onMouseDown={handleClick}
-            onClick={handleClick}
+      <ButtonGroup
+        ref={buttonGroupRef}
+        display={inputVisible ? 'none' : undefined}
+        size={size}
+        {...inputMoreProps}
+        isAttached
+      >
+        <SearchResultItem
+          ref={buttonRef}
+          item={valueItem}
+          highlighted={false}
+          pr={onClear ? 1 : undefined}
+          maxW="170px"
+          overflow="hidden"
+          onMouseDown={handleClick}
+          onClick={handleClick}
+        />
+        {onClear && (
+          <IconButton
+            aria-label={t('common.clear')}
+            icon={<FiX />}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onClear()
+            }}
           />
-          {onClear && (
-            <IconButton
-              aria-label={t('common.clear')}
-              icon={<FiX />}
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                onClear()
-              }}
-            />
-          )}
-        </ButtonGroup>
-      )}
+        )}
+      </ButtonGroup>
 
       <Input
         type="text"
         onFocus={openMenu}
         display={inputVisible ? '' : 'none'}
-        w={buttonWidth || 'auto'}
+        w={buttonWidth ? `${buttonWidth}px` : 'auto'}
+        size={buttonGroup?.size}
         {...inputMoreProps}
         {...inputProps}
         placeholder={

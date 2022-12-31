@@ -72,7 +72,7 @@ export default function MembersMultiSelect({
         <MemberSearchButton
           excludeIds={excludeMembersIdsMemo}
           size="sm"
-          variant="ghost"
+          variant="outline"
           leftIcon={<FiPlus />}
           onSelect={onAdd}
         >

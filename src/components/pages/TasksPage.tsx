@@ -1,23 +1,11 @@
-import {
-  Button,
-  Container as Column,
-  Flex,
-  Heading,
-  Spacer,
-  Tag,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Container as Column, Flex, Heading, Tag } from '@chakra-ui/react'
 import { taskStatusColors } from '@components/atoms/TaskStatusTag'
 import { Title } from '@components/atoms/Title'
-import TaskModal from '@components/organisms/task/TaskModal'
 import TasksModule from '@components/organisms/task/TasksModule'
-import useCurrentMember from '@hooks/useCurrentMember'
-import useOrgMember from '@hooks/useOrgMember'
 import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
 
 type Params = {
   view: TasksViewTypes
@@ -28,8 +16,6 @@ type Params = {
 
 export default function TasksPage() {
   const { t } = useTranslation()
-  const currentMember = useCurrentMember()
-  const isMember = useOrgMember()
   const { params, changeParams } = useUpdatableQueryParams<Params>()
 
   // View param
@@ -59,13 +45,6 @@ export default function TasksPage() {
   const handleStatusChange = (status: TaskStatus | undefined) =>
     changeParams({ status })
 
-  // Create modal
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
-
   return (
     <Column maxW="3xl" py={10}>
       <Title>{t('TasksPage.heading')}</Title>
@@ -79,20 +58,6 @@ export default function TasksPage() {
           <Tag colorScheme={taskStatusColors[status]} ml={2}>
             {t(`common.taskStatus.${status}`)}
           </Tag>
-        )}
-
-        <Spacer />
-
-        {isMember && (
-          <Button
-            size="sm"
-            colorScheme="blue"
-            ml={1}
-            leftIcon={<FiPlus />}
-            onClick={onCreateOpen}
-          >
-            {t('TasksPage.create')}
-          </Button>
         )}
       </Flex>
 
@@ -111,15 +76,6 @@ export default function TasksPage() {
         onMemberChange={handleMemberChange}
         onStatusChange={handleStatusChange}
       />
-
-      {isCreateOpen && (
-        <TaskModal
-          isOpen
-          defaultMemberId={memberId || currentMember?.id}
-          defaultCircleId={circleId}
-          onClose={onCreateClose}
-        />
-      )}
     </Column>
   )
 }

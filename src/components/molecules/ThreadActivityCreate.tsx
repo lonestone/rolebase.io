@@ -1,4 +1,12 @@
-import { Button, HStack, Spacer, Text, useDisclosure } from '@chakra-ui/react'
+import {
+  Box,
+  BoxProps,
+  Button,
+  HStack,
+  Spacer,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react'
 import IconTextButton from '@components/atoms/IconTextButton'
 import DecisionEditModal from '@components/organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
@@ -38,11 +46,11 @@ import { UserLocalStorageKeys } from 'src/utils/localStorage'
 import { EditorHandle } from './editor'
 import SimpleEditor from './editor/SimpleEditor'
 
-interface Props {
+interface Props extends BoxProps {
   thread: ThreadEntry
 }
 
-export default function ThreadActivityCreate({ thread }: Props) {
+export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
   const { t } = useTranslation()
   const userId = useUserId()
   const currentMember = useCurrentMember()
@@ -168,7 +176,7 @@ export default function ThreadActivityCreate({ thread }: Props) {
   )
 
   return (
-    <div>
+    <Box {...boxProps}>
       <SimpleEditor
         ref={editorRef}
         placeholder={t('ThreadActivityCreate.placeholder')}
@@ -289,6 +297,6 @@ export default function ThreadActivityCreate({ thread }: Props) {
           )}
         </>
       )}
-    </div>
+    </Box>
   )
 }
