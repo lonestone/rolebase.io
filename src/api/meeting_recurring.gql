@@ -5,6 +5,7 @@ fragment MeetingRecurringFields on meeting_recurring {
   circle {
     role {
       name
+      colorHue
     }
   }
   participantsScope

@@ -12992,28 +12992,28 @@ export type ArchiveMeetingMutationVariables = Exact<{
 
 export type ArchiveMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string } | null };
 
-export type MeetingRecurringFieldsFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } };
+export type MeetingRecurringFieldsFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } };
 
 export type SubscribeMeetingRecurringSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
+export type SubscribeMeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
 
 export type SubscribeCircleMeetingRecurringsSubscriptionVariables = Exact<{
   where: Meeting_Recurring_Bool_Exp;
 }>;
 
 
-export type SubscribeCircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } }> };
+export type SubscribeCircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } }> };
 
 export type CreateMeetingRecurringMutationVariables = Exact<{
   values: Meeting_Recurring_Insert_Input;
 }>;
 
 
-export type CreateMeetingRecurringMutation = { __typename?: 'mutation_root', insert_meeting_recurring_one?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
+export type CreateMeetingRecurringMutation = { __typename?: 'mutation_root', insert_meeting_recurring_one?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
 
 export type UpdateMeetingRecurringMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -13021,7 +13021,7 @@ export type UpdateMeetingRecurringMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMeetingRecurringMutation = { __typename?: 'mutation_root', update_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
+export type UpdateMeetingRecurringMutation = { __typename?: 'mutation_root', update_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any } } | null };
 
 export type DeleteMeetingRecurringMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -13531,6 +13531,7 @@ export const MeetingRecurringFieldsFragmentDoc = gql`
   circle {
     role {
       name
+      colorHue
     }
   }
   participantsScope

@@ -1,15 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Flex,
-  Text,
-  useColorMode,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Avatar, Box, Flex, Text, useDisclosure } from '@chakra-ui/react'
 import HourLink from '@components/atoms/HourLink'
 import MemberLink from '@components/atoms/MemberLink'
 import ActionsMenu from '@components/molecules/ActionsMenu'
 import ActivityDeleteModal from '@components/organisms/thread/ActivityDeleteModal'
+import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { ActivityEntry } from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
@@ -33,7 +27,7 @@ export default function ThreadActivityLayout({
     () => members?.find((m) => m.userId === activity.userId),
     [activity.userId, members]
   )
-  const { colorMode } = useColorMode()
+  const hover = useHoverItemStyle()
 
   // Delete modal
   const {
@@ -43,17 +37,7 @@ export default function ThreadActivityLayout({
   } = useDisclosure()
 
   return (
-    <Flex
-      id={`activity-${activity.id}`}
-      p={3}
-      _hover={{
-        bg:
-          colorMode === 'light'
-            ? 'rgba(0, 0, 0, 0.02)'
-            : 'rgba(255, 255, 255, 0.02)',
-      }}
-      role="group"
-    >
+    <Flex id={`activity-${activity.id}`} p={3} _hover={hover} role="group">
       <Avatar
         name={member?.name || '?'}
         src={member?.picture || undefined}

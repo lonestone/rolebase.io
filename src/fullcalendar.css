@@ -9,9 +9,7 @@
   --fc-daygrid-event-dot-width: 8px;
   --fc-list-event-dot-width: 10px;
 
-  --fc-button-border-color: transparent;
-  --fc-button-hover-border-color: transparent;
-  --fc-button-active-border-color: transparent;
+  --fc-button-bg-color: transparent;
 
   --fc-event-bg-color: #3788d8;
   --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
@@ -31,13 +29,17 @@
   --fc-neutral-text-color: var(--chakra-colors-gray-500);
   --fc-border-color: var(--chakra-colors-gray-200);
   --fc-event-text-color: var(--chakra-colors-gray-800);
-  --fc-event-border-color: var(--chakra-colors-gray-400);
+  --fc-event-border-color: var(--chakra-colors-gray-50);
+
   --fc-button-text-color: var(--chakra-colors-gray-800);
-  --fc-button-bg-color: var(--chakra-colors-gray-100);
-  --fc-button-hover-bg-color: var(--chakra-colors-gray-200);
-  --fc-button-active-bg-color: var(--chakra-colors-gray-200);
-  --fc-today-bg-color: rgba(255, 220, 40, 0.15);
-  --fc-list-event-hover-bg-color: var(--chakra-colors-gray-50);
+  --fc-button-border-color: var(--chakra-colors-gray-200);
+  --fc-button-hover-bg-color: var(--chakra-colors-gray-100);
+  --fc-button-hover-border-color: var(--chakra-colors-gray-200);
+  --fc-button-active-bg-color: var(--chakra-colors-gray-100);
+  --fc-button-active-border-color: var(--chakra-colors-gray-200);
+
+  --fc-today-bg-color: transparent;
+  --fc-list-event-hover-bg-color: var(--chakra-colors-blackAlpha-50);
 }
 
 .chakra-ui-dark {
@@ -45,13 +47,17 @@
   --fc-neutral-text-color: var(--chakra-colors-gray-500);
   --fc-border-color: var(--chakra-colors-gray-550);
   --fc-event-text-color: var(--chakra-colors-gray-100);
-  --fc-event-border-color: var(--chakra-colors-whiteAlpha-400);
+  --fc-event-border-color: var(--chakra-colors-gray-800);
+
   --fc-button-text-color: var(--chakra-colors-gray-100);
-  --fc-button-bg-color: var(--chakra-colors-gray-600);
-  --fc-button-hover-bg-color: var(--chakra-colors-gray-550);
-  --fc-button-active-bg-color: var(--chakra-colors-gray-550);
-  --fc-today-bg-color: rgba(255, 220, 40, 0.05);
-  --fc-list-event-hover-bg-color: var(--chakra-colors-gray-600);
+  --fc-button-border-color: var(--chakra-colors-whiteAlpha-300);
+  --fc-button-hover-bg-color: var(--chakra-colors-whiteAlpha-200);
+  --fc-button-hover-border-color: var(--chakra-colors-whiteAlpha-300);
+  --fc-button-active-bg-color: var(--chakra-colors-whiteAlpha-200);
+  --fc-button-active-border-color: var(--chakra-colors-whiteAlpha-300);
+
+  --fc-today-bg-color: transparent;
+  --fc-list-event-hover-bg-color: var(--chakra-colors-whiteAlpha-100);
 }
 
 /* Event */
@@ -61,8 +67,13 @@
   overflow: hidden;
 }
 a.fc-event:hover {
-  border-color: var(--chakra-colors-gray-500);
   overflow: initial;
+}
+.chakra-ui-light a.fc-event:hover {
+  border-color: var(--chakra-colors-gray-300);
+}
+.chakra-ui-dark a.fc-event:hover {
+  border-color: var(--chakra-colors-gray-500);
 }
 a.fc-v-event:hover .fc-event-title {
   overflow: initial;
@@ -72,6 +83,9 @@ div.fc-timegrid-event-harness:hover {
 }
 a.fc-daygrid-event:hover {
   background: var(--fc-list-event-hover-bg-color);
+}
+.chakra-ui-light .fc-list-event {
+  background: var(--chakra-colors-whiteAlpha-500);
 }
 
 /* Title */
@@ -85,27 +99,13 @@ a.fc-daygrid-event:hover {
 .fc .fc-button {
   padding: 4px 12px;
   font-size: var(--chakra-fontSizes-sm);
-  border-radius: 0.375rem;
-  border-color: transparent;
-}
-.fc .fc-button-primary,
-.fc .fc-button-primary:disabled {
-  border-color: transparent;
-}
-.fc .fc-button-primary:hover {
-  border-color: transparent;
+  border-radius: var(--chakra-radii-md);
+  font-weight: bold;
+  /* border-color: var(--chakra-colors-gray-200); */
 }
 .fc .fc-next-button,
 .fc .fc-prev-button {
   padding: 4px 8px;
-}
-
-/* Button active */
-.fc .fc-button-primary:not(:disabled):active,
-.fc .fc-button-primary:not(:disabled).fc-button-active {
-  color: inherit;
-  border-color: transparent;
-  font-weight: bold;
 }
 
 /* Outline */
@@ -113,12 +113,45 @@ a.fc-daygrid-event:hover {
 .fc .fc-button-primary:focus,
 .fc .fc-button-primary:not(:disabled):active:focus,
 .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
-  box-shadow: var(--chakra-shadows-outline);
+  box-shadow: none;
 }
 
 /* Margins */
 .fc .fc-toolbar.fc-header-toolbar {
   margin-bottom: 8px;
+  padding: 0 var(--chakra-space-5);
+}
+
+/* No borders at extreme left and right */
+.fc td:first-child {
+  border-top: none;
+}
+.fc td:first-child,
+.fc th:first-child {
+  border-left: none;
+}
+.fc td:last-child {
+  border-right: none;
+}
+.fc .fc-scrollgrid {
+  border-left: none;
+}
+
+/* No borders between head titles */
+.fc th {
+  border-left: none;
+  border-right: none;
+}
+
+/* No border at half hours */
+.fc .fc-timegrid-slot-minor {
+  border-top: none;
+}
+
+/* Hour label */
+.fc .fc-timegrid-slot-label-frame {
+  color: var(--chakra-colors-gray-500);
+  margin-top: -1.5em;
 }
 
 /* Change toolbar layout on small screens */

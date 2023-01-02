@@ -217,6 +217,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           <RichTextPlugin
             contentEditable={
               <Box
+                bg="whiteAlpha.500"
                 borderWidth={readOnly ? 0 : '1px'}
                 borderRadius={readOnly ? 0 : 'md'}
                 borderColor={isFocused ? 'outline' : undefined}
@@ -230,6 +231,9 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
                   maxH && (contentSize?.height || 0) > 60 ? 'auto' : 'visible'
                 }
                 maxH={maxH}
+                _dark={{
+                  bg: 'blackAlpha.100',
+                }}
                 _invalid={{
                   borderColor: 'red.500',
                   _dark: {

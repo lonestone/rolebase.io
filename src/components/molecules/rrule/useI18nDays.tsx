@@ -11,7 +11,7 @@ export default function useI18nDays() {
     const firstDay = startOfWeek(new Date(), { weekStartsOn: 1 })
     return range(0, 6).map((day) =>
       capitalizeFirstLetter(
-        format(addDays(firstDay, day), 'EEEE', { locale: dateLocale })
+        format(addDays(firstDay, day), 'eeee', { locale: dateLocale })
       )
     )
   }, [])

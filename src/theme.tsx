@@ -33,7 +33,7 @@ const theme = extendTheme({
   },
   colors: {
     gray: {
-      50: '#F6F6F9',
+      50: '#FBF7FC',
       100: '#ECECF2',
       200: '#D6D6E1',
       300: '#B2B3C7',
@@ -53,6 +53,9 @@ const theme = extendTheme({
     global: (props: any) => ({
       html: {
         fontSize: '15px',
+      },
+      body: {
+        bg: mode('gray.50', 'gray.800')(props),
       },
       '*::placeholder': {
         color: 'gray.500',
@@ -84,7 +87,7 @@ const theme = extendTheme({
       variants: {
         outline: {
           field: {
-            _focus: {
+            _focusVisible: {
               borderColor: 'outline',
               boxShadow: `0 0 0 1px var(--chakra-colors-outline)`,
             },
@@ -96,7 +99,7 @@ const theme = extendTheme({
       variants: {
         outline: {
           field: {
-            _focus: {
+            _focusVisible: {
               borderColor: 'outline',
               boxShadow: `0 0 0 1px var(--chakra-colors-outline)`,
             },

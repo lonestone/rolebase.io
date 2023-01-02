@@ -721,7 +721,7 @@
     "url": "Custom URL"
   },
   "UserMenu": {
-    "settings": "My settings",
+    "tooltip": "My settings",
     "member": "My member record",
     "user": "Personal information",
     "theme": "Light/dark theme",

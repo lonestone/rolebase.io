@@ -60,29 +60,17 @@ import {
   useSubscribeMeetingsByDatesSubscription,
   useUpdateMeetingMutation,
 } from 'src/graphql.generated'
-
-const colorsSettings = {
-  light: {
-    bgNotStarted: 'var(--chakra-colors-blue-100)',
-    bgStarted: 'var(--chakra-colors-green-100)',
-    bgEnded: 'var(--chakra-colors-gray-100)',
-    bgRecurring: 'var(--chakra-colors-blue-200)',
-  },
-  dark: {
-    bgNotStarted: 'var(--chakra-colors-blue-800)',
-    bgStarted: 'var(--chakra-colors-green-800)',
-    bgEnded: 'var(--chakra-colors-gray-550)',
-    bgRecurring: 'var(--chakra-colors-blue-700)',
-  },
-}
+import { circleColor } from 'src/theme'
 
 export default function MeetingsPage() {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const { colorMode } = useColorMode()
-  const colors = useMemo(() => colorsSettings[colorMode], [colorMode])
   const getCircleById = useStoreState((state) => state.circles.getById)
   const roles = useStoreState((state) => state.roles.entries)
+
+  // Colors
+  const { colorMode } = useColorMode()
+  const colorLightness = colorMode === 'light' ? '92%' : '18%'
 
   // Circles filter menu
   const {
@@ -138,16 +126,26 @@ export default function MeetingsPage() {
       // Add events from meetings
       meetings
         ?.map((meeting): EventInput => {
-          let roleName = undefined
+          const baseEvent = {
+            id: meeting.id,
+            start: new Date(meeting.startDate),
+            end: new Date(meeting.endDate),
+          }
 
           // Add role name to title
           const circle = getCircleById(meeting.circleId)
-          if (circle && roles) {
-            const circleWithRole = enrichCircleWithRole(circle, roles)
-            roleName = circleWithRole?.role.name
+          const circleWithRole =
+            circle && roles && enrichCircleWithRole(circle, roles)
+
+          if (!circleWithRole) {
+            return {
+              ...baseEvent,
+              title: meeting.title,
+              backgroundColor: circleColor(colorLightness),
+            }
           }
 
-          const title = `${roleName} - ${meeting.title}`
+          const title = `${circleWithRole.role.name} - ${meeting.title}`
 
           // Can move event or change duration?
           const isStarted = meeting.currentStepId !== null
@@ -155,15 +153,12 @@ export default function MeetingsPage() {
           const canEditConfig = isNotStarted
 
           return {
-            id: meeting.id,
+            ...baseEvent,
             title,
-            start: new Date(meeting.startDate),
-            end: new Date(meeting.endDate),
-            backgroundColor: isNotStarted
-              ? colors.bgNotStarted
-              : isStarted
-              ? colors.bgStarted
-              : colors.bgEnded,
+            backgroundColor: circleColor(
+              colorLightness,
+              circleWithRole.role.colorHue ?? undefined
+            ),
             editable: canEditConfig,
           }
         })
@@ -192,12 +187,15 @@ export default function MeetingsPage() {
               duration: {
                 minutes: mr.duration,
               },
-              backgroundColor: colors.bgRecurring,
+              backgroundColor: circleColor(
+                colorLightness,
+                mr.circle.role.colorHue ?? undefined
+              ),
               editable: false,
             }
           })
         ),
-    [meetings, meetingsRecurring, roles, colors]
+    [meetings, meetingsRecurring, roles, colorMode]
   )
 
   // Show/hide weekends
@@ -294,13 +292,13 @@ export default function MeetingsPage() {
   }, [])
 
   return (
-    <Flex h="100%" p={5} flexDirection="column">
+    <Flex h="100%" flexDirection="column">
       <Title>{t('MeetingsPage.heading')}</Title>
 
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      <Flex mb={2} alignItems="center" flexWrap="wrap">
+      <Flex p={5} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           {t('MeetingsPage.heading')}
         </Heading>

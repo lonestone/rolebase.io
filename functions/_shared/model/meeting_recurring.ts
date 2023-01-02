@@ -5,6 +5,7 @@ export interface MeetingRecurring extends EntityWithParticipants {
   circle: {
     role: {
       name: string
+      colorHue?: number | null
     }
   }
   orgId: string
