@@ -8,7 +8,7 @@ import {
   FiCircle,
   FiDisc,
   FiMessageSquare,
-  FiPlus,
+  FiUser,
 } from 'react-icons/fi'
 import { SearchItem } from './searchTypes'
 
@@ -16,30 +16,31 @@ interface Props {
   item: SearchItem
 }
 
+export const searchIcons = {
+  Member: FiUser,
+  Role: FiCircle,
+  Circle: FiDisc,
+  Thread: FiMessageSquare,
+  Meeting: FiCalendar,
+  Task: FiCheckSquare,
+  Decision: FiArrowRightCircle,
+}
+
 export default function SearchResultIcon({ item }: Props) {
-  switch (item.type) {
-    case SearchTypes.CreateAction:
-      return <FiPlus />
-    case SearchTypes.Role:
-      return <FiCircle />
-    case SearchTypes.Circle:
-      return <FiDisc />
-    case SearchTypes.Thread:
-      return <FiMessageSquare />
-    case SearchTypes.Task:
-      return <FiCheckSquare />
-    case SearchTypes.Member:
-      return (
-        <Avatar
-          name={item.title}
-          src={item.picture || undefined}
-          size="sm"
-          ml="-10px"
-        />
-      )
-    case SearchTypes.Decision:
-      return <FiArrowRightCircle />
-    case SearchTypes.Meeting:
-      return <FiCalendar />
+  if (item.type === SearchTypes.Member) {
+    return (
+      <Avatar
+        name={item.title}
+        src={item.picture || undefined}
+        size="sm"
+        ml="-10px"
+      />
+    )
   }
+  if (item.type === SearchTypes.CreateAction) {
+    return null
+  }
+
+  const Icon = searchIcons[item.type]
+  return <Icon />
 }

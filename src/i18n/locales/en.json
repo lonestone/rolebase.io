@@ -553,7 +553,7 @@
     },
     "bymonth": "In"
   },
-  "SearchGlobal": {
+  "SearchGlobalModal": {
     "placeholder": "Search {{org}}..."
   },
   "SearchInput": {
@@ -758,6 +758,16 @@
     "namePlaceholder": "Name...",
     "copy": "Copy",
     "toastCopied": "URL copied",
+    "searchTypes": {
+      "All": "All",
+      "Member": "Members",
+      "Role": "Roles",
+      "Circle": "Circles",
+      "Thread": "Threads",
+      "Meeting": "Meetings",
+      "Task": "Tasks",
+      "Decision": "Decisions"
+    },
     "meetingSteps": {
       "Tour": "Round table",
       "Threads": "Threads",

@@ -551,7 +551,7 @@
     },
     "bymonth": "En"
   },
-  "SearchGlobal": {
+  "SearchGlobalModal": {
     "placeholder": "Rechercher dans {{org}}..."
   },
   "SearchInput": {
@@ -753,6 +753,16 @@
     "namePlaceholder": "Nom...",
     "copy": "Copier",
     "toastCopied": "URL copiée",
+    "searchTypes": {
+      "All": "Tous",
+      "Member": "Membres",
+      "Role": "Rôles",
+      "Circle": "Cercles",
+      "Thread": "Discussions",
+      "Meeting": "Réunions",
+      "Task": "Tâches",
+      "Decision": "Décisions"
+    },
     "meetingSteps": {
       "Tour": "Tour de table",
       "Threads": "Discussions",

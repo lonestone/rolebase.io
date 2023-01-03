@@ -5,9 +5,6 @@ import {
   Link,
   Menu,
   MenuButton,
-  Modal,
-  ModalContent,
-  ModalOverlay,
   Spacer,
   useDisclosure,
   useMediaQuery,
@@ -20,7 +17,7 @@ import SidebarLinkItem from '@components/atoms/SidebarLinkItem'
 import BrandIcon from '@components/molecules/BrandIcon'
 import Notifications from '@components/molecules/Notifications'
 import OrgSwitch from '@components/molecules/OrgSwitch'
-import SearchGlobal from '@components/molecules/search/SearchGlobal'
+import SearchGlobalModal from '@components/molecules/search/SearchGlobalModal'
 import SettingsMenuList from '@components/molecules/SettingsMenuList'
 import UserMenu from '@components/molecules/UserMenu'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -269,21 +266,15 @@ export default function Sidebar() {
         </Flex>
       )}
 
-      <Modal
-        isOpen={searchModal.isOpen}
-        size="lg"
-        onClose={searchModal.onClose}
-      >
-        <ModalOverlay />
-        <ModalContent position="relative">
-          <SearchGlobal
-            onClose={() => {
-              searchModal.onClose()
-              context.expand.onClose()
-            }}
-          />
-        </ModalContent>
-      </Modal>
+      {searchModal.isOpen && (
+        <SearchGlobalModal
+          isOpen
+          onClose={() => {
+            searchModal.onClose()
+            context.expand.onClose()
+          }}
+        />
+      )}
     </GlassBox>
   )
 }
