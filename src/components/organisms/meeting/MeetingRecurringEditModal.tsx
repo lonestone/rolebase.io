@@ -190,7 +190,7 @@ export default function MeetingRecurringEditModal({
                       max={600}
                       step={10}
                     />
-                    <InputRightAddon bg="transparent">
+                    <InputRightAddon>
                       {t('MeetingEditModal.durationSuffix')}
                     </InputRightAddon>
                   </InputGroup>
