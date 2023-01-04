@@ -161,7 +161,12 @@ export default function CirclesPage() {
 
       {panel === Panels.None && org && <Title>{org.name}</Title>}
 
-      <CirclesKeyboardShortcuts position="absolute" left={3} bottom={3} />
+      <CirclesKeyboardShortcuts
+        position="absolute"
+        left={sidebarContext?.width}
+        bottom={0}
+        m={2}
+      />
 
       <Onboarding />
     </GraphZoomProvider>
