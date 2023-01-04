@@ -332,8 +332,8 @@
     "create": "New meeting"
   },
   "MemberContent": {
-    "notFound": "Member not found",
-    "roles": "Roles:"
+    "heading": "Roles",
+    "notFound": "Member not found"
   },
   "MemberCreateModal": {
     "heading": "Add Member"

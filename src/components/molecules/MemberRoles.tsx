@@ -1,4 +1,12 @@
-import { Accordion, Alert, AlertIcon, ExpandedIndex } from '@chakra-ui/react'
+import {
+  Accordion,
+  Alert,
+  AlertIcon,
+  Box,
+  ExpandedIndex,
+  Flex,
+  Heading,
+} from '@chakra-ui/react'
 import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useOrgMember from '@hooks/useOrgMember'
@@ -101,7 +109,26 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   )
 
   return (
-    <>
+    <Box>
+      <Flex mb={2} alignItems="center" justifyContent="space-between">
+        <Heading as="h3" size="sm">
+          {t('MemberRoles.heading')}
+        </Heading>
+
+        {isMember && (
+          <CircleSearchButton
+            excludeIds={memberCircles.map((mc) => mc[mc.length - 1].id)}
+            size="sm"
+            variant="outline"
+            borderRadius="full"
+            leftIcon={<FiPlus />}
+            onSelect={handleAddCircle}
+          >
+            {t('MemberRoles.addRole')}
+          </CircleSearchButton>
+        )}
+      </Flex>
+
       <Accordion
         index={selectedCircleIndex}
         allowToggle
@@ -118,19 +145,6 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
         ))}
       </Accordion>
 
-      {isMember && (
-        <CircleSearchButton
-          excludeIds={memberCircles.map((mc) => mc[mc.length - 1].id)}
-          size="sm"
-          variant="ghost"
-          borderRadius="full"
-          leftIcon={<FiPlus />}
-          onSelect={handleAddCircle}
-        >
-          {t('MemberRoles.addRole')}
-        </CircleSearchButton>
-      )}
-
       <Alert status="info" mt={5}>
         <AlertIcon />
         {t(`MemberRoles.totalAllocatedTime`)}{' '}
@@ -144,6 +158,6 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
           {t(`MemberRoles.alertTooMuchTime`)}
         </Alert>
       )}
-    </>
+    </Box>
   )
 }

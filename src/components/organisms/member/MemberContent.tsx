@@ -5,8 +5,6 @@ import {
   Avatar,
   Box,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
   ModalBody,
   ModalCloseButton,
@@ -106,10 +104,7 @@ export default function MemberContent({
             </Box>
           )}
 
-          <FormControl>
-            <FormLabel>{t('MemberContent.roles')}</FormLabel>
-            <MemberRoles member={member} selectedCircleId={selectedCircleId} />
-          </FormControl>
+          <MemberRoles member={member} selectedCircleId={selectedCircleId} />
         </VStack>
       </ModalBody>
 

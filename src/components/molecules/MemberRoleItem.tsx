@@ -120,7 +120,12 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                     </FormControl>
 
                     <HStack justifyContent="end">
-                      <Button size="sm" onClick={deleteModal.onOpen}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        colorScheme="red"
+                        onClick={deleteModal.onOpen}
+                      >
                         {t(`common.delete`)}
                       </Button>
 

@@ -332,8 +332,7 @@
     "create": "Nouvelle réunion"
   },
   "MemberContent": {
-    "notFound": "Membre introuvable",
-    "roles": "Rôles :"
+    "notFound": "Membre introuvable"
   },
   "MemberCreateModal": {
     "heading": "Ajouter un membre"
@@ -381,6 +380,7 @@
     "workingTime": "Temps de travail"
   },
   "MemberRoles": {
+    "heading": "Rôles",
     "emptyRoles": "Aucun",
     "addRole": "Ajouter un rôle",
     "totalAllocatedTime": "Temps total alloué :",
