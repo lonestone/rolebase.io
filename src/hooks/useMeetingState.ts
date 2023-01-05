@@ -43,6 +43,7 @@ export interface MeetingState {
   isStarted: boolean
   isStartTimePassed: boolean
   isEndTimePassed: boolean
+  isLastStep: boolean
   videoConfUrl: string | undefined
   handleGoToStep(stepId: string): void
   handleEnd(): void
@@ -183,12 +184,19 @@ export default function useMeetingState(meetingId: string): MeetingState {
   useEffect(() => {
     const stepId = meeting?.currentStepId
     if (!stepId) return
-    setTimeout(() => {
-      document
-        .getElementById(`step-${stepId}`)
-        ?.scrollIntoView({ behavior: 'smooth' })
-    }, 300) // Wait for animations that can change the height of above elements
+    document
+      .getElementById(`step-${stepId}`)
+      ?.scrollIntoView({ behavior: 'smooth' })
   }, [meeting?.currentStepId])
+
+  // Last step
+  const isLastStep = useMemo(() => {
+    const stepId = meeting?.currentStepId
+    if (!stepId) return false
+    const step = steps?.find((s) => s.id === stepId)
+    const stepConfigId = meeting.stepsConfig[meeting.stepsConfig.length - 1].id
+    return step?.stepConfigId === stepConfigId
+  }, [meeting?.currentStepId, meeting?.stepsConfig, steps])
 
   // Go to step
   const handleGoToStep = useCallback(
@@ -343,6 +351,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
     isStarted,
     isStartTimePassed,
     isEndTimePassed,
+    isLastStep,
     videoConfUrl,
     handleGoToStep,
     handleEnd,

@@ -16,6 +16,7 @@ import React, { MouseEvent, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import {
+  FiArrowDown,
   FiArrowRightCircle,
   FiCalendar,
   FiCheckSquare,
@@ -46,6 +47,7 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
     isStarted,
     isStartTimePassed,
     isEndTimePassed,
+    isLastStep,
     videoConfUrl,
     handleNextStep,
     handleEnd,
@@ -186,13 +188,23 @@ export default function MeetingActions({ meetingState, forceEdit }: Props) {
               )}
 
               <BounceAnimation active={isEndTimePassed}>
-                <IconTextButton
-                  aria-label={t('MeetingActions.end')}
-                  icon={<FaStop />}
-                  colorScheme="blue"
-                  showText={isEndTimePassed}
-                  onClick={handleEnd}
-                />
+                {isLastStep ? (
+                  <IconTextButton
+                    aria-label={t('MeetingActions.end')}
+                    icon={<FaStop />}
+                    colorScheme="pink"
+                    showText={isEndTimePassed}
+                    onClick={handleEnd}
+                  />
+                ) : (
+                  <IconTextButton
+                    aria-label={t('MeetingActions.next')}
+                    icon={<FiArrowDown />}
+                    colorScheme="blue"
+                    showText
+                    onClick={handleNextStep}
+                  />
+                )}
               </BounceAnimation>
             </HStack>
           </HStack>

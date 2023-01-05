@@ -196,8 +196,9 @@
   },
   "MeetingActions": {
     "defaultEntityDescription": "Meeting: {{meeting}}",
-    "start": "Start",
-    "end": "End",
+    "start": "Start meeting",
+    "next": "Next step",
+    "end": "End meeting",
     "reopen": "Start again",
     "stop": "Save and stop editing",
     "videoConf": "Join the videoconf"
@@ -215,8 +216,6 @@
     "started": "Started",
     "ended": "Ended",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
-    "end": "End meeting",
-    "nextStep": "Next step",
     "logs": "Actions during the meeting"
   },
   "MeetingDeleteModal": {

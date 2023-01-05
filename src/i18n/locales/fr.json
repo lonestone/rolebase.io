@@ -197,6 +197,7 @@
   "MeetingActions": {
     "defaultEntityDescription": "Réunion : {{meeting}}",
     "start": "Démarrer",
+    "next": "Étape suivante",
     "end": "Terminer",
     "reopen": "Démarrer à nouveau",
     "stop": "Enregistrer et quitter l'édition",
@@ -215,8 +216,6 @@
     "started": "En cours",
     "ended": "Terminée",
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
-    "end": "Terminer la réunion",
-    "nextStep": "Étape suivante",
     "logs": "Actions pendant la réunion"
   },
   "MeetingDeleteModal": {

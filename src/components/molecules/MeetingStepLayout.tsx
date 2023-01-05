@@ -55,14 +55,7 @@ export default function MeetingStepLayout({
           {title}
         </Heading>
       </Flex>
-      <Box
-        borderLeft="2px"
-        borderColor={last ? 'transparent' : borderColor}
-        ml="1rem"
-        pl="1.8rem"
-        pt={2}
-        pb={16}
-      >
+      <Box pt={7} pb={20}>
         {children}
       </Box>
     </>

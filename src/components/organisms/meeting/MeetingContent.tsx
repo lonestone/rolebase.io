@@ -4,7 +4,6 @@ import {
   AlertIcon,
   Box,
   BoxProps,
-  Button,
   Collapse,
   Container,
   Flex,
@@ -33,8 +32,7 @@ import useOrgMember from '@hooks/useOrgMember'
 import { format } from 'date-fns'
 import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { FaStop } from 'react-icons/fa'
-import { FiArrowDown, FiCalendar, FiClock } from 'react-icons/fi'
+import { FiCalendar, FiClock } from 'react-icons/fi'
 import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
@@ -73,8 +71,6 @@ export default function MeetingContent({
     isNotStarted,
     isStarted,
     handleGoToStep,
-    handleEnd,
-    handleNextStep,
     handleChangeForceEdit,
   } = meetingState
 
@@ -210,30 +206,13 @@ export default function MeetingContent({
                       {meeting.attendees && circle && (
                         <MeetingAttendeesList
                           meetingState={meetingState}
-                          my={5}
+                          mb={5}
                         />
                       )}
                     </Collapse>
                   )}
 
                   <MeetingStepContent meetingState={meetingState} step={step} />
-
-                  {isStarted && canEdit && (
-                    <Collapse in={current} animateOpacity>
-                      <Button
-                        leftIcon={last ? <FaStop /> : <FiArrowDown />}
-                        colorScheme={last ? 'blue' : 'green'}
-                        mt={5}
-                        onClick={last ? handleEnd : handleNextStep}
-                      >
-                        {t(
-                          last
-                            ? 'MeetingContent.end'
-                            : 'MeetingContent.nextStep'
-                        )}
-                      </Button>
-                    </Collapse>
-                  )}
                 </MeetingStepLayout>
               )
             })}
