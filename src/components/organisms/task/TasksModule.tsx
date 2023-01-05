@@ -97,6 +97,7 @@ export default function TasksModule({
               <CircleSearchInput
                 value={circleId}
                 placeholder={t('TasksModule.filterCircle')}
+                maxW="170px"
                 onChange={onCircleChange}
                 onClear={() => onCircleChange(undefined)}
               />
@@ -114,6 +115,7 @@ export default function TasksModule({
               <MemberSearchInput
                 value={memberId}
                 placeholder={t('TasksModule.filterMember')}
+                maxW="170px"
                 onChange={onMemberChange}
                 onClear={() => onMemberChange(undefined)}
               />

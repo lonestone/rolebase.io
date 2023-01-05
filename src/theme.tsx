@@ -45,8 +45,7 @@ const Input = {
 
 const theme = extendTheme({
   config: {
-    initialColorMode: 'light',
-    useSystemColorMode: false,
+    initialColorMode: 'system',
   },
   colors: {
     gray: {

@@ -53,9 +53,6 @@ const MeetingItem = forwardRef<Props, 'div'>(
     const dateLocale = useDateLocale()
     const date = new Date(meeting.startDate)
 
-    const isStarted = meeting.currentStepId !== null
-    const isEnded = meeting.ended
-
     return (
       <>
         <LinkBox
@@ -78,16 +75,10 @@ const MeetingItem = forwardRef<Props, 'div'>(
             {(showDate || showDay || showTime) && (
               <Tag
                 colorScheme={
-                  isEnded
-                    ? colorMode === 'light'
-                      ? 'blackAlpha'
-                      : 'whiteAlpha'
-                    : isStarted
-                    ? 'green'
-                    : 'blue'
+                  colorMode === 'light' ? 'blackAlpha' : 'whiteAlpha'
                 }
                 _dark={{
-                  color: isEnded ? 'whiteAlpha.800' : undefined,
+                  color: 'whiteAlpha.800',
                 }}
                 mr={2}
               >

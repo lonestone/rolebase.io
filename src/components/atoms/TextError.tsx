@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react'
-import { ErrorPayload } from '@nhost/core'
+import { ErrorPayload } from '@nhost/hasura-auth-js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 

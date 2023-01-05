@@ -6,7 +6,7 @@ import useQueryParams from '@hooks/useQueryParams'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Redirect, useParams } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 
 type Params = {
   memberId: string
@@ -50,9 +50,9 @@ export default function MemberInvitationPage() {
 
   // When org is joined and exist in the store, redirect to the org page
   if (storeOrg) {
-    return <Redirect to={getOrgPath(storeOrg)} />
+    return <Navigate to={getOrgPath(storeOrg)} />
   } else if (errorOccurred) {
-    return <Redirect to="/" />
+    return <Navigate to="/" />
   } else {
     return <Loading center active />
   }

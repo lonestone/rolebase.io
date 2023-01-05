@@ -41,7 +41,7 @@ import { nanoid } from 'nanoid'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useUpdateMeetingMutation } from 'src/graphql.generated'
 import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import * as yup from 'yup'
@@ -89,7 +89,7 @@ export default function MeetingEditModal({
   const { t } = useTranslation()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
-  const history = useHistory()
+  const navigate = useNavigate()
   const createMeeting = useCreateMeeting()
   const [updateMeeting] = useUpdateMeetingMutation()
 
@@ -206,7 +206,7 @@ export default function MeetingEditModal({
         if (onCreate) {
           onCreate(result.id)
         } else {
-          history.push(result.path)
+          navigate(result.path)
         }
       }
 

@@ -22,7 +22,7 @@ import { slugSchema } from '@shared/schemas'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import slugify from 'slugify'
 import settings from 'src/settings'
 import * as yup from 'yup'
@@ -44,7 +44,7 @@ const resolver = yupResolver(
 export default function OrgSlugModal({ id, ...modalProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const {
     handleSubmit,
@@ -72,7 +72,7 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
       await updateOrgSlug({ orgId: id, slug })
 
       // Redirect to new path
-      history.push(`/${slug}`)
+      navigate(`/${slug}`)
 
       modalProps.onClose()
     } catch (e) {

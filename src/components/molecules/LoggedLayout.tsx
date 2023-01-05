@@ -4,14 +4,18 @@ import Sidebar from '@components/organisms/layout/Sidebar'
 import useWindowSize from '@hooks/useWindowSize'
 import { useStoreActions } from '@store/hooks'
 import React, { useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
 import { SidebarContext } from 'src/contexts/SidebarContext'
 import { useSubscribeOrgsSubscription } from 'src/graphql.generated'
 
-const LoggedLayout: React.FC = ({ children }) => {
+interface Props {
+  children: React.ReactNode
+}
+
+export default function LoggedLayout({ children }: Props) {
   const windowSize = useWindowSize()
-  const history = useHistory()
+  const navigate = useNavigate()
   const sidebarContext = useContext(SidebarContext)
 
   // Subscribe to orgs
@@ -36,7 +40,7 @@ const LoggedLayout: React.FC = ({ children }) => {
     // If path contains a Firebase id
     if (/[/=][a-zA-Z0-9]{20}([/&]|$)/.test(path)) {
       replaceOldIds({ text: path }).then((newPath) => {
-        history.push(newPath)
+        navigate(newPath)
       })
     }
   }, [])
@@ -55,5 +59,3 @@ const LoggedLayout: React.FC = ({ children }) => {
     </CircleMemberProvider>
   )
 }
-
-export default LoggedLayout

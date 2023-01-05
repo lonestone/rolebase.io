@@ -10,7 +10,11 @@ export const GraphZoomContext = createContext<
   GraphZoomContextValue | undefined
 >(undefined)
 
-export const GraphZoomProvider: React.FC = ({ children }) => {
+interface GraphZoomProviderProps {
+  children: React.ReactNode
+}
+
+export function GraphZoomProvider({ children }: GraphZoomProviderProps) {
   const [zoom, setZoom] = useState<Zoom | undefined>()
 
   const value = useMemo(

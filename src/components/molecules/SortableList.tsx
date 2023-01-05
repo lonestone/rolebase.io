@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd'
 import React, { useCallback } from 'react'
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 
 interface Props {
   children: React.ReactNode

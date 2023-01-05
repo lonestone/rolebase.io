@@ -6,9 +6,7 @@ import {
   Box,
   Flex,
   Heading,
-  ModalBody,
   ModalCloseButton,
-  ModalHeader,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -67,7 +65,7 @@ export default function MemberContent({
     <>
       {changeTitle && <Title>{member.name}</Title>}
 
-      <ModalHeader pt={3} pb={7} pr={3} position="relative">
+      <Box pt={3} pb={10} position="relative">
         <Box position="absolute" top={2} right={2}>
           {canEdit && <ActionsMenu onEdit={onEditOpen} />}
           {headerIcons}
@@ -94,9 +92,9 @@ export default function MemberContent({
             {member.name}
           </Heading>
         </Flex>
-      </ModalHeader>
+      </Box>
 
-      <ModalBody pt={0} pb={7}>
+      <Box px={6} pb={7}>
         <VStack spacing={5} align="stretch">
           {member.description && (
             <Box mb={3}>
@@ -106,7 +104,7 @@ export default function MemberContent({
 
           <MemberRoles member={member} selectedCircleId={selectedCircleId} />
         </VStack>
-      </ModalBody>
+      </Box>
 
       {isEditOpen && <MemberEditModal id={id} isOpen onClose={onEditClose} />}
     </>

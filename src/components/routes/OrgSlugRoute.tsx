@@ -4,8 +4,12 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import OrgRoutes from './OrgRoutes'
 
+type Params = {
+  slug: string
+}
+
 export default function OrgSlugRoute() {
-  const { slug } = useParams<{ slug: string }>()
+  const { slug } = useParams<Params>()
   const orgs = useStoreState((state) => state.orgs.entries)
   const orgId = orgs?.find((org) => org.slug === slug)?.id
 

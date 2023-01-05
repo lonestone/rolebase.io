@@ -1,5 +1,5 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import { NhostReactProvider } from '@nhost/react'
+import { NhostProvider } from '@nhost/react'
 import { NhostApolloProvider } from '@nhost/react-apollo'
 import { StoreProvider } from 'easy-peasy'
 import React from 'react'
@@ -10,24 +10,24 @@ import { nhost } from 'src/nhost'
 import i18n from '../i18n'
 import { store } from '../store'
 import theme from '../theme'
-import Routes from './routes/Routes'
+import AppRoutes from './routes/AppRoutes'
 
 export default function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <NhostReactProvider nhost={nhost}>
+        <NhostProvider nhost={nhost}>
           <NhostApolloProvider nhost={nhost}>
             <SidebarProvider>
               <StoreProvider store={store}>
                 <Router>
-                  <Routes />
+                  <AppRoutes />
                 </Router>
               </StoreProvider>
             </SidebarProvider>
           </NhostApolloProvider>
-        </NhostReactProvider>
+        </NhostProvider>
       </ChakraProvider>
     </I18nextProvider>
   )

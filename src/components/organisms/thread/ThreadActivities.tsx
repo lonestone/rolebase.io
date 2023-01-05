@@ -2,7 +2,7 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-  Divider,
+  Box,
   StackProps,
   VStack,
 } from '@chakra-ui/react'
@@ -137,7 +137,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
               <ThreadActivity activity={activity} />
 
               {lastReadActivityId === activity.id && (
-                <Divider borderColor="#ffa0a0" borderBottomWidth="3px" />
+                <Box h="3px" w="100%" bg="red.200" _dark={{ bg: 'red.800' }} />
               )}
             </React.Fragment>
           ))}

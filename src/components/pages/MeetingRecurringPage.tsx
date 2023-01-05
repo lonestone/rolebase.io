@@ -5,8 +5,9 @@ import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import Page404 from './Page404'
 
-interface Params {
+type Params = {
   id: string
 }
 
@@ -14,6 +15,8 @@ export default function MeetingRecurringPage() {
   const { t } = useTranslation()
   const navigateOrg = useNavigateOrg()
   const id = useParams<Params>().id
+
+  if (!id) return <Page404 />
 
   return (
     <Container

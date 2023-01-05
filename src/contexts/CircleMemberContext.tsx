@@ -33,7 +33,11 @@ export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
   return ''
 }
 
-export const CircleMemberProvider: React.FC = ({ children }) => {
+interface CircleMemberProviderProps {
+  children: React.ReactNode
+}
+
+export function CircleMemberProvider({ children }: CircleMemberProviderProps) {
   const navigateOrg = useNavigateOrg()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [state, setState] = useState<State>({})

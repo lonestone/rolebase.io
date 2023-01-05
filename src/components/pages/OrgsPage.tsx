@@ -27,7 +27,7 @@ import { useStoreState } from '@store/hooks'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
-import { Link as ReachLink, useHistory } from 'react-router-dom'
+import { Link as ReachLink, useNavigate } from 'react-router-dom'
 import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 export default function OrgsPage() {
@@ -36,7 +36,7 @@ export default function OrgsPage() {
   const loading = useStoreState((state) => state.orgs.loading)
   const error = useStoreState((state) => state.orgs.error)
   const hover = useHoverItemStyle()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   // Set orgId in localStorage
   const handleOrgClick = (orgId: string) => {
@@ -56,7 +56,7 @@ export default function OrgsPage() {
     if (!orgId) return
     const org = orgs?.find((org) => org.id === orgId)
     if (!org) return
-    history.replace(getOrgPath(org))
+    navigate(getOrgPath(org))
   }, [orgs])
 
   return (

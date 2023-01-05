@@ -1,27 +1,25 @@
 import { Container } from '@chakra-ui/react'
 import DecisionContent from '@components/organisms/decision/DecisionContent'
 import React from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Page404 from './Page404'
 
-interface Params {
+type Params = {
   decisionId: string
 }
 
 export default function DecisionPage() {
   const decisionId = useParams<Params>().decisionId
-  const history = useHistory()
+  const navigate = useNavigate()
 
-  if (!decisionId) {
-    return <Page404 />
-  }
+  if (!decisionId) return <Page404 />
 
   return (
     <Container maxW="xl" py={10}>
       <DecisionContent
         id={decisionId}
         changeTitle
-        onClose={() => history.push('.')}
+        onClose={() => navigate('..')}
       />
     </Container>
   )

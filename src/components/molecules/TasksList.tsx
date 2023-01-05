@@ -1,13 +1,13 @@
 import { Box, Text } from '@chakra-ui/react'
 import TaskItem from '@components/molecules/TaskItem'
-import { TaskEntry } from '@shared/model/task'
-import React, { useCallback } from 'react'
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult,
-} from 'react-beautiful-dnd'
+} from '@hello-pangea/dnd'
+import { TaskEntry } from '@shared/model/task'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {

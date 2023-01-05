@@ -42,5 +42,5 @@ export default function SearchResultIcon({ item }: Props) {
   }
 
   const Icon = searchIcons[item.type]
-  return <Icon />
+  return <Icon style={{ minWidth: 'fit-content' }} />
 }

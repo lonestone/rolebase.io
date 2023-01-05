@@ -31,7 +31,7 @@ import { add, format } from 'date-fns'
 import React, { useEffect, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FiCalendar, FiRepeat } from 'react-icons/fi'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { RRule } from 'rrule'
 import { useSubscribeMeetingRecurringSubscription } from 'src/graphql.generated'
 import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
@@ -48,7 +48,7 @@ export default function MeetingRecurringModal({
   ...modalProps
 }: Props) {
   const { t } = useTranslation()
-  const history = useHistory()
+  const navigate = useNavigate()
   const dateLocale = useDateLocale()
   const createMeeting = useCreateMeeting()
 
@@ -123,7 +123,7 @@ export default function MeetingRecurringModal({
       recurringId: meetingRecurring.id,
     })
     if (!result) return
-    history.push(result.path)
+    navigate(result.path)
   }
 
   return (

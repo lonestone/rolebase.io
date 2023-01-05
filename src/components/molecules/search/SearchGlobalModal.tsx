@@ -23,7 +23,7 @@ import { useIdleCallback } from '@hooks/useIdleCallback'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { SearchTypes } from '@shared/model/search'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
 import { searchIcons } from './SearchResultIcon'
@@ -96,15 +96,6 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
     onSelectedItemChange,
   })
 
-  // Input
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const inputProps = getInputProps({
-    ref: inputRef,
-    onBlur: (event) => {
-      ;(event.nativeEvent as any).preventDownshiftDefault = true
-    },
-  })
-
   // Update search when type changes
   useEffect(() => {
     search(inputValue, type)
@@ -129,7 +120,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
               })}
               borderRadius="md"
               background={colorMode === 'light' ? 'white' : 'gray.800'}
-              {...inputProps}
+              {...getInputProps()}
             />
           </InputGroup>
         </Box>

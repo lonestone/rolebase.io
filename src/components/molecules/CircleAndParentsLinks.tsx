@@ -29,7 +29,13 @@ export default function CircleAndParentsLinks({
 
   return (
     <Box pb="1em" mb={1} {...boxProps}>
-      <Text mb={1} color="gray.500" h="1em" lineHeight="1em">
+      <Text
+        mb={1}
+        h="1em"
+        lineHeight="1em"
+        color="gray.500"
+        _dark={{ color: 'gray.300' }}
+      >
         {parents.length > 0 &&
           parents.map((c, i) => {
             const last = i === parents.length - 1
@@ -38,7 +44,7 @@ export default function CircleAndParentsLinks({
                 <CircleLink
                   id={c.id}
                   name={c.role.name}
-                  color="gray.500"
+                  color="inherit"
                   fontSize="sm"
                   fontWeight={400}
                   whiteSpace="normal"

@@ -16,7 +16,11 @@ export const SidebarContext = createContext<SidebarContextValue | undefined>(
   undefined
 )
 
-export const SidebarProvider: React.FC = ({ children }) => {
+interface SidebarProviderProps {
+  children: React.ReactNode
+}
+
+export function SidebarProvider({ children }: SidebarProviderProps) {
   const expand = useDisclosure()
   const [width, setWidth] = useState<number>(defaultSidebarWidth)
   const [height, setHeight] = useState<number>(0)

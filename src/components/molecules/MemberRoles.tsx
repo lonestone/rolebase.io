@@ -3,7 +3,6 @@ import {
   Alert,
   AlertIcon,
   Box,
-  ExpandedIndex,
   Flex,
   Heading,
 } from '@chakra-ui/react'
@@ -84,7 +83,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
 
   // Change URL path when a circle is selected in the accordion
   const handleAccordionChange = useCallback(
-    (index: ExpandedIndex) => {
+    (index: number | number[]) => {
       if (typeof index !== 'number') return
       if (index === -1) {
         circleMemberContext?.goTo(undefined, member.id)

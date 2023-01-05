@@ -3,11 +3,11 @@ import { Title } from '@components/atoms/Title'
 import CurrentUserModal from '@components/organisms/user/CurrentUserModal'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function UserInfoPage() {
   const { t } = useTranslation()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <Container
@@ -18,7 +18,7 @@ export default function UserInfoPage() {
       justifyContent="center"
     >
       <Title>{t('CurrentUserModal.heading')}</Title>
-      <CurrentUserModal isOpen onClose={() => history.push('/')} />
+      <CurrentUserModal isOpen onClose={() => navigate('/')} />
     </Container>
   )
 }

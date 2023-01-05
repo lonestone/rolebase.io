@@ -20,7 +20,7 @@ import { useStoreState } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 interface Values {
@@ -35,7 +35,7 @@ const resolver = yupResolver(
 
 export default function OrgCreateModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | undefined>()
   const orgs = useStoreState((state) => state.orgs.entries)
@@ -66,7 +66,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
   useEffect(() => {
     if (orgId && orgs?.some((org) => org.id === orgId)) {
       modalProps.onClose()
-      history.push(`/orgs/${orgId}`)
+      navigate(`/orgs/${orgId}`)
     }
   }, [orgs])
 

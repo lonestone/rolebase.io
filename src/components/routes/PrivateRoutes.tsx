@@ -5,8 +5,8 @@ import SuperAdminPage from '@components/pages/SuperAdminPage'
 import UserInfoPage from '@components/pages/UserInfoPage'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import React from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
-import LoggedLayout from './LoggedLayout'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import LoggedLayout from '../molecules/LoggedLayout'
 import OrgIdRoute from './OrgIdRoute'
 import OrgSlugRoute from './OrgSlugRoute'
 
@@ -15,40 +15,25 @@ export default function PrivateRoutes() {
 
   return (
     <LoggedLayout>
-      <Switch>
-        <Route exact path="/">
-          <OrgsPage />
-        </Route>
-        <Route exact path="/orgs/:orgId/invitation">
-          <MemberInvitationPage />
-        </Route>
-        <Route exact path="/user-info">
-          <UserInfoPage />
-        </Route>
-        <Route exact path="/login">
-          <Redirect to="/" />
-        </Route>
-        <Route exact path="/reset-password">
-          <Redirect to="/" />
-        </Route>
-        <Route exact path="/signup">
-          <Redirect to="/" />
-        </Route>
-        {superAdmin && (
-          <Route exact path="/admin">
-            <SuperAdminPage />
-          </Route>
-        )}
-        <Route path="/orgs/:orgId">
-          <OrgIdRoute />
-        </Route>
-        <Route path="/:slug">
-          <OrgSlugRoute />
-        </Route>
-        <Route>
-          <Page404 />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route index element={<OrgsPage />} />
+        <Route
+          path="orgs/:orgId/invitation"
+          element={<MemberInvitationPage />}
+        />
+        <Route path="user-info" element={<UserInfoPage />} />
+
+        <Route path="login" element={<Navigate to="/" />} />
+        <Route path="reset-password" element={<Navigate to="/" />} />
+        <Route path="signup" element={<Navigate to="/" />} />
+
+        <Route path="orgs/:orgId/*" element={<OrgIdRoute />} />
+        <Route path=":slug/*" element={<OrgSlugRoute />} />
+
+        {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}
+
+        <Route path="*" element={<Page404 />} />
+      </Routes>
     </LoggedLayout>
   )
 }

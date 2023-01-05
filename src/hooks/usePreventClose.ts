@@ -1,6 +1,5 @@
 import { UnregisterCallback } from 'history'
 import { useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 
 const message = 'You have unsaved changes. Are you sure you want to leave?'
 
@@ -11,13 +10,14 @@ let historyReleaseCallback: UnregisterCallback | undefined = undefined
 // Prevents window from closing when preventHandler returns true
 export function usePreventClose() {
   const isPreventingClose = useRef(false)
-  const history = useHistory()
+  // const { navigator } = useContext(UNSAFE_NavigationContext)
 
   const preventClose = () => {
     if (isPreventingClose.current) return
     isPreventingClose.current = true
     if (historyBlockCount === 0) {
-      historyReleaseCallback = history.block(message)
+      // TODO: FIX: react-router v6 does not have navigator.block (for now?)
+      // historyReleaseCallback = navigator.block(message)
     }
     historyBlockCount++
   }

@@ -16,7 +16,7 @@ import useSuperAdmin from '@hooks/useSuperAdmin'
 import { MemberEntry } from '@shared/model/member'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import React, { lazy, Suspense, useEffect } from 'react'
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import {
   useSubscribeCirclesSubscription,
   useSubscribeMembersSubscription,
@@ -32,7 +32,6 @@ interface Props {
 }
 
 export default function OrgRoutes({ orgId }: Props) {
-  const { path } = useRouteMatch()
   const org = useOrg(orgId)
   const orgLoading = useStoreState(
     (state) => state.orgs.loading || !state.orgs.entries
@@ -96,12 +95,12 @@ export default function OrgRoutes({ orgId }: Props) {
   }, [membersResult])
 
   // If org doesn't exist, redirect to root
-  const history = useHistory()
+  const navigate = useNavigate()
   const superAdmin = useSuperAdmin()
   useEffect(() => {
     if (!org && !orgLoading && !superAdmin) {
       localStorage.removeItem(UserLocalStorageKeys.OrgId)
-      history.replace('/')
+      navigate('/')
     }
   }, [org, orgLoading])
 
@@ -110,44 +109,23 @@ export default function OrgRoutes({ orgId }: Props) {
       <Loading center active={loading} />
       <TextErrors errors={[membersError, rolesError, circlesError]} />
 
-      <Switch key={orgId}>
-        <Route exact path={path}>
-          <CirclesPage />
-        </Route>
-        <Route exact path={`${path}/members`}>
-          <MembersPage />
-        </Route>
-        <Route exact path={`${path}/threads/:threadId`}>
-          <ThreadPage />
-        </Route>
-        <Route exact path={`${path}/threads`}>
-          <ThreadsPage />
-        </Route>
-        <Route exact path={`${path}/meetings/:meetingId`}>
-          <MeetingPage />
-        </Route>
-        <Route exact path={`${path}/meetings-recurring/:id`}>
-          <MeetingRecurringPage />
-        </Route>
-        <Route exact path={`${path}/meetings`}>
-          <MeetingsPage />
-        </Route>
-        <Route exact path={`${path}/tasks/:taskId`}>
-          <TaskPage />
-        </Route>
-        <Route exact path={`${path}/tasks`}>
-          <TasksPage />
-        </Route>
-        <Route exact path={`${path}/decisions/:decisionId`}>
-          <DecisionPage />
-        </Route>
-        <Route exact path={`${path}/logs`}>
-          <LogsPage />
-        </Route>
-        <Route>
-          <Page404 />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route index element={<CirclesPage />} />
+        <Route path="members" element={<MembersPage />} />
+        <Route path="threads/:threadId" element={<ThreadPage />} />
+        <Route path="threads" element={<ThreadsPage />} />
+        <Route path="meetings/:meetingId" element={<MeetingPage />} />
+        <Route
+          path="meetings-recurring/:id"
+          element={<MeetingRecurringPage />}
+        />
+        <Route path="meetings" element={<MeetingsPage />} />
+        <Route path="tasks/:taskId" element={<TaskPage />} />
+        <Route path="tasks" element={<TasksPage />} />
+        <Route path="decisions/:decisionId" element={<DecisionPage />} />
+        <Route path="logs" element={<LogsPage />} />
+        <Route path="*" element={<Page404 />} />
+      </Routes>
     </Suspense>
   )
 }

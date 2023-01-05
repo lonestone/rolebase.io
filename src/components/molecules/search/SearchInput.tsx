@@ -4,6 +4,7 @@ import {
   IconButton,
   Input,
   InputProps,
+  Tooltip,
   useButtonGroup,
 } from '@chakra-ui/react'
 import { useElementSize } from '@hooks/useElementSize'
@@ -125,19 +126,33 @@ export default function SearchInput({
         ref={buttonGroupRef}
         display={inputVisible ? 'none' : undefined}
         size={size}
+        maxW="100%"
         {...inputMoreProps}
         isAttached
       >
-        <SearchResultItem
-          ref={buttonRef}
-          item={valueItem}
-          highlighted={false}
-          pr={onClear ? 1 : undefined}
-          maxW="170px"
-          overflow="hidden"
-          onMouseDown={handleClick}
-          onClick={handleClick}
-        />
+        <Tooltip
+          label={
+            (valueItem?.text.length || 0) > 10 ? valueItem?.title : undefined
+          }
+          placement="top"
+          hasArrow
+        >
+          <SearchResultItem
+            ref={buttonRef}
+            item={valueItem}
+            highlighted={false}
+            pr={onClear ? 1 : undefined}
+            overflow="hidden"
+            sx={{
+              div: {
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              },
+            }}
+            onMouseDown={handleClick}
+            onClick={handleClick}
+          />
+        </Tooltip>
         {onClear && (
           <IconButton
             aria-label={t('common.clear')}

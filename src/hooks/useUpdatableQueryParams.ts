@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useQueryParams from './useQueryParams'
 
 // Return query params and a function to update them
@@ -7,7 +7,7 @@ import useQueryParams from './useQueryParams'
 export default function useUpdatableQueryParams<
   Params extends Record<string, string>
 >() {
-  const history = useHistory()
+  const navigate = useNavigate()
   const params = useQueryParams<Params>()
 
   // We use a timeout to batch changes
@@ -16,7 +16,7 @@ export default function useUpdatableQueryParams<
 
   // Update params in URL
   const applyParams = useCallback(() => {
-    history.push(`?${new URLSearchParams(pendingParams.current).toString()}`)
+    navigate(`?${new URLSearchParams(pendingParams.current).toString()}`)
     pendingParams.current = undefined
   }, [])
 
