@@ -102,7 +102,7 @@ export default function SearchButton({
   }
 
   return (
-    <Box position="relative" {...getComboboxProps()}>
+    <Box {...getComboboxProps()}>
       <InputGroup size={size}>
         {!isOpen && (
           <Button ref={buttonRef} {...buttonProps} onClick={handleClick}>

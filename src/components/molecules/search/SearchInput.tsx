@@ -121,7 +121,7 @@ export default function SearchInput({
   const inputVisible = isOpen || !valueItem
 
   return (
-    <Box position="relative" display="flex" {...getComboboxProps()}>
+    <Box display="flex" {...getComboboxProps()}>
       <ButtonGroup
         ref={buttonGroupRef}
         display={inputVisible ? 'none' : undefined}

@@ -126,7 +126,7 @@ export default function MeetingAttendeesList({
         <MemberSearchButton
           excludeIds={attendeesMemberIds}
           size="sm"
-          variant="ghost"
+          variant="outline"
           leftIcon={<FiPlus />}
           onSelect={handleAdd}
         >
