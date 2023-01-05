@@ -28,7 +28,6 @@ const ImageComponent = React.lazy(
 export interface ImagePayload {
   src: string
   alt: string
-  maxWidth?: number
   width?: number
   height?: number
   key?: NodeKey
@@ -46,7 +45,6 @@ function convertImageElement(domNode: Node): null | DOMConversionOutput {
 export type SerializedImageNode = Spread<
   {
     height?: number
-    maxWidth: number
     src: string
     width?: number
     alt: string
@@ -61,7 +59,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
   __alt: string
   __width: 'inherit' | number
   __height: 'inherit' | number
-  __maxWidth: number
 
   static getType(): string {
     return 'image'
@@ -71,7 +68,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
     return new ImageNode(
       node.__src,
       node.__alt,
-      node.__maxWidth,
       node.__width,
       node.__height,
       node.__key
@@ -79,11 +75,10 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
   }
 
   static importJSON(serializedNode: SerializedImageNode): ImageNode {
-    const { height, width, maxWidth, src, alt } = serializedNode
+    const { height, width, src, alt } = serializedNode
     const node = $createImageNode({
       src,
       alt,
-      maxWidth,
       height,
       width,
     })
@@ -109,7 +104,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
   constructor(
     src: string,
     alt: string,
-    maxWidth: number,
     width?: 'inherit' | number,
     height?: 'inherit' | number,
     key?: NodeKey
@@ -117,7 +111,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
     super(key)
     this.__src = src
     this.__alt = alt
-    this.__maxWidth = maxWidth
     this.__width = width || 'inherit'
     this.__height = height || 'inherit'
   }
@@ -126,7 +119,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
     return {
       src: this.getSrc(),
       alt: this.__alt,
-      maxWidth: this.__maxWidth,
       width: this.__width === 'inherit' ? 0 : this.__width,
       height: this.__height === 'inherit' ? 0 : this.__height,
       type: 'image',
@@ -171,7 +163,6 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
           altText={this.__alt}
           width={this.__width}
           height={this.__height}
-          maxWidth={this.__maxWidth}
           nodeKey={this.getKey()}
           resizable={true}
         />
@@ -182,15 +173,12 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
 
 export function $createImageNode({
   height,
-  maxWidth = 500,
   src,
   width,
   alt,
   key,
 }: ImagePayload): ImageNode {
-  return $applyNodeReplacement(
-    new ImageNode(src, alt, maxWidth, width, height, key)
-  )
+  return $applyNodeReplacement(new ImageNode(src, alt, width, height, key))
 }
 
 export function $isImageNode(

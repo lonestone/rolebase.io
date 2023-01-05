@@ -63,13 +63,11 @@ function LazyImage({
   src,
   width,
   height,
-  maxWidth,
 }: {
   altText: string
   className: string | null
   height: 'inherit' | number
   imageRef: { current: null | HTMLImageElement }
-  maxWidth: number
   src: string
   width: 'inherit' | number
 }) {
@@ -81,9 +79,8 @@ function LazyImage({
       alt={altText}
       ref={imageRef}
       style={{
-        height,
-        maxWidth,
         width,
+        height,
       }}
       draggable="false"
     />
@@ -96,12 +93,10 @@ export default function ImageComponent({
   nodeKey,
   width,
   height,
-  maxWidth,
   resizable,
 }: {
   altText: string
   height: 'inherit' | number
-  maxWidth: number
   nodeKey: NodeKey
   resizable: boolean
   src: string
@@ -241,14 +236,12 @@ export default function ImageComponent({
             imageRef={imageRef}
             width={width}
             height={height}
-            maxWidth={maxWidth}
           />
         </div>
         {resizable && $isNodeSelection(selection) && isFocused && (
           <ImageResizer
             editor={editor}
             imageRef={imageRef}
-            maxWidth={maxWidth}
             onResizeStart={onResizeStart}
             onResizeEnd={onResizeEnd}
           />
