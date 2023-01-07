@@ -32,8 +32,8 @@ import {
 import React, { useCallback, useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 
+import { $setBlocksType_experimental } from '@lexical/selection'
 import useModal from '../../hooks/useModal'
-import { $setBlocksType_experimental } from '../../utils/setBlocksType_experimental'
 import { EmbedConfigs } from '../AutoEmbedPlugin'
 import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
 import { INSERT_EQUATION_COMMAND } from '../EquationsPlugin'

@@ -17,6 +17,7 @@ import {
   Portal,
 } from '@chakra-ui/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import useLexicalEditable from '@lexical/react/useLexicalEditable'
 import {
   $deleteTableColumn,
   $getElementGridForTableNode,
@@ -49,7 +50,6 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { FiChevronDown } from 'react-icons/fi'
-import useLexicalEditable from '../../utils/useLexicalEditable'
 
 type TableCellActionMenuProps = Readonly<{
   tableCellNode: TableCellNode

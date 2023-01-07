@@ -11,6 +11,7 @@ import type { LexicalEditor } from 'lexical'
 import './index.css'
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import useLexicalEditable from '@lexical/react/useLexicalEditable'
 import {
   $getTableColumnIndexFromTableCellNode,
   $getTableNodeFromLexicalNodeOrThrow,
@@ -36,7 +37,6 @@ import React, {
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
-import useLexicalEditable from '../../utils/useLexicalEditable'
 
 type MousePosition = {
   x: number

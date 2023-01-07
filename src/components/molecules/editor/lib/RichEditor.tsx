@@ -21,6 +21,7 @@ import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin'
 import React, {
   forwardRef,
@@ -268,6 +269,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           <CodeHighlightPlugin />
           <ListPlugin />
           <CheckListPlugin />
+          <TabIndentationPlugin />
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <TablePlugin />
           <TableCellResizer />
