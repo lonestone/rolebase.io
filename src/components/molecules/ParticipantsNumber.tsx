@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuButtonProps,
   MenuList,
+  Portal,
 } from '@chakra-ui/react'
 import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
@@ -58,17 +59,20 @@ export default function ParticipantsNumber({
           ))}
         </Box>
       </MenuButton>
-      <MenuList shadow="lg" zIndex={1000} maxH="390px" overflow="auto">
-        {participants.map(({ member, circlesIds }) => (
-          <CircleMemberLink
-            key={member.id}
-            memberId={member.id}
-            circleId={circlesIds[0]}
-          >
-            <MemberMenuItem member={member} circlesIds={circlesIds} />
-          </CircleMemberLink>
-        ))}
-      </MenuList>
+
+      <Portal>
+        <MenuList shadow="lg" zIndex={1000} maxH="390px" overflow="auto">
+          {participants.map(({ member, circlesIds }) => (
+            <CircleMemberLink
+              key={member.id}
+              memberId={member.id}
+              circleId={circlesIds[0]}
+            >
+              <MemberMenuItem member={member} circlesIds={circlesIds} />
+            </CircleMemberLink>
+          ))}
+        </MenuList>
+      </Portal>
     </Menu>
   )
 }
