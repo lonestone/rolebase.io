@@ -251,7 +251,7 @@ function Demo1() {
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>
     <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <ColorModeScript initialColorMode="light" />
       <Demo1 />
     </ChakraProvider>
   </I18nextProvider>,
