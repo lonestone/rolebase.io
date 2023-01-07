@@ -5,7 +5,6 @@ import {
   Box,
   BoxProps,
   Collapse,
-  Container,
   Flex,
   Heading,
   Spacer,
@@ -14,26 +13,24 @@ import {
   VStack,
   Wrap,
 } from '@chakra-ui/react'
-import CircleButton from '@components/atoms/CircleButton'
 import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { Title } from '@components/atoms/Title'
 import ActionsMenu from '@components/molecules/ActionsMenu'
-import MeetingActions from '@components/molecules/MeetingActions'
 import MeetingAttendeesList from '@components/molecules/MeetingAttendeesList'
+import MeetingDate from '@components/molecules/MeetingDate'
 import MeetingLogs from '@components/molecules/MeetingLogs'
+import MeetingPanel from '@components/molecules/MeetingPanel'
 import MeetingStepContent from '@components/molecules/MeetingStepContent'
 import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
+import MeetingTitle from '@components/molecules/MeetingTitle'
 import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
-import useDateLocale from '@hooks/useDateLocale'
 import useMeetingState from '@hooks/useMeetingState'
 import useOrgMember from '@hooks/useOrgMember'
-import { format } from 'date-fns'
 import React, { useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { FiCalendar, FiClock } from 'react-icons/fi'
-import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
+import { useTranslation } from 'react-i18next'
+import { MeetingContext } from 'src/contexts/MeetingContext'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
 
@@ -52,7 +49,6 @@ export default function MeetingContent({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
-  const dateLocale = useDateLocale()
   const isMember = useOrgMember()
 
   // Load meeting and steps
@@ -92,175 +88,155 @@ export default function MeetingContent({
   const deleteModal = useDisclosure()
 
   return (
-    <Box {...boxProps}>
-      {changeTitle && (
-        <Title>
-          {t('MeetingContent.title', {
-            circle: circle?.role.name || '',
-            title: meeting?.title || '…',
-          })}
-        </Title>
-      )}
-
-      <Flex mb={3}>
-        <Heading as="h1" size="md">
-          <Trans
-            i18nKey="MeetingContent.heading"
-            values={{ title: meeting?.title || '…' }}
-            components={{
-              circle: circle ? <CircleButton circle={circle} mx={1} /> : <></>,
-            }}
-          />
-        </Heading>
-
-        {meeting?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
-
-        <Spacer />
-
-        <Flex mr={headerIcons ? -2 : 0}>
-          <ParticipantsNumber participants={participants} mr={1} />
-
-          {isMember && (
-            <ActionsMenu
-              onEdit={
-                canEdit
-                  ? meeting?.ended && !forceEdit
-                    ? () => handleChangeForceEdit(true)
-                    : handleEdit
-                  : undefined
-              }
-              onDuplicate={handleDuplicate}
-              onDelete={canEdit && !isStarted ? deleteModal.onOpen : undefined}
-            />
-          )}
-
-          {headerIcons}
-        </Flex>
-      </Flex>
-
-      {meeting && (
-        <>
-          <VStack spacing={5} align="start">
-            <Wrap spacing={5} align="center">
-              <Wrap spacing={3} align="center">
-                <FiCalendar />
-                {capitalizeFirstLetter(
-                  format(new Date(meeting.startDate), 'PPPP', {
-                    locale: dateLocale,
-                  })
-                )}
-              </Wrap>
-              <Wrap spacing={3} align="center">
-                <FiClock />
-                {format(new Date(meeting.startDate), 'p', {
-                  locale: dateLocale,
-                })}
-                {' - '}
-                {format(new Date(meeting.endDate), 'p', {
-                  locale: dateLocale,
-                })}
-              </Wrap>
-
-              {meeting?.ended && <Tag ml={1}>{t('MeetingContent.ended')}</Tag>}
-
-              {isStarted && (
-                <Tag colorScheme="green" ml={1}>
-                  {t('MeetingContent.started')}
-                </Tag>
-              )}
-            </Wrap>
-
-            {isMember && !isEnded && !canEdit && (
-              <Alert status="info">
-                <AlertIcon />
-                <AlertDescription>
-                  {t('MeetingContent.notInvited')}
-                </AlertDescription>
-              </Alert>
-            )}
-          </VStack>
-
-          <Box mt={16}>
-            {meeting.stepsConfig.map((stepConfig, index) => {
-              const last = index === meeting.stepsConfig.length - 1
-              const step = steps?.find((s) => s.stepConfigId === stepConfig.id)
-              if (!step) return null
-              const current = meeting.currentStepId === step.id
-
-              return (
-                <MeetingStepLayout
-                  key={step.id}
-                  index={index}
-                  stepId={step.id}
-                  title={stepConfig.title}
-                  last={last}
-                  current={current}
-                  onNumberClick={
-                    isStarted && canEdit
-                      ? () => handleGoToStep(step.id)
-                      : undefined
-                  }
-                >
-                  {index === 0 && (
-                    <Collapse in={!!meeting.attendees} animateOpacity>
-                      {meeting.attendees && circle && (
-                        <MeetingAttendeesList
-                          meetingState={meetingState}
-                          mb={5}
-                        />
-                      )}
-                    </Collapse>
-                  )}
-
-                  <MeetingStepContent meetingState={meetingState} step={step} />
-                </MeetingStepLayout>
-              )
+    <MeetingContext.Provider value={meetingState}>
+      <Box {...boxProps}>
+        {changeTitle && (
+          <Title>
+            {t('MeetingContent.title', {
+              circle: circle?.role.name || '',
+              title: meeting?.title || '…',
             })}
+          </Title>
+        )}
 
-            {canEdit && (
-              <MeetingActions
-                meetingState={meetingState}
-                forceEdit={forceEdit}
+        <Flex mb={3}>
+          <Heading as="h1" size="md">
+            <MeetingTitle />
+          </Heading>
+
+          {meeting?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
+
+          <Spacer />
+
+          <Flex mr={headerIcons ? -2 : 0}>
+            <ParticipantsNumber participants={participants} mr={1} />
+
+            {isMember && (
+              <ActionsMenu
+                onEdit={
+                  canEdit
+                    ? meeting?.ended && !forceEdit
+                      ? () => handleChangeForceEdit(true)
+                      : handleEdit
+                    : undefined
+                }
+                onDuplicate={handleDuplicate}
+                onDelete={
+                  canEdit && !isStarted ? deleteModal.onOpen : undefined
+                }
               />
             )}
 
-            {!isNotStarted && (
-              <Container size="xs" mt={10}>
-                <Heading as="h3" size="sm" mb={2}>
-                  {t('MeetingContent.logs')}
-                </Heading>
-                <MeetingLogs
-                  meetingId={meeting.id}
-                  excludeTypes={taskLogTypes}
-                />
-              </Container>
+            {headerIcons}
+          </Flex>
+        </Flex>
+
+        {meeting && (
+          <>
+            <VStack spacing={5} align="start">
+              <Wrap spacing={5} align="center" fontSize="sm">
+                <MeetingDate meeting={meeting} />
+
+                {meeting?.ended ? (
+                  <Tag ml={1}>{t('MeetingContent.ended')}</Tag>
+                ) : (
+                  isStarted && (
+                    <Tag colorScheme="green" ml={1}>
+                      {t('MeetingContent.started')}
+                    </Tag>
+                  )
+                )}
+              </Wrap>
+
+              {isMember && !isEnded && !canEdit && (
+                <Alert status="info">
+                  <AlertIcon />
+                  <AlertDescription>
+                    {t('MeetingContent.notInvited')}
+                  </AlertDescription>
+                </Alert>
+              )}
+            </VStack>
+
+            <Box mt={16}>
+              {meeting.stepsConfig.map((stepConfig, index) => {
+                const step = steps?.find(
+                  (s) => s.stepConfigId === stepConfig.id
+                )
+                if (!step) return null
+                const current = meeting.currentStepId === step.id
+
+                return (
+                  <MeetingStepLayout
+                    key={step.id}
+                    index={index}
+                    stepId={step.id}
+                    title={stepConfig.title}
+                    current={current}
+                    onStepClick={
+                      isStarted && canEdit
+                        ? () => handleGoToStep(step.id)
+                        : undefined
+                    }
+                  >
+                    {index === 0 && (
+                      <Collapse in={!!meeting.attendees} animateOpacity>
+                        {meeting.attendees && circle && (
+                          <MeetingAttendeesList mb={5} />
+                        )}
+                      </Collapse>
+                    )}
+
+                    <MeetingStepContent step={step} />
+                  </MeetingStepLayout>
+                )
+              })}
+
+              {!isNotStarted && (
+                <Box mt={10}>
+                  <MeetingLogs
+                    meetingId={meeting.id}
+                    excludeTypes={taskLogTypes}
+                    hideEmpty
+                    header={
+                      <Heading as="h2" size="md" mb={2}>
+                        {t('MeetingContent.logs')}
+                      </Heading>
+                    }
+                  />
+                </Box>
+              )}
+
+              <Box h="100px" />
+            </Box>
+
+            {canEdit && (
+              <MeetingPanel forceEdit={forceEdit} isModal={!changeTitle} />
             )}
+          </>
+        )}
 
-            <Box h="100px" />
-          </Box>
-        </>
-      )}
+        {loading && <Loading active size="md" />}
+        <TextErrors errors={[error]} />
 
-      {loading && <Loading active size="md" />}
-      <TextErrors errors={[error]} />
+        {editModal.isOpen && (
+          <MeetingEditModal
+            meeting={meeting}
+            duplicate={duplicateInModal}
+            isOpen
+            onClose={editModal.onClose}
+          />
+        )}
 
-      {editModal.isOpen && (
-        <MeetingEditModal
-          meeting={meeting}
-          duplicate={duplicateInModal}
-          isOpen
-          onClose={editModal.onClose}
-        />
-      )}
-
-      {deleteModal.isOpen && meeting && (
-        <MeetingDeleteModal
-          meeting={meeting}
-          isOpen
-          onClose={deleteModal.onClose}
-          onDelete={onClose}
-        />
-      )}
-    </Box>
+        {deleteModal.isOpen && meeting && (
+          <MeetingDeleteModal
+            meeting={meeting}
+            isOpen
+            onClose={deleteModal.onClose}
+            onDelete={onClose}
+          />
+        )}
+      </Box>
+    </MeetingContext.Provider>
   )
 }

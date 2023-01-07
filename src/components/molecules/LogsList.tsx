@@ -8,10 +8,9 @@ import LogItem from './LogItem'
 
 interface Props extends BoxProps {
   logs: LogEntry[]
-  hideEmpty?: boolean
 }
 
-export default function LogsList({ logs, hideEmpty, ...boxProps }: Props) {
+export default function LogsList({ logs, ...boxProps }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
 
@@ -27,8 +26,6 @@ export default function LogsList({ logs, hideEmpty, ...boxProps }: Props) {
     setCancelLog(log)
     onCancelOpen()
   }, [])
-
-  if (hideEmpty && logs.length === 0) return null
 
   return (
     <Box {...boxProps}>

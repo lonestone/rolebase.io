@@ -194,15 +194,6 @@
   "LogsPage": {
     "heading": "History"
   },
-  "MeetingActions": {
-    "defaultEntityDescription": "Meeting: {{meeting}}",
-    "start": "Start meeting",
-    "next": "Next step",
-    "end": "End meeting",
-    "reopen": "Start again",
-    "stop": "Save and stop editing",
-    "videoConf": "Join the videoconf"
-  },
   "MeetingAttendees": {
     "maybe": "Maybe",
     "absent": "Absent",
@@ -247,6 +238,19 @@
     "heading": "Meeting in progress",
     "info": "You have a meeting in progress, would you like to join it?"
   },
+  "MeetingPanelNotStarted": {
+    "start": "Start meeting"
+  },
+  "MeetingPanelStarted": {
+    "next": "Next step",
+    "end": "End meeting",
+    "videoConf": "Join the videoconf",
+    "defaultEntityDescription": "Meeting: {{meeting}}"
+  },
+  "MeetingPanelEnded": {
+    "reopen": "Start again",
+    "stop": "Save and stop editing"
+  },
   "MeetingRecurringDeleteModal": {
     "heading": "Delete a recurring meeting",
     "info": "Are you sure you want to delete the recurring meeting <b>{{name}}</b> from <b>{{circle}}</b>?"
@@ -279,6 +283,9 @@
   "MeetingStepContentIndicators": {
     "useCircle": "Use role indicators {{circle}}",
     "empty": "The role <circle /> has no indicators. You can edit it to add indicators that will be used automatically in meetings."
+  },
+  "MeetingStepContentTasks": {
+    "logs": "Edited tasks"
   },
   "MeetingStepSortableItem": {
     "placeholder": "Step title..."

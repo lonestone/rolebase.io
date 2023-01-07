@@ -6,25 +6,23 @@ import {
   Collapse,
 } from '@chakra-ui/react'
 import CircleButton from '@components/atoms/CircleButton'
-import { MeetingState } from '@hooks/useMeetingState'
 import { MeetingStepChecklist } from '@shared/model/meeting_step'
 import { WithId } from '@shared/model/types'
-import React, { RefObject, useCallback } from 'react'
+import React, { RefObject, useCallback, useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { MeetingContext } from 'src/contexts/MeetingContext'
 import { EditorHandle } from './editor'
 
 interface Props {
-  meetingState: MeetingState
   step: WithId<MeetingStepChecklist>
   editorRef: RefObject<EditorHandle>
 }
 
 export default function MeetingStepContentChecklist({
-  meetingState,
   step,
   editorRef,
 }: Props) {
-  const { circle, editable } = meetingState
+  const { circle, editable } = useContext(MeetingContext)!
   const { t } = useTranslation()
   const newValue = circle?.role.checklist
 

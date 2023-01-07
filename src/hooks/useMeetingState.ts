@@ -10,7 +10,12 @@ import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { CircleWithRoleEntry } from '@shared/model/circle'
-import { Meeting, MeetingEntry, VideoConfTypes } from '@shared/model/meeting'
+import {
+  Meeting,
+  MeetingEntry,
+  MeetingStepConfig,
+  VideoConfTypes,
+} from '@shared/model/meeting'
 import { MeetingStepEntry } from '@shared/model/meeting_step'
 import { ParticipantMember } from '@shared/model/member'
 import { NotificationCategories } from '@shared/model/notification'
@@ -26,6 +31,12 @@ import settings from 'src/settings'
 import useCreateMissingMeetingSteps from './useCreateMissingMeetingSteps'
 import { usePathInOrg } from './usePathInOrg'
 
+/***
+ * Meeting state hook
+ * /!\ Do not call this too often
+ * Consider using MeetingContext instead
+ */
+
 export interface MeetingState {
   meeting: MeetingEntry | undefined
   path: string
@@ -34,6 +45,8 @@ export interface MeetingState {
   steps: MeetingStepEntry[] | undefined
   circle: CircleWithRoleEntry | undefined
   participants: ParticipantMember[]
+  currentStep: MeetingStepEntry | undefined
+  currentStepConfig: MeetingStepConfig | undefined
   canEdit: boolean
   forceEdit: boolean
   editable: boolean
@@ -45,6 +58,7 @@ export interface MeetingState {
   isEndTimePassed: boolean
   isLastStep: boolean
   videoConfUrl: string | undefined
+  handleScrollToStep(stepId: string): void
   handleGoToStep(stepId: string): void
   handleEnd(): void
   handleNextStep(): void
@@ -180,23 +194,41 @@ export default function useMeetingState(meetingId: string): MeetingState {
     }
   }, [meeting?.ended, forceEdit])
 
+  const handleScrollToStep = useCallback((stepId: string) => {
+    document
+      .getElementById(`step-${stepId}`)
+      ?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
   // Scroll to current step
   useEffect(() => {
     const stepId = meeting?.currentStepId
     if (!stepId) return
-    document
-      .getElementById(`step-${stepId}`)
-      ?.scrollIntoView({ behavior: 'smooth' })
-  }, [meeting?.currentStepId])
+    handleScrollToStep(stepId)
+  }, [meeting?.currentStepId, handleScrollToStep])
+
+  // Current step
+  const currentStep = useMemo(() => {
+    const stepId = meeting?.currentStepId
+    if (!stepId) return
+    return steps?.find((s) => s.id === stepId)
+  }, [meeting?.currentStepId, steps])
+
+  // Current step config
+  const currentStepConfig = useMemo(() => {
+    const stepId = currentStep?.stepConfigId
+    if (!stepId) return
+    return meeting?.stepsConfig?.find((s) => s.id === stepId)
+  }, [currentStep?.stepConfigId, meeting?.stepsConfig])
 
   // Last step
   const isLastStep = useMemo(() => {
-    const stepId = meeting?.currentStepId
-    if (!stepId) return false
-    const step = steps?.find((s) => s.id === stepId)
-    const stepConfigId = meeting.stepsConfig[meeting.stepsConfig.length - 1].id
-    return step?.stepConfigId === stepConfigId
-  }, [meeting?.currentStepId, meeting?.stepsConfig, steps])
+    const stepsConfig = meeting?.stepsConfig
+    if (!stepsConfig || !currentStep) return false
+    const lastStepConfig = stepsConfig[stepsConfig.length - 1]
+    if (!lastStepConfig) return false
+    return currentStep?.stepConfigId === lastStepConfig.id
+  }, [currentStep, meeting?.stepsConfig])
 
   // Go to step
   const handleGoToStep = useCallback(
@@ -342,6 +374,8 @@ export default function useMeetingState(meetingId: string): MeetingState {
     steps,
     circle,
     participants,
+    currentStep,
+    currentStepConfig,
     canEdit,
     forceEdit,
     editable,
@@ -353,6 +387,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
     isEndTimePassed,
     isLastStep,
     videoConfUrl,
+    handleScrollToStep,
     handleGoToStep,
     handleEnd,
     handleNextStep,

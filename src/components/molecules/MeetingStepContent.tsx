@@ -1,9 +1,9 @@
 import MeetingStepContentTasks from '@components/molecules/MeetingStepContentTasks'
 import MeetingStepContentThreads from '@components/molecules/MeetingStepContentThreads'
-import { MeetingState } from '@hooks/useMeetingState'
 import { MeetingStepEntry, MeetingStepTypes } from '@shared/model/meeting_step'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { MeetingContext } from 'src/contexts/MeetingContext'
 import { useUpdateMeetingStepMutation } from 'src/graphql.generated'
 import { EditorHandle } from './editor'
 import CollabEditor from './editor/CollabEditor'
@@ -11,12 +11,11 @@ import MeetingStepContentChecklist from './MeetingStepContentChecklist'
 import MeetingStepContentIndicators from './MeetingStepContentIndicators'
 
 interface Props {
-  meetingState: MeetingState
   step: MeetingStepEntry
 }
 
-export default function MeetingStepContent({ meetingState, step }: Props) {
-  const { meeting, editable } = meetingState
+export default function MeetingStepContent({ step }: Props) {
+  const { meeting, editable } = useContext(MeetingContext)!
   const { t } = useTranslation()
   const editorRef = useRef<EditorHandle>(null)
   const [updateMeetingStep] = useUpdateMeetingStepMutation()
@@ -36,27 +35,19 @@ export default function MeetingStepContent({ meetingState, step }: Props) {
   return (
     <>
       {step.type === MeetingStepTypes.Threads && (
-        <MeetingStepContentThreads meetingState={meetingState} step={step} />
+        <MeetingStepContentThreads step={step} />
       )}
 
       {step.type === MeetingStepTypes.Tasks && (
-        <MeetingStepContentTasks meetingState={meetingState} step={step} />
+        <MeetingStepContentTasks step={step} />
       )}
 
       {step.type === MeetingStepTypes.Checklist && (
-        <MeetingStepContentChecklist
-          meetingState={meetingState}
-          step={step}
-          editorRef={editorRef}
-        />
+        <MeetingStepContentChecklist step={step} editorRef={editorRef} />
       )}
 
       {step.type === MeetingStepTypes.Indicators && (
-        <MeetingStepContentIndicators
-          meetingState={meetingState}
-          step={step}
-          editorRef={editorRef}
-        />
+        <MeetingStepContentIndicators step={step} editorRef={editorRef} />
       )}
 
       <CollabEditor

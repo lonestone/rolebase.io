@@ -1,16 +1,16 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import TasksModule from '@components/organisms/task/TasksModule'
-import { MeetingState } from '@hooks/useMeetingState'
 import { LogType } from '@shared/model/log'
 import { MeetingStepTasks } from '@shared/model/meeting_step'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'
 import { WithId } from '@shared/model/types'
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
+import { useTranslation } from 'react-i18next'
+import { MeetingContext } from 'src/contexts/MeetingContext'
 import { useUpdateMeetingStepMutation } from 'src/graphql.generated'
 import MeetingLogs from './MeetingLogs'
 
 interface Props {
-  meetingState: MeetingState
   step: WithId<MeetingStepTasks>
 }
 
@@ -21,8 +21,9 @@ export const taskLogTypes = [
   LogType.TaskArchive,
 ]
 
-export default function MeetingStepContentTasks({ meetingState, step }: Props) {
-  const { meeting, circle, isEnded } = meetingState
+export default function MeetingStepContentTasks({ step }: Props) {
+  const { t } = useTranslation()
+  const { meeting, circle, isEnded } = useContext(MeetingContext)!
   const [updateMeetingStep] = useUpdateMeetingStepMutation()
 
   // Persisted filters
@@ -82,6 +83,11 @@ export default function MeetingStepContentTasks({ meetingState, step }: Props) {
         meetingId={meeting.id}
         includeTypes={taskLogTypes}
         hideEmpty
+        header={
+          <Heading as="h3" size="sm" mb={2}>
+            {t('MeetingStepContentTasks.logs')}
+          </Heading>
+        }
         mt={5}
       />
     </Box>

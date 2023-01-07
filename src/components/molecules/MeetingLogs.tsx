@@ -3,7 +3,7 @@ import Loading from '@components/atoms/Loading'
 import TextErrors from '@components/atoms/TextErrors'
 import { useOrgId } from '@hooks/useOrgId'
 import { LogType } from '@shared/model/log'
-import React, { useMemo } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { useSubscribeMeetingLogsSubscription } from 'src/graphql.generated'
 import LogsList from './LogsList'
 
@@ -12,6 +12,7 @@ interface Props extends BoxProps {
   includeTypes?: LogType[]
   excludeTypes?: LogType[]
   hideEmpty?: boolean
+  header?: ReactNode
 }
 
 export default function MeetingLogs({
@@ -19,6 +20,7 @@ export default function MeetingLogs({
   includeTypes,
   excludeTypes,
   hideEmpty,
+  header,
   ...boxProps
 }: Props) {
   const orgId = useOrgId()
@@ -43,12 +45,15 @@ export default function MeetingLogs({
     [data, includeTypes, excludeTypes]
   )
 
+  if (hideEmpty && logs?.length === 0) return null
+
   return (
     <>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {logs && <LogsList logs={logs} hideEmpty={hideEmpty} {...boxProps} />}
+      {header}
+      {logs && <LogsList logs={logs} {...boxProps} />}
     </>
   )
 }

@@ -13,26 +13,21 @@ import {
 } from '@chakra-ui/react'
 import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { MeetingState } from '@hooks/useMeetingState'
 import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IoMdSend } from 'react-icons/io'
+import { MeetingContext } from 'src/contexts/MeetingContext'
 
-interface Props extends UseModalProps {
-  meetingState: MeetingState
-}
-
-export default function MeetingStartNotificationModal({
-  meetingState,
-  ...modalProps
-}: Props) {
+export default function MeetingStartNotificationModal(
+  modalProps: UseModalProps
+) {
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const toast = useToast()
   const members = useStoreState((state) => state.members.entries)
-  const { meeting, handleSendStartNotification } = meetingState
+  const { meeting, handleSendStartNotification } = useContext(MeetingContext)!
 
   const participants =
     currentMember &&

@@ -194,15 +194,6 @@
   "LogsPage": {
     "heading": "Historique"
   },
-  "MeetingActions": {
-    "defaultEntityDescription": "Réunion : {{meeting}}",
-    "start": "Démarrer",
-    "next": "Étape suivante",
-    "end": "Terminer",
-    "reopen": "Démarrer à nouveau",
-    "stop": "Enregistrer et quitter l'édition",
-    "videoConf": "Rejoindre la visio"
-  },
   "MeetingAttendees": {
     "maybe": "Peut-être",
     "absent": "Absent(e)",
@@ -247,6 +238,19 @@
     "heading": "Réunion en cours",
     "info": "Vous avez une réunion en cours, souhaitez-vous la rejoindre ?"
   },
+  "MeetingPanelNotStarted": {
+    "start": "Démarrer"
+  },
+  "MeetingPanelStarted": {
+    "next": "Étape suivante",
+    "end": "Terminer",
+    "videoConf": "Rejoindre la visio",
+    "defaultEntityDescription": "Réunion : {{meeting}}"
+  },
+  "MeetingPanelEnded": {
+    "reopen": "Démarrer à nouveau",
+    "stop": "Enregistrer et quitter l'édition"
+  },
   "MeetingRecurringDeleteModal": {
     "heading": "Supprimer une réunion récurrente",
     "info": "Êtes-vous sûr(e) de vouloir supprimer la réunion récurrente <b>{{name}}</b> de <b>{{circle}}</b> ?"
@@ -279,6 +283,9 @@
   "MeetingStepContentIndicators": {
     "useCircle": "Utiliser les indicateurs du rôle {{circle}}",
     "empty": "Le rôle <circle /> n'a pas d'indicateurs. Vous pouvez l'éditer pour ajouter des indicateurs qui seront utilisés automatiquement en réunion."
+  },
+  "MeetingStepContentTasks": {
+    "logs": "Tâches modifiées"
   },
   "MeetingStepSortableItem": {
     "placeholder": "Titre de l'étape..."

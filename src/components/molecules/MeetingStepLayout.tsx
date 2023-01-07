@@ -1,13 +1,15 @@
-import { Box, Flex, Heading, Tag, useColorMode } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Flex, Heading } from '@chakra-ui/react'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import React, { useContext } from 'react'
+import { MeetingContext } from 'src/contexts/MeetingContext'
+import MeetingStepNumber from './MeetingStepNumber'
 
 interface Props {
   index: number
   stepId: string
   title: string
   current: boolean
-  last: boolean
-  onNumberClick?(): void
+  onStepClick?(): void
   children: React.ReactNode
 }
 
@@ -16,43 +18,32 @@ export default function MeetingStepLayout({
   stepId,
   title,
   current,
-  last,
-  onNumberClick,
+  onStepClick,
   children,
 }: Props) {
-  const { colorMode } = useColorMode()
-  const borderColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.200'
-  const tagColor = borderColor
-  const tagCurrentColor = 'green.600'
-  const tagHoverColor = colorMode === 'light' ? 'gray.200' : 'whiteAlpha.300'
-  const tagTextColor = current
-    ? 'white'
-    : colorMode === 'light'
-    ? 'black'
-    : 'gray.300'
+  const { handleScrollToStep } = useContext(MeetingContext)!
+  const anchor = `step-${stepId}`
+
+  const handleStepLinkClick = useNormalClickHandler(() =>
+    handleScrollToStep(stepId)
+  )
 
   return (
     <>
       <Flex alignItems="center">
         {/* Anchor */}
-        <Box id={`step-${stepId}`} transform="translateY(-100px)" />
+        <Box id={anchor} transform="translateY(-100px)" />
 
-        <Tag
-          color={tagTextColor}
-          bg={current ? tagCurrentColor : tagColor}
-          _hover={current || !onNumberClick ? undefined : { bg: tagHoverColor }}
-          variant="solid"
-          size="lg"
-          fontWeight="bold"
-          borderRadius="full"
+        <MeetingStepNumber
+          index={index}
+          current={current}
           mr={4}
-          cursor={!current && onNumberClick ? 'pointer' : 'default'}
-          onClick={onNumberClick}
-        >
-          {index + 1}
-        </Tag>
-        <Heading as="h2" size="sm">
-          {title}
+          onStepClick={onStepClick}
+        />
+        <Heading as="h2" size="md">
+          <a href={`#${anchor}`} onClick={handleStepLinkClick}>
+            {title}
+          </a>
         </Heading>
       </Flex>
       <Box pt={7} pb={20}>

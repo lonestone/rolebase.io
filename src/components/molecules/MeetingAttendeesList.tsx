@@ -5,26 +5,20 @@ import {
 } from '@api/functions'
 import { BoxProps, VStack } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { MeetingState } from '@hooks/useMeetingState'
 import { MeetingAttendee } from '@shared/model/meeting'
 import { NotificationCategories } from '@shared/model/notification'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
+import { MeetingContext } from 'src/contexts/MeetingContext'
 import { useUpdateMeetingMutation } from 'src/graphql.generated'
 import settings from 'src/settings'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 import MemberSearchButton from './search/entities/members/MemberSearchButton'
 
-interface Props extends BoxProps {
-  meetingState: MeetingState
-}
-
-export default function MeetingAttendeesList({
-  meetingState,
-  ...boxProps
-}: Props) {
-  const { meeting, circle, editable, path, isStarted } = meetingState
+export default function MeetingAttendeesList(boxProps: BoxProps) {
+  const { meeting, circle, editable, path, isStarted } =
+    useContext(MeetingContext)!
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const [updateMeeting] = useUpdateMeetingMutation()
