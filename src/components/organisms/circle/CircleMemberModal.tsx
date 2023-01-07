@@ -1,10 +1,10 @@
+import ModalMaximizeButton from '@atoms/ModalMaximizeButton'
 import {
   Modal,
   ModalContent,
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
-import ModalMaximizeButton from '@components/atoms/ModalMaximizeButton'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'

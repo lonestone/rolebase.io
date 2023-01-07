@@ -1,3 +1,6 @@
+import BrandIcon from '@atoms/BrandIcon'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
 import {
   Alert,
   AlertDescription,
@@ -8,12 +11,9 @@ import {
   Heading,
   Link,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import BrandIcon from '@components/molecules/BrandIcon'
-import LoginForm, { Values } from '@components/organisms/user/LoginForm'
 import useQueryParams from '@hooks/useQueryParams'
 import { useSendVerificationEmail, useSignInEmailPassword } from '@nhost/react'
+import LoginForm, { Values } from '@organisms/user/LoginForm'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'

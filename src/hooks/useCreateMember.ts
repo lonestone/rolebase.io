@@ -1,9 +1,9 @@
+import { useCreateMemberMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
+import { pick } from '@utils/pick'
 import { useCallback } from 'react'
-import { useCreateMemberMutation } from 'src/graphql.generated'
-import { pick } from 'src/utils/pick'
 
 export default function useCreateMember() {
   const orgId = useOrgId()

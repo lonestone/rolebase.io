@@ -11,14 +11,14 @@ import {
   UseModalProps,
   useToast,
 } from '@chakra-ui/react'
-import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
+import { MeetingContext } from '@contexts/MeetingContext'
 import useCurrentMember from '@hooks/useCurrentMember'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IoMdSend } from 'react-icons/io'
-import { MeetingContext } from 'src/contexts/MeetingContext'
 
 export default function MeetingStartNotificationModal(
   modalProps: UseModalProps

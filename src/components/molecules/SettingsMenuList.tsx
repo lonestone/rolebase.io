@@ -4,14 +4,15 @@ import {
   MenuListProps,
   useDisclosure,
 } from '@chakra-ui/react'
-import OrgEditModal from '@components/organisms/org/OrgEditModal'
-import BaseRolesModal from '@components/organisms/role/BaseRolesModal'
-import VacantRolesModal from '@components/organisms/role/VacantRolesModal'
+import { SidebarContext } from '@contexts/SidebarContext'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
+import OrgEditModal from '@organisms/org/OrgEditModal'
+import BaseRolesModal from '@organisms/role/BaseRolesModal'
+import VacantRolesModal from '@organisms/role/VacantRolesModal'
 import React, { ReactElement, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -22,7 +23,6 @@ import {
   FiUsers,
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-import { SidebarContext } from 'src/contexts/SidebarContext'
 
 export interface HeaderLink {
   to: string

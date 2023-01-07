@@ -17,10 +17,10 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import LogCancelText from '@components/molecules/LogCancelText'
-import LogEntityChanges from '@components/molecules/LogEntityChanges'
-import LogText from '@components/molecules/LogText'
 import { useCancelLog } from '@hooks/useCancelLog'
+import LogCancelText from '@molecules/log/LogCancelText'
+import LogEntityChanges from '@molecules/log/LogEntityChanges'
+import LogText from '@molecules/log/LogText'
 import { EntitiesChanges, EntityChange, LogEntry } from '@shared/model/log'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'

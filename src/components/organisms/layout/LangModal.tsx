@@ -7,7 +7,7 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
-import ListItemWithButtons from '@components/molecules/ListItemWithButtons'
+import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'

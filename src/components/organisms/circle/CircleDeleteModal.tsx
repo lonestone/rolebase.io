@@ -9,11 +9,11 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import useArchiveCircle from '@hooks/useArchiveCircle'
 import useCircle from '@hooks/useCircle'
 import React, { useContext, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { CircleMemberContext } from 'src/contexts/CircleMemberContext'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

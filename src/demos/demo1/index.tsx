@@ -1,6 +1,6 @@
 import { Box, chakra, ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import CirclesGraph from '@components/organisms/circle/CirclesGraph'
 import useWindowSize from '@hooks/useWindowSize'
+import CirclesGraph from '@organisms/circle/CirclesGraph'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import React, { useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'

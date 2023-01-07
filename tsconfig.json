@@ -21,9 +21,16 @@
     "paths": {
       "@shared/*": ["functions/_shared/*"],
       "@api/*": ["src/api/*"],
-      "@components/*": ["src/components/*"],
+      "@gql": ["src/graphql.generated.ts"],
+      "@atoms/*": ["src/components/atoms/*"],
+      "@molecules/*": ["src/components/molecules/*"],
+      "@organisms/*": ["src/components/organisms/*"],
+      "@pages/*": ["src/components/pages/*"],
+      "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@store/*": ["src/store/*"]
+      "@store/*": ["src/store/*"],
+      "@images/*": ["src/images/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": ["./src", "./shared"]

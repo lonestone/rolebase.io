@@ -9,10 +9,10 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import { useArchiveMeetingMutation } from '@gql'
 import { MeetingEntry } from '@shared/model/meeting'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useArchiveMeetingMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

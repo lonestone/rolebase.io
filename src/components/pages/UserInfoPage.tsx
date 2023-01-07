@@ -1,6 +1,6 @@
+import { Title } from '@atoms/Title'
 import { Container } from '@chakra-ui/react'
-import { Title } from '@components/atoms/Title'
-import CurrentUserModal from '@components/organisms/user/CurrentUserModal'
+import CurrentUserModal from '@organisms/user/CurrentUserModal'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'

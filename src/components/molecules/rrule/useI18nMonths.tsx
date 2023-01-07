@@ -1,8 +1,8 @@
 import useDateLocale from '@hooks/useDateLocale'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
+import { range } from '@utils/range'
 import { format, setMonth } from 'date-fns'
 import { useMemo } from 'react'
-import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
-import { range } from 'src/utils/range'
 
 export default function useI18nMonths() {
   const dateLocale = useDateLocale()

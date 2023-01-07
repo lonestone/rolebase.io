@@ -1,3 +1,4 @@
+import NumberInput from '@atoms/NumberInput'
 import {
   HStack,
   Input,
@@ -5,10 +6,9 @@ import {
   InputRightAddon,
   Select,
 } from '@chakra-ui/react'
-import NumberInput from '@components/atoms/NumberInput'
+import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import React, { ChangeEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
-import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'
 

@@ -1,5 +1,5 @@
-import Loading from '@components/atoms/Loading'
-import LoginPage from '@components/pages/LoginPage'
+import Loading from '@atoms/Loading'
+import LoginPage from '@pages/LoginPage'
 import React, { useEffect } from 'react'
 import settings from 'src/settings'
 

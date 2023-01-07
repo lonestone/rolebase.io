@@ -1,3 +1,5 @@
+import DurationSelect from '@atoms/DurationSelect'
+import IconTextButton from '@atoms/IconTextButton'
 import {
   Button,
   Flex,
@@ -17,8 +19,7 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import DurationSelect from '@components/atoms/DurationSelect'
-import IconTextButton from '@components/atoms/IconTextButton'
+import { useUpdateOrgMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
@@ -27,7 +28,6 @@ import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiCopy, FiEdit3 } from 'react-icons/fi'
-import { useUpdateOrgMutation } from 'src/graphql.generated'
 import settings from 'src/settings'
 import * as yup from 'yup'
 import useCopyUrl from '../../../hooks/useCopyUrl'

@@ -1,4 +1,5 @@
 import { createOrg } from '@api/functions'
+import TextError from '@atoms/TextError'
 import {
   Button,
   FormControl,
@@ -13,7 +14,6 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
-import TextError from '@components/atoms/TextError'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { nameSchema } from '@shared/schemas'
 import { useStoreState } from '@store/hooks'

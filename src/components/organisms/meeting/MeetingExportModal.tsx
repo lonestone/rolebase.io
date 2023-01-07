@@ -1,4 +1,7 @@
 import { getMeetingsIcalUrl, getMeetingsToken } from '@api/functions'
+import IconTextButton from '@atoms/IconTextButton'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
 import {
   FormControl,
   FormLabel,
@@ -15,13 +18,10 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import IconTextButton from '@components/atoms/IconTextButton'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
 import useCallbackState from '@hooks/useCallbackState'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCopy } from 'react-icons/fi'

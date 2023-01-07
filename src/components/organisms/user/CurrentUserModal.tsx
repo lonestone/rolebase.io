@@ -1,3 +1,5 @@
+import PasswordConfirmInputDummy from '@atoms/PasswordConfirmInputDummy'
+import PasswordInput from '@atoms/PasswordInput'
 import {
   Box,
   Button,
@@ -14,15 +16,13 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import PasswordConfirmInputDummy from '@components/atoms/PasswordConfirmInputDummy'
-import PasswordInput from '@components/atoms/PasswordInput'
+import { useChangeDisplayNameMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useUserDisplayName, useUserEmail, useUserId } from '@nhost/react'
 import { emailSchema, nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useChangeDisplayNameMutation } from 'src/graphql.generated'
 import { nhost } from 'src/nhost'
 import * as yup from 'yup'
 

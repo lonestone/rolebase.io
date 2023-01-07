@@ -1,3 +1,4 @@
+import Loading from '@atoms/Loading'
 import {
   Box,
   Button,
@@ -17,19 +18,18 @@ import {
   UseModalProps,
   useToast,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
+import { useUpdateMemberMutation } from '@gql'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import { useOrgId } from '@hooks/useOrgId'
+import { getCroppedImg } from '@utils/canvas'
+import { readFile } from '@utils/readFile'
 import React, { useCallback, useState } from 'react'
 import Cropper from 'react-easy-crop'
 import { Area } from 'react-easy-crop/types'
 import { useTranslation } from 'react-i18next'
 import { FiRotateCw } from 'react-icons/fi'
-import { useUpdateMemberMutation } from 'src/graphql.generated'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
-import { getCroppedImg } from 'src/utils/canvas'
-import { readFile } from 'src/utils/readFile'
 
 interface Props extends UseModalProps {
   id: string

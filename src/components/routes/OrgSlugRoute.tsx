@@ -1,4 +1,4 @@
-import Page404 from '@components/pages/Page404'
+import Page404 from '@pages/Page404'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useParams } from 'react-router-dom'

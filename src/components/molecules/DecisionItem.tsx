@@ -1,3 +1,4 @@
+import CircleByIdButton from '@atoms/CircleByIdButton'
 import {
   Center,
   Flex,
@@ -7,11 +8,10 @@ import {
   LinkOverlay,
   useDisclosure,
 } from '@chakra-ui/react'
-import CircleByIdButton from '@components/atoms/CircleByIdButton'
-import DecisionModal from '@components/organisms/decision/DecisionModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
+import DecisionModal from '@organisms/decision/DecisionModal'
 import { DecisionEntry } from '@shared/model/decision'
 import React from 'react'
 import { FiArrowRightCircle } from 'react-icons/fi'

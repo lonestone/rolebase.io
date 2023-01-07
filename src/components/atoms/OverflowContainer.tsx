@@ -1,8 +1,8 @@
 import { Box, BoxProps } from '@chakra-ui/react'
+import { SidebarContext } from '@contexts/SidebarContext'
 import { useElementSize } from '@hooks/useElementSize'
 import useWindowSize from '@hooks/useWindowSize'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { SidebarContext } from 'src/contexts/SidebarContext'
 
 export interface OverflowContainerProps extends BoxProps {
   expandRight?: boolean

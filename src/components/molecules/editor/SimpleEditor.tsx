@@ -1,11 +1,11 @@
 import { FormControlOptions, useFormControl } from '@chakra-ui/react'
+import { pick } from '@utils/pick'
 import React, {
   forwardRef,
   useCallback,
   useImperativeHandle,
   useRef,
 } from 'react'
-import { pick } from 'src/utils/pick'
 import { EditorHandle } from './lib/plugins/EditorRefPlugin'
 import RichEditor from './lib/RichEditor'
 import useFileUpload from './useFileUpload'

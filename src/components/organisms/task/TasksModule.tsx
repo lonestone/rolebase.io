@@ -1,3 +1,9 @@
+import IconTextButton from '@atoms/IconTextButton'
+import Loading from '@atoms/Loading'
+import OverflowContainer, {
+  OverflowContainerProps,
+} from '@atoms/OverflowContainer'
+import TextErrors from '@atoms/TextErrors'
 import {
   Box,
   BoxProps,
@@ -7,22 +13,16 @@ import {
   Spacer,
   useDisclosure,
 } from '@chakra-ui/react'
-import IconTextButton from '@components/atoms/IconTextButton'
-import Loading from '@components/atoms/Loading'
-import OverflowContainer, {
-  OverflowContainerProps,
-} from '@components/atoms/OverflowContainer'
-import TextErrors from '@components/atoms/TextErrors'
-import CircleSearchButton from '@components/molecules/search/entities/circles/CircleSearchButton'
-import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
-import MemberSearchButton from '@components/molecules/search/entities/members/MemberSearchButton'
-import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
-import TasksFilterStatus from '@components/molecules/TasksFilterStatus'
-import TasksKanban from '@components/molecules/TasksKanban'
-import TasksList from '@components/molecules/TasksList'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgMember from '@hooks/useOrgMember'
 import { useTasks } from '@hooks/useTasks'
+import CircleSearchButton from '@molecules/search/entities/circles/CircleSearchButton'
+import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
+import MemberSearchButton from '@molecules/search/entities/members/MemberSearchButton'
+import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
+import TasksFilterStatus from '@molecules/task/TasksFilterStatus'
+import TasksKanban from '@molecules/task/TasksKanban'
+import TasksList from '@molecules/task/TasksList'
 import { TaskStatus, TasksViewTypes } from '@shared/model/task'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

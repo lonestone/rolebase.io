@@ -1,4 +1,6 @@
 import { inviteMember, updateMemberRole } from '@api/functions'
+import DurationSelect from '@atoms/DurationSelect'
+import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
 import {
   Alert,
   AlertIcon,
@@ -22,16 +24,15 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import DurationSelect from '@components/atoms/DurationSelect'
-import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
-import ActionsMenu from '@components/molecules/ActionsMenu'
-import EditorController from '@components/molecules/editor/EditorController'
-import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
+import { useUpdateMemberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
+import ActionsMenu from '@molecules/ActionsMenu'
+import EditorController from '@molecules/editor/EditorController'
+import MemberPictureEdit from '@molecules/member/MemberPictureEdit'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
 import { ClaimRole } from '@shared/model/userClaims'
 import { nameSchema } from '@shared/schemas'
@@ -39,7 +40,6 @@ import { format } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useUpdateMemberMutation } from 'src/graphql.generated'
 import * as yup from 'yup'
 import MemberDeleteModal from './MemberDeleteModal'
 

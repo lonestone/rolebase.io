@@ -1,11 +1,11 @@
-import { TaskEntry, TaskStatus, TasksViewTypes } from '@shared/model/task'
-import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   useCreateTaskViewMutation,
   useSubscribeTasksSubscription,
   useSubscribeTaskViewSubscription,
   useUpdateTaskViewMutation,
-} from 'src/graphql.generated'
+} from '@gql'
+import { TaskEntry, TaskStatus, TasksViewTypes } from '@shared/model/task'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useOrgId } from './useOrgId'
 
 export function useTasks(

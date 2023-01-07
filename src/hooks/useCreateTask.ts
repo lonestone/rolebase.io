@@ -1,11 +1,11 @@
 import { useToast } from '@chakra-ui/react'
+import { Task_Insert_Input, useCreateTaskMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Task_Insert_Input, useCreateTaskMutation } from 'src/graphql.generated'
 
 export default function useCreateTask() {
   const { t } = useTranslation()

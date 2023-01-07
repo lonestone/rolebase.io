@@ -1,3 +1,6 @@
+import CircleByIdButton from '@atoms/CircleByIdButton'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
 import {
   Button,
   IconButton,
@@ -12,17 +15,14 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import CircleByIdButton from '@components/atoms/CircleByIdButton'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import ListItemWithButtons from '@components/molecules/ListItemWithButtons'
+import { useSubscribeCircleMeetingRecurringsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
+import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import { RRule } from 'rrule'
-import { useSubscribeCircleMeetingRecurringsSubscription } from 'src/graphql.generated'
 import MeetingRecurringDeleteModal from './MeetingRecurringDeleteModal'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 

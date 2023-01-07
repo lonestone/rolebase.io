@@ -1,9 +1,9 @@
+import { ThreadContext } from '@contexts/ThreadContext'
 import { useUserId } from '@nhost/react'
 import { ActivityPoll } from '@shared/model/thread_activity'
 import { ThreadPollAnswerEntry } from '@shared/model/thread_poll_answer'
 import { WithId } from '@shared/model/types'
 import { useContext, useMemo } from 'react'
-import { ThreadContext } from 'src/contexts/ThreadContext'
 import useParticipants from './useParticipants'
 
 export default function usePollState(

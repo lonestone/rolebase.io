@@ -1,8 +1,8 @@
 import { Box, Flex, useColorMode } from '@chakra-ui/react'
 import useDateLocale from '@hooks/useDateLocale'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React, { memo } from 'react'
-import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 
 interface Props {
   date: string

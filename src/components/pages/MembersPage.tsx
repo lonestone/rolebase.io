@@ -1,3 +1,5 @@
+import MemberLinkOverlay from '@atoms/MemberLinkOverlay'
+import { Title } from '@atoms/Title'
 import {
   Button,
   CloseButton,
@@ -14,13 +16,11 @@ import {
   Tag,
   useDisclosure,
 } from '@chakra-ui/react'
-import MemberLinkOverlay from '@components/atoms/MemberLinkOverlay'
-import { Title } from '@components/atoms/Title'
-import MemberCreateModal from '@components/organisms/member/MemberCreateModal'
-import MemberEditModal from '@components/organisms/member/MemberEditModal'
-import MembersInviteModal from '@components/organisms/member/MembersInviteModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useOrgAdmin from '@hooks/useOrgAdmin'
+import MemberCreateModal from '@organisms/member/MemberCreateModal'
+import MemberEditModal from '@organisms/member/MemberEditModal'
+import MembersInviteModal from '@organisms/member/MembersInviteModal'
 import { ClaimRole } from '@shared/model/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'

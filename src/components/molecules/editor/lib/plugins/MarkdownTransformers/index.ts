@@ -132,7 +132,6 @@ export const IMAGE: TextMatchTransformer = {
     const imageNode = $createImageNode({
       src,
       alt,
-      maxWidth: 800,
     })
     textNode.replace(imageNode)
   },

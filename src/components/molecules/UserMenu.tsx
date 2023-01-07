@@ -1,3 +1,5 @@
+import CircleMemberLink from '@atoms/CircleMemberLink'
+import IconTextButton from '@atoms/IconTextButton'
 import {
   Avatar,
   Menu,
@@ -9,13 +11,11 @@ import {
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
-import CircleMemberLink from '@components/atoms/CircleMemberLink'
-import IconTextButton from '@components/atoms/IconTextButton'
-import LangModal from '@components/organisms/layout/LangModal'
-import CurrentUserModal from '@components/organisms/user/CurrentUserModal'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useUserSignOut from '@hooks/useUserSignOut'
 import { useUserData } from '@nhost/react'
+import LangModal from '@organisms/layout/LangModal'
+import CurrentUserModal from '@organisms/user/CurrentUserModal'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiLogOut, FiMoon, FiSun, FiUser } from 'react-icons/fi'

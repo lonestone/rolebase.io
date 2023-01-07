@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react'
+import { useUpdateTaskMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useUpdateTaskMutation } from 'src/graphql.generated'
 
 export default function useUpdateTaskStatus() {
   const { t } = useTranslation()

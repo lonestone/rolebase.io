@@ -1,3 +1,4 @@
+import NumberInputController from '@atoms/NumberInputController'
 import {
   Box,
   Button,
@@ -18,32 +19,31 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import NumberInputController from '@components/atoms/NumberInputController'
-import CircleFormController from '@components/molecules/CircleFormController'
-import MeetingStepsConfigController, {
-  stepsConfigSchema,
-  StepsValues,
-} from '@components/molecules/MeetingStepsConfigController'
-import MeetingTemplateMenu from '@components/molecules/MeetingTemplateMenu'
-import ParticipantsFormControl from '@components/molecules/ParticipantsFormControl'
-import VideoConfFormControl from '@components/molecules/VideoConfFormControl'
+import { useUpdateMeetingMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import CircleFormController from '@molecules/circle/CircleFormController'
+import MeetingStepsConfigController, {
+  stepsConfigSchema,
+  StepsValues,
+} from '@molecules/meeting/MeetingStepsConfigController'
+import MeetingTemplateMenu from '@molecules/meeting/MeetingTemplateMenu'
+import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
+import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import { MeetingEntry, VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { MeetingStepTypes } from '@shared/model/meeting_step'
 import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import { MembersScope } from '@shared/model/member'
 import { nameSchema } from '@shared/schemas'
+import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import { nanoid } from 'nanoid'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useUpdateMeetingMutation } from 'src/graphql.generated'
-import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

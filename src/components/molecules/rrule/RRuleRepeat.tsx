@@ -1,5 +1,5 @@
+import NumberInput from '@atoms/NumberInput'
 import { HStack, Select } from '@chakra-ui/react'
-import NumberInput from '@components/atoms/NumberInput'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Frequency } from 'rrule/dist/esm/types'

@@ -8,16 +8,16 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import OrgCreateModal from '@components/organisms/org/OrgCreateModal'
+import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import OrgCreateModal from '@organisms/org/OrgCreateModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
+import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCircle, FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-import { SidebarContext } from 'src/contexts/SidebarContext'
-import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 export default function OrgSwitch(props: MenuButtonProps) {
   const { t } = useTranslation()

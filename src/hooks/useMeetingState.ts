@@ -3,6 +3,11 @@ import {
   startMembersMeeting,
   stopMembersMeeting,
 } from '@api/functions'
+import {
+  useSubscribeMeetingStepsSubscription,
+  useSubscribeMeetingSubscription,
+  useUpdateMeetingMutation,
+} from '@gql'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
@@ -22,11 +27,6 @@ import { NotificationCategories } from '@shared/model/notification'
 import { useStoreState } from '@store/hooks'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  useSubscribeMeetingStepsSubscription,
-  useSubscribeMeetingSubscription,
-  useUpdateMeetingMutation,
-} from 'src/graphql.generated'
 import settings from 'src/settings'
 import useCreateMissingMeetingSteps from './useCreateMissingMeetingSteps'
 import { usePathInOrg } from './usePathInOrg'

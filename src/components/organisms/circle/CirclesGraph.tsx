@@ -1,7 +1,9 @@
 import { useColorMode } from '@chakra-ui/react'
+import { GraphZoomContext } from '@contexts/GraphZoomContext'
 import styled from '@emotion/styled'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
+import { ColorModeProps, mode } from '@utils/colorMode'
 import React, {
   forwardRef,
   useContext,
@@ -11,9 +13,7 @@ import React, {
   useState,
 } from 'react'
 import { Position } from 'src/circles-viz/types'
-import { GraphZoomContext } from 'src/contexts/GraphZoomContext'
 import { circleColor } from 'src/theme'
-import { ColorModeProps, mode } from 'src/utils/colorMode'
 import {
   createGraph,
   Graph,

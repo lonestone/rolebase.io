@@ -1,7 +1,7 @@
+import { useCreateCircleMemberMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { useCallback } from 'react'
-import { useCreateCircleMemberMutation } from 'src/graphql.generated'
 
 export default function useAddCircleMember() {
   const [createCircleMember] = useCreateCircleMemberMutation()

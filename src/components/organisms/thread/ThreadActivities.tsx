@@ -1,3 +1,6 @@
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import ThreadDaySeparator from '@atoms/ThreadDaySeparator'
 import {
   Alert,
   AlertDescription,
@@ -6,22 +9,19 @@ import {
   StackProps,
   VStack,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import ThreadDaySeparator from '@components/atoms/ThreadDaySeparator'
-import ThreadActivity from '@components/molecules/ThreadActivity'
+import { ThreadContext } from '@contexts/ThreadContext'
+import {
+  useCreateThreadMemberStatusMutation,
+  useSubscribeThreadActivitiesSubscription,
+  useUpdateThreadMemberStatusMutation,
+} from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
+import ThreadActivity from '@molecules/thread/ThreadActivity'
 import { ActivityEntry } from '@shared/model/thread_activity'
 import { isSameDay } from 'date-fns'
 import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiMessageSquare } from 'react-icons/fi'
-import { ThreadContext } from 'src/contexts/ThreadContext'
-import {
-  useCreateThreadMemberStatusMutation,
-  useSubscribeThreadActivitiesSubscription,
-  useUpdateThreadMemberStatusMutation,
-} from 'src/graphql.generated'
 
 interface Props extends StackProps {
   memberStatus?: MemberStatus

@@ -1,17 +1,19 @@
+import ModalPanel, { modalPanelWidth } from '@atoms/ModalPanel'
+import { Title } from '@atoms/Title'
 import { Box, useColorMode, useMediaQuery } from '@chakra-ui/react'
-import ModalPanel, { modalPanelWidth } from '@components/atoms/ModalPanel'
-import { Title } from '@components/atoms/Title'
-import CirclesKeyboardShortcuts from '@components/molecules/CirclesKeyboardShortcuts'
-import CircleContent from '@components/organisms/circle/CircleContent'
-import CirclesGraph from '@components/organisms/circle/CirclesGraph'
-import MemberContent from '@components/organisms/member/MemberContent'
-import Onboarding from '@components/organisms/onboarding/Onboarding'
+import { GraphZoomProvider } from '@contexts/GraphZoomContext'
+import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import useCirclesEvents from '@hooks/useGraphEvents'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
+import CirclesKeyboardShortcuts from '@molecules/circle/CirclesKeyboardShortcuts'
+import CircleContent from '@organisms/circle/CircleContent'
+import CirclesGraph from '@organisms/circle/CirclesGraph'
+import MemberContent from '@organisms/member/MemberContent'
+import Onboarding from '@organisms/onboarding/Onboarding'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { useStoreState } from '@store/hooks'
 import React, {
@@ -22,8 +24,6 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { GraphZoomProvider } from 'src/contexts/GraphZoomContext'
-import { SidebarContext } from 'src/contexts/SidebarContext'
 
 type CirclesPageParams = {
   circleId: string

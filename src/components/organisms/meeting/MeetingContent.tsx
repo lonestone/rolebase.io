@@ -1,3 +1,6 @@
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import { Title } from '@atoms/Title'
 import {
   Alert,
   AlertDescription,
@@ -13,24 +16,21 @@ import {
   VStack,
   Wrap,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import { Title } from '@components/atoms/Title'
-import ActionsMenu from '@components/molecules/ActionsMenu'
-import MeetingAttendeesList from '@components/molecules/MeetingAttendeesList'
-import MeetingDate from '@components/molecules/MeetingDate'
-import MeetingLogs from '@components/molecules/MeetingLogs'
-import MeetingPanel from '@components/molecules/MeetingPanel'
-import MeetingStepContent from '@components/molecules/MeetingStepContent'
-import { taskLogTypes } from '@components/molecules/MeetingStepContentTasks'
-import MeetingStepLayout from '@components/molecules/MeetingStepLayout'
-import MeetingTitle from '@components/molecules/MeetingTitle'
-import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
+import { MeetingContext } from '@contexts/MeetingContext'
 import useMeetingState from '@hooks/useMeetingState'
 import useOrgMember from '@hooks/useOrgMember'
+import ActionsMenu from '@molecules/ActionsMenu'
+import MeetingAttendeesList from '@molecules/meeting/MeetingAttendeesList'
+import MeetingDate from '@molecules/meeting/MeetingDate'
+import MeetingLogs from '@molecules/meeting/MeetingLogs'
+import MeetingPanel from '@molecules/meeting/MeetingPanel'
+import MeetingStepContent from '@molecules/meeting/MeetingStepContent'
+import { taskLogTypes } from '@molecules/meeting/MeetingStepContentTasks'
+import MeetingStepLayout from '@molecules/meeting/MeetingStepLayout'
+import MeetingTitle from '@molecules/meeting/MeetingTitle'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MeetingContext } from 'src/contexts/MeetingContext'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
 

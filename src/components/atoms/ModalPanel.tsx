@@ -5,8 +5,8 @@ import {
   useModal,
   useMultiStyleConfig,
 } from '@chakra-ui/react'
+import { SidebarContext } from '@contexts/SidebarContext'
 import React, { useContext } from 'react'
-import { SidebarContext } from 'src/contexts/SidebarContext'
 import GlassBox from './GlassBox'
 
 // Inspired by https://github.com/chakra-ui/chakra-ui/blob/main/packages/modal/src/modal.tsx

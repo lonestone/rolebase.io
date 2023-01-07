@@ -1,6 +1,6 @@
 import { getMagicbellConfig } from '@api/functions'
+import IconTextButton from '@atoms/IconTextButton'
 import { Box, useColorMode, useTheme } from '@chakra-ui/react'
-import IconTextButton from '@components/atoms/IconTextButton'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import MagicBell, {
   FloatingNotificationInbox,
@@ -8,10 +8,10 @@ import MagicBell, {
 import { MagicBellProps } from '@magicbell/magicbell-react/dist/components/MagicBell'
 import { useUserId } from '@nhost/react'
 import { MagicbellConfig } from '@shared/model/notification'
+import { UserLocalStorageKeys } from '@utils/localStorage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaBell } from 'react-icons/fa'
-import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 async function getConfig(): Promise<MagicbellConfig | undefined> {
   // Use config from localStorage

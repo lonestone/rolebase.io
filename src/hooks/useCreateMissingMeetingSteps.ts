@@ -1,13 +1,13 @@
+import {
+  useCreateMeetingStepMutation,
+  useGetCircleThreadsIdsLazyQuery,
+  useGetMeetingStepsIdsLazyQuery,
+} from '@gql'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { MeetingStep, MeetingStepTypes } from '@shared/model/meeting_step'
 import { TasksViewTypes } from '@shared/model/task'
 import { useCallback } from 'react'
-import {
-  useCreateMeetingStepMutation,
-  useGetCircleThreadsIdsLazyQuery,
-  useGetMeetingStepsIdsLazyQuery,
-} from 'src/graphql.generated'
 
 // When a meeting is created, it has a stepsConfig property
 // but it doesn't have any content in steps collection.

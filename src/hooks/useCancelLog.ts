@@ -1,10 +1,4 @@
 import { cancelLogChanges, detectRecentEntitiesChanges } from '@api/logs'
-import { useAsyncMemo } from '@hooks/useAsyncMemo'
-import useCreateLog from '@hooks/useCreateLog'
-import { EntitiesMethods, LogEntry } from '@shared/model/log'
-import { MemberEntry } from '@shared/model/member'
-import { TaskEntry } from '@shared/model/task'
-import { useCallback } from 'react'
 import {
   useCancelLogMutation,
   useGetCircleLazyQuery,
@@ -19,7 +13,13 @@ import {
   useUpdateMemberMutation,
   useUpdateRoleMutation,
   useUpdateTaskMutation,
-} from 'src/graphql.generated'
+} from '@gql'
+import { useAsyncMemo } from '@hooks/useAsyncMemo'
+import useCreateLog from '@hooks/useCreateLog'
+import { EntitiesMethods, LogEntry } from '@shared/model/log'
+import { MemberEntry } from '@shared/model/member'
+import { TaskEntry } from '@shared/model/task'
+import { useCallback } from 'react'
 
 export function useCancelLog(log: LogEntry) {
   const createLog = useCreateLog()

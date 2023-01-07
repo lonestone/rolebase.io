@@ -1,3 +1,6 @@
+import Markdown from '@atoms/Markdown'
+import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
+import { Title } from '@atoms/Title'
 import {
   Alert,
   AlertIcon,
@@ -10,14 +13,11 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import Markdown from '@components/atoms/Markdown'
-import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
-import { Title } from '@components/atoms/Title'
-import ActionsMenu from '@components/molecules/ActionsMenu'
-import MemberPictureEdit from '@components/molecules/MemberPictureEdit'
-import MemberRoles from '@components/molecules/MemberRoles'
 import useMember from '@hooks/useMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
+import ActionsMenu from '@molecules/ActionsMenu'
+import MemberPictureEdit from '@molecules/member/MemberPictureEdit'
+import MemberRoles from '@molecules/member/MemberRoles'
 import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

@@ -1,3 +1,7 @@
+import CircleButton from '@atoms/CircleButton'
+import GlassBox from '@atoms/GlassBox'
+import Loading from '@atoms/Loading'
+import { Title } from '@atoms/Title'
 import {
   Box,
   BoxProps,
@@ -9,30 +13,23 @@ import {
   useDisclosure,
   Wrap,
 } from '@chakra-ui/react'
-import CircleButton from '@components/atoms/CircleButton'
-import GlassBox from '@components/atoms/GlassBox'
-import Loading from '@components/atoms/Loading'
-import { Title } from '@components/atoms/Title'
-import ActionsMenu from '@components/molecules/ActionsMenu'
-import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
-import ThreadActivityCreate from '@components/molecules/ThreadActivityCreate'
-import ThreadActivities from '@components/organisms/thread/ThreadActivities'
-import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
-import Page404 from '@components/pages/Page404'
+import { ThreadContext } from '@contexts/ThreadContext'
+import { useSubscribeThreadSubscription, useUpdateThreadMutation } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useElementSize } from '@hooks/useElementSize'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
+import ActionsMenu from '@molecules/ActionsMenu'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
+import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
+import ThreadActivities from '@organisms/thread/ThreadActivities'
+import ThreadEditModal from '@organisms/thread/ThreadEditModal'
+import Page404 from '@pages/Page404'
 import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ThreadContext } from 'src/contexts/ThreadContext'
-import {
-  useSubscribeThreadSubscription,
-  useUpdateThreadMutation,
-} from 'src/graphql.generated'
 
 interface Props extends BoxProps {
   id: string

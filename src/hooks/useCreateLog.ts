@@ -1,9 +1,9 @@
+import { useCreateLogMutation } from '@gql'
 import { useUserId } from '@nhost/react'
 import { Log } from '@shared/model/log'
 import { Optional } from '@shared/model/types'
 import { store } from '@store/index'
 import { useCallback } from 'react'
-import { useCreateLogMutation } from 'src/graphql.generated'
 
 export default function useCreateLog() {
   const userId = useUserId()

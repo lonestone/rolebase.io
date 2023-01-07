@@ -1,3 +1,6 @@
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import { Title } from '@atoms/Title'
 import {
   Button,
   Container,
@@ -16,15 +19,12 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import { Title } from '@components/atoms/Title'
-import ThreadItem from '@components/molecules/ThreadItem'
-import ThreadEditModal from '@components/organisms/thread/ThreadEditModal'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
+import ThreadItem from '@molecules/thread/ThreadItem'
+import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { EntityFilters } from '@shared/model/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'

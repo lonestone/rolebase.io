@@ -1,6 +1,6 @@
+import { SidebarContext } from '@contexts/SidebarContext'
 import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SidebarContext } from 'src/contexts/SidebarContext'
 import SidebarItem, { SidebarItemProps } from './SidebarItem'
 
 interface Props extends SidebarItemProps {

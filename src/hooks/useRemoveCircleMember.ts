@@ -1,7 +1,7 @@
+import { useArchiveCircleMemberMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { useCallback } from 'react'
-import { useArchiveCircleMemberMutation } from 'src/graphql.generated'
 
 export default function useRemoveCircleMember() {
   const [archiveCircleMember] = useArchiveCircleMemberMutation()

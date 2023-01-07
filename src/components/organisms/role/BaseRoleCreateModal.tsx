@@ -12,6 +12,7 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import { useCreateRoleMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
@@ -21,7 +22,6 @@ import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useCreateRoleMutation } from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

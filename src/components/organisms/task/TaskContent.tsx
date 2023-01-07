@@ -1,3 +1,10 @@
+import CircleByIdButton from '@atoms/CircleByIdButton'
+import Loading from '@atoms/Loading'
+import Markdown from '@atoms/Markdown'
+import MemberByIdButton from '@atoms/MemberByIdButton'
+import TaskStatusTag from '@atoms/TaskStatusTag'
+import TextErrors from '@atoms/TextErrors'
+import { Title } from '@atoms/Title'
 import {
   Box,
   BoxProps,
@@ -14,19 +21,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import CircleByIdButton from '@components/atoms/CircleByIdButton'
-import Loading from '@components/atoms/Loading'
-import Markdown from '@components/atoms/Markdown'
-import MemberByIdButton from '@components/atoms/MemberByIdButton'
-import TaskStatusTag from '@components/atoms/TaskStatusTag'
-import TextErrors from '@components/atoms/TextErrors'
-import { Title } from '@components/atoms/Title'
-import ActionsMenu from '@components/molecules/ActionsMenu'
-import DateInfo from '@components/molecules/DateInfo'
-import EditorController from '@components/molecules/editor/EditorController'
-import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
-import MemberSearchInput from '@components/molecules/search/entities/members/MemberSearchInput'
-import TaskStatusInput from '@components/molecules/TaskStatusInput'
+import { useSubscribeTaskSubscription, useUpdateTaskMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateTask from '@hooks/useCreateTask'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -34,17 +29,19 @@ import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
+import ActionsMenu from '@molecules/ActionsMenu'
+import DateInfo from '@molecules/DateInfo'
+import EditorController from '@molecules/editor/EditorController'
+import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
+import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
+import TaskStatusInput from '@molecules/task/TaskStatusInput'
 import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { nameSchema } from '@shared/schemas'
+import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  useSubscribeTaskSubscription,
-  useUpdateTaskMutation,
-} from 'src/graphql.generated'
-import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import * as yup from 'yup'
 import TaskDeleteModal from './TaskDeleteModal'
 

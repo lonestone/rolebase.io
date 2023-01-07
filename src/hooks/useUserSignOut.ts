@@ -1,6 +1,6 @@
 import { useSignOut } from '@nhost/react'
+import { resetUserLocalStorage } from '@utils/localStorage'
 import { useCallback } from 'react'
-import { resetUserLocalStorage } from 'src/utils/localStorage'
 
 export default function useUserSignOut() {
   const { signOut } = useSignOut()

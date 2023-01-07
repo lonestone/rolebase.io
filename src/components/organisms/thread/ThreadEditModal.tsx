@@ -1,3 +1,4 @@
+import ParticipantsScopeSelect from '@atoms/ParticipantsScopeSelect'
 import {
   Box,
   Button,
@@ -13,26 +14,22 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
-import CircleFormController from '@components/molecules/CircleFormController'
-import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
-import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
+import { useCreateThreadMutation, useUpdateThreadMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useOrgId } from '@hooks/useOrgId'
 import useParticipants from '@hooks/useParticipants'
+import CircleFormController from '@molecules/circle/CircleFormController'
+import MembersMultiSelect from '@molecules/member/MembersMultiSelect'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import { MembersScope } from '@shared/model/member'
 import { ThreadEntry } from '@shared/model/thread'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  useCreateThreadMutation,
-  useUpdateThreadMutation,
-} from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

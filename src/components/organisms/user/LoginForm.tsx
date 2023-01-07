@@ -1,3 +1,5 @@
+import PasswordInput from '@atoms/PasswordInput'
+import { Title } from '@atoms/Title'
 import {
   Button,
   FormControl,
@@ -6,8 +8,6 @@ import {
   Link,
   VStack,
 } from '@chakra-ui/react'
-import PasswordInput from '@components/atoms/PasswordInput'
-import { Title } from '@components/atoms/Title'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { emailSchema } from '@shared/schemas'
 import React from 'react'

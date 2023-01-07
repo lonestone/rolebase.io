@@ -9,10 +9,10 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import { useArchiveOrgMutation } from '@gql'
 import useOrg from '@hooks/useOrg'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useArchiveOrgMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

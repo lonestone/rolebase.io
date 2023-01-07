@@ -1,3 +1,7 @@
+import CircleButton from '@atoms/CircleButton'
+import Loading from '@atoms/Loading'
+import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
+import TextErrors from '@atoms/TextErrors'
 import {
   Alert,
   AlertIcon,
@@ -16,25 +20,21 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import CircleButton from '@components/atoms/CircleButton'
-import Loading from '@components/atoms/Loading'
-import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
-import TextErrors from '@components/atoms/TextErrors'
-import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
+import { useSubscribeMeetingRecurringSubscription } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useDateLocale from '@hooks/useDateLocale'
 import useParticipants from '@hooks/useParticipants'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import { MembersScope } from '@shared/model/member'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
 import React, { useEffect, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FiCalendar, FiRepeat } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { RRule } from 'rrule'
-import { useSubscribeMeetingRecurringSubscription } from 'src/graphql.generated'
-import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 
 interface Props extends UseModalProps {

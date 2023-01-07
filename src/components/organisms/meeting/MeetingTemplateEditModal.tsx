@@ -13,21 +13,21 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
+import {
+  useCreateMeetingTemplateMutation,
+  useUpdateMeetingTemplateMutation,
+} from '@gql'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useOrgId } from '@hooks/useOrgId'
 import MeetingStepsConfigController, {
   stepsConfigSchema,
   StepsValues,
-} from '@components/molecules/MeetingStepsConfigController'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useOrgId } from '@hooks/useOrgId'
+} from '@molecules/meeting/MeetingStepsConfigController'
 import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  useCreateMeetingTemplateMutation,
-  useUpdateMeetingTemplateMutation,
-} from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

@@ -1,3 +1,5 @@
+import PasswordConfirmInputDummy from '@atoms/PasswordConfirmInputDummy'
+import PasswordInput from '@atoms/PasswordInput'
 import {
   Button,
   FormControl,
@@ -6,8 +8,6 @@ import {
   Spinner,
   VStack,
 } from '@chakra-ui/react'
-import PasswordConfirmInputDummy from '@components/atoms/PasswordConfirmInputDummy'
-import PasswordInput from '@components/atoms/PasswordInput'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { emailSchema, nameSchema } from '@shared/schemas'
 import React from 'react'

@@ -1,3 +1,4 @@
+import NumberInputController from '@atoms/NumberInputController'
 import {
   Box,
   Button,
@@ -14,25 +15,24 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import NumberInputController from '@components/atoms/NumberInputController'
-import CircleFormController from '@components/molecules/CircleFormController'
-import MeetingTemplateIdFormControl from '@components/molecules/MeetingTemplateIdFormControl'
-import ParticipantsFormControl from '@components/molecules/ParticipantsFormControl'
-import RRuleEditorController from '@components/molecules/rrule/RRuleEditorController'
-import VideoConfFormControl from '@components/molecules/VideoConfFormControl'
+import {
+  useCreateMeetingRecurringMutation,
+  useUpdateMeetingRecurringMutation,
+} from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import CircleFormController from '@molecules/circle/CircleFormController'
+import MeetingTemplateIdFormControl from '@molecules/meeting/MeetingTemplateIdFormControl'
+import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
+import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
+import RRuleEditorController from '@molecules/rrule/RRuleEditorController'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import { MembersScope } from '@shared/model/member'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  useCreateMeetingRecurringMutation,
-  useUpdateMeetingRecurringMutation,
-} from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

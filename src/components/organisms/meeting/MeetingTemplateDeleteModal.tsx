@@ -8,10 +8,10 @@ import {
   AlertDialogProps,
   Button,
 } from '@chakra-ui/react'
+import { useDeleteMeetingTemplateMutation } from '@gql'
 import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useDeleteMeetingTemplateMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

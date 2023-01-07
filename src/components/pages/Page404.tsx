@@ -1,3 +1,4 @@
+import { Title } from '@atoms/Title'
 import {
   Alert,
   AlertDescription,
@@ -6,7 +7,6 @@ import {
   Container,
   Flex,
 } from '@chakra-ui/react'
-import { Title } from '@components/atoms/Title'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronRight } from 'react-icons/fi'

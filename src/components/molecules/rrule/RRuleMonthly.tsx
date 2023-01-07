@@ -6,9 +6,9 @@ import {
   RadioGroup,
   Select,
 } from '@chakra-ui/react'
+import { range } from '@utils/range'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { range } from 'src/utils/range'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'
 import useI18nDays from './useI18nDays'

@@ -1,15 +1,12 @@
+import { Circle_Insert_Input, useCreateCirclesMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { CircleEntry } from '@shared/model/circle'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
 import { RoleEntry } from '@shared/model/role'
 import { store } from '@store/index'
+import { omit } from '@utils/omit'
+import { pick } from '@utils/pick'
 import { useCallback } from 'react'
-import {
-  Circle_Insert_Input,
-  useCreateCirclesMutation,
-} from 'src/graphql.generated'
-import { omit } from 'src/utils/omit'
-import { pick } from 'src/utils/pick'
 
 function getCircleAndChildren(
   circles: CircleEntry[],

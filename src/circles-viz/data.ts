@@ -4,7 +4,7 @@ import {
   CircleWithRoleEntry,
 } from '@shared/model/circle'
 import { MemberEntry } from '@shared/model/member'
-import { textEllipsis } from 'src/utils/textEllipsis'
+import { textEllipsis } from '@utils/textEllipsis'
 import settings from './settings'
 import { Data, NodeType } from './types'
 

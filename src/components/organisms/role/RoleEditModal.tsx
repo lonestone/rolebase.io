@@ -1,3 +1,5 @@
+import ColorController from '@atoms/ColorController'
+import DurationSelect from '@atoms/DurationSelect'
 import {
   Alert,
   AlertDescription,
@@ -23,14 +25,13 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import ColorController from '@components/atoms/ColorController'
-import DurationSelect from '@components/atoms/DurationSelect'
-import { EditorHandle } from '@components/molecules/editor'
-import EditorController from '@components/molecules/editor/EditorController'
-import CircleSearchInput from '@components/molecules/search/entities/circles/CircleSearchInput'
+import { useUpdateRoleMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
+import { EditorHandle } from '@molecules/editor'
+import EditorController from '@molecules/editor/EditorController'
+import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
 import { RoleLink } from '@shared/model/role'
 import { nameSchema } from '@shared/schemas'
@@ -38,7 +39,6 @@ import React, { useEffect, useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FaPlus } from 'react-icons/fa'
-import { useUpdateRoleMutation } from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

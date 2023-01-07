@@ -1,3 +1,5 @@
+import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
+import { Title } from '@atoms/Title'
 import {
   Accordion,
   Alert,
@@ -9,21 +11,19 @@ import {
   Spacer,
   useDisclosure,
 } from '@chakra-ui/react'
-import ModalCloseStaticButton from '@components/atoms/ModalCloseStaticButton'
-import { Title } from '@components/atoms/Title'
-import AccordionLazyItem from '@components/molecules/AccordionLazyItem'
-import ActionsMenu from '@components/molecules/ActionsMenu'
-import CircleAndParentsLinks from '@components/molecules/CircleAndParentsLinks'
-import CircleDecisions from '@components/molecules/CircleDecisions'
-import CircleMeetings from '@components/molecules/CircleMeetings'
-import CircleRoleFormControl from '@components/molecules/CircleRoleFormControl'
-import CircleTasks from '@components/molecules/CircleTasks'
-import CircleThreads from '@components/molecules/CircleThreads'
-import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import useCircle from '@hooks/useCircle'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useWindowSize from '@hooks/useWindowSize'
+import AccordionLazyItem from '@molecules/AccordionLazyItem'
+import ActionsMenu from '@molecules/ActionsMenu'
+import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
+import CircleDecisions from '@molecules/circle/CircleDecisions'
+import CircleMeetings from '@molecules/circle/CircleMeetings'
+import CircleRoleFormControl from '@molecules/circle/CircleRoleFormControl'
+import CircleTasks from '@molecules/circle/CircleTasks'
+import CircleThreads from '@molecules/circle/CircleThreads'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import { MembersScope } from '@shared/model/member'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -1,3 +1,6 @@
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import { Title } from '@atoms/Title'
 import {
   Box,
   Button,
@@ -14,17 +17,6 @@ import {
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import { Title } from '@components/atoms/Title'
-import Calendar from '@components/molecules/Calendar'
-import MeetingEditModal from '@components/organisms/meeting/MeetingEditModal'
-import MeetingExportModal from '@components/organisms/meeting/MeetingExportModal'
-import MeetingModal from '@components/organisms/meeting/MeetingModal'
-import MeetingOpenCurrent from '@components/organisms/meeting/MeetingOpenCurrent'
-import MeetingRecurringListModal from '@components/organisms/meeting/MeetingRecurringListModal'
-import MeetingRecurringModal from '@components/organisms/meeting/MeetingRecurringModal'
-import MeetingTemplateListModal from '@components/organisms/meeting/MeetingTemplateListModal'
 import {
   DateSelectArg,
   DatesSetArg,
@@ -32,11 +24,24 @@ import {
   EventClickArg,
 } from '@fullcalendar/common'
 import { EventInput } from '@fullcalendar/react'
+import {
+  useSubscribeCircleMeetingRecurringsSubscription,
+  useSubscribeMeetingsByDatesSubscription,
+  useUpdateMeetingMutation,
+} from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useMemberPreferences from '@hooks/useMemberPreferences'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
+import Calendar from '@molecules/meeting/Calendar'
+import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
+import MeetingExportModal from '@organisms/meeting/MeetingExportModal'
+import MeetingModal from '@organisms/meeting/MeetingModal'
+import MeetingOpenCurrent from '@organisms/meeting/MeetingOpenCurrent'
+import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
+import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
+import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { MeetingEntry } from '@shared/model/meeting'
 import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
@@ -55,11 +60,6 @@ import {
   FiUpload,
 } from 'react-icons/fi'
 import { RRule } from 'rrule'
-import {
-  useSubscribeCircleMeetingRecurringsSubscription,
-  useSubscribeMeetingsByDatesSubscription,
-  useUpdateMeetingMutation,
-} from 'src/graphql.generated'
 import { circleColor } from 'src/theme'
 
 export default function MeetingsPage() {

@@ -13,22 +13,19 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import CircleFormController from '@components/molecules/CircleFormController'
-import EditorController from '@components/molecules/editor/EditorController'
+import { useCreateDecisionMutation, useUpdateDecisionMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import CircleFormController from '@molecules/circle/CircleFormController'
+import EditorController from '@molecules/editor/EditorController'
 import { DecisionEntry } from '@shared/model/decision'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  useCreateDecisionMutation,
-  useUpdateDecisionMutation,
-} from 'src/graphql.generated'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

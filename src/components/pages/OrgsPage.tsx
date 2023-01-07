@@ -1,3 +1,6 @@
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import { Title } from '@atoms/Title'
 import {
   Alert,
   AlertDescription,
@@ -17,18 +20,15 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import { Title } from '@components/atoms/Title'
-import OrgCreateModal from '@components/organisms/org/OrgCreateModal'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import OrgCreateModal from '@organisms/org/OrgCreateModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
+import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Link as ReachLink, useNavigate } from 'react-router-dom'
-import { UserLocalStorageKeys } from 'src/utils/localStorage'
 
 export default function OrgsPage() {
   const { t } = useTranslation()

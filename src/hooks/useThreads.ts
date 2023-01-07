@@ -1,7 +1,7 @@
+import { useSubscribeThreadsSubscription } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { ThreadEntry } from '@shared/model/thread'
 import { useMemo } from 'react'
-import { useSubscribeThreadsSubscription } from 'src/graphql.generated'
 import { useOrgId } from './useOrgId'
 
 export interface ThreadWithStatus extends ThreadEntry {

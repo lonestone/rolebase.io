@@ -1,6 +1,6 @@
 import { acceptMemberInvitation } from '@api/functions'
+import Loading from '@atoms/Loading'
 import { useToast } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
 import useOrg from '@hooks/useOrg'
 import useQueryParams from '@hooks/useQueryParams'
 import { getOrgPath } from '@shared/helpers/getOrgPath'

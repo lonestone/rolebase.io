@@ -16,6 +16,7 @@ import {
   Stack,
   UseModalProps,
 } from '@chakra-ui/react'
+import { useCreateCircleMutation, useCreateRoleMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useItemsArray from '@hooks/useItemsArray'
@@ -23,14 +24,10 @@ import { useOrgId } from '@hooks/useOrgId'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { useStoreState } from '@store/hooks'
+import { omit } from '@utils/omit'
 import React, { ChangeEventHandler, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
-import {
-  useCreateCircleMutation,
-  useCreateRoleMutation,
-} from 'src/graphql.generated'
-import { omit } from 'src/utils/omit'
 
 interface Props extends UseModalProps {
   onSubmit(circles: CircleWithRoleEntry[]): void

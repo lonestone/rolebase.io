@@ -1,9 +1,9 @@
-import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
-import { useCallback, useContext, useMemo } from 'react'
 import {
   CircleMemberContext,
   getCircleMemberUrlSearch,
-} from 'src/contexts/CircleMemberContext'
+} from '@contexts/CircleMemberContext'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import { useCallback, useContext, useMemo } from 'react'
 import { useOrgId } from './useOrgId'
 import { usePathInOrg } from './usePathInOrg'
 

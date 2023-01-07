@@ -12,7 +12,7 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import ListItemWithButtons from '@components/molecules/ListItemWithButtons'
+import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

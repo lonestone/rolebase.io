@@ -1,8 +1,8 @@
+import { useUpdateCircleMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { store } from '@store/index'
 import { useCallback } from 'react'
-import { useUpdateCircleMutation } from 'src/graphql.generated'
 
 export default function useMoveCircle() {
   const [updateCircle] = useUpdateCircleMutation()

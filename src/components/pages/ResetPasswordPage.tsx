@@ -1,3 +1,6 @@
+import BrandIcon from '@atoms/BrandIcon'
+import TextErrors from '@atoms/TextErrors'
+import { Title } from '@atoms/Title'
 import {
   Alert,
   AlertDescription,
@@ -13,9 +16,6 @@ import {
   Spinner,
   VStack,
 } from '@chakra-ui/react'
-import TextErrors from '@components/atoms/TextErrors'
-import { Title } from '@components/atoms/Title'
-import BrandIcon from '@components/molecules/BrandIcon'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useQueryParams from '@hooks/useQueryParams'
 import { useResetPassword } from '@nhost/react'

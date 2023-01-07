@@ -1,13 +1,13 @@
 import { replaceOldIds } from '@api/functions'
 import { Box } from '@chakra-ui/react'
-import Sidebar from '@components/organisms/layout/Sidebar'
+import { CircleMemberProvider } from '@contexts/CircleMemberContext'
+import { SidebarContext } from '@contexts/SidebarContext'
+import { useSubscribeOrgsSubscription } from '@gql'
 import useWindowSize from '@hooks/useWindowSize'
+import Sidebar from '@organisms/layout/Sidebar'
 import { useStoreActions } from '@store/hooks'
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CircleMemberProvider } from 'src/contexts/CircleMemberContext'
-import { SidebarContext } from 'src/contexts/SidebarContext'
-import { useSubscribeOrgsSubscription } from 'src/graphql.generated'
 
 interface Props {
   children: React.ReactNode

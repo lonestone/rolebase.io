@@ -9,12 +9,12 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import { useArchiveRoleMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import useRole from '@hooks/useRole'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useArchiveRoleMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

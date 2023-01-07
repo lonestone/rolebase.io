@@ -9,10 +9,10 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { readFile } from '@utils/readFile'
 import { nanoid } from 'nanoid'
 import React, { useRef, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiCheckSquare, FiList } from 'react-icons/fi'
-import { readFile } from 'src/utils/readFile'
 import { decorators } from '../../../../stories'
 import { DUMMY_MARKDOWN } from './dummies/dummy-markdown'
 import DUMMY_USERNAMES from './dummies/dummy-usernames.json'

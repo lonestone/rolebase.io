@@ -9,12 +9,12 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
+import { useArchiveMemberMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useArchiveMemberMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

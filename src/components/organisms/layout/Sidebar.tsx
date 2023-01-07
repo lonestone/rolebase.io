@@ -1,3 +1,9 @@
+import BrandIcon from '@atoms/BrandIcon'
+import GlassBox from '@atoms/GlassBox'
+import IconTextButton from '@atoms/IconTextButton'
+import SidebarIconButton from '@atoms/SidebarIconButton'
+import SidebarItem from '@atoms/SidebarItem'
+import SidebarLinkItem from '@atoms/SidebarLinkItem'
 import {
   Box,
   ButtonGroup,
@@ -9,21 +15,21 @@ import {
   useDisclosure,
   useMediaQuery,
 } from '@chakra-ui/react'
-import GlassBox from '@components/atoms/GlassBox'
-import IconTextButton from '@components/atoms/IconTextButton'
-import SidebarIconButton from '@components/atoms/SidebarIconButton'
-import SidebarItem from '@components/atoms/SidebarItem'
-import SidebarLinkItem from '@components/atoms/SidebarLinkItem'
-import BrandIcon from '@components/molecules/BrandIcon'
-import Notifications from '@components/molecules/Notifications'
-import OrgSwitch from '@components/molecules/OrgSwitch'
-import SearchGlobalModal from '@components/molecules/search/SearchGlobalModal'
-import SettingsMenuList from '@components/molecules/SettingsMenuList'
-import UserMenu from '@components/molecules/UserMenu'
+import {
+  defaultSidebarHeight,
+  defaultSidebarWidth,
+  SidebarContext,
+} from '@contexts/SidebarContext'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { usePathInOrg } from '@hooks/usePathInOrg'
+import Notifications from '@molecules/Notifications'
+import OrgSwitch from '@molecules/OrgSwitch'
+import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
+import SettingsMenuList from '@molecules/SettingsMenuList'
+import UserMenu from '@molecules/UserMenu'
 import { useAuthenticated } from '@nhost/react'
+import { cmdOrCtrlKey } from '@utils/env'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaQuestion, FaSearch } from 'react-icons/fa'
@@ -36,13 +42,7 @@ import {
   FiMessageSquare,
   FiSettings,
 } from 'react-icons/fi'
-import {
-  defaultSidebarHeight,
-  defaultSidebarWidth,
-  SidebarContext,
-} from 'src/contexts/SidebarContext'
 import settings from 'src/settings'
-import { cmdOrCtrlKey } from 'src/utils/env'
 
 // Force reset with fast refresh
 // @refresh reset

@@ -1,13 +1,10 @@
 // Duplicate steps content from a meeting to a newly created meeting
 // that can have different stepsConfig.
 
+import { useCreateMeetingStepMutation, useGetMeetingStepsLazyQuery } from '@gql'
 import { MeetingEntry } from '@shared/model/meeting'
+import { pick } from '@utils/pick'
 import { useCallback } from 'react'
-import {
-  useCreateMeetingStepMutation,
-  useGetMeetingStepsLazyQuery,
-} from 'src/graphql.generated'
-import { pick } from 'src/utils/pick'
 
 // We use id to match steps that can be duplicated.
 export function useDuplicateMeetingSteps() {

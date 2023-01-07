@@ -1,12 +1,12 @@
+import ParticipantsScopeSelect from '@atoms/ParticipantsScopeSelect'
 import { Box, FormControl, FormLabel } from '@chakra-ui/react'
-import ParticipantsScopeSelect from '@components/atoms/ParticipantsScopeSelect'
-import MembersMultiSelect from '@components/molecules/MembersMultiSelect'
-import ParticipantsNumber from '@components/molecules/ParticipantsNumber'
 import useParticipants from '@hooks/useParticipants'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import { MembersScope } from '@shared/model/member'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import MembersMultiSelect from './member/MembersMultiSelect'
 
 interface Values {
   circleId: string

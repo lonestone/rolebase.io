@@ -1,31 +1,31 @@
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import CirclesPage from '@components/pages/CirclesPage'
-import DecisionPage from '@components/pages/DecisionPage '
-import LogsPage from '@components/pages/LogsPage'
-import MeetingPage from '@components/pages/MeetingPage'
-import MeetingRecurringPage from '@components/pages/MeetingRecurringPage'
-import MembersPage from '@components/pages/MembersPage'
-import Page404 from '@components/pages/Page404'
-import TaskPage from '@components/pages/TaskPage'
-import TasksPage from '@components/pages/TasksPage'
-import ThreadPage from '@components/pages/ThreadPage'
-import ThreadsPage from '@components/pages/ThreadsPage'
-import useOrg from '@hooks/useOrg'
-import useSuperAdmin from '@hooks/useSuperAdmin'
-import { MemberEntry } from '@shared/model/member'
-import { useStoreActions, useStoreState } from '@store/hooks'
-import React, { lazy, Suspense, useEffect } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
 import {
   useSubscribeCirclesSubscription,
   useSubscribeMembersSubscription,
   useSubscribeRolesSubscription,
-} from 'src/graphql.generated'
-import { UserLocalStorageKeys } from 'src/utils/localStorage'
+} from '@gql'
+import useOrg from '@hooks/useOrg'
+import useSuperAdmin from '@hooks/useSuperAdmin'
+import CirclesPage from '@pages/CirclesPage'
+import DecisionPage from '@pages/DecisionPage '
+import LogsPage from '@pages/LogsPage'
+import MeetingPage from '@pages/MeetingPage'
+import MeetingRecurringPage from '@pages/MeetingRecurringPage'
+import MembersPage from '@pages/MembersPage'
+import Page404 from '@pages/Page404'
+import TaskPage from '@pages/TaskPage'
+import TasksPage from '@pages/TasksPage'
+import ThreadPage from '@pages/ThreadPage'
+import ThreadsPage from '@pages/ThreadsPage'
+import { MemberEntry } from '@shared/model/member'
+import { useStoreActions, useStoreState } from '@store/hooks'
+import { UserLocalStorageKeys } from '@utils/localStorage'
+import React, { lazy, Suspense, useEffect } from 'react'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 
 // Lazy pages
-const MeetingsPage = lazy(() => import('@components/pages/MeetingsPage'))
+const MeetingsPage = lazy(() => import('@pages/MeetingsPage'))
 
 interface Props {
   orgId: string

@@ -8,10 +8,10 @@ import {
   AlertDialogProps,
   Button,
 } from '@chakra-ui/react'
+import { useDeleteMeetingRecurringMutation } from '@gql'
 import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useDeleteMeetingRecurringMutation } from 'src/graphql.generated'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

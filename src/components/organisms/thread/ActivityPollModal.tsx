@@ -1,3 +1,4 @@
+import NumberInputController from '@atoms/NumberInputController'
 import {
   Accordion,
   AccordionButton,
@@ -28,10 +29,15 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import NumberInputController from '@components/atoms/NumberInputController'
-import EditorController from '@components/molecules/editor/EditorController'
+import {
+  useCreateThreadActivityMutation,
+  useDeleteThreadPollAnswersMutation,
+  useSubscribeThreadPollAnswersSubscription,
+  useUpdateThreadActivityMutation,
+} from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
+import EditorController from '@molecules/editor/EditorController'
 import { useUserId } from '@nhost/react'
 import {
   ActivityPoll,
@@ -39,17 +45,11 @@ import {
   PollChoice,
 } from '@shared/model/thread_activity'
 import { WithId } from '@shared/model/types'
+import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiHelpCircle, FiPlus, FiX } from 'react-icons/fi'
-import {
-  useCreateThreadActivityMutation,
-  useDeleteThreadPollAnswersMutation,
-  useSubscribeThreadPollAnswersSubscription,
-  useUpdateThreadActivityMutation,
-} from 'src/graphql.generated'
-import { getDateTimeLocal } from 'src/utils/getDateTimeLocal'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {

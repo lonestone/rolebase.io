@@ -1,9 +1,9 @@
+import { useCreateThreadMutation } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { MembersScope } from '@shared/model/member'
 import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback } from 'react'
-import { useCreateThreadMutation } from 'src/graphql.generated'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useThreadSearchItems } from './useThreadSearchItems'
 

@@ -1,5 +1,5 @@
 import { AccordionItem, AccordionPanel } from '@chakra-ui/react'
-import AccordionIconButton from '@components/molecules/AccordionIconButton'
+import AccordionIconButton from '@molecules/AccordionIconButton'
 import React from 'react'
 
 interface Props {

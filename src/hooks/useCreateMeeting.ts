@@ -1,12 +1,9 @@
+import { Meeting_Insert_Input, useCreateMeetingMutation } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useDuplicateMeetingSteps } from '@hooks/useDuplicateMeetingSteps'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import { MeetingEntry } from '@shared/model/meeting'
 import { useCallback } from 'react'
-import {
-  Meeting_Insert_Input,
-  useCreateMeetingMutation,
-} from 'src/graphql.generated'
 
 export default function useCreateMeeting() {
   const currentMember = useCurrentMember()

@@ -1,3 +1,8 @@
+import CircleByIdButton from '@atoms/CircleByIdButton'
+import Loading from '@atoms/Loading'
+import Markdown from '@atoms/Markdown'
+import TextErrors from '@atoms/TextErrors'
+import { Title } from '@atoms/Title'
 import {
   Box,
   BoxProps,
@@ -8,17 +13,12 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import CircleByIdButton from '@components/atoms/CircleByIdButton'
-import Loading from '@components/atoms/Loading'
-import Markdown from '@components/atoms/Markdown'
-import TextErrors from '@components/atoms/TextErrors'
-import { Title } from '@components/atoms/Title'
-import ActionsMenu from '@components/molecules/ActionsMenu'
-import DateInfo from '@components/molecules/DateInfo'
+import { useSubscribeDecisionSubscription } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
+import ActionsMenu from '@molecules/ActionsMenu'
+import DateInfo from '@molecules/DateInfo'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSubscribeDecisionSubscription } from 'src/graphql.generated'
 import DecisionDeleteModal from './DecisionDeleteModal '
 import DecisionEditModal from './DecisionEditModal'
 

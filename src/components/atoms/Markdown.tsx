@@ -1,4 +1,4 @@
-import SimpleEditor from '@components/molecules/editor/SimpleEditor'
+import SimpleEditor from '@molecules/editor/SimpleEditor'
 import React from 'react'
 
 interface Props {

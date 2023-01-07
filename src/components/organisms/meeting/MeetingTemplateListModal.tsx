@@ -1,3 +1,5 @@
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
 import {
   Button,
   IconButton,
@@ -12,15 +14,13 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import Loading from '@components/atoms/Loading'
-import TextErrors from '@components/atoms/TextErrors'
-import ListItemWithButtons from '@components/molecules/ListItemWithButtons'
+import { useSubscribeMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
+import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
-import { useSubscribeMeetingTemplatesSubscription } from 'src/graphql.generated'
 import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'
 import MeetingTemplateEditModal from './MeetingTemplateEditModal'
 

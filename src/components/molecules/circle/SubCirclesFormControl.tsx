@@ -1,0 +1,186 @@
+import { FormControl, FormLabel, StackItem, VStack } from '@chakra-ui/react'
+import { useCreateCircleMutation, useCreateRoleMutation } from '@gql'
+import useCreateLog from '@hooks/useCreateLog'
+import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
+import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
+import { CircleWithRoleEntry } from '@shared/model/circle'
+import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
+import { ParticipantMember } from '@shared/model/member'
+import { RoleEntry, RoleLink } from '@shared/model/role'
+import { useStoreState } from '@store/hooks'
+import { omit } from '@utils/omit'
+import React, { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiPlus } from 'react-icons/fi'
+import RoleSearchButton from '../search/entities/roles/RoleSearchButton'
+import CircleWithLeaderItem from './CircleWithLeaderItem'
+
+interface Props {
+  circle: CircleWithRoleEntry
+  participants: ParticipantMember[]
+}
+
+export default function SubCirclesFormControl({ circle, participants }: Props) {
+  const { t } = useTranslation()
+  const isMember = useOrgMember()
+  const circles = useStoreState((state) => state.circles.entries)
+  const roles = useStoreState((state) => state.roles.entries)
+  const orgId = useOrgId()
+  const [createCircle] = useCreateCircleMutation()
+  const [createRole] = useCreateRoleMutation()
+  const createLog = useCreateLog()
+
+  // Get direct circles children and their roles
+  const childrenAndRoles = useMemo(
+    () =>
+      circles &&
+      roles &&
+      getCircleChildrenAndRoles(circles, roles, circle.id).sort((a, b) => {
+        // Put leaders at the top
+        if (
+          a.role.link === RoleLink.Parent &&
+          b.role.link !== RoleLink.Parent
+        ) {
+          return -1
+        }
+        if (
+          a.role.link !== RoleLink.Parent &&
+          b.role.link === RoleLink.Parent
+        ) {
+          return 1
+        }
+        // Sort by name
+        return a.role.name.localeCompare(b.role.name)
+      }),
+    [circles, roles, circle]
+  )
+
+  const childrenRolesIds = useMemo(
+    () => childrenAndRoles?.map((c) => c.role.id),
+    [childrenAndRoles]
+  )
+
+  // Create circle and open it
+  const handleCreateRole = useCallback(
+    async (roleOrName: RoleEntry | string) => {
+      if (!orgId || !roles) return
+
+      // Create role
+      let role: RoleEntry
+      if (typeof roleOrName === 'string') {
+        const { data } = await createRole({
+          variables: {
+            values: {
+              orgId,
+              name: roleOrName,
+            },
+          },
+        })
+        role = data?.insert_role_one!
+      } else {
+        role = roleOrName
+      }
+
+      // Create circle
+      const { data } = await createCircle({
+        variables: {
+          orgId,
+          roleId: role.id,
+          parentId: circle.id,
+        },
+      })
+      const newCircle = data?.insert_circle_one!
+
+      const changes: EntitiesChanges = {
+        circles: [
+          {
+            type: EntityChangeType.Create,
+            id: newCircle.id,
+            data: { ...omit(newCircle, '__typename'), members: [] },
+          },
+        ],
+      }
+
+      // Add roles with autoCreate=true
+      /*
+      if (!singleMember) {
+        const autoCreateRoles = roles.filter((r) => r.autoCreate)
+        for (const autoCreateRole of autoCreateRoles) {
+          const autoCreateCircle = await createCircle({
+            orgId,
+            roleId: autoCreateRole.id,
+            parentId: newCircle.id,
+            members: [],
+          })
+
+          changes.circles?.push({
+            type: EntityChangeType.Create,
+            id: autoCreateCircle.id,
+            data: autoCreateCircle,
+          })
+        }
+      }
+      */
+
+      // Log changes
+      if (typeof roleOrName === 'string') {
+        changes.roles = [
+          { type: EntityChangeType.Create, id: role.id, data: role },
+        ]
+      }
+      createLog({
+        display: {
+          type: LogType.CircleCreate,
+          id: newCircle.id,
+          name: role.name,
+          parentId: circle?.id || null,
+          parentName: circle?.role.name || null,
+        },
+        changes,
+      })
+    },
+    [orgId, roles, circle]
+  )
+
+  const handleAddRole = useCallback(
+    (roleId: string) => {
+      const role = roles?.find((r) => r.id === roleId)
+      if (!role) return
+      handleCreateRole(role)
+    },
+    [handleCreateRole, roles]
+  )
+
+  return (
+    <FormControl>
+      <FormLabel>{t('SubCirclesFormControl.roles')}</FormLabel>
+      <VStack spacing={2} align="start">
+        {childrenAndRoles?.map((circle) => (
+          <CircleWithLeaderItem
+            key={circle.id}
+            circle={circle}
+            participants={participants}
+          />
+        ))}
+
+        {isMember && (
+          <StackItem>
+            <RoleSearchButton
+              base
+              excludeIds={childrenRolesIds}
+              size="sm"
+              variant="outline"
+              borderRadius="full"
+              leftIcon={<FiPlus />}
+              onSelect={handleAddRole}
+              onCreate={handleCreateRole}
+            >
+              {t('SubCirclesFormControl.addRole')}
+            </RoleSearchButton>
+          </StackItem>
+        )}
+      </VStack>
+    </FormControl>
+  )
+}

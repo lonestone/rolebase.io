@@ -1,7 +1,7 @@
-import Homepage from '@components/pages/Homepage'
-import LoginPage from '@components/pages/LoginPage'
-import ResetPasswordPage from '@components/pages/ResetPasswordPage'
-import SignupPage from '@components/pages/SignupPage'
+import Homepage from '@pages/Homepage'
+import LoginPage from '@pages/LoginPage'
+import ResetPasswordPage from '@pages/ResetPasswordPage'
+import SignupPage from '@pages/SignupPage'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 

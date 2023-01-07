@@ -1,10 +1,10 @@
 import { getAlgoliaConfig } from '@api/functions'
 import { useOrgId } from '@hooks/useOrgId'
 import { AlgoliaConfig, SearchDoc, SearchTypes } from '@shared/model/search'
+import { UserLocalStorageKeys } from '@utils/localStorage'
 import algoliasearch from 'algoliasearch'
 import debounce from 'lodash.debounce'
 import { useMemo, useState } from 'react'
-import { UserLocalStorageKeys } from 'src/utils/localStorage'
 import { SearchItem } from './searchTypes'
 
 async function getConfig(orgId: string): Promise<AlgoliaConfig> {

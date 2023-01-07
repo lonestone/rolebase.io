@@ -1,6 +1,6 @@
+import { useUpdateMemberMutation } from '@gql'
 import { MemberPreferences } from '@shared/model/member'
 import { useCallback, useEffect, useState } from 'react'
-import { useUpdateMemberMutation } from 'src/graphql.generated'
 import useCurrentMember from './useCurrentMember'
 
 // Return current member preferences and a function to set a preference
