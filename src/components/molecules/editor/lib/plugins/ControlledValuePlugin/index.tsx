@@ -17,7 +17,9 @@ export default function ControlledValuePlugin({ value }: Props) {
     if (!mounted.current) return
 
     // Set new value
-    setEditorValue(editor, value)
+    setTimeout(() => {
+      setEditorValue(editor, value)
+    }, 0) // Prevent flushSync warning
   }, [editor, value])
 
   useEffect(() => {
