@@ -174,9 +174,7 @@ export default function SearchInput({
         size={buttonGroup?.size}
         {...inputMoreProps}
         {...inputProps}
-        placeholder={
-          inputMoreProps?.placeholder || t('SearchInput.defaultPlaceholder')
-        }
+        placeholder={inputMoreProps?.placeholder}
       />
 
       <SearchResultsList

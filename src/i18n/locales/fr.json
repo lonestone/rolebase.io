@@ -392,9 +392,6 @@
     "totalAllocatedTime": "Temps total alloué :",
     "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
   },
-  "MemberSearchInput": {
-    "placeholder": "Membre..."
-  },
   "MembersInviteModal": {
     "heading": "Inviter des membres par email",
     "toastSuccess_one": "{{count}} membre invité !",
@@ -560,9 +557,6 @@
   "SearchGlobalModal": {
     "placeholder": "Rechercher dans {{org}}..."
   },
-  "SearchInput": {
-    "defaultPlaceholder": "Sélectionner..."
-  },
   "SettingsMenuList": {
     "org": "Organisation",
     "members": "Membres",
@@ -603,7 +597,7 @@
   "TaskContent": {
     "headingEdit": "Tâche",
     "headingCreate": "Nouvelle tâche",
-    "titlePlaceholder": "Titre...",
+    "titlePlaceholder": "Résultat à atteindre...",
     "circle": "Rôle",
     "memberId": "Membre assigné",
     "dueDate": "Date limite",

@@ -2,7 +2,6 @@ import useCreateMember from '@hooks/useCreateMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import { MemberEntry } from '@shared/model/member'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import SearchInput, { SearchInputProps } from '../../SearchInput'
 import { useMemberSearchItems } from './useMemberSearchItems'
 
@@ -16,7 +15,6 @@ export default function MemberSearchInput({
   excludeIds,
   ...props
 }: Props) {
-  const { t } = useTranslation()
   const items = useMemberSearchItems(members, excludeIds)
   const isAdmin = useOrgAdmin()
   const handleCreate = useCreateMember()
@@ -25,7 +23,6 @@ export default function MemberSearchInput({
     <SearchInput
       {...props}
       items={items}
-      placeholder={props.placeholder || t('MemberSearchInput.placeholder')}
       onCreate={isAdmin ? handleCreate : undefined}
     />
   )

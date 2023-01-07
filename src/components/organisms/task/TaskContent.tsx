@@ -243,6 +243,7 @@ export default function TaskContent({
         <FormControl isInvalid={!!errors.title}>
           <Input
             {...register('title')}
+            size="lg"
             placeholder={t('TaskContent.titlePlaceholder')}
             autoFocus
             readOnly={!isMember}
