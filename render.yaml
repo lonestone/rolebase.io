@@ -37,7 +37,7 @@ services:
   # Collab (y-websocket)
   - type: web
     region: frankfurt
-    plan: free
+    plan: starter
     name: rolebase-collab
     env: node
     branch: main
