@@ -46,6 +46,8 @@ services:
     buildCommand: npm i yjs y-websocket
     startCommand: npx y-websocket
     envVars:
+      - key: HOST
+        value: 0.0.0.0
       - key: PORT
         value: 1234
     autoDeploy: true
