@@ -9,7 +9,6 @@ import { Transition, TransitionGroup } from 'react-transition-group'
 import { Graph, GraphEvents } from 'src/circles-viz/createGraph'
 import settings from 'src/circles-viz/settings'
 import i18n from '../../i18n'
-import theme from '../../theme'
 import { circles, members, roles } from './data'
 
 const rootElement = document.getElementById('demo1')
@@ -250,7 +249,7 @@ function Demo1() {
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <ColorModeScript initialColorMode="light" />
       <Demo1 />
     </ChakraProvider>
