@@ -31,7 +31,7 @@ auth:
     template_fetch_url: ''
   gravatar:
     default: ''
-    enabled: true
+    enabled: false
     rating: ''
   locale:
     allowed: en
