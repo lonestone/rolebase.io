@@ -2,8 +2,8 @@ import { Box, chakra, ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import useWindowSize from '@hooks/useWindowSize'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
-import React, { useEffect, useRef, useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { StrictMode, useEffect, useRef, useState } from 'react'
+import { createRoot } from 'react-dom/client'
 import { I18nextProvider } from 'react-i18next'
 import { Transition, TransitionGroup } from 'react-transition-group'
 import { Graph, GraphEvents } from 'src/circles-viz/createGraph'
@@ -12,6 +12,11 @@ import i18n from '../../i18n'
 import { circles, members, roles } from './data'
 
 const rootElement = document.getElementById('demo1')
+if (!rootElement) {
+  throw new Error('No root element found for demo1')
+}
+
+const root = createRoot(rootElement)
 
 interface Step {
   circleId?: string | null
@@ -109,6 +114,7 @@ function Demo1() {
   const [toBottom, setToBottom] = useState(true)
   const step = stepIndex === undefined ? undefined : steps[stepIndex]
   const [stepProgression, setStepProgression] = useState(0)
+  const transitionRef = useRef(null)
 
   useEffect(() => {
     if (!step) return
@@ -208,9 +214,14 @@ function Demo1() {
 
         <TransitionGroup>
           {step?.text && (
-            <Transition key={stepIndex} timeout={textTransitions.duration}>
+            <Transition
+              key={stepIndex}
+              nodeRef={transitionRef}
+              timeout={textTransitions.duration}
+            >
               {(state) => (
                 <Box
+                  ref={transitionRef}
                   position="absolute"
                   bottom={5}
                   left={5}
@@ -247,12 +258,13 @@ function Demo1() {
   )
 }
 
-ReactDOM.render(
-  <I18nextProvider i18n={i18n}>
-    <ChakraProvider>
-      <ColorModeScript initialColorMode="light" />
-      <Demo1 />
-    </ChakraProvider>
-  </I18nextProvider>,
-  rootElement
+root.render(
+  <StrictMode>
+    <I18nextProvider i18n={i18n}>
+      <ChakraProvider>
+        <ColorModeScript initialColorMode="light" />
+        <Demo1 />
+      </ChakraProvider>
+    </I18nextProvider>
+  </StrictMode>
 )
