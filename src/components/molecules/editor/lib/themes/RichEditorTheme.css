@@ -392,6 +392,11 @@
 }
 .RichEditor__nestedListItem {
   list-style-type: none;
+  padding-left: 16px;
+}
+.RichEditor__nestedListItem[dir='rtl'] {
+  padding-right: 16px;
+  padding-left: 0;
 }
 .RichEditor__nestedListItem:before,
 .RichEditor__nestedListItem:after {
