@@ -61,7 +61,7 @@ export default function ParticipantsNumber({
       </MenuButton>
 
       <Portal>
-        <MenuList shadow="lg" zIndex={1000} maxH="390px" overflow="auto">
+        <MenuList shadow="lg" zIndex={2000} maxH="390px" overflow="auto">
           {participants.map(({ member, circlesIds }) => (
             <CircleMemberLink
               key={member.id}
