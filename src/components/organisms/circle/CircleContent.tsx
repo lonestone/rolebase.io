@@ -11,6 +11,7 @@ import {
   Spacer,
   useDisclosure,
 } from '@chakra-ui/react'
+import { Member_Scope_Enum } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
@@ -24,7 +25,6 @@ import CircleRoleFormControl from '@molecules/circle/CircleRoleFormControl'
 import CircleTasks from '@molecules/circle/CircleTasks'
 import CircleThreads from '@molecules/circle/CircleThreads'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
-import { MembersScope } from '@shared/model/member'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -62,7 +62,7 @@ export default function CircleContent({
   // Participants
   const participants = useParticipants(
     id,
-    MembersScope.CircleLeaders,
+    Member_Scope_Enum.CircleLeaders,
     circle?.members.map((member) => member.id)
   )
 

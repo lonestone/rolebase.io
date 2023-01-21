@@ -1,8 +1,8 @@
 import ParticipantsScopeSelect from '@atoms/ParticipantsScopeSelect'
 import { Box, FormControl, FormLabel } from '@chakra-ui/react'
+import { Member_Scope_Enum } from '@gql'
 import useParticipants from '@hooks/useParticipants'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
-import { MembersScope } from '@shared/model/member'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import MembersMultiSelect from './member/MembersMultiSelect'
 
 interface Values {
   circleId: string
-  participantsScope: MembersScope
+  participantsScope: Member_Scope_Enum
   participantsMembersIds: Array<{ memberId: string }>
 }
 

@@ -3838,7 +3838,7 @@ export type Meeting = {
   org: Org;
   orgId: Scalars['uuid'];
   participantsMembersIds: Scalars['json'];
-  participantsScope: Scalars['String'];
+  participantsScope: Member_Scope_Enum;
   /** An object relationship */
   recurring?: Maybe<Meeting_Recurring>;
   recurringDate?: Maybe<Scalars['timestamptz']>;
@@ -3977,7 +3977,7 @@ export type Meeting_Bool_Exp = {
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
-  participantsScope?: InputMaybe<String_Comparison_Exp>;
+  participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
   recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
   recurringDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   recurringId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -4009,7 +4009,7 @@ export type Meeting_Insert_Input = {
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   recurring?: InputMaybe<Meeting_Recurring_Obj_Rel_Insert_Input>;
   recurringDate?: InputMaybe<Scalars['timestamptz']>;
   recurringId?: InputMaybe<Scalars['uuid']>;
@@ -4029,7 +4029,6 @@ export type Meeting_Max_Fields = {
   endDate?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
-  participantsScope?: Maybe<Scalars['String']>;
   recurringDate?: Maybe<Scalars['timestamptz']>;
   recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
@@ -4044,7 +4043,6 @@ export type Meeting_Max_Order_By = {
   endDate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
-  participantsScope?: InputMaybe<Order_By>;
   recurringDate?: InputMaybe<Order_By>;
   recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
@@ -4060,7 +4058,6 @@ export type Meeting_Min_Fields = {
   endDate?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
-  participantsScope?: Maybe<Scalars['String']>;
   recurringDate?: Maybe<Scalars['timestamptz']>;
   recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
@@ -4075,7 +4072,6 @@ export type Meeting_Min_Order_By = {
   endDate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
-  participantsScope?: InputMaybe<Order_By>;
   recurringDate?: InputMaybe<Order_By>;
   recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
@@ -4152,7 +4148,7 @@ export type Meeting_Recurring = {
   org: Org;
   orgId: Scalars['uuid'];
   participantsMembersIds: Scalars['json'];
-  participantsScope: Scalars['String'];
+  participantsScope: Member_Scope_Enum;
   rrule: Scalars['String'];
   /** An object relationship */
   template: Meeting_Template;
@@ -4281,7 +4277,7 @@ export type Meeting_Recurring_Bool_Exp = {
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
-  participantsScope?: InputMaybe<String_Comparison_Exp>;
+  participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
   rrule?: InputMaybe<String_Comparison_Exp>;
   template?: InputMaybe<Meeting_Template_Bool_Exp>;
   templateId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -4310,7 +4306,7 @@ export type Meeting_Recurring_Insert_Input = {
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   rrule?: InputMaybe<Scalars['String']>;
   template?: InputMaybe<Meeting_Template_Obj_Rel_Insert_Input>;
   templateId?: InputMaybe<Scalars['uuid']>;
@@ -4325,7 +4321,6 @@ export type Meeting_Recurring_Max_Fields = {
   duration?: Maybe<Scalars['smallint']>;
   id?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
-  participantsScope?: Maybe<Scalars['String']>;
   rrule?: Maybe<Scalars['String']>;
   templateId?: Maybe<Scalars['uuid']>;
 };
@@ -4337,7 +4332,6 @@ export type Meeting_Recurring_Max_Order_By = {
   duration?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
-  participantsScope?: InputMaybe<Order_By>;
   rrule?: InputMaybe<Order_By>;
   templateId?: InputMaybe<Order_By>;
 };
@@ -4350,7 +4344,6 @@ export type Meeting_Recurring_Min_Fields = {
   duration?: Maybe<Scalars['smallint']>;
   id?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
-  participantsScope?: Maybe<Scalars['String']>;
   rrule?: Maybe<Scalars['String']>;
   templateId?: Maybe<Scalars['uuid']>;
 };
@@ -4362,7 +4355,6 @@ export type Meeting_Recurring_Min_Order_By = {
   duration?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
-  participantsScope?: InputMaybe<Order_By>;
   rrule?: InputMaybe<Order_By>;
   templateId?: InputMaybe<Order_By>;
 };
@@ -4445,7 +4437,7 @@ export type Meeting_Recurring_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   rrule?: InputMaybe<Scalars['String']>;
   templateId?: InputMaybe<Scalars['uuid']>;
   videoConf?: InputMaybe<Scalars['json']>;
@@ -4500,7 +4492,7 @@ export type Meeting_Recurring_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   rrule?: InputMaybe<Scalars['String']>;
   templateId?: InputMaybe<Scalars['uuid']>;
   videoConf?: InputMaybe<Scalars['json']>;
@@ -4648,7 +4640,7 @@ export type Meeting_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   recurringDate?: InputMaybe<Scalars['timestamptz']>;
   recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
@@ -4910,7 +4902,7 @@ export type Meeting_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   recurringDate?: InputMaybe<Scalars['timestamptz']>;
   recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
@@ -5458,6 +5450,159 @@ export type Member_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
 
+/** columns and relationships of "member_scope" */
+export type Member_Scope = {
+  __typename?: 'member_scope';
+  comment?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "member_scope" */
+export type Member_Scope_Aggregate = {
+  __typename?: 'member_scope_aggregate';
+  aggregate?: Maybe<Member_Scope_Aggregate_Fields>;
+  nodes: Array<Member_Scope>;
+};
+
+/** aggregate fields of "member_scope" */
+export type Member_Scope_Aggregate_Fields = {
+  __typename?: 'member_scope_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Member_Scope_Max_Fields>;
+  min?: Maybe<Member_Scope_Min_Fields>;
+};
+
+
+/** aggregate fields of "member_scope" */
+export type Member_Scope_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Member_Scope_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "member_scope". All fields are combined with a logical 'AND'. */
+export type Member_Scope_Bool_Exp = {
+  _and?: InputMaybe<Array<Member_Scope_Bool_Exp>>;
+  _not?: InputMaybe<Member_Scope_Bool_Exp>;
+  _or?: InputMaybe<Array<Member_Scope_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "member_scope" */
+export enum Member_Scope_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  MemberScopePkey = 'member_scope_pkey'
+}
+
+export enum Member_Scope_Enum {
+  /** All Leaders of Roles and sub-Circles in Circle */
+  CircleLeaders = 'CircleLeaders',
+  /** All members in Circle and sub-Circles */
+  CircleMembers = 'CircleMembers',
+  /** None (select members manually) */
+  None = 'None',
+  /** All members of the organization */
+  Organization = 'Organization'
+}
+
+/** Boolean expression to compare columns of type "member_scope_enum". All fields are combined with logical 'AND'. */
+export type Member_Scope_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Member_Scope_Enum>;
+  _in?: InputMaybe<Array<Member_Scope_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Member_Scope_Enum>;
+  _nin?: InputMaybe<Array<Member_Scope_Enum>>;
+};
+
+/** input type for inserting data into table "member_scope" */
+export type Member_Scope_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Member_Scope_Max_Fields = {
+  __typename?: 'member_scope_max_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Member_Scope_Min_Fields = {
+  __typename?: 'member_scope_min_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "member_scope" */
+export type Member_Scope_Mutation_Response = {
+  __typename?: 'member_scope_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Member_Scope>;
+};
+
+/** on_conflict condition type for table "member_scope" */
+export type Member_Scope_On_Conflict = {
+  constraint: Member_Scope_Constraint;
+  update_columns?: Array<Member_Scope_Update_Column>;
+  where?: InputMaybe<Member_Scope_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "member_scope". */
+export type Member_Scope_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: member_scope */
+export type Member_Scope_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "member_scope" */
+export enum Member_Scope_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "member_scope" */
+export type Member_Scope_Set_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "member_scope" */
+export type Member_Scope_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Member_Scope_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Member_Scope_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "member_scope" */
+export enum Member_Scope_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+export type Member_Scope_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Member_Scope_Set_Input>;
+  where: Member_Scope_Bool_Exp;
+};
+
 /** select columns of table "member" */
 export enum Member_Select_Column {
   /** column name */
@@ -5742,6 +5887,10 @@ export type Mutation_Root = {
   delete_member?: Maybe<Member_Mutation_Response>;
   /** delete single row from the table: "member" */
   delete_member_by_pk?: Maybe<Member>;
+  /** delete data from the table: "member_scope" */
+  delete_member_scope?: Maybe<Member_Scope_Mutation_Response>;
+  /** delete single row from the table: "member_scope" */
+  delete_member_scope_by_pk?: Maybe<Member_Scope>;
   /** delete data from the table: "old_id" */
   delete_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** delete single row from the table: "old_id" */
@@ -5858,6 +6007,10 @@ export type Mutation_Root = {
   insert_member?: Maybe<Member_Mutation_Response>;
   /** insert a single row into the table: "member" */
   insert_member_one?: Maybe<Member>;
+  /** insert data into the table: "member_scope" */
+  insert_member_scope?: Maybe<Member_Scope_Mutation_Response>;
+  /** insert a single row into the table: "member_scope" */
+  insert_member_scope_one?: Maybe<Member_Scope>;
   /** insert data into the table: "old_id" */
   insert_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** insert a single row into the table: "old_id" */
@@ -6010,6 +6163,12 @@ export type Mutation_Root = {
   update_member_by_pk?: Maybe<Member>;
   /** update multiples rows of table: "member" */
   update_member_many?: Maybe<Array<Maybe<Member_Mutation_Response>>>;
+  /** update data of the table: "member_scope" */
+  update_member_scope?: Maybe<Member_Scope_Mutation_Response>;
+  /** update single row of the table: "member_scope" */
+  update_member_scope_by_pk?: Maybe<Member_Scope>;
+  /** update multiples rows of table: "member_scope" */
+  update_member_scope_many?: Maybe<Array<Maybe<Member_Scope_Mutation_Response>>>;
   /** update data of the table: "old_id" */
   update_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** update single row of the table: "old_id" */
@@ -6300,6 +6459,18 @@ export type Mutation_RootDelete_MemberArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Member_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Member_ScopeArgs = {
+  where: Member_Scope_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Member_Scope_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -6686,6 +6857,20 @@ export type Mutation_RootInsert_MemberArgs = {
 export type Mutation_RootInsert_Member_OneArgs = {
   object: Member_Insert_Input;
   on_conflict?: InputMaybe<Member_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Member_ScopeArgs = {
+  objects: Array<Member_Scope_Insert_Input>;
+  on_conflict?: InputMaybe<Member_Scope_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Member_Scope_OneArgs = {
+  object: Member_Scope_Insert_Input;
+  on_conflict?: InputMaybe<Member_Scope_On_Conflict>;
 };
 
 
@@ -7232,6 +7417,26 @@ export type Mutation_RootUpdate_Member_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Member_ManyArgs = {
   updates: Array<Member_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Member_ScopeArgs = {
+  _set?: InputMaybe<Member_Scope_Set_Input>;
+  where: Member_Scope_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Member_Scope_By_PkArgs = {
+  _set?: InputMaybe<Member_Scope_Set_Input>;
+  pk_columns: Member_Scope_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Member_Scope_ManyArgs = {
+  updates: Array<Member_Scope_Updates>;
 };
 
 
@@ -8358,6 +8563,12 @@ export type Query_Root = {
   member_aggregate: Member_Aggregate;
   /** fetch data from the table: "member" using primary key columns */
   member_by_pk?: Maybe<Member>;
+  /** fetch data from the table: "member_scope" */
+  member_scope: Array<Member_Scope>;
+  /** fetch aggregated fields from the table: "member_scope" */
+  member_scope_aggregate: Member_Scope_Aggregate;
+  /** fetch data from the table: "member_scope" using primary key columns */
+  member_scope_by_pk?: Maybe<Member_Scope>;
   /** fetch data from the table: "old_id" */
   old_id: Array<Old_Id>;
   /** fetch aggregated fields from the table: "old_id" */
@@ -8838,6 +9049,29 @@ export type Query_RootMember_AggregateArgs = {
 
 export type Query_RootMember_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootMember_ScopeArgs = {
+  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
+  where?: InputMaybe<Member_Scope_Bool_Exp>;
+};
+
+
+export type Query_RootMember_Scope_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
+  where?: InputMaybe<Member_Scope_Bool_Exp>;
+};
+
+
+export type Query_RootMember_Scope_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -9808,6 +10042,14 @@ export type Subscription_Root = {
   member_aggregate: Member_Aggregate;
   /** fetch data from the table: "member" using primary key columns */
   member_by_pk?: Maybe<Member>;
+  /** fetch data from the table: "member_scope" */
+  member_scope: Array<Member_Scope>;
+  /** fetch aggregated fields from the table: "member_scope" */
+  member_scope_aggregate: Member_Scope_Aggregate;
+  /** fetch data from the table: "member_scope" using primary key columns */
+  member_scope_by_pk?: Maybe<Member_Scope>;
+  /** fetch data from the table in a streaming manner: "member_scope" */
+  member_scope_stream: Array<Member_Scope>;
   /** fetch data from the table in a streaming manner: "member" */
   member_stream: Array<Member>;
   /** fetch data from the table: "old_id" */
@@ -10431,6 +10673,36 @@ export type Subscription_RootMember_AggregateArgs = {
 
 export type Subscription_RootMember_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMember_ScopeArgs = {
+  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
+  where?: InputMaybe<Member_Scope_Bool_Exp>;
+};
+
+
+export type Subscription_RootMember_Scope_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
+  where?: InputMaybe<Member_Scope_Bool_Exp>;
+};
+
+
+export type Subscription_RootMember_Scope_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootMember_Scope_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Member_Scope_Stream_Cursor_Input>>;
+  where?: InputMaybe<Member_Scope_Bool_Exp>;
 };
 
 
@@ -11202,7 +11474,7 @@ export type Thread = {
   org: Org;
   orgId: Scalars['uuid'];
   participantsMembersIds: Scalars['json'];
-  participantsScope: Scalars['String'];
+  participantsScope: Member_Scope_Enum;
   title: Scalars['String'];
 };
 
@@ -11475,7 +11747,7 @@ export type Thread_Bool_Exp = {
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
-  participantsScope?: InputMaybe<String_Comparison_Exp>;
+  participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -11500,7 +11772,7 @@ export type Thread_Insert_Input = {
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -11514,7 +11786,6 @@ export type Thread_Max_Fields = {
   lastActivityDate?: Maybe<Scalars['timestamptz']>;
   lastActivityId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
-  participantsScope?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -11752,7 +12023,6 @@ export type Thread_Min_Fields = {
   lastActivityDate?: Maybe<Scalars['timestamptz']>;
   lastActivityId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
-  participantsScope?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -12020,7 +12290,7 @@ export type Thread_Set_Input = {
   lastActivityId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -12043,7 +12313,7 @@ export type Thread_Stream_Cursor_Value_Input = {
   lastActivityId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Scalars['String']>;
+  participantsScope?: InputMaybe<Member_Scope_Enum>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -12911,7 +13181,7 @@ export type CheckOrgUserQuery = { __typename?: 'query_root', org_by_pk?: { __typ
 export type GetRecurringMeetingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRecurringMeetingsQuery = { __typename?: 'query_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any }, meetings: Array<{ __typename?: 'meeting', recurringDate?: string | null }> }> };
+export type GetRecurringMeetingsQuery = { __typename?: 'query_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: any, templateId: string, rrule: string, duration: number, videoConf?: any | null, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: any }, meetings: Array<{ __typename?: 'meeting', recurringDate?: string | null }> }> };
 
 export type CreateMeetingMutationVariables = Exact<{
   meeting: Meeting_Insert_Input;
@@ -12972,7 +13242,7 @@ export type GetOrgAndCirclesQueryVariables = Exact<{
 }>;
 
 
-export type GetOrgAndCirclesQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', name: string, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, roleId: string, parentId?: string | null, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, role: { __typename?: 'role', name: string, singleMember: boolean, link: string } }>, meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, attendees?: any | null, startDate: string, endDate: string, title: string, recurringId?: string | null, recurringDate?: string | null, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } } }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: string, participantsMembersIds: any, rrule: string, duration: number, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string } }> } | null };
+export type GetOrgAndCirclesQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', name: string, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, roleId: string, parentId?: string | null, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }>, role: { __typename?: 'role', name: string, singleMember: boolean, link: string } }>, meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: any, attendees?: any | null, startDate: string, endDate: string, title: string, recurringId?: string | null, recurringDate?: string | null, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } } }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: any, rrule: string, duration: number, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, template: { __typename?: 'meeting_template', title: string } }> } | null };
 
 export type GetOldIdsQueryVariables = Exact<{ [key: string]: never; }>;
 

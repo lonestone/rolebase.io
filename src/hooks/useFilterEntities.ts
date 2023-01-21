@@ -11,7 +11,7 @@ export default function useFilterEntities<
   }
 >(
   filter: EntityFilters,
-  data?: Entity[],
+  data: Entity[] | undefined,
   circleId?: string
 ): Entity[] | undefined {
   const currentMember = useCurrentMember()

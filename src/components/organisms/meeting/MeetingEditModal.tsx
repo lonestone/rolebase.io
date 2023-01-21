@@ -19,7 +19,7 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import { useUpdateMeetingMutation } from '@gql'
+import { Member_Scope_Enum, useUpdateMeetingMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateMeeting from '@hooks/useCreateMeeting'
@@ -36,7 +36,6 @@ import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import { MeetingEntry, VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { MeetingStepTypes } from '@shared/model/meeting_step'
 import { MeetingTemplateEntry } from '@shared/model/meeting_template'
-import { MembersScope } from '@shared/model/member'
 import { nameSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import { nanoid } from 'nanoid'
@@ -58,7 +57,7 @@ interface Props extends UseModalProps {
 interface Values extends StepsValues {
   title: string
   circleId: string
-  participantsScope: MembersScope
+  participantsScope: Member_Scope_Enum
   participantsMembersIds: Array<{ memberId: string }>
   startDate: string
   duration: number // In minutes
@@ -98,7 +97,7 @@ export default function MeetingEditModal({
       title: meeting?.title ?? '',
       circleId: meeting?.circleId ?? (defaultCircleId || ''),
       participantsScope:
-        meeting?.participantsScope ?? MembersScope.CircleLeaders,
+        meeting?.participantsScope ?? Member_Scope_Enum.CircleLeaders,
       participantsMembersIds:
         meeting?.participantsMembersIds.map((id) => ({ memberId: id })) ?? [],
       startDate: getDateTimeLocal(

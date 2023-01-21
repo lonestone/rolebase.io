@@ -1,7 +1,6 @@
-import { useCreateThreadMutation } from '@gql'
+import { Member_Scope_Enum, useCreateThreadMutation } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
-import { MembersScope } from '@shared/model/member'
 import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
@@ -37,7 +36,7 @@ export default function ThreadSearchButton({
             orgId,
             title,
             circleId: createCircleId,
-            participantsScope: MembersScope.CircleLeaders,
+            participantsScope: Member_Scope_Enum.CircleLeaders,
             participantsMembersIds: [],
             initiatorMemberId: currentMember.id,
           },

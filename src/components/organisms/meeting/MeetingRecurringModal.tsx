@@ -27,7 +27,6 @@ import useDateLocale from '@hooks/useDateLocale'
 import useParticipants from '@hooks/useParticipants'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
-import { MembersScope } from '@shared/model/member'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
 import React, { useEffect, useMemo } from 'react'
@@ -65,7 +64,7 @@ export default function MeetingRecurringModal({
   // Participants
   const participants = useParticipants(
     meetingRecurring?.circleId,
-    meetingRecurring?.participantsScope as MembersScope,
+    meetingRecurring?.participantsScope,
     meetingRecurring?.participantsMembersIds
   )
 

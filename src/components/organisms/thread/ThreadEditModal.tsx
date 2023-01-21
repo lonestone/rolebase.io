@@ -14,7 +14,11 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import { useCreateThreadMutation, useUpdateThreadMutation } from '@gql'
+import {
+  Member_Scope_Enum,
+  useCreateThreadMutation,
+  useUpdateThreadMutation,
+} from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useItemsArray from '@hooks/useItemsArray'
@@ -24,7 +28,6 @@ import useParticipants from '@hooks/useParticipants'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MembersMultiSelect from '@molecules/member/MembersMultiSelect'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
-import { MembersScope } from '@shared/model/member'
 import { ThreadEntry } from '@shared/model/thread'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
@@ -41,7 +44,7 @@ interface Props extends UseModalProps {
 interface Values {
   title: string
   circleId: string
-  participantsScope: MembersScope
+  participantsScope: Member_Scope_Enum
 }
 
 const resolver = yupResolver(
@@ -75,7 +78,7 @@ export default function ThreadEditModal({
       : {
           title: '',
           circleId: defaultCircleId || '',
-          participantsScope: MembersScope.CircleLeaders,
+          participantsScope: Member_Scope_Enum.CircleLeaders,
         },
   })
 

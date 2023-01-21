@@ -44,7 +44,6 @@ import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { MeetingEntry } from '@shared/model/meeting'
-import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import { EntityFilters } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -115,9 +114,7 @@ export default function MeetingsPage() {
   // Filter recurring meetings
   const meetingsRecurring = useFilterEntities(
     filter,
-    (recurringData?.meeting_recurring || undefined) as
-      | MeetingRecurringEntry[]
-      | undefined
+    recurringData?.meeting_recurring
   )
 
   // Prepare events for Fullcalendar

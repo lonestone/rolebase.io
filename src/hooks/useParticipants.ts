@@ -1,18 +1,15 @@
+import { Member_Scope_Enum } from '@gql'
 import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
-import {
-  MembersScope,
-  Participant,
-  ParticipantMember,
-} from '@shared/model/member'
+import { Participant, ParticipantMember } from '@shared/model/member'
 import { Optional } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 
 export default function useParticipants(
   circleId?: string,
-  scope?: MembersScope,
+  scope?: Member_Scope_Enum,
   extraMembersIds?: string[]
 ): ParticipantMember[] {
   const members = useStoreState((state) => state.members.entries)
@@ -24,19 +21,19 @@ export default function useParticipants(
     let participants: Optional<Participant, 'circleId'>[] = []
 
     if (circleId && scope && circles && roles) {
-      if (scope === MembersScope.Organization) {
+      if (scope === Member_Scope_Enum.Organization) {
         // All Organization Members
         participants =
           members?.map((m) => ({
             memberId: m.id,
           })) || []
-      } else if (scope === MembersScope.CircleLeaders) {
+      } else if (scope === Member_Scope_Enum.CircleLeaders) {
         // Circle Leaders and links
         participants = getCircleParticipants(
           circleId,
           enrichCirclesWithRoles(circles, roles)
         )
-      } else if (scope === MembersScope.CircleMembers) {
+      } else if (scope === Member_Scope_Enum.CircleMembers) {
         // All Circle Members
         participants = getAllCircleMembersParticipants(
           circleId,

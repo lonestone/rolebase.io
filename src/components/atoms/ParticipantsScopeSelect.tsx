@@ -1,5 +1,5 @@
 import { Select, SelectProps } from '@chakra-ui/react'
-import { MembersScope } from '@shared/model/member'
+import { Member_Scope_Enum } from '@gql'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -9,16 +9,16 @@ const ParticipantsScopeSelect = forwardRef<HTMLSelectElement, SelectProps>(
 
     return (
       <Select ref={ref} {...selectProps}>
-        <option value={MembersScope.Organization}>
+        <option value={Member_Scope_Enum.Organization}>
           {t('ParticipantsScopeSelect.Organization')}
         </option>
-        <option value={MembersScope.CircleLeaders}>
+        <option value={Member_Scope_Enum.CircleLeaders}>
           {t('ParticipantsScopeSelect.CircleLeaders')}
         </option>
-        <option value={MembersScope.CircleMembers}>
+        <option value={Member_Scope_Enum.CircleMembers}>
           {t('ParticipantsScopeSelect.CircleMembers')}
         </option>
-        <option value={MembersScope.None}>
+        <option value={Member_Scope_Enum.None}>
           {t('ParticipantsScopeSelect.None')}
         </option>
       </Select>

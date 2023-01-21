@@ -1,3 +1,4 @@
+import { Member_Scope_Enum } from '@gql'
 import { MeetingAttendee } from '../model/meeting'
 import { EntityFilters, EntityWithParticipants } from '../model/types'
 
@@ -24,22 +25,61 @@ export default function filterEntities<
     return data.filter((entry) => entry.circleId === circleId)
   }
 
+  // Invited or not
   if (filter === EntityFilters.Invited || filter === EntityFilters.NotInvited) {
     if (!currentMemberId) return []
-    // Invited or not
-    return data.filter((entry) => {
-      const invited = entry.attendees
-        ? // Check attendees if there is one
-          entry.attendees.some(
-            (attendee) => attendee.memberId === currentMemberId
-          )
-        : // Otherwise, check participants list and current member circles
-          entry.participantsMembersIds.includes(currentMemberId) ||
-          currentMemberCirclesIds?.includes(entry.circleId)
-
-      return (filter === EntityFilters.Invited) === invited
-    })
+    const expectInvited = filter === EntityFilters.Invited
+    return data.filter(
+      (entry) =>
+        expectInvited ===
+        isInvitedToEntity(entry, currentMemberId, currentMemberCirclesIds)
+    )
   }
 
   return []
+}
+
+function isInvitedToEntity<
+  Entity extends EntityWithParticipants & {
+    attendees?: MeetingAttendee[] | null
+  }
+>(
+  entity: Entity,
+  currentMemberId: string,
+  currentMemberCirclesIds?: string[]
+): boolean {
+  // Check attendees if there is one
+  if (entity.attendees) {
+    return entity.attendees.some(
+      (attendee) => attendee.memberId === currentMemberId
+    )
+  }
+
+  // Members explicitly invited
+  if (entity.participantsMembersIds.includes(currentMemberId)) {
+    return true
+  }
+
+  // Organization scope
+  if (entity.participantsScope === Member_Scope_Enum.Organization) {
+    return true
+  }
+
+  // Circle leaders scope
+  if (
+    entity.participantsScope === Member_Scope_Enum.CircleLeaders &&
+    currentMemberCirclesIds?.includes(entity.circleId)
+  ) {
+    return true
+  }
+
+  // All circle members scope
+  if (
+    entity.participantsScope === Member_Scope_Enum.CircleMembers &&
+    currentMemberCirclesIds?.includes(entity.circleId) // FIX: Should be all circle members
+  ) {
+    return true
+  }
+
+  return false
 }

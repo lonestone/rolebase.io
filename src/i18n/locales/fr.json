@@ -482,7 +482,7 @@
   "ParticipantsScopeSelect": {
     "Organization": "Tous les membres de l'Organisation",
     "CircleLeaders": "Les membres du Rôle",
-    "CircleMembers": "Tous les membres du Rôle et des sous-Rôles",
+    "CircleMembers": "Les membres du Rôle et des sous-Rôles",
     "None": "Seulement certains membres invités"
   },
   "ResetPasswordPage": {

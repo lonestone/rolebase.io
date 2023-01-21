@@ -1,0 +1,4 @@
+table:
+  name: member_scope
+  schema: public
+is_enum: true

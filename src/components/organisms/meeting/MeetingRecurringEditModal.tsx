@@ -16,6 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import {
+  Member_Scope_Enum,
   useCreateMeetingRecurringMutation,
   useUpdateMeetingRecurringMutation,
 } from '@gql'
@@ -29,7 +30,6 @@ import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import RRuleEditorController from '@molecules/rrule/RRuleEditorController'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
-import { MembersScope } from '@shared/model/member'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -43,7 +43,7 @@ interface Props extends UseModalProps {
 
 interface Values {
   circleId: string
-  participantsScope: MembersScope
+  participantsScope: Member_Scope_Enum
   participantsMembersIds: Array<{ memberId: string }>
   templateId: string
   rrule: string
@@ -78,7 +78,7 @@ export default function MeetingRecurringEditModal({
     () => ({
       circleId: meetingRecurring?.circleId ?? (defaultCircleId || ''),
       participantsScope:
-        meetingRecurring?.participantsScope ?? MembersScope.CircleLeaders,
+        meetingRecurring?.participantsScope ?? Member_Scope_Enum.CircleLeaders,
       participantsMembersIds:
         meetingRecurring?.participantsMembersIds.map((id) => ({
           memberId: id,
