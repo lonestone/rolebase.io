@@ -1,23 +1,12 @@
-fragment DecisionFields on decision {
-  id
-  orgId
-  circleId
-  memberId
-  title
-  description
-  archived
-  createdAt
-}
-
 query getDecision($id: uuid!) {
   decision_by_pk(id: $id) {
-    ...DecisionFields
+    ...Decision
   }
 }
 
 subscription subscribeDecision($id: uuid!) {
   decision_by_pk(id: $id) {
-    ...DecisionFields
+    ...Decision
   }
 }
 
@@ -26,19 +15,19 @@ subscription subscribeCircleDecisions($circleId: uuid!, $archived: Boolean!) {
     where: { circleId: { _eq: $circleId }, archived: { _eq: $archived } }
     order_by: { createdAt: desc }
   ) {
-    ...DecisionFields
+    ...Decision
   }
 }
 
 mutation createDecision($values: decision_insert_input!) {
   insert_decision_one(object: $values) {
-    ...DecisionFields
+    ...Decision
   }
 }
 
 mutation updateDecision($id: uuid!, $values: decision_set_input!) {
   update_decision_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...DecisionFields
+    ...Decision
   }
 }
 

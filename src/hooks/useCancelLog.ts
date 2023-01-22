@@ -1,4 +1,3 @@
-import { cancelLogChanges, detectRecentEntitiesChanges } from '@api/logs'
 import {
   useCancelLogMutation,
   useGetCircleLazyQuery,
@@ -18,8 +17,9 @@ import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntitiesMethods, LogEntry } from '@shared/model/log'
 import { MemberEntry } from '@shared/model/member'
-import { TaskEntry } from '@shared/model/task'
 import { useCallback } from 'react'
+import { cancelLogChanges } from '../../functions/_shared/helpers/log/cancelLogChanges'
+import { detectRecentEntitiesChanges } from '../../functions/_shared/helpers/log/detectRecentEntitiesChanges'
 
 export function useCancelLog(log: LogEntry) {
   const createLog = useCreateLog()
@@ -78,7 +78,7 @@ export function useCancelLog(log: LogEntry) {
     tasks: {
       async get(id: string) {
         const { data } = await getTask({ variables: { id } })
-        return (data?.task_by_pk as TaskEntry) || undefined
+        return data?.task_by_pk || undefined
       },
       async update(id, values) {
         await updateTask({ variables: { id, values } })

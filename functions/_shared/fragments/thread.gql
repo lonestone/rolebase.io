@@ -1,0 +1,13 @@
+fragment Thread on thread {
+  id
+  orgId
+  circleId
+  participantsScope
+  participantsMembersIds
+  initiatorMemberId
+  title
+  createdAt
+  archived
+  lastActivityId
+  lastActivityDate
+}

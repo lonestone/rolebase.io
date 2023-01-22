@@ -3,16 +3,14 @@ import TextErrors from '@atoms/TextErrors'
 import { Text } from '@chakra-ui/react'
 import { useSubscribeTaskSubscription } from '@gql'
 import { useUserId } from '@nhost/react'
-import { TaskEntry } from '@shared/model/task'
-import { ActivityTask } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityTaskFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import TaskItem from '../task/TaskItem'
 import ThreadActivityLayout from './ThreadActivityLayout'
 
 interface Props {
-  activity: WithId<ActivityTask>
+  activity: ThreadActivityTaskFragment
 }
 
 export default function ThreadActivityTask({ activity }: Props) {
@@ -27,7 +25,7 @@ export default function ThreadActivityTask({ activity }: Props) {
       id: activity.data.entityId,
     },
   })
-  const task = data?.task_by_pk as TaskEntry | undefined
+  const task = data?.task_by_pk
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>

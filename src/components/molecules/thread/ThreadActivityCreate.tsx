@@ -8,7 +8,13 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useCreateThreadActivityMutation, useUpdateThreadMutation } from '@gql'
+import {
+  ThreadActivityFragment,
+  ThreadFragment,
+  Thread_Activity_Type_Enum,
+  useCreateThreadActivityMutation,
+  useUpdateThreadMutation,
+} from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useUserId } from '@nhost/react'
@@ -18,8 +24,6 @@ import TaskModal from '@organisms/task/TaskModal'
 import ActivityPollModal from '@organisms/thread/ActivityPollModal'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { ThreadEntry } from '@shared/model/thread'
-import { Activity, ActivityType } from '@shared/model/thread_activity'
 import { Optional } from '@shared/model/types'
 import { cmdOrCtrlKey } from '@utils/env'
 import { UserLocalStorageKeys } from '@utils/localStorage'
@@ -44,7 +48,7 @@ import { EditorHandle } from '../editor'
 import SimpleEditor from '../editor/SimpleEditor'
 
 interface Props extends BoxProps {
-  thread: ThreadEntry
+  thread: ThreadFragment
 }
 
 export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
@@ -76,7 +80,10 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
   // Create a new activity
   const handleCreateActivity = useCallback(
     async (
-      activity: Optional<Activity, 'createdAt' | 'userId' | 'threadId'>
+      activity: Optional<
+        Omit<ThreadActivityFragment, 'id'>,
+        'createdAt' | 'userId' | 'threadId'
+      >
     ) => {
       if (!org || !userId) return
 
@@ -120,7 +127,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
     // Create message activity
     try {
       await handleCreateActivity({
-        type: ActivityType.Message,
+        type: Thread_Activity_Type_Enum.Message,
         data: {
           message: value,
         },
@@ -137,15 +144,15 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
   // Thread
   const [entityType, setEntityType] = useState<
-    | ActivityType.Thread
-    | ActivityType.Meeting
-    | ActivityType.Task
-    | ActivityType.Decision
-  >(ActivityType.Thread)
+    | Thread_Activity_Type_Enum.Thread
+    | Thread_Activity_Type_Enum.Meeting
+    | Thread_Activity_Type_Enum.Task
+    | Thread_Activity_Type_Enum.Decision
+  >(Thread_Activity_Type_Enum.Thread)
   const entityModal = useDisclosure()
 
   const handleEntityOpen = useCallback(
-    (event: MouseEvent<HTMLButtonElement> | ActivityType) => {
+    (event: MouseEvent<HTMLButtonElement> | Thread_Activity_Type_Enum) => {
       const type =
         typeof event === 'string'
           ? event
@@ -196,7 +203,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           aria-label={t(`common.createDecision`)}
           size="sm"
           icon={<FiArrowRightCircle />}
-          data-type={ActivityType.Decision}
+          data-type={Thread_Activity_Type_Enum.Decision}
           onClick={handleEntityOpen}
         />
 
@@ -204,7 +211,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           aria-label={t(`common.createTask`)}
           size="sm"
           icon={<FiCheckSquare />}
-          data-type={ActivityType.Task}
+          data-type={Thread_Activity_Type_Enum.Task}
           onClick={handleEntityOpen}
         />
 
@@ -212,7 +219,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           aria-label={t(`common.createMeeting`)}
           size="sm"
           icon={<FiCalendar />}
-          data-type={ActivityType.Meeting}
+          data-type={Thread_Activity_Type_Enum.Meeting}
           onClick={handleEntityOpen}
         />
 
@@ -220,7 +227,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           aria-label={t(`common.createThread`)}
           size="sm"
           icon={<FiMessageSquare />}
-          data-type={ActivityType.Thread}
+          data-type={Thread_Activity_Type_Enum.Thread}
           onClick={handleEntityOpen}
         />
 
@@ -252,7 +259,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
       {entityModal.isOpen && (
         <>
-          {entityType === ActivityType.Thread && (
+          {entityType === Thread_Activity_Type_Enum.Thread && (
             <ThreadEditModal
               defaultCircleId={thread.circleId}
               isOpen
@@ -261,7 +268,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
             />
           )}
 
-          {entityType === ActivityType.Meeting && (
+          {entityType === Thread_Activity_Type_Enum.Meeting && (
             <MeetingEditModal
               defaultCircleId={thread.circleId}
               isOpen
@@ -270,7 +277,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
             />
           )}
 
-          {entityType === ActivityType.Task && (
+          {entityType === Thread_Activity_Type_Enum.Task && (
             <TaskModal
               defaultCircleId={thread.circleId}
               defaultMemberId={currentMember?.id}
@@ -282,7 +289,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
             />
           )}
 
-          {entityType === ActivityType.Decision && (
+          {entityType === Thread_Activity_Type_Enum.Decision && (
             <DecisionEditModal
               defaultCircleId={thread.circleId}
               defaultTitle={thread.title}

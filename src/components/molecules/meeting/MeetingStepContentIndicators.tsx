@@ -7,14 +7,13 @@ import {
   Collapse,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import { MeetingStepIndicators } from '@shared/model/meeting_step'
-import { WithId } from '@shared/model/types'
+import { MeetingStepIndicatorsFragment } from '@shared/model/meeting_step'
 import React, { RefObject, useCallback, useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { EditorHandle } from '../editor'
 
 interface Props {
-  step: WithId<MeetingStepIndicators>
+  step: MeetingStepIndicatorsFragment
   editorRef: RefObject<EditorHandle>
 }
 

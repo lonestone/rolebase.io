@@ -1,13 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useUpdateMeetingStepMutation } from '@gql'
-import { MeetingStepThreads } from '@shared/model/meeting_step'
-import { WithId } from '@shared/model/types'
+import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
 import React, { useCallback, useContext } from 'react'
 import ThreadsMultiSelect from '../thread/ThreadsMultiSelect'
 
 interface Props {
-  step: WithId<MeetingStepThreads>
+  step: MeetingStepThreadsFragment
 }
 
 export default function MeetingStepContentThreads({ step }: Props) {

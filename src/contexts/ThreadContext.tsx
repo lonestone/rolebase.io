@@ -1,4 +1,6 @@
-import { ThreadEntry } from '@shared/model/thread'
+import { ThreadFragment } from '@gql'
 import { createContext } from 'react'
 
-export const ThreadContext = createContext<ThreadEntry | undefined>(undefined)
+export const ThreadContext = createContext<ThreadFragment | undefined>(
+  undefined
+)

@@ -1,5 +1,5 @@
+import { Member_Role_Enum } from '@gql'
 import { WithId } from './types'
-import { ClaimRole } from './userClaims'
 
 export interface Member {
   orgId: string
@@ -12,7 +12,7 @@ export interface Member {
   inviteEmail?: string | null
   inviteDate?: string | null
   workedMinPerWeek?: number | null
-  role?: ClaimRole | null
+  role?: Member_Role_Enum | null
   meetingId?: string | null
   preferences?: Partial<MemberPreferences> | null
 }

@@ -10,12 +10,12 @@ import {
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
+import { MeetingFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import MeetingModal from '@organisms/meeting/MeetingModal'
-import { MeetingEntry } from '@shared/model/meeting'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
@@ -23,7 +23,7 @@ import { FiCalendar } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {
-  meeting: MeetingEntry
+  meeting: MeetingFragment
   showCircle?: boolean
   showIcon?: boolean
   showDate?: boolean

@@ -1,5 +1,5 @@
+import { Member_Role_Enum } from '@gql'
 import * as yup from 'yup'
-import { ClaimRole } from './model/userClaims'
 
 export const nameSchema = yup.string().min(1)
 
@@ -15,4 +15,4 @@ export const slugSchema = yup
     (slug = '') => /^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)
   )
 
-export const roleSchema = yup.string().oneOf(Object.values(ClaimRole))
+export const roleSchema = yup.string().oneOf(Object.values(Member_Role_Enum))

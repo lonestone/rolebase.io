@@ -7,16 +7,18 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useSubscribeMeetingTemplatesSubscription } from '@gql'
+import {
+  MeetingTemplateFragment,
+  useSubscribeMeetingTemplatesSubscription,
+} from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
-import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiEdit3, FiFileText } from 'react-icons/fi'
 
 interface Props {
-  onSelect: (template: MeetingTemplateEntry) => void
+  onSelect: (template: MeetingTemplateFragment) => void
 }
 
 export default function MeetingTemplateMenu({ onSelect }: Props) {
@@ -28,9 +30,7 @@ export default function MeetingTemplateMenu({ onSelect }: Props) {
     skip: !orgId,
     variables: { orgId: orgId! },
   })
-  const meetingTemplates = data?.meeting_template as
-    | MeetingTemplateEntry[]
-    | undefined
+  const meetingTemplates = data?.meeting_template
 
   // Meeting templates modal
   const modal = useDisclosure()

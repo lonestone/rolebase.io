@@ -1,0 +1,8 @@
+fragment ThreadActivity on thread_activity {
+  id
+  threadId
+  userId
+  createdAt
+  type
+  data
+}

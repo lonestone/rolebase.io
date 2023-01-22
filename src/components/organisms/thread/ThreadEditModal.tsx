@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 import {
   Member_Scope_Enum,
+  ThreadFragment,
   useCreateThreadMutation,
   useUpdateThreadMutation,
 } from '@gql'
@@ -28,7 +29,6 @@ import useParticipants from '@hooks/useParticipants'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MembersMultiSelect from '@molecules/member/MembersMultiSelect'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
-import { ThreadEntry } from '@shared/model/thread'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -37,7 +37,7 @@ import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   defaultCircleId?: string
-  thread?: ThreadEntry
+  thread?: ThreadFragment
   onCreate?(threadId: string): void
 }
 

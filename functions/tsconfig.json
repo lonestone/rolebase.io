@@ -15,11 +15,17 @@
     "paths": {
       "@shared/*": ["./_shared/*"],
       "@utils/*": ["./_utils/*"],
-      "@gql": ["./_gql/index.ts"],
+      "@gql": ["./_gql/exports.ts"],
       "@i18n": ["./_i18n/index.ts"],
       "@i18n/*": ["./_i18n/*"],
       "@search/*": ["./_search/*"]
     }
   },
-  "include": ["./", "../shared"]
+  "include": [
+    "./",
+    "../shared",
+    "_shared/model/task.ts",
+    "_shared/model/thread_activity.ts",
+    "_shared/model/meeting_step.ts"
+  ]
 }

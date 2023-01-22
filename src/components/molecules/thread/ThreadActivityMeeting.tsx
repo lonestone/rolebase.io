@@ -3,16 +3,14 @@ import TextErrors from '@atoms/TextErrors'
 import { Text } from '@chakra-ui/react'
 import { useSubscribeMeetingSubscription } from '@gql'
 import { useUserId } from '@nhost/react'
-import { MeetingEntry } from '@shared/model/meeting'
-import { ActivityMeeting } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityMeetingFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import MeetingItem from '../meeting/MeetingItem'
 import ThreadActivityLayout from './ThreadActivityLayout'
 
 interface Props {
-  activity: WithId<ActivityMeeting>
+  activity: ThreadActivityMeetingFragment
 }
 
 export default function ThreadActivityMeeting({ activity }: Props) {
@@ -25,7 +23,7 @@ export default function ThreadActivityMeeting({ activity }: Props) {
   const { data, loading, error } = useSubscribeMeetingSubscription({
     variables: { id: activity.data.entityId },
   })
-  const meeting = data?.meeting_by_pk as MeetingEntry | undefined
+  const meeting = data?.meeting_by_pk
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>

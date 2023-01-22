@@ -1,56 +1,67 @@
-import { TaskStatus, TasksViewTypes } from './task'
-import { WithId } from './types'
+import {
+  MeetingStepFragment,
+  Meeting_Step_Type_Enum,
+  Task_Status_Enum,
+} from '@gql'
+import { TasksViewTypes } from './task'
 
-export enum MeetingStepTypes {
-  Tour = 'Tour',
-  Threads = 'Threads',
-  Checklist = 'Checklist',
-  Indicators = 'Indicators',
-  Tasks = 'Tasks',
+/*** Meeting Step
+ *
+ * Codegen uses schema overrides and types from this file to generate types.
+ * Please check those files if you want to change the schema.
+ * - @shared/schema-overrides.gql
+ * - codegen.yml
+ */
+
+// Tour
+export interface MeetingStepDataTour {}
+
+export interface MeetingStepTourFragment extends MeetingStepFragment {
+  type: Meeting_Step_Type_Enum.Tour
+  data: MeetingStepDataTour
 }
 
-interface MeetingStepBase {
-  meetingId: string
-  stepConfigId: string
-  notes: string
+// Threads
+export interface MeetingStepDataThreads {
+  threadsIds: string[]
 }
 
-export interface MeetingStepTour extends MeetingStepBase {
-  type: MeetingStepTypes.Tour
-  data: {}
+export interface MeetingStepThreadsFragment extends MeetingStepFragment {
+  type: Meeting_Step_Type_Enum.Threads
+  data: MeetingStepDataThreads
 }
 
-export interface MeetingStepThreads extends MeetingStepBase {
-  type: MeetingStepTypes.Threads
-  data: {
-    threadsIds: string[]
-  }
+// Checklist
+export interface MeetingStepDataChecklist {}
+
+export interface MeetingStepChecklistFragment extends MeetingStepFragment {
+  type: Meeting_Step_Type_Enum.Checklist
+  data: MeetingStepDataChecklist
 }
 
-export interface MeetingStepChecklist extends MeetingStepBase {
-  type: MeetingStepTypes.Checklist
-  data: {}
+// Indicators
+export interface MeetingStepDataIndicators {}
+
+export interface MeetingStepIndicatorsFragment extends MeetingStepFragment {
+  type: Meeting_Step_Type_Enum.Indicators
+  data: MeetingStepDataIndicators
 }
 
-export interface MeetingStepIndicators extends MeetingStepBase {
-  type: MeetingStepTypes.Indicators
-  data: {}
+// Tasks
+export interface MeetingStepDataTasks {
+  viewType: TasksViewTypes
+  filterStatus: Task_Status_Enum | null
+  filterMemberId: string | null
 }
 
-export interface MeetingStepTasks extends MeetingStepBase {
-  type: MeetingStepTypes.Tasks
-  data: {
-    viewType: TasksViewTypes
-    filterStatus: TaskStatus | null
-    filterMemberId: string | null
-  }
+export interface MeetingStepTasksFragment extends MeetingStepFragment {
+  type: Meeting_Step_Type_Enum.Tasks
+  data: MeetingStepDataTasks
 }
 
-export type MeetingStep =
-  | MeetingStepTour
-  | MeetingStepThreads
-  | MeetingStepChecklist
-  | MeetingStepIndicators
-  | MeetingStepTasks
-
-export type MeetingStepEntry = WithId<MeetingStep>
+export type MeetingStepData =
+  | MeetingStepDataTour
+  | MeetingStepDataThreads
+  | MeetingStepDataChecklist
+  | MeetingStepDataIndicators
+  | MeetingStepDataTasks

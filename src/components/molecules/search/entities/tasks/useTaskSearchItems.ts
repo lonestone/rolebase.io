@@ -1,10 +1,10 @@
+import { TaskFragment } from '@gql'
 import { SearchTypes } from '@shared/model/search'
-import { TaskEntry } from '@shared/model/task'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
 export function useTaskSearchItems(
-  tasks: TaskEntry[],
+  tasks: TaskFragment[],
   excludeIds?: string[]
 ): SearchItem[] {
   return useMemo(

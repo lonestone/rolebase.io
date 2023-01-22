@@ -14,6 +14,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import {
+  MeetingTemplateFragment,
   useCreateMeetingTemplateMutation,
   useUpdateMeetingTemplateMutation,
 } from '@gql'
@@ -23,7 +24,6 @@ import MeetingStepsConfigController, {
   stepsConfigSchema,
   StepsValues,
 } from '@molecules/meeting/MeetingStepsConfigController'
-import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,7 +31,7 @@ import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
-  meetingTemplate?: MeetingTemplateEntry
+  meetingTemplate?: MeetingTemplateFragment
 }
 
 interface Values extends StepsValues {

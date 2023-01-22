@@ -1,4 +1,4 @@
-fragment MeetingTemplateFields on meeting_template {
+fragment MeetingTemplate on meeting_template {
   id
   orgId
   title
@@ -10,13 +10,13 @@ subscription subscribeMeetingTemplates($orgId: uuid!) {
     where: { orgId: { _eq: $orgId } }
     order_by: { title: asc }
   ) {
-    ...MeetingTemplateFields
+    ...MeetingTemplate
   }
 }
 
 mutation createMeetingTemplate($values: meeting_template_insert_input!) {
   insert_meeting_template_one(object: $values) {
-    ...MeetingTemplateFields
+    ...MeetingTemplate
   }
 }
 
@@ -25,7 +25,7 @@ mutation updateMeetingTemplate(
   $values: meeting_template_set_input!
 ) {
   update_meeting_template_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...MeetingTemplateFields
+    ...MeetingTemplate
   }
 }
 

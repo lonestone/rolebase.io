@@ -1,8 +1,7 @@
+import { DecisionFragment, TaskFragment, Task_Status_Enum } from '@gql'
 import { Circle, CircleMember } from './circle'
-import { Decision } from './decision'
 import { Member } from './member'
 import { Role } from './role'
-import { Task, TaskStatus } from './task'
 import { WithId } from './types'
 
 export enum LogType {
@@ -64,7 +63,7 @@ export type LogDisplay =
       type: LogType.TaskStatusUpdate
       id: string
       name: string
-      status: TaskStatus
+      status: Task_Status_Enum
     }
 
 export enum EntityChangeType {
@@ -96,8 +95,8 @@ export interface EntitiesTypes {
   circlesMembers: CircleMember
   roles: Role
   members: Member
-  tasks: Task
-  decisions: Decision
+  tasks: TaskFragment
+  decisions: DecisionFragment
 }
 
 export type EntitiesChanges = {
@@ -146,23 +145,3 @@ export interface Log {
 }
 
 export type LogEntry = WithId<Log>
-
-// Diff of entity update
-export function getEntityChanges<Entity>(
-  prevEntity: Entity,
-  newEntity: Partial<Entity>
-): { prevData: Partial<Entity>; newData: Partial<Entity> } {
-  const prevData: Partial<Entity> = {}
-  const newData: Partial<Entity> = {}
-  for (const key of Object.keys(newEntity) as (keyof Entity)[]) {
-    if (prevEntity[key] !== newEntity[key]) {
-      if (prevEntity[key] !== undefined) {
-        prevData[key] = prevEntity[key]
-      }
-      if (newEntity[key] !== undefined) {
-        newData[key] = newEntity[key]
-      }
-    }
-  }
-  return { prevData, newData }
-}

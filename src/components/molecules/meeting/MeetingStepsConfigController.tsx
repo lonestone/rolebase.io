@@ -1,6 +1,6 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import { Meeting_Step_Type_Enum } from '@gql'
 import { MeetingStepConfig } from '@shared/model/meeting'
-import { MeetingStepTypes } from '@shared/model/meeting_step'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
@@ -45,7 +45,7 @@ export default function MeetingStepsConfigController({
     keyName: 'key',
   })
 
-  const handleAdd = (stepType: MeetingStepTypes) => {
+  const handleAdd = (stepType: Meeting_Step_Type_Enum) => {
     return appendStep({
       id: nanoid(8),
       type: stepType,
@@ -75,11 +75,11 @@ export default function MeetingStepsConfigController({
         </MenuButton>
         <MenuList>
           {[
-            MeetingStepTypes.Tour,
-            MeetingStepTypes.Threads,
-            MeetingStepTypes.Checklist,
-            MeetingStepTypes.Indicators,
-            MeetingStepTypes.Tasks,
+            Meeting_Step_Type_Enum.Tour,
+            Meeting_Step_Type_Enum.Threads,
+            Meeting_Step_Type_Enum.Checklist,
+            Meeting_Step_Type_Enum.Indicators,
+            Meeting_Step_Type_Enum.Tasks,
           ].map((type) => (
             <MenuItem key={type} onClick={() => handleAdd(type)}>
               {t(`common.meetingSteps.${type}`)}

@@ -13,14 +13,17 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import { useCreateDecisionMutation, useUpdateDecisionMutation } from '@gql'
+import {
+  DecisionFragment,
+  useCreateDecisionMutation,
+  useUpdateDecisionMutation,
+} from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import EditorController from '@molecules/editor/EditorController'
-import { DecisionEntry } from '@shared/model/decision'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
@@ -32,7 +35,7 @@ interface Props extends UseModalProps {
   defaultCircleId?: string
   defaultTitle?: string
   defaultDescription?: string
-  decision?: DecisionEntry
+  decision?: DecisionFragment
   onCreate?(id: string): void
 }
 

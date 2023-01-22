@@ -24,7 +24,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { useUpdateMemberMutation } from '@gql'
+import { Member_Role_Enum, useUpdateMemberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -33,8 +33,8 @@ import useOrgAdmin from '@hooks/useOrgAdmin'
 import ActionsMenu from '@molecules/ActionsMenu'
 import EditorController from '@molecules/editor/EditorController'
 import MemberPictureEdit from '@molecules/member/MemberPictureEdit'
-import { EntityChangeType, getEntityChanges, LogType } from '@shared/model/log'
-import { ClaimRole } from '@shared/model/userClaims'
+import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
+import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
 import { format } from 'date-fns'
 import React, { useCallback, useState } from 'react'
@@ -51,7 +51,7 @@ interface Values {
   name: string
   description: string
   workedMinPerWeek?: number | null
-  role: ClaimRole | ''
+  role: Member_Role_Enum | ''
   inviteEmail: string
 }
 
@@ -275,13 +275,13 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                       <option value={''}>
                         {t('MemberEditModal.invitation.options.revoke')}
                       </option>
-                      <option value={ClaimRole.Readonly}>
+                      <option value={Member_Role_Enum.Readonly}>
                         {t('MemberEditModal.invitation.options.readonly')}
                       </option>
-                      <option value={ClaimRole.Member}>
+                      <option value={Member_Role_Enum.Member}>
                         {t('MemberEditModal.invitation.options.member')}
                       </option>
-                      <option value={ClaimRole.Admin}>
+                      <option value={Member_Role_Enum.Admin}>
                         {t('MemberEditModal.invitation.options.admin')}
                       </option>
                     </Select>
@@ -326,13 +326,13 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                           'MemberEditModal.invitation.rolePlaceholder'
                         )}
                       >
-                        <option value={ClaimRole.Readonly}>
+                        <option value={Member_Role_Enum.Readonly}>
                           {t('MemberEditModal.invitation.options.readonly')}
                         </option>
-                        <option value={ClaimRole.Member}>
+                        <option value={Member_Role_Enum.Member}>
                           {t('MemberEditModal.invitation.options.member')}
                         </option>
-                        <option value={ClaimRole.Admin}>
+                        <option value={Member_Role_Enum.Admin}>
                           {t('MemberEditModal.invitation.options.admin')}
                         </option>
                       </Select>

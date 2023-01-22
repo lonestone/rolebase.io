@@ -9,16 +9,15 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { useArchiveTaskMutation } from '@gql'
+import { TaskFragment, useArchiveTaskMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import { TaskEntry } from '@shared/model/task'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
-  task: TaskEntry
+  task: TaskFragment
   onDelete?(): void
 }
 

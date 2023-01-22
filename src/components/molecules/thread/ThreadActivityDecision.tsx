@@ -3,15 +3,14 @@ import TextErrors from '@atoms/TextErrors'
 import { Text } from '@chakra-ui/react'
 import { useSubscribeDecisionSubscription } from '@gql'
 import { useUserId } from '@nhost/react'
-import { ActivityDecision } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityDecisionFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import DecisionItem from '../DecisionItem'
 import ThreadActivityLayout from './ThreadActivityLayout'
 
 interface Props {
-  activity: WithId<ActivityDecision>
+  activity: ThreadActivityDecisionFragment
 }
 
 export default function ThreadActivityDecision({ activity }: Props) {

@@ -1,17 +1,3 @@
-fragment ThreadFields on thread {
-  id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  initiatorMemberId
-  title
-  createdAt
-  archived
-  lastActivityId
-  lastActivityDate
-}
-
 query getCircleThreadsIds($circleId: uuid!) {
   thread(where: { circleId: { _eq: $circleId }, archived: { _eq: false } }) {
     id
@@ -20,7 +6,7 @@ query getCircleThreadsIds($circleId: uuid!) {
 
 subscription subscribeThread($id: uuid!, $memberId: uuid!) {
   thread_by_pk(id: $id) {
-    ...ThreadFields
+    ...Thread
     member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
       lastReadActivityId
       lastReadDate
@@ -30,7 +16,7 @@ subscription subscribeThread($id: uuid!, $memberId: uuid!) {
 
 subscription subscribeThreads($filters: [thread_bool_exp!], $memberId: uuid!) {
   thread(where: { _and: $filters }) {
-    ...ThreadFields
+    ...Thread
     member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
       lastReadActivityId
       lastReadDate
@@ -40,13 +26,13 @@ subscription subscribeThreads($filters: [thread_bool_exp!], $memberId: uuid!) {
 
 mutation createThread($values: thread_insert_input!) {
   insert_thread_one(object: $values) {
-    ...ThreadFields
+    ...Thread
   }
 }
 
 mutation updateThread($id: uuid!, $values: thread_set_input!) {
   update_thread_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...ThreadFields
+    ...Thread
   }
 }
 

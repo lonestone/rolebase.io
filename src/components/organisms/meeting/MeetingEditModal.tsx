@@ -19,7 +19,13 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import { Member_Scope_Enum, useUpdateMeetingMutation } from '@gql'
+import {
+  MeetingFragment,
+  MeetingTemplateFragment,
+  Meeting_Step_Type_Enum,
+  Member_Scope_Enum,
+  useUpdateMeetingMutation,
+} from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateMeeting from '@hooks/useCreateMeeting'
@@ -33,9 +39,7 @@ import MeetingStepsConfigController, {
 import MeetingTemplateMenu from '@molecules/meeting/MeetingTemplateMenu'
 import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
-import { MeetingEntry, VideoConf, VideoConfTypes } from '@shared/model/meeting'
-import { MeetingStepTypes } from '@shared/model/meeting_step'
-import { MeetingTemplateEntry } from '@shared/model/meeting_template'
+import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { nameSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import { nanoid } from 'nanoid'
@@ -46,7 +50,7 @@ import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
-  meeting?: MeetingEntry // If provided, the meeting will be updated
+  meeting?: MeetingFragment // If provided, the meeting will be updated
   duplicate?: boolean // If true and meeting provided, the meeting will be duplicated
   defaultCircleId?: string
   defaultStartDate?: Date
@@ -115,7 +119,7 @@ export default function MeetingEditModal({
       stepsConfig: meeting?.stepsConfig ?? [
         {
           id: nanoid(8),
-          type: MeetingStepTypes.Threads,
+          type: Meeting_Step_Type_Enum.Threads,
           title: 'Ordre du jour',
         },
       ],
@@ -146,7 +150,7 @@ export default function MeetingEditModal({
   const circle = useCircle(circleId)
 
   // Template change
-  const handleTemplateSelect = (template: MeetingTemplateEntry) => {
+  const handleTemplateSelect = (template: MeetingTemplateFragment) => {
     setValue('title', template.title)
     setValue('stepsConfig', template.stepsConfig)
   }

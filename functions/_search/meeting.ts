@@ -1,6 +1,4 @@
-import { DocumentType, gql } from '@gql'
-import { MeetingEntry } from '@shared/model/meeting'
-import { MeetingStepEntry } from '@shared/model/meeting_step'
+import { DocumentType, gql, MeetingFragment, MeetingStepFragment } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { HasuraEvent } from '@utils/nhost'
@@ -31,7 +29,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   boost: 0,
 })
 
-export class IndexMeeting extends IndexEntity<MeetingEntry> {
+export class IndexMeeting extends IndexEntity<MeetingFragment> {
   static table = 'public.meeting'
 
   async getById(id: string) {
@@ -63,10 +61,10 @@ export class IndexMeeting extends IndexEntity<MeetingEntry> {
   }
 }
 
-export class IndexMeetingStep extends IndexEntity<MeetingStepEntry> {
+export class IndexMeetingStep extends IndexEntity<MeetingStepFragment> {
   static table = 'public.meeting_step'
 
-  async applyEvent(event: HasuraEvent<MeetingStepEntry>) {
+  async applyEvent(event: HasuraEvent<MeetingStepFragment>) {
     const { data } = event.event
     const meetingId = data.new?.meetingId
 

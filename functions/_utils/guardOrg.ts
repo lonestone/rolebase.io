@@ -1,5 +1,5 @@
-import { gql } from '@gql'
-import { ClaimRole, isRoleSufficient } from '@shared/model/userClaims'
+import { gql, Member_Role_Enum } from '@gql'
+import { isRoleSufficient } from '@shared/helpers/isRoleSufficient'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
@@ -7,7 +7,7 @@ import { RouteError } from './route'
 export async function guardOrg(
   context: FunctionContext,
   orgId: string,
-  minRole: ClaimRole
+  minRole: Member_Role_Enum
 ) {
   if (!context.userId) {
     throw new RouteError(401, 'Unauthorized')

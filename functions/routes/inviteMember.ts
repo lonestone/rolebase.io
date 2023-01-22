@@ -1,5 +1,4 @@
-import { gql } from '@gql'
-import { ClaimRole } from '@shared/model/userClaims'
+import { gql, Member_Role_Enum } from '@gql'
 import { emailSchema, roleSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
 import { generateInviteToken } from '@utils/generateInviteToken'
@@ -31,7 +30,7 @@ export default route(async (context) => {
   }
 
   // Check and get org
-  const org = await guardOrg(context, member.orgId, ClaimRole.Admin)
+  const org = await guardOrg(context, member.orgId, Member_Role_Enum.Admin)
 
   // Get inviter member
   const inviterMemberResult = await adminRequest(GET_MEMBER_BY_USER_ID, {

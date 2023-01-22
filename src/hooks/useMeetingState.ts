@@ -4,6 +4,8 @@ import {
   stopMembersMeeting,
 } from '@api/functions'
 import {
+  MeetingFragment,
+  MeetingStepFragment,
   useSubscribeMeetingStepsSubscription,
   useSubscribeMeetingSubscription,
   useUpdateMeetingMutation,
@@ -15,13 +17,7 @@ import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { CircleWithRoleEntry } from '@shared/model/circle'
-import {
-  Meeting,
-  MeetingEntry,
-  MeetingStepConfig,
-  VideoConfTypes,
-} from '@shared/model/meeting'
-import { MeetingStepEntry } from '@shared/model/meeting_step'
+import { MeetingStepConfig, VideoConfTypes } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
 import { NotificationCategories } from '@shared/model/notification'
 import { useStoreState } from '@store/hooks'
@@ -38,14 +34,14 @@ import { usePathInOrg } from './usePathInOrg'
  */
 
 export interface MeetingState {
-  meeting: MeetingEntry | undefined
+  meeting: MeetingFragment | undefined
   path: string
   loading: boolean
   error: Error | undefined
-  steps: MeetingStepEntry[] | undefined
+  steps: MeetingStepFragment[] | undefined
   circle: CircleWithRoleEntry | undefined
   participants: ParticipantMember[]
-  currentStep: MeetingStepEntry | undefined
+  currentStep: MeetingStepFragment | undefined
   currentStepConfig: MeetingStepConfig | undefined
   canEdit: boolean
   forceEdit: boolean
@@ -79,7 +75,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const { data, loading, error } = useSubscribeMeetingSubscription({
     variables: { id: meetingId },
   })
-  const meeting = data?.meeting_by_pk as MeetingEntry | undefined
+  const meeting = data?.meeting_by_pk || undefined
 
   // Meeting page path
   const path = usePathInOrg(`meetings/${meeting?.id}`)
@@ -93,7 +89,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
     error: stepsError,
     loading: stepsLoading,
   } = useSubscribeMeetingStepsSubscription({ variables: { meetingId } })
-  const steps = stepsData?.meeting_step as MeetingStepEntry[] | undefined
+  const steps = stepsData?.meeting_step
 
   // Create missing steps
   useEffect(() => {
@@ -279,7 +275,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
       }
 
       // Go to first step
-      const changedFields: Partial<Meeting> = {
+      const changedFields: Partial<Omit<MeetingFragment, 'id'>> = {
         currentStepId: firstStep.id,
         ended: false,
       }

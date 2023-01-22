@@ -16,6 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import {
+  MeetingRecurringFragment,
   Member_Scope_Enum,
   useCreateMeetingRecurringMutation,
   useUpdateMeetingRecurringMutation,
@@ -29,14 +30,13 @@ import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import RRuleEditorController from '@molecules/rrule/RRuleEditorController'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
-import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
-  meetingRecurring?: MeetingRecurringEntry // If provided, the meeting will be updated
+  meetingRecurring?: MeetingRecurringFragment // If provided, the recurring meeting will be updated
   defaultCircleId?: string
   onCreate?(meetingRecurringId: string): void
 }
@@ -148,9 +148,7 @@ export default function MeetingRecurringEditModal({
             },
           },
         })
-        const newRecurringMeeting = data?.insert_meeting_recurring_one as
-          | MeetingRecurringEntry
-          | undefined
+        const newRecurringMeeting = data?.insert_meeting_recurring_one
         if (!newRecurringMeeting) return console.error(errors)
 
         onCreate?.(newRecurringMeeting.id)

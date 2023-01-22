@@ -2,7 +2,6 @@ import { Meeting_Insert_Input, useCreateMeetingMutation } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useDuplicateMeetingSteps } from '@hooks/useDuplicateMeetingSteps'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import { MeetingEntry } from '@shared/model/meeting'
 import { useCallback } from 'react'
 
 export default function useCreateMeeting() {
@@ -21,7 +20,7 @@ export default function useCreateMeeting() {
           values: meeting,
         },
       })
-      const newMeeting = data?.insert_meeting_one as MeetingEntry | undefined
+      const newMeeting = data?.insert_meeting_one
       if (!newMeeting) return console.error(errors)
 
       const path = `${meetingsPath}/${newMeeting.id}`

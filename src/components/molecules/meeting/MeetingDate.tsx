@@ -1,13 +1,13 @@
 import { Flex, Icon } from '@chakra-ui/react'
+import { MeetingFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
-import { MeetingEntry } from '@shared/model/meeting'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
 import { FiCalendar, FiClock } from 'react-icons/fi'
 
 interface Props {
-  meeting: MeetingEntry
+  meeting: MeetingFragment
 }
 
 export default function MeetingDate({ meeting }: Props) {

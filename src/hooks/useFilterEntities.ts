@@ -1,14 +1,14 @@
 import useCurrentMemberCircles from '@hooks/useCurrentMemberCircles'
 import filterEntities from '@shared/helpers/filterEntities'
-import { MeetingAttendee } from '@shared/model/meeting'
-import { EntityFilters, EntityWithParticipants } from '@shared/model/types'
+import {
+  EntityFilters,
+  EntityWithParticipants,
+} from '@shared/model/participants'
 import { useMemo } from 'react'
 import useCurrentMember from './useCurrentMember'
 
 export default function useFilterEntities<
-  Entity extends EntityWithParticipants & {
-    attendees?: MeetingAttendee[] | null
-  }
+  Entity extends EntityWithParticipants
 >(
   filter: EntityFilters,
   data: Entity[] | undefined,

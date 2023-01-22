@@ -1,5 +1,5 @@
+import { Member_Role_Enum } from '@gql'
 import { AlgoliaConfig } from '@shared/model/search'
-import { ClaimRole } from '@shared/model/userClaims'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
@@ -16,7 +16,7 @@ export default route(async (context): Promise<AlgoliaConfig> => {
   guardAuth(context)
   const { orgId } = guardBodyParams(context, yupSchema)
 
-  await guardOrg(context, orgId, ClaimRole.Readonly)
+  await guardOrg(context, orgId, Member_Role_Enum.Readonly)
 
   const apiKey = algoliasearch(
     settings.algolia.appId,

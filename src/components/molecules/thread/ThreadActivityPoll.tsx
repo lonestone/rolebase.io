@@ -18,8 +18,7 @@ import {
 import usePollState from '@hooks/usePollState'
 import { useUserId } from '@nhost/react'
 import ActivityPollModal from '@organisms/thread/ActivityPollModal'
-import { ActivityPoll } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadActivityLayout from './ThreadActivityLayout'
@@ -27,7 +26,7 @@ import ThreadActivityPollResult from './ThreadActivityPollResult'
 import ThreadActivityPollVote from './ThreadActivityPollVote'
 
 interface Props {
-  activity: WithId<ActivityPoll>
+  activity: ThreadActivityPollFragment
 }
 
 export default function ThreadActivityPoll({ activity }: Props) {

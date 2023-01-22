@@ -1,91 +1,92 @@
-import { WithId } from './types'
+import { ThreadActivityFragment, Thread_Activity_Type_Enum } from '@gql'
 
-export enum ActivityType {
-  Message = 'Message',
-  Election = 'Election',
-  Poll = 'Poll',
-  Thread = 'Thread',
-  Meeting = 'Meeting',
-  Task = 'Task',
-  Decision = 'Decision',
+/*** Thread Activity
+ *
+ * Codegen uses schema overrides and types from this file to generate types.
+ * Please check those files if you want to change the schema.
+ * - @shared/schema-overrides.gql
+ * - codegen.yml
+ */
+
+// Message
+export interface ThreadActivityDataMessage {
+  message: string
 }
 
-export interface ActivityBase {
-  threadId: string
-  userId: string
-  createdAt: string
+export interface ThreadActivityMessageFragment extends ThreadActivityFragment {
+  type: Thread_Activity_Type_Enum.Message
+  data: ThreadActivityDataMessage
 }
 
-export interface ActivityMessage extends ActivityBase {
-  type: ActivityType.Message
-  data: {
-    message: string
-  }
+// Poll
+export interface ThreadActivityDataPoll {
+  question: string
+  choices: PollChoice[]
+  multiple: boolean
+  minAnswers: number | null
+  maxAnswers: number | null
+  pointsPerUser: number | null
+  randomize: boolean
+  anonymous: boolean
+  hideUntilEnd: boolean
+  canAddChoice: boolean
+  endDate: string | null
+  endWhenAllVoted: boolean
 }
 
-export interface ActivityElection extends ActivityBase {
-  type: ActivityType.Election
-  data: {}
-}
-
-export interface ActivityPoll extends ActivityBase {
-  type: ActivityType.Poll
-  data: {
-    question: string
-    choices: PollChoice[]
-    multiple: boolean
-    minAnswers: number | null
-    maxAnswers: number | null
-    pointsPerUser: number | null
-    randomize: boolean
-    anonymous: boolean
-    hideUntilEnd: boolean
-    canAddChoice: boolean
-    endDate: string | null
-    endWhenAllVoted: boolean
-  }
+export interface ThreadActivityPollFragment extends ThreadActivityFragment {
+  type: Thread_Activity_Type_Enum.Poll
+  data: ThreadActivityDataPoll
 }
 
 export interface PollChoice {
   title: string
 }
 
-export interface ActivityThread extends ActivityBase {
-  type: ActivityType.Thread
-  data: {
-    entityId: string
-  }
+// Thread
+export interface ThreadActivityDataThread {
+  entityId: string
 }
 
-export interface ActivityMeeting extends ActivityBase {
-  type: ActivityType.Meeting
-  data: {
-    entityId: string
-  }
+export interface ThreadActivityThreadFragment extends ThreadActivityFragment {
+  type: Thread_Activity_Type_Enum.Thread
+  data: ThreadActivityDataThread
 }
 
-export interface ActivityTask extends ActivityBase {
-  type: ActivityType.Task
-  data: {
-    entityId: string
-  }
+// Meeting
+export interface ThreadActivityDataMeeting {
+  entityId: string
 }
 
-export interface ActivityDecision extends ActivityBase {
-  type: ActivityType.Decision
-  data: {
-    entityId: string
-  }
+export interface ThreadActivityMeetingFragment extends ThreadActivityFragment {
+  type: Thread_Activity_Type_Enum.Meeting
+  data: ThreadActivityDataMeeting
 }
 
-export type Activity =
-  | ActivityMessage
-  | ActivityMeeting
-  | ActivityElection
-  | ActivityPoll
-  | ActivityThread
-  | ActivityMeeting
-  | ActivityTask
-  | ActivityDecision
+// Task
+export interface ThreadActivityDataTask {
+  entityId: string
+}
 
-export type ActivityEntry = WithId<Activity>
+export interface ThreadActivityTaskFragment extends ThreadActivityFragment {
+  type: Thread_Activity_Type_Enum.Task
+  data: ThreadActivityDataTask
+}
+
+// Decision
+export interface ThreadActivityDataDecision {
+  entityId: string
+}
+
+export interface ThreadActivityDecisionFragment extends ThreadActivityFragment {
+  type: Thread_Activity_Type_Enum.Decision
+  data: ThreadActivityDataDecision
+}
+
+export type ThreadActivityData =
+  | ThreadActivityDataMessage
+  | ThreadActivityDataPoll
+  | ThreadActivityDataThread
+  | ThreadActivityDataMeeting
+  | ThreadActivityDataTask
+  | ThreadActivityDataDecision

@@ -1,10 +1,10 @@
-import { OrgEntry } from '@shared/model/org'
+import { OrgFragment } from '@gql'
 import { action, Action } from 'easy-peasy'
 import { createModel, GenericModel } from './generic'
 
-const model = createModel<OrgEntry>()
+const model = createModel<OrgFragment>()
 
-interface OrgsModel extends GenericModel<OrgEntry> {
+interface OrgsModel extends GenericModel<OrgFragment> {
   currentId: string | undefined
   setCurrentId: Action<OrgsModel, string | undefined>
 }

@@ -1,10 +1,9 @@
 import NumberInput from '@atoms/NumberInput'
 import { Box, Button, Stack, StackItem, Text } from '@chakra-ui/react'
+import { ThreadPollAnswerFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import usePollState from '@hooks/usePollState'
-import { ActivityPoll } from '@shared/model/thread_activity'
-import { ThreadPollAnswerEntry } from '@shared/model/thread_poll_answer'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
 import { format } from 'date-fns'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -12,8 +11,8 @@ import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'
 
 interface Props {
-  activity: WithId<ActivityPoll>
-  answers: ThreadPollAnswerEntry[]
+  activity: ThreadActivityPollFragment
+  answers: ThreadPollAnswerFragment[]
   onVote(choicesPoints: number[]): void
 }
 

@@ -27,7 +27,6 @@ import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
 import ThreadActivities from '@organisms/thread/ThreadActivities'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import Page404 from '@pages/Page404'
-import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -53,7 +52,7 @@ export default function ThreadContent({
     skip: !currentMember,
     variables: { id, memberId: currentMember?.id! },
   })
-  const thread = data?.thread_by_pk as ThreadEntry
+  const thread = data?.thread_by_pk || undefined
   const memberStatus = data?.thread_by_pk?.member_status[0]
 
   // Circle

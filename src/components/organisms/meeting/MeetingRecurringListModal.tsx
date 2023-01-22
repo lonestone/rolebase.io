@@ -15,10 +15,12 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import { useSubscribeCircleMeetingRecurringsSubscription } from '@gql'
+import {
+  MeetingRecurringFragment,
+  useSubscribeCircleMeetingRecurringsSubscription,
+} from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
-import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
@@ -47,13 +49,11 @@ export default function MeetingRecurringListModal({
           : { orgId: { _eq: orgId } },
       },
     })
-  const meetingsRecurring = data?.meeting_recurring as
-    | MeetingRecurringEntry[]
-    | undefined
+  const meetingsRecurring = data?.meeting_recurring
 
   // Create/Edit modal
   const [meetingRecurring, setMeetingRecurring] = useState<
-    MeetingRecurringEntry | undefined
+    MeetingRecurringFragment | undefined
   >()
   const editModal = useDisclosure()
 
@@ -65,12 +65,12 @@ export default function MeetingRecurringListModal({
     editModal.onOpen()
   }
 
-  const handleEdit = (mt: MeetingRecurringEntry) => {
+  const handleEdit = (mt: MeetingRecurringFragment) => {
     setMeetingRecurring(mt)
     editModal.onOpen()
   }
 
-  const handleDelete = (mt: MeetingRecurringEntry) => {
+  const handleDelete = (mt: MeetingRecurringFragment) => {
     setMeetingRecurring(mt)
     deleteModal.onOpen()
   }

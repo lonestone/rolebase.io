@@ -9,14 +9,13 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { useArchiveMeetingMutation } from '@gql'
-import { MeetingEntry } from '@shared/model/meeting'
+import { MeetingFragment, useArchiveMeetingMutation } from '@gql'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
-  meeting: MeetingEntry
+  meeting: MeetingFragment
   onDelete?(): void
 }
 

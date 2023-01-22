@@ -1,0 +1,8 @@
+fragment MeetingStep on meeting_step {
+  id
+  meetingId
+  stepConfigId
+  notes
+  type
+  data
+}

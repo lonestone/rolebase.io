@@ -1,6 +1,5 @@
-import { DocumentType, gql } from '@gql'
+import { DocumentType, gql, ThreadFragment } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
-import { ThreadEntry } from '@shared/model/thread'
 import { adminRequest } from '@utils/adminRequest'
 import { IndexEntity } from './IndexEntity'
 
@@ -21,7 +20,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   boost: 0,
 })
 
-export class IndexThread extends IndexEntity<ThreadEntry> {
+export class IndexThread extends IndexEntity<ThreadFragment> {
   static table = 'public.thread'
 
   async getById(id: string) {

@@ -7,19 +7,20 @@ import {
   MenuList,
   MenuOptionGroup,
 } from '@chakra-ui/react'
-import { TaskStatus, taskStatusList } from '@shared/model/task'
+import { Task_Status_Enum } from '@gql'
+import { taskStatusList } from '@shared/model/task'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
 
 interface Props extends Omit<ButtonProps, 'value' | 'onChange'> {
-  value: TaskStatus | undefined
-  onChange: (value: TaskStatus | undefined) => void
+  value: Task_Status_Enum | undefined
+  onChange: (value: Task_Status_Enum | undefined) => void
 }
 
 // Status filter
 const taskStatusNotDone = 'NotDone'
-type TaskStatusFilter = TaskStatus | typeof taskStatusNotDone
+type TaskStatusFilter = Task_Status_Enum | typeof taskStatusNotDone
 
 const taskStatusFilterList: TaskStatusFilter[] = [
   taskStatusNotDone,
@@ -36,7 +37,9 @@ export default function TasksFilterStatus({
 
   const handleChange = useCallback((status: string | string[]) => {
     if (typeof status !== 'string') return
-    onChange(status === taskStatusNotDone ? undefined : (status as TaskStatus))
+    onChange(
+      status === taskStatusNotDone ? undefined : (status as Task_Status_Enum)
+    )
   }, [])
 
   return (

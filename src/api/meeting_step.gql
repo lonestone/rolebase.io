@@ -1,12 +1,3 @@
-fragment MeetingStepFields on meeting_step {
-  id
-  meetingId
-  stepConfigId
-  notes
-  type
-  data
-}
-
 query getMeetingStepsIds($meetingId: uuid!) {
   meeting_step(where: { meetingId: { _eq: $meetingId } }) {
     id
@@ -16,25 +7,25 @@ query getMeetingStepsIds($meetingId: uuid!) {
 
 query getMeetingSteps($meetingId: uuid!) {
   meeting_step(where: { meetingId: { _eq: $meetingId } }) {
-    ...MeetingStepFields
+    ...MeetingStep
   }
 }
 
 subscription subscribeMeetingSteps($meetingId: uuid!) {
   meeting_step(where: { meetingId: { _eq: $meetingId } }) {
-    ...MeetingStepFields
+    ...MeetingStep
   }
 }
 
 mutation createMeetingStep($values: meeting_step_insert_input!) {
   insert_meeting_step_one(object: $values) {
-    ...MeetingStepFields
+    ...MeetingStep
   }
 }
 
 mutation updateMeetingStep($id: uuid!, $values: meeting_step_set_input!) {
   update_meeting_step_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...MeetingStepFields
+    ...MeetingStep
   }
 }
 

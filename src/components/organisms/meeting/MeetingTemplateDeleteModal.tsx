@@ -8,14 +8,13 @@ import {
   AlertDialogProps,
   Button,
 } from '@chakra-ui/react'
-import { useDeleteMeetingTemplateMutation } from '@gql'
-import { MeetingTemplateEntry } from '@shared/model/meeting_template'
+import { MeetingTemplateFragment, useDeleteMeetingTemplateMutation } from '@gql'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
-  meetingTemplate: MeetingTemplateEntry
+  meetingTemplate: MeetingTemplateFragment
   onDelete?(): void
 }
 

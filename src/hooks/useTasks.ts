@@ -1,10 +1,12 @@
 import {
+  TaskFragment,
+  Task_Status_Enum,
   useCreateTaskViewMutation,
   useSubscribeTasksSubscription,
   useSubscribeTaskViewSubscription,
   useUpdateTaskViewMutation,
 } from '@gql'
-import { TaskEntry, TaskStatus, TasksViewTypes } from '@shared/model/task'
+import { TasksViewTypes } from '@shared/model/task'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useOrgId } from './useOrgId'
 
@@ -13,7 +15,7 @@ export function useTasks(
   filters?: {
     memberId?: string
     circleId?: string
-    status?: TaskStatus
+    status?: Task_Status_Enum
     archived?: boolean
   }
 ) {
@@ -41,7 +43,7 @@ export function useTasks(
         {
           status: filters?.status
             ? { _eq: filters?.status }
-            : { _neq: TaskStatus.Done },
+            : { _neq: Task_Status_Enum.Done },
         },
         ...(filters?.circleId
           ? [{ circleId: { _eq: filters?.circleId } }]
@@ -69,7 +71,7 @@ export function useTasks(
   // to avoid glitch after drag and drop
   const [tasksIdsCache, setTasksIdsCache] = useState<string[]>([])
   const [changedTaskCache, setChangedTaskCache] = useState<
-    TaskEntry | undefined
+    TaskFragment | undefined
   >()
 
   useEffect(() => {
@@ -101,14 +103,14 @@ export function useTasks(
       const aIndex = tasksIdsCache.indexOf(a.id)
       const bIndex = tasksIdsCache.indexOf(b.id)
       return aIndex - bIndex
-    }) as TaskEntry[]
+    })
   }, [tasks, tasksIdsCache, loading, tasksViewLoading])
 
   // Save new ordered list
   const [createTaskView] = useCreateTaskViewMutation()
   const [updateTaskView] = useUpdateTaskViewMutation()
   const changeOrder = useCallback(
-    (tasksIds: string[], changedTask?: TaskEntry) => {
+    (tasksIds: string[], changedTask?: TaskFragment) => {
       if (!orgId) return
       setTasksIdsCache(tasksIds)
       if (changedTask) {

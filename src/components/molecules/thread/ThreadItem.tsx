@@ -8,17 +8,17 @@ import {
   LinkOverlay,
   useDisclosure,
 } from '@chakra-ui/react'
+import { ThreadFragment } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import ThreadModal from '@organisms/thread/ThreadModal'
-import { ThreadEntry } from '@shared/model/thread'
 import React from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {
-  thread: ThreadEntry
+  thread: ThreadFragment
   unread?: boolean
   showCircle?: boolean
   showIcon?: boolean

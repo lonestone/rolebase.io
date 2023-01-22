@@ -1,7 +1,7 @@
 import { Box, Button } from '@chakra-ui/react'
 import { useUpdateThreadActivityMutation } from '@gql'
 import SimpleEditor from '@molecules/editor/SimpleEditor'
-import { ActivityMessage } from '@shared/model/thread_activity'
+import { ThreadActivityDataMessage } from '@shared/model/thread_activity'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EditorHandle } from '../editor'
@@ -28,9 +28,9 @@ export default function ThreadActivityMessageEdit({
       if (message.trim() === '') {
         // Cancel if empty
       } else {
-        const values: Partial<ActivityMessage> = { data: { message } }
+        const data: ThreadActivityDataMessage = { message }
         updateActivity({
-          variables: { id, values },
+          variables: { id, values: { data } },
         })
       }
       onClose()
@@ -48,12 +48,6 @@ export default function ThreadActivityMessageEdit({
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [])
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     editorRef.current?.editor.focus()
-  //   }, 0)
-  // }, [])
 
   return (
     <Box mt={2}>

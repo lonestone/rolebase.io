@@ -1,21 +1,12 @@
-fragment OrgFields on org {
-  id
-  name
-  archived
-  createdAt
-  defaultWorkedMinPerWeek
-  slug
-}
-
 query getOrg($id: uuid!) {
   org_by_pk(id: $id) {
-    ...OrgFields
+    ...Org
   }
 }
 
 subscription subscribeOrgs($archived: Boolean!) {
   org(where: { archived: { _eq: $archived } }, order_by: { createdAt: asc }) {
-    ...OrgFields
+    ...Org
   }
 }
 

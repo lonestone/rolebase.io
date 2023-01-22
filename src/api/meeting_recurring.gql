@@ -1,4 +1,4 @@
-fragment MeetingRecurringFields on meeting_recurring {
+fragment MeetingRecurring on meeting_recurring {
   id
   orgId
   circleId
@@ -23,7 +23,7 @@ fragment MeetingRecurringFields on meeting_recurring {
 
 subscription subscribeMeetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
-    ...MeetingRecurringFields
+    ...MeetingRecurring
     meetings {
       id
       recurringDate
@@ -35,13 +35,13 @@ subscription subscribeCircleMeetingRecurrings(
   $where: meeting_recurring_bool_exp!
 ) {
   meeting_recurring(where: $where, order_by: { template: { title: asc } }) {
-    ...MeetingRecurringFields
+    ...MeetingRecurring
   }
 }
 
 mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
   insert_meeting_recurring_one(object: $values) {
-    ...MeetingRecurringFields
+    ...MeetingRecurring
   }
 }
 
@@ -50,7 +50,7 @@ mutation updateMeetingRecurring(
   $values: meeting_recurring_set_input!
 ) {
   update_meeting_recurring_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...MeetingRecurringFields
+    ...MeetingRecurring
   }
 }
 

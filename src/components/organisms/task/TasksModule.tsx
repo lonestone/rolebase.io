@@ -13,6 +13,7 @@ import {
   Spacer,
   useDisclosure,
 } from '@chakra-ui/react'
+import { Task_Status_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgMember from '@hooks/useOrgMember'
 import { useTasks } from '@hooks/useTasks'
@@ -23,7 +24,7 @@ import MemberSearchInput from '@molecules/search/entities/members/MemberSearchIn
 import TasksFilterStatus from '@molecules/task/TasksFilterStatus'
 import TasksKanban from '@molecules/task/TasksKanban'
 import TasksList from '@molecules/task/TasksList'
-import { TaskStatus, TasksViewTypes } from '@shared/model/task'
+import { TasksViewTypes } from '@shared/model/task'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiList, FiPlus, FiTrello } from 'react-icons/fi'
@@ -33,12 +34,12 @@ interface Props extends BoxProps {
   view: TasksViewTypes
   circleId?: string
   memberId?: string
-  status?: TaskStatus
+  status?: Task_Status_Enum
   overflowContainer?: OverflowContainerProps
   onViewChange: (view: TasksViewTypes) => void
   onCircleChange?: (circleId: string | undefined) => void
   onMemberChange?: (memberId: string | undefined) => void
-  onStatusChange?: (status: TaskStatus | undefined) => void
+  onStatusChange?: (status: Task_Status_Enum | undefined) => void
 }
 
 export default function TasksModule({
@@ -76,7 +77,7 @@ export default function TasksModule({
       onStatusChange &&
       (() => {
         onViewChange(TasksViewTypes.List)
-        onStatusChange?.(TaskStatus.Done)
+        onStatusChange?.(Task_Status_Enum.Done)
       }),
     [onViewChange, onStatusChange]
   )

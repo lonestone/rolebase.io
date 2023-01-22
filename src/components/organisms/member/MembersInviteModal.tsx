@@ -22,7 +22,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { ClaimRole } from '@shared/model/userClaims'
+import { Member_Role_Enum } from '@gql'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -45,7 +45,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
 
   const [state, dispatch] = useReducer(memberInviteReducer, {})
   const [isInviting, setIsInviting] = useState(false)
-  const [role, setRole] = useState(ClaimRole.Member)
+  const [role, setRole] = useState(Member_Role_Enum.Member)
 
   // Search
   const [searchText, setSearchText] = useState('')
@@ -219,17 +219,17 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
               <HStack justify="end" my={2}>
                 <Select
                   value={role}
-                  onChange={(e) => setRole(e.target.value as ClaimRole)}
+                  onChange={(e) => setRole(e.target.value as Member_Role_Enum)}
                   mr={2}
                   w="200px"
                 >
-                  <option value={ClaimRole.Readonly}>
+                  <option value={Member_Role_Enum.Readonly}>
                     {t('MembersInviteModal.options.readonly')}
                   </option>
-                  <option value={ClaimRole.Member}>
+                  <option value={Member_Role_Enum.Member}>
                     {t('MembersInviteModal.options.member')}
                   </option>
-                  <option value={ClaimRole.Admin}>
+                  <option value={Member_Role_Enum.Admin}>
                     {t('MembersInviteModal.options.admin')}
                   </option>
                 </Select>

@@ -1,6 +1,6 @@
-import { OrgEntry } from '../model/org'
+import { OrgFragment } from '@gql'
 
-export const org: OrgEntry = {
+export const org: OrgFragment = {
   id: 'org-1',
   name: 'SuperOrga',
   archived: false,

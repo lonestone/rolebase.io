@@ -30,6 +30,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import {
+  Thread_Activity_Type_Enum,
   useCreateThreadActivityMutation,
   useDeleteThreadPollAnswersMutation,
   useSubscribeThreadPollAnswersSubscription,
@@ -40,11 +41,9 @@ import { useOrgId } from '@hooks/useOrgId'
 import EditorController from '@molecules/editor/EditorController'
 import { useUserId } from '@nhost/react'
 import {
-  ActivityPoll,
-  ActivityType,
   PollChoice,
+  ThreadActivityPollFragment,
 } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
 import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -54,7 +53,7 @@ import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   threadId?: string // To create
-  activity?: WithId<ActivityPoll> // To update
+  activity?: ThreadActivityPollFragment // To update
 }
 
 interface Values {
@@ -204,7 +203,7 @@ export default function ActivityPollModal({
           variables: {
             values: {
               threadId,
-              type: ActivityType.Poll,
+              type: Thread_Activity_Type_Enum.Poll,
               data: activityData,
             },
           },

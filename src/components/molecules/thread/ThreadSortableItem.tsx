@@ -3,7 +3,6 @@ import { CloseIcon } from '@chakra-ui/icons'
 import { useSubscribeThreadSubscription } from '@gql'
 import { Draggable } from '@hello-pangea/dnd'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { ThreadEntry } from '@shared/model/thread'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadItem from './ThreadItem'
@@ -26,7 +25,7 @@ export default function ThreadSortableItem({
     skip: !currentMember,
     variables: { id: threadId, memberId: currentMember?.id! },
   })
-  const thread = data?.thread_by_pk as ThreadEntry
+  const thread = data?.thread_by_pk
 
   if (!thread) return null
   return (

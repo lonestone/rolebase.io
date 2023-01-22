@@ -1,10 +1,9 @@
-import { useSubscribeThreadsSubscription } from '@gql'
+import { ThreadFragment, useSubscribeThreadsSubscription } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { ThreadEntry } from '@shared/model/thread'
 import { useMemo } from 'react'
 import { useOrgId } from './useOrgId'
 
-export interface ThreadWithStatus extends ThreadEntry {
+export interface ThreadWithStatus extends ThreadFragment {
   read: boolean
 }
 
@@ -50,7 +49,7 @@ export default function useThreads(filters?: {
           const read =
             thread.member_status[0]?.lastReadActivityId ===
             thread.lastActivityId
-          return { ...(thread as ThreadEntry), read }
+          return { ...thread, read }
         })
         .sort((a, b) => {
           // Show unread threads first

@@ -1,26 +1,6 @@
-fragment MeetingFields on meeting {
-  id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  createdAt
-  startDate
-  endDate
-  ended
-  title
-  attendees
-  stepsConfig
-  currentStepId
-  archived
-  videoConf
-  recurringId
-  recurringDate
-}
-
 subscription subscribeMeeting($id: uuid!) {
   meeting_by_pk(id: $id) {
-    ...MeetingFields
+    ...Meeting
   }
 }
 
@@ -36,7 +16,7 @@ subscription subscribeMeetingsByDates(
       archived: { _eq: false }
     }
   ) {
-    ...MeetingFields
+    ...Meeting
   }
 }
 
@@ -45,19 +25,19 @@ subscription subscribeCircleMeetings($circleId: uuid!) {
     where: { circleId: { _eq: $circleId }, archived: { _eq: false } }
     order_by: { startDate: desc }
   ) {
-    ...MeetingFields
+    ...Meeting
   }
 }
 
 mutation createMeeting($values: meeting_insert_input!) {
   insert_meeting_one(object: $values) {
-    ...MeetingFields
+    ...Meeting
   }
 }
 
 mutation updateMeeting($id: uuid!, $values: meeting_set_input!) {
   update_meeting_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...MeetingFields
+    ...Meeting
   }
 }
 

@@ -1,9 +1,9 @@
+import { Member_Role_Enum } from '@gql'
 import {
   MagicbellConfig,
   NotificationCategories,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
-import { ClaimRole } from '@shared/model/userClaims'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 
@@ -13,7 +13,9 @@ export const updateOrgSlug =
   fn<{ orgId: string; slug: string }>('updateOrgSlug')
 
 export const inviteMember =
-  fn<{ memberId: string; role: ClaimRole; email: string }>('inviteMember')
+  fn<{ memberId: string; role: Member_Role_Enum; email: string }>(
+    'inviteMember'
+  )
 
 export const acceptMemberInvitation = fn<{
   memberId: string
@@ -21,7 +23,7 @@ export const acceptMemberInvitation = fn<{
 }>('acceptMemberInvitation')
 
 export const updateMemberRole =
-  fn<{ memberId: string; role?: ClaimRole }>('updateMemberRole')
+  fn<{ memberId: string; role?: Member_Role_Enum }>('updateMemberRole')
 
 export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
   'getAlgoliaConfig'

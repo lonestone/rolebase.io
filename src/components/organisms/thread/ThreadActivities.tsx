@@ -17,7 +17,6 @@ import {
 } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import ThreadActivity from '@molecules/thread/ThreadActivity'
-import { ActivityEntry } from '@shared/model/thread_activity'
 import { isSameDay } from 'date-fns'
 import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -45,7 +44,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
       skip: !thread,
       variables: { threadId: thread?.id! },
     })
-    const activities = data?.thread_activity as ActivityEntry[] | undefined
+    const activities = data?.thread_activity
 
     // Previous status to show a mark
     const [lastReadActivityId, setLastReadActivityId] = useState<

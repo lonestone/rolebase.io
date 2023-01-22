@@ -1,4 +1,4 @@
-import { ClaimRole } from '@shared/model/userClaims'
+import { Member_Role_Enum } from '@gql'
 import { generateMeetingToken } from '@utils/generateMeetingToken'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
@@ -13,6 +13,6 @@ const yupSchema = yup.object().shape({
 export default route(async (context): Promise<string> => {
   guardAuth(context)
   const { orgId } = guardBodyParams(context, yupSchema)
-  await guardOrg(context, orgId, ClaimRole.Readonly)
+  await guardOrg(context, orgId, Member_Role_Enum.Readonly)
   return generateMeetingToken(orgId)
 })

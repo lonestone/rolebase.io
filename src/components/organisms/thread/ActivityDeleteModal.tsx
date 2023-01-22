@@ -10,15 +10,14 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { useDeleteThreadActivityMutation } from '@gql'
+import { ThreadActivityFragment, useDeleteThreadActivityMutation } from '@gql'
 import ThreadActivity from '@molecules/thread/ThreadActivity'
-import { ActivityEntry } from '@shared/model/thread_activity'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
-  activity: ActivityEntry
+  activity: ThreadActivityFragment
   onDelete?(): void
 }
 

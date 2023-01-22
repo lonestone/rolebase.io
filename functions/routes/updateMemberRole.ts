@@ -1,4 +1,4 @@
-import { ClaimRole } from '@shared/model/userClaims'
+import { Member_Role_Enum } from '@gql'
 import { roleSchema } from '@shared/schemas'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
@@ -20,7 +20,7 @@ export default route(async (context): Promise<void> => {
   // Get member
   const member = await getMemberById(memberId)
 
-  await guardOrg(context, member.orgId, ClaimRole.Admin)
+  await guardOrg(context, member.orgId, Member_Role_Enum.Admin)
 
   if (!member.role) {
     throw new RouteError(401, 'Member is not invited')
@@ -34,7 +34,7 @@ export default route(async (context): Promise<void> => {
       inviteEmail: null,
       inviteDate: null,
     })
-  } else if (role in ClaimRole) {
+  } else if (role in Member_Role_Enum) {
     // Update role
     await updateMember(memberId, { role })
   } else {

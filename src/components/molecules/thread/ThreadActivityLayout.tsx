@@ -1,16 +1,15 @@
 import HourLink from '@atoms/HourLink'
 import MemberLink from '@atoms/MemberLink'
 import { Avatar, Box, Flex, Text, useDisclosure } from '@chakra-ui/react'
+import { ThreadActivityFragment } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import ActionsMenu from '@molecules/ActionsMenu'
 import ActivityDeleteModal from '@organisms/thread/ActivityDeleteModal'
-import { ActivityEntry } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
 import React, { ReactNode, useMemo } from 'react'
 
 interface Props {
-  activity: WithId<ActivityEntry>
+  activity: ThreadActivityFragment
   onEdit?(): void
   allowDelete?: boolean
   children: ReactNode

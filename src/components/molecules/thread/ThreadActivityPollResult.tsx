@@ -1,14 +1,13 @@
 import { Box, Stack, StackItem, Tooltip, useColorMode } from '@chakra-ui/react'
-import { ActivityPoll } from '@shared/model/thread_activity'
-import { ThreadPollAnswerEntry } from '@shared/model/thread_poll_answer'
-import { WithId } from '@shared/model/types'
+import { ThreadPollAnswerFragment } from '@gql'
+import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
 import { useStoreState } from '@store/hooks'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
-  activity: WithId<ActivityPoll>
-  answers: ThreadPollAnswerEntry[]
+  activity: ThreadActivityPollFragment
+  answers: ThreadPollAnswerFragment[]
 }
 
 function ThreadActivityPollResult({ activity, answers }: Props) {

@@ -1,13 +1,12 @@
 import Markdown from '@atoms/Markdown'
 import { useUserId } from '@nhost/react'
-import { ActivityMessage } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityMessageFragment } from '@shared/model/thread_activity'
 import React, { useState } from 'react'
 import ThreadActivityLayout from './ThreadActivityLayout'
 import ThreadActivityMessageEdit from './ThreadActivityMessageEdit'
 
 interface Props {
-  activity: WithId<ActivityMessage>
+  activity: ThreadActivityMessageFragment
 }
 
 export default function ThreadActivityMessage({ activity }: Props) {

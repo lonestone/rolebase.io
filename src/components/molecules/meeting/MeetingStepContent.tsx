@@ -1,6 +1,9 @@
 import { MeetingContext } from '@contexts/MeetingContext'
-import { useUpdateMeetingStepMutation } from '@gql'
-import { MeetingStepEntry, MeetingStepTypes } from '@shared/model/meeting_step'
+import {
+  MeetingStepFragment,
+  Meeting_Step_Type_Enum,
+  useUpdateMeetingStepMutation,
+} from '@gql'
 import React, { useCallback, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EditorHandle } from '../editor'
@@ -11,7 +14,7 @@ import MeetingStepContentTasks from './MeetingStepContentTasks'
 import MeetingStepContentThreads from './MeetingStepContentThreads'
 
 interface Props {
-  step: MeetingStepEntry
+  step: MeetingStepFragment
 }
 
 export default function MeetingStepContent({ step }: Props) {
@@ -34,20 +37,23 @@ export default function MeetingStepContent({ step }: Props) {
 
   return (
     <>
-      {step.type === MeetingStepTypes.Threads && (
-        <MeetingStepContentThreads step={step} />
+      {step.type === Meeting_Step_Type_Enum.Threads && (
+        <MeetingStepContentThreads step={step as any} />
       )}
 
-      {step.type === MeetingStepTypes.Tasks && (
-        <MeetingStepContentTasks step={step} />
+      {step.type === Meeting_Step_Type_Enum.Tasks && (
+        <MeetingStepContentTasks step={step as any} />
       )}
 
-      {step.type === MeetingStepTypes.Checklist && (
-        <MeetingStepContentChecklist step={step} editorRef={editorRef} />
+      {step.type === Meeting_Step_Type_Enum.Checklist && (
+        <MeetingStepContentChecklist step={step as any} editorRef={editorRef} />
       )}
 
-      {step.type === MeetingStepTypes.Indicators && (
-        <MeetingStepContentIndicators step={step} editorRef={editorRef} />
+      {step.type === Meeting_Step_Type_Enum.Indicators && (
+        <MeetingStepContentIndicators
+          step={step as any}
+          editorRef={editorRef}
+        />
       )}
 
       <CollabEditor

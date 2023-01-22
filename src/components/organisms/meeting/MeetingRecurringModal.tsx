@@ -26,7 +26,6 @@ import useCreateMeeting from '@hooks/useCreateMeeting'
 import useDateLocale from '@hooks/useDateLocale'
 import useParticipants from '@hooks/useParticipants'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
-import { MeetingRecurringEntry } from '@shared/model/meeting_recurring'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
 import React, { useEffect, useMemo } from 'react'
@@ -202,9 +201,7 @@ export default function MeetingRecurringModal({
       {editModal.isOpen && (
         <MeetingRecurringEditModal
           isOpen
-          meetingRecurring={
-            (meetingRecurring ?? undefined) as MeetingRecurringEntry
-          }
+          meetingRecurring={meetingRecurring ?? undefined}
           onClose={editModal.onClose}
         />
       )}

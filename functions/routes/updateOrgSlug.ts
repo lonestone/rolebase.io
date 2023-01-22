@@ -1,5 +1,4 @@
-import { gql } from '@gql'
-import { ClaimRole } from '@shared/model/userClaims'
+import { gql, Member_Role_Enum } from '@gql'
 import { slugSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
@@ -18,7 +17,7 @@ export default route(async (context): Promise<void> => {
   const { orgId, slug } = guardBodyParams(context, yupSchema)
 
   guardAuth(context)
-  await guardOrg(context, orgId, ClaimRole.Admin)
+  await guardOrg(context, orgId, Member_Role_Enum.Admin)
 
   // Check forbidden slugs
   if (settings.forbiddenSlugs.includes(slug)) {

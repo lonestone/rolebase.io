@@ -21,7 +21,11 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import { useSubscribeTaskSubscription, useUpdateTaskMutation } from '@gql'
+import {
+  Task_Status_Enum,
+  useSubscribeTaskSubscription,
+  useUpdateTaskMutation,
+} from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateTask from '@hooks/useCreateTask'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -35,7 +39,6 @@ import EditorController from '@molecules/editor/EditorController'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
 import TaskStatusInput from '@molecules/task/TaskStatusInput'
-import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { nameSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import debounce from 'lodash.debounce'
@@ -100,7 +103,7 @@ export default function TaskContent({
       id: id!,
     },
   })
-  const task = data?.task_by_pk as TaskEntry | undefined
+  const task = data?.task_by_pk
 
   const {
     handleSubmit,
@@ -152,7 +155,7 @@ export default function TaskContent({
       // Create task
       const newTask = await createTask({
         orgId,
-        status: TaskStatus.Open,
+        status: Task_Status_Enum.Open,
         ...taskUpdate,
       })
       if (!newTask) return
@@ -188,7 +191,7 @@ export default function TaskContent({
 
   // Change task status
   const handleChangeStatus = useCallback(
-    (status: TaskStatus) => {
+    (status: Task_Status_Enum) => {
       if (!task) return
       updateTaskStatus(task, status)
     },

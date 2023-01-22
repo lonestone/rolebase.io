@@ -1,4 +1,4 @@
-import { EntityFilters } from '@shared/model/types'
+import { EntityFilters } from '@shared/model/participants'
 import { useCallback, useMemo, useState } from 'react'
 
 export default function useEntitiesFilterMenu(

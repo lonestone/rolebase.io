@@ -1,10 +1,10 @@
+import { ThreadFragment } from '@gql'
 import { SearchTypes } from '@shared/model/search'
-import { ThreadEntry } from '@shared/model/thread'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
 export function useThreadSearchItems(
-  threads: ThreadEntry[],
+  threads: ThreadFragment[],
   excludeIds?: string[]
 ): SearchItem[] {
   return useMemo(

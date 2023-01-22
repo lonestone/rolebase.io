@@ -4,16 +4,14 @@ import { Text } from '@chakra-ui/react'
 import { useSubscribeThreadSubscription } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useUserId } from '@nhost/react'
-import { ThreadEntry } from '@shared/model/thread'
-import { ActivityThread } from '@shared/model/thread_activity'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityThreadFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadActivityLayout from './ThreadActivityLayout'
 import ThreadItem from './ThreadItem'
 
 interface Props {
-  activity: WithId<ActivityThread>
+  activity: ThreadActivityThreadFragment
 }
 
 export default function ThreadActivityThread({ activity }: Props) {
@@ -28,7 +26,7 @@ export default function ThreadActivityThread({ activity }: Props) {
     skip: !currentMember,
     variables: { id: activity.data.entityId, memberId: currentMember?.id! },
   })
-  const thread = data?.thread_by_pk as ThreadEntry
+  const thread = data?.thread_by_pk
 
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>

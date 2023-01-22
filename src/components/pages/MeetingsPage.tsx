@@ -43,8 +43,7 @@ import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListMo
 import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
 import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
-import { MeetingEntry } from '@shared/model/meeting'
-import { EntityFilters } from '@shared/model/types'
+import { EntityFilters } from '@shared/model/participants'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -97,10 +96,7 @@ export default function MeetingsPage() {
   })
 
   // Filter meetings
-  const meetings = useFilterEntities(
-    filter,
-    (data?.meeting || undefined) as MeetingEntry[] | undefined
-  )
+  const meetings = useFilterEntities(filter, data?.meeting)
 
   // Subscribe to recurring meetings
   const { data: recurringData } =

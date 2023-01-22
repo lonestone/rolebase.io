@@ -1,5 +1,4 @@
-import { DocumentType, gql } from '@gql'
-import { DecisionEntry } from '@shared/model/decision'
+import { DecisionFragment, DocumentType, gql } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { IndexEntity } from './IndexEntity'
@@ -21,7 +20,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   boost: 0,
 })
 
-export class IndexDecision extends IndexEntity<DecisionEntry> {
+export class IndexDecision extends IndexEntity<DecisionFragment> {
   static table = 'public.decision'
 
   async getById(id: string) {

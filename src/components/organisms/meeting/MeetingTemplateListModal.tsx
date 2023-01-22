@@ -14,10 +14,12 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import { useSubscribeMeetingTemplatesSubscription } from '@gql'
+import {
+  MeetingTemplateFragment,
+  useSubscribeMeetingTemplatesSubscription,
+} from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
-import { MeetingTemplateEntry } from '@shared/model/meeting_template'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
@@ -33,13 +35,11 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
     skip: !orgId,
     variables: { orgId: orgId! },
   })
-  const meetingTemplates = data?.meeting_template as
-    | MeetingTemplateEntry[]
-    | undefined
+  const meetingTemplates = data?.meeting_template
 
   // Create/Edit modal
   const [meetingTemplate, setMeetingTemplate] = useState<
-    MeetingTemplateEntry | undefined
+    MeetingTemplateFragment | undefined
   >()
   const editModal = useDisclosure()
 
@@ -51,12 +51,12 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
     editModal.onOpen()
   }
 
-  const handleEdit = (mt: MeetingTemplateEntry) => {
+  const handleEdit = (mt: MeetingTemplateFragment) => {
     setMeetingTemplate(mt)
     editModal.onOpen()
   }
 
-  const handleDelete = (mt: MeetingTemplateEntry) => {
+  const handleDelete = (mt: MeetingTemplateFragment) => {
     setMeetingTemplate(mt)
     deleteModal.onOpen()
   }

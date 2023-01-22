@@ -11,17 +11,17 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
+import { TaskFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import TaskModal from '@organisms/task/TaskModal'
-import { TaskEntry } from '@shared/model/task'
 import { formatRelative } from 'date-fns'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {
-  task: TaskEntry
+  task: TaskFragment
   showCircle?: boolean
   showMember?: boolean
   isDragging?: boolean

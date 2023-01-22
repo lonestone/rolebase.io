@@ -1,43 +1,30 @@
-fragment TaskFields on task {
-  id
-  orgId
-  circleId
-  memberId
-  title
-  description
-  archived
-  createdAt
-  dueDate
-  status
-}
-
 query getTask($id: uuid!) {
   task_by_pk(id: $id) {
-    ...TaskFields
+    ...Task
   }
 }
 
 subscription subscribeTask($id: uuid!) {
   task_by_pk(id: $id) {
-    ...TaskFields
+    ...Task
   }
 }
 
 subscription subscribeTasks($filters: [task_bool_exp!]) {
   task(where: { _and: $filters }) {
-    ...TaskFields
+    ...Task
   }
 }
 
 mutation createTask($values: task_insert_input!) {
   insert_task_one(object: $values) {
-    ...TaskFields
+    ...Task
   }
 }
 
 mutation updateTask($id: uuid!, $values: task_set_input!) {
   update_task_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...TaskFields
+    ...Task
   }
 }
 

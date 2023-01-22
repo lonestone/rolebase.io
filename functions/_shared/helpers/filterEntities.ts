@@ -1,12 +1,7 @@
 import { Member_Scope_Enum } from '@gql'
-import { MeetingAttendee } from '../model/meeting'
-import { EntityFilters, EntityWithParticipants } from '../model/types'
+import { EntityFilters, EntityWithParticipants } from '../model/participants'
 
-export default function filterEntities<
-  Entity extends EntityWithParticipants & {
-    attendees?: MeetingAttendee[] | null
-  }
->(
+export default function filterEntities<Entity extends EntityWithParticipants>(
   filter: EntityFilters,
   data: Entity[],
   circleId?: string,
@@ -39,11 +34,7 @@ export default function filterEntities<
   return []
 }
 
-function isInvitedToEntity<
-  Entity extends EntityWithParticipants & {
-    attendees?: MeetingAttendee[] | null
-  }
->(
+function isInvitedToEntity<Entity extends EntityWithParticipants>(
   entity: Entity,
   currentMemberId: string,
   currentMemberCirclesIds?: string[]

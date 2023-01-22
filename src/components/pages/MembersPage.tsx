@@ -16,12 +16,12 @@ import {
   Tag,
   useDisclosure,
 } from '@chakra-ui/react'
+import { Member_Role_Enum } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import MemberCreateModal from '@organisms/member/MemberCreateModal'
 import MemberEditModal from '@organisms/member/MemberEditModal'
 import MembersInviteModal from '@organisms/member/MembersInviteModal'
-import { ClaimRole } from '@shared/model/userClaims'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -129,13 +129,13 @@ export default function MembersPage() {
 
             {member.userId ? (
               <>
-                {member.role === ClaimRole.Readonly && (
+                {member.role === Member_Role_Enum.Readonly && (
                   <Tag colorScheme="gray">{t('MembersPage.tags.readonly')}</Tag>
                 )}
-                {member.role === ClaimRole.Member && (
+                {member.role === Member_Role_Enum.Member && (
                   <Tag colorScheme="blue">{t('MembersPage.tags.member')}</Tag>
                 )}
-                {member.role === ClaimRole.Admin && (
+                {member.role === Member_Role_Enum.Admin && (
                   <Tag colorScheme="red">{t('MembersPage.tags.admin')}</Tag>
                 )}
               </>

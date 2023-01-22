@@ -1,9 +1,10 @@
 import { taskStatusColors } from '@atoms/TaskStatusTag'
 import { Title } from '@atoms/Title'
 import { Container as Column, Flex, Heading, Tag } from '@chakra-ui/react'
+import { Task_Status_Enum } from '@gql'
 import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
 import TasksModule from '@organisms/task/TasksModule'
-import { TaskStatus, TasksViewTypes } from '@shared/model/task'
+import { TasksViewTypes } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -11,7 +12,7 @@ type Params = {
   view: TasksViewTypes
   member: string
   circle: string
-  status: TaskStatus
+  status: Task_Status_Enum
 }
 
 export default function TasksPage() {
@@ -41,8 +42,8 @@ export default function TasksPage() {
     changeParams({ circle })
 
   // Status param
-  const status = params.status && TaskStatus[params.status]
-  const handleStatusChange = (status: TaskStatus | undefined) =>
+  const status = params.status && Task_Status_Enum[params.status]
+  const handleStatusChange = (status: Task_Status_Enum | undefined) =>
     changeParams({ status })
 
   return (

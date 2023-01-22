@@ -3,7 +3,7 @@ import i18n from '@i18n'
 import filterEntities from '@shared/helpers/filterEntities'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { CircleWithRoleEntry } from '@shared/model/circle'
-import { EntityFilters, EntityWithParticipants } from '@shared/model/types'
+import { EntityFilters } from '@shared/model/participants'
 import { adminRequest } from '@utils/adminRequest'
 import { generateMeetingToken } from '@utils/generateMeetingToken'
 import { guardQueryParams } from '@utils/guardQueryParams'
@@ -53,7 +53,7 @@ export default route(async (context) => {
 
   const meetings = filterEntities(
     filter,
-    org.meetings as EntityWithParticipants[],
+    org.meetings,
     circleId,
     memberId,
     memberCircles?.map((c) => c.id)
@@ -89,7 +89,7 @@ export default route(async (context) => {
   // Filter recurring meetings
   const recurringMeetings = filterEntities(
     filter,
-    org.meetings_recurring as EntityWithParticipants[],
+    org.meetings_recurring,
     circleId,
     memberId,
     memberCircles?.map((c) => c.id)

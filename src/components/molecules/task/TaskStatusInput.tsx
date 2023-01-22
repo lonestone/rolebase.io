@@ -7,14 +7,15 @@ import {
   Tag,
   TagProps,
 } from '@chakra-ui/react'
-import { TaskStatus, taskStatusList } from '@shared/model/task'
+import { Task_Status_Enum } from '@gql'
+import { taskStatusList } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props extends Omit<TagProps, 'onChange'> {
-  value: TaskStatus
+  value: Task_Status_Enum
   readOnly?: boolean
-  onChange(status: TaskStatus): void
+  onChange(status: Task_Status_Enum): void
 }
 
 export default function TaskStatusInput({

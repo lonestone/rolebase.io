@@ -1,18 +1,19 @@
 import { taskStatusColors } from '@atoms/TaskStatusTag'
 import { Button, HStack } from '@chakra-ui/react'
+import { TaskFragment, Task_Status_Enum } from '@gql'
 import { DragDropContext, Draggable, DropResult } from '@hello-pangea/dnd'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { KanbanColumn } from '@molecules/task/KanbanColumn'
 import TaskCard from '@molecules/task/TaskCard'
-import { TaskEntry, TaskStatus, taskStatusList } from '@shared/model/task'
+import { taskStatusList } from '@shared/model/task'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
-  tasks: TaskEntry[]
+  tasks: TaskFragment[]
   showCircle?: boolean
   showMember?: boolean
-  onOrderChange?(tasksIds: string[], changedTask: TaskEntry): void
+  onOrderChange?(tasksIds: string[], changedTask: TaskFragment): void
   onDoneTasksClick?(): void
 }
 
@@ -30,7 +31,9 @@ export default function TasksKanban({
   const handleDragEnd = useCallback(
     (result: DropResult) => {
       const taskId = result.draggableId
-      const status = result.destination?.droppableId as TaskStatus | undefined
+      const status = result.destination?.droppableId as
+        | Task_Status_Enum
+        | undefined
       const indexInStatus = result.destination?.index
       const task = tasks.find((t) => t.id === taskId)
       if (!task || !status || indexInStatus === undefined) return
@@ -93,7 +96,7 @@ export default function TasksKanban({
                 </Draggable>
               ))}
 
-              {status === TaskStatus.Done && onDoneTasksClick && (
+              {status === Task_Status_Enum.Done && onDoneTasksClick && (
                 <Button
                   variant="outline"
                   size="sm"

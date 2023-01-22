@@ -1,14 +1,13 @@
 import { ThreadContext } from '@contexts/ThreadContext'
+import { ThreadPollAnswerFragment } from '@gql'
 import { useUserId } from '@nhost/react'
-import { ActivityPoll } from '@shared/model/thread_activity'
-import { ThreadPollAnswerEntry } from '@shared/model/thread_poll_answer'
-import { WithId } from '@shared/model/types'
+import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
 import { useContext, useMemo } from 'react'
 import useParticipants from './useParticipants'
 
 export default function usePollState(
-  activity: WithId<ActivityPoll>,
-  answers?: ThreadPollAnswerEntry[]
+  activity: ThreadActivityPollFragment,
+  answers?: ThreadPollAnswerFragment[]
 ) {
   const userId = useUserId()
   const thread = useContext(ThreadContext)

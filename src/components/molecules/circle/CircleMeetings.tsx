@@ -7,7 +7,6 @@ import useOrgMember from '@hooks/useOrgMember'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import MeetingModal from '@organisms/meeting/MeetingModal'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
-import { MeetingEntry } from '@shared/model/meeting'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format, isSameMonth } from 'date-fns'
 import React, { useState } from 'react'
@@ -29,7 +28,7 @@ export default function CircleMeetings({ circleId }: Props) {
       circleId,
     },
   })
-  const meetings = data?.meeting as MeetingEntry[] | undefined
+  const meetings = data?.meeting
 
   // Modals
   const [meetingId, setMeetingId] = useState<string | undefined>()

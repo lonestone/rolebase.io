@@ -1,11 +1,12 @@
 import {
+  MeetingStepFragment,
+  Meeting_Step_Type_Enum,
   useCreateMeetingStepMutation,
   useGetCircleThreadsIdsLazyQuery,
   useGetMeetingStepsIdsLazyQuery,
 } from '@gql'
 import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MeetingStepConfig } from '@shared/model/meeting'
-import { MeetingStep, MeetingStepTypes } from '@shared/model/meeting_step'
 import { TasksViewTypes } from '@shared/model/task'
 import { useCallback } from 'react'
 
@@ -22,7 +23,7 @@ export default function useCreateMissingMeetingSteps() {
       meetingId: string,
       stepConfig: MeetingStepConfig,
       circle: CircleWithRoleEntry
-    ): Promise<MeetingStep> => {
+    ): Promise<Omit<MeetingStepFragment, 'id'>> => {
       const type = stepConfig.type
       const step = {
         meetingId,
@@ -32,10 +33,10 @@ export default function useCreateMissingMeetingSteps() {
       }
 
       switch (type) {
-        case MeetingStepTypes.Tour:
+        case Meeting_Step_Type_Enum.Tour:
           return { ...step, type }
 
-        case MeetingStepTypes.Threads: {
+        case Meeting_Step_Type_Enum.Threads: {
           // Get circle's threads
           const { data } = await getCircleThreadsIds({
             variables: { circleId: circle.id },
@@ -50,7 +51,7 @@ export default function useCreateMissingMeetingSteps() {
           }
         }
 
-        case MeetingStepTypes.Tasks:
+        case Meeting_Step_Type_Enum.Tasks:
           return {
             ...step,
             type,
@@ -61,14 +62,14 @@ export default function useCreateMissingMeetingSteps() {
             },
           }
 
-        case MeetingStepTypes.Checklist:
+        case Meeting_Step_Type_Enum.Checklist:
           return {
             ...step,
             type,
             notes: circle.role.checklist,
           }
 
-        case MeetingStepTypes.Indicators:
+        case Meeting_Step_Type_Enum.Indicators:
           return {
             ...step,
             type,

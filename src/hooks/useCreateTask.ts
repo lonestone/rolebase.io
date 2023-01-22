@@ -1,9 +1,12 @@
 import { useToast } from '@chakra-ui/react'
-import { Task_Insert_Input, useCreateTaskMutation } from '@gql'
+import {
+  Task_Insert_Input,
+  Task_Status_Enum,
+  useCreateTaskMutation,
+} from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import { TaskEntry, TaskStatus } from '@shared/model/task'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -21,12 +24,12 @@ export default function useCreateTask() {
         variables: {
           values: {
             orgId,
-            status: TaskStatus.Open,
+            status: Task_Status_Enum.Open,
             ...task,
           },
         },
       })
-      const newTask = newTaskData?.insert_task_one as TaskEntry | undefined
+      const newTask = newTaskData?.insert_task_one
 
       if (!newTask) return
 

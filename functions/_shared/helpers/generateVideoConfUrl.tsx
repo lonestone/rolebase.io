@@ -1,10 +1,10 @@
+import { MeetingFragment } from '@gql'
 import slugify from 'slugify'
 import { CircleWithRoleEntry } from '../model/circle'
-import { MeetingEntry } from '../model/meeting'
 import { MemberEntry } from '../model/member'
 
 export default function generateVideoConfUrl(
-  meeting: MeetingEntry,
+  meeting: MeetingFragment,
   circle: CircleWithRoleEntry,
   currentMember: MemberEntry
 ) {

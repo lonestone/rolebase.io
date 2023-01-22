@@ -2,6 +2,7 @@ import BounceAnimation from '@atoms/BounceAnimation'
 import IconTextButton from '@atoms/IconTextButton'
 import { HStack, useDisclosure } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
+import { Thread_Activity_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import DecisionEditModal from '@organisms/decision/DecisionEditModal'
@@ -9,7 +10,6 @@ import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import TaskModal from '@organisms/task/TaskModal'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { ActivityType } from '@shared/model/thread_activity'
 import React, { MouseEvent, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
@@ -38,19 +38,19 @@ export default function MeetingPanelStarted() {
   } = useContext(MeetingContext)!
 
   // Entities creation
-  const [entityType, setEntityType] = useState<ActivityType>(
-    ActivityType.Thread
+  const [entityType, setEntityType] = useState<Thread_Activity_Type_Enum>(
+    Thread_Activity_Type_Enum.Thread
   )
   const entityModal = useDisclosure()
 
   const handleEntityOpen = useCallback(
-    (event: MouseEvent<HTMLButtonElement> | ActivityType) => {
+    (event: MouseEvent<HTMLButtonElement> | Thread_Activity_Type_Enum) => {
       const type =
         typeof event === 'string'
           ? event
           : event.currentTarget.getAttribute('data-type')
       if (!type) return
-      setEntityType(type as ActivityType)
+      setEntityType(type as Thread_Activity_Type_Enum)
       entityModal.onOpen()
     },
     []
@@ -78,7 +78,7 @@ export default function MeetingPanelStarted() {
           aria-label={t(`common.createDecision`)}
           size="sm"
           icon={<FiArrowRightCircle />}
-          data-type={ActivityType.Decision}
+          data-type={Thread_Activity_Type_Enum.Decision}
           onClick={handleEntityOpen}
         />
 
@@ -86,7 +86,7 @@ export default function MeetingPanelStarted() {
           aria-label={t(`common.createTask`)}
           size="sm"
           icon={<FiCheckSquare />}
-          data-type={ActivityType.Task}
+          data-type={Thread_Activity_Type_Enum.Task}
           onClick={handleEntityOpen}
         />
 
@@ -94,7 +94,7 @@ export default function MeetingPanelStarted() {
           aria-label={t(`common.createMeeting`)}
           size="sm"
           icon={<FiCalendar />}
-          data-type={ActivityType.Meeting}
+          data-type={Thread_Activity_Type_Enum.Meeting}
           onClick={handleEntityOpen}
         />
 
@@ -102,7 +102,7 @@ export default function MeetingPanelStarted() {
           aria-label={t(`common.createThread`)}
           size="sm"
           icon={<FiMessageSquare />}
-          data-type={ActivityType.Thread}
+          data-type={Thread_Activity_Type_Enum.Thread}
           onClick={handleEntityOpen}
         />
       </HStack>
@@ -143,7 +143,7 @@ export default function MeetingPanelStarted() {
 
       {entityModal.isOpen && (
         <>
-          {entityType === ActivityType.Thread && (
+          {entityType === Thread_Activity_Type_Enum.Thread && (
             <ThreadEditModal
               defaultCircleId={meeting.circleId}
               isOpen
@@ -151,7 +151,7 @@ export default function MeetingPanelStarted() {
             />
           )}
 
-          {entityType === ActivityType.Meeting && (
+          {entityType === Thread_Activity_Type_Enum.Meeting && (
             <MeetingEditModal
               defaultCircleId={meeting.circleId}
               isOpen
@@ -159,7 +159,7 @@ export default function MeetingPanelStarted() {
             />
           )}
 
-          {entityType === ActivityType.Task && (
+          {entityType === Thread_Activity_Type_Enum.Task && (
             <TaskModal
               defaultCircleId={meeting.circleId}
               defaultMemberId={currentMember?.id}
@@ -169,7 +169,7 @@ export default function MeetingPanelStarted() {
             />
           )}
 
-          {entityType === ActivityType.Decision && (
+          {entityType === Thread_Activity_Type_Enum.Decision && (
             <DecisionEditModal
               defaultCircleId={meeting.circleId}
               defaultDescription={defaultEntityDescription}

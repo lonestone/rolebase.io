@@ -1,7 +1,7 @@
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Center, HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
+import { Meeting_Step_Type_Enum } from '@gql'
 import { Draggable } from '@hello-pangea/dnd'
-import { MeetingStepTypes } from '@shared/model/meeting_step'
 import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +11,7 @@ import { fieldName, StepsValues } from './MeetingStepsConfigController'
 interface Props {
   id: string // react-hook-form id
   index: number
-  stepType: MeetingStepTypes
+  stepType: Meeting_Step_Type_Enum
   control: Control<StepsValues>
   errors?: FieldErrors<StepsValues>
   onRemove?(index: number): void

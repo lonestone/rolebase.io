@@ -1,13 +1,13 @@
+import { TaskFragment, Task_Status_Enum } from '@gql'
 import useCreateTask from '@hooks/useCreateTask'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
-import { TaskEntry, TaskStatus } from '@shared/model/task'
 import React, { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useTaskSearchItems } from './useTaskSearchItems'
 
 interface Props extends Omit<SearchButtonProps, 'items'> {
-  tasks: TaskEntry[] // If not provided, use store
+  tasks: TaskFragment[]
   excludeIds?: string[]
   createCircleId?: string
 }
@@ -35,7 +35,7 @@ export default function TaskSearchButton({
         title,
         circleId: createCircleId,
         memberId: currentMember.id,
-        status: TaskStatus.Open,
+        status: Task_Status_Enum.Open,
       })
       return task?.id
     },

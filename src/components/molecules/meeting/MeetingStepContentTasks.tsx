@@ -1,17 +1,16 @@
 import { Box, Heading } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import { useUpdateMeetingStepMutation } from '@gql'
+import { Task_Status_Enum, useUpdateMeetingStepMutation } from '@gql'
 import TasksModule from '@organisms/task/TasksModule'
 import { LogType } from '@shared/model/log'
-import { MeetingStepTasks } from '@shared/model/meeting_step'
-import { TaskStatus, TasksViewTypes } from '@shared/model/task'
-import { WithId } from '@shared/model/types'
+import { MeetingStepTasksFragment } from '@shared/model/meeting_step'
+import { TasksViewTypes } from '@shared/model/task'
 import React, { useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import MeetingLogs from './MeetingLogs'
 
 interface Props {
-  step: WithId<MeetingStepTasks>
+  step: MeetingStepTasksFragment
 }
 
 export const taskLogTypes = [
@@ -29,7 +28,7 @@ export default function MeetingStepContentTasks({ step }: Props) {
   // Persisted filters
 
   const updateData = useCallback(
-    (data: Partial<MeetingStepTasks['data']>) => {
+    (data: Partial<MeetingStepTasksFragment['data']>) => {
       updateMeetingStep({
         variables: {
           id: step.id,
@@ -54,7 +53,7 @@ export default function MeetingStepContentTasks({ step }: Props) {
   )
 
   const handleStatusChange = useCallback(
-    (status: TaskStatus | undefined) =>
+    (status: Task_Status_Enum | undefined) =>
       updateData({ filterStatus: status || null }),
     [updateData]
   )

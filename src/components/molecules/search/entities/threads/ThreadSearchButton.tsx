@@ -1,13 +1,16 @@
-import { Member_Scope_Enum, useCreateThreadMutation } from '@gql'
+import {
+  Member_Scope_Enum,
+  ThreadFragment,
+  useCreateThreadMutation,
+} from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
-import { ThreadEntry } from '@shared/model/thread'
 import React, { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useThreadSearchItems } from './useThreadSearchItems'
 
 interface Props extends Omit<SearchButtonProps, 'items'> {
-  threads: ThreadEntry[] // If not provided, use store
+  threads: ThreadFragment[]
   excludeIds?: string[]
   createCircleId?: string
 }

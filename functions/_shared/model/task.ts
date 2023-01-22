@@ -1,34 +1,12 @@
-import { WithId } from './types'
-
-export interface Task {
-  orgId: string
-  circleId: string
-  memberId?: string | null
-  title: string
-  description: string
-  archived: boolean
-  createdAt: string
-  dueDate?: string | null
-  status: TaskStatus
-}
-
-export type TaskEntry = WithId<Task>
-
-export enum TaskStatus {
-  Open = 'Open',
-  InProgress = 'InProgress',
-  InReview = 'InReview',
-  Blocked = 'Blocked',
-  Done = 'Done',
-}
+import { Task_Status_Enum } from '@gql'
 
 // Ordered list of task statuses
 export const taskStatusList = [
-  TaskStatus.Open,
-  TaskStatus.InProgress,
-  TaskStatus.InReview,
-  TaskStatus.Blocked,
-  TaskStatus.Done,
+  Task_Status_Enum.Open,
+  Task_Status_Enum.InProgress,
+  Task_Status_Enum.InReview,
+  Task_Status_Enum.Blocked,
+  Task_Status_Enum.Done,
 ]
 
 export enum TasksViewTypes {
