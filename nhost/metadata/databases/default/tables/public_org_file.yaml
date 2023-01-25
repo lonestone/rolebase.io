@@ -22,6 +22,8 @@ insert_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       columns:
         - fileId
         - orgId
@@ -43,4 +45,6 @@ select_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       allow_aggregations: true

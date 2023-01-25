@@ -12,11 +12,13 @@ export async function guardOrgOwnership(
   }
 
   const org = await adminRequest(GET_ORG_MEMBERS, { orgId })
-  const owners = org.org_by_pk!.members.filter(mem => mem.role === Member_Role_Enum.Owner)
+  const owners = org.org_by_pk!.members.filter(
+    (mem) => mem.role === Member_Role_Enum.Owner
+  )
 
   // Checks if at least 1 owner will remain in the org
   if (owners.length <= 1) {
-      throw new RouteError(400, 'Org must have at least 1 owner')
+    throw new RouteError(400, 'Org must have at least 1 owner')
   }
 
   return org

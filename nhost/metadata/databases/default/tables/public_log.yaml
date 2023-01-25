@@ -31,6 +31,8 @@ insert_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       set:
         userId: x-hasura-User-Id
       columns:
@@ -85,6 +87,8 @@ update_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       check:
         org:
           members:
@@ -96,3 +100,5 @@ update_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner

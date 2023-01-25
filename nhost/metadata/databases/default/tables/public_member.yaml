@@ -34,6 +34,8 @@ insert_permissions:
             _and:
               - role:
                   _eq: Admin
+              - role:
+                  _eq: Owner
               - userId:
                   _eq: X-Hasura-User-Id
       columns:
@@ -91,6 +93,8 @@ update_permissions:
                       _eq: X-Hasura-User-Id
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       check:
         _or:
           - userId:
@@ -102,6 +106,8 @@ update_permissions:
                       _eq: X-Hasura-User-Id
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
 event_triggers:
   - name: index-member
     definition:
