@@ -284,6 +284,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                       <option value={Member_Role_Enum.Admin}>
                         {t('MemberEditModal.invitation.options.admin')}
                       </option>
+                      <option value={Member_Role_Enum.Owner}>
+                        {t('MemberEditModal.invitation.options.owner')}
+                      </option>
                     </Select>
                   </FormControl>
                 ) : member.inviteDate && member.inviteEmail ? (
@@ -334,6 +337,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         </option>
                         <option value={Member_Role_Enum.Admin}>
                           {t('MemberEditModal.invitation.options.admin')}
+                        </option>
+                        <option value={Member_Role_Enum.Owner}>
+                          {t('MemberEditModal.invitation.options.owner')}
                         </option>
                       </Select>
                       {role && (

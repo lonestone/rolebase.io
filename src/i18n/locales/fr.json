@@ -368,7 +368,8 @@
         "revoke": "Révoquer l'invitation",
         "readonly": "Lecture seule",
         "member": "Membre",
-        "admin": "Admin"
+        "admin": "Admin",
+        "owner": "Propriétaire"
       },
       "awaiting": "Invitation envoyée à {{email}} le {{date}}, en attente d'acceptation.",
       "resend": "Renvoyer",
@@ -425,6 +426,7 @@
       "readonly": "Lecture seule",
       "member": "Membre",
       "admin": "Admin",
+      "owner": "Propriétaire",
       "invited": "Invité.e",
       "notInvited": "Pas invité.e"
     }
