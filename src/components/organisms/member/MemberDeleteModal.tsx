@@ -47,7 +47,7 @@ export default function MemberDeleteModal({
         duration: 4000,
         isClosable: true,
       })
-
+      alertProps.onClose()
       return
     }
 

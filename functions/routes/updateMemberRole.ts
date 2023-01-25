@@ -4,6 +4,7 @@ import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
+import { guardOrgOwnership } from '@utils/guardOrgOwnership'
 import { route, RouteError } from '@utils/route'
 import { updateMember } from '@utils/updateMember'
 import * as yup from 'yup'
@@ -20,15 +21,11 @@ export default route(async (context): Promise<void> => {
   // Get member
   const member = await getMemberById(memberId)
 
-  const org = await guardOrg(context, member.orgId, Member_Role_Enum.Admin)
+  await guardOrg(context, member.orgId, Member_Role_Enum.Admin)
 
   if (member.role === Member_Role_Enum.Owner) {
-    const owners = org.members.filter(mem => mem.role === Member_Role_Enum.Owner)
-
-    // Checks if at least 1 owner will remain in the org
-    if (owners.length <= 1) {
-      throw new RouteError(400, 'Org must have at least 1 owner')
-    }
+    // Ensures at least one other owner of the org will remain active
+    await guardOrgOwnership(context, member.orgId)
   }
 
   if (!member.role) {
