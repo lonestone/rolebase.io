@@ -138,6 +138,9 @@ export default function MembersPage() {
                 {member.role === Member_Role_Enum.Admin && (
                   <Tag colorScheme="red">{t('MembersPage.tags.admin')}</Tag>
                 )}
+                {member.role === Member_Role_Enum.Owner && (
+                  <Tag colorScheme="purple">{t('MembersPage.tags.owner')}</Tag>
+                )}
               </>
             ) : (
               <>
