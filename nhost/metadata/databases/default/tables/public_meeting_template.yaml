@@ -19,6 +19,8 @@ insert_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       columns:
         - orgId
         - stepsConfig
@@ -34,8 +36,16 @@ select_permissions:
       filter:
         org:
           members:
-            userId:
-              _eq: X-Hasura-User-Id
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
       allow_aggregations: true
 update_permissions:
   - role: user
@@ -54,6 +64,8 @@ update_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       check:
         org:
           members:
@@ -65,6 +77,8 @@ update_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
 delete_permissions:
   - role: user
     permission:
@@ -79,3 +93,5 @@ delete_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner

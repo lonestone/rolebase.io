@@ -23,6 +23,8 @@ insert_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       columns:
         - lastReadActivityId
         - lastReadDate
@@ -61,6 +63,8 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       check:
         thread:
           org:
@@ -73,3 +77,5 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner

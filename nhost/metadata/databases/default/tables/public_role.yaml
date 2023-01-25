@@ -27,6 +27,8 @@ insert_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       columns:
         - accountabilities
         - archived
@@ -98,6 +100,8 @@ update_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
       check:
         org:
           members:
@@ -109,6 +113,8 @@ update_permissions:
                       _eq: Member
                   - role:
                       _eq: Admin
+                  - role:
+                      _eq: Owner
 event_triggers:
   - name: index-role
     definition:
