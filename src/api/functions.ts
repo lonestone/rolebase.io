@@ -68,6 +68,8 @@ export function getMeetingsIcalUrl(
   }`
 }
 
+export const archiveMember = fn<{memberId: string}>('archiveMember')
+
 export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 
 // Helper to call a function

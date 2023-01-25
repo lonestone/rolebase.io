@@ -1,3 +1,4 @@
+import { archiveMember } from '@api/functions'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -8,8 +9,8 @@ import {
   AlertDialogProps,
   Button,
   Text,
+  useToast,
 } from '@chakra-ui/react'
-import { useArchiveMemberMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/model/log'
@@ -29,13 +30,27 @@ export default function MemberDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const member = useMember(id)
-  const [archiveMember] = useArchiveMemberMutation()
+  const toast = useToast();
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!member) return
-    await archiveMember({ variables: { id } })
+
+    try {
+      await archiveMember({ memberId: id })
+    } catch (error: any) {
+      toast({
+        title: t('common.error'),
+        description: error?.response?.data || error?.message || undefined,
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
+
+      return
+    }
+
     onDelete?.()
     alertProps.onClose()
 
