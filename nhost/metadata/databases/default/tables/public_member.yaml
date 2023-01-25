@@ -32,10 +32,11 @@ insert_permissions:
         org:
           members:
             _and:
-              - role:
-                  _eq: Admin
-              - role:
-                  _eq: Owner
+              - _or:
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
               - userId:
                   _eq: X-Hasura-User-Id
       columns:

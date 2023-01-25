@@ -27,6 +27,7 @@ import {
 import { Member_Role_Enum, useUpdateMemberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
@@ -69,6 +70,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const member = useMember(id)
   const org = useCurrentOrg()
   const isAdmin = useOrgAdmin()
+  const currentMember = useCurrentMember()
   const toast = useToast()
   const createLog = useCreateLog()
   const [updateMember] = useUpdateMemberMutation()
@@ -132,7 +134,11 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         if (newRole !== member.role) {
           if (member.userId) {
             // Update role
-            await updateMemberRole({ memberId: id, role: newRole })
+            await updateMemberRole({
+              memberId: id,
+              issuerMemberId: currentMember?.id ?? '',
+              role: newRole,
+            })
           } else if (newRole && inviteEmail) {
             // Invite member
             await inviteMember({
