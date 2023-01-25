@@ -16,6 +16,7 @@ import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import useCurrentMember from '../../../hooks/useCurrentMember'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
@@ -30,7 +31,8 @@ export default function MemberDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const member = useMember(id)
-  const toast = useToast();
+  const currentMember = useCurrentMember()
+  const toast = useToast()
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
@@ -38,7 +40,10 @@ export default function MemberDeleteModal({
     if (!member) return
 
     try {
-      await archiveMember({ memberId: id })
+      await archiveMember({
+        memberId: id,
+        issuerMemberId: currentMember?.id ?? '',
+      })
     } catch (error: any) {
       toast({
         title: t('common.error'),

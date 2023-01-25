@@ -9,17 +9,26 @@ import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
   memberId: yup.string().required(),
+  issuerMemberId: yup.string().required(),
 })
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
-  const { memberId } = guardBodyParams(context, yupSchema)
+  const { memberId, issuerMemberId } = guardBodyParams(context, yupSchema)
 
   // Get member
   const member = await getMemberById(memberId)
+  const issuerMember = await getMemberById(issuerMemberId)
 
-  if (!member) {
+  if (!member || !issuerMember) {
     throw new RouteError(400, 'Member does not exists')
+  }
+
+  if (
+    member.role === Member_Role_Enum.Owner &&
+    issuerMember.role !== Member_Role_Enum.Owner
+  ) {
+    throw new RouteError(403, 'Insufficient permissions')
   }
 
   if (member.role === Member_Role_Enum.Owner) {
