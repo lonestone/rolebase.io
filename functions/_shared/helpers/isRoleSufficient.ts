@@ -5,8 +5,10 @@ export function isRoleSufficient(
   minRole: Member_Role_Enum
 ): boolean {
   switch (role) {
-    case Member_Role_Enum.Admin:
+    case Member_Role_Enum.Owner:
       return true
+    case Member_Role_Enum.Admin:
+      return minRole === Member_Role_Enum.Admin
     case Member_Role_Enum.Member:
       return (
         minRole === Member_Role_Enum.Member ||

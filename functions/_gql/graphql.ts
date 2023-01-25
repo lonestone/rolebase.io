@@ -5968,6 +5968,8 @@ export enum Member_Role_Enum {
   Admin = 'Admin',
   /** Can participate and edit everything */
   Member = 'Member',
+  /** Can subscribe */
+  Owner = 'Owner',
   /** Can view but not participate */
   Readonly = 'Readonly'
 }
