@@ -23,7 +23,9 @@ export const acceptMemberInvitation = fn<{
 }>('acceptMemberInvitation')
 
 export const updateMemberRole =
-  fn<{ memberId: string; role?: Member_Role_Enum }>('updateMemberRole')
+  fn<{ memberId: string; issuerMemberId: string; role?: Member_Role_Enum }>(
+    'updateMemberRole'
+  )
 
 export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
   'getAlgoliaConfig'
@@ -68,7 +70,8 @@ export function getMeetingsIcalUrl(
   }`
 }
 
-export const archiveMember = fn<{memberId: string}>('archiveMember')
+export const archiveMember =
+  fn<{ memberId: string; issuerMemberId: string }>('archiveMember')
 
 export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 
