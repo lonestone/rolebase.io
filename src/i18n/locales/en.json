@@ -394,6 +394,7 @@
     "workingTime": "Working time"
   },
   "MemberRoles": {
+    "heading": "Roles",
     "emptyRoles": "None",
     "addRole": "Add a role",
     "totalAllocatedTime": "Total allocated time:",
