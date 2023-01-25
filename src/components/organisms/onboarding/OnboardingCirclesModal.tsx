@@ -91,10 +91,6 @@ export default function OnboardingCirclesModal({
 
     try {
       for (const name of names) {
-        console.log('Role:', {
-          orgId,
-          name,
-        })
         // Create role
         const roleResult = await createRole({
           variables: {
@@ -105,7 +101,6 @@ export default function OnboardingCirclesModal({
           },
         })
 
-        console.log('Role created:', roleResult)
         const newRole = roleResult.data?.insert_role_one
         if (!newRole) throw new Error('Error creating role')
 
