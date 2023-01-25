@@ -11,17 +11,26 @@ import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
   memberId: yup.string().required(),
+  issuerMemberId: yup.string().required(),
   role: roleSchema,
 })
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
-  const { memberId, role } = guardBodyParams(context, yupSchema)
+  const { memberId, issuerMemberId, role } = guardBodyParams(context, yupSchema)
 
   // Get member
   const member = await getMemberById(memberId)
+  const issuerMember = await getMemberById(issuerMemberId)
 
   await guardOrg(context, member.orgId, Member_Role_Enum.Admin)
+
+  if (
+    member.role === Member_Role_Enum.Owner &&
+    issuerMember.role !== Member_Role_Enum.Owner
+  ) {
+    throw new RouteError(403, 'Insufficient permissions')
+  }
 
   if (member.role === Member_Role_Enum.Owner) {
     // Ensures at least one other owner of the org will remain active
