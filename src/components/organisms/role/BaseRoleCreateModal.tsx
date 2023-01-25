@@ -53,6 +53,7 @@ export default function BaseRoleCreateModal({
 
   const onSubmit = handleSubmit(async ({ name }) => {
     if (!orgId) return
+
     const { data } = await createRole({
       variables: {
         values: {

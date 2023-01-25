@@ -20,6 +20,8 @@ insert_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       columns:
         - data
         - meetingId
@@ -40,8 +42,16 @@ select_permissions:
         meeting:
           org:
             members:
-              userId:
-                _eq: X-Hasura-User-Id
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
 update_permissions:
   - role: user
     permission:
@@ -60,6 +70,8 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       check:
         meeting:
           org:
@@ -72,6 +84,8 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
 delete_permissions:
   - role: user
     permission:
@@ -87,6 +101,8 @@ delete_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
 event_triggers:
   - name: index-meeting-step
     definition:

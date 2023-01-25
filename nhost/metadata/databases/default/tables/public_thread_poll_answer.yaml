@@ -21,6 +21,8 @@ insert_permissions:
                           _eq: Member
                       - role:
                           _eq: Admin
+                      - role:
+                          _eq: Owner
       set:
         userId: x-hasura-User-Id
       columns:
@@ -67,6 +69,8 @@ delete_permissions:
                           _eq: X-Hasura-User-Id
                       - role:
                           _eq: Admin
+                      - role:
+                          _eq: Owner
           - userId:
               _eq: X-Hasura-User-Id
           - activity:

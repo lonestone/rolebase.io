@@ -26,8 +26,8 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
   const cancelRef = useRef<HTMLButtonElement>(null)
   const [archiveOrg] = useArchiveOrgMutation()
 
-  const handleDelete = () => {
-    archiveOrg({ variables: { id } })
+  const handleDelete = async () => {
+    await archiveOrg({ variables: { id } })
     onDelete()
     alertProps.onClose()
   }
