@@ -112,6 +112,7 @@ export default function OrgRoutes({ orgId }: Props) {
       <Routes>
         <Route index element={<CirclesPage />} />
         <Route path="members" element={<MembersPage />} />
+        <Route path="subscription" element={<MembersPage />} />
         <Route path="threads/:threadId" element={<ThreadPage />} />
         <Route path="threads" element={<ThreadsPage />} />
         <Route path="meetings/:meetingId" element={<MeetingPage />} />
