@@ -571,7 +571,8 @@
     "baseRoles": "Rôles de base",
     "vacantRoles": "Rôles vacants",
     "logs": "Historique",
-    "superAdmin": "Admin"
+    "superAdmin": "Admin",
+    "subscription": "Abonnement"
   },
   "Sidebar": {
     "orgs": "Organisations",
@@ -597,6 +598,9 @@
   "SubCirclesFormControl": {
     "roles": "Rôles :",
     "addRole": "Ajouter un rôle"
+  },
+  "SubscriptionPage": {
+    "heading": "Abonnement"
   },
   "SuperAdminPage": {
     "heading": "Administration",

@@ -16,6 +16,7 @@
     "lodash.isequal": "^4.5.0",
     "node-mailjet": "^5.1.1",
     "rrule": "^2.7.1",
+    "stripe": "^11.7.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
