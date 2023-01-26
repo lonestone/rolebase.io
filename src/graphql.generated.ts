@@ -6535,10 +6535,22 @@ export type Mutation_Root = {
   delete_org_file?: Maybe<Org_File_Mutation_Response>;
   /** delete single row from the table: "org_file" */
   delete_org_file_by_pk?: Maybe<Org_File>;
+  /** delete data from the table: "org_subscription" */
+  delete_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
+  /** delete single row from the table: "org_subscription" */
+  delete_org_subscription_by_pk?: Maybe<Org_Subscription>;
   /** delete data from the table: "role" */
   delete_role?: Maybe<Role_Mutation_Response>;
   /** delete single row from the table: "role" */
   delete_role_by_pk?: Maybe<Role>;
+  /** delete data from the table: "subscription_payment_status" */
+  delete_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
+  /** delete single row from the table: "subscription_payment_status" */
+  delete_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
+  /** delete data from the table: "subscription_plan_type" */
+  delete_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
+  /** delete single row from the table: "subscription_plan_type" */
+  delete_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** delete data from the table: "task" */
   delete_task?: Maybe<Task_Mutation_Response>;
   /** delete single row from the table: "task" */
@@ -6671,10 +6683,22 @@ export type Mutation_Root = {
   insert_org_file_one?: Maybe<Org_File>;
   /** insert a single row into the table: "org" */
   insert_org_one?: Maybe<Org>;
+  /** insert data into the table: "org_subscription" */
+  insert_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
+  /** insert a single row into the table: "org_subscription" */
+  insert_org_subscription_one?: Maybe<Org_Subscription>;
   /** insert data into the table: "role" */
   insert_role?: Maybe<Role_Mutation_Response>;
   /** insert a single row into the table: "role" */
   insert_role_one?: Maybe<Role>;
+  /** insert data into the table: "subscription_payment_status" */
+  insert_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
+  /** insert a single row into the table: "subscription_payment_status" */
+  insert_subscription_payment_status_one?: Maybe<Subscription_Payment_Status>;
+  /** insert data into the table: "subscription_plan_type" */
+  insert_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
+  /** insert a single row into the table: "subscription_plan_type" */
+  insert_subscription_plan_type_one?: Maybe<Subscription_Plan_Type>;
   /** insert data into the table: "task" */
   insert_task?: Maybe<Task_Mutation_Response>;
   /** insert a single row into the table: "task" */
@@ -6855,12 +6879,30 @@ export type Mutation_Root = {
   update_org_file_many?: Maybe<Array<Maybe<Org_File_Mutation_Response>>>;
   /** update multiples rows of table: "org" */
   update_org_many?: Maybe<Array<Maybe<Org_Mutation_Response>>>;
+  /** update data of the table: "org_subscription" */
+  update_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
+  /** update single row of the table: "org_subscription" */
+  update_org_subscription_by_pk?: Maybe<Org_Subscription>;
+  /** update multiples rows of table: "org_subscription" */
+  update_org_subscription_many?: Maybe<Array<Maybe<Org_Subscription_Mutation_Response>>>;
   /** update data of the table: "role" */
   update_role?: Maybe<Role_Mutation_Response>;
   /** update single row of the table: "role" */
   update_role_by_pk?: Maybe<Role>;
   /** update multiples rows of table: "role" */
   update_role_many?: Maybe<Array<Maybe<Role_Mutation_Response>>>;
+  /** update data of the table: "subscription_payment_status" */
+  update_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
+  /** update single row of the table: "subscription_payment_status" */
+  update_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
+  /** update multiples rows of table: "subscription_payment_status" */
+  update_subscription_payment_status_many?: Maybe<Array<Maybe<Subscription_Payment_Status_Mutation_Response>>>;
+  /** update data of the table: "subscription_plan_type" */
+  update_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
+  /** update single row of the table: "subscription_plan_type" */
+  update_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
+  /** update multiples rows of table: "subscription_plan_type" */
+  update_subscription_plan_type_many?: Maybe<Array<Maybe<Subscription_Plan_Type_Mutation_Response>>>;
   /** update data of the table: "task" */
   update_task?: Maybe<Task_Mutation_Response>;
   /** update single row of the table: "task" */
@@ -7215,6 +7257,18 @@ export type Mutation_RootDelete_Org_File_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Org_SubscriptionArgs = {
+  where: Org_Subscription_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Org_Subscription_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_RoleArgs = {
   where: Role_Bool_Exp;
 };
@@ -7223,6 +7277,30 @@ export type Mutation_RootDelete_RoleArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Role_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Subscription_Payment_StatusArgs = {
+  where: Subscription_Payment_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Subscription_Payment_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Subscription_Plan_TypeArgs = {
+  where: Subscription_Plan_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Subscription_Plan_Type_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -7673,6 +7751,20 @@ export type Mutation_RootInsert_Org_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Org_SubscriptionArgs = {
+  objects: Array<Org_Subscription_Insert_Input>;
+  on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Org_Subscription_OneArgs = {
+  object: Org_Subscription_Insert_Input;
+  on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_RoleArgs = {
   objects: Array<Role_Insert_Input>;
   on_conflict?: InputMaybe<Role_On_Conflict>;
@@ -7683,6 +7775,34 @@ export type Mutation_RootInsert_RoleArgs = {
 export type Mutation_RootInsert_Role_OneArgs = {
   object: Role_Insert_Input;
   on_conflict?: InputMaybe<Role_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Subscription_Payment_StatusArgs = {
+  objects: Array<Subscription_Payment_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Subscription_Payment_Status_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Subscription_Payment_Status_OneArgs = {
+  object: Subscription_Payment_Status_Insert_Input;
+  on_conflict?: InputMaybe<Subscription_Payment_Status_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Subscription_Plan_TypeArgs = {
+  objects: Array<Subscription_Plan_Type_Insert_Input>;
+  on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Subscription_Plan_Type_OneArgs = {
+  object: Subscription_Plan_Type_Insert_Input;
+  on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
 };
 
 
@@ -8327,6 +8447,26 @@ export type Mutation_RootUpdate_Org_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Org_SubscriptionArgs = {
+  _set?: InputMaybe<Org_Subscription_Set_Input>;
+  where: Org_Subscription_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Org_Subscription_By_PkArgs = {
+  _set?: InputMaybe<Org_Subscription_Set_Input>;
+  pk_columns: Org_Subscription_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Org_Subscription_ManyArgs = {
+  updates: Array<Org_Subscription_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_RoleArgs = {
   _inc?: InputMaybe<Role_Inc_Input>;
   _set?: InputMaybe<Role_Set_Input>;
@@ -8345,6 +8485,46 @@ export type Mutation_RootUpdate_Role_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Role_ManyArgs = {
   updates: Array<Role_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Payment_StatusArgs = {
+  _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
+  where: Subscription_Payment_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Payment_Status_By_PkArgs = {
+  _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
+  pk_columns: Subscription_Payment_Status_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Payment_Status_ManyArgs = {
+  updates: Array<Subscription_Payment_Status_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Plan_TypeArgs = {
+  _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
+  where: Subscription_Plan_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Plan_Type_By_PkArgs = {
+  _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
+  pk_columns: Subscription_Plan_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Plan_Type_ManyArgs = {
+  updates: Array<Subscription_Plan_Type_Updates>;
 };
 
 
@@ -8716,11 +8896,14 @@ export type Org = {
   /** An aggregate relationship */
   members_aggregate: Member_Aggregate;
   name: Scalars['String'];
+  /** An object relationship */
+  org_subscription?: Maybe<Org_Subscription>;
   /** An array relationship */
   roles: Array<Role>;
   /** An aggregate relationship */
   roles_aggregate: Role_Aggregate;
   slug?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['uuid']>;
   /** An array relationship */
   task_views: Array<Task_View>;
   /** An aggregate relationship */
@@ -9037,9 +9220,11 @@ export type Org_Bool_Exp = {
   members?: InputMaybe<Member_Bool_Exp>;
   members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  org_subscription?: InputMaybe<Org_Subscription_Bool_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
+  subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
   task_views?: InputMaybe<Task_View_Bool_Exp>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
   tasks?: InputMaybe<Task_Bool_Exp>;
@@ -9270,8 +9455,10 @@ export type Org_Insert_Input = {
   meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
+  org_subscription?: InputMaybe<Org_Subscription_Obj_Rel_Insert_Input>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
+  subscriptionId?: InputMaybe<Scalars['uuid']>;
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
   tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
   threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
@@ -9285,6 +9472,7 @@ export type Org_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate min on columns */
@@ -9295,6 +9483,7 @@ export type Org_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['uuid']>;
 };
 
 /** response of any mutation on the table "org" */
@@ -9335,8 +9524,10 @@ export type Org_Order_By = {
   meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
+  org_subscription?: InputMaybe<Org_Subscription_Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
+  subscriptionId?: InputMaybe<Order_By>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
@@ -9360,7 +9551,9 @@ export enum Org_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Slug = 'slug'
+  Slug = 'slug',
+  /** column name */
+  SubscriptionId = 'subscriptionId'
 }
 
 /** input type for updating data in table "org" */
@@ -9371,6 +9564,7 @@ export type Org_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
+  subscriptionId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
@@ -9407,6 +9601,202 @@ export type Org_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
+  subscriptionId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Abonnement lié à une organisation */
+export type Org_Subscription = {
+  __typename?: 'org_subscription';
+  id: Scalars['uuid'];
+  /** An object relationship */
+  org: Org;
+  orgId: Scalars['uuid'];
+  status: Subscription_Payment_Status_Enum;
+  stripeCustomerId: Scalars['String'];
+  stripeSubscriptionId?: Maybe<Scalars['String']>;
+  type: Subscription_Plan_Type_Enum;
+};
+
+/** aggregated selection of "org_subscription" */
+export type Org_Subscription_Aggregate = {
+  __typename?: 'org_subscription_aggregate';
+  aggregate?: Maybe<Org_Subscription_Aggregate_Fields>;
+  nodes: Array<Org_Subscription>;
+};
+
+/** aggregate fields of "org_subscription" */
+export type Org_Subscription_Aggregate_Fields = {
+  __typename?: 'org_subscription_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Org_Subscription_Max_Fields>;
+  min?: Maybe<Org_Subscription_Min_Fields>;
+};
+
+
+/** aggregate fields of "org_subscription" */
+export type Org_Subscription_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "org_subscription". All fields are combined with a logical 'AND'. */
+export type Org_Subscription_Bool_Exp = {
+  _and?: InputMaybe<Array<Org_Subscription_Bool_Exp>>;
+  _not?: InputMaybe<Org_Subscription_Bool_Exp>;
+  _or?: InputMaybe<Array<Org_Subscription_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  org?: InputMaybe<Org_Bool_Exp>;
+  orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  status?: InputMaybe<Subscription_Payment_Status_Enum_Comparison_Exp>;
+  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
+  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "org_subscription" */
+export enum Org_Subscription_Constraint {
+  /** unique or primary key constraint on columns "orgId" */
+  OrgSubscriptionOrgIdKey = 'org_subscription_orgId_key',
+  /** unique or primary key constraint on columns "id" */
+  OrgSubscriptionPkey = 'org_subscription_pkey',
+  /** unique or primary key constraint on columns "stripeCustomerId" */
+  OrgSubscriptionStripeCustomerIdKey = 'org_subscription_stripeCustomerId_key',
+  /** unique or primary key constraint on columns "stripeSubscriptionId" */
+  OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key'
+}
+
+/** input type for inserting data into table "org_subscription" */
+export type Org_Subscription_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Subscription_Payment_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+};
+
+/** aggregate max on columns */
+export type Org_Subscription_Max_Fields = {
+  __typename?: 'org_subscription_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  stripeCustomerId?: Maybe<Scalars['String']>;
+  stripeSubscriptionId?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Org_Subscription_Min_Fields = {
+  __typename?: 'org_subscription_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  stripeCustomerId?: Maybe<Scalars['String']>;
+  stripeSubscriptionId?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "org_subscription" */
+export type Org_Subscription_Mutation_Response = {
+  __typename?: 'org_subscription_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Org_Subscription>;
+};
+
+/** input type for inserting object relation for remote table "org_subscription" */
+export type Org_Subscription_Obj_Rel_Insert_Input = {
+  data: Org_Subscription_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
+};
+
+/** on_conflict condition type for table "org_subscription" */
+export type Org_Subscription_On_Conflict = {
+  constraint: Org_Subscription_Constraint;
+  update_columns?: Array<Org_Subscription_Update_Column>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "org_subscription". */
+export type Org_Subscription_Order_By = {
+  id?: InputMaybe<Order_By>;
+  org?: InputMaybe<Org_Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  stripeCustomerId?: InputMaybe<Order_By>;
+  stripeSubscriptionId?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: org_subscription */
+export type Org_Subscription_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "org_subscription" */
+export enum Org_Subscription_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  StripeCustomerId = 'stripeCustomerId',
+  /** column name */
+  StripeSubscriptionId = 'stripeSubscriptionId',
+  /** column name */
+  Type = 'type'
+}
+
+/** input type for updating data in table "org_subscription" */
+export type Org_Subscription_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Subscription_Payment_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+};
+
+/** Streaming cursor of the table "org_subscription" */
+export type Org_Subscription_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Org_Subscription_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Org_Subscription_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Subscription_Payment_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+};
+
+/** update columns of table "org_subscription" */
+export enum Org_Subscription_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  StripeCustomerId = 'stripeCustomerId',
+  /** column name */
+  StripeSubscriptionId = 'stripeSubscriptionId',
+  /** column name */
+  Type = 'type'
+}
+
+export type Org_Subscription_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Org_Subscription_Set_Input>;
+  where: Org_Subscription_Bool_Exp;
 };
 
 /** aggregate sum on columns */
@@ -9428,7 +9818,9 @@ export enum Org_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Slug = 'slug'
+  Slug = 'slug',
+  /** column name */
+  SubscriptionId = 'subscriptionId'
 }
 
 export type Org_Updates = {
@@ -9607,12 +9999,30 @@ export type Query_Root = {
   org_file_aggregate: Org_File_Aggregate;
   /** fetch data from the table: "org_file" using primary key columns */
   org_file_by_pk?: Maybe<Org_File>;
+  /** fetch data from the table: "org_subscription" */
+  org_subscription: Array<Org_Subscription>;
+  /** fetch aggregated fields from the table: "org_subscription" */
+  org_subscription_aggregate: Org_Subscription_Aggregate;
+  /** fetch data from the table: "org_subscription" using primary key columns */
+  org_subscription_by_pk?: Maybe<Org_Subscription>;
   /** fetch data from the table: "role" */
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
+  /** fetch data from the table: "subscription_payment_status" */
+  subscription_payment_status: Array<Subscription_Payment_Status>;
+  /** fetch aggregated fields from the table: "subscription_payment_status" */
+  subscription_payment_status_aggregate: Subscription_Payment_Status_Aggregate;
+  /** fetch data from the table: "subscription_payment_status" using primary key columns */
+  subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
+  /** fetch data from the table: "subscription_plan_type" */
+  subscription_plan_type: Array<Subscription_Plan_Type>;
+  /** fetch aggregated fields from the table: "subscription_plan_type" */
+  subscription_plan_type_aggregate: Subscription_Plan_Type_Aggregate;
+  /** fetch data from the table: "subscription_plan_type" using primary key columns */
+  subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -10240,6 +10650,29 @@ export type Query_RootOrg_File_By_PkArgs = {
 };
 
 
+export type Query_RootOrg_SubscriptionArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Query_RootOrg_Subscription_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Query_RootOrg_Subscription_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootRoleArgs = {
   distinct_on?: InputMaybe<Array<Role_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -10260,6 +10693,52 @@ export type Query_RootRole_AggregateArgs = {
 
 export type Query_RootRole_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootSubscription_Payment_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
+  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
+};
+
+
+export type Query_RootSubscription_Payment_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
+  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
+};
+
+
+export type Query_RootSubscription_Payment_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Query_RootSubscription_Plan_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Query_RootSubscription_Plan_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Query_RootSubscription_Plan_Type_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -11048,6 +11527,281 @@ export type Smallint_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['smallint']>>;
 };
 
+/** columns and relationships of "subscription_payment_status" */
+export type Subscription_Payment_Status = {
+  __typename?: 'subscription_payment_status';
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "subscription_payment_status" */
+export type Subscription_Payment_Status_Aggregate = {
+  __typename?: 'subscription_payment_status_aggregate';
+  aggregate?: Maybe<Subscription_Payment_Status_Aggregate_Fields>;
+  nodes: Array<Subscription_Payment_Status>;
+};
+
+/** aggregate fields of "subscription_payment_status" */
+export type Subscription_Payment_Status_Aggregate_Fields = {
+  __typename?: 'subscription_payment_status_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Subscription_Payment_Status_Max_Fields>;
+  min?: Maybe<Subscription_Payment_Status_Min_Fields>;
+};
+
+
+/** aggregate fields of "subscription_payment_status" */
+export type Subscription_Payment_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "subscription_payment_status". All fields are combined with a logical 'AND'. */
+export type Subscription_Payment_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Subscription_Payment_Status_Bool_Exp>>;
+  _not?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Subscription_Payment_Status_Bool_Exp>>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "subscription_payment_status" */
+export enum Subscription_Payment_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  SubscriptionPaymentStatusPkey = 'subscription_payment_status_pkey'
+}
+
+export enum Subscription_Payment_Status_Enum {
+  Active = 'active',
+  Canceled = 'canceled',
+  Incomplete = 'incomplete',
+  IncompleteExpired = 'incomplete_expired',
+  PastDue = 'past_due',
+  Trialing = 'trialing',
+  Unpaid = 'unpaid'
+}
+
+/** Boolean expression to compare columns of type "subscription_payment_status_enum". All fields are combined with logical 'AND'. */
+export type Subscription_Payment_Status_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Subscription_Payment_Status_Enum>;
+  _in?: InputMaybe<Array<Subscription_Payment_Status_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Subscription_Payment_Status_Enum>;
+  _nin?: InputMaybe<Array<Subscription_Payment_Status_Enum>>;
+};
+
+/** input type for inserting data into table "subscription_payment_status" */
+export type Subscription_Payment_Status_Insert_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Subscription_Payment_Status_Max_Fields = {
+  __typename?: 'subscription_payment_status_max_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Subscription_Payment_Status_Min_Fields = {
+  __typename?: 'subscription_payment_status_min_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "subscription_payment_status" */
+export type Subscription_Payment_Status_Mutation_Response = {
+  __typename?: 'subscription_payment_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Subscription_Payment_Status>;
+};
+
+/** on_conflict condition type for table "subscription_payment_status" */
+export type Subscription_Payment_Status_On_Conflict = {
+  constraint: Subscription_Payment_Status_Constraint;
+  update_columns?: Array<Subscription_Payment_Status_Update_Column>;
+  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "subscription_payment_status". */
+export type Subscription_Payment_Status_Order_By = {
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: subscription_payment_status */
+export type Subscription_Payment_Status_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "subscription_payment_status" */
+export enum Subscription_Payment_Status_Select_Column {
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "subscription_payment_status" */
+export type Subscription_Payment_Status_Set_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "subscription_payment_status" */
+export type Subscription_Payment_Status_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Subscription_Payment_Status_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Subscription_Payment_Status_Stream_Cursor_Value_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "subscription_payment_status" */
+export enum Subscription_Payment_Status_Update_Column {
+  /** column name */
+  Value = 'value'
+}
+
+export type Subscription_Payment_Status_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
+  where: Subscription_Payment_Status_Bool_Exp;
+};
+
+/** columns and relationships of "subscription_plan_type" */
+export type Subscription_Plan_Type = {
+  __typename?: 'subscription_plan_type';
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "subscription_plan_type" */
+export type Subscription_Plan_Type_Aggregate = {
+  __typename?: 'subscription_plan_type_aggregate';
+  aggregate?: Maybe<Subscription_Plan_Type_Aggregate_Fields>;
+  nodes: Array<Subscription_Plan_Type>;
+};
+
+/** aggregate fields of "subscription_plan_type" */
+export type Subscription_Plan_Type_Aggregate_Fields = {
+  __typename?: 'subscription_plan_type_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Subscription_Plan_Type_Max_Fields>;
+  min?: Maybe<Subscription_Plan_Type_Min_Fields>;
+};
+
+
+/** aggregate fields of "subscription_plan_type" */
+export type Subscription_Plan_Type_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "subscription_plan_type". All fields are combined with a logical 'AND'. */
+export type Subscription_Plan_Type_Bool_Exp = {
+  _and?: InputMaybe<Array<Subscription_Plan_Type_Bool_Exp>>;
+  _not?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+  _or?: InputMaybe<Array<Subscription_Plan_Type_Bool_Exp>>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "subscription_plan_type" */
+export enum Subscription_Plan_Type_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  SubscriptionPlanTypePkey = 'subscription_plan_type_pkey'
+}
+
+export enum Subscription_Plan_Type_Enum {
+  Business = 'Business',
+  Startup = 'Startup'
+}
+
+/** Boolean expression to compare columns of type "subscription_plan_type_enum". All fields are combined with logical 'AND'. */
+export type Subscription_Plan_Type_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Subscription_Plan_Type_Enum>;
+  _in?: InputMaybe<Array<Subscription_Plan_Type_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Subscription_Plan_Type_Enum>;
+  _nin?: InputMaybe<Array<Subscription_Plan_Type_Enum>>;
+};
+
+/** input type for inserting data into table "subscription_plan_type" */
+export type Subscription_Plan_Type_Insert_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Subscription_Plan_Type_Max_Fields = {
+  __typename?: 'subscription_plan_type_max_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Subscription_Plan_Type_Min_Fields = {
+  __typename?: 'subscription_plan_type_min_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "subscription_plan_type" */
+export type Subscription_Plan_Type_Mutation_Response = {
+  __typename?: 'subscription_plan_type_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Subscription_Plan_Type>;
+};
+
+/** on_conflict condition type for table "subscription_plan_type" */
+export type Subscription_Plan_Type_On_Conflict = {
+  constraint: Subscription_Plan_Type_Constraint;
+  update_columns?: Array<Subscription_Plan_Type_Update_Column>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "subscription_plan_type". */
+export type Subscription_Plan_Type_Order_By = {
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: subscription_plan_type */
+export type Subscription_Plan_Type_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "subscription_plan_type" */
+export enum Subscription_Plan_Type_Select_Column {
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "subscription_plan_type" */
+export type Subscription_Plan_Type_Set_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "subscription_plan_type" */
+export type Subscription_Plan_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Subscription_Plan_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Subscription_Plan_Type_Stream_Cursor_Value_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "subscription_plan_type" */
+export enum Subscription_Plan_Type_Update_Column {
+  /** column name */
+  Value = 'value'
+}
+
+export type Subscription_Plan_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
+  where: Subscription_Plan_Type_Bool_Exp;
+};
+
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "auth.providers" using primary key columns */
@@ -11248,6 +12002,14 @@ export type Subscription_Root = {
   org_file_stream: Array<Org_File>;
   /** fetch data from the table in a streaming manner: "org" */
   org_stream: Array<Org>;
+  /** fetch data from the table: "org_subscription" */
+  org_subscription: Array<Org_Subscription>;
+  /** fetch aggregated fields from the table: "org_subscription" */
+  org_subscription_aggregate: Org_Subscription_Aggregate;
+  /** fetch data from the table: "org_subscription" using primary key columns */
+  org_subscription_by_pk?: Maybe<Org_Subscription>;
+  /** fetch data from the table in a streaming manner: "org_subscription" */
+  org_subscription_stream: Array<Org_Subscription>;
   /** fetch data from the table: "role" */
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
@@ -11256,6 +12018,22 @@ export type Subscription_Root = {
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table in a streaming manner: "role" */
   role_stream: Array<Role>;
+  /** fetch data from the table: "subscription_payment_status" */
+  subscription_payment_status: Array<Subscription_Payment_Status>;
+  /** fetch aggregated fields from the table: "subscription_payment_status" */
+  subscription_payment_status_aggregate: Subscription_Payment_Status_Aggregate;
+  /** fetch data from the table: "subscription_payment_status" using primary key columns */
+  subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
+  /** fetch data from the table in a streaming manner: "subscription_payment_status" */
+  subscription_payment_status_stream: Array<Subscription_Payment_Status>;
+  /** fetch data from the table: "subscription_plan_type" */
+  subscription_plan_type: Array<Subscription_Plan_Type>;
+  /** fetch aggregated fields from the table: "subscription_plan_type" */
+  subscription_plan_type_aggregate: Subscription_Plan_Type_Aggregate;
+  /** fetch data from the table: "subscription_plan_type" using primary key columns */
+  subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
+  /** fetch data from the table in a streaming manner: "subscription_plan_type" */
+  subscription_plan_type_stream: Array<Subscription_Plan_Type>;
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -12076,6 +12854,36 @@ export type Subscription_RootOrg_StreamArgs = {
 };
 
 
+export type Subscription_RootOrg_SubscriptionArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrg_Subscription_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrg_Subscription_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootOrg_Subscription_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Org_Subscription_Stream_Cursor_Input>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
 export type Subscription_RootRoleArgs = {
   distinct_on?: InputMaybe<Array<Role_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -12103,6 +12911,66 @@ export type Subscription_RootRole_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Role_Stream_Cursor_Input>>;
   where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Payment_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
+  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Payment_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
+  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Payment_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootSubscription_Payment_Status_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Subscription_Payment_Status_Stream_Cursor_Input>>;
+  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Plan_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Plan_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Plan_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootSubscription_Plan_Type_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Subscription_Plan_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
 };
 
 
