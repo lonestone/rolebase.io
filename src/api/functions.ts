@@ -56,6 +56,9 @@ export const startMembersMeeting = fn<{
 export const stopMembersMeeting =
   fn<{ meetingId: string }>('stopMembersMeeting')
 
+export const subscribeOrg =
+  fn<{ memberId: string; orgId: string }>('subscribeOrg')
+
 export function getMeetingsIcalUrl(
   orgId: string | undefined,
   token: string,

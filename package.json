@@ -38,6 +38,8 @@
     "@magicbell/magicbell-react": "^10.3.4",
     "@nhost/react": "^0.17.0",
     "@nhost/react-apollo": "^4.11.0",
+    "@stripe/react-stripe-js": "^1.16.4",
+    "@stripe/stripe-js": "^1.46.0",
     "algoliasearch": "^4.14.2",
     "crypto-hash": "^2.0.1",
     "d3": "^7.3.0",

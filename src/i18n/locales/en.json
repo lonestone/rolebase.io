@@ -568,7 +568,8 @@
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
     "logs": "History",
-    "superAdmin": "Admin"
+    "superAdmin": "Admin",
+    "subscription": "Subscription"
   },
   "Sidebar": {
     "orgs": "Organizations",
@@ -594,6 +595,9 @@
   "SubCirclesFormControl": {
     "roles": "Roles:",
     "addRole": "Add a role"
+  },
+  "SubscriptionPage": {
+    "heading": "Subscription"
   },
   "SuperAdminPage": {
     "heading": "Admin dashboard",
