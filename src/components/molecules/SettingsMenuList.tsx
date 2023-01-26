@@ -38,6 +38,7 @@ export default function SettingsMenuList(props: MenuListProps) {
   // Pages paths
   const membersPath = usePathInOrg('members')
   const logsPath = usePathInOrg('logs')
+  const subscriptionPath = usePathInOrg('subscription')
 
   // Modals
   const orgEditModal = useDisclosure()
@@ -62,8 +63,8 @@ export default function SettingsMenuList(props: MenuListProps) {
         )}
 
         {isOwner && (
-          <MenuItem icon={<FiFeather />} onClick={() => handleOpenEdit(orgId)}>
-            {t('Subscription')}
+          <MenuItem as={Link} icon={<FiFeather />} to={subscriptionPath}>
+            {t('SettingsMenuList.subscription')}
           </MenuItem>
         )}
 
