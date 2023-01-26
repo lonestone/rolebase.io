@@ -6,6 +6,7 @@ import {
 } from '@chakra-ui/react'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useOrgAdmin from '@hooks/useOrgAdmin'
+import useOrgOwner from '@hooks/useOrgOwner'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
@@ -20,6 +21,7 @@ import {
   FiCircle,
   FiClock,
   FiSettings,
+  FiFeather,
   FiUsers,
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -30,6 +32,7 @@ export default function SettingsMenuList(props: MenuListProps) {
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
   const isSuperAdmin = useSuperAdmin()
+  const isOwner = useOrgOwner()
   const sidebarContext = useContext(SidebarContext)
 
   // Pages paths
@@ -55,6 +58,12 @@ export default function SettingsMenuList(props: MenuListProps) {
         {isAdmin && (
           <MenuItem icon={<FiSettings />} onClick={() => handleOpenEdit(orgId)}>
             {t('SettingsMenuList.org')}
+          </MenuItem>
+        )}
+
+        {isOwner && (
+          <MenuItem icon={<FiFeather />} onClick={() => handleOpenEdit(orgId)}>
+            {t('Subscription')}
           </MenuItem>
         )}
 
