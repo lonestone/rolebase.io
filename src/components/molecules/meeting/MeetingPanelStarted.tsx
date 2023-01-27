@@ -56,9 +56,6 @@ export default function MeetingPanelStarted() {
     []
   )
 
-  // Video conf
-  const [videoConfOpen, setVideoConfOpen] = useState(false)
-
   if (!meeting) return null
 
   // Default description when creating a decision or a task
@@ -114,8 +111,6 @@ export default function MeetingPanelStarted() {
               aria-label={t('MeetingPanelStarted.videoConf')}
               icon={<FiVideo />}
               colorScheme="blue"
-              showText={!videoConfOpen}
-              onClick={() => setVideoConfOpen(true)}
             />
           </a>
         )}
