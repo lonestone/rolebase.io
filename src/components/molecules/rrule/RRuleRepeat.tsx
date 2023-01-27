@@ -21,12 +21,12 @@ export default function RRuleRepeat({ options, onChange }: FormPartProps) {
       <HStack>
         <NumberInput
           min={1}
-          value={options.interval}
+          value={options.interval ?? 1}
           onChange={(interval) => onChange({ interval })}
         />
 
         <Select
-          value={options.freq}
+          value={options.freq ?? Frequency.MONTHLY}
           onChange={(e) => onChange({ freq: +e.target.value })}
         >
           {freqs.map((freq) => (

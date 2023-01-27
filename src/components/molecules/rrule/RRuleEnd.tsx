@@ -63,7 +63,7 @@ export default function RRuleEnd({ options, onChange }: FormPartProps) {
               max={1000}
               min={1}
               w="80px"
-              value={options.count ?? undefined}
+              value={options.count}
               onChange={(count) => onChange({ count })}
             />
             <InputRightAddon>{t('RRuleEditor.count-suffix')}</InputRightAddon>
@@ -73,7 +73,7 @@ export default function RRuleEnd({ options, onChange }: FormPartProps) {
         {options.until && (
           <Input
             type="datetime-local"
-            value={options.until ? getDateTimeLocal(options.until) : undefined}
+            value={getDateTimeLocal(options.until)}
             w="150%"
             onChange={(e) => onChange({ until: new Date(e.target.value) })}
           />
