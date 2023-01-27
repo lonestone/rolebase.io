@@ -70,7 +70,7 @@ export default function SearchResultsList({
       positionProps.left = inputBounds.left
       layoutProps.maxW = `${alignLeftWidth}px`
     } else if (alignRightWidth >= satisfyingWidth) {
-      positionProps.right = inputBounds.right
+      positionProps.right = windowSize.width - inputBounds.right
       layoutProps.maxW = `${alignRightWidth}px`
     } else {
       positionProps.left = 0
