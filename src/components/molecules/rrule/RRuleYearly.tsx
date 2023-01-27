@@ -14,7 +14,7 @@ export default function RRuleYearly({ options, onChange }: FormPartProps) {
     <>
       <FormRow label={t('RRuleEditor.bymonth')}>
         <Select
-          value={options.bymonth?.[0]}
+          value={options.bymonth?.[0] || 0}
           onChange={(e) => onChange({ bymonth: [+e.target.value] })}
         >
           {i18nMonths.map((month, index) => (

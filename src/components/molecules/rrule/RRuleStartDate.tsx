@@ -12,7 +12,7 @@ export default function RRuleStartDate({ options, onChange }: FormPartProps) {
     <FormRow label={t('RRuleEditor.startDate')}>
       <Input
         type="datetime-local"
-        value={options.dtstart && getDateTimeLocal(options.dtstart)}
+        value={options.dtstart ? getDateTimeLocal(options.dtstart) : ''}
         onChange={(e) => onChange({ dtstart: new Date(e.target.value) })}
       />
     </FormRow>
