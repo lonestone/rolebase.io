@@ -6,6 +6,7 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { route, RouteError } from '@utils/route'
 import { updateMember } from '@utils/updateMember'
+import { updateOrgSubscriptionAfterInvite } from '@utils/updateOrgSubscriptionAfterInvite'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -42,6 +43,9 @@ export default route(async (context): Promise<void> => {
   if (token !== tokenTruth) {
     throw new RouteError(401, 'Invalid token')
   }
+
+  // Updates the subscription if needed
+  await updateOrgSubscriptionAfterInvite(context, member.orgId)
 
   // Update member
   await updateMember(memberId, { userId: context.userId })

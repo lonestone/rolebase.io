@@ -1,4 +1,4 @@
-import { Member_Role_Enum } from '@gql'
+import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import {
   MagicbellConfig,
   NotificationCategories,
@@ -56,8 +56,16 @@ export const startMembersMeeting = fn<{
 export const stopMembersMeeting =
   fn<{ meetingId: string }>('stopMembersMeeting')
 
-export const subscribeOrg =
-  fn<{ memberId: string; orgId: string }>('subscribeOrg')
+export const subscribeOrg = fn<{
+  memberId: string
+  orgId: string
+  planType: Subscription_Plan_Type_Enum
+}>('subscribeOrg')
+
+export const unsubscribeOrg = fn<{
+  memberId: string
+  orgId: string
+}>('unsubscribeOrg')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,

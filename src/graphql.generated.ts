@@ -1,8 +1,6 @@
-import { MemberPreferences } from '@shared/model/member'
 import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
 import { ThreadActivityData } from '@shared/model/thread_activity'
-import { LogDisplay, EntitiesChanges } from '@shared/model/log'
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -25,11 +23,8 @@ export type Scalars = {
   citext: string;
   json: any;
   jsonb: any;
-  log_changes: EntitiesChanges;
-  log_display: LogDisplay;
   meeting_step_config: MeetingStepConfig;
   meeting_step_data: MeetingStepData;
-  member_preferences: MemberPreferences;
   smallint: number;
   strings: any;
   thread_activity_data: ThreadActivityData;
@@ -3539,33 +3534,26 @@ export type Log = {
   __typename?: 'log';
   /** An object relationship */
   cancelLog?: Maybe<Log>;
-  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   cancelMember?: Maybe<Member>;
-  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   canceled: Scalars['Boolean'];
-  /** Log of changes to entities, useful to cancel */
-  changes: Scalars['log_changes'];
+  changes: Scalars['json'];
   createdAt: Scalars['timestamptz'];
-  /** Type of log and data to display */
-  display: Scalars['log_display'];
+  display: Scalars['json'];
   id: Scalars['uuid'];
-  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   member: Member;
   memberId: Scalars['uuid'];
-  /** Keep name for display, in case of deleted member */
   memberName: Scalars['String'];
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
   /** An object relationship */
   user: Users;
-  /** User and member who made the change */
   userId: Scalars['uuid'];
 };
 
@@ -3588,33 +3576,6 @@ export type Log_Aggregate = {
   nodes: Array<Log>;
 };
 
-export type Log_Aggregate_Bool_Exp = {
-  bool_and?: InputMaybe<Log_Aggregate_Bool_Exp_Bool_And>;
-  bool_or?: InputMaybe<Log_Aggregate_Bool_Exp_Bool_Or>;
-  count?: InputMaybe<Log_Aggregate_Bool_Exp_Count>;
-};
-
-export type Log_Aggregate_Bool_Exp_Bool_And = {
-  arguments: Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Log_Bool_Exp>;
-  predicate: Boolean_Comparison_Exp;
-};
-
-export type Log_Aggregate_Bool_Exp_Bool_Or = {
-  arguments: Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Log_Bool_Exp>;
-  predicate: Boolean_Comparison_Exp;
-};
-
-export type Log_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Log_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Log_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
 /** aggregate fields of "log" */
 export type Log_Aggregate_Fields = {
   __typename?: 'log_aggregate_fields';
@@ -3628,20 +3589,6 @@ export type Log_Aggregate_Fields = {
 export type Log_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Log_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "log" */
-export type Log_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Log_Max_Order_By>;
-  min?: InputMaybe<Log_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "log" */
-export type Log_Arr_Rel_Insert_Input = {
-  data: Array<Log_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Log_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "log". All fields are combined with a logical 'AND'. */
@@ -3678,108 +3625,53 @@ export enum Log_Constraint {
 /** input type for inserting data into table "log" */
 export type Log_Insert_Input = {
   cancelLog?: InputMaybe<Log_Obj_Rel_Insert_Input>;
-  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
   cancelMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
-  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
-  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
-  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
-  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']>;
-  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
 export type Log_Max_Fields = {
   __typename?: 'log_max_fields';
-  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
-  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
-  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
-  /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
-  /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "log" */
-export type Log_Max_Order_By = {
-  /** Id of canceled log, if it's a cancellation */
-  cancelLogId?: InputMaybe<Order_By>;
-  /** Member that did the action that's canceled */
-  cancelMemberId?: InputMaybe<Order_By>;
-  cancelMemberName?: InputMaybe<Order_By>;
-  createdAt?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  /** Meeting during which this log was created (optional) */
-  meetingId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  /** Keep name for display, in case of deleted member */
-  memberName?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  /** User and member who made the change */
-  userId?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Log_Min_Fields = {
   __typename?: 'log_min_fields';
-  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
-  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
-  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
-  /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
-  /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "log" */
-export type Log_Min_Order_By = {
-  /** Id of canceled log, if it's a cancellation */
-  cancelLogId?: InputMaybe<Order_By>;
-  /** Member that did the action that's canceled */
-  cancelMemberId?: InputMaybe<Order_By>;
-  cancelMemberName?: InputMaybe<Order_By>;
-  createdAt?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  /** Meeting during which this log was created (optional) */
-  meetingId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  /** Keep name for display, in case of deleted member */
-  memberName?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  /** User and member who made the change */
-  userId?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "log" */
@@ -3862,39 +3754,20 @@ export enum Log_Select_Column {
   UserId = 'userId'
 }
 
-/** select "log_aggregate_bool_exp_bool_and_arguments_columns" columns of table "log" */
-export enum Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
-  /** column name */
-  Canceled = 'canceled'
-}
-
-/** select "log_aggregate_bool_exp_bool_or_arguments_columns" columns of table "log" */
-export enum Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
-  /** column name */
-  Canceled = 'canceled'
-}
-
 /** input type for updating data in table "log" */
 export type Log_Set_Input = {
-  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
-  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
-  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
-  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
-  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   memberId?: InputMaybe<Scalars['uuid']>;
-  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -3908,25 +3781,18 @@ export type Log_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Log_Stream_Cursor_Value_Input = {
-  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
-  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
-  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
-  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
-  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   memberId?: InputMaybe<Scalars['uuid']>;
-  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -4794,150 +4660,6 @@ export type Meeting_Set_Input = {
   videoConf?: InputMaybe<Scalars['json']>;
 };
 
-/** columns and relationships of "meeting_stats" */
-export type Meeting_Stats = {
-  __typename?: 'meeting_stats';
-  count?: Maybe<Scalars['bigint']>;
-  day?: Maybe<Scalars['timestamptz']>;
-  orgId?: Maybe<Scalars['uuid']>;
-};
-
-/** aggregated selection of "meeting_stats" */
-export type Meeting_Stats_Aggregate = {
-  __typename?: 'meeting_stats_aggregate';
-  aggregate?: Maybe<Meeting_Stats_Aggregate_Fields>;
-  nodes: Array<Meeting_Stats>;
-};
-
-/** aggregate fields of "meeting_stats" */
-export type Meeting_Stats_Aggregate_Fields = {
-  __typename?: 'meeting_stats_aggregate_fields';
-  avg?: Maybe<Meeting_Stats_Avg_Fields>;
-  count: Scalars['Int'];
-  max?: Maybe<Meeting_Stats_Max_Fields>;
-  min?: Maybe<Meeting_Stats_Min_Fields>;
-  stddev?: Maybe<Meeting_Stats_Stddev_Fields>;
-  stddev_pop?: Maybe<Meeting_Stats_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Meeting_Stats_Stddev_Samp_Fields>;
-  sum?: Maybe<Meeting_Stats_Sum_Fields>;
-  var_pop?: Maybe<Meeting_Stats_Var_Pop_Fields>;
-  var_samp?: Maybe<Meeting_Stats_Var_Samp_Fields>;
-  variance?: Maybe<Meeting_Stats_Variance_Fields>;
-};
-
-
-/** aggregate fields of "meeting_stats" */
-export type Meeting_Stats_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** aggregate avg on columns */
-export type Meeting_Stats_Avg_Fields = {
-  __typename?: 'meeting_stats_avg_fields';
-  count?: Maybe<Scalars['Float']>;
-};
-
-/** Boolean expression to filter rows from the table "meeting_stats". All fields are combined with a logical 'AND'. */
-export type Meeting_Stats_Bool_Exp = {
-  _and?: InputMaybe<Array<Meeting_Stats_Bool_Exp>>;
-  _not?: InputMaybe<Meeting_Stats_Bool_Exp>;
-  _or?: InputMaybe<Array<Meeting_Stats_Bool_Exp>>;
-  count?: InputMaybe<Bigint_Comparison_Exp>;
-  day?: InputMaybe<Timestamptz_Comparison_Exp>;
-  orgId?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** aggregate max on columns */
-export type Meeting_Stats_Max_Fields = {
-  __typename?: 'meeting_stats_max_fields';
-  count?: Maybe<Scalars['bigint']>;
-  day?: Maybe<Scalars['timestamptz']>;
-  orgId?: Maybe<Scalars['uuid']>;
-};
-
-/** aggregate min on columns */
-export type Meeting_Stats_Min_Fields = {
-  __typename?: 'meeting_stats_min_fields';
-  count?: Maybe<Scalars['bigint']>;
-  day?: Maybe<Scalars['timestamptz']>;
-  orgId?: Maybe<Scalars['uuid']>;
-};
-
-/** Ordering options when selecting data from "meeting_stats". */
-export type Meeting_Stats_Order_By = {
-  count?: InputMaybe<Order_By>;
-  day?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-};
-
-/** select columns of table "meeting_stats" */
-export enum Meeting_Stats_Select_Column {
-  /** column name */
-  Count = 'count',
-  /** column name */
-  Day = 'day',
-  /** column name */
-  OrgId = 'orgId'
-}
-
-/** aggregate stddev on columns */
-export type Meeting_Stats_Stddev_Fields = {
-  __typename?: 'meeting_stats_stddev_fields';
-  count?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Meeting_Stats_Stddev_Pop_Fields = {
-  __typename?: 'meeting_stats_stddev_pop_fields';
-  count?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Meeting_Stats_Stddev_Samp_Fields = {
-  __typename?: 'meeting_stats_stddev_samp_fields';
-  count?: Maybe<Scalars['Float']>;
-};
-
-/** Streaming cursor of the table "meeting_stats" */
-export type Meeting_Stats_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Meeting_Stats_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Meeting_Stats_Stream_Cursor_Value_Input = {
-  count?: InputMaybe<Scalars['bigint']>;
-  day?: InputMaybe<Scalars['timestamptz']>;
-  orgId?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate sum on columns */
-export type Meeting_Stats_Sum_Fields = {
-  __typename?: 'meeting_stats_sum_fields';
-  count?: Maybe<Scalars['bigint']>;
-};
-
-/** aggregate var_pop on columns */
-export type Meeting_Stats_Var_Pop_Fields = {
-  __typename?: 'meeting_stats_var_pop_fields';
-  count?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate var_samp on columns */
-export type Meeting_Stats_Var_Samp_Fields = {
-  __typename?: 'meeting_stats_var_samp_fields';
-  count?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate variance on columns */
-export type Meeting_Stats_Variance_Fields = {
-  __typename?: 'meeting_stats_variance_fields';
-  count?: Maybe<Scalars['Float']>;
-};
-
 /** columns and relationships of "meeting_step" */
 export type Meeting_Step = {
   __typename?: 'meeting_step';
@@ -5370,17 +5092,6 @@ export type Meeting_Template_Aggregate = {
   nodes: Array<Meeting_Template>;
 };
 
-export type Meeting_Template_Aggregate_Bool_Exp = {
-  count?: InputMaybe<Meeting_Template_Aggregate_Bool_Exp_Count>;
-};
-
-export type Meeting_Template_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Meeting_Template_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Meeting_Template_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
 /** aggregate fields of "meeting_template" */
 export type Meeting_Template_Aggregate_Fields = {
   __typename?: 'meeting_template_aggregate_fields';
@@ -5394,20 +5105,6 @@ export type Meeting_Template_Aggregate_Fields = {
 export type Meeting_Template_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Meeting_Template_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "meeting_template" */
-export type Meeting_Template_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Meeting_Template_Max_Order_By>;
-  min?: InputMaybe<Meeting_Template_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "meeting_template" */
-export type Meeting_Template_Arr_Rel_Insert_Input = {
-  data: Array<Meeting_Template_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Meeting_Template_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "meeting_template". All fields are combined with a logical 'AND'. */
@@ -5445,26 +5142,12 @@ export type Meeting_Template_Max_Fields = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** order by max() on columns of table "meeting_template" */
-export type Meeting_Template_Max_Order_By = {
-  id?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-};
-
 /** aggregate min on columns */
 export type Meeting_Template_Min_Fields = {
   __typename?: 'meeting_template_min_fields';
   id?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
-};
-
-/** order by min() on columns of table "meeting_template" */
-export type Meeting_Template_Min_Order_By = {
-  id?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "meeting_template" */
@@ -5623,7 +5306,7 @@ export type Member = {
   /** An object relationship */
   pictureFile?: Maybe<Files>;
   pictureFileId?: Maybe<Scalars['uuid']>;
-  preferences?: Maybe<Scalars['member_preferences']>;
+  preferences?: Maybe<Scalars['json']>;
   role?: Maybe<Member_Role_Enum>;
   /** An object relationship */
   user?: Maybe<Users>;
@@ -6534,10 +6217,22 @@ export type Mutation_Root = {
   delete_org_file?: Maybe<Org_File_Mutation_Response>;
   /** delete single row from the table: "org_file" */
   delete_org_file_by_pk?: Maybe<Org_File>;
+  /** delete data from the table: "org_subscription" */
+  delete_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
+  /** delete single row from the table: "org_subscription" */
+  delete_org_subscription_by_pk?: Maybe<Org_Subscription>;
+  /** delete data from the table: "org_subscription_status" */
+  delete_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
+  /** delete single row from the table: "org_subscription_status" */
+  delete_org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
   /** delete data from the table: "role" */
   delete_role?: Maybe<Role_Mutation_Response>;
   /** delete single row from the table: "role" */
   delete_role_by_pk?: Maybe<Role>;
+  /** delete data from the table: "subscription_plan_type" */
+  delete_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
+  /** delete single row from the table: "subscription_plan_type" */
+  delete_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** delete data from the table: "task" */
   delete_task?: Maybe<Task_Mutation_Response>;
   /** delete single row from the table: "task" */
@@ -6670,10 +6365,22 @@ export type Mutation_Root = {
   insert_org_file_one?: Maybe<Org_File>;
   /** insert a single row into the table: "org" */
   insert_org_one?: Maybe<Org>;
+  /** insert data into the table: "org_subscription" */
+  insert_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
+  /** insert a single row into the table: "org_subscription" */
+  insert_org_subscription_one?: Maybe<Org_Subscription>;
+  /** insert data into the table: "org_subscription_status" */
+  insert_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
+  /** insert a single row into the table: "org_subscription_status" */
+  insert_org_subscription_status_one?: Maybe<Org_Subscription_Status>;
   /** insert data into the table: "role" */
   insert_role?: Maybe<Role_Mutation_Response>;
   /** insert a single row into the table: "role" */
   insert_role_one?: Maybe<Role>;
+  /** insert data into the table: "subscription_plan_type" */
+  insert_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
+  /** insert a single row into the table: "subscription_plan_type" */
+  insert_subscription_plan_type_one?: Maybe<Subscription_Plan_Type>;
   /** insert data into the table: "task" */
   insert_task?: Maybe<Task_Mutation_Response>;
   /** insert a single row into the table: "task" */
@@ -6854,12 +6561,30 @@ export type Mutation_Root = {
   update_org_file_many?: Maybe<Array<Maybe<Org_File_Mutation_Response>>>;
   /** update multiples rows of table: "org" */
   update_org_many?: Maybe<Array<Maybe<Org_Mutation_Response>>>;
+  /** update data of the table: "org_subscription" */
+  update_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
+  /** update single row of the table: "org_subscription" */
+  update_org_subscription_by_pk?: Maybe<Org_Subscription>;
+  /** update multiples rows of table: "org_subscription" */
+  update_org_subscription_many?: Maybe<Array<Maybe<Org_Subscription_Mutation_Response>>>;
+  /** update data of the table: "org_subscription_status" */
+  update_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
+  /** update single row of the table: "org_subscription_status" */
+  update_org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
+  /** update multiples rows of table: "org_subscription_status" */
+  update_org_subscription_status_many?: Maybe<Array<Maybe<Org_Subscription_Status_Mutation_Response>>>;
   /** update data of the table: "role" */
   update_role?: Maybe<Role_Mutation_Response>;
   /** update single row of the table: "role" */
   update_role_by_pk?: Maybe<Role>;
   /** update multiples rows of table: "role" */
   update_role_many?: Maybe<Array<Maybe<Role_Mutation_Response>>>;
+  /** update data of the table: "subscription_plan_type" */
+  update_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
+  /** update single row of the table: "subscription_plan_type" */
+  update_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
+  /** update multiples rows of table: "subscription_plan_type" */
+  update_subscription_plan_type_many?: Maybe<Array<Maybe<Subscription_Plan_Type_Mutation_Response>>>;
   /** update data of the table: "task" */
   update_task?: Maybe<Task_Mutation_Response>;
   /** update single row of the table: "task" */
@@ -7214,6 +6939,30 @@ export type Mutation_RootDelete_Org_File_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Org_SubscriptionArgs = {
+  where: Org_Subscription_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Org_Subscription_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Org_Subscription_StatusArgs = {
+  where: Org_Subscription_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Org_Subscription_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_RoleArgs = {
   where: Role_Bool_Exp;
 };
@@ -7222,6 +6971,18 @@ export type Mutation_RootDelete_RoleArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Role_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Subscription_Plan_TypeArgs = {
+  where: Subscription_Plan_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Subscription_Plan_Type_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -7672,6 +7433,34 @@ export type Mutation_RootInsert_Org_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Org_SubscriptionArgs = {
+  objects: Array<Org_Subscription_Insert_Input>;
+  on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Org_Subscription_OneArgs = {
+  object: Org_Subscription_Insert_Input;
+  on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Org_Subscription_StatusArgs = {
+  objects: Array<Org_Subscription_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Org_Subscription_Status_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Org_Subscription_Status_OneArgs = {
+  object: Org_Subscription_Status_Insert_Input;
+  on_conflict?: InputMaybe<Org_Subscription_Status_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_RoleArgs = {
   objects: Array<Role_Insert_Input>;
   on_conflict?: InputMaybe<Role_On_Conflict>;
@@ -7682,6 +7471,20 @@ export type Mutation_RootInsert_RoleArgs = {
 export type Mutation_RootInsert_Role_OneArgs = {
   object: Role_Insert_Input;
   on_conflict?: InputMaybe<Role_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Subscription_Plan_TypeArgs = {
+  objects: Array<Subscription_Plan_Type_Insert_Input>;
+  on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Subscription_Plan_Type_OneArgs = {
+  object: Subscription_Plan_Type_Insert_Input;
+  on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
 };
 
 
@@ -8326,6 +8129,46 @@ export type Mutation_RootUpdate_Org_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Org_SubscriptionArgs = {
+  _set?: InputMaybe<Org_Subscription_Set_Input>;
+  where: Org_Subscription_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Org_Subscription_By_PkArgs = {
+  _set?: InputMaybe<Org_Subscription_Set_Input>;
+  pk_columns: Org_Subscription_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Org_Subscription_ManyArgs = {
+  updates: Array<Org_Subscription_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Org_Subscription_StatusArgs = {
+  _set?: InputMaybe<Org_Subscription_Status_Set_Input>;
+  where: Org_Subscription_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Org_Subscription_Status_By_PkArgs = {
+  _set?: InputMaybe<Org_Subscription_Status_Set_Input>;
+  pk_columns: Org_Subscription_Status_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Org_Subscription_Status_ManyArgs = {
+  updates: Array<Org_Subscription_Status_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_RoleArgs = {
   _inc?: InputMaybe<Role_Inc_Input>;
   _set?: InputMaybe<Role_Set_Input>;
@@ -8344,6 +8187,26 @@ export type Mutation_RootUpdate_Role_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Role_ManyArgs = {
   updates: Array<Role_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Plan_TypeArgs = {
+  _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
+  where: Subscription_Plan_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Plan_Type_By_PkArgs = {
+  _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
+  pk_columns: Subscription_Plan_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Subscription_Plan_Type_ManyArgs = {
+  updates: Array<Subscription_Plan_Type_Updates>;
 };
 
 
@@ -8695,14 +8558,6 @@ export type Org = {
   files_aggregate: Org_File_Aggregate;
   id: Scalars['uuid'];
   /** An array relationship */
-  logs: Array<Log>;
-  /** An aggregate relationship */
-  logs_aggregate: Log_Aggregate;
-  /** An array relationship */
-  meeting_templates: Array<Meeting_Template>;
-  /** An aggregate relationship */
-  meeting_templates_aggregate: Meeting_Template_Aggregate;
-  /** An array relationship */
   meetings: Array<Meeting>;
   /** An aggregate relationship */
   meetings_aggregate: Meeting_Aggregate;
@@ -8720,18 +8575,7 @@ export type Org = {
   /** An aggregate relationship */
   roles_aggregate: Role_Aggregate;
   slug?: Maybe<Scalars['String']>;
-  /** An array relationship */
-  task_views: Array<Task_View>;
-  /** An aggregate relationship */
-  task_views_aggregate: Task_View_Aggregate;
-  /** An array relationship */
-  tasks: Array<Task>;
-  /** An aggregate relationship */
-  tasks_aggregate: Task_Aggregate;
-  /** An array relationship */
-  threads: Array<Thread>;
-  /** An aggregate relationship */
-  threads_aggregate: Thread_Aggregate;
+  subscriptionId?: Maybe<Scalars['uuid']>;
 };
 
 
@@ -8792,46 +8636,6 @@ export type OrgFiles_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Org_File_Order_By>>;
   where?: InputMaybe<Org_File_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgLogsArgs = {
-  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Log_Order_By>>;
-  where?: InputMaybe<Log_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgLogs_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Log_Order_By>>;
-  where?: InputMaybe<Log_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgMeeting_TemplatesArgs = {
-  distinct_on?: InputMaybe<Array<Meeting_Template_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Meeting_Template_Order_By>>;
-  where?: InputMaybe<Meeting_Template_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgMeeting_Templates_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Meeting_Template_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Meeting_Template_Order_By>>;
-  where?: InputMaybe<Meeting_Template_Bool_Exp>;
 };
 
 
@@ -8914,66 +8718,6 @@ export type OrgRoles_AggregateArgs = {
   where?: InputMaybe<Role_Bool_Exp>;
 };
 
-
-/** columns and relationships of "org" */
-export type OrgTask_ViewsArgs = {
-  distinct_on?: InputMaybe<Array<Task_View_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Task_View_Order_By>>;
-  where?: InputMaybe<Task_View_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgTask_Views_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Task_View_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Task_View_Order_By>>;
-  where?: InputMaybe<Task_View_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgTasksArgs = {
-  distinct_on?: InputMaybe<Array<Task_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Task_Order_By>>;
-  where?: InputMaybe<Task_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgTasks_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Task_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Task_Order_By>>;
-  where?: InputMaybe<Task_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgThreadsArgs = {
-  distinct_on?: InputMaybe<Array<Thread_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Thread_Order_By>>;
-  where?: InputMaybe<Thread_Bool_Exp>;
-};
-
-
-/** columns and relationships of "org" */
-export type OrgThreads_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Thread_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Thread_Order_By>>;
-  where?: InputMaybe<Thread_Bool_Exp>;
-};
-
 /** aggregated selection of "org" */
 export type Org_Aggregate = {
   __typename?: 'org_aggregate';
@@ -9025,10 +8769,6 @@ export type Org_Bool_Exp = {
   files?: InputMaybe<Org_File_Bool_Exp>;
   files_aggregate?: InputMaybe<Org_File_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  logs?: InputMaybe<Log_Bool_Exp>;
-  logs_aggregate?: InputMaybe<Log_Aggregate_Bool_Exp>;
-  meeting_templates?: InputMaybe<Meeting_Template_Bool_Exp>;
-  meeting_templates_aggregate?: InputMaybe<Meeting_Template_Aggregate_Bool_Exp>;
   meetings?: InputMaybe<Meeting_Bool_Exp>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Bool_Exp>;
   meetings_recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
@@ -9039,12 +8779,7 @@ export type Org_Bool_Exp = {
   roles?: InputMaybe<Role_Bool_Exp>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
-  task_views?: InputMaybe<Task_View_Bool_Exp>;
-  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
-  tasks?: InputMaybe<Task_Bool_Exp>;
-  tasks_aggregate?: InputMaybe<Task_Aggregate_Bool_Exp>;
-  threads?: InputMaybe<Thread_Bool_Exp>;
-  threads_aggregate?: InputMaybe<Thread_Aggregate_Bool_Exp>;
+  subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "org" */
@@ -9263,17 +8998,13 @@ export type Org_Insert_Input = {
   defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']>;
   files?: InputMaybe<Org_File_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
-  logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
-  meeting_templates?: InputMaybe<Meeting_Template_Arr_Rel_Insert_Input>;
   meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
   meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
-  task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
-  tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
-  threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
+  subscriptionId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
@@ -9284,6 +9015,7 @@ export type Org_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate min on columns */
@@ -9294,6 +9026,7 @@ export type Org_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
+  subscriptionId?: Maybe<Scalars['uuid']>;
 };
 
 /** response of any mutation on the table "org" */
@@ -9328,17 +9061,13 @@ export type Org_Order_By = {
   defaultWorkedMinPerWeek?: InputMaybe<Order_By>;
   files_aggregate?: InputMaybe<Org_File_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
-  logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
-  meeting_templates_aggregate?: InputMaybe<Meeting_Template_Aggregate_Order_By>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
   meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
-  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
-  tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
-  threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
+  subscriptionId?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: org */
@@ -9359,7 +9088,9 @@ export enum Org_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Slug = 'slug'
+  Slug = 'slug',
+  /** column name */
+  SubscriptionId = 'subscriptionId'
 }
 
 /** input type for updating data in table "org" */
@@ -9370,6 +9101,7 @@ export type Org_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
+  subscriptionId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
@@ -9406,6 +9138,345 @@ export type Org_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
+  subscriptionId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Abonnement lié à une organisation */
+export type Org_Subscription = {
+  __typename?: 'org_subscription';
+  id: Scalars['uuid'];
+  /** An object relationship */
+  org: Org;
+  orgId: Scalars['uuid'];
+  status: Org_Subscription_Status_Enum;
+  stripeCustomerId: Scalars['String'];
+  stripeSubscriptionId?: Maybe<Scalars['String']>;
+  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
+  type?: Maybe<Subscription_Plan_Type_Enum>;
+};
+
+/** aggregated selection of "org_subscription" */
+export type Org_Subscription_Aggregate = {
+  __typename?: 'org_subscription_aggregate';
+  aggregate?: Maybe<Org_Subscription_Aggregate_Fields>;
+  nodes: Array<Org_Subscription>;
+};
+
+/** aggregate fields of "org_subscription" */
+export type Org_Subscription_Aggregate_Fields = {
+  __typename?: 'org_subscription_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Org_Subscription_Max_Fields>;
+  min?: Maybe<Org_Subscription_Min_Fields>;
+};
+
+
+/** aggregate fields of "org_subscription" */
+export type Org_Subscription_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "org_subscription". All fields are combined with a logical 'AND'. */
+export type Org_Subscription_Bool_Exp = {
+  _and?: InputMaybe<Array<Org_Subscription_Bool_Exp>>;
+  _not?: InputMaybe<Org_Subscription_Bool_Exp>;
+  _or?: InputMaybe<Array<Org_Subscription_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  org?: InputMaybe<Org_Bool_Exp>;
+  orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  status?: InputMaybe<Org_Subscription_Status_Enum_Comparison_Exp>;
+  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
+  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
+  stripeSubscriptionItemId?: InputMaybe<String_Comparison_Exp>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "org_subscription" */
+export enum Org_Subscription_Constraint {
+  /** unique or primary key constraint on columns "orgId" */
+  OrgSubscriptionOrgIdKey = 'org_subscription_orgId_key',
+  /** unique or primary key constraint on columns "id" */
+  OrgSubscriptionPkey = 'org_subscription_pkey',
+  /** unique or primary key constraint on columns "stripeCustomerId" */
+  OrgSubscriptionStripeCustomerIdKey = 'org_subscription_stripeCustomerId_key',
+  /** unique or primary key constraint on columns "stripeSubscriptionId" */
+  OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key',
+  /** unique or primary key constraint on columns "stripeSubscriptionItemId" */
+  OrgSubscriptionStripeSubscriptionItemIdKey = 'org_subscription_stripeSubscriptionItemId_key'
+}
+
+/** input type for inserting data into table "org_subscription" */
+export type Org_Subscription_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Org_Subscription_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionItemId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+};
+
+/** aggregate max on columns */
+export type Org_Subscription_Max_Fields = {
+  __typename?: 'org_subscription_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  stripeCustomerId?: Maybe<Scalars['String']>;
+  stripeSubscriptionId?: Maybe<Scalars['String']>;
+  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Org_Subscription_Min_Fields = {
+  __typename?: 'org_subscription_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  stripeCustomerId?: Maybe<Scalars['String']>;
+  stripeSubscriptionId?: Maybe<Scalars['String']>;
+  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "org_subscription" */
+export type Org_Subscription_Mutation_Response = {
+  __typename?: 'org_subscription_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Org_Subscription>;
+};
+
+/** on_conflict condition type for table "org_subscription" */
+export type Org_Subscription_On_Conflict = {
+  constraint: Org_Subscription_Constraint;
+  update_columns?: Array<Org_Subscription_Update_Column>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "org_subscription". */
+export type Org_Subscription_Order_By = {
+  id?: InputMaybe<Order_By>;
+  org?: InputMaybe<Org_Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  stripeCustomerId?: InputMaybe<Order_By>;
+  stripeSubscriptionId?: InputMaybe<Order_By>;
+  stripeSubscriptionItemId?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: org_subscription */
+export type Org_Subscription_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "org_subscription" */
+export enum Org_Subscription_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  StripeCustomerId = 'stripeCustomerId',
+  /** column name */
+  StripeSubscriptionId = 'stripeSubscriptionId',
+  /** column name */
+  StripeSubscriptionItemId = 'stripeSubscriptionItemId',
+  /** column name */
+  Type = 'type'
+}
+
+/** input type for updating data in table "org_subscription" */
+export type Org_Subscription_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Org_Subscription_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionItemId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+};
+
+/** Status d'un abonnement */
+export type Org_Subscription_Status = {
+  __typename?: 'org_subscription_status';
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "org_subscription_status" */
+export type Org_Subscription_Status_Aggregate = {
+  __typename?: 'org_subscription_status_aggregate';
+  aggregate?: Maybe<Org_Subscription_Status_Aggregate_Fields>;
+  nodes: Array<Org_Subscription_Status>;
+};
+
+/** aggregate fields of "org_subscription_status" */
+export type Org_Subscription_Status_Aggregate_Fields = {
+  __typename?: 'org_subscription_status_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Org_Subscription_Status_Max_Fields>;
+  min?: Maybe<Org_Subscription_Status_Min_Fields>;
+};
+
+
+/** aggregate fields of "org_subscription_status" */
+export type Org_Subscription_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "org_subscription_status". All fields are combined with a logical 'AND'. */
+export type Org_Subscription_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Org_Subscription_Status_Bool_Exp>>;
+  _not?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Org_Subscription_Status_Bool_Exp>>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "org_subscription_status" */
+export enum Org_Subscription_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  OrgSubscriptionStatusPkey = 'org_subscription_status_pkey'
+}
+
+export enum Org_Subscription_Status_Enum {
+  Active = 'ACTIVE',
+  Inactive = 'INACTIVE',
+  Pending = 'PENDING'
+}
+
+/** Boolean expression to compare columns of type "org_subscription_status_enum". All fields are combined with logical 'AND'. */
+export type Org_Subscription_Status_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Org_Subscription_Status_Enum>;
+  _in?: InputMaybe<Array<Org_Subscription_Status_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Org_Subscription_Status_Enum>;
+  _nin?: InputMaybe<Array<Org_Subscription_Status_Enum>>;
+};
+
+/** input type for inserting data into table "org_subscription_status" */
+export type Org_Subscription_Status_Insert_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Org_Subscription_Status_Max_Fields = {
+  __typename?: 'org_subscription_status_max_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Org_Subscription_Status_Min_Fields = {
+  __typename?: 'org_subscription_status_min_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "org_subscription_status" */
+export type Org_Subscription_Status_Mutation_Response = {
+  __typename?: 'org_subscription_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Org_Subscription_Status>;
+};
+
+/** on_conflict condition type for table "org_subscription_status" */
+export type Org_Subscription_Status_On_Conflict = {
+  constraint: Org_Subscription_Status_Constraint;
+  update_columns?: Array<Org_Subscription_Status_Update_Column>;
+  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "org_subscription_status". */
+export type Org_Subscription_Status_Order_By = {
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: org_subscription_status */
+export type Org_Subscription_Status_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "org_subscription_status" */
+export enum Org_Subscription_Status_Select_Column {
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "org_subscription_status" */
+export type Org_Subscription_Status_Set_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "org_subscription_status" */
+export type Org_Subscription_Status_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Org_Subscription_Status_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Org_Subscription_Status_Stream_Cursor_Value_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "org_subscription_status" */
+export enum Org_Subscription_Status_Update_Column {
+  /** column name */
+  Value = 'value'
+}
+
+export type Org_Subscription_Status_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Org_Subscription_Status_Set_Input>;
+  where: Org_Subscription_Status_Bool_Exp;
+};
+
+/** Streaming cursor of the table "org_subscription" */
+export type Org_Subscription_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Org_Subscription_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Org_Subscription_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Org_Subscription_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionItemId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+};
+
+/** update columns of table "org_subscription" */
+export enum Org_Subscription_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  StripeCustomerId = 'stripeCustomerId',
+  /** column name */
+  StripeSubscriptionId = 'stripeSubscriptionId',
+  /** column name */
+  StripeSubscriptionItemId = 'stripeSubscriptionItemId',
+  /** column name */
+  Type = 'type'
+}
+
+export type Org_Subscription_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Org_Subscription_Set_Input>;
+  where: Org_Subscription_Bool_Exp;
 };
 
 /** aggregate sum on columns */
@@ -9427,7 +9498,9 @@ export enum Org_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Slug = 'slug'
+  Slug = 'slug',
+  /** column name */
+  SubscriptionId = 'subscriptionId'
 }
 
 export type Org_Updates = {
@@ -9548,10 +9621,6 @@ export type Query_Root = {
   meeting_recurring_aggregate: Meeting_Recurring_Aggregate;
   /** fetch data from the table: "meeting_recurring" using primary key columns */
   meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
-  /** fetch data from the table: "meeting_stats" */
-  meeting_stats: Array<Meeting_Stats>;
-  /** fetch aggregated fields from the table: "meeting_stats" */
-  meeting_stats_aggregate: Meeting_Stats_Aggregate;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -9606,12 +9675,30 @@ export type Query_Root = {
   org_file_aggregate: Org_File_Aggregate;
   /** fetch data from the table: "org_file" using primary key columns */
   org_file_by_pk?: Maybe<Org_File>;
+  /** fetch data from the table: "org_subscription" */
+  org_subscription: Array<Org_Subscription>;
+  /** fetch aggregated fields from the table: "org_subscription" */
+  org_subscription_aggregate: Org_Subscription_Aggregate;
+  /** fetch data from the table: "org_subscription" using primary key columns */
+  org_subscription_by_pk?: Maybe<Org_Subscription>;
+  /** fetch data from the table: "org_subscription_status" */
+  org_subscription_status: Array<Org_Subscription_Status>;
+  /** fetch aggregated fields from the table: "org_subscription_status" */
+  org_subscription_status_aggregate: Org_Subscription_Status_Aggregate;
+  /** fetch data from the table: "org_subscription_status" using primary key columns */
+  org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
   /** fetch data from the table: "role" */
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
+  /** fetch data from the table: "subscription_plan_type" */
+  subscription_plan_type: Array<Subscription_Plan_Type>;
+  /** fetch aggregated fields from the table: "subscription_plan_type" */
+  subscription_plan_type_aggregate: Subscription_Plan_Type_Aggregate;
+  /** fetch data from the table: "subscription_plan_type" using primary key columns */
+  subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -10014,24 +10101,6 @@ export type Query_RootMeeting_Recurring_By_PkArgs = {
 };
 
 
-export type Query_RootMeeting_StatsArgs = {
-  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
-  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
-};
-
-
-export type Query_RootMeeting_Stats_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
-  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
-};
-
-
 export type Query_RootMeeting_StepArgs = {
   distinct_on?: InputMaybe<Array<Meeting_Step_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -10239,6 +10308,52 @@ export type Query_RootOrg_File_By_PkArgs = {
 };
 
 
+export type Query_RootOrg_SubscriptionArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Query_RootOrg_Subscription_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Query_RootOrg_Subscription_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootOrg_Subscription_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
+};
+
+
+export type Query_RootOrg_Subscription_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
+};
+
+
+export type Query_RootOrg_Subscription_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
 export type Query_RootRoleArgs = {
   distinct_on?: InputMaybe<Array<Role_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -10259,6 +10374,29 @@ export type Query_RootRole_AggregateArgs = {
 
 export type Query_RootRole_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootSubscription_Plan_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Query_RootSubscription_Plan_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Query_RootSubscription_Plan_Type_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -10485,7 +10623,6 @@ export type Role = {
   domain: Scalars['String'];
   id: Scalars['uuid'];
   indicators: Scalars['String'];
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link: Scalars['String'];
   name: Scalars['String'];
   notes: Scalars['String'];
@@ -10659,7 +10796,6 @@ export type Role_Insert_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -10679,7 +10815,6 @@ export type Role_Max_Fields = {
   domain?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   indicators?: Maybe<Scalars['String']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
@@ -10696,7 +10831,6 @@ export type Role_Max_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
@@ -10714,7 +10848,6 @@ export type Role_Min_Fields = {
   domain?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   indicators?: Maybe<Scalars['String']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
@@ -10731,7 +10864,6 @@ export type Role_Min_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
@@ -10861,7 +10993,6 @@ export type Role_Set_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -10929,7 +11060,6 @@ export type Role_Stream_Cursor_Value_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -11045,6 +11175,142 @@ export type Smallint_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['smallint']>;
   _neq?: InputMaybe<Scalars['smallint']>;
   _nin?: InputMaybe<Array<Scalars['smallint']>>;
+};
+
+/** Type d'abonnement dispobnible */
+export type Subscription_Plan_Type = {
+  __typename?: 'subscription_plan_type';
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "subscription_plan_type" */
+export type Subscription_Plan_Type_Aggregate = {
+  __typename?: 'subscription_plan_type_aggregate';
+  aggregate?: Maybe<Subscription_Plan_Type_Aggregate_Fields>;
+  nodes: Array<Subscription_Plan_Type>;
+};
+
+/** aggregate fields of "subscription_plan_type" */
+export type Subscription_Plan_Type_Aggregate_Fields = {
+  __typename?: 'subscription_plan_type_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Subscription_Plan_Type_Max_Fields>;
+  min?: Maybe<Subscription_Plan_Type_Min_Fields>;
+};
+
+
+/** aggregate fields of "subscription_plan_type" */
+export type Subscription_Plan_Type_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "subscription_plan_type". All fields are combined with a logical 'AND'. */
+export type Subscription_Plan_Type_Bool_Exp = {
+  _and?: InputMaybe<Array<Subscription_Plan_Type_Bool_Exp>>;
+  _not?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+  _or?: InputMaybe<Array<Subscription_Plan_Type_Bool_Exp>>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "subscription_plan_type" */
+export enum Subscription_Plan_Type_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  SubscriptionPlanTypePkey = 'subscription_plan_type_pkey'
+}
+
+export enum Subscription_Plan_Type_Enum {
+  Enterprise = 'Enterprise',
+  Free = 'Free',
+  Startup = 'Startup'
+}
+
+/** Boolean expression to compare columns of type "subscription_plan_type_enum". All fields are combined with logical 'AND'. */
+export type Subscription_Plan_Type_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Subscription_Plan_Type_Enum>;
+  _in?: InputMaybe<Array<Subscription_Plan_Type_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Subscription_Plan_Type_Enum>;
+  _nin?: InputMaybe<Array<Subscription_Plan_Type_Enum>>;
+};
+
+/** input type for inserting data into table "subscription_plan_type" */
+export type Subscription_Plan_Type_Insert_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Subscription_Plan_Type_Max_Fields = {
+  __typename?: 'subscription_plan_type_max_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Subscription_Plan_Type_Min_Fields = {
+  __typename?: 'subscription_plan_type_min_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "subscription_plan_type" */
+export type Subscription_Plan_Type_Mutation_Response = {
+  __typename?: 'subscription_plan_type_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Subscription_Plan_Type>;
+};
+
+/** on_conflict condition type for table "subscription_plan_type" */
+export type Subscription_Plan_Type_On_Conflict = {
+  constraint: Subscription_Plan_Type_Constraint;
+  update_columns?: Array<Subscription_Plan_Type_Update_Column>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "subscription_plan_type". */
+export type Subscription_Plan_Type_Order_By = {
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: subscription_plan_type */
+export type Subscription_Plan_Type_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "subscription_plan_type" */
+export enum Subscription_Plan_Type_Select_Column {
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "subscription_plan_type" */
+export type Subscription_Plan_Type_Set_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "subscription_plan_type" */
+export type Subscription_Plan_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Subscription_Plan_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Subscription_Plan_Type_Stream_Cursor_Value_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "subscription_plan_type" */
+export enum Subscription_Plan_Type_Update_Column {
+  /** column name */
+  Value = 'value'
+}
+
+export type Subscription_Plan_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
+  where: Subscription_Plan_Type_Bool_Exp;
 };
 
 export type Subscription_Root = {
@@ -11167,12 +11433,6 @@ export type Subscription_Root = {
   meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
   /** fetch data from the table in a streaming manner: "meeting_recurring" */
   meeting_recurring_stream: Array<Meeting_Recurring>;
-  /** fetch data from the table: "meeting_stats" */
-  meeting_stats: Array<Meeting_Stats>;
-  /** fetch aggregated fields from the table: "meeting_stats" */
-  meeting_stats_aggregate: Meeting_Stats_Aggregate;
-  /** fetch data from the table in a streaming manner: "meeting_stats" */
-  meeting_stats_stream: Array<Meeting_Stats>;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -11247,6 +11507,22 @@ export type Subscription_Root = {
   org_file_stream: Array<Org_File>;
   /** fetch data from the table in a streaming manner: "org" */
   org_stream: Array<Org>;
+  /** fetch data from the table: "org_subscription" */
+  org_subscription: Array<Org_Subscription>;
+  /** fetch aggregated fields from the table: "org_subscription" */
+  org_subscription_aggregate: Org_Subscription_Aggregate;
+  /** fetch data from the table: "org_subscription" using primary key columns */
+  org_subscription_by_pk?: Maybe<Org_Subscription>;
+  /** fetch data from the table: "org_subscription_status" */
+  org_subscription_status: Array<Org_Subscription_Status>;
+  /** fetch aggregated fields from the table: "org_subscription_status" */
+  org_subscription_status_aggregate: Org_Subscription_Status_Aggregate;
+  /** fetch data from the table: "org_subscription_status" using primary key columns */
+  org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
+  /** fetch data from the table in a streaming manner: "org_subscription_status" */
+  org_subscription_status_stream: Array<Org_Subscription_Status>;
+  /** fetch data from the table in a streaming manner: "org_subscription" */
+  org_subscription_stream: Array<Org_Subscription>;
   /** fetch data from the table: "role" */
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
@@ -11255,6 +11531,14 @@ export type Subscription_Root = {
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table in a streaming manner: "role" */
   role_stream: Array<Role>;
+  /** fetch data from the table: "subscription_plan_type" */
+  subscription_plan_type: Array<Subscription_Plan_Type>;
+  /** fetch aggregated fields from the table: "subscription_plan_type" */
+  subscription_plan_type_aggregate: Subscription_Plan_Type_Aggregate;
+  /** fetch data from the table: "subscription_plan_type" using primary key columns */
+  subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
+  /** fetch data from the table in a streaming manner: "subscription_plan_type" */
+  subscription_plan_type_stream: Array<Subscription_Plan_Type>;
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -11773,31 +12057,6 @@ export type Subscription_RootMeeting_Recurring_StreamArgs = {
 };
 
 
-export type Subscription_RootMeeting_StatsArgs = {
-  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
-  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
-};
-
-
-export type Subscription_RootMeeting_Stats_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
-  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
-};
-
-
-export type Subscription_RootMeeting_Stats_StreamArgs = {
-  batch_size: Scalars['Int'];
-  cursor: Array<InputMaybe<Meeting_Stats_Stream_Cursor_Input>>;
-  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
-};
-
-
 export type Subscription_RootMeeting_StepArgs = {
   distinct_on?: InputMaybe<Array<Meeting_Step_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -12075,6 +12334,66 @@ export type Subscription_RootOrg_StreamArgs = {
 };
 
 
+export type Subscription_RootOrg_SubscriptionArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrg_Subscription_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrg_Subscription_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootOrg_Subscription_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrg_Subscription_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
+  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrg_Subscription_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootOrg_Subscription_Status_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Org_Subscription_Status_Stream_Cursor_Input>>;
+  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrg_Subscription_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Org_Subscription_Stream_Cursor_Input>>;
+  where?: InputMaybe<Org_Subscription_Bool_Exp>;
+};
+
+
 export type Subscription_RootRoleArgs = {
   distinct_on?: InputMaybe<Array<Role_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -12102,6 +12421,36 @@ export type Subscription_RootRole_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Role_Stream_Cursor_Input>>;
   where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Plan_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Plan_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Subscription_Plan_Type_Order_By>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootSubscription_Plan_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootSubscription_Plan_Type_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Subscription_Plan_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
 };
 
 
@@ -12403,33 +12752,6 @@ export type Task_Aggregate = {
   nodes: Array<Task>;
 };
 
-export type Task_Aggregate_Bool_Exp = {
-  bool_and?: InputMaybe<Task_Aggregate_Bool_Exp_Bool_And>;
-  bool_or?: InputMaybe<Task_Aggregate_Bool_Exp_Bool_Or>;
-  count?: InputMaybe<Task_Aggregate_Bool_Exp_Count>;
-};
-
-export type Task_Aggregate_Bool_Exp_Bool_And = {
-  arguments: Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Task_Bool_Exp>;
-  predicate: Boolean_Comparison_Exp;
-};
-
-export type Task_Aggregate_Bool_Exp_Bool_Or = {
-  arguments: Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Task_Bool_Exp>;
-  predicate: Boolean_Comparison_Exp;
-};
-
-export type Task_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Task_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Task_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
 /** aggregate fields of "task" */
 export type Task_Aggregate_Fields = {
   __typename?: 'task_aggregate_fields';
@@ -12443,20 +12765,6 @@ export type Task_Aggregate_Fields = {
 export type Task_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Task_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "task" */
-export type Task_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Task_Max_Order_By>;
-  min?: InputMaybe<Task_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "task" */
-export type Task_Arr_Rel_Insert_Input = {
-  data: Array<Task_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Task_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "task". All fields are combined with a logical 'AND'. */
@@ -12515,18 +12823,6 @@ export type Task_Max_Fields = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** order by max() on columns of table "task" */
-export type Task_Max_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  createdAt?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  dueDate?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-};
-
 /** aggregate min on columns */
 export type Task_Min_Fields = {
   __typename?: 'task_min_fields';
@@ -12538,18 +12834,6 @@ export type Task_Min_Fields = {
   memberId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
-};
-
-/** order by min() on columns of table "task" */
-export type Task_Min_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  createdAt?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  dueDate?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "task" */
@@ -12612,18 +12896,6 @@ export enum Task_Select_Column {
   Status = 'status',
   /** column name */
   Title = 'title'
-}
-
-/** select "task_aggregate_bool_exp_bool_and_arguments_columns" columns of table "task" */
-export enum Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
-  /** column name */
-  Archived = 'archived'
-}
-
-/** select "task_aggregate_bool_exp_bool_or_arguments_columns" columns of table "task" */
-export enum Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
-  /** column name */
-  Archived = 'archived'
 }
 
 /** input type for updating data in table "task" */
@@ -12866,17 +13138,6 @@ export type Task_View_Aggregate = {
   nodes: Array<Task_View>;
 };
 
-export type Task_View_Aggregate_Bool_Exp = {
-  count?: InputMaybe<Task_View_Aggregate_Bool_Exp_Count>;
-};
-
-export type Task_View_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Task_View_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Task_View_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
 /** aggregate fields of "task_view" */
 export type Task_View_Aggregate_Fields = {
   __typename?: 'task_view_aggregate_fields';
@@ -12890,20 +13151,6 @@ export type Task_View_Aggregate_Fields = {
 export type Task_View_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Task_View_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "task_view" */
-export type Task_View_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Task_View_Max_Order_By>;
-  min?: InputMaybe<Task_View_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "task_view" */
-export type Task_View_Arr_Rel_Insert_Input = {
-  data: Array<Task_View_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Task_View_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "task_view". All fields are combined with a logical 'AND'. */
@@ -12943,26 +13190,12 @@ export type Task_View_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
 };
 
-/** order by max() on columns of table "task_view" */
-export type Task_View_Max_Order_By = {
-  id?: InputMaybe<Order_By>;
-  key?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-};
-
 /** aggregate min on columns */
 export type Task_View_Min_Fields = {
   __typename?: 'task_view_min_fields';
   id?: Maybe<Scalars['uuid']>;
   key?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "task_view" */
-export type Task_View_Min_Order_By = {
-  id?: InputMaybe<Order_By>;
-  key?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "task_view" */
@@ -13459,33 +13692,6 @@ export type Thread_Aggregate = {
   nodes: Array<Thread>;
 };
 
-export type Thread_Aggregate_Bool_Exp = {
-  bool_and?: InputMaybe<Thread_Aggregate_Bool_Exp_Bool_And>;
-  bool_or?: InputMaybe<Thread_Aggregate_Bool_Exp_Bool_Or>;
-  count?: InputMaybe<Thread_Aggregate_Bool_Exp_Count>;
-};
-
-export type Thread_Aggregate_Bool_Exp_Bool_And = {
-  arguments: Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Thread_Bool_Exp>;
-  predicate: Boolean_Comparison_Exp;
-};
-
-export type Thread_Aggregate_Bool_Exp_Bool_Or = {
-  arguments: Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Thread_Bool_Exp>;
-  predicate: Boolean_Comparison_Exp;
-};
-
-export type Thread_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Thread_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Thread_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
 /** aggregate fields of "thread" */
 export type Thread_Aggregate_Fields = {
   __typename?: 'thread_aggregate_fields';
@@ -13499,20 +13705,6 @@ export type Thread_Aggregate_Fields = {
 export type Thread_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Thread_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "thread" */
-export type Thread_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Thread_Max_Order_By>;
-  min?: InputMaybe<Thread_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "thread" */
-export type Thread_Arr_Rel_Insert_Input = {
-  data: Array<Thread_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Thread_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "thread". All fields are combined with a logical 'AND'. */
@@ -13574,18 +13766,6 @@ export type Thread_Max_Fields = {
   lastActivityId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
-};
-
-/** order by max() on columns of table "thread" */
-export type Thread_Max_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  createdAt?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
-  lastActivityDate?: InputMaybe<Order_By>;
-  lastActivityId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "thread_member_status" */
@@ -13823,18 +14003,6 @@ export type Thread_Min_Fields = {
   lastActivityId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
-};
-
-/** order by min() on columns of table "thread" */
-export type Thread_Min_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  createdAt?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  initiatorMemberId?: InputMaybe<Order_By>;
-  lastActivityDate?: InputMaybe<Order_By>;
-  lastActivityId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "thread" */
@@ -14090,18 +14258,6 @@ export enum Thread_Select_Column {
   Title = 'title'
 }
 
-/** select "thread_aggregate_bool_exp_bool_and_arguments_columns" columns of table "thread" */
-export enum Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
-  /** column name */
-  Archived = 'archived'
-}
-
-/** select "thread_aggregate_bool_exp_bool_or_arguments_columns" columns of table "thread" */
-export enum Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
-  /** column name */
-  Archived = 'archived'
-}
-
 /** input type for updating data in table "thread" */
 export type Thread_Set_Input = {
   archived?: InputMaybe<Scalars['Boolean']>;
@@ -14203,10 +14359,6 @@ export type Users = {
   isAnonymous: Scalars['Boolean'];
   lastSeen?: Maybe<Scalars['timestamptz']>;
   locale: Scalars['String'];
-  /** An array relationship */
-  members: Array<Member>;
-  /** An aggregate relationship */
-  members_aggregate: Member_Aggregate;
   metadata?: Maybe<Scalars['jsonb']>;
   newEmail?: Maybe<Scalars['citext']>;
   otpHash?: Maybe<Scalars['String']>;
@@ -14235,26 +14387,6 @@ export type Users = {
   userProviders: Array<AuthUserProviders>;
   /** An aggregate relationship */
   userProviders_aggregate: AuthUserProviders_Aggregate;
-};
-
-
-/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
-export type UsersMembersArgs = {
-  distinct_on?: InputMaybe<Array<Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Member_Order_By>>;
-  where?: InputMaybe<Member_Bool_Exp>;
-};
-
-
-/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
-export type UsersMembers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Member_Order_By>>;
-  where?: InputMaybe<Member_Bool_Exp>;
 };
 
 
@@ -14430,8 +14562,6 @@ export type Users_Bool_Exp = {
   isAnonymous?: InputMaybe<Boolean_Comparison_Exp>;
   lastSeen?: InputMaybe<Timestamptz_Comparison_Exp>;
   locale?: InputMaybe<String_Comparison_Exp>;
-  members?: InputMaybe<Member_Bool_Exp>;
-  members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   metadata?: InputMaybe<Jsonb_Comparison_Exp>;
   newEmail?: InputMaybe<Citext_Comparison_Exp>;
   otpHash?: InputMaybe<String_Comparison_Exp>;
@@ -14495,7 +14625,6 @@ export type Users_Insert_Input = {
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
   lastSeen?: InputMaybe<Scalars['timestamptz']>;
   locale?: InputMaybe<Scalars['String']>;
-  members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   metadata?: InputMaybe<Scalars['jsonb']>;
   newEmail?: InputMaybe<Scalars['citext']>;
   otpHash?: InputMaybe<Scalars['String']>;
@@ -14651,7 +14780,6 @@ export type Users_Order_By = {
   isAnonymous?: InputMaybe<Order_By>;
   lastSeen?: InputMaybe<Order_By>;
   locale?: InputMaybe<Order_By>;
-  members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   metadata?: InputMaybe<Order_By>;
   newEmail?: InputMaybe<Order_By>;
   otpHash?: InputMaybe<Order_By>;
@@ -14907,33 +15035,13 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
-export type CircleFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean };
-
-export type CircleWithRoleFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null } };
-
-export type CircleFullFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> };
-
-export type CircleMemberFragment = { __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean };
-
 export type DecisionFragment = { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string };
-
-export type LogFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
 
 export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null };
 
 export type MeetingStepFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData };
 
-export type MemberFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null };
-
-export type MemberSummaryFragment = { __typename?: 'member', id: string, name: string, picture?: string | null };
-
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
-
-export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
-
-export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
-
-export type RoleSummaryFragment = { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null };
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
@@ -14941,20 +15049,22 @@ export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string,
 
 export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData };
 
+export type CircleFieldsFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean };
+
 export type GetCircleQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetCircleQuery = { __typename?: 'query_root', circle_by_pk?: { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean }> } | null };
+export type GetCircleQuery = { __typename?: 'query_root', circle_by_pk?: { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> } | null };
 
-export type CirclesSubscriptionVariables = Exact<{
+export type SubscribeCirclesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean }> }> };
+export type SubscribeCirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> }> };
 
 export type CreateCircleMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -14986,6 +15096,8 @@ export type ArchiveCircleMutationVariables = Exact<{
 
 
 export type ArchiveCircleMutation = { __typename?: 'mutation_root', update_circle_by_pk?: { __typename?: 'circle', id: string } | null };
+
+export type CircleMemberFieldsFragment = { __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean };
 
 export type GetCircleMemberQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -15026,20 +15138,20 @@ export type GetDecisionQueryVariables = Exact<{
 
 export type GetDecisionQuery = { __typename?: 'query_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
-export type DecisionSubscriptionVariables = Exact<{
+export type SubscribeDecisionSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DecisionSubscription = { __typename?: 'subscription_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type SubscribeDecisionSubscription = { __typename?: 'subscription_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
-export type CircleDecisionsSubscriptionVariables = Exact<{
+export type SubscribeCircleDecisionsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type CircleDecisionsSubscription = { __typename?: 'subscription_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string }> };
+export type SubscribeCircleDecisionsSubscription = { __typename?: 'subscription_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string }> };
 
 export type CreateDecisionMutationVariables = Exact<{
   values: Decision_Insert_Input;
@@ -15063,56 +15175,58 @@ export type ArchiveDecisionMutationVariables = Exact<{
 
 export type ArchiveDecisionMutation = { __typename?: 'mutation_root', update_decision_by_pk?: { __typename?: 'decision', id: string } | null };
 
-export type LastLogsSubscriptionVariables = Exact<{
+export type LogFieldsFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
+
+export type SubscribeLastLogsSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
-export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+export type SubscribeLastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 
-export type MeetingLogsSubscriptionVariables = Exact<{
+export type SubscribeMeetingLogsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+export type SubscribeMeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 
 export type CreateLogMutationVariables = Exact<{
   values: Log_Insert_Input;
 }>;
 
 
-export type CreateLogMutation = { __typename?: 'mutation_root', insert_log_one?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
+export type CreateLogMutation = { __typename?: 'mutation_root', insert_log_one?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
 
 export type CancelLogMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
+export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
 
-export type MeetingSubscriptionVariables = Exact<{
+export type SubscribeMeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type SubscribeMeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
 
-export type MeetingsByDatesSubscriptionVariables = Exact<{
+export type SubscribeMeetingsByDatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   fromDate: Scalars['timestamptz'];
   toDate: Scalars['timestamptz'];
 }>;
 
 
-export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
+export type SubscribeMeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
 
-export type CircleMeetingsSubscriptionVariables = Exact<{
+export type SubscribeCircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
 }>;
 
 
-export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
+export type SubscribeCircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
 
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
@@ -15138,19 +15252,19 @@ export type ArchiveMeetingMutation = { __typename?: 'mutation_root', update_meet
 
 export type MeetingRecurringFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } };
 
-export type MeetingRecurringSubscriptionVariables = Exact<{
+export type SubscribeMeetingRecurringSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type MeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
+export type SubscribeMeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
-export type MeetingRecurringsSubscriptionVariables = Exact<{
+export type SubscribeCircleMeetingRecurringsSubscriptionVariables = Exact<{
   where: Meeting_Recurring_Bool_Exp;
 }>;
 
 
-export type MeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
+export type SubscribeCircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
 
 export type CreateMeetingRecurringMutationVariables = Exact<{
   values: Meeting_Recurring_Insert_Input;
@@ -15188,12 +15302,12 @@ export type GetMeetingStepsQueryVariables = Exact<{
 
 export type GetMeetingStepsQuery = { __typename?: 'query_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
 
-export type MeetingStepsSubscriptionVariables = Exact<{
+export type SubscribeMeetingStepsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type MeetingStepsSubscription = { __typename?: 'subscription_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
+export type SubscribeMeetingStepsSubscription = { __typename?: 'subscription_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
 
 export type CreateMeetingStepMutationVariables = Exact<{
   values: Meeting_Step_Insert_Input;
@@ -15219,12 +15333,12 @@ export type DeleteMeetingStepMutation = { __typename?: 'mutation_root', delete_m
 
 export type MeetingTemplateFragment = { __typename?: 'meeting_template', id: string, orgId: string, title: string, stepsConfig: Array<MeetingStepConfig> };
 
-export type MeetingTemplatesSubscriptionVariables = Exact<{
+export type SubscribeMeetingTemplatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
-export type MeetingTemplatesSubscription = { __typename?: 'subscription_root', meeting_template: Array<{ __typename?: 'meeting_template', id: string, orgId: string, title: string, stepsConfig: Array<MeetingStepConfig> }> };
+export type SubscribeMeetingTemplatesSubscription = { __typename?: 'subscription_root', meeting_template: Array<{ __typename?: 'meeting_template', id: string, orgId: string, title: string, stepsConfig: Array<MeetingStepConfig> }> };
 
 export type CreateMeetingTemplateMutationVariables = Exact<{
   values: Meeting_Template_Insert_Input;
@@ -15248,27 +15362,29 @@ export type DeleteMeetingTemplateMutationVariables = Exact<{
 
 export type DeleteMeetingTemplateMutation = { __typename?: 'mutation_root', delete_meeting_template_by_pk?: { __typename?: 'meeting_template', id: string } | null };
 
+export type MemberFieldsFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null };
+
 export type GetMemberQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetMemberQuery = { __typename?: 'query_root', member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null } | null };
+export type GetMemberQuery = { __typename?: 'query_root', member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null } | null };
 
 export type GetOrgsMembersQueryVariables = Exact<{
   orgsIds: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
 
-export type GetOrgsMembersQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+export type GetOrgsMembersQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
 
-export type MembersSubscriptionVariables = Exact<{
+export type SubscribeMembersSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+export type SubscribeMembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
 
 export type CreateMemberMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -15276,7 +15392,7 @@ export type CreateMemberMutationVariables = Exact<{
 }>;
 
 
-export type CreateMemberMutation = { __typename?: 'mutation_root', insert_member_one?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null } | null };
+export type CreateMemberMutation = { __typename?: 'mutation_root', insert_member_one?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null } | null };
 
 export type UpdateMemberMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -15284,7 +15400,7 @@ export type UpdateMemberMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null } | null };
+export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null } | null };
 
 export type ArchiveMemberMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -15300,20 +15416,12 @@ export type GetOrgQueryVariables = Exact<{
 
 export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } | null };
 
-export type OrgsSubscriptionVariables = Exact<{
-  userId: Scalars['uuid'];
+export type SubscribeOrgsSubscriptionVariables = Exact<{
   archived: Scalars['Boolean'];
 }>;
 
 
-export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } }> };
-
-export type OrgSubscriptionVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
+export type SubscribeOrgsSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null }> };
 
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -15339,6 +15447,17 @@ export type ArchiveOrgMutationVariables = Exact<{
 
 export type ArchiveOrgMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
+export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string, orgId: string, status: Org_Subscription_Status_Enum, type?: Subscription_Plan_Type_Enum | null };
+
+export type GetOrgSubscriptionQueryVariables = Exact<{
+  orgId: Scalars['uuid'];
+}>;
+
+
+export type GetOrgSubscriptionQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string, orgId: string, status: Org_Subscription_Status_Enum, type?: Subscription_Plan_Type_Enum | null }> };
+
+export type RoleFieldsFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
+
 export type GetRoleQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -15346,13 +15465,13 @@ export type GetRoleQueryVariables = Exact<{
 
 export type GetRoleQuery = { __typename?: 'query_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
 
-export type RolesSubscriptionVariables = Exact<{
+export type SubscribeRolesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type RolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }> };
+export type SubscribeRolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }> };
 
 export type CreateRoleMutationVariables = Exact<{
   values: Role_Insert_Input;
@@ -15383,21 +15502,19 @@ export type GetTaskQueryVariables = Exact<{
 
 export type GetTaskQuery = { __typename?: 'query_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
 
-export type TaskSubscriptionVariables = Exact<{
+export type SubscribeTaskSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
+export type SubscribeTaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
 
-export type TasksSubscriptionVariables = Exact<{
-  orgId: Scalars['uuid'];
-  filters: Array<Task_Bool_Exp> | Task_Bool_Exp;
-  taskViewKey: Scalars['String'];
+export type SubscribeTasksSubscriptionVariables = Exact<{
+  filters?: InputMaybe<Array<Task_Bool_Exp> | Task_Bool_Exp>;
 }>;
 
 
-export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> } | null };
+export type SubscribeTasksSubscription = { __typename?: 'subscription_root', task: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }> };
 
 export type CreateTaskMutationVariables = Exact<{
   values: Task_Insert_Input;
@@ -15422,6 +15539,14 @@ export type ArchiveTaskMutationVariables = Exact<{
 export type ArchiveTaskMutation = { __typename?: 'mutation_root', update_task_by_pk?: { __typename?: 'task', id: string } | null };
 
 export type TaskViewFragment = { __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any };
+
+export type SubscribeTaskViewSubscriptionVariables = Exact<{
+  orgId: Scalars['uuid'];
+  key: Scalars['String'];
+}>;
+
+
+export type SubscribeTaskViewSubscription = { __typename?: 'subscription_root', task_view: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> };
 
 export type CreateTaskViewMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -15448,21 +15573,21 @@ export type GetCircleThreadsIdsQueryVariables = Exact<{
 
 export type GetCircleThreadsIdsQuery = { __typename?: 'query_root', thread: Array<{ __typename?: 'thread', id: string }> };
 
-export type ThreadSubscriptionVariables = Exact<{
+export type SubscribeThreadSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
   memberId: Scalars['uuid'];
 }>;
 
 
-export type ThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> } | null };
+export type SubscribeThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> } | null };
 
-export type ThreadsSubscriptionVariables = Exact<{
+export type SubscribeThreadsSubscriptionVariables = Exact<{
   filters?: InputMaybe<Array<Thread_Bool_Exp> | Thread_Bool_Exp>;
   memberId: Scalars['uuid'];
 }>;
 
 
-export type ThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
+export type SubscribeThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
 
 export type CreateThreadMutationVariables = Exact<{
   values: Thread_Insert_Input;
@@ -15493,19 +15618,19 @@ export type GetLastThreadActivityQueryVariables = Exact<{
 
 export type GetLastThreadActivityQuery = { __typename?: 'query_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData }> };
 
-export type ThreadActivitySubscriptionVariables = Exact<{
+export type SubscribeThreadActivitySubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type ThreadActivitySubscription = { __typename?: 'subscription_root', thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData } | null };
+export type SubscribeThreadActivitySubscription = { __typename?: 'subscription_root', thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData } | null };
 
-export type ThreadActivitiesSubscriptionVariables = Exact<{
+export type SubscribeThreadActivitiesSubscriptionVariables = Exact<{
   threadId: Scalars['uuid'];
 }>;
 
 
-export type ThreadActivitiesSubscription = { __typename?: 'subscription_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData }> };
+export type SubscribeThreadActivitiesSubscription = { __typename?: 'subscription_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData }> };
 
 export type CreateThreadActivityMutationVariables = Exact<{
   values: Thread_Activity_Insert_Input;
@@ -15549,12 +15674,12 @@ export type UpdateThreadMemberStatusMutation = { __typename?: 'mutation_root', u
 
 export type ThreadPollAnswerFragment = { __typename?: 'thread_poll_answer', id: string, activityId: string, userId: string, choicesPoints: Array<number>, createdAt: string };
 
-export type ThreadPollAnswersSubscriptionVariables = Exact<{
+export type SubscribeThreadPollAnswersSubscriptionVariables = Exact<{
   activityId: Scalars['uuid'];
 }>;
 
 
-export type ThreadPollAnswersSubscription = { __typename?: 'subscription_root', thread_poll_answer: Array<{ __typename?: 'thread_poll_answer', id: string, activityId: string, userId: string, choicesPoints: Array<number>, createdAt: string }> };
+export type SubscribeThreadPollAnswersSubscription = { __typename?: 'subscription_root', thread_poll_answer: Array<{ __typename?: 'thread_poll_answer', id: string, activityId: string, userId: string, choicesPoints: Array<number>, createdAt: string }> };
 
 export type CreateThreadPollAnswerMutationVariables = Exact<{
   values: Thread_Poll_Answer_Insert_Input;
@@ -15586,33 +15711,6 @@ export type ChangeDisplayNameMutationVariables = Exact<{
 
 export type ChangeDisplayNameMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, displayName: string } | null };
 
-export const CircleFragmentDoc = gql`
-    fragment Circle on circle {
-  id
-  orgId
-  roleId
-  parentId
-  archived
-}
-    `;
-export const RoleSummaryFragmentDoc = gql`
-    fragment RoleSummary on role {
-  id
-  name
-  link
-  singleMember
-  colorHue
-}
-    `;
-export const CircleWithRoleFragmentDoc = gql`
-    fragment CircleWithRole on circle {
-  ...Circle
-  role {
-    ...RoleSummary
-  }
-}
-    ${CircleFragmentDoc}
-${RoleSummaryFragmentDoc}`;
 export const DecisionFragmentDoc = gql`
     fragment Decision on decision {
   id
@@ -15623,23 +15721,6 @@ export const DecisionFragmentDoc = gql`
   description
   archived
   createdAt
-}
-    `;
-export const LogFragmentDoc = gql`
-    fragment Log on log {
-  id
-  orgId
-  userId
-  memberId
-  memberName
-  meetingId
-  createdAt
-  display
-  changes
-  cancelLogId
-  cancelMemberId
-  cancelMemberName
-  canceled
 }
     `;
 export const MeetingFragmentDoc = gql`
@@ -15683,95 +15764,6 @@ export const OrgFragmentDoc = gql`
   slug
 }
     `;
-export const CircleMemberFragmentDoc = gql`
-    fragment CircleMember on circle_member {
-  id
-  circleId
-  memberId
-  avgMinPerWeek
-  createdAt
-  archived
-}
-    `;
-export const MemberSummaryFragmentDoc = gql`
-    fragment MemberSummary on member {
-  id
-  name
-  picture
-}
-    `;
-export const CircleFullFragmentDoc = gql`
-    fragment CircleFull on circle {
-  ...Circle
-  role {
-    ...RoleSummary
-  }
-  members(where: {archived: {_eq: false}, member: {archived: {_eq: false}}}) {
-    ...CircleMember
-    member {
-      ...MemberSummary
-    }
-  }
-}
-    ${CircleFragmentDoc}
-${RoleSummaryFragmentDoc}
-${CircleMemberFragmentDoc}
-${MemberSummaryFragmentDoc}`;
-export const RoleFragmentDoc = gql`
-    fragment Role on role {
-  id
-  orgId
-  archived
-  base
-  name
-  purpose
-  domain
-  accountabilities
-  checklist
-  indicators
-  notes
-  singleMember
-  autoCreate
-  link
-  defaultMinPerWeek
-  colorHue
-}
-    `;
-export const MemberFragmentDoc = gql`
-    fragment Member on member {
-  id
-  orgId
-  archived
-  name
-  description
-  pictureFileId
-  picture
-  userId
-  inviteEmail
-  inviteDate
-  workedMinPerWeek
-  role
-  meetingId
-  preferences
-}
-    `;
-export const OrgFullFragmentDoc = gql`
-    fragment OrgFull on org {
-  ...Org
-  circles(where: {archived: {_eq: false}}) {
-    ...CircleFull
-  }
-  roles(where: {archived: {_eq: false}}, order_by: {name: asc}) {
-    ...Role
-  }
-  members(where: {archived: {_eq: false}}, order_by: {name: asc}) {
-    ...Member
-  }
-}
-    ${OrgFragmentDoc}
-${CircleFullFragmentDoc}
-${RoleFragmentDoc}
-${MemberFragmentDoc}`;
 export const TaskFragmentDoc = gql`
     fragment Task on task {
   id
@@ -15811,6 +15803,42 @@ export const ThreadActivityFragmentDoc = gql`
   data
 }
     `;
+export const CircleFieldsFragmentDoc = gql`
+    fragment CircleFields on circle {
+  id
+  orgId
+  roleId
+  parentId
+  archived
+}
+    `;
+export const CircleMemberFieldsFragmentDoc = gql`
+    fragment CircleMemberFields on circle_member {
+  id
+  circleId
+  memberId
+  avgMinPerWeek
+  createdAt
+  archived
+}
+    `;
+export const LogFieldsFragmentDoc = gql`
+    fragment LogFields on log {
+  id
+  orgId
+  userId
+  memberId
+  memberName
+  meetingId
+  createdAt
+  display
+  changes
+  cancelLogId
+  cancelMemberId
+  cancelMemberName
+  canceled
+}
+    `;
 export const MeetingRecurringFragmentDoc = gql`
     fragment MeetingRecurring on meeting_recurring {
   id
@@ -15843,6 +15871,52 @@ export const MeetingTemplateFragmentDoc = gql`
   stepsConfig
 }
     `;
+export const MemberFieldsFragmentDoc = gql`
+    fragment MemberFields on member {
+  id
+  orgId
+  archived
+  name
+  description
+  pictureFileId
+  picture
+  userId
+  inviteEmail
+  inviteDate
+  workedMinPerWeek
+  role
+  meetingId
+  preferences
+}
+    `;
+export const OrgSubscriptionFieldsFragmentDoc = gql`
+    fragment OrgSubscriptionFields on org_subscription {
+  id
+  orgId
+  status
+  type
+}
+    `;
+export const RoleFieldsFragmentDoc = gql`
+    fragment RoleFields on role {
+  id
+  orgId
+  archived
+  base
+  name
+  purpose
+  domain
+  accountabilities
+  checklist
+  indicators
+  notes
+  singleMember
+  autoCreate
+  link
+  defaultMinPerWeek
+  colorHue
+}
+    `;
 export const TaskViewFragmentDoc = gql`
     fragment TaskView on task_view {
   id
@@ -15872,14 +15946,16 @@ export const ThreadPollAnswerFragmentDoc = gql`
 export const GetCircleDocument = gql`
     query getCircle($id: uuid!) {
   circle_by_pk(id: $id) {
-    ...Circle
+    ...CircleFields
     members(where: {archived: {_eq: false}}) {
-      ...CircleMember
+      id
+      memberId
+      avgMinPerWeek
+      archived
     }
   }
 }
-    ${CircleFragmentDoc}
-${CircleMemberFragmentDoc}`;
+    ${CircleFieldsFragmentDoc}`;
 
 /**
  * __useGetCircleQuery__
@@ -15911,48 +15987,50 @@ export type GetCircleQueryResult = Apollo.QueryResult<GetCircleQuery, GetCircleQ
 export function refetchGetCircleQuery(variables: GetCircleQueryVariables) {
       return { query: GetCircleDocument, variables: variables }
     }
-export const CirclesDocument = gql`
-    subscription circles($orgId: uuid!, $archived: Boolean!) {
+export const SubscribeCirclesDocument = gql`
+    subscription subscribeCircles($orgId: uuid!, $archived: Boolean!) {
   circle(where: {orgId: {_eq: $orgId}, archived: {_eq: $archived}}) {
-    ...Circle
+    ...CircleFields
     members(where: {archived: {_eq: false}}) {
-      ...CircleMember
+      id
+      memberId
+      avgMinPerWeek
+      archived
     }
   }
 }
-    ${CircleFragmentDoc}
-${CircleMemberFragmentDoc}`;
+    ${CircleFieldsFragmentDoc}`;
 
 /**
- * __useCirclesSubscription__
+ * __useSubscribeCirclesSubscription__
  *
- * To run a query within a React component, call `useCirclesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCirclesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeCirclesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeCirclesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCirclesSubscription({
+ * const { data, loading, error } = useSubscribeCirclesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useCirclesSubscription(baseOptions: Apollo.SubscriptionHookOptions<CirclesSubscription, CirclesSubscriptionVariables>) {
+export function useSubscribeCirclesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCirclesSubscription, SubscribeCirclesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<CirclesSubscription, CirclesSubscriptionVariables>(CirclesDocument, options);
+        return Apollo.useSubscription<SubscribeCirclesSubscription, SubscribeCirclesSubscriptionVariables>(SubscribeCirclesDocument, options);
       }
-export type CirclesSubscriptionHookResult = ReturnType<typeof useCirclesSubscription>;
-export type CirclesSubscriptionResult = Apollo.SubscriptionResult<CirclesSubscription>;
+export type SubscribeCirclesSubscriptionHookResult = ReturnType<typeof useSubscribeCirclesSubscription>;
+export type SubscribeCirclesSubscriptionResult = Apollo.SubscriptionResult<SubscribeCirclesSubscription>;
 export const CreateCircleDocument = gql`
     mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
   insert_circle_one(object: {orgId: $orgId, roleId: $roleId, parentId: $parentId}) {
-    ...Circle
+    ...CircleFields
   }
 }
-    ${CircleFragmentDoc}`;
+    ${CircleFieldsFragmentDoc}`;
 export type CreateCircleMutationFn = Apollo.MutationFunction<CreateCircleMutation, CreateCircleMutationVariables>;
 
 /**
@@ -15985,15 +16063,15 @@ export const CreateCirclesDocument = gql`
     mutation createCircles($circles: [circle_insert_input!]!) {
   insert_circle(objects: $circles) {
     returning {
-      ...Circle
+      ...CircleFields
       role {
-        ...Role
+        ...RoleFields
       }
     }
   }
 }
-    ${CircleFragmentDoc}
-${RoleFragmentDoc}`;
+    ${CircleFieldsFragmentDoc}
+${RoleFieldsFragmentDoc}`;
 export type CreateCirclesMutationFn = Apollo.MutationFunction<CreateCirclesMutation, CreateCirclesMutationVariables>;
 
 /**
@@ -16023,7 +16101,7 @@ export type CreateCirclesMutationOptions = Apollo.BaseMutationOptions<CreateCirc
 export const UpdateCircleDocument = gql`
     mutation updateCircle($id: uuid!, $values: circle_set_input!) {
   update_circle_by_pk(pk_columns: {id: $id}, _set: $values) {
-    ...Circle
+    ...CircleFields
     role {
       name
     }
@@ -16034,7 +16112,7 @@ export const UpdateCircleDocument = gql`
     }
   }
 }
-    ${CircleFragmentDoc}`;
+    ${CircleFieldsFragmentDoc}`;
 export type UpdateCircleMutationFn = Apollo.MutationFunction<UpdateCircleMutation, UpdateCircleMutationVariables>;
 
 /**
@@ -16098,10 +16176,10 @@ export type ArchiveCircleMutationOptions = Apollo.BaseMutationOptions<ArchiveCir
 export const GetCircleMemberDocument = gql`
     query getCircleMember($id: uuid!) {
   circle_member_by_pk(id: $id) {
-    ...CircleMember
+    ...CircleMemberFields
   }
 }
-    ${CircleMemberFragmentDoc}`;
+    ${CircleMemberFieldsFragmentDoc}`;
 
 /**
  * __useGetCircleMemberQuery__
@@ -16138,7 +16216,7 @@ export const CreateCircleMemberDocument = gql`
   insert_circle_member_one(
     object: {circleId: $circleId, memberId: $memberId, avgMinPerWeek: $avgMinPerWeek}
   ) {
-    ...CircleMember
+    ...CircleMemberFields
     member {
       id
       name
@@ -16151,7 +16229,7 @@ export const CreateCircleMemberDocument = gql`
     }
   }
 }
-    ${CircleMemberFragmentDoc}`;
+    ${CircleMemberFieldsFragmentDoc}`;
 export type CreateCircleMemberMutationFn = Apollo.MutationFunction<CreateCircleMemberMutation, CreateCircleMemberMutationVariables>;
 
 /**
@@ -16183,10 +16261,10 @@ export type CreateCircleMemberMutationOptions = Apollo.BaseMutationOptions<Creat
 export const UpdateCircleMemberDocument = gql`
     mutation updateCircleMember($id: uuid!, $values: circle_member_set_input!) {
   update_circle_member_by_pk(pk_columns: {id: $id}, _set: $values) {
-    ...CircleMember
+    ...CircleMemberFields
   }
 }
-    ${CircleMemberFragmentDoc}`;
+    ${CircleMemberFieldsFragmentDoc}`;
 export type UpdateCircleMemberMutationFn = Apollo.MutationFunction<UpdateCircleMemberMutation, UpdateCircleMemberMutationVariables>;
 
 /**
@@ -16221,7 +16299,7 @@ export const ArchiveCircleMemberDocument = gql`
     _set: {archived: true}
   ) {
     returning {
-      ...CircleMember
+      ...CircleMemberFields
       member {
         id
         name
@@ -16235,7 +16313,7 @@ export const ArchiveCircleMemberDocument = gql`
     }
   }
 }
-    ${CircleMemberFragmentDoc}`;
+    ${CircleMemberFieldsFragmentDoc}`;
 export type ArchiveCircleMemberMutationFn = Apollo.MutationFunction<ArchiveCircleMemberMutation, ArchiveCircleMemberMutationVariables>;
 
 /**
@@ -16301,8 +16379,8 @@ export type GetDecisionQueryResult = Apollo.QueryResult<GetDecisionQuery, GetDec
 export function refetchGetDecisionQuery(variables: GetDecisionQueryVariables) {
       return { query: GetDecisionDocument, variables: variables }
     }
-export const DecisionDocument = gql`
-    subscription decision($id: uuid!) {
+export const SubscribeDecisionDocument = gql`
+    subscription subscribeDecision($id: uuid!) {
   decision_by_pk(id: $id) {
     ...Decision
   }
@@ -16310,29 +16388,29 @@ export const DecisionDocument = gql`
     ${DecisionFragmentDoc}`;
 
 /**
- * __useDecisionSubscription__
+ * __useSubscribeDecisionSubscription__
  *
- * To run a query within a React component, call `useDecisionSubscription` and pass it any options that fit your needs.
- * When your component renders, `useDecisionSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeDecisionSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeDecisionSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useDecisionSubscription({
+ * const { data, loading, error } = useSubscribeDecisionSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDecisionSubscription(baseOptions: Apollo.SubscriptionHookOptions<DecisionSubscription, DecisionSubscriptionVariables>) {
+export function useSubscribeDecisionSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeDecisionSubscription, SubscribeDecisionSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<DecisionSubscription, DecisionSubscriptionVariables>(DecisionDocument, options);
+        return Apollo.useSubscription<SubscribeDecisionSubscription, SubscribeDecisionSubscriptionVariables>(SubscribeDecisionDocument, options);
       }
-export type DecisionSubscriptionHookResult = ReturnType<typeof useDecisionSubscription>;
-export type DecisionSubscriptionResult = Apollo.SubscriptionResult<DecisionSubscription>;
-export const CircleDecisionsDocument = gql`
-    subscription circleDecisions($circleId: uuid!, $archived: Boolean!) {
+export type SubscribeDecisionSubscriptionHookResult = ReturnType<typeof useSubscribeDecisionSubscription>;
+export type SubscribeDecisionSubscriptionResult = Apollo.SubscriptionResult<SubscribeDecisionSubscription>;
+export const SubscribeCircleDecisionsDocument = gql`
+    subscription subscribeCircleDecisions($circleId: uuid!, $archived: Boolean!) {
   decision(
     where: {circleId: {_eq: $circleId}, archived: {_eq: $archived}}
     order_by: {createdAt: desc}
@@ -16343,28 +16421,28 @@ export const CircleDecisionsDocument = gql`
     ${DecisionFragmentDoc}`;
 
 /**
- * __useCircleDecisionsSubscription__
+ * __useSubscribeCircleDecisionsSubscription__
  *
- * To run a query within a React component, call `useCircleDecisionsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCircleDecisionsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeCircleDecisionsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeCircleDecisionsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCircleDecisionsSubscription({
+ * const { data, loading, error } = useSubscribeCircleDecisionsSubscription({
  *   variables: {
  *      circleId: // value for 'circleId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useCircleDecisionsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleDecisionsSubscription, CircleDecisionsSubscriptionVariables>) {
+export function useSubscribeCircleDecisionsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCircleDecisionsSubscription, SubscribeCircleDecisionsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<CircleDecisionsSubscription, CircleDecisionsSubscriptionVariables>(CircleDecisionsDocument, options);
+        return Apollo.useSubscription<SubscribeCircleDecisionsSubscription, SubscribeCircleDecisionsSubscriptionVariables>(SubscribeCircleDecisionsDocument, options);
       }
-export type CircleDecisionsSubscriptionHookResult = ReturnType<typeof useCircleDecisionsSubscription>;
-export type CircleDecisionsSubscriptionResult = Apollo.SubscriptionResult<CircleDecisionsSubscription>;
+export type SubscribeCircleDecisionsSubscriptionHookResult = ReturnType<typeof useSubscribeCircleDecisionsSubscription>;
+export type SubscribeCircleDecisionsSubscriptionResult = Apollo.SubscriptionResult<SubscribeCircleDecisionsSubscription>;
 export const CreateDecisionDocument = gql`
     mutation createDecision($values: decision_insert_input!) {
   insert_decision_one(object: $values) {
@@ -16465,73 +16543,73 @@ export function useArchiveDecisionMutation(baseOptions?: Apollo.MutationHookOpti
 export type ArchiveDecisionMutationHookResult = ReturnType<typeof useArchiveDecisionMutation>;
 export type ArchiveDecisionMutationResult = Apollo.MutationResult<ArchiveDecisionMutation>;
 export type ArchiveDecisionMutationOptions = Apollo.BaseMutationOptions<ArchiveDecisionMutation, ArchiveDecisionMutationVariables>;
-export const LastLogsDocument = gql`
-    subscription lastLogs($orgId: uuid!) {
+export const SubscribeLastLogsDocument = gql`
+    subscription subscribeLastLogs($orgId: uuid!) {
   log(where: {orgId: {_eq: $orgId}}, order_by: {createdAt: desc}, limit: 100) {
-    ...Log
+    ...LogFields
   }
 }
-    ${LogFragmentDoc}`;
+    ${LogFieldsFragmentDoc}`;
 
 /**
- * __useLastLogsSubscription__
+ * __useSubscribeLastLogsSubscription__
  *
- * To run a query within a React component, call `useLastLogsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useLastLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeLastLogsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeLastLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useLastLogsSubscription({
+ * const { data, loading, error } = useSubscribeLastLogsSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *   },
  * });
  */
-export function useLastLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<LastLogsSubscription, LastLogsSubscriptionVariables>) {
+export function useSubscribeLastLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeLastLogsSubscription, SubscribeLastLogsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<LastLogsSubscription, LastLogsSubscriptionVariables>(LastLogsDocument, options);
+        return Apollo.useSubscription<SubscribeLastLogsSubscription, SubscribeLastLogsSubscriptionVariables>(SubscribeLastLogsDocument, options);
       }
-export type LastLogsSubscriptionHookResult = ReturnType<typeof useLastLogsSubscription>;
-export type LastLogsSubscriptionResult = Apollo.SubscriptionResult<LastLogsSubscription>;
-export const MeetingLogsDocument = gql`
-    subscription meetingLogs($meetingId: uuid!) {
+export type SubscribeLastLogsSubscriptionHookResult = ReturnType<typeof useSubscribeLastLogsSubscription>;
+export type SubscribeLastLogsSubscriptionResult = Apollo.SubscriptionResult<SubscribeLastLogsSubscription>;
+export const SubscribeMeetingLogsDocument = gql`
+    subscription subscribeMeetingLogs($meetingId: uuid!) {
   log(where: {meetingId: {_eq: $meetingId}}, order_by: {createdAt: asc}) {
-    ...Log
+    ...LogFields
   }
 }
-    ${LogFragmentDoc}`;
+    ${LogFieldsFragmentDoc}`;
 
 /**
- * __useMeetingLogsSubscription__
+ * __useSubscribeMeetingLogsSubscription__
  *
- * To run a query within a React component, call `useMeetingLogsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeMeetingLogsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMeetingLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeetingLogsSubscription({
+ * const { data, loading, error } = useSubscribeMeetingLogsSubscription({
  *   variables: {
  *      meetingId: // value for 'meetingId'
  *   },
  * });
  */
-export function useMeetingLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingLogsSubscription, MeetingLogsSubscriptionVariables>) {
+export function useSubscribeMeetingLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingLogsSubscription, SubscribeMeetingLogsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingLogsSubscription, MeetingLogsSubscriptionVariables>(MeetingLogsDocument, options);
+        return Apollo.useSubscription<SubscribeMeetingLogsSubscription, SubscribeMeetingLogsSubscriptionVariables>(SubscribeMeetingLogsDocument, options);
       }
-export type MeetingLogsSubscriptionHookResult = ReturnType<typeof useMeetingLogsSubscription>;
-export type MeetingLogsSubscriptionResult = Apollo.SubscriptionResult<MeetingLogsSubscription>;
+export type SubscribeMeetingLogsSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingLogsSubscription>;
+export type SubscribeMeetingLogsSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingLogsSubscription>;
 export const CreateLogDocument = gql`
     mutation createLog($values: log_insert_input!) {
   insert_log_one(object: $values) {
-    ...Log
+    ...LogFields
   }
 }
-    ${LogFragmentDoc}`;
+    ${LogFieldsFragmentDoc}`;
 export type CreateLogMutationFn = Apollo.MutationFunction<CreateLogMutation, CreateLogMutationVariables>;
 
 /**
@@ -16561,10 +16639,10 @@ export type CreateLogMutationOptions = Apollo.BaseMutationOptions<CreateLogMutat
 export const CancelLogDocument = gql`
     mutation cancelLog($id: uuid!) {
   update_log_by_pk(pk_columns: {id: $id}, _set: {canceled: true}) {
-    ...Log
+    ...LogFields
   }
 }
-    ${LogFragmentDoc}`;
+    ${LogFieldsFragmentDoc}`;
 export type CancelLogMutationFn = Apollo.MutationFunction<CancelLogMutation, CancelLogMutationVariables>;
 
 /**
@@ -16591,8 +16669,8 @@ export function useCancelLogMutation(baseOptions?: Apollo.MutationHookOptions<Ca
 export type CancelLogMutationHookResult = ReturnType<typeof useCancelLogMutation>;
 export type CancelLogMutationResult = Apollo.MutationResult<CancelLogMutation>;
 export type CancelLogMutationOptions = Apollo.BaseMutationOptions<CancelLogMutation, CancelLogMutationVariables>;
-export const MeetingDocument = gql`
-    subscription meeting($id: uuid!) {
+export const SubscribeMeetingDocument = gql`
+    subscription subscribeMeeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting
   }
@@ -16600,60 +16678,48 @@ export const MeetingDocument = gql`
     ${MeetingFragmentDoc}`;
 
 /**
- * __useMeetingSubscription__
+ * __useSubscribeMeetingSubscription__
  *
- * To run a query within a React component, call `useMeetingSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeMeetingSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMeetingSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeetingSubscription({
+ * const { data, loading, error } = useSubscribeMeetingSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useMeetingSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingSubscription, MeetingSubscriptionVariables>) {
+export function useSubscribeMeetingSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingSubscription, SubscribeMeetingSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingSubscription, MeetingSubscriptionVariables>(MeetingDocument, options);
+        return Apollo.useSubscription<SubscribeMeetingSubscription, SubscribeMeetingSubscriptionVariables>(SubscribeMeetingDocument, options);
       }
-export type MeetingSubscriptionHookResult = ReturnType<typeof useMeetingSubscription>;
-export type MeetingSubscriptionResult = Apollo.SubscriptionResult<MeetingSubscription>;
-export const MeetingsByDatesDocument = gql`
-    subscription meetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
-  org_by_pk(id: $orgId) {
-    meetings(
-      where: {startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
-    ) {
-      ...Meeting
-    }
-    meetings_recurring {
-      ...MeetingRecurring
-      meetings(
-        where: {recurringDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
-      ) {
-        id
-        recurringDate
-      }
-    }
+export type SubscribeMeetingSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingSubscription>;
+export type SubscribeMeetingSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingSubscription>;
+export const SubscribeMeetingsByDatesDocument = gql`
+    subscription subscribeMeetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
+  meeting(
+    where: {orgId: {_eq: $orgId}, startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
+  ) {
+    ...Meeting
   }
 }
-    ${MeetingFragmentDoc}
-${MeetingRecurringFragmentDoc}`;
+    ${MeetingFragmentDoc}`;
 
 /**
- * __useMeetingsByDatesSubscription__
+ * __useSubscribeMeetingsByDatesSubscription__
  *
- * To run a query within a React component, call `useMeetingsByDatesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingsByDatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeMeetingsByDatesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMeetingsByDatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeetingsByDatesSubscription({
+ * const { data, loading, error } = useSubscribeMeetingsByDatesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      fromDate: // value for 'fromDate'
@@ -16661,14 +16727,14 @@ ${MeetingRecurringFragmentDoc}`;
  *   },
  * });
  */
-export function useMeetingsByDatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingsByDatesSubscription, MeetingsByDatesSubscriptionVariables>) {
+export function useSubscribeMeetingsByDatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingsByDatesSubscription, SubscribeMeetingsByDatesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingsByDatesSubscription, MeetingsByDatesSubscriptionVariables>(MeetingsByDatesDocument, options);
+        return Apollo.useSubscription<SubscribeMeetingsByDatesSubscription, SubscribeMeetingsByDatesSubscriptionVariables>(SubscribeMeetingsByDatesDocument, options);
       }
-export type MeetingsByDatesSubscriptionHookResult = ReturnType<typeof useMeetingsByDatesSubscription>;
-export type MeetingsByDatesSubscriptionResult = Apollo.SubscriptionResult<MeetingsByDatesSubscription>;
-export const CircleMeetingsDocument = gql`
-    subscription circleMeetings($circleId: uuid!) {
+export type SubscribeMeetingsByDatesSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingsByDatesSubscription>;
+export type SubscribeMeetingsByDatesSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingsByDatesSubscription>;
+export const SubscribeCircleMeetingsDocument = gql`
+    subscription subscribeCircleMeetings($circleId: uuid!) {
   meeting(
     where: {circleId: {_eq: $circleId}, archived: {_eq: false}}
     order_by: {startDate: desc}
@@ -16679,27 +16745,27 @@ export const CircleMeetingsDocument = gql`
     ${MeetingFragmentDoc}`;
 
 /**
- * __useCircleMeetingsSubscription__
+ * __useSubscribeCircleMeetingsSubscription__
  *
- * To run a query within a React component, call `useCircleMeetingsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCircleMeetingsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeCircleMeetingsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeCircleMeetingsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCircleMeetingsSubscription({
+ * const { data, loading, error } = useSubscribeCircleMeetingsSubscription({
  *   variables: {
  *      circleId: // value for 'circleId'
  *   },
  * });
  */
-export function useCircleMeetingsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleMeetingsSubscription, CircleMeetingsSubscriptionVariables>) {
+export function useSubscribeCircleMeetingsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCircleMeetingsSubscription, SubscribeCircleMeetingsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<CircleMeetingsSubscription, CircleMeetingsSubscriptionVariables>(CircleMeetingsDocument, options);
+        return Apollo.useSubscription<SubscribeCircleMeetingsSubscription, SubscribeCircleMeetingsSubscriptionVariables>(SubscribeCircleMeetingsDocument, options);
       }
-export type CircleMeetingsSubscriptionHookResult = ReturnType<typeof useCircleMeetingsSubscription>;
-export type CircleMeetingsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingsSubscription>;
+export type SubscribeCircleMeetingsSubscriptionHookResult = ReturnType<typeof useSubscribeCircleMeetingsSubscription>;
+export type SubscribeCircleMeetingsSubscriptionResult = Apollo.SubscriptionResult<SubscribeCircleMeetingsSubscription>;
 export const CreateMeetingDocument = gql`
     mutation createMeeting($values: meeting_insert_input!) {
   insert_meeting_one(object: $values) {
@@ -16800,8 +16866,8 @@ export function useArchiveMeetingMutation(baseOptions?: Apollo.MutationHookOptio
 export type ArchiveMeetingMutationHookResult = ReturnType<typeof useArchiveMeetingMutation>;
 export type ArchiveMeetingMutationResult = Apollo.MutationResult<ArchiveMeetingMutation>;
 export type ArchiveMeetingMutationOptions = Apollo.BaseMutationOptions<ArchiveMeetingMutation, ArchiveMeetingMutationVariables>;
-export const MeetingRecurringDocument = gql`
-    subscription meetingRecurring($id: uuid!) {
+export const SubscribeMeetingRecurringDocument = gql`
+    subscription subscribeMeetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
     ...MeetingRecurring
     meetings {
@@ -16813,29 +16879,29 @@ export const MeetingRecurringDocument = gql`
     ${MeetingRecurringFragmentDoc}`;
 
 /**
- * __useMeetingRecurringSubscription__
+ * __useSubscribeMeetingRecurringSubscription__
  *
- * To run a query within a React component, call `useMeetingRecurringSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingRecurringSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeMeetingRecurringSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMeetingRecurringSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeetingRecurringSubscription({
+ * const { data, loading, error } = useSubscribeMeetingRecurringSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useMeetingRecurringSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingRecurringSubscription, MeetingRecurringSubscriptionVariables>) {
+export function useSubscribeMeetingRecurringSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingRecurringSubscription, SubscribeMeetingRecurringSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingRecurringSubscription, MeetingRecurringSubscriptionVariables>(MeetingRecurringDocument, options);
+        return Apollo.useSubscription<SubscribeMeetingRecurringSubscription, SubscribeMeetingRecurringSubscriptionVariables>(SubscribeMeetingRecurringDocument, options);
       }
-export type MeetingRecurringSubscriptionHookResult = ReturnType<typeof useMeetingRecurringSubscription>;
-export type MeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringSubscription>;
-export const MeetingRecurringsDocument = gql`
-    subscription meetingRecurrings($where: meeting_recurring_bool_exp!) {
+export type SubscribeMeetingRecurringSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingRecurringSubscription>;
+export type SubscribeMeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingRecurringSubscription>;
+export const SubscribeCircleMeetingRecurringsDocument = gql`
+    subscription subscribeCircleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
   meeting_recurring(where: $where, order_by: {template: {title: asc}}) {
     ...MeetingRecurring
   }
@@ -16843,27 +16909,27 @@ export const MeetingRecurringsDocument = gql`
     ${MeetingRecurringFragmentDoc}`;
 
 /**
- * __useMeetingRecurringsSubscription__
+ * __useSubscribeCircleMeetingRecurringsSubscription__
  *
- * To run a query within a React component, call `useMeetingRecurringsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeCircleMeetingRecurringsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeCircleMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeetingRecurringsSubscription({
+ * const { data, loading, error } = useSubscribeCircleMeetingRecurringsSubscription({
  *   variables: {
  *      where: // value for 'where'
  *   },
  * });
  */
-export function useMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>) {
+export function useSubscribeCircleMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCircleMeetingRecurringsSubscription, SubscribeCircleMeetingRecurringsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>(MeetingRecurringsDocument, options);
+        return Apollo.useSubscription<SubscribeCircleMeetingRecurringsSubscription, SubscribeCircleMeetingRecurringsSubscriptionVariables>(SubscribeCircleMeetingRecurringsDocument, options);
       }
-export type MeetingRecurringsSubscriptionHookResult = ReturnType<typeof useMeetingRecurringsSubscription>;
-export type MeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringsSubscription>;
+export type SubscribeCircleMeetingRecurringsSubscriptionHookResult = ReturnType<typeof useSubscribeCircleMeetingRecurringsSubscription>;
+export type SubscribeCircleMeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<SubscribeCircleMeetingRecurringsSubscription>;
 export const CreateMeetingRecurringDocument = gql`
     mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
   insert_meeting_recurring_one(object: $values) {
@@ -17041,8 +17107,8 @@ export type GetMeetingStepsQueryResult = Apollo.QueryResult<GetMeetingStepsQuery
 export function refetchGetMeetingStepsQuery(variables: GetMeetingStepsQueryVariables) {
       return { query: GetMeetingStepsDocument, variables: variables }
     }
-export const MeetingStepsDocument = gql`
-    subscription meetingSteps($meetingId: uuid!) {
+export const SubscribeMeetingStepsDocument = gql`
+    subscription subscribeMeetingSteps($meetingId: uuid!) {
   meeting_step(where: {meetingId: {_eq: $meetingId}}) {
     ...MeetingStep
   }
@@ -17050,27 +17116,27 @@ export const MeetingStepsDocument = gql`
     ${MeetingStepFragmentDoc}`;
 
 /**
- * __useMeetingStepsSubscription__
+ * __useSubscribeMeetingStepsSubscription__
  *
- * To run a query within a React component, call `useMeetingStepsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingStepsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeMeetingStepsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMeetingStepsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeetingStepsSubscription({
+ * const { data, loading, error } = useSubscribeMeetingStepsSubscription({
  *   variables: {
  *      meetingId: // value for 'meetingId'
  *   },
  * });
  */
-export function useMeetingStepsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingStepsSubscription, MeetingStepsSubscriptionVariables>) {
+export function useSubscribeMeetingStepsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingStepsSubscription, SubscribeMeetingStepsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingStepsSubscription, MeetingStepsSubscriptionVariables>(MeetingStepsDocument, options);
+        return Apollo.useSubscription<SubscribeMeetingStepsSubscription, SubscribeMeetingStepsSubscriptionVariables>(SubscribeMeetingStepsDocument, options);
       }
-export type MeetingStepsSubscriptionHookResult = ReturnType<typeof useMeetingStepsSubscription>;
-export type MeetingStepsSubscriptionResult = Apollo.SubscriptionResult<MeetingStepsSubscription>;
+export type SubscribeMeetingStepsSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingStepsSubscription>;
+export type SubscribeMeetingStepsSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingStepsSubscription>;
 export const CreateMeetingStepDocument = gql`
     mutation createMeetingStep($values: meeting_step_insert_input!) {
   insert_meeting_step_one(object: $values) {
@@ -17171,8 +17237,8 @@ export function useDeleteMeetingStepMutation(baseOptions?: Apollo.MutationHookOp
 export type DeleteMeetingStepMutationHookResult = ReturnType<typeof useDeleteMeetingStepMutation>;
 export type DeleteMeetingStepMutationResult = Apollo.MutationResult<DeleteMeetingStepMutation>;
 export type DeleteMeetingStepMutationOptions = Apollo.BaseMutationOptions<DeleteMeetingStepMutation, DeleteMeetingStepMutationVariables>;
-export const MeetingTemplatesDocument = gql`
-    subscription meetingTemplates($orgId: uuid!) {
+export const SubscribeMeetingTemplatesDocument = gql`
+    subscription subscribeMeetingTemplates($orgId: uuid!) {
   meeting_template(where: {orgId: {_eq: $orgId}}, order_by: {title: asc}) {
     ...MeetingTemplate
   }
@@ -17180,27 +17246,27 @@ export const MeetingTemplatesDocument = gql`
     ${MeetingTemplateFragmentDoc}`;
 
 /**
- * __useMeetingTemplatesSubscription__
+ * __useSubscribeMeetingTemplatesSubscription__
  *
- * To run a query within a React component, call `useMeetingTemplatesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingTemplatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeMeetingTemplatesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMeetingTemplatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeetingTemplatesSubscription({
+ * const { data, loading, error } = useSubscribeMeetingTemplatesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *   },
  * });
  */
-export function useMeetingTemplatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingTemplatesSubscription, MeetingTemplatesSubscriptionVariables>) {
+export function useSubscribeMeetingTemplatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingTemplatesSubscription, SubscribeMeetingTemplatesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingTemplatesSubscription, MeetingTemplatesSubscriptionVariables>(MeetingTemplatesDocument, options);
+        return Apollo.useSubscription<SubscribeMeetingTemplatesSubscription, SubscribeMeetingTemplatesSubscriptionVariables>(SubscribeMeetingTemplatesDocument, options);
       }
-export type MeetingTemplatesSubscriptionHookResult = ReturnType<typeof useMeetingTemplatesSubscription>;
-export type MeetingTemplatesSubscriptionResult = Apollo.SubscriptionResult<MeetingTemplatesSubscription>;
+export type SubscribeMeetingTemplatesSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingTemplatesSubscription>;
+export type SubscribeMeetingTemplatesSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingTemplatesSubscription>;
 export const CreateMeetingTemplateDocument = gql`
     mutation createMeetingTemplate($values: meeting_template_insert_input!) {
   insert_meeting_template_one(object: $values) {
@@ -17304,10 +17370,10 @@ export type DeleteMeetingTemplateMutationOptions = Apollo.BaseMutationOptions<De
 export const GetMemberDocument = gql`
     query getMember($id: uuid!) {
   member_by_pk(id: $id) {
-    ...Member
+    ...MemberFields
   }
 }
-    ${MemberFragmentDoc}`;
+    ${MemberFieldsFragmentDoc}`;
 
 /**
  * __useGetMemberQuery__
@@ -17345,10 +17411,10 @@ export const GetOrgsMembersDocument = gql`
     where: {orgId: {_in: $orgsIds}, archived: {_eq: false}}
     order_by: {name: asc}
   ) {
-    ...Member
+    ...MemberFields
   }
 }
-    ${MemberFragmentDoc}`;
+    ${MemberFieldsFragmentDoc}`;
 
 /**
  * __useGetOrgsMembersQuery__
@@ -17380,47 +17446,47 @@ export type GetOrgsMembersQueryResult = Apollo.QueryResult<GetOrgsMembersQuery, 
 export function refetchGetOrgsMembersQuery(variables: GetOrgsMembersQueryVariables) {
       return { query: GetOrgsMembersDocument, variables: variables }
     }
-export const MembersDocument = gql`
-    subscription members($orgId: uuid!, $archived: Boolean!) {
+export const SubscribeMembersDocument = gql`
+    subscription subscribeMembers($orgId: uuid!, $archived: Boolean!) {
   member(
     where: {orgId: {_eq: $orgId}, archived: {_eq: $archived}}
     order_by: {name: asc}
   ) {
-    ...Member
+    ...MemberFields
   }
 }
-    ${MemberFragmentDoc}`;
+    ${MemberFieldsFragmentDoc}`;
 
 /**
- * __useMembersSubscription__
+ * __useSubscribeMembersSubscription__
  *
- * To run a query within a React component, call `useMembersSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMembersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeMembersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeMembersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMembersSubscription({
+ * const { data, loading, error } = useSubscribeMembersSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useMembersSubscription(baseOptions: Apollo.SubscriptionHookOptions<MembersSubscription, MembersSubscriptionVariables>) {
+export function useSubscribeMembersSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMembersSubscription, SubscribeMembersSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MembersSubscription, MembersSubscriptionVariables>(MembersDocument, options);
+        return Apollo.useSubscription<SubscribeMembersSubscription, SubscribeMembersSubscriptionVariables>(SubscribeMembersDocument, options);
       }
-export type MembersSubscriptionHookResult = ReturnType<typeof useMembersSubscription>;
-export type MembersSubscriptionResult = Apollo.SubscriptionResult<MembersSubscription>;
+export type SubscribeMembersSubscriptionHookResult = ReturnType<typeof useSubscribeMembersSubscription>;
+export type SubscribeMembersSubscriptionResult = Apollo.SubscriptionResult<SubscribeMembersSubscription>;
 export const CreateMemberDocument = gql`
     mutation createMember($orgId: uuid!, $name: String!) {
   insert_member_one(object: {orgId: $orgId, name: $name}) {
-    ...Member
+    ...MemberFields
   }
 }
-    ${MemberFragmentDoc}`;
+    ${MemberFieldsFragmentDoc}`;
 export type CreateMemberMutationFn = Apollo.MutationFunction<CreateMemberMutation, CreateMemberMutationVariables>;
 
 /**
@@ -17451,10 +17517,10 @@ export type CreateMemberMutationOptions = Apollo.BaseMutationOptions<CreateMembe
 export const UpdateMemberDocument = gql`
     mutation updateMember($id: uuid!, $values: member_set_input!) {
   update_member_by_pk(pk_columns: {id: $id}, _set: $values) {
-    ...Member
+    ...MemberFields
   }
 }
-    ${MemberFragmentDoc}`;
+    ${MemberFieldsFragmentDoc}`;
 export type UpdateMemberMutationFn = Apollo.MutationFunction<UpdateMemberMutation, UpdateMemberMutationVariables>;
 
 /**
@@ -17553,71 +17619,36 @@ export type GetOrgQueryResult = Apollo.QueryResult<GetOrgQuery, GetOrgQueryVaria
 export function refetchGetOrgQuery(variables: GetOrgQueryVariables) {
       return { query: GetOrgDocument, variables: variables }
     }
-export const OrgsDocument = gql`
-    subscription orgs($userId: uuid!, $archived: Boolean!) {
-  member(
-    where: {userId: {_eq: $userId}, archived: {_eq: false}, org: {archived: {_eq: $archived}}}
-  ) {
-    org {
-      ...Org
-    }
+export const SubscribeOrgsDocument = gql`
+    subscription subscribeOrgs($archived: Boolean!) {
+  org(where: {archived: {_eq: $archived}}, order_by: {createdAt: asc}) {
+    ...Org
   }
 }
     ${OrgFragmentDoc}`;
 
 /**
- * __useOrgsSubscription__
+ * __useSubscribeOrgsSubscription__
  *
- * To run a query within a React component, call `useOrgsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useOrgsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeOrgsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeOrgsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useOrgsSubscription({
+ * const { data, loading, error } = useSubscribeOrgsSubscription({
  *   variables: {
- *      userId: // value for 'userId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useOrgsSubscription(baseOptions: Apollo.SubscriptionHookOptions<OrgsSubscription, OrgsSubscriptionVariables>) {
+export function useSubscribeOrgsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeOrgsSubscription, SubscribeOrgsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<OrgsSubscription, OrgsSubscriptionVariables>(OrgsDocument, options);
+        return Apollo.useSubscription<SubscribeOrgsSubscription, SubscribeOrgsSubscriptionVariables>(SubscribeOrgsDocument, options);
       }
-export type OrgsSubscriptionHookResult = ReturnType<typeof useOrgsSubscription>;
-export type OrgsSubscriptionResult = Apollo.SubscriptionResult<OrgsSubscription>;
-export const OrgDocument = gql`
-    subscription org($id: uuid!) {
-  org_by_pk(id: $id) {
-    ...OrgFull
-  }
-}
-    ${OrgFullFragmentDoc}`;
-
-/**
- * __useOrgSubscription__
- *
- * To run a query within a React component, call `useOrgSubscription` and pass it any options that fit your needs.
- * When your component renders, `useOrgSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useOrgSubscription({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useOrgSubscription(baseOptions: Apollo.SubscriptionHookOptions<OrgSubscription, OrgSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<OrgSubscription, OrgSubscriptionVariables>(OrgDocument, options);
-      }
-export type OrgSubscriptionHookResult = ReturnType<typeof useOrgSubscription>;
-export type OrgSubscriptionResult = Apollo.SubscriptionResult<OrgSubscription>;
+export type SubscribeOrgsSubscriptionHookResult = ReturnType<typeof useSubscribeOrgsSubscription>;
+export type SubscribeOrgsSubscriptionResult = Apollo.SubscriptionResult<SubscribeOrgsSubscription>;
 export const UpdateOrgDocument = gql`
     mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
   update_org_by_pk(
@@ -17723,13 +17754,51 @@ export function useArchiveOrgMutation(baseOptions?: Apollo.MutationHookOptions<A
 export type ArchiveOrgMutationHookResult = ReturnType<typeof useArchiveOrgMutation>;
 export type ArchiveOrgMutationResult = Apollo.MutationResult<ArchiveOrgMutation>;
 export type ArchiveOrgMutationOptions = Apollo.BaseMutationOptions<ArchiveOrgMutation, ArchiveOrgMutationVariables>;
+export const GetOrgSubscriptionDocument = gql`
+    query getOrgSubscription($orgId: uuid!) {
+  org_subscription(where: {orgId: {_eq: $orgId}}) {
+    ...OrgSubscriptionFields
+  }
+}
+    ${OrgSubscriptionFieldsFragmentDoc}`;
+
+/**
+ * __useGetOrgSubscriptionQuery__
+ *
+ * To run a query within a React component, call `useGetOrgSubscriptionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrgSubscriptionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrgSubscriptionQuery({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *   },
+ * });
+ */
+export function useGetOrgSubscriptionQuery(baseOptions: Apollo.QueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
+      }
+export function useGetOrgSubscriptionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
+        }
+export type GetOrgSubscriptionQueryHookResult = ReturnType<typeof useGetOrgSubscriptionQuery>;
+export type GetOrgSubscriptionLazyQueryHookResult = ReturnType<typeof useGetOrgSubscriptionLazyQuery>;
+export type GetOrgSubscriptionQueryResult = Apollo.QueryResult<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>;
+export function refetchGetOrgSubscriptionQuery(variables: GetOrgSubscriptionQueryVariables) {
+      return { query: GetOrgSubscriptionDocument, variables: variables }
+    }
 export const GetRoleDocument = gql`
     query getRole($id: uuid!) {
   role_by_pk(id: $id) {
-    ...Role
+    ...RoleFields
   }
 }
-    ${RoleFragmentDoc}`;
+    ${RoleFieldsFragmentDoc}`;
 
 /**
  * __useGetRoleQuery__
@@ -17761,47 +17830,47 @@ export type GetRoleQueryResult = Apollo.QueryResult<GetRoleQuery, GetRoleQueryVa
 export function refetchGetRoleQuery(variables: GetRoleQueryVariables) {
       return { query: GetRoleDocument, variables: variables }
     }
-export const RolesDocument = gql`
-    subscription roles($orgId: uuid!, $archived: Boolean!) {
+export const SubscribeRolesDocument = gql`
+    subscription subscribeRoles($orgId: uuid!, $archived: Boolean!) {
   role(
     where: {orgId: {_eq: $orgId}, archived: {_eq: $archived}}
     order_by: {name: asc}
   ) {
-    ...Role
+    ...RoleFields
   }
 }
-    ${RoleFragmentDoc}`;
+    ${RoleFieldsFragmentDoc}`;
 
 /**
- * __useRolesSubscription__
+ * __useSubscribeRolesSubscription__
  *
- * To run a query within a React component, call `useRolesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useRolesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeRolesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeRolesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRolesSubscription({
+ * const { data, loading, error } = useSubscribeRolesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useRolesSubscription(baseOptions: Apollo.SubscriptionHookOptions<RolesSubscription, RolesSubscriptionVariables>) {
+export function useSubscribeRolesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeRolesSubscription, SubscribeRolesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<RolesSubscription, RolesSubscriptionVariables>(RolesDocument, options);
+        return Apollo.useSubscription<SubscribeRolesSubscription, SubscribeRolesSubscriptionVariables>(SubscribeRolesDocument, options);
       }
-export type RolesSubscriptionHookResult = ReturnType<typeof useRolesSubscription>;
-export type RolesSubscriptionResult = Apollo.SubscriptionResult<RolesSubscription>;
+export type SubscribeRolesSubscriptionHookResult = ReturnType<typeof useSubscribeRolesSubscription>;
+export type SubscribeRolesSubscriptionResult = Apollo.SubscriptionResult<SubscribeRolesSubscription>;
 export const CreateRoleDocument = gql`
     mutation createRole($values: role_insert_input!) {
   insert_role_one(object: $values) {
-    ...Role
+    ...RoleFields
   }
 }
-    ${RoleFragmentDoc}`;
+    ${RoleFieldsFragmentDoc}`;
 export type CreateRoleMutationFn = Apollo.MutationFunction<CreateRoleMutation, CreateRoleMutationVariables>;
 
 /**
@@ -17831,10 +17900,10 @@ export type CreateRoleMutationOptions = Apollo.BaseMutationOptions<CreateRoleMut
 export const UpdateRoleDocument = gql`
     mutation updateRole($id: uuid!, $values: role_set_input!) {
   update_role_by_pk(pk_columns: {id: $id}, _set: $values) {
-    ...Role
+    ...RoleFields
   }
 }
-    ${RoleFragmentDoc}`;
+    ${RoleFieldsFragmentDoc}`;
 export type UpdateRoleMutationFn = Apollo.MutationFunction<UpdateRoleMutation, UpdateRoleMutationVariables>;
 
 /**
@@ -17933,8 +18002,8 @@ export type GetTaskQueryResult = Apollo.QueryResult<GetTaskQuery, GetTaskQueryVa
 export function refetchGetTaskQuery(variables: GetTaskQueryVariables) {
       return { query: GetTaskDocument, variables: variables }
     }
-export const TaskDocument = gql`
-    subscription task($id: uuid!) {
+export const SubscribeTaskDocument = gql`
+    subscription subscribeTask($id: uuid!) {
   task_by_pk(id: $id) {
     ...Task
   }
@@ -17942,65 +18011,57 @@ export const TaskDocument = gql`
     ${TaskFragmentDoc}`;
 
 /**
- * __useTaskSubscription__
+ * __useSubscribeTaskSubscription__
  *
- * To run a query within a React component, call `useTaskSubscription` and pass it any options that fit your needs.
- * When your component renders, `useTaskSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeTaskSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeTaskSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useTaskSubscription({
+ * const { data, loading, error } = useSubscribeTaskSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useTaskSubscription(baseOptions: Apollo.SubscriptionHookOptions<TaskSubscription, TaskSubscriptionVariables>) {
+export function useSubscribeTaskSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeTaskSubscription, SubscribeTaskSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<TaskSubscription, TaskSubscriptionVariables>(TaskDocument, options);
+        return Apollo.useSubscription<SubscribeTaskSubscription, SubscribeTaskSubscriptionVariables>(SubscribeTaskDocument, options);
       }
-export type TaskSubscriptionHookResult = ReturnType<typeof useTaskSubscription>;
-export type TaskSubscriptionResult = Apollo.SubscriptionResult<TaskSubscription>;
-export const TasksDocument = gql`
-    subscription tasks($orgId: uuid!, $filters: [task_bool_exp!]!, $taskViewKey: String!) {
-  org_by_pk(id: $orgId) {
-    tasks(where: {_and: $filters}) {
-      ...Task
-    }
-    task_views(where: {key: {_eq: $taskViewKey}}) {
-      ...TaskView
-    }
+export type SubscribeTaskSubscriptionHookResult = ReturnType<typeof useSubscribeTaskSubscription>;
+export type SubscribeTaskSubscriptionResult = Apollo.SubscriptionResult<SubscribeTaskSubscription>;
+export const SubscribeTasksDocument = gql`
+    subscription subscribeTasks($filters: [task_bool_exp!]) {
+  task(where: {_and: $filters}) {
+    ...Task
   }
 }
-    ${TaskFragmentDoc}
-${TaskViewFragmentDoc}`;
+    ${TaskFragmentDoc}`;
 
 /**
- * __useTasksSubscription__
+ * __useSubscribeTasksSubscription__
  *
- * To run a query within a React component, call `useTasksSubscription` and pass it any options that fit your needs.
- * When your component renders, `useTasksSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeTasksSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeTasksSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useTasksSubscription({
+ * const { data, loading, error } = useSubscribeTasksSubscription({
  *   variables: {
- *      orgId: // value for 'orgId'
  *      filters: // value for 'filters'
- *      taskViewKey: // value for 'taskViewKey'
  *   },
  * });
  */
-export function useTasksSubscription(baseOptions: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
+export function useSubscribeTasksSubscription(baseOptions?: Apollo.SubscriptionHookOptions<SubscribeTasksSubscription, SubscribeTasksSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<TasksSubscription, TasksSubscriptionVariables>(TasksDocument, options);
+        return Apollo.useSubscription<SubscribeTasksSubscription, SubscribeTasksSubscriptionVariables>(SubscribeTasksDocument, options);
       }
-export type TasksSubscriptionHookResult = ReturnType<typeof useTasksSubscription>;
-export type TasksSubscriptionResult = Apollo.SubscriptionResult<TasksSubscription>;
+export type SubscribeTasksSubscriptionHookResult = ReturnType<typeof useSubscribeTasksSubscription>;
+export type SubscribeTasksSubscriptionResult = Apollo.SubscriptionResult<SubscribeTasksSubscription>;
 export const CreateTaskDocument = gql`
     mutation createTask($values: task_insert_input!) {
   insert_task_one(object: $values) {
@@ -18101,6 +18162,37 @@ export function useArchiveTaskMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ArchiveTaskMutationHookResult = ReturnType<typeof useArchiveTaskMutation>;
 export type ArchiveTaskMutationResult = Apollo.MutationResult<ArchiveTaskMutation>;
 export type ArchiveTaskMutationOptions = Apollo.BaseMutationOptions<ArchiveTaskMutation, ArchiveTaskMutationVariables>;
+export const SubscribeTaskViewDocument = gql`
+    subscription subscribeTaskView($orgId: uuid!, $key: String!) {
+  task_view(where: {orgId: {_eq: $orgId}, key: {_eq: $key}}) {
+    ...TaskView
+  }
+}
+    ${TaskViewFragmentDoc}`;
+
+/**
+ * __useSubscribeTaskViewSubscription__
+ *
+ * To run a query within a React component, call `useSubscribeTaskViewSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeTaskViewSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscribeTaskViewSubscription({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *      key: // value for 'key'
+ *   },
+ * });
+ */
+export function useSubscribeTaskViewSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeTaskViewSubscription, SubscribeTaskViewSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscribeTaskViewSubscription, SubscribeTaskViewSubscriptionVariables>(SubscribeTaskViewDocument, options);
+      }
+export type SubscribeTaskViewSubscriptionHookResult = ReturnType<typeof useSubscribeTaskViewSubscription>;
+export type SubscribeTaskViewSubscriptionResult = Apollo.SubscriptionResult<SubscribeTaskViewSubscription>;
 export const CreateTaskViewDocument = gql`
     mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
   insert_task_view_one(object: {orgId: $orgId, key: $key, tasksIds: $tasksIds}) {
@@ -18214,8 +18306,8 @@ export type GetCircleThreadsIdsQueryResult = Apollo.QueryResult<GetCircleThreads
 export function refetchGetCircleThreadsIdsQuery(variables: GetCircleThreadsIdsQueryVariables) {
       return { query: GetCircleThreadsIdsDocument, variables: variables }
     }
-export const ThreadDocument = gql`
-    subscription thread($id: uuid!, $memberId: uuid!) {
+export const SubscribeThreadDocument = gql`
+    subscription subscribeThread($id: uuid!, $memberId: uuid!) {
   thread_by_pk(id: $id) {
     ...Thread
     member_status(where: {memberId: {_eq: $memberId}}, limit: 1) {
@@ -18227,30 +18319,30 @@ export const ThreadDocument = gql`
     ${ThreadFragmentDoc}`;
 
 /**
- * __useThreadSubscription__
+ * __useSubscribeThreadSubscription__
  *
- * To run a query within a React component, call `useThreadSubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeThreadSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeThreadSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useThreadSubscription({
+ * const { data, loading, error } = useSubscribeThreadSubscription({
  *   variables: {
  *      id: // value for 'id'
  *      memberId: // value for 'memberId'
  *   },
  * });
  */
-export function useThreadSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadSubscription, ThreadSubscriptionVariables>) {
+export function useSubscribeThreadSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadSubscription, SubscribeThreadSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ThreadSubscription, ThreadSubscriptionVariables>(ThreadDocument, options);
+        return Apollo.useSubscription<SubscribeThreadSubscription, SubscribeThreadSubscriptionVariables>(SubscribeThreadDocument, options);
       }
-export type ThreadSubscriptionHookResult = ReturnType<typeof useThreadSubscription>;
-export type ThreadSubscriptionResult = Apollo.SubscriptionResult<ThreadSubscription>;
-export const ThreadsDocument = gql`
-    subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
+export type SubscribeThreadSubscriptionHookResult = ReturnType<typeof useSubscribeThreadSubscription>;
+export type SubscribeThreadSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadSubscription>;
+export const SubscribeThreadsDocument = gql`
+    subscription subscribeThreads($filters: [thread_bool_exp!], $memberId: uuid!) {
   thread(where: {_and: $filters}) {
     ...Thread
     member_status(where: {memberId: {_eq: $memberId}}, limit: 1) {
@@ -18262,28 +18354,28 @@ export const ThreadsDocument = gql`
     ${ThreadFragmentDoc}`;
 
 /**
- * __useThreadsSubscription__
+ * __useSubscribeThreadsSubscription__
  *
- * To run a query within a React component, call `useThreadsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeThreadsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeThreadsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useThreadsSubscription({
+ * const { data, loading, error } = useSubscribeThreadsSubscription({
  *   variables: {
  *      filters: // value for 'filters'
  *      memberId: // value for 'memberId'
  *   },
  * });
  */
-export function useThreadsSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadsSubscription, ThreadsSubscriptionVariables>) {
+export function useSubscribeThreadsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadsSubscription, SubscribeThreadsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ThreadsSubscription, ThreadsSubscriptionVariables>(ThreadsDocument, options);
+        return Apollo.useSubscription<SubscribeThreadsSubscription, SubscribeThreadsSubscriptionVariables>(SubscribeThreadsDocument, options);
       }
-export type ThreadsSubscriptionHookResult = ReturnType<typeof useThreadsSubscription>;
-export type ThreadsSubscriptionResult = Apollo.SubscriptionResult<ThreadsSubscription>;
+export type SubscribeThreadsSubscriptionHookResult = ReturnType<typeof useSubscribeThreadsSubscription>;
+export type SubscribeThreadsSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadsSubscription>;
 export const CreateThreadDocument = gql`
     mutation createThread($values: thread_insert_input!) {
   insert_thread_one(object: $values) {
@@ -18426,8 +18518,8 @@ export type GetLastThreadActivityQueryResult = Apollo.QueryResult<GetLastThreadA
 export function refetchGetLastThreadActivityQuery(variables: GetLastThreadActivityQueryVariables) {
       return { query: GetLastThreadActivityDocument, variables: variables }
     }
-export const ThreadActivityDocument = gql`
-    subscription threadActivity($id: uuid!) {
+export const SubscribeThreadActivityDocument = gql`
+    subscription subscribeThreadActivity($id: uuid!) {
   thread_activity_by_pk(id: $id) {
     ...ThreadActivity
   }
@@ -18435,29 +18527,29 @@ export const ThreadActivityDocument = gql`
     ${ThreadActivityFragmentDoc}`;
 
 /**
- * __useThreadActivitySubscription__
+ * __useSubscribeThreadActivitySubscription__
  *
- * To run a query within a React component, call `useThreadActivitySubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadActivitySubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeThreadActivitySubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeThreadActivitySubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useThreadActivitySubscription({
+ * const { data, loading, error } = useSubscribeThreadActivitySubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useThreadActivitySubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadActivitySubscription, ThreadActivitySubscriptionVariables>) {
+export function useSubscribeThreadActivitySubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadActivitySubscription, SubscribeThreadActivitySubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ThreadActivitySubscription, ThreadActivitySubscriptionVariables>(ThreadActivityDocument, options);
+        return Apollo.useSubscription<SubscribeThreadActivitySubscription, SubscribeThreadActivitySubscriptionVariables>(SubscribeThreadActivityDocument, options);
       }
-export type ThreadActivitySubscriptionHookResult = ReturnType<typeof useThreadActivitySubscription>;
-export type ThreadActivitySubscriptionResult = Apollo.SubscriptionResult<ThreadActivitySubscription>;
-export const ThreadActivitiesDocument = gql`
-    subscription threadActivities($threadId: uuid!) {
+export type SubscribeThreadActivitySubscriptionHookResult = ReturnType<typeof useSubscribeThreadActivitySubscription>;
+export type SubscribeThreadActivitySubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadActivitySubscription>;
+export const SubscribeThreadActivitiesDocument = gql`
+    subscription subscribeThreadActivities($threadId: uuid!) {
   thread_activity(where: {threadId: {_eq: $threadId}}, order_by: {createdAt: asc}) {
     ...ThreadActivity
   }
@@ -18465,27 +18557,27 @@ export const ThreadActivitiesDocument = gql`
     ${ThreadActivityFragmentDoc}`;
 
 /**
- * __useThreadActivitiesSubscription__
+ * __useSubscribeThreadActivitiesSubscription__
  *
- * To run a query within a React component, call `useThreadActivitiesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadActivitiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeThreadActivitiesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeThreadActivitiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useThreadActivitiesSubscription({
+ * const { data, loading, error } = useSubscribeThreadActivitiesSubscription({
  *   variables: {
  *      threadId: // value for 'threadId'
  *   },
  * });
  */
-export function useThreadActivitiesSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadActivitiesSubscription, ThreadActivitiesSubscriptionVariables>) {
+export function useSubscribeThreadActivitiesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadActivitiesSubscription, SubscribeThreadActivitiesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ThreadActivitiesSubscription, ThreadActivitiesSubscriptionVariables>(ThreadActivitiesDocument, options);
+        return Apollo.useSubscription<SubscribeThreadActivitiesSubscription, SubscribeThreadActivitiesSubscriptionVariables>(SubscribeThreadActivitiesDocument, options);
       }
-export type ThreadActivitiesSubscriptionHookResult = ReturnType<typeof useThreadActivitiesSubscription>;
-export type ThreadActivitiesSubscriptionResult = Apollo.SubscriptionResult<ThreadActivitiesSubscription>;
+export type SubscribeThreadActivitiesSubscriptionHookResult = ReturnType<typeof useSubscribeThreadActivitiesSubscription>;
+export type SubscribeThreadActivitiesSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadActivitiesSubscription>;
 export const CreateThreadActivityDocument = gql`
     mutation createThreadActivity($values: thread_activity_insert_input!) {
   insert_thread_activity_one(object: $values) {
@@ -18659,8 +18751,8 @@ export function useUpdateThreadMemberStatusMutation(baseOptions?: Apollo.Mutatio
 export type UpdateThreadMemberStatusMutationHookResult = ReturnType<typeof useUpdateThreadMemberStatusMutation>;
 export type UpdateThreadMemberStatusMutationResult = Apollo.MutationResult<UpdateThreadMemberStatusMutation>;
 export type UpdateThreadMemberStatusMutationOptions = Apollo.BaseMutationOptions<UpdateThreadMemberStatusMutation, UpdateThreadMemberStatusMutationVariables>;
-export const ThreadPollAnswersDocument = gql`
-    subscription threadPollAnswers($activityId: uuid!) {
+export const SubscribeThreadPollAnswersDocument = gql`
+    subscription subscribeThreadPollAnswers($activityId: uuid!) {
   thread_poll_answer(where: {activityId: {_eq: $activityId}}) {
     ...ThreadPollAnswer
   }
@@ -18668,27 +18760,27 @@ export const ThreadPollAnswersDocument = gql`
     ${ThreadPollAnswerFragmentDoc}`;
 
 /**
- * __useThreadPollAnswersSubscription__
+ * __useSubscribeThreadPollAnswersSubscription__
  *
- * To run a query within a React component, call `useThreadPollAnswersSubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadPollAnswersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSubscribeThreadPollAnswersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeThreadPollAnswersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useThreadPollAnswersSubscription({
+ * const { data, loading, error } = useSubscribeThreadPollAnswersSubscription({
  *   variables: {
  *      activityId: // value for 'activityId'
  *   },
  * });
  */
-export function useThreadPollAnswersSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadPollAnswersSubscription, ThreadPollAnswersSubscriptionVariables>) {
+export function useSubscribeThreadPollAnswersSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadPollAnswersSubscription, SubscribeThreadPollAnswersSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ThreadPollAnswersSubscription, ThreadPollAnswersSubscriptionVariables>(ThreadPollAnswersDocument, options);
+        return Apollo.useSubscription<SubscribeThreadPollAnswersSubscription, SubscribeThreadPollAnswersSubscriptionVariables>(SubscribeThreadPollAnswersDocument, options);
       }
-export type ThreadPollAnswersSubscriptionHookResult = ReturnType<typeof useThreadPollAnswersSubscription>;
-export type ThreadPollAnswersSubscriptionResult = Apollo.SubscriptionResult<ThreadPollAnswersSubscription>;
+export type SubscribeThreadPollAnswersSubscriptionHookResult = ReturnType<typeof useSubscribeThreadPollAnswersSubscription>;
+export type SubscribeThreadPollAnswersSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadPollAnswersSubscription>;
 export const CreateThreadPollAnswerDocument = gql`
     mutation createThreadPollAnswer($values: thread_poll_answer_insert_input!) {
   insert_thread_poll_answer_one(object: $values) {
