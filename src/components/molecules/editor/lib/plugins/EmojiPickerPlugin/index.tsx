@@ -111,7 +111,7 @@ export default function EmojiPickerPlugin() {
   )
 
   const checkForTriggerMatch = useBasicTypeaheadTriggerMatch(':', {
-    minLength: 0,
+    minLength: 1,
   })
 
   const options: Array<EmojiOption> = useMemo(() => {
