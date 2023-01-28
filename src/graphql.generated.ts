@@ -16358,7 +16358,11 @@ export type CirclesSubscriptionVariables = Exact<{
 }>;
 
 
+<<<<<<< HEAD
 export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean }> }> };
+=======
+export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
 export type CreateCircleMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16467,19 +16471,32 @@ export type ArchiveDecisionMutationVariables = Exact<{
 
 export type ArchiveDecisionMutation = { __typename?: 'mutation_root', update_decision_by_pk?: { __typename?: 'decision', id: string } | null };
 
+<<<<<<< HEAD
+=======
+export type LogFieldsFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
+
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 export type LastLogsSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
+<<<<<<< HEAD
 export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+=======
+export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
 export type MeetingLogsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
+<<<<<<< HEAD
 export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+=======
+export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
 export type CreateLogMutationVariables = Exact<{
   values: Log_Insert_Input;
@@ -16509,7 +16526,11 @@ export type MeetingsByDatesSubscriptionVariables = Exact<{
 }>;
 
 
+<<<<<<< HEAD
 export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
+=======
+export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
 export type CircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
@@ -16549,12 +16570,20 @@ export type MeetingRecurringSubscriptionVariables = Exact<{
 
 export type MeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
+<<<<<<< HEAD
 export type MeetingRecurringsSubscriptionVariables = Exact<{
+=======
+export type CircleMeetingRecurringsSubscriptionVariables = Exact<{
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
   where: Meeting_Recurring_Bool_Exp;
 }>;
 
 
+<<<<<<< HEAD
 export type MeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
+=======
+export type CircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
 export type CreateMeetingRecurringMutationVariables = Exact<{
   values: Meeting_Recurring_Insert_Input;
@@ -16672,7 +16701,11 @@ export type MembersSubscriptionVariables = Exact<{
 }>;
 
 
+<<<<<<< HEAD
 export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+=======
+export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
 export type CreateMemberMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16705,11 +16738,15 @@ export type GetOrgQueryVariables = Exact<{
 export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } | null };
 
 export type OrgsSubscriptionVariables = Exact<{
+<<<<<<< HEAD
   userId: Scalars['uuid'];
+=======
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
   archived: Scalars['Boolean'];
 }>;
 
 
+<<<<<<< HEAD
 export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } }> };
 
 export type OrgSubscriptionVariables = Exact<{
@@ -16717,7 +16754,14 @@ export type OrgSubscriptionVariables = Exact<{
 }>;
 
 
+<<<<<<< HEAD
 export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
+=======
+export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
+=======
+export type OrgsSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
+>>>>>>> 9913774 (Rename graphql subscriptions)
 
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16813,6 +16857,7 @@ export type TaskSubscriptionVariables = Exact<{
 export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
 
 export type TasksSubscriptionVariables = Exact<{
+<<<<<<< HEAD
   orgId: Scalars['uuid'];
   filters: Array<Task_Bool_Exp> | Task_Bool_Exp;
   taskViewKey: Scalars['String'];
@@ -16820,6 +16865,13 @@ export type TasksSubscriptionVariables = Exact<{
 
 
 export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> } | null };
+=======
+  filters?: InputMaybe<Array<Task_Bool_Exp> | Task_Bool_Exp>;
+}>;
+
+
+export type TasksSubscription = { __typename?: 'subscription_root', task: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }> };
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
 export type CreateTaskMutationVariables = Exact<{
   values: Task_Insert_Input;
@@ -16845,6 +16897,17 @@ export type ArchiveTaskMutation = { __typename?: 'mutation_root', update_task_by
 
 export type TaskViewFragment = { __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any };
 
+<<<<<<< HEAD
+=======
+export type TaskViewSubscriptionVariables = Exact<{
+  orgId: Scalars['uuid'];
+  key: Scalars['String'];
+}>;
+
+
+export type TaskViewSubscription = { __typename?: 'subscription_root', task_view: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> };
+
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 export type CreateTaskViewMutationVariables = Exact<{
   orgId: Scalars['uuid'];
   key: Scalars['String'];
@@ -18092,6 +18155,7 @@ export type MeetingSubscriptionHookResult = ReturnType<typeof useMeetingSubscrip
 export type MeetingSubscriptionResult = Apollo.SubscriptionResult<MeetingSubscription>;
 export const MeetingsByDatesDocument = gql`
     subscription meetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
+<<<<<<< HEAD
   org_by_pk(id: $orgId) {
     meetings(
       where: {startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
@@ -18105,6 +18169,12 @@ export const MeetingsByDatesDocument = gql`
         recurringDate
       }
     }
+=======
+  meeting(
+    where: {orgId: {_eq: $orgId}, startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
+  ) {
+    ...Meeting
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
   }
 }
     ${MeetingFragmentDoc}
@@ -18301,8 +18371,13 @@ export function useMeetingRecurringSubscription(baseOptions: Apollo.Subscription
       }
 export type MeetingRecurringSubscriptionHookResult = ReturnType<typeof useMeetingRecurringSubscription>;
 export type MeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringSubscription>;
+<<<<<<< HEAD
 export const MeetingRecurringsDocument = gql`
     subscription meetingRecurrings($where: meeting_recurring_bool_exp!) {
+=======
+export const CircleMeetingRecurringsDocument = gql`
+    subscription circleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
   meeting_recurring(where: $where, order_by: {template: {title: asc}}) {
     ...MeetingRecurring
   }
@@ -18310,27 +18385,47 @@ export const MeetingRecurringsDocument = gql`
     ${MeetingRecurringFragmentDoc}`;
 
 /**
+<<<<<<< HEAD
  * __useMeetingRecurringsSubscription__
  *
  * To run a query within a React component, call `useMeetingRecurringsSubscription` and pass it any options that fit your needs.
  * When your component renders, `useMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+=======
+ * __useCircleMeetingRecurringsSubscription__
+ *
+ * To run a query within a React component, call `useCircleMeetingRecurringsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCircleMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
+<<<<<<< HEAD
  * const { data, loading, error } = useMeetingRecurringsSubscription({
+=======
+ * const { data, loading, error } = useCircleMeetingRecurringsSubscription({
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
  *   variables: {
  *      where: // value for 'where'
  *   },
  * });
  */
+<<<<<<< HEAD
 export function useMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>(MeetingRecurringsDocument, options);
       }
 export type MeetingRecurringsSubscriptionHookResult = ReturnType<typeof useMeetingRecurringsSubscription>;
 export type MeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringsSubscription>;
+=======
+export function useCircleMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleMeetingRecurringsSubscription, CircleMeetingRecurringsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<CircleMeetingRecurringsSubscription, CircleMeetingRecurringsSubscriptionVariables>(CircleMeetingRecurringsDocument, options);
+      }
+export type CircleMeetingRecurringsSubscriptionHookResult = ReturnType<typeof useCircleMeetingRecurringsSubscription>;
+export type CircleMeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingRecurringsSubscription>;
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 export const CreateMeetingRecurringDocument = gql`
     mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
   insert_meeting_recurring_one(object: $values) {
@@ -19021,6 +19116,7 @@ export function refetchGetOrgQuery(variables: GetOrgQueryVariables) {
       return { query: GetOrgDocument, variables: variables }
     }
 export const OrgsDocument = gql`
+<<<<<<< HEAD
     subscription orgs($userId: uuid!, $archived: Boolean!) {
   member(
     where: {userId: {_eq: $userId}, archived: {_eq: false}, org: {archived: {_eq: $archived}}}
@@ -19028,6 +19124,11 @@ export const OrgsDocument = gql`
     org {
       ...Org
     }
+=======
+    subscription orgs($archived: Boolean!) {
+  org(where: {archived: {_eq: $archived}}, order_by: {createdAt: asc}) {
+    ...Org
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
   }
 }
     ${OrgFragmentDoc}`;
@@ -19055,6 +19156,7 @@ export function useOrgsSubscription(baseOptions: Apollo.SubscriptionHookOptions<
       }
 export type OrgsSubscriptionHookResult = ReturnType<typeof useOrgsSubscription>;
 export type OrgsSubscriptionResult = Apollo.SubscriptionResult<OrgsSubscription>;
+<<<<<<< HEAD
 export const OrgDocument = gql`
     subscription org($id: uuid!) {
   org_by_pk(id: $id) {
@@ -19085,6 +19187,8 @@ export function useOrgSubscription(baseOptions: Apollo.SubscriptionHookOptions<O
       }
 export type OrgSubscriptionHookResult = ReturnType<typeof useOrgSubscription>;
 export type OrgSubscriptionResult = Apollo.SubscriptionResult<OrgSubscription>;
+=======
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 export const UpdateOrgDocument = gql`
     mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
   update_org_by_pk(
@@ -19469,6 +19573,7 @@ export function useTaskSubscription(baseOptions: Apollo.SubscriptionHookOptions<
 export type TaskSubscriptionHookResult = ReturnType<typeof useTaskSubscription>;
 export type TaskSubscriptionResult = Apollo.SubscriptionResult<TaskSubscription>;
 export const TasksDocument = gql`
+<<<<<<< HEAD
     subscription tasks($orgId: uuid!, $filters: [task_bool_exp!]!, $taskViewKey: String!) {
   org_by_pk(id: $orgId) {
     tasks(where: {_and: $filters}) {
@@ -19477,6 +19582,11 @@ export const TasksDocument = gql`
     task_views(where: {key: {_eq: $taskViewKey}}) {
       ...TaskView
     }
+=======
+    subscription tasks($filters: [task_bool_exp!]) {
+  task(where: {_and: $filters}) {
+    ...Task
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
   }
 }
     ${TaskFragmentDoc}
@@ -19500,7 +19610,11 @@ ${TaskViewFragmentDoc}`;
  *   },
  * });
  */
+<<<<<<< HEAD
 export function useTasksSubscription(baseOptions: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
+=======
+export function useTasksSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<TasksSubscription, TasksSubscriptionVariables>(TasksDocument, options);
       }
@@ -19606,6 +19720,40 @@ export function useArchiveTaskMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ArchiveTaskMutationHookResult = ReturnType<typeof useArchiveTaskMutation>;
 export type ArchiveTaskMutationResult = Apollo.MutationResult<ArchiveTaskMutation>;
 export type ArchiveTaskMutationOptions = Apollo.BaseMutationOptions<ArchiveTaskMutation, ArchiveTaskMutationVariables>;
+<<<<<<< HEAD
+=======
+export const TaskViewDocument = gql`
+    subscription taskView($orgId: uuid!, $key: String!) {
+  task_view(where: {orgId: {_eq: $orgId}, key: {_eq: $key}}) {
+    ...TaskView
+  }
+}
+    ${TaskViewFragmentDoc}`;
+
+/**
+ * __useTaskViewSubscription__
+ *
+ * To run a query within a React component, call `useTaskViewSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTaskViewSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTaskViewSubscription({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *      key: // value for 'key'
+ *   },
+ * });
+ */
+export function useTaskViewSubscription(baseOptions: Apollo.SubscriptionHookOptions<TaskViewSubscription, TaskViewSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<TaskViewSubscription, TaskViewSubscriptionVariables>(TaskViewDocument, options);
+      }
+export type TaskViewSubscriptionHookResult = ReturnType<typeof useTaskViewSubscription>;
+export type TaskViewSubscriptionResult = Apollo.SubscriptionResult<TaskViewSubscription>;
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 export const CreateTaskViewDocument = gql`
     mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
   insert_task_view_one(object: {orgId: $orgId, key: $key, tasksIds: $tasksIds}) {
