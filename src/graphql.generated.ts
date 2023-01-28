@@ -15208,7 +15208,7 @@ export type MeetingsByDatesSubscriptionVariables = Exact<{
 }>;
 
 
-export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
+export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
 
 export type CircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
@@ -15248,12 +15248,12 @@ export type MeetingRecurringSubscriptionVariables = Exact<{
 
 export type MeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
-export type CircleMeetingRecurringsSubscriptionVariables = Exact<{
+export type MeetingRecurringsSubscriptionVariables = Exact<{
   where: Meeting_Recurring_Bool_Exp;
 }>;
 
 
-export type CircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
+export type MeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
 
 export type CreateMeetingRecurringMutationVariables = Exact<{
   values: Meeting_Recurring_Insert_Input;
@@ -16687,13 +16687,25 @@ export type MeetingSubscriptionHookResult = ReturnType<typeof useMeetingSubscrip
 export type MeetingSubscriptionResult = Apollo.SubscriptionResult<MeetingSubscription>;
 export const MeetingsByDatesDocument = gql`
     subscription meetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
-  meeting(
-    where: {orgId: {_eq: $orgId}, startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
-  ) {
-    ...Meeting
+  org_by_pk(id: $orgId) {
+    meetings(
+      where: {startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
+    ) {
+      ...Meeting
+    }
+    meetings_recurring {
+      ...MeetingRecurring
+      meetings(
+        where: {recurringDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
+      ) {
+        id
+        recurringDate
+      }
+    }
   }
 }
-    ${MeetingFragmentDoc}`;
+    ${MeetingFragmentDoc}
+${MeetingRecurringFragmentDoc}`;
 
 /**
  * __useMeetingsByDatesSubscription__
@@ -16886,8 +16898,8 @@ export function useMeetingRecurringSubscription(baseOptions: Apollo.Subscription
       }
 export type MeetingRecurringSubscriptionHookResult = ReturnType<typeof useMeetingRecurringSubscription>;
 export type MeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringSubscription>;
-export const CircleMeetingRecurringsDocument = gql`
-    subscription circleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
+export const MeetingRecurringsDocument = gql`
+    subscription meetingRecurrings($where: meeting_recurring_bool_exp!) {
   meeting_recurring(where: $where, order_by: {template: {title: asc}}) {
     ...MeetingRecurring
   }
@@ -16895,27 +16907,27 @@ export const CircleMeetingRecurringsDocument = gql`
     ${MeetingRecurringFragmentDoc}`;
 
 /**
- * __useCircleMeetingRecurringsSubscription__
+ * __useMeetingRecurringsSubscription__
  *
- * To run a query within a React component, call `useCircleMeetingRecurringsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCircleMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeetingRecurringsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCircleMeetingRecurringsSubscription({
+ * const { data, loading, error } = useMeetingRecurringsSubscription({
  *   variables: {
  *      where: // value for 'where'
  *   },
  * });
  */
-export function useCircleMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleMeetingRecurringsSubscription, CircleMeetingRecurringsSubscriptionVariables>) {
+export function useMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<CircleMeetingRecurringsSubscription, CircleMeetingRecurringsSubscriptionVariables>(CircleMeetingRecurringsDocument, options);
+        return Apollo.useSubscription<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>(MeetingRecurringsDocument, options);
       }
-export type CircleMeetingRecurringsSubscriptionHookResult = ReturnType<typeof useCircleMeetingRecurringsSubscription>;
-export type CircleMeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingRecurringsSubscription>;
+export type MeetingRecurringsSubscriptionHookResult = ReturnType<typeof useMeetingRecurringsSubscription>;
+export type MeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringsSubscription>;
 export const CreateMeetingRecurringDocument = gql`
     mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
   insert_meeting_recurring_one(object: $values) {
