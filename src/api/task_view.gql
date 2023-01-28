@@ -5,7 +5,7 @@ fragment TaskView on task_view {
   tasksIds
 }
 
-subscription subscribeTaskView($orgId: uuid!, $key: String!) {
+subscription taskView($orgId: uuid!, $key: String!) {
   task_view(where: { orgId: { _eq: $orgId }, key: { _eq: $key } }) {
     ...TaskView
   }

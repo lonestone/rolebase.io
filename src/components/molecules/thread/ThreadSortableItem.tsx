@@ -1,6 +1,6 @@
 import IconTextButton from '@atoms/IconTextButton'
 import { CloseIcon } from '@chakra-ui/icons'
-import { useSubscribeThreadSubscription } from '@gql'
+import { useThreadSubscription } from '@gql'
 import { Draggable } from '@hello-pangea/dnd'
 import useCurrentMember from '@hooks/useCurrentMember'
 import React from 'react'
@@ -21,7 +21,7 @@ export default function ThreadSortableItem({
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
 
-  const { data } = useSubscribeThreadSubscription({
+  const { data } = useThreadSubscription({
     skip: !currentMember,
     variables: { id: threadId, memberId: currentMember?.id! },
   })

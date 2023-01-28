@@ -2,7 +2,7 @@ import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import { Container, Flex, Heading } from '@chakra-ui/react'
-import { useSubscribeLastLogsSubscription } from '@gql'
+import { useLastLogsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import LogsList from '@molecules/log/LogsList'
 import React from 'react'
@@ -13,7 +13,7 @@ export default function LogsPage() {
   const orgId = useOrgId()
 
   // Subscribe to logs
-  const { data, error, loading } = useSubscribeLastLogsSubscription({
+  const { data, error, loading } = useLastLogsSubscription({
     skip: !orgId,
     variables: { orgId: orgId! },
   })

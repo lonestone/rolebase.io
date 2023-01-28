@@ -8,10 +8,7 @@ import {
   Select,
   useDisclosure,
 } from '@chakra-ui/react'
-import {
-  MeetingTemplateFragment,
-  useSubscribeMeetingTemplatesSubscription,
-} from '@gql'
+import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
 import React from 'react'
@@ -36,7 +33,7 @@ export default function MeetingTemplateIdFormControl({ onSelect }: Props) {
     data,
     loading: meetingTemplatesLoading,
     error: meetingTemplatesError,
-  } = useSubscribeMeetingTemplatesSubscription({
+  } = useMeetingTemplatesSubscription({
     skip: !orgId,
     variables: { orgId: orgId! },
   })

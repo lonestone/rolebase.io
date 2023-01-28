@@ -14,7 +14,7 @@ import {
   Wrap,
 } from '@chakra-ui/react'
 import { ThreadContext } from '@contexts/ThreadContext'
-import { useSubscribeThreadSubscription, useUpdateThreadMutation } from '@gql'
+import { useThreadSubscription, useUpdateThreadMutation } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useElementSize } from '@hooks/useElementSize'
@@ -48,7 +48,7 @@ export default function ThreadContent({
   const [updateThread] = useUpdateThreadMutation()
 
   // Subscribe thread
-  const { data, loading, error } = useSubscribeThreadSubscription({
+  const { data, loading, error } = useThreadSubscription({
     skip: !currentMember,
     variables: { id, memberId: currentMember?.id! },
   })

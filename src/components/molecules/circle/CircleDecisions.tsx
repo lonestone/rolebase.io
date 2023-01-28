@@ -1,7 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Button, Text, useDisclosure } from '@chakra-ui/react'
-import { useSubscribeCircleDecisionsSubscription } from '@gql'
+import { useCircleDecisionsSubscription } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
 import DecisionEditModal from '@organisms/decision/DecisionEditModal'
 import DecisionModal from '@organisms/decision/DecisionModal'
@@ -19,7 +19,7 @@ export default function CircleDecisions({ circleId }: Props) {
   const isMember = useOrgMember()
 
   // Subscribe to decisions
-  const { data, error, loading } = useSubscribeCircleDecisionsSubscription({
+  const { data, error, loading } = useCircleDecisionsSubscription({
     variables: { circleId, archived: false },
   })
   const decisions = data?.decision

@@ -2,8 +2,8 @@ import {
   TaskFragment,
   Task_Status_Enum,
   useCreateTaskViewMutation,
-  useSubscribeTasksSubscription,
-  useSubscribeTaskViewSubscription,
+  useTasksSubscription,
+  useTaskViewSubscription,
   useUpdateTaskViewMutation,
 } from '@gql'
 import { TasksViewTypes } from '@shared/model/task'
@@ -30,7 +30,7 @@ export function useTasks(
     data: tasksData,
     error,
     loading,
-  } = useSubscribeTasksSubscription({
+  } = useTasksSubscription({
     skip: !orgId,
     variables: {
       filters: [
@@ -58,7 +58,7 @@ export function useTasks(
 
   // Subscribe to tasks view to get tasks order
   const { data: tasksViewData, loading: tasksViewLoading } =
-    useSubscribeTaskViewSubscription({
+    useTaskViewSubscription({
       skip: !orgId,
       variables: {
         orgId: orgId!,

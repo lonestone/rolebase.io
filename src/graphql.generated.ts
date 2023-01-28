@@ -15047,13 +15047,13 @@ export type GetCircleQueryVariables = Exact<{
 
 export type GetCircleQuery = { __typename?: 'query_root', circle_by_pk?: { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> } | null };
 
-export type SubscribeCirclesSubscriptionVariables = Exact<{
+export type CirclesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type SubscribeCirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> }> };
+export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> }> };
 
 export type CreateCircleMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -15127,20 +15127,20 @@ export type GetDecisionQueryVariables = Exact<{
 
 export type GetDecisionQuery = { __typename?: 'query_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
-export type SubscribeDecisionSubscriptionVariables = Exact<{
+export type DecisionSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SubscribeDecisionSubscription = { __typename?: 'subscription_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type DecisionSubscription = { __typename?: 'subscription_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
-export type SubscribeCircleDecisionsSubscriptionVariables = Exact<{
+export type CircleDecisionsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type SubscribeCircleDecisionsSubscription = { __typename?: 'subscription_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string }> };
+export type CircleDecisionsSubscription = { __typename?: 'subscription_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string }> };
 
 export type CreateDecisionMutationVariables = Exact<{
   values: Decision_Insert_Input;
@@ -15166,19 +15166,19 @@ export type ArchiveDecisionMutation = { __typename?: 'mutation_root', update_dec
 
 export type LogFieldsFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
 
-export type SubscribeLastLogsSubscriptionVariables = Exact<{
+export type LastLogsSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeLastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 
-export type SubscribeMeetingLogsSubscriptionVariables = Exact<{
+export type MeetingLogsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 
 export type CreateLogMutationVariables = Exact<{
   values: Log_Insert_Input;
@@ -15194,28 +15194,28 @@ export type CancelLogMutationVariables = Exact<{
 
 export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
 
-export type SubscribeMeetingSubscriptionVariables = Exact<{
+export type MeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
 
-export type SubscribeMeetingsByDatesSubscriptionVariables = Exact<{
+export type MeetingsByDatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   fromDate: Scalars['timestamptz'];
   toDate: Scalars['timestamptz'];
 }>;
 
 
-export type SubscribeMeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
+export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
 
-export type SubscribeCircleMeetingsSubscriptionVariables = Exact<{
+export type CircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeCircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
+export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
 
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
@@ -15241,19 +15241,19 @@ export type ArchiveMeetingMutation = { __typename?: 'mutation_root', update_meet
 
 export type MeetingRecurringFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } };
 
-export type SubscribeMeetingRecurringSubscriptionVariables = Exact<{
+export type MeetingRecurringSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
+export type MeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
-export type SubscribeCircleMeetingRecurringsSubscriptionVariables = Exact<{
+export type CircleMeetingRecurringsSubscriptionVariables = Exact<{
   where: Meeting_Recurring_Bool_Exp;
 }>;
 
 
-export type SubscribeCircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
+export type CircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
 
 export type CreateMeetingRecurringMutationVariables = Exact<{
   values: Meeting_Recurring_Insert_Input;
@@ -15291,12 +15291,12 @@ export type GetMeetingStepsQueryVariables = Exact<{
 
 export type GetMeetingStepsQuery = { __typename?: 'query_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
 
-export type SubscribeMeetingStepsSubscriptionVariables = Exact<{
+export type MeetingStepsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingStepsSubscription = { __typename?: 'subscription_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
+export type MeetingStepsSubscription = { __typename?: 'subscription_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
 
 export type CreateMeetingStepMutationVariables = Exact<{
   values: Meeting_Step_Insert_Input;
@@ -15322,12 +15322,12 @@ export type DeleteMeetingStepMutation = { __typename?: 'mutation_root', delete_m
 
 export type MeetingTemplateFragment = { __typename?: 'meeting_template', id: string, orgId: string, title: string, stepsConfig: Array<MeetingStepConfig> };
 
-export type SubscribeMeetingTemplatesSubscriptionVariables = Exact<{
+export type MeetingTemplatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeMeetingTemplatesSubscription = { __typename?: 'subscription_root', meeting_template: Array<{ __typename?: 'meeting_template', id: string, orgId: string, title: string, stepsConfig: Array<MeetingStepConfig> }> };
+export type MeetingTemplatesSubscription = { __typename?: 'subscription_root', meeting_template: Array<{ __typename?: 'meeting_template', id: string, orgId: string, title: string, stepsConfig: Array<MeetingStepConfig> }> };
 
 export type CreateMeetingTemplateMutationVariables = Exact<{
   values: Meeting_Template_Insert_Input;
@@ -15367,13 +15367,13 @@ export type GetOrgsMembersQueryVariables = Exact<{
 
 export type GetOrgsMembersQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
 
-export type SubscribeMembersSubscriptionVariables = Exact<{
+export type MembersSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type SubscribeMembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
+export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
 
 export type CreateMemberMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -15405,12 +15405,12 @@ export type GetOrgQueryVariables = Exact<{
 
 export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } | null };
 
-export type SubscribeOrgsSubscriptionVariables = Exact<{
+export type OrgsSubscriptionVariables = Exact<{
   archived: Scalars['Boolean'];
 }>;
 
 
-export type SubscribeOrgsSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null }> };
+export type OrgsSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null }> };
 
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -15454,13 +15454,13 @@ export type GetRoleQueryVariables = Exact<{
 
 export type GetRoleQuery = { __typename?: 'query_root', role_by_pk?: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } | null };
 
-export type SubscribeRolesSubscriptionVariables = Exact<{
+export type RolesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type SubscribeRolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }> };
+export type RolesSubscription = { __typename?: 'subscription_root', role: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }> };
 
 export type CreateRoleMutationVariables = Exact<{
   values: Role_Insert_Input;
@@ -15491,19 +15491,19 @@ export type GetTaskQueryVariables = Exact<{
 
 export type GetTaskQuery = { __typename?: 'query_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
 
-export type SubscribeTaskSubscriptionVariables = Exact<{
+export type TaskSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SubscribeTaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
+export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
 
-export type SubscribeTasksSubscriptionVariables = Exact<{
+export type TasksSubscriptionVariables = Exact<{
   filters?: InputMaybe<Array<Task_Bool_Exp> | Task_Bool_Exp>;
 }>;
 
 
-export type SubscribeTasksSubscription = { __typename?: 'subscription_root', task: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }> };
+export type TasksSubscription = { __typename?: 'subscription_root', task: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }> };
 
 export type CreateTaskMutationVariables = Exact<{
   values: Task_Insert_Input;
@@ -15529,13 +15529,13 @@ export type ArchiveTaskMutation = { __typename?: 'mutation_root', update_task_by
 
 export type TaskViewFragment = { __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any };
 
-export type SubscribeTaskViewSubscriptionVariables = Exact<{
+export type TaskViewSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   key: Scalars['String'];
 }>;
 
 
-export type SubscribeTaskViewSubscription = { __typename?: 'subscription_root', task_view: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> };
+export type TaskViewSubscription = { __typename?: 'subscription_root', task_view: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> };
 
 export type CreateTaskViewMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -15562,21 +15562,21 @@ export type GetCircleThreadsIdsQueryVariables = Exact<{
 
 export type GetCircleThreadsIdsQuery = { __typename?: 'query_root', thread: Array<{ __typename?: 'thread', id: string }> };
 
-export type SubscribeThreadSubscriptionVariables = Exact<{
+export type ThreadSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
   memberId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> } | null };
+export type ThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> } | null };
 
-export type SubscribeThreadsSubscriptionVariables = Exact<{
+export type ThreadsSubscriptionVariables = Exact<{
   filters?: InputMaybe<Array<Thread_Bool_Exp> | Thread_Bool_Exp>;
   memberId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
+export type ThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivityId?: string | null, lastActivityDate?: string | null, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
 
 export type CreateThreadMutationVariables = Exact<{
   values: Thread_Insert_Input;
@@ -15607,19 +15607,19 @@ export type GetLastThreadActivityQueryVariables = Exact<{
 
 export type GetLastThreadActivityQuery = { __typename?: 'query_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData }> };
 
-export type SubscribeThreadActivitySubscriptionVariables = Exact<{
+export type ThreadActivitySubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type SubscribeThreadActivitySubscription = { __typename?: 'subscription_root', thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData } | null };
+export type ThreadActivitySubscription = { __typename?: 'subscription_root', thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData } | null };
 
-export type SubscribeThreadActivitiesSubscriptionVariables = Exact<{
+export type ThreadActivitiesSubscriptionVariables = Exact<{
   threadId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeThreadActivitiesSubscription = { __typename?: 'subscription_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData }> };
+export type ThreadActivitiesSubscription = { __typename?: 'subscription_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: ThreadActivityData }> };
 
 export type CreateThreadActivityMutationVariables = Exact<{
   values: Thread_Activity_Insert_Input;
@@ -15663,12 +15663,12 @@ export type UpdateThreadMemberStatusMutation = { __typename?: 'mutation_root', u
 
 export type ThreadPollAnswerFragment = { __typename?: 'thread_poll_answer', id: string, activityId: string, userId: string, choicesPoints: Array<number>, createdAt: string };
 
-export type SubscribeThreadPollAnswersSubscriptionVariables = Exact<{
+export type ThreadPollAnswersSubscriptionVariables = Exact<{
   activityId: Scalars['uuid'];
 }>;
 
 
-export type SubscribeThreadPollAnswersSubscription = { __typename?: 'subscription_root', thread_poll_answer: Array<{ __typename?: 'thread_poll_answer', id: string, activityId: string, userId: string, choicesPoints: Array<number>, createdAt: string }> };
+export type ThreadPollAnswersSubscription = { __typename?: 'subscription_root', thread_poll_answer: Array<{ __typename?: 'thread_poll_answer', id: string, activityId: string, userId: string, choicesPoints: Array<number>, createdAt: string }> };
 
 export type CreateThreadPollAnswerMutationVariables = Exact<{
   values: Thread_Poll_Answer_Insert_Input;
@@ -15973,8 +15973,8 @@ export type GetCircleQueryResult = Apollo.QueryResult<GetCircleQuery, GetCircleQ
 export function refetchGetCircleQuery(variables: GetCircleQueryVariables) {
       return { query: GetCircleDocument, variables: variables }
     }
-export const SubscribeCirclesDocument = gql`
-    subscription subscribeCircles($orgId: uuid!, $archived: Boolean!) {
+export const CirclesDocument = gql`
+    subscription circles($orgId: uuid!, $archived: Boolean!) {
   circle(where: {orgId: {_eq: $orgId}, archived: {_eq: $archived}}) {
     ...CircleFields
     members(where: {archived: {_eq: false}}) {
@@ -15988,28 +15988,28 @@ export const SubscribeCirclesDocument = gql`
     ${CircleFieldsFragmentDoc}`;
 
 /**
- * __useSubscribeCirclesSubscription__
+ * __useCirclesSubscription__
  *
- * To run a query within a React component, call `useSubscribeCirclesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeCirclesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCirclesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCirclesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeCirclesSubscription({
+ * const { data, loading, error } = useCirclesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useSubscribeCirclesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCirclesSubscription, SubscribeCirclesSubscriptionVariables>) {
+export function useCirclesSubscription(baseOptions: Apollo.SubscriptionHookOptions<CirclesSubscription, CirclesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeCirclesSubscription, SubscribeCirclesSubscriptionVariables>(SubscribeCirclesDocument, options);
+        return Apollo.useSubscription<CirclesSubscription, CirclesSubscriptionVariables>(CirclesDocument, options);
       }
-export type SubscribeCirclesSubscriptionHookResult = ReturnType<typeof useSubscribeCirclesSubscription>;
-export type SubscribeCirclesSubscriptionResult = Apollo.SubscriptionResult<SubscribeCirclesSubscription>;
+export type CirclesSubscriptionHookResult = ReturnType<typeof useCirclesSubscription>;
+export type CirclesSubscriptionResult = Apollo.SubscriptionResult<CirclesSubscription>;
 export const CreateCircleDocument = gql`
     mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
   insert_circle_one(object: {orgId: $orgId, roleId: $roleId, parentId: $parentId}) {
@@ -16365,8 +16365,8 @@ export type GetDecisionQueryResult = Apollo.QueryResult<GetDecisionQuery, GetDec
 export function refetchGetDecisionQuery(variables: GetDecisionQueryVariables) {
       return { query: GetDecisionDocument, variables: variables }
     }
-export const SubscribeDecisionDocument = gql`
-    subscription subscribeDecision($id: uuid!) {
+export const DecisionDocument = gql`
+    subscription decision($id: uuid!) {
   decision_by_pk(id: $id) {
     ...Decision
   }
@@ -16374,29 +16374,29 @@ export const SubscribeDecisionDocument = gql`
     ${DecisionFragmentDoc}`;
 
 /**
- * __useSubscribeDecisionSubscription__
+ * __useDecisionSubscription__
  *
- * To run a query within a React component, call `useSubscribeDecisionSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeDecisionSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useDecisionSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useDecisionSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeDecisionSubscription({
+ * const { data, loading, error } = useDecisionSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useSubscribeDecisionSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeDecisionSubscription, SubscribeDecisionSubscriptionVariables>) {
+export function useDecisionSubscription(baseOptions: Apollo.SubscriptionHookOptions<DecisionSubscription, DecisionSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeDecisionSubscription, SubscribeDecisionSubscriptionVariables>(SubscribeDecisionDocument, options);
+        return Apollo.useSubscription<DecisionSubscription, DecisionSubscriptionVariables>(DecisionDocument, options);
       }
-export type SubscribeDecisionSubscriptionHookResult = ReturnType<typeof useSubscribeDecisionSubscription>;
-export type SubscribeDecisionSubscriptionResult = Apollo.SubscriptionResult<SubscribeDecisionSubscription>;
-export const SubscribeCircleDecisionsDocument = gql`
-    subscription subscribeCircleDecisions($circleId: uuid!, $archived: Boolean!) {
+export type DecisionSubscriptionHookResult = ReturnType<typeof useDecisionSubscription>;
+export type DecisionSubscriptionResult = Apollo.SubscriptionResult<DecisionSubscription>;
+export const CircleDecisionsDocument = gql`
+    subscription circleDecisions($circleId: uuid!, $archived: Boolean!) {
   decision(
     where: {circleId: {_eq: $circleId}, archived: {_eq: $archived}}
     order_by: {createdAt: desc}
@@ -16407,28 +16407,28 @@ export const SubscribeCircleDecisionsDocument = gql`
     ${DecisionFragmentDoc}`;
 
 /**
- * __useSubscribeCircleDecisionsSubscription__
+ * __useCircleDecisionsSubscription__
  *
- * To run a query within a React component, call `useSubscribeCircleDecisionsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeCircleDecisionsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCircleDecisionsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCircleDecisionsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeCircleDecisionsSubscription({
+ * const { data, loading, error } = useCircleDecisionsSubscription({
  *   variables: {
  *      circleId: // value for 'circleId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useSubscribeCircleDecisionsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCircleDecisionsSubscription, SubscribeCircleDecisionsSubscriptionVariables>) {
+export function useCircleDecisionsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleDecisionsSubscription, CircleDecisionsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeCircleDecisionsSubscription, SubscribeCircleDecisionsSubscriptionVariables>(SubscribeCircleDecisionsDocument, options);
+        return Apollo.useSubscription<CircleDecisionsSubscription, CircleDecisionsSubscriptionVariables>(CircleDecisionsDocument, options);
       }
-export type SubscribeCircleDecisionsSubscriptionHookResult = ReturnType<typeof useSubscribeCircleDecisionsSubscription>;
-export type SubscribeCircleDecisionsSubscriptionResult = Apollo.SubscriptionResult<SubscribeCircleDecisionsSubscription>;
+export type CircleDecisionsSubscriptionHookResult = ReturnType<typeof useCircleDecisionsSubscription>;
+export type CircleDecisionsSubscriptionResult = Apollo.SubscriptionResult<CircleDecisionsSubscription>;
 export const CreateDecisionDocument = gql`
     mutation createDecision($values: decision_insert_input!) {
   insert_decision_one(object: $values) {
@@ -16529,8 +16529,8 @@ export function useArchiveDecisionMutation(baseOptions?: Apollo.MutationHookOpti
 export type ArchiveDecisionMutationHookResult = ReturnType<typeof useArchiveDecisionMutation>;
 export type ArchiveDecisionMutationResult = Apollo.MutationResult<ArchiveDecisionMutation>;
 export type ArchiveDecisionMutationOptions = Apollo.BaseMutationOptions<ArchiveDecisionMutation, ArchiveDecisionMutationVariables>;
-export const SubscribeLastLogsDocument = gql`
-    subscription subscribeLastLogs($orgId: uuid!) {
+export const LastLogsDocument = gql`
+    subscription lastLogs($orgId: uuid!) {
   log(where: {orgId: {_eq: $orgId}}, order_by: {createdAt: desc}, limit: 100) {
     ...LogFields
   }
@@ -16538,29 +16538,29 @@ export const SubscribeLastLogsDocument = gql`
     ${LogFieldsFragmentDoc}`;
 
 /**
- * __useSubscribeLastLogsSubscription__
+ * __useLastLogsSubscription__
  *
- * To run a query within a React component, call `useSubscribeLastLogsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeLastLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useLastLogsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useLastLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeLastLogsSubscription({
+ * const { data, loading, error } = useLastLogsSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *   },
  * });
  */
-export function useSubscribeLastLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeLastLogsSubscription, SubscribeLastLogsSubscriptionVariables>) {
+export function useLastLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<LastLogsSubscription, LastLogsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeLastLogsSubscription, SubscribeLastLogsSubscriptionVariables>(SubscribeLastLogsDocument, options);
+        return Apollo.useSubscription<LastLogsSubscription, LastLogsSubscriptionVariables>(LastLogsDocument, options);
       }
-export type SubscribeLastLogsSubscriptionHookResult = ReturnType<typeof useSubscribeLastLogsSubscription>;
-export type SubscribeLastLogsSubscriptionResult = Apollo.SubscriptionResult<SubscribeLastLogsSubscription>;
-export const SubscribeMeetingLogsDocument = gql`
-    subscription subscribeMeetingLogs($meetingId: uuid!) {
+export type LastLogsSubscriptionHookResult = ReturnType<typeof useLastLogsSubscription>;
+export type LastLogsSubscriptionResult = Apollo.SubscriptionResult<LastLogsSubscription>;
+export const MeetingLogsDocument = gql`
+    subscription meetingLogs($meetingId: uuid!) {
   log(where: {meetingId: {_eq: $meetingId}}, order_by: {createdAt: asc}) {
     ...LogFields
   }
@@ -16568,27 +16568,27 @@ export const SubscribeMeetingLogsDocument = gql`
     ${LogFieldsFragmentDoc}`;
 
 /**
- * __useSubscribeMeetingLogsSubscription__
+ * __useMeetingLogsSubscription__
  *
- * To run a query within a React component, call `useSubscribeMeetingLogsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeMeetingLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeetingLogsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeMeetingLogsSubscription({
+ * const { data, loading, error } = useMeetingLogsSubscription({
  *   variables: {
  *      meetingId: // value for 'meetingId'
  *   },
  * });
  */
-export function useSubscribeMeetingLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingLogsSubscription, SubscribeMeetingLogsSubscriptionVariables>) {
+export function useMeetingLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingLogsSubscription, MeetingLogsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeMeetingLogsSubscription, SubscribeMeetingLogsSubscriptionVariables>(SubscribeMeetingLogsDocument, options);
+        return Apollo.useSubscription<MeetingLogsSubscription, MeetingLogsSubscriptionVariables>(MeetingLogsDocument, options);
       }
-export type SubscribeMeetingLogsSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingLogsSubscription>;
-export type SubscribeMeetingLogsSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingLogsSubscription>;
+export type MeetingLogsSubscriptionHookResult = ReturnType<typeof useMeetingLogsSubscription>;
+export type MeetingLogsSubscriptionResult = Apollo.SubscriptionResult<MeetingLogsSubscription>;
 export const CreateLogDocument = gql`
     mutation createLog($values: log_insert_input!) {
   insert_log_one(object: $values) {
@@ -16655,8 +16655,8 @@ export function useCancelLogMutation(baseOptions?: Apollo.MutationHookOptions<Ca
 export type CancelLogMutationHookResult = ReturnType<typeof useCancelLogMutation>;
 export type CancelLogMutationResult = Apollo.MutationResult<CancelLogMutation>;
 export type CancelLogMutationOptions = Apollo.BaseMutationOptions<CancelLogMutation, CancelLogMutationVariables>;
-export const SubscribeMeetingDocument = gql`
-    subscription subscribeMeeting($id: uuid!) {
+export const MeetingDocument = gql`
+    subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting
   }
@@ -16664,29 +16664,29 @@ export const SubscribeMeetingDocument = gql`
     ${MeetingFragmentDoc}`;
 
 /**
- * __useSubscribeMeetingSubscription__
+ * __useMeetingSubscription__
  *
- * To run a query within a React component, call `useSubscribeMeetingSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeMeetingSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeetingSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeMeetingSubscription({
+ * const { data, loading, error } = useMeetingSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useSubscribeMeetingSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingSubscription, SubscribeMeetingSubscriptionVariables>) {
+export function useMeetingSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingSubscription, MeetingSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeMeetingSubscription, SubscribeMeetingSubscriptionVariables>(SubscribeMeetingDocument, options);
+        return Apollo.useSubscription<MeetingSubscription, MeetingSubscriptionVariables>(MeetingDocument, options);
       }
-export type SubscribeMeetingSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingSubscription>;
-export type SubscribeMeetingSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingSubscription>;
-export const SubscribeMeetingsByDatesDocument = gql`
-    subscription subscribeMeetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
+export type MeetingSubscriptionHookResult = ReturnType<typeof useMeetingSubscription>;
+export type MeetingSubscriptionResult = Apollo.SubscriptionResult<MeetingSubscription>;
+export const MeetingsByDatesDocument = gql`
+    subscription meetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
   meeting(
     where: {orgId: {_eq: $orgId}, startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
   ) {
@@ -16696,16 +16696,16 @@ export const SubscribeMeetingsByDatesDocument = gql`
     ${MeetingFragmentDoc}`;
 
 /**
- * __useSubscribeMeetingsByDatesSubscription__
+ * __useMeetingsByDatesSubscription__
  *
- * To run a query within a React component, call `useSubscribeMeetingsByDatesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeMeetingsByDatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeetingsByDatesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingsByDatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeMeetingsByDatesSubscription({
+ * const { data, loading, error } = useMeetingsByDatesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      fromDate: // value for 'fromDate'
@@ -16713,14 +16713,14 @@ export const SubscribeMeetingsByDatesDocument = gql`
  *   },
  * });
  */
-export function useSubscribeMeetingsByDatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingsByDatesSubscription, SubscribeMeetingsByDatesSubscriptionVariables>) {
+export function useMeetingsByDatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingsByDatesSubscription, MeetingsByDatesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeMeetingsByDatesSubscription, SubscribeMeetingsByDatesSubscriptionVariables>(SubscribeMeetingsByDatesDocument, options);
+        return Apollo.useSubscription<MeetingsByDatesSubscription, MeetingsByDatesSubscriptionVariables>(MeetingsByDatesDocument, options);
       }
-export type SubscribeMeetingsByDatesSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingsByDatesSubscription>;
-export type SubscribeMeetingsByDatesSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingsByDatesSubscription>;
-export const SubscribeCircleMeetingsDocument = gql`
-    subscription subscribeCircleMeetings($circleId: uuid!) {
+export type MeetingsByDatesSubscriptionHookResult = ReturnType<typeof useMeetingsByDatesSubscription>;
+export type MeetingsByDatesSubscriptionResult = Apollo.SubscriptionResult<MeetingsByDatesSubscription>;
+export const CircleMeetingsDocument = gql`
+    subscription circleMeetings($circleId: uuid!) {
   meeting(
     where: {circleId: {_eq: $circleId}, archived: {_eq: false}}
     order_by: {startDate: desc}
@@ -16731,27 +16731,27 @@ export const SubscribeCircleMeetingsDocument = gql`
     ${MeetingFragmentDoc}`;
 
 /**
- * __useSubscribeCircleMeetingsSubscription__
+ * __useCircleMeetingsSubscription__
  *
- * To run a query within a React component, call `useSubscribeCircleMeetingsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeCircleMeetingsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCircleMeetingsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCircleMeetingsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeCircleMeetingsSubscription({
+ * const { data, loading, error } = useCircleMeetingsSubscription({
  *   variables: {
  *      circleId: // value for 'circleId'
  *   },
  * });
  */
-export function useSubscribeCircleMeetingsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCircleMeetingsSubscription, SubscribeCircleMeetingsSubscriptionVariables>) {
+export function useCircleMeetingsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleMeetingsSubscription, CircleMeetingsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeCircleMeetingsSubscription, SubscribeCircleMeetingsSubscriptionVariables>(SubscribeCircleMeetingsDocument, options);
+        return Apollo.useSubscription<CircleMeetingsSubscription, CircleMeetingsSubscriptionVariables>(CircleMeetingsDocument, options);
       }
-export type SubscribeCircleMeetingsSubscriptionHookResult = ReturnType<typeof useSubscribeCircleMeetingsSubscription>;
-export type SubscribeCircleMeetingsSubscriptionResult = Apollo.SubscriptionResult<SubscribeCircleMeetingsSubscription>;
+export type CircleMeetingsSubscriptionHookResult = ReturnType<typeof useCircleMeetingsSubscription>;
+export type CircleMeetingsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingsSubscription>;
 export const CreateMeetingDocument = gql`
     mutation createMeeting($values: meeting_insert_input!) {
   insert_meeting_one(object: $values) {
@@ -16852,8 +16852,8 @@ export function useArchiveMeetingMutation(baseOptions?: Apollo.MutationHookOptio
 export type ArchiveMeetingMutationHookResult = ReturnType<typeof useArchiveMeetingMutation>;
 export type ArchiveMeetingMutationResult = Apollo.MutationResult<ArchiveMeetingMutation>;
 export type ArchiveMeetingMutationOptions = Apollo.BaseMutationOptions<ArchiveMeetingMutation, ArchiveMeetingMutationVariables>;
-export const SubscribeMeetingRecurringDocument = gql`
-    subscription subscribeMeetingRecurring($id: uuid!) {
+export const MeetingRecurringDocument = gql`
+    subscription meetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
     ...MeetingRecurring
     meetings {
@@ -16865,29 +16865,29 @@ export const SubscribeMeetingRecurringDocument = gql`
     ${MeetingRecurringFragmentDoc}`;
 
 /**
- * __useSubscribeMeetingRecurringSubscription__
+ * __useMeetingRecurringSubscription__
  *
- * To run a query within a React component, call `useSubscribeMeetingRecurringSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeMeetingRecurringSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeetingRecurringSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingRecurringSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeMeetingRecurringSubscription({
+ * const { data, loading, error } = useMeetingRecurringSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useSubscribeMeetingRecurringSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingRecurringSubscription, SubscribeMeetingRecurringSubscriptionVariables>) {
+export function useMeetingRecurringSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingRecurringSubscription, MeetingRecurringSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeMeetingRecurringSubscription, SubscribeMeetingRecurringSubscriptionVariables>(SubscribeMeetingRecurringDocument, options);
+        return Apollo.useSubscription<MeetingRecurringSubscription, MeetingRecurringSubscriptionVariables>(MeetingRecurringDocument, options);
       }
-export type SubscribeMeetingRecurringSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingRecurringSubscription>;
-export type SubscribeMeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingRecurringSubscription>;
-export const SubscribeCircleMeetingRecurringsDocument = gql`
-    subscription subscribeCircleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
+export type MeetingRecurringSubscriptionHookResult = ReturnType<typeof useMeetingRecurringSubscription>;
+export type MeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringSubscription>;
+export const CircleMeetingRecurringsDocument = gql`
+    subscription circleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
   meeting_recurring(where: $where, order_by: {template: {title: asc}}) {
     ...MeetingRecurring
   }
@@ -16895,27 +16895,27 @@ export const SubscribeCircleMeetingRecurringsDocument = gql`
     ${MeetingRecurringFragmentDoc}`;
 
 /**
- * __useSubscribeCircleMeetingRecurringsSubscription__
+ * __useCircleMeetingRecurringsSubscription__
  *
- * To run a query within a React component, call `useSubscribeCircleMeetingRecurringsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeCircleMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCircleMeetingRecurringsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCircleMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeCircleMeetingRecurringsSubscription({
+ * const { data, loading, error } = useCircleMeetingRecurringsSubscription({
  *   variables: {
  *      where: // value for 'where'
  *   },
  * });
  */
-export function useSubscribeCircleMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeCircleMeetingRecurringsSubscription, SubscribeCircleMeetingRecurringsSubscriptionVariables>) {
+export function useCircleMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleMeetingRecurringsSubscription, CircleMeetingRecurringsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeCircleMeetingRecurringsSubscription, SubscribeCircleMeetingRecurringsSubscriptionVariables>(SubscribeCircleMeetingRecurringsDocument, options);
+        return Apollo.useSubscription<CircleMeetingRecurringsSubscription, CircleMeetingRecurringsSubscriptionVariables>(CircleMeetingRecurringsDocument, options);
       }
-export type SubscribeCircleMeetingRecurringsSubscriptionHookResult = ReturnType<typeof useSubscribeCircleMeetingRecurringsSubscription>;
-export type SubscribeCircleMeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<SubscribeCircleMeetingRecurringsSubscription>;
+export type CircleMeetingRecurringsSubscriptionHookResult = ReturnType<typeof useCircleMeetingRecurringsSubscription>;
+export type CircleMeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingRecurringsSubscription>;
 export const CreateMeetingRecurringDocument = gql`
     mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
   insert_meeting_recurring_one(object: $values) {
@@ -17093,8 +17093,8 @@ export type GetMeetingStepsQueryResult = Apollo.QueryResult<GetMeetingStepsQuery
 export function refetchGetMeetingStepsQuery(variables: GetMeetingStepsQueryVariables) {
       return { query: GetMeetingStepsDocument, variables: variables }
     }
-export const SubscribeMeetingStepsDocument = gql`
-    subscription subscribeMeetingSteps($meetingId: uuid!) {
+export const MeetingStepsDocument = gql`
+    subscription meetingSteps($meetingId: uuid!) {
   meeting_step(where: {meetingId: {_eq: $meetingId}}) {
     ...MeetingStep
   }
@@ -17102,27 +17102,27 @@ export const SubscribeMeetingStepsDocument = gql`
     ${MeetingStepFragmentDoc}`;
 
 /**
- * __useSubscribeMeetingStepsSubscription__
+ * __useMeetingStepsSubscription__
  *
- * To run a query within a React component, call `useSubscribeMeetingStepsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeMeetingStepsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeetingStepsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingStepsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeMeetingStepsSubscription({
+ * const { data, loading, error } = useMeetingStepsSubscription({
  *   variables: {
  *      meetingId: // value for 'meetingId'
  *   },
  * });
  */
-export function useSubscribeMeetingStepsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingStepsSubscription, SubscribeMeetingStepsSubscriptionVariables>) {
+export function useMeetingStepsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingStepsSubscription, MeetingStepsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeMeetingStepsSubscription, SubscribeMeetingStepsSubscriptionVariables>(SubscribeMeetingStepsDocument, options);
+        return Apollo.useSubscription<MeetingStepsSubscription, MeetingStepsSubscriptionVariables>(MeetingStepsDocument, options);
       }
-export type SubscribeMeetingStepsSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingStepsSubscription>;
-export type SubscribeMeetingStepsSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingStepsSubscription>;
+export type MeetingStepsSubscriptionHookResult = ReturnType<typeof useMeetingStepsSubscription>;
+export type MeetingStepsSubscriptionResult = Apollo.SubscriptionResult<MeetingStepsSubscription>;
 export const CreateMeetingStepDocument = gql`
     mutation createMeetingStep($values: meeting_step_insert_input!) {
   insert_meeting_step_one(object: $values) {
@@ -17223,8 +17223,8 @@ export function useDeleteMeetingStepMutation(baseOptions?: Apollo.MutationHookOp
 export type DeleteMeetingStepMutationHookResult = ReturnType<typeof useDeleteMeetingStepMutation>;
 export type DeleteMeetingStepMutationResult = Apollo.MutationResult<DeleteMeetingStepMutation>;
 export type DeleteMeetingStepMutationOptions = Apollo.BaseMutationOptions<DeleteMeetingStepMutation, DeleteMeetingStepMutationVariables>;
-export const SubscribeMeetingTemplatesDocument = gql`
-    subscription subscribeMeetingTemplates($orgId: uuid!) {
+export const MeetingTemplatesDocument = gql`
+    subscription meetingTemplates($orgId: uuid!) {
   meeting_template(where: {orgId: {_eq: $orgId}}, order_by: {title: asc}) {
     ...MeetingTemplate
   }
@@ -17232,27 +17232,27 @@ export const SubscribeMeetingTemplatesDocument = gql`
     ${MeetingTemplateFragmentDoc}`;
 
 /**
- * __useSubscribeMeetingTemplatesSubscription__
+ * __useMeetingTemplatesSubscription__
  *
- * To run a query within a React component, call `useSubscribeMeetingTemplatesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeMeetingTemplatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeetingTemplatesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingTemplatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeMeetingTemplatesSubscription({
+ * const { data, loading, error } = useMeetingTemplatesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *   },
  * });
  */
-export function useSubscribeMeetingTemplatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMeetingTemplatesSubscription, SubscribeMeetingTemplatesSubscriptionVariables>) {
+export function useMeetingTemplatesSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingTemplatesSubscription, MeetingTemplatesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeMeetingTemplatesSubscription, SubscribeMeetingTemplatesSubscriptionVariables>(SubscribeMeetingTemplatesDocument, options);
+        return Apollo.useSubscription<MeetingTemplatesSubscription, MeetingTemplatesSubscriptionVariables>(MeetingTemplatesDocument, options);
       }
-export type SubscribeMeetingTemplatesSubscriptionHookResult = ReturnType<typeof useSubscribeMeetingTemplatesSubscription>;
-export type SubscribeMeetingTemplatesSubscriptionResult = Apollo.SubscriptionResult<SubscribeMeetingTemplatesSubscription>;
+export type MeetingTemplatesSubscriptionHookResult = ReturnType<typeof useMeetingTemplatesSubscription>;
+export type MeetingTemplatesSubscriptionResult = Apollo.SubscriptionResult<MeetingTemplatesSubscription>;
 export const CreateMeetingTemplateDocument = gql`
     mutation createMeetingTemplate($values: meeting_template_insert_input!) {
   insert_meeting_template_one(object: $values) {
@@ -17432,8 +17432,8 @@ export type GetOrgsMembersQueryResult = Apollo.QueryResult<GetOrgsMembersQuery, 
 export function refetchGetOrgsMembersQuery(variables: GetOrgsMembersQueryVariables) {
       return { query: GetOrgsMembersDocument, variables: variables }
     }
-export const SubscribeMembersDocument = gql`
-    subscription subscribeMembers($orgId: uuid!, $archived: Boolean!) {
+export const MembersDocument = gql`
+    subscription members($orgId: uuid!, $archived: Boolean!) {
   member(
     where: {orgId: {_eq: $orgId}, archived: {_eq: $archived}}
     order_by: {name: asc}
@@ -17444,28 +17444,28 @@ export const SubscribeMembersDocument = gql`
     ${MemberFieldsFragmentDoc}`;
 
 /**
- * __useSubscribeMembersSubscription__
+ * __useMembersSubscription__
  *
- * To run a query within a React component, call `useSubscribeMembersSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeMembersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMembersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMembersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeMembersSubscription({
+ * const { data, loading, error } = useMembersSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useSubscribeMembersSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeMembersSubscription, SubscribeMembersSubscriptionVariables>) {
+export function useMembersSubscription(baseOptions: Apollo.SubscriptionHookOptions<MembersSubscription, MembersSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeMembersSubscription, SubscribeMembersSubscriptionVariables>(SubscribeMembersDocument, options);
+        return Apollo.useSubscription<MembersSubscription, MembersSubscriptionVariables>(MembersDocument, options);
       }
-export type SubscribeMembersSubscriptionHookResult = ReturnType<typeof useSubscribeMembersSubscription>;
-export type SubscribeMembersSubscriptionResult = Apollo.SubscriptionResult<SubscribeMembersSubscription>;
+export type MembersSubscriptionHookResult = ReturnType<typeof useMembersSubscription>;
+export type MembersSubscriptionResult = Apollo.SubscriptionResult<MembersSubscription>;
 export const CreateMemberDocument = gql`
     mutation createMember($orgId: uuid!, $name: String!) {
   insert_member_one(object: {orgId: $orgId, name: $name}) {
@@ -17605,8 +17605,8 @@ export type GetOrgQueryResult = Apollo.QueryResult<GetOrgQuery, GetOrgQueryVaria
 export function refetchGetOrgQuery(variables: GetOrgQueryVariables) {
       return { query: GetOrgDocument, variables: variables }
     }
-export const SubscribeOrgsDocument = gql`
-    subscription subscribeOrgs($archived: Boolean!) {
+export const OrgsDocument = gql`
+    subscription orgs($archived: Boolean!) {
   org(where: {archived: {_eq: $archived}}, order_by: {createdAt: asc}) {
     ...Org
   }
@@ -17614,27 +17614,27 @@ export const SubscribeOrgsDocument = gql`
     ${OrgFragmentDoc}`;
 
 /**
- * __useSubscribeOrgsSubscription__
+ * __useOrgsSubscription__
  *
- * To run a query within a React component, call `useSubscribeOrgsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeOrgsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOrgsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOrgsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeOrgsSubscription({
+ * const { data, loading, error } = useOrgsSubscription({
  *   variables: {
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useSubscribeOrgsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeOrgsSubscription, SubscribeOrgsSubscriptionVariables>) {
+export function useOrgsSubscription(baseOptions: Apollo.SubscriptionHookOptions<OrgsSubscription, OrgsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeOrgsSubscription, SubscribeOrgsSubscriptionVariables>(SubscribeOrgsDocument, options);
+        return Apollo.useSubscription<OrgsSubscription, OrgsSubscriptionVariables>(OrgsDocument, options);
       }
-export type SubscribeOrgsSubscriptionHookResult = ReturnType<typeof useSubscribeOrgsSubscription>;
-export type SubscribeOrgsSubscriptionResult = Apollo.SubscriptionResult<SubscribeOrgsSubscription>;
+export type OrgsSubscriptionHookResult = ReturnType<typeof useOrgsSubscription>;
+export type OrgsSubscriptionResult = Apollo.SubscriptionResult<OrgsSubscription>;
 export const UpdateOrgDocument = gql`
     mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
   update_org_by_pk(
@@ -17816,8 +17816,8 @@ export type GetRoleQueryResult = Apollo.QueryResult<GetRoleQuery, GetRoleQueryVa
 export function refetchGetRoleQuery(variables: GetRoleQueryVariables) {
       return { query: GetRoleDocument, variables: variables }
     }
-export const SubscribeRolesDocument = gql`
-    subscription subscribeRoles($orgId: uuid!, $archived: Boolean!) {
+export const RolesDocument = gql`
+    subscription roles($orgId: uuid!, $archived: Boolean!) {
   role(
     where: {orgId: {_eq: $orgId}, archived: {_eq: $archived}}
     order_by: {name: asc}
@@ -17828,28 +17828,28 @@ export const SubscribeRolesDocument = gql`
     ${RoleFieldsFragmentDoc}`;
 
 /**
- * __useSubscribeRolesSubscription__
+ * __useRolesSubscription__
  *
- * To run a query within a React component, call `useSubscribeRolesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeRolesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRolesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRolesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeRolesSubscription({
+ * const { data, loading, error } = useRolesSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      archived: // value for 'archived'
  *   },
  * });
  */
-export function useSubscribeRolesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeRolesSubscription, SubscribeRolesSubscriptionVariables>) {
+export function useRolesSubscription(baseOptions: Apollo.SubscriptionHookOptions<RolesSubscription, RolesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeRolesSubscription, SubscribeRolesSubscriptionVariables>(SubscribeRolesDocument, options);
+        return Apollo.useSubscription<RolesSubscription, RolesSubscriptionVariables>(RolesDocument, options);
       }
-export type SubscribeRolesSubscriptionHookResult = ReturnType<typeof useSubscribeRolesSubscription>;
-export type SubscribeRolesSubscriptionResult = Apollo.SubscriptionResult<SubscribeRolesSubscription>;
+export type RolesSubscriptionHookResult = ReturnType<typeof useRolesSubscription>;
+export type RolesSubscriptionResult = Apollo.SubscriptionResult<RolesSubscription>;
 export const CreateRoleDocument = gql`
     mutation createRole($values: role_insert_input!) {
   insert_role_one(object: $values) {
@@ -17988,8 +17988,8 @@ export type GetTaskQueryResult = Apollo.QueryResult<GetTaskQuery, GetTaskQueryVa
 export function refetchGetTaskQuery(variables: GetTaskQueryVariables) {
       return { query: GetTaskDocument, variables: variables }
     }
-export const SubscribeTaskDocument = gql`
-    subscription subscribeTask($id: uuid!) {
+export const TaskDocument = gql`
+    subscription task($id: uuid!) {
   task_by_pk(id: $id) {
     ...Task
   }
@@ -17997,29 +17997,29 @@ export const SubscribeTaskDocument = gql`
     ${TaskFragmentDoc}`;
 
 /**
- * __useSubscribeTaskSubscription__
+ * __useTaskSubscription__
  *
- * To run a query within a React component, call `useSubscribeTaskSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeTaskSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTaskSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTaskSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeTaskSubscription({
+ * const { data, loading, error } = useTaskSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useSubscribeTaskSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeTaskSubscription, SubscribeTaskSubscriptionVariables>) {
+export function useTaskSubscription(baseOptions: Apollo.SubscriptionHookOptions<TaskSubscription, TaskSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeTaskSubscription, SubscribeTaskSubscriptionVariables>(SubscribeTaskDocument, options);
+        return Apollo.useSubscription<TaskSubscription, TaskSubscriptionVariables>(TaskDocument, options);
       }
-export type SubscribeTaskSubscriptionHookResult = ReturnType<typeof useSubscribeTaskSubscription>;
-export type SubscribeTaskSubscriptionResult = Apollo.SubscriptionResult<SubscribeTaskSubscription>;
-export const SubscribeTasksDocument = gql`
-    subscription subscribeTasks($filters: [task_bool_exp!]) {
+export type TaskSubscriptionHookResult = ReturnType<typeof useTaskSubscription>;
+export type TaskSubscriptionResult = Apollo.SubscriptionResult<TaskSubscription>;
+export const TasksDocument = gql`
+    subscription tasks($filters: [task_bool_exp!]) {
   task(where: {_and: $filters}) {
     ...Task
   }
@@ -18027,27 +18027,27 @@ export const SubscribeTasksDocument = gql`
     ${TaskFragmentDoc}`;
 
 /**
- * __useSubscribeTasksSubscription__
+ * __useTasksSubscription__
  *
- * To run a query within a React component, call `useSubscribeTasksSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeTasksSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTasksSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTasksSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeTasksSubscription({
+ * const { data, loading, error } = useTasksSubscription({
  *   variables: {
  *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useSubscribeTasksSubscription(baseOptions?: Apollo.SubscriptionHookOptions<SubscribeTasksSubscription, SubscribeTasksSubscriptionVariables>) {
+export function useTasksSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeTasksSubscription, SubscribeTasksSubscriptionVariables>(SubscribeTasksDocument, options);
+        return Apollo.useSubscription<TasksSubscription, TasksSubscriptionVariables>(TasksDocument, options);
       }
-export type SubscribeTasksSubscriptionHookResult = ReturnType<typeof useSubscribeTasksSubscription>;
-export type SubscribeTasksSubscriptionResult = Apollo.SubscriptionResult<SubscribeTasksSubscription>;
+export type TasksSubscriptionHookResult = ReturnType<typeof useTasksSubscription>;
+export type TasksSubscriptionResult = Apollo.SubscriptionResult<TasksSubscription>;
 export const CreateTaskDocument = gql`
     mutation createTask($values: task_insert_input!) {
   insert_task_one(object: $values) {
@@ -18148,8 +18148,8 @@ export function useArchiveTaskMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ArchiveTaskMutationHookResult = ReturnType<typeof useArchiveTaskMutation>;
 export type ArchiveTaskMutationResult = Apollo.MutationResult<ArchiveTaskMutation>;
 export type ArchiveTaskMutationOptions = Apollo.BaseMutationOptions<ArchiveTaskMutation, ArchiveTaskMutationVariables>;
-export const SubscribeTaskViewDocument = gql`
-    subscription subscribeTaskView($orgId: uuid!, $key: String!) {
+export const TaskViewDocument = gql`
+    subscription taskView($orgId: uuid!, $key: String!) {
   task_view(where: {orgId: {_eq: $orgId}, key: {_eq: $key}}) {
     ...TaskView
   }
@@ -18157,28 +18157,28 @@ export const SubscribeTaskViewDocument = gql`
     ${TaskViewFragmentDoc}`;
 
 /**
- * __useSubscribeTaskViewSubscription__
+ * __useTaskViewSubscription__
  *
- * To run a query within a React component, call `useSubscribeTaskViewSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeTaskViewSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTaskViewSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTaskViewSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeTaskViewSubscription({
+ * const { data, loading, error } = useTaskViewSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
  *      key: // value for 'key'
  *   },
  * });
  */
-export function useSubscribeTaskViewSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeTaskViewSubscription, SubscribeTaskViewSubscriptionVariables>) {
+export function useTaskViewSubscription(baseOptions: Apollo.SubscriptionHookOptions<TaskViewSubscription, TaskViewSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeTaskViewSubscription, SubscribeTaskViewSubscriptionVariables>(SubscribeTaskViewDocument, options);
+        return Apollo.useSubscription<TaskViewSubscription, TaskViewSubscriptionVariables>(TaskViewDocument, options);
       }
-export type SubscribeTaskViewSubscriptionHookResult = ReturnType<typeof useSubscribeTaskViewSubscription>;
-export type SubscribeTaskViewSubscriptionResult = Apollo.SubscriptionResult<SubscribeTaskViewSubscription>;
+export type TaskViewSubscriptionHookResult = ReturnType<typeof useTaskViewSubscription>;
+export type TaskViewSubscriptionResult = Apollo.SubscriptionResult<TaskViewSubscription>;
 export const CreateTaskViewDocument = gql`
     mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
   insert_task_view_one(object: {orgId: $orgId, key: $key, tasksIds: $tasksIds}) {
@@ -18292,8 +18292,8 @@ export type GetCircleThreadsIdsQueryResult = Apollo.QueryResult<GetCircleThreads
 export function refetchGetCircleThreadsIdsQuery(variables: GetCircleThreadsIdsQueryVariables) {
       return { query: GetCircleThreadsIdsDocument, variables: variables }
     }
-export const SubscribeThreadDocument = gql`
-    subscription subscribeThread($id: uuid!, $memberId: uuid!) {
+export const ThreadDocument = gql`
+    subscription thread($id: uuid!, $memberId: uuid!) {
   thread_by_pk(id: $id) {
     ...Thread
     member_status(where: {memberId: {_eq: $memberId}}, limit: 1) {
@@ -18305,30 +18305,30 @@ export const SubscribeThreadDocument = gql`
     ${ThreadFragmentDoc}`;
 
 /**
- * __useSubscribeThreadSubscription__
+ * __useThreadSubscription__
  *
- * To run a query within a React component, call `useSubscribeThreadSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeThreadSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useThreadSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeThreadSubscription({
+ * const { data, loading, error } = useThreadSubscription({
  *   variables: {
  *      id: // value for 'id'
  *      memberId: // value for 'memberId'
  *   },
  * });
  */
-export function useSubscribeThreadSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadSubscription, SubscribeThreadSubscriptionVariables>) {
+export function useThreadSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadSubscription, ThreadSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeThreadSubscription, SubscribeThreadSubscriptionVariables>(SubscribeThreadDocument, options);
+        return Apollo.useSubscription<ThreadSubscription, ThreadSubscriptionVariables>(ThreadDocument, options);
       }
-export type SubscribeThreadSubscriptionHookResult = ReturnType<typeof useSubscribeThreadSubscription>;
-export type SubscribeThreadSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadSubscription>;
-export const SubscribeThreadsDocument = gql`
-    subscription subscribeThreads($filters: [thread_bool_exp!], $memberId: uuid!) {
+export type ThreadSubscriptionHookResult = ReturnType<typeof useThreadSubscription>;
+export type ThreadSubscriptionResult = Apollo.SubscriptionResult<ThreadSubscription>;
+export const ThreadsDocument = gql`
+    subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
   thread(where: {_and: $filters}) {
     ...Thread
     member_status(where: {memberId: {_eq: $memberId}}, limit: 1) {
@@ -18340,28 +18340,28 @@ export const SubscribeThreadsDocument = gql`
     ${ThreadFragmentDoc}`;
 
 /**
- * __useSubscribeThreadsSubscription__
+ * __useThreadsSubscription__
  *
- * To run a query within a React component, call `useSubscribeThreadsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeThreadsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useThreadsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeThreadsSubscription({
+ * const { data, loading, error } = useThreadsSubscription({
  *   variables: {
  *      filters: // value for 'filters'
  *      memberId: // value for 'memberId'
  *   },
  * });
  */
-export function useSubscribeThreadsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadsSubscription, SubscribeThreadsSubscriptionVariables>) {
+export function useThreadsSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadsSubscription, ThreadsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeThreadsSubscription, SubscribeThreadsSubscriptionVariables>(SubscribeThreadsDocument, options);
+        return Apollo.useSubscription<ThreadsSubscription, ThreadsSubscriptionVariables>(ThreadsDocument, options);
       }
-export type SubscribeThreadsSubscriptionHookResult = ReturnType<typeof useSubscribeThreadsSubscription>;
-export type SubscribeThreadsSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadsSubscription>;
+export type ThreadsSubscriptionHookResult = ReturnType<typeof useThreadsSubscription>;
+export type ThreadsSubscriptionResult = Apollo.SubscriptionResult<ThreadsSubscription>;
 export const CreateThreadDocument = gql`
     mutation createThread($values: thread_insert_input!) {
   insert_thread_one(object: $values) {
@@ -18504,8 +18504,8 @@ export type GetLastThreadActivityQueryResult = Apollo.QueryResult<GetLastThreadA
 export function refetchGetLastThreadActivityQuery(variables: GetLastThreadActivityQueryVariables) {
       return { query: GetLastThreadActivityDocument, variables: variables }
     }
-export const SubscribeThreadActivityDocument = gql`
-    subscription subscribeThreadActivity($id: uuid!) {
+export const ThreadActivityDocument = gql`
+    subscription threadActivity($id: uuid!) {
   thread_activity_by_pk(id: $id) {
     ...ThreadActivity
   }
@@ -18513,29 +18513,29 @@ export const SubscribeThreadActivityDocument = gql`
     ${ThreadActivityFragmentDoc}`;
 
 /**
- * __useSubscribeThreadActivitySubscription__
+ * __useThreadActivitySubscription__
  *
- * To run a query within a React component, call `useSubscribeThreadActivitySubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeThreadActivitySubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useThreadActivitySubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadActivitySubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeThreadActivitySubscription({
+ * const { data, loading, error } = useThreadActivitySubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useSubscribeThreadActivitySubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadActivitySubscription, SubscribeThreadActivitySubscriptionVariables>) {
+export function useThreadActivitySubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadActivitySubscription, ThreadActivitySubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeThreadActivitySubscription, SubscribeThreadActivitySubscriptionVariables>(SubscribeThreadActivityDocument, options);
+        return Apollo.useSubscription<ThreadActivitySubscription, ThreadActivitySubscriptionVariables>(ThreadActivityDocument, options);
       }
-export type SubscribeThreadActivitySubscriptionHookResult = ReturnType<typeof useSubscribeThreadActivitySubscription>;
-export type SubscribeThreadActivitySubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadActivitySubscription>;
-export const SubscribeThreadActivitiesDocument = gql`
-    subscription subscribeThreadActivities($threadId: uuid!) {
+export type ThreadActivitySubscriptionHookResult = ReturnType<typeof useThreadActivitySubscription>;
+export type ThreadActivitySubscriptionResult = Apollo.SubscriptionResult<ThreadActivitySubscription>;
+export const ThreadActivitiesDocument = gql`
+    subscription threadActivities($threadId: uuid!) {
   thread_activity(where: {threadId: {_eq: $threadId}}, order_by: {createdAt: asc}) {
     ...ThreadActivity
   }
@@ -18543,27 +18543,27 @@ export const SubscribeThreadActivitiesDocument = gql`
     ${ThreadActivityFragmentDoc}`;
 
 /**
- * __useSubscribeThreadActivitiesSubscription__
+ * __useThreadActivitiesSubscription__
  *
- * To run a query within a React component, call `useSubscribeThreadActivitiesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeThreadActivitiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useThreadActivitiesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadActivitiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeThreadActivitiesSubscription({
+ * const { data, loading, error } = useThreadActivitiesSubscription({
  *   variables: {
  *      threadId: // value for 'threadId'
  *   },
  * });
  */
-export function useSubscribeThreadActivitiesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadActivitiesSubscription, SubscribeThreadActivitiesSubscriptionVariables>) {
+export function useThreadActivitiesSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadActivitiesSubscription, ThreadActivitiesSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeThreadActivitiesSubscription, SubscribeThreadActivitiesSubscriptionVariables>(SubscribeThreadActivitiesDocument, options);
+        return Apollo.useSubscription<ThreadActivitiesSubscription, ThreadActivitiesSubscriptionVariables>(ThreadActivitiesDocument, options);
       }
-export type SubscribeThreadActivitiesSubscriptionHookResult = ReturnType<typeof useSubscribeThreadActivitiesSubscription>;
-export type SubscribeThreadActivitiesSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadActivitiesSubscription>;
+export type ThreadActivitiesSubscriptionHookResult = ReturnType<typeof useThreadActivitiesSubscription>;
+export type ThreadActivitiesSubscriptionResult = Apollo.SubscriptionResult<ThreadActivitiesSubscription>;
 export const CreateThreadActivityDocument = gql`
     mutation createThreadActivity($values: thread_activity_insert_input!) {
   insert_thread_activity_one(object: $values) {
@@ -18737,8 +18737,8 @@ export function useUpdateThreadMemberStatusMutation(baseOptions?: Apollo.Mutatio
 export type UpdateThreadMemberStatusMutationHookResult = ReturnType<typeof useUpdateThreadMemberStatusMutation>;
 export type UpdateThreadMemberStatusMutationResult = Apollo.MutationResult<UpdateThreadMemberStatusMutation>;
 export type UpdateThreadMemberStatusMutationOptions = Apollo.BaseMutationOptions<UpdateThreadMemberStatusMutation, UpdateThreadMemberStatusMutationVariables>;
-export const SubscribeThreadPollAnswersDocument = gql`
-    subscription subscribeThreadPollAnswers($activityId: uuid!) {
+export const ThreadPollAnswersDocument = gql`
+    subscription threadPollAnswers($activityId: uuid!) {
   thread_poll_answer(where: {activityId: {_eq: $activityId}}) {
     ...ThreadPollAnswer
   }
@@ -18746,27 +18746,27 @@ export const SubscribeThreadPollAnswersDocument = gql`
     ${ThreadPollAnswerFragmentDoc}`;
 
 /**
- * __useSubscribeThreadPollAnswersSubscription__
+ * __useThreadPollAnswersSubscription__
  *
- * To run a query within a React component, call `useSubscribeThreadPollAnswersSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeThreadPollAnswersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useThreadPollAnswersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadPollAnswersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSubscribeThreadPollAnswersSubscription({
+ * const { data, loading, error } = useThreadPollAnswersSubscription({
  *   variables: {
  *      activityId: // value for 'activityId'
  *   },
  * });
  */
-export function useSubscribeThreadPollAnswersSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeThreadPollAnswersSubscription, SubscribeThreadPollAnswersSubscriptionVariables>) {
+export function useThreadPollAnswersSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadPollAnswersSubscription, ThreadPollAnswersSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeThreadPollAnswersSubscription, SubscribeThreadPollAnswersSubscriptionVariables>(SubscribeThreadPollAnswersDocument, options);
+        return Apollo.useSubscription<ThreadPollAnswersSubscription, ThreadPollAnswersSubscriptionVariables>(ThreadPollAnswersDocument, options);
       }
-export type SubscribeThreadPollAnswersSubscriptionHookResult = ReturnType<typeof useSubscribeThreadPollAnswersSubscription>;
-export type SubscribeThreadPollAnswersSubscriptionResult = Apollo.SubscriptionResult<SubscribeThreadPollAnswersSubscription>;
+export type ThreadPollAnswersSubscriptionHookResult = ReturnType<typeof useThreadPollAnswersSubscription>;
+export type ThreadPollAnswersSubscriptionResult = Apollo.SubscriptionResult<ThreadPollAnswersSubscription>;
 export const CreateThreadPollAnswerDocument = gql`
     mutation createThreadPollAnswer($values: thread_poll_answer_insert_input!) {
   insert_thread_poll_answer_one(object: $values) {

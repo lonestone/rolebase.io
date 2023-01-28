@@ -14,7 +14,7 @@ fragment LogFields on log {
   canceled
 }
 
-subscription subscribeLastLogs($orgId: uuid!) {
+subscription lastLogs($orgId: uuid!) {
   log(
     where: { orgId: { _eq: $orgId } }
     order_by: { createdAt: desc }
@@ -24,7 +24,7 @@ subscription subscribeLastLogs($orgId: uuid!) {
   }
 }
 
-subscription subscribeMeetingLogs($meetingId: uuid!) {
+subscription meetingLogs($meetingId: uuid!) {
   log(where: { meetingId: { _eq: $meetingId } }, order_by: { createdAt: asc }) {
     ...LogFields
   }

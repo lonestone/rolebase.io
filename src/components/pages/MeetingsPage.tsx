@@ -25,8 +25,8 @@ import {
 } from '@fullcalendar/common'
 import { EventInput } from '@fullcalendar/react'
 import {
-  useSubscribeCircleMeetingRecurringsSubscription,
-  useSubscribeMeetingsByDatesSubscription,
+  useCircleMeetingRecurringsSubscription,
+  useMeetingsByDatesSubscription,
   useUpdateMeetingMutation,
 } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
@@ -86,7 +86,7 @@ export default function MeetingsPage() {
   const orgId = useOrgId()
 
   // Subscribe to meetings
-  const { data, error, loading } = useSubscribeMeetingsByDatesSubscription({
+  const { data, error, loading } = useMeetingsByDatesSubscription({
     skip: !orgId || !datesRange,
     variables: {
       orgId: orgId!,
@@ -99,13 +99,12 @@ export default function MeetingsPage() {
   const meetings = useFilterEntities(filter, data?.meeting)
 
   // Subscribe to recurring meetings
-  const { data: recurringData } =
-    useSubscribeCircleMeetingRecurringsSubscription({
-      skip: !orgId,
-      variables: {
-        where: { orgId: { _eq: orgId } },
-      },
-    })
+  const { data: recurringData } = useCircleMeetingRecurringsSubscription({
+    skip: !orgId,
+    variables: {
+      where: { orgId: { _eq: orgId } },
+    },
+  })
 
   // Filter recurring meetings
   const meetingsRecurring = useFilterEntities(

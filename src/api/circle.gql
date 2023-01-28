@@ -18,7 +18,7 @@ query getCircle($id: uuid!) {
   }
 }
 
-subscription subscribeCircles($orgId: uuid!, $archived: Boolean!) {
+subscription circles($orgId: uuid!, $archived: Boolean!) {
   circle(where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }) {
     ...CircleFields
     members(where: { archived: { _eq: false } }) {

@@ -8,13 +8,13 @@ query getLastThreadActivity($threadId: uuid!) {
   }
 }
 
-subscription subscribeThreadActivity($id: uuid!) {
+subscription threadActivity($id: uuid!) {
   thread_activity_by_pk(id: $id) {
     ...ThreadActivity
   }
 }
 
-subscription subscribeThreadActivities($threadId: uuid!) {
+subscription threadActivities($threadId: uuid!) {
   thread_activity(
     where: { threadId: { _eq: $threadId } }
     order_by: { createdAt: asc }

@@ -1,7 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Text } from '@chakra-ui/react'
-import { useSubscribeMeetingSubscription } from '@gql'
+import { useMeetingSubscription } from '@gql'
 import { useUserId } from '@nhost/react'
 import { ThreadActivityMeetingFragment } from '@shared/model/thread_activity'
 import React from 'react'
@@ -20,7 +20,7 @@ export default function ThreadActivityMeeting({ activity }: Props) {
   // Edition
   const isUserOwner = userId === activity.userId
 
-  const { data, loading, error } = useSubscribeMeetingSubscription({
+  const { data, loading, error } = useMeetingSubscription({
     variables: { id: activity.data.entityId },
   })
   const meeting = data?.meeting_by_pk

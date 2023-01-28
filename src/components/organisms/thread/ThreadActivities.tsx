@@ -12,7 +12,7 @@ import {
 import { ThreadContext } from '@contexts/ThreadContext'
 import {
   useCreateThreadMemberStatusMutation,
-  useSubscribeThreadActivitiesSubscription,
+  useThreadActivitiesSubscription,
   useUpdateThreadMemberStatusMutation,
 } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -40,7 +40,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
     const [updateThreadMemberStatus] = useUpdateThreadMemberStatusMutation()
 
     // Subscribe to activities
-    const { data, error, loading } = useSubscribeThreadActivitiesSubscription({
+    const { data, error, loading } = useThreadActivitiesSubscription({
       skip: !thread,
       variables: { threadId: thread?.id! },
     })

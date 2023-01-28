@@ -1,10 +1,10 @@
-subscription subscribeMeeting($id: uuid!) {
+subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting
   }
 }
 
-subscription subscribeMeetingsByDates(
+subscription meetingsByDates(
   $orgId: uuid!
   $fromDate: timestamptz!
   $toDate: timestamptz!
@@ -20,7 +20,7 @@ subscription subscribeMeetingsByDates(
   }
 }
 
-subscription subscribeCircleMeetings($circleId: uuid!) {
+subscription circleMeetings($circleId: uuid!) {
   meeting(
     where: { circleId: { _eq: $circleId }, archived: { _eq: false } }
     order_by: { startDate: desc }

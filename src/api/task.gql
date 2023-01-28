@@ -4,13 +4,13 @@ query getTask($id: uuid!) {
   }
 }
 
-subscription subscribeTask($id: uuid!) {
+subscription task($id: uuid!) {
   task_by_pk(id: $id) {
     ...Task
   }
 }
 
-subscription subscribeTasks($filters: [task_bool_exp!]) {
+subscription tasks($filters: [task_bool_exp!]) {
   task(where: { _and: $filters }) {
     ...Task
   }

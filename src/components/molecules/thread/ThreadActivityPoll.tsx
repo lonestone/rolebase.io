@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import {
   useCreateThreadPollAnswerMutation,
-  useSubscribeThreadPollAnswersSubscription,
+  useThreadPollAnswersSubscription,
   useUpdateThreadPollAnswerMutation,
 } from '@gql'
 import usePollState from '@hooks/usePollState'
@@ -46,7 +46,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
   // Answers
   const [createPollAnswer] = useCreateThreadPollAnswerMutation()
   const [updatePollAnswer] = useUpdateThreadPollAnswerMutation()
-  const { data, error, loading } = useSubscribeThreadPollAnswersSubscription({
+  const { data, error, loading } = useThreadPollAnswersSubscription({
     variables: { activityId: activity.id },
   })
   const answers = data?.thread_poll_answer
