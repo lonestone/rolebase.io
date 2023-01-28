@@ -9,14 +9,27 @@ subscription meetingsByDates(
   $fromDate: timestamptz!
   $toDate: timestamptz!
 ) {
-  meeting(
-    where: {
-      orgId: { _eq: $orgId }
-      startDate: { _gte: $fromDate, _lt: $toDate }
-      archived: { _eq: false }
+  org_by_pk(id: $orgId) {
+    meetings(
+      where: {
+        startDate: { _gte: $fromDate, _lt: $toDate }
+        archived: { _eq: false }
+      }
+    ) {
+      ...Meeting
     }
-  ) {
-    ...Meeting
+    meetings_recurring {
+      ...MeetingRecurring
+      meetings(
+        where: {
+          recurringDate: { _gte: $fromDate, _lt: $toDate }
+          archived: { _eq: false }
+        }
+      ) {
+        id
+        recurringDate
+      }
+    }
   }
 }
 

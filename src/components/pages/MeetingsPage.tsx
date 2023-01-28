@@ -24,11 +24,7 @@ import {
   EventClickArg,
 } from '@fullcalendar/common'
 import { EventInput } from '@fullcalendar/react'
-import {
-  useCircleMeetingRecurringsSubscription,
-  useMeetingsByDatesSubscription,
-  useUpdateMeetingMutation,
-} from '@gql'
+import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useMemberPreferences from '@hooks/useMemberPreferences'
@@ -96,20 +92,12 @@ export default function MeetingsPage() {
   })
 
   // Filter meetings
-  const meetings = useFilterEntities(filter, data?.meeting)
-
-  // Subscribe to recurring meetings
-  const { data: recurringData } = useCircleMeetingRecurringsSubscription({
-    skip: !orgId,
-    variables: {
-      where: { orgId: { _eq: orgId } },
-    },
-  })
+  const meetings = useFilterEntities(filter, data?.org_by_pk?.meetings)
 
   // Filter recurring meetings
   const meetingsRecurring = useFilterEntities(
     filter,
-    recurringData?.meeting_recurring
+    data?.org_by_pk?.meetings_recurring
   )
 
   // Prepare events for Fullcalendar
@@ -167,9 +155,9 @@ export default function MeetingsPage() {
             })
 
             // Exclude dates of meetings from the serie
-            const exdate = meetings
-              ?.filter((m) => m.recurringId === mr.id && m.recurringDate)
-              .map((m) => m.recurringDate!)
+            const exdate = meetingsRecurring
+              ?.filter((m) => m.id === mr.id)
+              .flatMap((m) => m.meetings.map((m) => m.recurringDate || ''))
 
             return {
               id: mr.id,
