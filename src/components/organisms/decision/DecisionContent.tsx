@@ -13,7 +13,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useSubscribeDecisionSubscription } from '@gql'
+import { useDecisionSubscription } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
 import ActionsMenu from '@molecules/ActionsMenu'
 import DateInfo from '@molecules/DateInfo'
@@ -42,7 +42,7 @@ export default function DecisionContent({
   const deleteModal = useDisclosure()
 
   // Subscribe decision
-  const { data, loading, error } = useSubscribeDecisionSubscription({
+  const { data, loading, error } = useDecisionSubscription({
     variables: { id },
   })
   const decision = data?.decision_by_pk || undefined

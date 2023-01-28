@@ -7,10 +7,7 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import {
-  MeetingTemplateFragment,
-  useSubscribeMeetingTemplatesSubscription,
-} from '@gql'
+import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
 import React from 'react'
@@ -26,7 +23,7 @@ export default function MeetingTemplateMenu({ onSelect }: Props) {
   const orgId = useOrgId()
 
   // Subscribe to templates
-  const { data } = useSubscribeMeetingTemplatesSubscription({
+  const { data } = useMeetingTemplatesSubscription({
     skip: !orgId,
     variables: { orgId: orgId! },
   })

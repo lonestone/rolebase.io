@@ -1,7 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Button, Flex, Spacer, Text, useDisclosure } from '@chakra-ui/react'
-import { useSubscribeCircleMeetingsSubscription } from '@gql'
+import { useCircleMeetingsSubscription } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import useOrgMember from '@hooks/useOrgMember'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
@@ -23,7 +23,7 @@ export default function CircleMeetings({ circleId }: Props) {
   const isMember = useOrgMember()
   const dateLocale = useDateLocale()
 
-  const { data, error, loading } = useSubscribeCircleMeetingsSubscription({
+  const { data, error, loading } = useCircleMeetingsSubscription({
     variables: {
       circleId,
     },

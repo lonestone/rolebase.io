@@ -2,7 +2,7 @@ import { replaceOldIds } from '@api/functions'
 import { Box } from '@chakra-ui/react'
 import { CircleMemberProvider } from '@contexts/CircleMemberContext'
 import { SidebarContext } from '@contexts/SidebarContext'
-import { useSubscribeOrgsSubscription } from '@gql'
+import { useOrgsSubscription } from '@gql'
 import useWindowSize from '@hooks/useWindowSize'
 import Sidebar from '@organisms/layout/Sidebar'
 import { useStoreActions } from '@store/hooks'
@@ -19,7 +19,7 @@ export default function LoggedLayout({ children }: Props) {
   const sidebarContext = useContext(SidebarContext)
 
   // Subscribe to orgs
-  const result = useSubscribeOrgsSubscription({
+  const result = useOrgsSubscription({
     variables: { archived: false },
   })
   const setSubscriptionResult = useStoreActions(

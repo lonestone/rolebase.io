@@ -1,7 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { BoxProps } from '@chakra-ui/react'
-import { useSubscribeMeetingLogsSubscription } from '@gql'
+import { useMeetingLogsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import { LogType } from '@shared/model/log'
 import React, { ReactNode, useMemo } from 'react'
@@ -26,7 +26,7 @@ export default function MeetingLogs({
   const orgId = useOrgId()
 
   // Subscribe to logs
-  const { data, error, loading } = useSubscribeMeetingLogsSubscription({
+  const { data, error, loading } = useMeetingLogsSubscription({
     skip: !orgId,
     variables: { meetingId },
   })

@@ -21,7 +21,7 @@ fragment MeetingRecurring on meeting_recurring {
   createdAt
 }
 
-subscription subscribeMeetingRecurring($id: uuid!) {
+subscription meetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
     ...MeetingRecurring
     meetings {
@@ -31,9 +31,7 @@ subscription subscribeMeetingRecurring($id: uuid!) {
   }
 }
 
-subscription subscribeCircleMeetingRecurrings(
-  $where: meeting_recurring_bool_exp!
-) {
+subscription circleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
   meeting_recurring(where: $where, order_by: { template: { title: asc } }) {
     ...MeetingRecurring
   }

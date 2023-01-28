@@ -20,7 +20,7 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import { useSubscribeMeetingRecurringSubscription } from '@gql'
+import { useMeetingRecurringSubscription } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useDateLocale from '@hooks/useDateLocale'
@@ -51,7 +51,7 @@ export default function MeetingRecurringModal({
   const createMeeting = useCreateMeeting()
 
   // Get recurring meeting
-  const { data, loading, error } = useSubscribeMeetingRecurringSubscription({
+  const { data, loading, error } = useMeetingRecurringSubscription({
     variables: { id },
   })
 

@@ -1,7 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Text } from '@chakra-ui/react'
-import { useSubscribeThreadSubscription } from '@gql'
+import { useThreadSubscription } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useUserId } from '@nhost/react'
 import { ThreadActivityThreadFragment } from '@shared/model/thread_activity'
@@ -22,7 +22,7 @@ export default function ThreadActivityThread({ activity }: Props) {
   // Edition
   const isUserOwner = userId === activity.userId
 
-  const { data, loading, error } = useSubscribeThreadSubscription({
+  const { data, loading, error } = useThreadSubscription({
     skip: !currentMember,
     variables: { id: activity.data.entityId, memberId: currentMember?.id! },
   })

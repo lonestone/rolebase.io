@@ -6,8 +6,8 @@ import {
 import {
   MeetingFragment,
   MeetingStepFragment,
-  useSubscribeMeetingStepsSubscription,
-  useSubscribeMeetingSubscription,
+  useMeetingStepsSubscription,
+  useMeetingSubscription,
   useUpdateMeetingMutation,
 } from '@gql'
 import useCircle from '@hooks/useCircle'
@@ -72,7 +72,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const [updateMeeting] = useUpdateMeetingMutation()
 
   // Subscribe meeting
-  const { data, loading, error } = useSubscribeMeetingSubscription({
+  const { data, loading, error } = useMeetingSubscription({
     variables: { id: meetingId },
   })
   const meeting = data?.meeting_by_pk || undefined
@@ -88,7 +88,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
     data: stepsData,
     error: stepsError,
     loading: stepsLoading,
-  } = useSubscribeMeetingStepsSubscription({ variables: { meetingId } })
+  } = useMeetingStepsSubscription({ variables: { meetingId } })
   const steps = stepsData?.meeting_step
 
   // Create missing steps

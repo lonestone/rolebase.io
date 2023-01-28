@@ -1,4 +1,4 @@
-import { ThreadFragment, useSubscribeThreadsSubscription } from '@gql'
+import { ThreadFragment, useThreadsSubscription } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useMemo } from 'react'
 import { useOrgId } from './useOrgId'
@@ -19,7 +19,7 @@ export default function useThreads(filters?: {
     data: threadsData,
     error,
     loading,
-  } = useSubscribeThreadsSubscription({
+  } = useThreadsSubscription({
     skip: !orgId || !currentMember,
     variables: {
       memberId: currentMember?.id!,

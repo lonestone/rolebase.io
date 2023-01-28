@@ -23,7 +23,7 @@ query getRole($id: uuid!) {
   }
 }
 
-subscription subscribeRoles($orgId: uuid!, $archived: Boolean!) {
+subscription roles($orgId: uuid!, $archived: Boolean!) {
   role(
     where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }
     order_by: { name: asc }

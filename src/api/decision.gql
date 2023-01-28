@@ -4,13 +4,13 @@ query getDecision($id: uuid!) {
   }
 }
 
-subscription subscribeDecision($id: uuid!) {
+subscription decision($id: uuid!) {
   decision_by_pk(id: $id) {
     ...Decision
   }
 }
 
-subscription subscribeCircleDecisions($circleId: uuid!, $archived: Boolean!) {
+subscription circleDecisions($circleId: uuid!, $archived: Boolean!) {
   decision(
     where: { circleId: { _eq: $circleId }, archived: { _eq: $archived } }
     order_by: { createdAt: desc }

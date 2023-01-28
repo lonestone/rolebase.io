@@ -33,7 +33,7 @@ import {
   Thread_Activity_Type_Enum,
   useCreateThreadActivityMutation,
   useDeleteThreadPollAnswersMutation,
-  useSubscribeThreadPollAnswersSubscription,
+  useThreadPollAnswersSubscription,
   useUpdateThreadActivityMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -111,7 +111,7 @@ export default function ActivityPollModal({
 
   // Answers
   const [acceptErasingAnswers, setAcceptErasingAnswers] = useState(false)
-  const { data } = useSubscribeThreadPollAnswersSubscription({
+  const { data } = useThreadPollAnswersSubscription({
     skip: !activity,
     variables: { activityId: activity?.id! },
   })

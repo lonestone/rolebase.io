@@ -14,10 +14,7 @@ import {
   useDisclosure,
   UseModalProps,
 } from '@chakra-ui/react'
-import {
-  MeetingTemplateFragment,
-  useSubscribeMeetingTemplatesSubscription,
-} from '@gql'
+import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import React, { useState } from 'react'
@@ -31,7 +28,7 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
   const orgId = useOrgId()
 
   // Subscribe to templates
-  const { data, loading, error } = useSubscribeMeetingTemplatesSubscription({
+  const { data, loading, error } = useMeetingTemplatesSubscription({
     skip: !orgId,
     variables: { orgId: orgId! },
   })

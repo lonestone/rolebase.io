@@ -1,9 +1,9 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import {
-  useSubscribeCirclesSubscription,
-  useSubscribeMembersSubscription,
-  useSubscribeRolesSubscription,
+  useCirclesSubscription,
+  useMembersSubscription,
+  useRolesSubscription,
 } from '@gql'
 import useOrg from '@hooks/useOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
@@ -59,7 +59,7 @@ export default function OrgRoutes({ orgId }: Props) {
   }))
 
   // Subscribe to circles
-  const circlesResult = useSubscribeCirclesSubscription({
+  const circlesResult = useCirclesSubscription({
     variables: { orgId, archived: false },
   })
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function OrgRoutes({ orgId }: Props) {
   }, [circlesResult])
 
   // Subscribe to roles
-  const rolesResult = useSubscribeRolesSubscription({
+  const rolesResult = useRolesSubscription({
     variables: { orgId, archived: false },
   })
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function OrgRoutes({ orgId }: Props) {
   }, [rolesResult])
 
   // Subscribe to members
-  const membersResult = useSubscribeMembersSubscription({
+  const membersResult = useMembersSubscription({
     variables: { orgId, archived: false },
   })
   useEffect(() => {

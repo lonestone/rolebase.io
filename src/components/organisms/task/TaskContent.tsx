@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react'
 import {
   Task_Status_Enum,
-  useSubscribeTaskSubscription,
+  useTaskSubscription,
   useUpdateTaskMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -97,7 +97,7 @@ export default function TaskContent({
   const [updateTask] = useUpdateTaskMutation()
   const { preventClose, allowClose } = usePreventClose()
 
-  const { data, loading, error } = useSubscribeTaskSubscription({
+  const { data, loading, error } = useTaskSubscription({
     skip: !id,
     variables: {
       id: id!,

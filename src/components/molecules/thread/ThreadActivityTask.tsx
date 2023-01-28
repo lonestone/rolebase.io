@@ -1,7 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Text } from '@chakra-ui/react'
-import { useSubscribeTaskSubscription } from '@gql'
+import { useTaskSubscription } from '@gql'
 import { useUserId } from '@nhost/react'
 import { ThreadActivityTaskFragment } from '@shared/model/thread_activity'
 import React from 'react'
@@ -20,7 +20,7 @@ export default function ThreadActivityTask({ activity }: Props) {
   // Edition
   const isUserOwner = userId === activity.userId
 
-  const { data, loading, error } = useSubscribeTaskSubscription({
+  const { data, loading, error } = useTaskSubscription({
     variables: {
       id: activity.data.entityId,
     },

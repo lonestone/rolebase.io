@@ -6,7 +6,7 @@ fragment ThreadPollAnswer on thread_poll_answer {
   createdAt
 }
 
-subscription subscribeThreadPollAnswers($activityId: uuid!) {
+subscription threadPollAnswers($activityId: uuid!) {
   thread_poll_answer(where: { activityId: { _eq: $activityId } }) {
     ...ThreadPollAnswer
   }

@@ -11,7 +11,7 @@ query getMeetingSteps($meetingId: uuid!) {
   }
 }
 
-subscription subscribeMeetingSteps($meetingId: uuid!) {
+subscription meetingSteps($meetingId: uuid!) {
   meeting_step(where: { meetingId: { _eq: $meetingId } }) {
     ...MeetingStep
   }

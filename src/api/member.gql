@@ -30,7 +30,7 @@ query getOrgsMembers($orgsIds: [uuid!]!) {
   }
 }
 
-subscription subscribeMembers($orgId: uuid!, $archived: Boolean!) {
+subscription members($orgId: uuid!, $archived: Boolean!) {
   member(
     where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }
     order_by: { name: asc }

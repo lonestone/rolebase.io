@@ -4,7 +4,7 @@ query getCircleThreadsIds($circleId: uuid!) {
   }
 }
 
-subscription subscribeThread($id: uuid!, $memberId: uuid!) {
+subscription thread($id: uuid!, $memberId: uuid!) {
   thread_by_pk(id: $id) {
     ...Thread
     member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
@@ -14,7 +14,7 @@ subscription subscribeThread($id: uuid!, $memberId: uuid!) {
   }
 }
 
-subscription subscribeThreads($filters: [thread_bool_exp!], $memberId: uuid!) {
+subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
   thread(where: { _and: $filters }) {
     ...Thread
     member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {

@@ -4,7 +4,7 @@ query getOrg($id: uuid!) {
   }
 }
 
-subscription subscribeOrgs($archived: Boolean!) {
+subscription orgs($archived: Boolean!) {
   org(where: { archived: { _eq: $archived } }, order_by: { createdAt: asc }) {
     ...Org
   }
