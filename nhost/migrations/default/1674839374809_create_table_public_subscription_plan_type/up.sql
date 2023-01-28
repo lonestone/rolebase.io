@@ -1,0 +1,1 @@
+CREATE TABLE "public"."subscription_plan_type" ("value" text NOT NULL, PRIMARY KEY ("value") , UNIQUE ("value"));COMMENT ON TABLE "public"."subscription_plan_type" IS E'Type d\'abonnement dispobnible';

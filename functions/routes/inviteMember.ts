@@ -52,6 +52,7 @@ export default route(async (context) => {
 
   const token = generateInviteToken(memberId, inviteDate)
   const invitationUrl = `${settings.url}/orgs/${org.id}/invitation?memberId=${memberId}&token=${token}`
+  console.log('Invitation url:', invitationUrl)
 
   try {
     // https://app.mailjet.com/template/3285393/build
