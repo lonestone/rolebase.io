@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 import {
   MeetingRecurringFragment,
-  useMeetingRecurringsSubscription,
+  useCircleMeetingRecurringsSubscription,
 } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
@@ -40,7 +40,7 @@ export default function MeetingRecurringListModal({
   const orgId = useOrgId()
 
   // Subscribe to recurring meetings
-  const { data, loading, error } = useMeetingRecurringsSubscription({
+  const { data, loading, error } = useCircleMeetingRecurringsSubscription({
     skip: !orgId,
     variables: {
       where: circleId

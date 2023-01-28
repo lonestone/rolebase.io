@@ -31,7 +31,7 @@ subscription meetingRecurring($id: uuid!) {
   }
 }
 
-subscription meetingRecurrings($where: meeting_recurring_bool_exp!) {
+subscription circleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
   meeting_recurring(where: $where, order_by: { template: { title: asc } }) {
     ...MeetingRecurring
   }

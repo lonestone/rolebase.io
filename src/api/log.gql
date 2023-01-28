@@ -1,3 +1,19 @@
+fragment LogFields on log {
+  id
+  orgId
+  userId
+  memberId
+  memberName
+  meetingId
+  createdAt
+  display
+  changes
+  cancelLogId
+  cancelMemberId
+  cancelMemberName
+  canceled
+}
+
 subscription lastLogs($orgId: uuid!) {
   log(
     where: { orgId: { _eq: $orgId } }

@@ -3,6 +3,7 @@ import {
   Task_Status_Enum,
   useCreateTaskViewMutation,
   useTasksSubscription,
+  useTaskViewSubscription,
   useUpdateTaskViewMutation,
 } from '@gql'
 import { TasksViewTypes } from '@shared/model/task'
@@ -54,8 +55,18 @@ export function useTasks(
       taskViewKey: key,
     },
   })
-  const tasks = tasksData?.org_by_pk?.tasks
-  const tasksView = tasksData?.org_by_pk?.task_views?.[0]
+  const tasks = tasksData?.task
+
+  // Subscribe to tasks view to get tasks order
+  const { data: tasksViewData, loading: tasksViewLoading } =
+    useTaskViewSubscription({
+      skip: !orgId,
+      variables: {
+        orgId: orgId!,
+        key,
+      },
+    })
+  const tasksView = tasksViewData?.task_view[0]
 
   // Keep last changed order and changed task until tasks view is updated
   // to avoid glitch after drag and drop

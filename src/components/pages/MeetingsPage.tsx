@@ -15,16 +15,19 @@ import {
   MenuOptionGroup,
   Spacer,
   useColorMode,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react'
 import {
   DateSelectArg,
   DatesSetArg,
   EventChangeArg,
-  EventClickArg,
+  EventClickArg
 } from '@fullcalendar/common'
 import { EventInput } from '@fullcalendar/react'
-import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
+import {
+  useMeetingsByDatesSubscription,
+  useUpdateMeetingMutation
+} from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useMemberPreferences from '@hooks/useMemberPreferences'
@@ -50,7 +53,7 @@ import {
   FiMoreVertical,
   FiPlus,
   FiRepeat,
-  FiUpload,
+  FiUpload
 } from 'react-icons/fi'
 import { RRule } from 'rrule'
 import { circleColor } from 'src/theme'
@@ -90,7 +93,19 @@ export default function MeetingsPage() {
   })
 
   // Filter meetings
+<<<<<<< HEAD
   const meetings = useFilterEntities(filter, data?.org_by_pk?.meetings)
+=======
+  const meetings = useFilterEntities(filter, data?.meeting)
+
+  // Subscribe to recurring meetings
+  const { data: recurringData } = useCircleMeetingRecurringsSubscription({
+    skip: !orgId,
+    variables: {
+      where: { orgId: { _eq: orgId } },
+    },
+  })
+>>>>>>> b8b4a22 (Rename graphql subscriptions)
 
   // Filter recurring meetings
   const meetingsRecurring = useFilterEntities(
