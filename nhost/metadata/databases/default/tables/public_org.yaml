@@ -23,6 +23,20 @@ array_relationships:
         table:
           name: org_file
           schema: public
+  - name: logs
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: log
+          schema: public
+  - name: meeting_templates
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: meeting_template
+          schema: public
   - name: meetings
     using:
       foreign_key_constraint_on:
@@ -50,6 +64,27 @@ array_relationships:
         column: orgId
         table:
           name: role
+          schema: public
+  - name: task_views
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: task_view
+          schema: public
+  - name: tasks
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: task
+          schema: public
+  - name: threads
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: thread
           schema: public
 select_permissions:
   - role: user

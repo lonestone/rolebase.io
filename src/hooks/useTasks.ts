@@ -3,7 +3,6 @@ import {
   Task_Status_Enum,
   useCreateTaskViewMutation,
   useTasksSubscription,
-  useTaskViewSubscription,
   useUpdateTaskViewMutation,
 } from '@gql'
 import { TasksViewTypes } from '@shared/model/task'
@@ -33,8 +32,8 @@ export function useTasks(
   } = useTasksSubscription({
     skip: !orgId,
     variables: {
+      orgId: orgId!,
       filters: [
-        { orgId: { _eq: orgId } },
         {
           archived: {
             _eq: filters?.archived === undefined ? false : filters.archived,
@@ -52,20 +51,11 @@ export function useTasks(
           ? [{ memberId: { _eq: filters?.memberId } }]
           : []),
       ],
+      taskViewKey: key,
     },
   })
-  const tasks = tasksData?.task
-
-  // Subscribe to tasks view to get tasks order
-  const { data: tasksViewData, loading: tasksViewLoading } =
-    useTaskViewSubscription({
-      skip: !orgId,
-      variables: {
-        orgId: orgId!,
-        key,
-      },
-    })
-  const tasksView = tasksViewData?.task_view[0]
+  const tasks = tasksData?.org_by_pk?.tasks
+  const tasksView = tasksData?.org_by_pk?.task_views?.[0]
 
   // Keep last changed order and changed task until tasks view is updated
   // to avoid glitch after drag and drop
@@ -86,7 +76,7 @@ export function useTasks(
 
   // Sort tasks according to view
   const sortedTasks = useMemo(() => {
-    if (!tasks || loading || tasksViewLoading) return []
+    if (!tasks || loading) return []
     const newTasks = [...tasks]
 
     // Replace changed task
@@ -104,7 +94,7 @@ export function useTasks(
       const bIndex = tasksIdsCache.indexOf(b.id)
       return aIndex - bIndex
     })
-  }, [tasks, tasksIdsCache, loading, tasksViewLoading])
+  }, [tasks, tasksIdsCache, loading])
 
   // Save new ordered list
   const [createTaskView] = useCreateTaskViewMutation()
@@ -127,7 +117,7 @@ export function useTasks(
 
   return {
     tasks: sortedTasks,
-    loading: loading || tasksViewLoading,
+    loading,
     error,
     changeOrder,
   }

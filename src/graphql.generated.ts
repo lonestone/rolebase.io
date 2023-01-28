@@ -3576,6 +3576,33 @@ export type Log_Aggregate = {
   nodes: Array<Log>;
 };
 
+export type Log_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Log_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Log_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Log_Aggregate_Bool_Exp_Count>;
+};
+
+export type Log_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Log_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Log_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Log_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Log_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Log_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Log_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "log" */
 export type Log_Aggregate_Fields = {
   __typename?: 'log_aggregate_fields';
@@ -3589,6 +3616,20 @@ export type Log_Aggregate_Fields = {
 export type Log_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Log_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "log" */
+export type Log_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Log_Max_Order_By>;
+  min?: InputMaybe<Log_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "log" */
+export type Log_Arr_Rel_Insert_Input = {
+  data: Array<Log_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Log_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "log". All fields are combined with a logical 'AND'. */
@@ -3659,6 +3700,20 @@ export type Log_Max_Fields = {
   userId?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "log" */
+export type Log_Max_Order_By = {
+  cancelLogId?: InputMaybe<Order_By>;
+  cancelMemberId?: InputMaybe<Order_By>;
+  cancelMemberName?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  memberName?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Log_Min_Fields = {
   __typename?: 'log_min_fields';
@@ -3672,6 +3727,20 @@ export type Log_Min_Fields = {
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
   userId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "log" */
+export type Log_Min_Order_By = {
+  cancelLogId?: InputMaybe<Order_By>;
+  cancelMemberId?: InputMaybe<Order_By>;
+  cancelMemberName?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  memberName?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "log" */
@@ -3752,6 +3821,18 @@ export enum Log_Select_Column {
   OrgId = 'orgId',
   /** column name */
   UserId = 'userId'
+}
+
+/** select "log_aggregate_bool_exp_bool_and_arguments_columns" columns of table "log" */
+export enum Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Canceled = 'canceled'
+}
+
+/** select "log_aggregate_bool_exp_bool_or_arguments_columns" columns of table "log" */
+export enum Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Canceled = 'canceled'
 }
 
 /** input type for updating data in table "log" */
@@ -5092,6 +5173,17 @@ export type Meeting_Template_Aggregate = {
   nodes: Array<Meeting_Template>;
 };
 
+export type Meeting_Template_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Meeting_Template_Aggregate_Bool_Exp_Count>;
+};
+
+export type Meeting_Template_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Meeting_Template_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Meeting_Template_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "meeting_template" */
 export type Meeting_Template_Aggregate_Fields = {
   __typename?: 'meeting_template_aggregate_fields';
@@ -5105,6 +5197,20 @@ export type Meeting_Template_Aggregate_Fields = {
 export type Meeting_Template_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Meeting_Template_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "meeting_template" */
+export type Meeting_Template_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Meeting_Template_Max_Order_By>;
+  min?: InputMaybe<Meeting_Template_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "meeting_template" */
+export type Meeting_Template_Arr_Rel_Insert_Input = {
+  data: Array<Meeting_Template_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Template_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "meeting_template". All fields are combined with a logical 'AND'. */
@@ -5142,12 +5248,26 @@ export type Meeting_Template_Max_Fields = {
   title?: Maybe<Scalars['String']>;
 };
 
+/** order by max() on columns of table "meeting_template" */
+export type Meeting_Template_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Meeting_Template_Min_Fields = {
   __typename?: 'meeting_template_min_fields';
   id?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "meeting_template" */
+export type Meeting_Template_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "meeting_template" */
@@ -8376,6 +8496,14 @@ export type Org = {
   files_aggregate: Org_File_Aggregate;
   id: Scalars['uuid'];
   /** An array relationship */
+  logs: Array<Log>;
+  /** An aggregate relationship */
+  logs_aggregate: Log_Aggregate;
+  /** An array relationship */
+  meeting_templates: Array<Meeting_Template>;
+  /** An aggregate relationship */
+  meeting_templates_aggregate: Meeting_Template_Aggregate;
+  /** An array relationship */
   meetings: Array<Meeting>;
   /** An aggregate relationship */
   meetings_aggregate: Meeting_Aggregate;
@@ -8393,6 +8521,18 @@ export type Org = {
   /** An aggregate relationship */
   roles_aggregate: Role_Aggregate;
   slug?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  task_views: Array<Task_View>;
+  /** An aggregate relationship */
+  task_views_aggregate: Task_View_Aggregate;
+  /** An array relationship */
+  tasks: Array<Task>;
+  /** An aggregate relationship */
+  tasks_aggregate: Task_Aggregate;
+  /** An array relationship */
+  threads: Array<Thread>;
+  /** An aggregate relationship */
+  threads_aggregate: Thread_Aggregate;
 };
 
 
@@ -8453,6 +8593,46 @@ export type OrgFiles_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Org_File_Order_By>>;
   where?: InputMaybe<Org_File_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgLogsArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgLogs_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgMeeting_TemplatesArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Template_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Template_Order_By>>;
+  where?: InputMaybe<Meeting_Template_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgMeeting_Templates_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Template_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Template_Order_By>>;
+  where?: InputMaybe<Meeting_Template_Bool_Exp>;
 };
 
 
@@ -8535,6 +8715,66 @@ export type OrgRoles_AggregateArgs = {
   where?: InputMaybe<Role_Bool_Exp>;
 };
 
+
+/** columns and relationships of "org" */
+export type OrgTask_ViewsArgs = {
+  distinct_on?: InputMaybe<Array<Task_View_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Task_View_Order_By>>;
+  where?: InputMaybe<Task_View_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgTask_Views_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Task_View_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Task_View_Order_By>>;
+  where?: InputMaybe<Task_View_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgTasksArgs = {
+  distinct_on?: InputMaybe<Array<Task_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Task_Order_By>>;
+  where?: InputMaybe<Task_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgTasks_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Task_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Task_Order_By>>;
+  where?: InputMaybe<Task_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgThreadsArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Order_By>>;
+  where?: InputMaybe<Thread_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgThreads_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Order_By>>;
+  where?: InputMaybe<Thread_Bool_Exp>;
+};
+
 /** aggregated selection of "org" */
 export type Org_Aggregate = {
   __typename?: 'org_aggregate';
@@ -8586,6 +8826,10 @@ export type Org_Bool_Exp = {
   files?: InputMaybe<Org_File_Bool_Exp>;
   files_aggregate?: InputMaybe<Org_File_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  logs?: InputMaybe<Log_Bool_Exp>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Bool_Exp>;
+  meeting_templates?: InputMaybe<Meeting_Template_Bool_Exp>;
+  meeting_templates_aggregate?: InputMaybe<Meeting_Template_Aggregate_Bool_Exp>;
   meetings?: InputMaybe<Meeting_Bool_Exp>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Bool_Exp>;
   meetings_recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
@@ -8596,6 +8840,12 @@ export type Org_Bool_Exp = {
   roles?: InputMaybe<Role_Bool_Exp>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
+  task_views?: InputMaybe<Task_View_Bool_Exp>;
+  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
+  tasks?: InputMaybe<Task_Bool_Exp>;
+  tasks_aggregate?: InputMaybe<Task_Aggregate_Bool_Exp>;
+  threads?: InputMaybe<Thread_Bool_Exp>;
+  threads_aggregate?: InputMaybe<Thread_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "org" */
@@ -8814,12 +9064,17 @@ export type Org_Insert_Input = {
   defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']>;
   files?: InputMaybe<Org_File_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
+  logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
+  meeting_templates?: InputMaybe<Meeting_Template_Arr_Rel_Insert_Input>;
   meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
   meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
+  task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
+  tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
+  threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -8874,12 +9129,17 @@ export type Org_Order_By = {
   defaultWorkedMinPerWeek?: InputMaybe<Order_By>;
   files_aggregate?: InputMaybe<Org_File_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
+  meeting_templates_aggregate?: InputMaybe<Meeting_Template_Aggregate_Order_By>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
   meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
+  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
+  tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
+  threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: org */
@@ -11883,6 +12143,33 @@ export type Task_Aggregate = {
   nodes: Array<Task>;
 };
 
+export type Task_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Task_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Task_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Task_Aggregate_Bool_Exp_Count>;
+};
+
+export type Task_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Task_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Task_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Task_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Task_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Task_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Task_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "task" */
 export type Task_Aggregate_Fields = {
   __typename?: 'task_aggregate_fields';
@@ -11896,6 +12183,20 @@ export type Task_Aggregate_Fields = {
 export type Task_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Task_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "task" */
+export type Task_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Task_Max_Order_By>;
+  min?: InputMaybe<Task_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "task" */
+export type Task_Arr_Rel_Insert_Input = {
+  data: Array<Task_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Task_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "task". All fields are combined with a logical 'AND'. */
@@ -11954,6 +12255,18 @@ export type Task_Max_Fields = {
   title?: Maybe<Scalars['String']>;
 };
 
+/** order by max() on columns of table "task" */
+export type Task_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  dueDate?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Task_Min_Fields = {
   __typename?: 'task_min_fields';
@@ -11965,6 +12278,18 @@ export type Task_Min_Fields = {
   memberId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "task" */
+export type Task_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  dueDate?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "task" */
@@ -12027,6 +12352,18 @@ export enum Task_Select_Column {
   Status = 'status',
   /** column name */
   Title = 'title'
+}
+
+/** select "task_aggregate_bool_exp_bool_and_arguments_columns" columns of table "task" */
+export enum Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
+/** select "task_aggregate_bool_exp_bool_or_arguments_columns" columns of table "task" */
+export enum Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
 }
 
 /** input type for updating data in table "task" */
@@ -12269,6 +12606,17 @@ export type Task_View_Aggregate = {
   nodes: Array<Task_View>;
 };
 
+export type Task_View_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Task_View_Aggregate_Bool_Exp_Count>;
+};
+
+export type Task_View_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Task_View_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Task_View_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "task_view" */
 export type Task_View_Aggregate_Fields = {
   __typename?: 'task_view_aggregate_fields';
@@ -12282,6 +12630,20 @@ export type Task_View_Aggregate_Fields = {
 export type Task_View_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Task_View_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "task_view" */
+export type Task_View_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Task_View_Max_Order_By>;
+  min?: InputMaybe<Task_View_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "task_view" */
+export type Task_View_Arr_Rel_Insert_Input = {
+  data: Array<Task_View_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Task_View_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "task_view". All fields are combined with a logical 'AND'. */
@@ -12321,12 +12683,26 @@ export type Task_View_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "task_view" */
+export type Task_View_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  key?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Task_View_Min_Fields = {
   __typename?: 'task_view_min_fields';
   id?: Maybe<Scalars['uuid']>;
   key?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "task_view" */
+export type Task_View_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  key?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "task_view" */
@@ -12823,6 +13199,33 @@ export type Thread_Aggregate = {
   nodes: Array<Thread>;
 };
 
+export type Thread_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Thread_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Thread_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Thread_Aggregate_Bool_Exp_Count>;
+};
+
+export type Thread_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Thread_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Thread_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Thread_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Thread_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Thread_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Thread_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "thread" */
 export type Thread_Aggregate_Fields = {
   __typename?: 'thread_aggregate_fields';
@@ -12836,6 +13239,20 @@ export type Thread_Aggregate_Fields = {
 export type Thread_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Thread_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "thread" */
+export type Thread_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Thread_Max_Order_By>;
+  min?: InputMaybe<Thread_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "thread" */
+export type Thread_Arr_Rel_Insert_Input = {
+  data: Array<Thread_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Thread_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "thread". All fields are combined with a logical 'AND'. */
@@ -12897,6 +13314,18 @@ export type Thread_Max_Fields = {
   lastActivityId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "thread" */
+export type Thread_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  initiatorMemberId?: InputMaybe<Order_By>;
+  lastActivityDate?: InputMaybe<Order_By>;
+  lastActivityId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "thread_member_status" */
@@ -13134,6 +13563,18 @@ export type Thread_Min_Fields = {
   lastActivityId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
   title?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "thread" */
+export type Thread_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  initiatorMemberId?: InputMaybe<Order_By>;
+  lastActivityDate?: InputMaybe<Order_By>;
+  lastActivityId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "thread" */
@@ -13387,6 +13828,18 @@ export enum Thread_Select_Column {
   ParticipantsScope = 'participantsScope',
   /** column name */
   Title = 'title'
+}
+
+/** select "thread_aggregate_bool_exp_bool_and_arguments_columns" columns of table "thread" */
+export enum Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
+}
+
+/** select "thread_aggregate_bool_exp_bool_or_arguments_columns" columns of table "thread" */
+export enum Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Archived = 'archived'
 }
 
 /** input type for updating data in table "thread" */
@@ -14632,11 +15085,13 @@ export type TaskSubscriptionVariables = Exact<{
 export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
 
 export type TasksSubscriptionVariables = Exact<{
-  filters?: InputMaybe<Array<Task_Bool_Exp> | Task_Bool_Exp>;
+  orgId: Scalars['uuid'];
+  filters: Array<Task_Bool_Exp> | Task_Bool_Exp;
+  taskViewKey: Scalars['String'];
 }>;
 
 
-export type TasksSubscription = { __typename?: 'subscription_root', task: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }> };
+export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> } | null };
 
 export type CreateTaskMutationVariables = Exact<{
   values: Task_Insert_Input;
@@ -14661,14 +15116,6 @@ export type ArchiveTaskMutationVariables = Exact<{
 export type ArchiveTaskMutation = { __typename?: 'mutation_root', update_task_by_pk?: { __typename?: 'task', id: string } | null };
 
 export type TaskViewFragment = { __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any };
-
-export type TaskViewSubscriptionVariables = Exact<{
-  orgId: Scalars['uuid'];
-  key: Scalars['String'];
-}>;
-
-
-export type TaskViewSubscription = { __typename?: 'subscription_root', task_view: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> };
 
 export type CreateTaskViewMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -17121,12 +17568,18 @@ export function useTaskSubscription(baseOptions: Apollo.SubscriptionHookOptions<
 export type TaskSubscriptionHookResult = ReturnType<typeof useTaskSubscription>;
 export type TaskSubscriptionResult = Apollo.SubscriptionResult<TaskSubscription>;
 export const TasksDocument = gql`
-    subscription tasks($filters: [task_bool_exp!]) {
-  task(where: {_and: $filters}) {
-    ...Task
+    subscription tasks($orgId: uuid!, $filters: [task_bool_exp!]!, $taskViewKey: String!) {
+  org_by_pk(id: $orgId) {
+    tasks(where: {_and: $filters}) {
+      ...Task
+    }
+    task_views(where: {key: {_eq: $taskViewKey}}) {
+      ...TaskView
+    }
   }
 }
-    ${TaskFragmentDoc}`;
+    ${TaskFragmentDoc}
+${TaskViewFragmentDoc}`;
 
 /**
  * __useTasksSubscription__
@@ -17140,11 +17593,13 @@ export const TasksDocument = gql`
  * @example
  * const { data, loading, error } = useTasksSubscription({
  *   variables: {
+ *      orgId: // value for 'orgId'
  *      filters: // value for 'filters'
+ *      taskViewKey: // value for 'taskViewKey'
  *   },
  * });
  */
-export function useTasksSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
+export function useTasksSubscription(baseOptions: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<TasksSubscription, TasksSubscriptionVariables>(TasksDocument, options);
       }
@@ -17250,37 +17705,6 @@ export function useArchiveTaskMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ArchiveTaskMutationHookResult = ReturnType<typeof useArchiveTaskMutation>;
 export type ArchiveTaskMutationResult = Apollo.MutationResult<ArchiveTaskMutation>;
 export type ArchiveTaskMutationOptions = Apollo.BaseMutationOptions<ArchiveTaskMutation, ArchiveTaskMutationVariables>;
-export const TaskViewDocument = gql`
-    subscription taskView($orgId: uuid!, $key: String!) {
-  task_view(where: {orgId: {_eq: $orgId}, key: {_eq: $key}}) {
-    ...TaskView
-  }
-}
-    ${TaskViewFragmentDoc}`;
-
-/**
- * __useTaskViewSubscription__
- *
- * To run a query within a React component, call `useTaskViewSubscription` and pass it any options that fit your needs.
- * When your component renders, `useTaskViewSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTaskViewSubscription({
- *   variables: {
- *      orgId: // value for 'orgId'
- *      key: // value for 'key'
- *   },
- * });
- */
-export function useTaskViewSubscription(baseOptions: Apollo.SubscriptionHookOptions<TaskViewSubscription, TaskViewSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<TaskViewSubscription, TaskViewSubscriptionVariables>(TaskViewDocument, options);
-      }
-export type TaskViewSubscriptionHookResult = ReturnType<typeof useTaskViewSubscription>;
-export type TaskViewSubscriptionResult = Apollo.SubscriptionResult<TaskViewSubscription>;
 export const CreateTaskViewDocument = gql`
     mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
   insert_task_view_one(object: {orgId: $orgId, key: $key, tasksIds: $tasksIds}) {
