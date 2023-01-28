@@ -1,0 +1,4 @@
+table:
+  name: org_subscription_status
+  schema: public
+is_enum: true

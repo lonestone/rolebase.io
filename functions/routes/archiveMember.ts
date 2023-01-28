@@ -5,6 +5,7 @@ import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrgOwnership } from '@utils/guardOrgOwnership'
 import { route, RouteError } from '@utils/route'
 import { updateMember } from '@utils/updateMember'
+import { updateOrgSubscriptionAfterArchive } from '@utils/updateOrgSubscriptionAfterArchive'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -34,6 +35,10 @@ export default route(async (context): Promise<void> => {
   if (member.role === Member_Role_Enum.Owner) {
     // Ensures at least one owner of the org will remain active
     await guardOrgOwnership(context, member.orgId)
+  }
+
+  if (member.userId) {
+    await updateOrgSubscriptionAfterArchive(context, member.orgId)
   }
 
   return updateMember(memberId, { archived: true })

@@ -19,10 +19,10 @@ import {
   ModalOverlay,
   Select,
   Spacer,
-  useDisclosure,
   UseModalProps,
-  useToast,
   VStack,
+  useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import { Member_Role_Enum, useUpdateMemberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -199,7 +199,10 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const handleRevokeInvite = useCallback(async () => {
     if (!member?.inviteEmail || !member.role) return
     setLoading(true)
-    await updateMemberRole({ memberId: member.id })
+    await updateMemberRole({
+      memberId: member.id,
+      issuerMemberId: currentMember?.id ?? '',
+    })
     setLoading(false)
     toast({
       title: t('MemberEditModal.toastRevocated'),
