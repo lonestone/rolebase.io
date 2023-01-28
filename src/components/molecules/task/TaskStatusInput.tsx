@@ -48,15 +48,10 @@ export default function TaskStatusInput({
           <MenuItem
             key={status}
             as={Tag}
-            colorScheme={taskStatusColors[status]}
             cursor="pointer"
             py={2}
             borderRadius={0}
             onClick={() => onChange(status)}
-            _focus={{
-              bg: undefined,
-              opacity: 0.8,
-            }}
           >
             {t(`common.taskStatus.${status}`)}
           </MenuItem>
