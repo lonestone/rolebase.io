@@ -6,25 +6,14 @@
  *
  */
 
-import type {
+import { $createLinkNode, LinkNode } from '@lexical/link'
+import {
+  CHECK_LIST,
+  createMarkdownImport,
   ElementTransformer,
   TextMatchTransformer,
   Transformer,
-} from '@lexical/markdown'
-import { createMarkdownImport } from '@lexical/markdown'
-import {
-  $isTableCellNode,
-  $isTableRowNode,
-  TableCellHeaderStates,
-  TableCellNode,
-} from '@lexical/table'
-import { $createTextNode, ElementNode, LexicalNode } from 'lexical'
-
-import {
-  CHECK_LIST,
-  ELEMENT_TRANSFORMERS,
-  TEXT_FORMAT_TRANSFORMERS,
-  TEXT_MATCH_TRANSFORMERS,
+  TRANSFORMERS,
 } from '@lexical/markdown'
 import {
   $createHorizontalRuleNode,
@@ -35,17 +24,23 @@ import {
   $createTableCellNode,
   $createTableNode,
   $createTableRowNode,
+  $isTableCellNode,
   $isTableNode,
+  $isTableRowNode,
+  TableCellHeaderStates,
+  TableCellNode,
   TableNode,
   TableRowNode,
 } from '@lexical/table'
 import {
   $createParagraphNode,
+  $createTextNode,
   $isElementNode,
   $isParagraphNode,
   $isTextNode,
+  ElementNode,
+  LexicalNode,
 } from 'lexical'
-
 import {
   $createEquationNode,
   $isEquationNode,
@@ -63,9 +58,27 @@ import {
 } from '../../nodes/TweetNode'
 import emojiList from '../EmojiPickerPlugin/emoji-list'
 
+// Simple links with chevrons: <https://example.com>
+const SIMPLE_LINK: TextMatchTransformer = {
+  dependencies: [LinkNode],
+  export: () => null,
+  importRegExp: /<(https:\/\/[^>]+)>/,
+  regExp: /<(https:\/\/[^>]+)>$/,
+  replace: (textNode, match) => {
+    const [, url] = match
+    const linkNode = $createLinkNode(url)
+    const linkTextNode = $createTextNode(url)
+    linkTextNode.setFormat(textNode.getFormat())
+    linkNode.append(linkTextNode)
+    textNode.replace(linkNode)
+  },
+  trigger: '>',
+  type: 'text-match',
+}
+
 // Remove backslashes that can appear in old values of the editor
 // using outline/rich-markdown-editor
-export const EOL_SLASH: TextMatchTransformer = {
+const EOL_SLASH: TextMatchTransformer = {
   dependencies: [],
   regExp: /^\\$/,
   importRegExp: /^\\$/,
@@ -78,7 +91,7 @@ export const EOL_SLASH: TextMatchTransformer = {
 }
 
 // Emojis
-export const EMOJI: TextMatchTransformer = {
+const EMOJI: TextMatchTransformer = {
   dependencies: [],
   regExp: /:([a-z0-9_]+):/,
   importRegExp: /:([a-z0-9_]+):/,
@@ -95,7 +108,7 @@ export const EMOJI: TextMatchTransformer = {
   type: 'text-match',
 }
 
-export const HR: ElementTransformer = {
+const HR: ElementTransformer = {
   dependencies: [HorizontalRuleNode],
   export: (node: LexicalNode) => {
     return $isHorizontalRuleNode(node) ? '***' : null
@@ -116,7 +129,7 @@ export const HR: ElementTransformer = {
   type: 'element',
 }
 
-export const IMAGE: TextMatchTransformer = {
+const IMAGE: TextMatchTransformer = {
   dependencies: [ImageNode],
   export: (node) => {
     if (!$isImageNode(node)) {
@@ -139,7 +152,7 @@ export const IMAGE: TextMatchTransformer = {
   type: 'text-match',
 }
 
-export const EQUATION: TextMatchTransformer = {
+const EQUATION: TextMatchTransformer = {
   dependencies: [EquationNode],
   export: (node) => {
     if (!$isEquationNode(node)) {
@@ -159,7 +172,7 @@ export const EQUATION: TextMatchTransformer = {
   type: 'text-match',
 }
 
-export const TWEET: ElementTransformer = {
+const TWEET: ElementTransformer = {
   dependencies: [TweetNode],
   export: (node) => {
     if (!$isTweetNode(node)) {
@@ -181,7 +194,7 @@ export const TWEET: ElementTransformer = {
 const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/
 const TABLE_ROW_DIVIDER_REG_EXP = /^(?:\|)[-|]+(?:\|)\s?$/
 
-export const TABLE: ElementTransformer = {
+const TABLE: ElementTransformer = {
   // TODO: refactor transformer for new TableNode
   dependencies: [TableNode, TableRowNode, TableCellNode],
   export: (
@@ -317,6 +330,7 @@ const mapToTableCells = (textContent: string): Array<TableCellNode> | null => {
 }
 
 export const markdownTransformers: Array<Transformer> = [
+  SIMPLE_LINK,
   TABLE,
   EOL_SLASH,
   EMOJI,
@@ -325,7 +339,5 @@ export const markdownTransformers: Array<Transformer> = [
   EQUATION,
   TWEET,
   CHECK_LIST,
-  ...ELEMENT_TRANSFORMERS,
-  ...TEXT_FORMAT_TRANSFORMERS,
-  ...TEXT_MATCH_TRANSFORMERS,
+  ...TRANSFORMERS,
 ]
