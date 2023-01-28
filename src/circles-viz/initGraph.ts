@@ -76,7 +76,7 @@ export function initGraph(
 
     // Zoom to coordinates
     to(x, y, radius = 0, instant = false) {
-      const scale = radius
+      let scale = radius
         ? Math.min(
             settings.zoom.scaleExtent[1],
             Math.min(
@@ -86,6 +86,12 @@ export function initGraph(
               (radius * 2)
           )
         : zoom.scale
+
+      // Prevent from zooming to an intermediate state where opacity of members is too low
+      if (scale > 0.8 && scale < 1) {
+        scale = 0.8
+      }
+
       svg
         .transition()
         .duration(instant ? 0 : settings.zoom.duration)
