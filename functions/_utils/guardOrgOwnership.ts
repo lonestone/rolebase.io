@@ -25,7 +25,7 @@ export async function guardOrgOwnership(
 }
 
 const GET_ORG_MEMBERS = gql(`
-  query getOrg($orgId: uuid!) {
+  query getOrgMembers($orgId: uuid!) {
     org_by_pk(id: $orgId) {
       id
       members {
