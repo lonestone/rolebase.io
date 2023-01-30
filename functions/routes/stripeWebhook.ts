@@ -20,13 +20,14 @@ export default route(async (context): Promise<void> => {
   switch (event.type) {
     case 'invoice.paid':
       // Payment has been successfull
+      // Send an email ?
       break
     case 'invoice.upcoming':
       // Customer will be charged in a few days, should we send an email ?
       break
     case 'invoice.payment_failed':
       // Payment failed
-      // Maybe send an email
+      // Send an email ?
       break
     case 'customer.subscription.updated':
       await updateSubscription(event.data.object as Stripe.Subscription)
@@ -38,7 +39,6 @@ export default route(async (context): Promise<void> => {
       await updateDefaultPaymentMethod(
         event.data.object as Stripe.PaymentMethod
       )
-      // TODO: Save en tant que moyen de paiement par defaut       const paymentMethods = event.data?.object
       break
     default:
       break // console.log(`Unhandled event type ${event.type}`)
