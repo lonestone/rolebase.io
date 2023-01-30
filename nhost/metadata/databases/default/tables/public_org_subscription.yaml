@@ -11,13 +11,11 @@ select_permissions:
       columns:
         - id
         - orgId
-        - status
-        - type
       filter:
         org:
           members:
             _and:
-              - role:
-                  _eq: Owner
               - userId:
                   _eq: X-Hasura-User-Id
+              - role:
+                  _eq: Owner

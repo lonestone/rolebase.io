@@ -9,19 +9,15 @@ import {
   Spinner,
   Text
 } from '@chakra-ui/react'
-import {
-  Org_Subscription_Status_Enum,
-  Subscription_Plan_Type_Enum,
-  useGetOrgSubscriptionQuery
-} from '@gql'
+import { useGetOrgSubscriptionQuery } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import StripePayment from '@organisms/subscription/StripePayment'
+import { SubscriptionPlanType } from '@shared/model/subscription'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 export default function SubscriptionPage() {
@@ -37,16 +33,12 @@ export default function SubscriptionPage() {
   const [options, setOptions] = useState<any>(null)
   const orgSubscription = useMemo(() => data?.org_subscription[0], [data])
 
-  useEffect(() => {
-    console.log('orgSubscription', orgSubscription)
-  }, [orgSubscription])
-
   const subscribe = async () => {
     try {
       const res: any = await subscribeOrg({
         memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
-        planType: Subscription_Plan_Type_Enum.Startup,
+        planType: SubscriptionPlanType.STARTUP,
       })
 
       if (res.clientSecret) {
@@ -96,14 +88,14 @@ export default function SubscriptionPage() {
         {loading && <Spinner />}
         {!orgSubscription && !loading && (
           <>
-            <Text>Current plan: {Subscription_Plan_Type_Enum.Free}</Text>
-            <Text>Plan status: {Org_Subscription_Status_Enum.Inactive}</Text>
+            <Text>Current plan: Free</Text>
+            <Text>Plan status: Inactive</Text>
           </>
         )}
         {orgSubscription && !loading && (
           <>
-            <Text>Current plan: {orgSubscription.type}</Text>
-            <Text>Plan status: {orgSubscription.status}</Text>
+            <Text>Current plan: Startup</Text>
+            <Text>Plan status: Active</Text>
           </>
         )}
       </Flex>
