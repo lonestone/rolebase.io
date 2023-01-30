@@ -1,6 +1,5 @@
-import { useCreateLogMutation } from '@gql'
+import { LogFragment, useCreateLogMutation } from '@gql'
 import { useUserId } from '@nhost/react'
-import { Log } from '@shared/model/log'
 import { Optional } from '@shared/model/types'
 import { store } from '@store/index'
 import { useCallback } from 'react'
@@ -13,7 +12,8 @@ export default function useCreateLog() {
     async (
       log: Optional<
         Omit<
-          Log,
+          LogFragment,
+          | 'id'
           | 'orgId'
           | 'userId'
           | 'memberId'

@@ -7,12 +7,11 @@ import {
   Heading,
 } from '@chakra-ui/react'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
+import { MemberFragment } from '@gql'
 import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useOrgMember from '@hooks/useOrgMember'
-import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
-import { MemberEntry } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
@@ -22,26 +21,23 @@ import CircleSearchButton from '../search/entities/circles/CircleSearchButton'
 import MemberRoleItem from './MemberRoleItem'
 
 interface Props {
-  member: MemberEntry
+  member: MemberFragment
   selectedCircleId?: string
 }
 
 export default function MemberRoles({ member, selectedCircleId }: Props) {
   const { t } = useTranslation()
   const org = useCurrentOrg()
-  const roles = useStoreState((state) => state.roles.entries)
   const circles = useStoreState((state) => state.circles.entries)
   const circleMemberContext = useContext(CircleMemberContext)
   const isMember = useOrgMember()
 
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
-    if (!roles || !circles) return []
+    if (!circles) return []
     return circles
       .filter((c) => c.members.some((m) => m.memberId === member.id))
-      .map((circle) =>
-        enrichCirclesWithRoles(getCircleAndParents(circles, circle.id), roles)
-      )
+      .map((circle) => getCircleAndParents(circles, circle.id))
       .sort((a, b) => {
         const roleA = a[a.length - 1].role
         const roleB = b[b.length - 1].role
@@ -55,7 +51,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
         // Sort by name
         return roleA.name.localeCompare(roleB.name)
       })
-  }, [member.id, roles, circles])
+  }, [member.id, circles])
 
   // Compute total number of allocated hours
   const totalWorkedMin = useMemo(
@@ -104,7 +100,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
       await addCircleMember(circleId, member.id)
       circleMemberContext?.goTo(circleId, member.id)
     },
-    [circles, roles, member]
+    [circles, member]
   )
 
   return (
@@ -139,7 +135,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
           <MemberRoleItem
             key={entries[entries.length - 1].id}
             memberId={member.id}
-            circlesWithRole={entries}
+            circleAndParents={entries}
           />
         ))}
       </Accordion>

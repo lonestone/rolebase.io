@@ -1,8 +1,7 @@
 import { useColorMode } from '@chakra-ui/react'
 import { GraphZoomContext } from '@contexts/GraphZoomContext'
 import styled from '@emotion/styled'
-import { CircleWithRoleEntry } from '@shared/model/circle'
-import { MemberEntry } from '@shared/model/member'
+import { CircleFullFragment } from '@gql'
 import { ColorModeProps, mode } from '@utils/colorMode'
 import React, {
   forwardRef,
@@ -22,8 +21,7 @@ import {
 
 interface Props {
   id: string
-  circles: CircleWithRoleEntry[]
-  members: MemberEntry[]
+  circles: CircleFullFragment[]
   events: GraphEvents
   width: number
   height: number
@@ -119,7 +117,6 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   {
     id,
     circles,
-    members,
     events,
     width,
     height,
@@ -162,8 +159,8 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
     }
 
     // (Re)-draw graph
-    graphRef.current.updateData(circles, members)
-  }, [members, circles, ...Object.values(events)])
+    graphRef.current.updateData(circles)
+  }, [circles, ...Object.values(events)])
 
   // Update dimensions
   useEffect(() => {

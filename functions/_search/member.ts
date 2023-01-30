@@ -1,5 +1,4 @@
-import { DocumentType, gql } from '@gql'
-import { MemberEntry } from '@shared/model/member'
+import { DocumentType, gql, MemberFragment } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { IndexEntity } from './IndexEntity'
@@ -23,7 +22,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   boost: 1,
 })
 
-export class IndexMember extends IndexEntity<MemberEntry> {
+export class IndexMember extends IndexEntity<MemberFragment> {
   static table = 'public.member'
 
   async getById(id: string) {

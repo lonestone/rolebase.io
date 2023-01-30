@@ -1,23 +1,6 @@
-fragment MemberFields on member {
-  id
-  orgId
-  archived
-  name
-  description
-  pictureFileId
-  picture
-  userId
-  inviteEmail
-  inviteDate
-  workedMinPerWeek
-  role
-  meetingId
-  preferences
-}
-
 query getMember($id: uuid!) {
   member_by_pk(id: $id) {
-    ...MemberFields
+    ...Member
   }
 }
 
@@ -26,7 +9,7 @@ query getOrgsMembers($orgsIds: [uuid!]!) {
     where: { orgId: { _in: $orgsIds }, archived: { _eq: false } }
     order_by: { name: asc }
   ) {
-    ...MemberFields
+    ...Member
   }
 }
 
@@ -35,19 +18,19 @@ subscription members($orgId: uuid!, $archived: Boolean!) {
     where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }
     order_by: { name: asc }
   ) {
-    ...MemberFields
+    ...Member
   }
 }
 
 mutation createMember($orgId: uuid!, $name: String!) {
   insert_member_one(object: { orgId: $orgId, name: $name }) {
-    ...MemberFields
+    ...Member
   }
 }
 
 mutation updateMember($id: uuid!, $values: member_set_input!) {
   update_member_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...MemberFields
+    ...Member
   }
 }
 

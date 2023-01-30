@@ -1,11 +1,14 @@
-import { useArchiveCircleMutation, useArchiveRoleMutation } from '@gql'
+import {
+  CircleFragment,
+  useArchiveCircleMutation,
+  useArchiveRoleMutation,
+} from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
-import { CircleEntry } from '@shared/model/circle'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
 import { store } from '@store/index'
 import { useCallback } from 'react'
 
-function getCircleIds(circles: CircleEntry[], circleId: string): string[] {
+function getCircleIds(circles: CircleFragment[], circleId: string): string[] {
   return [
     circleId,
     ...circles

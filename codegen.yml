@@ -16,9 +16,11 @@ generates:
       - typescript-react-apollo
       - add:
           content: |
+            import { MemberPreferences } from '@shared/model/member'
             import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
             import { MeetingStepData } from '@shared/model/meeting_step'
             import { ThreadActivityData } from '@shared/model/thread_activity'
+            import { LogDisplay, EntitiesChanges } from '@shared/model/log'
     config:
       withRefetchFn: true
 
@@ -32,8 +34,11 @@ config:
     bigint: number
     timestamptz: string
     citext: string
+    member_preferences: MemberPreferences
     attendee: MeetingAttendee
     meeting_step_config: MeetingStepConfig
     meeting_step_data: MeetingStepData
     videoconf: VideoConf
     thread_activity_data: ThreadActivityData
+    log_display: LogDisplay
+    log_changes: EntitiesChanges

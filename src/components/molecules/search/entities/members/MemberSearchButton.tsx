@@ -1,12 +1,12 @@
+import { MemberFragment } from '@gql'
 import useCreateMember from '@hooks/useCreateMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
-import { MemberEntry } from '@shared/model/member'
 import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useMemberSearchItems } from './useMemberSearchItems'
 
 interface Props extends Omit<SearchButtonProps, 'items'> {
-  members?: MemberEntry[] // If not provided, use store
+  members?: MemberFragment[] // If not provided, use store
   excludeIds?: string[]
 }
 

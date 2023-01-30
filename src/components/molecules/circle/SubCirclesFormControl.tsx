@@ -1,13 +1,16 @@
 import { FormControl, FormLabel, StackItem, VStack } from '@chakra-ui/react'
-import { useCreateCircleMutation, useCreateRoleMutation } from '@gql'
+import {
+  CircleWithRoleFragment,
+  RoleFragment,
+  useCreateCircleMutation,
+  useCreateRoleMutation,
+} from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
-import { getCircleChildrenAndRoles } from '@shared/helpers/getCircleChildren'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
 import { ParticipantMember } from '@shared/model/member'
-import { RoleEntry, RoleLink } from '@shared/model/role'
+import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import { omit } from '@utils/omit'
 import React, { useCallback, useMemo } from 'react'
@@ -17,7 +20,7 @@ import RoleSearchButton from '../search/entities/roles/RoleSearchButton'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 
 interface Props {
-  circle: CircleWithRoleEntry
+  circle: CircleWithRoleFragment
   participants: ParticipantMember[]
 }
 
@@ -35,25 +38,26 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   const childrenAndRoles = useMemo(
     () =>
       circles &&
-      roles &&
-      getCircleChildrenAndRoles(circles, roles, circle.id).sort((a, b) => {
-        // Put leaders at the top
-        if (
-          a.role.link === RoleLink.Parent &&
-          b.role.link !== RoleLink.Parent
-        ) {
-          return -1
-        }
-        if (
-          a.role.link !== RoleLink.Parent &&
-          b.role.link === RoleLink.Parent
-        ) {
-          return 1
-        }
-        // Sort by name
-        return a.role.name.localeCompare(b.role.name)
-      }),
-    [circles, roles, circle]
+      circles
+        .filter((c) => c.parentId === circle.id)
+        .sort((a, b) => {
+          // Put leaders at the top
+          if (
+            a.role.link === RoleLink.Parent &&
+            b.role.link !== RoleLink.Parent
+          ) {
+            return -1
+          }
+          if (
+            a.role.link !== RoleLink.Parent &&
+            b.role.link === RoleLink.Parent
+          ) {
+            return 1
+          }
+          // Sort by name
+          return a.role.name.localeCompare(b.role.name)
+        }),
+    [circles, circle]
   )
 
   const childrenRolesIds = useMemo(
@@ -63,11 +67,11 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
 
   // Create circle and open it
   const handleCreateRole = useCallback(
-    async (roleOrName: RoleEntry | string) => {
-      if (!orgId || !roles) return
+    async (roleOrName: RoleFragment | string) => {
+      if (!orgId) return
 
       // Create role
-      let role: RoleEntry
+      let role: RoleFragment
       if (typeof roleOrName === 'string') {
         const { data } = await createRole({
           variables: {
@@ -97,7 +101,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
           {
             type: EntityChangeType.Create,
             id: newCircle.id,
-            data: { ...omit(newCircle, '__typename'), members: [] },
+            data: { ...omit(newCircle, '__typename') },
           },
         ],
       }
@@ -140,7 +144,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         changes,
       })
     },
-    [orgId, roles, circle]
+    [orgId, circle]
   )
 
   const handleAddRole = useCallback(

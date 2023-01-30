@@ -1,36 +1,31 @@
-import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
+import { CircleFragment } from '@gql'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
-import { CircleEntry } from '@shared/model/circle'
 import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
 export function useCircleSearchItems(
-  circles?: CircleEntry[],
+  circles?: CircleFragment[],
   excludeIds?: string[],
   singleMember?: boolean
 ): SearchItem[] {
   const circlesInStore = useStoreState((state) => state.circles.entries)
-  const roles = useStoreState((state) => state.roles.entries)
 
   return useMemo(
     () =>
-      ((roles && circlesInStore && (circles || circlesInStore))
+      ((circlesInStore && (circles || circlesInStore))
         ?.map((circle): SearchItem | undefined => {
           // Exclude by id
           if (excludeIds?.includes(circle.id)) return
 
           // Get roles and ancestors
-          const circleRoles = enrichCirclesWithRoles(
-            getCircleAndParents(circlesInStore, circle.id),
-            roles
-          )
+          const circleFull = getCircleAndParents(circlesInStore, circle.id)
 
           // Exclude by singleMember property
           if (
             singleMember !== undefined &&
-            (circleRoles[circleRoles.length - 1].role.singleMember || false) !==
+            (circleFull[circleFull.length - 1].role.singleMember || false) !==
               singleMember
           ) {
             return
@@ -38,18 +33,18 @@ export function useCircleSearchItems(
 
           return {
             id: circle.id,
-            text: circleRoles
+            text: circleFull
               .map((cr) => cr.role.name)
               .join(' ')
               .toLowerCase(),
             type: SearchTypes.Circle,
-            title: circleRoles
-              .slice(circleRoles.length === 1 ? 0 : 1)
+            title: circleFull
+              .slice(circleFull.length === 1 ? 0 : 1)
               .map((cr) => cr.role.name)
               .join(' › '),
           }
         })
         .filter(Boolean) as SearchItem[]) || [],
-    [circles, circlesInStore, roles, excludeIds, singleMember]
+    [circles, circlesInStore, excludeIds, singleMember]
   )
 }

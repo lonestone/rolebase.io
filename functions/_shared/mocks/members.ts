@@ -1,11 +1,11 @@
-import { MemberEntry } from '../model/member'
+import { MemberFragment } from '@gql'
 
 const memberBase = {
   description: '',
   archived: false,
 }
 
-export const members: MemberEntry[] = [
+export const members: MemberFragment[] = [
   {
     id: 'member-alice',
     orgId: 'org-1',

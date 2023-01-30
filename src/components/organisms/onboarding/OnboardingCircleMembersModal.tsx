@@ -14,19 +14,22 @@ import {
   Stack,
   UseModalProps,
 } from '@chakra-ui/react'
-import { useCreateCircleMemberMutation, useCreateCircleMutation } from '@gql'
+import {
+  CircleWithRoleFragment,
+  useCreateCircleMemberMutation,
+  useCreateCircleMutation,
+} from '@gql'
 import useItemsArray from '@hooks/useItemsArray'
 import useMember from '@hooks/useMember'
 import { useOrgId } from '@hooks/useOrgId'
 import MembersMultiSelect from '@molecules/member/MembersMultiSelect'
 import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props extends UseModalProps {
-  circle: CircleWithRoleEntry
+  circle: CircleWithRoleFragment
   onSubmit(): void
 }
 

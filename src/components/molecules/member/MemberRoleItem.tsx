@@ -14,11 +14,11 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import { useUpdateCircleMemberMutation } from '@gql'
+import { CircleFullFragment, useUpdateCircleMemberMutation } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
+import useRole from '@hooks/useRole'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
 import CircleMemberDeleteModal from '@organisms/circle/CircleMemberDeleteModal'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import React, {
   FormEvent,
   useCallback,
@@ -30,10 +30,10 @@ import { useTranslation } from 'react-i18next'
 
 interface Props {
   memberId: string
-  circlesWithRole: CircleWithRoleEntry[]
+  circleAndParents: CircleFullFragment[]
 }
 
-export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
+export default function MemberRoleItem({ memberId, circleAndParents }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const [updateCircleMember] = useUpdateCircleMemberMutation()
@@ -42,11 +42,12 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
   const hoverColor = colorMode === 'light' ? 'gray.50' : 'whiteAlpha.100'
   const expandedColor = colorMode === 'light' ? 'gray.200' : 'gray.500'
 
-  const roleCircle = circlesWithRole[circlesWithRole.length - 1]
+  const circle = circleAndParents[circleAndParents.length - 1]
   const circleMember = useMemo(
-    () => roleCircle.members.find((m) => m.memberId === memberId),
-    [memberId, roleCircle]
+    () => circle.members.find((m) => m.memberId === memberId),
+    [memberId, circle]
   )
+  const role = useRole(circle.roleId)
 
   const [avgMinPerWeek, setAvgMinPerWeek] = useState<number | null>(
     circleMember?.avgMinPerWeek ?? null
@@ -64,7 +65,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
         variables: { id: circleMember.id, values: { avgMinPerWeek } },
       })
     },
-    [roleCircle, avgMinPerWeek]
+    [circle, avgMinPerWeek]
   )
 
   // Reset saving state when circleMember changes after save
@@ -92,16 +93,16 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
             cursor="pointer"
             _hover={{ bg: hoverColor }}
           >
-            <CircleAndParentsLinks id={roleCircle.id} flex={1} />
+            <CircleAndParentsLinks id={circle.id} flex={1} />
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pt={3} pb={5} pl={10}>
             <form onSubmit={onSubmit}>
               <VStack spacing={3} align="stretch">
-                {roleCircle.role.purpose && (
+                {role?.purpose && (
                   <FormControl>
                     <FormLabel>{t(`MemberRoleItem.purpose`)}</FormLabel>
-                    <Markdown>{roleCircle.role.purpose}</Markdown>
+                    <Markdown>{role?.purpose}</Markdown>
                   </FormControl>
                 )}
 
@@ -111,9 +112,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
                       <FormLabel>{t(`MemberRoleItem.workingTime`)}</FormLabel>
                       <DurationSelect
                         size="sm"
-                        placeholderValue={
-                          roleCircle.role.defaultMinPerWeek ?? undefined
-                        }
+                        placeholderValue={role?.defaultMinPerWeek ?? undefined}
                         value={avgMinPerWeek}
                         onChange={setAvgMinPerWeek}
                       />
@@ -148,7 +147,7 @@ export default function MemberRoleItem({ memberId, circlesWithRole }: Props) {
 
           {deleteModal.isOpen && (
             <CircleMemberDeleteModal
-              circleId={roleCircle.id}
+              circleId={circle.id}
               memberId={memberId}
               isOpen
               onClose={deleteModal.onClose}

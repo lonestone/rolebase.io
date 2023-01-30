@@ -12,11 +12,11 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import { MemberFragment } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateMember from '@hooks/useCreateMember'
 import { useOrgId } from '@hooks/useOrgId'
 import MembersToCopyList from '@molecules/member/MembersToCopyList'
-import { MemberEntry } from '@shared/model/member'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -57,7 +57,7 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
     modalProps.onClose()
   }
 
-  const handleCopy = (memberToCopy: MemberEntry) =>
+  const handleCopy = (memberToCopy: MemberFragment) =>
     handleCreate({
       name: memberToCopy.name,
     })

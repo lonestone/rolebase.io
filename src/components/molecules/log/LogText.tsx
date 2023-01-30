@@ -4,12 +4,13 @@ import MemberLink from '@atoms/MemberLink'
 import RoleEditLink from '@atoms/RoleEditLink'
 import TaskLink from '@atoms/TaskLink'
 import TaskStatusTag from '@atoms/TaskStatusTag'
-import { LogEntry, LogType } from '@shared/model/log'
+import { LogFragment } from '@gql'
+import { LogType } from '@shared/model/log'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props {
-  log: LogEntry
+  log: LogFragment
 }
 
 export default function LogText({ log }: Props) {

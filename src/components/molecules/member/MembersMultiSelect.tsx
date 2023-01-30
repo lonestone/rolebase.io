@@ -1,7 +1,7 @@
 import CircleMemberLink from '@atoms/CircleMemberLink'
 import MemberButton from '@atoms/MemberButton'
 import { ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
-import { MemberEntry } from '@shared/model/member'
+import { MemberFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -38,7 +38,7 @@ export default function MembersMultiSelect({
     () =>
       membersIds
         .map((id) => members?.find((m) => m.id === id))
-        .filter(Boolean) as MemberEntry[],
+        .filter(Boolean) as MemberFragment[],
     [membersIds, members]
   )
 

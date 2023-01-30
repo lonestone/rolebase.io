@@ -1,10 +1,6 @@
 import Loading from '@atoms/Loading'
-import TextErrors from '@atoms/TextErrors'
-import {
-  useCirclesSubscription,
-  useMembersSubscription,
-  useRolesSubscription,
-} from '@gql'
+import TextError from '@atoms/TextError'
+import { useOrgSubscription } from '@gql'
 import useOrg from '@hooks/useOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import CirclesPage from '@pages/CirclesPage'
@@ -18,7 +14,6 @@ import TaskPage from '@pages/TaskPage'
 import TasksPage from '@pages/TasksPage'
 import ThreadPage from '@pages/ThreadPage'
 import ThreadsPage from '@pages/ThreadsPage'
-import { MemberEntry } from '@shared/model/member'
 import { useStoreActions, useStoreState } from '@store/hooks'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { lazy, Suspense, useEffect } from 'react'
@@ -37,15 +32,6 @@ export default function OrgRoutes({ orgId }: Props) {
     (state) => state.orgs.loading || !state.orgs.entries
   )
 
-  const loading =
-    useStoreState(
-      (state) =>
-        state.circles.loading || state.members.loading || state.roles.loading
-    ) || orgLoading
-  const circlesError = useStoreState((state) => state.circles.error)
-  const membersError = useStoreState((state) => state.members.error)
-  const rolesError = useStoreState((state) => state.roles.error)
-
   // Set current org id
   const setCurrentId = useStoreActions((actions) => actions.orgs.setCurrentId)
   useEffect(() => {
@@ -58,41 +44,28 @@ export default function OrgRoutes({ orgId }: Props) {
     setMembers: actions.members.setSubscriptionResult,
   }))
 
-  // Subscribe to circles
-  const circlesResult = useCirclesSubscription({
-    variables: { orgId, archived: false },
+  // Subscribe to org structure
+  const { data, error, loading } = useOrgSubscription({
+    variables: { id: orgId },
   })
+
   useEffect(() => {
     actions.setCircles({
-      entries: circlesResult.data?.circle,
-      loading: circlesResult.loading,
-      error: circlesResult.error,
+      entries: data?.org_by_pk?.circles,
+      loading,
+      error,
     })
-  }, [circlesResult])
-
-  // Subscribe to roles
-  const rolesResult = useRolesSubscription({
-    variables: { orgId, archived: false },
-  })
-  useEffect(() => {
     actions.setRoles({
-      entries: rolesResult.data?.role,
-      loading: rolesResult.loading,
-      error: rolesResult.error,
+      entries: data?.org_by_pk?.roles,
+      loading,
+      error,
     })
-  }, [rolesResult])
-
-  // Subscribe to members
-  const membersResult = useMembersSubscription({
-    variables: { orgId, archived: false },
-  })
-  useEffect(() => {
     actions.setMembers({
-      entries: membersResult.data?.member as MemberEntry[] | undefined,
-      loading: membersResult.loading,
-      error: membersResult.error,
+      entries: data?.org_by_pk?.members,
+      loading,
+      error,
     })
-  }, [membersResult])
+  }, [data, error, loading])
 
   // If org doesn't exist, redirect to root
   const navigate = useNavigate()
@@ -107,7 +80,7 @@ export default function OrgRoutes({ orgId }: Props) {
   return (
     <Suspense fallback={<Loading active center />}>
       <Loading center active={loading} />
-      <TextErrors errors={[membersError, rolesError, circlesError]} />
+      {error && <TextError error={error} />}
 
       <Routes>
         <Route index element={<CirclesPage />} />

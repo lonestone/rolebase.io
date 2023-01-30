@@ -1,5 +1,4 @@
-import { CircleWithRoleEntry } from '@shared/model/circle'
-import { MemberEntry } from '@shared/model/member'
+import { CircleFullFragment } from '@gql'
 import { initGraph } from './initGraph'
 import { DrawEventHandler, DrawEventListener, Position, Zoom } from './types'
 import updateCircles from './updateCircles'
@@ -8,7 +7,7 @@ export interface Graph {
   zoom: Zoom
   addDrawListener: DrawEventListener
   removeListeners(): void
-  updateData(circles: CircleWithRoleEntry[], members: MemberEntry[]): void
+  updateData(circles: CircleFullFragment[]): void
 }
 
 export interface GraphParams {
@@ -60,11 +59,10 @@ export function createGraph(
     zoom,
     addDrawListener,
     removeListeners,
-    updateData(circles, members) {
+    updateData(circles) {
       // Create/update circles and menu
       updateCircles(svg, {
         circles,
-        members,
         events,
         zoom,
         addDrawListener,

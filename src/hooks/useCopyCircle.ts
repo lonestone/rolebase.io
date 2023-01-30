@@ -1,16 +1,19 @@
-import { Circle_Insert_Input, useCreateCirclesMutation } from '@gql'
+import {
+  CircleFullFragment,
+  Circle_Insert_Input,
+  RoleFragment,
+  useCreateCirclesMutation,
+} from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
-import { CircleEntry } from '@shared/model/circle'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
-import { RoleEntry } from '@shared/model/role'
 import { store } from '@store/index'
 import { omit } from '@utils/omit'
 import { pick } from '@utils/pick'
 import { useCallback } from 'react'
 
 function getCircleAndChildren(
-  circles: CircleEntry[],
-  roles: RoleEntry[],
+  circles: CircleFullFragment[],
+  roles: RoleFragment[],
   circleId: string
 ): Circle_Insert_Input | undefined {
   const circle = circles.find((c) => c.id === circleId)
@@ -107,7 +110,7 @@ export default function useCopyCircle() {
         changes.circles?.push({
           type: EntityChangeType.Create,
           id: circle.id,
-          data: { ...omit(circle, '__typename', 'role'), members: [] },
+          data: { ...omit(circle, '__typename', 'role') },
         })
         if (!circle.role.base) {
           changes.roles?.push({

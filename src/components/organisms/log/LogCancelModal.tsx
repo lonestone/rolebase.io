@@ -17,17 +17,18 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import { LogFragment } from '@gql'
 import { useCancelLog } from '@hooks/useCancelLog'
 import LogCancelText from '@molecules/log/LogCancelText'
 import LogEntityChanges from '@molecules/log/LogEntityChanges'
 import LogText from '@molecules/log/LogText'
-import { EntitiesChanges, EntityChange, LogEntry } from '@shared/model/log'
+import { EntitiesChanges, EntityChange } from '@shared/model/log'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
 interface Props extends UseModalProps {
-  log: LogEntry
+  log: LogFragment
 }
 
 export default function LogCancelModal({ log, ...modalProps }: Props) {

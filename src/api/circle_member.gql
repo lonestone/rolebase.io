@@ -1,15 +1,6 @@
-fragment CircleMemberFields on circle_member {
-  id
-  circleId
-  memberId
-  avgMinPerWeek
-  createdAt
-  archived
-}
-
 query getCircleMember($id: uuid!) {
   circle_member_by_pk(id: $id) {
-    ...CircleMemberFields
+    ...CircleMember
   }
 }
 
@@ -25,7 +16,7 @@ mutation createCircleMember(
       avgMinPerWeek: $avgMinPerWeek
     }
   ) {
-    ...CircleMemberFields
+    ...CircleMember
     member {
       id
       name
@@ -41,7 +32,7 @@ mutation createCircleMember(
 
 mutation updateCircleMember($id: uuid!, $values: circle_member_set_input!) {
   update_circle_member_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...CircleMemberFields
+    ...CircleMember
   }
 }
 
@@ -51,7 +42,7 @@ mutation archiveCircleMember($circleId: uuid!, $memberId: uuid!) {
     _set: { archived: true }
   ) {
     returning {
-      ...CircleMemberFields
+      ...CircleMember
       member {
         id
         name

@@ -1,10 +1,10 @@
-import { CircleEntry } from '@shared/model/circle'
+import { CircleFragment } from '@gql'
 import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useCircleSearchItems } from './useCircleSearchItems'
 
 interface Props extends Omit<SearchButtonProps, 'items'> {
-  circles?: CircleEntry[] // If not provided, use store
+  circles?: CircleFragment[] // If not provided, use store
   excludeIds?: string[]
 }
 

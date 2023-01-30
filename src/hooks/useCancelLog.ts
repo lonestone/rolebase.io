@@ -1,4 +1,6 @@
 import {
+  LogFragment,
+  MemberFragment,
   useCancelLogMutation,
   useGetCircleLazyQuery,
   useGetCircleMemberLazyQuery,
@@ -15,13 +17,12 @@ import {
 } from '@gql'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import useCreateLog from '@hooks/useCreateLog'
-import { EntitiesMethods, LogEntry } from '@shared/model/log'
-import { MemberEntry } from '@shared/model/member'
+import { EntitiesMethods } from '@shared/model/log'
 import { useCallback } from 'react'
 import { cancelLogChanges } from '../../functions/_shared/helpers/log/cancelLogChanges'
 import { detectRecentEntitiesChanges } from '../../functions/_shared/helpers/log/detectRecentEntitiesChanges'
 
-export function useCancelLog(log: LogEntry) {
+export function useCancelLog(log: LogFragment) {
   const createLog = useCreateLog()
   const [cancelLog] = useCancelLogMutation()
 
@@ -42,7 +43,7 @@ export function useCancelLog(log: LogEntry) {
     members: {
       async get(id: string) {
         const { data } = await getMember({ variables: { id } })
-        return (data?.member_by_pk as MemberEntry) || undefined
+        return (data?.member_by_pk as MemberFragment) || undefined
       },
       async update(id, values) {
         await updateMember({ variables: { id, values } })

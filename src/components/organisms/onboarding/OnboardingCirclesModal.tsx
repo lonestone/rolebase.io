@@ -16,12 +16,15 @@ import {
   Stack,
   UseModalProps,
 } from '@chakra-ui/react'
-import { useCreateCircleMutation, useCreateRoleMutation } from '@gql'
+import {
+  CircleWithRoleFragment,
+  useCreateCircleMutation,
+  useCreateRoleMutation,
+} from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useItemsArray from '@hooks/useItemsArray'
 import { useOrgId } from '@hooks/useOrgId'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { useStoreState } from '@store/hooks'
 import { omit } from '@utils/omit'
@@ -30,7 +33,7 @@ import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
 
 interface Props extends UseModalProps {
-  onSubmit(circles: CircleWithRoleEntry[]): void
+  onSubmit(circles: CircleWithRoleFragment[]): void
 }
 
 const defaultRolesNames = ['Product', 'Business', 'Marketing', '']
@@ -87,7 +90,7 @@ export default function OnboardingCirclesModal({
     if (!parentRole) return
 
     setLoading(true)
-    const newCircles: CircleWithRoleEntry[] = []
+    const newCircles: CircleWithRoleFragment[] = []
 
     try {
       for (const name of names) {
@@ -114,7 +117,7 @@ export default function OnboardingCirclesModal({
         const newCircle = circleResult.data?.insert_circle_one
         if (!newCircle) throw new Error('Error creating circle')
 
-        newCircles.push({ ...newCircle, role: newRole, members: [] })
+        newCircles.push({ ...newCircle, role: newRole })
 
         createLog({
           display: {
@@ -129,7 +132,7 @@ export default function OnboardingCirclesModal({
               {
                 type: EntityChangeType.Create,
                 id: newCircle.id,
-                data: { ...omit(newCircle, '__typename'), members: [] },
+                data: { ...omit(newCircle, '__typename') },
               },
             ],
             roles: [

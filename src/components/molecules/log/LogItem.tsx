@@ -1,8 +1,8 @@
 import IconTextButton from '@atoms/IconTextButton'
 import { Box, Flex, Spacer, Text, useColorMode } from '@chakra-ui/react'
+import { LogFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import LogCancelText from '@molecules/log/LogCancelText'
-import { LogEntry } from '@shared/model/log'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
@@ -11,7 +11,7 @@ import { FiEye } from 'react-icons/fi'
 import LogText from './LogText'
 
 interface Props {
-  log: LogEntry
+  log: LogFragment
   onCancel?(): void
 }
 

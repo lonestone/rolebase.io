@@ -1,21 +1,20 @@
 import MemberButton from '@atoms/MemberButton'
 import { VStack } from '@chakra-ui/layout'
-import { useGetOrgsMembersLazyQuery } from '@gql'
+import { MemberFragment, useGetOrgsMembersLazyQuery } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
-import { Member, MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import uniqBy from 'lodash.uniqby'
 import React, { useEffect, useState } from 'react'
 
 interface Props {
-  onClick(member: Member): void
+  onClick(member: MemberFragment): void
 }
 
 export default function MembersToCopyList({ onClick }: Props) {
   const orgId = useOrgId()
   const orgs = useStoreState((state) => state.orgs.entries)
   const members = useStoreState((state) => state.members.entries)
-  const [membersToCopy, setMembersToCopy] = useState<MemberEntry[]>([])
+  const [membersToCopy, setMembersToCopy] = useState<MemberFragment[]>([])
   const [getOrgsMembers] = useGetOrgsMembersLazyQuery()
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export default function MembersToCopyList({ onClick }: Props) {
           // Filter out members whose names are already used in current org
           data?.member.filter(
             (member) => !members.some((m) => member.name === m.name)
-          ) as MemberEntry[] | undefined,
+          ) as MemberFragment[] | undefined,
           (m) => m.name
         )
       })

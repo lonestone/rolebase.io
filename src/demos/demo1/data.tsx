@@ -1,6 +1,5 @@
-import { CircleEntry } from '@shared/model/circle'
-import { MemberEntry } from '@shared/model/member'
-import { RoleEntry, RoleLink } from '@shared/model/role'
+import { CircleFullFragment, MemberFragment, RoleFragment } from '@gql'
+import { RoleLink } from '@shared/model/role'
 import settings from 'src/settings'
 
 import angela from './pictures/angela.jpg'
@@ -15,247 +14,89 @@ import oscar from './pictures/oscar.jpg'
 import pam from './pictures/pam.jpg'
 import stanley from './pictures/stanley.jpg'
 
+/* Members */
+
 const memberBase = {
+  orgId: 'org-1',
   description: '',
   archived: false,
 }
 
-export const members: MemberEntry[] = [
-  {
+const membersMap: Record<string, MemberFragment> = {
+  michael: {
     id: 'member-michael',
-    orgId: 'org-1',
     name: 'Michael',
     picture: settings.url + michael,
     ...memberBase,
   },
-  {
+  jim: {
     id: 'member-jim',
-    orgId: 'org-1',
     name: 'Jim',
     picture: settings.url + jim,
     ...memberBase,
   },
-  {
+  kevin: {
     id: 'member-kevin',
-    orgId: 'org-1',
     name: 'Kévin',
     picture: settings.url + kevin,
     ...memberBase,
   },
-  {
+  pam: {
     id: 'member-pam',
-    orgId: 'org-1',
     name: 'Pam',
     picture: settings.url + pam,
     ...memberBase,
   },
-  {
+  dwight: {
     id: 'member-dwight',
-    orgId: 'org-1',
     name: 'Dwight',
     picture: settings.url + dwight,
     ...memberBase,
   },
-  {
+  oscar: {
     id: 'member-oscar',
-    orgId: 'org-1',
     name: 'Oscar',
     picture: settings.url + oscar,
     ...memberBase,
   },
-  {
+  angela: {
     id: 'member-angela',
-    orgId: 'org-1',
     name: 'Angela',
     picture: settings.url + angela,
     ...memberBase,
   },
-  {
-    id: 'member-stanley',
-    orgId: 'org-1',
-    name: 'Stanley',
-    picture: settings.url + stanley,
-    ...memberBase,
-  },
-  {
-    id: 'member-darryl',
-    orgId: 'org-1',
-    name: 'Darryl',
-    picture: settings.url + darryl,
-    ...memberBase,
-  },
-  {
-    id: 'member-meredith',
-    orgId: 'org-1',
-    name: 'Meredith',
-    picture: settings.url + meredith,
-    ...memberBase,
-  },
-  {
+  karen: {
     id: 'member-karen',
-    orgId: 'org-1',
     name: 'Karen',
     picture: settings.url + karen,
     ...memberBase,
   },
-]
+  meredith: {
+    id: 'member-meredith',
+    name: 'Meredith',
+    picture: settings.url + meredith,
+    ...memberBase,
+  },
+  stanley: {
+    id: 'member-stanley',
+    name: 'Stanley',
+    picture: settings.url + stanley,
+    ...memberBase,
+  },
+  darryl: {
+    id: 'member-darryl',
+    name: 'Darryl',
+    picture: settings.url + darryl,
+    ...memberBase,
+  },
+}
 
-export const circles: CircleEntry[] = [
-  {
-    id: 'circle-super',
-    orgId: 'org-1',
-    roleId: 'role-super',
-    parentId: null,
-    members: [],
-    archived: false,
-  },
-  {
-    id: 'circle-leader',
-    orgId: 'org-1',
-    roleId: 'role-leader',
-    parentId: 'circle-super',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-michael',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-product',
-    orgId: 'org-1',
-    roleId: 'role-product',
-    parentId: 'circle-super',
-    members: [],
-    archived: false,
-  },
-  {
-    id: 'circle-product-leader',
-    orgId: 'org-1',
-    roleId: 'role-leader',
-    parentId: 'circle-product',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-darryl',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-product-designer',
-    orgId: 'org-1',
-    roleId: 'role-designer',
-    parentId: 'circle-product',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-pam',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-product-dev',
-    orgId: 'org-1',
-    roleId: 'role-dev',
-    parentId: 'circle-product',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-kevin',
-        archived: false,
-      },
-      {
-        id: '2',
-        memberId: 'member-meredith',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-product-dev-leader',
-    orgId: 'org-1',
-    roleId: 'role-leader',
-    parentId: 'circle-product-dev',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-karen',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-product-dev-facilitator',
-    orgId: 'org-1',
-    roleId: 'role-facilitator',
-    parentId: 'circle-product-dev',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-stanley',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-business',
-    orgId: 'org-1',
-    roleId: 'role-business',
-    parentId: 'circle-super',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-pam',
-        archived: false,
-      },
-      {
-        id: '2',
-        memberId: 'member-dwight',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-business-leader',
-    orgId: 'org-1',
-    roleId: 'role-leader',
-    parentId: 'circle-business',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-jim',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-  {
-    id: 'circle-finance',
-    orgId: 'org-1',
-    roleId: 'role-finance',
-    parentId: 'circle-super',
-    members: [
-      {
-        id: '1',
-        memberId: 'member-angela',
-        archived: false,
-      },
-    ],
-    archived: false,
-  },
-]
+export const members = Object.values(membersMap)
+
+/* Roles */
 
 const roleBase = {
+  orgId: 'org-1',
   archived: false,
   base: false,
   purpose: '',
@@ -271,46 +112,39 @@ const roleBase = {
   colorHue: null,
 }
 
-export const roles: RoleEntry[] = [
-  {
+const rolesMaps = {
+  super: {
     id: 'role-super',
-    orgId: 'org-1',
     name: 'Mon Entreprise',
     ...roleBase,
   },
-  {
+  product: {
     id: 'role-product',
-    orgId: 'org-1',
     name: 'Product',
     ...roleBase,
   },
-  {
+  business: {
     id: 'role-business',
-    orgId: 'org-1',
     name: 'Business',
     ...roleBase,
   },
-  {
+  finance: {
     id: 'role-finance',
-    orgId: 'org-1',
     name: 'Finance',
     ...roleBase,
   },
-  {
+  designer: {
     id: 'role-designer',
-    orgId: 'org-1',
     name: 'Designer',
     ...roleBase,
   },
-  {
+  dev: {
     id: 'role-dev',
-    orgId: 'org-1',
     name: 'Dev',
     ...roleBase,
   },
-  {
+  leader: {
     id: 'role-leader',
-    orgId: 'org-1',
     name: 'Leader',
     ...roleBase,
     base: true,
@@ -318,12 +152,87 @@ export const roles: RoleEntry[] = [
     link: RoleLink.Parent,
     colorHue: 0,
   },
-  {
+  facilitator: {
     id: 'role-facilitator',
-    orgId: 'org-1',
     name: 'Facilitateur',
     ...roleBase,
     base: true,
     singleMember: true,
   },
+}
+
+export const roles = Object.values(rolesMaps)
+
+/* Circles */
+
+function buildCircleFull(
+  id: string,
+  parentId: string | null,
+  role: RoleFragment,
+  members?: MemberFragment[]
+): CircleFullFragment {
+  return {
+    id,
+    orgId: 'org-1',
+    parentId,
+    archived: false,
+    roleId: role.id,
+    role,
+    members:
+      members?.map((member) => ({
+        id: `${id}-${member.id}`,
+        circleId: id,
+        memberId: member.id,
+        avgMinPerWeek: 0,
+        createdAt: new Date().toISOString(),
+        archived: false,
+        member,
+      })) ?? [],
+  }
+}
+
+export const circles = [
+  buildCircleFull('circle-super', null, rolesMaps.super),
+  buildCircleFull('circle-leader', 'circle-super', rolesMaps.leader, [
+    membersMap.michael,
+  ]),
+  buildCircleFull('circle-product', 'circle-super', rolesMaps.product),
+  buildCircleFull('circle-product-leader', 'circle-product', rolesMaps.leader, [
+    membersMap.darryl,
+  ]),
+  buildCircleFull(
+    'circle-product-designer',
+    'circle-product',
+    rolesMaps.designer,
+    [membersMap.pam]
+  ),
+  buildCircleFull('circle-product-dev', 'circle-product', rolesMaps.dev, [
+    membersMap.kevin,
+    membersMap.meredith,
+  ]),
+  buildCircleFull(
+    'circle-product-dev-leader',
+    'circle-product-dev',
+    rolesMaps.leader,
+    [membersMap.karen]
+  ),
+  buildCircleFull(
+    'circle-product-dev-facilitator',
+    'circle-product-dev',
+    rolesMaps.facilitator,
+    [membersMap.stanley]
+  ),
+  buildCircleFull('circle-business', 'circle-super', rolesMaps.business, [
+    membersMap.pam,
+    membersMap.dwight,
+  ]),
+  buildCircleFull(
+    'circle-business-leader',
+    'circle-business',
+    rolesMaps.leader,
+    [membersMap.jim]
+  ),
+  buildCircleFull('circle-finance', 'circle-super', rolesMaps.finance, [
+    membersMap.angela,
+  ]),
 ]

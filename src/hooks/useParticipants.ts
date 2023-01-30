@@ -1,5 +1,4 @@
 import { Member_Scope_Enum } from '@gql'
-import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
 import { Participant, ParticipantMember } from '@shared/model/member'
@@ -14,13 +13,12 @@ export default function useParticipants(
 ): ParticipantMember[] {
   const members = useStoreState((state) => state.members.entries)
   const circles = useStoreState((state) => state.circles.entries)
-  const roles = useStoreState((state) => state.roles.entries)
 
   return useMemo(() => {
     if (!members) return []
     let participants: Optional<Participant, 'circleId'>[] = []
 
-    if (circleId && scope && circles && roles) {
+    if (circleId && scope && circles) {
       if (scope === Member_Scope_Enum.Organization) {
         // All Organization Members
         participants =
@@ -29,16 +27,10 @@ export default function useParticipants(
           })) || []
       } else if (scope === Member_Scope_Enum.CircleLeaders) {
         // Circle Leaders and links
-        participants = getCircleParticipants(
-          circleId,
-          enrichCirclesWithRoles(circles, roles)
-        )
+        participants = getCircleParticipants(circleId, circles)
       } else if (scope === Member_Scope_Enum.CircleMembers) {
         // All Circle Members
-        participants = getAllCircleMembersParticipants(
-          circleId,
-          enrichCirclesWithRoles(circles, roles)
-        )
+        participants = getAllCircleMembersParticipants(circleId, circles)
       }
     }
 
@@ -72,5 +64,5 @@ export default function useParticipants(
     }
 
     return participantsMembers
-  }, [circleId, scope, extraMembersIds, members, circles, roles])
+  }, [circleId, scope, extraMembersIds, members, circles])
 }

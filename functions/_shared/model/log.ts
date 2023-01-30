@@ -1,8 +1,12 @@
-import { DecisionFragment, TaskFragment, Task_Status_Enum } from '@gql'
-import { Circle, CircleMember } from './circle'
-import { Member } from './member'
-import { Role } from './role'
-import { WithId } from './types'
+import {
+  CircleFragment,
+  CircleMemberFragment,
+  DecisionFragment,
+  MemberFragment,
+  RoleFragment,
+  TaskFragment,
+  Task_Status_Enum,
+} from '@gql'
 
 export enum LogType {
   CircleCreate = 'CircleCreate',
@@ -91,10 +95,10 @@ export type EntityChange<Entity> =
     }
 
 export interface EntitiesTypes {
-  circles: Circle
-  circlesMembers: CircleMember
-  roles: Role
-  members: Member
+  circles: CircleFragment
+  circlesMembers: CircleMemberFragment
+  roles: RoleFragment
+  members: MemberFragment
   tasks: TaskFragment
   decisions: DecisionFragment
 }
@@ -105,7 +109,7 @@ export type EntitiesChanges = {
 
 export type EntityMethodGet<Entity> = (
   id: string
-) => Promise<WithId<Entity> | undefined>
+) => Promise<Entity | undefined>
 
 export type EntityMethodUpdate<Entity> = (
   id: string,
@@ -120,28 +124,3 @@ export interface EntityMethods<Entity> {
 export type EntitiesMethods = {
   [type in keyof EntitiesTypes]: EntityMethods<EntitiesTypes[type]>
 }
-
-// Log of changes to the organization
-export interface Log {
-  orgId: string
-  // User and member who made the change
-  userId: string
-  memberId: string
-  memberName: string // Keep name for display, in case of deleted member
-  // Meeting during which this log was created (optional)
-  meetingId?: string | null
-  // Date of log
-  createdAt: string
-  // Type of log and data to display
-  display: LogDisplay
-  // Log of changes to entities
-  changes: EntitiesChanges
-  // Id of canceled log, if it's a cancellation
-  cancelLogId?: string | null
-  // Member that did the action that's canceled
-  cancelMemberId?: string | null
-  cancelMemberName?: string | null
-  canceled: boolean
-}
-
-export type LogEntry = WithId<Log>

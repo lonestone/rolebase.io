@@ -1,16 +1,16 @@
+import { LogFragment } from '@gql'
 import {
   EntitiesChanges,
   EntitiesMethods,
   EntitiesTypes,
   EntityChange,
-  LogEntry,
 } from '../../model/log'
 import { cancelEntityChanges } from './cancelEntityChanges'
 
 // Revert changes in entities and get new changes
 
 export async function cancelLogChanges(
-  log: LogEntry,
+  log: LogFragment,
   methods: EntitiesMethods
 ): Promise<EntitiesChanges> {
   const changes: EntitiesChanges = {}

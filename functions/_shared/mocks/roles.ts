@@ -1,4 +1,5 @@
-import { RoleEntry, RoleLink } from '../model/role'
+import { RoleFragment } from '@gql'
+import { RoleLink } from '../model/role'
 
 const roleBase = {
   archived: false,
@@ -16,7 +17,7 @@ const roleBase = {
   colorHue: null,
 }
 
-export const roles: RoleEntry[] = [
+export const roles: RoleFragment[] = [
   {
     id: 'role-super',
     orgId: 'org-1',

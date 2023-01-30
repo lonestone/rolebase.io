@@ -4,6 +4,7 @@ import {
   stopMembersMeeting,
 } from '@api/functions'
 import {
+  CircleWithRoleFragment,
   MeetingFragment,
   MeetingStepFragment,
   useMeetingStepsSubscription,
@@ -16,7 +17,6 @@ import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MeetingStepConfig, VideoConfTypes } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
 import { NotificationCategories } from '@shared/model/notification'
@@ -39,7 +39,7 @@ export interface MeetingState {
   loading: boolean
   error: Error | undefined
   steps: MeetingStepFragment[] | undefined
-  circle: CircleWithRoleEntry | undefined
+  circle: CircleWithRoleFragment | undefined
   participants: ParticipantMember[]
   currentStep: MeetingStepFragment | undefined
   currentStepConfig: MeetingStepConfig | undefined
@@ -355,7 +355,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const videoConfUrl = useMemo(() => {
     if (!meeting?.videoConf || !circle || !currentMember) return
     if (meeting.videoConf.type === VideoConfTypes.Jitsi) {
-      return generateVideoConfUrl(meeting, circle, currentMember)
+      return generateVideoConfUrl(meeting, circle, currentMember.name)
     }
     if (meeting.videoConf.type === VideoConfTypes.Url) {
       return meeting.videoConf.url
