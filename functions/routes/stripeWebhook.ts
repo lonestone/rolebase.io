@@ -1,95 +1,108 @@
-import {
-  Org_Subscription_Status_Enum,
-  Subscription_Plan_Type_Enum,
-  gql,
-} from '@gql'
+import { gql } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
-import { RouteError, route } from '@utils/route'
+import { FunctionContext } from '@utils/getContext'
+import { route, RouteError } from '@utils/route'
+import Stripe from 'stripe'
 
-const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY ?? '', {
+  apiVersion: '2022-11-15',
+})
 
 export default route(async (context): Promise<void> => {
-  const sig = context.req.headers['stripe-signature']
-  const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET
+  // Immediatelly sending status as per Stripe doc
+  context.res.sendStatus(200)
 
-  let event
+  const event = validateEvent(context)
 
-  // Verify that the call came from Stripe
-  try {
-    event = stripe.webhooks.constructEvent(
-      // @ts-ignore - rawBody does exists
-      context.req.rawBody,
-      sig,
-      endpointSecret
-    )
-  } catch (err) {
-    console.log('Err:', err.message)
-    throw new RouteError(400, `Webhook Error: ${err.message}`)
-  }
+  console.log('Received event:', event.type)
 
   // Handle webhook event (https://stripe.com/docs/billing/subscriptions/webhooks)
   switch (event.type) {
+    case 'invoice.paid':
+      // Payment has been successfull
+      break
+    case 'invoice.upcoming':
+      // Customer will be charged in a few days, should we send an email ?
+      break
+    case 'invoice.payment_failed':
+      // Payment failed
+      // Maybe send an email
+      break
     case 'customer.subscription.updated':
-      if (event.data?.object?.status === 'active') {
-        await validateSubscription(event.data.object)
-        console.log('PaymentIntent was successful!')
-      }
+      await updateSubscription(event.data.object as Stripe.Subscription)
       break
     case 'customer.subscription.deleted':
-      await cancelSubscription(event.data.object)
-      console.log('Successfully deleted subscription!')
+      await deleteSubscription(event.data.object as Stripe.Subscription)
+      break
+    case 'payment_method.attached':
+      await updateDefaultPaymentMethod(
+        event.data.object as Stripe.PaymentMethod
+      )
+      // TODO: Save en tant que moyen de paiement par defaut       const paymentMethods = event.data?.object
       break
     default:
-      console.log(`Unhandled event type ${event.type}`)
+      break // console.log(`Unhandled event type ${event.type}`)
   }
 })
 
-const cancelSubscription = async (subscription) => {
-  const subId = subscription.id
-  const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION, {
-    stripeSubscriptionId: subId,
-  })
+const validateEvent = (context: FunctionContext): Stripe.Event => {
+  // Verify that the call came from Stripe
+  try {
+    const sig = context.req.headers['stripe-signature']
+    const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET
 
-  await adminRequest(UPDATE_ORG_SUBSCRIPTION_CANCEL, {
-    id: orgSubscription.org_subscription[0].id,
-    status: Org_Subscription_Status_Enum.Inactive,
-    type: Subscription_Plan_Type_Enum.Free,
+    return stripe.webhooks.constructEvent(
+      // @ts-ignore - rawBody does exists
+      context.req.rawBody,
+      sig!,
+      endpointSecret!
+    )
+  } catch (err) {
+    console.error(`[STRIPE WEBHOOK ERROR]: ${err.message}`)
+    throw new RouteError(400, `Webhook Error: ${err.message}`)
+  }
+}
+
+const updateDefaultPaymentMethod = async (
+  paymentMethod: Stripe.PaymentMethod
+) => {
+  if (!paymentMethod.customer)
+    throw new RouteError(500, 'Internal server error')
+
+  const customer = paymentMethod.customer
+  const customerId = typeof customer === 'string' ? customer : customer.id
+
+  return stripe.customers.update(customerId, {
+    invoice_settings: { default_payment_method: paymentMethod.id },
   })
 }
 
-const validateSubscription = async (subscription) => {
-  const subId = subscription.id
-  const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION, {
-    stripeSubscriptionId: subId,
-  })
-  await adminRequest(UPDATE_ORG_SUBSCRIPTION_VALIDATE, {
-    id: orgSubscription.org_subscription[0].id,
-    status: Org_Subscription_Status_Enum.Active,
-    stripeSubscriptionItemId: subscription.items.data[0].id,
+const deleteSubscription = async (subscription: Stripe.Subscription) => {
+  return adminRequest(DELETE_ORG_SUBSCRIPTION, {
+    subscriptionId: subscription.id,
   })
 }
 
-const GET_ORG_SUBSCRIPTION = gql(`
-  query getOrgSubscriptionBySubscriptionId($stripeSubscriptionId: String!) {
-    org_subscription(where: {stripeSubscriptionId: {_eq: $stripeSubscriptionId}}) {
-      id
-    }
-  }`)
+const updateSubscription = async (subscription: Stripe.Subscription) => {
+  return adminRequest(UPDATE_ORG_SUBSCRIPTION_STATUS, {
+    stripeSubscriptionId: subscription.id,
+    status: subscription.status,
+  })
+}
 
-const UPDATE_ORG_SUBSCRIPTION_VALIDATE = gql(`
-  mutation updateOrgSubscriptionValidate($id: uuid!, $status: org_subscription_status_enum!, $stripeSubscriptionItemId: String!) {
-    update_org_subscription(where: {id: {_eq: $id}}, _set: {status: $status, stripeSubscriptionItemId: $stripeSubscriptionItemId}) {
+const UPDATE_ORG_SUBSCRIPTION_STATUS = gql(`
+  mutation updateOrgSubscriptionStatusByStripeSubId($stripeSubscriptionId: String!, $status: subscription_payment_status_enum!) {
+    update_org_subscription(where: {stripeSubscriptionId: {_eq: $stripeSubscriptionId}}, _set: {status: $status}) {
       returning {
         id
       }
     }
   }`)
 
-const UPDATE_ORG_SUBSCRIPTION_CANCEL = gql(`
-  mutation updateOrgSubscriptionCancelation($id: uuid!, $status: org_subscription_status_enum!, $type: subscription_plan_type_enum) {
-    update_org_subscription(where: {id: {_eq: $id}}, _set: {status: $status, stripeSubscriptionId: null, stripeSubscriptionItemId: null, type: $type}) {
-      returning {
-        id
-      }
+const DELETE_ORG_SUBSCRIPTION = gql(`
+  mutation deleteOrgSubscription($subscriptionId: String!) {
+    delete_org_subscription(where: {stripeSubscriptionId: {_eq: $subscriptionId}}) {
+      affected_rows
     }
-  }`)
+  }
+`)

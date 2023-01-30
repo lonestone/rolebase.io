@@ -26,6 +26,8 @@ export async function updateOrgSubscriptionAfterInvite(
     ? orgSubscriptionResponse.org_subscription[0]
     : null
 
+  const stripeSubscriptionItemId = '' // Get this from stripe
+
   if (isSubscriptionActive(orgSubscription)) {
     // Verify that the limit has not been reached
     if (activeMembers.length >= MAX_USERS_STARTUP_PLAN) {
@@ -35,7 +37,7 @@ export async function updateOrgSubscriptionAfterInvite(
     await stripe.subscriptions.update(orgSubscription?.stripeSubscriptionId, {
       items: [
         {
-          id: orgSubscription?.stripeSubscriptionItemId,
+          id: stripeSubscriptionItemId,
           quantity: activeMembers.length + 1,
         },
       ],
@@ -75,8 +77,5 @@ export const GET_ORG_SUBSCRIPTION = gql(`
       id
       stripeCustomerId
       stripeSubscriptionId
-      type
-      status
-      stripeSubscriptionItemId
     }
   }`)

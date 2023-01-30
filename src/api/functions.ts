@@ -1,4 +1,4 @@
-import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
+import { Member_Role_Enum } from '@gql'
 import {
   MagicbellConfig,
   NotificationCategories,
@@ -6,6 +6,7 @@ import {
 import { AlgoliaConfig } from '@shared/model/search'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
+import { SubscriptionPlanType } from '@shared/model/subscription'
 
 export const createOrg = fn<{ name: string }, string>('createOrg')
 
@@ -59,7 +60,7 @@ export const stopMembersMeeting =
 export const subscribeOrg = fn<{
   memberId: string
   orgId: string
-  planType: Subscription_Plan_Type_Enum
+  planType: SubscriptionPlanType
 }>('subscribeOrg')
 
 export const unsubscribeOrg = fn<{

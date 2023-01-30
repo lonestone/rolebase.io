@@ -1,20 +1,19 @@
-import { Member_Role_Enum, gql } from '@gql'
+import { gql, Member_Role_Enum } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
-import { RouteError, route } from '@utils/route'
+import { route, RouteError } from '@utils/route'
+import { cancelStripeSubscription } from '@utils/stripe'
 import * as yup from 'yup'
-
-const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 
 const yupSchema = yup.object().shape({
   memberId: yup.string().required(),
   orgId: yup.string().required(),
 })
 
-export default route(async (context): Promise<void> => {
+export default route(async (context): Promise<string> => {
   guardAuth(context)
   const { memberId, orgId } = guardBodyParams(context, yupSchema)
 
@@ -36,7 +35,9 @@ export default route(async (context): Promise<void> => {
   }
 
   // Deletes the subscription on stripe
-  return stripe.subscriptions.del(stripeSubscriptionId)
+  await cancelStripeSubscription(stripeSubscriptionId)
+
+  return orgSubscription.org_subscription[0].id
 })
 
 const GET_ORG = gql(`
