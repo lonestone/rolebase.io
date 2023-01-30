@@ -1,0 +1,1 @@
+CREATE TABLE "public"."subscription_payment_status" ("value" text NOT NULL, PRIMARY KEY ("value") , UNIQUE ("value"));COMMENT ON TABLE "public"."subscription_payment_status" IS E'Status des paiements des abonnements';
