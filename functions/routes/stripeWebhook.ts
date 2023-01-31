@@ -1,4 +1,4 @@
-import { gql } from '@gql'
+import { gql, Subscription_Payment_Status_Enum } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
 import { FunctionContext } from '@utils/getContext'
 import { route, RouteError } from '@utils/route'
@@ -33,7 +33,7 @@ export default route(async (context): Promise<void> => {
       await updateSubscription(event.data.object as Stripe.Subscription)
       break
     case 'customer.subscription.deleted':
-      await deleteSubscription(event.data.object as Stripe.Subscription)
+      await deleteSubscription((event.data.object as Stripe.Subscription).id)
       break
     case 'payment_method.attached':
       await updateDefaultPaymentMethod(
@@ -41,7 +41,8 @@ export default route(async (context): Promise<void> => {
       )
       break
     default:
-      break // console.log(`Unhandled event type ${event.type}`)
+      console.log(`Unhandled event type ${event.type}`)
+      break
   }
 })
 
@@ -77,13 +78,15 @@ const updateDefaultPaymentMethod = async (
   })
 }
 
-const deleteSubscription = async (subscription: Stripe.Subscription) => {
-  return adminRequest(DELETE_ORG_SUBSCRIPTION, {
-    subscriptionId: subscription.id,
+const deleteSubscription = async (subscriptionId: string) => {
+  return adminRequest(UPDATE_ORG_SUBSCRIPTION_STATUS, {
+    stripeSubscriptionId: subscriptionId,
+    status: Subscription_Payment_Status_Enum.Canceled,
   })
 }
 
 const updateSubscription = async (subscription: Stripe.Subscription) => {
+  // Not deleting it from the database as it would prevent us from retrieving past invoices
   return adminRequest(UPDATE_ORG_SUBSCRIPTION_STATUS, {
     stripeSubscriptionId: subscription.id,
     status: subscription.status,
@@ -98,11 +101,3 @@ const UPDATE_ORG_SUBSCRIPTION_STATUS = gql(`
       }
     }
   }`)
-
-const DELETE_ORG_SUBSCRIPTION = gql(`
-  mutation deleteOrgSubscription($subscriptionId: String!) {
-    delete_org_subscription(where: {stripeSubscriptionId: {_eq: $subscriptionId}}) {
-      affected_rows
-    }
-  }
-`)

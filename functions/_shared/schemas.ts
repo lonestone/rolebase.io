@@ -1,5 +1,4 @@
-import { Member_Role_Enum } from '@gql'
-import { SubscriptionPlanType } from '@shared/model/subscription'
+import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import * as yup from 'yup'
 
 export const nameSchema = yup.string().min(1)
@@ -19,6 +18,6 @@ export const slugSchema = yup
 export const roleSchema = yup.string().oneOf(Object.values(Member_Role_Enum))
 
 export const subscriptionPlanTypeSchema = yup
-  .mixed<SubscriptionPlanType>()
-  .oneOf(Object.values(SubscriptionPlanType))
+  .mixed<Subscription_Plan_Type_Enum>()
+  .oneOf(Object.values(Subscription_Plan_Type_Enum))
   .required()

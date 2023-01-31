@@ -6554,18 +6554,27 @@ export type Mutation_Root = {
   delete_role_by_pk?: Maybe<Role>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "subscription_payment_status" */
   delete_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** delete single row from the table: "subscription_payment_status" */
   delete_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "subscription_plan_type" */
   delete_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** delete single row from the table: "subscription_plan_type" */
   delete_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "task" */
   delete_task?: Maybe<Task_Mutation_Response>;
   /** delete single row from the table: "task" */
@@ -6718,18 +6727,27 @@ export type Mutation_Root = {
   insert_role_one?: Maybe<Role>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "subscription_payment_status" */
   insert_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** insert a single row into the table: "subscription_payment_status" */
   insert_subscription_payment_status_one?: Maybe<Subscription_Payment_Status>;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "subscription_plan_type" */
   insert_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** insert a single row into the table: "subscription_plan_type" */
   insert_subscription_plan_type_one?: Maybe<Subscription_Plan_Type>;
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "task" */
   insert_task?: Maybe<Task_Mutation_Response>;
   /** insert a single row into the table: "task" */
@@ -6936,22 +6954,31 @@ export type Mutation_Root = {
   update_role_many?: Maybe<Array<Maybe<Role_Mutation_Response>>>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "subscription_payment_status" */
   update_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** update single row of the table: "subscription_payment_status" */
   update_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
   /** update multiples rows of table: "subscription_payment_status" */
   update_subscription_payment_status_many?: Maybe<Array<Maybe<Subscription_Payment_Status_Mutation_Response>>>;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "subscription_plan_type" */
   update_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** update single row of the table: "subscription_plan_type" */
   update_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** update multiples rows of table: "subscription_plan_type" */
   update_subscription_plan_type_many?: Maybe<Array<Maybe<Subscription_Plan_Type_Mutation_Response>>>;
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "task" */
   update_task?: Maybe<Task_Mutation_Response>;
   /** update single row of the table: "task" */
@@ -7350,6 +7377,9 @@ export type Mutation_RootDelete_Role_By_PkArgs = {
 /** mutation root */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootDelete_Subscription_Payment_StatusArgs = {
   where: Subscription_Payment_Status_Bool_Exp;
 };
@@ -7362,8 +7392,11 @@ export type Mutation_RootDelete_Subscription_Payment_Status_By_PkArgs = {
 
 
 /** mutation root */
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootDelete_Subscription_Plan_TypeArgs = {
   where: Subscription_Plan_Type_Bool_Exp;
 };
@@ -7376,8 +7409,11 @@ export type Mutation_RootDelete_Subscription_Plan_Type_By_PkArgs = {
 
 
 /** mutation root */
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootDelete_TaskArgs = {
   where: Task_Bool_Exp;
 };
@@ -7874,6 +7910,9 @@ export type Mutation_RootInsert_Role_OneArgs = {
 /** mutation root */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootInsert_Subscription_Payment_StatusArgs = {
   objects: Array<Subscription_Payment_Status_Insert_Input>;
   on_conflict?: InputMaybe<Subscription_Payment_Status_On_Conflict>;
@@ -7888,8 +7927,11 @@ export type Mutation_RootInsert_Subscription_Payment_Status_OneArgs = {
 
 
 /** mutation root */
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootInsert_Subscription_Plan_TypeArgs = {
   objects: Array<Subscription_Plan_Type_Insert_Input>;
   on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
@@ -7904,8 +7946,11 @@ export type Mutation_RootInsert_Subscription_Plan_Type_OneArgs = {
 
 
 /** mutation root */
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootInsert_TaskArgs = {
   objects: Array<Task_Insert_Input>;
   on_conflict?: InputMaybe<Task_On_Conflict>;
@@ -8616,6 +8661,9 @@ export type Mutation_RootUpdate_Role_ManyArgs = {
 /** mutation root */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootUpdate_Subscription_Payment_StatusArgs = {
   _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
   where: Subscription_Payment_Status_Bool_Exp;
@@ -8636,8 +8684,11 @@ export type Mutation_RootUpdate_Subscription_Payment_Status_ManyArgs = {
 
 
 /** mutation root */
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootUpdate_Subscription_Plan_TypeArgs = {
   _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
   where: Subscription_Plan_Type_Bool_Exp;
@@ -8658,8 +8709,11 @@ export type Mutation_RootUpdate_Subscription_Plan_Type_ManyArgs = {
 
 
 /** mutation root */
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootUpdate_TaskArgs = {
   _set?: InputMaybe<Task_Set_Input>;
   where: Task_Bool_Exp;
@@ -9756,10 +9810,14 @@ export type Org_Subscription = {
   orgId: Scalars['uuid'];
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
   status: Subscription_Payment_Status_Enum;
   stripeCustomerId: Scalars['String'];
   stripeSubscriptionId?: Maybe<Scalars['String']>;
   type: Subscription_Plan_Type_Enum;
+<<<<<<< HEAD
 =======
   status: Org_Subscription_Status_Enum;
   stripeCustomerId: Scalars['String'];
@@ -9771,6 +9829,8 @@ export type Org_Subscription = {
   stripeCustomerId: Scalars['String'];
   stripeSubscriptionId?: Maybe<Scalars['String']>;
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
 };
 
 /** aggregated selection of "org_subscription" */
@@ -9805,6 +9865,7 @@ export type Org_Subscription_Bool_Exp = {
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum_Comparison_Exp>;
   stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
   stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
@@ -9819,6 +9880,12 @@ export type Org_Subscription_Bool_Exp = {
   stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
   stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
 >>>>>>> d422731 (WIP - refonte)
+=======
+  status?: InputMaybe<Subscription_Payment_Status_Enum_Comparison_Exp>;
+  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
+  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum_Comparison_Exp>;
+>>>>>>> 6646776 (Cleaned code)
 };
 
 /** unique or primary key constraints on table "org_subscription" */
@@ -9850,6 +9917,7 @@ export type Org_Subscription_Insert_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
@@ -9864,6 +9932,12 @@ export type Org_Subscription_Insert_Input = {
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
 >>>>>>> d422731 (WIP - refonte)
+=======
+  status?: InputMaybe<Subscription_Payment_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+>>>>>>> 6646776 (Cleaned code)
 };
 
 /** aggregate max on columns */
@@ -9929,8 +10003,10 @@ export type Org_Subscription_Order_By = {
   id?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   stripeCustomerId?: InputMaybe<Order_By>;
   stripeSubscriptionId?: InputMaybe<Order_By>;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -9939,6 +10015,9 @@ export type Org_Subscription_Order_By = {
   type?: InputMaybe<Order_By>;
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+  type?: InputMaybe<Order_By>;
+>>>>>>> 6646776 (Cleaned code)
 };
 
 /** primary key columns input for table: org_subscription */
@@ -9953,8 +10032,11 @@ export enum Org_Subscription_Select_Column {
   /** column name */
   OrgId = 'orgId',
   /** column name */
+  Status = 'status',
+  /** column name */
   StripeCustomerId = 'stripeCustomerId',
   /** column name */
+<<<<<<< HEAD
 <<<<<<< HEAD
   StripeSubscriptionId = 'stripeSubscriptionId',
   /** column name */
@@ -9967,12 +10049,18 @@ export enum Org_Subscription_Select_Column {
 =======
   StripeSubscriptionId = 'stripeSubscriptionId'
 >>>>>>> d422731 (WIP - refonte)
+=======
+  StripeSubscriptionId = 'stripeSubscriptionId',
+  /** column name */
+  Type = 'type'
+>>>>>>> 6646776 (Cleaned code)
 }
 
 /** input type for updating data in table "org_subscription" */
 export type Org_Subscription_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
@@ -9985,8 +10073,12 @@ export type Org_Subscription_Set_Input = {
   status?: InputMaybe<Org_Subscription_Status_Enum>;
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+  status?: InputMaybe<Subscription_Payment_Status_Enum>;
+>>>>>>> 6646776 (Cleaned code)
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
 };
 
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
@@ -10004,6 +10096,7 @@ export type Org_Subscription_Stream_Cursor_Value_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
@@ -10018,6 +10111,12 @@ export type Org_Subscription_Stream_Cursor_Value_Input = {
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
 >>>>>>> d422731 (WIP - refonte)
+=======
+  status?: InputMaybe<Subscription_Payment_Status_Enum>;
+  stripeCustomerId?: InputMaybe<Scalars['String']>;
+  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Subscription_Plan_Type_Enum>;
+>>>>>>> 6646776 (Cleaned code)
 };
 
 /** update columns of table "org_subscription" */
@@ -10027,8 +10126,11 @@ export enum Org_Subscription_Update_Column {
   /** column name */
   OrgId = 'orgId',
   /** column name */
+  Status = 'status',
+  /** column name */
   StripeCustomerId = 'stripeCustomerId',
   /** column name */
+<<<<<<< HEAD
 <<<<<<< HEAD
   StripeSubscriptionId = 'stripeSubscriptionId',
   /** column name */
@@ -10041,6 +10143,11 @@ export enum Org_Subscription_Update_Column {
 =======
   StripeSubscriptionId = 'stripeSubscriptionId'
 >>>>>>> d422731 (WIP - refonte)
+=======
+  StripeSubscriptionId = 'stripeSubscriptionId',
+  /** column name */
+  Type = 'type'
+>>>>>>> 6646776 (Cleaned code)
 }
 
 export type Org_Subscription_Updates = {
@@ -10275,22 +10382,31 @@ export type Query_Root = {
   role_by_pk?: Maybe<Role>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
   subscription_payment_status_aggregate: Subscription_Payment_Status_Aggregate;
   /** fetch data from the table: "subscription_payment_status" using primary key columns */
   subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_plan_type" */
   subscription_plan_type: Array<Subscription_Plan_Type>;
   /** fetch aggregated fields from the table: "subscription_plan_type" */
   subscription_plan_type_aggregate: Subscription_Plan_Type_Aggregate;
   /** fetch data from the table: "subscription_plan_type" using primary key columns */
   subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -10995,6 +11111,9 @@ export type Query_RootRole_By_PkArgs = {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Query_RootSubscription_Payment_StatusArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11018,8 +11137,11 @@ export type Query_RootSubscription_Payment_Status_By_PkArgs = {
 };
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Query_RootSubscription_Plan_TypeArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11043,8 +11165,11 @@ export type Query_RootSubscription_Plan_Type_By_PkArgs = {
 };
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Query_RootTaskArgs = {
   distinct_on?: InputMaybe<Array<Task_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11832,6 +11957,9 @@ export type Smallint_Comparison_Exp = {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
 /** columns and relationships of "subscription_payment_status" */
 export type Subscription_Payment_Status = {
   __typename?: 'subscription_payment_status';
@@ -11973,9 +12101,12 @@ export type Subscription_Payment_Status_Updates = {
 };
 
 /** columns and relationships of "subscription_plan_type" */
+<<<<<<< HEAD
 =======
 /** Type d'abonnement dispobnible */
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Subscription_Plan_Type = {
   __typename?: 'subscription_plan_type';
   value: Scalars['String'];
@@ -12019,12 +12150,17 @@ export enum Subscription_Plan_Type_Constraint {
 
 export enum Subscription_Plan_Type_Enum {
 <<<<<<< HEAD
+<<<<<<< HEAD
   Business = 'Business',
 =======
   Enterprise = 'Enterprise',
   Free = 'Free',
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
   Startup = 'Startup'
+=======
+  Enterprise = 'ENTERPRISE',
+  Startup = 'STARTUP'
+>>>>>>> 6646776 (Cleaned code)
 }
 
 /** Boolean expression to compare columns of type "subscription_plan_type_enum". All fields are combined with logical 'AND'. */
@@ -12115,8 +12251,11 @@ export type Subscription_Plan_Type_Updates = {
   where: Subscription_Plan_Type_Bool_Exp;
 };
 
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "auth.providers" using primary key columns */
@@ -12349,6 +12488,9 @@ export type Subscription_Root = {
   role_stream: Array<Role>;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
@@ -12357,8 +12499,11 @@ export type Subscription_Root = {
   subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
   /** fetch data from the table in a streaming manner: "subscription_payment_status" */
   subscription_payment_status_stream: Array<Subscription_Payment_Status>;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_plan_type" */
   subscription_plan_type: Array<Subscription_Plan_Type>;
   /** fetch aggregated fields from the table: "subscription_plan_type" */
@@ -12367,8 +12512,11 @@ export type Subscription_Root = {
   subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** fetch data from the table in a streaming manner: "subscription_plan_type" */
   subscription_plan_type_stream: Array<Subscription_Plan_Type>;
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -13287,6 +13435,9 @@ export type Subscription_RootRole_StreamArgs = {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Subscription_RootSubscription_Payment_StatusArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -13317,8 +13468,11 @@ export type Subscription_RootSubscription_Payment_Status_StreamArgs = {
 };
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Subscription_RootSubscription_Plan_TypeArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -13349,8 +13503,11 @@ export type Subscription_RootSubscription_Plan_Type_StreamArgs = {
 };
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> d422731 (WIP - refonte)
+=======
+>>>>>>> 6646776 (Cleaned code)
 export type Subscription_RootTaskArgs = {
   distinct_on?: InputMaybe<Array<Task_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
