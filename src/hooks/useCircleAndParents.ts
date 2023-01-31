@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 export default function useCircleAndParents(
   id: string
 ): CircleFullFragment[] | undefined {
-  const circles = useStoreState((state) => state.org.circles)
+  const circles = useStoreState((state) => state.circles.entries)
 
   return useMemo(() => {
     if (!circles) return undefined

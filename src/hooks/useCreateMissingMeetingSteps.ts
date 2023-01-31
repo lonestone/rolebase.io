@@ -4,7 +4,7 @@ import {
   Meeting_Step_Type_Enum,
   useCreateMeetingStepMutation,
   useGetCircleThreadsIdsLazyQuery,
-  useGetMeetingStepsIdsLazyQuery,
+  useGetMeetingStepsIdsLazyQuery
 } from '@gql'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { TasksViewTypes } from '@shared/model/task'
@@ -18,7 +18,7 @@ export default function useCreateMissingMeetingSteps() {
   const [getMeetingStepsIds] = useGetMeetingStepsIdsLazyQuery()
   const [createMeetingStep] = useCreateMeetingStepMutation()
   const [getCircleThreadsIds] = useGetCircleThreadsIdsLazyQuery()
-  const roles = useStoreState((state) => state.org.roles)
+  const roles = useStoreState((state) => state.roles.entries)
 
   const getDefaultMeetingStep = useCallback(
     async (

@@ -4,7 +4,7 @@ import {
   AlertIcon,
   Box,
   Flex,
-  Heading,
+  Heading
 } from '@chakra-ui/react'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import { MemberFragment } from '@gql'
@@ -28,7 +28,7 @@ interface Props {
 export default function MemberRoles({ member, selectedCircleId }: Props) {
   const { t } = useTranslation()
   const org = useCurrentOrg()
-  const circles = useStoreState((state) => state.org.circles)
+  const circles = useStoreState((state) => state.circles.entries)
   const circleMemberContext = useContext(CircleMemberContext)
   const isMember = useOrgMember()
 

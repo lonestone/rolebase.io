@@ -24,7 +24,10 @@ import {
   EventClickArg
 } from '@fullcalendar/common'
 import { EventInput } from '@fullcalendar/react'
-import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
+import {
+  useMeetingsByDatesSubscription,
+  useUpdateMeetingMutation
+} from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useMemberPreferences from '@hooks/useMemberPreferences'
@@ -90,10 +93,6 @@ export default function MeetingsPage() {
   })
 
   // Filter meetings
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const meetings = useFilterEntities(filter, data?.org_by_pk?.meetings)
-=======
   const meetings = useFilterEntities(filter, data?.meeting)
 
   // Subscribe to recurring meetings
@@ -103,10 +102,6 @@ export default function MeetingsPage() {
       where: { orgId: { _eq: orgId } },
     },
   })
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-  const meetings = useFilterEntities(filter, data?.org_by_pk?.meetings)
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
 
   // Filter recurring meetings
   const meetingsRecurring = useFilterEntities(

@@ -5,7 +5,7 @@ import {
   Button,
   ButtonGroup,
   useColorMode,
-  useMediaQuery,
+  useMediaQuery
 } from '@chakra-ui/react'
 import { GraphZoomProvider } from '@contexts/GraphZoomContext'
 import { SidebarContext } from '@contexts/SidebarContext'
@@ -28,7 +28,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
+  useState
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCircle, FiDisc } from 'react-icons/fi'
@@ -58,6 +58,10 @@ export default function CirclesPage() {
   const org = useCurrentOrg()
   const sidebarContext = useContext(SidebarContext)
   const [ready, setReady] = useState(false)
+
+  // Data
+  const circles = useStoreState((state) => state.circles.entries)
+  const events = useCirclesEvents()
 
   // Content size
   const boxRef = useRef<HTMLDivElement>(null)
@@ -135,11 +139,19 @@ export default function CirclesPage() {
         right={0}
         overflow="hidden"
       >
+<<<<<<< HEAD
         {org && viewCircles && boxSize && (
+=======
+        {org && circles && boxSize && (
+>>>>>>> 4965459 (rebase)
           <CirclesGraph
             key={view + colorMode}
             id={`graph-${org.id}`}
+<<<<<<< HEAD
             circles={viewCircles}
+=======
+            circles={circles}
+>>>>>>> 4965459 (rebase)
             events={events}
             width={boxSize.width}
             height={boxSize.height}

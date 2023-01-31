@@ -18,9 +18,7 @@ fragment CircleFull on circle {
   role {
     ...RoleSummary
   }
-  members(
-    where: { archived: { _eq: false }, member: { archived: { _eq: false } } }
-  ) {
+  members(where: { archived: { _eq: false } }) {
     ...CircleMember
     member {
       ...MemberSummary

@@ -13,7 +13,7 @@ interface Props {
 export default function MembersToCopyList({ onClick }: Props) {
   const orgId = useOrgId()
   const orgs = useStoreState((state) => state.orgs.entries)
-  const members = useStoreState((state) => state.org.members)
+  const members = useStoreState((state) => state.members.entries)
   const [membersToCopy, setMembersToCopy] = useState<MemberFragment[]>([])
   const [getOrgsMembers] = useGetOrgsMembersLazyQuery()
 

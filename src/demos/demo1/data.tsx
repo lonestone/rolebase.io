@@ -91,6 +91,8 @@ const membersMap: Record<string, MemberFragment> = {
   },
 }
 
+export const members = Object.values(membersMap)
+
 /* Roles */
 
 const roleBase = {
@@ -158,6 +160,8 @@ const rolesMaps = {
     singleMember: true,
   },
 }
+
+export const roles = Object.values(rolesMaps)
 
 /* Circles */
 

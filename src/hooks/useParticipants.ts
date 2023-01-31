@@ -11,8 +11,8 @@ export default function useParticipants(
   scope?: Member_Scope_Enum,
   extraMembersIds?: string[]
 ): ParticipantMember[] {
-  const members = useStoreState((state) => state.org.members)
-  const circles = useStoreState((state) => state.org.circles)
+  const members = useStoreState((state) => state.members.entries)
+  const circles = useStoreState((state) => state.circles.entries)
 
   return useMemo(() => {
     if (!members) return []

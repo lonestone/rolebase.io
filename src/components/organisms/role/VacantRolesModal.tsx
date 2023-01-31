@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalOverlay,
   UnorderedList,
-  UseModalProps,
+  UseModalProps
 } from '@chakra-ui/react'
 import { CircleFullFragment } from '@gql'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 
 export default function VacantRolesModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const circles = useStoreState((state) => state.org.circles)
+  const circles = useStoreState((state) => state.circles.entries)
 
   // Filter roles
   const vacantCircles: CircleFullFragment[] = useMemo(() => {

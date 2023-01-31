@@ -14,7 +14,7 @@ export default function MemberMenuItem({
   circlesIds,
   ...menuItemProps
 }: Props) {
-  const circles = useStoreState((state) => state.org.circles)
+  const circles = useStoreState((state) => state.circles.entries)
 
   const circlesNames = useMemo(
     () =>
