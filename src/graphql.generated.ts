@@ -3548,10 +3548,15 @@ export type Log = {
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   canceled: Scalars['Boolean'];
+<<<<<<< HEAD
   /** Log of changes to entities, useful to cancel */
   changes: Scalars['log_changes'];
   createdAt: Scalars['timestamptz'];
   /** Type of log and data to display */
+=======
+  changes: Scalars['log_changes'];
+  createdAt: Scalars['timestamptz'];
+>>>>>>> 4965459 (rebase)
   display: Scalars['log_display'];
   id: Scalars['uuid'];
   /** Meeting during which this log was created (optional) */
@@ -16379,8 +16384,15 @@ export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?
 
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
+<<<<<<< HEAD
 export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+=======
+<<<<<<< HEAD
+export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+>>>>>>> 5197b78 (rebase)
 
+=======
+>>>>>>> 4965459 (rebase)
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
 export type RoleSummaryFragment = { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null };
@@ -16405,10 +16417,14 @@ export type CirclesSubscriptionVariables = Exact<{
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean }> }> };
 =======
 export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> }> };
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean }> }> };
+>>>>>>> 4965459 (rebase)
 
 export type CreateCircleMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16518,20 +16534,27 @@ export type ArchiveDecisionMutationVariables = Exact<{
 export type ArchiveDecisionMutation = { __typename?: 'mutation_root', update_decision_by_pk?: { __typename?: 'decision', id: string } | null };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 export type LogFieldsFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
 
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+>>>>>>> 4965459 (rebase)
 export type LastLogsSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 =======
 export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+>>>>>>> 4965459 (rebase)
 
 export type MeetingLogsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -16539,10 +16562,14 @@ export type MeetingLogsSubscriptionVariables = Exact<{
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 =======
 export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+>>>>>>> 4965459 (rebase)
 
 export type CreateLogMutationVariables = Exact<{
   values: Log_Insert_Input;
@@ -16760,10 +16787,14 @@ export type MembersSubscriptionVariables = Exact<{
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
 =======
 export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+>>>>>>> 4965459 (rebase)
 
 export type CreateMemberMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16821,6 +16852,13 @@ export type OrgsSubscription = { __typename?: 'subscription_root', org: Array<{ 
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
 >>>>>>> 9913774 (Rename graphql subscriptions)
 
+export type OrgSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
+
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
   name: Scalars['String'];
@@ -16860,9 +16898,12 @@ export type GetOrgSubscriptionQueryVariables = Exact<{
 
 export type GetOrgSubscriptionQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string }> };
 
+<<<<<<< HEAD
 export type RoleFieldsFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 4965459 (rebase)
 export type GetRoleQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -17169,6 +17210,43 @@ export const CircleWithRoleFragmentDoc = gql`
 }
     ${CircleFragmentDoc}
 ${RoleSummaryFragmentDoc}`;
+<<<<<<< HEAD
+=======
+export const CircleMemberFragmentDoc = gql`
+    fragment CircleMember on circle_member {
+  id
+  circleId
+  memberId
+  avgMinPerWeek
+  createdAt
+  archived
+}
+    `;
+export const MemberSummaryFragmentDoc = gql`
+    fragment MemberSummary on member {
+  id
+  name
+  picture
+}
+    `;
+export const CircleFullFragmentDoc = gql`
+    fragment CircleFull on circle {
+  ...Circle
+  role {
+    ...RoleSummary
+  }
+  members(where: {archived: {_eq: false}}) {
+    ...CircleMember
+    member {
+      ...MemberSummary
+    }
+  }
+}
+    ${CircleFragmentDoc}
+${RoleSummaryFragmentDoc}
+${CircleMemberFragmentDoc}
+${MemberSummaryFragmentDoc}`;
+>>>>>>> 4965459 (rebase)
 export const DecisionFragmentDoc = gql`
     fragment Decision on decision {
   id
@@ -17229,6 +17307,24 @@ export const MeetingStepFragmentDoc = gql`
   data
 }
     `;
+export const MemberFragmentDoc = gql`
+    fragment Member on member {
+  id
+  orgId
+  archived
+  name
+  description
+  pictureFileId
+  picture
+  userId
+  inviteEmail
+  inviteDate
+  workedMinPerWeek
+  role
+  meetingId
+  preferences
+}
+    `;
 export const OrgFragmentDoc = gql`
     fragment Org on org {
   id
@@ -17239,6 +17335,7 @@ export const OrgFragmentDoc = gql`
   slug
 }
     `;
+<<<<<<< HEAD
 export const CircleMemberFragmentDoc = gql`
     fragment CircleMember on circle_member {
   id
@@ -17274,6 +17371,8 @@ export const CircleFullFragmentDoc = gql`
 ${RoleSummaryFragmentDoc}
 ${CircleMemberFragmentDoc}
 ${MemberSummaryFragmentDoc}`;
+=======
+>>>>>>> 4965459 (rebase)
 export const RoleFragmentDoc = gql`
     fragment Role on role {
   id
@@ -17294,6 +17393,7 @@ export const RoleFragmentDoc = gql`
   colorHue
 }
     `;
+<<<<<<< HEAD
 export const MemberFragmentDoc = gql`
     fragment Member on member {
   id
@@ -17329,6 +17429,8 @@ export const OrgFullFragmentDoc = gql`
 ${CircleFullFragmentDoc}
 ${RoleFragmentDoc}
 ${MemberFragmentDoc}`;
+=======
+>>>>>>> 4965459 (rebase)
 export const TaskFragmentDoc = gql`
     fragment Task on task {
   id
@@ -17401,6 +17503,7 @@ export const MeetingTemplateFragmentDoc = gql`
 }
     `;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 export const MemberFieldsFragmentDoc = gql`
     fragment MemberFields on member {
@@ -17420,11 +17523,14 @@ export const MemberFieldsFragmentDoc = gql`
   preferences
 }
     `;
+=======
+>>>>>>> 4965459 (rebase)
 export const OrgSubscriptionFieldsFragmentDoc = gql`
     fragment OrgSubscriptionFields on org_subscription {
   id
 }
     `;
+<<<<<<< HEAD
 export const RoleFieldsFragmentDoc = gql`
     fragment RoleFields on role {
   id
@@ -17446,6 +17552,8 @@ export const RoleFieldsFragmentDoc = gql`
 }
     `;
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 4965459 (rebase)
 export const TaskViewFragmentDoc = gql`
     fragment TaskView on task_view {
   id
@@ -19259,6 +19367,7 @@ export function useOrgsSubscription(baseOptions: Apollo.SubscriptionHookOptions<
 export type OrgsSubscriptionHookResult = ReturnType<typeof useOrgsSubscription>;
 export type OrgsSubscriptionResult = Apollo.SubscriptionResult<OrgsSubscription>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const OrgDocument = gql`
     subscription org($id: uuid!) {
   org_by_pk(id: $id) {
@@ -19266,6 +19375,27 @@ export const OrgDocument = gql`
   }
 }
     ${OrgFullFragmentDoc}`;
+=======
+export const OrgDocument = gql`
+    subscription org($id: uuid!) {
+  org_by_pk(id: $id) {
+    ...Org
+    circles(where: {archived: {_eq: false}}) {
+      ...CircleFull
+    }
+    roles(where: {archived: {_eq: false}}, order_by: {name: asc}) {
+      ...Role
+    }
+    members(where: {archived: {_eq: false}}, order_by: {name: asc}) {
+      ...Member
+    }
+  }
+}
+    ${OrgFragmentDoc}
+${CircleFullFragmentDoc}
+${RoleFragmentDoc}
+${MemberFragmentDoc}`;
+>>>>>>> 4965459 (rebase)
 
 /**
  * __useOrgSubscription__
@@ -19289,8 +19419,11 @@ export function useOrgSubscription(baseOptions: Apollo.SubscriptionHookOptions<O
       }
 export type OrgSubscriptionHookResult = ReturnType<typeof useOrgSubscription>;
 export type OrgSubscriptionResult = Apollo.SubscriptionResult<OrgSubscription>;
+<<<<<<< HEAD
 =======
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+>>>>>>> 4965459 (rebase)
 export const UpdateOrgDocument = gql`
     mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
   update_org_by_pk(
