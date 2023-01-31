@@ -1,11 +1,11 @@
 import { Avatar, MenuItem, MenuItemProps, Stack, Text } from '@chakra-ui/react'
-import { MemberEntry } from '@shared/model/member'
+import { MemberFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import { textEllipsis } from '@utils/textEllipsis'
 import React, { useMemo } from 'react'
 
 interface Props extends MenuItemProps {
-  member: MemberEntry
+  member: MemberFragment
   circlesIds?: string[]
 }
 
@@ -15,17 +15,16 @@ export default function MemberMenuItem({
   ...menuItemProps
 }: Props) {
   const circles = useStoreState((state) => state.circles.entries)
-  const roles = useStoreState((state) => state.roles.entries)
 
   const circlesNames = useMemo(
     () =>
-      circles && roles && circlesIds
+      circles && circlesIds
         ? (circles
             .filter((c) => circlesIds.includes(c.id))
-            .map((c) => roles.find((r) => r.id === c.roleId)?.name)
+            .map((c) => c.role.name)
             .filter(Boolean) as string[])
         : [],
-    [circles, roles, circlesIds]
+    [circles, circlesIds]
   )
 
   return (

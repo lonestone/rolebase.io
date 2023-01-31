@@ -1,10 +1,10 @@
 import { FormControl, FormLabel, useDisclosure } from '@chakra-ui/react'
 import { GraphZoomContext } from '@contexts/GraphZoomContext'
+import { MemberFragment } from '@gql'
 import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCircleAndParents from '@hooks/useCircleAndParents'
 import useOrgMember from '@hooks/useOrgMember'
 import CircleMemberDeleteModal from '@organisms/circle/CircleMemberDeleteModal'
-import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -29,7 +29,7 @@ export default function CircleMemberFormControl({ circleId }: Props) {
       (
         circle?.members
           .map((cm) => members?.find((m) => m.id === cm.memberId))
-          .filter(Boolean) as MemberEntry[] | undefined
+          .filter(Boolean) as MemberFragment[] | undefined
       )
         // Sort by name
         ?.sort((a, b) => a.name.localeCompare(b.name))

@@ -14,7 +14,6 @@ import CircleContent from '@organisms/circle/CircleContent'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import MemberContent from '@organisms/member/MemberContent'
 import Onboarding from '@organisms/onboarding/Onboarding'
-import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import { useStoreState } from '@store/hooks'
 import React, {
   useCallback,
@@ -50,12 +49,6 @@ export default function CirclesPage() {
 
   // Data
   const circles = useStoreState((state) => state.circles.entries)
-  const roles = useStoreState((state) => state.roles.entries)
-  const circlesWithRoles = useMemo(
-    () => circles && roles && enrichCirclesWithRoles(circles, roles),
-    [circles, roles]
-  )
-  const members = useStoreState((state) => state.members.entries)
   const events = useCirclesEvents()
 
   // Content size
@@ -122,12 +115,11 @@ export default function CirclesPage() {
         right={0}
         overflow="hidden"
       >
-        {org && circlesWithRoles && members && boxSize && (
+        {org && circles && boxSize && (
           <CirclesGraph
             key={colorMode}
             id={`graph-${org.id}`}
-            circles={circlesWithRoles}
-            members={members}
+            circles={circles}
             events={events}
             width={boxSize.width}
             height={boxSize.height}
@@ -139,7 +131,7 @@ export default function CirclesPage() {
       </Box>
 
       {panel === Panels.Circle && circleId && (
-        <ModalPanel onClose={handleClosePanel}>
+        <ModalPanel isOpen onClose={handleClosePanel}>
           <CircleContent
             id={circleId}
             changeTitle
@@ -150,7 +142,7 @@ export default function CirclesPage() {
       )}
 
       {panel === Panels.Member && memberId && (
-        <ModalPanel onClose={handleClosePanel}>
+        <ModalPanel isOpen onClose={handleClosePanel}>
           <MemberContent
             id={memberId}
             selectedCircleId={circleId || undefined}

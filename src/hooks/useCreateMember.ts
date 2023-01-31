@@ -2,7 +2,6 @@ import { useCreateMemberMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import { pick } from '@utils/pick'
 import { useCallback } from 'react'
 
 export default function useCreateMember() {
@@ -31,7 +30,7 @@ export default function useCreateMember() {
             {
               type: EntityChangeType.Create,
               id: member.id,
-              data: pick(member, 'orgId', 'name', 'description', 'archived'),
+              data: member,
             },
           ],
         },

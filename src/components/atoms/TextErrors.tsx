@@ -1,9 +1,10 @@
+import { ApolloError } from '@apollo/client'
 import { ErrorPayload } from '@nhost/hasura-auth-js'
 import React from 'react'
 import TextError from './TextError'
 
 interface Props {
-  errors: Array<Error | ErrorPayload | null | undefined>
+  errors: Array<Error | ApolloError | ErrorPayload | null | undefined>
 }
 
 export default function TextErrors({ errors }: Props) {

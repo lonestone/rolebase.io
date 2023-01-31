@@ -1,7 +1,6 @@
 import { Box, chakra, ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import useWindowSize from '@hooks/useWindowSize'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
-import { enrichCirclesWithRoles } from '@shared/helpers/enrichCirclesWithRoles'
 import React, { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { I18nextProvider } from 'react-i18next'
@@ -9,7 +8,7 @@ import { Transition, TransitionGroup } from 'react-transition-group'
 import { Graph, GraphEvents } from 'src/circles-viz/createGraph'
 import settings from 'src/circles-viz/settings'
 import i18n from '../../i18n'
-import { circles, members, roles } from './data'
+import { circles } from './data'
 
 const rootElement = document.getElementById('demo1')
 if (!rootElement) {
@@ -92,8 +91,6 @@ function getStepIndex(y: number): number {
   }
   return 0
 }
-
-const circlesWithRoles = enrichCirclesWithRoles(circles, roles)
 
 function Demo1() {
   // Dimensions
@@ -203,8 +200,7 @@ function Demo1() {
         <CirclesGraph
           ref={graphRef}
           id="graph"
-          circles={circlesWithRoles}
-          members={members}
+          circles={circles}
           events={events}
           selectedCircleId={step?.circleId ?? undefined}
           panzoomDisabled

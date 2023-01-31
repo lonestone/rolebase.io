@@ -1,7 +1,7 @@
-import { CircleEntry } from '../model/circle'
+import { CircleFragment } from '@gql'
 
 // Find a circle and its parent
-export function getCircleAndParents<Entry extends CircleEntry>(
+export function getCircleAndParents<Entry extends CircleFragment>(
   circles: Entry[],
   circleId: string
 ): Entry[] {

@@ -1,11 +1,11 @@
 import MemberLink from '@atoms/MemberLink'
-import { LogEntry } from '@shared/model/log'
+import { LogFragment } from '@gql'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCornerDownRight } from 'react-icons/fi'
 
 interface Props {
-  log: LogEntry
+  log: LogFragment
 }
 
 export default function LogCancelText({ log }: Props) {

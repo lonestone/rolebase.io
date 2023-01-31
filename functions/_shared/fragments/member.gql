@@ -1,0 +1,22 @@
+fragment Member on member {
+  id
+  orgId
+  archived
+  name
+  description
+  pictureFileId
+  picture
+  userId
+  inviteEmail
+  inviteDate
+  workedMinPerWeek
+  role
+  meetingId
+  preferences
+}
+
+fragment MemberSummary on member {
+  id
+  name
+  picture
+}

@@ -1,0 +1,1 @@
+comment on column "public"."role"."link" is E'Link to another circle (parent or other) to represent parent circle\'s purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link.';

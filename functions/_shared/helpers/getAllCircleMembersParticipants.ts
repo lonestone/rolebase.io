@@ -1,11 +1,11 @@
-import { CircleWithRoleEntry } from '../model/circle'
+import { CircleFullFragment } from '@gql'
 import { Participant } from '../model/member'
 import { RoleLink } from '../model/role'
 import { getCircleParticipants } from './getCircleParticipants'
 
 export function getAllCircleMembersParticipants(
   circleId: string,
-  circles: CircleWithRoleEntry[]
+  circles: CircleFullFragment[]
 ): Participant[] {
   // Circle participants
   const participants = getCircleParticipants(circleId, circles)

@@ -1,6 +1,7 @@
 import { useCreateCircleMemberMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
+import { omit } from '@utils/omit'
 import { useCallback } from 'react'
 
 export default function useAddCircleMember() {
@@ -28,10 +29,7 @@ export default function useAddCircleMember() {
           {
             type: EntityChangeType.Create,
             id: circleMember.id,
-            data: {
-              memberId,
-              archived: false,
-            },
+            data: omit(circleMember, 'circle', 'member'),
           },
         ],
       },

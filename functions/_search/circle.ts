@@ -1,6 +1,4 @@
-import { DocumentType, gql } from '@gql'
-import { CircleEntry } from '@shared/model/circle'
-import { RoleEntry } from '@shared/model/role'
+import { CircleFragment, DocumentType, gql, RoleFragment } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { HasuraEvent } from '@utils/nhost'
@@ -49,7 +47,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   boost: 2,
 })
 
-export class IndexCircle extends IndexEntity<CircleEntry> {
+export class IndexCircle extends IndexEntity<CircleFragment> {
   static table = 'public.circle'
 
   async getById(id: string) {
@@ -82,10 +80,10 @@ export class IndexCircle extends IndexEntity<CircleEntry> {
 }
 
 // When a role is updated, we need to update the circles that use it
-export class IndexRole extends IndexEntity<RoleEntry> {
+export class IndexRole extends IndexEntity<RoleFragment> {
   static table = 'public.role'
 
-  async applyEvent(event: HasuraEvent<RoleEntry>) {
+  async applyEvent(event: HasuraEvent<RoleFragment>) {
     const { data } = event.event
     const id = data.new?.id ?? data.old?.id
 

@@ -1,17 +1,17 @@
-import { CircleWithRoleEntry } from '../model/circle'
+import { CircleFullFragment } from '@gql'
 import { RoleLink } from '../model/role'
 
 export function getParticipantCircles(
   memberId: string,
-  circles: CircleWithRoleEntry[]
-): CircleWithRoleEntry[] {
+  circles: CircleFullFragment[]
+): CircleFullFragment[] {
   // Circles where memberId is a direct member
   const directMemberCircles = circles.filter((circle) =>
     circle.members.some((member) => member.memberId === memberId)
   )
 
   // Circles where the member is a representant
-  const representedCircles = directMemberCircles.reduce<CircleWithRoleEntry[]>(
+  const representedCircles = directMemberCircles.reduce<CircleFullFragment[]>(
     (acc, { id, parentId, role: { link } }) => {
       // Find Leader
       const leader = circles.find((circle) => {

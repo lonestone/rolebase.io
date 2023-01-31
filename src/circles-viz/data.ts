@@ -1,17 +1,12 @@
-import {
-  CircleEntry,
-  CircleMemberEntry,
-  CircleWithRoleEntry,
-} from '@shared/model/circle'
-import { MemberEntry } from '@shared/model/member'
+import { CircleFullFragment } from '@gql'
 import { textEllipsis } from '@utils/textEllipsis'
 import settings from './settings'
 import { Data, NodeType } from './types'
 
 // Move lost circles to root
-export function fixLostCircles<Entry extends CircleEntry>(
-  circles: Entry[]
-): Entry[] {
+export function fixLostCircles(
+  circles: CircleFullFragment[]
+): CircleFullFragment[] {
   return circles.map((circle) => {
     if (!circles.find((c) => c.id === circle.parentId)) {
       return { ...circle, parentId: null }
@@ -21,8 +16,7 @@ export function fixLostCircles<Entry extends CircleEntry>(
 }
 
 export function circlesToD3Data(
-  circles: CircleWithRoleEntry[],
-  members: MemberEntry[],
+  circles: CircleFullFragment[],
   parentId: string | null = null,
   defaultColorHue?: number
 ): Data[] {
@@ -41,16 +35,13 @@ export function circlesToD3Data(
       // Add sub-circles to children
       const children: Data[] = circlesToD3Data(
         circles,
-        members,
         circle.id,
         data.colorHue
       )
 
       // Add members in a circle to group them
       if (circle.members.length !== 0 || children.length === 0) {
-        children.push(
-          memberstoD3Data(members, circle.id, circle.members, data.colorHue)
-        )
+        children.push(memberstoD3Data(circle, data.colorHue))
       }
 
       // Set children if there is at least one
@@ -61,37 +52,26 @@ export function circlesToD3Data(
     })
 }
 
-function memberstoD3Data(
-  members: MemberEntry[],
-  circleId: string,
-  circleMembers: CircleMemberEntry[],
-  colorHue?: number
-): Data {
+function memberstoD3Data(circle: CircleFullFragment, colorHue?: number): Data {
   const node: Data = {
-    id: `${circleId}-members`,
-    parentCircleId: circleId,
+    id: `${circle.id}-members`,
+    parentCircleId: circle.id,
     name: '',
     type: NodeType.MembersCircle,
   }
-  if (circleMembers.length === 0) {
+  if (circle.members.length === 0) {
     node.value = settings.memberValue
   } else {
-    node.children = circleMembers
-      .map((entry) => {
-        const member = members.find((member) => member.id === entry.memberId)
-        if (!member) return
-        return {
-          id: entry.id,
-          memberId: entry.memberId,
-          parentCircleId: circleId,
-          name: textEllipsis(member.name, 20),
-          picture: member?.picture,
-          value: settings.memberValue,
-          type: NodeType.Member,
-          colorHue,
-        }
-      })
-      .filter(Boolean) as Data[]
+    node.children = circle.members.map((entry) => ({
+      id: entry.id,
+      memberId: entry.memberId,
+      parentCircleId: circle.id,
+      name: textEllipsis(entry.member.name, 20),
+      picture: entry.member.picture,
+      value: settings.memberValue,
+      type: NodeType.Member,
+      colorHue,
+    }))
   }
   return node
 }

@@ -1,13 +1,13 @@
 import CircleButton from '@atoms/CircleButton'
 import MemberAvatar from '@atoms/MemberAvatar'
 import { Box, Circle, Flex, Tooltip } from '@chakra-ui/react'
-import { CircleWithRoleEntry } from '@shared/model/circle'
+import { CircleWithRoleFragment } from '@gql'
 import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
-  circle: CircleWithRoleEntry
+  circle: CircleWithRoleFragment
   participants: ParticipantMember[]
 }
 

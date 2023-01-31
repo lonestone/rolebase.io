@@ -1,8 +1,8 @@
+import { RoleFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 
-export default function useRole(id: string) {
+export default function useRole(id?: string): RoleFragment | undefined {
   const getById = useStoreState((state) => state.roles.getById)
-  const role = useMemo(() => getById(id), [getById, id])
-  return role
+  return useMemo(() => (id ? getById(id) : undefined), [getById, id])
 }

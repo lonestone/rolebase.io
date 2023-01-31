@@ -9,9 +9,10 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { CircleWithRoleFragment } from '@gql'
 import useCircle from '@hooks/useCircle'
+import useRole from '@hooks/useRole'
 import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import { ParticipantMember } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
 import React from 'react'
@@ -20,13 +21,13 @@ import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import CircleMemberFormControl from './CircleMemberFormControl'
 
 interface Props {
-  circle: CircleWithRoleEntry
+  circle: CircleWithRoleFragment
   participants: ParticipantMember[]
 }
 
 export default function CircleRoleFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
-  const role = circle.role
+  const role = useRole(circle.roleId)
 
   // Parent circles and linked circle
   const parentCircle = useCircle(circle.parentId || undefined)
@@ -37,6 +38,8 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
 
   // Role info toggle
   const { isOpen: isRoleInfoOpen, onToggle: onRoleInfoToggle } = useDisclosure()
+
+  if (!role) return null
 
   return (
     <VStack spacing={5} align="stretch">

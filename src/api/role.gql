@@ -1,25 +1,6 @@
-fragment RoleFields on role {
-  id
-  orgId
-  archived
-  base
-  name
-  purpose
-  domain
-  accountabilities
-  checklist
-  indicators
-  notes
-  singleMember
-  autoCreate
-  link
-  defaultMinPerWeek
-  colorHue
-}
-
 query getRole($id: uuid!) {
   role_by_pk(id: $id) {
-    ...RoleFields
+    ...Role
   }
 }
 
@@ -28,19 +9,19 @@ subscription roles($orgId: uuid!, $archived: Boolean!) {
     where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }
     order_by: { name: asc }
   ) {
-    ...RoleFields
+    ...Role
   }
 }
 
 mutation createRole($values: role_insert_input!) {
   insert_role_one(object: $values) {
-    ...RoleFields
+    ...Role
   }
 }
 
 mutation updateRole($id: uuid!, $values: role_set_input!) {
   update_role_by_pk(pk_columns: { id: $id }, _set: $values) {
-    ...RoleFields
+    ...Role
   }
 }
 

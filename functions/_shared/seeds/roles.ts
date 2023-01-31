@@ -1,4 +1,5 @@
-import { Role, RoleLink } from '../model/role'
+import { RoleFragment } from '@gql'
+import { RoleLink } from '../model/role'
 
 const roleBase = {
   archived: false,
@@ -16,7 +17,7 @@ const roleBase = {
   colorHue: null,
 }
 
-export const getSeedRoles = (orgId: string): Role[] =>
+export const getSeedRoles = (orgId: string): Omit<RoleFragment, 'id'>[] =>
   [
     { name: 'Leader', autoCreate: true, link: RoleLink.Parent, colorHue: 0 },
     { name: 'Représentant', link: RoleLink.Parent, colorHue: 18 },

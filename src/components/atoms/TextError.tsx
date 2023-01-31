@@ -1,10 +1,11 @@
+import { ApolloError } from '@apollo/client'
 import { Text } from '@chakra-ui/react'
 import { ErrorPayload } from '@nhost/hasura-auth-js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
-  error: Error | ErrorPayload
+  error: Error | ApolloError | ErrorPayload
 }
 
 export default function TextError({ error }: Props) {

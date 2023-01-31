@@ -1,12 +1,12 @@
+import { MemberFragment } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { MemberEntry } from '@shared/model/member'
 import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
 export function useMemberSearchItems(
-  members?: MemberEntry[], // If not provided, use store
+  members?: MemberFragment[], // If not provided, use store
   excludeIds?: string[]
 ): SearchItem[] {
   const currentMember = useCurrentMember()

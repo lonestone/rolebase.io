@@ -1,9 +1,9 @@
+import { MemberFragment } from '@gql'
 import { useUserId } from '@nhost/react'
-import { MemberEntry } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 
-export default function useCurrentMember(): MemberEntry | undefined {
+export default function useCurrentMember(): MemberFragment | undefined {
   const userId = useUserId()
   const members = useStoreState((state) => state.members.entries)
 

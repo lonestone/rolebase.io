@@ -36,10 +36,15 @@
     "@lexical/markdown": "^0.7.5",
     "@lexical/react": "^0.7.5",
     "@magicbell/magicbell-react": "^10.3.4",
+<<<<<<< HEAD
     "@nhost/react": "^0.17.0",
     "@nhost/react-apollo": "^4.11.0",
     "@stripe/react-stripe-js": "^1.16.4",
     "@stripe/stripe-js": "^1.46.0",
+=======
+    "@nhost/react": "^1.13.2",
+    "@nhost/react-apollo": "^4.13.2",
+>>>>>>> 7b591a6 (Optimize circles, roles and members model)
     "algoliasearch": "^4.14.2",
     "crypto-hash": "^2.0.1",
     "d3": "^7.3.0",
@@ -66,7 +71,7 @@
     "react-hook-form": "^7.39.6",
     "react-i18next": "^11.16.7",
     "react-icons": "^4.3.1",
-    "react-router-dom": "^6.6.1",
+    "react-router-dom": "^6.8.0",
     "react-transition-group": "^4.4.5",
     "rrule": "^2.7.1",
     "slugify": "^1.6.5",

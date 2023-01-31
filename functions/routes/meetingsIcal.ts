@@ -1,8 +1,7 @@
-import { gql } from '@gql'
+import { CircleFullFragment, gql } from '@gql'
 import i18n from '@i18n'
 import filterEntities from '@shared/helpers/filterEntities'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import { EntityFilters } from '@shared/model/participants'
 import { adminRequest } from '@utils/adminRequest'
 import { generateMeetingToken } from '@utils/generateMeetingToken'
@@ -40,12 +39,10 @@ export default route(async (context) => {
     throw new RouteError(404, 'Org not found')
   }
 
-  const circleswithRoles = org.circles as CircleWithRoleEntry[]
-
   // Get member's circles
-  let memberCircles: CircleWithRoleEntry[] | undefined
+  let memberCircles: CircleFullFragment[] | undefined
   if (memberId) {
-    memberCircles = getParticipantCircles(memberId, circleswithRoles)
+    memberCircles = getParticipantCircles(memberId, org.circles)
   }
 
   // Filter meetings
@@ -158,39 +155,18 @@ const GET_MEETINGS = gql(`
       name
       slug
       circles(where: { archived: { _eq: false } }) {
-        id
-        roleId
-        parentId
-        members(where: { archived: { _eq: false } }) {
-          id
-          memberId
-        }
-        role {
-          name
-          singleMember
-          link
-        }
+        ...CircleFull
       }
       meetings(
         where: { archived: { _eq: false } }
         order_by: { startDate: asc }
       ) {
-        id
-        orgId
-        circleId
+        ...Meeting
         circle {
           role {
             name
           }
         }
-        participantsScope
-        participantsMembersIds
-        attendees
-        startDate
-        endDate
-        title
-        recurringId
-        recurringDate
       }
       meetings_recurring {
         id

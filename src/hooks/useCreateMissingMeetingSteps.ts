@@ -1,28 +1,30 @@
 import {
+  CircleWithRoleFragment,
   MeetingStepFragment,
   Meeting_Step_Type_Enum,
   useCreateMeetingStepMutation,
   useGetCircleThreadsIdsLazyQuery,
   useGetMeetingStepsIdsLazyQuery,
 } from '@gql'
-import { CircleWithRoleEntry } from '@shared/model/circle'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { TasksViewTypes } from '@shared/model/task'
+import { useStoreState } from '@store/hooks'
 import { useCallback } from 'react'
 
 // When a meeting is created, it has a stepsConfig property
-// but it doesn't have any content in steps collection.
+// but it doesn't have step in meeting_step table.
 // So we need to create a step for each stepConfig after meeting edition
 export default function useCreateMissingMeetingSteps() {
   const [getMeetingStepsIds] = useGetMeetingStepsIdsLazyQuery()
   const [createMeetingStep] = useCreateMeetingStepMutation()
   const [getCircleThreadsIds] = useGetCircleThreadsIdsLazyQuery()
+  const roles = useStoreState((state) => state.roles.entries)
 
   const getDefaultMeetingStep = useCallback(
     async (
       meetingId: string,
       stepConfig: MeetingStepConfig,
-      circle: CircleWithRoleEntry
+      circle: CircleWithRoleFragment
     ): Promise<Omit<MeetingStepFragment, 'id'>> => {
       const type = stepConfig.type
       const step = {
@@ -31,6 +33,7 @@ export default function useCreateMissingMeetingSteps() {
         notes: '',
         data: {},
       }
+      const role = roles?.find((r) => r.id === circle.roleId)
 
       switch (type) {
         case Meeting_Step_Type_Enum.Tour:
@@ -66,25 +69,25 @@ export default function useCreateMissingMeetingSteps() {
           return {
             ...step,
             type,
-            notes: circle.role.checklist,
+            notes: role?.checklist || '',
           }
 
         case Meeting_Step_Type_Enum.Indicators:
           return {
             ...step,
             type,
-            notes: circle.role.indicators,
+            notes: role?.indicators || '',
           }
       }
     },
-    []
+    [roles]
   )
 
   return useCallback(
     async (
       meetingId: string,
       stepsConfig: MeetingStepConfig[],
-      circle: CircleWithRoleEntry,
+      circle: CircleWithRoleFragment,
       existingStepsConfigIds?: string[]
     ) => {
       if (!existingStepsConfigIds) {
@@ -112,6 +115,6 @@ export default function useCreateMissingMeetingSteps() {
         )
       )
     },
-    []
+    [getDefaultMeetingStep]
   )
 }

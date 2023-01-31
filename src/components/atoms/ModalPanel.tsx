@@ -5,11 +5,7 @@ import GlassBox from './GlassBox'
 
 export const modalPanelWidth = 450
 
-export default function ModalPanel({
-  isOpen = true,
-  children,
-  ...props
-}: ModalProps) {
+export default function ModalPanel({ isOpen, children, ...props }: ModalProps) {
   const sidebarContext = useContext(SidebarContext)
 
   return (

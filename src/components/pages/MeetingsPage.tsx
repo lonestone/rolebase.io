@@ -38,7 +38,6 @@ import MeetingOpenCurrent from '@organisms/meeting/MeetingOpenCurrent'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
 import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
-import { enrichCircleWithRole } from '@shared/helpers/enrichCirclesWithRoles'
 import { EntityFilters } from '@shared/model/participants'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -60,7 +59,6 @@ export default function MeetingsPage() {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const getCircleById = useStoreState((state) => state.circles.getById)
-  const roles = useStoreState((state) => state.roles.entries)
 
   // Colors
   const { colorMode } = useColorMode()
@@ -114,10 +112,9 @@ export default function MeetingsPage() {
 
           // Add role name to title
           const circle = getCircleById(meeting.circleId)
-          const circleWithRole =
-            circle && roles && enrichCircleWithRole(circle, roles)
 
-          if (!circleWithRole) {
+          if (!circle) {
+            console.error('Circle not found', meeting.circleId)
             return {
               ...baseEvent,
               title: meeting.title,
@@ -125,7 +122,7 @@ export default function MeetingsPage() {
             }
           }
 
-          const title = `${circleWithRole.role.name} - ${meeting.title}`
+          const title = `${circle.role.name} - ${meeting.title}`
 
           // Can move event or change duration?
           const isStarted = meeting.currentStepId !== null
@@ -137,7 +134,7 @@ export default function MeetingsPage() {
             title,
             backgroundColor: circleColor(
               colorLightness,
-              circleWithRole.role.colorHue ?? undefined
+              circle.role.colorHue ?? undefined
             ),
             editable: canEditConfig,
           }
@@ -175,7 +172,7 @@ export default function MeetingsPage() {
             }
           })
         ),
-    [meetings, meetingsRecurring, roles, colorMode]
+    [meetings, meetingsRecurring, colorMode]
   )
 
   // Show/hide weekends

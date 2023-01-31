@@ -1,4 +1,4 @@
-import { CircleWithRoleEntry } from '@shared/model/circle'
+import { CircleWithRoleFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
 import OnboardingCircleMembersModal from './OnboardingCircleMembersModal'
@@ -19,7 +19,7 @@ export default function Onboarding() {
   const [step, setStep] = useState(Steps.None)
 
   // Stack of newly created circles to populate with members
-  const [nextCircles, setNextCircles] = useState<CircleWithRoleEntry[]>([])
+  const [nextCircles, setNextCircles] = useState<CircleWithRoleFragment[]>([])
 
   // Start onboarding if there is only one circle
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Onboarding() {
     }
   }, [circles, step])
 
-  const handleCirclesSubmit = async (circles: CircleWithRoleEntry[]) => {
+  const handleCirclesSubmit = async (circles: CircleWithRoleFragment[]) => {
     if (circles.length === 0) return
     setNextCircles(circles)
     setStep(Steps.CircleMembers)

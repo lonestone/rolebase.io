@@ -1,10 +1,11 @@
-import { EntitiesMethods, EntitiesTypes, LogEntry } from '../../model/log'
+import { LogFragment } from '@gql'
+import { EntitiesMethods, EntitiesTypes } from '../../model/log'
 import { detectRecentEntityChanges } from './detectRecentEntityChanges'
 
 // Determine if an entity has changed since changes in an entities log
 
 export async function detectRecentEntitiesChanges(
-  log: LogEntry,
+  log: LogFragment,
   methods: EntitiesMethods
 ): Promise<boolean> {
   for (const key in log.changes) {

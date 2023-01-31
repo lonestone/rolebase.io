@@ -9,8 +9,8 @@ import {
   UnorderedList,
   UseModalProps,
 } from '@chakra-ui/react'
+import { CircleFullFragment } from '@gql'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
-import { CircleEntry } from '@shared/model/circle'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,11 +18,10 @@ import { useTranslation } from 'react-i18next'
 export default function VacantRolesModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
   const circles = useStoreState((state) => state.circles.entries)
-  const roles = useStoreState((state) => state.roles.entries)
 
   // Filter roles
-  const vacantCircles: CircleEntry[] = useMemo(() => {
-    if (!circles || !roles) return []
+  const vacantCircles: CircleFullFragment[] = useMemo(() => {
+    if (!circles) return []
     return (
       circles
         // Keep empty circles
@@ -32,7 +31,7 @@ export default function VacantRolesModal(modalProps: UseModalProps) {
             !circles.some((c2) => c2.parentId === c.id)
         )
     )
-  }, [circles, roles])
+  }, [circles])
 
   return (
     <Modal {...modalProps}>

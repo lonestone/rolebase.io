@@ -7,6 +7,7 @@ import {
   Collapse,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
+import useRole from '@hooks/useRole'
 import { MeetingStepChecklistFragment } from '@shared/model/meeting_step'
 import React, { RefObject, useCallback, useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -23,7 +24,8 @@ export default function MeetingStepContentChecklist({
 }: Props) {
   const { circle, editable } = useContext(MeetingContext)!
   const { t } = useTranslation()
-  const newValue = circle?.role.checklist
+  const role = useRole(circle?.roleId)
+  const newValue = role?.checklist
 
   const handleSet = useCallback(() => {
     if (!newValue) return

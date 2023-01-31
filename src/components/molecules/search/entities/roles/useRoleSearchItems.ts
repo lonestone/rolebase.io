@@ -1,11 +1,11 @@
-import { RoleEntry } from '@shared/model/role'
+import { RoleFragment } from '@gql'
 import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
 export function useRoleSearchItems(
-  roles?: RoleEntry[],
+  roles?: RoleFragment[],
   base?: boolean,
   excludeIds?: string[],
   singleMember?: boolean

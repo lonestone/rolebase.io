@@ -17,7 +17,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import { Role } from '@shared/model/role'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -26,6 +25,10 @@ import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   onCreate?: (id: string) => void
+}
+
+interface Values {
+  name: string
 }
 
 const resolver = yupResolver(
@@ -47,7 +50,7 @@ export default function BaseRoleCreateModal({
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<Role>({
+  } = useForm<Values>({
     resolver,
   })
 

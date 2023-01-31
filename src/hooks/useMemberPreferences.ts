@@ -7,7 +7,8 @@ import useCurrentMember from './useCurrentMember'
 export default function useMemberPreferences() {
   const currentMember = useCurrentMember()
   const [updateMember] = useUpdateMemberMutation()
-  const preferences = currentMember?.preferences
+  const preferences: MemberPreferences | undefined =
+    currentMember?.preferences || undefined
   const [cachedPreferences, setCachedPreferences] = useState(preferences)
 
   useEffect(() => {

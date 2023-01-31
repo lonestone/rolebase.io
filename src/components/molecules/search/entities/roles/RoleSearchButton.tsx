@@ -1,10 +1,10 @@
-import { RoleEntry } from '@shared/model/role'
+import { RoleFragment } from '@gql'
 import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useRoleSearchItems } from './useRoleSearchItems'
 
 interface Props extends Omit<SearchButtonProps, 'items'> {
-  roles?: RoleEntry[] // If not provided, use store
+  roles?: RoleFragment[] // If not provided, use store
   base?: boolean // If provided, filter by base
   singleMember?: boolean // If provided, filter by singleMember
   excludeIds?: string[]
