@@ -4,7 +4,11 @@ import {
   NotificationCategories,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
-import { SubscriptionPlanType } from '@shared/model/subscription'
+import {
+  Invoice,
+  SubscriptionPlanType,
+  UpcomingInvoice,
+} from '@shared/model/subscription'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 
@@ -73,8 +77,16 @@ export const getSubscriptionInvoices = fn<
     memberId: string
     orgId: string
   },
-  any
+  Invoice[]
 >('getSubscriptionInvoices')
+
+export const getSubscriptionUpcomingInvoice = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  UpcomingInvoice
+>('getSubscriptionUpcomingInvoice')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,

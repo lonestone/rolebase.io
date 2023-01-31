@@ -3725,13 +3725,18 @@ export type Log_Max_Fields = {
 
 /** order by max() on columns of table "log" */
 export type Log_Max_Order_By = {
+<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
+=======
+  cancelLogId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3739,6 +3744,12 @@ export type Log_Max_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
+=======
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  memberName?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -3764,13 +3775,18 @@ export type Log_Min_Fields = {
 
 /** order by min() on columns of table "log" */
 export type Log_Min_Order_By = {
+<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
+=======
+  cancelLogId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3778,6 +3794,12 @@ export type Log_Min_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
+=======
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  memberName?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -9108,6 +9130,9 @@ export type Org = {
   slug?: Maybe<Scalars['String']>;
   subscriptionId?: Maybe<Scalars['uuid']>;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 754ec85 (rebase)
   /** An array relationship */
   task_views: Array<Task_View>;
   /** An aggregate relationship */
@@ -9120,8 +9145,11 @@ export type Org = {
   threads: Array<Thread>;
   /** An aggregate relationship */
   threads_aggregate: Thread_Aggregate;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 754ec85 (rebase)
 };
 
 
@@ -9432,14 +9460,20 @@ export type Org_Bool_Exp = {
   slug?: InputMaybe<String_Comparison_Exp>;
   subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 754ec85 (rebase)
   task_views?: InputMaybe<Task_View_Bool_Exp>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
   tasks?: InputMaybe<Task_Bool_Exp>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Bool_Exp>;
   threads?: InputMaybe<Thread_Bool_Exp>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Bool_Exp>;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 754ec85 (rebase)
 };
 
 /** unique or primary key constraints on table "org" */
@@ -9669,11 +9703,17 @@ export type Org_Insert_Input = {
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
 <<<<<<< HEAD
+<<<<<<< HEAD
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
   tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
   threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+  task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
+  tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
+  threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
+>>>>>>> 754ec85 (rebase)
 };
 
 /** aggregate max on columns */
@@ -9741,11 +9781,17 @@ export type Org_Order_By = {
   slug?: InputMaybe<Order_By>;
   subscriptionId?: InputMaybe<Order_By>;
 <<<<<<< HEAD
+<<<<<<< HEAD
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
+  tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
+  threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
+>>>>>>> 754ec85 (rebase)
 };
 
 /** primary key columns input for table: org */
