@@ -5,12 +5,6 @@ fragment TaskView on task_view {
   tasksIds
 }
 
-subscription taskView($orgId: uuid!, $key: String!) {
-  task_view(where: { orgId: { _eq: $orgId }, key: { _eq: $key } }) {
-    ...TaskView
-  }
-}
-
 mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
   insert_task_view_one(
     object: { orgId: $orgId, key: $key, tasksIds: $tasksIds }

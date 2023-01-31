@@ -159,10 +159,10 @@ export default function TasksModule({
         )}
       </Flex>
 
-      {loading && <Loading active size="sm" />}
+      {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      {!loading && view === TasksViewTypes.Kanban && (
+      {view === TasksViewTypes.Kanban && (
         <OverflowContainer {...overflowContainer}>
           <TasksKanban
             tasks={tasks}
