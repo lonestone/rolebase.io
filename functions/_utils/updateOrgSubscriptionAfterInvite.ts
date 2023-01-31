@@ -1,4 +1,5 @@
-import { Org_Subscription_Status_Enum, gql } from '@gql'
+import { gql, Subscription_Plan_Type_Enum } from '@gql'
+import { validateStripeSubscription } from '@utils/stripe'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
@@ -26,22 +27,12 @@ export async function updateOrgSubscriptionAfterInvite(
     ? orgSubscriptionResponse.org_subscription[0]
     : null
 
-  const stripeSubscriptionItemId = '' // Get this from stripe
-
-  if (isSubscriptionActive(orgSubscription)) {
-    // Verify that the limit has not been reached
-    if (activeMembers.length >= MAX_USERS_STARTUP_PLAN) {
-      throw new RouteError(400, 'Reached user limit for startup plan')
-    }
-    // Update the subscription on stripe
-    await stripe.subscriptions.update(orgSubscription?.stripeSubscriptionId, {
-      items: [
-        {
-          id: stripeSubscriptionItemId,
-          quantity: activeMembers.length + 1,
-        },
-      ],
-    })
+  if (orgSubscription?.stripeSubscriptionId) {
+    await addMemberToStripeSubscription(
+      orgSubscription.type,
+      orgSubscription.stripeSubscriptionId,
+      activeMembers?.length
+    )
   } else {
     // Verify that the limit has not been reached
     if (activeMembers.length >= MAX_USERS_FREE_PLAN) {
@@ -52,12 +43,29 @@ export async function updateOrgSubscriptionAfterInvite(
   return orgSubscription
 }
 
-const isSubscriptionActive = (orgSubscription) => {
-  return (
-    orgSubscription &&
-    orgSubscription.status !== Org_Subscription_Status_Enum.Inactive &&
-    orgSubscription.stripeSubscriptionId
-  )
+const addMemberToStripeSubscription = async (
+  planType: Subscription_Plan_Type_Enum,
+  stripeSubscriptionId: string,
+  nbActiveMember: number
+) => {
+  const stripeSubscription = await validateStripeSubscription(stripeSubscriptionId)
+
+  if (
+    planType === Subscription_Plan_Type_Enum.Startup &&
+    nbActiveMember >= MAX_USERS_STARTUP_PLAN
+  ) {
+    throw new RouteError(400, 'Reached user limit for startup plan')
+  }
+
+  // Update the subscription on stripe
+  await stripe.subscriptions.update(stripeSubscriptionId, {
+    items: [
+      {
+        id: stripeSubscription.items.data[0].id,
+        quantity: nbActiveMember + 1,
+      },
+    ],
+  })
 }
 
 export const GET_ORG_MEMBERS = gql(`
@@ -77,5 +85,6 @@ export const GET_ORG_SUBSCRIPTION = gql(`
       id
       stripeCustomerId
       stripeSubscriptionId
+      type
     }
   }`)
