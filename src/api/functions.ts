@@ -4,9 +4,9 @@ import {
   NotificationCategories,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
+import { SubscriptionPlanType } from '@shared/model/subscription'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
-import { SubscriptionPlanType } from '@shared/model/subscription'
 
 export const createOrg = fn<{ name: string }, string>('createOrg')
 
@@ -67,6 +67,14 @@ export const unsubscribeOrg = fn<{
   memberId: string
   orgId: string
 }>('unsubscribeOrg')
+
+export const getSubscriptionInvoices = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  any
+>('getSubscriptionInvoices')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,

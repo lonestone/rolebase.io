@@ -48,6 +48,22 @@ export const getStripeSubscriptionFromSubscriptionId = async (
   }
 }
 
+export const validateStripeSubscription = async (
+  stripeSubscriptionId: string
+) => {
+  const stripeSubscription = await getStripeSubscriptionFromSubscriptionId(
+    stripeSubscriptionId
+  )
+
+  if (!stripeSubscription) throw new RouteError(400, 'No subscription')
+
+  // Subscription has been canceled, we consider it as locked
+  if (stripeSubscription.cancel_at)
+    throw new RouteError(400, 'Subscription has been canceled')
+
+  return stripeSubscription
+}
+
 export const cancelStripeSubscription = async (
   stripeSubscriptionId: string
 ) => {
@@ -58,6 +74,21 @@ export const cancelStripeSubscription = async (
   } catch (e) {
     console.error(`[STRIPE ERROR]: ${e.message}`)
     throw new RouteError(500, 'Could not cancel subscription')
+  }
+}
+
+export const getStripeSubscriptionInvoices = async (
+  stripeCustomerId: string,
+  stripeSubscriptionId: string
+): Promise<Stripe.ApiList<Stripe.Invoice>> => {
+  try {
+    return stripe.invoices.list({
+      customer: stripeCustomerId,
+      subscription: stripeSubscriptionId,
+    })
+  } catch (e) {
+    console.error(`[STRIPE ERROR]: ${e.message}`)
+    throw new RouteError(500, 'Could not create subscription')
   }
 }
 

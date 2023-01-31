@@ -1,10 +1,10 @@
-import { Org_Subscription_Status_Enum } from '@gql'
+import { validateStripeSubscription } from '@utils/stripe'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
 import {
   GET_ORG_MEMBERS,
-  GET_ORG_SUBSCRIPTION,
+  GET_ORG_SUBSCRIPTION
 } from './updateOrgSubscriptionAfterInvite'
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
@@ -26,25 +26,32 @@ export async function updateOrgSubscriptionAfterArchive(
     ? orgSubscriptionResponse.org_subscription[0]
     : null
 
-  if (isSubscriptionActive(orgSubscription)) {
+  if (orgSubscription) {
     // Update the subscription on stripe
-    await stripe.subscriptions.update(orgSubscription?.stripeSubscriptionId, {
-      items: [
-        {
-          id: orgSubscription?.stripeSubscriptionItemId,
-          quantity: activeMembers.length - 1,
-        },
-      ],
-    })
+    await removeMemberFromStripeSubscription(
+      orgSubscription.stripeSubscriptionId,
+      activeMembers.length
+    )
   }
 
   return orgSubscription
 }
 
-const isSubscriptionActive = (orgSubscription) => {
-  return (
-    orgSubscription &&
-    orgSubscription.status !== Org_Subscription_Status_Enum.Inactive &&
-    orgSubscription.stripeSubscriptionId
+const removeMemberFromStripeSubscription = async (
+  stripeSubscriptionId: string,
+  nbActiveMember: number
+) => {
+  const stripeSubscription = await validateStripeSubscription(
+    stripeSubscriptionId
   )
+
+  // Update the subscription on stripe
+  await stripe.subscriptions.update(stripeSubscriptionId, {
+    items: [
+      {
+        id: stripeSubscription.items.data[0].id,
+        quantity: nbActiveMember - 1,
+      },
+    ],
+  })
 }
