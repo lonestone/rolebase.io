@@ -1,8 +1,10 @@
-import { gql, Member_Role_Enum, Subscription_Payment_Status_Enum } from '@gql'
 import {
-  SubscriptionIntentResponse,
-  SubscriptionPlanType
-} from '@shared/model/subscription'
+  gql,
+  Member_Role_Enum,
+  Subscription_Payment_Status_Enum,
+  Subscription_Plan_Type_Enum,
+} from '@gql'
+import { SubscriptionIntentResponse } from '@shared/model/subscription'
 import { subscriptionPlanTypeSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
 import { getMemberById } from '@utils/getMemberById'
@@ -26,6 +28,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
   // Get member
   const member = await getMemberById(memberId)
   const org = (await adminRequest(GET_ORG_DETAILS, { orgId }))?.org_by_pk
+
   if (!member || !org || !planType) {
     throw new RouteError(400, 'Invalid request')
   }
@@ -85,11 +88,13 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
       orgId,
       subscriptionId: stripeSubscription.id,
       customerId: customerId,
+      type: planType,
     })
   } else {
     await adminRequest(UPDATE_ORG_SUBSCRIPTION, {
       orgId,
-      subscriptionId: stripeSubscription.id,
+      stripeSubscriptionId: stripeSubscription.id,
+      type: planType,
     })
   }
 
@@ -126,19 +131,20 @@ const GET_ORG_DETAILS = gql(`
   }`)
 
 const CREATE_ORG_SUBSCRIPTION = gql(`
-  mutation createOrgSubscription($orgId: uuid!, $customerId: String!, $subscriptionId: String!) {
+  mutation createOrgSubscription($orgId: uuid!, $customerId: String!, $subscriptionId: String!, $type: subscription_plan_type_enum!) {
     insert_org_subscription_one(object: {
       orgId: $orgId
       stripeCustomerId: $customerId
       stripeSubscriptionId: $subscriptionId
+      type: $type
     }) {
       id
     }
   }`)
 
 const UPDATE_ORG_SUBSCRIPTION = gql(`
-  mutation updateOrgSubscriptionStripeSubId($orgId: uuid!, $stripeSubscriptionId: String!) {
-    update_org_subscription(where: {orgId: {_eq: $orgId}}, _set: {stripeSubscriptionId: $stripeSubscriptionId}) {
+  mutation updateOrgSubscriptionStripeSubId($orgId: uuid!, $stripeSubscriptionId: String!, $type: subscription_plan_type_enum!) {
+    update_org_subscription(where: {orgId: {_eq: $orgId}}, _set: {stripeSubscriptionId: $stripeSubscriptionId, type: $type}) {
       returning {
         id
       }
@@ -152,19 +158,19 @@ const GET_ORG_SUBSCRIPTION_STATUS = gql(`
       status
       stripeCustomerId
       stripeSubscriptionId
+      type
     }
   }`)
 
-const getPriceId = (planType: SubscriptionPlanType): string => {
+const getPriceId = (planType: Subscription_Plan_Type_Enum): string => {
   let priceId: string | undefined
 
   switch (planType) {
-    case SubscriptionPlanType.STARTUP:
+    case Subscription_Plan_Type_Enum.Startup:
       priceId = process.env.STRIPE_STARTUP_PLAN_PRICE_ID
       break
     // TODO: define Enterprise plan
-    case SubscriptionPlanType.ENTERPRISE:
-    case SubscriptionPlanType.FREE:
+    case Subscription_Plan_Type_Enum.Enterprise:
     default:
       break
   }

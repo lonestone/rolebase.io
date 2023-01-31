@@ -1,6 +1,11 @@
-import { subscribeOrg, unsubscribeOrg } from '@api/functions'
+import {
+  getSubscriptionInvoices,
+  subscribeOrg,
+  unsubscribeOrg
+} from '@api/functions'
 import { Title } from '@atoms/Title'
 import {
+  Box,
   Button,
   Container,
   Flex,
@@ -9,15 +14,16 @@ import {
   Spinner,
   Text
 } from '@chakra-ui/react'
-import { useGetOrgSubscriptionQuery } from '@gql'
+import { Subscription_Plan_Type_Enum, useGetOrgSubscriptionQuery } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import StripePayment from '@organisms/subscription/StripePayment'
-import { SubscriptionPlanType } from '@shared/model/subscription'
+import { Invoice } from '@shared/model/subscription'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 export default function SubscriptionPage() {
@@ -32,13 +38,31 @@ export default function SubscriptionPage() {
   const [displayElements, setDisplayElements] = useState(false)
   const [options, setOptions] = useState<any>(null)
   const orgSubscription = useMemo(() => data?.org_subscription[0], [data])
+  const [invoices, setInvoices] = useState<Invoice[]>([])
+
+  useEffect(() => {
+    if (currentMember && orgId) {
+      retrieveInvoices()
+    }
+  }, [currentMember, orgId])
+
+  const retrieveInvoices = async () => {
+    if (currentMember && orgId) {
+      const invoices = await getSubscriptionInvoices({
+        memberId: currentMember?.id,
+        orgId,
+      })
+
+      setInvoices(invoices)
+    }
+  }
 
   const subscribe = async () => {
     try {
       const res: any = await subscribeOrg({
         memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
-        planType: SubscriptionPlanType.STARTUP,
+        planType: Subscription_Plan_Type_Enum.Startup,
       })
 
       if (res.clientSecret) {
@@ -98,6 +122,25 @@ export default function SubscriptionPage() {
             <Text>Plan status: Active</Text>
           </>
         )}
+      </Flex>
+      <Flex mt="5" flexDir="column">
+        Invoices
+        {invoices.map((invoice) => (
+          <Flex
+            mt="2"
+            key="invoice.pdfUrl"
+            flexDir="row"
+            justifyContent={'space-around'}
+            alignItems={'center'}
+          >
+            <Box>{invoice.totalInCents / 100}€</Box>
+            <Box>{invoice.status}</Box>
+            <Text as="a" color="blue" href={invoice.pdfUrl as string}>
+              Invoice
+            </Text>
+            <Box>{invoice.createdAt}</Box>
+          </Flex>
+        ))}
       </Flex>
       {displayElements && (
         <Elements stripe={stripePromise} options={options}>
