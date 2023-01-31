@@ -3727,13 +3727,18 @@ export type Log_Max_Fields = {
 
 /** order by max() on columns of table "log" */
 export type Log_Max_Order_By = {
+<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
+=======
+  cancelLogId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3741,6 +3746,12 @@ export type Log_Max_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
+=======
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  memberName?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -3766,13 +3777,18 @@ export type Log_Min_Fields = {
 
 /** order by min() on columns of table "log" */
 export type Log_Min_Order_By = {
+<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
+=======
+  cancelLogId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3780,6 +3796,12 @@ export type Log_Min_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
+=======
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  memberName?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+>>>>>>> 754ec85 (rebase)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -9091,6 +9113,9 @@ export type Org = {
   slug?: Maybe<Scalars['String']>;
   subscriptionId?: Maybe<Scalars['uuid']>;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 754ec85 (rebase)
   /** An array relationship */
   task_views: Array<Task_View>;
   /** An aggregate relationship */
@@ -9103,8 +9128,11 @@ export type Org = {
   threads: Array<Thread>;
   /** An aggregate relationship */
   threads_aggregate: Thread_Aggregate;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 754ec85 (rebase)
 };
 
 
@@ -9415,14 +9443,20 @@ export type Org_Bool_Exp = {
   slug?: InputMaybe<String_Comparison_Exp>;
   subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 754ec85 (rebase)
   task_views?: InputMaybe<Task_View_Bool_Exp>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
   tasks?: InputMaybe<Task_Bool_Exp>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Bool_Exp>;
   threads?: InputMaybe<Thread_Bool_Exp>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Bool_Exp>;
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> 754ec85 (rebase)
 };
 
 /** unique or primary key constraints on table "org" */
@@ -9652,11 +9686,17 @@ export type Org_Insert_Input = {
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
 <<<<<<< HEAD
+<<<<<<< HEAD
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
   tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
   threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+  task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
+  tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
+  threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
+>>>>>>> 754ec85 (rebase)
 };
 
 /** aggregate max on columns */
@@ -9724,11 +9764,17 @@ export type Org_Order_By = {
   slug?: InputMaybe<Order_By>;
   subscriptionId?: InputMaybe<Order_By>;
 <<<<<<< HEAD
+<<<<<<< HEAD
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
+  tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
+  threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
+>>>>>>> 754ec85 (rebase)
 };
 
 /** primary key columns input for table: org */
@@ -16870,6 +16916,7 @@ export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: 
 
 export type TasksSubscriptionVariables = Exact<{
 <<<<<<< HEAD
+<<<<<<< HEAD
   orgId: Scalars['uuid'];
   filters: Array<Task_Bool_Exp> | Task_Bool_Exp;
   taskViewKey: Scalars['String'];
@@ -16884,6 +16931,15 @@ export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: 
 
 export type TasksSubscription = { __typename?: 'subscription_root', task: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }> };
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+  orgId: Scalars['uuid'];
+  filters: Array<Task_Bool_Exp> | Task_Bool_Exp;
+  taskViewKey: Scalars['String'];
+}>;
+
+
+export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> } | null };
+>>>>>>> 754ec85 (rebase)
 
 export type CreateTaskMutationVariables = Exact<{
   values: Task_Insert_Input;
@@ -16910,6 +16966,7 @@ export type ArchiveTaskMutation = { __typename?: 'mutation_root', update_task_by
 export type TaskViewFragment = { __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 export type TaskViewSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16920,6 +16977,8 @@ export type TaskViewSubscriptionVariables = Exact<{
 export type TaskViewSubscription = { __typename?: 'subscription_root', task_view: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> };
 
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+>>>>>>> 754ec85 (rebase)
 export type CreateTaskViewMutationVariables = Exact<{
   orgId: Scalars['uuid'];
   key: Scalars['String'];
@@ -19617,6 +19676,9 @@ export type TaskSubscriptionHookResult = ReturnType<typeof useTaskSubscription>;
 export type TaskSubscriptionResult = Apollo.SubscriptionResult<TaskSubscription>;
 export const TasksDocument = gql`
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 754ec85 (rebase)
     subscription tasks($orgId: uuid!, $filters: [task_bool_exp!]!, $taskViewKey: String!) {
   org_by_pk(id: $orgId) {
     tasks(where: {_and: $filters}) {
@@ -19625,11 +19687,14 @@ export const TasksDocument = gql`
     task_views(where: {key: {_eq: $taskViewKey}}) {
       ...TaskView
     }
+<<<<<<< HEAD
 =======
     subscription tasks($filters: [task_bool_exp!]) {
   task(where: {_and: $filters}) {
     ...Task
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+>>>>>>> 754ec85 (rebase)
   }
 }
     ${TaskFragmentDoc}
@@ -19654,10 +19719,14 @@ ${TaskViewFragmentDoc}`;
  * });
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 export function useTasksSubscription(baseOptions: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
 =======
 export function useTasksSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+export function useTasksSubscription(baseOptions: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
+>>>>>>> 754ec85 (rebase)
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<TasksSubscription, TasksSubscriptionVariables>(TasksDocument, options);
       }
@@ -19764,6 +19833,7 @@ export type ArchiveTaskMutationHookResult = ReturnType<typeof useArchiveTaskMuta
 export type ArchiveTaskMutationResult = Apollo.MutationResult<ArchiveTaskMutation>;
 export type ArchiveTaskMutationOptions = Apollo.BaseMutationOptions<ArchiveTaskMutation, ArchiveTaskMutationVariables>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 export const TaskViewDocument = gql`
     subscription taskView($orgId: uuid!, $key: String!) {
@@ -19797,6 +19867,8 @@ export function useTaskViewSubscription(baseOptions: Apollo.SubscriptionHookOpti
 export type TaskViewSubscriptionHookResult = ReturnType<typeof useTaskViewSubscription>;
 export type TaskViewSubscriptionResult = Apollo.SubscriptionResult<TaskViewSubscription>;
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
+=======
+>>>>>>> 754ec85 (rebase)
 export const CreateTaskViewDocument = gql`
     mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
   insert_task_view_one(object: {orgId: $orgId, key: $key, tasksIds: $tasksIds}) {

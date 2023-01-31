@@ -48,7 +48,9 @@ const addMemberToStripeSubscription = async (
   stripeSubscriptionId: string,
   nbActiveMember: number
 ) => {
-  const stripeSubscription = await validateStripeSubscription(stripeSubscriptionId)
+  const stripeSubscription = await validateStripeSubscription(
+    stripeSubscriptionId
+  )
 
   if (
     planType === Subscription_Plan_Type_Enum.Startup &&
