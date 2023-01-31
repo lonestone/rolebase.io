@@ -1,13 +1,13 @@
 import { Member_Role_Enum } from '@gql'
 import {
   MagicbellConfig,
-  NotificationCategories,
+  NotificationCategories
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import {
   Invoice,
   SubscriptionPlanType,
-  UpcomingInvoice,
+  UpcomingInvoice
 } from '@shared/model/subscription'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
