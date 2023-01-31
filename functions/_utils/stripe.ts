@@ -88,7 +88,7 @@ export const getStripeSubscriptionInvoices = async (
     })
   } catch (e) {
     console.error(`[STRIPE ERROR]: ${e.message}`)
-    throw new RouteError(500, 'Could not create subscription')
+    throw new RouteError(500, 'Could not get invoices')
   }
 }
 
@@ -135,6 +135,21 @@ export const updateStripeSubscription = async (
     })
   } catch (e) {
     console.error(`[STRIPE ERROR]: ${e.message}`)
-    throw new RouteError(500, 'Could not create subscription')
+    throw new RouteError(500, 'Could not update subscription')
+  }
+}
+
+export const getStripeUpcomingInvoice = async (
+  stripeCustomerId: string,
+  stripeSubscriptionId: string
+): Promise<Stripe.UpcomingInvoice> => {
+  try {
+    return stripe.invoices.retrieveUpcoming({
+      customer: stripeCustomerId,
+      subscription: stripeSubscriptionId,
+    })
+  } catch (e) {
+    console.error(`[STRIPE ERROR]: ${e.message}`)
+    throw new RouteError(500, 'Could not get upcoming invoice')
   }
 }

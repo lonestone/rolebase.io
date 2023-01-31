@@ -11,6 +11,11 @@ export enum InvoiceStatus {
   VOID = 'void',
 }
 
+export type UpcomingInvoice = {
+  dueDate: Date
+  totalInCents: number
+}
+
 export type Invoice = {
   createdAt: Date
   pdfUrl: string | null | undefined

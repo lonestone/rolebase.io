@@ -10,9 +10,18 @@ subscription task($id: uuid!) {
   }
 }
 
-subscription tasks($filters: [task_bool_exp!]) {
-  task(where: { _and: $filters }) {
-    ...Task
+subscription tasks(
+  $orgId: uuid!
+  $filters: [task_bool_exp!]!
+  $taskViewKey: String!
+) {
+  org_by_pk(id: $orgId) {
+    tasks(where: { _and: $filters }) {
+      ...Task
+    }
+    task_views(where: { key: { _eq: $taskViewKey } }) {
+      ...TaskView
+    }
   }
 }
 
