@@ -17,7 +17,7 @@ import useMentionables from './useMentionables'
 
 // Collaborative Markdown editor
 
-export interface Props extends FormControlOptions {
+interface Props extends FormControlOptions {
   docId: string
   value: string
   placeholder?: string
