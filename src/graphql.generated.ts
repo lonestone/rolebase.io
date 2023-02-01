@@ -3539,26 +3539,33 @@ export type Log = {
   __typename?: 'log';
   /** An object relationship */
   cancelLog?: Maybe<Log>;
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   cancelMember?: Maybe<Member>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   canceled: Scalars['Boolean'];
+  /** Log of changes to entities, useful to cancel */
   changes: Scalars['log_changes'];
   createdAt: Scalars['timestamptz'];
+  /** Type of log and data to display */
   display: Scalars['log_display'];
   id: Scalars['uuid'];
+  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   member: Member;
   memberId: Scalars['uuid'];
+  /** Keep name for display, in case of deleted member */
   memberName: Scalars['String'];
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
   /** An object relationship */
   user: Users;
+  /** User and member who made the change */
   userId: Scalars['uuid'];
 };
 
@@ -3671,80 +3678,107 @@ export enum Log_Constraint {
 /** input type for inserting data into table "log" */
 export type Log_Insert_Input = {
   cancelLog?: InputMaybe<Log_Obj_Rel_Insert_Input>;
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
   cancelMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
+  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
 export type Log_Max_Fields = {
   __typename?: 'log_max_fields';
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "log" */
 export type Log_Max_Order_By = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Log_Min_Fields = {
   __typename?: 'log_min_fields';
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "log" */
 export type Log_Min_Order_By = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
 };
 
@@ -3842,18 +3876,25 @@ export enum Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
 
 /** input type for updating data in table "log" */
 export type Log_Set_Input = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
+  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   memberId?: InputMaybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -3867,18 +3908,25 @@ export type Log_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Log_Stream_Cursor_Value_Input = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
+  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   memberId?: InputMaybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -10738,6 +10786,7 @@ export type Role = {
   domain: Scalars['String'];
   id: Scalars['uuid'];
   indicators: Scalars['String'];
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link: Scalars['String'];
   name: Scalars['String'];
   notes: Scalars['String'];
@@ -10911,6 +10960,7 @@ export type Role_Insert_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -10930,6 +10980,7 @@ export type Role_Max_Fields = {
   domain?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   indicators?: Maybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
@@ -10946,6 +10997,7 @@ export type Role_Max_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
@@ -10963,6 +11015,7 @@ export type Role_Min_Fields = {
   domain?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   indicators?: Maybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
@@ -10979,6 +11032,7 @@ export type Role_Min_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
@@ -11108,6 +11162,7 @@ export type Role_Set_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -11175,6 +11230,7 @@ export type Role_Stream_Cursor_Value_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -11475,7 +11531,7 @@ export enum Subscription_Plan_Type_Constraint {
 }
 
 export enum Subscription_Plan_Type_Enum {
-  Enterprise = 'ENTERPRISE',
+  Business = 'BUSINESS',
   Startup = 'STARTUP'
 }
 

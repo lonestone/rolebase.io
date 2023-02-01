@@ -3538,26 +3538,33 @@ export type Log = {
   __typename?: 'log';
   /** An object relationship */
   cancelLog?: Maybe<Log>;
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   cancelMember?: Maybe<Member>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   canceled: Scalars['Boolean'];
+  /** Log of changes to entities, useful to cancel */
   changes: Scalars['log_changes'];
   createdAt: Scalars['timestamptz'];
+  /** Type of log and data to display */
   display: Scalars['log_display'];
   id: Scalars['uuid'];
+  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   member: Member;
   memberId: Scalars['uuid'];
+  /** Keep name for display, in case of deleted member */
   memberName: Scalars['String'];
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
   /** An object relationship */
   user: Users;
+  /** User and member who made the change */
   userId: Scalars['uuid'];
 };
 
@@ -3670,80 +3677,107 @@ export enum Log_Constraint {
 /** input type for inserting data into table "log" */
 export type Log_Insert_Input = {
   cancelLog?: InputMaybe<Log_Obj_Rel_Insert_Input>;
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
   cancelMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
+  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
 export type Log_Max_Fields = {
   __typename?: 'log_max_fields';
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "log" */
 export type Log_Max_Order_By = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Log_Min_Fields = {
   __typename?: 'log_min_fields';
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: Maybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "log" */
 export type Log_Min_Order_By = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
 };
 
@@ -3841,18 +3875,25 @@ export enum Log_Select_Column_Log_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
 
 /** input type for updating data in table "log" */
 export type Log_Set_Input = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
+  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   memberId?: InputMaybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -3866,18 +3907,25 @@ export type Log_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Log_Stream_Cursor_Value_Input = {
+  /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Scalars['uuid']>;
+  /** Member that did the action that's canceled */
   cancelMemberId?: InputMaybe<Scalars['uuid']>;
   cancelMemberName?: InputMaybe<Scalars['String']>;
   canceled?: InputMaybe<Scalars['Boolean']>;
+  /** Log of changes to entities, useful to cancel */
   changes?: InputMaybe<Scalars['json']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  /** Type of log and data to display */
   display?: InputMaybe<Scalars['json']>;
   id?: InputMaybe<Scalars['uuid']>;
+  /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Scalars['uuid']>;
   memberId?: InputMaybe<Scalars['uuid']>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -10737,6 +10785,7 @@ export type Role = {
   domain: Scalars['String'];
   id: Scalars['uuid'];
   indicators: Scalars['String'];
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link: Scalars['String'];
   name: Scalars['String'];
   notes: Scalars['String'];
@@ -10910,6 +10959,7 @@ export type Role_Insert_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -10929,6 +10979,7 @@ export type Role_Max_Fields = {
   domain?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   indicators?: Maybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
@@ -10945,6 +10996,7 @@ export type Role_Max_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
@@ -10962,6 +11014,7 @@ export type Role_Min_Fields = {
   domain?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   indicators?: Maybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
@@ -10978,6 +11031,7 @@ export type Role_Min_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
@@ -11107,6 +11161,7 @@ export type Role_Set_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -11174,6 +11229,7 @@ export type Role_Stream_Cursor_Value_Input = {
   domain?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   indicators?: InputMaybe<Scalars['String']>;
+  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
   link?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   notes?: InputMaybe<Scalars['String']>;
@@ -11474,7 +11530,7 @@ export enum Subscription_Plan_Type_Constraint {
 }
 
 export enum Subscription_Plan_Type_Enum {
-  Enterprise = 'ENTERPRISE',
+  Business = 'BUSINESS',
   Startup = 'STARTUP'
 }
 
@@ -15714,6 +15770,13 @@ export type GetOrgByIdQueryVariables = Exact<{
 
 export type GetOrgByIdQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string } | null };
 
+export type GetOrgSubscriptionDetailsQueryVariables = Exact<{
+  orgId: Scalars['uuid'];
+}>;
+
+
+export type GetOrgSubscriptionDetailsQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string, stripeSubscriptionId?: string | null, stripeCustomerId: string, status: Subscription_Payment_Status_Enum }> };
+
 export type GetOrgSubscriptionStripeIdsQueryVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
@@ -15876,6 +15939,7 @@ export const CreateRoleDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const CreateRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roles"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"role_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roles"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CreateRolesMutation, CreateRolesMutationVariables>;
 export const CreateCircleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createCircle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_circle_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"roleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roleId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateCircleMutation, CreateCircleMutationVariables>;
 export const GetOrgByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetOrgByIdQuery, GetOrgByIdQueryVariables>;
+export const GetOrgSubscriptionDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgSubscriptionDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_subscription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"stripeSubscriptionId"}},{"kind":"Field","name":{"kind":"Name","value":"stripeCustomerId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<GetOrgSubscriptionDetailsQuery, GetOrgSubscriptionDetailsQueryVariables>;
 export const GetOrgSubscriptionStripeIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgSubscriptionStripeIds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_subscription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"stripeSubscriptionId"}},{"kind":"Field","name":{"kind":"Name","value":"stripeCustomerId"}}]}}]}}]} as unknown as DocumentNode<GetOrgSubscriptionStripeIdsQuery, GetOrgSubscriptionStripeIdsQueryVariables>;
 export const GetMemberByUserIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMemberByUserId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"member"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetMemberByUserIdQuery, GetMemberByUserIdQueryVariables>;
 export const GetOrgAndCirclesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgAndCircles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"startDate"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Meeting"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings_recurring"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rrule"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}}]}}]}}]}},...CircleFullFragmentDoc.definitions,...MeetingFragmentDoc.definitions]} as unknown as DocumentNode<GetOrgAndCirclesQuery, GetOrgAndCirclesQueryVariables>;
