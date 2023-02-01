@@ -172,8 +172,8 @@ const getPriceId = (planType: Subscription_Plan_Type_Enum): string => {
     case Subscription_Plan_Type_Enum.Startup:
       priceId = process.env.STRIPE_STARTUP_PLAN_PRICE_ID
       break
-    // TODO: define Enterprise plan
-    case Subscription_Plan_Type_Enum.Enterprise:
+    // TODO: define business plan
+    case Subscription_Plan_Type_Enum.Business:
     default:
       break
   }

@@ -602,6 +602,42 @@
   "SubscriptionPage": {
     "heading": "Abonnement"
   },
+  "SubscriptionTabs": {
+    "subscriptionTab": "Mon abonnement",
+    "accountTab": "Compte",
+    "invoicesTab": "Factures"
+  },
+  "SubscriptionPlans": {
+    "currentPlan": "Plan actuel",
+    "activeMember_one": "{{count}}/{{total}} membre actif",
+    "activeMember_other": "{{count}}/{{total}} membres actifs",
+    "upgradePlan": "Passer au plan supérieur",
+    "downgradePlan": "Repasser sur ce plan",
+    "contactUs": "Nous contacter",
+    "free": {
+      "title": "Gratuit",
+      "desc": "Parfait pour tester et pour collaborer en petite équipe.",
+      "feature1": "Tarif : 0€",
+      "feature2": "Toutes les fonctionnalités",
+      "feature3": "5 membres actifs maximum"
+    },
+    "startup": {
+      "title": "Startup",
+      "desc": "Pour faire participer toute votre équipe à votre gouvernance partagée.",
+      "feature1": "Tarif : 5€/mois/membres",
+      "feature2": "Toutes les fonctionnalités",
+      "feature3": "Jusqu’à 200 membres actifs",
+      "feature4": "1h/mois d’accompagnement"
+    },
+    "business": {
+      "title": "Entreprise",
+      "desc": "Un besoin sur-mesure, contactez notre équipe !",
+      "feature1": "Toutes les fonctionnalités",
+      "feature2": "Membres actifs en illimité",
+      "feature3": "Support et conseils prioritaires",
+      "feature4": "Intégrations sur mesure"
+    }
+  },
   "SuperAdminPage": {
     "heading": "Administration",
     "searchReindex": "Réindexer le moteur de recherche"
