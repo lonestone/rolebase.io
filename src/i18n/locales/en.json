@@ -605,6 +605,42 @@
   "SubscriptionPage": {
     "heading": "Subscription"
   },
+  "SubscriptionTabs": {
+    "subscriptionTab": "My subscription",
+    "accountTab": "Account",
+    "invoicesTab": "Invoices"
+  },
+  "SubscriptionPlans": {
+    "currentPlan": "Current plan",
+    "activeMember_one": "{{count}}/{{total}} active member",
+    "activeMember_other": "{{count}}/{{total}} active members",
+    "upgradePlan": "Upgrade to this plan",
+    "downgradePlan": "Go back to this plan",
+    "contactUs": "Get in touch with us",
+    "free": {
+      "title": "Free",
+      "desc": "Perfect to try or work with a small team",
+      "feature1": "Price: 0€",
+      "feature2": "All features",
+      "feature3": "Limited to 5 active members"
+    },
+    "startup": {
+      "title": "Startup",
+      "desc": "To involve your entire team in your shared governance.",
+      "feature1": "Price: 5€/month/member",
+      "feature2": "All features",
+      "feature3": "Limited to 200 active members",
+      "feature4": "1h/month support"
+    },
+    "business": {
+      "title": "Business",
+      "desc": "A custom need, contact our team!",
+      "feature1": "All features",
+      "feature2": "Unlimited members",
+      "feature3": "Priority tips and support",
+      "feature4": "Custom integrations"
+    }
+  },
   "SuperAdminPage": {
     "heading": "Admin dashboard",
     "searchReindex": "Reindex search engine"

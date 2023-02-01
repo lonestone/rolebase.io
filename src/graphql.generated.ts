@@ -3548,14 +3548,20 @@ export type Log = {
   cancelMemberName?: Maybe<Scalars['String']>;
   canceled: Scalars['Boolean'];
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 94b6232 (start front)
   /** Log of changes to entities, useful to cancel */
   changes: Scalars['log_changes'];
   createdAt: Scalars['timestamptz'];
   /** Type of log and data to display */
+<<<<<<< HEAD
 =======
   changes: Scalars['log_changes'];
   createdAt: Scalars['timestamptz'];
 >>>>>>> 4965459 (rebase)
+=======
+>>>>>>> 94b6232 (start front)
   display: Scalars['log_display'];
   id: Scalars['uuid'];
   /** Meeting during which this log was created (optional) */
@@ -3732,16 +3738,23 @@ export type Log_Max_Fields = {
 /** order by max() on columns of table "log" */
 export type Log_Max_Order_By = {
 <<<<<<< HEAD
+<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
 =======
   cancelLogId?: InputMaybe<Order_By>;
 >>>>>>> 754ec85 (rebase)
+=======
+  /** Id of canceled log, if it's a cancellation */
+  cancelLogId?: InputMaybe<Order_By>;
+  /** Member that did the action that's canceled */
+>>>>>>> 94b6232 (start front)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+<<<<<<< HEAD
 <<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
@@ -3751,11 +3764,19 @@ export type Log_Max_Order_By = {
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
 =======
+=======
+  /** Meeting during which this log was created (optional) */
+>>>>>>> 94b6232 (start front)
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+<<<<<<< HEAD
 >>>>>>> 754ec85 (rebase)
+=======
+  /** User and member who made the change */
+>>>>>>> 94b6232 (start front)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -3782,16 +3803,23 @@ export type Log_Min_Fields = {
 /** order by min() on columns of table "log" */
 export type Log_Min_Order_By = {
 <<<<<<< HEAD
+<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
 =======
   cancelLogId?: InputMaybe<Order_By>;
 >>>>>>> 754ec85 (rebase)
+=======
+  /** Id of canceled log, if it's a cancellation */
+  cancelLogId?: InputMaybe<Order_By>;
+  /** Member that did the action that's canceled */
+>>>>>>> 94b6232 (start front)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+<<<<<<< HEAD
 <<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
@@ -3801,11 +3829,19 @@ export type Log_Min_Order_By = {
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
 =======
+=======
+  /** Meeting during which this log was created (optional) */
+>>>>>>> 94b6232 (start front)
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
+  /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+<<<<<<< HEAD
 >>>>>>> 754ec85 (rebase)
+=======
+  /** User and member who made the change */
+>>>>>>> 94b6232 (start front)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -12202,6 +12238,7 @@ export enum Subscription_Plan_Type_Constraint {
 export enum Subscription_Plan_Type_Enum {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   Business = 'Business',
 =======
   Enterprise = 'Enterprise',
@@ -12210,6 +12247,9 @@ export enum Subscription_Plan_Type_Enum {
   Startup = 'Startup'
 =======
   Enterprise = 'ENTERPRISE',
+=======
+  Business = 'BUSINESS',
+>>>>>>> 94b6232 (start front)
   Startup = 'STARTUP'
 >>>>>>> 6646776 (Cleaned code)
 }

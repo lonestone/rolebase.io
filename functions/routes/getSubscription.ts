@@ -1,12 +1,16 @@
-import { gql, Member_Role_Enum } from '@gql'
-import { UpcomingInvoice } from '@shared/model/subscription'
+import { gql, Member_Role_Enum, Subscription_Payment_Status_Enum } from '@gql'
+import { Subscription } from '@shared/model/subscription'
 import { adminRequest } from '@utils/adminRequest'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
-import { getStripeUpcomingInvoice } from '@utils/stripe'
+import {
+  ExtendedStripeCustomer,
+  getStripeExtendedCustomer,
+  getStripeUpcomingInvoice,
+} from '@utils/stripe'
 import Stripe from 'stripe'
 import * as yup from 'yup'
 
@@ -15,7 +19,7 @@ const yupSchema = yup.object().shape({
   orgId: yup.string().required(),
 })
 
-export default route(async (context): Promise<UpcomingInvoice> => {
+export default route(async (context): Promise<Subscription | null> => {
   guardAuth(context)
   const { memberId, orgId } = guardBodyParams(context, yupSchema)
 
@@ -33,31 +37,53 @@ export default route(async (context): Promise<UpcomingInvoice> => {
     orgSubscription?.org_subscription[0]?.stripeSubscriptionId
   const stripeCustomerId =
     orgSubscription?.org_subscription[0]?.stripeCustomerId
+  const orgSubscriptionStatus = orgSubscription?.org_subscription[0]?.status
 
   if (!stripeSubscriptionId || !stripeCustomerId) {
-    throw new RouteError(400, 'Invalid request')
+    return null
   }
 
   // Get stripe invoices
-  const stripeUpcomingInvoice = await getStripeUpcomingInvoice(
+  const customer = await getStripeExtendedCustomer(stripeCustomerId)
+  const upcomingInvoice = await getStripeUpcomingInvoice(
     stripeCustomerId,
     stripeSubscriptionId
   )
 
-  console.log('stripeUpcomingInvoice', stripeUpcomingInvoice)
-
-  return formatStripeUpcomingInvoice(stripeUpcomingInvoice)
+  return formatSubscription(
+    customer,
+    upcomingInvoice,
+    orgId,
+    orgSubscriptionStatus
+  )
 })
 
-const formatStripeUpcomingInvoice = (
-  stripeUpcomingInvoice: Stripe.UpcomingInvoice
-): UpcomingInvoice => {
+const formatSubscription = (
+  extendedCustomer: ExtendedStripeCustomer,
+  upcomingInvoice: Stripe.UpcomingInvoice,
+  orgId: string,
+  status: Subscription_Payment_Status_Enum
+): Subscription => {
+  const customerCard =
+    extendedCustomer.invoice_settings.default_payment_method.card!
   return {
-    nextPayment: toDateTime(
-      stripeUpcomingInvoice.next_payment_attempt ??
-        stripeUpcomingInvoice.lines.data[0].period.end
-    ),
-    totalInCents: stripeUpcomingInvoice.total,
+    card: {
+      expMonth: customerCard?.exp_month,
+      expYear: customerCard?.exp_year,
+      last4: customerCard?.last4,
+      brand: customerCard?.brand,
+    },
+    orgId,
+    upcomingInvoice: upcomingInvoice
+      ? {
+          nextPayment: toDateTime(
+            upcomingInvoice.next_payment_attempt ??
+              upcomingInvoice.lines.data[0].period.end
+          ),
+          totalInCents: upcomingInvoice?.total!,
+        }
+      : null,
+    status,
   }
 }
 
@@ -75,10 +101,11 @@ const GET_ORG = gql(`
     }`)
 
 const GET_ORG_SUBSCRIPTION = gql(`
-    query getOrgSubscriptionStripeIds($orgId: uuid!) {
+    query getOrgSubscriptionDetails($orgId: uuid!) {
       org_subscription(where: {orgId: {_eq: $orgId}}) {
         id
         stripeSubscriptionId
         stripeCustomerId
+        status
       }
     }`)
