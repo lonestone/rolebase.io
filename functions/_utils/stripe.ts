@@ -11,6 +11,15 @@ type StripeSubscriptionCreation = Stripe.Subscription & {
   }
 }
 
+export type ExtendedStripeCustomer = (
+  | Stripe.Customer
+  | Stripe.DeletedCustomer
+) & {
+  invoice_settings: {
+    default_payment_method: Stripe.PaymentMethod
+  }
+}
+
 export const createStripeCustomer = async (
   email: string,
   name: string
@@ -42,6 +51,21 @@ export const getStripeSubscriptionFromSubscriptionId = async (
 ): Promise<Stripe.Subscription> => {
   try {
     return stripe.subscriptions.retrieve(stripeSubscriptionId)
+  } catch (e) {
+    console.error(`[STRIPE ERROR]: ${e.message}`)
+    throw new RouteError(500, 'Could not retrieve subscription')
+  }
+}
+
+export const getStripeExtendedCustomer = async (
+  stripeCustomerId: string
+): Promise<ExtendedStripeCustomer> => {
+  try {
+    const customer = await stripe.customers.retrieve(stripeCustomerId, {
+      expand: ['invoice_settings.default_payment_method.card'],
+    })
+
+    return customer as unknown as ExtendedStripeCustomer
   } catch (e) {
     console.error(`[STRIPE ERROR]: ${e.message}`)
     throw new RouteError(500, 'Could not retrieve subscription')

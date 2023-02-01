@@ -1,13 +1,14 @@
 import { Member_Role_Enum } from '@gql'
 import {
   MagicbellConfig,
-  NotificationCategories
+  NotificationCategories,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import {
   Invoice,
+  Subscription,
   SubscriptionPlanType,
-  UpcomingInvoice
+  UpcomingInvoice,
 } from '@shared/model/subscription'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
@@ -87,6 +88,14 @@ export const getSubscriptionUpcomingInvoice = fn<
   },
   UpcomingInvoice
 >('getSubscriptionUpcomingInvoice')
+
+export const getSubscription = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  Subscription
+>('getSubscription')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,
