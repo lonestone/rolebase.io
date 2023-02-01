@@ -733,6 +733,7 @@
     "create": "Create",
     "send": "Send",
     "open": "Open",
+    "skip": "Skip",
     "createThread": "Create a Thread",
     "createMeeting": "Create a Meeting",
     "createTask": "Create a Task",
