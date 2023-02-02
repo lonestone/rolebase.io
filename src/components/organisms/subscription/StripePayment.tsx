@@ -1,6 +1,6 @@
 import { useOrgId } from '@hooks/useOrgId'
-import React, { FormEvent } from 'react'
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import React, { FormEvent } from 'react'
 
 export default function StripePayment() {
   const orgId = useOrgId()
@@ -28,7 +28,7 @@ export default function StripePayment() {
       console.log(result.error.message)
     } else {
       // Case when customer is redirected to another app (Waiting for payment confirmation)
-      // TODO: Display waiting toast state ?
+      // TODO: Display waiting state ?
     }
   }
 

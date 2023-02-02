@@ -1,4 +1,5 @@
 import FadeCard from '@atoms/FadeCard'
+import SubscriptionPlanIcon from '@atoms/SubscriptionPlanIcon'
 import {
   Box,
   CardProps,
@@ -8,17 +9,19 @@ import {
   Text,
   useBreakpointValue
 } from '@chakra-ui/react'
+import { Subscription_Plan_Type_Enum } from '@gql'
 import ParticipantsGroup from '@molecules/ParticipantsGroup'
+import SubscriptionFeatures from '@molecules/subscription/SubscriptionFeatures'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCheck, FiCoffee } from 'react-icons/fi'
 
 type SubscrptionPlanCard = {
   title: string
   desc: string
   features: string[]
   color: string
+  type: Subscription_Plan_Type_Enum
 } & CardProps
 
 export default function SubscriptionPlanSubCard({
@@ -26,6 +29,7 @@ export default function SubscriptionPlanSubCard({
   desc,
   features,
   color,
+  type,
   ...rest
 }: SubscrptionPlanCard) {
   const { t } = useTranslation()
@@ -33,21 +37,7 @@ export default function SubscriptionPlanSubCard({
     base: 4,
     md: 7,
   })
-  const members = useStoreState((state) =>
-    state.members.entries
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-      ?.concat(state.members.entries)
-  )
+  const members = useStoreState((state) => state.members.entries)
 
   return (
     <FadeCard
@@ -62,7 +52,7 @@ export default function SubscriptionPlanSubCard({
         <Flex flexDir="row" justifyContent="space-between">
           <Flex flexDir="column" gap="2">
             <Flex flexDir="row" alignItems="center" gap="2">
-              <FiCoffee size={24} />
+              <SubscriptionPlanIcon type={type} size={24} />
               <Text fontWeight={700} fontSize="24">
                 {title}
               </Text>
@@ -102,22 +92,7 @@ export default function SubscriptionPlanSubCard({
           <Text as="b" fontSize={18}>
             {t('SubscriptionPlans.included')}
           </Text>
-          <Flex mt="4" flexDir="column" gap="3">
-            {features.map((feature) => (
-              <Flex key={feature} flexDir="row" gap="6" alignItems="center">
-                <FiCheck size="20" color="green" />
-                <Text
-                  color="gray.600"
-                  fontWeight={600}
-                  _dark={{
-                    color: 'var(--chakra-colors-gray-100)',
-                  }}
-                >
-                  {feature}
-                </Text>
-              </Flex>
-            ))}
-          </Flex>
+          <SubscriptionFeatures features={features} />
         </Box>
       </Box>
     </FadeCard>

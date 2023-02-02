@@ -60,12 +60,8 @@ export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
           w="100%"
           h={plan.type === null ? '375px' : '350px'}
           key={plan.type ?? 'free'}
-          title={plan.title}
-          desc={plan.desc}
-          features={plan.features}
-          footer={plan.footer}
           isCurrent={plan.type === null}
-          color={plan.color}
+          {...plan}
         />
       ))}
     </Flex>
