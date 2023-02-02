@@ -18,8 +18,8 @@ export default function SubscriptionUpcomingInvoiceCard({
   return (
     <Card p="4" variant="outline" {...rest}>
       <Flex p="4" w="100%" gap="5" flexDir="row">
-        <Flex flexDir="column" gap="2" flexBasis="50%">
-          <Text fontSize={16} fontWeight={700}>
+        <Flex flexDir="column" gap="2" flexBasis="55%">
+          <Text fontSize={16} fontWeight={500}>
             {t('SubscriptionPlans.upcomingInvoiceAmount')}
           </Text>
           <Text fontSize={26} fontWeight={700}>
@@ -28,7 +28,7 @@ export default function SubscriptionUpcomingInvoiceCard({
         </Flex>
 
         <Flex flexDir="column" gap="2">
-          <Text fontSize={16} fontWeight={700}>
+          <Text fontSize={16} fontWeight={500}>
             {t('SubscriptionPlans.upcomingInvoice')}
           </Text>
           <Text fontSize={26} fontWeight={700}>
@@ -39,7 +39,7 @@ export default function SubscriptionUpcomingInvoiceCard({
       {/* TODO: Change it to an actual url */}
       <Flex
         as="a"
-        href="https://google.fr"
+        href="https://letmegooglethat.com/?q=How+is+my+Rolebase.io+amount+calculated+%3F"
         target="_blank"
         justifyContent="center"
         gap="2"
