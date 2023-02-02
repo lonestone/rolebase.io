@@ -50,4 +50,11 @@ export default defineConfig({
       },
     ],
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+      },
+    },
+  },
 })

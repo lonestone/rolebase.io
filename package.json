@@ -66,6 +66,7 @@
     "react-hook-form": "^7.39.6",
     "react-i18next": "^11.16.7",
     "react-icons": "^4.3.1",
+    "react-pay-icons": "^3.1.0",
     "react-router-dom": "^6.8.0",
     "react-transition-group": "^4.4.5",
     "rrule": "^2.7.1",
