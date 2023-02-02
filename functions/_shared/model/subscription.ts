@@ -35,4 +35,5 @@ export type SubscriptionCard = {
 export type Subscription = {
   card: SubscriptionCard
   upcomingInvoice: UpcomingInvoice | null
-} & Pick<Org_Subscription, 'status' | 'orgId'>
+  email: string | null
+} & Pick<Org_Subscription, 'status' | 'orgId' | 'type'>

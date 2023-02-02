@@ -9,13 +9,13 @@ export default function FadeCard({
   return (
     <Card
       variant="outline"
-      bg={`linear-gradient(180deg, var(--chakra-colors-${colorScheme}-100), transparent)`}
+      bg={`linear-gradient(180deg, var(--chakra-colors-${colorScheme}-100) -40%, transparent 80%)`}
       borderRadius="5px"
       borderTop="4px solid"
       borderTopColor={`var(--chakra-colors-${colorScheme}-500)`}
       borderColor={`var(--chakra-colors-${colorScheme}-100)`}
       _dark={{
-        bg: `linear-gradient(180deg, var(--chakra-colors-${colorScheme}-700), transparent)`,
+        bg: `linear-gradient(180deg, var(--chakra-colors-${colorScheme}-700)-40%, transparent 80%)`,
         borderTopColor: `var(--chakra-colors-${colorScheme}-500)`,
         borderColor: `var(--chakra-colors-${colorScheme}-700)`,
       }}

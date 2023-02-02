@@ -36,7 +36,7 @@ export default function SubscriptionPlanCard({
         <Flex flexDir="row" justifyContent="space-between">
           <Flex alignItems="center" gap="2" flexDir="row">
             <FiCoffee />
-            <Text fontWeight={700} fontSize="16">
+            <Text fontWeight={700} fontSize="18">
               {title}
             </Text>
           </Flex>

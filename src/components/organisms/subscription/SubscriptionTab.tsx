@@ -5,6 +5,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import { Subscription } from '@shared/model/subscription'
 import React, { useEffect, useMemo, useState } from 'react'
 import SubscriptionTabFreeLayout from './SubscriptionTabFreeLayout'
+import SubscriptionTabSubLayout from './SubscriptionTabSubLayout'
 
 export default function SubscriptionTab({ ...rest }: FlexProps) {
   const orgId = useOrgId()
@@ -31,7 +32,9 @@ export default function SubscriptionTab({ ...rest }: FlexProps) {
     <Flex p="5" flexDir="row" {...rest}>
       {isLoading && <Spinner m="auto" />}
       {!isLoading && !subscription && <SubscriptionTabFreeLayout />}
-      {!isLoading && subscription && <div>Subbed layout</div>}
+      {!isLoading && subscription && (
+        <SubscriptionTabSubLayout subscription={subscription} />
+      )}
     </Flex>
   )
 }
