@@ -35,7 +35,7 @@ export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
       footer: (
         <Flex w="100%" justifyContent="end">
           <Button rightIcon={<FiArrowRight />} colorScheme="gray">
-            {t('SubscriptionPlans.upgradePlan')}
+            {t('SubscriptionPlans.contactUs')}
           </Button>
         </Flex>
       ),

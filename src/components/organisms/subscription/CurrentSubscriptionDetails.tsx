@@ -17,18 +17,25 @@ export default function CurrentSubscriptionDetails({
   ...rest
 }: CurrentSubscriptionDetailsProps) {
   return (
-    <Flex w="100%" gap="5" justifyContent="center" flexDir="row" {...rest}>
+    <Flex
+      w="100%"
+      gap="5"
+      flexWrap={['wrap', 'wrap', 'wrap', 'nowrap']}
+      justifyContent="center"
+      flexDir="row"
+      {...rest}
+    >
       <SubscriptionPlanSubCard {...currentPlan} />
       <Flex flexDir="column" h="100%" gap="15">
         {subscription.upcomingInvoice && (
           <SubscriptionUpcomingInvoiceCard
-            h="100%"
+            h={['auto', 'auto', 'auto', '100%']}
             upcomingInvoice={subscription.upcomingInvoice}
           />
         )}
         {subscription.card && (
           <SubscriptionPaymentDetailsCard
-            h="100%"
+            h={['auto', 'auto', 'auto', '100%']}
             card={subscription.card}
             email={subscription.email}
           />

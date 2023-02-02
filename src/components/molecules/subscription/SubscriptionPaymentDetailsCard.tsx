@@ -7,7 +7,7 @@ import { FiMail } from 'react-icons/fi'
 
 type SubscriptionPaymentDetailsCardProps = {
   card: SubscriptionCard
-  email?: string
+  email?: string | null
 } & CardProps
 
 export default function SubscriptionPaymentDetailsCard({
