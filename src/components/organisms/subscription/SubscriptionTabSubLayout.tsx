@@ -112,12 +112,8 @@ export default function SubscriptionTabSubLayout({
             h={'350px'}
             maxW="400px"
             key={plan.type ?? 'free'}
-            title={plan.title}
-            desc={plan.desc}
-            features={plan.features}
-            footer={plan.footer}
             isCurrent={false}
-            color={plan.color}
+            {...plan}
           />
         ))}
       </Flex>

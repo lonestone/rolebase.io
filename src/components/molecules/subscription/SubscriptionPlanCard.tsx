@@ -1,8 +1,10 @@
 import FadeCard from '@atoms/FadeCard'
+import SubscriptionPlanIcon from '@atoms/SubscriptionPlanIcon'
 import { Box, CardProps, Divider, Flex, Tag, Text } from '@chakra-ui/react'
+import { Subscription_Plan_Type_Enum } from '@gql'
+import SubscriptionFeatures from '@molecules/subscription/SubscriptionFeatures'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCheck, FiCoffee } from 'react-icons/fi'
 
 type SubscrptionPlanCard = {
   title: string
@@ -10,6 +12,7 @@ type SubscrptionPlanCard = {
   desc: string
   features: string[]
   color: string
+  type: Subscription_Plan_Type_Enum | null
   footer: ReactElement | null
 } & CardProps
 
@@ -19,11 +22,13 @@ export default function SubscriptionPlanCard({
   isCurrent,
   features,
   color,
+  type,
   footer,
   ...rest
 }: SubscrptionPlanCard) {
   const { t } = useTranslation()
 
+  console.log('Type:', type)
   return (
     <FadeCard
       p="4"
@@ -35,7 +40,7 @@ export default function SubscriptionPlanCard({
       <Box>
         <Flex flexDir="row" justifyContent="space-between">
           <Flex alignItems="center" gap="2" flexDir="row">
-            <FiCoffee />
+            <SubscriptionPlanIcon type={type} />
             <Text fontWeight={700} fontSize="18">
               {title}
             </Text>
@@ -61,22 +66,7 @@ export default function SubscriptionPlanCard({
         >
           {desc}
         </Text>
-        <Flex mt="4" flexDir="column" gap="3">
-          {features.map((feature) => (
-            <Flex key={feature} flexDir="row" gap="6" alignItems="center">
-              <FiCheck size="20" color="green" />
-              <Text
-                color="gray.600"
-                fontWeight={600}
-                _dark={{
-                  color: 'var(--chakra-colors-gray-100)',
-                }}
-              >
-                {feature}
-              </Text>
-            </Flex>
-          ))}
-        </Flex>
+        <SubscriptionFeatures features={features} />
       </Box>
       {footer && footer}
     </FadeCard>
