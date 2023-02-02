@@ -34,7 +34,13 @@ export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
       ...plansData.business,
       footer: (
         <Flex w="100%" justifyContent="end">
-          <Button rightIcon={<FiArrowRight />} colorScheme="gray">
+          <Button
+            as="a"
+            href="https://www.rolebase.io/contact"
+            target="_blank"
+            rightIcon={<FiArrowRight />}
+            colorScheme="gray"
+          >
             {t('SubscriptionPlans.contactUs')}
           </Button>
         </Flex>
