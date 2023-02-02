@@ -608,6 +608,13 @@
     "upgradePlan": "Passer au plan supérieur",
     "downgradePlan": "Repasser sur ce plan",
     "contactUs": "Nous contacter",
+    "included": "Inclut",
+    "upcomingInvoiceAmount": "Montant de la prochaine mensualité",
+    "upcomingInvoice": "Prochaine mensualité",
+    "paymentMethod": "Méthode de paiement",
+    "expiresAt": "Expire le",
+    "card": "Carte",
+    "upcomingInvoiceHelp": "Savoir comment est calculé ce montant chaque mois",
     "free": {
       "title": "Gratuit",
       "desc": "Parfait pour tester et pour collaborer en petite équipe.",

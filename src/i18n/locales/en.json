@@ -611,6 +611,13 @@
     "upgradePlan": "Upgrade to this plan",
     "downgradePlan": "Go back to this plan",
     "contactUs": "Get in touch with us",
+    "included": "Included",
+    "upcomingInvoiceAmount": "Upcoming invoice amount",
+    "upcomingInvoice": "Upcoming invoice",
+    "paymentMethod": "Payment method",
+    "expiresAt": "Expires",
+    "card": "Card",
+    "upcomingInvoiceHelp": "Know how this amount is calculated each month",
     "free": {
       "title": "Free",
       "desc": "Perfect to try or work with a small team",

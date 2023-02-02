@@ -1,4 +1,9 @@
-import { gql, Member_Role_Enum, Subscription_Payment_Status_Enum } from '@gql'
+import {
+  gql,
+  Member_Role_Enum,
+  Subscription_Payment_Status_Enum,
+  Subscription_Plan_Type_Enum,
+} from '@gql'
 import { Subscription } from '@shared/model/subscription'
 import { adminRequest } from '@utils/adminRequest'
 import { getMemberById } from '@utils/getMemberById'
@@ -38,6 +43,7 @@ export default route(async (context): Promise<Subscription | null> => {
   const stripeCustomerId =
     orgSubscription?.org_subscription[0]?.stripeCustomerId
   const orgSubscriptionStatus = orgSubscription?.org_subscription[0]?.status
+  const orgSubscriptionType = orgSubscription?.org_subscription[0]?.type
 
   if (!stripeSubscriptionId || !stripeCustomerId) {
     return null
@@ -54,7 +60,8 @@ export default route(async (context): Promise<Subscription | null> => {
     customer,
     upcomingInvoice,
     orgId,
-    orgSubscriptionStatus
+    orgSubscriptionStatus,
+    orgSubscriptionType
   )
 })
 
@@ -62,7 +69,8 @@ const formatSubscription = (
   extendedCustomer: ExtendedStripeCustomer,
   upcomingInvoice: Stripe.UpcomingInvoice,
   orgId: string,
-  status: Subscription_Payment_Status_Enum
+  status: Subscription_Payment_Status_Enum,
+  type: Subscription_Plan_Type_Enum
 ): Subscription => {
   const customerCard =
     extendedCustomer.invoice_settings.default_payment_method.card!
@@ -84,6 +92,8 @@ const formatSubscription = (
         }
       : null,
     status,
+    type,
+    email: extendedCustomer.deleted ? '' : extendedCustomer.email,
   }
 }
 
@@ -107,5 +117,6 @@ const GET_ORG_SUBSCRIPTION = gql(`
         stripeSubscriptionId
         stripeCustomerId
         status
+        type
       }
     }`)
