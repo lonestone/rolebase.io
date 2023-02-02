@@ -1,5 +1,13 @@
 import FadeCard from '@atoms/FadeCard'
-import { Box, CardProps, Divider, Flex, Tag, Text } from '@chakra-ui/react'
+import {
+  Box,
+  CardProps,
+  Divider,
+  Flex,
+  Tag,
+  Text,
+  useBreakpointValue
+} from '@chakra-ui/react'
 import ParticipantsGroup from '@molecules/ParticipantsGroup'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
@@ -21,6 +29,10 @@ export default function SubscriptionPlanSubCard({
   ...rest
 }: SubscrptionPlanCard) {
   const { t } = useTranslation()
+  const nbParticipantBreakpoint = useBreakpointValue({
+    base: 4,
+    md: 7,
+  })
   const members = useStoreState((state) =>
     state.members.entries
       ?.concat(state.members.entries)
@@ -69,7 +81,11 @@ export default function SubscriptionPlanSubCard({
 
           <Flex flexDir="column" gap="2" alignItems="end">
             {members && (
-              <ParticipantsGroup max={7} size="sm" participants={members} />
+              <ParticipantsGroup
+                max={nbParticipantBreakpoint}
+                size="sm"
+                participants={members}
+              />
             )}
             <Tag
               borderRadius="full"
