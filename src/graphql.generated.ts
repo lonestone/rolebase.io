@@ -4794,6 +4794,150 @@ export type Meeting_Set_Input = {
   videoConf?: InputMaybe<Scalars['json']>;
 };
 
+/** columns and relationships of "meeting_stats" */
+export type Meeting_Stats = {
+  __typename?: 'meeting_stats';
+  count?: Maybe<Scalars['bigint']>;
+  day?: Maybe<Scalars['timestamptz']>;
+  orgId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregated selection of "meeting_stats" */
+export type Meeting_Stats_Aggregate = {
+  __typename?: 'meeting_stats_aggregate';
+  aggregate?: Maybe<Meeting_Stats_Aggregate_Fields>;
+  nodes: Array<Meeting_Stats>;
+};
+
+/** aggregate fields of "meeting_stats" */
+export type Meeting_Stats_Aggregate_Fields = {
+  __typename?: 'meeting_stats_aggregate_fields';
+  avg?: Maybe<Meeting_Stats_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Meeting_Stats_Max_Fields>;
+  min?: Maybe<Meeting_Stats_Min_Fields>;
+  stddev?: Maybe<Meeting_Stats_Stddev_Fields>;
+  stddev_pop?: Maybe<Meeting_Stats_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Meeting_Stats_Stddev_Samp_Fields>;
+  sum?: Maybe<Meeting_Stats_Sum_Fields>;
+  var_pop?: Maybe<Meeting_Stats_Var_Pop_Fields>;
+  var_samp?: Maybe<Meeting_Stats_Var_Samp_Fields>;
+  variance?: Maybe<Meeting_Stats_Variance_Fields>;
+};
+
+
+/** aggregate fields of "meeting_stats" */
+export type Meeting_Stats_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Meeting_Stats_Avg_Fields = {
+  __typename?: 'meeting_stats_avg_fields';
+  count?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "meeting_stats". All fields are combined with a logical 'AND'. */
+export type Meeting_Stats_Bool_Exp = {
+  _and?: InputMaybe<Array<Meeting_Stats_Bool_Exp>>;
+  _not?: InputMaybe<Meeting_Stats_Bool_Exp>;
+  _or?: InputMaybe<Array<Meeting_Stats_Bool_Exp>>;
+  count?: InputMaybe<Bigint_Comparison_Exp>;
+  day?: InputMaybe<Timestamptz_Comparison_Exp>;
+  orgId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Meeting_Stats_Max_Fields = {
+  __typename?: 'meeting_stats_max_fields';
+  count?: Maybe<Scalars['bigint']>;
+  day?: Maybe<Scalars['timestamptz']>;
+  orgId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Meeting_Stats_Min_Fields = {
+  __typename?: 'meeting_stats_min_fields';
+  count?: Maybe<Scalars['bigint']>;
+  day?: Maybe<Scalars['timestamptz']>;
+  orgId?: Maybe<Scalars['uuid']>;
+};
+
+/** Ordering options when selecting data from "meeting_stats". */
+export type Meeting_Stats_Order_By = {
+  count?: InputMaybe<Order_By>;
+  day?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "meeting_stats" */
+export enum Meeting_Stats_Select_Column {
+  /** column name */
+  Count = 'count',
+  /** column name */
+  Day = 'day',
+  /** column name */
+  OrgId = 'orgId'
+}
+
+/** aggregate stddev on columns */
+export type Meeting_Stats_Stddev_Fields = {
+  __typename?: 'meeting_stats_stddev_fields';
+  count?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Meeting_Stats_Stddev_Pop_Fields = {
+  __typename?: 'meeting_stats_stddev_pop_fields';
+  count?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Meeting_Stats_Stddev_Samp_Fields = {
+  __typename?: 'meeting_stats_stddev_samp_fields';
+  count?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "meeting_stats" */
+export type Meeting_Stats_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Meeting_Stats_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Meeting_Stats_Stream_Cursor_Value_Input = {
+  count?: InputMaybe<Scalars['bigint']>;
+  day?: InputMaybe<Scalars['timestamptz']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type Meeting_Stats_Sum_Fields = {
+  __typename?: 'meeting_stats_sum_fields';
+  count?: Maybe<Scalars['bigint']>;
+};
+
+/** aggregate var_pop on columns */
+export type Meeting_Stats_Var_Pop_Fields = {
+  __typename?: 'meeting_stats_var_pop_fields';
+  count?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Meeting_Stats_Var_Samp_Fields = {
+  __typename?: 'meeting_stats_var_samp_fields';
+  count?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Meeting_Stats_Variance_Fields = {
+  __typename?: 'meeting_stats_variance_fields';
+  count?: Maybe<Scalars['Float']>;
+};
+
 /** columns and relationships of "meeting_step" */
 export type Meeting_Step = {
   __typename?: 'meeting_step';
@@ -9402,6 +9546,10 @@ export type Query_Root = {
   meeting_recurring_aggregate: Meeting_Recurring_Aggregate;
   /** fetch data from the table: "meeting_recurring" using primary key columns */
   meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
+  /** fetch data from the table: "meeting_stats" */
+  meeting_stats: Array<Meeting_Stats>;
+  /** fetch aggregated fields from the table: "meeting_stats" */
+  meeting_stats_aggregate: Meeting_Stats_Aggregate;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -9861,6 +10009,24 @@ export type Query_RootMeeting_Recurring_AggregateArgs = {
 
 export type Query_RootMeeting_Recurring_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootMeeting_StatsArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
+  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_Stats_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
+  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
 };
 
 
@@ -10999,6 +11165,12 @@ export type Subscription_Root = {
   meeting_recurring_by_pk?: Maybe<Meeting_Recurring>;
   /** fetch data from the table in a streaming manner: "meeting_recurring" */
   meeting_recurring_stream: Array<Meeting_Recurring>;
+  /** fetch data from the table: "meeting_stats" */
+  meeting_stats: Array<Meeting_Stats>;
+  /** fetch aggregated fields from the table: "meeting_stats" */
+  meeting_stats_aggregate: Meeting_Stats_Aggregate;
+  /** fetch data from the table in a streaming manner: "meeting_stats" */
+  meeting_stats_stream: Array<Meeting_Stats>;
   /** fetch data from the table: "meeting_step" */
   meeting_step: Array<Meeting_Step>;
   /** fetch aggregated fields from the table: "meeting_step" */
@@ -11596,6 +11768,31 @@ export type Subscription_RootMeeting_Recurring_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Meeting_Recurring_Stream_Cursor_Input>>;
   where?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_StatsArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
+  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Stats_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Stats_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Meeting_Stats_Order_By>>;
+  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Stats_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Meeting_Stats_Stream_Cursor_Input>>;
+  where?: InputMaybe<Meeting_Stats_Bool_Exp>;
 };
 
 
@@ -15072,11 +15269,12 @@ export type GetOrgQueryVariables = Exact<{
 export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } | null };
 
 export type OrgsSubscriptionVariables = Exact<{
+  userId: Scalars['uuid'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type OrgsSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null }> };
+export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } }> };
 
 export type OrgSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
@@ -17307,9 +17505,13 @@ export function refetchGetOrgQuery(variables: GetOrgQueryVariables) {
       return { query: GetOrgDocument, variables: variables }
     }
 export const OrgsDocument = gql`
-    subscription orgs($archived: Boolean!) {
-  org(where: {archived: {_eq: $archived}}, order_by: {createdAt: asc}) {
-    ...Org
+    subscription orgs($userId: uuid!, $archived: Boolean!) {
+  member(
+    where: {userId: {_eq: $userId}, archived: {_eq: false}, org: {archived: {_eq: $archived}}}
+  ) {
+    org {
+      ...Org
+    }
   }
 }
     ${OrgFragmentDoc}`;
@@ -17326,6 +17528,7 @@ export const OrgsDocument = gql`
  * @example
  * const { data, loading, error } = useOrgsSubscription({
  *   variables: {
+ *      userId: // value for 'userId'
  *      archived: // value for 'archived'
  *   },
  * });

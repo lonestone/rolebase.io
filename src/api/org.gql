@@ -4,9 +4,17 @@ query getOrg($id: uuid!) {
   }
 }
 
-subscription orgs($archived: Boolean!) {
-  org(where: { archived: { _eq: $archived } }, order_by: { createdAt: asc }) {
-    ...Org
+subscription orgs($userId: uuid!, $archived: Boolean!) {
+  member(
+    where: {
+      userId: { _eq: $userId }
+      archived: { _eq: false }
+      org: { archived: { _eq: $archived } }
+    }
+  ) {
+    org {
+      ...Org
+    }
   }
 }
 

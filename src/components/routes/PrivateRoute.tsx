@@ -3,6 +3,7 @@ import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
 import { useOrgsSubscription } from '@gql'
 import useSuperAdmin from '@hooks/useSuperAdmin'
+import { useUserId } from '@nhost/react'
 import MemberInvitationPage from '@pages/MemberInvitationPage'
 import OrgsPage from '@pages/OrgsPage'
 import Page404 from '@pages/Page404'
@@ -18,17 +19,19 @@ import OrgSlugRoute from './OrgSlugRoute'
 export default function PrivateRoute() {
   const superAdmin = useSuperAdmin()
   const navigate = useNavigate()
+  const userId = useUserId()
 
   // Subscribe to orgs
   const result = useOrgsSubscription({
-    variables: { archived: false },
+    skip: !userId,
+    variables: { userId: userId!, archived: false },
   })
   const setSubscriptionResult = useStoreActions(
     (actions) => actions.orgs.setSubscriptionResult
   )
   useEffect(() => {
     setSubscriptionResult({
-      entries: result.data?.org,
+      entries: result.data?.member.map((m) => m.org),
       loading: result.loading,
       error: result.error,
     })
