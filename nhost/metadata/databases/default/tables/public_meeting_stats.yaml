@@ -1,0 +1,3 @@
+table:
+  name: meeting_stats
+  schema: public

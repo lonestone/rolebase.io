@@ -12,6 +12,7 @@
 - "!include public_log.yaml"
 - "!include public_meeting.yaml"
 - "!include public_meeting_recurring.yaml"
+- "!include public_meeting_stats.yaml"
 - "!include public_meeting_step.yaml"
 - "!include public_meeting_step_type.yaml"
 - "!include public_meeting_template.yaml"
