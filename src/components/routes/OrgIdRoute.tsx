@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import OrgRoutes from './OrgRoutes'
+import OrgRoute from './OrgRoute'
 
 type Params = {
   orgId: string
@@ -8,5 +8,5 @@ type Params = {
 
 export default function OrgIdRoute() {
   const { orgId } = useParams<Params>()
-  return orgId ? <OrgRoutes orgId={orgId} /> : null
+  return orgId ? <OrgRoute orgId={orgId} /> : null
 }

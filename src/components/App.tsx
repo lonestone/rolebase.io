@@ -10,7 +10,7 @@ import { nhost } from 'src/nhost'
 import i18n from '../i18n'
 import { store } from '../store'
 import theme from '../theme'
-import AppRoutes from './routes/AppRoutes'
+import AppRoute from './routes/AppRoute'
 
 export default function App() {
   return (
@@ -22,7 +22,7 @@ export default function App() {
             <SidebarProvider>
               <StoreProvider store={store}>
                 <Router>
-                  <AppRoutes />
+                  <AppRoute />
                 </Router>
               </StoreProvider>
             </SidebarProvider>

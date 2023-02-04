@@ -1,11 +1,11 @@
 import Loading from '@atoms/Loading'
 import { useAuthenticationStatus } from '@nhost/react'
 import React from 'react'
-import PrivateRoutes from './PrivateRoutes'
-import PublicRoutes from './PublicRoutes'
+import PrivateRoute from './PrivateRoute'
+import PublicRoute from './PublicRoute'
 
-export default function AppRoutes() {
+export default function AppRoute() {
   const { isAuthenticated, isLoading } = useAuthenticationStatus()
   if (isLoading) return <Loading active center />
-  return isAuthenticated ? <PrivateRoutes /> : <PublicRoutes />
+  return isAuthenticated ? <PrivateRoute /> : <PublicRoute />
 }

@@ -1,8 +1,6 @@
 import { OrgFragment } from '@gql'
-import useOrg from './useOrg'
-import { useOrgId } from './useOrgId'
+import { useStoreState } from '@store/hooks'
 
 export default function useCurrentOrg(): OrgFragment | undefined {
-  const orgId = useOrgId()
-  return useOrg(orgId)
+  return useStoreState((state) => state.orgs.current)
 }

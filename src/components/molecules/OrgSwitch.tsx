@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import { useOrgId } from '@hooks/useOrgId'
 import OrgCreateModal from '@organisms/org/OrgCreateModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
@@ -22,9 +23,11 @@ import { Link } from 'react-router-dom'
 export default function OrgSwitch(props: MenuButtonProps) {
   const { t } = useTranslation()
   const sidebarContext = useContext(SidebarContext)
+  const orgId = useOrgId()
   const org = useCurrentOrg()
   const orgs = useStoreState((state) => state.orgs.entries)
   const sortedOrgs = orgs?.sort((a, b) => (a.name < b.name ? -1 : 1))
+  const showName = org && org.id === orgId
 
   // Set orgId in localStorage
   const handleOrgClick = (orgId: string) => {
@@ -39,7 +42,6 @@ export default function OrgSwitch(props: MenuButtonProps) {
     onClose: onCreateClose,
   } = useDisclosure()
 
-  if (!org || !orgs) return null
   return (
     <Menu>
       <MenuButton
@@ -53,10 +55,11 @@ export default function OrgSwitch(props: MenuButtonProps) {
         textAlign="left"
         whiteSpace="normal"
         borderRadius="none"
+        opacity={showName ? 1 : 0}
         rightIcon={<UpDownIcon pt={1} opacity={0.6} />}
         {...props}
       >
-        {org.name}
+        {showName ? org.name : ''}
       </MenuButton>
 
       <MenuList zIndex={10} shadow="lg" ml={2}>

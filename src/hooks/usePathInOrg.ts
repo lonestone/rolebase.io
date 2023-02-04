@@ -1,7 +1,11 @@
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import useCurrentOrg from './useCurrentOrg'
+import { useOrgId } from './useOrgId'
 
 export function usePathInOrg(path: string) {
+  const orgId = useOrgId()
   const org = useCurrentOrg()
-  return org ? `${getOrgPath(org)}/${path}` : ''
+  if (!org && !orgId) return ''
+
+  return `${org ? getOrgPath(org) : `/orgs/${orgId}`}/${path}`
 }

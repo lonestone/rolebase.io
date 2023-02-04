@@ -21,7 +21,7 @@ import {
   SidebarContext,
 } from '@contexts/SidebarContext'
 import useCurrentMember from '@hooks/useCurrentMember'
-import useCurrentOrg from '@hooks/useCurrentOrg'
+import { useOrgId } from '@hooks/useOrgId'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import Notifications from '@molecules/Notifications'
 import OrgSwitch from '@molecules/OrgSwitch'
@@ -29,6 +29,7 @@ import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
 import SettingsMenuList from '@molecules/SettingsMenuList'
 import UserMenu from '@molecules/UserMenu'
 import { useAuthenticated } from '@nhost/react'
+import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -52,7 +53,8 @@ const logoContainerWidth = 65
 export default function Sidebar() {
   const { t } = useTranslation()
   const isAuthenticated = useAuthenticated()
-  const org = useCurrentOrg()
+  const orgId = useOrgId()
+  const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()
 
   // Get Sidebar context
@@ -135,7 +137,7 @@ export default function Sidebar() {
               <BrandIcon size="sm" />
             </Link>
 
-            {!context.expand.isOpen && (
+            {!context.expand.isOpen && orgId && (
               <>
                 <Spacer />
 
@@ -159,7 +161,7 @@ export default function Sidebar() {
                 </SidebarIconButton>
 
                 <SidebarIconButton
-                  to={`${rootPath}tasks?member=${currentMember?.id}`}
+                  to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                   icon={<FiCheckSquare />}
                 >
                   {t('Sidebar.tasks')}
@@ -185,7 +187,7 @@ export default function Sidebar() {
 
       {(!isSmall || context.expand.isOpen) && (
         <Flex flex={1} flexDirection="column">
-          {org ? (
+          {orgId ? (
             <>
               <OrgSwitch mb={5} />
 
@@ -209,7 +211,7 @@ export default function Sidebar() {
               </SidebarLinkItem>
 
               <SidebarLinkItem
-                to={`${rootPath}tasks?member=${currentMember?.id}`}
+                to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                 icon={<FiCheckSquare />}
               >
                 {t('Sidebar.tasks')}
@@ -224,11 +226,14 @@ export default function Sidebar() {
                 </Menu>
               </Box>
             </>
-          ) : window.location.pathname !== '/' ? (
-            <SidebarLinkItem to="/" exact icon={<FiArrowLeft />}>
-              {t('Sidebar.orgs')}
-            </SidebarLinkItem>
-          ) : null}
+          ) : (
+            !orgLoading &&
+            window.location.pathname !== '/' && (
+              <SidebarLinkItem to="/" exact icon={<FiArrowLeft />}>
+                {t('Sidebar.orgs')}
+              </SidebarLinkItem>
+            )
+          )}
 
           <Spacer />
 
@@ -240,7 +245,7 @@ export default function Sidebar() {
             mx="auto"
           >
             <ButtonGroup variant="ghost" size={isSmall ? 'lg' : 'sm'}>
-              {org && (
+              {orgId && (
                 <IconTextButton
                   aria-label={t('Sidebar.search', {
                     keys: `${cmdOrCtrlKey} + P`,

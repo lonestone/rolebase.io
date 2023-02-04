@@ -6,9 +6,7 @@ import { store } from '../store'
 export function useNavigateOrg() {
   const navigate = useNavigate()
   return useCallback((path = '') => {
-    const orgId = store.getState().orgs.currentId
-    const orgs = store.getState().orgs.entries
-    const org = orgs?.find((org) => org.id === orgId)
+    const org = store.getState().orgs.current
     if (!org) return
     navigate(`${getOrgPath(org)}/${path}`)
   }, [])

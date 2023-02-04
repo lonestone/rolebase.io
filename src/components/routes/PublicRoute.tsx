@@ -5,7 +5,7 @@ import SignupPage from '@pages/SignupPage'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-export default function PublicRoutes() {
+export default function PublicRoute() {
   return (
     <Routes>
       <Route index element={<Homepage />} />

@@ -2,7 +2,7 @@ import Page404 from '@pages/Page404'
 import { useStoreState } from '@store/hooks'
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import OrgRoutes from './OrgRoutes'
+import OrgRoute from './OrgRoute'
 
 type Params = {
   slug: string
@@ -16,5 +16,5 @@ export default function OrgSlugRoute() {
   // Loading
   if (!orgs) return null
 
-  return orgId ? <OrgRoutes orgId={orgId} /> : <Page404 />
+  return orgId ? <OrgRoute orgId={orgId} /> : <Page404 />
 }
