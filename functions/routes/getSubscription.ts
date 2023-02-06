@@ -51,6 +51,11 @@ export default route(async (context): Promise<Subscription | null> => {
 
   // Get stripe invoices
   const customer = await getStripeExtendedCustomer(stripeCustomerId)
+  const subscription = customer.subscriptions.data.find(
+    (sub) => sub.id === stripeSubscriptionId
+  )
+  console.log('subscription:', subscription)
+
   const upcomingInvoice = await getStripeUpcomingInvoice(
     stripeCustomerId,
     stripeSubscriptionId
@@ -58,6 +63,7 @@ export default route(async (context): Promise<Subscription | null> => {
 
   return formatSubscription(
     customer,
+    subscription,
     upcomingInvoice,
     orgId,
     orgSubscriptionStatus,
@@ -67,7 +73,8 @@ export default route(async (context): Promise<Subscription | null> => {
 
 const formatSubscription = (
   extendedCustomer: ExtendedStripeCustomer,
-  upcomingInvoice: Stripe.UpcomingInvoice,
+  subscription: Stripe.Subscription | undefined,
+  upcomingInvoice: Stripe.UpcomingInvoice | null,
   orgId: string,
   status: Subscription_Payment_Status_Enum,
   type: Subscription_Plan_Type_Enum
@@ -93,7 +100,16 @@ const formatSubscription = (
       : null,
     status,
     type,
-    email: extendedCustomer.deleted ? '' : extendedCustomer.email,
+    billingDetails: {
+      address: extendedCustomer.deleted
+        ? null
+        : extendedCustomer.address ?? null,
+      email: extendedCustomer.deleted ? '' : extendedCustomer.email,
+      name: extendedCustomer.deleted ? '' : extendedCustomer.name,
+    },
+    expiresAt: subscription?.cancel_at
+      ? toDateTime(subscription?.cancel_at ?? 0)
+      : null,
   }
 }
 

@@ -1,4 +1,5 @@
 import { Org_Subscription } from '@gql'
+import Stripe from 'stripe'
 
 export type SubscriptionIntentResponse = {
   subscriptionId: string
@@ -32,8 +33,15 @@ export type SubscriptionCard = {
   last4: string
 }
 
+export type CustomerBillingDetails = {
+  name?: string | null | undefined
+  email?: string | null | undefined
+  address?: Stripe.Address | null
+}
+
 export type Subscription = {
   card: SubscriptionCard
   upcomingInvoice: UpcomingInvoice | null
-  email: string | null
+  expiresAt: Date | null
+  billingDetails: CustomerBillingDetails | null
 } & Pick<Org_Subscription, 'status' | 'orgId' | 'type'>

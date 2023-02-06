@@ -28,7 +28,6 @@ export default function SubscriptionPlanCard({
 }: SubscrptionPlanCard) {
   const { t } = useTranslation()
 
-  console.log('Type:', type)
   return (
     <FadeCard
       p="4"
