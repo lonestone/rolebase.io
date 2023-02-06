@@ -80,6 +80,7 @@ export default function BillingEmailSettingItem({
         ...toastDefault,
       })
       onUpdate()
+      onClose()
     } catch (e) {
       toast({
         title: t('SubscriptionTabs.accountTab.billingEmailUpdateError'),

@@ -1,4 +1,5 @@
-import { Button, Divider, Flex, FlexProps } from '@chakra-ui/react'
+import { unsubscribeOrg } from '@api/functions'
+import { Button, Divider, Flex, FlexProps, useToast } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
@@ -9,10 +10,10 @@ import {
   SubscriptionPlan,
   SubscriptionPlanCardData,
 } from '@utils/subscriptionPlansTypes'
+import { format } from 'date-fns'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight } from 'react-icons/fi'
-import { unsubscribeOrg } from '../../../api/functions'
 import CurrentSubscriptionDetails from './CurrentSubscriptionDetails'
 
 type SubscriptionTabSubLayoutProps = {
@@ -28,19 +29,34 @@ export default function SubscriptionTabSubLayout({
   const { t } = useTranslation()
   const plansData = useSubscriptionPlanData()
   const currentMember = useCurrentMember()
+  const toast = useToast()
   const orgId = useOrgId()
   const [currentPlanData, setCurrentPlanData] = useState<SubscriptionPlan>()
+  const [loading, setLoading] = useState(false)
 
   // TODO: Put this inside a confirmation modal
   const unsubscribe = async () => {
+    setLoading(true)
+
     try {
-      await unsubscribeOrg({
+      const { cancelAt } = await unsubscribeOrg({
         memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
       })
       onSubscriptionUpdated()
+      toast({
+        title: t('SubscriptionPlans.unsubscribeDate', {
+          date: format(new Date(cancelAt), 'dd/MM/uuuu'),
+        }),
+        status: 'success',
+      })
     } catch (e) {
-      console.log('Err:', e)
+      toast({
+        title: t('common.errorOccurred'),
+        status: 'error',
+      })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -73,6 +89,7 @@ export default function SubscriptionTabSubLayout({
             rightIcon={subscription.expiresAt ? undefined : <FiArrowRight />}
             colorScheme="gray"
             onClick={unsubscribe}
+            isLoading={loading}
             disabled={!!subscription.expiresAt}
           >
             {subscription.expiresAt
@@ -116,7 +133,7 @@ export default function SubscriptionTabSubLayout({
     }
 
     return plansArray
-  }, [plansData, subscription])
+  }, [plansData, subscription, loading])
 
   return (
     <Flex w="100%" gap="5" alignItems="center" flexDir="column">
@@ -124,7 +141,7 @@ export default function SubscriptionTabSubLayout({
         <CurrentSubscriptionDetails
           subscription={subscription}
           currentPlan={currentPlanData}
-          onCardUpdated={onSubscriptionUpdated}
+          onSubscriptionUpdated={onSubscriptionUpdated}
         />
       )}
       <Divider />

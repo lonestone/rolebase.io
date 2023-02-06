@@ -45,7 +45,12 @@ export default route(async (context): Promise<Subscription | null> => {
   const orgSubscriptionStatus = orgSubscription?.org_subscription[0]?.status
   const orgSubscriptionType = orgSubscription?.org_subscription[0]?.type
 
-  if (!stripeSubscriptionId || !stripeCustomerId) {
+  if (
+    !stripeSubscriptionId ||
+    !stripeCustomerId ||
+    (orgSubscriptionStatus !== Subscription_Payment_Status_Enum.Active &&
+      orgSubscriptionStatus !== Subscription_Payment_Status_Enum.Trialing)
+  ) {
     return null
   }
 
@@ -54,7 +59,6 @@ export default route(async (context): Promise<Subscription | null> => {
   const subscription = customer.subscriptions.data.find(
     (sub) => sub.id === stripeSubscriptionId
   )
-  console.log('subscription:', subscription)
 
   const upcomingInvoice = await getStripeUpcomingInvoice(
     stripeCustomerId,

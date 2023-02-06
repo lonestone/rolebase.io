@@ -610,7 +610,15 @@
       "amount": "Amount",
       "invoiceDate": "Invoice date",
       "invoice": "Invoice",
-      "download": "Download"
+      "download": "Download",
+      "status": "Statut",
+      "paymentStatus": {
+        "paid": "Paid",
+        "draft": "Draft",
+        "open": "Open",
+        "uncollectible": "Uncollectible",
+        "void": "Canceled"
+      }
     },
     "accountTab": {
       "billingEmail": "Billing email",
@@ -622,8 +630,11 @@
       "billingEmailUpdateError": "Error processing billing email update",
       "updateBillingDetails": "Update billing details",
       "billingDetailsUpdated": "Billing details updated",
-      "billingDetailsUpdateError": "Error processing biling details update",
-      "errorOccurred": "An error occurred, plase try again later"
+      "billingDetailsUpdateError": "Error processing billing details update",
+      "updatePaymentMethod": "Update payment method",
+      "PaymentMethodUpdated": "Payment method updated",
+      "PaymentMethodUpdateError": "Error processing payment method update",
+      "errorLoadingInvoices": "Failed to retrieve invoices"
     }
   },
   "SubscriptionPlans": {
@@ -642,6 +653,10 @@
     "subscriptionActiveUntil": "Subscription active until",
     "activateOnSubscriptionEnd": "Will activate when current subscription ends",
     "upcomingInvoiceHelp": "Know how this amount is calculated each month",
+    "active": "Active",
+    "unsubscribeDate": "Your subscription will end on {{date}}",
+    "subscriptionResumed": "Your subscription has been resumed",
+    "noBillingAccount": "You do not have any billing account yet",
     "free": {
       "title": "Free",
       "desc": "Perfect to try or work with a small team",
@@ -833,6 +848,7 @@
     "copy": "Copy",
     "toastCopied": "URL copied",
     "none": "None",
+    "errorOccurred": "An error occurred, plase try again later. If this persists contact us at godefroy@lonestone.studio",
     "searchTypes": {
       "All": "All",
       "Member": "Members",

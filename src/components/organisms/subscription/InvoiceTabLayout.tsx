@@ -1,4 +1,4 @@
-import { Flex, FlexProps, Spinner, Text } from '@chakra-ui/react'
+import { Flex, FlexProps, Text } from '@chakra-ui/react'
 import { Invoice } from '@shared/model/subscription'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,12 +6,10 @@ import InvoiceTable from './InvoiceTable'
 
 type InvoiceTabLayoutProps = {
   invoices: Invoice[]
-  loading: boolean
 } & FlexProps
 
 export default function InvoiceTabLayout({
   invoices,
-  loading,
   ...rest
 }: InvoiceTabLayoutProps) {
   const { t } = useTranslation()
@@ -26,11 +24,9 @@ export default function InvoiceTabLayout({
           {t('SubscriptionTabs.invoiceTab.desc')}
         </Text>
       </Flex>
-      {loading && <Spinner m="auto" />}
+      {invoices.length >= 0 && <InvoiceTable invoices={invoices} />}
 
-      {!!invoices.length && !loading && <InvoiceTable invoices={invoices} />}
-
-      {invoices.length <= 0 && !loading && (
+      {invoices.length <= 0 && (
         <Text m="auto">{t('SubscriptionTabs.invoiceTab.noInvoice')}</Text>
       )}
     </Flex>

@@ -53,7 +53,7 @@ export default function UpdatePaymentMethodModal({
       setClientSecret(clientSecret)
     } catch (e) {
       toast({
-        title: t('SubscriptionTabs.accountTab.errorOccurred'),
+        title: t('common.errorOccurred'),
         status: 'error',
         ...toastDefault,
       })
