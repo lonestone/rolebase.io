@@ -600,9 +600,31 @@
     "heading": "Subscription"
   },
   "SubscriptionTabs": {
-    "subscriptionTab": "My subscription",
-    "accountTab": "Account",
-    "invoicesTab": "Invoices"
+    "subscriptionTabTitle": "My subscription",
+    "accountTabTitle": "Account",
+    "invoicesTabTitle": "Invoices",
+    "invoiceTab": {
+      "heading": "Invoice history",
+      "desc": "Find all your past invoices here and download them.",
+      "noInvoice": "You have no invoice",
+      "amount": "Amount",
+      "invoiceDate": "Invoice date",
+      "invoice": "Invoice",
+      "download": "Download"
+    },
+    "accountTab": {
+      "billingEmail": "Billing email",
+      "billingDetails": "Billing details",
+      "currentSubscription": "Current subscription",
+      "paymentMethod": "Payment method",
+      "updateBillingEmail": "Update billing email",
+      "billingEmailUpdated": "Billing email updated",
+      "billingEmailUpdateError": "Error processing billing email update",
+      "updateBillingDetails": "Update billing details",
+      "billingDetailsUpdated": "Billing details updated",
+      "billingDetailsUpdateError": "Error processing biling details update",
+      "errorOccurred": "An error occurred, plase try again later"
+    }
   },
   "SubscriptionPlans": {
     "currentPlan": "Current plan",
@@ -617,6 +639,8 @@
     "paymentMethod": "Payment method",
     "expiresAt": "Expires",
     "card": "Card",
+    "subscriptionActiveUntil": "Subscription active until",
+    "activateOnSubscriptionEnd": "Will activate when current subscription ends",
     "upcomingInvoiceHelp": "Know how this amount is calculated each month",
     "free": {
       "title": "Free",
@@ -808,6 +832,7 @@
     "namePlaceholder": "Name...",
     "copy": "Copy",
     "toastCopied": "URL copied",
+    "none": "None",
     "searchTypes": {
       "All": "All",
       "Member": "Members",

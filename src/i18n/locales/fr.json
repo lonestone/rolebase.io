@@ -597,9 +597,31 @@
     "heading": "Abonnement"
   },
   "SubscriptionTabs": {
-    "subscriptionTab": "Mon abonnement",
-    "accountTab": "Compte",
-    "invoicesTab": "Factures"
+    "subscriptionTabTitle": "Mon abonnement",
+    "accountTabTitle": "Compte",
+    "invoicesTabTitle": "Factures",
+    "invoiceTab": {
+      "heading": "Historique des factures",
+      "desc": "Retrouvez toutes vos précédentes factures juste ici et téléchargez-les.",
+      "noInvoice": "Vous n'avez aucun facture",
+      "amount": "Montant",
+      "invoiceDate": "Date de la facture",
+      "invoice": "Facture",
+      "download": "Télécharger"
+    },
+    "accountTab": {
+      "billingEmail": "Email de facturation",
+      "billingDetails": "Informations de facturation",
+      "currentSubscription": "Abonnement actuel",
+      "paymentMethod": "Moyen de paiement",
+      "updateBillingEmail": "Mise à jour de l'email de facturation",
+      "billingEmailUpdated": "Adresse email de facturation mise à jour",
+      "billingEmailUpdateError": "Erreur lors de la mise à jour de l'adresse email de facturation",
+      "updateBillingDetails": "Mise à jour des informations facturation",
+      "billingDetailsUpdated": "Informations de facturation mis à jour",
+      "billingDetailsUpdateError": "Erreur lors de la mise à jour des informations de facturation",
+      "errorOccurred": "Une erreur s'est produite, veuillez réessayer plus tard"
+    }
   },
   "SubscriptionPlans": {
     "currentPlan": "Plan actuel",
@@ -614,6 +636,8 @@
     "paymentMethod": "Méthode de paiement",
     "expiresAt": "Expire le",
     "card": "Carte",
+    "subscriptionActiveUntil": "Abonnement actif jusqu'au",
+    "activateOnSubscriptionEnd": "S'activera quand l'abonnement actuel se termine",
     "upcomingInvoiceHelp": "Savoir comment est calculé ce montant chaque mois",
     "free": {
       "title": "Gratuit",
@@ -802,6 +826,7 @@
     "namePlaceholder": "Nom...",
     "copy": "Copier",
     "toastCopied": "URL copiée",
+    "none": "Aucun",
     "searchTypes": {
       "All": "Tous",
       "Member": "Membres",

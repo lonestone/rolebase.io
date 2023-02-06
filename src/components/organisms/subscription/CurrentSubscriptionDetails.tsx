@@ -1,4 +1,5 @@
 import { Flex, FlexProps } from '@chakra-ui/react'
+import SubscriptionCanceledCard from '@molecules/subscription/SubscriptionCanceledCard'
 import SubscriptionPaymentDetailsCard from '@molecules/subscription/SubscriptionPaymentDetailsCard'
 import SubscriptionPlanSubCard from '@molecules/subscription/SubscriptionPlanSubCard'
 import SubscriptionUpcomingInvoiceCard from '@molecules/subscription/SubscriptionUpcomingInvoiceCard'
@@ -9,11 +10,13 @@ import React from 'react'
 type CurrentSubscriptionDetailsProps = {
   currentPlan: SubscriptionPlan
   subscription: Subscription
+  onCardUpdated: () => void
 } & FlexProps
 
 export default function CurrentSubscriptionDetails({
   subscription,
   currentPlan,
+  onCardUpdated,
   ...rest
 }: CurrentSubscriptionDetailsProps) {
   return (
@@ -27,6 +30,11 @@ export default function CurrentSubscriptionDetails({
     >
       <SubscriptionPlanSubCard {...currentPlan} />
       <Flex flexDir="column" h="100%" gap="15">
+        {!subscription.upcomingInvoice && subscription.expiresAt && (
+          <SubscriptionCanceledCard
+            subscriptionEndDate={subscription.expiresAt}
+          />
+        )}
         {subscription.upcomingInvoice && (
           <SubscriptionUpcomingInvoiceCard
             h={['auto', 'auto', 'auto', '100%']}
@@ -37,11 +45,9 @@ export default function CurrentSubscriptionDetails({
           <SubscriptionPaymentDetailsCard
             h={['auto', 'auto', 'auto', '100%']}
             card={subscription.card}
-            email={subscription.email}
+            email={subscription.billingDetails?.email}
+            onCardUpdated={onCardUpdated}
           />
-        )}
-        {!subscription.upcomingInvoice && (
-          <div>Subscription cancelled, make a component!</div>
         )}
       </Flex>
     </Flex>
