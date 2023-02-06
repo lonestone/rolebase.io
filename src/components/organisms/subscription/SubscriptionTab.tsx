@@ -5,7 +5,7 @@ import SubscriptionTabFreeLayout from './SubscriptionTabFreeLayout'
 import SubscriptionTabSubLayout from './SubscriptionTabSubLayout'
 
 type SubscriptionTabProps = {
-  subscription: Subscription
+  subscription: Subscription | null
   onSubscriptionUpdated: () => void
 } & FlexProps
 

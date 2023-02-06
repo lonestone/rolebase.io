@@ -86,7 +86,7 @@ export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
           />
         ))}
       </Flex>
-      {selectedPlanType && (
+      {selectedPlanType && isOpen && (
         <SubscriptionPaymentModal
           isOpen={isOpen}
           onClose={onClose}
