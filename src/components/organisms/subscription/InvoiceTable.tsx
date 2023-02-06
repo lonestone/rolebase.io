@@ -91,6 +91,16 @@ export default function InvoiceTable({ invoices, ...rest }: InvoiceTableProps) {
         ),
         footer: (props) => props.column.id,
       }),
+      columnHelper.accessor('status', {
+        header: () => t('SubscriptionTabs.invoiceTab.amount'),
+        enableSorting: true,
+        cell: (info) => (
+          <Text {...textStyle}>
+            {t(`SubscriptionTabs.invoiceTab.paymentStatus.${info.getValue()}`)}
+          </Text>
+        ),
+        footer: (props) => props.column.id,
+      }),
       columnHelper.accessor((row) => row.pdfUrl, {
         id: 'actions',
         header: '',

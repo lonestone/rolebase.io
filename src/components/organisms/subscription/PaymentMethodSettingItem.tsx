@@ -33,12 +33,14 @@ export default function PaymentMethodSettingItem({
         editable
         {...rest}
       />
-      <UpdatePaymentMethodModal
-        size="lg"
-        isOpen={isOpen}
-        onClose={onClose}
-        onUpdate={onUpdate}
-      />
+      {isOpen && (
+        <UpdatePaymentMethodModal
+          size="lg"
+          isOpen={isOpen}
+          onClose={onClose}
+          onUpdate={onUpdate}
+        />
+      )}
     </>
   )
 }

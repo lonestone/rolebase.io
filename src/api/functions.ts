@@ -69,10 +69,13 @@ export const subscribeOrg = fn<{
   planType: SubscriptionPlanType
 }>('subscribeOrg')
 
-export const unsubscribeOrg = fn<{
-  memberId: string
-  orgId: string
-}>('unsubscribeOrg')
+export const unsubscribeOrg = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  { cancelAt: string }
+>('unsubscribeOrg')
 
 export const getSubscriptionInvoices = fn<
   {
@@ -123,6 +126,11 @@ export const updateSubscriptionPaymentMethodIntent = fn<
   },
   { clientSecret: string }
 >('updateSubscriptionPaymentMethodIntent')
+
+export const resumeSubscription = fn<{
+  memberId: string
+  orgId: string
+}>('resumeSubscription')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,
