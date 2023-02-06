@@ -189,14 +189,6 @@ export function TextFormatFloatingToolbar({
         isActive={isLink}
         onClick={insertLink}
       />
-      {/*
-      <IconButton
-        aria-label="Insert comment"
-        icon={<FiMessageSquare />}
-        onClick={() => {
-          editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined)
-        }}
-      */}
     </ButtonGroup>
   )
 }

@@ -19,15 +19,13 @@ import {
   COMMAND_PRIORITY_CRITICAL,
   COMMAND_PRIORITY_HIGH,
   COMMAND_PRIORITY_LOW,
-  GridSelection,
   KEY_ESCAPE_COMMAND,
   LexicalEditor,
-  NodeSelection,
-  RangeSelection,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical'
 import React, {
   Dispatch,
+  KeyboardEventHandler,
   useCallback,
   useEffect,
   useRef,
@@ -35,9 +33,9 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
-import { Box, IconButton, Input, Link } from '@chakra-ui/react'
-import { FiEdit3 } from 'react-icons/fi'
-import LinkPreview from '../../ui/LinkPreview'
+import { CheckIcon } from '@chakra-ui/icons'
+import { Flex, IconButton, Input } from '@chakra-ui/react'
+import { FiX } from 'react-icons/fi'
 import { getSelectedNode } from '../../utils/getSelectedNode'
 import { setFloatingElemPosition } from '../../utils/setFloatingElemPosition'
 import { sanitizeUrl } from '../../utils/url'
@@ -57,11 +55,8 @@ function FloatingLinkEditor({
 }) {
   const editorRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const originalUrlRef = useRef<string | undefined>()
   const [linkUrl, setLinkUrl] = useState('')
-  const [isEditMode, setEditMode] = useState(false)
-  const [lastSelection, setLastSelection] = useState<
-    RangeSelection | GridSelection | NodeSelection | null
-  >(null)
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection()
@@ -69,16 +64,16 @@ function FloatingLinkEditor({
       const node = getSelectedNode(selection)
       const parent = node.getParent()
       if ($isLinkNode(parent)) {
-        setLinkUrl(parent.getURL())
+        originalUrlRef.current = parent.getURL()
       } else if ($isLinkNode(node)) {
-        setLinkUrl(node.getURL())
+        originalUrlRef.current = node.getURL()
       } else {
-        setLinkUrl('')
+        originalUrlRef.current = undefined
       }
+      setLinkUrl(originalUrlRef.current ?? '')
     }
     const editorElem = editorRef.current
     const nativeSelection = window.getSelection()
-    const activeElement = document.activeElement
 
     if (editorElem === null) {
       return
@@ -106,14 +101,6 @@ function FloatingLinkEditor({
       }
 
       setFloatingElemPosition(rect, editorElem, anchorElem)
-      setLastSelection(selection)
-    } else if (!activeElement || activeElement.className !== 'link-input') {
-      if (rootElement !== null) {
-        setFloatingElemPosition(null, editorElem, anchorElem)
-      }
-      setLastSelection(null)
-      setEditMode(false)
-      setLinkUrl('')
     }
 
     return true
@@ -180,77 +167,93 @@ function FloatingLinkEditor({
   }, [editor, updateLinkEditor])
 
   useEffect(() => {
-    if (isEditMode && inputRef.current) {
+    if (isLink && linkUrl === defaultUrl && inputRef.current) {
       inputRef.current.focus()
     }
-  }, [isEditMode])
+  }, [isLink, linkUrl])
 
-  // Force edit mode if default url
-  useEffect(() => {
+  const handleKeydown: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    const isEnter = event.key === 'Enter'
+    const isEscape = event.key === 'Escape'
+    if (!isEnter && !isEscape) return
+    event.preventDefault()
     if (linkUrl === defaultUrl) {
-      setEditMode(true)
+      handleRemove()
+    } else {
+      if (isEnter) {
+        handleSave()
+      } else {
+        handleReset()
+      }
     }
-  }, [linkUrl])
+  }
+
+  const handleSave = () => {
+    editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(linkUrl) || null)
+    setIsLink(false)
+  }
+
+  const handleReset = () => {
+    if (!originalUrlRef.current) return
+    editor.dispatchCommand(TOGGLE_LINK_COMMAND, originalUrlRef.current)
+    setIsLink(false)
+  }
+
+  const handleRemove = () => {
+    editor.dispatchCommand(TOGGLE_LINK_COMMAND, null)
+    setIsLink(false)
+  }
 
   return (
-    <Box
+    <Flex
       ref={editorRef}
       bg="gray.50"
+      _dark={{
+        bg: 'gray.600',
+      }}
       position="absolute"
       zIndex={1000}
       top={0}
       left={0}
+      w="350px"
       maxW="95%"
       p={1}
       borderRadius="md"
       boxShadow="lg"
+      fontSize="sm"
     >
-      {isEditMode ? (
-        <Input
-          ref={inputRef}
-          value={linkUrl}
-          size="sm"
-          w="250px"
-          onChange={(event) => {
-            setLinkUrl(event.target.value)
-          }}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === 'Escape') {
-              event.preventDefault()
-              if (lastSelection !== null) {
-                editor.dispatchCommand(
-                  TOGGLE_LINK_COMMAND,
-                  sanitizeUrl(linkUrl) || null
-                )
-                setEditMode(false)
-              }
-            }
-          }}
-        />
-      ) : (
-        <>
-          <Link href={linkUrl} target="_blank" rel="noopener noreferrer" mx={2}>
-            {linkUrl}
-          </Link>
-          <IconButton
-            aria-label="Edit link"
-            tabIndex={0}
-            size="sm"
-            icon={<FiEdit3 />}
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => setEditMode(true)}
-          />
-          <LinkPreview url={linkUrl} />
-        </>
-      )}
-    </Box>
+      <Input
+        ref={inputRef}
+        value={linkUrl}
+        size="sm"
+        flex={1}
+        onChange={(event) => setLinkUrl(event.target.value)}
+        onKeyDown={handleKeydown}
+      />
+      <IconButton
+        aria-label="Remove"
+        icon={<FiX />}
+        size="sm"
+        ml={1}
+        onClick={handleRemove}
+      />
+      <IconButton
+        aria-label="Save"
+        icon={<CheckIcon />}
+        size="sm"
+        ml={1}
+        onClick={handleSave}
+      />
+    </Flex>
   )
 }
 
-function useFloatingLinkEditorToolbar(
-  editor: LexicalEditor,
-  anchorElem: HTMLElement
-) {
+export default function FloatingLinkEditorPlugin({
+  anchorElem = document.body,
+}: {
+  anchorElem?: HTMLElement
+}) {
+  const [editor] = useLexicalComposerContext()
   const [activeEditor, setActiveEditor] = useState(editor)
   const [isLink, setIsLink] = useState(false)
 
@@ -282,6 +285,8 @@ function useFloatingLinkEditorToolbar(
     )
   }, [editor, updateToolbar])
 
+  if (!editor.isEditable()) return null
+
   return isLink
     ? createPortal(
         <FloatingLinkEditor
@@ -293,13 +298,4 @@ function useFloatingLinkEditorToolbar(
         anchorElem
       )
     : null
-}
-
-export default function FloatingLinkEditorPlugin({
-  anchorElem = document.body,
-}: {
-  anchorElem?: HTMLElement
-}) {
-  const [editor] = useLexicalComposerContext()
-  return useFloatingLinkEditorToolbar(editor, anchorElem)
 }

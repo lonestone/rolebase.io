@@ -84,6 +84,10 @@
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 94%;
 }
+.chakra-ui-dark .RichEditor__textCode {
+  background-color: rgb(65, 66, 68);
+  color: rgb(206, 208, 212);
+}
 .RichEditor__hashtag {
   background-color: rgba(88, 144, 255, 0.15);
   border-bottom: 1px solid rgba(88, 144, 255, 0.3);
