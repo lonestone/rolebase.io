@@ -3,11 +3,13 @@ import React, { useMemo } from 'react'
 import { FiBriefcase, FiCoffee, FiGift } from 'react-icons/fi'
 
 type SubscriptionPlanIconProps = {
-  type: Subscription_Plan_Type_Enum
+  type: Subscription_Plan_Type_Enum | null
+  size?: number
 }
 
 export default function SubscriptionPlanIcon({
   type,
+  size,
 }: SubscriptionPlanIconProps) {
   const Icon = useMemo(() => {
     switch (type) {
@@ -20,5 +22,5 @@ export default function SubscriptionPlanIcon({
     }
   }, [type])
 
-  return <Icon />
+  return <Icon size={size} />
 }

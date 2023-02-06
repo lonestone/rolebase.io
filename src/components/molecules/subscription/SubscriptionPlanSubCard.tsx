@@ -7,22 +7,16 @@ import {
   Flex,
   Tag,
   Text,
-  useBreakpointValue
+  useBreakpointValue,
 } from '@chakra-ui/react'
-import { Subscription_Plan_Type_Enum } from '@gql'
 import ParticipantsGroup from '@molecules/ParticipantsGroup'
 import SubscriptionFeatures from '@molecules/subscription/SubscriptionFeatures'
 import { useStoreState } from '@store/hooks'
+import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-type SubscrptionPlanCard = {
-  title: string
-  desc: string
-  features: string[]
-  color: string
-  type: Subscription_Plan_Type_Enum
-} & CardProps
+type SubscrptionPlanCard = SubscriptionPlan & CardProps
 
 export default function SubscriptionPlanSubCard({
   title,
@@ -69,7 +63,7 @@ export default function SubscriptionPlanSubCard({
             </Text>
           </Flex>
 
-          <Flex flexDir="column" gap="2" alignItems="end">
+          <Flex flexDir="column" gap="2" alignItems="end" minW="110px">
             {members && (
               <ParticipantsGroup
                 max={nbParticipantBreakpoint}

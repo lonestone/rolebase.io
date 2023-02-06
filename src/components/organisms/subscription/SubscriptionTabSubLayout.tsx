@@ -1,28 +1,48 @@
 import { Button, Divider, Flex, FlexProps } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
+import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
 import { useSubscriptionPlanData } from '@hooks/useSubscriptionPlanData'
 import SubscriptionPlanCard from '@molecules/subscription/SubscriptionPlanCard'
 import { Subscription } from '@shared/model/subscription'
 import {
   SubscriptionPlan,
-  SubscriptionPlanCardData
+  SubscriptionPlanCardData,
 } from '@utils/subscriptionPlansTypes'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight } from 'react-icons/fi'
+import { unsubscribeOrg } from '../../../api/functions'
 import CurrentSubscriptionDetails from './CurrentSubscriptionDetails'
 
 type SubscriptionTabSubLayoutProps = {
   subscription: Subscription
+  onSubscriptionUpdated: () => void
 } & FlexProps
 
 export default function SubscriptionTabSubLayout({
   subscription,
+  onSubscriptionUpdated,
   ...rest
 }: SubscriptionTabSubLayoutProps) {
   const { t } = useTranslation()
   const plansData = useSubscriptionPlanData()
+  const currentMember = useCurrentMember()
+  const orgId = useOrgId()
   const [currentPlanData, setCurrentPlanData] = useState<SubscriptionPlan>()
+
+  // TODO: Put this inside a confirmation modal
+  const unsubscribe = async () => {
+    try {
+      await unsubscribeOrg({
+        memberId: currentMember?.id ?? '',
+        orgId: orgId ?? '',
+      })
+      onSubscriptionUpdated()
+    } catch (e) {
+      console.log('Err:', e)
+    }
+  }
 
   useEffect(() => {
     if (!plansData || !subscription) return
@@ -50,10 +70,14 @@ export default function SubscriptionTabSubLayout({
         <Flex w="100%" justifyContent="end">
           <Button
             variant="outline"
-            rightIcon={<FiArrowRight />}
+            rightIcon={subscription.expiresAt ? undefined : <FiArrowRight />}
             colorScheme="gray"
+            onClick={unsubscribe}
+            disabled={!!subscription.expiresAt}
           >
-            {t('SubscriptionPlans.downgradePlan')}
+            {subscription.expiresAt
+              ? t('SubscriptionPlans.activateOnSubscriptionEnd')
+              : t('SubscriptionPlans.downgradePlan')}
           </Button>
         </Flex>
       ),
@@ -100,6 +124,7 @@ export default function SubscriptionTabSubLayout({
         <CurrentSubscriptionDetails
           subscription={subscription}
           currentPlan={currentPlanData}
+          onCardUpdated={onSubscriptionUpdated}
         />
       )}
       <Divider />

@@ -5,6 +5,7 @@ import {
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import {
+  CustomerBillingDetails,
   Invoice,
   Subscription,
   SubscriptionPlanType,
@@ -96,6 +97,32 @@ export const getSubscription = fn<
   },
   Subscription
 >('getSubscription')
+
+export const updateSubscriptionBillingEmail = fn<
+  {
+    memberId: string
+    orgId: string
+    email: string
+  },
+  string
+>('updateSubscriptionBillingEmail')
+
+export const updateSubscriptionBillingDetails = fn<
+  {
+    memberId: string
+    orgId: string
+    billingDetails: CustomerBillingDetails
+  },
+  string
+>('updateSubscriptionBillingDetails')
+
+export const updateSubscriptionPaymentMethodIntent = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  { clientSecret: string }
+>('updateSubscriptionPaymentMethodIntent')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,
