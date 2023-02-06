@@ -1,13 +1,14 @@
 import { gql, Member_Role_Enum } from '@gql'
-import { Invoice, InvoiceStatus } from '@shared/model/subscription'
 import { adminRequest } from '@utils/adminRequest'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
-import { getStripeSubscriptionInvoices } from '@utils/stripe'
-import Stripe from 'stripe'
+import {
+  getStripeSubscriptionFromSubscriptionId,
+  stripeResumeSubscription,
+} from '@utils/stripe'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -15,7 +16,7 @@ const yupSchema = yup.object().shape({
   orgId: yup.string().required(),
 })
 
-export default route(async (context): Promise<Invoice[]> => {
+export default route(async (context): Promise<void> => {
   guardAuth(context)
   const { memberId, orgId } = guardBodyParams(context, yupSchema)
 
@@ -35,41 +36,19 @@ export default route(async (context): Promise<Invoice[]> => {
     orgSubscription?.org_subscription[0]?.stripeCustomerId
 
   if (!stripeSubscriptionId || !stripeCustomerId) {
-    return []
+    throw new RouteError(400, 'Invalid request')
   }
 
-  // Get stripe invoices
-  const invoices = await getStripeSubscriptionInvoices(
-    stripeCustomerId,
+  const stripeSubscription = await getStripeSubscriptionFromSubscriptionId(
     stripeSubscriptionId
   )
 
-  return formatStripeInvoices(invoices)
-})
-
-const formatStripeInvoices = (
-  stripeInvoicesList: Stripe.ApiList<Stripe.Invoice>
-): Invoice[] => {
-  const stripeInvoices = stripeInvoicesList.data
-  const invoices: Invoice[] = []
-
-  for (const stripeInvoice of stripeInvoices) {
-    invoices.push({
-      createdAt: toDateTime(stripeInvoice.created),
-      pdfUrl: stripeInvoice.invoice_pdf,
-      totalInCents: stripeInvoice.total,
-      status: stripeInvoice.status as InvoiceStatus,
-    })
+  if (!stripeSubscription.cancel_at) {
+    throw new RouteError(400, 'Subscription was not canceled')
   }
 
-  return invoices
-}
-
-const toDateTime = (secs: number): Date => {
-  const t = new Date(1970, 0, 1) // Epoch
-  t.setSeconds(secs)
-  return t
-}
+  await stripeResumeSubscription(stripeSubscription.id)
+})
 
 const GET_ORG = gql(`
     query getOrgById($orgId: uuid!) {

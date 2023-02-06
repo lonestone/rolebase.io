@@ -1,7 +1,6 @@
 import { Button, HStack, StackProps, Text } from '@chakra-ui/react'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEdit2 } from 'react-icons/fi'
 
 type SettingItemProps = {
   displayName: string
@@ -56,12 +55,7 @@ export default function SettingItem({
           </Text>
         )}
         {editable && onEdit && (
-          <Button
-            leftIcon={<FiEdit2 />}
-            onClick={onEdit}
-            color="blue.500"
-            variant="unstyled"
-          >
+          <Button onClick={onEdit} color="blue.500" variant="link">
             {t('common.edit')}
           </Button>
         )}

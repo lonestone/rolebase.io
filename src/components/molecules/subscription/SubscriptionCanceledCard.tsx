@@ -1,17 +1,49 @@
-import { Button, Card, CardProps, Flex, Text } from '@chakra-ui/react'
+import { resumeSubscription } from '@api/functions'
+import { Button, Card, CardProps, Flex, Text, useToast } from '@chakra-ui/react'
+import { useOrgId } from '@hooks/useOrgId'
 import { format } from 'date-fns'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useCurrentMember from '../../../hooks/useCurrentMember'
 
-type SubscriptionCancelledCardProps = {
+type SubscriptionCanceledCardProps = {
   subscriptionEndDate: Date
+  onSubscriptionResumed: () => void
 } & CardProps
 
-export default function SubscriptionCancelledCard({
+export default function SubscriptionCanceledCard({
   subscriptionEndDate,
+  onSubscriptionResumed,
   ...rest
-}: SubscriptionCancelledCardProps) {
+}: SubscriptionCanceledCardProps) {
   const { t } = useTranslation()
+  const orgId = useOrgId()
+  const currentMember = useCurrentMember()
+  const toast = useToast()
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const resumeSub = async () => {
+    setLoading(true)
+
+    try {
+      await resumeSubscription({
+        orgId: orgId ?? '',
+        memberId: currentMember?.id ?? '',
+      })
+      toast({
+        title: t('SubscriptionPlans.subscriptionResumed'),
+        status: 'success',
+      })
+      onSubscriptionResumed()
+    } catch (e) {
+      toast({
+        title: 'Something went wrong ' + e.message,
+        status: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Card p="4" variant="outline" {...rest}>
@@ -26,7 +58,9 @@ export default function SubscriptionCancelledCard({
         </Flex>
       </Flex>
       {/* TODO: Implement */}
-      <Button>Reactivate my subscription</Button>
+      <Button onClick={resumeSub} isLoading={loading}>
+        Reactivate my subscription
+      </Button>
     </Card>
   )
 }

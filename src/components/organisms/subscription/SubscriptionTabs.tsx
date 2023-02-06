@@ -3,11 +3,13 @@ import Tab from '@atoms/Tab'
 import {
   Flex,
   FlexProps,
+  HStack,
   Spinner,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  useToast,
 } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
@@ -15,7 +17,7 @@ import AccountTab from '@organisms/subscription/AccountTab'
 import InvoiceTab from '@organisms/subscription/InvoiceTab'
 import SubscriptionTab from '@organisms/subscription/SubscriptionTab'
 import { Invoice, Subscription } from '@shared/model/subscription'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiFileText, FiTarget, FiUser } from 'react-icons/fi'
 
@@ -23,6 +25,9 @@ export default function SubscriptionTabs(props: FlexProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
+  const toast = useToast()
+  const [subscriptionLoading, setSubscriptionLoading] = useState(true)
+  const [invoicesLoading, setInvoicesLoading] = useState(true)
   const [subscription, setSubscription] = useState<Subscription | null>(null)
   const [invoices, setInvoices] = useState<Invoice[]>([])
 
@@ -38,22 +43,51 @@ export default function SubscriptionTabs(props: FlexProps) {
   }
 
   const getSubscriptionData = async () => {
-    const res = await getSubscription({
-      memberId: currentMember?.id!,
-      orgId: orgId!,
-    })
+    setSubscriptionLoading(true)
+    try {
+      const res = await getSubscription({
+        memberId: currentMember?.id!,
+        orgId: orgId!,
+      })
 
-    setSubscription(res)
+      setSubscription(res)
+    } catch (e) {
+      toast({
+        title: 'Error occured',
+        status: 'error',
+      })
+    } finally {
+      setSubscriptionLoading(false)
+    }
   }
 
   const getInvoicesData = async () => {
-    const res = await getSubscriptionInvoices({
-      memberId: currentMember?.id!,
-      orgId: orgId!,
-    })
+    setInvoicesLoading(true)
+    try {
+      const res = await getSubscriptionInvoices({
+        memberId: currentMember?.id!,
+        orgId: orgId!,
+      })
 
-    setInvoices(res)
+      setInvoices(res)
+    } catch (e) {
+      toast({
+        title: 'Error occured',
+        status: 'error',
+      })
+    } finally {
+      setInvoicesLoading(false)
+    }
   }
+
+  const TabSpinner = useMemo(
+    () => (
+      <HStack w="100%" justifyContent="center" pt="12">
+        <Spinner size="xl" />
+      </HStack>
+    ),
+    []
+  )
 
   return (
     <Flex {...props}>
@@ -75,9 +109,9 @@ export default function SubscriptionTabs(props: FlexProps) {
           />
         </TabList>
         <TabPanels>
-          <TabPanel>
-            {!subscription && <Spinner m="auto" />}
-            {subscription && (
+          <TabPanel w="100%">
+            {subscriptionLoading && TabSpinner}
+            {!subscriptionLoading && (
               <SubscriptionTab
                 subscription={subscription}
                 onSubscriptionUpdated={getSubscriptionData}
@@ -85,8 +119,8 @@ export default function SubscriptionTabs(props: FlexProps) {
             )}
           </TabPanel>
           <TabPanel>
-            {!subscription && <Spinner m="auto" />}
-            {subscription && (
+            {subscriptionLoading && TabSpinner}
+            {!subscriptionLoading && (
               <AccountTab
                 subscription={subscription}
                 onAccountUpdated={getSubscriptionData}
@@ -94,8 +128,8 @@ export default function SubscriptionTabs(props: FlexProps) {
             )}
           </TabPanel>
           <TabPanel>
-            {!invoices && <Spinner m="auto" />}
-            {invoices && <InvoiceTab />}{' '}
+            {invoicesLoading && TabSpinner}
+            {!invoicesLoading && <InvoiceTab invoices={invoices} />}{' '}
           </TabPanel>
         </TabPanels>
       </Tabs>

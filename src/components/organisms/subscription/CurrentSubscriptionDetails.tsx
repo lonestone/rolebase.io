@@ -10,13 +10,13 @@ import React from 'react'
 type CurrentSubscriptionDetailsProps = {
   currentPlan: SubscriptionPlan
   subscription: Subscription
-  onCardUpdated: () => void
+  onSubscriptionUpdated: () => void
 } & FlexProps
 
 export default function CurrentSubscriptionDetails({
   subscription,
   currentPlan,
-  onCardUpdated,
+  onSubscriptionUpdated,
   ...rest
 }: CurrentSubscriptionDetailsProps) {
   return (
@@ -33,6 +33,7 @@ export default function CurrentSubscriptionDetails({
         {!subscription.upcomingInvoice && subscription.expiresAt && (
           <SubscriptionCanceledCard
             subscriptionEndDate={subscription.expiresAt}
+            onSubscriptionResumed={onSubscriptionUpdated}
           />
         )}
         {subscription.upcomingInvoice && (
@@ -46,7 +47,7 @@ export default function CurrentSubscriptionDetails({
             h={['auto', 'auto', 'auto', '100%']}
             card={subscription.card}
             email={subscription.billingDetails?.email}
-            onCardUpdated={onCardUpdated}
+            onCardUpdated={onSubscriptionUpdated}
           />
         )}
       </Flex>

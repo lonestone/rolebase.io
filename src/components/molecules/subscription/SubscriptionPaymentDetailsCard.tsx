@@ -78,12 +78,14 @@ export default function SubscriptionPaymentDetailsCard({
           </Flex>
         </Card>
       </Card>
-      <UpdatePaymentMethodModal
-        size="lg"
-        isOpen={isOpen}
-        onClose={onClose}
-        onUpdate={onCardUpdated}
-      />
+      {isOpen && (
+        <UpdatePaymentMethodModal
+          size="lg"
+          isOpen={isOpen}
+          onClose={onClose}
+          onUpdate={onCardUpdated}
+        />
+      )}
     </>
   )
 }

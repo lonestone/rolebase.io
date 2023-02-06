@@ -13,7 +13,7 @@ const yupSchema = yup.object().shape({
   orgId: yup.string().required(),
 })
 
-export default route(async (context): Promise<string> => {
+export default route(async (context): Promise<{ cancelAt: Date }> => {
   guardAuth(context)
   const { memberId, orgId } = guardBodyParams(context, yupSchema)
 
@@ -35,10 +35,17 @@ export default route(async (context): Promise<string> => {
   }
 
   // Expires the subscription when period end
-  await cancelStripeSubscription(stripeSubscriptionId)
+  const subscription = await cancelStripeSubscription(stripeSubscriptionId)
 
-  return orgSubscription.org_subscription[0].id
+  return { cancelAt: toDateTime(subscription.cancel_at ?? 0) }
 })
+
+// TODO: util
+const toDateTime = (secs: number): Date => {
+  const t = new Date(1970, 0, 1) // Epoch
+  t.setSeconds(secs)
+  return t
+}
 
 const GET_ORG = gql(`
     query getOrgById($orgId: uuid!) {

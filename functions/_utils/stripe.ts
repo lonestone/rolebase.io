@@ -246,3 +246,19 @@ export const getStripeUpcomingInvoice = async (
     throw new RouteError(500, 'Could not get upcoming invoice')
   }
 }
+
+export const stripeResumeSubscription = async (
+  stripeSubscriptionId: string
+): Promise<Stripe.Subscription> => {
+  try {
+    const subscription = await stripe.subscriptions.update(
+      stripeSubscriptionId,
+      { cancel_at_period_end: false }
+    )
+
+    return subscription
+  } catch (e) {
+    console.error(`[STRIPE ERROR]: ${e.message}`)
+    throw new RouteError(500, 'Could not resume subscription')
+  }
+}
