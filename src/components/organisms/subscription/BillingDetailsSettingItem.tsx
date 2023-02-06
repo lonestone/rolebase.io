@@ -1,0 +1,180 @@
+import { updateSubscriptionBillingDetails } from '@api/functions'
+import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
+import {
+  Button,
+  FormControl,
+  HStack,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  StackProps,
+  Text,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react'
+import useCurrentMember from '@hooks/useCurrentMember'
+import { useOrgId } from '@hooks/useOrgId'
+import { useStripeAppearance } from '@hooks/useStripeAppearance'
+import SettingItem from '@molecules/SettingItem'
+import { CustomerBillingDetails } from '@shared/model/subscription'
+import { AddressElement, Elements } from '@stripe/react-stripe-js'
+import {
+  loadStripe,
+  StripeAddressElement,
+  StripeAddressElementChangeEvent,
+  StripeElementLocale,
+} from '@stripe/stripe-js'
+import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+
+type BillingDetailsSettingItemProps = {
+  billingDetails: CustomerBillingDetails | null
+  onUpdate: () => void
+} & StackProps
+
+const toastDefault = { duration: 4000, isClosable: true }
+
+export default function BillingDetailsSettingItem({
+  billingDetails,
+  onUpdate,
+  ...rest
+}: BillingDetailsSettingItemProps) {
+  const { t, i18n } = useTranslation()
+  const orgId = useOrgId()
+  const currentMember = useCurrentMember()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
+  const [loading, setLoading] = useState(false)
+  const [disabled, setDisabled] = useState(true)
+  const [stripeElement, setStripeElement] =
+    useState<StripeAddressElement | null>(null)
+  const stripeAppearance = useStripeAppearance()
+
+  const formattedAddress = useMemo(() => {
+    const address = billingDetails?.address
+
+    if (!address) return null
+
+    return `${billingDetails.name} - ${address.line1} ${address.postal_code} ${address.city}, ${address.country}`
+  }, [billingDetails?.address])
+
+  const updateBillingDetails = async (
+    newBillingDetails: CustomerBillingDetails
+  ) => {
+    if (!billingDetails) return
+
+    setLoading(true)
+
+    console.log('Sending:', newBillingDetails)
+    try {
+      await updateSubscriptionBillingDetails({
+        memberId: currentMember?.id ?? '',
+        orgId: orgId ?? '',
+        billingDetails: newBillingDetails,
+      })
+      toast({
+        title: t('SubscriptionTabs.accountTab.billingDetailsUpdated'),
+        status: 'success',
+        ...toastDefault,
+      })
+      onUpdate()
+    } catch (e) {
+      toast({
+        title: t('SubscriptionTabs.accountTab.billingDetailsUpdateError'),
+        status: 'error',
+        ...toastDefault,
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const addressChange = (event: StripeAddressElementChangeEvent) => {
+    setDisabled(!event.complete)
+  }
+
+  const onAddressElementReady = (element: StripeAddressElement) => {
+    setStripeElement(element)
+  }
+
+  const saveDetails = async () => {
+    // @ts-ignore - Method exists
+    const fields = await stripeElement?.getValue()
+
+    if (!fields) return
+
+    updateBillingDetails({
+      ...billingDetails,
+      ...fields.value,
+    })
+  }
+
+  // TODO: style stripe elements + maybe implement Google API to provide autocomplete
+  return (
+    <>
+      <SettingItem
+        displayName={t('SubscriptionTabs.accountTab.billingDetails')}
+        onEdit={onOpen}
+        value={formattedAddress}
+        editable
+      />
+      {/* TODO: Component */}
+      <Modal size="lg" isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <HStack justifyContent="space-between">
+              <Text>
+                {t('SubscriptionTabs.accountTab.updateBillingDetails')}
+              </Text>
+              <ModalCloseStaticButton />
+            </HStack>
+          </ModalHeader>
+          <ModalBody>
+            <FormControl w="100%">
+              {!stripeElement && <Spinner m="auto" display="block" />}
+              <Elements
+                stripe={stripePromise}
+                options={{
+                  loader: 'always',
+                  locale: i18n.language as StripeElementLocale,
+                  appearance: stripeAppearance,
+                }}
+              >
+                <AddressElement
+                  onReady={onAddressElementReady}
+                  onChange={addressChange}
+                  options={{
+                    mode: 'billing',
+                    defaultValues: {
+                      name: billingDetails?.name,
+                      address: billingDetails?.address ?? {
+                        country: 'FR',
+                      },
+                    },
+                  }}
+                />
+              </Elements>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              disabled={disabled}
+              isLoading={loading}
+              colorScheme="orange"
+              onClick={saveDetails}
+            >
+              {t('common.save')}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}

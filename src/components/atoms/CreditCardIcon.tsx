@@ -8,7 +8,7 @@ import {
   Jcb,
   Mastercard,
   UnionPay,
-  Visa
+  Visa,
 } from 'react-pay-icons'
 
 type CreditCardIconProps = {
@@ -18,7 +18,6 @@ type CreditCardIconProps = {
 
 export default function CreditCardIcon({ name, style }: CreditCardIconProps) {
   const Icon = useMemo(() => {
-    console.log('name:', name)
     switch (name.toLocaleLowerCase()) {
       case 'american express':
         return Amex

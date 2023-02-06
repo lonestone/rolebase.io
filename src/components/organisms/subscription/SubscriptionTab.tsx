@@ -1,39 +1,27 @@
-import { getSubscription } from '@api/functions'
-import { Flex, FlexProps, Spinner } from '@chakra-ui/react'
-import useCurrentMember from '@hooks/useCurrentMember'
-import { useOrgId } from '@hooks/useOrgId'
+import { Flex, FlexProps } from '@chakra-ui/react'
 import { Subscription } from '@shared/model/subscription'
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import SubscriptionTabFreeLayout from './SubscriptionTabFreeLayout'
 import SubscriptionTabSubLayout from './SubscriptionTabSubLayout'
 
-export default function SubscriptionTab({ ...rest }: FlexProps) {
-  const orgId = useOrgId()
-  const currentMember = useCurrentMember()
-  const [subscription, setSubscription] = useState<Subscription | null>()
-  const isLoading = useMemo(() => subscription === undefined, [subscription])
+type SubscriptionTabProps = {
+  subscription: Subscription
+  onSubscriptionUpdated: () => void
+} & FlexProps
 
-  useEffect(() => {
-    if (orgId && currentMember) {
-      getData()
-    }
-  }, [orgId, currentMember])
-
-  const getData = async () => {
-    const res = await getSubscription({
-      memberId: currentMember?.id!,
-      orgId: orgId!,
-    })
-
-    setSubscription(res)
-  }
-
+export default function SubscriptionTab({
+  subscription,
+  onSubscriptionUpdated,
+  ...rest
+}: SubscriptionTabProps) {
   return (
     <Flex p="5" flexDir="row" {...rest}>
-      {isLoading && <Spinner m="auto" />}
-      {!isLoading && !subscription && <SubscriptionTabFreeLayout />}
-      {!isLoading && subscription && (
-        <SubscriptionTabSubLayout subscription={subscription} />
+      {!subscription && <SubscriptionTabFreeLayout />}
+      {subscription && (
+        <SubscriptionTabSubLayout
+          onSubscriptionUpdated={onSubscriptionUpdated}
+          subscription={subscription}
+        />
       )}
     </Flex>
   )
