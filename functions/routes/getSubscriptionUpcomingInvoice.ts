@@ -44,8 +44,6 @@ export default route(async (context): Promise<UpcomingInvoice> => {
     stripeSubscriptionId
   )
 
-  console.log('stripeUpcomingInvoice', stripeUpcomingInvoice)
-
   return formatStripeUpcomingInvoice(stripeUpcomingInvoice)
 })
 
