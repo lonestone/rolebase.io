@@ -1,6 +1,5 @@
 import { gql } from '@gql'
-import MagicBellClient, { Notification } from '@magicbell/core'
-import { Recipient } from '@magicbell/core/dist/models/Notification/NewNotification'
+import { Novu, TriggerRecipientsPayload } from '@novu/node'
 import { NotificationCategories } from '@shared/model/notification'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
@@ -29,39 +28,41 @@ export default route(async (context): Promise<void> => {
   })
 
   const recipients = recipientsResult.member
-    .map((member): Recipient | undefined =>
+    .map((member) =>
       member.user
         ? {
-            external_id: member.user.id!,
+            subscriberId: member.user.id!,
             email: member.user.email!,
           }
         : undefined
     )
-    .filter(Boolean) as Recipient[]
+    .filter(Boolean) as TriggerRecipientsPayload
+
   if (recipients.length === 0) return
 
-  MagicBellClient.configure({
-    apiKey: settings.magicbell.apiKey,
-    apiSecret: settings.magicbell.apiSecret,
-  })
+  // Novu logic
+  const novu = new Novu(settings.novu.apiKey)
 
-  await Notification.create({
-    category,
-    title,
-    content,
-    action_url: url,
-    topic,
-    recipients,
-  })
+  await novu
+    .trigger(category!, {
+      to: recipients,
+      payload: {
+        title,
+        content,
+        action_url: url,
+        topic,
+      },
+    })
+    .catch((err) => console.error(err))
 })
 
 const GET_RECIPIENTS = gql(`
-  query getRecipients($memberIds: [uuid!]!) {
-    member(where: { id: { _in: $memberIds } }) {
-      user {
-        id
-        email
+    query getRecipients($memberIds: [uuid!]!) {
+      member(where: { id: { _in: $memberIds } }) {
+        user {
+          id
+          email
+        }
       }
     }
-  }
-`)
+  `)
