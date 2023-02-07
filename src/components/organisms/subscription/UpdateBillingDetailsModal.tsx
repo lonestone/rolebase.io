@@ -60,7 +60,6 @@ export default function UpdateBillingDetailsModal({
 
     setLoading(true)
 
-    console.log('Sending:', newBillingDetails)
     try {
       await updateSubscriptionBillingDetails({
         memberId: currentMember?.id ?? '',
@@ -99,8 +98,8 @@ export default function UpdateBillingDetailsModal({
     if (!fields) return
 
     updateBillingDetails({
-      ...billingDetails,
       ...fields.value,
+      email: billingDetails?.email,
     })
   }
 

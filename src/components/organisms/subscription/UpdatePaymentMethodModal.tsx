@@ -53,7 +53,7 @@ export default function UpdatePaymentMethodModal({
       setClientSecret(clientSecret)
     } catch (e) {
       toast({
-        title: t('common.errorOccurred'),
+        title: t('common.errorRetry'),
         status: 'error',
         ...toastDefault,
       })
@@ -80,7 +80,11 @@ export default function UpdatePaymentMethodModal({
           </HStack>
         </ModalHeader>
         <ModalBody>
-          {loading && <Spinner m="auto" display="block" />}
+          {loading && (
+            <HStack w="100%" mb="10" justifyContent="center">
+              <Spinner />
+            </HStack>
+          )}
           {!loading && clientSecret && (
             <Elements
               stripe={stripePromise}

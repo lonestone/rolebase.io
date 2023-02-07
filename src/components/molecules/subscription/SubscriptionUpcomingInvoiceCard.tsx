@@ -27,11 +27,11 @@ export default function SubscriptionUpcomingInvoiceCard({
           </Text>
         </Flex>
 
-        <Flex flexDir="column" gap="2">
-          <Text fontSize={16} fontWeight={500}>
-            {t('SubscriptionPlans.upcomingInvoice')}
+        <Flex flexDir="column" alignItems="end" justifyContent="flex-end">
+          <Text color="gray.500" as="i" fontSize={14} fontWeight={500}>
+            {t('SubscriptionPlans.drawdownOn')}
           </Text>
-          <Text fontSize={26} fontWeight={700}>
+          <Text fontSize={26} fontWeight={700} mt="-2">
             {format(new Date(upcomingInvoice.nextPayment), 'dd/MM/uuuu')}
           </Text>
         </Flex>

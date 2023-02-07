@@ -1,11 +1,10 @@
 import { subscribeOrg } from '@api/functions'
 import {
-  Button,
+  Box,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   ModalProps,
@@ -14,10 +13,14 @@ import {
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import { useStripeAppearance } from '@hooks/useStripeAppearance'
+import { SubscriptionIntentResponse } from '@shared/model/subscription'
 import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
+import { loadStripe, StripeElementLocale } from '@stripe/stripe-js'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import React, { useEffect, useState } from 'react'
-import StripePayment from './StripePayment'
+import { useTranslation } from 'react-i18next'
+import SubscriptionPaymentStepper from './SubscriptionPaymentStepper'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
@@ -25,59 +28,86 @@ type SubscriptionPaymentModalProps = {
   planType: Subscription_Plan_Type_Enum
 } & Omit<ModalProps, 'children'>
 
+// TODO: Hack -- React strict mode creates 2 subscriptions because it is mounting
+//               components twice
+let requested = false
+
 export default function SubscriptionPaymentModal({
   planType,
   ...rest
 }: SubscriptionPaymentModalProps) {
-  const currentMember = useCurrentMember()
+  const { t, i18n } = useTranslation()
   const orgId = useOrgId()
-  const [loading, setLoading] = useState<boolean>(true)
-  const [clientSecret, setClientSecret] = useState<string | null>(null)
+  const currentMember = useCurrentMember()
+  const [loading, setLoading] = useState(true)
+  const stripeAppearance = useStripeAppearance()
+  const [subscriptionInfo, setSubscriptionInfo] =
+    useState<SubscriptionIntentResponse>()
 
   useEffect(() => {
     subscribe()
   }, [])
 
   const subscribe = async () => {
+    console.log('SECRET:', subscriptionInfo?.clientSecret)
+    if (subscriptionInfo?.clientSecret) return
+
+    setLoading(true)
     try {
-      const res: any = await subscribeOrg({
-        memberId: currentMember?.id ?? '',
-        orgId: orgId ?? '',
-        planType: Subscription_Plan_Type_Enum.Startup,
-      })
-
-      if (res.clientSecret) {
-        setClientSecret(res.clientSecret)
+      if (!requested) {
+        requested = true
+        const res = await subscribeOrg({
+          memberId: currentMember?.id ?? '',
+          orgId: orgId ?? '',
+          planType,
+        })
+        console.log('RES:', res)
+        setSubscriptionInfo(res)
+        setLoading(false)
       }
-
-      setLoading(false)
     } catch (e) {
-      // TODO: Display an error
+      // TODO: Display an error toast
       console.log('Err:', e)
+    } finally {
+      requested = false
+      // setLoading(false)
     }
   }
 
   return (
-    <Modal {...rest}>
+    <Modal size="2xl" {...rest}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{planType}</ModalHeader>
+        <ModalHeader>
+          {t('SubscriptionTabs.paymentModal.subscribeToPlan', {
+            plan: capitalizeFirstLetter(planType.toLocaleLowerCase()),
+          })}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {clientSecret && (
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
-              <StripePayment />
+          {loading && (
+            <Box w="100%" pt="8" pb="14">
+              <Spinner m="auto" display="block" />
+            </Box>
+          )}
+
+          {subscriptionInfo?.clientSecret && (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                loader: 'always',
+                locale: i18n.language as StripeElementLocale,
+                appearance: stripeAppearance,
+                clientSecret: subscriptionInfo.clientSecret,
+              }}
+            >
+              <SubscriptionPaymentStepper
+                subscriptionInfo={subscriptionInfo}
+                planType={planType}
+              />
             </Elements>
           )}
-          {loading && <Spinner m="auto" />}
         </ModalBody>
-
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={rest.onClose}>
-            Close
-          </Button>
-          <Button variant="ghost">Secondary Action</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   )
