@@ -27,6 +27,7 @@ export default function SubscriptionUpcomingInvoiceCard({
           gap="5"
           justifyContent="space-between"
           flexDir="row"
+          flexWrap={['wrap', 'nowrap']}
         >
           <Flex flexDir="column" alignItems="start" justifyContent="flex-start">
             <Text color="gray.500" as="i" fontSize={14} fontWeight={500}>
@@ -37,7 +38,11 @@ export default function SubscriptionUpcomingInvoiceCard({
             </Text>
           </Flex>
 
-          <Flex flexDir="column" alignItems="end" justifyContent="flex-end">
+          <Flex
+            flexDir="column"
+            alignItems={['start', 'end']}
+            justifyContent={['flex-start', 'flex-end']}
+          >
             <Text color="gray.500" as="i" fontSize={14} fontWeight={500}>
               {t('SubscriptionPlans.drawdownOn')}
             </Text>

@@ -40,11 +40,12 @@ export default function SubscriptionPaymentDetailsCard({
           flexDir="row"
           alignItems="center"
           justifyContent="space-between"
-          gap="4"
+          gap={['1', '4']}
           mt="2"
           h="100%"
           p="2"
           variant="outline"
+          flexWrap={['wrap', 'nowrap']}
         >
           <Card variant="outline" p="1" minW="60px">
             <CreditCardIcon name={card.brand} style={{ width: 50 }} />
@@ -66,7 +67,11 @@ export default function SubscriptionPaymentDetailsCard({
               </Flex>
             )}
           </Box>
-          <Flex h="100%" justifyContent="end" alignItems="end">
+          <Flex
+            h="100%"
+            justifyContent={['start', 'end']}
+            alignItems={['start', 'end']}
+          >
             <Button
               onClick={onOpen}
               leftIcon={<FiEdit2 />}
