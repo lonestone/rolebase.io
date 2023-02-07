@@ -1,8 +1,3 @@
-export interface MagicbellConfig {
-  apiKey: string
-  userKey: string
-  expiration?: number
-}
 export interface NovuConfig {
   appId: string
   userKey: string

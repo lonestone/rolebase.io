@@ -47,12 +47,6 @@ export default {
     indexName: 'docs',
   },
 
-  // Notifications with MagicBell
-  magicbell: {
-    apiKey: process.env.MAGICBELL_API_KEY || '',
-    apiSecret: process.env.MAGICBELL_API_SECRET || '',
-  },
-
   // Notification with Novu
   novu: {
     appId: process.env.NOVU_APP_ID || '',

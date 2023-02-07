@@ -1,9 +1,5 @@
 import { Member_Role_Enum } from '@gql'
-import {
-  MagicbellConfig,
-  NotificationCategories,
-  NovuConfig,
-} from '@shared/model/notification'
+import { NotificationCategories, NovuConfig } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
@@ -31,8 +27,6 @@ export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
 )
 
 export const searchReindexAll = fn('searchReindexAll')
-
-export const getMagicbellConfig = fn<{}, MagicbellConfig>('getMagicbellConfig')
 
 export const getNovuConfig = fn<{}, NovuConfig>('getNovuConfig')
 

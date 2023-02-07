@@ -35,7 +35,6 @@
     "@hookform/resolvers": "^2.8.8",
     "@lexical/markdown": "^0.8.0",
     "@lexical/react": "^0.8.0",
-    "@magicbell/magicbell-react": "^10.3.4",
     "@nhost/react": "^1.13.2",
     "@nhost/react-apollo": "^4.13.2",
     "@novu/notification-center": "^0.11.0",
