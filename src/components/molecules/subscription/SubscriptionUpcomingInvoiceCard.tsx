@@ -17,25 +17,36 @@ export default function SubscriptionUpcomingInvoiceCard({
 
   return (
     <Card p="4" variant="outline" {...rest}>
-      <Flex p="4" w="100%" gap="5" flexDir="row">
-        <Flex flexDir="column" gap="2" flexBasis="55%">
-          <Text fontSize={16} fontWeight={500}>
-            {t('SubscriptionPlans.upcomingInvoiceAmount')}
-          </Text>
-          <Text fontSize={26} fontWeight={700}>
-            €{upcomingInvoice.totalInCents / 100}
-          </Text>
-        </Flex>
+      <Text fontSize={16} fontWeight={700}>
+        {t('SubscriptionPlans.upcomingInvoiceAmount')}
+      </Text>
+      <Card variant="outline" marginY="3">
+        <Flex
+          p="4"
+          w="100%"
+          gap="5"
+          justifyContent="space-between"
+          flexDir="row"
+        >
+          <Flex flexDir="column" alignItems="start" justifyContent="flex-start">
+            <Text color="gray.500" as="i" fontSize={14} fontWeight={500}>
+              {t('SubscriptionTabs.invoiceTab.amount')}
+            </Text>
+            <Text fontSize={26} fontWeight={700} mt="-2">
+              €{(upcomingInvoice.totalInCents / 100).toFixed(2)}
+            </Text>
+          </Flex>
 
-        <Flex flexDir="column" alignItems="end" justifyContent="flex-end">
-          <Text color="gray.500" as="i" fontSize={14} fontWeight={500}>
-            {t('SubscriptionPlans.drawdownOn')}
-          </Text>
-          <Text fontSize={26} fontWeight={700} mt="-2">
-            {format(new Date(upcomingInvoice.nextPayment), 'dd/MM/uuuu')}
-          </Text>
+          <Flex flexDir="column" alignItems="end" justifyContent="flex-end">
+            <Text color="gray.500" as="i" fontSize={14} fontWeight={500}>
+              {t('SubscriptionPlans.drawdownOn')}
+            </Text>
+            <Text fontSize={26} fontWeight={700} mt="-2">
+              {format(new Date(upcomingInvoice.nextPayment), 'dd/MM/uuuu')}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
+      </Card>
       {/* TODO: Change it to an actual url */}
       <Flex
         as="a"
