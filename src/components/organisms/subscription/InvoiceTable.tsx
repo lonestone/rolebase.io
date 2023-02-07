@@ -92,7 +92,7 @@ export default function InvoiceTable({ invoices, ...rest }: InvoiceTableProps) {
         footer: (props) => props.column.id,
       }),
       columnHelper.accessor('status', {
-        header: () => t('SubscriptionTabs.invoiceTab.amount'),
+        header: () => t('SubscriptionTabs.invoiceTab.status'),
         enableSorting: true,
         cell: (info) => (
           <Text {...textStyle}>

@@ -30,24 +30,25 @@ export default function CurrentSubscriptionDetails({
     >
       <SubscriptionPlanSubCard {...currentPlan} />
       <Flex flexDir="column" h="100%" gap="15">
-        {!subscription.upcomingInvoice && subscription.expiresAt && (
-          <SubscriptionCanceledCard
-            subscriptionEndDate={subscription.expiresAt}
-            onSubscriptionResumed={onSubscriptionUpdated}
-          />
-        )}
-        {subscription.upcomingInvoice && (
-          <SubscriptionUpcomingInvoiceCard
-            h={['auto', 'auto', 'auto', '100%']}
-            upcomingInvoice={subscription.upcomingInvoice}
-          />
-        )}
+        {subscription.upcomingInvoice &&
+          subscription.upcomingInvoice?.totalInCents > 0 && (
+            <SubscriptionUpcomingInvoiceCard
+              h={['auto', 'auto', 'auto', '100%']}
+              upcomingInvoice={subscription.upcomingInvoice}
+            />
+          )}
         {subscription.card && (
           <SubscriptionPaymentDetailsCard
             h={['auto', 'auto', 'auto', '100%']}
             card={subscription.card}
             email={subscription.billingDetails?.email}
             onCardUpdated={onSubscriptionUpdated}
+          />
+        )}
+        {subscription.expiresAt && (
+          <SubscriptionCanceledCard
+            subscriptionEndDate={subscription.expiresAt}
+            onSubscriptionResumed={onSubscriptionUpdated}
           />
         )}
       </Flex>

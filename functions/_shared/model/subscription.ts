@@ -4,6 +4,10 @@ import Stripe from 'stripe'
 export type SubscriptionIntentResponse = {
   subscriptionId: string
   clientSecret: string
+  price: {
+    quantity: number
+    totalPerSeatInCents: number
+  }
 }
 
 export enum InvoiceStatus {
