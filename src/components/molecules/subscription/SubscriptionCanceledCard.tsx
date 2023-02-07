@@ -4,6 +4,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import { format } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FiFeather } from 'react-icons/fi'
 import useCurrentMember from '../../../hooks/useCurrentMember'
 
 type SubscriptionCanceledCardProps = {
@@ -50,16 +51,21 @@ export default function SubscriptionCanceledCard({
       <Flex p="4" w="100%" gap="5" flexDir="row">
         <Flex flexDir="column" gap="1">
           <Text fontSize={16} fontWeight={500}>
-            {t('SubscriptionPlans.subscriptionActiveUntil')}
+            {t('SubscriptionPlans.subscriptionExpires')}
           </Text>
           <Text fontSize={26} fontWeight={700}>
             {format(new Date(subscriptionEndDate), 'dd/MM/uuuu')}
           </Text>
         </Flex>
       </Flex>
-      {/* TODO: Implement */}
-      <Button onClick={resumeSub} isLoading={loading}>
-        Reactivate my subscription
+      <Button
+        m="auto"
+        onClick={resumeSub}
+        leftIcon={<FiFeather />}
+        isLoading={loading}
+        variant="outline"
+      >
+        {t('SubscriptionPlans.reactivateSubscription')}
       </Button>
     </Card>
   )

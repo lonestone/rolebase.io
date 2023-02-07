@@ -356,7 +356,7 @@
   "MemberEditModal": {
     "heading": "Modifier le membre {{member}}",
     "toastInvited": "Vous avez invité {{member}} à rejoindre l'organisation !",
-    "toastReInvited": "Vous avez ré-invité {{member}} à rejoindre l'organisation.",
+    "toastReInvited": "Vous avez réinvité {{member}} à rejoindre l'organisation.",
     "toastRevocated": "Invitation révoquée",
     "description": "Description",
     "descriptionPlaceholder": "Qui est {{name}} ?",
@@ -606,6 +606,7 @@
     "subscriptionTabTitle": "Mon abonnement",
     "accountTabTitle": "Compte",
     "invoicesTabTitle": "Factures",
+    "subscription": "Abonnement",
     "invoiceTab": {
       "heading": "Historique des factures",
       "desc": "Retrouvez toutes vos précédentes factures juste ici et téléchargez-les.",
@@ -616,12 +617,27 @@
       "download": "Télécharger",
       "status": "Statut",
       "paymentStatus": {
-        "paid": "Payé",
+        "paid": "Payée",
         "draft": "Brouillon",
         "open": "Ouverte",
         "uncollectible": "Irrécupérable",
-        "void": "Annulé"
+        "void": "Annulée"
       }
+    },
+    "paymentModal": {
+      "subscribeToPlan": "Abonnement {{plan}}",
+      "details": "Informations de facturation",
+      "payment": "Paiement",
+      "summary": "Récapitulatif",
+      "next": "Suivant",
+      "confirm": "Confirmer",
+      "prev": "Retour",
+      "subscription": "Abonnement :",
+      "pricePerSeat": "Prix par place :",
+      "nbSeat_one": "Nombre de place :",
+      "nbSeat_other": "Nombre de places:",
+      "total": "Total",
+      "month": "mois"
     },
     "accountTab": {
       "billingEmail": "Email de facturation",
@@ -648,18 +664,22 @@
     "downgradePlan": "Repasser sur ce plan",
     "contactUs": "Nous contacter",
     "included": "Inclut",
-    "upcomingInvoiceAmount": "Montant de la prochaine mensualité",
-    "upcomingInvoice": "Prochaine mensualité",
+    "upcomingInvoiceAmount": "Prochaine facture",
+    "drawdownOn": "Prélevement le",
     "paymentMethod": "Méthode de paiement",
     "expiresAt": "Expire le",
     "card": "Carte",
-    "subscriptionActiveUntil": "Abonnement actif jusqu'au",
+    "subscriptionExpires": "Votre abonnement expirera le",
+    "reactivateSubscription": "Réactiver mon abonnement",
     "activateOnSubscriptionEnd": "S'activera quand l'abonnement actuel se termine",
     "upcomingInvoiceHelp": "Savoir comment est calculé ce montant chaque mois",
     "active": "Actif",
     "unsubscribeDate": "Votre abonnement prendra fin le {{date}}",
-    "subscriptionResumed": "Votre abonnement à été ré-activer",
+    "subscriptionResumed": "Votre abonnement à été réactiver",
     "noBillingAccount": "Vous n'avez pas de compte de facturation pour l'instant",
+    "subscriptionSuccess": "C'est tout bon !",
+    "subscriptionCreated": "Votre abonnement à bien été créé 😀",
+    "invoiceAvailable": "Votre facture de €{{amount}} peut être téléchargée depuis l'onglet Factures",
     "free": {
       "title": "Gratuit",
       "desc": "Parfait pour tester et pour collaborer en petite équipe.",
@@ -670,7 +690,7 @@
     "startup": {
       "title": "Startup",
       "desc": "Pour faire participer toute votre équipe à votre gouvernance partagée.",
-      "feature1": "Tarif : 5€/mois/membres",
+      "feature1": "Tarif : 5€/mois/membre",
       "feature2": "Toutes les fonctionnalités",
       "feature3": "Jusqu’à 200 membres actifs",
       "feature4": "1h/mois d’accompagnement"
@@ -827,6 +847,7 @@
     "createMeeting": "Créer une Réunion",
     "createTask": "Créer une Tâche",
     "createDecision": "Créer une Décision",
+    "close": "Fermer",
     "edit": "Editer",
     "move": "Déplacer",
     "duplicate": "Dupliquer",
@@ -849,7 +870,8 @@
     "copy": "Copier",
     "toastCopied": "URL copiée",
     "none": "Aucun",
-    "errorOccurred": "Une erreur s'est produite, veuillez réessayer plus tard. Si le problème persiste, contactez-nous à godefroy@lonestone.studio",
+    "errorOccurred": "Une erreur s'est produite.",
+    "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard. Si le problème persiste, contactez-nous à godefroy@lonestone.studio",
     "searchTypes": {
       "All": "Tous",
       "Member": "Membres",

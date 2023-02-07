@@ -52,7 +52,7 @@ export default function SubscriptionTabSubLayout({
       })
     } catch (e) {
       toast({
-        title: t('common.errorOccurred'),
+        title: t('common.errorRetry'),
         status: 'error',
       })
     } finally {

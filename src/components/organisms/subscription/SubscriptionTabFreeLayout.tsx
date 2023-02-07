@@ -4,7 +4,7 @@ import { useSubscriptionPlanData } from '@hooks/useSubscriptionPlanData'
 import SubscriptionFreePlanCardFooter from '@molecules/subscription/SubscriptionFreePlanCardFooter'
 import SubscriptionPlanCard from '@molecules/subscription/SubscriptionPlanCard'
 import { SubscriptionPlanCardData } from '@utils/subscriptionPlansTypes'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight } from 'react-icons/fi'
 import SubscriptionPaymentModal from './SubscriptionPaymentModal'
@@ -64,6 +64,12 @@ export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
     return plansArray
   }, [plansData])
 
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedPlanType(null)
+    }
+  }, [isOpen])
+
   return (
     <>
       <Flex
@@ -86,11 +92,11 @@ export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
           />
         ))}
       </Flex>
-      {selectedPlanType && isOpen && (
+      {selectedPlanType && (
         <SubscriptionPaymentModal
           isOpen={isOpen}
           onClose={onClose}
-          planType={selectedPlanType}
+          planType={selectedPlanType!}
         />
       )}
     </>
