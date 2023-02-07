@@ -800,13 +800,13 @@
       "title": "",
       "content": ""
     },
-    "MeetingInvited": {
+    "meetinginvited": {
       "title": "Meeting {{role}} - {{title}}",
       "content": "Invitation by {{sender}}."
     },
-    "MeetingStarted": {
-      "title": "",
-      "content": ""
+    "meetingstarted": {
+      "title": "Meeting {{role}} - {{title}}",
+      "content": "{{sender}} started the meeting !"
     },
     "RoleAssigned": {
       "title": "",

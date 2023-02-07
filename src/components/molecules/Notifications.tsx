@@ -1,21 +1,24 @@
-import { getMagicbellConfig } from '@api/functions'
-import IconTextButton from '@atoms/IconTextButton'
-import { Box, useColorMode, useTheme } from '@chakra-ui/react'
-import { useAsyncMemo } from '@hooks/useAsyncMemo'
-import MagicBell, {
-  FloatingNotificationInbox,
-} from '@magicbell/magicbell-react'
-import { MagicBellProps } from '@magicbell/magicbell-react/dist/components/MagicBell'
-import { useUserId } from '@nhost/react'
-import { MagicbellConfig } from '@shared/model/notification'
-import { UserLocalStorageKeys } from '@utils/localStorage'
 import React from 'react'
+import {
+  NovuProvider,
+  PopoverNotificationCenter,
+  IMessage,
+  INovuProviderProps,
+} from '@novu/notification-center'
+import { Box, useColorMode, useTheme } from '@chakra-ui/react'
+import { useUserId } from '@nhost/react'
 import { useTranslation } from 'react-i18next'
+import { useAsyncMemo } from '@hooks/useAsyncMemo'
+import { NovuConfig } from '@shared/model/notification'
+import { UserLocalStorageKeys } from '@utils/localStorage'
+import { getNovuConfig } from '@api/functions'
 import { FaBell } from 'react-icons/fa'
+import IconTextButton from '@atoms/IconTextButton'
+import SidebarIcon from '@atoms/SidebarIcon'
 
-async function getConfig(): Promise<MagicbellConfig | undefined> {
+async function getConfig(): Promise<NovuConfig | undefined> {
   // Use config from localStorage
-  const localConfig = localStorage.getItem(UserLocalStorageKeys.MagicBellConfig)
+  const localConfig = localStorage.getItem(UserLocalStorageKeys.NovuConfig)
   if (localConfig) {
     const config = JSON.parse(localConfig)
     if (config && config.expiration > new Date().getTime()) {
@@ -26,12 +29,9 @@ async function getConfig(): Promise<MagicbellConfig | undefined> {
   // Quick fix: wait for Nhost Auth to be ready
   await new Promise((resolve) => setTimeout(resolve, 2000))
 
-  // Query function to get Algolia config
-  const config = await getMagicbellConfig({})
-  localStorage.setItem(
-    UserLocalStorageKeys.MagicBellConfig,
-    JSON.stringify(config)
-  )
+  // Query function to get Novu config
+  const config = await getNovuConfig({})
+  localStorage.setItem(UserLocalStorageKeys.NovuConfig, JSON.stringify(config))
   return config
 }
 
@@ -51,119 +51,155 @@ export default function Notifications() {
   const textColor = colorMode === 'light' ? colors.black : colors.white
   const borderColor =
     colorMode === 'light' ? colors.gray[200] : colors.gray[550]
-  const unreadColor = colorMode === 'light' ? colors.red[400] : colors.red[600]
+  const unseenColor = colorMode === 'light' ? colors.gray[600] : colors.white
+  const unseenBadgeBg = colorMode === 'light' ? colors.gray[800] : colors.white
 
-  const magicbellTheme: MagicBellProps['theme'] = {
-    icon: {
-      borderColor: colors.gray[800],
-      width: sizes[8],
-    },
+  const novuStyles: INovuProviderProps['styles'] = {
     unseenBadge: {
-      backgroundColor: unreadColor,
+      root: {
+        color: colorMode === 'light' ? colors.white : colors.black,
+        background: unseenBadgeBg,
+      },
     },
     header: {
-      fontFamily: fonts.heading,
-      fontSize: fontSizes.md,
-      backgroundColor: headerBg,
-      textColor,
-      borderRadius: '16px',
-      borderColor,
+      root: {
+        backgroundColor: headerBg,
+        color: textColor,
+        borderRadius: '16px 16px 0 0',
+      },
+      title: {
+        fontFamily: fonts.heading,
+        fontSize: fontSizes.md,
+      },
+      cog: {
+        color: textColor,
+      },
     },
     footer: {
-      fontFamily: fonts.heading,
-      fontSize: fontSizes.sm,
-      backgroundColor: headerBg,
-      textColor,
-      borderRadius: '16px',
-      borderColor,
+      root: {
+        fontFamily: fonts.heading,
+        fontSize: fontSizes.sm,
+        backgroundColor: headerBg,
+        borderRadius: '0 0 16px 16px',
+        height: 'auto',
+        padding: '10px',
+      },
+      title: {
+        color: textColor,
+      },
     },
-    banner: {
-      fontFamily: fonts.body,
-      fontSize: fontSizes.md,
-      backgroundColor:
-        colorMode === 'light' ? colors.blue[100] : colors.blue[800],
-      textColor,
-      backgroundOpacity: 1,
-    },
-    container: {
-      fontFamily: fonts.body,
-      fontSize: fontSizes.md,
-      backgroundColor: bg,
-      textColor,
-      borderColor,
-    },
-    notification: {
-      default: {
+    layout: {
+      root: {
         fontFamily: fonts.body,
         fontSize: fontSizes.md,
-        textColor,
         backgroundColor: bg,
-        hover: {
+        color: textColor,
+        border: `1px solid ${borderColor}`,
+        padding: '0',
+        borderRadius: '16px',
+      },
+    },
+    notifications: {
+      root: {
+        fontFamily: fonts.body,
+        fontSize: fontSizes.md,
+        color: textColor,
+        backgroundColor: bg,
+      },
+      listItem: {
+        timestamp: {
+          color: textColor,
+        },
+        read: {
+          '&:hover': {
+            backgroundColor:
+              colorMode === 'light' ? colors.gray[50] : colors.gray[700],
+          },
+        },
+        unread: {
           backgroundColor:
-            colorMode === 'light' ? colors.gray[50] : colors.gray[700],
+            colorMode === 'light' ? colors.gray[100] : colors.gray[600],
+          color: unseenColor,
+          '&::before': {
+            background: textColor,
+          },
+          '&:hover': {
+            backgroundColor:
+              colorMode === 'light' ? colors.gray[50] : colors.gray[700],
+          },
         },
-        state: {
-          color: colorMode === 'light' ? colors.gray[100] : colors.gray[600],
+      },
+    },
+    preferences: {
+      root: {
+        fontFamily: fonts.body,
+        fontSize: fontSizes.md,
+        color: textColor,
+      },
+      item: {
+        title: {
+          fontFamily: fonts.body,
+          fontSize: fontSizes.md,
         },
-        borderRadius: '0px',
-        margin: '0px',
+        channels: {
+          fontFamily: fonts.body,
+          fontSize: fontSizes.md,
+        },
+        content: {
+          icon: {
+            color: textColor,
+            width: sizes[5],
+          },
+        },
       },
-      unseen: {
-        backgroundColor:
-          colorMode === 'light' ? colors.gray[100] : colors.gray[600],
-        state: { color: unreadColor },
+    },
+    accordion: {
+      item: {
+        fontFamily: fonts.body,
+        fontSize: fontSizes.md,
+        color: textColor,
       },
-      unread: {
-        state: { color: unreadColor },
+      content: {
+        fontFamily: fonts.body,
+        fontSize: fontSizes.md,
+        color: textColor,
+      },
+    },
+    popover: {
+      arrow: {
+        display: 'none',
       },
     },
   }
 
+  const onNotificationClick = (notification: IMessage) => {
+    if (notification?.cta?.data?.url) {
+      window.location.href = notification.cta.data.url
+    }
+  }
+
   return (
-    <Box
-      sx={{
-        'a[data-magicbell-bell]': {
-          width: 'auto !important',
-        },
-      }}
-    >
-      <MagicBell
-        apiKey={config.apiKey}
-        userExternalId={userId}
-        userKey={config.userKey}
-        theme={magicbellTheme}
-        locale="en"
-        BellIcon={
-          <div>
+    <Box>
+      <NovuProvider
+        subscriberId={userId}
+        subscriberHash={config.userKey}
+        applicationIdentifier={config.appId}
+        i18n="en"
+        styles={novuStyles}
+      >
+        <PopoverNotificationCenter
+          colorScheme={colorMode}
+          onNotificationClick={onNotificationClick}
+          position={'right-start'}
+        >
+          {({ unseenCount }) => (
             <IconTextButton
               aria-label={t('Notifications.tooltip')}
-              icon={<FaBell />}
+              icon={<SidebarIcon icon={<FaBell />} alert={!!unseenCount} />}
             />
-          </div>
-        }
-        images={{
-          // Transparent gif
-          emptyInboxUrl:
-            'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-        }}
-      >
-        {(props) => (
-          <FloatingNotificationInbox
-            height={500}
-            popperOptions={{
-              modifiers: [
-                {
-                  name: 'offset',
-                  options: {
-                    offset: [0, 16],
-                  },
-                },
-              ],
-            }}
-            {...props}
-          />
-        )}
-      </MagicBell>
+          )}
+        </PopoverNotificationCenter>
+      </NovuProvider>
     </Box>
   )
 }

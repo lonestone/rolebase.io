@@ -332,9 +332,9 @@ export default function useMeetingState(meetingId: string): MeetingState {
       sender: currentMember.name,
     }
     sendNotification({
-      category: NotificationCategories.MeetingStarted,
-      title: t('notifications.MeetingStarted.title', notifParams),
-      content: t('notifications.MeetingStarted.content', notifParams),
+      category: NotificationCategories.meetingstarted,
+      title: t('notifications.meetingstarted.title', notifParams),
+      content: t('notifications.meetingstarted.content', notifParams),
       recipientMemberIds: meeting.attendees
         .map((a) => a.memberId)
         .filter((id) => id !== currentMember.id),

@@ -2,6 +2,7 @@ import { Member_Role_Enum } from '@gql'
 import {
   MagicbellConfig,
   NotificationCategories,
+  NovuConfig,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import { nhost } from 'src/nhost'
@@ -33,9 +34,16 @@ export const searchReindexAll = fn('searchReindexAll')
 
 export const getMagicbellConfig = fn<{}, MagicbellConfig>('getMagicbellConfig')
 
+export const getNovuConfig = fn<{}, NovuConfig>('getNovuConfig')
+
 export const getMeetingsToken = fn<{ orgId: string }, string>(
   'getMeetingsToken'
 )
+
+export const identifyNovuSubscriber = fn<{
+  email: string
+  locale: string
+}>('identifyNovuSubscriber')
 
 export const sendNotification = fn<{
   category: NotificationCategories

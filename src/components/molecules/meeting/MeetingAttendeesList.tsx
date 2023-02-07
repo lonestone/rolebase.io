@@ -81,9 +81,9 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
         sender: currentMember.name,
       }
       sendNotification({
-        category: NotificationCategories.MeetingStarted,
-        title: t('notifications.MeetingStarted.title', notifParams),
-        content: t('notifications.MeetingStarted.content', notifParams),
+        category: NotificationCategories.meetingstarted,
+        title: t('notifications.meetingstarted.title', notifParams),
+        content: t('notifications.meetingstarted.content', notifParams),
         recipientMemberIds: [memberId],
         topic: meeting.id,
         url: `${settings.url}${path}`,

@@ -795,11 +795,11 @@
       "title": "",
       "content": ""
     },
-    "MeetingInvited": {
+    "meetinginvited": {
       "title": "Réunion {{role}} - {{title}}",
       "content": "Invitation par {{sender}}."
     },
-    "MeetingStarted": {
+    "meetingstarted": {
       "title": "Réunion {{role}} - {{title}}",
       "content": "{{sender}} a démarré la réunion !"
     },
