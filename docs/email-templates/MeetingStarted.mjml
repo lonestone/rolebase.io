@@ -1,0 +1,32 @@
+<mjml>
+  <mj-body>
+    <mj-section full-width="full-width">
+      <mj-column>
+        <mj-text font-size="20px" align="center">Rolebase</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-wrapper border="1px solid #B2B3C7" padding="0px">
+      <mj-section background-color="#9A65F6">
+        <mj-column> 
+          <mj-text font-size="18px" font-weight="700" color="white" align="center" padding="10px">{{title}}</mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text font-size="16px" align="center" padding='2px'>Vous avez reçu une notification :</mj-text>
+          <mj-text font-size="16px" align="center">{{content}}</mj-text>
+          <mj-button
+          href="${action_url}"
+          background-color="#3182CE"
+          font-size="16px"
+          >Ouvrir la réunion</mj-button>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="12px" font-style="italic" padding='2px'>Ceci est un email automatique, merci de ne pas y répondre.</mj-text>
+        <mj-text font-size="12px" font-style="italic" padding='2px'>Vous pouvez régler vos paramètres de notification sur Rolebase ou vous désabonner en <a href="${unsubscribe_url}">cliquant ici</a>.</mj-text>
+      </mj-section>
+  </mj-body>
+</mjml>
