@@ -12,7 +12,11 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
-import { createStripeCustomer, createStripeSubscription } from '@utils/stripe'
+import {
+  createStripeCustomer,
+  createStripeSubscription,
+  deleteStripeSubscription,
+} from '@utils/stripe'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -50,6 +54,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
 
   const status = orgSubscription?.status
   let customerId = orgSubscription?.stripeCustomerId
+  let subscriptionId = orgSubscription?.stripeSubscriptionId
 
   switch (status) {
     case Subscription_Payment_Status_Enum.Active:
@@ -57,8 +62,13 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
       // A subscription is already active, at the moment throwing an error as there is only one plan available
       // Should add code to upgrade or downgrade subscription here
       throw new RouteError(400, 'Subscription already active')
+    case Subscription_Payment_Status_Enum.Incomplete:
     default:
-      // Subscription does not yet exists or previous payment failed, it is safe to retry
+      if (subscriptionId) {
+        // Current subscription did not go through or has expired
+        // We can safely delete the old one on stripe
+        await deleteStripeSubscription(subscriptionId)
+      }
       break
   }
 
@@ -107,6 +117,11 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
   return {
     subscriptionId: stripeSubscription.id,
     clientSecret,
+    price: {
+      quantity: stripeSubscription.items.data[0].quantity ?? 0,
+      totalPerSeatInCents:
+        stripeSubscription.items.data[0].price.unit_amount ?? 0,
+    },
   }
 })
 

@@ -8,6 +8,7 @@ import {
   CustomerBillingDetails,
   Invoice,
   Subscription,
+  SubscriptionIntentResponse,
   SubscriptionPlanType,
   UpcomingInvoice,
 } from '@shared/model/subscription'
@@ -63,11 +64,14 @@ export const startMembersMeeting = fn<{
 export const stopMembersMeeting =
   fn<{ meetingId: string }>('stopMembersMeeting')
 
-export const subscribeOrg = fn<{
-  memberId: string
-  orgId: string
-  planType: SubscriptionPlanType
-}>('subscribeOrg')
+export const subscribeOrg = fn<
+  {
+    memberId: string
+    orgId: string
+    planType: SubscriptionPlanType
+  },
+  SubscriptionIntentResponse
+>('subscribeOrg')
 
 export const unsubscribeOrg = fn<
   {

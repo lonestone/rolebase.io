@@ -247,6 +247,19 @@ export const getStripeUpcomingInvoice = async (
   }
 }
 
+export const deleteStripeSubscription = async (
+  stripeSubscriptionId: string
+): Promise<Stripe.Subscription> => {
+  try {
+    const subscription = await stripe.subscriptions.del(stripeSubscriptionId)
+
+    return subscription
+  } catch (e) {
+    console.error(`[STRIPE ERROR]: ${e.message}`)
+    throw new RouteError(500, 'Could not delete subscription')
+  }
+}
+
 export const stripeResumeSubscription = async (
   stripeSubscriptionId: string
 ): Promise<Stripe.Subscription> => {
