@@ -29,7 +29,7 @@ export default function CurrentSubscriptionDetails({
       {...rest}
     >
       <SubscriptionPlanSubCard {...currentPlan} />
-      <Flex flexDir="column" h="100%" gap="15">
+      <Flex flexDir="column" h="100%" w="100%" maxW="430px" gap="15">
         {subscription.upcomingInvoice &&
           subscription.upcomingInvoice?.totalInCents > 0 && (
             <SubscriptionUpcomingInvoiceCard

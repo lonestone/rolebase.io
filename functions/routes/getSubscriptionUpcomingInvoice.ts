@@ -15,7 +15,7 @@ const yupSchema = yup.object().shape({
   orgId: yup.string().required(),
 })
 
-export default route(async (context): Promise<UpcomingInvoice> => {
+export default route(async (context): Promise<UpcomingInvoice | null> => {
   guardAuth(context)
   const { memberId, orgId } = guardBodyParams(context, yupSchema)
 
@@ -43,6 +43,8 @@ export default route(async (context): Promise<UpcomingInvoice> => {
     stripeCustomerId,
     stripeSubscriptionId
   )
+
+  if (!stripeUpcomingInvoice) return null
 
   return formatStripeUpcomingInvoice(stripeUpcomingInvoice)
 })
