@@ -1,6 +1,14 @@
 table:
   name: org
   schema: public
+object_relationships:
+  - name: org_subscription
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: org_subscription
+          schema: public
 array_relationships:
   - name: circles
     using:

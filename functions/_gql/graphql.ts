@@ -8750,6 +8750,8 @@ export type Org = {
   /** An aggregate relationship */
   members_aggregate: Member_Aggregate;
   name: Scalars['String'];
+  /** An object relationship */
+  org_subscription?: Maybe<Org_Subscription>;
   /** An array relationship */
   roles: Array<Role>;
   /** An aggregate relationship */
@@ -9072,6 +9074,7 @@ export type Org_Bool_Exp = {
   members?: InputMaybe<Member_Bool_Exp>;
   members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  org_subscription?: InputMaybe<Org_Subscription_Bool_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
@@ -9306,6 +9309,7 @@ export type Org_Insert_Input = {
   meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
+  org_subscription?: InputMaybe<Org_Subscription_Obj_Rel_Insert_Input>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
@@ -9374,6 +9378,7 @@ export type Org_Order_By = {
   meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
+  org_subscription?: InputMaybe<Org_Subscription_Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
   subscriptionId?: InputMaybe<Order_By>;
@@ -9550,6 +9555,13 @@ export type Org_Subscription_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Org_Subscription>;
+};
+
+/** input type for inserting object relation for remote table "org_subscription" */
+export type Org_Subscription_Obj_Rel_Insert_Input = {
+  data: Org_Subscription_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
 };
 
 /** on_conflict condition type for table "org_subscription" */

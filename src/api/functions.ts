@@ -136,6 +136,11 @@ export const resumeSubscription = fn<{
   orgId: string
 }>('resumeSubscription')
 
+export const archiveOrg = fn<{
+  memberId: string
+  orgId: string
+}>('archiveOrg')
+
 export function getMeetingsIcalUrl(
   orgId: string | undefined,
   token: string,
