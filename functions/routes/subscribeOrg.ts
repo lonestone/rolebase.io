@@ -45,7 +45,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     console.error(
       `[SUBSCRIPTION ERROR]: could not retrieve user for member ${member.id}`
     )
-    throw new RouteError(500, 'Internal server error1') // Should not happen but better be carefull
+    throw new RouteError(500, 'Internal server error') // Should not happen but better be carefull
   }
 
   const orgSubscription = (
@@ -82,6 +82,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     throw new RouteError(500, 'Internal server error') // Should not happen but better be carefull
   }
 
+  throw 'EEE'
   if (!customerId) {
     customerId = (await createStripeCustomer(user.email, org.name)).id
   }
