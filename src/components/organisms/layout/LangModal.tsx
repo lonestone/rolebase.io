@@ -1,3 +1,4 @@
+import { updateNovuSubscriber } from '@api/functions'
 import {
   Modal,
   ModalBody,
@@ -21,6 +22,15 @@ export default function LangModal(modalProps: UseModalProps) {
     i18n: { language, changeLanguage },
   } = useTranslation()
 
+  const handleClick = async (locale: string) => {
+    changeLanguage(locale)
+
+    // Update subscriber locale in Novu (used for notification center translation)
+    await updateNovuSubscriber({
+      locale,
+    })
+  }
+
   return (
     <Modal size="xs" isCentered {...modalProps}>
       <ModalOverlay />
@@ -35,7 +45,7 @@ export default function LangModal(modalProps: UseModalProps) {
               <ListItemWithButtons
                 key={locale}
                 buttons={locale === language ? <FiCheck /> : null}
-                onClick={() => changeLanguage(locale)}
+                onClick={() => handleClick(locale)}
               >
                 {emoji}&nbsp;&nbsp;&nbsp;{name}
               </ListItemWithButtons>

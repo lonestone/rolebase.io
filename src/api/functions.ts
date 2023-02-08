@@ -52,6 +52,11 @@ export const markNotificationAs = fn<{
   messageId: string
 }>('markNotificationAs')
 
+export const updateNovuSubscriber = fn<{
+  email?: string
+  locale?: string
+}>('updateNovuSubscriber')
+
 export const startMembersMeeting = fn<{
   membersIds: string[]
   meetingId: string
