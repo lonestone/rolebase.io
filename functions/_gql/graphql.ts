@@ -10081,6 +10081,9 @@ export type Org_Subscription_Mutation_Response = {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ba73817 (save)
 /** input type for inserting object relation for remote table "org_subscription" */
 export type Org_Subscription_Obj_Rel_Insert_Input = {
   data: Org_Subscription_Insert_Input;
@@ -10088,8 +10091,11 @@ export type Org_Subscription_Obj_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
 };
 
+<<<<<<< HEAD
 =======
 >>>>>>> 9f054e2 (WIP - Sub and unsub working)
+=======
+>>>>>>> ba73817 (save)
 /** on_conflict condition type for table "org_subscription" */
 export type Org_Subscription_On_Conflict = {
   constraint: Org_Subscription_Constraint;

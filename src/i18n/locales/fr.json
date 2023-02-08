@@ -457,7 +457,8 @@
   },
   "OrgDeleteModal": {
     "heading": "Supprimer une organisation",
-    "info": "Êtes-vous sûr(e) de vouloir supprimer l'organisation <b>{{name}}</b> ?"
+    "info": "Êtes-vous sûr(e) de vouloir supprimer l'organisation <b>{{name}}</b> ?",
+    "warningSubscription": "Si un abonnement est en cours, vous serez remboursé pour la periode non consommée"
   },
   "OrgEditModal": {
     "heading": "Modifier l'organisation {{org}}",

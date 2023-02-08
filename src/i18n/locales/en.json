@@ -458,7 +458,8 @@
   },
   "OrgDeleteModal": {
     "heading": "Delete Organization",
-    "info": "Are you sure you want to delete organization <b>{{name}}</b>?"
+    "info": "Are you sure you want to delete organization <b>{{name}}</b>?",
+    "warningSubscription": "If a subscription is in progress, you will be refunded for the period not consumed"
   },
   "OrgEditModal": {
     "heading": "Edit Organization {{org}}",
