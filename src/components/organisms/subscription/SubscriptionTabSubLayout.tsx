@@ -53,7 +53,10 @@ export default function SubscriptionTabSubLayout({
     } catch (e) {
       toast({
         title: t('common.errorRetry'),
+        description: t('common.errorContact'),
         status: 'error',
+        duration: 10000,
+        isClosable: true,
       })
     } finally {
       setLoading(false)

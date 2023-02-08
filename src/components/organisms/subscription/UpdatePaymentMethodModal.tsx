@@ -27,8 +27,6 @@ type UpdatePaymentMethodModalProps = {
   onUpdate: () => void
 } & Omit<ModalProps, 'children'>
 
-const toastDefault = { duration: 4000, isClosable: true }
-
 export default function UpdatePaymentMethodModal({
   onUpdate,
   ...rest
@@ -54,8 +52,10 @@ export default function UpdatePaymentMethodModal({
     } catch (e) {
       toast({
         title: t('common.errorRetry'),
+        description: t('common.errorContact'),
         status: 'error',
-        ...toastDefault,
+        duration: 10000,
+        isClosable: true,
       })
       if (rest?.onClose) {
         rest.onClose()
