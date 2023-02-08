@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import { NovuConfig } from '@shared/model/notification'
 import { UserLocalStorageKeys } from '@utils/localStorage'
-import { getNovuConfig } from '@api/functions'
+import { getNovuConfig, markNotificationAs } from '@api/functions'
 import { FaBell } from 'react-icons/fa'
 import IconTextButton from '@atoms/IconTextButton'
 import SidebarIcon from '@atoms/SidebarIcon'
@@ -172,8 +172,12 @@ export default function Notifications() {
     },
   }
 
-  const onNotificationClick = (notification: IMessage) => {
+  const onNotificationClick = async (notification: IMessage) => {
     if (notification?.cta?.data?.url) {
+      // Fix to have notification mark as seen and read when redirect
+      await markNotificationAs({
+        messageId: notification?._id,
+      })
       window.location.href = notification.cta.data.url
     }
   }

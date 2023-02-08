@@ -48,6 +48,10 @@ export const sendNotification = fn<{
   topic?: string
 }>('sendNotification')
 
+export const markNotificationAs = fn<{
+  messageId: string
+}>('markNotificationAs')
+
 export const startMembersMeeting = fn<{
   membersIds: string[]
   meetingId: string
