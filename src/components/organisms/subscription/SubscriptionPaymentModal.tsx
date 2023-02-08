@@ -9,6 +9,7 @@ import {
   ModalOverlay,
   ModalProps,
   Spinner,
+  useToast,
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -38,6 +39,7 @@ export default function SubscriptionPaymentModal({
 }: SubscriptionPaymentModalProps) {
   const { t, i18n } = useTranslation()
   const orgId = useOrgId()
+  const toast = useToast()
   const currentMember = useCurrentMember()
   const [loading, setLoading] = useState(true)
   const stripeAppearance = useStripeAppearance()
@@ -66,11 +68,20 @@ export default function SubscriptionPaymentModal({
         setLoading(false)
       }
     } catch (e) {
-      // TODO: Display an error toast
+      toast({
+        title: t('common.errorRetry'),
+        description: t('common.errorContact'),
+        duration: 10000,
+        isClosable: true,
+        status: 'error',
+      })
+      rest.onClose()
       console.log('Err:', e)
     } finally {
+      if (!requested) {
+        setLoading(false)
+      }
       requested = false
-      // setLoading(false)
     }
   }
 

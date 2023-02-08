@@ -870,8 +870,9 @@
     "copy": "Copy",
     "toastCopied": "URL copied",
     "none": "None",
-    "errorOccured": "An error occurred.",
-    "errorRetry": "An error occurred, plase try again later. If this persists contact us at godefroy@lonestone.studio",
+    "errorOccurred": "An error occurred.",
+    "errorRetry": "An error occurred, plase try again later.",
+    "errorContact": "If this persists contact us at contact@rolebase.io",
     "searchTypes": {
       "All": "All",
       "Member": "Members",

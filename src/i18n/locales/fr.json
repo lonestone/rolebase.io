@@ -865,7 +865,8 @@
     "toastCopied": "URL copiée",
     "none": "Aucun",
     "errorOccurred": "Une erreur s'est produite.",
-    "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard. Si le problème persiste, contactez-nous à godefroy@lonestone.studio",
+    "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
+    "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",
     "searchTypes": {
       "All": "Tous",
       "Member": "Membres",

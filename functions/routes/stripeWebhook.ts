@@ -79,6 +79,7 @@ const updateDefaultPaymentMethod = async (
 }
 
 const deleteSubscription = async (subscriptionId: string) => {
+  // Not deleting it from the database as it would prevent us from retrieving past invoices
   return adminRequest(UPDATE_ORG_SUBSCRIPTION_STATUS, {
     stripeSubscriptionId: subscriptionId,
     status: Subscription_Payment_Status_Enum.Canceled,
@@ -86,7 +87,6 @@ const deleteSubscription = async (subscriptionId: string) => {
 }
 
 const updateSubscription = async (subscription: Stripe.Subscription) => {
-  // Not deleting it from the database as it would prevent us from retrieving past invoices
   return adminRequest(UPDATE_ORG_SUBSCRIPTION_STATUS, {
     stripeSubscriptionId: subscription.id,
     status: subscription.status,
