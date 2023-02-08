@@ -37,7 +37,10 @@ async function getConfig(): Promise<NovuConfig | undefined> {
 
 export default function Notifications() {
   const userId = useUserId()
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const theme = useTheme()
   const { colorMode } = useColorMode()
   const { colors, fonts, fontSizes, sizes } = theme
@@ -188,7 +191,7 @@ export default function Notifications() {
         subscriberId={userId}
         subscriberHash={config.userKey}
         applicationIdentifier={config.appId}
-        i18n="en"
+        i18n={(language as INovuProviderProps['i18n']) || 'en'}
         styles={novuStyles}
       >
         <PopoverNotificationCenter
