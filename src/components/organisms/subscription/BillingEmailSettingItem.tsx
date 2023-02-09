@@ -11,7 +11,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  StackProps,
   Text,
   useDisclosure,
   useToast,
@@ -29,7 +28,7 @@ import * as yup from 'yup'
 type BillingEmailSettingItemProps = {
   email: string | null
   onUpdate: () => void
-} & StackProps
+}
 
 const resolver = yupResolver(
   yup.object().shape({
@@ -42,7 +41,6 @@ const toastDefault = { duration: 4000, isClosable: true }
 export default function BillingEmailSettingItem({
   email,
   onUpdate,
-  ...rest
 }: BillingEmailSettingItemProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()

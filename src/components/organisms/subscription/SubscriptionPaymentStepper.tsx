@@ -1,4 +1,5 @@
-import { Box, Button, FlexProps, HStack, useToast } from '@chakra-ui/react'
+import { updateSubscriptionBillingDetails } from '@api/functions'
+import { Box, Button, HStack, useToast } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useOrg from '@hooks/useOrg'
 import { useOrgId } from '@hooks/useOrgId'
@@ -19,17 +20,17 @@ import {
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useCurrentMember from '../../../hooks/useCurrentMember'
 import SubscriptionSummary from './SubscriptionSummary'
 
 type SubscriptionPaymentStepperProps = {
   planType: Subscription_Plan_Type_Enum
   subscriptionInfo: SubscriptionIntentResponse
-} & FlexProps
+}
 
 export default function SubscriptionPaymentStepper({
   planType,
   subscriptionInfo,
-  ...rest
 }: SubscriptionPaymentStepperProps) {
   const { t } = useTranslation()
   const { nextStep, prevStep, activeStep } = useSteps({
@@ -40,6 +41,7 @@ export default function SubscriptionPaymentStepper({
   const stripe = useStripe()
   const elements = useElements()
   const toast = useToast()
+  const currentMember = useCurrentMember()
   const [loading, setLoading] = useState(false)
   const [billingDetailsComplete, setBillingDetailsComplete] = useState(false)
   const [paymentDetailsComplete, setPaymentDetailsComplete] = useState(false)
@@ -59,32 +61,48 @@ export default function SubscriptionPaymentStepper({
     setPaymentDetailsComplete(!event.complete)
   }
 
+  const updateBillingDetails = async (
+    newBillingDetails: CustomerBillingDetails
+  ) => {
+    // TODO: translate
+    if (!billingDetails) throw new Error('No billing details')
+
+    await updateSubscriptionBillingDetails({
+      memberId: currentMember?.id ?? '',
+      orgId: orgId ?? '',
+      billingDetails: newBillingDetails,
+    })
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
-
-    setLoading(true)
     if (!stripe || !elements) {
       return
     }
+    setLoading(true)
 
-    // TODO: change return url to settings
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${
-          new URL('', import.meta.url).origin
-        }/orgs/${orgId}/subscription`,
-      },
-    })
+    try {
+      await updateBillingDetails(billingDetails)
 
-    if (error) {
+      // TODO: change return url to settings
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${
+            new URL('', import.meta.url).origin
+          }/orgs/${orgId}/subscription`,
+        },
+      })
+
+      if (error) throw error
+    } catch (e: any) {
       toast({
-        title: error.message,
+        title: e.message,
         status: 'error',
       })
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   const isNextDisabled = useMemo(() => {

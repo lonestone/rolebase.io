@@ -5,8 +5,8 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
+import { deleteStripeSubscription } from '@utils/stripe'
 import * as yup from 'yup'
-import { deleteStripeSubscription } from '../_utils/stripe'
 
 const yupSchema = yup.object().shape({
   memberId: yup.string().required(),
@@ -56,8 +56,8 @@ const GET_ORG_SUBSCRIPTION = gql(`
     }`)
 
 const ARCHIVE_ORG = gql(`
-    mutation archiveOrg($orgId: uuid!) {
-      update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {
-        id
-      }
-    }`)
+  mutation archiveOrg($orgId: uuid!) {
+    update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {
+      id
+    }
+  }`)

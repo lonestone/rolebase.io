@@ -14,7 +14,7 @@ type PaymentMethodSettingItemProps = {
 export default function PaymentMethodSettingItem({
   card,
   onUpdate,
-  ...rest
+  ...stackProps
 }: PaymentMethodSettingItemProps) {
   const { t } = useTranslation()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -31,7 +31,7 @@ export default function PaymentMethodSettingItem({
           </HStack>
         }
         editable
-        {...rest}
+        {...stackProps}
       />
       {isOpen && (
         <UpdatePaymentMethodModal

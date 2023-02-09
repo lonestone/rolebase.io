@@ -13,7 +13,7 @@ import ParticipantsGroup from '@molecules/ParticipantsGroup'
 import SubscriptionFeatures from '@molecules/subscription/SubscriptionFeatures'
 import { useStoreState } from '@store/hooks'
 import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubscrptionPlanCard = SubscriptionPlan & CardProps
@@ -24,7 +24,7 @@ export default function SubscriptionPlanSubCard({
   features,
   color,
   type,
-  ...rest
+  ...cardProps
 }: SubscrptionPlanCard) {
   const { t } = useTranslation()
   const nbParticipantBreakpoint = useBreakpointValue({
@@ -32,6 +32,10 @@ export default function SubscriptionPlanSubCard({
     md: 7,
   })
   const members = useStoreState((state) => state.members.entries)
+  const filteredMembers = useMemo(
+    () => members?.filter((mem) => !!mem.userId) ?? [],
+    [members]
+  )
 
   return (
     <FadeCard
@@ -40,7 +44,7 @@ export default function SubscriptionPlanSubCard({
       flexDir="column"
       justifyContent="space-between"
       colorScheme={color}
-      {...rest}
+      {...cardProps}
     >
       <Box>
         <Flex flexDir="row" justifyContent="space-between">
@@ -64,11 +68,11 @@ export default function SubscriptionPlanSubCard({
           </Flex>
 
           <Flex flexDir="column" gap="2" alignItems="end" minW="110px">
-            {members && (
+            {filteredMembers && (
               <ParticipantsGroup
                 max={nbParticipantBreakpoint}
                 size="sm"
-                participants={members}
+                participants={filteredMembers}
               />
             )}
             <Tag

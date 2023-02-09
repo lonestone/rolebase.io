@@ -8,10 +8,10 @@ type SubscriptionFeaturesProps = {
 
 export default function SubscriptionFeatures({
   features,
-  ...rest
+  ...flexProps
 }: SubscriptionFeaturesProps) {
   return (
-    <Flex mt="4" flexDir="column" gap="3" {...rest}>
+    <Flex mt="4" flexDir="column" gap="3" {...flexProps}>
       {features.map((feature) => (
         <Flex key={feature} flexDir="row" gap="6" alignItems="center">
           <FiCheck size="20" color="green" />

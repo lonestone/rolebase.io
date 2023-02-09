@@ -36,6 +36,7 @@ export default route(async (context): Promise<void> => {
       await deleteSubscription((event.data.object as Stripe.Subscription).id)
       break
     case 'payment_method.attached':
+      // TODO: Create event card expiration
       await updateDefaultPaymentMethod(
         event.data.object as Stripe.PaymentMethod
       )

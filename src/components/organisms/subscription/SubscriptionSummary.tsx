@@ -26,7 +26,7 @@ export default function SubscriptionSummary({
   planType,
   billingDetails,
   subscriptionInfo,
-  ...rest
+  ...stackProps
 }: SubscriptionSummaryProps) {
   const { t } = useTranslation()
 
@@ -47,7 +47,7 @@ export default function SubscriptionSummary({
   )
 
   return (
-    <VStack p="2" w="100%">
+    <VStack p="2" w="100%" {...stackProps}>
       <Text m="auto">Summary</Text>
       <HStack alignItems="stretch" h="100%" w="100%">
         <Card w="100%" h="100%" p="3" variant="outline">

@@ -17,12 +17,18 @@ type AccountSettingsListProps = {
 export default function AccountSettingsList({
   subscription,
   onUpdate,
-  ...rest
+  ...stackProps
 }: AccountSettingsListProps) {
   const { t } = useTranslation()
 
   return (
-    <VStack p={{ base: '0', sm: '5' }} w="100%" {...rest}>
+    <VStack
+      justifyContent="center !important"
+      p={{ base: '0', sm: '5' }}
+      w="100%"
+      maxW="1000px"
+      {...stackProps}
+    >
       <BillingEmailSettingItem
         email={subscription.billingDetails?.email ?? ''}
         onUpdate={onUpdate}

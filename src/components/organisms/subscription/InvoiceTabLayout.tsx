@@ -10,12 +10,12 @@ type InvoiceTabLayoutProps = {
 
 export default function InvoiceTabLayout({
   invoices,
-  ...rest
+  ...flexProps
 }: InvoiceTabLayoutProps) {
   const { t } = useTranslation()
 
   return (
-    <Flex flexDir="column" gap="16" w="100%" {...rest}>
+    <Flex flexDir="column" gap="16" w="100%" {...flexProps}>
       <Flex flexDir="column" w="100%" gap="1">
         <Text fontWeight={800} fontSize="24">
           {t('SubscriptionTabs.invoiceTab.heading')}

@@ -24,7 +24,7 @@ export default function SubscriptionPlanCard({
   color,
   type,
   footer,
-  ...rest
+  ...cardProps
 }: SubscrptionPlanCard) {
   const { t } = useTranslation()
 
@@ -34,7 +34,7 @@ export default function SubscriptionPlanCard({
       flexDir="column"
       justifyContent="space-between"
       colorScheme={color}
-      {...rest}
+      {...cardProps}
     >
       <Box>
         <Flex flexDir="row" justifyContent="space-between">

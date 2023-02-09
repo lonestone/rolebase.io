@@ -15,7 +15,7 @@ type SubscriptionCanceledCardProps = {
 export default function SubscriptionCanceledCard({
   subscriptionEndDate,
   onSubscriptionResumed,
-  ...rest
+  ...cardProps
 }: SubscriptionCanceledCardProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
@@ -47,7 +47,7 @@ export default function SubscriptionCanceledCard({
   }
 
   return (
-    <Card p="4" variant="outline" {...rest}>
+    <Card p="4" variant="outline" {...cardProps}>
       <Flex p="4" w="100%" gap="5" flexDir="row">
         <Flex flexDir="column" gap="1">
           <Text fontSize={16} fontWeight={500}>

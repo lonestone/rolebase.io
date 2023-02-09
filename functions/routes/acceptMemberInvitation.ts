@@ -4,9 +4,10 @@ import { generateInviteToken } from '@utils/generateInviteToken'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
+import { guardOrgSubscriptionPlan } from '@utils/guardOrgSubscriptionPlan'
 import { route, RouteError } from '@utils/route'
+import { updateStripeSubscription } from '@utils/stripe'
 import { updateMember } from '@utils/updateMember'
-import { updateOrgSubscriptionAfterInvite } from '@utils/updateOrgSubscriptionAfterInvite'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -44,8 +45,18 @@ export default route(async (context): Promise<void> => {
     throw new RouteError(401, 'Invalid token')
   }
 
-  // Updates the subscription if needed
-  await updateOrgSubscriptionAfterInvite(context, member.orgId)
+  // Verify that the org has not reached it's member limit
+  const { nbActiveMembers, subscription } = await guardOrgSubscriptionPlan(
+    context,
+    member.orgId
+  )
+
+  if (subscription) {
+    await updateStripeSubscription(
+      subscription.stripeSubscriptionId,
+      nbActiveMembers + 1
+    )
+  }
 
   // Update member
   await updateMember(memberId, { userId: context.userId })
