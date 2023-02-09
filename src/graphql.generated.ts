@@ -14201,6 +14201,10 @@ export type Users = {
   isAnonymous: Scalars['Boolean'];
   lastSeen?: Maybe<Scalars['timestamptz']>;
   locale: Scalars['String'];
+  /** An array relationship */
+  members: Array<Member>;
+  /** An aggregate relationship */
+  members_aggregate: Member_Aggregate;
   metadata?: Maybe<Scalars['jsonb']>;
   newEmail?: Maybe<Scalars['citext']>;
   otpHash?: Maybe<Scalars['String']>;
@@ -14229,6 +14233,26 @@ export type Users = {
   userProviders: Array<AuthUserProviders>;
   /** An aggregate relationship */
   userProviders_aggregate: AuthUserProviders_Aggregate;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersMembersArgs = {
+  distinct_on?: InputMaybe<Array<Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Order_By>>;
+  where?: InputMaybe<Member_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersMembers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Order_By>>;
+  where?: InputMaybe<Member_Bool_Exp>;
 };
 
 
@@ -14404,6 +14428,8 @@ export type Users_Bool_Exp = {
   isAnonymous?: InputMaybe<Boolean_Comparison_Exp>;
   lastSeen?: InputMaybe<Timestamptz_Comparison_Exp>;
   locale?: InputMaybe<String_Comparison_Exp>;
+  members?: InputMaybe<Member_Bool_Exp>;
+  members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   metadata?: InputMaybe<Jsonb_Comparison_Exp>;
   newEmail?: InputMaybe<Citext_Comparison_Exp>;
   otpHash?: InputMaybe<String_Comparison_Exp>;
@@ -14467,6 +14493,7 @@ export type Users_Insert_Input = {
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
   lastSeen?: InputMaybe<Scalars['timestamptz']>;
   locale?: InputMaybe<Scalars['String']>;
+  members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   metadata?: InputMaybe<Scalars['jsonb']>;
   newEmail?: InputMaybe<Scalars['citext']>;
   otpHash?: InputMaybe<Scalars['String']>;
@@ -14622,6 +14649,7 @@ export type Users_Order_By = {
   isAnonymous?: InputMaybe<Order_By>;
   lastSeen?: InputMaybe<Order_By>;
   locale?: InputMaybe<Order_By>;
+  members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   metadata?: InputMaybe<Order_By>;
   newEmail?: InputMaybe<Order_By>;
   otpHash?: InputMaybe<Order_By>;
@@ -15604,7 +15632,7 @@ export const CircleFullFragmentDoc = gql`
   role {
     ...RoleSummary
   }
-  members(where: {archived: {_eq: false}}) {
+  members(where: {archived: {_eq: false}, member: {archived: {_eq: false}}}) {
     ...CircleMember
     member {
       ...MemberSummary
