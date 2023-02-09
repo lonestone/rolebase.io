@@ -1,21 +1,25 @@
 import { Flex, FlexProps, Text } from '@chakra-ui/react'
 import ParticipantsGroup from '@molecules/ParticipantsGroup'
 import { useStoreState } from '@store/hooks'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const MAX_MEMBERS_FREE = 5
 
-export default function SubscriptionFreePlanCardFooter({ ...rest }: FlexProps) {
+export default function SubscriptionFreePlanCardFooter(props: FlexProps) {
   const { t } = useTranslation()
   const members = useStoreState((state) => state.members.entries)
+  const filteredMembers = useMemo(
+    () => members?.filter((mem) => !!mem.userId) ?? [],
+    [members]
+  )
 
   return (
     <Flex
       flexDir="row"
       alignItems="center"
       justifyContent="space-between"
-      {...rest}
+      {...props}
     >
       <Text
         fontWeight={600}
@@ -29,11 +33,11 @@ export default function SubscriptionFreePlanCardFooter({ ...rest }: FlexProps) {
           total: MAX_MEMBERS_FREE,
         })}
       </Text>
-      {members && (
+      {filteredMembers && (
         <ParticipantsGroup
           size="md"
           max={MAX_MEMBERS_FREE}
-          participants={members}
+          participants={filteredMembers}
         />
       )}
     </Flex>

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { FiArrowRight } from 'react-icons/fi'
 import SubscriptionPaymentModal from './SubscriptionPaymentModal'
 
-export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
+export default function SubscriptionTabFreeLayout(flexProps: FlexProps) {
   const { t } = useTranslation()
   const plansData = useSubscriptionPlanData()
   const [selectedPlanType, setSelectedPlanType] =
@@ -80,7 +80,7 @@ export default function SubscriptionTabFreeLayout({ ...rest }: FlexProps) {
         gap="5"
         flexWrap={['wrap', 'wrap', 'wrap', 'wrap', 'nowrap']}
         flexDir="row"
-        {...rest}
+        {...flexProps}
       >
         {plans.map((plan) => (
           <SubscriptionPlanCard

@@ -32,8 +32,8 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
       orgId: org?.id ?? '',
       memberId: currentMember?.id ?? '',
     })
-    // onDelete()
-    // alertProps.onClose()
+    onDelete()
+    alertProps.onClose()
   }
 
   if (!org) return null

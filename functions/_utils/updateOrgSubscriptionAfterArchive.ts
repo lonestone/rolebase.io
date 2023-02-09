@@ -1,13 +1,9 @@
-import { validateStripeSubscription } from '@utils/stripe'
-import { adminRequest } from './adminRequest'
+import { gql } from '@gql'
+import { adminRequest } from '@utils/adminRequest'
+import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
+import { updateStripeSubscription } from '@utils/stripe'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
-import {
-  GET_ORG_MEMBERS,
-  GET_ORG_SUBSCRIPTION
-} from './updateOrgSubscriptionAfterInvite'
-
-const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 
 export async function updateOrgSubscriptionAfterArchive(
   context: FunctionContext,
@@ -17,8 +13,6 @@ export async function updateOrgSubscriptionAfterArchive(
     throw new RouteError(401, 'Unauthorized')
   }
 
-  const org = await adminRequest(GET_ORG_MEMBERS, { orgId })
-  const activeMembers = org.org_by_pk!.members.filter((mem) => !!mem.userId)
   const orgSubscriptionResponse = await adminRequest(GET_ORG_SUBSCRIPTION, {
     orgId,
   })
@@ -26,32 +20,22 @@ export async function updateOrgSubscriptionAfterArchive(
     ? orgSubscriptionResponse.org_subscription[0]
     : null
 
+  const nbActiveMembers = await getActiveMembersTotal(context, orgId)
+
   if (orgSubscription) {
-    // Update the subscription on stripe
-    await removeMemberFromStripeSubscription(
+    await updateStripeSubscription(
       orgSubscription.stripeSubscriptionId,
-      activeMembers.length
+      nbActiveMembers - 1
     )
   }
 
-  return orgSubscription
+  return orgId
 }
 
-const removeMemberFromStripeSubscription = async (
-  stripeSubscriptionId: string,
-  nbActiveMember: number
-) => {
-  const stripeSubscription = await validateStripeSubscription(
-    stripeSubscriptionId
-  )
-
-  // Update the subscription on stripe
-  await stripe.subscriptions.update(stripeSubscriptionId, {
-    items: [
-      {
-        id: stripeSubscription.items.data[0].id,
-        quantity: nbActiveMember - 1,
-      },
-    ],
-  })
-}
+export const GET_ORG_SUBSCRIPTION = gql(`
+  query getOrgSubscriptionSubId($orgId: uuid!) {
+    org_subscription(where: {orgId: {_eq: $orgId}}) {
+      id
+      stripeSubscriptionId
+    }
+  }`)

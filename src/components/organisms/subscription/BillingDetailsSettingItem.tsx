@@ -1,4 +1,4 @@
-import { StackProps, useDisclosure } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/react'
 import SettingItem from '@molecules/SettingItem'
 import { CustomerBillingDetails } from '@shared/model/subscription'
 import React, { useMemo } from 'react'
@@ -8,12 +8,11 @@ import UpdateBillingDetailsModal from './UpdateBillingDetailsModal'
 type BillingDetailsSettingItemProps = {
   billingDetails: CustomerBillingDetails | null
   onUpdate: () => void
-} & StackProps
+}
 
 export default function BillingDetailsSettingItem({
   billingDetails,
   onUpdate,
-  ...rest
 }: BillingDetailsSettingItemProps) {
   const { t } = useTranslation()
   const { isOpen, onOpen, onClose } = useDisclosure()

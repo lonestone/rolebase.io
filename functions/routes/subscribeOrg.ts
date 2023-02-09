@@ -82,7 +82,6 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     throw new RouteError(500, 'Internal server error') // Should not happen but better be carefull
   }
 
-  throw 'EEE'
   if (!customerId) {
     customerId = (await createStripeCustomer(user.email, org.name)).id
   }

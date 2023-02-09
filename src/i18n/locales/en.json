@@ -660,6 +660,12 @@
       "errorLoadingInvoices": "Failed to retrieve invoices"
     }
   },
+  "SubscriptionReachedMemberLimitModal": {
+    "title": "Oops, you have reached the maximum number of members for your plan!",
+    "limitReached": "You can upgrade your plan to increase the number of members in your team.",
+    "upgradePlan": "Passer au plan supérieur",
+    "hide": "Masquer"
+  },
   "SubscriptionPlans": {
     "currentPlan": "Current plan",
     "activeMember_one": "{{count}}/{{total}} active member",

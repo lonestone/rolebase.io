@@ -75,7 +75,6 @@ update_permissions:
   - role: user
     permission:
       columns:
-        - archived
         - description
         - meetingId
         - name

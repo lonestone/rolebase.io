@@ -10,14 +10,14 @@ export default function ParticipantsGroup({
   participants,
   max,
   size,
-  ...rest
+  ...avatarGroupProps
 }: ParticipantsGroupProps) {
   return (
     <AvatarGroup
       spacing={size === 'sm' ? '-0.5rem' : '-0.75rem'}
       size={size}
       max={max}
-      {...rest}
+      {...avatarGroupProps}
     >
       {participants.map(
         (member, i) =>
@@ -25,13 +25,8 @@ export default function ParticipantsGroup({
             <Avatar
               key={i}
               border="1px solid"
-              borderColor="white"
-              _dark={{
-                borderColor: `var(--chakra-colors-gray-800)`,
-              }}
               name={member.name}
               src={member.picture || undefined}
-              bg="gray.500"
             />
           )
       )}

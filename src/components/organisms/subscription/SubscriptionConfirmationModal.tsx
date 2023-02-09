@@ -24,7 +24,7 @@ type SubscriptionConfirmationModalProps = {
 // TODO: define if only modal or only toast
 export default function SubscriptionConfirmationModal({
   clientSecret,
-  ...rest
+  ...modalProps
 }: SubscriptionConfirmationModalProps) {
   const { t } = useTranslation()
   const stripe = useStripe()
@@ -70,7 +70,7 @@ export default function SubscriptionConfirmationModal({
   }, [clientSecret, stripe])
 
   return (
-    <Modal size="2xl" {...rest}>
+    <Modal size="2xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
@@ -124,7 +124,9 @@ export default function SubscriptionConfirmationModal({
           )}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={() => rest.onClose()}>{t('common.close')}</Button>
+          <Button onClick={() => modalProps.onClose()}>
+            {t('common.close')}
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

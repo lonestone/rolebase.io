@@ -41,7 +41,7 @@ const toastDefault = { duration: 4000, isClosable: true }
 export default function UpdateBillingDetailsModal({
   billingDetails,
   onBillingDetailsUpdated,
-  ...rest
+  ...modalProps
 }: UpdateBillingDetailsModalProps) {
   const { t, i18n } = useTranslation()
   const orgId = useOrgId()
@@ -105,7 +105,7 @@ export default function UpdateBillingDetailsModal({
 
   // TODO: Maybe implement Google API to provide autocomplete
   return (
-    <Modal {...rest}>
+    <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
