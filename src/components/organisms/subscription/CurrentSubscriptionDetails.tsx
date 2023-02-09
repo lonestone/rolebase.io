@@ -17,7 +17,7 @@ export default function CurrentSubscriptionDetails({
   subscription,
   currentPlan,
   onSubscriptionUpdated,
-  ...rest
+  ...flexProps
 }: CurrentSubscriptionDetailsProps) {
   return (
     <Flex
@@ -26,17 +26,16 @@ export default function CurrentSubscriptionDetails({
       flexWrap={['wrap', 'wrap', 'wrap', 'nowrap']}
       justifyContent="center"
       flexDir="row"
-      {...rest}
+      {...flexProps}
     >
       <SubscriptionPlanSubCard {...currentPlan} />
       <Flex flexDir="column" h="100%" w="100%" maxW="430px" gap="15">
-        {subscription.upcomingInvoice &&
-          subscription.upcomingInvoice?.totalInCents > 0 && (
-            <SubscriptionUpcomingInvoiceCard
-              h={['auto', 'auto', 'auto', '100%']}
-              upcomingInvoice={subscription.upcomingInvoice}
-            />
-          )}
+        {subscription.upcomingInvoice && (
+          <SubscriptionUpcomingInvoiceCard
+            h={['auto', 'auto', 'auto', '100%']}
+            upcomingInvoice={subscription.upcomingInvoice}
+          />
+        )}
         {subscription.card && (
           <SubscriptionPaymentDetailsCard
             h={['auto', 'auto', 'auto', '100%']}

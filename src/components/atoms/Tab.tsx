@@ -1,7 +1,7 @@
 import {
   Tab as ChakraTab,
   TabProps as ChakraTabProps,
-  Text
+  Text,
 } from '@chakra-ui/react'
 import React, { ReactElement } from 'react'
 
@@ -10,9 +10,9 @@ type TabProps = {
   icon?: ReactElement
 } & ChakraTabProps
 
-export default function Tab({ title, icon, ...rest }: TabProps) {
+export default function Tab({ title, icon, ...chakraTabProps }: TabProps) {
   return (
-    <ChakraTab {...rest}>
+    <ChakraTab {...chakraTabProps}>
       <>
         {icon && icon}
         <Text fontWeight={600} fontSize="16" ml="2">

@@ -6,9 +6,9 @@ import {
 } from '@chakra-ui/react'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useOrgAdmin from '@hooks/useOrgAdmin'
-import useOrgOwner from '@hooks/useOrgOwner'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
+import useOrgOwner from '@hooks/useOrgOwner'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import OrgEditModal from '@organisms/org/OrgEditModal'
@@ -20,8 +20,8 @@ import {
   FiActivity,
   FiCircle,
   FiClock,
+  FiCreditCard,
   FiSettings,
-  FiFeather,
   FiUsers,
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -62,12 +62,6 @@ export default function SettingsMenuList(props: MenuListProps) {
           </MenuItem>
         )}
 
-        {isOwner && (
-          <MenuItem as={Link} icon={<FiFeather />} to={subscriptionPath}>
-            {t('SettingsMenuList.subscription')}
-          </MenuItem>
-        )}
-
         <MenuItem
           as={Link}
           to={membersPath}
@@ -96,6 +90,12 @@ export default function SettingsMenuList(props: MenuListProps) {
         >
           {t('SettingsMenuList.logs')}
         </MenuItem>
+
+        {isOwner && (
+          <MenuItem as={Link} icon={<FiCreditCard />} to={subscriptionPath}>
+            {t('SettingsMenuList.subscription')}
+          </MenuItem>
+        )}
 
         {isSuperAdmin && (
           <MenuItem as={Link} to={`/admin`} icon={<FiActivity />}>

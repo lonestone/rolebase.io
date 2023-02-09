@@ -19,7 +19,7 @@ export const roleSchema = yup.string().oneOf(Object.values(Member_Role_Enum))
 
 export const billingDetailsSchema = yup.object().shape({
   name: yup.string().required(),
-  email: yup.string().required(),
+  email: yup.string().optional(),
   address: yup.object().shape({
     city: yup.string().required(),
     country: yup.string().required(),

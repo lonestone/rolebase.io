@@ -174,16 +174,18 @@ export const createStripeSubscription = async (
 
 export const updateStripeSubscription = async (
   stripeSubscriptionId: string,
-  stripeSubscriptionItemId: string,
   newQuantity: number
 ): Promise<Stripe.Subscription> => {
   try {
+    const currentStripeSubscription = await validateStripeSubscription(
+      stripeSubscriptionId
+    )
     const subscription = await stripe.subscriptions.update(
       stripeSubscriptionId,
       {
         items: [
           {
-            id: stripeSubscriptionItemId,
+            id: currentStripeSubscription.items.data[0].id,
             quantity: newQuantity,
           },
         ],
@@ -199,10 +201,13 @@ export const updateStripeSubscription = async (
 
 export const updateStripeCustomer = async (
   stripeCustomerId: string,
-  ...rest
+  ...fieldsToUpdate
 ): Promise<Stripe.Customer | Stripe.DeletedCustomer> => {
   try {
-    const customer = await stripe.customers.update(stripeCustomerId, ...rest)
+    const customer = await stripe.customers.update(
+      stripeCustomerId,
+      ...fieldsToUpdate
+    )
 
     return customer
   } catch (e) {
@@ -212,8 +217,7 @@ export const updateStripeCustomer = async (
 }
 
 export const createStripeSetupIntent = async (
-  stripeCustomerId: string,
-  ...rest
+  stripeCustomerId: string
 ): Promise<Stripe.SetupIntent> => {
   try {
     const intent = await stripe.setupIntents.create({

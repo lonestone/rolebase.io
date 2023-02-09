@@ -16,7 +16,7 @@ export default function SettingItem({
   placeholder,
   value,
   onEdit,
-  ...rest
+  ...stackProps
 }: SettingItemProps) {
   const { t } = useTranslation()
 
@@ -29,7 +29,7 @@ export default function SettingItem({
       justifyContent="space-between"
       borderBottom="1px solid"
       borderColor="gray.300"
-      {...rest}
+      {...stackProps}
     >
       <Text flex="1" fontWeight={700}>
         {displayName}

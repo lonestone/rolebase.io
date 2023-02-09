@@ -24,14 +24,14 @@ export default function SubscriptionPaymentDetailsCard({
   card,
   email,
   onCardUpdated,
-  ...rest
+  ...cardProps
 }: SubscriptionPaymentDetailsCardProps) {
   const { t } = useTranslation()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
-      <Card p="4" variant="outline" {...rest}>
+      <Card p="4" variant="outline" {...cardProps}>
         <Text fontSize={16} fontWeight={700}>
           {t('SubscriptionPlans.paymentMethod')}
         </Text>

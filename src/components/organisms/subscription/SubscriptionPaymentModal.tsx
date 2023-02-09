@@ -35,7 +35,7 @@ let requested = false
 
 export default function SubscriptionPaymentModal({
   planType,
-  ...rest
+  ...modalProps
 }: SubscriptionPaymentModalProps) {
   const { t, i18n } = useTranslation()
   const orgId = useOrgId()
@@ -51,7 +51,6 @@ export default function SubscriptionPaymentModal({
   }, [])
 
   const subscribe = async () => {
-    console.log('SECRET:', subscriptionInfo?.clientSecret)
     if (subscriptionInfo?.clientSecret) return
 
     setLoading(true)
@@ -75,7 +74,7 @@ export default function SubscriptionPaymentModal({
         isClosable: true,
         status: 'error',
       })
-      rest.onClose()
+      modalProps.onClose()
       console.log('Err:', e)
     } finally {
       if (!requested) {
@@ -86,7 +85,7 @@ export default function SubscriptionPaymentModal({
   }
 
   return (
-    <Modal size="2xl" {...rest}>
+    <Modal size="2xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>

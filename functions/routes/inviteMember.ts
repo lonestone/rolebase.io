@@ -6,6 +6,7 @@ import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
+import { guardOrgSubscriptionPlan } from '@utils/guardOrgSubscriptionPlan'
 import { route, RouteError } from '@utils/route'
 import { sendMailjetEmail } from '@utils/sendMailjetEmail'
 import settings from '@utils/settings'
@@ -41,6 +42,9 @@ export default route(async (context) => {
   if (!inviterMember) {
     throw new RouteError(404, 'Inviter member not found')
   }
+
+  // Verify that the org has not reached it's member limit
+  await guardOrgSubscriptionPlan(context, member.orgId)
 
   // Update member
   const inviteDate = new Date()
@@ -80,6 +84,17 @@ export default route(async (context) => {
     console.error('Error sending invitation email', error)
   }
 })
+
+export const GET_ORG_MEMBERS = gql(`
+  query getOrgMembersWithUserId($orgId: uuid!) {
+    org_by_pk(id: $orgId) {
+      id
+      members {
+        id
+        userId
+      }
+    }
+  }`)
 
 const GET_MEMBER_BY_USER_ID = gql(`
   query getMemberByUserId($orgId: uuid!, $userId: uuid!) {

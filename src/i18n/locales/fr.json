@@ -611,7 +611,7 @@
     "invoiceTab": {
       "heading": "Historique des factures",
       "desc": "Retrouvez toutes vos précédentes factures juste ici et téléchargez-les.",
-      "noInvoice": "Vous n'avez aucun facture",
+      "noInvoice": "Vous n'avez aucune facture",
       "amount": "Montant",
       "invoiceDate": "Date de la facture",
       "invoice": "Facture",
@@ -657,6 +657,12 @@
       "errorLoadingInvoices": "Une erreur s'est produite lors de la recupération des factures"
     }
   },
+  "SubscriptionReachedMemberLimitModal": {
+    "title": "Oups, vous avez atteint le maximum de membres sur votre plan !",
+    "limitReached": "Vous pouvez passez à un forfait supérieur pour accueillir plus de personnes dans votre équipe.",
+    "upgradePlan": "Passer au plan supérieur",
+    "hide": "Masquer"
+  },
   "SubscriptionPlans": {
     "currentPlan": "Plan actuel",
     "activeMember_one": "{{count}}/{{total}} membre actif",
@@ -677,10 +683,10 @@
     "active": "Actif",
     "unsubscribeDate": "Votre abonnement prendra fin le {{date}}",
     "subscriptionResumed": "Votre abonnement à été réactiver",
-    "noBillingAccount": "Vous n'avez pas de compte de facturation pour l'instant",
+    "noBillingAccount": "Vous n'avez aucun abonnement pour le moment",
     "subscriptionSuccess": "C'est tout bon !",
-    "subscriptionCreated": "Votre abonnement à bien été créé 😀",
-    "invoiceAvailable": "Votre facture de €{{amount}} peut être téléchargée depuis l'onglet Factures",
+    "subscriptionCreated": "Votre abonnement a été créé 😀",
+    "invoiceAvailable": "Votre facture de {{amount}}€ peut être téléchargée depuis l'onglet Factures",
     "free": {
       "title": "Gratuit",
       "desc": "Parfait pour tester et pour collaborer en petite équipe.",
