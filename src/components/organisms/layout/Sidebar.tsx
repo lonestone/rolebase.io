@@ -31,6 +31,7 @@ import UserMenu from '@molecules/UserMenu'
 import { useAuthenticated, useUserEmail } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
+import { getPureLanguageCode } from '@utils/getPureLanguageCode'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaQuestion, FaSearch } from 'react-icons/fa'
@@ -121,7 +122,7 @@ export default function Sidebar() {
     if (userEmail) {
       identifyNovuSubscriber({
         email: userEmail!,
-        locale: language,
+        locale: getPureLanguageCode(language),
       })
     }
   }, [userEmail])

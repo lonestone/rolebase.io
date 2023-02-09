@@ -15,6 +15,7 @@ import { getNovuConfig, markNotificationAs } from '@api/functions'
 import { FaBell } from 'react-icons/fa'
 import IconTextButton from '@atoms/IconTextButton'
 import SidebarIcon from '@atoms/SidebarIcon'
+import { getPureLanguageCode } from '@utils/getPureLanguageCode'
 
 async function getConfig(): Promise<NovuConfig | undefined> {
   // Use config from localStorage
@@ -191,7 +192,7 @@ export default function Notifications() {
         subscriberId={userId}
         subscriberHash={config.userKey}
         applicationIdentifier={config.appId}
-        i18n={(language as INovuProviderProps['i18n']) || 'en'}
+        i18n={getPureLanguageCode(language) as INovuProviderProps['i18n']}
         styles={novuStyles}
       >
         <PopoverNotificationCenter
