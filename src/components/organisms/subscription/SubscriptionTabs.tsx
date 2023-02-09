@@ -19,7 +19,7 @@ import SubscriptionTab from '@organisms/subscription/SubscriptionTab'
 import { Invoice, Subscription } from '@shared/model/subscription'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiFileText, FiTarget, FiUser } from 'react-icons/fi'
+import { FiCreditCard, FiFileText, FiUser } from 'react-icons/fi'
 
 export default function SubscriptionTabs(props: FlexProps) {
   const { t } = useTranslation()
@@ -95,7 +95,7 @@ export default function SubscriptionTabs(props: FlexProps) {
         <TabList px="10">
           <Tab
             title={t('SubscriptionTabs.subscriptionTabTitle')}
-            icon={<FiTarget />}
+            icon={<FiCreditCard />}
           />
 
           <Tab
@@ -129,7 +129,7 @@ export default function SubscriptionTabs(props: FlexProps) {
           </TabPanel>
           <TabPanel>
             {invoicesLoading && TabSpinner}
-            {!invoicesLoading && <InvoiceTab invoices={invoices} />}{' '}
+            {!invoicesLoading && <InvoiceTab invoices={invoices} />}
           </TabPanel>
         </TabPanels>
       </Tabs>

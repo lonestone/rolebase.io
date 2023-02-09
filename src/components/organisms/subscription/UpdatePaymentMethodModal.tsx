@@ -29,7 +29,7 @@ type UpdatePaymentMethodModalProps = {
 
 export default function UpdatePaymentMethodModal({
   onUpdate,
-  ...rest
+  ...modalProps
 }: UpdatePaymentMethodModalProps) {
   const { t, i18n } = useTranslation()
   const orgId = useOrgId()
@@ -57,8 +57,8 @@ export default function UpdatePaymentMethodModal({
         duration: 10000,
         isClosable: true,
       })
-      if (rest?.onClose) {
-        rest.onClose()
+      if (modalProps?.onClose) {
+        modalProps.onClose()
       }
     } finally {
       setLoading(false)
@@ -70,7 +70,7 @@ export default function UpdatePaymentMethodModal({
   }, [])
 
   return (
-    <Modal {...rest}>
+    <Modal {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>

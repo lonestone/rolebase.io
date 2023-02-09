@@ -19,10 +19,10 @@ import {
   ModalOverlay,
   Select,
   Spacer,
-  UseModalProps,
-  VStack,
   useDisclosure,
+  UseModalProps,
   useToast,
+  VStack,
 } from '@chakra-ui/react'
 import { Member_Role_Enum, useUpdateMemberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -34,6 +34,7 @@ import useOrgAdmin from '@hooks/useOrgAdmin'
 import ActionsMenu from '@molecules/ActionsMenu'
 import EditorController from '@molecules/editor/EditorController'
 import MemberPictureEdit from '@molecules/member/MemberPictureEdit'
+import SubscriptionReachedMemberLimitModal from '@organisms/subscription/SubscriptionReachedMemberLimitModal'
 import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
@@ -79,6 +80,12 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
+  } = useDisclosure()
+
+  const {
+    isOpen: isLimitReachedOpen,
+    onOpen: onLimitReachedOpen,
+    onClose: onLimitReachedClose,
   } = useDisclosure()
 
   const {
@@ -159,11 +166,16 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
         modalProps.onClose()
       } catch (error: any) {
-        toast({
-          title: t('common.error'),
-          description: error?.response?.data || error?.message || undefined,
-          status: 'error',
-        })
+        console.log('error', error)
+        if (error?.response?.status === 402) {
+          onLimitReachedOpen()
+        } else {
+          toast({
+            title: t('common.error'),
+            description: error?.response?.data || error?.message || undefined,
+            status: 'error',
+          })
+        }
       }
       setLoading(false)
     }
@@ -372,6 +384,13 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {isLimitReachedOpen && (
+        <SubscriptionReachedMemberLimitModal
+          isOpen
+          onClose={onLimitReachedClose}
+        />
+      )}
 
       {isDeleteOpen && (
         <MemberDeleteModal

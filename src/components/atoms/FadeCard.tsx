@@ -4,7 +4,7 @@ import React from 'react'
 export default function FadeCard({
   colorScheme,
   children,
-  ...rest
+  ...cardProps
 }: CardProps) {
   return (
     <Card
@@ -19,7 +19,7 @@ export default function FadeCard({
         borderTopColor: `var(--chakra-colors-${colorScheme}-500)`,
         borderColor: `var(--chakra-colors-${colorScheme}-700)`,
       }}
-      {...rest}
+      {...cardProps}
     >
       {children}
     </Card>

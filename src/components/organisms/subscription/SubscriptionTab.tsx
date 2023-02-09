@@ -12,10 +12,10 @@ type SubscriptionTabProps = {
 export default function SubscriptionTab({
   subscription,
   onSubscriptionUpdated,
-  ...rest
+  ...flexProps
 }: SubscriptionTabProps) {
   return (
-    <Flex p="5" flexDir="row" {...rest}>
+    <Flex p="5" flexDir="row" {...flexProps}>
       {!subscription && <SubscriptionTabFreeLayout />}
       {subscription && (
         <SubscriptionTabSubLayout

@@ -30,7 +30,10 @@ type InvoiceTableProps = {
   invoices: Invoice[]
 } & TableContainerProps
 
-export default function InvoiceTable({ invoices, ...rest }: InvoiceTableProps) {
+export default function InvoiceTable({
+  invoices,
+  ...tableContainerProps
+}: InvoiceTableProps) {
   const { t } = useTranslation()
   const [sorting, setSorting] = useState<SortingState>([])
   const columnHelper = createColumnHelper<Invoice>()
@@ -138,7 +141,7 @@ export default function InvoiceTable({ invoices, ...rest }: InvoiceTableProps) {
     debugTable: import.meta.env.DEV,
   })
   return (
-    <TableContainer {...rest}>
+    <TableContainer {...tableContainerProps}>
       <Table>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -7,9 +7,12 @@ type InvoiceTabProps = {
   invoices: Invoice[]
 } & FlexProps
 
-export default function InvoiceTab({ invoices, ...rest }: InvoiceTabProps) {
+export default function InvoiceTab({
+  invoices,
+  ...flexProps
+}: InvoiceTabProps) {
   return (
-    <Flex p="5" flexDir="row" {...rest}>
+    <Flex p="5" flexDir="row" {...flexProps}>
       <InvoiceTabLayout invoices={invoices} />
     </Flex>
   )

@@ -24,7 +24,7 @@ type SubscriptionTabSubLayoutProps = {
 export default function SubscriptionTabSubLayout({
   subscription,
   onSubscriptionUpdated,
-  ...rest
+  ...flexProps
 }: SubscriptionTabSubLayoutProps) {
   const { t } = useTranslation()
   const plansData = useSubscriptionPlanData()
@@ -90,7 +90,6 @@ export default function SubscriptionTabSubLayout({
           <Button
             variant="outline"
             rightIcon={subscription.expiresAt ? undefined : <FiArrowRight />}
-            colorScheme="gray"
             onClick={unsubscribe}
             isLoading={loading}
             disabled={!!subscription.expiresAt}
@@ -123,10 +122,10 @@ export default function SubscriptionTabSubLayout({
           <Flex w="100%" justifyContent="end">
             <Button
               as="a"
+              variant="outline"
               href="https://www.rolebase.io/contact"
               target="_blank"
               rightIcon={<FiArrowRight />}
-              colorScheme="gray"
             >
               {t('SubscriptionPlans.contactUs')}
             </Button>
@@ -155,7 +154,7 @@ export default function SubscriptionTabSubLayout({
         gap="5"
         flexWrap={['wrap', 'wrap', 'wrap', 'wrap', 'nowrap']}
         flexDir="row"
-        {...rest}
+        {...flexProps}
       >
         {plans.map((plan) => (
           <SubscriptionPlanCard
