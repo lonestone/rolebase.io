@@ -38,6 +38,7 @@ export default function useCreateLog() {
         variables: {
           values: {
             orgId,
+            userId,
             memberId: currentMember.id,
             memberName: currentMember.name,
             meetingId: currentMember.meetingId || null,
