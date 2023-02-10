@@ -55,6 +55,10 @@
   font-size: 1.1em;
 }
 
+.RichEditor__indent {
+  --lexical-indent-base-value: 20px;
+}
+
 .RichEditor__textBold {
   font-weight: bold;
 }

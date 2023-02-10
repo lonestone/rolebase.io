@@ -60,6 +60,7 @@ const theme: EditorThemeClasses = {
     h6: 'RichEditor__h6',
   },
   image: 'editor-image',
+  indent: 'RichEditor__indent',
   link: 'RichEditor__link',
   list: {
     listitem: 'RichEditor__listItem',

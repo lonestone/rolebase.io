@@ -35,8 +35,8 @@ export interface ImagePayload {
 
 function convertImageElement(domNode: Node): null | DOMConversionOutput {
   if (domNode instanceof HTMLImageElement) {
-    const { alt, src } = domNode
-    const node = $createImageNode({ src, alt })
+    const { alt, src, width, height } = domNode
+    const node = $createImageNode({ src, alt, width, height })
     return { node }
   }
   return null
@@ -89,6 +89,8 @@ export class ImageNode extends DecoratorNode<React.ReactNode> {
     const element = document.createElement('img')
     element.setAttribute('src', this.__src)
     element.setAttribute('alt', this.__alt)
+    element.setAttribute('width', this.__width.toString())
+    element.setAttribute('height', this.__height.toString())
     return { element }
   }
 
