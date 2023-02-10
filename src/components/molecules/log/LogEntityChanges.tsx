@@ -3,12 +3,12 @@ import { EntityChange, EntityChangeType } from '@shared/model/log'
 import React from 'react'
 import { ObjectDiff } from './ObjectDiff'
 
-interface Props<Entity> {
+interface Props<Entity extends {}> {
   type: string
   entityChange: EntityChange<Entity>
 }
 
-export default function LogEntityChanges<Entity>({
+export default function LogEntityChanges<Entity extends {}>({
   type,
   entityChange,
 }: Props<Entity>) {

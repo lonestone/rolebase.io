@@ -39,7 +39,7 @@ export default function LogText({ log }: Props) {
                   name={log.display.parentName}
                 />
               ) : (
-                t(`${i18nPrefix}.circleRoot`)
+                <>{t(`${i18nPrefix}.circleRoot`)}</>
               ),
           }}
         />

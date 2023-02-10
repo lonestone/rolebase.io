@@ -55,7 +55,7 @@ export default function MeetingStepContentChecklist({
             <Trans
               i18nKey="MeetingStepContentChecklist.empty"
               components={{
-                circle: circle ? <CircleButton circle={circle} /> : '…',
+                circle: circle ? <CircleButton circle={circle} /> : <>…</>,
               }}
             />
           </AlertDescription>
