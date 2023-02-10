@@ -6,11 +6,16 @@
  *
  */
 
-import { insertList } from '@lexical/list'
+import { insertList, ListType } from '@lexical/list'
 import { $convertFromMarkdownString } from '@lexical/markdown'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $rootTextContent } from '@lexical/text'
-import { CLEAR_EDITOR_COMMAND, LexicalEditor } from 'lexical'
+import {
+  $createParagraphNode,
+  $getRoot,
+  CLEAR_EDITOR_COMMAND,
+  LexicalEditor,
+} from 'lexical'
 import { forwardRef, useImperativeHandle } from 'react'
 import { markdownTransformers } from '../MarkdownTransformers'
 
@@ -51,11 +56,21 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
   // Clear root
   const clear = () => editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
 
+  // Add list at the end
+  const addList = (type: ListType) => {
+    editor.update(() => {
+      const p = $createParagraphNode()
+      $getRoot().append(p)
+      insertList(editor, type)
+      p.selectEnd()
+    })
+  }
+
   // Add bullet list at the end
-  const addBulletList = () => insertList(editor, 'bullet')
+  const addBulletList = () => addList('bullet')
 
   // Add checkbox at the end
-  const addCheckboxList = () => insertList(editor, 'check')
+  const addCheckboxList = () => addList('check')
 
   // Instance methods
   useImperativeHandle(
