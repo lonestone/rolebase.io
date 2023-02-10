@@ -73,8 +73,10 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
   useEffect(() => {
     const draft = localStorage.getItem(draftKey)
     if (!draft) return
-    editorRef.current?.setValue(draft)
-    editorRef.current?.editor.focus()
+    setTimeout(() => {
+      editorRef.current?.setValue(draft)
+      editorRef.current?.editor.focus()
+    }, 100)
   }, [draftKey])
 
   // Create a new activity
