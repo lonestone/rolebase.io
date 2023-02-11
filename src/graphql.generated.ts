@@ -14927,6 +14927,8 @@ export type MemberSummaryFragment = { __typename?: 'member', id: string, name: s
 
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
+export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
 export type RoleSummaryFragment = { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null };
@@ -15609,40 +15611,6 @@ export const CircleWithRoleFragmentDoc = gql`
 }
     ${CircleFragmentDoc}
 ${RoleSummaryFragmentDoc}`;
-export const CircleMemberFragmentDoc = gql`
-    fragment CircleMember on circle_member {
-  id
-  circleId
-  memberId
-  avgMinPerWeek
-  createdAt
-  archived
-}
-    `;
-export const MemberSummaryFragmentDoc = gql`
-    fragment MemberSummary on member {
-  id
-  name
-  picture
-}
-    `;
-export const CircleFullFragmentDoc = gql`
-    fragment CircleFull on circle {
-  ...Circle
-  role {
-    ...RoleSummary
-  }
-  members(where: {archived: {_eq: false}, member: {archived: {_eq: false}}}) {
-    ...CircleMember
-    member {
-      ...MemberSummary
-    }
-  }
-}
-    ${CircleFragmentDoc}
-${RoleSummaryFragmentDoc}
-${CircleMemberFragmentDoc}
-${MemberSummaryFragmentDoc}`;
 export const DecisionFragmentDoc = gql`
     fragment Decision on decision {
   id
@@ -15703,24 +15671,6 @@ export const MeetingStepFragmentDoc = gql`
   data
 }
     `;
-export const MemberFragmentDoc = gql`
-    fragment Member on member {
-  id
-  orgId
-  archived
-  name
-  description
-  pictureFileId
-  picture
-  userId
-  inviteEmail
-  inviteDate
-  workedMinPerWeek
-  role
-  meetingId
-  preferences
-}
-    `;
 export const OrgFragmentDoc = gql`
     fragment Org on org {
   id
@@ -15731,6 +15681,40 @@ export const OrgFragmentDoc = gql`
   slug
 }
     `;
+export const CircleMemberFragmentDoc = gql`
+    fragment CircleMember on circle_member {
+  id
+  circleId
+  memberId
+  avgMinPerWeek
+  createdAt
+  archived
+}
+    `;
+export const MemberSummaryFragmentDoc = gql`
+    fragment MemberSummary on member {
+  id
+  name
+  picture
+}
+    `;
+export const CircleFullFragmentDoc = gql`
+    fragment CircleFull on circle {
+  ...Circle
+  role {
+    ...RoleSummary
+  }
+  members(where: {archived: {_eq: false}, member: {archived: {_eq: false}}}) {
+    ...CircleMember
+    member {
+      ...MemberSummary
+    }
+  }
+}
+    ${CircleFragmentDoc}
+${RoleSummaryFragmentDoc}
+${CircleMemberFragmentDoc}
+${MemberSummaryFragmentDoc}`;
 export const RoleFragmentDoc = gql`
     fragment Role on role {
   id
@@ -15751,6 +15735,41 @@ export const RoleFragmentDoc = gql`
   colorHue
 }
     `;
+export const MemberFragmentDoc = gql`
+    fragment Member on member {
+  id
+  orgId
+  archived
+  name
+  description
+  pictureFileId
+  picture
+  userId
+  inviteEmail
+  inviteDate
+  workedMinPerWeek
+  role
+  meetingId
+  preferences
+}
+    `;
+export const OrgFullFragmentDoc = gql`
+    fragment OrgFull on org {
+  ...Org
+  circles(where: {archived: {_eq: false}}) {
+    ...CircleFull
+  }
+  roles(where: {archived: {_eq: false}}, order_by: {name: asc}) {
+    ...Role
+  }
+  members(where: {archived: {_eq: false}}, order_by: {name: asc}) {
+    ...Member
+  }
+}
+    ${OrgFragmentDoc}
+${CircleFullFragmentDoc}
+${RoleFragmentDoc}
+${MemberFragmentDoc}`;
 export const TaskFragmentDoc = gql`
     fragment Task on task {
   id
@@ -17570,22 +17589,10 @@ export type OrgsSubscriptionResult = Apollo.SubscriptionResult<OrgsSubscription>
 export const OrgDocument = gql`
     subscription org($id: uuid!) {
   org_by_pk(id: $id) {
-    ...Org
-    circles(where: {archived: {_eq: false}}) {
-      ...CircleFull
-    }
-    roles(where: {archived: {_eq: false}}, order_by: {name: asc}) {
-      ...Role
-    }
-    members(where: {archived: {_eq: false}}, order_by: {name: asc}) {
-      ...Member
-    }
+    ...OrgFull
   }
 }
-    ${OrgFragmentDoc}
-${CircleFullFragmentDoc}
-${RoleFragmentDoc}
-${MemberFragmentDoc}`;
+    ${OrgFullFragmentDoc}`;
 
 /**
  * __useOrgSubscription__

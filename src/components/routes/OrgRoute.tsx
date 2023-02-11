@@ -13,7 +13,6 @@ import TasksPage from '@pages/TasksPage'
 import ThreadPage from '@pages/ThreadPage'
 import ThreadsPage from '@pages/ThreadsPage'
 import { useStoreActions } from '@store/hooks'
-import { omit } from '@utils/omit'
 import React, { lazy, Suspense, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
@@ -25,19 +24,14 @@ interface Props {
 }
 
 export default function OrgRoute({ orgId }: Props) {
-  // Set current org id
-  const setCurrent = useStoreActions((actions) => actions.orgs.setCurrent)
-
   // Subscribe to org structure
   const { data, error, loading } = useOrgSubscription({
     variables: { id: orgId },
   })
 
   const actions = useStoreActions((actions) => ({
-    setCurrentId: actions.orgs.setCurrentId,
-    setCircles: actions.circles.setSubscriptionResult,
-    setRoles: actions.roles.setSubscriptionResult,
-    setMembers: actions.members.setSubscriptionResult,
+    setCurrentId: actions.org.setCurrentId,
+    setSubscriptionResult: actions.org.setSubscriptionResult,
   }))
 
   // Set current id in store, instantly from URL params
@@ -47,24 +41,8 @@ export default function OrgRoute({ orgId }: Props) {
 
   // Set current state in store
   useEffect(() => {
-    const org = data?.org_by_pk
-
-    if (org) {
-      setCurrent(omit(org, 'members', 'roles', 'circles'))
-    }
-
-    actions.setCircles({
-      entries: org?.circles,
-      loading,
-      error,
-    })
-    actions.setRoles({
-      entries: org?.roles,
-      loading,
-      error,
-    })
-    actions.setMembers({
-      entries: org?.members,
+    actions.setSubscriptionResult({
+      result: data?.org_by_pk ?? undefined,
       loading,
       error,
     })

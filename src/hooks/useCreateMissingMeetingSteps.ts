@@ -18,7 +18,7 @@ export default function useCreateMissingMeetingSteps() {
   const [getMeetingStepsIds] = useGetMeetingStepsIdsLazyQuery()
   const [createMeetingStep] = useCreateMeetingStepMutation()
   const [getCircleThreadsIds] = useGetCircleThreadsIdsLazyQuery()
-  const roles = useStoreState((state) => state.roles.entries)
+  const roles = useStoreState((state) => state.org.roles)
 
   const getDefaultMeetingStep = useCallback(
     async (

@@ -19,7 +19,7 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   const isMember = useOrgMember()
   const zoomContext = useContext(GraphZoomContext)
   const circleAndParents = useCircleAndParents(circleId)
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const circle = circleAndParents?.[circleAndParents.length - 1]
   const role = circle?.role
 

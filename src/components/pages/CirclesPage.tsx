@@ -45,7 +45,7 @@ export default function CirclesPage() {
   const [ready, setReady] = useState(false)
 
   // Data
-  const circles = useStoreState((state) => state.circles.entries)
+  const circles = useStoreState((state) => state.org.circles)
   const events = useCirclesEvents()
 
   // Content size

@@ -13,7 +13,7 @@ interface Props {
 function ThreadActivityPollResult({ activity, answers }: Props) {
   const { t } = useTranslation()
   const { colorMode } = useColorMode()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
 
   const results = useMemo(
     () =>

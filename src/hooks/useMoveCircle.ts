@@ -17,8 +17,8 @@ export default function useMoveCircle() {
       if (errors || !result) throw errors?.[0]
 
       // Log changes
-      const { circles } = store.getState()
-      const circle = circles.entries?.find((c) => c.id === circleId)
+      const { circles } = store.getState().org
+      const circle = circles?.find((c) => c.id === circleId)
       if (!circle) return
       createLog({
         display: {

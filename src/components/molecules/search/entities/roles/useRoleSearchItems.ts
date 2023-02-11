@@ -10,7 +10,7 @@ export function useRoleSearchItems(
   excludeIds?: string[],
   singleMember?: boolean
 ): SearchItem[] {
-  const rolesInStore = useStoreState((state) => state.roles.entries)
+  const rolesInStore = useStoreState((state) => state.org.roles)
 
   return useMemo(
     () =>

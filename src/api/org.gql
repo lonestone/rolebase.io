@@ -20,16 +20,7 @@ subscription orgs($userId: uuid!, $archived: Boolean!) {
 
 subscription org($id: uuid!) {
   org_by_pk(id: $id) {
-    ...Org
-    circles(where: { archived: { _eq: false } }) {
-      ...CircleFull
-    }
-    roles(where: { archived: { _eq: false } }, order_by: { name: asc }) {
-      ...Role
-    }
-    members(where: { archived: { _eq: false } }, order_by: { name: asc }) {
-      ...Member
-    }
+    ...OrgFull
   }
 }
 

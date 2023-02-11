@@ -23,13 +23,13 @@ export default function useArchiveCircle() {
   const createLog = useCreateLog()
 
   return useCallback(async (circleId: string) => {
-    const { circles, roles } = store.getState()
-    if (!circles.entries || !roles.entries) return
+    const { circles, roles } = store.getState().org
+    if (!circles || !roles) return
 
     const changes: EntitiesChanges = { circles: [], roles: [] }
 
     // Archives circles
-    const circlesIds = getCircleIds(circles.entries, circleId)
+    const circlesIds = getCircleIds(circles, circleId)
     for (const id of circlesIds) {
       await archiveCircle({ variables: { id } })
       changes.circles?.push({
@@ -40,8 +40,8 @@ export default function useArchiveCircle() {
       })
 
       // Archive role
-      const circle = circles.entries.find((c) => c.id === id)
-      const role = roles.entries.find((r) => r.id === circle?.roleId)
+      const circle = circles.find((c) => c.id === id)
+      const role = roles.find((r) => r.id === circle?.roleId)
       if (role && !role.base) {
         await archiveRole({ variables: { id: role.id } })
         changes.roles?.push({
@@ -53,8 +53,8 @@ export default function useArchiveCircle() {
       }
     }
 
-    const circle = circles.entries?.find((c) => c.id === circleId)
-    const role = roles.entries?.find((r) => r.id === circle?.roleId)
+    const circle = circles?.find((c) => c.id === circleId)
+    const role = roles?.find((r) => r.id === circle?.roleId)
     if (!circle || !role) return
 
     // Log change

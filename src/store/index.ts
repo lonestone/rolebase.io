@@ -1,13 +1,11 @@
-import { CircleFullFragment, MemberFragment, RoleFragment } from '@gql'
+import { OrgFragment } from '@gql'
 import { createStore } from 'easy-peasy'
 import { createModel } from './generic'
-import orgs from './orgs'
+import org from './org'
 
 const model = {
-  circles: createModel<CircleFullFragment>(),
-  members: createModel<MemberFragment>(),
-  orgs,
-  roles: createModel<RoleFragment>(),
+  orgs: createModel<OrgFragment>(),
+  org,
 }
 
 export type StoreModel = typeof model

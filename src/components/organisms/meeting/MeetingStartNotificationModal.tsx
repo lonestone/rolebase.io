@@ -26,7 +26,7 @@ export default function MeetingStartNotificationModal(
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const toast = useToast()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const { meeting, handleSendStartNotification } = useContext(MeetingContext)!
 
   const participants =

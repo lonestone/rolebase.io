@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 
 export default function VacantRolesModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const circles = useStoreState((state) => state.circles.entries)
+  const circles = useStoreState((state) => state.org.circles)
 
   // Filter roles
   const vacantCircles: CircleFullFragment[] = useMemo(() => {

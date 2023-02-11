@@ -58,7 +58,7 @@ import { circleColor } from 'src/theme'
 export default function MeetingsPage() {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const getCircleById = useStoreState((state) => state.circles.getById)
+  const circles = useStoreState((state) => state.org.circles)
 
   // Colors
   const { colorMode } = useColorMode()
@@ -111,7 +111,7 @@ export default function MeetingsPage() {
           }
 
           // Add role name to title
-          const circle = getCircleById(meeting.circleId)
+          const circle = circles?.find((c) => c.id === meeting.circleId)
 
           if (!circle) {
             console.error('Circle not found', meeting.circleId)
@@ -172,7 +172,7 @@ export default function MeetingsPage() {
             }
           })
         ),
-    [meetings, meetingsRecurring, colorMode]
+    [meetings, meetingsRecurring, circles, colorMode]
   )
 
   // Show/hide weekends

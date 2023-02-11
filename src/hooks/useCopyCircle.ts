@@ -74,15 +74,11 @@ export default function useCopyCircle() {
 
   return useCallback(
     async (circleId: string, targetCircleId: string | null) => {
-      const { circles, roles } = store.getState()
-      if (!circles.entries || !roles.entries) return
+      const { circles, roles } = store.getState().org
+      if (!circles || !roles) return
 
       // Prepare data for circles, roles and circle_members insertion
-      const circlesInput = getCircleAndChildren(
-        circles.entries,
-        roles.entries,
-        circleId
-      )
+      const circlesInput = getCircleAndChildren(circles, roles, circleId)
       if (!circlesInput) return
       circlesInput.parentId = targetCircleId
 
@@ -96,11 +92,9 @@ export default function useCopyCircle() {
       if (errors || !newCircles) throw errors?.[0]
 
       // Log changes
-      const copiedCircle = circles.entries?.find((c) => c.id === circleId)
-      const targetCircle = circles.entries?.find((c) => c.id === targetCircleId)
-      const targetRole = roles.entries?.find(
-        (r) => r.id === targetCircle?.roleId
-      )
+      const copiedCircle = circles?.find((c) => c.id === circleId)
+      const targetCircle = circles?.find((c) => c.id === targetCircleId)
+      const targetRole = roles?.find((r) => r.id === targetCircle?.roleId)
       if (!copiedCircle) return
 
       // Build changes

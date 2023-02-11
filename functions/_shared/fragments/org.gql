@@ -6,3 +6,16 @@ fragment Org on org {
   defaultWorkedMinPerWeek
   slug
 }
+
+fragment OrgFull on org {
+  ...Org
+  circles(where: { archived: { _eq: false } }) {
+    ...CircleFull
+  }
+  roles(where: { archived: { _eq: false } }, order_by: { name: asc }) {
+    ...Role
+  }
+  members(where: { archived: { _eq: false } }, order_by: { name: asc }) {
+    ...Member
+  }
+}

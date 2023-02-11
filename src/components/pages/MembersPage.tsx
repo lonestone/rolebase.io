@@ -30,7 +30,7 @@ import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 export default function MembersPage() {
   const { t } = useTranslation()
   const isAdmin = useOrgAdmin()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const hover = useHoverItemStyle()
 
   // Create modal

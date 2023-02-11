@@ -14,7 +14,7 @@ enum Steps {
 const noop = () => {}
 
 export default function Onboarding() {
-  const circles = useStoreState((state) => state.circles.entries)
+  const circles = useStoreState((state) => state.org.circles)
 
   const [step, setStep] = useState(Steps.None)
 

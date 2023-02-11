@@ -28,7 +28,7 @@ interface Props {
 export default function MemberRoles({ member, selectedCircleId }: Props) {
   const { t } = useTranslation()
   const org = useCurrentOrg()
-  const circles = useStoreState((state) => state.circles.entries)
+  const circles = useStoreState((state) => state.org.circles)
   const circleMemberContext = useContext(CircleMemberContext)
   const isMember = useOrgMember()
 

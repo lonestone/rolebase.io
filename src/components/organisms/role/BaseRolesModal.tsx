@@ -23,7 +23,7 @@ import RoleEditModal from './RoleEditModal'
 
 export default function BaseRolesModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const roles = useStoreState((state) => state.roles.entries)
+  const roles = useStoreState((state) => state.org.roles)
   const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
 
   // Modals

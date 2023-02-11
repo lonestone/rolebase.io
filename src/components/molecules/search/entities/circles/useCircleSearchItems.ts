@@ -10,7 +10,7 @@ export function useCircleSearchItems(
   excludeIds?: string[],
   singleMember?: boolean
 ): SearchItem[] {
-  const circlesInStore = useStoreState((state) => state.circles.entries)
+  const circlesInStore = useStoreState((state) => state.org.circles)
 
   return useMemo(
     () =>

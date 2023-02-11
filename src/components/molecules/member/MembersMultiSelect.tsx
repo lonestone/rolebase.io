@@ -26,7 +26,7 @@ export default function MembersMultiSelect({
   onRemove,
 }: Props) {
   const { t } = useTranslation()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const excludeMembersIdsMemo = useMemo(
     () =>
       excludeMembersIds ? membersIds.concat(excludeMembersIds) : membersIds,

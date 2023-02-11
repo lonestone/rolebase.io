@@ -67,7 +67,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const currentMember = useCurrentMember()
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const createMissingMeetingSteps = useCreateMissingMeetingSteps()
   const [updateMeeting] = useUpdateMeetingMutation()
 

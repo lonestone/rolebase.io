@@ -36,7 +36,7 @@ import {
 export default function MembersInviteModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
   const toast = useToast()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
 
   const notInvitedMembers = useMemo(
     () => members?.filter((m) => !m.userId && !m.inviteDate) || [],

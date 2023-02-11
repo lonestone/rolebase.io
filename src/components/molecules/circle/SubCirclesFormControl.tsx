@@ -27,8 +27,8 @@ interface Props {
 export default function SubCirclesFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const circles = useStoreState((state) => state.circles.entries)
-  const roles = useStoreState((state) => state.roles.entries)
+  const circles = useStoreState((state) => state.org.circles)
+  const roles = useStoreState((state) => state.org.roles)
   const orgId = useOrgId()
   const [createCircle] = useCreateCircleMutation()
   const [createRole] = useCreateRoleMutation()

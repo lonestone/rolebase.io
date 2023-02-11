@@ -40,7 +40,7 @@ export default function OnboardingCircleMembersModal({
 }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const roles = useStoreState((state) => state.roles.entries)
+  const roles = useStoreState((state) => state.org.roles)
   const leaderRole = useMemo(
     () => roles?.find((role) => role.autoCreate),
     [roles]

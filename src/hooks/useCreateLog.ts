@@ -25,11 +25,11 @@ export default function useCreateLog() {
       >
     ) => {
       const state = store.getState()
-      const orgId = state.orgs.currentId
+      const orgId = state.org.currentId
       if (!orgId) throw new Error('No orgId')
       if (!userId) throw new Error('No userId')
 
-      const currentMember = state.members.entries?.find(
+      const currentMember = state.org.members?.find(
         (member) => member.userId === userId
       )
       if (!currentMember) throw new Error('No currentMember')

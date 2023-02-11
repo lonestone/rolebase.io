@@ -21,7 +21,7 @@ export default function ThreadActivityLayout({
   allowDelete,
   children,
 }: Props) {
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const member = useMemo(
     () => members?.find((m) => m.userId === activity.userId),
     [activity.userId, members]

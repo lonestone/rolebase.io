@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 
 export default function useCurrentMember(): MemberFragment | undefined {
   const userId = useUserId()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
 
   return useMemo(() => {
     if (!userId) return undefined

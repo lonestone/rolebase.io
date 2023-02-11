@@ -8,7 +8,7 @@ export default function useCurrentMemberCircles():
   | CircleWithRoleFragment[]
   | undefined {
   const currentMember = useCurrentMember()
-  const circles = useStoreState((state) => state.circles.entries)
+  const circles = useStoreState((state) => state.org.circles)
 
   return useMemo(() => {
     if (!currentMember || !circles) return

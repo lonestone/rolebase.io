@@ -10,7 +10,7 @@ export function useMemberSearchItems(
   excludeIds?: string[]
 ): SearchItem[] {
   const currentMember = useCurrentMember()
-  const membersInStore = useStoreState((state) => state.members.entries)
+  const membersInStore = useStoreState((state) => state.org.members)
 
   return useMemo(
     () =>
