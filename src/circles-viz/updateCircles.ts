@@ -1,8 +1,14 @@
 import { CircleFullFragment } from '@gql'
 import * as d3 from 'd3'
 import { HierarchyCircularNode } from 'd3'
-import { d3CircleCenterName, d3CircleTopName } from './circleName'
+import {
+  getCenterFontSize,
+  getCenterNameOpacity,
+  getTopFontSize,
+  getTopNameOpacity,
+} from './circleName'
 import { GraphEvents } from './createGraph'
+import { createMoveTransition } from './createTransition'
 import { circlesToD3Data, fixLostCircles } from './data'
 import { getFirstname } from './getFirstname'
 import { getTargetNodeData } from './getTargetNodeData'
@@ -108,13 +114,14 @@ export default function updateCircles(
     .join(
       // Create Circle
       (nodeEnter) => {
+        const transition = createMoveTransition()
+
         const nodeGroup = nodeEnter
           .append('g')
           .attr(
             'class',
             (d) => `circle circle-${d.data.id} type-${d.data.type}`
           )
-          .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
           // Hover
           .on('mouseover', function () {
@@ -147,6 +154,12 @@ export default function updateCircles(
               .attr('opacity', (d) => (d.data.picture ? 0 : 1))
           })
 
+        // Position circle with transition
+        nodeGroup
+          .attr('transform', (d) => `translate(${d.parent?.x},${d.parent?.y})`)
+          .transition(transition)
+          .attr('transform', (d) => `translate(${d.x},${d.y})`)
+
         // Set CSS variables
         setNodeCSSVariables(nodeGroup)
 
@@ -159,8 +172,12 @@ export default function updateCircles(
         nodeGroup
           .append('circle')
           .attr('id', (d) => `circle-${d.data.id}`)
-          .attr('r', (d) => d.r)
           .attr('stroke-width', '0') // Init stroke-width for transitions
+          .attr('r', 0)
+          .attr('opacity', 0)
+          .transition(transition)
+          .attr('r', (d) => d.r)
+          .attr('opacity', 1)
 
         // Add clip-path with circle
         nodeGroup
@@ -179,7 +196,11 @@ export default function updateCircles(
           .attr('cursor', 'var(--circle-cursor)')
           .attr('alignment-baseline', 'hanging')
           .attr('pointer-events', 'none')
-          .call(d3CircleTopName)
+          .attr('font-size', getTopFontSize)
+          .attr('opacity', getTopNameOpacity)
+          .attr('y', 0)
+          .transition(transition)
+          .attr('y', (d) => -d.r + 2)
 
         // Add member picture
         const nodeMembers = nodeGroup.filter(
@@ -403,23 +424,20 @@ export default function updateCircles(
 
       // Update Circle
       (nodeUpdate) => {
-        const transition = d3
-          .transition<Data>()
-          .duration(settings.move.duration)
-          .ease(settings.move.transition)
+        const transition = createMoveTransition()
 
         // Set CSS variables
         setNodeCSSVariables(nodeUpdate as any)
 
         // Update position
         nodeUpdate
-          .transition(transition as any)
+          .transition(transition)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
         // Update circle style
         nodeUpdate
           .select('circle')
-          .transition(transition as any)
+          .transition(transition)
           .attr('r', (d) => d.r)
           .attr('opacity', 1)
           .attr('stroke', 'none')
@@ -429,7 +447,10 @@ export default function updateCircles(
           .filter((d) => d.data.type === NodeType.Circle)
           .select<SVGTextElement>('text')
           .text((d) => d.data.name)
-          .call(d3CircleTopName)
+          .transition(transition)
+          .attr('y', (d) => -d.r + 2)
+          .attr('font-size', getTopFontSize)
+          .attr('opacity', getTopNameOpacity)
 
         // Update member name
         const nodeUpdateMembers = nodeUpdate.filter(
@@ -456,21 +477,22 @@ export default function updateCircles(
 
       // Remove Circle
       (nodeExit) => {
-        const transition = d3
-          .transition<Data>()
-          .duration(settings.remove.duration)
-          .ease(settings.remove.transition)
+        const transition = createMoveTransition()
 
         // Disappear
-        nodeExit.transition(transition as any).remove()
         nodeExit
-          .select('circle')
-          .transition(transition as any)
-          .attr('r', 0)
+          .transition(transition)
+          .attr('transform', (d) => `translate(${d.parent?.x},${d.parent?.y})`)
+          .remove()
+        nodeExit.select('circle').transition(transition).attr('r', 0)
         nodeExit
           .select('text')
-          .transition(transition as any)
+          .attr('opacity', 1)
+          .transition(transition)
           .attr('opacity', 0)
+          .attr('y', 0)
+
+        setTimeout(() => nodeExit.raise(), 0)
       }
     )
 
@@ -486,6 +508,8 @@ export default function updateCircles(
     .data(nodesMap.slice(1), (d: any) => d.data.id)
     .join(
       (nodeEnter) => {
+        const transition = createMoveTransition()
+
         const nodeGroup = nodeEnter
           .filter((d) => d.data.type === NodeType.Circle)
           .append('g')
@@ -493,22 +517,28 @@ export default function updateCircles(
           .attr('class', 'circle-name')
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
+        // Position name with transition
+        nodeGroup
+          // Start above 0 to enable getCenterFontSize to function properly
+          .attr('transform', `scale(0.1)`)
+          .transition(transition)
+          .attr('transform', `scale(1)`)
+
         // Add circle name centered
         nodeGroup
           .append('text')
           .text((d) => d.data.name)
           .attr('pointer-events', 'none')
-          .attr('y', 0)
           .attr('dominant-baseline', 'central')
-          .call(d3CircleCenterName)
+          .attr('y', 0)
+          .attr('font-size', '1em')
+          .attr('font-size', getCenterFontSize)
+          .attr('opacity', getCenterNameOpacity)
 
         return nodeGroup
       },
       (nodeUpdate) => {
-        const transition = d3
-          .transition<Data>()
-          .duration(settings.move.duration)
-          .ease(settings.move.transition)
+        const transition = createMoveTransition()
 
         // Update position
         nodeUpdate
@@ -519,7 +549,9 @@ export default function updateCircles(
         nodeUpdate
           .select<SVGTextElement>('text')
           .text((d) => d.data.name)
-          .call(d3CircleCenterName)
+          .attr('font-size', '1em')
+          .attr('font-size', getCenterFontSize)
+          .attr('opacity', getCenterNameOpacity)
         return nodeUpdate
       },
       (nodeExit) => nodeExit.remove()

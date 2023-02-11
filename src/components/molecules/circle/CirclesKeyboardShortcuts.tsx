@@ -1,8 +1,8 @@
+import IconTextButton from '@atoms/IconTextButton'
 import {
   Box,
   BoxProps,
   Collapse,
-  IconButton,
   Kbd,
   StackItem,
   useDisclosure,
@@ -27,7 +27,7 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
 
   return (
     <Box pointerEvents="none" {...boxProps}>
-      <IconButton
+      <IconTextButton
         variant="ghost"
         aria-label={t('CirclesKeyboardShortcuts.label')}
         pointerEvents="auto"

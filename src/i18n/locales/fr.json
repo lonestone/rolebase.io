@@ -94,6 +94,12 @@
     "representCircle": "Représente le rôle <link />",
     "representInCircle": "dans le rôle <link />"
   },
+  "CirclesPage": {
+    "views": {
+      "All": "Tout",
+      "Simple": "Simple"
+    }
+  },
   "CircleTasks": {
     "create": "Créer une tâche"
   },

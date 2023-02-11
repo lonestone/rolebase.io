@@ -33,11 +33,5 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": [
-    "./src",
-    "./shared",
-    "functions/_shared/model/meeting_step.ts",
-    "functions/_shared/model/thread_activity.ts",
-    "functions/_shared/model/task.ts"
-  ]
+  "include": ["./src", "./shared"]
 }

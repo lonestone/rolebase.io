@@ -22,10 +22,6 @@ export default {
     transition: d3.easeCubicInOut,
     duration: 500,
   },
-  remove: {
-    transition: d3.easeQuadIn,
-    duration: 150,
-  },
   addMenu: {
     marginTop: 56,
     padding: 10,

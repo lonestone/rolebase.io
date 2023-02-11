@@ -5,6 +5,7 @@ import {
   OrgFullFragment,
   RoleFragment,
 } from '@gql'
+import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { omit } from '@utils/omit'
 import { action, Action } from 'easy-peasy'
 
@@ -39,13 +40,18 @@ const extendedModel: OrgModel = {
   error: undefined,
 
   setCurrentId: action((state, id) => {
-    state.currentId = id
+    if (state.currentId !== id) {
+      state.currentId = id
+      state.circles = undefined
+      state.roles = undefined
+      state.members = undefined
+    }
   }),
 
   setSubscriptionResult: action((state, { result, loading, error }) => {
     if (result) {
       state.current = omit(result, 'members', 'roles', 'circles')
-      state.circles = result.circles
+      state.circles = fixCirclesHue(result.circles)
       state.roles = result.roles
       state.members = result.members
     }

@@ -1,8 +1,15 @@
 import ModalPanel, { modalPanelWidth } from '@atoms/ModalPanel'
 import { Title } from '@atoms/Title'
-import { Box, useColorMode, useMediaQuery } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  useColorMode,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import { GraphZoomProvider } from '@contexts/GraphZoomContext'
 import { SidebarContext } from '@contexts/SidebarContext'
+import { CircleFullFragment } from '@gql'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import useCirclesEvents from '@hooks/useGraphEvents'
@@ -23,10 +30,17 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiCircle, FiDisc } from 'react-icons/fi'
 
 type CirclesPageParams = {
   circleId: string
   memberId: string
+}
+
+enum Views {
+  All,
+  Simple,
 }
 
 enum Panels {
@@ -38,15 +52,12 @@ enum Panels {
 export default function CirclesPage() {
   useOverflowHidden()
 
+  const { t } = useTranslation()
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
   const sidebarContext = useContext(SidebarContext)
   const [ready, setReady] = useState(false)
-
-  // Data
-  const circles = useStoreState((state) => state.org.circles)
-  const events = useCirclesEvents()
 
   // Content size
   const boxRef = useRef<HTMLDivElement>(null)
@@ -55,8 +66,23 @@ export default function CirclesPage() {
 
   // Panels
   const [panel, setPanel] = useState<Panels>(Panels.None)
+  const [view, setView] = useState(Views.All)
   const [circleId, setCircleId] = useState<string | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
+
+  // Data
+  const circles = useStoreState((state) => state.org.circles)
+  const events = useCirclesEvents()
+
+  // Circles to show according to current view
+  const viewCircles = useMemo(() => {
+    if (view === Views.All) {
+      return circles
+    }
+    if (view === Views.Simple && circles) {
+      return getSimpleViewCircles(circles, circleId)
+    }
+  }, [view, circleId, circles])
 
   const handleClosePanel = useCallback(() => navigateOrg(), [])
 
@@ -109,11 +135,11 @@ export default function CirclesPage() {
         right={0}
         overflow="hidden"
       >
-        {org && circles && boxSize && (
+        {org && viewCircles && boxSize && (
           <CirclesGraph
-            key={colorMode}
+            key={view + colorMode}
             id={`graph-${org.id}`}
-            circles={circles}
+            circles={viewCircles}
             events={events}
             width={boxSize.width}
             height={boxSize.height}
@@ -147,6 +173,27 @@ export default function CirclesPage() {
 
       {panel === Panels.None && org && <Title>{org.name}</Title>}
 
+      <Box position="absolute" left={sidebarContext?.width} top={0} m={2}>
+        <ButtonGroup isAttached variant="outline" size="sm" bg="white">
+          <Button
+            aria-label=""
+            leftIcon={<FiDisc />}
+            isActive={view === Views.All}
+            onClick={() => setView(Views.All)}
+          >
+            {t('CirclesPage.views.All')}
+          </Button>
+          <Button
+            aria-label=""
+            leftIcon={<FiCircle />}
+            isActive={view === Views.Simple}
+            onClick={() => setView(Views.Simple)}
+          >
+            {t('CirclesPage.views.Simple')}
+          </Button>
+        </ButtonGroup>
+      </Box>
+
       <CirclesKeyboardShortcuts
         position="absolute"
         left={sidebarContext?.width}
@@ -156,5 +203,43 @@ export default function CirclesPage() {
 
       <Onboarding />
     </GraphZoomProvider>
+  )
+}
+
+function getSimpleViewCircles(
+  circles: CircleFullFragment[],
+  circleId: string | undefined
+): CircleFullFragment[] {
+  // Get selected circle or root circle
+  let circle = circles.find((c) =>
+    circleId ? c.id === circleId : c.parentId === null
+  )
+  if (!circle) {
+    console.error('Circle not found')
+    return []
+  }
+  const result: CircleFullFragment[] = []
+
+  while (circle) {
+    // Add circle children
+    result.push(
+      ...circles.filter(
+        (c) => c.parentId === circle?.id && !result.some((c2) => c2.id === c.id)
+      )
+    )
+
+    const parent = circles.find((c) => c.id === circle?.parentId)
+    // Add root circle
+    if (!parent) {
+      result.push(circle)
+    }
+    circle = parent
+  }
+  return (
+    result
+      // Remove members (we don't display them on this view)
+      .map((c) => ({ ...c, members: [] }))
+      // Avoid circles moving places without reason
+      .sort((c1, c2) => c1.id.localeCompare(c2.id))
   )
 }
