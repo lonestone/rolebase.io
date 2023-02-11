@@ -400,7 +400,7 @@ export default function updateCircles(
                     .ease(settings.move.transition)
 
                   dragNodes
-                    .transition(transition as any)
+                    .transition(transition)
                     .attr('transform', (d) => `translate(${d.x},${d.y})`)
                     .select('circle')
 
@@ -408,7 +408,7 @@ export default function updateCircles(
                   dragNodes.data().forEach((d) => {
                     svg
                       .select(`#circle-name-${d.data.id}`)
-                      .transition(transition as any)
+                      .transition(transition)
                       .attr('transform', (d) => `translate(${d.x},${d.y})`)
                   })
                 }
@@ -515,14 +515,16 @@ export default function updateCircles(
           .append('g')
           .attr('id', (d) => `circle-name-${d.data.id}`)
           .attr('class', 'circle-name')
-          .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
         // Position name with transition
         nodeGroup
-          // Start above 0 to enable getCenterFontSize to function properly
-          .attr('transform', `scale(0.1)`)
+          // Start scale above 0 to enable getCenterFontSize to function properly
+          .attr(
+            'transform',
+            (d) => `scale(0.1), translate(${d.parent?.x},${d.parent?.y})`
+          )
           .transition(transition)
-          .attr('transform', `scale(1)`)
+          .attr('transform', (d) => `scale(1), translate(${d.x},${d.y})`)
 
         // Add circle name centered
         nodeGroup
@@ -542,7 +544,7 @@ export default function updateCircles(
 
         // Update position
         nodeUpdate
-          .transition(transition as any)
+          .transition(transition)
           .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
         // Update circle name
