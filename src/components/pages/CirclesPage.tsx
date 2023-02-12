@@ -173,8 +173,13 @@ export default function CirclesPage() {
 
       {panel === Panels.None && org && <Title>{org.name}</Title>}
 
-      <Box position="absolute" left={sidebarContext?.width} top={0} m={2}>
-        <ButtonGroup isAttached variant="outline" size="sm" bg="white">
+      <Box
+        position="absolute"
+        left={sidebarContext?.width}
+        top={sidebarContext?.height}
+        m={2}
+      >
+        <ButtonGroup isAttached variant="outline" size="sm">
           <Button
             aria-label=""
             leftIcon={<FiDisc />}
