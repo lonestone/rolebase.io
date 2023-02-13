@@ -33,9 +33,3 @@ mutation updateMember($id: uuid!, $values: member_set_input!) {
     ...Member
   }
 }
-
-mutation archiveMember($id: uuid!) {
-  update_member_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
-    id
-  }
-}

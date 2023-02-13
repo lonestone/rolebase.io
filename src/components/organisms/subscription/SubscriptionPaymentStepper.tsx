@@ -1,53 +1,54 @@
-import { updateSubscriptionBillingDetails } from '@api/functions'
+import { subscribeOrg, updateSubscriptionBillingDetails } from '@api/functions'
 import { Box, Button, HStack, useToast } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useOrg from '@hooks/useOrg'
 import { useOrgId } from '@hooks/useOrgId'
+import { useStripeAppearance } from '@hooks/useStripeAppearance'
+import StripeBillingDetailsForm from '@molecules/subscription/StripeBillingDetailsForm'
+import StripePaymentForm from '@molecules/subscription/StripePaymentForm'
+import { CustomerBillingDetails } from '@shared/model/subscription'
+import { Elements } from '@stripe/react-stripe-js'
 import {
-  CustomerBillingDetails,
-  SubscriptionIntentResponse,
-} from '@shared/model/subscription'
-import {
-  AddressElement,
-  PaymentElement,
-  useElements,
-  useStripe,
-} from '@stripe/react-stripe-js'
-import {
+  loadStripe,
+  Stripe,
   StripeAddressElementChangeEvent,
-  StripePaymentElementChangeEvent,
+  StripeElementLocale,
+  StripeElements,
 } from '@stripe/stripe-js'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import useCurrentMember from '../../../hooks/useCurrentMember'
 import SubscriptionSummary from './SubscriptionSummary'
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 type SubscriptionPaymentStepperProps = {
   planType: Subscription_Plan_Type_Enum
-  subscriptionInfo: SubscriptionIntentResponse
 }
 
 export default function SubscriptionPaymentStepper({
   planType,
-  subscriptionInfo,
 }: SubscriptionPaymentStepperProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { nextStep, prevStep, activeStep } = useSteps({
     initialStep: 0,
   })
   const orgId = useOrgId()
   const org = useOrg(orgId)
-  const stripe = useStripe()
-  const elements = useElements()
+  const [stripe, setStripe] = useState<Stripe>()
   const toast = useToast()
   const currentMember = useCurrentMember()
   const [loading, setLoading] = useState(false)
   const [billingDetailsComplete, setBillingDetailsComplete] = useState(false)
   const [paymentDetailsComplete, setPaymentDetailsComplete] = useState(false)
+  const [paymentElement, setPaymentElement] = useState<StripeElements>()
   const [billingDetails, setBillingDetails] = useState<CustomerBillingDetails>({
     name: org?.name,
   })
+  const [promoCode, setPromoCode] = useState<string>()
+  const [clientSecret, setClientSecret] = useState<string>()
+  const stripeAppearance = useStripeAppearance()
 
   const addressDetailsChange = (event: StripeAddressElementChangeEvent) => {
     setBillingDetailsComplete(!event.complete)
@@ -57,15 +58,11 @@ export default function SubscriptionPaymentStepper({
     }
   }
 
-  const paymentDetailsChange = (event: StripePaymentElementChangeEvent) => {
-    setPaymentDetailsComplete(!event.complete)
-  }
-
   const updateBillingDetails = async (
     newBillingDetails: CustomerBillingDetails
   ) => {
-    // TODO: translate
-    if (!billingDetails) throw new Error('No billing details')
+    if (!newBillingDetails)
+      throw new Error(t('SubscriptionTabs.accountTab.invalidBillingDetails'))
 
     await updateSubscriptionBillingDetails({
       memberId: currentMember?.id ?? '',
@@ -76,7 +73,8 @@ export default function SubscriptionPaymentStepper({
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    if (!stripe || !elements) {
+
+    if (!stripe || !paymentElement) {
       return
     }
     setLoading(true)
@@ -84,9 +82,8 @@ export default function SubscriptionPaymentStepper({
     try {
       await updateBillingDetails(billingDetails)
 
-      // TODO: change return url to settings
       const { error } = await stripe.confirmPayment({
-        elements,
+        elements: paymentElement,
         confirmParams: {
           return_url: `${
             new URL('', import.meta.url).origin
@@ -102,6 +99,39 @@ export default function SubscriptionPaymentStepper({
       })
     } finally {
       setLoading(false)
+    }
+  }
+
+  const subscribe = async () => {
+    setLoading(true)
+    try {
+      const res = await subscribeOrg({
+        memberId: currentMember?.id ?? '',
+        orgId: orgId ?? '',
+        planType,
+        promotionCode: promoCode,
+      })
+      setClientSecret(res.clientSecret)
+      setLoading(false)
+    } catch (e) {
+      toast({
+        title: t('common.errorRetry'),
+        description: t('common.errorContact'),
+        duration: 10000,
+        isClosable: true,
+        status: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleNext = async () => {
+    if (activeStep === 1) {
+      await subscribe()
+      nextStep()
+    } else {
+      nextStep()
     }
   }
 
@@ -121,35 +151,57 @@ export default function SubscriptionPaymentStepper({
       >
         <Step label={t('SubscriptionTabs.paymentModal.details')}>
           <Box p="2">
-            <AddressElement
-              onChange={addressDetailsChange}
+            <Elements
+              stripe={stripePromise}
               options={{
-                mode: 'billing',
-                defaultValues: {
+                loader: 'always',
+                locale: i18n.language as StripeElementLocale,
+                appearance: stripeAppearance,
+              }}
+            >
+              <StripeBillingDetailsForm
+                onDetailsChanged={addressDetailsChange}
+                defaultValues={{
                   name: billingDetails.name,
                   address: {
                     country: 'FR',
                   },
-                },
-              }}
-            />
-          </Box>
-        </Step>
-
-        <Step label={t('SubscriptionTabs.paymentModal.payment')}>
-          <Box p="2">
-            <PaymentElement onChange={paymentDetailsChange} />
+                }}
+              />
+            </Elements>
           </Box>
         </Step>
 
         <Step label={t('SubscriptionTabs.paymentModal.summary')}>
-          {billingDetails && subscriptionInfo && (
+          {billingDetails && (
             <SubscriptionSummary
               planType={planType}
+              onPromoApplied={setPromoCode}
               billingDetails={billingDetails}
-              subscriptionInfo={subscriptionInfo}
             />
           )}
+        </Step>
+
+        <Step label={t('SubscriptionTabs.paymentModal.payment')}>
+          <Box p="2">
+            {clientSecret && (
+              <Elements
+                stripe={stripePromise}
+                options={{
+                  loader: 'always',
+                  locale: i18n.language as StripeElementLocale,
+                  appearance: stripeAppearance,
+                  clientSecret,
+                }}
+              >
+                <StripePaymentForm
+                  onElementChange={setPaymentElement}
+                  onStripeChange={setStripe}
+                  onValidityChanged={setPaymentDetailsComplete}
+                />
+              </Elements>
+            )}
+          </Box>
         </Step>
       </Steps>
       <HStack paddingY="2" w="100%" justifyContent="end">
@@ -163,7 +215,12 @@ export default function SubscriptionPaymentStepper({
           {t('SubscriptionTabs.paymentModal.prev')}
         </Button>
         {activeStep < 2 && (
-          <Button size="sm" isDisabled={isNextDisabled} onClick={nextStep}>
+          <Button
+            isLoading={loading}
+            size="sm"
+            isDisabled={isNextDisabled}
+            onClick={handleNext}
+          >
             {t('SubscriptionTabs.paymentModal.next')}
           </Button>
         )}
@@ -171,7 +228,7 @@ export default function SubscriptionPaymentStepper({
           <Button
             isLoading={loading}
             size="sm"
-            isDisabled={billingDetailsComplete || paymentDetailsComplete}
+            isDisabled={!paymentDetailsComplete}
             type="submit"
           >
             {t('SubscriptionTabs.paymentModal.confirm')}

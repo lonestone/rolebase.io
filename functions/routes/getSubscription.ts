@@ -10,6 +10,7 @@ import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
+import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
 import {
   ExtendedStripeCustomer,
@@ -45,53 +46,60 @@ export default route(async (context): Promise<Subscription | null> => {
   const orgSubscriptionStatus = orgSubscription?.org_subscription[0]?.status
   const orgSubscriptionType = orgSubscription?.org_subscription[0]?.type
 
-  if (
-    !stripeSubscriptionId ||
-    !stripeCustomerId ||
-    (orgSubscriptionStatus !== Subscription_Payment_Status_Enum.Active &&
-      orgSubscriptionStatus !== Subscription_Payment_Status_Enum.Trialing)
-  ) {
+  if (!stripeCustomerId || !isSubscriptionActive(orgSubscriptionStatus)) {
     return null
   }
 
-  // Get stripe invoices
-  const customer = await getStripeExtendedCustomer(stripeCustomerId)
-  const subscription = customer.subscriptions.data.find(
-    (sub) => sub.id === stripeSubscriptionId
-  )
+  try {
+    // Get stripe invoices
+    const customer = await getStripeExtendedCustomer(stripeCustomerId)
+    const subscription = customer.subscriptions.data.find(
+      (sub) => sub.id === stripeSubscriptionId
+    )
 
-  const upcomingInvoice = await getStripeUpcomingInvoice(
-    stripeCustomerId,
-    stripeSubscriptionId
-  )
+    const upcomingInvoice = stripeSubscriptionId
+      ? await getStripeUpcomingInvoice(stripeSubscriptionId)
+      : null
 
-  return formatSubscription(
-    customer,
-    subscription,
-    upcomingInvoice,
-    orgId,
-    orgSubscriptionStatus,
-    orgSubscriptionType
-  )
+    return formatSubscription(
+      customer,
+      subscription,
+      upcomingInvoice,
+      orgId,
+      orgSubscriptionStatus,
+      orgSubscriptionType
+    )
+  } catch (e) {
+    return formatSubscription(
+      null,
+      null,
+      null,
+      orgId,
+      orgSubscriptionStatus,
+      orgSubscriptionType
+    )
+  }
 })
 
 const formatSubscription = (
-  extendedCustomer: ExtendedStripeCustomer,
-  subscription: Stripe.Subscription | undefined,
+  extendedCustomer: ExtendedStripeCustomer | null,
+  subscription: Stripe.Subscription | null | undefined,
   upcomingInvoice: Stripe.UpcomingInvoice | null,
   orgId: string,
   status: Subscription_Payment_Status_Enum,
   type: Subscription_Plan_Type_Enum
 ): Subscription => {
   const customerCard =
-    extendedCustomer.invoice_settings.default_payment_method.card!
+    extendedCustomer?.invoice_settings.default_payment_method.card
   return {
-    card: {
-      expMonth: customerCard?.exp_month,
-      expYear: customerCard?.exp_year,
-      last4: customerCard?.last4,
-      brand: customerCard?.brand,
-    },
+    card: customerCard
+      ? {
+          expMonth: customerCard?.exp_month,
+          expYear: customerCard?.exp_year,
+          last4: customerCard?.last4,
+          brand: customerCard?.brand,
+        }
+      : null,
     orgId,
     upcomingInvoice: upcomingInvoice
       ? {
@@ -104,13 +112,15 @@ const formatSubscription = (
       : null,
     status,
     type,
-    billingDetails: {
-      address: extendedCustomer.deleted
-        ? null
-        : extendedCustomer.address ?? null,
-      email: extendedCustomer.deleted ? '' : extendedCustomer.email,
-      name: extendedCustomer.deleted ? '' : extendedCustomer.name,
-    },
+    billingDetails: extendedCustomer
+      ? {
+          address: extendedCustomer?.deleted
+            ? null
+            : extendedCustomer?.address ?? null,
+          email: extendedCustomer?.deleted ? '' : extendedCustomer?.email,
+          name: extendedCustomer?.deleted ? '' : extendedCustomer?.name,
+        }
+      : null,
     expiresAt: subscription?.cancel_at
       ? toDateTime(subscription?.cancel_at ?? 0)
       : null,

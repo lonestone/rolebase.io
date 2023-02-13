@@ -602,6 +602,14 @@
     "accountTabTitle": "Compte",
     "invoicesTabTitle": "Factures",
     "subscription": "Abonnement",
+    "mustBeOwner": "Vous devez être propriétaire de l'organisation pour gérer l'abonnement",
+    "cancelSubscriptionModal": {
+      "title": "Annuler mon abonnement",
+      "subtitle": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
+      "desc1": "Cette action prendra effet à la fin de la periode d'abonnement",
+      "desc2": "Les membres actifs de l'organisation repasseront en membres normaux",
+      "desc3": "Vous perdrez l’avantage de l’accompagnement et support prioritaire de la part de notre équipe"
+    },
     "invoiceTab": {
       "heading": "Historique des factures",
       "desc": "Retrouvez toutes vos précédentes factures juste ici et téléchargez-les.",
@@ -630,13 +638,17 @@
       "subscription": "Abonnement :",
       "pricePerSeat": "Prix par place :",
       "nbSeat_one": "Nombre de place :",
-      "nbSeat_other": "Nombre de places:",
+      "nbSeat_other": "Nombre de places :",
       "total": "Total",
-      "month": "mois"
+      "month": "mois",
+      "promotionPlaceholder": "Coupon de réduction",
+      "invalidPromotionCode": "Ce code promo n'est pas valide",
+      "dueNow": "A payer maintenant"
     },
     "accountTab": {
       "billingEmail": "Email de facturation",
       "billingDetails": "Informations de facturation",
+      "invalidBillingDetails": "Informations de facturation invalides",
       "currentSubscription": "Abonnement actuel",
       "paymentMethod": "Moyen de paiement",
       "updateBillingEmail": "Mise à jour de l'email de facturation",
@@ -663,6 +675,7 @@
     "activeMember_other": "{{count}}/{{total}} membres actifs",
     "upgradePlan": "Passer au plan supérieur",
     "downgradePlan": "Repasser sur ce plan",
+    "selectPlan": "Selectionner sur ce plan",
     "contactUs": "Nous contacter",
     "included": "Inclut",
     "upcomingInvoiceAmount": "Prochaine facture",
@@ -857,6 +870,7 @@
     "delete": "Supprimer",
     "remove": "Retirer",
     "clear": "Effacer",
+    "apply": "Appliquer",
     "show": "Afficher",
     "hide": "Masquer",
     "seeMore": "Voir plus",

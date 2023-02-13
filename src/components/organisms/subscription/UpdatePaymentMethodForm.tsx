@@ -8,15 +8,9 @@ import {
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-type UpdatePaymentMethodFormProps = {
-  clientSecret: string
-}
-
 const toastDefault = { duration: 4000, isClosable: true }
 
-export default function UpdatePaymentMethodForm({
-  clientSecret,
-}: UpdatePaymentMethodFormProps) {
+export default function UpdatePaymentMethodForm() {
   const { t } = useTranslation()
   const orgId = useOrgId()
   const toast = useToast()
@@ -42,13 +36,12 @@ export default function UpdatePaymentMethodForm({
 
     setLoading(true)
 
-    // TODO: change return url to settings
     const { error } = await stripe.confirmSetup({
       elements,
       confirmParams: {
         return_url: `${
           new URL('', import.meta.url).origin
-        }/orgs/${orgId}/subscription/complete`,
+        }/orgs/${orgId}/subscription`,
       },
     })
 
@@ -61,7 +54,6 @@ export default function UpdatePaymentMethodForm({
     }
 
     setLoading(false)
-    // User will be redirected to return_url
   }
 
   return (

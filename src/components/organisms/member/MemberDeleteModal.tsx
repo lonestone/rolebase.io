@@ -12,11 +12,11 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import useCurrentMember from '../../../hooks/useCurrentMember'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {

@@ -144,9 +144,16 @@ export const createStripeSubscription = async (
   orgId: string,
   stripeCustomerId: string,
   stripePriceId: string,
-  quantity: number
+  quantity: number,
+  promotionCode?: string | null
 ): Promise<StripeSubscriptionCreation> => {
   try {
+    let coupon
+
+    if (promotionCode) {
+      coupon = await retrievePromotionCode(promotionCode)
+    }
+
     const subscription = await stripe.subscriptions.create({
       customer: stripeCustomerId,
       items: [
@@ -158,6 +165,7 @@ export const createStripeSubscription = async (
       metadata: {
         orgId,
       },
+      promotion_code: coupon?.id,
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent'],
       payment_settings: {
@@ -199,6 +207,24 @@ export const updateStripeSubscription = async (
   }
 }
 
+export const retrievePromotionCode = async (
+  promotionCode: string
+): Promise<Stripe.PromotionCode> => {
+  try {
+    const promoCodes = await stripe.promotionCodes.list({
+      active: true,
+      code: promotionCode,
+    })
+
+    if (!promoCodes.data[0]) throw new Error('Promo code does not exists')
+
+    return promoCodes.data[0]
+  } catch (e) {
+    console.error(`[STRIPE ERROR]: ${e.message}`)
+    throw new RouteError(500, 'Could not apply promotion to subscription')
+  }
+}
+
 export const updateStripeCustomer = async (
   stripeCustomerId: string,
   ...fieldsToUpdate
@@ -233,12 +259,10 @@ export const createStripeSetupIntent = async (
 }
 
 export const getStripeUpcomingInvoice = async (
-  stripeCustomerId: string,
   stripeSubscriptionId: string
 ): Promise<Stripe.UpcomingInvoice | null> => {
   try {
     const invoice = await stripe.invoices.retrieveUpcoming({
-      customer: stripeCustomerId,
       subscription: stripeSubscriptionId,
     })
 

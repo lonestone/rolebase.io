@@ -39,7 +39,7 @@ const getPlanLimit = (plan: Subscription_Plan_Type_Enum | null) => {
     case Subscription_Plan_Type_Enum.Business:
       return Infinity
     default:
-      return 1
+      return 5
   }
 }
 
@@ -62,5 +62,6 @@ export const GET_ORG_SUBSCRIPTION = gql(`
       stripeCustomerId
       stripeSubscriptionId
       type
+      status
     }
   }`)
