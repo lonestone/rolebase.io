@@ -35,9 +35,6 @@ enum Panels {
   Member,
 }
 
-// Make colorMode available for functions outside of React component
-export let lastColorMode: 'light' | 'dark' | undefined
-
 export default function CirclesPage() {
   useOverflowHidden()
 
@@ -100,9 +97,6 @@ export default function CirclesPage() {
 
   // Color mode
   const { colorMode } = useColorMode()
-  if (colorMode !== lastColorMode) {
-    lastColorMode = colorMode
-  }
 
   return (
     <GraphZoomProvider>

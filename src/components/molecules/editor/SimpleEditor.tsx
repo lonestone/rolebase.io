@@ -13,7 +13,7 @@ import useMentionables from './useMentionables'
 
 // Simple Markdown editor
 
-export interface Props extends FormControlOptions {
+interface Props extends FormControlOptions {
   value: string
   placeholder?: string
   autoFocus?: boolean

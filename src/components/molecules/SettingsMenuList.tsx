@@ -14,7 +14,7 @@ import useSuperAdmin from '@hooks/useSuperAdmin'
 import OrgEditModal from '@organisms/org/OrgEditModal'
 import BaseRolesModal from '@organisms/role/BaseRolesModal'
 import VacantRolesModal from '@organisms/role/VacantRolesModal'
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiActivity,
@@ -25,14 +25,6 @@ import {
   FiUsers,
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-
-export interface HeaderLink {
-  to: string
-  label: string
-  icon: ReactElement
-  exact?: boolean
-  alert?: boolean
-}
 
 export default function SettingsMenuList(props: MenuListProps) {
   const { t } = useTranslation()

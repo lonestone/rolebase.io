@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SidebarIcon from './SidebarIcon'
 
-export interface SidebarIconButtonProps extends ButtonProps {
+interface Props extends ButtonProps {
   to: string
   exact?: boolean
   icon: ReactElement
@@ -12,7 +12,7 @@ export interface SidebarIconButtonProps extends ButtonProps {
 }
 
 export default forwardRef(function SidebarIconButton(
-  { to, exact, icon, alert, children, ...buttonProps }: SidebarIconButtonProps,
+  { to, exact, icon, alert, children, ...buttonProps }: Props,
   ref
 ) {
   const location = useLocation()

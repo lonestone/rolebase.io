@@ -1,7 +1,6 @@
 import { CircleFullFragment, MemberFragment, RoleFragment } from '@gql'
 import { RoleLink } from '@shared/model/role'
 import settings from 'src/settings'
-
 import angela from './pictures/angela.jpg'
 import darryl from './pictures/darryl.jpg'
 import dwight from './pictures/dwight.jpg'
@@ -91,8 +90,6 @@ const membersMap: Record<string, MemberFragment> = {
   },
 }
 
-export const members = Object.values(membersMap)
-
 /* Roles */
 
 const roleBase = {
@@ -160,8 +157,6 @@ const rolesMaps = {
     singleMember: true,
   },
 }
-
-export const roles = Object.values(rolesMaps)
 
 /* Circles */
 

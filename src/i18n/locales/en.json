@@ -863,6 +863,7 @@
     "send": "Send",
     "open": "Open",
     "confirm": "Confirm",
+    "skip": "Skip",
     "createThread": "Create a Thread",
     "createMeeting": "Create a Meeting",
     "createTask": "Create a Task",

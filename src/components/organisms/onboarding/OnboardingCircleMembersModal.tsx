@@ -137,7 +137,7 @@ export default function OnboardingCircleMembersModal({
               />
             </FormControl>
 
-            <FormControl>
+            <FormControl display={leaderId ? undefined : 'none'}>
               <RadioGroup
                 value={singleMember ? '1' : '0'}
                 onChange={(value) => setSingleMember(value === '1')}
@@ -174,16 +174,19 @@ export default function OnboardingCircleMembersModal({
         </ModalBody>
 
         <ModalFooter>
-          {leaderId && (singleMember || membersIds.length > 0) && (
-            <Button
-              colorScheme="blue"
-              type="submit"
-              isLoading={loading}
-              onClick={handleSubmit}
-            >
-              {t('common.save')}
-            </Button>
-          )}
+          <Button variant="link" mr={3} onClick={onSubmit}>
+            {t('common.skip')}
+          </Button>
+
+          <Button
+            colorScheme="blue"
+            type="submit"
+            isDisabled={!leaderId || (!singleMember && membersIds.length === 0)}
+            isLoading={loading}
+            onClick={handleSubmit}
+          >
+            {t('common.save')}
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
