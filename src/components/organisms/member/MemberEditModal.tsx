@@ -166,7 +166,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
         modalProps.onClose()
       } catch (error: any) {
-        console.log('error', error)
         if (error?.response?.status === 402) {
           onLimitReachedOpen()
         } else {
