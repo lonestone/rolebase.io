@@ -1,25 +1,24 @@
 import { gql } from '@gql'
 import { Novu, TriggerRecipientsPayload } from '@novu/node'
-import { NotificationCategories } from '@shared/model/notification'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
+import { getNotificationYupSchema } from '@utils/getNotificationYupSchema'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { route } from '@utils/route'
+import { route, RouteError } from '@utils/route'
 import settings from '@utils/settings'
-import * as yup from 'yup'
-
-const yupSchema = yup.object().shape({
-  title: yup.string().required(),
-  content: yup.string().required(),
-  category: yup.string().oneOf(Object.values(NotificationCategories)),
-  topic: yup.string(),
-  url: yup.string(),
-  recipientMemberIds: yup.array().of(yup.string().required()).required(),
-})
+import { NotificationCategories } from '@shared/model/notification'
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
-  const { category, title, content, recipientMemberIds, url, topic } =
+
+  const { category } = context.req.body
+  if (!category || !NotificationCategories[category]) {
+    throw new RouteError(400, 'Invalid notification category')
+  }
+
+  const yupSchema = getNotificationYupSchema(category)
+
+  const { title, content, recipientMemberIds, actionUrl, ...rest } =
     guardBodyParams(context, yupSchema)
 
   // Get recipients
@@ -49,8 +48,8 @@ export default route(async (context): Promise<void> => {
       payload: {
         title,
         content,
-        action_url: url,
-        topic,
+        actionUrl,
+        ...rest,
       },
     })
     .catch((err) => console.error(err))

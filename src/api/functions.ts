@@ -1,5 +1,5 @@
 import { Member_Role_Enum } from '@gql'
-import { NotificationCategories, NovuConfig } from '@shared/model/notification'
+import { NotificationFields, NovuConfig } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
@@ -39,14 +39,7 @@ export const identifyNovuSubscriber = fn<{
   locale: string
 }>('identifyNovuSubscriber')
 
-export const sendNotification = fn<{
-  category: NotificationCategories
-  recipientMemberIds: string[]
-  title: string
-  content: string
-  url?: string
-  topic?: string
-}>('sendNotification')
+export const sendNotification = fn<NotificationFields>('sendNotification')
 
 export const markNotificationAs = fn<{
   messageId: string

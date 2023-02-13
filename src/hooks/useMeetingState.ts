@@ -339,7 +339,13 @@ export default function useMeetingState(meetingId: string): MeetingState {
         .map((a) => a.memberId)
         .filter((id) => id !== currentMember.id),
       topic: meeting.id,
-      url: `${settings.url}${path}`,
+      actionUrl: `${settings.url}${path}`,
+      notificationReceived: t(
+        'notifications.common.email.notificationReceived'
+      ),
+      actionButton: t('notifications.common.action.openMeeting'),
+      automaticEmail: t('notifications.common.email.automaticEmail'),
+      unsubscribe: t('notifications.common.email.unsubscribe'),
     })
   }, [meeting, path])
 

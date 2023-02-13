@@ -6,10 +6,49 @@ export interface NovuConfig {
 
 // Categories comes from Novu notification identifier which can be found in the admin panel
 export enum NotificationCategories {
-  ThreadMessage = 'ThreadMessage',
-  TaskAssigned = 'TaskAssigned',
+  threadmessage = 'threadmessage',
+  taskassigned = 'taskassigned',
   meetinginvited = 'meetinginvited',
   meetingstarted = 'meetingstarted',
-  RoleAssigned = 'RoleAssigned',
-  Decision = 'Decision',
+  roleassigned = 'roleassigned',
+  decision = 'decision',
 }
+
+type NotificationCommonFields = {
+  title: string
+  content: string
+  recipientMemberIds: string[]
+  actionUrl?: string
+}
+
+type NotificationInAppFields = {
+  topic?: string
+}
+
+type NotificationEmailFields = {
+  notificationReceived: string
+  actionButton: string
+  automaticEmail: string
+  unsubscribe: string
+  // Default already set in Novu template panel
+  appUrl?: string
+}
+
+type NotificationMeetingStartedFields = {}
+
+export type NotificationBuilder<
+  Category extends NotificationCategories,
+  Data extends any
+> = {
+  category: Category
+} & NotificationCommonFields &
+  Data
+
+type MeetingStartedNotificationFields = NotificationBuilder<
+  NotificationCategories.meetingstarted,
+  NotificationInAppFields &
+    NotificationEmailFields &
+    NotificationMeetingStartedFields
+>
+
+export type NotificationFields = MeetingStartedNotificationFields
