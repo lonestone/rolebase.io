@@ -16630,9 +16630,7 @@ export const MeetingsByDatesDocument = gql`
     }
     meetings_recurring {
       ...MeetingRecurring
-      meetings(
-        where: {recurringDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
-      ) {
+      meetings(where: {recurringDate: {_gte: $fromDate, _lt: $toDate}}) {
         id
         recurringDate
       }
