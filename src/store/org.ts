@@ -6,6 +6,7 @@ import {
   RoleFragment,
 } from '@gql'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
+import { fixLostCircles } from '@shared/helpers/fixLostCircles'
 import { omit } from '@utils/omit'
 import { action, Action } from 'easy-peasy'
 
@@ -51,7 +52,7 @@ const extendedModel: OrgModel = {
   setSubscriptionResult: action((state, { result, loading, error }) => {
     if (result) {
       state.current = omit(result, 'members', 'roles', 'circles')
-      state.circles = fixCirclesHue(result.circles)
+      state.circles = fixLostCircles(fixCirclesHue(result.circles))
       state.roles = result.roles
       state.members = result.members
     }

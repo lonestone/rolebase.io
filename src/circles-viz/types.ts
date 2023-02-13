@@ -1,3 +1,4 @@
+import { Participant } from '@shared/model/member'
 import { BaseType, HierarchyCircularNode, Selection } from 'd3'
 
 export enum NodeType {
@@ -12,13 +13,45 @@ export type NodesSelection = Selection<SVGGElement, NodeData, BaseType, unknown>
 export interface Data {
   id: string
   memberId?: string
-  parentCircleId?: string | null
+  parentId?: string | null
   name: string
   picture?: string | null
   type: NodeType
   colorHue?: number
   value?: number
   children?: Array<Data>
+  participants?: Participant[]
+}
+
+export enum GraphViews {
+  AllCircles = 'AllCircles',
+  SimpleCircles = 'SimpleCircles',
+}
+
+export interface GraphParams {
+  width: number
+  height: number
+  focusCrop?: Position
+  events: GraphEvents
+}
+
+export interface GraphEvents {
+  onCircleClick?(circleId: string): void
+  onCircleMove?(circleId: string, targetCircleId: string | null): void
+  onCircleCopy?(
+    circleId: string,
+    targetCircleId: string | null
+  ): Promise<string | undefined>
+  onCircleMemberClick?(circleId: string, memberId: string): void
+  onMemberClick?(memberId: string): void
+  onMemberMove?(
+    memberId: string,
+    parentCircleId: string,
+    targetCircleId: string | null
+  ): void
+  onCircleAdd?(targetCircleId: string | null): void
+  onMemberAdd?(memberId: string, targetCircleId: string): void
+  onClickOutside?(): void
 }
 
 export interface Zoom {

@@ -17,10 +17,10 @@ import {
 } from '@gql'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import useCreateLog from '@hooks/useCreateLog'
+import { cancelLogChanges } from '@shared/helpers/log/cancelLogChanges'
+import { detectRecentEntitiesChanges } from '@shared/helpers/log/detectRecentEntitiesChanges'
 import { EntitiesMethods } from '@shared/model/log'
 import { useCallback } from 'react'
-import { cancelLogChanges } from '../../functions/_shared/helpers/log/cancelLogChanges'
-import { detectRecentEntitiesChanges } from '../../functions/_shared/helpers/log/detectRecentEntitiesChanges'
 
 export function useCancelLog(log: LogFragment) {
   const createLog = useCreateLog()

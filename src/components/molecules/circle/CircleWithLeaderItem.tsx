@@ -14,11 +14,11 @@ interface Props {
 export default function CircleWithLeaderItem({ circle, participants }: Props) {
   const { t } = useTranslation()
 
-  const membersIds = useMemo(
+  const members = useMemo(
     () =>
       participants
         .filter((p) => p.circlesIds.indexOf(circle.id) !== -1)
-        .map((p) => p.member.id),
+        .map((p) => p.member),
     [circle, participants]
   )
 
@@ -28,7 +28,7 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
 
       <Box h="8px" w={1} bg={'gray.200'} _dark={{ bg: 'whiteAlpha.200' }} />
 
-      {membersIds.length === 0 ? (
+      {members.length === 0 ? (
         <Tooltip
           label={t('CircleWithLeaderItem.notAssigned')}
           placement="top"
@@ -37,10 +37,10 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
           <Circle size={8} bg="gray.100" _dark={{ bg: 'whiteAlpha.100' }} />
         </Tooltip>
       ) : (
-        membersIds.map((memberId) => (
+        members.map((member) => (
           <MemberAvatar
-            key={memberId}
-            id={memberId}
+            key={member.id}
+            member={member}
             circleId={circle.id}
             size="sm"
           />

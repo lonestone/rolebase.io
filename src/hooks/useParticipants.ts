@@ -1,6 +1,7 @@
 import { Member_Scope_Enum } from '@gql'
 import { getAllCircleMembersParticipants } from '@shared/helpers/getAllCircleMembersParticipants'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
+import { groupParticipantsByMember } from '@shared/helpers/groupParticipantsByMember'
 import { Participant, ParticipantMember } from '@shared/model/member'
 import { Optional } from '@shared/model/types'
 import { useStoreState } from '@store/hooks'
@@ -21,10 +22,7 @@ export default function useParticipants(
     if (circleId && scope && circles) {
       if (scope === Member_Scope_Enum.Organization) {
         // All Organization Members
-        participants =
-          members?.map((m) => ({
-            memberId: m.id,
-          })) || []
+        participants = members?.map((member) => ({ member })) || []
       } else if (scope === Member_Scope_Enum.CircleLeaders) {
         // Circle Leaders and links
         participants = getCircleParticipants(circleId, circles)
@@ -36,33 +34,14 @@ export default function useParticipants(
 
     // Add extra members
     if (extraMembersIds) {
-      participants.push(...extraMembersIds.map((id) => ({ memberId: id })))
-    }
-
-    // Map participants to members
-    // with list of circles ids where they're participating
-    const participantsMembers: ParticipantMember[] = []
-    for (const participant of participants) {
-      const participantMember = participantsMembers.find(
-        (p) => p.member.id === participant.memberId
-      )
-      if (participantMember) {
-        if (
-          participant.circleId &&
-          participantMember.circlesIds.indexOf(participant.circleId) === -1
-        ) {
-          participantMember.circlesIds.push(participant.circleId)
+      for (const memberId of extraMembersIds) {
+        const member = members.find((m) => m.id === memberId)
+        if (member) {
+          participants.push({ member })
         }
-      } else {
-        const member = members?.find((m) => m.id === participant.memberId)
-        if (!member) continue
-        participantsMembers.push({
-          member,
-          circlesIds: participant.circleId ? [participant.circleId] : [],
-        })
       }
     }
 
-    return participantsMembers
+    return groupParticipantsByMember(participants)
   }, [circleId, scope, extraMembersIds, members, circles])
 }

@@ -17,6 +17,7 @@ fragment Member on member {
 
 fragment MemberSummary on member {
   id
+  userId
   name
   picture
 }
