@@ -93,7 +93,6 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
       const { data } = await createThreadActivity({
         variables: {
           values: {
-            userId,
             threadId: thread.id,
             ...activity,
           },
@@ -125,9 +124,9 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
     // Clear editor
     editorRef.current?.clear()
+    localStorage.setItem(draftKey, '')
 
     // Create message activity
-    localStorage.setItem(draftKey, value)
     try {
       await handleCreateActivity({
         type: Thread_Activity_Type_Enum.Message,
@@ -135,10 +134,10 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           message: value,
         },
       })
-      localStorage.setItem(draftKey, '')
     } catch (error) {
       console.error(error)
       editorRef.current?.setValue(value)
+      localStorage.setItem(draftKey, value)
     }
   }, [handleCreateActivity])
 
