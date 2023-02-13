@@ -11543,8 +11543,8 @@ export enum Subscription_Plan_Type_Constraint {
 }
 
 export enum Subscription_Plan_Type_Enum {
-  Business = 'BUSINESS',
-  Startup = 'STARTUP'
+  Business = 'Business',
+  Startup = 'Startup'
 }
 
 /** Boolean expression to compare columns of type "subscription_plan_type_enum". All fields are combined with logical 'AND'. */
@@ -15927,13 +15927,6 @@ export type UpdateMemberMutationVariables = Exact<{
 
 export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null } | null };
 
-export type ArchiveMemberMutationVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type ArchiveMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string } | null };
-
 export type GetOrgQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -15971,13 +15964,6 @@ export type ChangeOrgSlugMutationVariables = Exact<{
 
 
 export type ChangeOrgSlugMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
-
-export type ArchiveOrgMutationVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type ArchiveOrgMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
 export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
 
@@ -18119,39 +18105,6 @@ export function useUpdateMemberMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateMemberMutationHookResult = ReturnType<typeof useUpdateMemberMutation>;
 export type UpdateMemberMutationResult = Apollo.MutationResult<UpdateMemberMutation>;
 export type UpdateMemberMutationOptions = Apollo.BaseMutationOptions<UpdateMemberMutation, UpdateMemberMutationVariables>;
-export const ArchiveMemberDocument = gql`
-    mutation archiveMember($id: uuid!) {
-  update_member_by_pk(pk_columns: {id: $id}, _set: {archived: true}) {
-    id
-  }
-}
-    `;
-export type ArchiveMemberMutationFn = Apollo.MutationFunction<ArchiveMemberMutation, ArchiveMemberMutationVariables>;
-
-/**
- * __useArchiveMemberMutation__
- *
- * To run a mutation, you first call `useArchiveMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useArchiveMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [archiveMemberMutation, { data, loading, error }] = useArchiveMemberMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useArchiveMemberMutation(baseOptions?: Apollo.MutationHookOptions<ArchiveMemberMutation, ArchiveMemberMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ArchiveMemberMutation, ArchiveMemberMutationVariables>(ArchiveMemberDocument, options);
-      }
-export type ArchiveMemberMutationHookResult = ReturnType<typeof useArchiveMemberMutation>;
-export type ArchiveMemberMutationResult = Apollo.MutationResult<ArchiveMemberMutation>;
-export type ArchiveMemberMutationOptions = Apollo.BaseMutationOptions<ArchiveMemberMutation, ArchiveMemberMutationVariables>;
 export const GetOrgDocument = gql`
     query getOrg($id: uuid!) {
   org_by_pk(id: $id) {
@@ -18334,39 +18287,6 @@ export function useChangeOrgSlugMutation(baseOptions?: Apollo.MutationHookOption
 export type ChangeOrgSlugMutationHookResult = ReturnType<typeof useChangeOrgSlugMutation>;
 export type ChangeOrgSlugMutationResult = Apollo.MutationResult<ChangeOrgSlugMutation>;
 export type ChangeOrgSlugMutationOptions = Apollo.BaseMutationOptions<ChangeOrgSlugMutation, ChangeOrgSlugMutationVariables>;
-export const ArchiveOrgDocument = gql`
-    mutation archiveOrg($id: uuid!) {
-  update_org_by_pk(pk_columns: {id: $id}, _set: {archived: true}) {
-    id
-  }
-}
-    `;
-export type ArchiveOrgMutationFn = Apollo.MutationFunction<ArchiveOrgMutation, ArchiveOrgMutationVariables>;
-
-/**
- * __useArchiveOrgMutation__
- *
- * To run a mutation, you first call `useArchiveOrgMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useArchiveOrgMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [archiveOrgMutation, { data, loading, error }] = useArchiveOrgMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useArchiveOrgMutation(baseOptions?: Apollo.MutationHookOptions<ArchiveOrgMutation, ArchiveOrgMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ArchiveOrgMutation, ArchiveOrgMutationVariables>(ArchiveOrgDocument, options);
-      }
-export type ArchiveOrgMutationHookResult = ReturnType<typeof useArchiveOrgMutation>;
-export type ArchiveOrgMutationResult = Apollo.MutationResult<ArchiveOrgMutation>;
-export type ArchiveOrgMutationOptions = Apollo.BaseMutationOptions<ArchiveOrgMutation, ArchiveOrgMutationVariables>;
 export const GetOrgSubscriptionDocument = gql`
     query getOrgSubscription($orgId: uuid!) {
   org_subscription(where: {orgId: {_eq: $orgId}}) {

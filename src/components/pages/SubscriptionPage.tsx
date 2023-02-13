@@ -47,8 +47,7 @@ export default function SubscriptionPage() {
 
         {!isOwner && !isLoading && (
           <Text px="10" as="b" color="red.500">
-            {/* TODO: translate */}
-            You must be an owner of this org to manage the subscription
+            {t('SubscriptionTabs.mustBeOwner')}
           </Text>
         )}
 

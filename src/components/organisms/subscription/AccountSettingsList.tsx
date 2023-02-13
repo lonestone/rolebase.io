@@ -22,13 +22,7 @@ export default function AccountSettingsList({
   const { t } = useTranslation()
 
   return (
-    <VStack
-      justifyContent="center !important"
-      p={{ base: '0', sm: '5' }}
-      w="100%"
-      maxW="1000px"
-      {...stackProps}
-    >
+    <VStack p={{ base: '0', sm: '5' }} w="100%" {...stackProps}>
       <BillingEmailSettingItem
         email={subscription.billingDetails?.email ?? ''}
         onUpdate={onUpdate}

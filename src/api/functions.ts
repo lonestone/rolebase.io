@@ -1,4 +1,4 @@
-import { Member_Role_Enum } from '@gql'
+import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import {
   MagicbellConfig,
   NotificationCategories,
@@ -7,10 +7,9 @@ import { AlgoliaConfig } from '@shared/model/search'
 import {
   CustomerBillingDetails,
   Invoice,
+  PromotionCode,
   Subscription,
   SubscriptionIntentResponse,
-  SubscriptionPlanType,
-  UpcomingInvoice,
 } from '@shared/model/subscription'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
@@ -68,7 +67,8 @@ export const subscribeOrg = fn<
   {
     memberId: string
     orgId: string
-    planType: SubscriptionPlanType
+    planType: Subscription_Plan_Type_Enum
+    promotionCode?: string
   },
   SubscriptionIntentResponse
 >('subscribeOrg')
@@ -88,14 +88,6 @@ export const getSubscriptionInvoices = fn<
   },
   Invoice[]
 >('getSubscriptionInvoices')
-
-export const getSubscriptionUpcomingInvoice = fn<
-  {
-    memberId: string
-    orgId: string
-  },
-  UpcomingInvoice
->('getSubscriptionUpcomingInvoice')
 
 export const getSubscription = fn<
   {
@@ -140,6 +132,15 @@ export const archiveOrg = fn<{
   memberId: string
   orgId: string
 }>('archiveOrg')
+
+export const retrieveCouponToSubscription = fn<
+  {
+    memberId: string
+    orgId: string
+    promotionCode: string
+  },
+  PromotionCode
+>('retrieveCouponToSubscription')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,

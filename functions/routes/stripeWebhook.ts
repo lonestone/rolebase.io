@@ -14,8 +14,6 @@ export default route(async (context): Promise<void> => {
 
   const event = validateEvent(context)
 
-  console.log('Received event:', event.type)
-
   // Handle webhook event (https://stripe.com/docs/billing/subscriptions/webhooks)
   switch (event.type) {
     case 'invoice.paid':
@@ -36,7 +34,6 @@ export default route(async (context): Promise<void> => {
       await deleteSubscription((event.data.object as Stripe.Subscription).id)
       break
     case 'payment_method.attached':
-      // TODO: Create event card expiration
       await updateDefaultPaymentMethod(
         event.data.object as Stripe.PaymentMethod
       )

@@ -113,7 +113,6 @@ update_permissions:
   - role: user
     permission:
       columns:
-        - archived
         - defaultWorkedMinPerWeek
         - name
       filter:

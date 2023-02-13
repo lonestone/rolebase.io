@@ -6,6 +6,7 @@ import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
 import { cancelStripeSubscription } from '@utils/stripe'
+import { toDateTime } from '@utils/toDateTime'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -39,13 +40,6 @@ export default route(async (context): Promise<{ cancelAt: Date }> => {
 
   return { cancelAt: toDateTime(subscription.cancel_at ?? 0) }
 })
-
-// TODO: util
-const toDateTime = (secs: number): Date => {
-  const t = new Date(1970, 0, 1) // Epoch
-  t.setSeconds(secs)
-  return t
-}
 
 const GET_ORG = gql(`
     query getOrgById($orgId: uuid!) {

@@ -1,9 +1,4 @@
-import {
-  gql,
-  Member_Role_Enum,
-  Subscription_Payment_Status_Enum,
-  Subscription_Plan_Type_Enum,
-} from '@gql'
+import { gql, Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import { SubscriptionIntentResponse } from '@shared/model/subscription'
 import { subscriptionPlanTypeSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
@@ -11,6 +6,7 @@ import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
+import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
 import {
   createStripeCustomer,
@@ -23,11 +19,15 @@ const yupSchema = yup.object().shape({
   memberId: yup.string().required(),
   orgId: yup.string().required(),
   planType: subscriptionPlanTypeSchema,
+  promotionCode: yup.string().optional().nullable(),
 })
 
 export default route(async (context): Promise<SubscriptionIntentResponse> => {
   guardAuth(context)
-  const { memberId, orgId, planType } = guardBodyParams(context, yupSchema)
+  const { memberId, orgId, planType, promotionCode } = guardBodyParams(
+    context,
+    yupSchema
+  )
 
   // Get member
   const member = await getMemberById(memberId)
@@ -55,21 +55,23 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
   const status = orgSubscription?.status
   let customerId = orgSubscription?.stripeCustomerId
   let subscriptionId = orgSubscription?.stripeSubscriptionId
+  let currentPlanType = orgSubscription?.type
 
-  switch (status) {
-    case Subscription_Payment_Status_Enum.Active:
-    case Subscription_Payment_Status_Enum.Trialing:
-      // A subscription is already active, at the moment throwing an error as there is only one plan available
-      // Should add code to upgrade or downgrade subscription here
+  if (isSubscriptionActive(status)) {
+    // A subscription is already active, at the moment throwing an error as there is only one plan available
+    if (currentPlanType === planType) {
       throw new RouteError(400, 'Subscription already active')
-    case Subscription_Payment_Status_Enum.Incomplete:
-    default:
-      if (subscriptionId) {
-        // Current subscription did not go through or has expired
-        // We can safely delete the old one on stripe
-        await deleteStripeSubscription(subscriptionId)
-      }
-      break
+    }
+
+    if (subscriptionId) {
+      await deleteStripeSubscription(subscriptionId)
+    }
+  } else {
+    if (subscriptionId) {
+      // Current subscription did not go through or has expired
+      // We can safely delete the old one on stripe
+      await deleteStripeSubscription(subscriptionId)
+    }
   }
 
   const priceId = getPriceId(planType)
@@ -90,7 +92,8 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     orgId,
     customerId,
     priceId,
-    quantity
+    quantity,
+    promotionCode
   )
 
   if (!orgSubscription) {

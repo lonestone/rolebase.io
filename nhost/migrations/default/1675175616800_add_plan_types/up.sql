@@ -1,2 +1,2 @@
-INSERT INTO  "public"."subscription_plan_type" (value) VALUES ('STARTUP');
-INSERT INTO  "public"."subscription_plan_type" (value) VALUES ('BUSINESS');
+INSERT INTO  "public"."subscription_plan_type" (value) VALUES ('Startup');
+INSERT INTO  "public"."subscription_plan_type" (value) VALUES ('Business');
