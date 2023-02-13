@@ -21,7 +21,6 @@ type SubscriptionConfirmationModalProps = {
   clientSecret: string
 } & Omit<ModalProps, 'children'>
 
-// TODO: define if only modal or only toast
 export default function SubscriptionConfirmationModal({
   clientSecret,
   ...modalProps
@@ -38,9 +37,7 @@ export default function SubscriptionConfirmationModal({
     if (!stripe) return
 
     setLoading(true)
-    const { paymentIntent, error } = await stripe.retrievePaymentIntent(
-      clientSecret
-    )
+    const { paymentIntent, error } = await stripe.retrievePaymentIntent(secret)
 
     if (error) {
       toast({

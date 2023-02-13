@@ -1,19 +1,23 @@
-import { unsubscribeOrg } from '@api/functions'
-import { Button, Divider, Flex, FlexProps, useToast } from '@chakra-ui/react'
+import {
+  Button,
+  Divider,
+  Flex,
+  FlexProps,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
-import useCurrentMember from '@hooks/useCurrentMember'
-import { useOrgId } from '@hooks/useOrgId'
 import { useSubscriptionPlanData } from '@hooks/useSubscriptionPlanData'
 import SubscriptionPlanCard from '@molecules/subscription/SubscriptionPlanCard'
+import SubscriptionPaymentModal from '@organisms/subscription/SubscriptionPaymentModal'
 import { Subscription } from '@shared/model/subscription'
 import {
   SubscriptionPlan,
   SubscriptionPlanCardData,
 } from '@utils/subscriptionPlansTypes'
-import { format } from 'date-fns'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight } from 'react-icons/fi'
+import CancelSubscriptionModal from './CancelSubscriptionModal'
 import CurrentSubscriptionDetails from './CurrentSubscriptionDetails'
 
 type SubscriptionTabSubLayoutProps = {
@@ -28,39 +32,22 @@ export default function SubscriptionTabSubLayout({
 }: SubscriptionTabSubLayoutProps) {
   const { t } = useTranslation()
   const plansData = useSubscriptionPlanData()
-  const currentMember = useCurrentMember()
-  const toast = useToast()
-  const orgId = useOrgId()
   const [currentPlanData, setCurrentPlanData] = useState<SubscriptionPlan>()
-  const [loading, setLoading] = useState(false)
-
-  // TODO: Put this inside a confirmation modal
-  const unsubscribe = async () => {
-    setLoading(true)
-
-    try {
-      const { cancelAt } = await unsubscribeOrg({
-        memberId: currentMember?.id ?? '',
-        orgId: orgId ?? '',
-      })
-      onSubscriptionUpdated()
-      toast({
-        title: t('SubscriptionPlans.unsubscribeDate', {
-          date: format(new Date(cancelAt), 'dd/MM/uuuu'),
-        }),
-        status: 'success',
-      })
-    } catch (e) {
-      toast({
-        title: t('common.errorRetry'),
-        description: t('common.errorContact'),
-        status: 'error',
-        duration: 10000,
-        isClosable: true,
-      })
-    } finally {
-      setLoading(false)
-    }
+  const {
+    isOpen: isPaymentOpen,
+    onOpen: onPaymentOpen,
+    onClose: onPaymentClose,
+  } = useDisclosure()
+  const {
+    isOpen: isUnsubscribeOpen,
+    onOpen: onUnsubscribeOpen,
+    onClose: onUnsubscribeClose,
+  } = useDisclosure()
+  const [selectedPlanType, setSelectedPlanType] =
+    useState<Subscription_Plan_Type_Enum | null>(null)
+  const subscribe = (planType: Subscription_Plan_Type_Enum) => async () => {
+    setSelectedPlanType(planType)
+    onPaymentOpen()
   }
 
   useEffect(() => {
@@ -90,8 +77,7 @@ export default function SubscriptionTabSubLayout({
           <Button
             variant="outline"
             rightIcon={subscription.expiresAt ? undefined : <FiArrowRight />}
-            onClick={unsubscribe}
-            isLoading={loading}
+            onClick={onUnsubscribeOpen}
             disabled={!!subscription.expiresAt}
           >
             {subscription.expiresAt
@@ -107,8 +93,15 @@ export default function SubscriptionTabSubLayout({
         ...plansData.startup,
         footer: (
           <Flex w="100%" justifyContent="end">
-            <Button rightIcon={<FiArrowRight />} colorScheme="gray">
-              {t('SubscriptionPlans.upgradePlan')}
+            <Button
+              rightIcon={<FiArrowRight />}
+              variant="outline"
+              onClick={subscribe(Subscription_Plan_Type_Enum.Startup)}
+              colorScheme="gray"
+            >
+              {subscription.type
+                ? t('SubscriptionPlans.selectPlan')
+                : t('SubscriptionPlans.upgradePlan')}
             </Button>
           </Flex>
         ),
@@ -135,38 +128,52 @@ export default function SubscriptionTabSubLayout({
     }
 
     return plansArray
-  }, [plansData, subscription, loading])
+  }, [plansData, subscription])
 
   return (
-    <Flex w="100%" gap="5" alignItems="center" flexDir="column">
-      {currentPlanData && (
-        <CurrentSubscriptionDetails
-          subscription={subscription}
-          currentPlan={currentPlanData}
-          onSubscriptionUpdated={onSubscriptionUpdated}
+    <>
+      <Flex w="100%" gap="5" alignItems="center" flexDir="column">
+        {currentPlanData && (
+          <CurrentSubscriptionDetails
+            subscription={subscription}
+            currentPlan={currentPlanData}
+            onSubscriptionUpdated={onSubscriptionUpdated}
+          />
+        )}
+        <Divider />
+        <Flex
+          w="100%"
+          justifyContent="center"
+          alignItems="center"
+          gap="5"
+          flexWrap={['wrap', 'wrap', 'wrap', 'wrap', 'nowrap']}
+          flexDir="row"
+          {...flexProps}
+        >
+          {plans.map((plan) => (
+            <SubscriptionPlanCard
+              w="100%"
+              h={'350px'}
+              maxW="400px"
+              key={plan.type ?? 'free'}
+              isCurrent={false}
+              {...plan}
+            />
+          ))}
+        </Flex>
+      </Flex>
+      {selectedPlanType && (
+        <SubscriptionPaymentModal
+          isOpen={isPaymentOpen}
+          onClose={onPaymentClose}
+          planType={selectedPlanType!}
         />
       )}
-      <Divider />
-      <Flex
-        w="100%"
-        justifyContent="center"
-        alignItems="center"
-        gap="5"
-        flexWrap={['wrap', 'wrap', 'wrap', 'wrap', 'nowrap']}
-        flexDir="row"
-        {...flexProps}
-      >
-        {plans.map((plan) => (
-          <SubscriptionPlanCard
-            w="100%"
-            h={'350px'}
-            maxW="400px"
-            key={plan.type ?? 'free'}
-            isCurrent={false}
-            {...plan}
-          />
-        ))}
-      </Flex>
-    </Flex>
+      <CancelSubscriptionModal
+        isOpen={isUnsubscribeOpen}
+        onClose={onUnsubscribeClose}
+        onSubscriptionCanceled={onSubscriptionUpdated}
+      />
+    </>
   )
 }

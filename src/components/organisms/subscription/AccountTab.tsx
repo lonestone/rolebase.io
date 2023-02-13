@@ -16,7 +16,7 @@ export default function AccountTab({
 }: AccountTabProps) {
   const { t } = useTranslation()
   return (
-    <Flex w="100%" p="5" flexDir="row" {...flexProps}>
+    <Flex w="100%" p="5" flexDir="row" justifyContent="center" {...flexProps}>
       {subscription && (
         <AccountSettingsList
           onUpdate={onAccountUpdated}

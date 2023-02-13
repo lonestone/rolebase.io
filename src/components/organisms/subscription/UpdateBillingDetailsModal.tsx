@@ -56,7 +56,7 @@ export default function UpdateBillingDetailsModal({
   const updateBillingDetails = async (
     newBillingDetails: CustomerBillingDetails
   ) => {
-    if (!billingDetails) return
+    if (!newBillingDetails) return
 
     setLoading(true)
 
@@ -97,13 +97,12 @@ export default function UpdateBillingDetailsModal({
 
     if (!fields) return
 
-    updateBillingDetails({
+    await updateBillingDetails({
       ...fields.value,
       email: billingDetails?.email,
     })
   }
 
-  // TODO: Maybe implement Google API to provide autocomplete
   return (
     <Modal {...modalProps}>
       <ModalOverlay />
