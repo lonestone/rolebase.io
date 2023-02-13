@@ -54,6 +54,7 @@ export default function UpdatePaymentMethodForm() {
     }
 
     setLoading(false)
+    // User will be redirected to return_url
   }
 
   return (

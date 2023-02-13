@@ -52,10 +52,7 @@ export default function SubscriptionTabs(props: FlexProps) {
 
       setSubscription(res)
     } catch (e) {
-      toast({
-        title: 'Error occured',
-        status: 'error',
-      })
+      displayErrorToast()
     } finally {
       setSubscriptionLoading(false)
     }
@@ -71,13 +68,20 @@ export default function SubscriptionTabs(props: FlexProps) {
 
       setInvoices(res)
     } catch (e) {
-      toast({
-        title: 'Error occured',
-        status: 'error',
-      })
+      displayErrorToast()
     } finally {
       setInvoicesLoading(false)
     }
+  }
+
+  const displayErrorToast = () => {
+    toast({
+      title: t('common.errorRetry'),
+      description: t('common.errorContact'),
+      duration: 10000,
+      isClosable: true,
+      status: 'error',
+    })
   }
 
   const TabSpinner = useMemo(
