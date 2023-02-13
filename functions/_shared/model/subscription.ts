@@ -40,12 +40,20 @@ export type SubscriptionCard = {
 export type CustomerBillingDetails = {
   name?: string | null | undefined
   email?: string | null | undefined
-  address?: Stripe.Address | null
+  address?: Stripe.Address | null | undefined
 }
 
 export type Subscription = {
-  card: SubscriptionCard
+  card: SubscriptionCard | null
   upcomingInvoice: UpcomingInvoice | null
   expiresAt: Date | null
   billingDetails: CustomerBillingDetails | null
 } & Pick<Org_Subscription, 'status' | 'orgId' | 'type'>
+
+export type PromotionCode = {
+  id: string
+  restrictions: Stripe.PromotionCode.Restrictions
+  name: string
+  amountOff: number | null
+  percentOff: number | null
+}

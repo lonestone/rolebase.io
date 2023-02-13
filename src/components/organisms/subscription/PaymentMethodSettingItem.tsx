@@ -25,10 +25,12 @@ export default function PaymentMethodSettingItem({
         displayName={t('SubscriptionTabs.accountTab.paymentMethod')}
         onEdit={onOpen}
         value={
-          <HStack>
-            <CreditCardIcon name={card.brand} style={{ width: 30 }} />
-            <Text>···· {card.last4}</Text>
-          </HStack>
+          card ? (
+            <HStack>
+              <CreditCardIcon name={card.brand} style={{ width: 30 }} />
+              <Text>···· {card.last4}</Text>
+            </HStack>
+          ) : null
         }
         editable
         {...stackProps}

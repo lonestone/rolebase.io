@@ -5,6 +5,7 @@ import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrgSubscriptionPlan } from '@utils/guardOrgSubscriptionPlan'
+import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
 import { updateStripeSubscription } from '@utils/stripe'
 import { updateMember } from '@utils/updateMember'
@@ -51,7 +52,11 @@ export default route(async (context): Promise<void> => {
     member.orgId
   )
 
-  if (subscription) {
+  if (
+    subscription &&
+    subscription.stripeSubscriptionId &&
+    isSubscriptionActive(subscription.status)
+  ) {
     await updateStripeSubscription(
       subscription.stripeSubscriptionId,
       nbActiveMembers + 1

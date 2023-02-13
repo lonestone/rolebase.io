@@ -94,7 +94,7 @@ export default function UpdatePaymentMethodModal({
                 appearance: stripeAppearance,
               }}
             >
-              <UpdatePaymentMethodForm clientSecret={clientSecret} />
+              <UpdatePaymentMethodForm />
             </Elements>
           )}
         </ModalBody>
