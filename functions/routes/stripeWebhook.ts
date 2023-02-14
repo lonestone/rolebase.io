@@ -1,4 +1,5 @@
-import { gql, Subscription_Payment_Status_Enum } from '@gql'
+import { gql, Member_Role_Enum, Subscription_Payment_Status_Enum } from '@gql'
+import { SubscriptionLimits } from '@shared/model/subscription'
 import { adminRequest } from '@utils/adminRequest'
 import { FunctionContext } from '@utils/getContext'
 import { route, RouteError } from '@utils/route'
@@ -77,6 +78,30 @@ const updateDefaultPaymentMethod = async (
 }
 
 const deleteSubscription = async (subscriptionId: string) => {
+  // Limiting the number of active members
+  const orgRequestResult = await adminRequest(GET_ORG_MEMBERS, {
+    subscriptionId,
+  })
+  const org = orgRequestResult?.org[0]
+
+  if (org) {
+    const owners = org.members.filter(
+      (mem) => mem.role === Member_Role_Enum.Owner
+    )
+    const admin = org.members.filter(
+      (mem) => mem.role === Member_Role_Enum.Admin
+    )
+    const orgAdmins = owners.concat(admin)
+
+    const memberIdsToUpdate = owners
+      .concat(admin)
+      .splice(SubscriptionLimits['free'] || 1, orgAdmins.length)
+      .map((m) => m.id)
+
+    await adminRequest(UPDATE_ACTIVE_MEMBER_TO_REGULAR, {
+      ids: memberIdsToUpdate,
+    })
+  }
   // Not deleting it from the database as it would prevent us from retrieving past invoices
   return adminRequest(UPDATE_ORG_SUBSCRIPTION_STATUS, {
     stripeSubscriptionId: subscriptionId,
@@ -99,3 +124,26 @@ const UPDATE_ORG_SUBSCRIPTION_STATUS = gql(`
       }
     }
   }`)
+
+const UPDATE_ACTIVE_MEMBER_TO_REGULAR = gql(`
+  mutation updateActiveMembersToMembers ($ids: [uuid!]){
+    update_member_many(updates: {where: {id: {_in: $ids}}, _set: {userId: null}}) {
+      returning {
+        id
+      }
+    }
+  }
+`)
+
+const GET_ORG_MEMBERS = gql(`
+  query getOrgMembersWithRolesFromSubscriptionId($subscriptionId: String!) {
+    org(where: {org_subscription: {stripeSubscriptionId: {_eq: $subscriptionId}}}) {
+      id
+      members {
+        id
+        userId
+        role
+      }
+    }
+  }
+`)

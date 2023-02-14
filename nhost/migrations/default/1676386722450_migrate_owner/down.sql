@@ -1,0 +1,13 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- do $$
+-- declare
+--     f record;
+--     members record;
+-- begin
+--     for f in select name, id
+--            from "public"."org"
+--     loop
+--     update "public"."member" set "role" = 'Owner' where id = (select id from "public"."member" as m where m."orgId" = f.id and m."inviteDate" IS NULL and m."userId" IS NOT NULL limit 1);
+--     end loop;
+-- end; $$;

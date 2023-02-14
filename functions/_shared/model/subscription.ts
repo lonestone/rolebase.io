@@ -1,5 +1,13 @@
-import { Org_Subscription } from '@gql'
+import { Org_Subscription, Subscription_Plan_Type_Enum } from '@gql'
 import Stripe from 'stripe'
+
+export const SubscriptionLimits: {
+  [key in Subscription_Plan_Type_Enum | 'free']?: number
+} = {
+  free: 5,
+  [Subscription_Plan_Type_Enum.Startup]: 200,
+  [Subscription_Plan_Type_Enum.Business]: Infinity,
+}
 
 export type SubscriptionIntentResponse = {
   subscriptionId: string

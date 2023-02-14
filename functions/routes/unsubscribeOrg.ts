@@ -4,6 +4,7 @@ import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
+import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
 import { cancelStripeSubscription } from '@utils/stripe'
 import { toDateTime } from '@utils/toDateTime'
@@ -27,11 +28,13 @@ export default route(async (context): Promise<{ cancelAt: Date }> => {
 
   await guardOrg(context, member.orgId, Member_Role_Enum.Owner)
 
-  const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION, { orgId })
-  let stripeSubscriptionId =
-    orgSubscription?.org_subscription[0]?.stripeSubscriptionId
+  const orgSubscriptionResponse = await adminRequest(GET_ORG_SUBSCRIPTION, {
+    orgId,
+  })
+  const orgSubscription = orgSubscriptionResponse?.org_subscription[0]
+  const stripeSubscriptionId = orgSubscription?.stripeSubscriptionId
 
-  if (!stripeSubscriptionId) {
+  if (!stripeSubscriptionId || !isSubscriptionActive(orgSubscription?.status)) {
     throw new RouteError(400, 'Subscription already cancelled')
   }
 
@@ -53,5 +56,6 @@ const GET_ORG_SUBSCRIPTION = gql(`
       org_subscription(where: {orgId: {_eq: $orgId}}) {
         id
         stripeSubscriptionId
+        status
       }
     }`)
