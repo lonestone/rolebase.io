@@ -31,7 +31,7 @@ export default function SubscriptionPlanSubCard({
     base: 4,
     md: 7,
   })
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const filteredMembers = useMemo(
     () => members?.filter((mem) => !!mem.userId) ?? [],
     [members]

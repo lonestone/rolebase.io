@@ -49,7 +49,7 @@ export default function SubscriptionSummary({
   const orgId = useOrgId()
   const nbSeats =
     useStoreState(
-      (state) => state.members.entries?.filter((e) => !!e.userId)?.length
+      (state) => state.org.members?.filter((e) => !!e.userId)?.length
     ) ?? 0
   const parsedDetails = useMemo(() => {
     if (!billingDetails?.address) return []
