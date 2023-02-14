@@ -1,5 +1,5 @@
 import {
-  sendNotification,
+  sendMeetingStartedNotification,
   startMembersMeeting,
   stopMembersMeeting,
 } from '@api/functions'
@@ -8,17 +8,14 @@ import { MeetingContext } from '@contexts/MeetingContext'
 import { useUpdateMeetingMutation } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { MeetingAttendee } from '@shared/model/meeting'
-import { NotificationCategories } from '@shared/model/notification'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
-import settings from 'src/settings'
 import MemberSearchButton from '../search/entities/members/MemberSearchButton'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 
 export default function MeetingAttendeesList(boxProps: BoxProps) {
-  const { meeting, circle, editable, path, isStarted } =
-    useContext(MeetingContext)!
+  const { meeting, circle, editable, isStarted } = useContext(MeetingContext)!
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const [updateMeeting] = useUpdateMeetingMutation()
@@ -80,13 +77,12 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
         title: meeting.title,
         sender: currentMember.name,
       }
-      sendNotification({
-        category: NotificationCategories.meetingstarted,
+      sendMeetingStartedNotification({
         title: t('notifications.meetingstarted.title', notifParams),
         content: t('notifications.meetingstarted.content', notifParams),
         recipientMemberIds: [memberId],
         topic: meeting.id,
-        actionUrl: `${settings.url}${path}`,
+        meetingId: meeting.id,
         notificationReceived: t(
           'notifications.common.email.notificationReceived'
         ),

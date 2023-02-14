@@ -1,26 +1,33 @@
 import { Member_Role_Enum } from '@gql'
-import { NotificationFields, NovuConfig } from '@shared/model/notification'
+import {
+  MeetingStartedNotificationFields,
+  NovuConfig,
+} from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 
 export const createOrg = fn<{ name: string }, string>('createOrg')
 
-export const updateOrgSlug =
-  fn<{ orgId: string; slug: string }>('updateOrgSlug')
+export const updateOrgSlug = fn<{ orgId: string; slug: string }>(
+  'updateOrgSlug'
+)
 
-export const inviteMember =
-  fn<{ memberId: string; role: Member_Role_Enum; email: string }>(
-    'inviteMember'
-  )
+export const inviteMember = fn<{
+  memberId: string
+  role: Member_Role_Enum
+  email: string
+}>('inviteMember')
 
 export const acceptMemberInvitation = fn<{
   memberId: string
   token: string
 }>('acceptMemberInvitation')
 
-export const updateMemberRole =
-  fn<{ memberId: string; role?: Member_Role_Enum }>('updateMemberRole')
+export const updateMemberRole = fn<{
+  memberId: string
+  role?: Member_Role_Enum
+}>('updateMemberRole')
 
 export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
   'getAlgoliaConfig'
@@ -39,7 +46,8 @@ export const identifyNovuSubscriber = fn<{
   locale: string
 }>('identifyNovuSubscriber')
 
-export const sendNotification = fn<NotificationFields>('sendNotification')
+export const sendMeetingStartedNotification =
+  fn<MeetingStartedNotificationFields>('sendMeetingStartedNotification')
 
 export const markNotificationAs = fn<{
   messageId: string
@@ -55,8 +63,9 @@ export const startMembersMeeting = fn<{
   meetingId: string
 }>('startMembersMeeting')
 
-export const stopMembersMeeting =
-  fn<{ meetingId: string }>('stopMembersMeeting')
+export const stopMembersMeeting = fn<{ meetingId: string }>(
+  'stopMembersMeeting'
+)
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,

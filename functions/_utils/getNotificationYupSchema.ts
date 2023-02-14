@@ -13,7 +13,9 @@ const emailFields = {
   appUrl: yup.string(),
 }
 
-const meetingStartedFields = {}
+const meetingStartedFields = {
+  meetingId: yup.string().required(),
+}
 
 export function getNotificationYupSchema(
   category: keyof typeof NotificationCategories
@@ -27,7 +29,6 @@ export function getNotificationYupSchema(
   }
 
   const yupSchema = yup.object({
-    category: yup.string().oneOf(Object.values(NotificationCategories)),
     recipientMemberIds: yup.array().of(yup.string().required()).required(),
     title: yup.string().required(),
     content: yup.string().required(),

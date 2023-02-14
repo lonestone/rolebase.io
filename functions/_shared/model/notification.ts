@@ -34,21 +34,14 @@ type NotificationEmailFields = {
   appUrl?: string
 }
 
-type NotificationMeetingStartedFields = {}
+type NotificationMeetingStartedFields = {
+  meetingId: string
+}
 
-export type NotificationBuilder<
-  Category extends NotificationCategories,
-  Data extends any
-> = {
-  category: Category
-} & NotificationCommonFields &
-  Data
+type NotificationBuilder<Data extends any> = NotificationCommonFields & Data
 
-type MeetingStartedNotificationFields = NotificationBuilder<
-  NotificationCategories.meetingstarted,
+export type MeetingStartedNotificationFields = NotificationBuilder<
   NotificationInAppFields &
     NotificationEmailFields &
     NotificationMeetingStartedFields
 >
-
-export type NotificationFields = MeetingStartedNotificationFields
