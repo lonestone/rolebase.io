@@ -32,7 +32,7 @@ export async function guardOrgSubscriptionPlan(
   }
 }
 
-const getPlanLimit = (plan: Subscription_Plan_Type_Enum | null) => {
+const getPlanLimit = (plan: Subscription_Plan_Type_Enum | undefined) => {
   switch (plan) {
     case Subscription_Plan_Type_Enum.Startup:
       return 200

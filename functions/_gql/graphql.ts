@@ -1,11 +1,11 @@
 /* eslint-disable */
-import { MemberPreferences } from '@shared/model/member'
+import { EntitiesChanges, LogDisplay } from '@shared/model/log'
 import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
+import { MemberPreferences } from '@shared/model/member'
 import { ThreadActivityData } from '@shared/model/thread_activity'
-import { LogDisplay, EntitiesChanges } from '@shared/model/log'
 
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -3546,21 +3546,10 @@ export type Log = {
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   canceled: Scalars['Boolean'];
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 94b6232 (start front)
   /** Log of changes to entities, useful to cancel */
   changes: Scalars['log_changes'];
   createdAt: Scalars['timestamptz'];
   /** Type of log and data to display */
-<<<<<<< HEAD
-=======
-  changes: Scalars['log_changes'];
-  createdAt: Scalars['timestamptz'];
->>>>>>> 4965459 (rebase)
-=======
->>>>>>> 94b6232 (start front)
   display: Scalars['log_display'];
   id: Scalars['uuid'];
   /** Meeting during which this log was created (optional) */
@@ -3736,25 +3725,13 @@ export type Log_Max_Fields = {
 
 /** order by max() on columns of table "log" */
 export type Log_Max_Order_By = {
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
-=======
-  cancelLogId?: InputMaybe<Order_By>;
->>>>>>> 754ec85 (rebase)
-=======
-  /** Id of canceled log, if it's a cancellation */
-  cancelLogId?: InputMaybe<Order_By>;
-  /** Member that did the action that's canceled */
->>>>>>> 94b6232 (start front)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3762,20 +3739,6 @@ export type Log_Max_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
-=======
-=======
-  /** Meeting during which this log was created (optional) */
->>>>>>> 94b6232 (start front)
-  meetingId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  /** Keep name for display, in case of deleted member */
-  memberName?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
->>>>>>> 754ec85 (rebase)
-=======
-  /** User and member who made the change */
->>>>>>> 94b6232 (start front)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -3801,25 +3764,13 @@ export type Log_Min_Fields = {
 
 /** order by min() on columns of table "log" */
 export type Log_Min_Order_By = {
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
-=======
-  cancelLogId?: InputMaybe<Order_By>;
->>>>>>> 754ec85 (rebase)
-=======
-  /** Id of canceled log, if it's a cancellation */
-  cancelLogId?: InputMaybe<Order_By>;
-  /** Member that did the action that's canceled */
->>>>>>> 94b6232 (start front)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3827,20 +3778,6 @@ export type Log_Min_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
-=======
-=======
-  /** Meeting during which this log was created (optional) */
->>>>>>> 94b6232 (start front)
-  meetingId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  /** Keep name for display, in case of deleted member */
-  memberName?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
->>>>>>> 754ec85 (rebase)
-=======
-  /** User and member who made the change */
->>>>>>> 94b6232 (start front)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -6600,43 +6537,18 @@ export type Mutation_Root = {
   delete_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
   /** delete single row from the table: "org_subscription" */
   delete_org_subscription_by_pk?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** delete data from the table: "org_subscription_status" */
-  delete_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
-  /** delete single row from the table: "org_subscription_status" */
-  delete_org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** delete data from the table: "role" */
   delete_role?: Maybe<Role_Mutation_Response>;
   /** delete single row from the table: "role" */
   delete_role_by_pk?: Maybe<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
   /** delete data from the table: "subscription_payment_status" */
   delete_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** delete single row from the table: "subscription_payment_status" */
   delete_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "subscription_plan_type" */
   delete_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** delete single row from the table: "subscription_plan_type" */
   delete_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "task" */
   delete_task?: Maybe<Task_Mutation_Response>;
   /** delete single row from the table: "task" */
@@ -6773,43 +6685,18 @@ export type Mutation_Root = {
   insert_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
   /** insert a single row into the table: "org_subscription" */
   insert_org_subscription_one?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** insert data into the table: "org_subscription_status" */
-  insert_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
-  /** insert a single row into the table: "org_subscription_status" */
-  insert_org_subscription_status_one?: Maybe<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** insert data into the table: "role" */
   insert_role?: Maybe<Role_Mutation_Response>;
   /** insert a single row into the table: "role" */
   insert_role_one?: Maybe<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
   /** insert data into the table: "subscription_payment_status" */
   insert_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** insert a single row into the table: "subscription_payment_status" */
   insert_subscription_payment_status_one?: Maybe<Subscription_Payment_Status>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "subscription_plan_type" */
   insert_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** insert a single row into the table: "subscription_plan_type" */
   insert_subscription_plan_type_one?: Maybe<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "task" */
   insert_task?: Maybe<Task_Mutation_Response>;
   /** insert a single row into the table: "task" */
@@ -6996,51 +6883,24 @@ export type Mutation_Root = {
   update_org_subscription_by_pk?: Maybe<Org_Subscription>;
   /** update multiples rows of table: "org_subscription" */
   update_org_subscription_many?: Maybe<Array<Maybe<Org_Subscription_Mutation_Response>>>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** update data of the table: "org_subscription_status" */
-  update_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
-  /** update single row of the table: "org_subscription_status" */
-  update_org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
-  /** update multiples rows of table: "org_subscription_status" */
-  update_org_subscription_status_many?: Maybe<Array<Maybe<Org_Subscription_Status_Mutation_Response>>>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** update data of the table: "role" */
   update_role?: Maybe<Role_Mutation_Response>;
   /** update single row of the table: "role" */
   update_role_by_pk?: Maybe<Role>;
   /** update multiples rows of table: "role" */
   update_role_many?: Maybe<Array<Maybe<Role_Mutation_Response>>>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
   /** update data of the table: "subscription_payment_status" */
   update_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** update single row of the table: "subscription_payment_status" */
   update_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
   /** update multiples rows of table: "subscription_payment_status" */
   update_subscription_payment_status_many?: Maybe<Array<Maybe<Subscription_Payment_Status_Mutation_Response>>>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "subscription_plan_type" */
   update_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** update single row of the table: "subscription_plan_type" */
   update_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** update multiples rows of table: "subscription_plan_type" */
   update_subscription_plan_type_many?: Maybe<Array<Maybe<Subscription_Plan_Type_Mutation_Response>>>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "task" */
   update_task?: Maybe<Task_Mutation_Response>;
   /** update single row of the table: "task" */
@@ -7407,24 +7267,6 @@ export type Mutation_RootDelete_Org_Subscription_By_PkArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Mutation_RootDelete_Org_Subscription_StatusArgs = {
-  where: Org_Subscription_Status_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Org_Subscription_Status_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
-/** mutation root */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Mutation_RootDelete_RoleArgs = {
   where: Role_Bool_Exp;
 };
@@ -7437,8 +7279,6 @@ export type Mutation_RootDelete_Role_By_PkArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type Mutation_RootDelete_Subscription_Payment_StatusArgs = {
   where: Subscription_Payment_Status_Bool_Exp;
 };
@@ -7451,28 +7291,13 @@ export type Mutation_RootDelete_Subscription_Payment_Status_By_PkArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
 export type Mutation_RootDelete_Subscription_Plan_TypeArgs = {
   where: Subscription_Plan_Type_Bool_Exp;
-=======
-export type Mutation_RootDelete_Subscription_Payment_StatusArgs = {
-  where: Subscription_Payment_Status_Bool_Exp;
->>>>>>> d422731 (WIP - refonte)
-=======
-export type Mutation_RootDelete_Subscription_Plan_TypeArgs = {
-  where: Subscription_Plan_Type_Bool_Exp;
->>>>>>> 6646776 (Cleaned code)
 };
 
 
 /** mutation root */
-<<<<<<< HEAD
-export type Mutation_RootDelete_Subscription_Payment_Status_By_PkArgs = {
-=======
 export type Mutation_RootDelete_Subscription_Plan_Type_By_PkArgs = {
->>>>>>> 6646776 (Cleaned code)
   value: Scalars['String'];
 };
 
@@ -7938,26 +7763,6 @@ export type Mutation_RootInsert_Org_Subscription_OneArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Mutation_RootInsert_Org_Subscription_StatusArgs = {
-  objects: Array<Org_Subscription_Status_Insert_Input>;
-  on_conflict?: InputMaybe<Org_Subscription_Status_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Org_Subscription_Status_OneArgs = {
-  object: Org_Subscription_Status_Insert_Input;
-  on_conflict?: InputMaybe<Org_Subscription_Status_On_Conflict>;
-};
-
-
-/** mutation root */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Mutation_RootInsert_RoleArgs = {
   objects: Array<Role_Insert_Input>;
   on_conflict?: InputMaybe<Role_On_Conflict>;
@@ -7972,8 +7777,6 @@ export type Mutation_RootInsert_Role_OneArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type Mutation_RootInsert_Subscription_Payment_StatusArgs = {
   objects: Array<Subscription_Payment_Status_Insert_Input>;
   on_conflict?: InputMaybe<Subscription_Payment_Status_On_Conflict>;
@@ -7988,35 +7791,16 @@ export type Mutation_RootInsert_Subscription_Payment_Status_OneArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
 export type Mutation_RootInsert_Subscription_Plan_TypeArgs = {
   objects: Array<Subscription_Plan_Type_Insert_Input>;
   on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
-=======
-export type Mutation_RootInsert_Subscription_Payment_StatusArgs = {
-  objects: Array<Subscription_Payment_Status_Insert_Input>;
-  on_conflict?: InputMaybe<Subscription_Payment_Status_On_Conflict>;
->>>>>>> d422731 (WIP - refonte)
-=======
-export type Mutation_RootInsert_Subscription_Plan_TypeArgs = {
-  objects: Array<Subscription_Plan_Type_Insert_Input>;
-  on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 
 /** mutation root */
-<<<<<<< HEAD
-export type Mutation_RootInsert_Subscription_Payment_Status_OneArgs = {
-  object: Subscription_Payment_Status_Insert_Input;
-  on_conflict?: InputMaybe<Subscription_Payment_Status_On_Conflict>;
-=======
 export type Mutation_RootInsert_Subscription_Plan_Type_OneArgs = {
   object: Subscription_Plan_Type_Insert_Input;
   on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 
@@ -8681,32 +8465,6 @@ export type Mutation_RootUpdate_Org_Subscription_ManyArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Mutation_RootUpdate_Org_Subscription_StatusArgs = {
-  _set?: InputMaybe<Org_Subscription_Status_Set_Input>;
-  where: Org_Subscription_Status_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Org_Subscription_Status_By_PkArgs = {
-  _set?: InputMaybe<Org_Subscription_Status_Set_Input>;
-  pk_columns: Org_Subscription_Status_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Org_Subscription_Status_ManyArgs = {
-  updates: Array<Org_Subscription_Status_Updates>;
-};
-
-
-/** mutation root */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Mutation_RootUpdate_RoleArgs = {
   _inc?: InputMaybe<Role_Inc_Input>;
   _set?: InputMaybe<Role_Set_Input>;
@@ -8729,8 +8487,6 @@ export type Mutation_RootUpdate_Role_ManyArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type Mutation_RootUpdate_Subscription_Payment_StatusArgs = {
   _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
   where: Subscription_Payment_Status_Bool_Exp;
@@ -8751,46 +8507,22 @@ export type Mutation_RootUpdate_Subscription_Payment_Status_ManyArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
 export type Mutation_RootUpdate_Subscription_Plan_TypeArgs = {
   _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
   where: Subscription_Plan_Type_Bool_Exp;
-=======
-export type Mutation_RootUpdate_Subscription_Payment_StatusArgs = {
-  _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
-  where: Subscription_Payment_Status_Bool_Exp;
->>>>>>> d422731 (WIP - refonte)
-=======
-export type Mutation_RootUpdate_Subscription_Plan_TypeArgs = {
-  _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
-  where: Subscription_Plan_Type_Bool_Exp;
->>>>>>> 6646776 (Cleaned code)
 };
 
 
 /** mutation root */
-<<<<<<< HEAD
-export type Mutation_RootUpdate_Subscription_Payment_Status_By_PkArgs = {
-  _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
-  pk_columns: Subscription_Payment_Status_Pk_Columns_Input;
-=======
 export type Mutation_RootUpdate_Subscription_Plan_Type_By_PkArgs = {
   _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
   pk_columns: Subscription_Plan_Type_Pk_Columns_Input;
->>>>>>> 6646776 (Cleaned code)
 };
 
 
 /** mutation root */
-<<<<<<< HEAD
-export type Mutation_RootUpdate_Subscription_Payment_Status_ManyArgs = {
-  updates: Array<Subscription_Payment_Status_Updates>;
-=======
 export type Mutation_RootUpdate_Subscription_Plan_Type_ManyArgs = {
   updates: Array<Subscription_Plan_Type_Updates>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 
@@ -9170,10 +8902,6 @@ export type Org = {
   roles_aggregate: Role_Aggregate;
   slug?: Maybe<Scalars['String']>;
   subscriptionId?: Maybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 754ec85 (rebase)
   /** An array relationship */
   task_views: Array<Task_View>;
   /** An aggregate relationship */
@@ -9186,11 +8914,6 @@ export type Org = {
   threads: Array<Thread>;
   /** An aggregate relationship */
   threads_aggregate: Thread_Aggregate;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 754ec85 (rebase)
 };
 
 
@@ -9500,21 +9223,12 @@ export type Org_Bool_Exp = {
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
   subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 754ec85 (rebase)
   task_views?: InputMaybe<Task_View_Bool_Exp>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
   tasks?: InputMaybe<Task_Bool_Exp>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Bool_Exp>;
   threads?: InputMaybe<Thread_Bool_Exp>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Bool_Exp>;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 754ec85 (rebase)
 };
 
 /** unique or primary key constraints on table "org" */
@@ -9743,18 +9457,9 @@ export type Org_Insert_Input = {
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
   tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
   threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
-  tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
-  threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
->>>>>>> 754ec85 (rebase)
 };
 
 /** aggregate max on columns */
@@ -9821,18 +9526,9 @@ export type Org_Order_By = {
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
   subscriptionId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
-  tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
-  threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
->>>>>>> 754ec85 (rebase)
 };
 
 /** primary key columns input for table: org */
@@ -9913,27 +9609,10 @@ export type Org_Subscription = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
-<<<<<<< HEAD
-<<<<<<< HEAD
   status: Subscription_Payment_Status_Enum;
   stripeCustomerId: Scalars['String'];
   stripeSubscriptionId?: Maybe<Scalars['String']>;
   type: Subscription_Plan_Type_Enum;
-<<<<<<< HEAD
-=======
-  status: Org_Subscription_Status_Enum;
-  stripeCustomerId: Scalars['String'];
-  stripeSubscriptionId?: Maybe<Scalars['String']>;
-  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
-  type?: Maybe<Subscription_Plan_Type_Enum>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  status: Subscription_Payment_Status_Enum;
-  stripeCustomerId: Scalars['String'];
-  stripeSubscriptionId?: Maybe<Scalars['String']>;
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** aggregated selection of "org_subscription" */
@@ -9966,27 +9645,10 @@ export type Org_Subscription_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum_Comparison_Exp>;
   stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
   stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
-<<<<<<< HEAD
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum_Comparison_Exp>;
-  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
-  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
-  stripeSubscriptionItemId?: InputMaybe<String_Comparison_Exp>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
   type?: InputMaybe<Subscription_Plan_Type_Enum_Comparison_Exp>;
-=======
-  status?: InputMaybe<Subscription_Payment_Status_Enum_Comparison_Exp>;
-  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
-  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
->>>>>>> d422731 (WIP - refonte)
-=======
-  type?: InputMaybe<Subscription_Plan_Type_Enum_Comparison_Exp>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** unique or primary key constraints on table "org_subscription" */
@@ -9998,17 +9660,7 @@ export enum Org_Subscription_Constraint {
   /** unique or primary key constraint on columns "stripeCustomerId" */
   OrgSubscriptionStripeCustomerIdKey = 'org_subscription_stripeCustomerId_key',
   /** unique or primary key constraint on columns "stripeSubscriptionId" */
-<<<<<<< HEAD
-<<<<<<< HEAD
   OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key'
-=======
-  OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key',
-  /** unique or primary key constraint on columns "stripeSubscriptionItemId" */
-  OrgSubscriptionStripeSubscriptionItemIdKey = 'org_subscription_stripeSubscriptionItemId_key'
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key'
->>>>>>> d422731 (WIP - refonte)
 }
 
 /** input type for inserting data into table "org_subscription" */
@@ -10016,27 +9668,10 @@ export type Org_Subscription_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-<<<<<<< HEAD
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionItemId?: InputMaybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
   type?: InputMaybe<Subscription_Plan_Type_Enum>;
-=======
-  status?: InputMaybe<Subscription_Payment_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
->>>>>>> d422731 (WIP - refonte)
-=======
-  type?: InputMaybe<Subscription_Plan_Type_Enum>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** aggregate max on columns */
@@ -10046,13 +9681,6 @@ export type Org_Subscription_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
   stripeCustomerId?: Maybe<Scalars['String']>;
   stripeSubscriptionId?: Maybe<Scalars['String']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 };
 
 /** aggregate min on columns */
@@ -10062,13 +9690,6 @@ export type Org_Subscription_Min_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
   stripeCustomerId?: Maybe<Scalars['String']>;
   stripeSubscriptionId?: Maybe<Scalars['String']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 };
 
 /** response of any mutation on the table "org_subscription" */
@@ -10080,10 +9701,6 @@ export type Org_Subscription_Mutation_Response = {
   returning: Array<Org_Subscription>;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ba73817 (save)
 /** input type for inserting object relation for remote table "org_subscription" */
 export type Org_Subscription_Obj_Rel_Insert_Input = {
   data: Org_Subscription_Insert_Input;
@@ -10091,11 +9708,6 @@ export type Org_Subscription_Obj_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
 };
 
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> ba73817 (save)
 /** on_conflict condition type for table "org_subscription" */
 export type Org_Subscription_On_Conflict = {
   constraint: Org_Subscription_Constraint;
@@ -10111,18 +9723,7 @@ export type Org_Subscription_Order_By = {
   status?: InputMaybe<Order_By>;
   stripeCustomerId?: InputMaybe<Order_By>;
   stripeSubscriptionId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  stripeSubscriptionItemId?: InputMaybe<Order_By>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
   type?: InputMaybe<Order_By>;
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
-  type?: InputMaybe<Order_By>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** primary key columns input for table: org_subscription */
@@ -10141,51 +9742,21 @@ export enum Org_Subscription_Select_Column {
   /** column name */
   StripeCustomerId = 'stripeCustomerId',
   /** column name */
-<<<<<<< HEAD
-<<<<<<< HEAD
-  StripeSubscriptionId = 'stripeSubscriptionId',
-  /** column name */
-<<<<<<< HEAD
-=======
-  StripeSubscriptionItemId = 'stripeSubscriptionItemId',
-  /** column name */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  Type = 'type'
-=======
-  StripeSubscriptionId = 'stripeSubscriptionId'
->>>>>>> d422731 (WIP - refonte)
-=======
   StripeSubscriptionId = 'stripeSubscriptionId',
   /** column name */
   Type = 'type'
->>>>>>> 6646776 (Cleaned code)
 }
 
 /** input type for updating data in table "org_subscription" */
 export type Org_Subscription_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Subscription_Plan_Type_Enum>;
-<<<<<<< HEAD
 };
 
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum>;
-=======
-  status?: InputMaybe<Subscription_Payment_Status_Enum>;
->>>>>>> d422731 (WIP - refonte)
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-=======
->>>>>>> 6646776 (Cleaned code)
-};
-
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
 /** Streaming cursor of the table "org_subscription" */
 export type Org_Subscription_Stream_Cursor_Input = {
   /** Stream column input with initial value */
@@ -10198,27 +9769,10 @@ export type Org_Subscription_Stream_Cursor_Input = {
 export type Org_Subscription_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-<<<<<<< HEAD
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionItemId?: InputMaybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
   type?: InputMaybe<Subscription_Plan_Type_Enum>;
-=======
-  status?: InputMaybe<Subscription_Payment_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
->>>>>>> d422731 (WIP - refonte)
-=======
-  type?: InputMaybe<Subscription_Plan_Type_Enum>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** update columns of table "org_subscription" */
@@ -10232,24 +9786,9 @@ export enum Org_Subscription_Update_Column {
   /** column name */
   StripeCustomerId = 'stripeCustomerId',
   /** column name */
-<<<<<<< HEAD
-<<<<<<< HEAD
-  StripeSubscriptionId = 'stripeSubscriptionId',
-  /** column name */
-<<<<<<< HEAD
-=======
-  StripeSubscriptionItemId = 'stripeSubscriptionItemId',
-  /** column name */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  Type = 'type'
-=======
-  StripeSubscriptionId = 'stripeSubscriptionId'
->>>>>>> d422731 (WIP - refonte)
-=======
   StripeSubscriptionId = 'stripeSubscriptionId',
   /** column name */
   Type = 'type'
->>>>>>> 6646776 (Cleaned code)
 }
 
 export type Org_Subscription_Updates = {
@@ -10464,51 +10003,24 @@ export type Query_Root = {
   org_subscription_aggregate: Org_Subscription_Aggregate;
   /** fetch data from the table: "org_subscription" using primary key columns */
   org_subscription_by_pk?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** fetch data from the table: "org_subscription_status" */
-  org_subscription_status: Array<Org_Subscription_Status>;
-  /** fetch aggregated fields from the table: "org_subscription_status" */
-  org_subscription_status_aggregate: Org_Subscription_Status_Aggregate;
-  /** fetch data from the table: "org_subscription_status" using primary key columns */
-  org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** fetch data from the table: "role" */
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
   subscription_payment_status_aggregate: Subscription_Payment_Status_Aggregate;
   /** fetch data from the table: "subscription_payment_status" using primary key columns */
   subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_plan_type" */
   subscription_plan_type: Array<Subscription_Plan_Type>;
   /** fetch aggregated fields from the table: "subscription_plan_type" */
   subscription_plan_type_aggregate: Subscription_Plan_Type_Aggregate;
   /** fetch data from the table: "subscription_plan_type" using primary key columns */
   subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -11159,35 +10671,6 @@ export type Query_RootOrg_Subscription_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Query_RootOrg_Subscription_StatusArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Query_RootOrg_Subscription_Status_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Query_RootOrg_Subscription_Status_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Query_RootRoleArgs = {
   distinct_on?: InputMaybe<Array<Role_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11211,8 +10694,6 @@ export type Query_RootRole_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type Query_RootSubscription_Payment_StatusArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11236,33 +10717,6 @@ export type Query_RootSubscription_Payment_Status_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-export type Query_RootSubscription_Plan_TypeArgs = {
-  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
-=======
-export type Query_RootSubscription_Payment_StatusArgs = {
-  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
->>>>>>> d422731 (WIP - refonte)
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
-  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
-};
-
-
-export type Query_RootSubscription_Payment_Status_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
-  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
-};
-
-
-export type Query_RootSubscription_Payment_Status_By_PkArgs = {
-=======
 export type Query_RootSubscription_Plan_TypeArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11282,7 +10736,6 @@ export type Query_RootSubscription_Plan_Type_AggregateArgs = {
 
 
 export type Query_RootSubscription_Plan_Type_By_PkArgs = {
->>>>>>> 6646776 (Cleaned code)
   value: Scalars['String'];
 };
 
@@ -12072,8 +11525,6 @@ export type Smallint_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['smallint']>>;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 /** columns and relationships of "subscription_payment_status" */
 export type Subscription_Payment_Status = {
   __typename?: 'subscription_payment_status';
@@ -12215,89 +11666,6 @@ export type Subscription_Payment_Status_Updates = {
 };
 
 /** columns and relationships of "subscription_plan_type" */
-<<<<<<< HEAD
-=======
-/** Type d'abonnement dispobnible */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-export type Subscription_Plan_Type = {
-  __typename?: 'subscription_plan_type';
-=======
-/** columns and relationships of "subscription_payment_status" */
-export type Subscription_Payment_Status = {
-  __typename?: 'subscription_payment_status';
->>>>>>> d422731 (WIP - refonte)
-  value: Scalars['String'];
-};
-
-/** aggregated selection of "subscription_payment_status" */
-export type Subscription_Payment_Status_Aggregate = {
-  __typename?: 'subscription_payment_status_aggregate';
-  aggregate?: Maybe<Subscription_Payment_Status_Aggregate_Fields>;
-  nodes: Array<Subscription_Payment_Status>;
-};
-
-/** aggregate fields of "subscription_payment_status" */
-export type Subscription_Payment_Status_Aggregate_Fields = {
-  __typename?: 'subscription_payment_status_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Subscription_Payment_Status_Max_Fields>;
-  min?: Maybe<Subscription_Payment_Status_Min_Fields>;
-};
-
-
-/** aggregate fields of "subscription_payment_status" */
-export type Subscription_Payment_Status_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** Boolean expression to filter rows from the table "subscription_payment_status". All fields are combined with a logical 'AND'. */
-export type Subscription_Payment_Status_Bool_Exp = {
-  _and?: InputMaybe<Array<Subscription_Payment_Status_Bool_Exp>>;
-  _not?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
-  _or?: InputMaybe<Array<Subscription_Payment_Status_Bool_Exp>>;
-  value?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "subscription_payment_status" */
-export enum Subscription_Payment_Status_Constraint {
-  /** unique or primary key constraint on columns "value" */
-  SubscriptionPaymentStatusPkey = 'subscription_payment_status_pkey'
-}
-
-<<<<<<< HEAD
-export enum Subscription_Plan_Type_Enum {
-<<<<<<< HEAD
-  Business = 'Business',
-=======
-  Enterprise = 'Enterprise',
-  Free = 'Free',
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  Startup = 'Startup'
-=======
-export enum Subscription_Payment_Status_Enum {
-  Active = 'active',
-  Canceled = 'canceled',
-  Incomplete = 'incomplete',
-  IncompleteExpired = 'incomplete_expired',
-  PastDue = 'past_due',
-  Trialing = 'trialing',
-  Unpaid = 'unpaid'
->>>>>>> d422731 (WIP - refonte)
-}
-
-/** Boolean expression to compare columns of type "subscription_payment_status_enum". All fields are combined with logical 'AND'. */
-export type Subscription_Payment_Status_Enum_Comparison_Exp = {
-  _eq?: InputMaybe<Subscription_Payment_Status_Enum>;
-  _in?: InputMaybe<Array<Subscription_Payment_Status_Enum>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _neq?: InputMaybe<Subscription_Payment_Status_Enum>;
-  _nin?: InputMaybe<Array<Subscription_Payment_Status_Enum>>;
-};
-
-/** input type for inserting data into table "subscription_payment_status" */
-export type Subscription_Payment_Status_Insert_Input = {
-=======
 export type Subscription_Plan_Type = {
   __typename?: 'subscription_plan_type';
   value: Scalars['String'];
@@ -12355,57 +11723,16 @@ export type Subscription_Plan_Type_Enum_Comparison_Exp = {
 
 /** input type for inserting data into table "subscription_plan_type" */
 export type Subscription_Plan_Type_Insert_Input = {
->>>>>>> 6646776 (Cleaned code)
   value?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
-<<<<<<< HEAD
-export type Subscription_Payment_Status_Max_Fields = {
-  __typename?: 'subscription_payment_status_max_fields';
-=======
 export type Subscription_Plan_Type_Max_Fields = {
   __typename?: 'subscription_plan_type_max_fields';
->>>>>>> 6646776 (Cleaned code)
   value?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
-<<<<<<< HEAD
-export type Subscription_Payment_Status_Min_Fields = {
-  __typename?: 'subscription_payment_status_min_fields';
-  value?: Maybe<Scalars['String']>;
-};
-
-/** response of any mutation on the table "subscription_payment_status" */
-export type Subscription_Payment_Status_Mutation_Response = {
-  __typename?: 'subscription_payment_status_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Subscription_Payment_Status>;
-};
-
-/** on_conflict condition type for table "subscription_payment_status" */
-export type Subscription_Payment_Status_On_Conflict = {
-  constraint: Subscription_Payment_Status_Constraint;
-  update_columns?: Array<Subscription_Payment_Status_Update_Column>;
-  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "subscription_payment_status". */
-export type Subscription_Payment_Status_Order_By = {
-  value?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: subscription_payment_status */
-export type Subscription_Payment_Status_Pk_Columns_Input = {
-  value: Scalars['String'];
-};
-
-/** select columns of table "subscription_payment_status" */
-export enum Subscription_Payment_Status_Select_Column {
-=======
 export type Subscription_Plan_Type_Min_Fields = {
   __typename?: 'subscription_plan_type_min_fields';
   value?: Maybe<Scalars['String']>;
@@ -12439,22 +11766,10 @@ export type Subscription_Plan_Type_Pk_Columns_Input = {
 
 /** select columns of table "subscription_plan_type" */
 export enum Subscription_Plan_Type_Select_Column {
->>>>>>> 6646776 (Cleaned code)
   /** column name */
   Value = 'value'
 }
 
-<<<<<<< HEAD
-/** input type for updating data in table "subscription_payment_status" */
-export type Subscription_Payment_Status_Set_Input = {
-  value?: InputMaybe<Scalars['String']>;
-};
-
-/** Streaming cursor of the table "subscription_payment_status" */
-export type Subscription_Payment_Status_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Subscription_Payment_Status_Stream_Cursor_Value_Input;
-=======
 /** input type for updating data in table "subscription_plan_type" */
 export type Subscription_Plan_Type_Set_Input = {
   value?: InputMaybe<Scalars['String']>;
@@ -12464,42 +11779,25 @@ export type Subscription_Plan_Type_Set_Input = {
 export type Subscription_Plan_Type_Stream_Cursor_Input = {
   /** Stream column input with initial value */
   initial_value: Subscription_Plan_Type_Stream_Cursor_Value_Input;
->>>>>>> 6646776 (Cleaned code)
   /** cursor ordering */
   ordering?: InputMaybe<Cursor_Ordering>;
 };
 
 /** Initial value of the column from where the streaming should start */
-<<<<<<< HEAD
-export type Subscription_Payment_Status_Stream_Cursor_Value_Input = {
-  value?: InputMaybe<Scalars['String']>;
-};
-
-/** update columns of table "subscription_payment_status" */
-export enum Subscription_Payment_Status_Update_Column {
-=======
 export type Subscription_Plan_Type_Stream_Cursor_Value_Input = {
   value?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "subscription_plan_type" */
 export enum Subscription_Plan_Type_Update_Column {
->>>>>>> 6646776 (Cleaned code)
   /** column name */
   Value = 'value'
 }
 
-<<<<<<< HEAD
-export type Subscription_Payment_Status_Updates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
-  where: Subscription_Payment_Status_Bool_Exp;
-=======
 export type Subscription_Plan_Type_Updates = {
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
   where: Subscription_Plan_Type_Bool_Exp;
->>>>>>> 6646776 (Cleaned code)
 };
 
 export type Subscription_Root = {
@@ -12708,20 +12006,6 @@ export type Subscription_Root = {
   org_subscription_aggregate: Org_Subscription_Aggregate;
   /** fetch data from the table: "org_subscription" using primary key columns */
   org_subscription_by_pk?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** fetch data from the table: "org_subscription_status" */
-  org_subscription_status: Array<Org_Subscription_Status>;
-  /** fetch aggregated fields from the table: "org_subscription_status" */
-  org_subscription_status_aggregate: Org_Subscription_Status_Aggregate;
-  /** fetch data from the table: "org_subscription_status" using primary key columns */
-  org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
-  /** fetch data from the table in a streaming manner: "org_subscription_status" */
-  org_subscription_status_stream: Array<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** fetch data from the table in a streaming manner: "org_subscription" */
   org_subscription_stream: Array<Org_Subscription>;
   /** fetch data from the table: "role" */
@@ -12732,10 +12016,6 @@ export type Subscription_Root = {
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table in a streaming manner: "role" */
   role_stream: Array<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
@@ -12744,12 +12024,6 @@ export type Subscription_Root = {
   subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
   /** fetch data from the table in a streaming manner: "subscription_payment_status" */
   subscription_payment_status_stream: Array<Subscription_Payment_Status>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_plan_type" */
   subscription_plan_type: Array<Subscription_Plan_Type>;
   /** fetch aggregated fields from the table: "subscription_plan_type" */
@@ -12758,11 +12032,6 @@ export type Subscription_Root = {
   subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** fetch data from the table in a streaming manner: "subscription_plan_type" */
   subscription_plan_type_stream: Array<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -13606,42 +12875,6 @@ export type Subscription_RootOrg_Subscription_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Subscription_RootOrg_Subscription_StatusArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Subscription_RootOrg_Subscription_Status_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Subscription_RootOrg_Subscription_Status_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
-export type Subscription_RootOrg_Subscription_Status_StreamArgs = {
-  batch_size: Scalars['Int'];
-  cursor: Array<InputMaybe<Org_Subscription_Status_Stream_Cursor_Input>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Subscription_RootOrg_Subscription_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Org_Subscription_Stream_Cursor_Input>>;
@@ -13679,8 +12912,6 @@ export type Subscription_RootRole_StreamArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type Subscription_RootSubscription_Payment_StatusArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -13711,33 +12942,6 @@ export type Subscription_RootSubscription_Payment_Status_StreamArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-export type Subscription_RootSubscription_Plan_TypeArgs = {
-  distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
-=======
-export type Subscription_RootSubscription_Payment_StatusArgs = {
-  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
->>>>>>> d422731 (WIP - refonte)
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
-  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
-};
-
-
-export type Subscription_RootSubscription_Payment_Status_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Subscription_Payment_Status_Order_By>>;
-  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
-};
-
-
-export type Subscription_RootSubscription_Payment_Status_By_PkArgs = {
-=======
 export type Subscription_RootSubscription_Plan_TypeArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -13757,22 +12961,14 @@ export type Subscription_RootSubscription_Plan_Type_AggregateArgs = {
 
 
 export type Subscription_RootSubscription_Plan_Type_By_PkArgs = {
->>>>>>> 6646776 (Cleaned code)
   value: Scalars['String'];
 };
 
 
-<<<<<<< HEAD
-export type Subscription_RootSubscription_Payment_Status_StreamArgs = {
-  batch_size: Scalars['Int'];
-  cursor: Array<InputMaybe<Subscription_Payment_Status_Stream_Cursor_Input>>;
-  where?: InputMaybe<Subscription_Payment_Status_Bool_Exp>;
-=======
 export type Subscription_RootSubscription_Plan_Type_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Subscription_Plan_Type_Stream_Cursor_Input>>;
   where?: InputMaybe<Subscription_Plan_Type_Bool_Exp>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 
@@ -16691,11 +15887,8 @@ export type MemberSummaryFragment = { __typename?: 'member', id: string, name: s
 
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
-<<<<<<< HEAD
 export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
 
-=======
->>>>>>> 4965459 (rebase)
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
 export type RoleSummaryFragment = { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null };
@@ -16979,28 +16172,17 @@ export const ThreadSearchFragmentDoc = {"kind":"Document","definitions":[{"kind"
 export const CircleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Circle"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}}]} as unknown as DocumentNode<CircleFragment, unknown>;
 export const RoleSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}}]} as unknown as DocumentNode<RoleSummaryFragment, unknown>;
 export const CircleWithRoleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleWithRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleSummary"}}]}}]}},...CircleFragmentDoc.definitions,...RoleSummaryFragmentDoc.definitions]} as unknown as DocumentNode<CircleWithRoleFragment, unknown>;
-<<<<<<< HEAD
-=======
-export const CircleMemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleMember"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle_member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}}]} as unknown as DocumentNode<CircleMemberFragment, unknown>;
-export const MemberSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}}]} as unknown as DocumentNode<MemberSummaryFragment, unknown>;
-export const CircleFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleMember"}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSummary"}}]}}]}}]}},...CircleFragmentDoc.definitions,...RoleSummaryFragmentDoc.definitions,...CircleMemberFragmentDoc.definitions,...MemberSummaryFragmentDoc.definitions]} as unknown as DocumentNode<CircleFullFragment, unknown>;
->>>>>>> 4965459 (rebase)
 export const DecisionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Decision"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"decision"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<DecisionFragment, unknown>;
 export const LogFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Log"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"log"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"memberName"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"display"}},{"kind":"Field","name":{"kind":"Name","value":"changes"}},{"kind":"Field","name":{"kind":"Name","value":"cancelLogId"}},{"kind":"Field","name":{"kind":"Name","value":"cancelMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"cancelMemberName"}},{"kind":"Field","name":{"kind":"Name","value":"canceled"}}]}}]} as unknown as DocumentNode<LogFragment, unknown>;
 export const MeetingFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Meeting"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"attendees"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}}]}}]} as unknown as DocumentNode<MeetingFragment, unknown>;
 export const MeetingStepFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingStep"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_step"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"stepConfigId"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]} as unknown as DocumentNode<MeetingStepFragment, unknown>;
-export const MemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"pictureFileId"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"inviteEmail"}},{"kind":"Field","name":{"kind":"Name","value":"inviteDate"}},{"kind":"Field","name":{"kind":"Name","value":"workedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"preferences"}}]}}]} as unknown as DocumentNode<MemberFragment, unknown>;
 export const OrgFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Org"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"defaultWorkedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]} as unknown as DocumentNode<OrgFragment, unknown>;
-<<<<<<< HEAD
 export const CircleMemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleMember"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle_member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}}]} as unknown as DocumentNode<CircleMemberFragment, unknown>;
 export const MemberSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}}]} as unknown as DocumentNode<MemberSummaryFragment, unknown>;
 export const CircleFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"member"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleMember"}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSummary"}}]}}]}}]}},...CircleFragmentDoc.definitions,...RoleSummaryFragmentDoc.definitions,...CircleMemberFragmentDoc.definitions,...MemberSummaryFragmentDoc.definitions]} as unknown as DocumentNode<CircleFullFragment, unknown>;
 export const RoleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Role"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"purpose"}},{"kind":"Field","name":{"kind":"Name","value":"domain"}},{"kind":"Field","name":{"kind":"Name","value":"accountabilities"}},{"kind":"Field","name":{"kind":"Name","value":"checklist"}},{"kind":"Field","name":{"kind":"Name","value":"indicators"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"autoCreate"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"defaultMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}}]} as unknown as DocumentNode<RoleFragment, unknown>;
 export const MemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"pictureFileId"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"inviteEmail"}},{"kind":"Field","name":{"kind":"Name","value":"inviteDate"}},{"kind":"Field","name":{"kind":"Name","value":"workedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"preferences"}}]}}]} as unknown as DocumentNode<MemberFragment, unknown>;
 export const OrgFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrgFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Org"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},...OrgFragmentDoc.definitions,...CircleFullFragmentDoc.definitions,...RoleFragmentDoc.definitions,...MemberFragmentDoc.definitions]} as unknown as DocumentNode<OrgFullFragment, unknown>;
-=======
-export const RoleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Role"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"purpose"}},{"kind":"Field","name":{"kind":"Name","value":"domain"}},{"kind":"Field","name":{"kind":"Name","value":"accountabilities"}},{"kind":"Field","name":{"kind":"Name","value":"checklist"}},{"kind":"Field","name":{"kind":"Name","value":"indicators"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"autoCreate"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"defaultMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}}]} as unknown as DocumentNode<RoleFragment, unknown>;
->>>>>>> 4965459 (rebase)
 export const TaskFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Task"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"dueDate"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]} as unknown as DocumentNode<TaskFragment, unknown>;
 export const ThreadFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Thread"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"initiatorMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"lastActivityId"}},{"kind":"Field","name":{"kind":"Name","value":"lastActivityDate"}}]}}]} as unknown as DocumentNode<ThreadFragment, unknown>;
 export const ThreadActivityFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadActivity"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread_activity"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"threadId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]} as unknown as DocumentNode<ThreadActivityFragment, unknown>;
