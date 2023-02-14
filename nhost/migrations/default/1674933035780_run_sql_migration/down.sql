@@ -1,0 +1,5 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- ALTER INDEX archived RENAME TO meeting_archived;
+-- ALTER INDEX "recurringDate" RENAME TO "meeting_recurringDate";
+-- ALTER INDEX "startDate" RENAME TO "meeting_startDate";

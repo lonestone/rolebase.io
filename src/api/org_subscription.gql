@@ -1,0 +1,9 @@
+fragment OrgSubscriptionFields on org_subscription {
+    id
+}
+
+query getOrgSubscription($orgId: uuid!) {
+  org_subscription(where: {orgId: {_eq: $orgId}}) {
+    ...OrgSubscriptionFields
+  }
+}

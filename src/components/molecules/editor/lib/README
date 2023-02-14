@@ -1,0 +1,14 @@
+Forked from https://github.com/facebook/lexical/tree/main/packages/lexical-playground
+
+We're trying to keep up with official playground changes to apply them on this editor when it's useful.
+
+To do that, it is recommanded to clone the repo, pull the last commits
+and display a diff between last synchronized commit with HEAD.
+
+Last synchronized commit:
+
+commit 6db97e78f869afeb475d9eeb1e21dabeb83d3b83 (HEAD -> main, origin/main, origin/HEAD)
+Author: Maksim Horbachevsky <fantactuka@gmail.com>
+Date: Tue Dec 20 08:44:28 2022 -0500
+
+    Preserve empty parent during replacement (#3595)

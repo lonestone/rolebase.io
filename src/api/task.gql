@@ -1,0 +1,44 @@
+query getTask($id: uuid!) {
+  task_by_pk(id: $id) {
+    ...Task
+  }
+}
+
+subscription task($id: uuid!) {
+  task_by_pk(id: $id) {
+    ...Task
+  }
+}
+
+subscription tasks(
+  $orgId: uuid!
+  $filters: [task_bool_exp!]!
+  $taskViewKey: String!
+) {
+  org_by_pk(id: $orgId) {
+    tasks(where: { _and: $filters }) {
+      ...Task
+    }
+    task_views(where: { key: { _eq: $taskViewKey } }) {
+      ...TaskView
+    }
+  }
+}
+
+mutation createTask($values: task_insert_input!) {
+  insert_task_one(object: $values) {
+    ...Task
+  }
+}
+
+mutation updateTask($id: uuid!, $values: task_set_input!) {
+  update_task_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...Task
+  }
+}
+
+mutation archiveTask($id: uuid!) {
+  update_task_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

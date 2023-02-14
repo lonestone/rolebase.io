@@ -1,0 +1,12 @@
+{
+  "name": "Rolebase",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/src/images/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

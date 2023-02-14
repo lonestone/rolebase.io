@@ -1,0 +1,164 @@
+/*** Fullcalendar cutomizations ***/
+
+:root {
+  --fc-page-bg-color: transparent;
+  --fc-small-font-size: 0.85em;
+  --fc-event-resizer-thickness: 8px;
+  --fc-event-resizer-dot-total-width: 8px;
+  --fc-event-resizer-dot-border-width: 1px;
+  --fc-daygrid-event-dot-width: 8px;
+  --fc-list-event-dot-width: 10px;
+
+  --fc-button-bg-color: transparent;
+
+  --fc-event-bg-color: #3788d8;
+  --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
+
+  --fc-more-link-bg-color: #d0d0d0;
+  --fc-more-link-text-color: inherit;
+
+  --fc-bg-event-opacity: 0.3;
+  --fc-non-business-color: rgba(215, 215, 215, 0.3);
+  --fc-bg-event-color: rgb(143, 223, 130);
+  --fc-highlight-color: rgba(188, 232, 241, 0.3);
+  --fc-now-indicator-color: red;
+}
+
+.chakra-ui-light {
+  --fc-neutral-bg-color: var(--chakra-colors-gray-100);
+  --fc-neutral-text-color: var(--chakra-colors-gray-500);
+  --fc-border-color: var(--chakra-colors-gray-200);
+  --fc-event-text-color: var(--chakra-colors-gray-800);
+  --fc-event-border-color: var(--chakra-colors-gray-50);
+
+  --fc-button-text-color: var(--chakra-colors-gray-800);
+  --fc-button-border-color: var(--chakra-colors-gray-200);
+  --fc-button-hover-bg-color: var(--chakra-colors-gray-100);
+  --fc-button-hover-border-color: var(--chakra-colors-gray-200);
+  --fc-button-active-bg-color: var(--chakra-colors-gray-100);
+  --fc-button-active-border-color: var(--chakra-colors-gray-200);
+
+  --fc-today-bg-color: transparent;
+  --fc-list-event-hover-bg-color: var(--chakra-colors-blackAlpha-50);
+}
+
+.chakra-ui-dark {
+  --fc-neutral-bg-color: var(--chakra-colors-gray-700);
+  --fc-neutral-text-color: var(--chakra-colors-gray-500);
+  --fc-border-color: var(--chakra-colors-gray-550);
+  --fc-event-text-color: var(--chakra-colors-gray-100);
+  --fc-event-border-color: var(--chakra-colors-gray-800);
+
+  --fc-button-text-color: var(--chakra-colors-gray-100);
+  --fc-button-border-color: var(--chakra-colors-whiteAlpha-300);
+  --fc-button-hover-bg-color: var(--chakra-colors-whiteAlpha-200);
+  --fc-button-hover-border-color: var(--chakra-colors-whiteAlpha-300);
+  --fc-button-active-bg-color: var(--chakra-colors-whiteAlpha-200);
+  --fc-button-active-border-color: var(--chakra-colors-whiteAlpha-300);
+
+  --fc-today-bg-color: transparent;
+  --fc-list-event-hover-bg-color: var(--chakra-colors-whiteAlpha-100);
+}
+
+/* Event */
+.fc-event {
+  cursor: pointer;
+  padding: 2px 4px;
+  overflow: hidden;
+}
+a.fc-event:hover {
+  overflow: initial;
+}
+.chakra-ui-light a.fc-event:hover {
+  border-color: var(--chakra-colors-gray-300);
+}
+.chakra-ui-dark a.fc-event:hover {
+  border-color: var(--chakra-colors-gray-500);
+}
+a.fc-v-event:hover .fc-event-title {
+  overflow: initial;
+}
+div.fc-timegrid-event-harness:hover {
+  z-index: 3 !important;
+}
+a.fc-daygrid-event:hover {
+  background: var(--fc-list-event-hover-bg-color);
+}
+.chakra-ui-light .fc-list-event {
+  background: var(--chakra-colors-whiteAlpha-500);
+}
+
+/* Title */
+.fc .fc-toolbar-title {
+  font-size: var(--chakra-fontSizes-lg);
+  font-family: var(--chakra-fonts-heading);
+  font-weight: bold;
+}
+
+/* Button */
+.fc .fc-button {
+  padding: 4px 12px;
+  font-size: var(--chakra-fontSizes-sm);
+  border-radius: var(--chakra-radii-md);
+  font-weight: bold;
+  /* border-color: var(--chakra-colors-gray-200); */
+}
+.fc .fc-next-button,
+.fc .fc-prev-button {
+  padding: 4px 8px;
+}
+
+/* Outline */
+.fc .fc-button:focus,
+.fc .fc-button-primary:focus,
+.fc .fc-button-primary:not(:disabled):active:focus,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+  box-shadow: none;
+}
+
+/* Margins */
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 8px;
+  padding: 0 var(--chakra-space-5);
+}
+
+/* No borders at extreme left and right */
+.fc td:first-child {
+  border-top: none;
+}
+.fc td:first-child,
+.fc th:first-child {
+  border-left: none;
+}
+.fc td:last-child {
+  border-right: none;
+}
+.fc .fc-scrollgrid {
+  border-left: none;
+}
+
+/* No borders between head titles */
+.fc th {
+  border-left: none;
+  border-right: none;
+}
+
+/* No border at half hours */
+.fc .fc-timegrid-slot-minor {
+  border-top: none;
+}
+
+/* Hour label */
+.fc .fc-timegrid-slot-label-frame {
+  color: var(--chakra-colors-gray-500);
+  margin-top: -1.5em;
+}
+
+/* Change toolbar layout on small screens */
+@media (max-width: 700px) {
+  .fc .fc-toolbar.fc-header-toolbar {
+    flex-direction: column-reverse;
+    gap: 0.7em;
+    margin-bottom: 1em;
+  }
+}

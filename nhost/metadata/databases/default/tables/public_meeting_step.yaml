@@ -1,0 +1,130 @@
+table:
+  name: meeting_step
+  schema: public
+object_relationships:
+  - name: meeting
+    using:
+      foreign_key_constraint_on: meetingId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        meeting:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+      columns:
+        - data
+        - meetingId
+        - notes
+        - stepConfigId
+        - type
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - data
+        - id
+        - meetingId
+        - notes
+        - stepConfigId
+        - type
+      filter:
+        meeting:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - data
+        - notes
+      filter:
+        meeting:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+      check:
+        meeting:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        meeting:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+event_triggers:
+  - name: index-meeting-step
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 3
+      timeout_sec: 60
+    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60

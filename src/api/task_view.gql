@@ -1,0 +1,25 @@
+fragment TaskView on task_view {
+  id
+  orgId
+  key
+  tasksIds
+}
+
+mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
+  insert_task_view_one(
+    object: { orgId: $orgId, key: $key, tasksIds: $tasksIds }
+  ) {
+    ...TaskView
+  }
+}
+
+mutation updateTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
+  update_task_view(
+    where: { orgId: { _eq: $orgId }, key: { _eq: $key } }
+    _set: { tasksIds: $tasksIds }
+  ) {
+    returning {
+      ...TaskView
+    }
+  }
+}

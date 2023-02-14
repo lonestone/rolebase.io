@@ -1,0 +1,90 @@
+table:
+  name: circle_member
+  schema: public
+object_relationships:
+  - name: circle
+    using:
+      foreign_key_constraint_on: circleId
+  - name: member
+    using:
+      foreign_key_constraint_on: memberId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        circle:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+      columns:
+        - avgMinPerWeek
+        - circleId
+        - memberId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - avgMinPerWeek
+        - circleId
+        - createdAt
+        - id
+        - memberId
+      filter:
+        circle:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - avgMinPerWeek
+      filter:
+        circle:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+      check:
+        circle:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner

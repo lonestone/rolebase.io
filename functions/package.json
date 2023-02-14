@@ -1,0 +1,40 @@
+{
+  "name": "functions",
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.yml --errors-only"
+  },
+  "dependencies": {
+    "@magicbell/core": "^5.0.3",
+    "@nhost/nhost-js": "^1.6.0",
+    "algoliasearch": "^4.14.2",
+    "date-fns": "^2.29.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "graphql": "^16.6.0",
+    "i18next": "^21.6.16",
+    "ical-generator": "^3.1.1",
+    "lodash.isequal": "^4.5.0",
+    "node-mailjet": "^5.1.1",
+    "rrule": "^2.7.1",
+    "stripe": "^11.7.0",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@graphql-codegen/add": "^3.2.3",
+    "@graphql-codegen/cli": "^2.13.5",
+    "@graphql-codegen/gql-tag-operations-preset": "^1.6.0",
+    "@graphql-codegen/introspection": "^2.2.1",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.14",
+    "@types/lodash.isequal": "^4.5.6",
+    "@types/node": "^18.8.3",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^7.6.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.22.0",
+    "typescript": "^4.8.4"
+  }
+}

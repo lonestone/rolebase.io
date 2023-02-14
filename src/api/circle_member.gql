@@ -1,0 +1,58 @@
+query getCircleMember($id: uuid!) {
+  circle_member_by_pk(id: $id) {
+    ...CircleMember
+  }
+}
+
+mutation createCircleMember(
+  $circleId: uuid!
+  $memberId: uuid!
+  $avgMinPerWeek: Int
+) {
+  insert_circle_member_one(
+    object: {
+      circleId: $circleId
+      memberId: $memberId
+      avgMinPerWeek: $avgMinPerWeek
+    }
+  ) {
+    ...CircleMember
+    member {
+      id
+      name
+    }
+    circle {
+      role {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation updateCircleMember($id: uuid!, $values: circle_member_set_input!) {
+  update_circle_member_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...CircleMember
+  }
+}
+
+mutation archiveCircleMember($circleId: uuid!, $memberId: uuid!) {
+  update_circle_member(
+    where: { circleId: { _eq: $circleId }, memberId: { _eq: $memberId } }
+    _set: { archived: true }
+  ) {
+    returning {
+      ...CircleMember
+      member {
+        id
+        name
+      }
+      circle {
+        role {
+          id
+          name
+        }
+      }
+    }
+  }
+}

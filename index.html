@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/images/icon.svg" />
+    <link rel="manifest" href="/src/manifest.json" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Rolebase</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-PE74WG5DB8"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+
+      gtag('config', 'G-PE74WG5DB8')
+    </script>
+
+    <!-- Crisp -->
+    <script type="text/javascript">
+      window.$crisp = []
+      $crisp.push(['safe', true])
+      $crisp.push(['do', 'chat:hide'])
+      $crisp.push(['on', 'chat:closed', () => $crisp.push(['do', 'chat:hide'])])
+
+      window.CRISP_WEBSITE_ID = '652544cd-14f6-4c8c-9a04-2a56676dd4a0'
+      ;(function () {
+        d = document
+        s = d.createElement('script')
+        s.src = 'https://client.crisp.chat/l.js'
+        s.async = 1
+        d.getElementsByTagName('head')[0].appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Background during loading -->
+    <script type="text/javascript">
+      const mode = localStorage.getItem('chakra-ui-color-mode')
+      if (mode) {
+        const css = `
+          body {
+            background-color: ${mode === 'dark' ? '#1F1F29' : '#FBF7FC'};
+          }
+        `
+        const style = document.createElement('style')
+        if (style.styleSheet) {
+          style.styleSheet.cssText = css
+        } else {
+          style.appendChild(document.createTextNode(css))
+        }
+        document.head.appendChild(style)
+      }
+    </script>
+
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

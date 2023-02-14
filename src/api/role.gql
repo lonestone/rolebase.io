@@ -1,0 +1,32 @@
+query getRole($id: uuid!) {
+  role_by_pk(id: $id) {
+    ...Role
+  }
+}
+
+subscription roles($orgId: uuid!, $archived: Boolean!) {
+  role(
+    where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }
+    order_by: { name: asc }
+  ) {
+    ...Role
+  }
+}
+
+mutation createRole($values: role_insert_input!) {
+  insert_role_one(object: $values) {
+    ...Role
+  }
+}
+
+mutation updateRole($id: uuid!, $values: role_set_input!) {
+  update_role_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...Role
+  }
+}
+
+mutation archiveRole($id: uuid!) {
+  update_role_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}
