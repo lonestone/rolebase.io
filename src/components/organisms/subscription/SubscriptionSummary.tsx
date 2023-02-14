@@ -13,12 +13,12 @@ import {
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useOrgActiveMembers from '@hooks/useOrgActiveMembers'
 import { useOrgId } from '@hooks/useOrgId'
 import {
   CustomerBillingDetails,
   PromotionCode,
 } from '@shared/model/subscription'
-import { useStoreState } from '@store/hooks'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -45,12 +45,9 @@ export default function SubscriptionSummary({
   const [retrievedCoupon, setRetrievedCoupon] = useState<PromotionCode>()
   const [couponError, setCouponError] = useState<string>()
   const [couponLoading, setCouponLoading] = useState<boolean>(false)
-  const currentMember = useCurrentMember()
+  const currentMember: number = useCurrentMember()
   const orgId = useOrgId()
-  const nbSeats =
-    useStoreState(
-      (state) => state.org.members?.filter((e) => !!e.userId)?.length
-    ) ?? 0
+  const nbSeats = useOrgActiveMembers().length
   const parsedDetails = useMemo(() => {
     if (!billingDetails?.address) return []
 
