@@ -3548,21 +3548,10 @@ export type Log = {
   cancelMemberId?: Maybe<Scalars['uuid']>;
   cancelMemberName?: Maybe<Scalars['String']>;
   canceled: Scalars['Boolean'];
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 94b6232 (start front)
   /** Log of changes to entities, useful to cancel */
   changes: Scalars['log_changes'];
   createdAt: Scalars['timestamptz'];
   /** Type of log and data to display */
-<<<<<<< HEAD
-=======
-  changes: Scalars['log_changes'];
-  createdAt: Scalars['timestamptz'];
->>>>>>> 4965459 (rebase)
-=======
->>>>>>> 94b6232 (start front)
   display: Scalars['log_display'];
   id: Scalars['uuid'];
   /** Meeting during which this log was created (optional) */
@@ -3738,25 +3727,13 @@ export type Log_Max_Fields = {
 
 /** order by max() on columns of table "log" */
 export type Log_Max_Order_By = {
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
-=======
-  cancelLogId?: InputMaybe<Order_By>;
->>>>>>> 754ec85 (rebase)
-=======
-  /** Id of canceled log, if it's a cancellation */
-  cancelLogId?: InputMaybe<Order_By>;
-  /** Member that did the action that's canceled */
->>>>>>> 94b6232 (start front)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3764,20 +3741,6 @@ export type Log_Max_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
-=======
-=======
-  /** Meeting during which this log was created (optional) */
->>>>>>> 94b6232 (start front)
-  meetingId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  /** Keep name for display, in case of deleted member */
-  memberName?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
->>>>>>> 754ec85 (rebase)
-=======
-  /** User and member who made the change */
->>>>>>> 94b6232 (start front)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -3803,25 +3766,13 @@ export type Log_Min_Fields = {
 
 /** order by min() on columns of table "log" */
 export type Log_Min_Order_By = {
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Id of canceled log, if it's a cancellation */
   cancelLogId?: InputMaybe<Order_By>;
   /** Member that did the action that's canceled */
-=======
-  cancelLogId?: InputMaybe<Order_By>;
->>>>>>> 754ec85 (rebase)
-=======
-  /** Id of canceled log, if it's a cancellation */
-  cancelLogId?: InputMaybe<Order_By>;
-  /** Member that did the action that's canceled */
->>>>>>> 94b6232 (start front)
   cancelMemberId?: InputMaybe<Order_By>;
   cancelMemberName?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   /** Meeting during which this log was created (optional) */
   meetingId?: InputMaybe<Order_By>;
   memberId?: InputMaybe<Order_By>;
@@ -3829,20 +3780,6 @@ export type Log_Min_Order_By = {
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   /** User and member who made the change */
-=======
-=======
-  /** Meeting during which this log was created (optional) */
->>>>>>> 94b6232 (start front)
-  meetingId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  /** Keep name for display, in case of deleted member */
-  memberName?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
->>>>>>> 754ec85 (rebase)
-=======
-  /** User and member who made the change */
->>>>>>> 94b6232 (start front)
   userId?: InputMaybe<Order_By>;
 };
 
@@ -6602,43 +6539,18 @@ export type Mutation_Root = {
   delete_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
   /** delete single row from the table: "org_subscription" */
   delete_org_subscription_by_pk?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** delete data from the table: "org_subscription_status" */
-  delete_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
-  /** delete single row from the table: "org_subscription_status" */
-  delete_org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** delete data from the table: "role" */
   delete_role?: Maybe<Role_Mutation_Response>;
   /** delete single row from the table: "role" */
   delete_role_by_pk?: Maybe<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "subscription_payment_status" */
   delete_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** delete single row from the table: "subscription_payment_status" */
   delete_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "subscription_plan_type" */
   delete_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** delete single row from the table: "subscription_plan_type" */
   delete_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** delete data from the table: "task" */
   delete_task?: Maybe<Task_Mutation_Response>;
   /** delete single row from the table: "task" */
@@ -6775,43 +6687,18 @@ export type Mutation_Root = {
   insert_org_subscription?: Maybe<Org_Subscription_Mutation_Response>;
   /** insert a single row into the table: "org_subscription" */
   insert_org_subscription_one?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** insert data into the table: "org_subscription_status" */
-  insert_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
-  /** insert a single row into the table: "org_subscription_status" */
-  insert_org_subscription_status_one?: Maybe<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** insert data into the table: "role" */
   insert_role?: Maybe<Role_Mutation_Response>;
   /** insert a single row into the table: "role" */
   insert_role_one?: Maybe<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "subscription_payment_status" */
   insert_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** insert a single row into the table: "subscription_payment_status" */
   insert_subscription_payment_status_one?: Maybe<Subscription_Payment_Status>;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "subscription_plan_type" */
   insert_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** insert a single row into the table: "subscription_plan_type" */
   insert_subscription_plan_type_one?: Maybe<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** insert data into the table: "task" */
   insert_task?: Maybe<Task_Mutation_Response>;
   /** insert a single row into the table: "task" */
@@ -6998,51 +6885,24 @@ export type Mutation_Root = {
   update_org_subscription_by_pk?: Maybe<Org_Subscription>;
   /** update multiples rows of table: "org_subscription" */
   update_org_subscription_many?: Maybe<Array<Maybe<Org_Subscription_Mutation_Response>>>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** update data of the table: "org_subscription_status" */
-  update_org_subscription_status?: Maybe<Org_Subscription_Status_Mutation_Response>;
-  /** update single row of the table: "org_subscription_status" */
-  update_org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
-  /** update multiples rows of table: "org_subscription_status" */
-  update_org_subscription_status_many?: Maybe<Array<Maybe<Org_Subscription_Status_Mutation_Response>>>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** update data of the table: "role" */
   update_role?: Maybe<Role_Mutation_Response>;
   /** update single row of the table: "role" */
   update_role_by_pk?: Maybe<Role>;
   /** update multiples rows of table: "role" */
   update_role_many?: Maybe<Array<Maybe<Role_Mutation_Response>>>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "subscription_payment_status" */
   update_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** update single row of the table: "subscription_payment_status" */
   update_subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
   /** update multiples rows of table: "subscription_payment_status" */
   update_subscription_payment_status_many?: Maybe<Array<Maybe<Subscription_Payment_Status_Mutation_Response>>>;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "subscription_plan_type" */
   update_subscription_plan_type?: Maybe<Subscription_Plan_Type_Mutation_Response>;
   /** update single row of the table: "subscription_plan_type" */
   update_subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** update multiples rows of table: "subscription_plan_type" */
   update_subscription_plan_type_many?: Maybe<Array<Maybe<Subscription_Plan_Type_Mutation_Response>>>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** update data of the table: "task" */
   update_task?: Maybe<Task_Mutation_Response>;
   /** update single row of the table: "task" */
@@ -7409,24 +7269,6 @@ export type Mutation_RootDelete_Org_Subscription_By_PkArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Mutation_RootDelete_Org_Subscription_StatusArgs = {
-  where: Org_Subscription_Status_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Org_Subscription_Status_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
-/** mutation root */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Mutation_RootDelete_RoleArgs = {
   where: Role_Bool_Exp;
 };
@@ -7439,11 +7281,6 @@ export type Mutation_RootDelete_Role_By_PkArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootDelete_Subscription_Payment_StatusArgs = {
   where: Subscription_Payment_Status_Bool_Exp;
 };
@@ -7456,11 +7293,6 @@ export type Mutation_RootDelete_Subscription_Payment_Status_By_PkArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootDelete_Subscription_Plan_TypeArgs = {
   where: Subscription_Plan_Type_Bool_Exp;
 };
@@ -7473,11 +7305,6 @@ export type Mutation_RootDelete_Subscription_Plan_Type_By_PkArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootDelete_TaskArgs = {
   where: Task_Bool_Exp;
 };
@@ -7938,26 +7765,6 @@ export type Mutation_RootInsert_Org_Subscription_OneArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Mutation_RootInsert_Org_Subscription_StatusArgs = {
-  objects: Array<Org_Subscription_Status_Insert_Input>;
-  on_conflict?: InputMaybe<Org_Subscription_Status_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Org_Subscription_Status_OneArgs = {
-  object: Org_Subscription_Status_Insert_Input;
-  on_conflict?: InputMaybe<Org_Subscription_Status_On_Conflict>;
-};
-
-
-/** mutation root */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Mutation_RootInsert_RoleArgs = {
   objects: Array<Role_Insert_Input>;
   on_conflict?: InputMaybe<Role_On_Conflict>;
@@ -7972,11 +7779,6 @@ export type Mutation_RootInsert_Role_OneArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootInsert_Subscription_Payment_StatusArgs = {
   objects: Array<Subscription_Payment_Status_Insert_Input>;
   on_conflict?: InputMaybe<Subscription_Payment_Status_On_Conflict>;
@@ -7991,11 +7793,6 @@ export type Mutation_RootInsert_Subscription_Payment_Status_OneArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootInsert_Subscription_Plan_TypeArgs = {
   objects: Array<Subscription_Plan_Type_Insert_Input>;
   on_conflict?: InputMaybe<Subscription_Plan_Type_On_Conflict>;
@@ -8010,11 +7807,6 @@ export type Mutation_RootInsert_Subscription_Plan_Type_OneArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootInsert_TaskArgs = {
   objects: Array<Task_Insert_Input>;
   on_conflict?: InputMaybe<Task_On_Conflict>;
@@ -8675,32 +8467,6 @@ export type Mutation_RootUpdate_Org_Subscription_ManyArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Mutation_RootUpdate_Org_Subscription_StatusArgs = {
-  _set?: InputMaybe<Org_Subscription_Status_Set_Input>;
-  where: Org_Subscription_Status_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Org_Subscription_Status_By_PkArgs = {
-  _set?: InputMaybe<Org_Subscription_Status_Set_Input>;
-  pk_columns: Org_Subscription_Status_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Org_Subscription_Status_ManyArgs = {
-  updates: Array<Org_Subscription_Status_Updates>;
-};
-
-
-/** mutation root */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Mutation_RootUpdate_RoleArgs = {
   _inc?: InputMaybe<Role_Inc_Input>;
   _set?: InputMaybe<Role_Set_Input>;
@@ -8723,11 +8489,6 @@ export type Mutation_RootUpdate_Role_ManyArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootUpdate_Subscription_Payment_StatusArgs = {
   _set?: InputMaybe<Subscription_Payment_Status_Set_Input>;
   where: Subscription_Payment_Status_Bool_Exp;
@@ -8748,11 +8509,6 @@ export type Mutation_RootUpdate_Subscription_Payment_Status_ManyArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootUpdate_Subscription_Plan_TypeArgs = {
   _set?: InputMaybe<Subscription_Plan_Type_Set_Input>;
   where: Subscription_Plan_Type_Bool_Exp;
@@ -8773,11 +8529,6 @@ export type Mutation_RootUpdate_Subscription_Plan_Type_ManyArgs = {
 
 
 /** mutation root */
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Mutation_RootUpdate_TaskArgs = {
   _set?: InputMaybe<Task_Set_Input>;
   where: Task_Bool_Exp;
@@ -9153,10 +8904,6 @@ export type Org = {
   roles_aggregate: Role_Aggregate;
   slug?: Maybe<Scalars['String']>;
   subscriptionId?: Maybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 754ec85 (rebase)
   /** An array relationship */
   task_views: Array<Task_View>;
   /** An aggregate relationship */
@@ -9169,11 +8916,6 @@ export type Org = {
   threads: Array<Thread>;
   /** An aggregate relationship */
   threads_aggregate: Thread_Aggregate;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 754ec85 (rebase)
 };
 
 
@@ -9483,21 +9225,12 @@ export type Org_Bool_Exp = {
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
   subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 754ec85 (rebase)
   task_views?: InputMaybe<Task_View_Bool_Exp>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Bool_Exp>;
   tasks?: InputMaybe<Task_Bool_Exp>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Bool_Exp>;
   threads?: InputMaybe<Thread_Bool_Exp>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Bool_Exp>;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 754ec85 (rebase)
 };
 
 /** unique or primary key constraints on table "org" */
@@ -9726,18 +9459,9 @@ export type Org_Insert_Input = {
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
   tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
   threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
-  tasks?: InputMaybe<Task_Arr_Rel_Insert_Input>;
-  threads?: InputMaybe<Thread_Arr_Rel_Insert_Input>;
->>>>>>> 754ec85 (rebase)
 };
 
 /** aggregate max on columns */
@@ -9804,18 +9528,9 @@ export type Org_Order_By = {
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
   subscriptionId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
   tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
   threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
-  tasks_aggregate?: InputMaybe<Task_Aggregate_Order_By>;
-  threads_aggregate?: InputMaybe<Thread_Aggregate_Order_By>;
->>>>>>> 754ec85 (rebase)
 };
 
 /** primary key columns input for table: org */
@@ -9896,29 +9611,10 @@ export type Org_Subscription = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
   status: Subscription_Payment_Status_Enum;
   stripeCustomerId: Scalars['String'];
   stripeSubscriptionId?: Maybe<Scalars['String']>;
   type: Subscription_Plan_Type_Enum;
-<<<<<<< HEAD
-=======
-  status: Org_Subscription_Status_Enum;
-  stripeCustomerId: Scalars['String'];
-  stripeSubscriptionId?: Maybe<Scalars['String']>;
-  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
-  type?: Maybe<Subscription_Plan_Type_Enum>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  stripeCustomerId: Scalars['String'];
-  stripeSubscriptionId?: Maybe<Scalars['String']>;
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** aggregated selection of "org_subscription" */
@@ -9951,29 +9647,10 @@ export type Org_Subscription_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  status?: InputMaybe<Subscription_Payment_Status_Enum_Comparison_Exp>;
-  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
-  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum_Comparison_Exp>;
-  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
-  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
-  stripeSubscriptionItemId?: InputMaybe<String_Comparison_Exp>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  type?: InputMaybe<Subscription_Plan_Type_Enum_Comparison_Exp>;
-=======
-  stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
-  stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
->>>>>>> d422731 (WIP - refonte)
-=======
   status?: InputMaybe<Subscription_Payment_Status_Enum_Comparison_Exp>;
   stripeCustomerId?: InputMaybe<String_Comparison_Exp>;
   stripeSubscriptionId?: InputMaybe<String_Comparison_Exp>;
   type?: InputMaybe<Subscription_Plan_Type_Enum_Comparison_Exp>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** unique or primary key constraints on table "org_subscription" */
@@ -9985,17 +9662,7 @@ export enum Org_Subscription_Constraint {
   /** unique or primary key constraint on columns "stripeCustomerId" */
   OrgSubscriptionStripeCustomerIdKey = 'org_subscription_stripeCustomerId_key',
   /** unique or primary key constraint on columns "stripeSubscriptionId" */
-<<<<<<< HEAD
-<<<<<<< HEAD
   OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key'
-=======
-  OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key',
-  /** unique or primary key constraint on columns "stripeSubscriptionItemId" */
-  OrgSubscriptionStripeSubscriptionItemIdKey = 'org_subscription_stripeSubscriptionItemId_key'
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
-  OrgSubscriptionStripeSubscriptionIdKey = 'org_subscription_stripeSubscriptionId_key'
->>>>>>> d422731 (WIP - refonte)
 }
 
 /** input type for inserting data into table "org_subscription" */
@@ -10003,29 +9670,10 @@ export type Org_Subscription_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  status?: InputMaybe<Subscription_Payment_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionItemId?: InputMaybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  type?: InputMaybe<Subscription_Plan_Type_Enum>;
-=======
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
->>>>>>> d422731 (WIP - refonte)
-=======
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Subscription_Plan_Type_Enum>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** aggregate max on columns */
@@ -10035,13 +9683,6 @@ export type Org_Subscription_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
   stripeCustomerId?: Maybe<Scalars['String']>;
   stripeSubscriptionId?: Maybe<Scalars['String']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 };
 
 /** aggregate min on columns */
@@ -10051,13 +9692,6 @@ export type Org_Subscription_Min_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
   stripeCustomerId?: Maybe<Scalars['String']>;
   stripeSubscriptionId?: Maybe<Scalars['String']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  stripeSubscriptionItemId?: Maybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 };
 
 /** response of any mutation on the table "org_subscription" */
@@ -10069,10 +9703,6 @@ export type Org_Subscription_Mutation_Response = {
   returning: Array<Org_Subscription>;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ba73817 (save)
 /** input type for inserting object relation for remote table "org_subscription" */
 export type Org_Subscription_Obj_Rel_Insert_Input = {
   data: Org_Subscription_Insert_Input;
@@ -10080,11 +9710,6 @@ export type Org_Subscription_Obj_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Org_Subscription_On_Conflict>;
 };
 
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> ba73817 (save)
 /** on_conflict condition type for table "org_subscription" */
 export type Org_Subscription_On_Conflict = {
   constraint: Org_Subscription_Constraint;
@@ -10100,18 +9725,7 @@ export type Org_Subscription_Order_By = {
   status?: InputMaybe<Order_By>;
   stripeCustomerId?: InputMaybe<Order_By>;
   stripeSubscriptionId?: InputMaybe<Order_By>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  stripeSubscriptionItemId?: InputMaybe<Order_By>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
   type?: InputMaybe<Order_By>;
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
-  type?: InputMaybe<Order_By>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** primary key columns input for table: org_subscription */
@@ -10130,52 +9744,21 @@ export enum Org_Subscription_Select_Column {
   /** column name */
   StripeCustomerId = 'stripeCustomerId',
   /** column name */
-<<<<<<< HEAD
-<<<<<<< HEAD
-  StripeSubscriptionId = 'stripeSubscriptionId',
-  /** column name */
-<<<<<<< HEAD
-=======
-  StripeSubscriptionItemId = 'stripeSubscriptionItemId',
-  /** column name */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  Type = 'type'
-=======
-  StripeSubscriptionId = 'stripeSubscriptionId'
->>>>>>> d422731 (WIP - refonte)
-=======
   StripeSubscriptionId = 'stripeSubscriptionId',
   /** column name */
   Type = 'type'
->>>>>>> 6646776 (Cleaned code)
 }
 
 /** input type for updating data in table "org_subscription" */
 export type Org_Subscription_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Subscription_Plan_Type_Enum>;
 };
 
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum>;
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
-  status?: InputMaybe<Subscription_Payment_Status_Enum>;
->>>>>>> 6646776 (Cleaned code)
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Subscription_Plan_Type_Enum>;
-};
-
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
 /** Streaming cursor of the table "org_subscription" */
 export type Org_Subscription_Stream_Cursor_Input = {
   /** Stream column input with initial value */
@@ -10188,29 +9771,10 @@ export type Org_Subscription_Stream_Cursor_Input = {
 export type Org_Subscription_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  status?: InputMaybe<Subscription_Payment_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-=======
-  status?: InputMaybe<Org_Subscription_Status_Enum>;
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionItemId?: InputMaybe<Scalars['String']>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  type?: InputMaybe<Subscription_Plan_Type_Enum>;
-=======
-  stripeCustomerId?: InputMaybe<Scalars['String']>;
-  stripeSubscriptionId?: InputMaybe<Scalars['String']>;
->>>>>>> d422731 (WIP - refonte)
-=======
   status?: InputMaybe<Subscription_Payment_Status_Enum>;
   stripeCustomerId?: InputMaybe<Scalars['String']>;
   stripeSubscriptionId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Subscription_Plan_Type_Enum>;
->>>>>>> 6646776 (Cleaned code)
 };
 
 /** update columns of table "org_subscription" */
@@ -10224,24 +9788,9 @@ export enum Org_Subscription_Update_Column {
   /** column name */
   StripeCustomerId = 'stripeCustomerId',
   /** column name */
-<<<<<<< HEAD
-<<<<<<< HEAD
-  StripeSubscriptionId = 'stripeSubscriptionId',
-  /** column name */
-<<<<<<< HEAD
-=======
-  StripeSubscriptionItemId = 'stripeSubscriptionItemId',
-  /** column name */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  Type = 'type'
-=======
-  StripeSubscriptionId = 'stripeSubscriptionId'
->>>>>>> d422731 (WIP - refonte)
-=======
   StripeSubscriptionId = 'stripeSubscriptionId',
   /** column name */
   Type = 'type'
->>>>>>> 6646776 (Cleaned code)
 }
 
 export type Org_Subscription_Updates = {
@@ -10456,51 +10005,24 @@ export type Query_Root = {
   org_subscription_aggregate: Org_Subscription_Aggregate;
   /** fetch data from the table: "org_subscription" using primary key columns */
   org_subscription_by_pk?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** fetch data from the table: "org_subscription_status" */
-  org_subscription_status: Array<Org_Subscription_Status>;
-  /** fetch aggregated fields from the table: "org_subscription_status" */
-  org_subscription_status_aggregate: Org_Subscription_Status_Aggregate;
-  /** fetch data from the table: "org_subscription_status" using primary key columns */
-  org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** fetch data from the table: "role" */
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
   subscription_payment_status_aggregate: Subscription_Payment_Status_Aggregate;
   /** fetch data from the table: "subscription_payment_status" using primary key columns */
   subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_plan_type" */
   subscription_plan_type: Array<Subscription_Plan_Type>;
   /** fetch aggregated fields from the table: "subscription_plan_type" */
   subscription_plan_type_aggregate: Subscription_Plan_Type_Aggregate;
   /** fetch data from the table: "subscription_plan_type" using primary key columns */
   subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -11151,35 +10673,6 @@ export type Query_RootOrg_Subscription_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Query_RootOrg_Subscription_StatusArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Query_RootOrg_Subscription_Status_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Query_RootOrg_Subscription_Status_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Query_RootRoleArgs = {
   distinct_on?: InputMaybe<Array<Role_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11203,11 +10696,6 @@ export type Query_RootRole_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Query_RootSubscription_Payment_StatusArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11231,11 +10719,6 @@ export type Query_RootSubscription_Payment_Status_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Query_RootSubscription_Plan_TypeArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11259,11 +10742,6 @@ export type Query_RootSubscription_Plan_Type_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Query_RootTaskArgs = {
   distinct_on?: InputMaybe<Array<Task_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -12049,11 +11527,6 @@ export type Smallint_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['smallint']>>;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
 /** columns and relationships of "subscription_payment_status" */
 export type Subscription_Payment_Status = {
   __typename?: 'subscription_payment_status';
@@ -12195,12 +11668,6 @@ export type Subscription_Payment_Status_Updates = {
 };
 
 /** columns and relationships of "subscription_plan_type" */
-<<<<<<< HEAD
-=======
-/** Type d'abonnement dispobnible */
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Subscription_Plan_Type = {
   __typename?: 'subscription_plan_type';
   value: Scalars['String'];
@@ -12243,27 +11710,8 @@ export enum Subscription_Plan_Type_Constraint {
 }
 
 export enum Subscription_Plan_Type_Enum {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  Business = 'Business',
-=======
-  Enterprise = 'Enterprise',
-  Free = 'Free',
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-  Startup = 'Startup'
-=======
-  Enterprise = 'ENTERPRISE',
-=======
-  Business = 'BUSINESS',
->>>>>>> 94b6232 (start front)
-  Startup = 'STARTUP'
->>>>>>> 6646776 (Cleaned code)
-=======
   Business = 'Business',
   Startup = 'Startup'
->>>>>>> ba54cbc (added coupons)
 }
 
 /** Boolean expression to compare columns of type "subscription_plan_type_enum". All fields are combined with logical 'AND'. */
@@ -12354,11 +11802,6 @@ export type Subscription_Plan_Type_Updates = {
   where: Subscription_Plan_Type_Bool_Exp;
 };
 
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "auth.providers" using primary key columns */
@@ -12565,20 +12008,6 @@ export type Subscription_Root = {
   org_subscription_aggregate: Org_Subscription_Aggregate;
   /** fetch data from the table: "org_subscription" using primary key columns */
   org_subscription_by_pk?: Maybe<Org_Subscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  /** fetch data from the table: "org_subscription_status" */
-  org_subscription_status: Array<Org_Subscription_Status>;
-  /** fetch aggregated fields from the table: "org_subscription_status" */
-  org_subscription_status_aggregate: Org_Subscription_Status_Aggregate;
-  /** fetch data from the table: "org_subscription_status" using primary key columns */
-  org_subscription_status_by_pk?: Maybe<Org_Subscription_Status>;
-  /** fetch data from the table in a streaming manner: "org_subscription_status" */
-  org_subscription_status_stream: Array<Org_Subscription_Status>;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
   /** fetch data from the table in a streaming manner: "org_subscription" */
   org_subscription_stream: Array<Org_Subscription>;
   /** fetch data from the table: "role" */
@@ -12589,11 +12018,6 @@ export type Subscription_Root = {
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table in a streaming manner: "role" */
   role_stream: Array<Role>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
@@ -12602,11 +12026,6 @@ export type Subscription_Root = {
   subscription_payment_status_by_pk?: Maybe<Subscription_Payment_Status>;
   /** fetch data from the table in a streaming manner: "subscription_payment_status" */
   subscription_payment_status_stream: Array<Subscription_Payment_Status>;
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "subscription_plan_type" */
   subscription_plan_type: Array<Subscription_Plan_Type>;
   /** fetch aggregated fields from the table: "subscription_plan_type" */
@@ -12615,11 +12034,6 @@ export type Subscription_Root = {
   subscription_plan_type_by_pk?: Maybe<Subscription_Plan_Type>;
   /** fetch data from the table in a streaming manner: "subscription_plan_type" */
   subscription_plan_type_stream: Array<Subscription_Plan_Type>;
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
   /** fetch data from the table: "task" */
   task: Array<Task>;
   /** fetch aggregated fields from the table: "task" */
@@ -13463,42 +12877,6 @@ export type Subscription_RootOrg_Subscription_By_PkArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type Subscription_RootOrg_Subscription_StatusArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Subscription_RootOrg_Subscription_Status_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Org_Subscription_Status_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Org_Subscription_Status_Order_By>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
-export type Subscription_RootOrg_Subscription_Status_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
-export type Subscription_RootOrg_Subscription_Status_StreamArgs = {
-  batch_size: Scalars['Int'];
-  cursor: Array<InputMaybe<Org_Subscription_Status_Stream_Cursor_Input>>;
-  where?: InputMaybe<Org_Subscription_Status_Bool_Exp>;
-};
-
-
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> d422731 (WIP - refonte)
 export type Subscription_RootOrg_Subscription_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Org_Subscription_Stream_Cursor_Input>>;
@@ -13536,11 +12914,6 @@ export type Subscription_RootRole_StreamArgs = {
 };
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Subscription_RootSubscription_Payment_StatusArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Payment_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -13571,11 +12944,6 @@ export type Subscription_RootSubscription_Payment_Status_StreamArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Subscription_RootSubscription_Plan_TypeArgs = {
   distinct_on?: InputMaybe<Array<Subscription_Plan_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -13606,11 +12974,6 @@ export type Subscription_RootSubscription_Plan_Type_StreamArgs = {
 };
 
 
-<<<<<<< HEAD
-=======
->>>>>>> d422731 (WIP - refonte)
-=======
->>>>>>> 6646776 (Cleaned code)
 export type Subscription_RootTaskArgs = {
   distinct_on?: InputMaybe<Array<Task_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -16436,14 +15799,15 @@ export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> af60aec (Added subscriptions)
 export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
 >>>>>>> 5197b78 (rebase)
 
-=======
->>>>>>> 4965459 (rebase)
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
 export type RoleSummaryFragment = { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null };
@@ -16467,15 +15831,7 @@ export type CirclesSubscriptionVariables = Exact<{
 }>;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean }> }> };
-=======
-export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null, archived: boolean }> }> };
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type CirclesSubscription = { __typename?: 'subscription_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean }> }> };
->>>>>>> 4965459 (rebase)
 
 export type CreateCircleMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16584,43 +15940,19 @@ export type ArchiveDecisionMutationVariables = Exact<{
 
 export type ArchiveDecisionMutation = { __typename?: 'mutation_root', update_decision_by_pk?: { __typename?: 'decision', id: string } | null };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type LogFieldsFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
-
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
->>>>>>> 4965459 (rebase)
 export type LastLogsSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
-=======
-export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
->>>>>>> 4965459 (rebase)
 
 export type MeetingLogsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
-=======
-export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: any, changes: any, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
->>>>>>> 4965459 (rebase)
 
 export type CreateLogMutationVariables = Exact<{
   values: Log_Insert_Input;
@@ -16650,15 +15982,7 @@ export type MeetingsByDatesSubscriptionVariables = Exact<{
 }>;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
-=======
-export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
 
 export type CircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
@@ -16698,28 +16022,12 @@ export type MeetingRecurringSubscriptionVariables = Exact<{
 
 export type MeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type MeetingRecurringsSubscriptionVariables = Exact<{
-=======
-export type CircleMeetingRecurringsSubscriptionVariables = Exact<{
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type MeetingRecurringsSubscriptionVariables = Exact<{
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
   where: Meeting_Recurring_Bool_Exp;
 }>;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type MeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
-=======
-export type CircleMeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type MeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
 
 export type CreateMeetingRecurringMutationVariables = Exact<{
   values: Meeting_Recurring_Insert_Input;
@@ -16837,15 +16145,7 @@ export type MembersSubscriptionVariables = Exact<{
 }>;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
-=======
-export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: any | null }> };
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type MembersSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
->>>>>>> 4965459 (rebase)
 
 export type CreateMemberMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16871,15 +16171,11 @@ export type GetOrgQueryVariables = Exact<{
 export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } | null };
 
 export type OrgsSubscriptionVariables = Exact<{
-<<<<<<< HEAD
   userId: Scalars['uuid'];
-=======
->>>>>>> b8b4a22 (Rename graphql subscriptions)
   archived: Scalars['Boolean'];
 }>;
 
 
-<<<<<<< HEAD
 export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } }> };
 
 export type OrgSubscriptionVariables = Exact<{
@@ -16891,6 +16187,7 @@ export type OrgSubscriptionVariables = Exact<{
 export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
 =======
 export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
+<<<<<<< HEAD
 =======
 export type OrgsSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null }> };
 >>>>>>> b8b4a22 (Rename graphql subscriptions)
@@ -16902,6 +16199,8 @@ export type OrgSubscriptionVariables = Exact<{
 
 
 export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', id: string, name: string, link: string, singleMember: boolean, colorHue?: number | null }, members: Array<{ __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean, member: { __typename?: 'member', id: string, name: string, picture?: string | null } }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
+=======
+>>>>>>> af60aec (Added subscriptions)
 
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16920,23 +16219,7 @@ export type ChangeOrgSlugMutationVariables = Exact<{
 
 export type ChangeOrgSlugMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
-<<<<<<< HEAD
-export type ArchiveOrgMutationVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type ArchiveOrgMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string, orgId: string, status: Org_Subscription_Status_Enum, type?: Subscription_Plan_Type_Enum | null };
-=======
-=======
->>>>>>> ba54cbc (added coupons)
 export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
->>>>>>> d422731 (WIP - refonte)
 
 export type GetOrgSubscriptionQueryVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16945,12 +16228,6 @@ export type GetOrgSubscriptionQueryVariables = Exact<{
 
 export type GetOrgSubscriptionQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string }> };
 
-<<<<<<< HEAD
-export type RoleFieldsFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
-
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 4965459 (rebase)
 export type GetRoleQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -17003,8 +16280,6 @@ export type TaskSubscriptionVariables = Exact<{
 export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
 
 export type TasksSubscriptionVariables = Exact<{
-<<<<<<< HEAD
-<<<<<<< HEAD
   orgId: Scalars['uuid'];
   filters: Array<Task_Bool_Exp> | Task_Bool_Exp;
   taskViewKey: Scalars['String'];
@@ -17012,22 +16287,6 @@ export type TasksSubscriptionVariables = Exact<{
 
 
 export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> } | null };
-=======
-  filters?: InputMaybe<Array<Task_Bool_Exp> | Task_Bool_Exp>;
-}>;
-
-
-export type TasksSubscription = { __typename?: 'subscription_root', task: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }> };
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-  orgId: Scalars['uuid'];
-  filters: Array<Task_Bool_Exp> | Task_Bool_Exp;
-  taskViewKey: Scalars['String'];
-}>;
-
-
-export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> } | null };
->>>>>>> 754ec85 (rebase)
 
 export type CreateTaskMutationVariables = Exact<{
   values: Task_Insert_Input;
@@ -17053,20 +16312,6 @@ export type ArchiveTaskMutation = { __typename?: 'mutation_root', update_task_by
 
 export type TaskViewFragment = { __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export type TaskViewSubscriptionVariables = Exact<{
-  orgId: Scalars['uuid'];
-  key: Scalars['String'];
-}>;
-
-
-export type TaskViewSubscription = { __typename?: 'subscription_root', task_view: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: any }> };
-
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
->>>>>>> 754ec85 (rebase)
 export type CreateTaskViewMutationVariables = Exact<{
   orgId: Scalars['uuid'];
   key: Scalars['String'];
@@ -17257,43 +16502,6 @@ export const CircleWithRoleFragmentDoc = gql`
 }
     ${CircleFragmentDoc}
 ${RoleSummaryFragmentDoc}`;
-<<<<<<< HEAD
-=======
-export const CircleMemberFragmentDoc = gql`
-    fragment CircleMember on circle_member {
-  id
-  circleId
-  memberId
-  avgMinPerWeek
-  createdAt
-  archived
-}
-    `;
-export const MemberSummaryFragmentDoc = gql`
-    fragment MemberSummary on member {
-  id
-  name
-  picture
-}
-    `;
-export const CircleFullFragmentDoc = gql`
-    fragment CircleFull on circle {
-  ...Circle
-  role {
-    ...RoleSummary
-  }
-  members(where: {archived: {_eq: false}}) {
-    ...CircleMember
-    member {
-      ...MemberSummary
-    }
-  }
-}
-    ${CircleFragmentDoc}
-${RoleSummaryFragmentDoc}
-${CircleMemberFragmentDoc}
-${MemberSummaryFragmentDoc}`;
->>>>>>> 4965459 (rebase)
 export const DecisionFragmentDoc = gql`
     fragment Decision on decision {
   id
@@ -17354,24 +16562,6 @@ export const MeetingStepFragmentDoc = gql`
   data
 }
     `;
-export const MemberFragmentDoc = gql`
-    fragment Member on member {
-  id
-  orgId
-  archived
-  name
-  description
-  pictureFileId
-  picture
-  userId
-  inviteEmail
-  inviteDate
-  workedMinPerWeek
-  role
-  meetingId
-  preferences
-}
-    `;
 export const OrgFragmentDoc = gql`
     fragment Org on org {
   id
@@ -17382,7 +16572,6 @@ export const OrgFragmentDoc = gql`
   slug
 }
     `;
-<<<<<<< HEAD
 export const CircleMemberFragmentDoc = gql`
     fragment CircleMember on circle_member {
   id
@@ -17418,8 +16607,6 @@ export const CircleFullFragmentDoc = gql`
 ${RoleSummaryFragmentDoc}
 ${CircleMemberFragmentDoc}
 ${MemberSummaryFragmentDoc}`;
-=======
->>>>>>> 4965459 (rebase)
 export const RoleFragmentDoc = gql`
     fragment Role on role {
   id
@@ -17440,7 +16627,6 @@ export const RoleFragmentDoc = gql`
   colorHue
 }
     `;
-<<<<<<< HEAD
 export const MemberFragmentDoc = gql`
     fragment Member on member {
   id
@@ -17476,8 +16662,6 @@ export const OrgFullFragmentDoc = gql`
 ${CircleFullFragmentDoc}
 ${RoleFragmentDoc}
 ${MemberFragmentDoc}`;
-=======
->>>>>>> 4965459 (rebase)
 export const TaskFragmentDoc = gql`
     fragment Task on task {
   id
@@ -17549,58 +16733,11 @@ export const MeetingTemplateFragmentDoc = gql`
   stepsConfig
 }
     `;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export const MemberFieldsFragmentDoc = gql`
-    fragment MemberFields on member {
-  id
-  orgId
-  archived
-  name
-  description
-  pictureFileId
-  picture
-  userId
-  inviteEmail
-  inviteDate
-  workedMinPerWeek
-  role
-  meetingId
-  preferences
-}
-    `;
-=======
->>>>>>> 4965459 (rebase)
 export const OrgSubscriptionFieldsFragmentDoc = gql`
     fragment OrgSubscriptionFields on org_subscription {
   id
 }
     `;
-<<<<<<< HEAD
-export const RoleFieldsFragmentDoc = gql`
-    fragment RoleFields on role {
-  id
-  orgId
-  archived
-  base
-  name
-  purpose
-  domain
-  accountabilities
-  checklist
-  indicators
-  notes
-  singleMember
-  autoCreate
-  link
-  defaultMinPerWeek
-  colorHue
-}
-    `;
->>>>>>> 9f054e2 (WIP - Sub and unsub working)
-=======
->>>>>>> 4965459 (rebase)
 export const TaskViewFragmentDoc = gql`
     fragment TaskView on task_view {
   id
@@ -18381,10 +17518,6 @@ export type MeetingSubscriptionHookResult = ReturnType<typeof useMeetingSubscrip
 export type MeetingSubscriptionResult = Apollo.SubscriptionResult<MeetingSubscription>;
 export const MeetingsByDatesDocument = gql`
     subscription meetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
   org_by_pk(id: $orgId) {
     meetings(
       where: {startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
@@ -18398,15 +17531,6 @@ export const MeetingsByDatesDocument = gql`
         recurringDate
       }
     }
-<<<<<<< HEAD
-=======
-  meeting(
-    where: {orgId: {_eq: $orgId}, startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
-  ) {
-    ...Meeting
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
   }
 }
     ${MeetingFragmentDoc}
@@ -18603,18 +17727,8 @@ export function useMeetingRecurringSubscription(baseOptions: Apollo.Subscription
       }
 export type MeetingRecurringSubscriptionHookResult = ReturnType<typeof useMeetingRecurringSubscription>;
 export type MeetingRecurringSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringSubscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
 export const MeetingRecurringsDocument = gql`
     subscription meetingRecurrings($where: meeting_recurring_bool_exp!) {
-=======
-export const CircleMeetingRecurringsDocument = gql`
-    subscription circleMeetingRecurrings($where: meeting_recurring_bool_exp!) {
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export const MeetingRecurringsDocument = gql`
-    subscription meetingRecurrings($where: meeting_recurring_bool_exp!) {
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
   meeting_recurring(where: $where, order_by: {template: {title: asc}}) {
     ...MeetingRecurring
   }
@@ -18622,67 +17736,27 @@ export const MeetingRecurringsDocument = gql`
     ${MeetingRecurringFragmentDoc}`;
 
 /**
-<<<<<<< HEAD
-<<<<<<< HEAD
  * __useMeetingRecurringsSubscription__
  *
  * To run a query within a React component, call `useMeetingRecurringsSubscription` and pass it any options that fit your needs.
  * When your component renders, `useMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
-=======
- * __useCircleMeetingRecurringsSubscription__
- *
- * To run a query within a React component, call `useCircleMeetingRecurringsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCircleMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
- * __useMeetingRecurringsSubscription__
- *
- * To run a query within a React component, call `useMeetingRecurringsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingRecurringsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
-<<<<<<< HEAD
-<<<<<<< HEAD
  * const { data, loading, error } = useMeetingRecurringsSubscription({
-=======
- * const { data, loading, error } = useCircleMeetingRecurringsSubscription({
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
- * const { data, loading, error } = useMeetingRecurringsSubscription({
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
  *   variables: {
  *      where: // value for 'where'
  *   },
  * });
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
 export function useMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>(MeetingRecurringsDocument, options);
       }
 export type MeetingRecurringsSubscriptionHookResult = ReturnType<typeof useMeetingRecurringsSubscription>;
 export type MeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringsSubscription>;
-=======
-export function useCircleMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleMeetingRecurringsSubscription, CircleMeetingRecurringsSubscriptionVariables>) {
-=======
-export function useMeetingRecurringsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>) {
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingRecurringsSubscription, MeetingRecurringsSubscriptionVariables>(MeetingRecurringsDocument, options);
-      }
-<<<<<<< HEAD
-export type CircleMeetingRecurringsSubscriptionHookResult = ReturnType<typeof useCircleMeetingRecurringsSubscription>;
-export type CircleMeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingRecurringsSubscription>;
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export type MeetingRecurringsSubscriptionHookResult = ReturnType<typeof useMeetingRecurringsSubscription>;
-export type MeetingRecurringsSubscriptionResult = Apollo.SubscriptionResult<MeetingRecurringsSubscription>;
->>>>>>> 52aa283 (Fix edge case in recurring meetings calendar and optimize meetings loading)
 export const CreateMeetingRecurringDocument = gql`
     mutation createMeetingRecurring($values: meeting_recurring_insert_input!) {
   insert_meeting_recurring_one(object: $values) {
@@ -19340,7 +18414,6 @@ export function refetchGetOrgQuery(variables: GetOrgQueryVariables) {
       return { query: GetOrgDocument, variables: variables }
     }
 export const OrgsDocument = gql`
-<<<<<<< HEAD
     subscription orgs($userId: uuid!, $archived: Boolean!) {
   member(
     where: {userId: {_eq: $userId}, archived: {_eq: false}, org: {archived: {_eq: $archived}}}
@@ -19348,11 +18421,6 @@ export const OrgsDocument = gql`
     org {
       ...Org
     }
-=======
-    subscription orgs($archived: Boolean!) {
-  org(where: {archived: {_eq: $archived}}, order_by: {createdAt: asc}) {
-    ...Org
->>>>>>> b8b4a22 (Rename graphql subscriptions)
   }
 }
     ${OrgFragmentDoc}`;
@@ -19380,8 +18448,6 @@ export function useOrgsSubscription(baseOptions: Apollo.SubscriptionHookOptions<
       }
 export type OrgsSubscriptionHookResult = ReturnType<typeof useOrgsSubscription>;
 export type OrgsSubscriptionResult = Apollo.SubscriptionResult<OrgsSubscription>;
-<<<<<<< HEAD
-<<<<<<< HEAD
 export const OrgDocument = gql`
     subscription org($id: uuid!) {
   org_by_pk(id: $id) {
@@ -19389,27 +18455,6 @@ export const OrgDocument = gql`
   }
 }
     ${OrgFullFragmentDoc}`;
-=======
-export const OrgDocument = gql`
-    subscription org($id: uuid!) {
-  org_by_pk(id: $id) {
-    ...Org
-    circles(where: {archived: {_eq: false}}) {
-      ...CircleFull
-    }
-    roles(where: {archived: {_eq: false}}, order_by: {name: asc}) {
-      ...Role
-    }
-    members(where: {archived: {_eq: false}}, order_by: {name: asc}) {
-      ...Member
-    }
-  }
-}
-    ${OrgFragmentDoc}
-${CircleFullFragmentDoc}
-${RoleFragmentDoc}
-${MemberFragmentDoc}`;
->>>>>>> 4965459 (rebase)
 
 /**
  * __useOrgSubscription__
@@ -19433,11 +18478,6 @@ export function useOrgSubscription(baseOptions: Apollo.SubscriptionHookOptions<O
       }
 export type OrgSubscriptionHookResult = ReturnType<typeof useOrgSubscription>;
 export type OrgSubscriptionResult = Apollo.SubscriptionResult<OrgSubscription>;
-<<<<<<< HEAD
-=======
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
->>>>>>> 4965459 (rebase)
 export const UpdateOrgDocument = gql`
     mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
   update_org_by_pk(
@@ -19789,10 +18829,6 @@ export function useTaskSubscription(baseOptions: Apollo.SubscriptionHookOptions<
 export type TaskSubscriptionHookResult = ReturnType<typeof useTaskSubscription>;
 export type TaskSubscriptionResult = Apollo.SubscriptionResult<TaskSubscription>;
 export const TasksDocument = gql`
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 754ec85 (rebase)
     subscription tasks($orgId: uuid!, $filters: [task_bool_exp!]!, $taskViewKey: String!) {
   org_by_pk(id: $orgId) {
     tasks(where: {_and: $filters}) {
@@ -19801,14 +18837,6 @@ export const TasksDocument = gql`
     task_views(where: {key: {_eq: $taskViewKey}}) {
       ...TaskView
     }
-<<<<<<< HEAD
-=======
-    subscription tasks($filters: [task_bool_exp!]) {
-  task(where: {_and: $filters}) {
-    ...Task
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
->>>>>>> 754ec85 (rebase)
   }
 }
     ${TaskFragmentDoc}
@@ -19832,15 +18860,7 @@ ${TaskViewFragmentDoc}`;
  *   },
  * });
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
 export function useTasksSubscription(baseOptions: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
-=======
-export function useTasksSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
-export function useTasksSubscription(baseOptions: Apollo.SubscriptionHookOptions<TasksSubscription, TasksSubscriptionVariables>) {
->>>>>>> 754ec85 (rebase)
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<TasksSubscription, TasksSubscriptionVariables>(TasksDocument, options);
       }
@@ -19946,43 +18966,6 @@ export function useArchiveTaskMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ArchiveTaskMutationHookResult = ReturnType<typeof useArchiveTaskMutation>;
 export type ArchiveTaskMutationResult = Apollo.MutationResult<ArchiveTaskMutation>;
 export type ArchiveTaskMutationOptions = Apollo.BaseMutationOptions<ArchiveTaskMutation, ArchiveTaskMutationVariables>;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-export const TaskViewDocument = gql`
-    subscription taskView($orgId: uuid!, $key: String!) {
-  task_view(where: {orgId: {_eq: $orgId}, key: {_eq: $key}}) {
-    ...TaskView
-  }
-}
-    ${TaskViewFragmentDoc}`;
-
-/**
- * __useTaskViewSubscription__
- *
- * To run a query within a React component, call `useTaskViewSubscription` and pass it any options that fit your needs.
- * When your component renders, `useTaskViewSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTaskViewSubscription({
- *   variables: {
- *      orgId: // value for 'orgId'
- *      key: // value for 'key'
- *   },
- * });
- */
-export function useTaskViewSubscription(baseOptions: Apollo.SubscriptionHookOptions<TaskViewSubscription, TaskViewSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<TaskViewSubscription, TaskViewSubscriptionVariables>(TaskViewDocument, options);
-      }
-export type TaskViewSubscriptionHookResult = ReturnType<typeof useTaskViewSubscription>;
-export type TaskViewSubscriptionResult = Apollo.SubscriptionResult<TaskViewSubscription>;
->>>>>>> b8b4a22 (Rename graphql subscriptions)
-=======
->>>>>>> 754ec85 (rebase)
 export const CreateTaskViewDocument = gql`
     mutation createTaskView($orgId: uuid!, $key: String!, $tasksIds: json) {
   insert_task_view_one(object: {orgId: $orgId, key: $key, tasksIds: $tasksIds}) {
