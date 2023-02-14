@@ -8,7 +8,7 @@ const MAX_MEMBERS_FREE = 5
 
 export default function SubscriptionFreePlanCardFooter(props: FlexProps) {
   const { t } = useTranslation()
-  const members = useStoreState((state) => state.members.entries)
+  const members = useStoreState((state) => state.org.members)
   const filteredMembers = useMemo(
     () => members?.filter((mem) => !!mem.userId) ?? [],
     [members]

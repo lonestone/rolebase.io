@@ -1,15 +1,23 @@
 /* eslint-disable */
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 =======
 import { EntitiesChanges, LogDisplay } from '@shared/model/log'
+=======
+import { MemberPreferences } from '@shared/model/member'
+>>>>>>> c034938 (Fix changes after main rebase)
 import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
-import { MemberPreferences } from '@shared/model/member'
 import { ThreadActivityData } from '@shared/model/thread_activity'
+import { LogDisplay, EntitiesChanges } from '@shared/model/log'
 
+<<<<<<< HEAD
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
 >>>>>>> af60aec (Added subscriptions)
+=======
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+>>>>>>> c034938 (Fix changes after main rebase)
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
