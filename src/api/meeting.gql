@@ -1,0 +1,61 @@
+subscription meeting($id: uuid!) {
+  meeting_by_pk(id: $id) {
+    ...Meeting
+  }
+}
+
+subscription meetingsByDates(
+  $orgId: uuid!
+  $fromDate: timestamptz!
+  $toDate: timestamptz!
+) {
+  org_by_pk(id: $orgId) {
+    meetings(
+      where: {
+        startDate: { _gte: $fromDate, _lt: $toDate }
+        archived: { _eq: false }
+      }
+    ) {
+      ...Meeting
+    }
+    meetings_recurring {
+      ...MeetingRecurring
+      meetings(
+        where: {
+          recurringDate: { _gte: $fromDate, _lt: $toDate }
+          archived: { _eq: false }
+        }
+      ) {
+        id
+        recurringDate
+      }
+    }
+  }
+}
+
+subscription circleMeetings($circleId: uuid!) {
+  meeting(
+    where: { circleId: { _eq: $circleId }, archived: { _eq: false } }
+    order_by: { startDate: desc }
+  ) {
+    ...Meeting
+  }
+}
+
+mutation createMeeting($values: meeting_insert_input!) {
+  insert_meeting_one(object: $values) {
+    ...Meeting
+  }
+}
+
+mutation updateMeeting($id: uuid!, $values: meeting_set_input!) {
+  update_meeting_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...Meeting
+  }
+}
+
+mutation archiveMeeting($id: uuid!) {
+  update_meeting_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

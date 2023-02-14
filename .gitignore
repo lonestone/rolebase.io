@@ -1,0 +1,15 @@
+node_modules
+.DS_Store
+*.local
+*.cache
+*.log
+.env
+.env.default
+.nhost
+
+# Builds
+dist
+storybook-static
+
+# Rollup visualizer
+stats.html

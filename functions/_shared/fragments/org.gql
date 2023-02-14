@@ -1,0 +1,8 @@
+fragment Org on org {
+  id
+  name
+  archived
+  createdAt
+  defaultWorkedMinPerWeek
+  slug
+}

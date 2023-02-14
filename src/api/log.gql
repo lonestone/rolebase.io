@@ -1,0 +1,27 @@
+subscription lastLogs($orgId: uuid!) {
+  log(
+    where: { orgId: { _eq: $orgId } }
+    order_by: { createdAt: desc }
+    limit: 100
+  ) {
+    ...Log
+  }
+}
+
+subscription meetingLogs($meetingId: uuid!) {
+  log(where: { meetingId: { _eq: $meetingId } }, order_by: { createdAt: asc }) {
+    ...Log
+  }
+}
+
+mutation createLog($values: log_insert_input!) {
+  insert_log_one(object: $values) {
+    ...Log
+  }
+}
+
+mutation cancelLog($id: uuid!) {
+  update_log_by_pk(pk_columns: { id: $id }, _set: { canceled: true }) {
+    ...Log
+  }
+}

@@ -1,0 +1,141 @@
+table:
+  name: org
+  schema: public
+object_relationships:
+  - name: org_subscription
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: org_subscription
+          schema: public
+array_relationships:
+  - name: circles
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: circle
+          schema: public
+  - name: decisions
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: decision
+          schema: public
+  - name: files
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: org_file
+          schema: public
+  - name: logs
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: log
+          schema: public
+  - name: meeting_templates
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: meeting_template
+          schema: public
+  - name: meetings
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: meeting
+          schema: public
+  - name: meetings_recurring
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: meeting_recurring
+          schema: public
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: member
+          schema: public
+  - name: roles
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: role
+          schema: public
+  - name: task_views
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: task_view
+          schema: public
+  - name: tasks
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: task
+          schema: public
+  - name: threads
+    using:
+      foreign_key_constraint_on:
+        column: orgId
+        table:
+          name: thread
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - name
+        - archived
+        - createdAt
+        - defaultWorkedMinPerWeek
+        - slug
+      filter:
+        members:
+          userId:
+            _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - defaultWorkedMinPerWeek
+        - name
+      filter:
+        members:
+          _and:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - _or:
+                - role:
+                    _eq: Member
+                - role:
+                    _eq: Admin
+                - role:
+                    _eq: Owner
+      check:
+        members:
+          _and:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - _or:
+                - role:
+                    _eq: Member
+                - role:
+                    _eq: Admin
+                - role:
+                    _eq: Owner

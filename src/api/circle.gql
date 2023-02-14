@@ -1,0 +1,56 @@
+query getCircle($id: uuid!) {
+  circle_by_pk(id: $id) {
+    ...Circle
+    members(where: { archived: { _eq: false } }) {
+      ...CircleMember
+    }
+  }
+}
+
+subscription circles($orgId: uuid!, $archived: Boolean!) {
+  circle(where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }) {
+    ...Circle
+    members(where: { archived: { _eq: false } }) {
+      ...CircleMember
+    }
+  }
+}
+
+mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
+  insert_circle_one(
+    object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }
+  ) {
+    ...Circle
+  }
+}
+
+mutation createCircles($circles: [circle_insert_input!]!) {
+  insert_circle(objects: $circles) {
+    returning {
+      ...Circle
+      role {
+        ...Role
+      }
+    }
+  }
+}
+
+mutation updateCircle($id: uuid!, $values: circle_set_input!) {
+  update_circle_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...Circle
+    role {
+      name
+    }
+    parent {
+      role {
+        name
+      }
+    }
+  }
+}
+
+mutation archiveCircle($id: uuid!) {
+  update_circle_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

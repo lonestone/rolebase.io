@@ -1,0 +1,81 @@
+table:
+  name: thread_member_status
+  schema: public
+object_relationships:
+  - name: member
+    using:
+      foreign_key_constraint_on: memberId
+  - name: thread
+    using:
+      foreign_key_constraint_on: threadId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        thread:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+      columns:
+        - lastReadActivityId
+        - lastReadDate
+        - memberId
+        - threadId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - lastReadDate
+        - id
+        - lastReadActivityId
+        - memberId
+        - threadId
+      filter:
+        thread:
+          org:
+            members:
+              userId:
+                _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - lastReadActivityId
+        - lastReadDate
+      filter:
+        thread:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner
+      check:
+        thread:
+          org:
+            members:
+              _and:
+                - userId:
+                    _eq: X-Hasura-User-Id
+                - _or:
+                    - role:
+                        _eq: Member
+                    - role:
+                        _eq: Admin
+                    - role:
+                        _eq: Owner

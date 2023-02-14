@@ -1,0 +1,17 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="20px">Rolebase</mj-text>
+        <mj-divider border-color="#fdc577" />
+        <mj-text font-size="16px"> Welcome to Rolebase! </mj-text>
+        <mj-text>
+          Please confirm your email address by clicking on the button below.
+        </mj-text>
+        <mj-button href="${link}" background-color="#4caf50" font-size="16px"
+          >Confirm</mj-button
+        >
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

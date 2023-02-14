@@ -1,0 +1,27 @@
+fragment Circle on circle {
+  id
+  orgId
+  roleId
+  parentId
+  archived
+}
+
+fragment CircleWithRole on circle {
+  ...Circle
+  role {
+    ...RoleSummary
+  }
+}
+
+fragment CircleFull on circle {
+  ...Circle
+  role {
+    ...RoleSummary
+  }
+  members(where: { archived: { _eq: false } }) {
+    ...CircleMember
+    member {
+      ...MemberSummary
+    }
+  }
+}

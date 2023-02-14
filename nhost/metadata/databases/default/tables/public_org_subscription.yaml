@@ -1,0 +1,21 @@
+table:
+  name: org_subscription
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - orgId
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - role:
+                  _eq: Owner

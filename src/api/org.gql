@@ -1,0 +1,41 @@
+query getOrg($id: uuid!) {
+  org_by_pk(id: $id) {
+    ...Org
+  }
+}
+
+subscription orgs($archived: Boolean!) {
+  org(where: { archived: { _eq: $archived } }, order_by: { createdAt: asc }) {
+    ...Org
+  }
+}
+
+subscription org($id: uuid!) {
+  org_by_pk(id: $id) {
+    ...Org
+    circles(where: { archived: { _eq: false } }) {
+      ...CircleFull
+    }
+    roles(where: { archived: { _eq: false } }, order_by: { name: asc }) {
+      ...Role
+    }
+    members(where: { archived: { _eq: false } }, order_by: { name: asc }) {
+      ...Member
+    }
+  }
+}
+
+mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
+  update_org_by_pk(
+    pk_columns: { id: $id }
+    _set: { name: $name, defaultWorkedMinPerWeek: $defaultWorkedMinPerWeek }
+  ) {
+    id
+  }
+}
+
+mutation changeOrgSlug($id: uuid!, $slug: String!) {
+  update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {
+    id
+  }
+}

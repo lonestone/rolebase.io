@@ -1,0 +1,959 @@
+{
+  "ActionsMenu": {
+    "label": "Actions"
+  },
+  "ActivityDeleteModal": {
+    "heading": "Delete a message",
+    "info1": "Are you sure you want to delete this message?",
+    "info2": "No delete possible!"
+  },
+  "ActivityPollModal": {
+    "headingEdit": "Edit a poll",
+    "headingCreate": "Add a poll",
+    "help": "Use a poll to get subjective opinions. To make a collective decision, use a \"Decision\" or \"Election\" instead.",
+    "resetNeeded": "This survey has already been answered. You cannot modify it unless you delete the answers",
+    "resetBtn": "Delete the answers",
+    "question": "Question",
+    "questionPlaceholder": "Who, what, where, when?",
+    "choices": "Choices",
+    "choicePlacholder": "Choice #{n}}",
+    "addChoice": "Add a choice",
+    "options": "Options",
+    "multiple": "Multiple choices",
+    "minAnswers": "Minimum number of choices to select",
+    "maxAnswers": "Maximum number of choices to select",
+    "points": "Points to be distributed",
+    "canAddChoices": "Allow participants to add choices",
+    "anonymous": "Anonymous answers",
+    "randomize": "Display choices in random order",
+    "hideUntilEnd": "Hide results until closing",
+    "endWhenAllVoted": "Close when all participants have voted",
+    "endDate": "Closing date"
+  },
+  "BaseRoleCreateModal": {
+    "heading": "Create a basic role"
+  },
+  "BaseRolesModal": {
+    "heading": "Organization's basic roles",
+    "empty": "No basic roles",
+    "create": "Create a basic role"
+  },
+  "CircleContent": {
+    "notFound": "Role not found",
+    "tabRole": "Role",
+    "tabThreads": "Threads",
+    "tabMeetings": "Meetings",
+    "tabTasks": "Tasks",
+    "tabDecisions": "Decisions"
+  },
+  "CircleCopyModal": {
+    "heading": "Duplicate a role",
+    "action1": "Open the Roles graph.",
+    "action2": "Press the keys",
+    "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
+    "action4": "Drop it in the desired role."
+  },
+  "CircleDecisions": {
+    "create": "Create a decision",
+    "empty": "No decision yet"
+  },
+  "CircleDeleteModal": {
+    "heading": "Delete role",
+    "info": "Are you sure you want to delete the role <b>{{name}}</b>?"
+  },
+  "CircleFormController": {
+    "label": "Role"
+  },
+  "CircleMeetings": {
+    "create": "Create a meeting",
+    "empty": "No meeting yet",
+    "recurring": "Recurring meetings"
+  },
+  "CircleMemberDeleteModal": {
+    "heading": "Remove a member's role",
+    "info": "Are you sure you want to remove remove role <b>{{role}}</b> from member <b>{{member}}</b>?"
+  },
+  "CircleMemberFormControl": {
+    "labelSingleMember": "Occupied by :",
+    "labelMultiMembers": "Members :"
+  },
+  "CircleMoveModal": {
+    "heading": "Move a role",
+    "action1": "Open the Roles graph.",
+    "action2": "Press the key",
+    "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
+    "action4": "Drop it in the desired role."
+  },
+  "CircleRoleFormControl": {
+    "purpose": "Purpose:",
+    "domain": "Domain:",
+    "accountabilities": "Accountabilities:",
+    "checklist": "Checklist:",
+    "indicators": "Indicators:",
+    "notes": "Notes:",
+    "representCircle": "Represent role <link />",
+    "representInCircle": "in role <link />"
+  },
+  "CircleTasks": {
+    "create": "Create a task"
+  },
+  "CircleThreads": {
+    "create": "Create a thread",
+    "empty": "No thread yet"
+  },
+  "CircleWithLeaderItem": {
+    "notAssigned": "Not assigned"
+  },
+  "CirclesKeyboardShortcuts": {
+    "label": "Keyboard shortcuts",
+    "CmdClick": ": Move a role or a member",
+    "CmdShiftClick": " : Copy a role or a member"
+  },
+  "CurrentUserModal": {
+    "heading": "My personal information",
+    "email": "Email",
+    "emailPlaceholder": "Email address...",
+    "password": "Change password",
+    "passwordPlaceholder": "New password...",
+    "toastSuccess": "Information updated"
+  },
+  "DecisionContent": {
+    "heading": "Decision"
+  },
+  "DecisionDeleteModal": {
+    "heading": "Delete decision",
+    "info": "Are you sure you want to delete decision <b>{{name}}</b>?"
+  },
+  "DecisionEditModal": {
+    "headingEdit": "Edit a decision",
+    "headingCreate": "New decision",
+    "title": "Decision",
+    "titlePlaceholder": "What did you decide?",
+    "description": "Descriptions",
+    "descriptionPlaceholder": "Why did you make this decision?"
+  },
+  "DurationSelect": {
+    "min": "Min / week",
+    "hours": "Heures / week"
+  },
+  "LangModal": {
+    "heading": "Language"
+  },
+  "LogCancelModal": {
+    "heading": "Undo an action",
+    "hadChanges": "Data has changed since this action. You may lose more recent changes if you undo this action.",
+    "acceptCheckbox": "I understand that I may lose changes",
+    "showChanges": "Show changes",
+    "cancel": "Cancel this action",
+    "toastSuccess": "Action canceled"
+  },
+  "LogCancelText": {
+    "canceled": "canceled the action:"
+  },
+  "LogItem": {
+    "open": "See details"
+  },
+  "LogText": {
+    "circleRoot": "the root",
+    "CircleCreate": "<author /> created the role <circle /> in <parentCircle />",
+    "CircleMove": "<author /> moved the role <circle /> into <parentCircle />",
+    "CircleCopy": "<author /> copied the role <circle /> into <parentCircle />",
+    "CircleArchive": "<author /> archived the role <circle />",
+    "CircleMemberAdd": "<author /> added <member /> to role <circle />",
+    "CircleMemberRemove": "<author /> removed <member /> from role <circle />",
+    "RoleCreate": "<author /> has created the role <role />",
+    "RoleUpdate": "<author /> has modified the role <role />",
+    "RoleArchive": "<author /> archived the role <role />",
+    "MemberCreate": "<author /> has created the member <member />",
+    "MemberUpdate": "<author /> has modified the member <member />",
+    "MemberArchive": "<author /> archived the member <member />",
+    "TaskCreate": "<author /> has created the task <task />",
+    "TaskUpdate": "<author /> has modified the task <task />",
+    "TaskStatusUpdate": "<author /> marked the task <task /> as <status />",
+    "TaskArchive": "<author /> has archived the task <task />",
+    "DecisionCreate": "<author /> has created the decision <decision />",
+    "DecisionUpdate": "<author /> has modified the decision <decision />",
+    "DecisionArchive": "<author /> has archived the decision <decision />"
+  },
+  "LoginForm": {
+    "heading": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "resetPassword": "Forgot password?",
+    "submit": "Sign in"
+  },
+  "LoginPage": {
+    "signup": "Create an account",
+    "needsEmailVerification": "You must click on the verification link in your email box to log in.",
+    "sendEmail": "Resend",
+    "emailSent": "Sent"
+  },
+  "LogsList": {
+    "empty": "No action"
+  },
+  "LogsPage": {
+    "heading": "History"
+  },
+  "MeetingAttendees": {
+    "maybe": "Maybe",
+    "absent": "Absent",
+    "present": "Present",
+    "add": "Add an attendee",
+    "confirmRemove": "Are you sure you want to remove this attendee from the meeting?"
+  },
+  "MeetingContent": {
+    "title": "Meeting {{circle}}: {{title}}",
+    "heading": "Meeting <circle /> {{title}}",
+    "started": "Started",
+    "ended": "Ended",
+    "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
+    "logs": "Actions during the meeting"
+  },
+  "MeetingDeleteModal": {
+    "heading": "Delete meeting",
+    "info": "Are you sure you want to delete meeting <b>{{name}}</b>?"
+  },
+  "MeetingEditModal": {
+    "headingEdit": "Edit meeting",
+    "headingCreate": "New meeting",
+    "title": "Title",
+    "titlePrefix": "Meeting",
+    "titlePlaceholder": "Title...",
+    "start": "Start",
+    "duration": "Duration",
+    "durationSuffix": "minutes",
+    "invite": "Invite",
+    "steps": "Steps"
+  },
+  "MeetingExportModal": {
+    "heading": "Export Meetings agenda",
+    "scope": "Include",
+    "scopeOrg": "All meetings in the organization",
+    "scopeMine": "All my meetings",
+    "scopeCircle": "All meetings in a role",
+    "circle": "Role",
+    "url": "iCal URL"
+  },
+  "MeetingOpenCurrent": {
+    "heading": "Meeting in progress",
+    "info": "You have a meeting in progress, would you like to join it?"
+  },
+  "MeetingPanelNotStarted": {
+    "start": "Start meeting"
+  },
+  "MeetingPanelStarted": {
+    "next": "Next step",
+    "end": "End meeting",
+    "videoConf": "Join the videoconf",
+    "defaultEntityDescription": "Meeting: {{meeting}}"
+  },
+  "MeetingPanelEnded": {
+    "reopen": "Start again",
+    "stop": "Save and stop editing"
+  },
+  "MeetingRecurringDeleteModal": {
+    "heading": "Delete a recurring meeting",
+    "info": "Are you sure you want to delete the recurring meeting <b>{{name}}</b> from <b>{{circle}}</b>?"
+  },
+  "MeetingRecurringEditModal": {
+    "headingEdit": "Edit recurring meeting",
+    "headingCreate": "New recurring meeting",
+    "recurrence": "Recurrence"
+  },
+  "MeetingRecurringListModal": {
+    "heading": "Recurring Meetings",
+    "empty": "No recurring meetings at this time.",
+    "create": "Create a recurring meeting"
+  },
+  "MeetingRecurringModal": {
+    "info": "This meeting is recurring.",
+    "createLabel": "Create and modify the meeting of",
+    "edit": "Modify the recurrence"
+  },
+  "MeetingRecurringPage": {
+    "title": "Recurring Meeting"
+  },
+  "MeetingStepContent": {
+    "notesPlaceholder": "Notes..."
+  },
+  "MeetingStepContentChecklist": {
+    "useCircle": "Use role checklist {{circle}}",
+    "empty": "The role <circle /> does not have a checklist. You can edit it to add a checklist that will be used automatically in meetings."
+  },
+  "MeetingStepContentIndicators": {
+    "useCircle": "Use role indicators {{circle}}",
+    "empty": "The role <circle /> has no indicators. You can edit it to add indicators that will be used automatically in meetings."
+  },
+  "MeetingStepContentTasks": {
+    "logs": "Edited tasks"
+  },
+  "MeetingStepSortableItem": {
+    "placeholder": "Step title..."
+  },
+  "MeetingStepsConfigController": {
+    "addStep": "Add a step"
+  },
+  "MeetingStartNotificationModal": {
+    "heading": "Send a notification?",
+    "info": "Would you like to send a notification to participants to let them know when the meeting has started?",
+    "toastSent": "Notification sent!"
+  },
+  "MeetingTemplateDeleteModal": {
+    "heading": "Delete meeting template",
+    "info": "Are you sure you want to delete template <b>{{name}}</b>?"
+  },
+  "MeetingTemplateIdFormControl": {
+    "template": "Template"
+  },
+  "MeetingTemplateMenu": {
+    "menu": "Use a template",
+    "edit": "Edit templates"
+  },
+  "MeetingTemplateEditModal": {
+    "headingEdit": "Edit meeting template",
+    "headingCreate": "New meeting template",
+    "title": "Title",
+    "titlePlaceholder": "Title...",
+    "steps": "Steps"
+  },
+  "MeetingTemplateListModal": {
+    "heading": "Meeting templates",
+    "empty": "No meeting template",
+    "create": "Create a new meeting template"
+  },
+  "MeetingsPage": {
+    "heading": "Meetings",
+    "participation": {
+      "title": "Participation",
+      "Invited": "My meetings",
+      "NotInvited": "Other meetings",
+      "All": "All meetings"
+    },
+    "options": "Options",
+    "templates": "Meeting templates",
+    "recurring": "Recurring meetings",
+    "export": "Export (iCal)",
+    "showWeekend": "Show weekend",
+    "hideWeekend": "Hide weekend",
+    "create": "New meeting"
+  },
+  "MemberContent": {
+    "heading": "Roles",
+    "notFound": "Member not found"
+  },
+  "MemberCreateModal": {
+    "heading": "Add Member"
+  },
+  "MemberDeleteModal": {
+    "heading": "Remove Member",
+    "info": "Are you sure you want to delete member <b>{{name}}</b>?"
+  },
+  "MemberEditModal": {
+    "heading": "Edit member {{member}}",
+    "toastInvited": "You have invited {{member}} to join the organization!",
+    "toastReInvited": "You have re-invited {{member}} to join the organization.",
+    "toastRevocated": "Invite revoked",
+    "description": "Description",
+    "descriptionPlaceholder": "Who is {{name}}?",
+    "workingTime": "Working time for organization",
+    "invitation": {
+      "userInvited": "Guest user",
+      "rolePlaceholder": "Choose a role",
+      "options": {
+        "revoke": "Revoke invitation",
+        "readonly": "Read only",
+        "member": "Member",
+        "admin": "Admin",
+        "owner": "Owner"
+      },
+      "awaiting": "Invitation sent to {{email}} on {{date}}, awaiting acceptance.",
+      "resend": "Resend",
+      "revoke": "Revoke",
+      "invite": "Invite",
+      "emailPlaceholder": "Email address..."
+    }
+  },
+  "MemberInvitationPage": {
+    "toastSuccess": "Invite accepted"
+  },
+  "MemberPictureCropModal": {
+    "heading": "Crop photo",
+    "toastSuccess": "New photo saved, you look amazing!"
+  },
+  "MemberPictureEdit": {
+    "editPicture": "Edit Picture"
+  },
+  "MemberRoleItem": {
+    "purpose": "Purpose",
+    "workingTime": "Working time"
+  },
+  "MemberRoles": {
+    "heading": "Roles",
+    "emptyRoles": "None",
+    "addRole": "Add a role",
+    "totalAllocatedTime": "Total allocated time:",
+    "alertTooMuchTime": "Total allocated time is too large, you need to lower the total time allocated to a role or increase the member's working time."
+  },
+  "MembersInviteModal": {
+    "heading": "Invite members by email",
+    "toastSuccess_one": "{{count}} member have been invited!",
+    "toastSuccess_other": "{{count}} members have been invited!",
+    "empty1": "All existing members are already linked to a user account.",
+    "empty2": "You can create a new member and then invite them.",
+    "searchPlaceholder": "Search...",
+    "emailPlaceholder": "Email...",
+    "options": {
+      "readonly": "Read only",
+      "member": "Member",
+      "admin": "Admin"
+    },
+    "invite": "Invite ({{count}})"
+  },
+  "MembersMultiSelect": {
+    "choose": "Choose a member",
+    "add": "Add a member"
+  },
+  "MembersPage": {
+    "heading": "Members",
+    "searchPlaceholder": "Search...",
+    "invite": "Invite",
+    "tags": {
+      "readonly": "Read only",
+      "member": "Member",
+      "admin": "Admin",
+      "owner": "Owner",
+      "invited": "Invited",
+      "notInvited": "Not invited"
+    }
+  },
+  "ModalCloseStaticButton": {
+    "label": "Close"
+  },
+  "ModalMaximizeButton": {
+    "label": "Open in full page"
+  },
+  "Notifications": {
+    "tooltip": "Notifications"
+  },
+  "OnboardingCircleMembersModal": {
+    "heading": "{{role}}",
+    "leader": "Who represents the role {{role}}?",
+    "memberPlaceholder": "Firstname Name...",
+    "choiceSingle": "{{member}} holds this role alone",
+    "choiceCircle": "Other people are participating"
+  },
+  "OnboardingCirclesModal": {
+    "heading": "What are the main activities at {{org}}?",
+    "info": "Let's create the main roles of the organization. In a traditional structure, these would be positions, departments or business units.",
+    "help": "You will be able to modify and add roles later."
+  },
+  "OrgCreateModal": {
+    "heading": "Create Organization"
+  },
+  "OrgDeleteModal": {
+    "heading": "Delete Organization",
+    "info": "Are you sure you want to delete organization <b>{{name}}</b>?",
+    "warningSubscription": "If a subscription is in progress, you will be refunded for the period not consumed"
+  },
+  "OrgEditModal": {
+    "heading": "Edit Organization {{org}}",
+    "slug": "URL",
+    "workingTime": "Default working time"
+  },
+  "OrgSlugModal": {
+    "heading": "URL of organization {{org}}",
+    "slug": "URL",
+    "slugPlaceholder": "{{slug}} (for example)",
+    "already-exists": "This URL is already used."
+  },
+  "OrgSwitch": {
+    "create": "Create an organization"
+  },
+  "OrgsPage": {
+    "heading": "Organizations",
+    "empty": {
+      "title": "You have no organization",
+      "info1": "Create a new organization",
+      "info2": "Or ask an organization admin to invite you.",
+      "create": "Create Organization"
+    }
+  },
+  "Page404": {
+    "heading": "Page not found!",
+    "dialog1": "Do you know where is my page?",
+    "dialog2": "I don't know, have you looked in the page closet?"
+  },
+  "ParticipantsScopeSelect": {
+    "Organization": "All members of the Organization",
+    "CircleLeaders": "Members of the Role",
+    "CircleMembers": "Members of the Role and sub-Roles",
+    "None": "Only some invited members"
+  },
+  "ResetPasswordPage": {
+    "heading": "Forgot your password?",
+    "done1": "A password reset email has been sent to you!",
+    "done2": "Check your mailbox.",
+    "email": "Email",
+    "emailPlaceholder": "Your email address...",
+    "reset": "Reset my password",
+    "signin": "Sign in"
+  },
+  "RoleDeleteModal": {
+    "heading": "Remove Role",
+    "info": "Are you sure you want to delete role <b>{{name}}</b>?"
+  },
+  "RoleEditModal": {
+    "heading": "Edit Role {{name}}",
+    "baseInfo": "This role is a Basic Role potentially used in multiple locations.",
+    "name": "Role Name",
+    "namePlaceholder": "Name...",
+    "purpose": "Purpose",
+    "purposePlaceholder": "Purpose it pursues...",
+    "domain": "Domain",
+    "domainPlaceholder": "What only it can do...",
+    "accountabilities": "Accountabilities",
+    "accountabilitiesPlaceholder": "What it should do...",
+    "checklist": "Checklist",
+    "checklistAdd": "Add",
+    "checklistPlaceholder": "List of recurring actions...",
+    "indicator": "Indicators",
+    "indicatorAdd": "Add",
+    "indicatorPlaceholder": "List of indicators...",
+    "notes": "Notes",
+    "notesPlaceholder": "Notes, links...",
+    "singleMember": "Can only be occupied by a single member",
+    "autoCreate": "Create automatically in any new role",
+    "linkParent": "Represents its parent rôle (link)",
+    "linkToParent": "In parent rôle",
+    "linkToCircle": "In another rôle",
+    "defaultWorkingTime": "Default Time",
+    "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
+    "color": "Customize color"
+  },
+  "RRuleEditor": {
+    "repeat": "Repeat every",
+    "freqs": {
+      "YEARLY_one": "year",
+      "YEARLY_other": "years",
+      "MONTHLY_one": "month",
+      "MONTHLY_other": "months",
+      "WEEKLY_one": "week",
+      "WEEKLY_other": "weeks",
+      "DAILY_one": "day",
+      "DAILY_other": "dayes"
+    },
+    "startDate": "Start date",
+    "end": "End",
+    "never": "Never",
+    "until": "On date",
+    "count": "After",
+    "count-suffix": "times",
+    "byweekday": "On",
+    "bymonthday": "On",
+    "bymonthday-suffix": "of the month",
+    "bysetpos": {
+      "1": "First",
+      "2": "Second",
+      "3": "Third",
+      "4": "Fourth",
+      "-1": "Last"
+    },
+    "bymonth": "In"
+  },
+  "SearchGlobalModal": {
+    "placeholder": "Search {{org}}..."
+  },
+  "SettingsMenuList": {
+    "org": "Organization",
+    "members": "Members",
+    "baseRoles": "Basic roles",
+    "vacantRoles": "Vacant roles",
+    "logs": "History",
+    "superAdmin": "Admin",
+    "subscription": "Subscription"
+  },
+  "Sidebar": {
+    "orgs": "Organizations",
+    "roles": "Roles",
+    "threads": "Threads",
+    "meetings": "Meetings",
+    "tasks": "Tasks",
+    "settings": "Settings",
+    "search": "Search ({{keys}})",
+    "help": "Help"
+  },
+  "SignupForm": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "signup": "Create my account"
+  },
+  "SignupPage": {
+    "heading": "Register",
+    "signin": "Sign in",
+    "complete": "Welcome! All you have to do now is click on the verification link sent by email."
+  },
+  "SubCirclesFormControl": {
+    "roles": "Roles:",
+    "addRole": "Add a role"
+  },
+  "SubscriptionPage": {
+    "heading": "Subscription"
+  },
+  "SubscriptionTabs": {
+    "subscriptionTabTitle": "My subscription",
+    "accountTabTitle": "Account",
+    "invoicesTabTitle": "Invoices",
+    "subscription": "Subscription",
+    "mustBeOwner": "You must be an owner of this org to manage the subscription",
+    "cancelSubscriptionModal": {
+      "title": "Cancel my subscription",
+      "subtitle": "Are you sure you want to cancel your subscription?",
+      "desc1": "This action will take effect at the end of the subscription period",
+      "desc2": "Active members of the organisation will revert to normal members",
+      "desc3": "You will lose the advantage of priority support from our team"
+    },
+    "invoiceTab": {
+      "heading": "Invoice history",
+      "desc": "Find all your past invoices here and download them.",
+      "noInvoice": "You have no invoice",
+      "amount": "Amount",
+      "invoiceDate": "Invoice date",
+      "invoice": "Invoice",
+      "download": "Download",
+      "status": "Statut",
+      "paymentStatus": {
+        "paid": "Paid",
+        "draft": "Draft",
+        "open": "Open",
+        "uncollectible": "Uncollectible",
+        "void": "Canceled"
+      }
+    },
+    "paymentModal": {
+      "subscribeToPlan": "{{plan}} plan",
+      "details": "Billing details",
+      "payment": "Payment",
+      "summary": "Summary",
+      "next": "Next",
+      "confirm": "Confirm",
+      "prev": "Back",
+      "subscription": "Subscription:",
+      "pricePerSeat": "Price per seat:",
+      "nbSeat_one": "Number of seat:",
+      "nbSeat_other": "Number of seats:",
+      "total": "Total",
+      "month": "month",
+      "promotionPlaceholder": "Promotion code",
+      "dueNow": "Due now",
+      "invalidPromotionCode": "Invalid promotion code"
+    },
+    "accountTab": {
+      "billingEmail": "Billing email",
+      "billingDetails": "Billing details",
+      "invalidBillingDetails": "Invalid billing details",
+      "currentSubscription": "Current subscription",
+      "paymentMethod": "Payment method",
+      "updateBillingEmail": "Update billing email",
+      "billingEmailUpdated": "Billing email updated",
+      "billingEmailUpdateError": "Error processing billing email update",
+      "updateBillingDetails": "Update billing details",
+      "billingDetailsUpdated": "Billing details updated",
+      "billingDetailsUpdateError": "Error processing billing details update",
+      "updatePaymentMethod": "Update payment method",
+      "PaymentMethodUpdated": "Payment method updated",
+      "PaymentMethodUpdateError": "Error processing payment method update",
+      "errorLoadingInvoices": "Failed to retrieve invoices"
+    }
+  },
+  "SubscriptionReachedMemberLimitModal": {
+    "title": "Oops, you have reached the maximum number of members for your plan!",
+    "limitReached": "You can upgrade your plan to increase the number of members in your team.",
+    "upgradePlan": "Passer au plan supérieur",
+    "hide": "Masquer"
+  },
+  "SubscriptionPlans": {
+    "currentPlan": "Current plan",
+    "activeMember_one": "{{count}}/{{total}} active member",
+    "activeMember_other": "{{count}}/{{total}} active members",
+    "upgradePlan": "Upgrade to this plan",
+    "downgradePlan": "Go back to this plan",
+    "selectPlan": "Select this plan",
+    "contactUs": "Get in touch with us",
+    "included": "Included",
+    "upcomingInvoiceAmount": "Upcoming invoice",
+    "drawdownOn": "Drawdown on",
+    "paymentMethod": "Payment method",
+    "expiresAt": "Expires",
+    "card": "Card",
+    "subscriptionExpires": "Your subscription will end on",
+    "activateOnSubscriptionEnd": "Will activate when current subscription ends",
+    "reactivateSubscription": "Reactivate my subscription",
+    "upcomingInvoiceHelp": "Know how this amount is calculated each month",
+    "active": "Active",
+    "unsubscribeDate": "Your subscription will end on {{date}}",
+    "subscriptionResumed": "Your subscription has been resumed",
+    "noBillingAccount": "You do not have any billing account yet",
+    "subscriptionSuccess": "That's a wrap!",
+    "subscriptionCreated": "Your subscription has been successfully created 😀",
+    "invoiceAvailable": "Your €{{amount}} invoice can be downloaded from the Invoices tab",
+    "free": {
+      "title": "Free",
+      "desc": "Perfect to try or work with a small team",
+      "feature1": "Price: 0€",
+      "feature2": "All features",
+      "feature3": "Limited to 5 active members"
+    },
+    "startup": {
+      "title": "Startup",
+      "desc": "To involve your entire team in your shared governance.",
+      "feature1": "Price: 5€/month/member",
+      "feature2": "All features",
+      "feature3": "Limited to 200 active members",
+      "feature4": "1h/month support"
+    },
+    "business": {
+      "title": "Business",
+      "desc": "A custom need, contact our team!",
+      "feature1": "All features",
+      "feature2": "Unlimited members",
+      "feature3": "Priority tips and support",
+      "feature4": "Custom integrations"
+    }
+  },
+  "SuperAdminPage": {
+    "heading": "Admin dashboard",
+    "searchReindex": "Reindex search engine"
+  },
+  "TaskContent": {
+    "headingEdit": "Task",
+    "headingCreate": "New task",
+    "titlePlaceholder": "Result to be achieved...",
+    "circle": "Role",
+    "memberId": "Assigned member",
+    "dueDate": "Deadline",
+    "description": "Description",
+    "notes": "Notes, links..."
+  },
+  "TaskDeleteModal": {
+    "heading": "Delete task",
+    "info": "Are you sure you want to delete task <b>{{name}}</b>?"
+  },
+  "TasksKanban": {
+    "showDoneTasks": "Show completed tasks"
+  },
+  "TasksList": {
+    "empty": "No task 🎉"
+  },
+  "TasksModule": {
+    "kanban": "Kanban",
+    "list": "List",
+    "filterCircle": "Role",
+    "filterMember": "Member"
+  },
+  "TasksPage": {
+    "heading": "Tasks",
+    "create": "New task"
+  },
+  "TextError": {
+    "auth/invalid-email": "Invalid email address.",
+    "auth/user-disabled": "Your account is deactivated.",
+    "auth/user-not-found": "No account corresponds to this address.",
+    "auth/wrong-password": "Incorrect password.",
+    "auth/email-already-in-use": "This email address is already in use.",
+    "auth/weak-password": "This password is too weak. Please choose a longer one."
+  },
+  "ThreadActivities": {
+    "emptyTitle": "Thread created",
+    "emptyDescription": "You can send a first message 👇"
+  },
+  "ThreadActivityCreate": {
+    "placeholder": "Message...",
+    "poll": "Create a Poll",
+    "defaultEntityDescription": "Thread: {{thread}}"
+  },
+  "ThreadActivityDecision": {
+    "text": "has created a decision:"
+  },
+  "ThreadActivityMeeting": {
+    "text": "has created a meeting:"
+  },
+  "ThreadActivityPoll": {
+    "heading": "Poll",
+    "showResults": "Show results",
+    "changeVote": "Change my vote"
+  },
+  "ThreadActivityPollResult": {
+    "anonymous": "Anonymous"
+  },
+  "ThreadActivityPollVote": {
+    "chooseN_one": "Select {{count}} choice.",
+    "chooseN_other": "Select {{count}} choices.",
+    "chooseMin_one": "Select at least {{count}} choice.",
+    "chooseMin_other": "Select at least {{count}} choices.",
+    "chooseMax_one": "Maximum {{count}} choice.",
+    "chooseMax_other": "Maximum {{count}} choices.",
+    "chooseMinAndMax": "Select between {{min}} and {{max}} choices.",
+    "chooseMultiple": "Multiple possible choices.",
+    "anonymous": "Answers are anonymous.",
+    "pointsDistributed": "You have distributed all your points.",
+    "pointsRemaining_one": "You have {{count}} points left to distribute",
+    "pointsRemaining_other": "You have {{count}} points left to distribute",
+    "pointsExceeded_one": "You have distributed {{count}} too many points",
+    "pointsExceeded_other": "You have distributed {{count}} points too many",
+    "vote": "Vote",
+    "revealLater": "The results will be revealed later.",
+    "revealAllVoted": "The results will be revealed when all participants have voted.",
+    "revealDate": "Results will be revealed {{date}}.",
+    "revealDateOrAllVoted": "Results will be revealed {{date}} or when all participants have voted."
+  },
+  "ThreadActivityTask": {
+    "text": "has created a task:"
+  },
+  "ThreadActivityThread": {
+    "text": "has created a thread:"
+  },
+  "ThreadEditModal": {
+    "headingEdit": "Edit a thread",
+    "headingCreate": "New thread",
+    "title": "Title",
+    "titlePlaceholder": "What are we discussing?...",
+    "invite": "Invite",
+    "settings": "Settings"
+  },
+  "ThreadsMultiSelect": {
+    "choose": "Choose a thread",
+    "add": "Add a thread"
+  },
+  "ThreadsPage": {
+    "heading": "Threads",
+    "participation": {
+      "title": "Participation",
+      "Invited": "My threads",
+      "NotInvited": "Other threads",
+      "All": "All threads"
+    },
+    "archives": {
+      "title": "Archive",
+      "show": "Show Archive"
+    },
+    "create": "New thread",
+    "empty": "No thread."
+  },
+  "VacantRolesModal": {
+    "heading": "Vacant roles",
+    "empty": "No vacant roles 🎉"
+  },
+  "VideoConfFormControl": {
+    "enable": "Enable video conferencing",
+    "jitsi": "Generate a Jitsi URL",
+    "url": "Custom URL"
+  },
+  "UserMenu": {
+    "tooltip": "My settings",
+    "member": "My member record",
+    "user": "Personal information",
+    "theme": "Light/dark theme",
+    "lang": "Language",
+    "signout": "Logout"
+  },
+  "common": {
+    "save": "Save",
+    "create": "Create",
+    "send": "Send",
+    "open": "Open",
+    "confirm": "Confirm",
+    "skip": "Skip",
+    "createThread": "Create a Thread",
+    "createMeeting": "Create a Meeting",
+    "createTask": "Create a Task",
+    "createDecision": "Create a Decision",
+    "close": "Close",
+    "edit": "Edit",
+    "move": "Move",
+    "apply": "Apply",
+    "duplicate": "Duplicate",
+    "archive": "Archive",
+    "unarchive": "Restore",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "remove": "Remove",
+    "clear": "Clear",
+    "show": "Show",
+    "hide": "Hide",
+    "seeMore": "See more",
+    "seeLess": "See less",
+    "filters": "Filters",
+    "archives": "Archives",
+    "archived": "Archived",
+    "error": "Error",
+    "name": "Name",
+    "namePlaceholder": "Name...",
+    "copy": "Copy",
+    "toastCopied": "URL copied",
+    "none": "None",
+    "errorOccurred": "An error occurred.",
+    "errorRetry": "An error occurred, plase try again later.",
+    "errorContact": "If this persists contact us at contact@rolebase.io",
+    "searchTypes": {
+      "All": "All",
+      "Member": "Members",
+      "Role": "Roles",
+      "Circle": "Circles",
+      "Thread": "Threads",
+      "Meeting": "Meetings",
+      "Task": "Tasks",
+      "Decision": "Decisions"
+    },
+    "meetingSteps": {
+      "Tour": "Round table",
+      "Threads": "Threads",
+      "Checklist": "Checklist",
+      "Indicators": "Indicators",
+      "Tasks": "Tasks"
+    },
+    "taskStatus": {
+      "Open": "To do",
+      "InProgress": "In progress",
+      "InReview": "In review",
+      "Blocked": "Blocked",
+      "Done": "Done",
+      "NotDone": "Not done"
+    }
+  },
+  "notifications": {
+    "ThreadMessage": {
+      "title": "",
+      "content": ""
+    },
+    "TaskAssigned": {
+      "title": "",
+      "content": ""
+    },
+    "MeetingInvited": {
+      "title": "Meeting {{role}} - {{title}}",
+      "content": "Invitation by {{sender}}."
+    },
+    "MeetingStarted": {
+      "title": "",
+      "content": ""
+    },
+    "RoleAssigned": {
+      "title": "",
+      "content": ""
+    },
+    "Decision": {
+      "title": "",
+      "content": ""
+    }
+  },
+  "useCreateTask": {
+    "toast": "Task created!"
+  },
+  "useSearch": {
+    "create": "Create \"{{name}}\""
+  },
+  "useUpdateTaskStatus": {
+    "toast": "Task marked as \"{{status}}\""
+  }
+}

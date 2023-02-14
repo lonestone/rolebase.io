@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <style type="text/css">
+      .container {
+        font-family: sans-serif;
+        text-align: center;
+      }
+      .title {
+        margin-top: 2em;
+        font-size: 1.2em;
+      }
+      .button,
+      .button:visited {
+        background-color: #4caf50;
+        color: white !important;
+        padding: 1em 2em;
+        text-decoration: none;
+        display: inline-block;
+        margin: 1em 0;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #2d9a30;
+        color: white;
+        text-decoration: none;
+      }
+      .footer {
+        margin-top: 2em;
+        font-size: 0.8em;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      Vous avez reçu une notification :
+
+      <p>{{ template.content }}</p>
+
+      <p class="footer">
+        Ceci est un email automatique, merci de ne pas y répondre.<br />
+        Vous pouvez régler vos paramètres de notification sur Rolebase ou
+        <a href="{{ unsubscribe_url }}">vous désabonner en cliquant ici</a>.
+      </p>
+    </div>
+  </body>
+</html>

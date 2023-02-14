@@ -1,0 +1,4 @@
+table:
+  name: task_status
+  schema: public
+is_enum: true

@@ -1,0 +1,8 @@
+html {
+  /* Required for scrollbar */
+  color-scheme: var(--chakra-ui-color-mode);
+}
+
+body {
+  overscroll-behavior: none; /* Prevent overscroll */
+}

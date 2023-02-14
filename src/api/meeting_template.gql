@@ -1,0 +1,36 @@
+fragment MeetingTemplate on meeting_template {
+  id
+  orgId
+  title
+  stepsConfig
+}
+
+subscription meetingTemplates($orgId: uuid!) {
+  meeting_template(
+    where: { orgId: { _eq: $orgId } }
+    order_by: { title: asc }
+  ) {
+    ...MeetingTemplate
+  }
+}
+
+mutation createMeetingTemplate($values: meeting_template_insert_input!) {
+  insert_meeting_template_one(object: $values) {
+    ...MeetingTemplate
+  }
+}
+
+mutation updateMeetingTemplate(
+  $id: uuid!
+  $values: meeting_template_set_input!
+) {
+  update_meeting_template_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...MeetingTemplate
+  }
+}
+
+mutation deleteMeetingTemplate($id: uuid!) {
+  delete_meeting_template_by_pk(id: $id) {
+    id
+  }
+}

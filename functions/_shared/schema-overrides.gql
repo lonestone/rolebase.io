@@ -1,0 +1,53 @@
+scalar strings
+scalar member_preferences
+scalar attendee
+scalar meeting_step_config
+scalar meeting_step_data
+scalar videoconf
+scalar thread_activity_data
+scalar log_display
+scalar log_changes
+
+extend type member {
+  preferences: member_preferences
+}
+
+extend type meeting {
+  participantsMembersIds: [uuid!]!
+  attendees: [attendee!]
+  stepsConfig: [meeting_step_config!]!
+  videoConf: videoconf
+}
+
+extend type meeting_template {
+  stepsConfig: [meeting_step_config!]!
+}
+
+extend type meeting_step {
+  data: meeting_step_data!
+}
+
+extend type meeting_recurring {
+  participantsMembersIds: [uuid!]!
+}
+
+extend type task {
+  tasksIds: [uuid!]!
+}
+
+extend type thread {
+  participantsMembersIds: [uuid!]!
+}
+
+extend type thread_activity {
+  data: thread_activity_data!
+}
+
+extend type thread_poll_answer {
+  choicesPoints: [Int!]!
+}
+
+extend type log {
+  display: log_display!
+  changes: log_changes!
+}

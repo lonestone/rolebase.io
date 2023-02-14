@@ -1,0 +1,17 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="20px">Rolebase</mj-text>
+        <mj-divider border-color="#fdc577" />
+        <mj-text font-size="16px">Lien magique</mj-text>
+        <mj-text>
+          Utilisez ce lien pour vous connecter de fa&ccedil;on s&eacute;curisée:
+        </mj-text>
+        <mj-button href="${link}" background-color="#4caf50" font-size="16px"
+          >Connexion</mj-button
+        >
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

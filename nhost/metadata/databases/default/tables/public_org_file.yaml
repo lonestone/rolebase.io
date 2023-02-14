@@ -1,0 +1,50 @@
+table:
+  name: org_file
+  schema: public
+object_relationships:
+  - name: file
+    using:
+      foreign_key_constraint_on: fileId
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
+      columns:
+        - fileId
+        - orgId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - fileId
+        - id
+        - orgId
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
+      allow_aggregations: true

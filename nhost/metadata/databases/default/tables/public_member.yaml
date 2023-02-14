@@ -1,0 +1,135 @@
+table:
+  name: member
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      foreign_key_constraint_on: orgId
+  - name: pictureFile
+    using:
+      foreign_key_constraint_on: pictureFileId
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          userId: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: auth
+array_relationships:
+  - name: circle_members
+    using:
+      foreign_key_constraint_on:
+        column: memberId
+        table:
+          name: circle_member
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            _and:
+              - _or:
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
+              - userId:
+                  _eq: X-Hasura-User-Id
+      columns:
+        - archived
+        - description
+        - name
+        - orgId
+        - picture
+        - preferences
+        - workedMinPerWeek
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - archived
+        - description
+        - id
+        - inviteDate
+        - inviteEmail
+        - meetingId
+        - name
+        - orgId
+        - picture
+        - pictureFileId
+        - preferences
+        - role
+        - userId
+        - workedMinPerWeek
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - description
+        - meetingId
+        - name
+        - picture
+        - pictureFileId
+        - preferences
+        - workedMinPerWeek
+      filter:
+        _or:
+          - userId:
+              _eq: X-Hasura-User-Id
+          - org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
+      check:
+        _or:
+          - userId:
+              _eq: X-Hasura-User-Id
+          - org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
+event_triggers:
+  - name: index-member
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 3
+      timeout_sec: 60
+    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60

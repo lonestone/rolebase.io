@@ -1,0 +1,38 @@
+query getDecision($id: uuid!) {
+  decision_by_pk(id: $id) {
+    ...Decision
+  }
+}
+
+subscription decision($id: uuid!) {
+  decision_by_pk(id: $id) {
+    ...Decision
+  }
+}
+
+subscription circleDecisions($circleId: uuid!, $archived: Boolean!) {
+  decision(
+    where: { circleId: { _eq: $circleId }, archived: { _eq: $archived } }
+    order_by: { createdAt: desc }
+  ) {
+    ...Decision
+  }
+}
+
+mutation createDecision($values: decision_insert_input!) {
+  insert_decision_one(object: $values) {
+    ...Decision
+  }
+}
+
+mutation updateDecision($id: uuid!, $values: decision_set_input!) {
+  update_decision_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...Decision
+  }
+}
+
+mutation archiveDecision($id: uuid!) {
+  update_decision_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}

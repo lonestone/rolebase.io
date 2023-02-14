@@ -1,0 +1,9 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- INSERT INTO  "public"."subscription_payment_status" (value) VALUES ('trialing');
+-- INSERT INTO  "public"."subscription_payment_status" (value) VALUES ('active');
+-- INSERT INTO  "public"."subscription_payment_status" (value) VALUES ('incomplete');
+-- INSERT INTO  "public"."subscription_payment_status" (value) VALUES ('incomplete_expired');
+-- INSERT INTO  "public"."subscription_payment_status" (value) VALUES ('past_due');
+-- INSERT INTO  "public"."subscription_payment_status" (value) VALUES ('canceled');
+-- INSERT INTO  "public"."subscription_payment_status" (value) VALUES ('unpaid');

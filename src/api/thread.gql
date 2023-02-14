@@ -1,0 +1,43 @@
+query getCircleThreadsIds($circleId: uuid!) {
+  thread(where: { circleId: { _eq: $circleId }, archived: { _eq: false } }) {
+    id
+  }
+}
+
+subscription thread($id: uuid!, $memberId: uuid!) {
+  thread_by_pk(id: $id) {
+    ...Thread
+    member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
+      lastReadActivityId
+      lastReadDate
+    }
+  }
+}
+
+subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
+  thread(where: { _and: $filters }) {
+    ...Thread
+    member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
+      lastReadActivityId
+      lastReadDate
+    }
+  }
+}
+
+mutation createThread($values: thread_insert_input!) {
+  insert_thread_one(object: $values) {
+    ...Thread
+  }
+}
+
+mutation updateThread($id: uuid!, $values: thread_set_input!) {
+  update_thread_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...Thread
+  }
+}
+
+mutation archiveThread($id: uuid!) {
+  update_thread_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+    id
+  }
+}
