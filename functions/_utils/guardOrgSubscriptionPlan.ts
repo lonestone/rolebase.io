@@ -1,4 +1,5 @@
-import { gql, Subscription_Plan_Type_Enum } from '@gql'
+import { gql } from '@gql'
+import { SubscriptionLimits } from '@shared/model/subscription'
 import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
@@ -20,7 +21,7 @@ export async function guardOrgSubscriptionPlan(
     ? orgSubscriptionResponse.org_subscription[0]
     : null
 
-  const planMembersLimit = getPlanLimit(orgSubscription?.status)
+  const planMembersLimit = SubscriptionLimits[orgSubscription?.status ?? 'free']
 
   if (nbActiveMembers >= planMembersLimit) {
     throw new RouteError(402, 'Reached user limit for free plan')
@@ -29,17 +30,6 @@ export async function guardOrgSubscriptionPlan(
   return {
     nbActiveMembers,
     subscription: orgSubscription,
-  }
-}
-
-const getPlanLimit = (plan: Subscription_Plan_Type_Enum | undefined) => {
-  switch (plan) {
-    case Subscription_Plan_Type_Enum.Startup:
-      return 200
-    case Subscription_Plan_Type_Enum.Business:
-      return Infinity
-    default:
-      return 5
   }
 }
 

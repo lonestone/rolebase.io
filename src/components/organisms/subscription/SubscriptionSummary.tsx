@@ -18,6 +18,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import {
   CustomerBillingDetails,
   PromotionCode,
+  SubscriptionLimits,
 } from '@shared/model/subscription'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import React, { useMemo, useState } from 'react'
@@ -28,11 +29,6 @@ type SubscriptionSummaryProps = {
   billingDetails: CustomerBillingDetails
   onPromoApplied: (promoCode: string) => void
 } & StackProps
-
-// Price per seat in cents
-const pricesPerSeat: { [key in Subscription_Plan_Type_Enum]?: number } = {
-  [Subscription_Plan_Type_Enum.Startup]: 500,
-}
 
 export default function SubscriptionSummary({
   planType,
@@ -45,7 +41,7 @@ export default function SubscriptionSummary({
   const [retrievedCoupon, setRetrievedCoupon] = useState<PromotionCode>()
   const [couponError, setCouponError] = useState<string>()
   const [couponLoading, setCouponLoading] = useState<boolean>(false)
-  const currentMember: number = useCurrentMember()
+  const currentMember = useCurrentMember()
   const orgId = useOrgId()
   const nbSeats = useOrgActiveMembers().length
   const parsedDetails = useMemo(() => {
@@ -84,7 +80,7 @@ export default function SubscriptionSummary({
   }
 
   const planPricePerSeat = useMemo(
-    () => pricesPerSeat[planType] ?? 0,
+    () => SubscriptionLimits[planType] ?? 0,
     [planType]
   )
 

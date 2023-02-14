@@ -1,6 +1,7 @@
 import { gql } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
 import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
+import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { updateStripeSubscription } from '@utils/stripe'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
@@ -22,7 +23,7 @@ export async function updateOrgSubscriptionAfterArchive(
 
   const nbActiveMembers = await getActiveMembersTotal(context, orgId)
 
-  if (orgSubscription) {
+  if (orgSubscription && isSubscriptionActive(orgSubscription.status)) {
     await updateStripeSubscription(
       orgSubscription.stripeSubscriptionId,
       nbActiveMembers - 1
@@ -37,5 +38,6 @@ export const GET_ORG_SUBSCRIPTION = gql(`
     org_subscription(where: {orgId: {_eq: $orgId}}) {
       id
       stripeSubscriptionId
+      status
     }
   }`)
