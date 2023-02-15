@@ -29,7 +29,7 @@ export default function SubscriptionFreePlanCardFooter(props: FlexProps) {
         color="gray.500"
       >
         {t('SubscriptionPlans.activeMember', {
-          count: members?.length ?? 0,
+          count: filteredMembers?.length ?? 0,
           total: MAX_MEMBERS_FREE,
         })}
       </Text>

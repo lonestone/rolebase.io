@@ -1,6 +1,7 @@
 import { gql } from '@gql'
 import { SubscriptionLimits } from '@shared/model/subscription'
 import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
+import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
@@ -21,9 +22,11 @@ export async function guardOrgSubscriptionPlan(
     ? orgSubscriptionResponse.org_subscription[0]
     : null
 
-  const planMembersLimit = SubscriptionLimits[orgSubscription?.status ?? 'free']
+  const planMembersLimit = isSubscriptionActive(orgSubscription?.status)
+    ? SubscriptionLimits[orgSubscription?.type ?? 'free']
+    : SubscriptionLimits['free']
 
-  if (nbActiveMembers >= planMembersLimit) {
+  if (nbActiveMembers >= (planMembersLimit ?? 0)) {
     throw new RouteError(402, 'Reached user limit for free plan')
   }
 
