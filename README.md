@@ -95,6 +95,18 @@ To use the search engine across an organization, you need to configure an [Algol
    - Use `algolia-docs.json` present in this repo
    - Set env variables (see below)
 
+### Stripe
+
+Rolebase also uses [Stripe](https://stripe.com/) for it's subscription feature.
+You'll need to [install the cli](https://stripe.com/docs/stripe-cli#install) first.
+
+Once done, run the following command:
+```bash
+stripe listen --forward-to http://localhost:1337/v1/functions/routes/stripeWebhook
+```
+
+It'll should output your [Stripe webhook endpoint secret](https://dashboard.stripe.com/test/webhooks).
+
 ### MagicBell
 
 To send push notifications to your organization's users, you need a [MagicBell](https://www.magicbell.com) account.
@@ -102,6 +114,17 @@ To send push notifications to your organization's users, you need a [MagicBell](
 ## Configuration
 
 ### Environment variables
+
+### Front
+
+Write these env variables in the file `.env`:
+
+- **VITE_STRIPE_PUBLISHABLE_KEY**: [Stripe publishable key](https://stripe.com/docs/keys#obtain-api-keys)
+
+You can find a reusable template in `.env.template`.
+
+
+### Functions
 
 Write these env variables in the file `functions/.env`:
 
@@ -113,6 +136,9 @@ Write these env variables in the file `functions/.env`:
 - **ALGOLIA_ADMIN_API_KEY**: Algolia admin API key (must remain secret!)
 - **MAGICBELL_API_KEY**: API key to MagicBell
 - **MAGICBELL_API_SECRET**: Secret provided by MagicBell
+- **STRIPE_STARTUP_PLAN_PRICE_ID**: Price id of the startup plan inside stripe
+- **STRIPE_ENDPOINT_SECRET**: [Stripe webhook endpoint secret](https://dashboard.stripe.com/test/webhooks)
+- **STRIPE_PRIVATE_KEY**: [Stripe API private key](https://stripe.com/docs/keys#obtain-api-keys)
 
 You can find a reusable template in `functions/.env.template`.
 
