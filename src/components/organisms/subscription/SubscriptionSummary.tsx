@@ -18,11 +18,15 @@ import { useOrgId } from '@hooks/useOrgId'
 import {
   CustomerBillingDetails,
   PromotionCode,
-  SubscriptionLimits,
 } from '@shared/model/subscription'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+// Price per seat in cents
+const pricesPerSeat: { [key in Subscription_Plan_Type_Enum]?: number } = {
+  [Subscription_Plan_Type_Enum.Startup]: 500,
+}
 
 type SubscriptionSummaryProps = {
   planType: Subscription_Plan_Type_Enum
@@ -80,7 +84,7 @@ export default function SubscriptionSummary({
   }
 
   const planPricePerSeat = useMemo(
-    () => SubscriptionLimits[planType] ?? 0,
+    () => pricesPerSeat[planType] ?? 0,
     [planType]
   )
 

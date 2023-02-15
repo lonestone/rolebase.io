@@ -1,46 +1,40 @@
-import { Box } from '@chakra-ui/layout'
 import React, { useMemo } from 'react'
 import {
-  Amex,
-  CartesBancaires,
-  Diners,
-  Discover,
-  Jcb,
-  Mastercard,
-  UnionPay,
-  Visa,
-} from 'react-pay-icons'
+  FaCcAmex,
+  FaCcDinersClub,
+  FaCcDiscover,
+  FaCcMastercard,
+  FaCcVisa,
+  FaCreditCard,
+} from 'react-icons/fa'
+import { IconBaseProps } from 'react-icons/lib'
 
 type CreditCardIconProps = {
   name: string
-  style?: object
-}
+} & IconBaseProps
 
-export default function CreditCardIcon({ name, style }: CreditCardIconProps) {
+export default function CreditCardIcon({
+  name,
+  ...iconProps
+}: CreditCardIconProps) {
   const Icon = useMemo(() => {
     switch (name.toLocaleLowerCase()) {
       case 'american express':
-        return Amex
+        return FaCcAmex
       case 'diners club':
-        return Diners
+        return FaCcDinersClub
       case 'discover':
-        return Discover
+        return FaCcDiscover
       case 'jcb':
-        return Jcb
+        return FaCcDiscover
       case 'mastercard':
-        return Mastercard
-      case 'unionPay':
-        return UnionPay
+        return FaCcMastercard
       case 'visa':
-        return Visa
+        return FaCcVisa
       default:
-        return CartesBancaires
+        return FaCreditCard
     }
   }, [name])
 
-  return (
-    <Box borderRadius="5px">
-      <Icon style={style} />
-    </Box>
-  )
+  return <Icon size="md" {...iconProps} />
 }

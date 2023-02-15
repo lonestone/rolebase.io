@@ -47,8 +47,17 @@ export default function SubscriptionPaymentDetailsCard({
           variant="outline"
           flexWrap={['wrap', 'nowrap']}
         >
-          <Card variant="outline" p="1" minW="60px">
-            <CreditCardIcon name={card.brand} style={{ width: 50 }} />
+          <Card
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            variant="outline"
+            p="1"
+            paddingX="2"
+            maxH="50px"
+            maxW="65px"
+          >
+            <CreditCardIcon name={card.brand} />
           </Card>
           <Box w="100%">
             <Text fontWeight={700} fontSize={18}>
