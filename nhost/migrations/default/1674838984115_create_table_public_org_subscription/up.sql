@@ -1,2 +1,0 @@
-CREATE TABLE "public"."org_subscription" ("orgId" uuid NOT NULL, "id" uuid NOT NULL DEFAULT gen_random_uuid(), "stripeSubscriptionId" uuid NOT NULL, "stripeCustomerId" uuid NOT NULL, "nbSlots" integer NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("orgId") REFERENCES "public"."org"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id"), UNIQUE ("orgId"));COMMENT ON TABLE "public"."org_subscription" IS E'Abonnement lié à une organisation';
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
