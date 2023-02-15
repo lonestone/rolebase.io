@@ -93,8 +93,7 @@ const deleteSubscription = async (subscriptionId: string) => {
     )
     const orgAdmins = owners.concat(admin)
 
-    const memberIdsToUpdate = owners
-      .concat(admin)
+    const memberIdsToUpdate = orgAdmins
       .splice(SubscriptionLimits['free'] || 1, orgAdmins.length)
       .map((m) => m.id)
 
