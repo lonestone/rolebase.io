@@ -142,7 +142,7 @@ export default function UpdateBillingDetailsModal({
         </ModalBody>
         <ModalFooter>
           <Button
-            disabled={disabled}
+            isDisabled={disabled}
             isLoading={loading}
             colorScheme="orange"
             onClick={saveDetails}

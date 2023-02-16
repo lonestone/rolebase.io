@@ -70,6 +70,7 @@ export default function SubscriptionTabSubLayout({
 
     const plansArray: SubscriptionPlanCardData[] = []
 
+    console.log('ExpiresAt:', typeof subscription.expiresAt)
     plansArray.push({
       ...plansData.free,
       footer: (
@@ -78,7 +79,7 @@ export default function SubscriptionTabSubLayout({
             variant="outline"
             rightIcon={subscription.expiresAt ? undefined : <FiArrowRight />}
             onClick={onUnsubscribeOpen}
-            disabled={!!subscription.expiresAt}
+            isDisabled={!!subscription.expiresAt}
           >
             {subscription.expiresAt
               ? t('SubscriptionPlans.activateOnSubscriptionEnd')

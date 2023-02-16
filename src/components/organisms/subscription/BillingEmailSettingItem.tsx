@@ -119,7 +119,7 @@ export default function BillingEmailSettingItem({
             <ModalFooter>
               <HStack>
                 <Button
-                  disabled={!!errors.email}
+                  isDisabled={!!errors.email}
                   onClick={updateEmail}
                   isLoading={loading}
                   colorScheme="orange"

@@ -113,7 +113,7 @@ export default function InvoiceTable({
             <Button
               variant="outline"
               as={link ? 'a' : undefined}
-              disabled={!link}
+              isDisabled={!link}
               href={link ?? undefined}
               target="_blank"
               leftIcon={<FiDownload />}
