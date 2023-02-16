@@ -15,10 +15,12 @@ import MemberMenuItem from '../atoms/MemberMenuItem'
 
 interface Props extends MenuButtonProps {
   participants: ParticipantMember[]
+  withRightIcon?: boolean
 }
 
 export default function ParticipantsNumber({
   participants,
+  withRightIcon = true,
   ...buttonProps
 }: Props) {
   const someParticipants = useMemo(
@@ -36,7 +38,7 @@ export default function ParticipantsNumber({
         p={1}
         borderRadius="full"
         size="sm"
-        rightIcon={<Box mr={2}>{participants.length}</Box>}
+        rightIcon={withRightIcon && <Box mr={2}>{participants.length}</Box>}
         disabled={participants.length === 0}
         {...buttonProps}
       >
