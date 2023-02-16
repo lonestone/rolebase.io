@@ -6,7 +6,7 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
-import { getStripeSubscriptionInvoices } from '@utils/stripe'
+import { getStripeCustomerInvoices } from '@utils/stripe'
 import Stripe from 'stripe'
 import * as yup from 'yup'
 
@@ -39,10 +39,7 @@ export default route(async (context): Promise<Invoice[]> => {
   }
 
   // Get stripe invoices
-  const invoices = await getStripeSubscriptionInvoices(
-    stripeCustomerId,
-    stripeSubscriptionId
-  )
+  const invoices = await getStripeCustomerInvoices(stripeCustomerId)
 
   return formatStripeInvoices(invoices)
 })
