@@ -70,7 +70,6 @@ export default function SubscriptionTabSubLayout({
 
     const plansArray: SubscriptionPlanCardData[] = []
 
-    console.log('ExpiresAt:', typeof subscription.expiresAt)
     plansArray.push({
       ...plansData.free,
       footer: (
