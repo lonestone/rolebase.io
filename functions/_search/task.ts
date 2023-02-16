@@ -1,6 +1,5 @@
-import { DocumentType, gql } from '@gql'
+import { DocumentType, gql, TaskFragment } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
-import { TaskEntry } from '@shared/model/task'
 import { adminRequest } from '@utils/adminRequest'
 import { IndexEntity } from './IndexEntity'
 
@@ -9,6 +8,7 @@ const Fragment = gql(`
     id
     orgId
     title
+    createdAt
   }
 `)
 
@@ -18,10 +18,11 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Task,
   title: fragment.title,
   description: '',
+  createdAt: fragment.createdAt,
   boost: 0,
 })
 
-export class IndexTask extends IndexEntity<TaskEntry> {
+export class IndexTask extends IndexEntity<TaskFragment> {
   static table = 'public.task'
 
   async getById(id: string) {

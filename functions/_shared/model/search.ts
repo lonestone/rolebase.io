@@ -8,6 +8,7 @@ export interface SearchDoc {
   title: string
   description: string
   picture?: string
+  createdAt?: string
 }
 
 export enum SearchTypes {

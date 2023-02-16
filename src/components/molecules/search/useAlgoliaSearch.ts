@@ -67,6 +67,7 @@ export function useAlgoliaSearch() {
             text: '',
             title: hit.title,
             picture: hit.picture,
+            createdAt: hit.createdAt,
           }))
         )
       } catch (e) {

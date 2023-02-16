@@ -17,6 +17,7 @@ const Fragment = gql(`
     steps {
       notes
     }
+    createdAt
   }
 `)
 
@@ -26,6 +27,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Meeting,
   title: `${fragment.circle.role.name} - ${fragment.title}`,
   description: fragment.steps.map((step) => step.notes).join('\n'),
+  createdAt: fragment.createdAt,
   boost: 0,
 })
 

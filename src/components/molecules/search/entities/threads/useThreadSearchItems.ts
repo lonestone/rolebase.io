@@ -19,6 +19,7 @@ export function useThreadSearchItems(
             text: thread.title.toLowerCase(),
             type: SearchTypes.Thread,
             title: thread.title,
+            createdAt: thread.createdAt,
           }
         })
         .filter(Boolean) as SearchItem[],
