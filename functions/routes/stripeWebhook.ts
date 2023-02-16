@@ -40,7 +40,7 @@ export default route(async (context): Promise<void> => {
       )
       break
     default:
-      console.log(`Unhandled event type ${event.type}`)
+      console.log(`[STRIPE WEBHOOK]: Unhandled event type ${event.type}`)
       break
   }
 })
