@@ -63,7 +63,7 @@ export default function UpdatePaymentMethodForm() {
       <HStack pb="2" pt="6" justifyContent="end">
         <Button
           type="submit"
-          disabled={disabled}
+          isDisabled={disabled}
           isLoading={loading}
           colorScheme="orange"
         >
