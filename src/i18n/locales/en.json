@@ -672,6 +672,13 @@
       "errorLoadingInvoices": "Failed to retrieve invoices"
     }
   },
+  "SubscriptionInvoiceCalculationDetails": {
+    "title": "How is my invoice calculated?",
+    "explaination": "The amount of your invoice is calculated in the following way:",
+    "desc1": "Each active member (member associated to a Rolebase account) cost 5 euros per month",
+    "desc2": "If an active user is added during the month, the amount is prorated between the current date and the end of the billing cycle and will be added to your next invoice",
+    "desc3": "If an active user is deleted during the month, a credit note for the time spent during the month will be applied to your next invoice"
+  },
   "SubscriptionReachedMemberLimitModal": {
     "title": "Oops, you have reached the maximum number of members for your plan!",
     "limitReached": "You can upgrade your plan to increase the number of members in your team.",

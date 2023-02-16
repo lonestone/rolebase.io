@@ -123,14 +123,12 @@ export const cancelStripeSubscription = async (
   }
 }
 
-export const getStripeSubscriptionInvoices = async (
-  stripeCustomerId: string,
-  stripeSubscriptionId: string
+export const getStripeCustomerInvoices = async (
+  stripeCustomerId: string
 ): Promise<Stripe.ApiList<Stripe.Invoice>> => {
   try {
     const invoices = await stripe.invoices.list({
       customer: stripeCustomerId,
-      subscription: stripeSubscriptionId,
     })
 
     return invoices

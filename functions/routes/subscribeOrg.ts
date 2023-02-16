@@ -66,12 +66,6 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     if (subscriptionId) {
       await deleteStripeSubscription(subscriptionId)
     }
-  } else {
-    if (subscriptionId) {
-      // Current subscription did not go through or has expired
-      // We can safely delete the old one on stripe
-      await deleteStripeSubscription(subscriptionId)
-    }
   }
 
   const priceId = getPriceId(planType)
