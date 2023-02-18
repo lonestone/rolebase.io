@@ -5,8 +5,9 @@ import React, { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { I18nextProvider } from 'react-i18next'
 import { Transition, TransitionGroup } from 'react-transition-group'
-import { Graph, GraphEvents } from 'src/circles-viz/createGraph'
+import { Graph } from 'src/circles-viz/Graph'
 import settings from 'src/circles-viz/settings'
+import { GraphEvents, GraphViews } from 'src/circles-viz/types'
 import i18n from '../../i18n'
 import { circles } from './data'
 
@@ -200,6 +201,7 @@ function Demo1() {
         <CirclesGraph
           ref={graphRef}
           id="graph"
+          view={GraphViews.AllCircles}
           circles={circles}
           events={events}
           selectedCircleId={step?.circleId ?? undefined}

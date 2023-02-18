@@ -1,6 +1,6 @@
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useCallback } from 'react'
-import { GraphEvents } from 'src/circles-viz/createGraph'
+import { GraphEvents } from 'src/circles-viz/types'
 import useAddCircleMember from './useAddCircleMember'
 import useCopyCircle from './useCopyCircle'
 import useMoveCircle from './useMoveCircle'

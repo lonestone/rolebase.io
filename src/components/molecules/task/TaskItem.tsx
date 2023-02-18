@@ -1,5 +1,5 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
-import MemberAvatar from '@atoms/MemberAvatar'
+import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 import TaskStatusTag from '@atoms/TaskStatusTag'
 import {
   Avatar,
@@ -98,7 +98,7 @@ const TaskItem = forwardRef<Props, 'div'>(
 
             {showMember &&
               (task.memberId ? (
-                <MemberAvatar id={task.memberId} size="xs" ml={2} />
+                <MemberByIdAvatar id={task.memberId} size="xs" ml={2} />
               ) : (
                 <Avatar name="?" size="xs" ml={2} />
               ))}

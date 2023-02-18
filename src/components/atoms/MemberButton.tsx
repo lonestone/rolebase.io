@@ -1,10 +1,10 @@
 import { Avatar, Button, ButtonProps } from '@chakra-ui/react'
-import { MemberFragment } from '@gql'
+import { MemberSummaryFragment } from '@gql'
 import { textEllipsis } from '@utils/textEllipsis'
 import React from 'react'
 
 interface Props extends ButtonProps {
-  member: MemberFragment
+  member: MemberSummaryFragment
 }
 
 export default function MemberButton({ member, ...buttonProps }: Props) {

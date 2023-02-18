@@ -8,13 +8,6 @@ export function getCircleParticipants(
 ): Participant[] {
   const currentCircle = circles.find((c) => c.id === circleId)
 
-  // Direct members
-  const directParticipants =
-    currentCircle?.members.map(({ memberId }) => ({
-      circleId,
-      memberId,
-    })) || []
-
   // Leaders of Roles and sub-Circles in Circle
   const leaders = circles
     // Children of Circle
@@ -26,9 +19,11 @@ export function getCircleParticipants(
         .flatMap((subCircle) => {
           // Find sub-Role
           if (subCircle.role.link === RoleLink.Parent) {
-            return subCircle.members.map((member) =>
-              optionalParticipant(circle.id, member.memberId)
-            )
+            return subCircle.members.map(({ member }) => ({
+              circleId: circle.id,
+              member,
+              leader: circle.role.link === RoleLink.Parent,
+            }))
           }
           return
         })
@@ -39,11 +34,25 @@ export function getCircleParticipants(
       }
 
       // If no representant, Take direct members
-      return circle.members.map((member) =>
-        optionalParticipant(circle.id, member.memberId)
-      )
+      return circle.members.map(({ member }) => ({
+        circleId: circle.id,
+        member,
+        leader: circle.role.link === RoleLink.Parent,
+      }))
     })
     .filter(Boolean) as Participant[]
+
+  let hasLeader = leaders.some((l) => l.leader)
+
+  // Direct members
+  const directParticipants =
+    currentCircle?.members.map(
+      ({ member }): Participant => ({
+        circleId,
+        member,
+        leader: !hasLeader,
+      })
+    ) || []
 
   // Representants from other circles (links)
   const representants =
@@ -52,18 +61,12 @@ export function getCircleParticipants(
       .filter((c) => c.role.link === circleId)
       // Get Member id
       .flatMap((circle) =>
-        circle.members.map((member) =>
-          optionalParticipant(circle.parentId, member.memberId)
-        )
+        circle.members.map(({ member }) => ({
+          circleId: circle.parentId,
+          member,
+        }))
       )
       .filter(Boolean) as Participant[]
 
   return [...leaders, ...representants, ...directParticipants]
-}
-
-function optionalParticipant(
-  circleId?: string | null,
-  memberId?: string | null
-): Participant | undefined {
-  return circleId && memberId ? { circleId, memberId } : undefined
 }

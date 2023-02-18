@@ -11,16 +11,15 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { Position } from 'src/circles-viz/types'
+import { AllCirclesGraph } from 'src/circles-viz/AllCirclesGraph'
+import { Graph } from 'src/circles-viz/Graph'
+import { SimpleCirclesGraph } from 'src/circles-viz/SimpleCirclesGraph'
+import { GraphEvents, GraphViews, Position } from 'src/circles-viz/types'
 import { circleColor } from 'src/theme'
-import {
-  createGraph,
-  Graph,
-  GraphEvents,
-} from '../../../circles-viz/createGraph'
 
 interface Props {
   id: string
+  view: GraphViews
   circles: CircleFullFragment[]
   events: GraphEvents
   width: number
@@ -69,7 +68,7 @@ const StyledSVG = styled.svg<SVGProps>`
         )};
     }
 
-    &[data-hover] circle {
+    &[data-hover] > circle {
       stroke: ${(p) =>
         circleColor(
           mode(
@@ -82,7 +81,7 @@ const StyledSVG = styled.svg<SVGProps>`
     }
 
     // Selected
-    &.circle-${(p) => p.selectedCircleId} circle {
+    &.circle-${(p) => p.selectedCircleId} > circle {
       stroke: ${(p) =>
         circleColor(
           mode(
@@ -94,12 +93,12 @@ const StyledSVG = styled.svg<SVGProps>`
       stroke-width: calc(4 / var(--zoom-scale));
     }
 
-    &[data-dragging] circle {
+    &[data-dragging] > circle {
       filter: url(#${({ id }) => id}-shadow);
       fill-opacity: 0.5;
     }
 
-    &[data-drag-target] circle {
+    &[data-drag-target] > circle {
       stroke: ${(p) => circleColor(mode('20%', '80%')(p))};
       stroke-width: 3px;
     }
@@ -116,6 +115,7 @@ const StyledSVG = styled.svg<SVGProps>`
 export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   {
     id,
+    view,
     circles,
     events,
     width,
@@ -145,12 +145,17 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
 
     // Init Graph
     if (!graphRef.current) {
-      const graph = createGraph(svgRef.current, {
+      const svg = svgRef.current
+      const params = {
         width,
         height,
         focusCrop,
         events,
-      })
+      }
+      const graph =
+        view === GraphViews.AllCircles
+          ? new AllCirclesGraph(svg, params)
+          : new SimpleCirclesGraph(svg, params)
 
       // Change ready state after first draw
       graph.addDrawListener(() => setReady(true), true)
@@ -160,7 +165,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
 
     // (Re)-draw graph
     graphRef.current.updateData(circles)
-  }, [circles, ...Object.values(events)])
+  }, [view, circles, ...Object.values(events)])
 
   // Update dimensions
   useEffect(() => {
@@ -180,19 +185,14 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
     () => () => {
       // Reset zoom context
       zoomContext?.setZoom(undefined)
-      // Remove SVG listeners on unmount
-      graphRef.current?.removeListeners()
     },
     []
   )
 
   // Focus on a circle when focusCircleId is defined
   useEffect(() => {
-    if (ready && selectedCircleId) {
-      // Let the panel show, then focus on circle
-      setTimeout(() => {
-        graphRef.current?.zoom.focusCircle?.(selectedCircleId, true)
-      }, 100)
+    if (ready) {
+      graphRef.current?.selectCircle(selectedCircleId)
     }
   }, [ready, selectedCircleId])
 

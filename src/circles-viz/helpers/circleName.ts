@@ -1,4 +1,4 @@
-import { NodeData } from './types'
+import { NodeData } from '../types'
 
 // Opacity depends on zoom scale, circle size and graph size
 // Visible when:

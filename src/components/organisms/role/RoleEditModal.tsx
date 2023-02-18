@@ -32,6 +32,7 @@ import useRole from '@hooks/useRole'
 import { EditorHandle } from '@molecules/editor'
 import EditorController from '@molecules/editor/EditorController'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
+import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { RoleLink } from '@shared/model/role'
 import { nameSchema } from '@shared/schemas'
@@ -40,7 +41,6 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FaPlus } from 'react-icons/fa'
 import * as yup from 'yup'
-import { getEntityChanges } from '../../../../functions/_shared/helpers/log/getEntityChanges'
 
 interface Props extends UseModalProps {
   id: string

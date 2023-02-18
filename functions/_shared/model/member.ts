@@ -1,13 +1,14 @@
-import { MemberFragment } from '@gql'
+import { MemberSummaryFragment } from '@gql'
 
 export interface Participant {
   circleId: string
-  memberId: string
+  member: MemberSummaryFragment
+  leader?: boolean
 }
 
 // Member with its represented circles in a specific context (eg: a meeting)
 export interface ParticipantMember {
-  member: MemberFragment
+  member: MemberSummaryFragment
   // Represented circles
   circlesIds: string[]
 }

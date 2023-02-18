@@ -49,7 +49,7 @@ describe('Participants', () => {
     const participantMemberIds = getAllCircleMembersParticipants(
       'circle-agence-dev',
       circlesFull
-    ).map((participant) => participant.memberId)
+    ).map((participant) => participant.member.id)
 
     expect(participantMemberIds).includes('member-alice')
     expect(participantMemberIds).includes('member-jean-kevin')
