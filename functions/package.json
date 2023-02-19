@@ -1,7 +1,7 @@
 {
   "name": "functions",
   "scripts": {
-    "codegen": "graphql-codegen --config codegen.yml --errors-only"
+    "codegen": "graphql-codegen --config _codegen.ts"
   },
   "dependencies": {
     "@magicbell/core": "^5.0.3",

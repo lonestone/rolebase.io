@@ -1,16 +1,17 @@
 /* eslint-disable */
-import { MemberPreferences } from '@shared/model/member'
-import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
-import { MeetingStepData } from '@shared/model/meeting_step'
-import { ThreadActivityData } from '@shared/model/thread_activity'
-import { LogDisplay, EntitiesChanges } from '@shared/model/log'
-
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+
+import { MemberPreferences } from '@shared/model/member'
+import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
+import { MeetingStepData } from '@shared/model/meeting_step'
+import { ThreadActivityData } from '@shared/model/thread_activity'
+import { LogDisplay, EntitiesChanges } from '@shared/model/log'
+
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;

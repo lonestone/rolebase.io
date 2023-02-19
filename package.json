@@ -11,7 +11,7 @@
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix",
     "lint:format": "prettier --loglevel warn --write \"./src/**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "test": "vitest",
-    "codegen": "graphql-codegen --config codegen.yml --errors-only",
+    "codegen": "graphql-codegen",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "postinstall": "patch-package"
