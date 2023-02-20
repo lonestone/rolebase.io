@@ -22,8 +22,8 @@ export default route(async (context): Promise<void> => {
 
   // Get member
   const member = await getMemberById(memberId)
-  const org = await adminRequest(GET_ORG, { orgId })
-  if (!member || !org) {
+
+  if (!member) {
     throw new RouteError(400, 'Invalid request')
   }
 
@@ -49,13 +49,6 @@ export default route(async (context): Promise<void> => {
 
   await stripeResumeSubscription(stripeSubscription.id)
 })
-
-const GET_ORG = gql(`
-    query getOrgById($orgId: uuid!) {
-      org_by_pk(id: $orgId) {
-        id
-      }
-    }`)
 
 const GET_ORG_SUBSCRIPTION = gql(`
     query getOrgSubscriptionStripeIds($orgId: uuid!) {

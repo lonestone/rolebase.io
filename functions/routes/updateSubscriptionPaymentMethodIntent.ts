@@ -19,8 +19,7 @@ export default route(async (context): Promise<{ clientSecret: string }> => {
 
   // Get member
   const member = await getMemberById(memberId)
-  const org = await adminRequest(GET_ORG, { orgId })
-  if (!member || !org) {
+  if (!member) {
     throw new RouteError(400, 'Invalid request')
   }
 
@@ -39,16 +38,9 @@ export default route(async (context): Promise<{ clientSecret: string }> => {
   const intent = await createStripeSetupIntent(stripeCustomerId)
 
   return {
-    clientSecret: intent.client_secret,
+    clientSecret: intent.client_secret!,
   }
 })
-
-const GET_ORG = gql(`
-    query getOrgById($orgId: uuid!) {
-      org_by_pk(id: $orgId) {
-        id
-      }
-    }`)
 
 const GET_ORG_SUBSCRIPTION_CUSTOMERID = gql(`
     query getOrgSubscriptionStripeCustomerId($orgId: uuid!) {
