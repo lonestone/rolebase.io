@@ -4,7 +4,7 @@ import { generateInviteToken } from '@utils/generateInviteToken'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { guardOrgSubscriptionPlan } from '@utils/guardOrgSubscriptionPlan'
+import { guardSubscriptionAvailableSeat } from '@utils/guardSubscriptionAvailableSeat'
 import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
 import { updateStripeSubscription } from '@utils/stripe'
@@ -47,10 +47,8 @@ export default route(async (context): Promise<void> => {
   }
 
   // Verify that the org has not reached it's member limit
-  const { nbActiveMembers, subscription } = await guardOrgSubscriptionPlan(
-    context,
-    member.orgId
-  )
+  const { nbActiveMembers, subscription } =
+    await guardSubscriptionAvailableSeat(context, member.orgId)
 
   if (
     subscription &&

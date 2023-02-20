@@ -1,5 +1,6 @@
 import { gql, Member_Role_Enum } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
+import { dateFromSeconds } from '@utils/dateFromSeconds'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
@@ -7,7 +8,6 @@ import { guardOrg } from '@utils/guardOrg'
 import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
 import { cancelStripeSubscription } from '@utils/stripe'
-import { toDateTime } from '@utils/toDateTime'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -41,7 +41,7 @@ export default route(async (context): Promise<{ cancelAt: Date }> => {
   // Expires the subscription when period end
   const subscription = await cancelStripeSubscription(stripeSubscriptionId)
 
-  return { cancelAt: toDateTime(subscription.cancel_at ?? 0) }
+  return { cancelAt: dateFromSeconds(subscription.cancel_at ?? 0) }
 })
 
 const GET_ORG = gql(`

@@ -1,9 +1,9 @@
-import { gql, Member_Role_Enum } from '@gql'
+import { gql } from '@gql'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
 
-export async function guardOrgOwnership(
+export async function guardMultipleOwnersOrg(
   context: FunctionContext,
   orgId: string
 ) {
@@ -12,9 +12,7 @@ export async function guardOrgOwnership(
   }
 
   const org = await adminRequest(GET_ORG_MEMBERS, { orgId })
-  const owners = org.org_by_pk!.members.filter(
-    (mem) => mem.role === Member_Role_Enum.Owner
-  )
+  const owners = org.org_by_pk?.members ?? []
 
   // Checks if at least 1 owner will remain in the org
   if (owners.length <= 1) {
@@ -27,9 +25,9 @@ export async function guardOrgOwnership(
 const GET_ORG_MEMBERS = gql(`
   query getOrgMembers($orgId: uuid!) {
     org_by_pk(id: $orgId) {
+    id
+    members(where: {role: {_eq: Owner}}) {
       id
-      members {
-        role
-      }
     }
-  }`)
+  }
+}`)

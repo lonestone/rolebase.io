@@ -1,6 +1,7 @@
 import { gql, Member_Role_Enum } from '@gql'
 import { Invoice, InvoiceStatus } from '@shared/model/subscription'
 import { adminRequest } from '@utils/adminRequest'
+import { dateFromSeconds } from '@utils/dateFromSeconds'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
@@ -52,7 +53,7 @@ const formatStripeInvoices = (
 
   for (const stripeInvoice of stripeInvoices) {
     invoices.push({
-      createdAt: toDateTime(stripeInvoice.created),
+      createdAt: dateFromSeconds(stripeInvoice.created),
       pdfUrl: stripeInvoice.invoice_pdf,
       totalInCents: stripeInvoice.total,
       status: stripeInvoice.status as InvoiceStatus,
@@ -60,12 +61,6 @@ const formatStripeInvoices = (
   }
 
   return invoices
-}
-
-const toDateTime = (secs: number): Date => {
-  const t = new Date(1970, 0, 1) // Epoch
-  t.setSeconds(secs)
-  return t
 }
 
 const GET_ORG = gql(`

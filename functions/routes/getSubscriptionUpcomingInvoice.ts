@@ -1,6 +1,7 @@
 import { gql, Member_Role_Enum } from '@gql'
 import { UpcomingInvoice } from '@shared/model/subscription'
 import { adminRequest } from '@utils/adminRequest'
+import { dateFromSeconds } from '@utils/dateFromSeconds'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
@@ -52,18 +53,12 @@ const formatStripeUpcomingInvoice = (
   stripeUpcomingInvoice: Stripe.UpcomingInvoice
 ): UpcomingInvoice => {
   return {
-    nextPayment: toDateTime(
+    nextPayment: dateFromSeconds(
       stripeUpcomingInvoice.next_payment_attempt ??
         stripeUpcomingInvoice.lines.data[0].period.end
     ),
     totalInCents: stripeUpcomingInvoice.total,
   }
-}
-
-const toDateTime = (secs: number): Date => {
-  const t = new Date(1970, 0, 1) // Epoch
-  t.setSeconds(secs)
-  return t
 }
 
 const GET_ORG = gql(`

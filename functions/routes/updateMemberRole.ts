@@ -3,8 +3,8 @@ import { roleSchema } from '@shared/schemas'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
+import { guardMultipleOwnersOrg } from '@utils/guardMultipleOwnersOrg'
 import { guardOrg } from '@utils/guardOrg'
-import { guardOrgOwnership } from '@utils/guardOrgOwnership'
 import { route, RouteError } from '@utils/route'
 import { updateMember } from '@utils/updateMember'
 import * as yup from 'yup'
@@ -34,7 +34,7 @@ export default route(async (context): Promise<void> => {
 
   if (member.role === Member_Role_Enum.Owner) {
     // Ensures at least one other owner of the org will remain active
-    await guardOrgOwnership(context, member.orgId)
+    await guardMultipleOwnersOrg(context, member.orgId)
   }
 
   if (!member.role) {

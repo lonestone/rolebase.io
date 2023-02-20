@@ -6,6 +6,7 @@ import {
 } from '@gql'
 import { Subscription } from '@shared/model/subscription'
 import { adminRequest } from '@utils/adminRequest'
+import { dateFromSeconds } from '@utils/dateFromSeconds'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
@@ -31,8 +32,8 @@ export default route(async (context): Promise<Subscription | null> => {
 
   // Get member
   const member = await getMemberById(memberId)
-  const org = await adminRequest(GET_ORG, { orgId })
-  if (!member || !org) {
+
+  if (!member) {
     throw new RouteError(400, 'Invalid request')
   }
 
@@ -103,7 +104,7 @@ const formatSubscription = (
     orgId,
     upcomingInvoice: upcomingInvoice
       ? {
-          nextPayment: toDateTime(
+          nextPayment: dateFromSeconds(
             upcomingInvoice.next_payment_attempt ??
               upcomingInvoice.lines.data[0].period.end
           ),
@@ -122,23 +123,10 @@ const formatSubscription = (
         }
       : null,
     expiresAt: subscription?.cancel_at
-      ? toDateTime(subscription?.cancel_at ?? 0)
+      ? dateFromSeconds(subscription?.cancel_at ?? 0)
       : null,
   }
 }
-
-const toDateTime = (secs: number): Date => {
-  const t = new Date(1970, 0, 1) // Epoch
-  t.setSeconds(secs)
-  return t
-}
-
-const GET_ORG = gql(`
-    query getOrgById($orgId: uuid!) {
-      org_by_pk(id: $orgId) {
-        id
-      }
-    }`)
 
 const GET_ORG_SUBSCRIPTION = gql(`
     query getOrgSubscriptionDetails($orgId: uuid!) {

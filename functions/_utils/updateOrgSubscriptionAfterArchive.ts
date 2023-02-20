@@ -1,6 +1,5 @@
 import { gql } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
-import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
 import { guardAuth } from '@utils/guardAuth'
 import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { updateStripeSubscription } from '@utils/stripe'
@@ -12,30 +11,36 @@ export async function updateOrgSubscriptionAfterArchive(
 ) {
   guardAuth(context)
 
-  const orgSubscriptionResponse = await adminRequest(GET_ORG_SUBSCRIPTION, {
-    orgId,
-  })
-  const orgSubscription = orgSubscriptionResponse.org_subscription?.length
-    ? orgSubscriptionResponse.org_subscription[0]
-    : null
-
-  const nbActiveMembers = await getActiveMembersTotal(context, orgId)
+  const orgSubscriptionResponse = await adminRequest(
+    GET_ORG_SUB_WITH_ACTIVE_MEMBERS,
+    {
+      orgId,
+    }
+  )
+  const org = orgSubscriptionResponse.org_by_pk
+  const orgSubscription = org?.org_subscription
 
   if (orgSubscription && isSubscriptionActive(orgSubscription.status)) {
     await updateStripeSubscription(
-      orgSubscription.stripeSubscriptionId,
-      nbActiveMembers - 1
+      orgSubscription.stripeSubscriptionId!,
+      org.members.length - 1
     )
   }
 
   return orgId
 }
 
-export const GET_ORG_SUBSCRIPTION = gql(`
-  query getOrgSubscriptionSubId($orgId: uuid!) {
-    org_subscription(where: {orgId: {_eq: $orgId}}) {
-      id
-      stripeSubscriptionId
-      status
+const GET_ORG_SUB_WITH_ACTIVE_MEMBERS = gql(`
+  query getOrgActiveMembers($orgId: uuid!) {
+    org_by_pk(id: $orgId) {
+      members(where: {userId: {_is_null: false}}) {
+        id
+      }
+      org_subscription {
+        id
+        stripeSubscriptionId
+        status
+      }
     }
-  }`)
+  }
+`)

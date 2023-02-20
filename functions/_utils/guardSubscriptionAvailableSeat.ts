@@ -1,42 +1,41 @@
 import { gql } from '@gql'
 import { SubscriptionLimits } from '@shared/model/subscription'
-import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
 import { guardAuth } from '@utils/guardAuth'
 import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
 import { RouteError } from './route'
 
-export async function guardOrgSubscriptionPlan(
+export async function guardSubscriptionAvailableSeat(
   context: FunctionContext,
   orgId: string
 ) {
   guardAuth(context)
 
-  const nbActiveMembers = await getActiveMembersTotal(context, orgId)
-  const orgSubscriptionResponse = await adminRequest(GET_ORG_SUBSCRIPTION, {
+  const orgResponse = await adminRequest(GET_ORG_MEMBERS, {
     orgId,
   })
-  const orgSubscription = orgSubscriptionResponse.org_subscription?.length
-    ? orgSubscriptionResponse.org_subscription[0]
-    : null
+  const org = orgResponse.org_by_pk
+  const orgSubscription = orgResponse.org_by_pk?.org_subscription
 
   const planMembersLimit = isSubscriptionActive(orgSubscription?.status)
     ? SubscriptionLimits[orgSubscription?.type ?? 'free']
     : SubscriptionLimits['free']
 
-  if (nbActiveMembers >= (planMembersLimit ?? 0)) {
+  if (!org) throw new RouteError(400, 'Invalid request')
+
+  if (org && org.members.length >= (planMembersLimit ?? 0)) {
     throw new RouteError(402, 'Reached user limit for free plan')
   }
 
   return {
-    nbActiveMembers,
+    nbActiveMembers: org.members.length,
     subscription: orgSubscription,
   }
 }
 
 export const GET_ORG_MEMBERS = gql(`
-  query getOrgMembersIds($orgId: uuid!) {
+  query getOrg($orgId: uuid!) {
     org_by_pk(id: $orgId) {
       id
       members {
@@ -44,16 +43,12 @@ export const GET_ORG_MEMBERS = gql(`
         userId
         archived
       }
-    }
-  }`)
-
-export const GET_ORG_SUBSCRIPTION = gql(`
-  query getOrgSubscriptionFull($orgId: uuid!) {
-    org_subscription(where: {orgId: {_eq: $orgId}}) {
-      id
-      stripeCustomerId
-      stripeSubscriptionId
-      type
-      status
+      org_subscription {
+        id
+        stripeCustomerId
+        stripeSubscriptionId
+        type
+        status
+      }
     }
   }`)
