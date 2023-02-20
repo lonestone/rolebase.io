@@ -21,7 +21,8 @@ export default route(async (context): Promise<{ cancelAt: Date }> => {
 
   // Get member
   const member = await getMemberById(memberId)
-  if (!member) {
+  const org = await adminRequest(GET_ORG, { orgId })
+  if (!member || !org) {
     throw new RouteError(400, 'Invalid request')
   }
 
@@ -42,6 +43,13 @@ export default route(async (context): Promise<{ cancelAt: Date }> => {
 
   return { cancelAt: dateFromSeconds(subscription.cancel_at ?? 0) }
 })
+
+const GET_ORG = gql(`
+    query getOrgById($orgId: uuid!) {
+      org_by_pk(id: $orgId) {
+        id
+      }
+    }`)
 
 const GET_ORG_SUBSCRIPTION = gql(`
     query getOrgSubscriptionStripeId($orgId: uuid!) {

@@ -22,7 +22,8 @@ export default route(async (context): Promise<UpcomingInvoice | null> => {
 
   // Get member
   const member = await getMemberById(memberId)
-  if (!member) {
+  const org = await adminRequest(GET_ORG, { orgId })
+  if (!member || !org) {
     throw new RouteError(400, 'Invalid request')
   }
 
@@ -59,6 +60,13 @@ const formatStripeUpcomingInvoice = (
     totalInCents: stripeUpcomingInvoice.total,
   }
 }
+
+const GET_ORG = gql(`
+    query getOrgById($orgId: uuid!) {
+      org_by_pk(id: $orgId) {
+        id
+      }
+    }`)
 
 const GET_ORG_SUBSCRIPTION = gql(`
     query getOrgSubscriptionStripeIds($orgId: uuid!) {
