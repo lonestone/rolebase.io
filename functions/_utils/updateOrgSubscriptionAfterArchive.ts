@@ -1,18 +1,16 @@
 import { gql } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
 import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
+import { guardAuth } from '@utils/guardAuth'
 import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { updateStripeSubscription } from '@utils/stripe'
 import { FunctionContext } from './getContext'
-import { RouteError } from './route'
 
 export async function updateOrgSubscriptionAfterArchive(
   context: FunctionContext,
   orgId: string
 ) {
-  if (!context.userId) {
-    throw new RouteError(401, 'Unauthorized')
-  }
+  guardAuth(context)
 
   const orgSubscriptionResponse = await adminRequest(GET_ORG_SUBSCRIPTION, {
     orgId,

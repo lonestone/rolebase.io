@@ -1,6 +1,7 @@
 import { gql } from '@gql'
 import { SubscriptionLimits } from '@shared/model/subscription'
 import { getActiveMembersTotal } from '@utils/getActiveMembersTotal'
+import { guardAuth } from '@utils/guardAuth'
 import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { adminRequest } from './adminRequest'
 import { FunctionContext } from './getContext'
@@ -10,9 +11,7 @@ export async function guardOrgSubscriptionPlan(
   context: FunctionContext,
   orgId: string
 ) {
-  if (!context.userId) {
-    throw new RouteError(401, 'Unauthorized')
-  }
+  guardAuth(context)
 
   const nbActiveMembers = await getActiveMembersTotal(context, orgId)
   const orgSubscriptionResponse = await adminRequest(GET_ORG_SUBSCRIPTION, {
