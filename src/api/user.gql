@@ -1,6 +1,20 @@
+query getLocale($id: uuid!) {
+  user(id: $id) {
+    id
+    locale
+  }
+}
+
 mutation changeDisplayName($userId: uuid!, $displayName: String!) {
   updateUser(pk_columns: { id: $userId }, _set: { displayName: $displayName }) {
     id
     displayName
+  }
+}
+
+mutation changeLocale($userId: uuid!, $locale: String!) {
+  updateUser(pk_columns: { id: $userId }, _set: { locale: $locale }) {
+    id
+    locale
   }
 }

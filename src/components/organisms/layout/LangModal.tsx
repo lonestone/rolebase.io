@@ -1,4 +1,3 @@
-import { updateNovuSubscriber } from '@api/functions'
 import {
   Modal,
   ModalBody,
@@ -8,7 +7,9 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import { useChangeLocaleMutation } from '@gql'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
+import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'
@@ -21,14 +22,17 @@ export default function LangModal(modalProps: UseModalProps) {
     t,
     i18n: { language, changeLanguage },
   } = useTranslation()
+  const userId = useUserId()
+
+  // Mutations
+  const [changeLocale] = useChangeLocaleMutation()
 
   const handleClick = async (locale: string) => {
+    if (!userId) return
+    // Change user locale in DB
+    await changeLocale({ variables: { userId, locale } })
+    // Change i18n locale
     changeLanguage(locale)
-
-    // Update subscriber locale in Novu (used for notification center translation)
-    await updateNovuSubscriber({
-      locale,
-    })
   }
 
   return (

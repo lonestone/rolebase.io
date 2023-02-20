@@ -1,10 +1,8 @@
 import { gql } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
-import { guardAuth } from '@utils/guardAuth'
-import { route } from '@utils/route'
+import { route, RouteError } from '@utils/route'
 import settings from '@utils/settings'
 import { Novu } from '@novu/node'
-import { guardBodyParams } from '@utils/guardBodyParams'
 import * as yup from 'yup'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
 
@@ -14,45 +12,42 @@ const yupSchema = yup.object({
 })
 
 export default route(async (context): Promise<void> => {
-  const { headers, body } = context.req
+  const { body } = context.req
 
-  const nhostWebhookSecretFromHeader = headers['x-nhost-webhook-secret']
-
-  let userId: string | undefined
   const fields: yup.InferType<typeof yupSchema> = {
     email: undefined,
     locale: undefined,
   }
 
-  if (nhostWebhookSecretFromHeader) {
-    // Here we use an event trigger on email update to change it in Novu too
-    guardWebhookSecret(context)
+  // Here we use an event trigger on email or locale update to change it in Novu too
+  guardWebhookSecret(context)
 
-    // Get user email
-    const { user } = await adminRequest(GET_USER_EMAIL, {
-      id: body.event.data.new.id!,
-    })
-
-    if (user?.email) fields.email = user.email
-    userId = body.event.data.new.id
-  } else {
-    guardAuth(context)
-    // Locale is retrieve or set in app, we can change it directly
-    const { locale } = guardBodyParams(context, yupSchema)
-    fields.locale = locale
-    userId = context.userId!
+  // Check if userId is provided in body
+  const userId = body.event.data.new.id
+  if (!userId) {
+    throw new RouteError(401, 'Unauthorized')
   }
 
-  const novu = new Novu(settings.novu.apiKey)
+  // Get user fields used in Novu subscription
+  const { user } = await adminRequest(GET_USER_NOVU_FIELDS, {
+    id: body.event.data.new.id!,
+  })
 
+  if (!user?.email && !user?.locale) return
+
+  fields.email = user?.email ? user.email : undefined
+  fields.locale = user?.locale ? user.locale : undefined
+
+  const novu = new Novu(settings.novu.apiKey)
   // Update subscriber registered in Novu
   await novu.subscribers.update(userId!, fields)
 })
 
-const GET_USER_EMAIL = gql(`
-  query getUserEmail($id: uuid!) {
+const GET_USER_NOVU_FIELDS = gql(`
+  query getUserNovuFields($id: uuid!) {
     user(id: $id) {
       id
       email
+      locale
     }
   }`)

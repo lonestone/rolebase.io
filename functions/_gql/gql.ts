@@ -53,7 +53,7 @@ const documents = {
     "\n  query getMeetingOrgId($id: uuid!) {\n    meeting_by_pk(id: $id) {\n      id\n      orgId\n    }\n  }\n": types.GetMeetingOrgIdDocument,
     "\n  mutation startMembersMeeting($membersIds: [uuid!]!, $meetingId: uuid!) {\n    update_member(\n      where: { id: { _in: $membersIds } }\n      _set: { meetingId: $meetingId }\n    ) {\n      returning {\n        id\n      }\n    }\n  }": types.StartMembersMeetingDocument,
     "\n  mutation stopMembersMeeting($meetingId: uuid!) {\n    update_member(\n      where: { meetingId: { _eq: $meetingId } }\n      _set: { meetingId: null }\n    ) {\n      returning {\n        id\n      }\n    }\n  }": types.StopMembersMeetingDocument,
-    "\n  query getUserEmail($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n    }\n  }": types.GetUserEmailDocument,
+    "\n  query getUserNovuFields($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n      locale\n    }\n  }": types.GetUserNovuFieldsDocument,
     "\n  mutation updateOrgSlug($id: uuid!, $slug: String!) {\n    update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {\n      id\n    }\n  }": types.UpdateOrgSlugDocument,
 };
 
@@ -107,7 +107,7 @@ export function gql(source: "\n  query GetOldIds {\n    old_id {\n      id\n    
 export function gql(source: "\n  query getMeetingOrgId($id: uuid!) {\n    meeting_by_pk(id: $id) {\n      id\n      orgId\n    }\n  }\n"): (typeof documents)["\n  query getMeetingOrgId($id: uuid!) {\n    meeting_by_pk(id: $id) {\n      id\n      orgId\n    }\n  }\n"];
 export function gql(source: "\n  mutation startMembersMeeting($membersIds: [uuid!]!, $meetingId: uuid!) {\n    update_member(\n      where: { id: { _in: $membersIds } }\n      _set: { meetingId: $meetingId }\n    ) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation startMembersMeeting($membersIds: [uuid!]!, $meetingId: uuid!) {\n    update_member(\n      where: { id: { _in: $membersIds } }\n      _set: { meetingId: $meetingId }\n    ) {\n      returning {\n        id\n      }\n    }\n  }"];
 export function gql(source: "\n  mutation stopMembersMeeting($meetingId: uuid!) {\n    update_member(\n      where: { meetingId: { _eq: $meetingId } }\n      _set: { meetingId: null }\n    ) {\n      returning {\n        id\n      }\n    }\n  }"): (typeof documents)["\n  mutation stopMembersMeeting($meetingId: uuid!) {\n    update_member(\n      where: { meetingId: { _eq: $meetingId } }\n      _set: { meetingId: null }\n    ) {\n      returning {\n        id\n      }\n    }\n  }"];
-export function gql(source: "\n  query getUserEmail($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n    }\n  }"): (typeof documents)["\n  query getUserEmail($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n    }\n  }"];
+export function gql(source: "\n  query getUserNovuFields($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n      locale\n    }\n  }"): (typeof documents)["\n  query getUserNovuFields($id: uuid!) {\n    user(id: $id) {\n      id\n      email\n      locale\n    }\n  }"];
 export function gql(source: "\n  mutation updateOrgSlug($id: uuid!, $slug: String!) {\n    update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {\n      id\n    }\n  }"): (typeof documents)["\n  mutation updateOrgSlug($id: uuid!, $slug: String!) {\n    update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {\n      id\n    }\n  }"];
 
 export function gql(source: string): unknown;

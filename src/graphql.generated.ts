@@ -15579,6 +15579,13 @@ export type DeleteThreadPollAnswersMutationVariables = Exact<{
 
 export type DeleteThreadPollAnswersMutation = { __typename?: 'mutation_root', delete_thread_poll_answer?: { __typename?: 'thread_poll_answer_mutation_response', returning: Array<{ __typename?: 'thread_poll_answer', id: string }> } | null };
 
+export type GetLocaleQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GetLocaleQuery = { __typename?: 'query_root', user?: { __typename?: 'users', id: string, locale: string } | null };
+
 export type ChangeDisplayNameMutationVariables = Exact<{
   userId: Scalars['uuid'];
   displayName: Scalars['String'];
@@ -15586,6 +15593,14 @@ export type ChangeDisplayNameMutationVariables = Exact<{
 
 
 export type ChangeDisplayNameMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, displayName: string } | null };
+
+export type ChangeLocaleMutationVariables = Exact<{
+  userId: Scalars['uuid'];
+  locale: Scalars['String'];
+}>;
+
+
+export type ChangeLocaleMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, locale: string } | null };
 
 export const CircleFragmentDoc = gql`
     fragment Circle on circle {
@@ -18809,6 +18824,45 @@ export function useDeleteThreadPollAnswersMutation(baseOptions?: Apollo.Mutation
 export type DeleteThreadPollAnswersMutationHookResult = ReturnType<typeof useDeleteThreadPollAnswersMutation>;
 export type DeleteThreadPollAnswersMutationResult = Apollo.MutationResult<DeleteThreadPollAnswersMutation>;
 export type DeleteThreadPollAnswersMutationOptions = Apollo.BaseMutationOptions<DeleteThreadPollAnswersMutation, DeleteThreadPollAnswersMutationVariables>;
+export const GetLocaleDocument = gql`
+    query getLocale($id: uuid!) {
+  user(id: $id) {
+    id
+    locale
+  }
+}
+    `;
+
+/**
+ * __useGetLocaleQuery__
+ *
+ * To run a query within a React component, call `useGetLocaleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLocaleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLocaleQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetLocaleQuery(baseOptions: Apollo.QueryHookOptions<GetLocaleQuery, GetLocaleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLocaleQuery, GetLocaleQueryVariables>(GetLocaleDocument, options);
+      }
+export function useGetLocaleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLocaleQuery, GetLocaleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLocaleQuery, GetLocaleQueryVariables>(GetLocaleDocument, options);
+        }
+export type GetLocaleQueryHookResult = ReturnType<typeof useGetLocaleQuery>;
+export type GetLocaleLazyQueryHookResult = ReturnType<typeof useGetLocaleLazyQuery>;
+export type GetLocaleQueryResult = Apollo.QueryResult<GetLocaleQuery, GetLocaleQueryVariables>;
+export function refetchGetLocaleQuery(variables: GetLocaleQueryVariables) {
+      return { query: GetLocaleDocument, variables: variables }
+    }
 export const ChangeDisplayNameDocument = gql`
     mutation changeDisplayName($userId: uuid!, $displayName: String!) {
   updateUser(pk_columns: {id: $userId}, _set: {displayName: $displayName}) {
@@ -18844,3 +18898,38 @@ export function useChangeDisplayNameMutation(baseOptions?: Apollo.MutationHookOp
 export type ChangeDisplayNameMutationHookResult = ReturnType<typeof useChangeDisplayNameMutation>;
 export type ChangeDisplayNameMutationResult = Apollo.MutationResult<ChangeDisplayNameMutation>;
 export type ChangeDisplayNameMutationOptions = Apollo.BaseMutationOptions<ChangeDisplayNameMutation, ChangeDisplayNameMutationVariables>;
+export const ChangeLocaleDocument = gql`
+    mutation changeLocale($userId: uuid!, $locale: String!) {
+  updateUser(pk_columns: {id: $userId}, _set: {locale: $locale}) {
+    id
+    locale
+  }
+}
+    `;
+export type ChangeLocaleMutationFn = Apollo.MutationFunction<ChangeLocaleMutation, ChangeLocaleMutationVariables>;
+
+/**
+ * __useChangeLocaleMutation__
+ *
+ * To run a mutation, you first call `useChangeLocaleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeLocaleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeLocaleMutation, { data, loading, error }] = useChangeLocaleMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      locale: // value for 'locale'
+ *   },
+ * });
+ */
+export function useChangeLocaleMutation(baseOptions?: Apollo.MutationHookOptions<ChangeLocaleMutation, ChangeLocaleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeLocaleMutation, ChangeLocaleMutationVariables>(ChangeLocaleDocument, options);
+      }
+export type ChangeLocaleMutationHookResult = ReturnType<typeof useChangeLocaleMutation>;
+export type ChangeLocaleMutationResult = Apollo.MutationResult<ChangeLocaleMutation>;
+export type ChangeLocaleMutationOptions = Apollo.BaseMutationOptions<ChangeLocaleMutation, ChangeLocaleMutationVariables>;

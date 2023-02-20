@@ -155,6 +155,7 @@ update_permissions:
     permission:
       columns:
         - display_name
+        - locale
       filter:
         id:
           _eq: X-Hasura-User-Id
@@ -162,11 +163,12 @@ update_permissions:
         id:
           _eq: X-Hasura-User-Id
 event_triggers:
-  - name: user-email-update-novu-subscriber-update
+  - name: user-update-novu-subscriber-update
     definition:
       enable_manual: false
       update:
         columns:
+          - locale
           - email
           - new_email
     retry_conf:

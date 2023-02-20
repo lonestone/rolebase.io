@@ -24,7 +24,7 @@ const resources = {
 declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: typeof defaultNS
-    resources: typeof resources['fr']
+    resources: (typeof resources)['fr']
   }
 }
 
