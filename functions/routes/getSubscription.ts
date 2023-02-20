@@ -113,15 +113,13 @@ const formatSubscription = (
       : null,
     status,
     type,
-    billingDetails: extendedCustomer
-      ? {
-          address: extendedCustomer?.deleted
-            ? null
-            : extendedCustomer?.address ?? null,
-          email: extendedCustomer?.deleted ? '' : extendedCustomer?.email,
-          name: extendedCustomer?.deleted ? '' : extendedCustomer?.name,
-        }
-      : null,
+    billingDetails: extendedCustomer && {
+      address: extendedCustomer?.deleted
+        ? null
+        : extendedCustomer?.address ?? null,
+      email: extendedCustomer?.deleted ? '' : extendedCustomer?.email,
+      name: extendedCustomer?.deleted ? '' : extendedCustomer?.name,
+    },
     expiresAt: subscription?.cancel_at
       ? dateFromSeconds(subscription?.cancel_at ?? 0)
       : null,
