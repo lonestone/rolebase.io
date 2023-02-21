@@ -1,6 +1,6 @@
 import { Member_Role_Enum } from '@gql'
 import {
-  MeetingStartedNotificationFields,
+  MeetingStartedNotificationBodyParams,
   NovuConfig,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
@@ -47,7 +47,7 @@ export const identifyNovuSubscriber = fn<{
 }>('identifyNovuSubscriber')
 
 export const sendMeetingStartedNotification =
-  fn<MeetingStartedNotificationFields>('sendMeetingStartedNotification')
+  fn<MeetingStartedNotificationBodyParams>('sendMeetingStartedNotification')
 
 export const markNotificationAs = fn<{
   messageId: string

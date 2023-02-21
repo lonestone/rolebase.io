@@ -786,42 +786,6 @@
       "NotDone": "Non terminée"
     }
   },
-  "notifications": {
-    "common": {
-      "action": {
-        "openMeeting": "Ouvrir la réunion"
-      },
-      "email": {
-        "notificationReceived": "Vous avez reçu une notification :",
-        "automaticEmail": "Ceci est un email automatique, merci de ne pas y répondre.",
-        "unsubscribe": "Vous pouvez régler vos paramètres de notification sur"
-      }
-    },
-    "ThreadMessage": {
-      "title": "",
-      "content": ""
-    },
-    "TaskAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "meetinginvited": {
-      "title": "Réunion {{role}} - {{title}}",
-      "content": "Invitation par {{sender}}."
-    },
-    "meetingstarted": {
-      "title": "Réunion {{role}} - {{title}}",
-      "content": "{{sender}} a démarré la réunion !"
-    },
-    "RoleAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "Decision": {
-      "title": "",
-      "content": ""
-    }
-  },
   "useCreateTask": {
     "toast": "Tâche créée !"
   },

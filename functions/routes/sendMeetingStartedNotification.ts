@@ -1,65 +1,78 @@
 import { gql } from '@gql'
-import { Novu } from '@novu/node'
 import { guardAuth } from '@utils/guardAuth'
-import { getNotificationYupSchema } from '@utils/getNotificationYupSchema'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { route } from '@utils/route'
+import { RouteError, route } from '@utils/route'
 import settings from '@utils/settings'
-import { NotificationCategories } from '@shared/model/notification'
-import { getNotificationRecipients } from '@utils/getNotificationRecipients'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { adminRequest } from '@utils/adminRequest'
-import { getOrgSlug } from '@utils/getOrgSlug'
+import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
+import * as yup from 'yup'
+import { MeetingStartedNotification } from '@utils/notification/meetingStartedNotification'
+import { defaultLang, resources } from '@i18n'
+
+const yupSchema = yup.object({
+  meetingId: yup.string().required(),
+})
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
 
-  const yupSchema = getNotificationYupSchema(
-    NotificationCategories.meetingstarted
+  const { meetingId } = guardBodyParams(context, yupSchema)
+
+  // Get meeting data
+  const { meeting_by_pk } = await adminRequest(GET_MEETING_DATA, {
+    id: meetingId,
+  })
+  if (!meeting_by_pk) {
+    throw new RouteError(404, 'Meeting not found')
+  }
+
+  // Get all recipient ids
+  const allRecipientIds =
+    meeting_by_pk.attendees && meeting_by_pk.attendees.map((a) => a.memberId)
+  if (!allRecipientIds || allRecipientIds.length === 0) return
+  // Get sender and recipients
+  const { sender, recipients } = await getNotificationSenderAndRecipients(
+    context?.userId!,
+    allRecipientIds
   )
-
-  const { title, content, recipientMemberIds, meetingId, ...rest } =
-    guardBodyParams(context, yupSchema)
-
-  // Get recipients
-  const recipients = await getNotificationRecipients(recipientMemberIds)
   if (recipients.length === 0) return
+
+  const locale = (sender?.locale as keyof typeof resources) || defaultLang
 
   // Get actionUrl
   let actionUrl = settings.url
-  const { meeting_by_pk } = await adminRequest(GET_MEETING_ORG_ID, {
-    id: meetingId,
+  const orgId = meeting_by_pk.org.id
+  actionUrl =
+    meeting_by_pk.org || orgId
+      ? `${actionUrl}${getOrgPath(meeting_by_pk.org)}/meetings/${meetingId}`
+      : `${actionUrl}/orgs/${orgId}/meetings/${meetingId}`
+
+  // Build MeetingStartedNotification instance for each recipient depending on its locale
+  const notification = new MeetingStartedNotification(locale, {
+    title: meeting_by_pk?.title || '',
+    role: meeting_by_pk?.circle.role.name || '',
+    sender: sender?.name || '',
+    actionUrl,
   })
-
-  if (meeting_by_pk?.orgId) {
-    const org = await getOrgSlug(meeting_by_pk.orgId)
-
-    actionUrl = org
-      ? `${actionUrl}${getOrgPath(org)}/meetings/${meetingId}`
-      : `${actionUrl}/orgs/${meeting_by_pk.orgId}/meetings/${meetingId}`
-  }
-
-  // Novu logic
-  const novu = new Novu(settings.novu.apiKey)
-
-  await novu
-    .trigger(NotificationCategories.meetingstarted, {
-      to: recipients,
-      payload: {
-        title,
-        content,
-        actionUrl,
-        ...rest,
-      },
-    })
-    .catch((err) => console.error(err))
+  // Send notification "meetingstarted"
+  await notification.send(recipients)
 })
 
-const GET_MEETING_ORG_ID = gql(`
-  query getMeetingOrgId($id: uuid!) {
+const GET_MEETING_DATA = gql(`
+  query getMeetingData($id: uuid!) {
     meeting_by_pk(id: $id) {
       id
-      orgId
+      org {
+        ...Org
+      }
+      title
+      circle {
+        role {
+          name
+        }
+      }
+      attendees
     }
   }
 `)

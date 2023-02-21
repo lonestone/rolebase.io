@@ -72,23 +72,8 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
 
     // Send notification
     if (isStarted && circle && currentMember && currentMember.id !== memberId) {
-      const notifParams = {
-        role: circle.role.name,
-        title: meeting.title,
-        sender: currentMember.name,
-      }
       sendMeetingStartedNotification({
-        title: t('notifications.meetingstarted.title', notifParams),
-        content: t('notifications.meetingstarted.content', notifParams),
-        recipientMemberIds: [memberId],
-        topic: meeting.id,
         meetingId: meeting.id,
-        notificationReceived: t(
-          'notifications.common.email.notificationReceived'
-        ),
-        actionButton: t('notifications.common.action.openMeeting'),
-        automaticEmail: t('notifications.common.email.automaticEmail'),
-        unsubscribe: t('notifications.common.email.unsubscribe'),
       })
     }
   }

@@ -791,42 +791,6 @@
       "NotDone": "Not done"
     }
   },
-  "notifications": {
-    "common": {
-      "action": {
-        "openMeeting": "Open meeting"
-      },
-      "email": {
-        "notificationReceived": "You have received a notification :",
-        "automaticEmail": "This is an automatic email, please do not reply to it.",
-        "unsubscribe": "You can adjust your notification settings on"
-      }
-    },
-    "ThreadMessage": {
-      "title": "",
-      "content": ""
-    },
-    "TaskAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "meetinginvited": {
-      "title": "Meeting {{role}} - {{title}}",
-      "content": "Invitation by {{sender}}."
-    },
-    "meetingstarted": {
-      "title": "Meeting {{role}} - {{title}}",
-      "content": "{{sender}} started the meeting !"
-    },
-    "RoleAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "Decision": {
-      "title": "",
-      "content": ""
-    }
-  },
   "useCreateTask": {
     "toast": "Task created!"
   },

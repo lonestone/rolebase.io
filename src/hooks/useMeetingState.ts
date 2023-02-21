@@ -20,7 +20,6 @@ import { MeetingStepConfig, VideoConfTypes } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import useCreateMissingMeetingSteps from './useCreateMissingMeetingSteps'
 import { usePathInOrg } from './usePathInOrg'
 
@@ -60,7 +59,6 @@ export interface MeetingState {
 }
 
 export default function useMeetingState(meetingId: string): MeetingState {
-  const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
@@ -324,25 +322,8 @@ export default function useMeetingState(meetingId: string): MeetingState {
     if (!meeting || !meeting.attendees || !circle || !currentMember) return
 
     // Send notification
-    const notifParams = {
-      role: circle.role.name,
-      title: meeting.title,
-      sender: currentMember.name,
-    }
     sendMeetingStartedNotification({
-      title: t('notifications.meetingstarted.title', notifParams),
-      content: t('notifications.meetingstarted.content', notifParams),
-      recipientMemberIds: meeting.attendees
-        .map((a) => a.memberId)
-        .filter((id) => id !== currentMember.id),
-      topic: meeting.id,
       meetingId: meeting.id,
-      notificationReceived: t(
-        'notifications.common.email.notificationReceived'
-      ),
-      actionButton: t('notifications.common.action.openMeeting'),
-      automaticEmail: t('notifications.common.email.automaticEmail'),
-      unsubscribe: t('notifications.common.email.unsubscribe'),
     })
   }, [meeting, path])
 

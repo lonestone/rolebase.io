@@ -14,34 +14,6 @@ export enum NotificationCategories {
   decision = 'decision',
 }
 
-type NotificationCommonFields = {
-  title: string
-  content: string
-  recipientMemberIds: string[]
-  actionUrl?: string
-}
-
-type NotificationInAppFields = {
-  topic?: string
-}
-
-type NotificationEmailFields = {
-  notificationReceived: string
-  actionButton: string
-  automaticEmail: string
-  unsubscribe: string
-  // Default already set in Novu template panel
-  appUrl?: string
-}
-
-type NotificationMeetingStartedFields = {
+export type MeetingStartedNotificationBodyParams = {
   meetingId: string
 }
-
-type NotificationBuilder<Data extends any> = NotificationCommonFields & Data
-
-export type MeetingStartedNotificationFields = NotificationBuilder<
-  NotificationInAppFields &
-    NotificationEmailFields &
-    NotificationMeetingStartedFields
->
