@@ -45,11 +45,9 @@ export default route(async (context): Promise<void> => {
   const locale = (sender?.locale as keyof typeof resources) || defaultLang
 
   // Get actionUrl
-  let actionUrl = settings.url
-  actionUrl =
-    meeting_by_pk.org || orgId
-      ? `${actionUrl}${getOrgPath(meeting_by_pk.org)}/meetings/${meetingId}`
-      : `${actionUrl}/orgs/${orgId}/meetings/${meetingId}`
+  const actionUrl = meeting_by_pk.org
+    ? `${settings.url}${getOrgPath(meeting_by_pk.org)}/meetings/${meetingId}`
+    : `${settings.url}/orgs/${orgId}/meetings/${meetingId}`
 
   // Build MeetingStartedNotification instance for each recipient depending on its locale
   const notification = new MeetingStartedNotification(locale, {
