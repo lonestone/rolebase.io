@@ -28,10 +28,9 @@ import OrgSwitch from '@molecules/OrgSwitch'
 import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
 import SettingsMenuList from '@molecules/SettingsMenuList'
 import UserMenu from '@molecules/UserMenu'
-import { useAuthenticated, useUserEmail } from '@nhost/react'
+import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
-import { getPureLanguageCode } from '@utils/getPureLanguageCode'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaQuestion, FaSearch } from 'react-icons/fa'
@@ -45,7 +44,6 @@ import {
   FiSettings,
 } from 'react-icons/fi'
 import settings from 'src/settings'
-import { identifyNovuSubscriber } from '@api/functions'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -53,15 +51,11 @@ import { identifyNovuSubscriber } from '@api/functions'
 const logoContainerWidth = 65
 
 export default function Sidebar() {
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation()
+  const { t } = useTranslation()
   const isAuthenticated = useAuthenticated()
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()
-  const userEmail = useUserEmail()
 
   // Get Sidebar context
   const context = useContext(SidebarContext)
@@ -116,16 +110,6 @@ export default function Sidebar() {
   }, [])
 
   if (!isAuthenticated) return null
-
-  // Identify subscriber for Novu and update it if email changes
-  useEffect(() => {
-    if (userEmail) {
-      identifyNovuSubscriber({
-        email: userEmail!,
-        locale: getPureLanguageCode(language),
-      })
-    }
-  }, [userEmail])
 
   return (
     <GlassBox

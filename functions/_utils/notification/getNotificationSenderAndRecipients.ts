@@ -27,6 +27,7 @@ export async function getNotificationSenderAndRecipients(
   const sender = {
     subscriberId: senderData.user.id!,
     name: senderData.name,
+    email: senderData.user.email!,
     locale: senderData.user.locale,
   }
 
@@ -37,6 +38,8 @@ export async function getNotificationSenderAndRecipients(
       member.user
         ? {
             subscriberId: member.user.id!,
+            email: member.user.email!,
+            locale: member.user.locale!,
           }
         : undefined
     )
@@ -52,6 +55,7 @@ const GET_RECIPIENTS = gql(`
       name
       user {
         id
+        email
         locale
       }
     }

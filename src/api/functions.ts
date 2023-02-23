@@ -41,11 +41,6 @@ export const getMeetingsToken = fn<{ orgId: string }, string>(
   'getMeetingsToken'
 )
 
-export const identifyNovuSubscriber = fn<{
-  email: string
-  locale: string
-}>('identifyNovuSubscriber')
-
 export const sendMeetingStartedNotification =
   fn<MeetingStartedNotificationBodyParams>('sendMeetingStartedNotification')
 
