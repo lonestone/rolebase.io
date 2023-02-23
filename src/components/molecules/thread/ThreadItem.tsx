@@ -17,7 +17,7 @@ import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
-import ParticipantsNumber from '@molecules/ParticipantsNumber'
+import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 
 interface Props extends LinkBoxProps {
   thread: ThreadFragment
@@ -79,10 +79,13 @@ const ThreadItem = forwardRef<Props, 'div'>(
             </LinkOverlay>
 
             {threadInitiator && (
-              <ParticipantsNumber
-                participants={[{ member: threadInitiator, circlesIds: [] }]}
-                withRightIcon={false}
-                marginRight={2}
+              <MemberByIdAvatar
+                id={threadInitiator.id}
+                circleId={thread.circleId}
+                w={6}
+                h={6}
+                mr={2}
+                size="xs"
               />
             )}
 
