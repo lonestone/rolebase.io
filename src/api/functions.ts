@@ -49,10 +49,6 @@ export const identifyNovuSubscriber = fn<{
 export const sendMeetingStartedNotification =
   fn<MeetingStartedNotificationBodyParams>('sendMeetingStartedNotification')
 
-export const markNotificationAsSeen = fn<{
-  messageId: string
-}>('markNotificationAsSeen')
-
 export const startMembersMeeting = fn<{
   membersIds: string[]
   meetingId: string

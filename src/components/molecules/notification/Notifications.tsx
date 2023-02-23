@@ -1,21 +1,14 @@
 import React from 'react'
-import {
-  NovuProvider,
-  PopoverNotificationCenter,
-  IMessage,
-  INovuProviderProps,
-} from '@novu/notification-center'
+import { NovuProvider, INovuProviderProps } from '@novu/notification-center'
 import { Box, useColorMode, useTheme } from '@chakra-ui/react'
 import { useUserId } from '@nhost/react'
 import { useTranslation } from 'react-i18next'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import { NovuConfig } from '@shared/model/notification'
 import { UserLocalStorageKeys } from '@utils/localStorage'
-import { getNovuConfig, markNotificationAsSeen } from '@api/functions'
-import { FaBell } from 'react-icons/fa'
-import IconTextButton from '@atoms/IconTextButton'
-import SidebarIcon from '@atoms/SidebarIcon'
+import { getNovuConfig } from '@api/functions'
 import { getPureLanguageCode } from '@utils/getPureLanguageCode'
+import NotificationsCenter from '@molecules/notification/NotificationsCenter'
 
 async function getConfig(): Promise<NovuConfig | undefined> {
   // Use config from localStorage
@@ -39,7 +32,6 @@ async function getConfig(): Promise<NovuConfig | undefined> {
 export default function Notifications() {
   const userId = useUserId()
   const {
-    t,
     i18n: { language },
   } = useTranslation()
   const theme = useTheme()
@@ -57,7 +49,7 @@ export default function Notifications() {
     colorMode === 'light' ? colors.gray[200] : colors.gray[550]
   const unseenColor = colorMode === 'light' ? colors.gray[600] : colors.white
   const unseenBadgeBg = colorMode === 'light' ? colors.gray[800] : colors.white
-
+  // Advise by Novu docs to setup style like this
   const novuStyles: INovuProviderProps['styles'] = {
     unseenBadge: {
       root: {
@@ -176,16 +168,6 @@ export default function Notifications() {
     },
   }
 
-  const onNotificationClick = async (notification: IMessage) => {
-    if (notification?.cta?.data?.url) {
-      // Fix to have notification mark as seen and read when redirect
-      await markNotificationAsSeen({
-        messageId: notification?._id,
-      })
-      window.location.href = notification.cta.data.url
-    }
-  }
-
   return (
     <Box>
       <NovuProvider
@@ -195,18 +177,7 @@ export default function Notifications() {
         i18n={getPureLanguageCode(language) as INovuProviderProps['i18n']}
         styles={novuStyles}
       >
-        <PopoverNotificationCenter
-          colorScheme={colorMode}
-          onNotificationClick={onNotificationClick}
-          position={'right-start'}
-        >
-          {({ unseenCount }) => (
-            <IconTextButton
-              aria-label={t('Notifications.tooltip')}
-              icon={<SidebarIcon icon={<FaBell />} alert={!!unseenCount} />}
-            />
-          )}
-        </PopoverNotificationCenter>
+        <NotificationsCenter />
       </NovuProvider>
     </Box>
   )

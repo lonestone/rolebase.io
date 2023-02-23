@@ -23,7 +23,7 @@ import {
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import Notifications from '@molecules/Notifications'
+import Notifications from '@molecules/notification/Notifications'
 import OrgSwitch from '@molecules/OrgSwitch'
 import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
 import SettingsMenuList from '@molecules/SettingsMenuList'
