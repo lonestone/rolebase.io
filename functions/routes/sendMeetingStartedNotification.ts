@@ -1,4 +1,4 @@
-import { gql } from '@gql'
+import { gql, Member_Role_Enum } from '@gql'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { RouteError, route } from '@utils/route'
@@ -9,6 +9,7 @@ import { getNotificationSenderAndRecipients } from '@utils/notification/getNotif
 import * as yup from 'yup'
 import { MeetingStartedNotification } from '@utils/notification/meetingStartedNotification'
 import { defaultLang, resources } from '@i18n'
+import { guardOrg } from '@utils/guardOrg'
 
 const yupSchema = yup.object({
   meetingId: yup.string().required(),
@@ -26,6 +27,9 @@ export default route(async (context): Promise<void> => {
   if (!meeting_by_pk) {
     throw new RouteError(404, 'Meeting not found')
   }
+  // Check if user can access org data
+  const orgId = meeting_by_pk.org.id
+  await guardOrg(context, orgId, Member_Role_Enum.Member)
 
   // Get all recipient ids
   const allRecipientIds =
@@ -42,7 +46,6 @@ export default route(async (context): Promise<void> => {
 
   // Get actionUrl
   let actionUrl = settings.url
-  const orgId = meeting_by_pk.org.id
   actionUrl =
     meeting_by_pk.org || orgId
       ? `${actionUrl}${getOrgPath(meeting_by_pk.org)}/meetings/${meetingId}`
