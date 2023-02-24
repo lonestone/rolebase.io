@@ -7,7 +7,6 @@ import {
   CircleWithRoleFragment,
   MeetingFragment,
   MeetingStepFragment,
-  useMeetingStepsSubscription,
   useMeetingSubscription,
   useUpdateMeetingMutation,
 } from '@gql'
@@ -76,20 +75,13 @@ export default function useMeetingState(meetingId: string): MeetingState {
     variables: { id: meetingId },
   })
   const meeting = data?.meeting_by_pk || undefined
+  const steps = meeting?.steps
 
   // Meeting page path
   const path = usePathInOrg(`meetings/${meeting?.id}`)
 
   // Circle
   const circle = useCircle(meeting?.circleId)
-
-  // Subscribe meeting steps
-  const {
-    data: stepsData,
-    error: stepsError,
-    loading: stepsLoading,
-  } = useMeetingStepsSubscription({ variables: { meetingId } })
-  const steps = stepsData?.meeting_step
 
   // Create missing steps
   useEffect(() => {
@@ -365,8 +357,8 @@ export default function useMeetingState(meetingId: string): MeetingState {
   return {
     meeting,
     path,
-    loading: loading || stepsLoading,
-    error: error || stepsError,
+    loading,
+    error,
     steps,
     circle,
     participants,

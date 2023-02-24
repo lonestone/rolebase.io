@@ -17,3 +17,16 @@ fragment Meeting on meeting {
   recurringId
   recurringDate
 }
+
+fragment MeetingSummary on meeting {
+  id
+  orgId
+  circleId
+  participantsScope
+  participantsMembersIds
+  startDate
+  endDate
+  ended
+  title
+  currentStepId
+}

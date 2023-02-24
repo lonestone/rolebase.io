@@ -1,6 +1,15 @@
+subscription meetingSummary($id: uuid!) {
+  meeting_by_pk(id: $id) {
+    ...MeetingSummary
+  }
+}
+
 subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting
+    steps {
+      ...MeetingStep
+    }
   }
 }
 
@@ -16,7 +25,7 @@ subscription meetingsByDates(
         archived: { _eq: false }
       }
     ) {
-      ...Meeting
+      ...MeetingSummary
     }
     meetings_recurring {
       ...MeetingRecurring
@@ -33,7 +42,7 @@ subscription circleMeetings($circleId: uuid!) {
     where: { circleId: { _eq: $circleId }, archived: { _eq: false } }
     order_by: { startDate: desc }
   ) {
-    ...Meeting
+    ...MeetingSummary
   }
 }
 

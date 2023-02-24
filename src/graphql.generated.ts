@@ -14920,6 +14920,8 @@ export type LogFragment = { __typename?: 'log', id: string, orgId: string, userI
 
 export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null };
 
+export type MeetingSummaryFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null };
+
 export type MeetingStepFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData };
 
 export type MemberFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null };
@@ -15090,12 +15092,19 @@ export type CancelLogMutationVariables = Exact<{
 
 export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
 
+export type MeetingSummarySubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type MeetingSummarySubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null };
+
 export type MeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> } | null };
 
 export type MeetingsByDatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -15104,14 +15113,14 @@ export type MeetingsByDatesSubscriptionVariables = Exact<{
 }>;
 
 
-export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
+export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
 
 export type CircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
 }>;
 
 
-export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null }> };
+export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
 
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
@@ -15186,13 +15195,6 @@ export type GetMeetingStepsQueryVariables = Exact<{
 
 
 export type GetMeetingStepsQuery = { __typename?: 'query_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
-
-export type MeetingStepsSubscriptionVariables = Exact<{
-  meetingId: Scalars['uuid'];
-}>;
-
-
-export type MeetingStepsSubscription = { __typename?: 'subscription_root', meeting_step: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> };
 
 export type CreateMeetingStepMutationVariables = Exact<{
   values: Meeting_Step_Insert_Input;
@@ -15660,6 +15662,20 @@ export const MeetingFragmentDoc = gql`
   videoConf
   recurringId
   recurringDate
+}
+    `;
+export const MeetingSummaryFragmentDoc = gql`
+    fragment MeetingSummary on meeting {
+  id
+  orgId
+  circleId
+  participantsScope
+  participantsMembersIds
+  startDate
+  endDate
+  ended
+  title
+  currentStepId
 }
     `;
 export const MeetingStepFragmentDoc = gql`
@@ -16591,13 +16607,47 @@ export function useCancelLogMutation(baseOptions?: Apollo.MutationHookOptions<Ca
 export type CancelLogMutationHookResult = ReturnType<typeof useCancelLogMutation>;
 export type CancelLogMutationResult = Apollo.MutationResult<CancelLogMutation>;
 export type CancelLogMutationOptions = Apollo.BaseMutationOptions<CancelLogMutation, CancelLogMutationVariables>;
+export const MeetingSummaryDocument = gql`
+    subscription meetingSummary($id: uuid!) {
+  meeting_by_pk(id: $id) {
+    ...MeetingSummary
+  }
+}
+    ${MeetingSummaryFragmentDoc}`;
+
+/**
+ * __useMeetingSummarySubscription__
+ *
+ * To run a query within a React component, call `useMeetingSummarySubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingSummarySubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeetingSummarySubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMeetingSummarySubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingSummarySubscription, MeetingSummarySubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<MeetingSummarySubscription, MeetingSummarySubscriptionVariables>(MeetingSummaryDocument, options);
+      }
+export type MeetingSummarySubscriptionHookResult = ReturnType<typeof useMeetingSummarySubscription>;
+export type MeetingSummarySubscriptionResult = Apollo.SubscriptionResult<MeetingSummarySubscription>;
 export const MeetingDocument = gql`
     subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting
+    steps {
+      ...MeetingStep
+    }
   }
 }
-    ${MeetingFragmentDoc}`;
+    ${MeetingFragmentDoc}
+${MeetingStepFragmentDoc}`;
 
 /**
  * __useMeetingSubscription__
@@ -16627,7 +16677,7 @@ export const MeetingsByDatesDocument = gql`
     meetings(
       where: {startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
     ) {
-      ...Meeting
+      ...MeetingSummary
     }
     meetings_recurring {
       ...MeetingRecurring
@@ -16638,7 +16688,7 @@ export const MeetingsByDatesDocument = gql`
     }
   }
 }
-    ${MeetingFragmentDoc}
+    ${MeetingSummaryFragmentDoc}
 ${MeetingRecurringFragmentDoc}`;
 
 /**
@@ -16671,10 +16721,10 @@ export const CircleMeetingsDocument = gql`
     where: {circleId: {_eq: $circleId}, archived: {_eq: false}}
     order_by: {startDate: desc}
   ) {
-    ...Meeting
+    ...MeetingSummary
   }
 }
-    ${MeetingFragmentDoc}`;
+    ${MeetingSummaryFragmentDoc}`;
 
 /**
  * __useCircleMeetingsSubscription__
@@ -17039,36 +17089,6 @@ export type GetMeetingStepsQueryResult = Apollo.QueryResult<GetMeetingStepsQuery
 export function refetchGetMeetingStepsQuery(variables: GetMeetingStepsQueryVariables) {
       return { query: GetMeetingStepsDocument, variables: variables }
     }
-export const MeetingStepsDocument = gql`
-    subscription meetingSteps($meetingId: uuid!) {
-  meeting_step(where: {meetingId: {_eq: $meetingId}}) {
-    ...MeetingStep
-  }
-}
-    ${MeetingStepFragmentDoc}`;
-
-/**
- * __useMeetingStepsSubscription__
- *
- * To run a query within a React component, call `useMeetingStepsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingStepsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMeetingStepsSubscription({
- *   variables: {
- *      meetingId: // value for 'meetingId'
- *   },
- * });
- */
-export function useMeetingStepsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingStepsSubscription, MeetingStepsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingStepsSubscription, MeetingStepsSubscriptionVariables>(MeetingStepsDocument, options);
-      }
-export type MeetingStepsSubscriptionHookResult = ReturnType<typeof useMeetingStepsSubscription>;
-export type MeetingStepsSubscriptionResult = Apollo.SubscriptionResult<MeetingStepsSubscription>;
 export const CreateMeetingStepDocument = gql`
     mutation createMeetingStep($values: meeting_step_insert_input!) {
   insert_meeting_step_one(object: $values) {
