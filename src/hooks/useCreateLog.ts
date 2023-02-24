@@ -3,9 +3,11 @@ import { useUserId } from '@nhost/react'
 import { Optional } from '@shared/model/types'
 import { store } from '@store/index'
 import { useCallback } from 'react'
+import useSuperAdmin from './useSuperAdmin'
 
 export default function useCreateLog() {
   const userId = useUserId()
+  const isSuperAdmin = useSuperAdmin()
   const [createLog] = useCreateLogMutation()
 
   return useCallback(
@@ -38,6 +40,7 @@ export default function useCreateLog() {
         variables: {
           values: {
             orgId,
+            userId: isSuperAdmin ? userId : undefined,
             memberId: currentMember.id,
             memberName: currentMember.name,
             meetingId: currentMember.meetingId || null,
@@ -46,6 +49,6 @@ export default function useCreateLog() {
         },
       })
     },
-    [userId]
+    [isSuperAdmin, userId]
   )
 }

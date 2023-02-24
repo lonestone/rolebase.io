@@ -17,6 +17,7 @@ import {
 } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useUserId } from '@nhost/react'
 import DecisionEditModal from '@organisms/decision/DecisionEditModal'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
@@ -54,6 +55,7 @@ interface Props extends BoxProps {
 export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
   const { t } = useTranslation()
   const userId = useUserId()
+  const isSuperAdmin = useSuperAdmin()
   const currentMember = useCurrentMember()
   const org = useCurrentOrg()
   const [createThreadActivity] = useCreateThreadActivityMutation()
@@ -93,6 +95,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
       const { data } = await createThreadActivity({
         variables: {
           values: {
+            userId: isSuperAdmin ? userId : undefined,
             threadId: thread.id,
             ...activity,
           },
@@ -111,7 +114,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
         },
       })
     },
-    [org?.id, userId, thread]
+    [org?.id, isSuperAdmin, userId, thread]
   )
 
   // Send message
