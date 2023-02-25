@@ -28,6 +28,7 @@
   --fc-neutral-bg-color: var(--chakra-colors-gray-100);
   --fc-neutral-text-color: var(--chakra-colors-gray-500);
   --fc-border-color: var(--chakra-colors-gray-200);
+  --fc-border-subtle-color: var(--chakra-colors-gray-100);
   --fc-event-text-color: var(--chakra-colors-gray-800);
   --fc-event-border-color: var(--chakra-colors-gray-50);
 
@@ -46,6 +47,7 @@
   --fc-neutral-bg-color: var(--chakra-colors-gray-700);
   --fc-neutral-text-color: var(--chakra-colors-gray-500);
   --fc-border-color: var(--chakra-colors-gray-550);
+  --fc-border-subtle-color: var(--chakra-colors-gray-700);
   --fc-event-text-color: var(--chakra-colors-gray-100);
   --fc-event-border-color: var(--chakra-colors-gray-800);
 
@@ -134,7 +136,7 @@ a.fc-daygrid-event:hover {
   border-right: none;
 }
 .fc .fc-scrollgrid {
-  border-left: none;
+  border: none;
 }
 
 /* No borders between head titles */
@@ -146,6 +148,11 @@ a.fc-daygrid-event:hover {
 /* No border at half hours */
 .fc .fc-timegrid-slot-minor {
   border-top: none;
+}
+
+/* More subtle color for hours lanes */
+.fc .fc-timegrid-slot-lane:not(.fc-timegrid-slot-minor) {
+  border-color: var(--fc-border-subtle-color);
 }
 
 /* Hour label */
