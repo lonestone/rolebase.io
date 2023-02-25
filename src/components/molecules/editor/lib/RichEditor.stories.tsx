@@ -117,6 +117,13 @@ export const Multiple: ComponentStory<typeof Editor> = (args) => {
 }
 Multiple.args = {}
 
+export const MultipleCollab = Multiple.bind({})
+MultipleCollab.args = {
+  id: 'storybook-rich-editor-markdown',
+  collaboration: true,
+  username: DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)],
+}
+
 export const EditorRef: ComponentStory<typeof Editor> = (args) => {
   const ref = useRef<EditorHandle>(null)
   const [result, setResult] = useState('')
