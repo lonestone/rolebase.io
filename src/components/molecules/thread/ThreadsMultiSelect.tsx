@@ -1,9 +1,10 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
-import { Box, VStack } from '@chakra-ui/react'
+import { Button, HStack, VStack } from '@chakra-ui/react'
 import useThreads from '@hooks/useThreads'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FaRandom } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
 import ThreadSearchButton from '../search/entities/threads/ThreadSearchButton'
 import SortableList from '../SortableList'
@@ -12,44 +13,65 @@ import ThreadSortableItem from './ThreadSortableItem'
 interface Props {
   circleId?: string
   threadsIds: string[]
-  max?: number
   onChange?(threadsIds: string[]): void
 }
 
 export default function ThreadsMultiSelect({
   circleId,
   threadsIds,
-  max,
   onChange,
 }: Props) {
   const { t } = useTranslation()
+
+  // Cache of threads ids for optimistic UI
+  const [threadsIdsCache, setThreadsIdsCache] = useState(threadsIds)
+
+  useEffect(() => {
+    setThreadsIdsCache(threadsIds)
+  }, [threadsIds])
 
   // Subscribe threads
   const { threads, loading, error } = useThreads({ circleId })
 
   // Prepare sortable items
-  const items = useMemo(() => threadsIds.map((id) => ({ id })), [threadsIds])
+  const items = useMemo(
+    () => threadsIdsCache.map((id) => ({ id })),
+    [threadsIdsCache]
+  )
+
+  const handleChange = useCallback(
+    (ids: string[]) => {
+      setThreadsIdsCache(ids)
+      onChange?.(ids)
+    },
+    [onChange]
+  )
 
   const handleAdd = useCallback(
-    (id: string) => onChange?.([...threadsIds, id]),
-    [threadsIds, onChange]
+    (id: string) => handleChange?.([...threadsIdsCache, id]),
+    [threadsIdsCache, handleChange]
   )
 
   const handleRemove = useCallback(
     (threadId: string) => {
-      onChange?.(threadsIds.filter((id) => id !== threadId))
+      handleChange?.(threadsIdsCache.filter((id) => id !== threadId))
     },
-    [threadsIds, onChange]
+    [threadsIdsCache, handleChange]
   )
 
   const handleDragEnd = useCallback(
     (oldIndex: number, newIndex: number) => {
-      const newThreadsIds = [...threadsIds]
+      const newThreadsIds = [...threadsIdsCache]
       newThreadsIds.splice(newIndex, 0, newThreadsIds.splice(oldIndex, 1)[0])
-      onChange?.(newThreadsIds)
+      handleChange?.(newThreadsIds)
     },
-    [threadsIds, onChange]
+    [threadsIdsCache, handleChange]
   )
+
+  const handleRandomize = useCallback(() => {
+    const newThreadsIds = [...threadsIdsCache].sort(() => Math.random() - 0.5)
+    handleChange?.(newThreadsIds)
+  }, [threadsIdsCache, handleChange])
 
   return (
     <>
@@ -69,8 +91,8 @@ export default function ThreadsMultiSelect({
         </SortableList>
       </VStack>
 
-      {onChange && (!max || items.length < max) ? (
-        <Box mt={2}>
+      {onChange && (
+        <HStack mt={2}>
           <ThreadSearchButton
             threads={threads || []}
             createCircleId={circleId}
@@ -79,12 +101,16 @@ export default function ThreadsMultiSelect({
             leftIcon={<FiPlus />}
             onSelect={handleAdd}
           >
-            {max === 1
-              ? t('ThreadsMultiSelect.choose')
-              : t('ThreadsMultiSelect.add')}
+            {t('ThreadsMultiSelect.add')}
           </ThreadSearchButton>
-        </Box>
-      ) : null}
+
+          {items.length > 2 && (
+            <Button size="sm" leftIcon={<FaRandom />} onClick={handleRandomize}>
+              {t('ThreadsMultiSelect.randomize')}
+            </Button>
+          )}
+        </HStack>
+      )}
     </>
   )
 }

@@ -208,8 +208,8 @@
     "confirmRemove": "Êtes-vous sûr(e) de vouloir retirer ce(tte) participant(e) ?"
   },
   "MeetingContent": {
-    "title": "Réunion {{circle}} : {{title}}",
-    "heading": "Réunion <circle /> {{title}}",
+    "title": "Réunion {{title}} - {{circle}}",
+    "heading": "Réunion {{title}} <circle />",
     "started": "En cours",
     "ended": "Terminée",
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
@@ -694,8 +694,8 @@
     "settings": "Paramètres"
   },
   "ThreadsMultiSelect": {
-    "choose": "Choisir une discussion",
-    "add": "Ajouter une discussion"
+    "add": "Ajouter une discussion",
+    "randomize": "Aléatoire"
   },
   "ThreadsPage": {
     "heading": "Discussions",

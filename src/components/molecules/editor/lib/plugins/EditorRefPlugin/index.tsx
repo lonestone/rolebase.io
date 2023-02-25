@@ -13,6 +13,7 @@ import { $rootTextContent } from '@lexical/text'
 import {
   $createParagraphNode,
   $getRoot,
+  $isParagraphNode,
   CLEAR_EDITOR_COMMAND,
   LexicalEditor,
 } from 'lexical'
@@ -25,6 +26,7 @@ export interface EditorHandle {
   getText(): string
   setValue(value: string): void
   clear(): void
+  isEmpty(): boolean
   addBulletList(): void
   addCheckboxList(): void
 }
@@ -37,12 +39,8 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
 
   // Get the current JSON state
   const getValue = (cleanEmpty?: boolean): string => {
-    if (cleanEmpty) {
-      // If text value is empty or only contains spaces, return empty string
-      const text = getText()
-      if (text.trim() === '') {
-        return ''
-      }
+    if (cleanEmpty && isEmpty()) {
+      return ''
     }
     return JSON.stringify(editor.getEditorState().toJSON())
   }
@@ -55,6 +53,29 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
 
   // Clear root
   const clear = () => editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
+
+  // Return true if root node is empty
+  const isEmpty = (): boolean => {
+    const empty = editor.getEditorState().read(() => {
+      const root = $getRoot()
+
+      // Root is empty
+      if (root.isEmpty()) return true
+      const children = root.getChildren()
+
+      // Root has only one child and it's empty
+      if (
+        children.every(
+          (node) =>
+            $isParagraphNode(node) && node.getTextContent().trim() === ''
+        )
+      ) {
+        return true
+      }
+      return false
+    })
+    return empty
+  }
 
   // Add list at the end
   const addList = (type: ListType) => {
@@ -80,6 +101,7 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
       getValue,
       getText,
       setValue,
+      isEmpty,
       clear,
       addBulletList,
       addCheckboxList,

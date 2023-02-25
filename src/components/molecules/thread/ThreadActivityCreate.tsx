@@ -119,11 +119,12 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
   // Send message
   const handleSubmit = useCallback(async () => {
-    const length = editorRef.current?.getText().trim().length
-    if (!length) return
+    if (!editorRef.current || editorRef.current?.isEmpty()) {
+      return
+    }
 
     // Get value
-    const value = editorRef.current?.getValue()
+    const value = editorRef.current.getValue()
 
     // Clear editor
     editorRef.current?.clear()

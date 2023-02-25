@@ -208,8 +208,8 @@
     "confirmRemove": "Are you sure you want to remove this attendee from the meeting?"
   },
   "MeetingContent": {
-    "title": "Meeting {{circle}}: {{title}}",
-    "heading": "Meeting <circle /> {{title}}",
+    "title": "Meeting {{title}} - {{circle}}",
+    "heading": "Meeting {{title}} <circle />",
     "started": "Started",
     "ended": "Ended",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
@@ -699,8 +699,8 @@
     "settings": "Settings"
   },
   "ThreadsMultiSelect": {
-    "choose": "Choose a thread",
-    "add": "Add a thread"
+    "add": "Add a thread",
+    "randomize": "Randomize"
   },
   "ThreadsPage": {
     "heading": "Threads",
