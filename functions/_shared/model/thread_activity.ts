@@ -1,12 +1,6 @@
 import { ThreadActivityFragment, Thread_Activity_Type_Enum } from '@gql'
 
-/*** Thread Activity
- *
- * Codegen uses schema overrides and types from this file to generate types.
- * Please check those files if you want to change the schema.
- * - @shared/schema-overrides.gql
- * - codegen.yml
- */
+/*** Thread Activity ***/
 
 // Message
 export interface ThreadActivityDataMessage {
@@ -44,49 +38,32 @@ export interface PollChoice {
 }
 
 // Thread
-export interface ThreadActivityDataThread {
-  entityId: string
-}
-
 export interface ThreadActivityThreadFragment extends ThreadActivityFragment {
   type: Thread_Activity_Type_Enum.Thread
-  data: ThreadActivityDataThread
 }
 
 // Meeting
-export interface ThreadActivityDataMeeting {
-  entityId: string
-}
-
 export interface ThreadActivityMeetingFragment extends ThreadActivityFragment {
   type: Thread_Activity_Type_Enum.Meeting
-  data: ThreadActivityDataMeeting
+}
+
+// Meeting note
+export interface ThreadActivityDataMeetingNote {
+  notes: string
+}
+
+export interface ThreadActivityMeetingNoteFragment
+  extends ThreadActivityFragment {
+  type: Thread_Activity_Type_Enum.MeetingNote
+  data: ThreadActivityDataMeetingNote
 }
 
 // Task
-export interface ThreadActivityDataTask {
-  entityId: string
-}
-
 export interface ThreadActivityTaskFragment extends ThreadActivityFragment {
   type: Thread_Activity_Type_Enum.Task
-  data: ThreadActivityDataTask
 }
 
 // Decision
-export interface ThreadActivityDataDecision {
-  entityId: string
-}
-
 export interface ThreadActivityDecisionFragment extends ThreadActivityFragment {
   type: Thread_Activity_Type_Enum.Decision
-  data: ThreadActivityDataDecision
 }
-
-export type ThreadActivityData =
-  | ThreadActivityDataMessage
-  | ThreadActivityDataPoll
-  | ThreadActivityDataThread
-  | ThreadActivityDataMeeting
-  | ThreadActivityDataTask
-  | ThreadActivityDataDecision

@@ -74,6 +74,7 @@ export default function LoginForm({ defaultEmail, onSubmit }: Props) {
             as={ReachLink}
             fontSize="sm"
             color="gray.500"
+            _dark={{ color: 'gray.300' }}
           >
             {t('LoginForm.resetPassword')}
           </Link>

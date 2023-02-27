@@ -7,7 +7,6 @@ export function getAddPlugin() {
 import { MemberPreferences } from '@shared/model/member'
 import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
-import { ThreadActivityData } from '@shared/model/thread_activity'
 import { LogDisplay, EntitiesChanges } from '@shared/model/log'
 `,
     },
@@ -30,7 +29,6 @@ export function getConfig() {
       meeting_step_config: 'MeetingStepConfig',
       meeting_step_data: 'MeetingStepData',
       videoconf: 'VideoConf',
-      thread_activity_data: 'ThreadActivityData',
       log_display: 'LogDisplay',
       log_changes: 'EntitiesChanges',
     },

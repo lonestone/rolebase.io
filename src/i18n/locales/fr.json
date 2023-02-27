@@ -280,6 +280,7 @@
     "title": "Réunion récurrente"
   },
   "MeetingStepContent": {
+    "addNotes": "Ajouter des notes",
     "notesPlaceholder": "Notes..."
   },
   "MeetingStepContentChecklist": {
@@ -292,6 +293,10 @@
   },
   "MeetingStepContentTasks": {
     "logs": "Tâches modifiées"
+  },
+  "MeetingStepContentThreads": {
+    "add": "Ajouter une discussion",
+    "randomize": "Aléatoire"
   },
   "MeetingStepSortableItem": {
     "placeholder": "Titre de l'étape..."
@@ -653,6 +658,9 @@
   "ThreadActivityMeeting": {
     "text": "a créé une réunion :"
   },
+  "ThreadActivityMeetingNote": {
+    "title": "Note de réunion"
+  },
   "ThreadActivityPoll": {
     "heading": "Sondage",
     "showResults": "Voir les résultats",
@@ -692,10 +700,6 @@
     "titlePlaceholder": "On discute de quoi ?...",
     "invite": "Inviter",
     "settings": "Paramètres"
-  },
-  "ThreadsMultiSelect": {
-    "add": "Ajouter une discussion",
-    "randomize": "Aléatoire"
   },
   "ThreadsPage": {
     "heading": "Discussions",

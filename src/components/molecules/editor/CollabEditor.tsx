@@ -1,12 +1,11 @@
-import { Box, FormControlOptions, Spinner } from '@chakra-ui/react'
+import { FormControlOptions } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { usePreventClose } from '@hooks/usePreventClose'
-import throttle from 'lodash.throttle'
 import React, {
   forwardRef,
+  memo,
   useCallback,
+  useEffect,
   useImperativeHandle,
-  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -23,13 +22,29 @@ interface Props extends FormControlOptions {
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
-  saveDelay: number
+  minH?: string
+  maxH?: string
+  saveEvery?: number // Save every X ms if focused
   onSave?(value: string): void
+  onFocus?(): void
+  onBlur?(): void
 }
 
 const CollabEditor = forwardRef<EditorHandle, Props>(
   (
-    { docId, value, placeholder, autoFocus, readOnly, saveDelay, onSave },
+    {
+      docId,
+      value,
+      placeholder,
+      autoFocus,
+      readOnly,
+      minH,
+      maxH,
+      saveEvery,
+      onSave,
+      onFocus,
+      onBlur,
+    },
     ref
   ) => {
     const currentMember = useCurrentMember()
@@ -39,69 +54,59 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
 
     useImperativeHandle(ref, () => localRef.current!, [])
 
-    // Prevent from changing page when dirty
-    const [isDirty, setIsDirty] = useState(false)
-    const { preventClose, allowClose } = usePreventClose()
-
-    // Save with throttling
-    const handleSaveThrottle = useMemo(
-      () =>
-        throttle(
-          (value: string) => {
-            setIsDirty(false)
-            allowClose()
-            onSave?.(value)
-          },
-          saveDelay,
-          { leading: false }
-        ),
-      [docId, saveDelay]
-    )
-
     // Handle every little change in the doc
     // to save it with throttling
     const handleChange = useCallback(() => {
-      const newValue = localRef.current?.getValue()
-      if (!newValue || newValue === value) return
-      setIsDirty(true)
-      preventClose()
-      handleSaveThrottle(newValue)
+      if (!localRef.current) return
+      const newValue = localRef.current.getValue(true)
+      if (newValue === value) return
+      onSave?.(newValue)
     }, [docId, value])
 
-    return (
-      <>
-        <RichEditor
-          key={docId}
-          ref={localRef}
-          id={docId}
-          collaboration
-          username={currentMember?.name}
-          value={value}
-          placeholder={placeholder}
-          autoFocus={autoFocus}
-          readOnly={readOnly}
-          mentionables={mentionables}
-          onBlur={handleChange}
-          onSubmit={handleChange}
-          onUpload={handleUpload}
-        />
+    const [isFocus, setIsFocus] = useState(false)
 
-        {isDirty && (
-          <Box textAlign="right">
-            <Spinner
-              size="xs"
-              color="gray"
-              position="absolute"
-              mt="-18px"
-              ml="-18px"
-            />
-          </Box>
-        )}
-      </>
+    const handleFocus = useCallback(() => {
+      setIsFocus(true)
+      onFocus?.()
+    }, [])
+
+    const handleBlur = useCallback(() => {
+      setIsFocus(false)
+      handleChange()
+      onBlur?.()
+    }, [handleChange])
+
+    // Save every X ms
+    useEffect(() => {
+      if (!saveEvery || !isFocus) return
+      const interval = setInterval(() => {
+        handleChange()
+      }, saveEvery)
+      return () => clearInterval(interval)
+    }, [saveEvery, isFocus, handleChange])
+
+    return (
+      <RichEditor
+        key={docId}
+        ref={localRef}
+        id={docId}
+        collaboration
+        username={currentMember?.name}
+        value={value}
+        placeholder={placeholder}
+        autoFocus={autoFocus}
+        readOnly={readOnly}
+        minH={minH}
+        maxH={maxH}
+        mentionables={mentionables}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onUpload={handleUpload}
+      />
     )
   }
 )
 
 CollabEditor.displayName = 'CollabEditor'
 
-export default CollabEditor
+export default memo(CollabEditor)

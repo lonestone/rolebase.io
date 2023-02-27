@@ -116,7 +116,11 @@ export default function MeetingRecurringListModal({
                   }
                 >
                   <Text>{mt.template.title}</Text>
-                  <Text fontSize="sm" color="gray.500">
+                  <Text
+                    fontSize="sm"
+                    color="gray.500"
+                    _dark={{ color: 'gray.300' }}
+                  >
                     {RRule.fromString(mt.rrule).toText()}
                   </Text>
                 </ListItemWithButtons>

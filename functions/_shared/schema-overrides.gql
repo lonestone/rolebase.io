@@ -39,10 +39,6 @@ extend type thread {
   participantsMembersIds: [uuid!]!
 }
 
-extend type thread_activity {
-  data: thread_activity_data!
-}
-
 extend type thread_poll_answer {
   choicesPoints: [Int!]!
 }

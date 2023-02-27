@@ -146,7 +146,11 @@ export default function MembersPage() {
                     {t('MembersPage.tags.invited')}
                   </Tag>
                 ) : (
-                  <Tag colorScheme="transparent" color="gray.500">
+                  <Tag
+                    colorScheme="transparent"
+                    color="gray.500"
+                    _dark={{ color: 'gray.300' }}
+                  >
                     {t('MembersPage.tags.notInvited')}
                   </Tag>
                 )}

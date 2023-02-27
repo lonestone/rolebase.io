@@ -8,7 +8,7 @@ import { useSendVerificationEmail, useSignUpEmailPassword } from '@nhost/react'
 import SignupForm, { Values } from '@organisms/user/SignupForm'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as ReachLink } from 'react-router-dom'
+import { Link as ReachLink, useNavigate } from 'react-router-dom'
 
 type Params = {
   email: string
@@ -24,6 +24,7 @@ export default function SignupPage({ goToLoginPage }: Props) {
     i18n: { language },
   } = useTranslation()
   const queryParams = useQueryParams<Params>()
+  const navigate = useNavigate()
   const { signUpEmailPassword, isLoading, error } = useSignUpEmailPassword()
   const { sendEmail } = useSendVerificationEmail()
 
@@ -38,6 +39,8 @@ export default function SignupPage({ goToLoginPage }: Props) {
       }
     )
     if (!isSuccess) return
+
+    navigate('/')
 
     // Send verification email
     await sendEmail(values.email)

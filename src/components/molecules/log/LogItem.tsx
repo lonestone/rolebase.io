@@ -31,7 +31,7 @@ export default function LogItem({ log, onCancel }: Props) {
           <LogCancelText log={log} />
           <LogText log={log} />
         </Text>
-        <Text fontSize="sm" color="gray.500">
+        <Text fontSize="sm" color="gray.500" _dark={{ color: 'gray.400' }}>
           {capitalizeFirstLetter(
             format(new Date(log.createdAt), 'PPpp', {
               locale: dateLocale,

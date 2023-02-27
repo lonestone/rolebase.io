@@ -2,6 +2,7 @@ import { FormControlOptions, useFormControl } from '@chakra-ui/react'
 import { pick } from '@utils/pick'
 import React, {
   forwardRef,
+  memo,
   useCallback,
   useImperativeHandle,
   useRef,
@@ -18,24 +19,15 @@ interface Props extends FormControlOptions {
   placeholder?: string
   autoFocus?: boolean
   readOnly?: boolean
-  minHeight?: string
-  maxHeight?: string
+  minH?: string
+  maxH?: string
   onChange?(value: string): void
   onSubmit?(value: string): void // When the user presses Cmd/Ctrl + Enter
 }
 
 const SimpleEditor = forwardRef<EditorHandle, Props>(
   (
-    {
-      value,
-      placeholder,
-      autoFocus,
-      readOnly,
-      minHeight,
-      maxHeight,
-      onChange,
-      onSubmit,
-    },
+    { value, placeholder, autoFocus, readOnly, minH, maxH, onChange, onSubmit },
     ref
   ) => {
     const localRef = useRef<EditorHandle>(null)
@@ -74,8 +66,8 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
         placeholder={placeholder}
         autoFocus={autoFocus}
         readOnly={computedReadOnly}
-        minH={minHeight}
-        maxH={maxHeight}
+        minH={minH}
+        maxH={maxH}
         mentionables={mentionables}
         onBlur={handleBlur}
         onSubmit={handleSubmit}
@@ -88,4 +80,4 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
 
 SimpleEditor.displayName = 'SimpleEditor'
 
-export default SimpleEditor
+export default memo(SimpleEditor)

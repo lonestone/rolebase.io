@@ -9,8 +9,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import {
-  ThreadActivityFragment,
   ThreadFragment,
+  Thread_Activity_Insert_Input,
   Thread_Activity_Type_Enum,
   useCreateThreadActivityMutation,
   useUpdateThreadMutation,
@@ -25,7 +25,6 @@ import TaskModal from '@organisms/task/TaskModal'
 import ActivityPollModal from '@organisms/thread/ActivityPollModal'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { Optional } from '@shared/model/types'
 import { cmdOrCtrlKey } from '@utils/env'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, {
@@ -83,12 +82,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
   // Create a new activity
   const handleCreateActivity = useCallback(
-    async (
-      activity: Optional<
-        Omit<ThreadActivityFragment, 'id'>,
-        'createdAt' | 'userId' | 'threadId'
-      >
-    ) => {
+    async (activity: Thread_Activity_Insert_Input) => {
       if (!org || !userId) return
 
       // Create activity
@@ -97,6 +91,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           values: {
             userId: isSuperAdmin ? userId : undefined,
             threadId: thread.id,
+            data: {},
             ...activity,
           },
         },
@@ -171,8 +166,10 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
   )
 
   const handleEntityCreated = useCallback(
-    (id: string) =>
-      handleCreateActivity({ type: entityType, data: { entityId: id } }),
+    (id: string) => {
+      const refField = `ref${entityType}Id`
+      handleCreateActivity({ type: entityType, [refField]: id })
+    },
     [handleCreateActivity, entityType]
   )
 
@@ -192,7 +189,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
         placeholder={t('ThreadActivityCreate.placeholder')}
         value=""
         autoFocus
-        maxHeight="50vh"
+        maxH="50vh"
         onChange={handleSaveDraft}
         onSubmit={handleSubmit}
       />
@@ -241,6 +238,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
 
         <Text
           color="gray.500"
+          _dark={{ color: 'gray.300' }}
           fontSize="xs"
           pr={2}
         >{`${cmdOrCtrlKey} + Enter`}</Text>

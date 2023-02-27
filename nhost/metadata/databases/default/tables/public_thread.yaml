@@ -12,6 +12,15 @@ object_relationships:
     using:
       foreign_key_constraint_on: orgId
 array_relationships:
+  - name: activities
+    using:
+      manual_configuration:
+        column_mapping:
+          id: threadId
+        insertion_order: null
+        remote_table:
+          name: thread_activity
+          schema: public
   - name: member_status
     using:
       foreign_key_constraint_on:
