@@ -13,9 +13,7 @@ import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'
-import { locales } from 'src/i18n'
-
-const langs = Object.keys(locales) as Array<keyof typeof locales>
+import { langs, locales } from 'src/i18n'
 
 export default function LangModal(modalProps: UseModalProps) {
   const {

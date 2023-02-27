@@ -41,3 +41,4 @@ i18n
 
 export default i18n
 export const locales = resources
+export const langs = Object.keys(locales) as Array<keyof typeof locales>
