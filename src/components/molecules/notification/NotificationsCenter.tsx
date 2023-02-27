@@ -20,7 +20,7 @@ export default function NotificationsCenter() {
     }
   }
   const onMarkNotificationsAsError = (error: Error) => {
-    console.error(t('common.error'))
+    console.error(error)
   }
 
   // Hook needs to be in a NovuProvider instance to work
