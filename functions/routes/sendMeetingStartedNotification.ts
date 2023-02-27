@@ -12,17 +12,19 @@ import { defaultLang, resources } from '@i18n'
 import { guardOrg } from '@utils/guardOrg'
 
 const yupSchema = yup.object({
+  recipientMemberIds: yup.array().of(yup.string().required()),
   meetingId: yup.string().required(),
 })
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
 
-  const { meetingId } = guardBodyParams(context, yupSchema)
+  const { meetingId, recipientMemberIds } = guardBodyParams(context, yupSchema)
 
   // Get meeting data
   const { meeting_by_pk } = await adminRequest(GET_MEETING_DATA, {
     id: meetingId,
+    userId: context?.userId!,
   })
   if (!meeting_by_pk) {
     throw new RouteError(404, 'Meeting not found')
@@ -31,14 +33,16 @@ export default route(async (context): Promise<void> => {
   const orgId = meeting_by_pk.org.id
   await guardOrg(context, orgId, Member_Role_Enum.Member)
 
-  // Get all recipient ids
+  // If recipientMemberIds provided : send only to those recipients
+  // Else send to all attendees
   const allRecipientIds =
-    meeting_by_pk.attendees && meeting_by_pk.attendees.map((a) => a.memberId)
+    recipientMemberIds ?? meeting_by_pk.attendees?.map((a) => a.memberId) ?? []
+
   if (!allRecipientIds || allRecipientIds.length === 0) return
   // Get sender and recipients
   const { sender, recipients } = await getNotificationSenderAndRecipients(
     context?.userId!,
-    allRecipientIds
+    [...new Set([meeting_by_pk.org.members[0].id, ...allRecipientIds])]
   )
   if (recipients.length === 0) return
 
@@ -61,11 +65,14 @@ export default route(async (context): Promise<void> => {
 })
 
 const GET_MEETING_DATA = gql(`
-  query getMeetingData($id: uuid!) {
+  query getMeetingData($id: uuid!, $userId:uuid!) {
     meeting_by_pk(id: $id) {
       id
       org {
         ...Org
+        members(where: { userId: { _eq: $userId }}) {
+          id
+        }
       }
       title
       circle {

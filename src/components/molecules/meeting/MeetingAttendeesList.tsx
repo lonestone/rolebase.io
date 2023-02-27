@@ -73,6 +73,7 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
     // Send notification
     if (isStarted && circle && currentMember && currentMember.id !== memberId) {
       sendMeetingStartedNotification({
+        recipientMemberIds: [memberId],
         meetingId: meeting.id,
       })
     }

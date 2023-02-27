@@ -15,5 +15,6 @@ export enum NotificationCategories {
 }
 
 export type MeetingStartedNotificationBodyParams = {
+  recipientMemberIds?: string[]
   meetingId: string
 }
