@@ -7,19 +7,31 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import { useChangeLocaleMutation } from '@gql'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
+import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'
-import { locales } from 'src/i18n'
-
-const langs = Object.keys(locales) as Array<keyof typeof locales>
+import { langs, locales } from 'src/i18n'
 
 export default function LangModal(modalProps: UseModalProps) {
   const {
     t,
     i18n: { language, changeLanguage },
   } = useTranslation()
+  const userId = useUserId()
+
+  // Mutations
+  const [changeLocale] = useChangeLocaleMutation()
+
+  const handleClick = async (locale: string) => {
+    if (!userId) return
+    // Change user locale in DB
+    await changeLocale({ variables: { userId, locale } })
+    // Change i18n locale
+    changeLanguage(locale)
+  }
 
   return (
     <Modal size="xs" isCentered {...modalProps}>
@@ -35,7 +47,7 @@ export default function LangModal(modalProps: UseModalProps) {
               <ListItemWithButtons
                 key={locale}
                 buttons={locale === language ? <FiCheck /> : null}
-                onClick={() => changeLanguage(locale)}
+                onClick={() => handleClick(locale)}
               >
                 {emoji}&nbsp;&nbsp;&nbsp;{name}
               </ListItemWithButtons>

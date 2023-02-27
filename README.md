@@ -95,9 +95,10 @@ To use the search engine across an organization, you need to configure an [Algol
    - Use `algolia-docs.json` present in this repo
    - Set env variables (see below)
 
-### MagicBell
+### Novu
 
-To send push notifications to your organization's users, you need a [MagicBell](https://www.magicbell.com) account.
+To send notifications to your organization's users, you need a [Novu](https://novu.co/) account.
+You'll also need to create the notification in your Novu admin panel as you'll have to pass the notification identifier (triggerId) to send a notification.
 
 ## Configuration
 
@@ -111,8 +112,8 @@ Write these env variables in the file `functions/.env`:
 - **ALGOLIA_APP_ID**: Algolia application ID
 - **ALGOLIA_SEARCH_API_KEY**: Algolia search API key (must remain secret!)
 - **ALGOLIA_ADMIN_API_KEY**: Algolia admin API key (must remain secret!)
-- **MAGICBELL_API_KEY**: API key to MagicBell
-- **MAGICBELL_API_SECRET**: Secret provided by MagicBell
+- **NOVU_APP_ID**: Public application identifier provided by Novu
+- **NOVU_API_KEY**: Secret API key provided by Novu
 
 You can find a reusable template in `functions/.env.template`.
 

@@ -34,6 +34,7 @@ export default {
     public: process.env.MAILJET_PUBIC_KEY || '',
     private: process.env.MAILJET_PRIVATE_KEY || '',
   },
+
   security: {
     invitation_token: process.env.SECURITY_INVITATION_TOKEN || '',
   },
@@ -46,9 +47,9 @@ export default {
     indexName: 'docs',
   },
 
-  // Notifications with MagicBell
-  magicbell: {
-    apiKey: process.env.MAGICBELL_API_KEY || '',
-    apiSecret: process.env.MAGICBELL_API_SECRET || '',
+  // Notification with Novu
+  novu: {
+    appId: process.env.NOVU_APP_ID || '',
+    apiKey: process.env.NOVU_API_KEY || '',
   },
 }

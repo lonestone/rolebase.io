@@ -155,6 +155,7 @@ update_permissions:
     permission:
       columns:
         - display_name
+        - locale
       filter:
         id:
           _eq: X-Hasura-User-Id

@@ -1,5 +1,5 @@
 import {
-  sendNotification,
+  sendMeetingStartedNotification,
   startMembersMeeting,
   stopMembersMeeting,
 } from '@api/functions'
@@ -18,11 +18,8 @@ import useParticipants from '@hooks/useParticipants'
 import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { MeetingStepConfig, VideoConfTypes } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
-import { NotificationCategories } from '@shared/model/notification'
 import { useStoreState } from '@store/hooks'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import settings from 'src/settings'
 import useCreateMissingMeetingSteps from './useCreateMissingMeetingSteps'
 import { usePathInOrg } from './usePathInOrg'
 
@@ -62,7 +59,6 @@ export interface MeetingState {
 }
 
 export default function useMeetingState(meetingId: string): MeetingState {
-  const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
@@ -326,20 +322,8 @@ export default function useMeetingState(meetingId: string): MeetingState {
     if (!meeting || !meeting.attendees || !circle || !currentMember) return
 
     // Send notification
-    const notifParams = {
-      role: circle.role.name,
-      title: meeting.title,
-      sender: currentMember.name,
-    }
-    sendNotification({
-      category: NotificationCategories.MeetingStarted,
-      title: t('notifications.MeetingStarted.title', notifParams),
-      content: t('notifications.MeetingStarted.content', notifParams),
-      recipientMemberIds: meeting.attendees
-        .map((a) => a.memberId)
-        .filter((id) => id !== currentMember.id),
-      topic: meeting.id,
-      url: `${settings.url}${path}`,
+    sendMeetingStartedNotification({
+      meetingId: meeting.id,
     })
   }, [meeting, path])
 

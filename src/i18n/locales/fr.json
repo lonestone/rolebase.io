@@ -786,32 +786,6 @@
       "NotDone": "Non terminée"
     }
   },
-  "notifications": {
-    "ThreadMessage": {
-      "title": "",
-      "content": ""
-    },
-    "TaskAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "MeetingInvited": {
-      "title": "Réunion {{role}} - {{title}}",
-      "content": "Invitation par {{sender}}."
-    },
-    "MeetingStarted": {
-      "title": "Réunion {{role}} - {{title}}",
-      "content": "{{sender}} a démarré la réunion !"
-    },
-    "RoleAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "Decision": {
-      "title": "",
-      "content": ""
-    }
-  },
   "useCreateTask": {
     "toast": "Tâche créée !"
   },

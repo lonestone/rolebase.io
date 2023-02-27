@@ -791,32 +791,6 @@
       "NotDone": "Not done"
     }
   },
-  "notifications": {
-    "ThreadMessage": {
-      "title": "",
-      "content": ""
-    },
-    "TaskAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "MeetingInvited": {
-      "title": "Meeting {{role}} - {{title}}",
-      "content": "Invitation by {{sender}}."
-    },
-    "MeetingStarted": {
-      "title": "",
-      "content": ""
-    },
-    "RoleAssigned": {
-      "title": "",
-      "content": ""
-    },
-    "Decision": {
-      "title": "",
-      "content": ""
-    }
-  },
   "useCreateTask": {
     "toast": "Task created!"
   },

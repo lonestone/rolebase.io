@@ -3,7 +3,7 @@ import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
 import { useOrgsSubscription } from '@gql'
 import useSuperAdmin from '@hooks/useSuperAdmin'
-import { useUserId } from '@nhost/react'
+import { useUserId, useUserLocale } from '@nhost/react'
 import MemberInvitationPage from '@pages/MemberInvitationPage'
 import OrgsPage from '@pages/OrgsPage'
 import Page404 from '@pages/Page404'
@@ -11,7 +11,9 @@ import SuperAdminPage from '@pages/SuperAdminPage'
 import UserInfoPage from '@pages/UserInfoPage'
 import { useStoreActions } from '@store/hooks'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { langs, locales } from 'src/i18n'
 import LoggedLayout from '../molecules/LoggedLayout'
 import OrgIdRoute from './OrgIdRoute'
 import OrgSlugRoute from './OrgSlugRoute'
@@ -20,6 +22,17 @@ export default function PrivateRoute() {
   const superAdmin = useSuperAdmin()
   const navigate = useNavigate()
   const userId = useUserId()
+  const {
+    i18n: { changeLanguage },
+  } = useTranslation()
+  const userLocale = useUserLocale()
+
+  // Update translation language with user's locale in DB
+  useEffect(() => {
+    if (userLocale && langs.includes(userLocale as keyof typeof locales)) {
+      changeLanguage(userLocale)
+    }
+  }, [])
 
   // Subscribe to orgs
   const result = useOrgsSubscription({

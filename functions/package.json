@@ -4,8 +4,8 @@
     "codegen": "graphql-codegen --config _codegen.ts"
   },
   "dependencies": {
-    "@magicbell/core": "^5.0.3",
     "@nhost/nhost-js": "^1.6.0",
+    "@novu/node": "^0.11.0",
     "algoliasearch": "^4.14.2",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",

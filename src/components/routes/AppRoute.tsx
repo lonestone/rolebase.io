@@ -6,6 +6,7 @@ import PublicRoute from './PublicRoute'
 
 export default function AppRoute() {
   const { isAuthenticated, isLoading } = useAuthenticationStatus()
+
   if (isLoading) return <Loading active center />
   return isAuthenticated ? <PrivateRoute /> : <PublicRoute />
 }

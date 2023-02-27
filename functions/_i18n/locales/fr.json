@@ -1,5 +1,25 @@
 {
   "meetingsIcal": {
     "meetingTitle": "{{role}} - {{title}}"
+  },
+  "notifications": {
+    "common": {
+      "action": {
+        "openMeeting": "Ouvrir la réunion"
+      },
+      "email": {
+        "notificationReceived": "Vous avez reçu une notification :",
+        "automaticEmail": "Ceci est un email automatique, merci de ne pas y répondre.",
+        "unsubscribe": "Vous pouvez régler vos paramètres de notification sur"
+      }
+    },
+    "sendMeetingInvitedNotification": {
+      "title": "Réunion {{role}} - {{title}}",
+      "content": "Invitation par {{sender}}."
+    },
+    "sendMeetingStartedNotification": {
+      "title": "Réunion {{role}} - {{title}}",
+      "content": "{{sender}} a démarré la réunion !"
+    }
   }
 }
