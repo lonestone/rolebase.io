@@ -11,11 +11,13 @@ import {
 import { ThreadFragment } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import useMember from '@hooks/useMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
+import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 
 interface Props extends LinkBoxProps {
   thread: ThreadFragment
@@ -42,6 +44,9 @@ const ThreadItem = forwardRef<Props, 'div'>(
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
     const hover = useHoverItemStyle()
+
+    // Get thread initiator
+    const threadInitiator = useMember(thread.initiatorMemberId)
 
     return (
       <>
@@ -72,6 +77,17 @@ const ThreadItem = forwardRef<Props, 'div'>(
             >
               {thread.title}
             </LinkOverlay>
+
+            {threadInitiator && (
+              <MemberByIdAvatar
+                id={threadInitiator.id}
+                circleId={thread.circleId}
+                w={6}
+                h={6}
+                mr={2}
+                size="xs"
+              />
+            )}
 
             {showCircle && <CircleByIdButton id={thread.circleId} size="xs" />}
 
