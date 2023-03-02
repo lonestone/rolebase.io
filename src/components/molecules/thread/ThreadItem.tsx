@@ -1,4 +1,5 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
+import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 import {
   Center,
   Flex,
@@ -11,14 +12,13 @@ import {
 } from '@chakra-ui/react'
 import { ThreadFragment } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
-import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import useMember from '@hooks/useMember'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
-import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 
 interface Props extends LinkBoxProps {
   thread: ThreadFragment
@@ -57,6 +57,10 @@ const ThreadItem = forwardRef<Props, 'div'>(
           ref={ref}
           p={1}
           boxShadow={isDragging ? 'lg' : 'none'}
+          bg={isDragging ? 'gray.100' : undefined}
+          _dark={
+            isDragging ? { bg: isDragging ? 'gray.700' : undefined } : undefined
+          }
           _hover={hover}
           {...linkBoxProps}
           tabIndex={

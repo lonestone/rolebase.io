@@ -66,6 +66,10 @@ const TaskItem = forwardRef<Props, 'div'>(
           ref={ref}
           p={1}
           boxShadow={isDragging ? 'lg' : 'none'}
+          bg={isDragging ? 'gray.100' : undefined}
+          _dark={
+            isDragging ? { bg: isDragging ? 'gray.700' : undefined } : undefined
+          }
           _hover={hover}
           {...linkBoxProps}
           tabIndex={

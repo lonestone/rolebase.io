@@ -92,9 +92,12 @@ export default function MeetingStepContentThreadItem({
   return (
     <Draggable draggableId={thread.id} index={index}>
       {(provided, snapshot) => (
-        <Box {...provided.draggableProps} pb={editMode ? 8 : 0}>
+        <Box
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          pb={editMode ? 9 : 2}
+        >
           <ThreadItem
-            ref={provided.innerRef}
             thread={thread}
             showIcon
             isDragging={snapshot.isDragging}

@@ -1,6 +1,6 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
-import { Box, Button, HStack, VStack } from '@chakra-ui/react'
+import { Box, Button, HStack } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import {
   useCircleThreadsWithMeetingNoteSubscription,
@@ -118,20 +118,18 @@ export default function MeetingStepContentThreads({ step }: Props) {
       <TextErrors errors={[error]} />
 
       <SortableList disabled={!editable} onDragEnd={handleDragEnd}>
-        <VStack spacing={2} align="stretch">
-          {items.map((item, i) => (
-            <MeetingStepContentThreadItem
-              key={item.id}
-              thread={item}
-              index={i}
-              onRemove={editable ? () => handleRemove(item.id) : undefined}
-            />
-          ))}
-        </VStack>
+        {items.map((item, i) => (
+          <MeetingStepContentThreadItem
+            key={item.id}
+            thread={item}
+            index={i}
+            onRemove={editable ? () => handleRemove(item.id) : undefined}
+          />
+        ))}
       </SortableList>
 
       {editable && (
-        <HStack mt={8}>
+        <HStack mt={5}>
           <ThreadSearchButton
             threads={threads || []}
             createCircleId={circle.id}
