@@ -27,7 +27,7 @@ function EditorController<Values extends FieldValues>(
           onChange={field.onChange}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          minHeight={minHeight === undefined ? '4em' : minHeight}
+          minH={minHeight === undefined ? '4em' : minHeight}
         />
       )}
     />

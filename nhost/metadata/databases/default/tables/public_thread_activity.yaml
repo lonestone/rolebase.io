@@ -2,6 +2,42 @@ table:
   name: thread_activity
   schema: public
 object_relationships:
+  - name: refDecision
+    using:
+      manual_configuration:
+        column_mapping:
+          refDecisionId: id
+        insertion_order: null
+        remote_table:
+          name: decision
+          schema: public
+  - name: refMeeting
+    using:
+      manual_configuration:
+        column_mapping:
+          refMeetingId: id
+        insertion_order: null
+        remote_table:
+          name: meeting
+          schema: public
+  - name: refTask
+    using:
+      manual_configuration:
+        column_mapping:
+          refTaskId: id
+        insertion_order: null
+        remote_table:
+          name: task
+          schema: public
+  - name: refThread
+    using:
+      manual_configuration:
+        column_mapping:
+          refThreadId: id
+        insertion_order: null
+        remote_table:
+          name: thread
+          schema: public
   - name: thread
     using:
       foreign_key_constraint_on: threadId
@@ -27,6 +63,10 @@ insert_permissions:
         userId: x-hasura-User-Id
       columns:
         - data
+        - refDecisionId
+        - refMeetingId
+        - refTaskId
+        - refThreadId
         - threadId
         - type
 select_permissions:
@@ -36,6 +76,10 @@ select_permissions:
         - createdAt
         - data
         - id
+        - refDecisionId
+        - refMeetingId
+        - refTaskId
+        - refThreadId
         - threadId
         - type
         - userId
@@ -52,11 +96,24 @@ update_permissions:
       columns:
         - data
       filter:
-        userId:
-          _eq: X-Hasura-User-Id
-      check:
-        userId:
-          _eq: X-Hasura-User-Id
+        _or:
+          - userId:
+              _eq: X-Hasura-User-Id
+          - _and:
+              - type:
+                  _eq: MeetingNote
+              - thread:
+                  org:
+                    members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Member
+                            - role:
+                                _eq: Admin
+      check: {}
 delete_permissions:
   - role: user
     permission:

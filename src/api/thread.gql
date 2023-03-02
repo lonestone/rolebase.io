@@ -24,6 +24,19 @@ subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
   }
 }
 
+subscription circleThreadsWithMeetingNote($circleId: uuid!, $meetingId: uuid!) {
+  thread(where: { circleId: { _eq: $circleId }, archived: { _eq: false } }) {
+    ...Thread
+    activities(
+      where: {
+        _and: { type: { _eq: MeetingNote }, refMeetingId: { _eq: $meetingId } }
+      }
+    ) {
+      ...ThreadActivity
+    }
+  }
+}
+
 mutation createThread($values: thread_insert_input!) {
   insert_thread_one(object: $values) {
     ...Thread

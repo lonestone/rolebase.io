@@ -32,7 +32,7 @@ import React, {
   useState,
 } from 'react'
 
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Box, BoxProps, Circle, Tooltip } from '@chakra-ui/react'
 import { randomColor } from '@chakra-ui/theme-tools'
 import { useElementSize } from '@hooks/useElementSize'
 import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin'
@@ -134,7 +134,12 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
 
-  const initialEditorState = useMemo(() => fixInitialState(value), [value])
+  const isControlled = typeof value === 'string' && !collaboration
+
+  const initialEditorState = useMemo(
+    () => fixInitialState(value),
+    [isControlled ? value : undefined]
+  )
 
   const initialConfig: InitialConfigType = useMemo(
     () => ({
@@ -179,7 +184,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
   }, [onBlur])
 
   // Collaboration status
-  const [collaborationStatus, setCollaborationStatus] = useState(true)
+  const [collaborationStatus, setCollaborationStatus] = useState(false)
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -194,7 +199,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           />
           <EditablePlugin editable={!readOnly} />
           <DragDropPaste onUpload={onUpload} />
-          {autoFocus && <AutoFocusPlugin />}
+          {autoFocus && collaborationStatus && <AutoFocusPlugin />}
           {mentionables && <MentionsPlugin mentionables={mentionables} />}
 
           {collaboration && id ? (
@@ -204,14 +209,12 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
               username={username}
               cursorColor={cursorColor}
               providerFactory={createWebsocketProvider}
-              shouldBootstrap
+              shouldBootstrapx
             />
           ) : (
             <>
               <HistoryPlugin externalHistoryState={historyState} />
-              {typeof value === 'string' && (
-                <ControlledValuePlugin value={value} />
-              )}
+              {isControlled && <ControlledValuePlugin value={value} />}
             </>
           )}
 
@@ -297,7 +300,27 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
             </>
           )}
 
-          {!collaborationStatus && CollabOfflineOverlay()}
+          {collaboration && !collaborationStatus && <CollabOfflineOverlay />}
+
+          {collaboration && !readOnly && (
+            <Tooltip
+              label={
+                collaborationStatus
+                  ? 'Collaboration Online'
+                  : 'Collaboration Offline'
+              }
+              placement="top"
+              hasArrow
+            >
+              <Circle
+                position="absolute"
+                top="0.4em"
+                right="0.4em"
+                size="0.5em"
+                bg={collaborationStatus ? 'green.500' : 'red.500'}
+              />
+            </Tooltip>
+          )}
         </Box>
       </SharedHistoryContext>
     </LexicalComposer>

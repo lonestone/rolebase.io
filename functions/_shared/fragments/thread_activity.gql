@@ -5,4 +5,16 @@ fragment ThreadActivity on thread_activity {
   createdAt
   type
   data
+  refThread {
+    ...Thread
+  }
+  refMeeting {
+    ...MeetingSummary
+  }
+  refTask {
+    ...Task
+  }
+  refDecision {
+    ...Decision
+  }
 }

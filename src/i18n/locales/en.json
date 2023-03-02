@@ -280,6 +280,7 @@
     "title": "Recurring Meeting"
   },
   "MeetingStepContent": {
+    "addNotes": "Add notes",
     "notesPlaceholder": "Notes..."
   },
   "MeetingStepContentChecklist": {
@@ -292,6 +293,10 @@
   },
   "MeetingStepContentTasks": {
     "logs": "Edited tasks"
+  },
+  "MeetingStepContentThreads": {
+    "add": "Add a thread",
+    "randomize": "Randomize"
   },
   "MeetingStepSortableItem": {
     "placeholder": "Step title..."
@@ -655,6 +660,9 @@
   "ThreadActivityMeeting": {
     "text": "has created a meeting:"
   },
+  "ThreadActivityMeetingNote": {
+    "title": "Meeting notes"
+  },
   "ThreadActivityPoll": {
     "heading": "Poll",
     "showResults": "Show results",
@@ -697,10 +705,6 @@
     "titlePlaceholder": "What are we discussing?...",
     "invite": "Invite",
     "settings": "Settings"
-  },
-  "ThreadsMultiSelect": {
-    "add": "Add a thread",
-    "randomize": "Randomize"
   },
   "ThreadsPage": {
     "heading": "Threads",

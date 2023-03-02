@@ -9,16 +9,25 @@ import {
   StackProps,
   VStack,
 } from '@chakra-ui/react'
+import { MeetingContext } from '@contexts/MeetingContext'
 import { ThreadContext } from '@contexts/ThreadContext'
 import {
+  Thread_Activity_Type_Enum,
   useCreateThreadMemberStatusMutation,
   useThreadActivitiesSubscription,
   useUpdateThreadMemberStatusMutation,
 } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import ThreadActivity from '@molecules/thread/ThreadActivity'
+import { ThreadActivityMeetingNoteFragment } from '@shared/model/thread_activity'
 import { isSameDay } from 'date-fns'
-import React, { forwardRef, useContext, useEffect, useState } from 'react'
+import React, {
+  forwardRef,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiMessageSquare } from 'react-icons/fi'
 
@@ -31,10 +40,13 @@ interface MemberStatus {
   lastReadDate: string
 }
 
+export const activityMeetingNoteTmpId = 'tmp'
+
 const ThreadActivities = forwardRef<HTMLDivElement, Props>(
   ({ memberStatus, ...stackProps }, ref) => {
     const { t } = useTranslation()
     const thread = useContext(ThreadContext)
+    const meetingState = useContext(MeetingContext)
     const currentMember = useCurrentMember()
     const [createThreadMemberStatus] = useCreateThreadMemberStatusMutation()
     const [updateThreadMemberStatus] = useUpdateThreadMemberStatusMutation()
@@ -44,7 +56,38 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
       skip: !thread,
       variables: { threadId: thread?.id! },
     })
+
+    // If there is a current meeting state, assure that we have a MeetingNote activity
     const activities = data?.thread_activity
+
+    // Temporary meeting note
+    const tmpMeetingNoteActivity = useMemo(() => {
+      if (
+        !thread ||
+        !activities ||
+        !meetingState?.meeting ||
+        activities.some(
+          (a) =>
+            a.type === Thread_Activity_Type_Enum.MeetingNote &&
+            a.refMeeting?.id === meetingState.meeting?.id
+        )
+      ) {
+        return undefined
+      }
+
+      // Add temporary meeting note to activities
+      return {
+        id: activityMeetingNoteTmpId,
+        threadId: thread.id,
+        userId: '',
+        createdAt: new Date().toISOString(),
+        type: Thread_Activity_Type_Enum.MeetingNote,
+        refMeeting: meetingState.meeting,
+        data: {
+          notes: '',
+        },
+      } as ThreadActivityMeetingNoteFragment
+    }, [thread, activities, meetingState?.meeting?.id])
 
     // Previous status to show a mark
     const [lastReadActivityId, setLastReadActivityId] = useState<
@@ -104,7 +147,24 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
         {loading && <Loading active center />}
         <TextErrors errors={[error]} />
 
-        {activities?.length === 0 && (
+        {activities &&
+          activities.map((activity, i) => (
+            <React.Fragment key={activity.id}>
+              {(i === 0 ||
+                !isSameDay(
+                  new Date(activity.createdAt),
+                  new Date(activities[i - 1].createdAt)
+                )) && <ThreadDaySeparator date={activity.createdAt} />}
+
+              <ThreadActivity activity={activity} />
+
+              {lastReadActivityId === activity.id && (
+                <Box h="3px" w="100%" bg="red.200" _dark={{ bg: 'red.800' }} />
+              )}
+            </React.Fragment>
+          ))}
+
+        {activities?.length === 0 && !tmpMeetingNoteActivity && (
           <Alert
             status="success"
             variant="subtle"
@@ -124,22 +184,9 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
           </Alert>
         )}
 
-        {activities &&
-          activities.map((activity, i) => (
-            <React.Fragment key={activity.id}>
-              {(i === 0 ||
-                !isSameDay(
-                  new Date(activity.createdAt),
-                  new Date(activities[i - 1].createdAt)
-                )) && <ThreadDaySeparator date={activity.createdAt} />}
-
-              <ThreadActivity activity={activity} />
-
-              {lastReadActivityId === activity.id && (
-                <Box h="3px" w="100%" bg="red.200" _dark={{ bg: 'red.800' }} />
-              )}
-            </React.Fragment>
-          ))}
+        {tmpMeetingNoteActivity && (
+          <ThreadActivity activity={tmpMeetingNoteActivity} />
+        )}
       </VStack>
     )
   }

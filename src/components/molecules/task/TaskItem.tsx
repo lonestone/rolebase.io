@@ -85,7 +85,12 @@ const TaskItem = forwardRef<Props, 'div'>(
             </LinkOverlay>
 
             {task.dueDate && (
-              <Text fontSize="sm" color="gray.500" ml={2}>
+              <Text
+                fontSize="sm"
+                color="gray.500"
+                _dark={{ color: 'gray.300' }}
+                ml={2}
+              >
                 {formatRelative(new Date(task.dueDate), new Date(), {
                   locale: dateLocale,
                 })}

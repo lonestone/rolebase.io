@@ -21,6 +21,7 @@ export default function HourLink({ activityId, date, ...linkProps }: Props) {
       fontSize="sm"
       fontWeight="normal"
       color="gray.500"
+      _dark={{ color: 'gray.300' }}
       {...linkProps}
     >
       {format(dateMemo, 'HH:mm')}

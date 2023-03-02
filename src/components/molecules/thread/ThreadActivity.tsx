@@ -3,6 +3,7 @@ import { ThreadActivityFragment, Thread_Activity_Type_Enum } from '@gql'
 import React, { memo } from 'react'
 import ThreadActivityDecision from './ThreadActivityDecision'
 import ThreadActivityMeeting from './ThreadActivityMeeting'
+import ThreadActivityMeetingNote from './ThreadActivityMeetingNote'
 import ThreadActivityMessage from './ThreadActivityMessage'
 import ThreadActivityPoll from './ThreadActivityPoll'
 import ThreadActivityTask from './ThreadActivityTask'
@@ -22,6 +23,8 @@ function ThreadActivity({ activity }: Props) {
       return <ThreadActivityThread activity={activity as any} />
     case Thread_Activity_Type_Enum.Meeting:
       return <ThreadActivityMeeting activity={activity as any} />
+    case Thread_Activity_Type_Enum.MeetingNote:
+      return <ThreadActivityMeetingNote activity={activity as any} />
     case Thread_Activity_Type_Enum.Task:
       return <ThreadActivityTask activity={activity as any} />
     case Thread_Activity_Type_Enum.Decision:

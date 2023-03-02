@@ -6,6 +6,7 @@ import {
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
+  TypographyProps,
   useDisclosure,
 } from '@chakra-ui/react'
 import { ThreadFragment } from '@gql'
@@ -25,6 +26,7 @@ interface Props extends LinkBoxProps {
   showCircle?: boolean
   showIcon?: boolean
   isDragging?: boolean
+  labelProps?: TypographyProps
 }
 
 const ThreadItem = forwardRef<Props, 'div'>(
@@ -35,6 +37,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
       showCircle,
       showIcon,
       isDragging,
+      labelProps,
       children,
       ...linkBoxProps
     },
@@ -72,7 +75,8 @@ const ThreadItem = forwardRef<Props, 'div'>(
               as={ReachLink}
               flex={1}
               to={path}
-              fontWeight={unread ? 'bold' : 'normal'}
+              fontWeight={unread ? 'bold' : undefined}
+              {...labelProps}
               onClick={handleOpen}
             >
               {thread.title}

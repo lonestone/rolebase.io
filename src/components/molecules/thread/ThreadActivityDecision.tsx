@@ -1,7 +1,4 @@
-import Loading from '@atoms/Loading'
-import TextErrors from '@atoms/TextErrors'
 import { Text } from '@chakra-ui/react'
-import { useDecisionSubscription } from '@gql'
 import { useUserId } from '@nhost/react'
 import { ThreadActivityDecisionFragment } from '@shared/model/thread_activity'
 import React from 'react'
@@ -20,17 +17,14 @@ export default function ThreadActivityDecision({ activity }: Props) {
   // Edition
   const isUserOwner = userId === activity.userId
 
-  const { data, loading, error } = useDecisionSubscription({
-    variables: { id: activity.data.entityId },
-  })
-  const decision = data?.decision_by_pk
-
   return (
     <ThreadActivityLayout activity={activity} allowDelete={isUserOwner}>
-      <Text color="gray.500">{t(`ThreadActivityDecision.text`)}</Text>
-      {loading && <Loading active size="md" />}
-      <TextErrors errors={[error]} />
-      {decision && <DecisionItem decision={decision} showIcon />}
+      <Text color="gray.500" _dark={{ color: 'gray.300' }}>
+        {t(`ThreadActivityDecision.text`)}
+      </Text>
+      {activity.refDecision && (
+        <DecisionItem decision={activity.refDecision} showIcon />
+      )}
     </ThreadActivityLayout>
   )
 }
