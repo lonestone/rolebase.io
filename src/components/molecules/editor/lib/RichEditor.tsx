@@ -209,7 +209,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
               username={username}
               cursorColor={cursorColor}
               providerFactory={createWebsocketProvider}
-              shouldBootstrapx
+              shouldBootstrap
             />
           ) : (
             <>

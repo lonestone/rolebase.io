@@ -13262,7 +13262,9 @@ export type Thread_Activity_Bool_Exp = {
 /** unique or primary key constraints on table "thread_activity" */
 export enum Thread_Activity_Constraint {
   /** unique or primary key constraint on columns "id" */
-  ThreadActivityPkey = 'thread_activity_pkey'
+  ThreadActivityPkey = 'thread_activity_pkey',
+  /** unique or primary key constraint on columns "type", "threadId", "refMeetingId" */
+  ThreadActivityThreadIdRefMeetingIdTypeKey = 'thread_activity_threadId_refMeetingId_type_key'
 }
 
 /** input type for inserting data into table "thread_activity" */
