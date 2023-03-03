@@ -8,6 +8,7 @@ import MeetingPage from '@pages/MeetingPage'
 import MeetingRecurringPage from '@pages/MeetingRecurringPage'
 import MembersPage from '@pages/MembersPage'
 import Page404 from '@pages/Page404'
+import SubscriptionPage from '@pages/SubscriptionPage'
 import TaskPage from '@pages/TaskPage'
 import TasksPage from '@pages/TasksPage'
 import ThreadPage from '@pages/ThreadPage'
@@ -66,6 +67,7 @@ export default function OrgRoute({ orgId }: Props) {
             path="meetings-recurring/:id"
             element={<MeetingRecurringPage />}
           />
+          <Route path="subscription" element={<SubscriptionPage />} />
           <Route path="meetings" element={<MeetingsPage />} />
           <Route path="tasks/:taskId" element={<TaskPage />} />
           <Route path="tasks" element={<TasksPage />} />

@@ -1,12 +1,12 @@
 import { extendTheme, StyleProps } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
-
 import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
 import '@fontsource/nunito/400.css'
 import '@fontsource/nunito/500.css'
 import '@fontsource/nunito/600.css'
 import '@fontsource/nunito/700.css'
+import { StepsTheme as Steps } from 'chakra-ui-steps'
 import 'focus-visible/dist/focus-visible'
 import './theme.css'
 
@@ -61,6 +61,18 @@ const theme = extendTheme({
       700: '#3B3B51',
       800: '#1F1F29',
       900: '#0e0e12',
+    },
+    purple: {
+      50: '#f1ebf1',
+      100: '#e2d7e2',
+      200: '#c5b0c5',
+      300: '#a988a8',
+      400: '#8c618b',
+      500: '#6f396e',
+      600: '#592e58',
+      700: '#432242',
+      800: '#2c172c',
+      900: '#160b16',
     },
     black: '#111111',
     outline: 'hsl(35 97% 50%)',
@@ -117,6 +129,7 @@ const theme = extendTheme({
         },
       },
     },
+    Steps,
   },
 })
 

@@ -4,7 +4,10 @@ import { generateInviteToken } from '@utils/generateInviteToken'
 import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
+import { guardSubscriptionAvailableSeat } from '@utils/guardSubscriptionAvailableSeat'
+import { isSubscriptionActive } from '@utils/isSubscriptionActive'
 import { route, RouteError } from '@utils/route'
+import { updateStripeSubscription } from '@utils/stripe'
 import { updateMember } from '@utils/updateMember'
 import * as yup from 'yup'
 
@@ -41,6 +44,21 @@ export default route(async (context): Promise<void> => {
   const tokenTruth = generateInviteToken(memberId, new Date(member.inviteDate))
   if (token !== tokenTruth) {
     throw new RouteError(401, 'Invalid token')
+  }
+
+  // Verify that the org has not reached it's member limit
+  const { nbActiveMembers, subscription } =
+    await guardSubscriptionAvailableSeat(context, member.orgId)
+
+  if (
+    subscription &&
+    subscription.stripeSubscriptionId &&
+    isSubscriptionActive(subscription.status)
+  ) {
+    await updateStripeSubscription(
+      subscription.stripeSubscriptionId,
+      nbActiveMembers + 1
+    )
   }
 
   // Update member

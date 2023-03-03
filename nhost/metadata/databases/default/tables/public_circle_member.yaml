@@ -23,6 +23,8 @@ insert_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       columns:
         - avgMinPerWeek
         - circleId
@@ -62,6 +64,8 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       check:
         circle:
           org:
@@ -74,3 +78,5 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
