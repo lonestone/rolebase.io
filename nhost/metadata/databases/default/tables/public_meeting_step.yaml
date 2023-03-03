@@ -20,6 +20,8 @@ insert_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       columns:
         - data
         - meetingId
@@ -60,6 +62,8 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
       check:
         meeting:
           org:
@@ -72,6 +76,8 @@ update_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
 delete_permissions:
   - role: user
     permission:
@@ -87,6 +93,8 @@ delete_permissions:
                         _eq: Member
                     - role:
                         _eq: Admin
+                    - role:
+                        _eq: Owner
 event_triggers:
   - name: index-meeting-step
     definition:

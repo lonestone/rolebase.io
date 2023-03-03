@@ -1,0 +1,4 @@
+table:
+  name: subscription_payment_status
+  schema: public
+is_enum: true

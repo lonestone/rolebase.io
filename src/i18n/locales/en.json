@@ -374,7 +374,8 @@
         "revoke": "Revoke invitation",
         "readonly": "Read only",
         "member": "Member",
-        "admin": "Admin"
+        "admin": "Admin",
+        "owner": "Owner"
       },
       "awaiting": "Invitation sent to {{email}} on {{date}}, awaiting acceptance.",
       "resend": "Resend",
@@ -398,6 +399,7 @@
     "workingTime": "Working time"
   },
   "MemberRoles": {
+    "heading": "Roles",
     "emptyRoles": "None",
     "addRole": "Add a role",
     "totalAllocatedTime": "Total allocated time:",
@@ -430,6 +432,7 @@
       "readonly": "Read only",
       "member": "Member",
       "admin": "Admin",
+      "owner": "Owner",
       "invited": "Invited",
       "notInvited": "Not invited"
     }
@@ -460,7 +463,8 @@
   },
   "OrgDeleteModal": {
     "heading": "Delete Organization",
-    "info": "Are you sure you want to delete organization <b>{{name}}</b>?"
+    "info": "Are you sure you want to delete organization <b>{{name}}</b>?",
+    "warningSubscription": "If a subscription is in progress, you will be refunded for the period not consumed"
   },
   "OrgEditModal": {
     "heading": "Edit Organization {{org}}",
@@ -576,7 +580,8 @@
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
     "logs": "History",
-    "superAdmin": "Admin"
+    "superAdmin": "Admin",
+    "subscription": "Subscription"
   },
   "Sidebar": {
     "orgs": "Organizations",
@@ -602,6 +607,137 @@
   "SubCirclesFormControl": {
     "roles": "Roles:",
     "addRole": "Add a role"
+  },
+  "SubscriptionPage": {
+    "heading": "Subscription"
+  },
+  "SubscriptionTabs": {
+    "subscriptionTabTitle": "My subscription",
+    "accountTabTitle": "Account",
+    "invoicesTabTitle": "Invoices",
+    "subscription": "Subscription",
+    "mustBeOwner": "You must be an owner of this org to manage the subscription",
+    "cancelSubscriptionModal": {
+      "title": "Cancel my subscription",
+      "subtitle": "Are you sure you want to cancel your subscription?",
+      "desc1": "This action will take effect at the end of the subscription period",
+      "desc2": "Active members of the organisation will revert to normal members",
+      "desc3": "You will lose the advantage of priority support from our team"
+    },
+    "invoiceTab": {
+      "heading": "Invoice history",
+      "desc": "Find all your past invoices here and download them.",
+      "noInvoice": "You have no invoice",
+      "amount": "Amount",
+      "invoiceDate": "Invoice date",
+      "invoice": "Invoice",
+      "download": "Download",
+      "status": "Statut",
+      "paymentStatus": {
+        "paid": "Paid",
+        "draft": "Draft",
+        "open": "Open",
+        "uncollectible": "Uncollectible",
+        "void": "Canceled"
+      }
+    },
+    "paymentModal": {
+      "subscribeToPlan": "{{plan}} plan",
+      "details": "Billing details",
+      "payment": "Payment",
+      "summary": "Summary",
+      "next": "Next",
+      "confirm": "Confirm",
+      "prev": "Back",
+      "subscription": "Subscription:",
+      "pricePerSeat": "Price per seat:",
+      "nbSeat_one": "Number of seat:",
+      "nbSeat_other": "Number of seats:",
+      "total": "Total",
+      "month": "month",
+      "promotionPlaceholder": "Promotion code",
+      "dueNow": "Due now",
+      "invalidPromotionCode": "Invalid promotion code"
+    },
+    "accountTab": {
+      "billingEmail": "Billing email",
+      "billingDetails": "Billing details",
+      "invalidBillingDetails": "Invalid billing details",
+      "currentSubscription": "Current subscription",
+      "paymentMethod": "Payment method",
+      "updateBillingEmail": "Update billing email",
+      "billingEmailUpdated": "Billing email updated",
+      "billingEmailUpdateError": "Error processing billing email update",
+      "updateBillingDetails": "Update billing details",
+      "billingDetailsUpdated": "Billing details updated",
+      "billingDetailsUpdateError": "Error processing billing details update",
+      "updatePaymentMethod": "Update payment method",
+      "PaymentMethodUpdated": "Payment method updated",
+      "PaymentMethodUpdateError": "Error processing payment method update",
+      "errorLoadingInvoices": "Failed to retrieve invoices"
+    }
+  },
+  "SubscriptionInvoiceCalculationDetails": {
+    "title": "How is my invoice calculated?",
+    "explaination": "The amount of your invoice is calculated in the following way:",
+    "desc1": "Each active member (member associated to a Rolebase account) cost 5 euros per month",
+    "desc2": "If an active user is added during the month, the amount is prorated between the current date and the end of the billing cycle and will be added to your next invoice",
+    "desc3": "If an active user is deleted during the month, a credit note for the time spent during the month will be applied to your next invoice"
+  },
+  "SubscriptionReachedMemberLimitModal": {
+    "title": "Oops, you have reached the maximum number of members for your plan!",
+    "limitReached": "You can upgrade your plan to increase the number of members in your team.",
+    "upgradePlan": "Passer au plan supérieur",
+    "hide": "Masquer"
+  },
+  "SubscriptionPlans": {
+    "currentPlan": "Current plan",
+    "activeMember_one": "{{count}}/{{total}} active member",
+    "activeMember_other": "{{count}}/{{total}} active members",
+    "upgradePlan": "Upgrade to this plan",
+    "downgradePlan": "Go back to this plan",
+    "selectPlan": "Select this plan",
+    "contactUs": "Get in touch with us",
+    "included": "Included",
+    "upcomingInvoiceAmount": "Upcoming invoice",
+    "drawdownOn": "Drawdown on",
+    "paymentMethod": "Payment method",
+    "expiresAt": "Expires",
+    "card": "Card",
+    "subscriptionExpires": "Your subscription will end on",
+    "activateOnSubscriptionEnd": "Will activate when current subscription ends",
+    "reactivateSubscription": "Reactivate my subscription",
+    "upcomingInvoiceHelp": "Know how this amount is calculated each month",
+    "active": "Active",
+    "unsubscribeDate": "Your subscription will end on {{date}}",
+    "subscriptionResumed": "Your subscription has been resumed",
+    "noBillingAccount": "You do not have any billing account yet",
+    "subscriptionSuccess": "That's a wrap!",
+    "subscriptionCreated": "Your subscription has been successfully created 😀",
+    "invoiceAvailable": "Your €{{amount}} invoice can be downloaded from the Invoices tab",
+    "free": {
+      "title": "Free",
+      "desc": "Perfect to try or work with a small team",
+      "feature1": "Price: 0€",
+      "feature2": "All features",
+      "feature3": "Limited to 5 active members"
+    },
+    "startup": {
+      "title": "Startup",
+      "desc": "To involve your entire team in your shared governance.",
+      "feature1": "Price: 5€/month/member",
+      "feature2": "All features",
+      "feature3": "Limited to 200 active members",
+      "feature4": "1h/month support"
+    },
+    "business": {
+      "title": "Business",
+      "desc": "A custom need, contact our team!",
+      "feature1": "All features",
+      "feature2": "Unlimited members",
+      "feature3": "Priority tips and support",
+      "feature4": "Custom integrations"
+    }
   },
   "SuperAdminPage": {
     "heading": "Admin dashboard",
@@ -744,12 +880,15 @@
     "send": "Send",
     "open": "Open",
     "skip": "Skip",
+    "confirm": "Confirm",
     "createThread": "Create a Thread",
     "createMeeting": "Create a Meeting",
     "createTask": "Create a Task",
     "createDecision": "Create a Decision",
+    "close": "Close",
     "edit": "Edit",
     "move": "Move",
+    "apply": "Apply",
     "duplicate": "Duplicate",
     "archive": "Archive",
     "unarchive": "Restore",
@@ -769,6 +908,10 @@
     "namePlaceholder": "Name...",
     "copy": "Copy",
     "toastCopied": "URL copied",
+    "none": "None",
+    "errorOccurred": "An error occurred.",
+    "errorRetry": "An error occurred, plase try again later.",
+    "errorContact": "If this persists contact us at contact@rolebase.io",
     "searchTypes": {
       "All": "All",
       "Member": "Members",

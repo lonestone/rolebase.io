@@ -103,6 +103,7 @@ export default function OnboardingCirclesModal({
             },
           },
         })
+
         const newRole = roleResult.data?.insert_role_one
         if (!newRole) throw new Error('Error creating role')
 
@@ -143,6 +144,8 @@ export default function OnboardingCirclesModal({
       }
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
 
     onSubmit(newCircles)

@@ -38,9 +38,3 @@ mutation changeOrgSlug($id: uuid!, $slug: String!) {
     id
   }
 }
-
-mutation archiveOrg($id: uuid!) {
-  update_org_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
-    id
-  }
-}

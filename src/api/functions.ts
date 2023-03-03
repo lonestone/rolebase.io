@@ -1,9 +1,16 @@
-import { Member_Role_Enum } from '@gql'
+import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import {
   MeetingStartedNotificationBodyParams,
   NovuConfig,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
+import {
+  CustomerBillingDetails,
+  Invoice,
+  PromotionCode,
+  Subscription,
+  SubscriptionIntentResponse,
+} from '@shared/model/subscription'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 
@@ -26,6 +33,7 @@ export const acceptMemberInvitation = fn<{
 
 export const updateMemberRole = fn<{
   memberId: string
+  issuerMemberId: string
   role?: Member_Role_Enum
 }>('updateMemberRole')
 
@@ -53,6 +61,85 @@ export const stopMembersMeeting = fn<{ meetingId: string }>(
   'stopMembersMeeting'
 )
 
+export const subscribeOrg = fn<
+  {
+    memberId: string
+    orgId: string
+    planType: Subscription_Plan_Type_Enum
+    promotionCode?: string
+  },
+  SubscriptionIntentResponse
+>('subscribeOrg')
+
+export const unsubscribeOrg = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  { cancelAt: string }
+>('unsubscribeOrg')
+
+export const getSubscriptionInvoices = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  Invoice[]
+>('getSubscriptionInvoices')
+
+export const getSubscription = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  Subscription
+>('getSubscription')
+
+export const updateSubscriptionBillingEmail = fn<
+  {
+    memberId: string
+    orgId: string
+    email: string
+  },
+  string
+>('updateSubscriptionBillingEmail')
+
+export const updateSubscriptionBillingDetails = fn<
+  {
+    memberId: string
+    orgId: string
+    billingDetails: CustomerBillingDetails
+  },
+  string
+>('updateSubscriptionBillingDetails')
+
+export const updateSubscriptionPaymentMethodIntent = fn<
+  {
+    memberId: string
+    orgId: string
+  },
+  { clientSecret: string }
+>('updateSubscriptionPaymentMethodIntent')
+
+export const resumeSubscription = fn<{
+  memberId: string
+  orgId: string
+}>('resumeSubscription')
+
+export const archiveOrg = fn<{
+  memberId: string
+  orgId: string
+}>('archiveOrg')
+
+export const retrieveCouponToSubscription = fn<
+  {
+    memberId: string
+    orgId: string
+    promotionCode: string
+  },
+  PromotionCode
+>('retrieveCouponToSubscription')
+
 export function getMeetingsIcalUrl(
   orgId: string | undefined,
   token: string,
@@ -66,6 +153,10 @@ export function getMeetingsIcalUrl(
     memberId ? `&memberId=${memberId}` : circleId ? `&circleId=${circleId}` : ''
   }`
 }
+
+export const archiveMember = fn<{ memberId: string; issuerMemberId: string }>(
+  'archiveMember'
+)
 
 export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 

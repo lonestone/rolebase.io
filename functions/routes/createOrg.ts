@@ -65,7 +65,7 @@ const CREATE_ORG = gql(`
           {
             userId: $userId
             name: $memberName
-            role: Admin
+            role: Owner
           }
         ]
       }

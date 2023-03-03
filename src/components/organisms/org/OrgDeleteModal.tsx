@@ -1,3 +1,4 @@
+import { archiveOrg } from '@api/functions'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -9,7 +10,7 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { useArchiveOrgMutation } from '@gql'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useOrg from '@hooks/useOrg'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -23,11 +24,14 @@ interface Props
 export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
+  const currentMember = useCurrentMember()
   const cancelRef = useRef<HTMLButtonElement>(null)
-  const [archiveOrg] = useArchiveOrgMutation()
 
-  const handleDelete = () => {
-    archiveOrg({ variables: { id } })
+  const handleDelete = async () => {
+    await archiveOrg({
+      orgId: org?.id ?? '',
+      memberId: currentMember?.id ?? '',
+    })
     onDelete()
     alertProps.onClose()
   }
@@ -45,6 +49,12 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
               <Trans
                 i18nKey="OrgDeleteModal.info"
                 values={{ name: org.name }}
+                components={{ b: <strong /> }}
+              />
+            </Text>
+            <Text mt="4">
+              <Trans
+                i18nKey="OrgDeleteModal.warningSubscription"
                 components={{ b: <strong /> }}
               />
             </Text>

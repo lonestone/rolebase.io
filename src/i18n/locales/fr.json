@@ -361,7 +361,7 @@
   "MemberEditModal": {
     "heading": "Modifier le membre {{member}}",
     "toastInvited": "Vous avez invité {{member}} à rejoindre l'organisation !",
-    "toastReInvited": "Vous avez ré-invité {{member}} à rejoindre l'organisation.",
+    "toastReInvited": "Vous avez réinvité {{member}} à rejoindre l'organisation.",
     "toastRevocated": "Invitation révoquée",
     "description": "Description",
     "descriptionPlaceholder": "Qui est {{name}} ?",
@@ -373,7 +373,8 @@
         "revoke": "Révoquer l'invitation",
         "readonly": "Lecture seule",
         "member": "Membre",
-        "admin": "Admin"
+        "admin": "Admin",
+        "owner": "Propriétaire"
       },
       "awaiting": "Invitation envoyée à {{email}} le {{date}}, en attente d'acceptation.",
       "resend": "Renvoyer",
@@ -430,6 +431,7 @@
       "readonly": "Lecture seule",
       "member": "Membre",
       "admin": "Admin",
+      "owner": "Propriétaire",
       "invited": "Invité.e",
       "notInvited": "Pas invité.e"
     }
@@ -460,7 +462,8 @@
   },
   "OrgDeleteModal": {
     "heading": "Supprimer une organisation",
-    "info": "Êtes-vous sûr(e) de vouloir supprimer l'organisation <b>{{name}}</b> ?"
+    "info": "Êtes-vous sûr(e) de vouloir supprimer l'organisation <b>{{name}}</b> ?",
+    "warningSubscription": "Si un abonnement est en cours, vous serez remboursé pour la periode non consommée"
   },
   "OrgEditModal": {
     "heading": "Modifier l'organisation {{org}}",
@@ -574,7 +577,8 @@
     "baseRoles": "Rôles de base",
     "vacantRoles": "Rôles vacants",
     "logs": "Historique",
-    "superAdmin": "Admin"
+    "superAdmin": "Admin",
+    "subscription": "Abonnement"
   },
   "Sidebar": {
     "orgs": "Organisations",
@@ -600,6 +604,144 @@
   "SubCirclesFormControl": {
     "roles": "Rôles :",
     "addRole": "Ajouter un rôle"
+  },
+  "SubscriptionPage": {
+    "heading": "Abonnement"
+  },
+  "SubscriptionTabs": {
+    "subscriptionTabTitle": "Mon abonnement",
+    "accountTabTitle": "Compte",
+    "invoicesTabTitle": "Factures",
+    "subscription": "Abonnement",
+    "mustBeOwner": "Vous devez être propriétaire de l'organisation pour gérer l'abonnement",
+    "cancelSubscriptionModal": {
+      "title": "Annuler mon abonnement",
+      "subtitle": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
+      "desc1": "Cette action prendra effet à la fin de la periode d'abonnement",
+      "desc2": "Les membres actifs de l'organisation repasseront en membres normaux",
+      "desc3": "Vous perdrez l’avantage de l’accompagnement et support prioritaire de la part de notre équipe"
+    },
+    "invoiceTab": {
+      "heading": "Historique des factures",
+      "desc": "Retrouvez toutes vos précédentes factures juste ici et téléchargez-les.",
+      "noInvoice": "Vous n'avez aucune facture",
+      "amount": "Montant",
+      "invoiceDate": "Date de la facture",
+      "invoice": "Facture",
+      "download": "Télécharger",
+      "status": "Statut",
+      "paymentStatus": {
+        "paid": "Payée",
+        "draft": "Brouillon",
+        "open": "Ouverte",
+        "uncollectible": "Irrécupérable",
+        "void": "Annulée"
+      }
+    },
+    "paymentModal": {
+      "subscribeToPlan": "Abonnement {{plan}}",
+      "details": "Informations de facturation",
+      "payment": "Paiement",
+      "summary": "Récapitulatif",
+      "next": "Suivant",
+      "confirm": "Confirmer",
+      "prev": "Retour",
+      "subscription": "Abonnement :",
+      "pricePerSeat": "Prix par place :",
+      "nbSeat_one": "Nombre de place :",
+      "nbSeat_other": "Nombre de places :",
+      "total": "Total",
+      "month": "mois",
+      "promotionPlaceholder": "Coupon de réduction",
+      "invalidPromotionCode": "Ce code promo n'est pas valide",
+      "dueNow": "A payer maintenant"
+    },
+    "accountTab": {
+      "billingEmail": "Email de facturation",
+      "billingDetails": "Informations de facturation",
+      "invalidBillingDetails": "Informations de facturation invalides",
+      "currentSubscription": "Abonnement actuel",
+      "paymentMethod": "Moyen de paiement",
+      "updateBillingEmail": "Mise à jour de l'email de facturation",
+      "billingEmailUpdated": "Adresse email de facturation mise à jour",
+      "billingEmailUpdateError": "Erreur lors de la mise à jour de l'adresse email de facturation",
+      "updateBillingDetails": "Mise à jour des informations de facturation",
+      "billingDetailsUpdated": "Informations de facturation mis à jour",
+      "billingDetailsUpdateError": "Erreur lors de la mise à jour des informations de facturation",
+      "updatepaymentMethod": "Mise à jour du moyen de paiement",
+      "paymentMethodUpdated": "Moyen de paiement mis à jour",
+      "paymentMethodUpdateError": "Erreur lors de la mise à jour du moyen de paiement",
+      "errorLoadingInvoices": "Une erreur s'est produite lors de la recupération des factures"
+    }
+  },
+  "SubscriptionInvoiceCalculationDetails": {
+    "title": "How is my invoice calculated?",
+    "explaination": "The amount of your invoice is calculated in the following way:",
+    "desc1": "Each active member (member associated to a Rolebase account) cost 5 euros per month",
+    "desc2": "If an active user is added during the month, the amount is prorated between the current date and the end of the billing cycle and will be added to your next invoice",
+    "desc3": "If an active user is deleted during the month, a credit note for the time spent during the month will be applied to your next invoice"
+  },
+  "SubscriptionInvoiceCalculationDetails": {
+    "title": "Comment ma facture est-elle calculée ?",
+    "explaination": "Le montant de votre facture est calculé de la manière suivante :",
+    "desc1": "Chaque membre actif (membre associé à un compte de base de rôle) coûte 5 euros par mois.",
+    "desc2": "Si un utilisateur actif est ajouté pendant le mois, le montant est calculé au prorata entre la date actuelle et la fin du cycle de facturation et sera ajoutée à votre prochaine facture.",
+    "desc3": "Si un utilisateur actif est supprimé pendant le mois, une note de crédit pour le temps restant pendant le mois sera appliquée à votre prochaine facture."
+  },
+  "SubscriptionReachedMemberLimitModal": {
+    "title": "Oups, vous avez atteint le maximum de membres sur votre plan !",
+    "limitReached": "Vous pouvez passez à un forfait supérieur pour accueillir plus de personnes dans votre équipe.",
+    "upgradePlan": "Passer au plan supérieur",
+    "hide": "Masquer"
+  },
+  "SubscriptionPlans": {
+    "currentPlan": "Plan actuel",
+    "activeMember_one": "{{count}}/{{total}} membre actif",
+    "activeMember_other": "{{count}}/{{total}} membres actifs",
+    "upgradePlan": "Passer au plan supérieur",
+    "downgradePlan": "Repasser sur ce plan",
+    "selectPlan": "Selectionner sur ce plan",
+    "contactUs": "Nous contacter",
+    "included": "Inclut",
+    "upcomingInvoiceAmount": "Prochaine facture",
+    "drawdownOn": "Prélevement le",
+    "paymentMethod": "Méthode de paiement",
+    "expiresAt": "Expire le",
+    "card": "Carte",
+    "subscriptionExpires": "Votre abonnement expirera le",
+    "reactivateSubscription": "Réactiver mon abonnement",
+    "activateOnSubscriptionEnd": "S'activera quand l'abonnement actuel se termine",
+    "upcomingInvoiceHelp": "Savoir comment est calculé ce montant chaque mois",
+    "active": "Actif",
+    "unsubscribeDate": "Votre abonnement prendra fin le {{date}}",
+    "subscriptionResumed": "Votre abonnement à été réactiver",
+    "noBillingAccount": "Vous n'avez aucun abonnement pour le moment",
+    "subscriptionSuccess": "C'est tout bon !",
+    "subscriptionCreated": "Votre abonnement a été créé 😀",
+    "invoiceAvailable": "Votre facture de {{amount}}€ peut être téléchargée depuis l'onglet Factures",
+    "free": {
+      "title": "Gratuit",
+      "desc": "Parfait pour tester et pour collaborer en petite équipe.",
+      "feature1": "Tarif : 0€",
+      "feature2": "Toutes les fonctionnalités",
+      "feature3": "5 membres actifs maximum"
+    },
+    "startup": {
+      "title": "Startup",
+      "desc": "Pour faire participer toute votre équipe à votre gouvernance partagée.",
+      "feature1": "Tarif : 5€/mois/membre",
+      "feature2": "Toutes les fonctionnalités",
+      "feature3": "Jusqu’à 200 membres actifs",
+      "feature4": "1h/mois d’accompagnement"
+    },
+    "business": {
+      "title": "Entreprise",
+      "desc": "Un besoin sur-mesure, contactez notre équipe !",
+      "feature1": "Toutes les fonctionnalités",
+      "feature2": "Membres actifs en illimité",
+      "feature3": "Support et conseils prioritaires",
+      "feature4": "Intégrations sur mesure"
+    }
   },
   "SuperAdminPage": {
     "heading": "Administration",
@@ -743,6 +885,7 @@
     "createMeeting": "Créer une Réunion",
     "createTask": "Créer une Tâche",
     "createDecision": "Créer une Décision",
+    "close": "Fermer",
     "edit": "Editer",
     "move": "Déplacer",
     "duplicate": "Dupliquer",
@@ -752,6 +895,8 @@
     "delete": "Supprimer",
     "remove": "Retirer",
     "clear": "Effacer",
+    "apply": "Appliquer",
+    "confirm": "Confirmer",
     "show": "Afficher",
     "hide": "Masquer",
     "seeMore": "Voir plus",
@@ -764,6 +909,10 @@
     "namePlaceholder": "Nom...",
     "copy": "Copier",
     "toastCopied": "URL copiée",
+    "none": "Aucun",
+    "errorOccurred": "Une erreur s'est produite.",
+    "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
+    "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",
     "searchTypes": {
       "All": "Tous",
       "Member": "Membres",

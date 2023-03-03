@@ -6,6 +6,7 @@ import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
+import { guardSubscriptionAvailableSeat } from '@utils/guardSubscriptionAvailableSeat'
 import { route, RouteError } from '@utils/route'
 import { sendMailjetEmail } from '@utils/sendMailjetEmail'
 import settings from '@utils/settings'
@@ -41,6 +42,9 @@ export default route(async (context) => {
   if (!inviterMember) {
     throw new RouteError(404, 'Inviter member not found')
   }
+
+  // Verify that the org has not reached it's member limit
+  await guardSubscriptionAvailableSeat(context, member.orgId)
 
   // Update member
   const inviteDate = new Date()

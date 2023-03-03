@@ -27,12 +27,14 @@ import {
 import { Member_Role_Enum, useUpdateMemberMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useMember from '@hooks/useMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import ActionsMenu from '@molecules/ActionsMenu'
 import EditorController from '@molecules/editor/EditorController'
 import MemberPictureEdit from '@molecules/member/MemberPictureEdit'
+import SubscriptionReachedMemberLimitModal from '@organisms/subscription/SubscriptionReachedMemberLimitModal'
 import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
@@ -69,6 +71,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const member = useMember(id)
   const org = useCurrentOrg()
   const isAdmin = useOrgAdmin()
+  const currentMember = useCurrentMember()
   const toast = useToast()
   const createLog = useCreateLog()
   const [updateMember] = useUpdateMemberMutation()
@@ -77,6 +80,12 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
+  } = useDisclosure()
+
+  const {
+    isOpen: isLimitReachedOpen,
+    onOpen: onLimitReachedOpen,
+    onClose: onLimitReachedClose,
   } = useDisclosure()
 
   const {
@@ -132,7 +141,11 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
         if (newRole !== member.role) {
           if (member.userId) {
             // Update role
-            await updateMemberRole({ memberId: id, role: newRole })
+            await updateMemberRole({
+              memberId: id,
+              issuerMemberId: currentMember?.id ?? '',
+              role: newRole,
+            })
           } else if (newRole && inviteEmail) {
             // Invite member
             await inviteMember({
@@ -153,11 +166,15 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
         modalProps.onClose()
       } catch (error: any) {
-        toast({
-          title: t('common.error'),
-          description: error?.response?.data || error?.message || undefined,
-          status: 'error',
-        })
+        if (error?.response?.status === 402) {
+          onLimitReachedOpen()
+        } else {
+          toast({
+            title: t('common.error'),
+            description: error?.response?.data || error?.message || undefined,
+            status: 'error',
+          })
+        }
       }
       setLoading(false)
     }
@@ -193,7 +210,10 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
   const handleRevokeInvite = useCallback(async () => {
     if (!member?.inviteEmail || !member.role) return
     setLoading(true)
-    await updateMemberRole({ memberId: member.id })
+    await updateMemberRole({
+      memberId: member.id,
+      issuerMemberId: currentMember?.id ?? '',
+    })
     setLoading(false)
     toast({
       title: t('MemberEditModal.toastRevocated'),
@@ -284,6 +304,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                       <option value={Member_Role_Enum.Admin}>
                         {t('MemberEditModal.invitation.options.admin')}
                       </option>
+                      <option value={Member_Role_Enum.Owner}>
+                        {t('MemberEditModal.invitation.options.owner')}
+                      </option>
                     </Select>
                   </FormControl>
                 ) : member.inviteDate && member.inviteEmail ? (
@@ -335,6 +358,9 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                         <option value={Member_Role_Enum.Admin}>
                           {t('MemberEditModal.invitation.options.admin')}
                         </option>
+                        <option value={Member_Role_Enum.Owner}>
+                          {t('MemberEditModal.invitation.options.owner')}
+                        </option>
                       </Select>
                       {role && (
                         <Input
@@ -357,6 +383,13 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {isLimitReachedOpen && (
+        <SubscriptionReachedMemberLimitModal
+          isOpen
+          onClose={onLimitReachedClose}
+        />
+      )}
 
       {isDeleteOpen && (
         <MemberDeleteModal
