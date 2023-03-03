@@ -1,4 +1,5 @@
 import { updateSubscriptionPaymentMethodIntent } from '@api/functions'
+import { stripePromise } from '@api/stripe'
 import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
 import {
   HStack,
@@ -16,12 +17,10 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { useStripeAppearance } from '@hooks/useStripeAppearance'
 import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe, StripeElementLocale } from '@stripe/stripe-js'
+import { StripeElementLocale } from '@stripe/stripe-js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import UpdatePaymentMethodForm from './UpdatePaymentMethodForm'
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 type UpdatePaymentMethodModalProps = {
   onUpdate: () => void

@@ -8,7 +8,6 @@ import MeetingPage from '@pages/MeetingPage'
 import MeetingRecurringPage from '@pages/MeetingRecurringPage'
 import MembersPage from '@pages/MembersPage'
 import Page404 from '@pages/Page404'
-import SubscriptionPage from '@pages/SubscriptionPage'
 import TaskPage from '@pages/TaskPage'
 import TasksPage from '@pages/TasksPage'
 import ThreadPage from '@pages/ThreadPage'
@@ -19,6 +18,7 @@ import { Route, Routes } from 'react-router-dom'
 
 // Lazy pages
 const MeetingsPage = lazy(() => import('@pages/MeetingsPage'))
+const SubscriptionPage = lazy(() => import('@pages/SubscriptionPage'))
 
 interface Props {
   orgId: string

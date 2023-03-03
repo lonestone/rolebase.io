@@ -69,7 +69,7 @@ export default function SubscriptionPaymentDetailsCard({
             </Text>
             {email && (
               <Flex flexDir="row" alignItems="center" gap="2">
-                <FiMail color={`var(--chakra-colors-gray-400)`} />
+                <FiMail color="gray.400" />
                 <Text fontWeight={600} color="gray.400">
                   {email}
                 </Text>

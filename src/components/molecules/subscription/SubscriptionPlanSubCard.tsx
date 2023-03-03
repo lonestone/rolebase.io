@@ -16,7 +16,7 @@ import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-type SubscrptionPlanCard = SubscriptionPlan & CardProps
+type SubscriptionPlanCard = SubscriptionPlan & CardProps
 
 export default function SubscriptionPlanSubCard({
   title,
@@ -25,7 +25,7 @@ export default function SubscriptionPlanSubCard({
   color,
   type,
   ...cardProps
-}: SubscrptionPlanCard) {
+}: SubscriptionPlanCard) {
   const { t } = useTranslation()
   const nbParticipantBreakpoint = useBreakpointValue({
     base: 4,

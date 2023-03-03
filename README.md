@@ -115,17 +115,7 @@ You'll also need to create the notification in your Novu admin panel as you'll h
 
 ## Configuration
 
-### Environment variables
-
-### Front
-
-Write these env variables in the file `.env`:
-
-- **VITE_STRIPE_PUBLISHABLE_KEY**: [Stripe publishable key](https://stripe.com/docs/keys#obtain-api-keys)
-
-You can find a reusable template in `.env.template`.
-
-### Functions
+### Function environment variables
 
 Write these env variables in the file `functions/.env`:
 
@@ -153,6 +143,7 @@ Webapp configuration can be written in `settings.ts`:
 - nhost.region: Region of your nhost server
 - functionsUrl: URL of your nhost instance, with the path to call the functions
 - memberPicture.maxSize: Size (in px) in which your team's members icons will be displayed
+- stripe.publicKey: [Stripe API public key](https://stripe.com/docs/keys#obtain-api-keys)
 
 **Note:** This file also specifies configuration for local environment. You should not edit those (unless you know what you're doing).
 

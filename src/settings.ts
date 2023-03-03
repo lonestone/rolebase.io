@@ -27,4 +27,9 @@ export default {
   memberPicture: {
     maxSize: 300, // in px
   },
+
+  stripe: {
+    publicKey:
+      'pk_test_51MTnUCFbDx5R7pIdjvJ0kQ6gzkXExNcMJxSmAhc6tmF2dTu3qYa4tNQZBFqcy3ZNCobM9cxq4w9nn3gnpHKddHDn00vrm59S4L',
+  },
 }

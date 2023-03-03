@@ -1,3 +1,4 @@
+import { stripePromise } from '@api/stripe'
 import { Title } from '@atoms/Title'
 import {
   Container,
@@ -12,12 +13,9 @@ import useOrgOwner from '@hooks/useOrgOwner'
 import SubscriptionConfirmationModal from '@organisms/subscription/SubscriptionConfirmationModal'
 import SubscriptionTabs from '@organisms/subscription/SubscriptionTabs'
 import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 export default function SubscriptionPage() {
   const { t } = useTranslation()

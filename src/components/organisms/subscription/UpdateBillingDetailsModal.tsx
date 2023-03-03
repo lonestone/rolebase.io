@@ -1,4 +1,5 @@
 import { updateSubscriptionBillingDetails } from '@api/functions'
+import { stripePromise } from '@api/stripe'
 import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
 import {
   Button,
@@ -21,15 +22,12 @@ import { useStripeAppearance } from '@hooks/useStripeAppearance'
 import { CustomerBillingDetails } from '@shared/model/subscription'
 import { AddressElement, Elements } from '@stripe/react-stripe-js'
 import {
-  loadStripe,
   StripeAddressElement,
   StripeAddressElementChangeEvent,
   StripeElementLocale,
 } from '@stripe/stripe-js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 type UpdateBillingDetailsModalProps = {
   billingDetails: CustomerBillingDetails | null

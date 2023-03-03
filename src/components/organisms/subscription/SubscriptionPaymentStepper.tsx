@@ -1,4 +1,5 @@
 import { subscribeOrg, updateSubscriptionBillingDetails } from '@api/functions'
+import { stripePromise } from '@api/stripe'
 import { Box, Button, HStack, useToast } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -10,7 +11,6 @@ import StripePaymentForm from '@molecules/subscription/StripePaymentForm'
 import { CustomerBillingDetails } from '@shared/model/subscription'
 import { Elements } from '@stripe/react-stripe-js'
 import {
-  loadStripe,
   Stripe,
   StripeAddressElementChangeEvent,
   StripeElementLocale,
@@ -20,8 +20,6 @@ import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import React, { FormEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SubscriptionSummary from './SubscriptionSummary'
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 type SubscriptionPaymentStepperProps = {
   planType: Subscription_Plan_Type_Enum
@@ -209,7 +207,7 @@ export default function SubscriptionPaymentStepper({
           </Box>
         </Step>
       </Steps>
-      <HStack paddingY="2" w="100%" justifyContent="end">
+      <HStack paddingY="2" w="100%" justifyContent="end" alignItems="center">
         <Button
           isDisabled={activeStep === 0}
           mr={4}
@@ -222,8 +220,8 @@ export default function SubscriptionPaymentStepper({
         {activeStep < 2 && (
           <Button
             isLoading={loading}
-            size="sm"
             isDisabled={isNextDisabled}
+            colorScheme="blue"
             onClick={handleNext}
           >
             {t('SubscriptionTabs.paymentModal.next')}
@@ -232,9 +230,9 @@ export default function SubscriptionPaymentStepper({
         {activeStep === 2 && (
           <Button
             isLoading={loading}
-            size="sm"
             isDisabled={!paymentDetailsComplete}
             type="submit"
+            colorScheme="green"
           >
             {t('SubscriptionTabs.paymentModal.confirm')}
           </Button>
