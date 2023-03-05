@@ -76,7 +76,7 @@ export default function MeetingRecurringListModal({
 
   return (
     <>
-      <Modal {...modalProps}>
+      <Modal blockScrollOnMount={false} {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>

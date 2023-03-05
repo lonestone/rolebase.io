@@ -160,10 +160,10 @@ export default function MeetingRecurringEditModal({
 
   return (
     <FormProvider {...formMethods}>
-      <Modal size="xl" {...modalProps}>
+      <Modal size="xl" blockScrollOnMount={false} {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <form onSubmit={onSubmit}>
+          <form>
             <ModalHeader>
               {t(
                 meetingRecurring
@@ -210,7 +210,7 @@ export default function MeetingRecurringEditModal({
                 <VideoConfFormControl />
 
                 <Box textAlign="right" mt={2}>
-                  <Button colorScheme="blue" type="submit">
+                  <Button colorScheme="blue" onClick={onSubmit}>
                     {t(meetingRecurring ? 'common.save' : 'common.create')}
                   </Button>
                 </Box>
