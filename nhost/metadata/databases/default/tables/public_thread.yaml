@@ -57,16 +57,14 @@ select_permissions:
     permission:
       columns:
         - archived
+        - circleId
+        - createdAt
+        - id
+        - initiatorMemberId
+        - orgId
         - participantsMembersIds
         - participantsScope
         - title
-        - createdAt
-        - lastActivityDate
-        - circleId
-        - id
-        - initiatorMemberId
-        - lastActivityId
-        - orgId
       filter:
         org:
           members:
@@ -79,8 +77,6 @@ update_permissions:
       columns:
         - archived
         - circleId
-        - lastActivityDate
-        - lastActivityId
         - participantsMembersIds
         - participantsScope
         - title

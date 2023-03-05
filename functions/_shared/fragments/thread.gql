@@ -8,6 +8,4 @@ fragment Thread on thread {
   title
   createdAt
   archived
-  lastActivityId
-  lastActivityDate
 }

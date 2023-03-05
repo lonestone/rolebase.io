@@ -17,6 +17,10 @@ subscription thread($id: uuid!, $memberId: uuid!) {
 subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
   thread(where: { _and: $filters }) {
     ...Thread
+    lastActivity: activities(order_by: { createdAt: desc }, limit: 1) {
+      id
+      createdAt
+    }
     member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
       lastReadActivityId
       lastReadDate

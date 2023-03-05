@@ -39,16 +39,16 @@ export default function useThreads(filters?: {
   const threads = threadsData?.thread
 
   // Filter and sort threads
-  const sortedThreads = useMemo(() => {
+  const sortedThreads = useMemo((): ThreadWithStatus[] | undefined => {
     if (!threads) return
     return (
       threads
         // Enrich with status
-        .map((thread): ThreadWithStatus => {
+        .map((thread) => {
           // Thread is read if last seen activity is last in thread
           const read =
-            thread.member_status[0]?.lastReadActivityId ===
-            thread.lastActivityId
+            (thread.member_status[0]?.lastReadActivityId ?? undefined) ===
+            thread.lastActivity[0]?.id
           return { ...thread, read }
         })
         .sort((a, b) => {
@@ -57,11 +57,13 @@ export default function useThreads(filters?: {
             return a.read ? 1 : -1
           }
           // Sort by lastActivityDate
-          if (a.lastActivityDate && b.lastActivityDate) {
-            return b.lastActivityDate > a.lastActivityDate ? 1 : -1
+          if (a.lastActivity[0] && b.lastActivity[0]) {
+            return b.lastActivity[0].createdAt > a.lastActivity[0].createdAt
+              ? 1
+              : -1
           }
-          if (a.lastActivityDate) return 1
-          if (b.lastActivityDate) return -1
+          if (a.lastActivity) return 1
+          if (b.lastActivity) return -1
           return 0
         })
     )

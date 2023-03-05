@@ -97,17 +97,6 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
         },
       })
       const id = data?.insert_thread_activity_one?.id
-
-      // Update thread
-      await updateThread({
-        variables: {
-          id: thread.id,
-          values: {
-            lastActivityId: id,
-            lastActivityDate: new Date().toISOString(),
-          },
-        },
-      })
     },
     [org?.id, isSuperAdmin, userId, thread]
   )
