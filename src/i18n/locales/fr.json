@@ -41,7 +41,7 @@
   "CircleContent": {
     "notFound": "Rôle introuvable",
     "tabRole": "Rôle",
-    "tabThreads": "Discussions",
+    "tabThreads": "Sujets",
     "tabMeetings": "Réunions",
     "tabTasks": "Tâches",
     "tabDecisions": "Décisions"
@@ -104,8 +104,8 @@
     "create": "Créer une tâche"
   },
   "CircleThreads": {
-    "create": "Créer une discussion",
-    "empty": "Aucune discussion pour le moment"
+    "create": "Créer un sujet",
+    "empty": "Aucun sujet pour le moment"
   },
   "CircleWithLeaderItem": {
     "notAssigned": "Non assigné"
@@ -295,7 +295,7 @@
     "logs": "Tâches modifiées"
   },
   "MeetingStepContentThreads": {
-    "add": "Ajouter une discussion",
+    "add": "Ajouter un sujet",
     "randomize": "Aléatoire"
   },
   "MeetingStepSortableItem": {
@@ -583,7 +583,7 @@
   "Sidebar": {
     "orgs": "Organisations",
     "roles": "Rôles",
-    "threads": "Discussions",
+    "threads": "Sujets",
     "meetings": "Réunions",
     "tasks": "Tâches",
     "settings": "Paramètres",
@@ -786,13 +786,13 @@
     "auth/weak-password": "Ce mot de passe est trop faible. Merci d'en choisir un plus long."
   },
   "ThreadActivities": {
-    "emptyTitle": "Discussion créée",
+    "emptyTitle": "Sujet créé",
     "emptyDescription": "Vous pouvez envoyer un premier message 👇"
   },
   "ThreadActivityCreate": {
     "placeholder": "Message...",
     "poll": "Créer un Sondage",
-    "defaultEntityDescription": "Discussion : {{thread}}"
+    "defaultEntityDescription": "Sujet : {{thread}}"
   },
   "ThreadActivityDecision": {
     "text": "a créé une décision :"
@@ -833,30 +833,30 @@
     "text": "a créé une tâche :"
   },
   "ThreadActivityThread": {
-    "text": "a créé une discussion :"
+    "text": "a créé un sujet :"
   },
   "ThreadEditModal": {
-    "headingEdit": "Modifier une discussion",
-    "headingCreate": "Nouvelle discussion",
+    "headingEdit": "Modifier un sujet",
+    "headingCreate": "Nouveau sujet",
     "title": "Titre",
     "titlePlaceholder": "On discute de quoi ?...",
     "invite": "Inviter",
     "settings": "Paramètres"
   },
   "ThreadsPage": {
-    "heading": "Discussions",
+    "heading": "Sujets",
     "participation": {
       "title": "Participation",
-      "Invited": "Mes discussions",
-      "NotInvited": "Autres discussions",
-      "All": "Toutes les discussions"
+      "Invited": "Mes sujets",
+      "NotInvited": "Autres sujets",
+      "All": "Tous les sujets"
     },
     "archives": {
       "title": "Archives",
       "show": "Afficher les archives"
     },
-    "create": "Nouvelle discussion",
-    "empty": "Aucune discussion."
+    "create": "Nouveau sujet",
+    "empty": "Aucun sujet."
   },
   "UserMenu": {
     "tooltip": "Mes paramètres",
@@ -881,7 +881,7 @@
     "send": "Envoyer",
     "open": "Ouvrir",
     "skip": "Passer",
-    "createThread": "Créer une Discussion",
+    "createThread": "Créer un Sujet",
     "createMeeting": "Créer une Réunion",
     "createTask": "Créer une Tâche",
     "createDecision": "Créer une Décision",
@@ -918,14 +918,14 @@
       "Member": "Membres",
       "Role": "Rôles",
       "Circle": "Cercles",
-      "Thread": "Discussions",
+      "Thread": "Sujets",
       "Meeting": "Réunions",
       "Task": "Tâches",
       "Decision": "Décisions"
     },
     "meetingSteps": {
       "Tour": "Tour de table",
-      "Threads": "Discussions",
+      "Threads": "Sujets",
       "Checklist": "Checklist",
       "Indicators": "Indicateurs",
       "Tasks": "Tâches"

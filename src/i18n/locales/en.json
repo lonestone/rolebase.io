@@ -41,7 +41,7 @@
   "CircleContent": {
     "notFound": "Role not found",
     "tabRole": "Role",
-    "tabThreads": "Threads",
+    "tabThreads": "Topics",
     "tabMeetings": "Meetings",
     "tabTasks": "Tasks",
     "tabDecisions": "Decisions"
@@ -104,8 +104,8 @@
     "create": "Create a task"
   },
   "CircleThreads": {
-    "create": "Create a thread",
-    "empty": "No thread yet"
+    "create": "Create a topic",
+    "empty": "No topic yet"
   },
   "CircleWithLeaderItem": {
     "notAssigned": "Not assigned"
@@ -295,7 +295,7 @@
     "logs": "Edited tasks"
   },
   "MeetingStepContentThreads": {
-    "add": "Add a thread",
+    "add": "Add a topic",
     "randomize": "Randomize"
   },
   "MeetingStepSortableItem": {
@@ -586,7 +586,7 @@
   "Sidebar": {
     "orgs": "Organizations",
     "roles": "Roles",
-    "threads": "Threads",
+    "threads": "Topics",
     "meetings": "Meetings",
     "tasks": "Tasks",
     "settings": "Settings",
@@ -782,13 +782,13 @@
     "auth/weak-password": "This password is too weak. Please choose a longer one."
   },
   "ThreadActivities": {
-    "emptyTitle": "Thread created",
+    "emptyTitle": "Topic created",
     "emptyDescription": "You can send a first message 👇"
   },
   "ThreadActivityCreate": {
     "placeholder": "Message...",
     "poll": "Create a Poll",
-    "defaultEntityDescription": "Thread: {{thread}}"
+    "defaultEntityDescription": "Topic: {{thread}}"
   },
   "ThreadActivityDecision": {
     "text": "has created a decision:"
@@ -832,30 +832,30 @@
     "text": "has created a task:"
   },
   "ThreadActivityThread": {
-    "text": "has created a thread:"
+    "text": "has created a topic:"
   },
   "ThreadEditModal": {
-    "headingEdit": "Edit a thread",
-    "headingCreate": "New thread",
+    "headingEdit": "Edit a topic",
+    "headingCreate": "New topic",
     "title": "Title",
     "titlePlaceholder": "What are we discussing?...",
     "invite": "Invite",
     "settings": "Settings"
   },
   "ThreadsPage": {
-    "heading": "Threads",
+    "heading": "Topics",
     "participation": {
       "title": "Participation",
-      "Invited": "My threads",
-      "NotInvited": "Other threads",
-      "All": "All threads"
+      "Invited": "My topics",
+      "NotInvited": "Other topics",
+      "All": "All topics"
     },
     "archives": {
       "title": "Archive",
       "show": "Show Archive"
     },
-    "create": "New thread",
-    "empty": "No thread."
+    "create": "New topic",
+    "empty": "No topic."
   },
   "VacantRolesModal": {
     "heading": "Vacant roles",
@@ -881,7 +881,7 @@
     "open": "Open",
     "skip": "Skip",
     "confirm": "Confirm",
-    "createThread": "Create a Thread",
+    "createThread": "Create a Topic",
     "createMeeting": "Create a Meeting",
     "createTask": "Create a Task",
     "createDecision": "Create a Decision",
@@ -917,14 +917,14 @@
       "Member": "Members",
       "Role": "Roles",
       "Circle": "Circles",
-      "Thread": "Threads",
+      "Thread": "Topics",
       "Meeting": "Meetings",
       "Task": "Tasks",
       "Decision": "Decisions"
     },
     "meetingSteps": {
       "Tour": "Round table",
-      "Threads": "Threads",
+      "Threads": "Topics",
       "Checklist": "Checklist",
       "Indicators": "Indicators",
       "Tasks": "Tasks"
