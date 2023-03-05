@@ -156,6 +156,11 @@ export default function MeetingsPage() {
               ?.filter((m) => m.id === mr.id)
               .flatMap((m) => m.meetings.map((m) => m.recurringDate || ''))
 
+            // Fix circle color (can be inherited from parents)
+            const circle = circles?.find((c) => c.id === mr.circleId)
+            const colorHue =
+              circle?.role.colorHue ?? mr.circle.role.colorHue ?? undefined
+
             return {
               id: mr.id,
               title: `${mr.circle.role.name} - ${mr.template.title}`,
@@ -164,10 +169,7 @@ export default function MeetingsPage() {
               duration: {
                 minutes: mr.duration,
               },
-              backgroundColor: circleColor(
-                colorLightness,
-                mr.circle.role.colorHue ?? undefined
-              ),
+              backgroundColor: circleColor(colorLightness, colorHue),
               editable: false,
             }
           })
