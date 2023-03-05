@@ -251,6 +251,7 @@ export default function MeetingEditModal({
                     <Input
                       {...register('title')}
                       placeholder={t('MeetingEditModal.titlePlaceholder')}
+                      autoFocus
                     />
                   </InputGroup>
                 </FormControl>

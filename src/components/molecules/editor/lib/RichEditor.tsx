@@ -199,7 +199,9 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           />
           <EditablePlugin editable={!readOnly} />
           <DragDropPaste onUpload={onUpload} />
-          {autoFocus && collaborationStatus && <AutoFocusPlugin />}
+          {autoFocus && (!collaboration || collaborationStatus) && (
+            <AutoFocusPlugin />
+          )}
           {mentionables && <MentionsPlugin mentionables={mentionables} />}
 
           {collaboration && id ? (
