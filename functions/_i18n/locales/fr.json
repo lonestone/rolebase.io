@@ -14,11 +14,11 @@
       }
     },
     "sendMeetingInvitedNotification": {
-      "title": "Réunion {{role}} - {{title}}",
+      "title": "Réunion {{title}} - {{role}}",
       "content": "Invitation par {{sender}}."
     },
     "sendMeetingStartedNotification": {
-      "title": "Réunion {{role}} - {{title}}",
+      "title": "Réunion {{title}} - {{role}}",
       "content": "{{sender}} a démarré la réunion !"
     }
   }
