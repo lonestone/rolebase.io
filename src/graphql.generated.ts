@@ -19331,7 +19331,7 @@ export type ThreadsSubscriptionHookResult = ReturnType<typeof useThreadsSubscrip
 export type ThreadsSubscriptionResult = Apollo.SubscriptionResult<ThreadsSubscription>;
 export const CircleThreadsWithMeetingNoteDocument = gql`
     subscription circleThreadsWithMeetingNote($circleId: uuid!, $meetingId: uuid!) {
-  thread(where: {circleId: {_eq: $circleId}, archived: {_eq: false}}) {
+  thread(where: {circleId: {_eq: $circleId}}) {
     ...Thread
     activities(
       where: {_and: {type: {_eq: MeetingNote}, refMeetingId: {_eq: $meetingId}}}

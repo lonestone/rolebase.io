@@ -29,7 +29,7 @@ subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
 }
 
 subscription circleThreadsWithMeetingNote($circleId: uuid!, $meetingId: uuid!) {
-  thread(where: { circleId: { _eq: $circleId }, archived: { _eq: false } }) {
+  thread(where: { circleId: { _eq: $circleId } }) {
     ...Thread
     activities(
       where: {
