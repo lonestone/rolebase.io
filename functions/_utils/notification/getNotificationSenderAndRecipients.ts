@@ -14,8 +14,9 @@ export async function getNotificationSenderAndRecipients(
 ): Promise<GetNotificationSenderAndRecipientsReturn> {
   const recipientsResult = await adminRequest(GET_RECIPIENTS, {
     memberIds: recipientMemberIds,
+    userId: senderId,
   })
-  if (!recipientsResult) throw new RouteError(404, 'No member not found')
+  if (!recipientsResult) throw new RouteError(404, 'Members not found')
 
   // Get sender data
   const senderData = recipientsResult.member.filter(
@@ -49,8 +50,8 @@ export async function getNotificationSenderAndRecipients(
 }
 
 const GET_RECIPIENTS = gql(`
-  query getRecipients($memberIds: [uuid!]!) {
-    member(where: { id: { _in: $memberIds } }) {
+  query getRecipients($memberIds: [uuid!]!, $userId: uuid!) {
+    member(where: { _or: [{id: {_in: $memberIds}}, {userId: {_eq: $userId}}]}) {
       id
       name
       user {

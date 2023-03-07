@@ -18,3 +18,8 @@ export type MeetingStartedNotificationBodyParams = {
   recipientMemberIds?: string[]
   meetingId: string
 }
+
+export type MeetingInvitedNotificationBodyParams = {
+  recipientMemberIds?: string[]
+  meetingId: string
+}

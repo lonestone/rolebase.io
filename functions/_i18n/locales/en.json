@@ -15,7 +15,9 @@
     },
     "sendMeetingInvitedNotification": {
       "title": "Meeting {{title}} - {{role}}",
-      "content": "Invitation by {{sender}}."
+      "content": "Invitation by {{sender}}.",
+      "recurringMeetingtitle": "Recurring meeting {{role}} - {{title}}",
+      "recurringMeetingcontent": "Invitation by {{sender}} to a recurring meeting."
     },
     "sendMeetingStartedNotification": {
       "title": "Meeting {{title}} - {{role}}",
