@@ -53,8 +53,10 @@ const extendedModel: OrgModel = {
     if (result) {
       state.current = omit(result, 'members', 'roles', 'circles')
       state.circles = fixLostCircles(fixCirclesHue(result.circles))
-      state.roles = result.roles
-      state.members = result.members
+      state.roles = result.roles.sort((a, b) => a.name.localeCompare(b.name))
+      state.members = result.members.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      )
     }
     state.loading = loading
     state.error = error

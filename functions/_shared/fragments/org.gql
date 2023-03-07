@@ -12,10 +12,10 @@ fragment OrgFull on org {
   circles(where: { archived: { _eq: false } }) {
     ...CircleFull
   }
-  roles(where: { archived: { _eq: false } }, order_by: { name: asc }) {
+  roles(where: { archived: { _eq: false } }) {
     ...Role
   }
-  members(where: { archived: { _eq: false } }, order_by: { name: asc }) {
+  members(where: { archived: { _eq: false } }) {
     ...Member
   }
 }

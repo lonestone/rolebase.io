@@ -21,7 +21,8 @@ fragment CircleFull on circle {
   members(
     where: { archived: { _eq: false }, member: { archived: { _eq: false } } }
   ) {
-    ...CircleMember
+    id
+    avgMinPerWeek
     member {
       ...MemberSummary
     }

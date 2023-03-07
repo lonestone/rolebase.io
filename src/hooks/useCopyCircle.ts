@@ -62,7 +62,10 @@ function getCircleAndChildren(
   // Add members
   if (circle.members.length) {
     input.members = {
-      data: circle.members.map((cm) => pick(cm, 'memberId', 'avgMinPerWeek')),
+      data: circle.members.map((cm) => ({
+        memberId: cm.member.id,
+        avgMinPerWeek: cm.avgMinPerWeek,
+      })),
     }
   }
   return input

@@ -28,7 +28,7 @@ export default function CircleMemberFormControl({ circleId }: Props) {
       // Retrieve members
       (
         circle?.members
-          .map((cm) => members?.find((m) => m.id === cm.memberId))
+          .map((cm) => members?.find((m) => m.id === cm.member.id))
           .filter(Boolean) as MemberFragment[] | undefined
       )
         // Sort by name

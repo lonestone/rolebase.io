@@ -36,7 +36,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   const memberCircles = useMemo(() => {
     if (!circles) return []
     return circles
-      .filter((c) => c.members.some((m) => m.memberId === member.id))
+      .filter((c) => c.members.some((m) => m.member.id === member.id))
       .map((circle) => getCircleAndParents(circles, circle.id))
       .sort((a, b) => {
         const roleA = a[a.length - 1].role
@@ -59,7 +59,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
       memberCircles.reduce((total, circleWithRoles) => {
         const circle = circleWithRoles[circleWithRoles.length - 1]
         const circleMember = circle.members.find(
-          (m) => m.memberId === member.id
+          (m) => m.member.id === member.id
         )
         return total + (circleMember?.avgMinPerWeek || 0)
       }, 0),

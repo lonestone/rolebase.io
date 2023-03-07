@@ -97,7 +97,7 @@ export abstract class CirclesGraph extends Graph {
       node.children = circle.members.map(
         (entry): Data => ({
           id: entry.id,
-          memberId: entry.memberId,
+          memberId: entry.member.id,
           parentId: circle.id,
           name: textEllipsis(entry.member.name, 20),
           picture: entry.member.picture,

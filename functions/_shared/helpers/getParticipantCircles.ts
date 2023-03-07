@@ -7,7 +7,7 @@ export function getParticipantCircles(
 ): CircleFullFragment[] {
   // Circles where memberId is a direct member
   const directMemberCircles = circles.filter((circle) =>
-    circle.members.some((member) => member.memberId === memberId)
+    circle.members.some((member) => member.member.id === memberId)
   )
 
   // Circles where the member is a representant

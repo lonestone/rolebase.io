@@ -44,7 +44,7 @@ export default function MemberRoleItem({ memberId, circleAndParents }: Props) {
 
   const circle = circleAndParents[circleAndParents.length - 1]
   const circleMember = useMemo(
-    () => circle.members.find((m) => m.memberId === memberId),
+    () => circle.members.find((m) => m.member.id === memberId),
     [memberId, circle]
   )
   const role = useRole(circle.roleId)
