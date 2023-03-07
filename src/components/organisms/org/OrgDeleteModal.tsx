@@ -10,7 +10,6 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import useCurrentMember from '@hooks/useCurrentMember'
 import useOrg from '@hooks/useOrg'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -24,13 +23,11 @@ interface Props
 export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
   const { t } = useTranslation()
   const org = useOrg(id)
-  const currentMember = useCurrentMember()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     await archiveOrg({
       orgId: org?.id ?? '',
-      memberId: currentMember?.id ?? '',
     })
     onDelete()
     alertProps.onClose()

@@ -5,7 +5,6 @@ import { format } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiFeather } from 'react-icons/fi'
-import useCurrentMember from '../../../hooks/useCurrentMember'
 
 type SubscriptionCanceledCardProps = {
   subscriptionEndDate: Date
@@ -19,7 +18,6 @@ export default function SubscriptionCanceledCard({
 }: SubscriptionCanceledCardProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const currentMember = useCurrentMember()
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -29,7 +27,6 @@ export default function SubscriptionCanceledCard({
     try {
       await resumeSubscription({
         orgId: orgId ?? '',
-        memberId: currentMember?.id ?? '',
       })
       toast({
         title: t('SubscriptionPlans.subscriptionResumed'),

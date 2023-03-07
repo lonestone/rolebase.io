@@ -2,7 +2,6 @@ import { subscribeOrg, updateSubscriptionBillingDetails } from '@api/functions'
 import { stripePromise } from '@api/stripe'
 import { Box, Button, HStack, useToast } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
-import useCurrentMember from '@hooks/useCurrentMember'
 import useOrg from '@hooks/useOrg'
 import { useOrgId } from '@hooks/useOrgId'
 import { useStripeAppearance } from '@hooks/useStripeAppearance'
@@ -36,7 +35,6 @@ export default function SubscriptionPaymentStepper({
   const org = useOrg(orgId)
   const [stripe, setStripe] = useState<Stripe>()
   const toast = useToast()
-  const currentMember = useCurrentMember()
   const [loading, setLoading] = useState(false)
   const [billingDetailsComplete, setBillingDetailsComplete] = useState(false)
   const [paymentDetailsComplete, setPaymentDetailsComplete] = useState(false)
@@ -63,7 +61,6 @@ export default function SubscriptionPaymentStepper({
       throw new Error(t('SubscriptionTabs.accountTab.invalidBillingDetails'))
 
     await updateSubscriptionBillingDetails({
-      memberId: currentMember?.id ?? '',
       orgId: orgId ?? '',
       billingDetails: newBillingDetails,
     })
@@ -104,7 +101,6 @@ export default function SubscriptionPaymentStepper({
     setLoading(true)
     try {
       const res = await subscribeOrg({
-        memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
         planType,
         promotionCode: promoCode,

@@ -22,7 +22,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowDown, FiArrowUp, FiDownload, FiFileText } from 'react-icons/fi'
 
@@ -43,6 +43,11 @@ export default function InvoiceTable({
     _dark: { color: 'gray.300' },
   }
 
+  useEffect(() => {
+    console.log('invoices', invoices)
+    console.log('type', typeof invoices)
+  }, [invoices])
+
   const sortDates = (
     row1: Row<Invoice>,
     row2: Row<Invoice>,
@@ -52,6 +57,16 @@ export default function InvoiceTable({
     const invoice2 = row2.getValue(columnId) as Date
 
     return invoice1.getTime() - invoice2.getTime()
+  }
+
+  const getFormattedDate = (dateAsString: string) => {
+    try {
+      const res = format(new Date(dateAsString), 'dd/MM/uu')
+
+      return res
+    } catch (e) {
+      return null
+    }
   }
 
   const columns = useMemo(
@@ -64,9 +79,8 @@ export default function InvoiceTable({
           <HStack>
             <FiFileText />
             <Text {...textStyle} ml="2">
-              {`${t('SubscriptionTabs.invoiceTab.invoice')} ${format(
-                new Date(info.getValue()),
-                'dd/MM/uu'
+              {`${t('SubscriptionTabs.invoiceTab.invoice')} ${getFormattedDate(
+                info.getValue()
               )}`}
             </Text>
           </HStack>
@@ -80,9 +94,7 @@ export default function InvoiceTable({
         enableSorting: true,
         sortingFn: sortDates,
         cell: (info) => (
-          <Text {...textStyle}>
-            {format(new Date(info.getValue()), 'dd/MM/uu')}
-          </Text>
+          <Text {...textStyle}>{getFormattedDate(info.getValue())}</Text>
         ),
         footer: (props) => props.column.id,
       }),
@@ -176,25 +188,23 @@ export default function InvoiceTable({
           ))}
         </Thead>
         <Tbody>
-          {table
-            .getRowModel()
-            .rows.slice(0, 10)
-            .map((row) => {
-              return (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Td>
-                    )
-                  })}
-                </Tr>
-              )
-            })}
+          {table.getRowModel().rows.map((row) => {
+            console.log('Row', row)
+            return (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <Td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  )
+                })}
+              </Tr>
+            )
+          })}
         </Tbody>
       </Table>
     </TableContainer>

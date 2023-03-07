@@ -2,7 +2,6 @@ import { gql, Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import { SubscriptionIntentResponse } from '@shared/model/subscription'
 import { subscriptionPlanTypeSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
-import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
@@ -16,31 +15,31 @@ import {
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
-  memberId: yup.string().required(),
   orgId: yup.string().required(),
   planType: subscriptionPlanTypeSchema,
   promotionCode: yup.string().optional().nullable(),
 })
 
 export default route(async (context): Promise<SubscriptionIntentResponse> => {
+  console.log('CONTEXT:', context)
   guardAuth(context)
-  const { memberId, orgId, planType, promotionCode } = guardBodyParams(
-    context,
-    yupSchema
-  )
+  const { orgId, planType, promotionCode } = guardBodyParams(context, yupSchema)
 
-  // Get member
-  const member = await getMemberById(memberId)
+  console.log("Le fromage c'est sympa mais pas trop")
   const org = (await adminRequest(GET_ORG_DETAILS, { orgId }))?.org_by_pk
 
-  if (!member || !org || !planType) {
+  console.log("Le fromage c'est sympa mais pas trop2")
+  if (!org || !planType) {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await guardOrg(context, member.orgId, Member_Role_Enum.Owner)
+  console.log('On est la')
+  const { member } = await guardOrg(context, orgId, Member_Role_Enum.Owner)
+  console.log('Member yo:', member)
 
   const user = (await adminRequest(GET_USER_EMAIL, { id: member.userId })).user
 
+  console.log('On est laaaa:', user)
   if (!user || !user.email) {
     console.error(
       `[SUBSCRIPTION ERROR]: could not retrieve user for member ${member.id}`

@@ -13,7 +13,6 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
-import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { useStripeAppearance } from '@hooks/useStripeAppearance'
 import { Elements } from '@stripe/react-stripe-js'
@@ -32,7 +31,6 @@ export default function UpdatePaymentMethodModal({
 }: UpdatePaymentMethodModalProps) {
   const { t, i18n } = useTranslation()
   const orgId = useOrgId()
-  const currentMember = useCurrentMember()
   const toast = useToast()
   const [loading, setLoading] = useState(false)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
@@ -44,7 +42,6 @@ export default function UpdatePaymentMethodModal({
     try {
       const { clientSecret } = await updateSubscriptionPaymentMethodIntent({
         orgId: orgId ?? '',
-        memberId: currentMember?.id ?? '',
       })
 
       setClientSecret(clientSecret)

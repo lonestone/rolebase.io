@@ -13,7 +13,6 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
-import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { format } from 'date-fns'
 import React, { useState } from 'react'
@@ -31,14 +30,12 @@ export default function CancelSubscriptionModal({
   const [loading, setLoading] = useState(false)
   const toast = useToast()
   const orgId = useOrgId()
-  const currentMember = useCurrentMember()
 
   const unsubscribe = async () => {
     setLoading(true)
 
     try {
       const { cancelAt } = await unsubscribeOrg({
-        memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
       })
       toast({

@@ -26,7 +26,7 @@ export async function guardOrg(
     throw new RouteError(403, 'Forbidden')
   }
 
-  return org
+  return { org, member: org?.members[0] }
 }
 
 const GET_ORG_ROLE = gql(`
@@ -35,7 +35,9 @@ const GET_ORG_ROLE = gql(`
       id
       name
       members(where: {userId: {_eq: $userId}}) {
+        id
         role
+        userId
       }
     }
   }`)
