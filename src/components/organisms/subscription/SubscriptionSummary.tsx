@@ -12,7 +12,6 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
-import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgActiveMembers from '@hooks/useOrgActiveMembers'
 import { useOrgId } from '@hooks/useOrgId'
 import {
@@ -45,7 +44,6 @@ export default function SubscriptionSummary({
   const [retrievedCoupon, setRetrievedCoupon] = useState<PromotionCode>()
   const [couponError, setCouponError] = useState<string>()
   const [couponLoading, setCouponLoading] = useState<boolean>(false)
-  const currentMember = useCurrentMember()
   const orgId = useOrgId()
   const nbSeats = useOrgActiveMembers().length
   const parsedDetails = useMemo(() => {
@@ -69,7 +67,6 @@ export default function SubscriptionSummary({
     setCouponLoading(true)
     try {
       const retrieved = await retrieveCouponToSubscription({
-        memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
         promotionCode: coupon,
       })

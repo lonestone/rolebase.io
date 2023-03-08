@@ -54,6 +54,16 @@ export default function InvoiceTable({
     return invoice1.getTime() - invoice2.getTime()
   }
 
+  const getFormattedDate = (dateAsString: string) => {
+    try {
+      const res = format(new Date(dateAsString), 'dd/MM/uu')
+
+      return res
+    } catch (e) {
+      return null
+    }
+  }
+
   const columns = useMemo(
     () => [
       columnHelper.accessor((row) => row.createdAt, {
@@ -64,9 +74,8 @@ export default function InvoiceTable({
           <HStack>
             <FiFileText />
             <Text {...textStyle} ml="2">
-              {`${t('SubscriptionTabs.invoiceTab.invoice')} ${format(
-                new Date(info.getValue()),
-                'dd/MM/uu'
+              {`${t('SubscriptionTabs.invoiceTab.invoice')} ${getFormattedDate(
+                info.getValue()
               )}`}
             </Text>
           </HStack>
@@ -80,9 +89,7 @@ export default function InvoiceTable({
         enableSorting: true,
         sortingFn: sortDates,
         cell: (info) => (
-          <Text {...textStyle}>
-            {format(new Date(info.getValue()), 'dd/MM/uu')}
-          </Text>
+          <Text {...textStyle}>{getFormattedDate(info.getValue())}</Text>
         ),
         footer: (props) => props.column.id,
       }),
@@ -176,25 +183,22 @@ export default function InvoiceTable({
           ))}
         </Thead>
         <Tbody>
-          {table
-            .getRowModel()
-            .rows.slice(0, 10)
-            .map((row) => {
-              return (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Td>
-                    )
-                  })}
-                </Tr>
-              )
-            })}
+          {table.getRowModel().rows.map((row) => {
+            return (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <Td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  )
+                })}
+              </Tr>
+            )
+          })}
         </Tbody>
       </Table>
     </TableContainer>

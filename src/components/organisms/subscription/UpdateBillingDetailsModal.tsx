@@ -16,7 +16,6 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react'
-import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import { useStripeAppearance } from '@hooks/useStripeAppearance'
 import { CustomerBillingDetails } from '@shared/model/subscription'
@@ -43,7 +42,6 @@ export default function UpdateBillingDetailsModal({
 }: UpdateBillingDetailsModalProps) {
   const { t, i18n } = useTranslation()
   const orgId = useOrgId()
-  const currentMember = useCurrentMember()
   const toast = useToast()
   const [loading, setLoading] = useState(false)
   const [disabled, setDisabled] = useState(true)
@@ -60,7 +58,6 @@ export default function UpdateBillingDetailsModal({
 
     try {
       await updateSubscriptionBillingDetails({
-        memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
         billingDetails: newBillingDetails,
       })

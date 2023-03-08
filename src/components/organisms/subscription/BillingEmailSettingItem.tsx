@@ -16,7 +16,6 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import SettingItem from '@molecules/SettingItem'
 import { emailSchema } from '@shared/schemas'
@@ -44,7 +43,6 @@ export default function BillingEmailSettingItem({
 }: BillingEmailSettingItemProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const currentMember = useCurrentMember()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
   const [loading, setLoading] = useState(false)
@@ -68,7 +66,6 @@ export default function BillingEmailSettingItem({
 
     try {
       await updateSubscriptionBillingEmail({
-        memberId: currentMember?.id ?? '',
         orgId: orgId ?? '',
         email: newEmail,
       })

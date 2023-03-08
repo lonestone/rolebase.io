@@ -46,7 +46,6 @@ export default function SubscriptionTabs(props: FlexProps) {
     setSubscriptionLoading(true)
     try {
       const res = await getSubscription({
-        memberId: currentMember?.id!,
         orgId: orgId!,
       })
 
@@ -62,7 +61,6 @@ export default function SubscriptionTabs(props: FlexProps) {
     setInvoicesLoading(true)
     try {
       const res = await getSubscriptionInvoices({
-        memberId: currentMember?.id!,
         orgId: orgId!,
       })
 

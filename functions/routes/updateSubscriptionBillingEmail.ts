@@ -1,7 +1,6 @@
 import { gql, Member_Role_Enum } from '@gql'
 import { emailSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
-import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
@@ -10,22 +9,19 @@ import { updateStripeCustomer } from '@utils/stripe'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
-  memberId: yup.string().required(),
   orgId: yup.string().required(),
   email: emailSchema.required(),
 })
 
 export default route(async (context): Promise<string> => {
   guardAuth(context)
-  const { memberId, orgId, email } = guardBodyParams(context, yupSchema)
+  const { orgId, email } = guardBodyParams(context, yupSchema)
 
-  // Get member
-  const member = await getMemberById(memberId)
-  if (!member || !email) {
+  if (!email) {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await guardOrg(context, member.orgId, Member_Role_Enum.Owner)
+  await guardOrg(context, orgId, Member_Role_Enum.Owner)
 
   const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION_CUSTOMERID, {
     orgId,

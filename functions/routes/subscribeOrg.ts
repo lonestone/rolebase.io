@@ -2,7 +2,6 @@ import { gql, Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import { SubscriptionIntentResponse } from '@shared/model/subscription'
 import { subscriptionPlanTypeSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
-import { getMemberById } from '@utils/getMemberById'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
@@ -16,7 +15,6 @@ import {
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
-  memberId: yup.string().required(),
   orgId: yup.string().required(),
   planType: subscriptionPlanTypeSchema,
   promotionCode: yup.string().optional().nullable(),
@@ -24,20 +22,15 @@ const yupSchema = yup.object().shape({
 
 export default route(async (context): Promise<SubscriptionIntentResponse> => {
   guardAuth(context)
-  const { memberId, orgId, planType, promotionCode } = guardBodyParams(
-    context,
-    yupSchema
-  )
+  const { orgId, planType, promotionCode } = guardBodyParams(context, yupSchema)
 
-  // Get member
-  const member = await getMemberById(memberId)
   const org = (await adminRequest(GET_ORG_DETAILS, { orgId }))?.org_by_pk
 
-  if (!member || !org || !planType) {
+  if (!org || !planType) {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await guardOrg(context, member.orgId, Member_Role_Enum.Owner)
+  const { member } = await guardOrg(context, orgId, Member_Role_Enum.Owner)
 
   const user = (await adminRequest(GET_USER_EMAIL, { id: member.userId })).user
 
@@ -109,15 +102,16 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
   // To avoid a crash, maybe return a status that the front will handle ?
 
   const clientSecret =
-    stripeSubscription.latest_invoice.payment_intent.client_secret ?? ''
+    stripeSubscription.latest_invoice?.payment_intent?.client_secret ?? ''
+  const pricePerSeat = stripeSubscription.items.data[0].price.unit_amount ?? 0
 
   return {
     subscriptionId: stripeSubscription.id,
     clientSecret,
+    isFreeOrTrial: !clientSecret || pricePerSeat === 0,
     price: {
       quantity: stripeSubscription.items.data[0].quantity ?? 0,
-      totalPerSeatInCents:
-        stripeSubscription.items.data[0].price.unit_amount ?? 0,
+      totalPerSeatInCents: pricePerSeat,
     },
   }
 })

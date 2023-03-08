@@ -33,7 +33,7 @@ export const acceptMemberInvitation = fn<{
 
 export const updateMemberRole = fn<{
   memberId: string
-  issuerMemberId: string
+  orgId: string
   role?: Member_Role_Enum
 }>('updateMemberRole')
 
@@ -63,7 +63,6 @@ export const stopMembersMeeting = fn<{ meetingId: string }>(
 
 export const subscribeOrg = fn<
   {
-    memberId: string
     orgId: string
     planType: Subscription_Plan_Type_Enum
     promotionCode?: string
@@ -73,7 +72,6 @@ export const subscribeOrg = fn<
 
 export const unsubscribeOrg = fn<
   {
-    memberId: string
     orgId: string
   },
   { cancelAt: string }
@@ -81,7 +79,6 @@ export const unsubscribeOrg = fn<
 
 export const getSubscriptionInvoices = fn<
   {
-    memberId: string
     orgId: string
   },
   Invoice[]
@@ -89,7 +86,6 @@ export const getSubscriptionInvoices = fn<
 
 export const getSubscription = fn<
   {
-    memberId: string
     orgId: string
   },
   Subscription
@@ -97,7 +93,6 @@ export const getSubscription = fn<
 
 export const updateSubscriptionBillingEmail = fn<
   {
-    memberId: string
     orgId: string
     email: string
   },
@@ -106,7 +101,6 @@ export const updateSubscriptionBillingEmail = fn<
 
 export const updateSubscriptionBillingDetails = fn<
   {
-    memberId: string
     orgId: string
     billingDetails: CustomerBillingDetails
   },
@@ -115,25 +109,21 @@ export const updateSubscriptionBillingDetails = fn<
 
 export const updateSubscriptionPaymentMethodIntent = fn<
   {
-    memberId: string
     orgId: string
   },
   { clientSecret: string }
 >('updateSubscriptionPaymentMethodIntent')
 
 export const resumeSubscription = fn<{
-  memberId: string
   orgId: string
 }>('resumeSubscription')
 
 export const archiveOrg = fn<{
-  memberId: string
   orgId: string
 }>('archiveOrg')
 
 export const retrieveCouponToSubscription = fn<
   {
-    memberId: string
     orgId: string
     promotionCode: string
   },
@@ -154,7 +144,7 @@ export function getMeetingsIcalUrl(
   }`
 }
 
-export const archiveMember = fn<{ memberId: string; issuerMemberId: string }>(
+export const archiveMember = fn<{ memberId: string; orgId: string }>(
   'archiveMember'
 )
 

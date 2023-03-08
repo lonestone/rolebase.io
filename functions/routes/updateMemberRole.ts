@@ -11,33 +11,36 @@ import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
   memberId: yup.string().required(),
-  issuerMemberId: yup.string().required(),
+  orgId: yup.string().required(),
   role: roleSchema,
 })
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
-  const { memberId, issuerMemberId, role } = guardBodyParams(context, yupSchema)
+  const { memberId, role, orgId } = guardBodyParams(context, yupSchema)
 
   // Get member
-  const member = await getMemberById(memberId)
-  const issuerMember = await getMemberById(issuerMemberId)
+  const memberToUpdate = await getMemberById(memberId)
 
-  await guardOrg(context, member.orgId, Member_Role_Enum.Admin)
+  const { member: issuerMember } = await guardOrg(
+    context,
+    orgId,
+    Member_Role_Enum.Admin
+  )
 
   if (
-    member.role === Member_Role_Enum.Owner &&
+    memberToUpdate.role === Member_Role_Enum.Owner &&
     issuerMember.role !== Member_Role_Enum.Owner
   ) {
     throw new RouteError(403, 'Insufficient permissions')
   }
 
-  if (member.role === Member_Role_Enum.Owner) {
+  if (memberToUpdate.role === Member_Role_Enum.Owner) {
     // Ensures at least one other owner of the org will remain active
-    await guardMultipleOwnersOrg(context, member.orgId)
+    await guardMultipleOwnersOrg(context, memberToUpdate.orgId)
   }
 
-  if (!member.role) {
+  if (!memberToUpdate.role) {
     throw new RouteError(401, 'Member is not invited')
   }
 

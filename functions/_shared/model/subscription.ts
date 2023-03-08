@@ -12,6 +12,7 @@ export const SubscriptionLimits: {
 export type SubscriptionIntentResponse = {
   subscriptionId: string
   clientSecret: string
+  isFreeOrTrial: boolean
   price: {
     quantity: number
     totalPerSeatInCents: number
