@@ -158,7 +158,6 @@ function fn<Params, Result = void>(route: string) {
       params
     )
     if (error) throw error
-    console.log('test', typeof res.data)
     return res.data
   }
 }
