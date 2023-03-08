@@ -37,7 +37,7 @@ export default function SubscriptionTabFreeLayout(flexProps: FlexProps) {
           <Button
             rightIcon={<FiArrowRight />}
             onClick={subscribe(Subscription_Plan_Type_Enum.Startup)}
-            colorScheme="gray"
+            colorScheme="green"
           >
             {t('SubscriptionPlans.upgradePlan')}
           </Button>

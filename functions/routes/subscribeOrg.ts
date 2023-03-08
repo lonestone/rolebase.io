@@ -21,25 +21,19 @@ const yupSchema = yup.object().shape({
 })
 
 export default route(async (context): Promise<SubscriptionIntentResponse> => {
-  console.log('CONTEXT:', context)
   guardAuth(context)
   const { orgId, planType, promotionCode } = guardBodyParams(context, yupSchema)
 
-  console.log("Le fromage c'est sympa mais pas trop")
   const org = (await adminRequest(GET_ORG_DETAILS, { orgId }))?.org_by_pk
 
-  console.log("Le fromage c'est sympa mais pas trop2")
   if (!org || !planType) {
     throw new RouteError(400, 'Invalid request')
   }
 
-  console.log('On est la')
   const { member } = await guardOrg(context, orgId, Member_Role_Enum.Owner)
-  console.log('Member yo:', member)
 
   const user = (await adminRequest(GET_USER_EMAIL, { id: member.userId })).user
 
-  console.log('On est laaaa:', user)
   if (!user || !user.email) {
     console.error(
       `[SUBSCRIPTION ERROR]: could not retrieve user for member ${member.id}`
@@ -108,7 +102,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
   // To avoid a crash, maybe return a status that the front will handle ?
 
   const clientSecret =
-    stripeSubscription.latest_invoice.payment_intent.client_secret ?? ''
+    stripeSubscription.latest_invoice?.payment_intent?.client_secret ?? ''
 
   return {
     subscriptionId: stripeSubscription.id,
