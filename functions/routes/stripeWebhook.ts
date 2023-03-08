@@ -28,6 +28,7 @@ export default route(async (context): Promise<void> => {
       // Payment failed
       // Send an email ?
       break
+    case 'customer.subscription.created':
     case 'customer.subscription.updated':
       await updateSubscription(event.data.object as Stripe.Subscription)
       break

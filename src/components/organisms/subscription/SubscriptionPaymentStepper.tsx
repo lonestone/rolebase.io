@@ -18,6 +18,7 @@ import {
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import React, { FormEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import SubscriptionSummary from './SubscriptionSummary'
 
 type SubscriptionPaymentStepperProps = {
@@ -31,6 +32,7 @@ export default function SubscriptionPaymentStepper({
   const { nextStep, prevStep, activeStep } = useSteps({
     initialStep: 0,
   })
+  const navigate = useNavigate()
   const orgId = useOrgId()
   const org = useOrg(orgId)
   const [stripe, setStripe] = useState<Stripe>()
@@ -105,6 +107,11 @@ export default function SubscriptionPaymentStepper({
         planType,
         promotionCode: promoCode,
       })
+      console.log(res)
+      if (res.isFreeOrTrial) {
+        location.reload()
+      }
+
       setClientSecret(res.clientSecret)
       setLoading(false)
     } catch (e) {

@@ -64,9 +64,6 @@ export default function SubscriptionTabs(props: FlexProps) {
         orgId: orgId!,
       })
 
-      console.log('RES:', res)
-      console.log('Type res:', typeof res)
-
       setInvoices(res)
     } catch (e) {
       displayErrorToast()

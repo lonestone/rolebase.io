@@ -22,7 +22,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowDown, FiArrowUp, FiDownload, FiFileText } from 'react-icons/fi'
 
@@ -42,11 +42,6 @@ export default function InvoiceTable({
     color: 'gray.500',
     _dark: { color: 'gray.300' },
   }
-
-  useEffect(() => {
-    console.log('invoices', invoices)
-    console.log('type', typeof invoices)
-  }, [invoices])
 
   const sortDates = (
     row1: Row<Invoice>,
@@ -189,7 +184,6 @@ export default function InvoiceTable({
         </Thead>
         <Tbody>
           {table.getRowModel().rows.map((row) => {
-            console.log('Row', row)
             return (
               <Tr key={row.id}>
                 {row.getVisibleCells().map((cell) => {

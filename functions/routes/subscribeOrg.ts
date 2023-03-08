@@ -103,14 +103,15 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
 
   const clientSecret =
     stripeSubscription.latest_invoice?.payment_intent?.client_secret ?? ''
+  const pricePerSeat = stripeSubscription.items.data[0].price.unit_amount ?? 0
 
   return {
     subscriptionId: stripeSubscription.id,
     clientSecret,
+    isFreeOrTrial: !clientSecret || pricePerSeat === 0,
     price: {
       quantity: stripeSubscription.items.data[0].quantity ?? 0,
-      totalPerSeatInCents:
-        stripeSubscription.items.data[0].price.unit_amount ?? 0,
+      totalPerSeatInCents: pricePerSeat,
     },
   }
 })
