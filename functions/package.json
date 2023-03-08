@@ -4,7 +4,7 @@
     "codegen": "graphql-codegen --config _codegen.ts"
   },
   "dependencies": {
-    "@nhost/nhost-js": "^1.6.0",
+    "@nhost/nhost-js": "^2.0.8",
     "@novu/node": "^0.11.0",
     "algoliasearch": "^4.14.2",
     "axios": "^1.3.4",
