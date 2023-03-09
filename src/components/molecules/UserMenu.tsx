@@ -61,6 +61,7 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
               picture: user?.avatarUrl || '?',
             }
           }
+          maxNameLength={15}
         />
 
         <MenuList ml={-2} zIndex={10} shadow="lg">

@@ -203,7 +203,7 @@ export default function Sidebar() {
           flex={1}
           flexDirection="column"
           alignItems="stretch"
-          overflow="auto"
+          overflowY="auto"
         >
           {orgId ? (
             <>

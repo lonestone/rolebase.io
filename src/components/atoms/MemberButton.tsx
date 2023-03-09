@@ -5,10 +5,11 @@ import React from 'react'
 
 interface Props extends ButtonProps {
   member: Pick<MemberSummaryFragment, 'name' | 'picture'>
+  maxNameLength?: number
 }
 
 export default forwardRef(function MemberButton(
-  { member, ...buttonProps }: Props,
+  { member, maxNameLength = 30, ...buttonProps }: Props,
   ref
 ) {
   return (
@@ -20,7 +21,7 @@ export default forwardRef(function MemberButton(
         ml="-10px"
         mr={2}
       />
-      {textEllipsis(member.name, 30)}
+      {textEllipsis(member.name, maxNameLength)}
     </Button>
   )
 })
