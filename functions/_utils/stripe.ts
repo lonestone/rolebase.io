@@ -164,6 +164,7 @@ export const createStripeSubscription = async (
         orgId,
       },
       promotion_code: coupon?.id,
+      automatic_tax: { enabled: true },
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent'],
       payment_settings: {

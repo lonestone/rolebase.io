@@ -1,4 +1,4 @@
-import { Flex, FlexProps, Text } from '@chakra-ui/react'
+import { Flex, FlexProps, Text, useBreakpointValue } from '@chakra-ui/react'
 import ParticipantsGroup from '@molecules/ParticipantsGroup'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
@@ -13,6 +13,11 @@ export default function SubscriptionFreePlanCardFooter(props: FlexProps) {
     () => members?.filter((mem) => !!mem.userId) ?? [],
     [members]
   )
+  const size = useBreakpointValue({
+    base: 'xs',
+    sm: 'sm',
+    md: 'md',
+  })
 
   return (
     <Flex
@@ -35,7 +40,7 @@ export default function SubscriptionFreePlanCardFooter(props: FlexProps) {
       </Text>
       {filteredMembers && (
         <ParticipantsGroup
-          size="md"
+          size={size}
           max={MAX_MEMBERS_FREE}
           participants={filteredMembers}
         />

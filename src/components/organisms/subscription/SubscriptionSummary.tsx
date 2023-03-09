@@ -127,7 +127,7 @@ export default function SubscriptionSummary({
 
   return (
     <VStack p="2" w="100%" {...stackProps}>
-      <Text m="auto">Summary</Text>
+      <Text m="auto">{t('SubscriptionTabs.paymentModal.summary')}</Text>
       <Flex flexDir="column" alignItems="stretch" gap="2" h="100%" w="100%">
         <Card w="100%" h="100%" p="3" variant="outline">
           <Text mb="4">{t('SubscriptionTabs.paymentModal.details')}</Text>

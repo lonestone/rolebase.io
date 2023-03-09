@@ -149,6 +149,7 @@ export default function SubscriptionPaymentStepper({
         colorScheme="orange"
         orientation="vertical"
         activeStep={activeStep}
+        trackColor="gray.300"
       >
         <Step label={t('SubscriptionTabs.paymentModal.details')}>
           <Box p="2">

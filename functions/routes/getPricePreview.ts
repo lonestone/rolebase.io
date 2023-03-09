@@ -10,6 +10,7 @@ import * as yup from 'yup'
 const yupSchema = yup.object().shape({
   orgId: yup.string().required(),
   promotionCode: yup.string().required(),
+  // https://stripe.com/docs/billing/taxes/collect-taxes
 })
 
 export default route(async (context): Promise<PromotionCode> => {

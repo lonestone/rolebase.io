@@ -1,6 +1,7 @@
 import { getSubscription, getSubscriptionInvoices } from '@api/functions'
 import Tab from '@atoms/Tab'
 import {
+  Box,
   Flex,
   FlexProps,
   HStack,
@@ -94,22 +95,24 @@ export default function SubscriptionTabs(props: FlexProps) {
   return (
     <Flex {...props}>
       <Tabs w="100%" colorScheme="orange">
-        <TabList px="10">
-          <Tab
-            title={t('SubscriptionTabs.subscriptionTabTitle')}
-            icon={<FiCreditCard />}
-          />
+        <Box overflow="auto">
+          <TabList px="10">
+            <Tab
+              title={t('SubscriptionTabs.subscriptionTabTitle')}
+              icon={<FiCreditCard />}
+            />
 
-          <Tab
-            title={t('SubscriptionTabs.accountTabTitle')}
-            icon={<FiUser />}
-          />
+            <Tab
+              title={t('SubscriptionTabs.accountTabTitle')}
+              icon={<FiUser />}
+            />
 
-          <Tab
-            title={t('SubscriptionTabs.invoicesTabTitle')}
-            icon={<FiFileText />}
-          />
-        </TabList>
+            <Tab
+              title={t('SubscriptionTabs.invoicesTabTitle')}
+              icon={<FiFileText />}
+            />
+          </TabList>
+        </Box>
         <TabPanels>
           <TabPanel w="100%">
             {subscriptionLoading && TabSpinner}
