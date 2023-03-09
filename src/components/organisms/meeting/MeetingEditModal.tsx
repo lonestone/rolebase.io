@@ -1,3 +1,4 @@
+import { updateMeeting } from '@api/functions'
 import NumberInputController from '@atoms/NumberInputController'
 import {
   Box,
@@ -24,7 +25,6 @@ import {
   MeetingTemplateFragment,
   Meeting_Step_Type_Enum,
   Member_Scope_Enum,
-  useUpdateMeetingMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
@@ -33,14 +33,13 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MeetingStepsConfigController, {
-  stepsConfigSchema,
   StepsValues,
 } from '@molecules/meeting/MeetingStepsConfigController'
 import MeetingTemplateMenu from '@molecules/meeting/MeetingTemplateMenu'
 import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
-import { nameSchema } from '@shared/schemas'
+import { nameSchema, stepsConfigSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import { nanoid } from 'nanoid'
 import React, { useMemo } from 'react'
@@ -94,7 +93,6 @@ export default function MeetingEditModal({
   const currentMember = useCurrentMember()
   const navigate = useNavigate()
   const createMeeting = useCreateMeeting()
-  const [updateMeeting] = useUpdateMeetingMutation()
 
   const defaultValues: Values = useMemo(
     () => ({
@@ -193,7 +191,8 @@ export default function MeetingEditModal({
       if (meeting && !duplicate) {
         // Update meeting
         await updateMeeting({
-          variables: { id: meeting.id, values: meetingUpdate },
+          meetingId: meeting.id,
+          values: meetingUpdate,
         })
       } else {
         // Create meeting

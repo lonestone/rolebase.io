@@ -1,3 +1,4 @@
+import { updateMeetingRecurring } from '@api/functions'
 import NumberInputController from '@atoms/NumberInputController'
 import {
   Box,
@@ -19,7 +20,6 @@ import {
   MeetingRecurringFragment,
   Member_Scope_Enum,
   useCreateMeetingRecurringMutation,
-  useUpdateMeetingRecurringMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -72,7 +72,6 @@ export default function MeetingRecurringEditModal({
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const [createMeetingRecurring] = useCreateMeetingRecurringMutation()
-  const [updateMeetingRecurring] = useUpdateMeetingRecurringMutation()
 
   const defaultValues: Values = useMemo(
     () => ({
@@ -136,7 +135,8 @@ export default function MeetingRecurringEditModal({
       if (meetingRecurring) {
         // Update recurring meeting
         await updateMeetingRecurring({
-          variables: { id: meetingRecurring.id, values: meetingUpdate },
+          meetingId: meetingRecurring.id,
+          values: meetingUpdate,
         })
       } else {
         // Create recurring meeting

@@ -1,0 +1,42 @@
+fragment MeetingRecurring on meeting_recurring {
+  id
+  orgId
+  circleId
+  circle {
+    role {
+      name
+      colorHue
+    }
+  }
+  participantsScope
+  participantsMembersIds
+  templateId
+  template {
+    title
+    stepsConfig
+  }
+  rrule
+  duration
+  videoConf
+  createdAt
+}
+
+fragment MeetingRecurringNotificationData on meeting_recurring {
+  id
+  orgId
+  circleId
+  org {
+    ...Org
+    members(where: { userId: { _eq: $userId } }) {
+      id
+    }
+  }
+  circle {
+    id
+    role {
+      name
+    }
+  }
+  participantsScope
+  participantsMembersIds
+}

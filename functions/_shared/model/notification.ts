@@ -22,4 +22,5 @@ export type MeetingStartedNotificationBodyParams = {
 export type MeetingInvitedNotificationBodyParams = {
   recipientMemberIds?: string[]
   meetingId: string
+  isRecurring?: boolean
 }

@@ -1,26 +1,3 @@
-fragment MeetingRecurring on meeting_recurring {
-  id
-  orgId
-  circleId
-  circle {
-    role {
-      name
-      colorHue
-    }
-  }
-  participantsScope
-  participantsMembersIds
-  templateId
-  template {
-    title
-    stepsConfig
-  }
-  rrule
-  duration
-  videoConf
-  createdAt
-}
-
 subscription meetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
     ...MeetingRecurring

@@ -16616,6 +16616,124 @@ export type GetOrgSubscriptionStripeIdQuery = {
   }>
 }
 
+export type GetMeetingQueryVariables = Exact<{
+  id: Scalars['uuid']
+}>
+
+export type GetMeetingQuery = {
+  __typename?: 'query_root'
+  meeting_by_pk?: {
+    __typename?: 'meeting'
+    id: string
+    orgId: string
+    circleId: string
+    participantsScope: Member_Scope_Enum
+    participantsMembersIds: Array<string>
+    createdAt: string
+    startDate: string
+    endDate: string
+    ended: boolean
+    title: string
+    attendees?: Array<MeetingAttendee> | null
+    stepsConfig: Array<MeetingStepConfig>
+    currentStepId?: string | null
+    archived: boolean
+    videoConf?: VideoConf | null
+    recurringId?: string | null
+    recurringDate?: string | null
+  } | null
+}
+
+export type UpdateMeetingMutationVariables = Exact<{
+  id: Scalars['uuid']
+  values: Meeting_Set_Input
+}>
+
+export type UpdateMeetingMutation = {
+  __typename?: 'mutation_root'
+  update_meeting_by_pk?: {
+    __typename?: 'meeting'
+    id: string
+    orgId: string
+    circleId: string
+    participantsScope: Member_Scope_Enum
+    participantsMembersIds: Array<string>
+    createdAt: string
+    startDate: string
+    endDate: string
+    ended: boolean
+    title: string
+    attendees?: Array<MeetingAttendee> | null
+    stepsConfig: Array<MeetingStepConfig>
+    currentStepId?: string | null
+    archived: boolean
+    videoConf?: VideoConf | null
+    recurringId?: string | null
+    recurringDate?: string | null
+  } | null
+}
+
+export type GetMeetingRecurringQueryVariables = Exact<{
+  id: Scalars['uuid']
+}>
+
+export type GetMeetingRecurringQuery = {
+  __typename?: 'query_root'
+  meeting_recurring_by_pk?: {
+    __typename?: 'meeting_recurring'
+    id: string
+    orgId: string
+    circleId: string
+    participantsScope: Member_Scope_Enum
+    participantsMembersIds: Array<string>
+    templateId: string
+    rrule: string
+    duration: number
+    videoConf?: any | null
+    createdAt: string
+    circle: {
+      __typename?: 'circle'
+      role: { __typename?: 'role'; name: string; colorHue?: number | null }
+    }
+    template: {
+      __typename?: 'meeting_template'
+      title: string
+      stepsConfig: Array<MeetingStepConfig>
+    }
+  } | null
+}
+
+export type UpdateMeetingRecurringMutationVariables = Exact<{
+  id: Scalars['uuid']
+  values: Meeting_Recurring_Set_Input
+}>
+
+export type UpdateMeetingRecurringMutation = {
+  __typename?: 'mutation_root'
+  update_meeting_recurring_by_pk?: {
+    __typename?: 'meeting_recurring'
+    id: string
+    orgId: string
+    circleId: string
+    participantsScope: Member_Scope_Enum
+    participantsMembersIds: Array<string>
+    templateId: string
+    rrule: string
+    duration: number
+    videoConf?: any | null
+    createdAt: string
+    circle: {
+      __typename?: 'circle'
+      role: { __typename?: 'role'; name: string; colorHue?: number | null }
+    }
+    template: {
+      __typename?: 'meeting_template'
+      title: string
+      stepsConfig: Array<MeetingStepConfig>
+    }
+  } | null
+}
+
 export type UpdateOrgSlugMutationVariables = Exact<{
   id: Scalars['uuid']
   slug: Scalars['String']
