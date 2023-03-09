@@ -572,11 +572,11 @@
     "bymonth": "In"
   },
   "SearchGlobalModal": {
-    "placeholder": "Search {{org}}..."
+    "placeholder": "Search {{org}}...",
+    "noResults": "No results found"
   },
   "SettingsMenuList": {
     "org": "Organization",
-    "members": "Members",
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
     "logs": "History",
@@ -585,12 +585,14 @@
   },
   "Sidebar": {
     "orgs": "Organizations",
+    "menu": "Menu",
     "roles": "Roles",
     "threads": "Topics",
     "meetings": "Meetings",
     "tasks": "Tasks",
+    "members": "Members",
     "settings": "Settings",
-    "search": "Search ({{keys}})",
+    "search": "Search...",
     "help": "Help"
   },
   "SignupForm": {
@@ -913,7 +915,7 @@
     "errorRetry": "An error occurred, plase try again later.",
     "errorContact": "If this persists contact us at contact@rolebase.io",
     "searchTypes": {
-      "All": "All",
+      "All": "Everything",
       "Member": "Members",
       "Role": "Roles",
       "Circle": "Circles",

@@ -22,7 +22,6 @@ import {
   FiClock,
   FiCreditCard,
   FiSettings,
-  FiUsers,
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
@@ -36,7 +35,6 @@ export default function SettingsMenuList(props: MenuListProps) {
   const sidebarContext = useContext(SidebarContext)
 
   // Pages paths
-  const membersPath = usePathInOrg('members')
   const logsPath = usePathInOrg('logs')
   const subscriptionPath = usePathInOrg('subscription')
 
@@ -61,16 +59,6 @@ export default function SettingsMenuList(props: MenuListProps) {
             {t('SettingsMenuList.org')}
           </MenuItem>
         )}
-
-        <MenuItem
-          as={Link}
-          to={membersPath}
-          icon={<FiUsers />}
-          onClick={sidebarContext?.expand.onClose}
-        >
-          {t('SettingsMenuList.members')}
-        </MenuItem>
-
         {isMember && (
           <>
             <MenuItem icon={<FiCircle />} onClick={baseRolesModal.onOpen}>

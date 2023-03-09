@@ -1,7 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react'
 import React, { createContext, useMemo, useState } from 'react'
 
-export const defaultSidebarWidth = 170 // Side bar
+export const defaultSidebarWidth = 200 // Side bar
 export const defaultSidebarHeight = 50 // Top bar on small screen
 
 interface SidebarContextValue {

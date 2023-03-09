@@ -1,3 +1,4 @@
+import Loading from '@atoms/Loading'
 import { ChevronDownIcon, SearchIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -49,8 +50,8 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
   const navigateOrg = useNavigateOrg()
 
   // Search
-  const [type, setType] = useState<typeof searchTypes[number] | undefined>()
-  const { filteredItems, search } = useAlgoliaSearch()
+  const [type, setType] = useState<(typeof searchTypes)[number] | undefined>()
+  const { filteredItems, search, loading } = useAlgoliaSearch()
 
   // Search when input value changes
   const onInputValueChange = useIdleCallback(
@@ -105,9 +106,9 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
   const TypeIcon = type && searchIcons[type]
 
   return (
-    <Modal size="lg" {...modalProps}>
+    <Modal size="lg" closeOnEsc {...modalProps}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={colorMode === 'light' ? 'white' : 'gray.800'}>
         <Box {...getComboboxProps()}>
           <InputGroup size="lg">
             <InputLeftElement pointerEvents="none">
@@ -120,7 +121,13 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
               })}
               borderRadius="md"
               background={colorMode === 'light' ? 'white' : 'gray.800'}
-              {...getInputProps()}
+              {...getInputProps({
+                onKeyDown(event) {
+                  if (event.key === 'Escape') {
+                    ;(event as any).preventDownshiftDefault = true
+                  }
+                },
+              })}
             />
           </InputGroup>
         </Box>
@@ -161,33 +168,46 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
         </HStack>
 
         <List
-          display={filteredItems.length === 0 ? 'none' : ''}
           overflow="hidden"
           mt="1px"
           pt={3}
           pb={2}
-          bg={colorMode === 'light' ? 'white' : 'gray.800'}
           borderBottomRadius="md"
           {...getMenuProps()}
         >
-          {filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
-            <ListItem key={index} mb={1}>
-              <SearchResultItem
-                item={item}
-                highlighted={index === highlightedIndex}
-                size="sm"
-                w="100%"
-                py={2}
-                px={5}
-                bg="transparent"
-                borderRadius="none"
-                _active={{
-                  bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
-                }}
-                {...getItemProps({ item, index })}
-              />
+          {!loading &&
+            filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
+              <ListItem key={index} mb={1}>
+                <SearchResultItem
+                  item={item}
+                  highlighted={index === highlightedIndex}
+                  size="sm"
+                  w="100%"
+                  py={2}
+                  px={5}
+                  bg="transparent"
+                  borderRadius="none"
+                  _active={{
+                    bg: colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
+                  }}
+                  {...getItemProps({ item, index })}
+                />
+              </ListItem>
+            ))}
+
+          {loading && (
+            <ListItem>
+              <Loading active size="sm" />
             </ListItem>
-          ))}
+          )}
+
+          {!loading && inputValue !== '' && filteredItems.length === 0 && (
+            <ListItem>
+              <Box pb={2} color="gray.500" fontSize="sm" textAlign="center">
+                {t('SearchGlobalModal.noResults')}
+              </Box>
+            </ListItem>
+          )}
         </List>
       </ModalContent>
     </Modal>

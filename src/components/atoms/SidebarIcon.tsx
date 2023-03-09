@@ -1,12 +1,16 @@
 import { Box, BoxProps, Circle } from '@chakra-ui/react'
 import React, { ReactElement } from 'react'
 
-interface Props extends BoxProps {
+export interface SidebarIconProps extends BoxProps {
   icon: ReactElement
   alert?: boolean
 }
 
-export default function SidebarIcon({ icon, alert, ...boxProps }: Props) {
+export default function SidebarIcon({
+  icon,
+  alert,
+  ...boxProps
+}: SidebarIconProps) {
   return (
     <Box fontSize="1.2em" position="relative" {...boxProps}>
       {alert && (

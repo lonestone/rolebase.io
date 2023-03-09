@@ -1,14 +1,14 @@
-import React from 'react'
-import { NovuProvider, INovuProviderProps } from '@novu/notification-center'
-import { Box, useColorMode, useTheme } from '@chakra-ui/react'
-import { useUserId } from '@nhost/react'
-import { useTranslation } from 'react-i18next'
-import { useAsyncMemo } from '@hooks/useAsyncMemo'
-import { NovuConfig } from '@shared/model/notification'
-import { UserLocalStorageKeys } from '@utils/localStorage'
 import { getNovuConfig } from '@api/functions'
-import { getPureLanguageCode } from '@utils/getPureLanguageCode'
+import { Box, useColorMode, useTheme } from '@chakra-ui/react'
+import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import NotificationsCenter from '@molecules/notification/NotificationsCenter'
+import { useUserId } from '@nhost/react'
+import { INovuProviderProps, NovuProvider } from '@novu/notification-center'
+import { NovuConfig } from '@shared/model/notification'
+import { getPureLanguageCode } from '@utils/getPureLanguageCode'
+import { UserLocalStorageKeys } from '@utils/localStorage'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 async function getConfig(): Promise<NovuConfig | undefined> {
   // Use config from localStorage
@@ -29,7 +29,11 @@ async function getConfig(): Promise<NovuConfig | undefined> {
   return config
 }
 
-export default function Notifications() {
+interface Props {
+  isMobile: boolean
+}
+
+export default function Notifications({ isMobile }: Props) {
   const userId = useUserId()
   const {
     i18n: { language },
@@ -177,7 +181,7 @@ export default function Notifications() {
         i18n={getPureLanguageCode(language) as INovuProviderProps['i18n']}
         styles={novuStyles}
       >
-        <NotificationsCenter />
+        <NotificationsCenter isMobile={isMobile} />
       </NovuProvider>
     </Box>
   )

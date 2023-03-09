@@ -24,6 +24,7 @@ async function getConfig(orgId: string): Promise<AlgoliaConfig> {
 
 export function useAlgoliaSearch() {
   const orgId = useOrgId()
+  const [loading, setLoading] = useState(false)
   const [filteredItems, setFilteredItems] = useState<SearchItem[]>([])
 
   // Get Algolia config
@@ -52,6 +53,8 @@ export function useAlgoliaSearch() {
       }
 
       try {
+        setLoading(true)
+
         // Search query
         const { hits } = await index.search<SearchDoc>(
           value,
@@ -68,11 +71,14 @@ export function useAlgoliaSearch() {
         )
       } catch (e) {
         console.error(e)
+      } finally {
+        setLoading(false)
       }
     }, 200)
   }, [indexPromise])
 
   return {
+    loading,
     filteredItems,
     search,
   }

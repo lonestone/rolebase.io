@@ -1,10 +1,10 @@
 import CircleMemberLink from '@atoms/CircleMemberLink'
-import IconTextButton from '@atoms/IconTextButton'
+import MemberButton from '@atoms/MemberButton'
 import {
-  Avatar,
+  BoxProps,
+  Flex,
   Menu,
   MenuButton,
-  MenuButtonProps,
   MenuItem,
   MenuList,
   useButtonGroup,
@@ -18,68 +18,84 @@ import LangModal from '@organisms/layout/LangModal'
 import CurrentUserModal from '@organisms/user/CurrentUserModal'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEdit3, FiLogOut, FiMoon, FiSun, FiUser } from 'react-icons/fi'
+import {
+  FiChevronRight,
+  FiEdit3,
+  FiLogOut,
+  FiMoon,
+  FiSun,
+  FiUser,
+} from 'react-icons/fi'
 import { IoLanguage } from 'react-icons/io5'
 
-export default function UserMenu(props: MenuButtonProps) {
+interface Props extends BoxProps {
+  isMobile: boolean
+}
+
+export default function UserMenu({ isMobile, ...boxProps }: Props) {
   const { t } = useTranslation()
   const user = useUserData()
   const member = useCurrentMember()
   const signOut = useUserSignOut()
   const { colorMode, toggleColorMode } = useColorMode()
 
-  const name = member?.name || user?.displayName || '?'
-  const picture = member?.picture || user?.avatarUrl || '?'
-
   const currentUserModal = useDisclosure()
   const langModal = useDisclosure()
   const buttonGroup = useButtonGroup()
-  const avatarSize = buttonGroup?.size === 'sm' ? 'xs' : 'sm'
+  const size = buttonGroup?.size
 
   if (!user) return null
 
   return (
-    <Menu>
-      <MenuButton
-        as={IconTextButton}
-        aria-label={t('UserMenu.tooltip')}
-        {...props}
-      >
-        <Avatar name={name} src={picture || undefined} size={avatarSize} />
-      </MenuButton>
+    <Flex {...boxProps}>
+      <Menu placement={isMobile ? 'auto' : 'right-end'}>
+        <MenuButton
+          as={MemberButton}
+          rightIcon={<FiChevronRight />}
+          size={size}
+          variant="ghost"
+          w="100%"
+          member={
+            member || {
+              name: user?.displayName || '?',
+              picture: user?.avatarUrl || '?',
+            }
+          }
+        />
 
-      <MenuList zIndex={10} shadow="lg">
-        {member && (
-          <CircleMemberLink memberId={member.id}>
-            <MenuItem icon={<FiUser />}>{t('UserMenu.member')}</MenuItem>
-          </CircleMemberLink>
+        <MenuList ml={-2} zIndex={10} shadow="lg">
+          {member && (
+            <CircleMemberLink memberId={member.id}>
+              <MenuItem icon={<FiUser />}>{t('UserMenu.member')}</MenuItem>
+            </CircleMemberLink>
+          )}
+
+          <MenuItem icon={<FiEdit3 />} onClick={currentUserModal.onOpen}>
+            {t('UserMenu.user')}
+          </MenuItem>
+
+          <MenuItem
+            icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
+            onClick={toggleColorMode}
+          >
+            {t('UserMenu.theme')}
+          </MenuItem>
+
+          <MenuItem icon={<IoLanguage />} onClick={langModal.onOpen}>
+            {t('UserMenu.lang')}
+          </MenuItem>
+
+          <MenuItem icon={<FiLogOut />} onClick={signOut}>
+            {t('UserMenu.signout')}
+          </MenuItem>
+        </MenuList>
+
+        {currentUserModal.isOpen && (
+          <CurrentUserModal isOpen onClose={currentUserModal.onClose} />
         )}
 
-        <MenuItem icon={<FiEdit3 />} onClick={currentUserModal.onOpen}>
-          {t('UserMenu.user')}
-        </MenuItem>
-
-        <MenuItem
-          icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
-          onClick={toggleColorMode}
-        >
-          {t('UserMenu.theme')}
-        </MenuItem>
-
-        <MenuItem icon={<IoLanguage />} onClick={langModal.onOpen}>
-          {t('UserMenu.lang')}
-        </MenuItem>
-
-        <MenuItem icon={<FiLogOut />} onClick={signOut}>
-          {t('UserMenu.signout')}
-        </MenuItem>
-      </MenuList>
-
-      {currentUserModal.isOpen && (
-        <CurrentUserModal isOpen onClose={currentUserModal.onClose} />
-      )}
-
-      {langModal.isOpen && <LangModal isOpen onClose={langModal.onClose} />}
-    </Menu>
+        {langModal.isOpen && <LangModal isOpen onClose={langModal.onClose} />}
+      </Menu>
+    </Flex>
   )
 }

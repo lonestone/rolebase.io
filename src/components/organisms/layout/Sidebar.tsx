@@ -1,17 +1,20 @@
 import BrandIcon from '@atoms/BrandIcon'
 import GlassBox from '@atoms/GlassBox'
-import IconTextButton from '@atoms/IconTextButton'
-import SidebarIconButton from '@atoms/SidebarIconButton'
 import SidebarItem from '@atoms/SidebarItem'
-import SidebarLinkItem from '@atoms/SidebarLinkItem'
+import SidebarItemLink from '@atoms/SidebarItemLink'
+import SidebarTopIcon from '@atoms/SidebarTopIcon'
+import SidebarTopIconLink from '@atoms/SidebarTopIconLink'
 import {
   Box,
-  ButtonGroup,
   Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Link,
   Menu,
   MenuButton,
   Spacer,
+  Tooltip,
   useDisclosure,
   useMediaQuery,
 } from '@chakra-ui/react'
@@ -33,15 +36,17 @@ import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaQuestion, FaSearch } from 'react-icons/fa'
+import { FaQuestionCircle, FaSearch } from 'react-icons/fa'
 import {
   FiArrowLeft,
   FiCalendar,
   FiCheckSquare,
   FiDisc,
   FiExternalLink,
+  FiMenu,
   FiMessageSquare,
   FiSettings,
+  FiUsers,
 } from 'react-icons/fi'
 import settings from 'src/settings'
 
@@ -78,19 +83,19 @@ export default function Sidebar() {
 
   // Show different layout for small screens
   // Options are then hidden by default
-  const [isSmall] = useMediaQuery('(max-width: 730px)')
+  const [isMobile] = useMediaQuery('(max-width: 730px)')
 
   // Switch between small/large screen
   useEffect(() => {
-    const width = isSmall ? 0 : defaultSidebarWidth
-    const height = isSmall ? defaultSidebarHeight : 0
+    const width = isMobile ? 0 : defaultSidebarWidth
+    const height = isMobile ? defaultSidebarHeight : 0
     if (context.width !== width) {
       context.setWidth(width)
     }
     if (context.height !== height) {
       context.setHeight(height)
     }
-  }, [isSmall])
+  }, [isMobile])
 
   // Search
   const searchModal = useDisclosure()
@@ -120,57 +125,63 @@ export default function Sidebar() {
       top={0}
       left={0}
       zIndex={1000}
-      w={isSmall ? '100%' : `${context.width}px`}
-      h={isSmall && !context.expand.isOpen ? context.height + 1 : '100vh'}
-      borderRightWidth={isSmall ? 0 : '1px'}
-      borderBottomWidth={isSmall ? '1px' : 0}
+      w={isMobile ? '100%' : `${context.width}px`}
+      h={isMobile && !context.expand.isOpen ? context.height + 1 : '100vh'}
+      borderRightWidth={isMobile ? 0 : '1px'}
+      borderBottomWidth={isMobile ? '1px' : 0}
     >
       <Flex
         h={`${context.height || logoContainerWidth}px`}
-        px={isSmall ? 3 : 5}
+        px={isMobile ? 3 : 5}
         bg="gray.800"
         color="white"
         align="center"
       >
-        {isSmall ? (
+        {isMobile ? (
+          /* Mobile: bar with logo and icons */
           <>
             <Link onClick={context.expand.onToggle}>
               <BrandIcon size="sm" />
             </Link>
 
+            <Spacer />
+
             {!context.expand.isOpen && orgId && (
               <>
-                <Spacer />
-
-                <SidebarIconButton to={rootPath} exact icon={<FiDisc />}>
+                <SidebarTopIconLink to={rootPath} exact icon={<FiDisc />}>
                   {t('Sidebar.roles')}
-                </SidebarIconButton>
+                </SidebarTopIconLink>
 
-                <SidebarIconButton
+                <SidebarTopIconLink
                   to={`${rootPath}threads`}
                   icon={<FiMessageSquare />}
                 >
                   {t('Sidebar.threads')}
-                </SidebarIconButton>
+                </SidebarTopIconLink>
 
-                <SidebarIconButton
+                <SidebarTopIconLink
                   to={`${rootPath}meetings`}
                   icon={<FiCalendar />}
                   alert={!!currentMember?.meetingId}
                 >
                   {t('Sidebar.meetings')}
-                </SidebarIconButton>
+                </SidebarTopIconLink>
 
-                <SidebarIconButton
+                <SidebarTopIconLink
                   to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                   icon={<FiCheckSquare />}
                 >
                   {t('Sidebar.tasks')}
-                </SidebarIconButton>
+                </SidebarTopIconLink>
               </>
             )}
+
+            <SidebarTopIcon icon={<FiMenu />} onClick={context.expand.onToggle}>
+              {t('Sidebar.menu')}
+            </SidebarTopIcon>
           </>
         ) : (
+          /* Desktop: Logo and link to website */
           <>
             <BrandIcon size="sm" />
             <Spacer />
@@ -186,89 +197,105 @@ export default function Sidebar() {
         )}
       </Flex>
 
-      {(!isSmall || context.expand.isOpen) && (
-        <Flex flex={1} flexDirection="column">
+      {(!isMobile || context.expand.isOpen) && (
+        /* Desktop: Sidebar content */
+        <Flex
+          flex={1}
+          flexDirection="column"
+          alignItems="stretch"
+          overflow="auto"
+        >
           {orgId ? (
             <>
               <OrgSwitch mb={5} />
 
-              <SidebarLinkItem to={rootPath} exact icon={<FiDisc />}>
-                {t('Sidebar.roles')}
-              </SidebarLinkItem>
+              <Box
+                px={4}
+                mb={5}
+                transition="opacity 200ms"
+                opacity={searchModal.isOpen ? 0 : 1}
+              >
+                <Tooltip
+                  label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
+                  placement={'right'}
+                  hasArrow
+                >
+                  <InputGroup size="sm">
+                    <InputLeftElement>
+                      <FaSearch />
+                    </InputLeftElement>
+                    <Input
+                      placeholder={t('Sidebar.search')}
+                      borderRadius="md"
+                      isReadOnly
+                      onFocus={function (e) {
+                        e.target.blur()
+                      }}
+                      onClick={searchModal.onOpen}
+                    />
+                  </InputGroup>
+                </Tooltip>
+              </Box>
 
-              <SidebarLinkItem
+              <SidebarItemLink to={rootPath} exact icon={<FiDisc />}>
+                {t('Sidebar.roles')}
+              </SidebarItemLink>
+
+              <SidebarItemLink
                 to={`${rootPath}threads`}
                 icon={<FiMessageSquare />}
               >
                 {t('Sidebar.threads')}
-              </SidebarLinkItem>
+              </SidebarItemLink>
 
-              <SidebarLinkItem
+              <SidebarItemLink
                 to={`${rootPath}meetings`}
                 icon={<FiCalendar />}
                 alert={!!currentMember?.meetingId}
               >
                 {t('Sidebar.meetings')}
-              </SidebarLinkItem>
+              </SidebarItemLink>
 
-              <SidebarLinkItem
+              <SidebarItemLink
                 to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                 icon={<FiCheckSquare />}
               >
                 {t('Sidebar.tasks')}
-              </SidebarLinkItem>
+              </SidebarItemLink>
 
-              <Box>
-                <Menu>
-                  <MenuButton as={SidebarItem} icon={<FiSettings />}>
-                    {t('Sidebar.settings')}
-                  </MenuButton>
-                  <SettingsMenuList mt={-2} ml={2} />
-                </Menu>
-              </Box>
+              <SidebarItemLink to={`${rootPath}members`} icon={<FiUsers />}>
+                {t('Sidebar.members')}
+              </SidebarItemLink>
             </>
           ) : (
             !orgLoading &&
             window.location.pathname !== '/' && (
-              <SidebarLinkItem to="/" exact icon={<FiArrowLeft />}>
+              <SidebarItemLink to="/" exact icon={<FiArrowLeft />}>
                 {t('Sidebar.orgs')}
-              </SidebarLinkItem>
+              </SidebarItemLink>
             )
           )}
 
           <Spacer />
 
-          <Flex
-            alignItems="center"
-            justifyContent="space-between"
-            p={isSmall ? 10 : 3}
-            w={isSmall ? '250px' : '100%'}
-            mx="auto"
-          >
-            <ButtonGroup variant="ghost" size={isSmall ? 'lg' : 'sm'}>
-              {orgId && (
-                <IconTextButton
-                  aria-label={t('Sidebar.search', {
-                    keys: `${cmdOrCtrlKey} + P`,
-                  })}
-                  icon={<FaSearch />}
-                  onClick={searchModal.onOpen}
-                />
-              )}
+          {orgId && (
+            <Box>
+              <Menu placement={isMobile ? 'auto' : 'right-start'}>
+                <MenuButton as={SidebarItem} icon={<FiSettings />}>
+                  {t('Sidebar.settings')}
+                </MenuButton>
+                <SettingsMenuList ml={-2} />
+              </Menu>
+            </Box>
+          )}
 
-              <IconTextButton
-                aria-label={t('Sidebar.help')}
-                icon={<FaQuestion />}
-                onClick={handleOpenHelp}
-              />
+          <Notifications isMobile={isMobile} />
 
-              <Notifications />
+          <SidebarItem icon={<FaQuestionCircle />} onClick={handleOpenHelp}>
+            {t('Sidebar.help')}
+          </SidebarItem>
 
-              <Box>
-                <UserMenu />
-              </Box>
-            </ButtonGroup>
-          </Flex>
+          <UserMenu isMobile={isMobile} mt={7} mb={2} />
         </Flex>
       )}
 

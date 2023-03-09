@@ -1,15 +1,18 @@
-import { Avatar, Button, ButtonProps } from '@chakra-ui/react'
+import { Avatar, Button, ButtonProps, forwardRef } from '@chakra-ui/react'
 import { MemberSummaryFragment } from '@gql'
 import { textEllipsis } from '@utils/textEllipsis'
 import React from 'react'
 
 interface Props extends ButtonProps {
-  member: MemberSummaryFragment
+  member: Pick<MemberSummaryFragment, 'name' | 'picture'>
 }
 
-export default function MemberButton({ member, ...buttonProps }: Props) {
+export default forwardRef(function MemberButton(
+  { member, ...buttonProps }: Props,
+  ref
+) {
   return (
-    <Button {...buttonProps}>
+    <Button ref={ref} {...buttonProps}>
       <Avatar
         name={member.name}
         src={member.picture || undefined}
@@ -20,4 +23,4 @@ export default function MemberButton({ member, ...buttonProps }: Props) {
       {textEllipsis(member.name, 30)}
     </Button>
   )
-}
+})
