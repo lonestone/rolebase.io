@@ -44,6 +44,7 @@ export default function SubscriptionSummary({
   const [retrievedCoupon, setRetrievedCoupon] = useState<PromotionCode>()
   const [couponError, setCouponError] = useState<string>()
   const [couponLoading, setCouponLoading] = useState<boolean>(false)
+  const [couponDuration, setCouponDuration] = useState<number>()
   const orgId = useOrgId()
   const nbSeats = useOrgActiveMembers().length
   const parsedDetails = useMemo(() => {
@@ -64,6 +65,7 @@ export default function SubscriptionSummary({
 
   const applyCoupon = async () => {
     setCouponError('')
+    setCouponDuration(undefined)
     setCouponLoading(true)
     try {
       const retrieved = await retrieveCouponToSubscription({
@@ -103,11 +105,25 @@ export default function SubscriptionSummary({
     if (retrievedCoupon) {
       if (retrievedCoupon.amountOff) return tot - retrievedCoupon.amountOff
       if (retrievedCoupon.percentOff)
-        return (tot / 100) * retrievedCoupon.percentOff
+        return tot - (tot * retrievedCoupon.percentOff) / 100
     }
 
     return tot
   }, [planPricePerSeat, retrievedCoupon])
+
+  const pricePerMonth = useMemo(() => {
+    if (retrievedCoupon) {
+      if (retrievedCoupon.duration.type === 'once') {
+        return planPricePerSeat * nbSeats
+      } else if (retrievedCoupon.duration.type === 'repeating') {
+        setCouponDuration(retrievedCoupon.duration.durationInMonth)
+        return totalPrice
+      } else {
+        return totalPrice
+      }
+    }
+    return totalPrice
+  }, [retrievedCoupon, totalPrice])
 
   return (
     <VStack p="2" w="100%" {...stackProps}>
@@ -185,10 +201,20 @@ export default function SubscriptionSummary({
               >
                 <Text>{t('SubscriptionTabs.paymentModal.total')}</Text>
                 <Text fontSize={18} {...textProps}>
-                  {((planPricePerSeat * nbSeats) / 100).toFixed(2)}€/
+                  {(pricePerMonth / 100).toFixed(2)}€/
                   {t('SubscriptionTabs.paymentModal.month')}
                 </Text>
               </HStack>
+              {couponDuration && (
+                <Flex w="100%" justify="end">
+                  <Text fontSize={12} {...textProps}>
+                    {t('SubscriptionTabs.paymentModal.duration', {
+                      price: (planPricePerSeat * nbSeats) / 100,
+                      durationInMonth: couponDuration,
+                    })}
+                  </Text>
+                </Flex>
+              )}
             </Box>
           </VStack>
         </Card>

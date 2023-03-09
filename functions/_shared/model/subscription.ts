@@ -62,6 +62,10 @@ export type Subscription = {
 export type PromotionCode = {
   id: string
   restrictions: Stripe.PromotionCode.Restrictions
+  duration: {
+    type: Stripe.Coupon.Duration
+    durationInMonth: number | null
+  }
   name: string
   amountOff: number | null
   percentOff: number | null

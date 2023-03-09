@@ -653,11 +653,12 @@
       "pricePerSeat": "Price per seat:",
       "nbSeat_one": "Number of seat:",
       "nbSeat_other": "Number of seats:",
-      "total": "Total",
+      "total": "Total per month",
       "month": "month",
       "promotionPlaceholder": "Promotion code",
       "dueNow": "Due now",
-      "invalidPromotionCode": "Invalid promotion code"
+      "invalidPromotionCode": "Invalid promotion code",
+      "duration": "For the first {{durationInMonth}} months, then {{price}}€/month"
     },
     "accountTab": {
       "billingEmail": "Billing email",

@@ -654,7 +654,8 @@
       "month": "mois",
       "promotionPlaceholder": "Coupon de réduction",
       "invalidPromotionCode": "Ce code promo n'est pas valide",
-      "dueNow": "A payer maintenant"
+      "dueNow": "A payer maintenant",
+      "duration": "Pour les {{durationInMonth}} premiers mois, puis {{price}}€/mois"
     },
     "accountTab": {
       "billingEmail": "Email de facturation",
