@@ -108,7 +108,6 @@ export default function SubscriptionPaymentStepper({
         promotionCode: promoCode,
         address: billingDetails.address,
       })
-      console.log(res)
       if (res.isFreeOrTrial) {
         location.reload()
       }
