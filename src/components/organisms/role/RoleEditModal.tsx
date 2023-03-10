@@ -97,6 +97,7 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
       accountabilities: role.accountabilities,
       checklist: role.checklist,
       indicators: role.indicators,
+      notes: role.notes,
       defaultMinPerWeek: role.defaultMinPerWeek,
       singleMember: role.singleMember,
       autoCreate: role.autoCreate,
