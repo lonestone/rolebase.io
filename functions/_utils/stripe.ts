@@ -28,12 +28,14 @@ export type ExtendedStripeCustomer = (
 
 export const createStripeCustomer = async (
   email: string,
-  name: string
+  name: string,
+  address: Stripe.Address
 ): Promise<Stripe.Customer> => {
   try {
     const customer = await stripe.customers.create({
       email,
       name,
+      address,
     })
 
     return customer
@@ -164,6 +166,7 @@ export const createStripeSubscription = async (
         orgId,
       },
       promotion_code: coupon?.id,
+      automatic_tax: { enabled: true },
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent'],
       payment_settings: {
@@ -202,6 +205,35 @@ export const updateStripeSubscription = async (
   } catch (e) {
     console.error(`[STRIPE ERROR]: ${e.message}`)
     throw new RouteError(500, 'Could not update subscription')
+  }
+}
+
+export const getPricePreview = async (
+  priceId: string,
+  quantity: number,
+  address: Stripe.Address,
+  promotionCode?: string | null
+): Promise<{ price: Stripe.Price; coupon: Stripe.PromotionCode }> => {
+  try {
+    let coupon
+
+    if (promotionCode) {
+      coupon = await retrievePromotionCode(promotionCode)
+    }
+
+    const price = await stripe.invoices.retrieveUpcoming({
+      customer_details: {
+        address,
+      },
+      subscription_items: [{ price: priceId, quantity }],
+      automatic_tax: { enabled: true },
+      expand: ['total_tax_amounts.tax_rate'],
+    })
+
+    return { coupon, price }
+  } catch (e) {
+    console.error(`[STRIPE ERROR]: ${e.message}`)
+    throw new RouteError(500, 'Could not get price preview')
   }
 }
 

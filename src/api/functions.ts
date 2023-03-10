@@ -65,6 +65,7 @@ export const subscribeOrg = fn<
   {
     orgId: string
     planType: Subscription_Plan_Type_Enum
+    address: CustomerBillingDetails
     promotionCode?: string
   },
   SubscriptionIntentResponse
@@ -129,6 +130,23 @@ export const retrieveCouponToSubscription = fn<
   },
   PromotionCode
 >('retrieveCouponToSubscription')
+
+export const getPricePreview = fn<
+  {
+    orgId: string
+    promotionCode?: string
+    address: {
+      city: string
+      country: string
+      line1: string
+      line2?: string
+      postal_code: string
+      state?: string
+    }
+    planType: Subscription_Plan_Type_Enum
+  },
+  PromotionCode
+>('getPricePreview')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,

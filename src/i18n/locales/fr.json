@@ -652,11 +652,14 @@
       "pricePerSeat": "Prix par place :",
       "nbSeat_one": "Nombre de place :",
       "nbSeat_other": "Nombre de places :",
+      "subTotal": "Sous-total",
       "total": "Total",
+      "totalWithVAT": "Total (TVA {{percentage}}% / {{count}}€)",
       "month": "mois",
       "promotionPlaceholder": "Coupon de réduction",
       "invalidPromotionCode": "Ce code promo n'est pas valide",
-      "dueNow": "A payer maintenant"
+      "dueNow": "A payer maintenant",
+      "duration": "Pour les {{durationInMonth}} premiers mois, puis {{price}}€/mois"
     },
     "accountTab": {
       "billingEmail": "Email de facturation",
