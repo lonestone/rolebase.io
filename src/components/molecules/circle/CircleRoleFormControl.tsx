@@ -106,11 +106,11 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
         </>
       )}
 
-      <CircleMemberFormControl circleId={circle.id} />
-
       {!role.singleMember ? (
         <SubCirclesFormControl circle={circle} participants={participants} />
       ) : null}
+
+      <CircleMemberFormControl circleId={circle.id} />
 
       {parentCircle && linkedCircle && (
         <Text>
