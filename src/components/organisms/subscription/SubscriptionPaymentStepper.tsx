@@ -106,6 +106,7 @@ export default function SubscriptionPaymentStepper({
         orgId: orgId ?? '',
         planType,
         promotionCode: promoCode,
+        address: billingDetails.address,
       })
       console.log(res)
       if (res.isFreeOrTrial) {

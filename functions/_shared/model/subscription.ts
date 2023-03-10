@@ -70,3 +70,13 @@ export type PromotionCode = {
   amountOff: number | null
   percentOff: number | null
 }
+
+export type PricePreview = {
+  subTotalPerSeatInCents: number
+  quantity: number
+  promotionCode: PromotionCode | null
+  tax: {
+    percentage: number
+    amount: number
+  } | null
+}

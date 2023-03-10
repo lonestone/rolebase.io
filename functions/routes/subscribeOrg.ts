@@ -1,7 +1,8 @@
-import { gql, Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
+import { gql, Member_Role_Enum } from '@gql'
 import { SubscriptionIntentResponse } from '@shared/model/subscription'
-import { subscriptionPlanTypeSchema } from '@shared/schemas'
+import { addressSchema, subscriptionPlanTypeSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
+import { getPlanTypePriceId } from '@utils/getPlanTypePriceId'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
@@ -17,12 +18,16 @@ import * as yup from 'yup'
 const yupSchema = yup.object().shape({
   orgId: yup.string().required(),
   planType: subscriptionPlanTypeSchema,
+  address: addressSchema,
   promotionCode: yup.string().optional().nullable(),
 })
 
 export default route(async (context): Promise<SubscriptionIntentResponse> => {
   guardAuth(context)
-  const { orgId, planType, promotionCode } = guardBodyParams(context, yupSchema)
+  const { orgId, planType, promotionCode, address } = guardBodyParams(
+    context,
+    yupSchema
+  )
 
   const org = (await adminRequest(GET_ORG_DETAILS, { orgId }))?.org_by_pk
 
@@ -61,7 +66,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     }
   }
 
-  const priceId = getPriceId(planType)
+  const priceId = getPlanTypePriceId(planType)
   const quantity = org.members.filter((mem) => !!mem.userId)?.length // Number of active members inside the org
 
   if (!quantity || quantity === 0) {
@@ -72,7 +77,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
   }
 
   if (!customerId) {
-    customerId = (await createStripeCustomer(user.email, org.name)).id
+    customerId = (await createStripeCustomer(user.email, org.name, address)).id
   }
 
   const stripeSubscription = await createStripeSubscription(
@@ -167,23 +172,3 @@ const GET_ORG_SUBSCRIPTION_STATUS = gql(`
       type
     }
   }`)
-
-const getPriceId = (planType: Subscription_Plan_Type_Enum): string => {
-  let priceId: string | undefined
-
-  switch (planType) {
-    case Subscription_Plan_Type_Enum.Startup:
-      priceId = process.env.STRIPE_STARTUP_PLAN_PRICE_ID
-      break
-    // TODO: define business plan
-    case Subscription_Plan_Type_Enum.Business:
-    default:
-      break
-  }
-
-  if (!priceId) {
-    throw new RouteError(400, 'Plan does not exists')
-  }
-
-  return priceId
-}

@@ -10,6 +10,7 @@ export function guardBodyParams<Shape extends ObjectShape>(
   try {
     return schema.validateSync(context.req.body)
   } catch (error) {
+    console.log('ERROR:', error)
     throw new RouteError(400, 'Bad request')
   }
 }

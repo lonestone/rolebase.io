@@ -1,4 +1,4 @@
-import { retrieveCouponToSubscription } from '@api/functions'
+import { getPricePreview } from '@api/functions'
 import {
   Box,
   Button,
@@ -7,25 +7,20 @@ import {
   Flex,
   HStack,
   Input,
+  Spinner,
   StackProps,
   Text,
   VStack,
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
-import useOrgActiveMembers from '@hooks/useOrgActiveMembers'
 import { useOrgId } from '@hooks/useOrgId'
 import {
   CustomerBillingDetails,
-  PromotionCode,
+  PricePreview,
 } from '@shared/model/subscription'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-// Price per seat in cents
-const pricesPerSeat: { [key in Subscription_Plan_Type_Enum]?: number } = {
-  [Subscription_Plan_Type_Enum.Startup]: 500,
-}
 
 type SubscriptionSummaryProps = {
   planType: Subscription_Plan_Type_Enum
@@ -41,12 +36,14 @@ export default function SubscriptionSummary({
 }: SubscriptionSummaryProps) {
   const { t } = useTranslation()
   const [coupon, setCoupon] = useState<string>('')
-  const [retrievedCoupon, setRetrievedCoupon] = useState<PromotionCode>()
+  const [retrievedCoupon, setRetrievedCoupon] = useState<PricePreview>()
   const [couponError, setCouponError] = useState<string>()
-  const [couponLoading, setCouponLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [couponDuration, setCouponDuration] = useState<number>()
+  const [priceData, setPriceData] = useState<
+    Omit<PricePreview, 'promotionCode'>
+  >({})
   const orgId = useOrgId()
-  const nbSeats = useOrgActiveMembers().length
   const parsedDetails = useMemo(() => {
     if (!billingDetails?.address) return []
 
@@ -63,29 +60,44 @@ export default function SubscriptionSummary({
     []
   )
 
-  const applyCoupon = async () => {
-    setCouponError('')
-    setCouponDuration(undefined)
-    setCouponLoading(true)
+  const retrievePricePreview = async () => {
+    setLoading(true)
+
     try {
-      const retrieved = await retrieveCouponToSubscription({
+      const retrieved = await getPricePreview({
         orgId: orgId ?? '',
         promotionCode: coupon,
+        planType,
+        address: billingDetails?.address,
       })
 
-      setRetrievedCoupon(retrieved)
-      onPromoApplied(retrieved.id)
-    } catch (e: any) {
-      setCouponError(t('SubscriptionTabs.paymentModal.invalidPromotionCode'))
+      if (retrieved?.promotionCode) {
+        setRetrievedCoupon(retrieved?.promotionCode)
+        onPromoApplied(retrieved.promotionCode.id)
+      }
+
+      if (retrieved) {
+        setPriceData(retrieved)
+      }
     } finally {
-      setCouponLoading(false)
+      setLoading(false)
     }
   }
 
-  const planPricePerSeat = useMemo(
-    () => pricesPerSeat[planType] ?? 0,
-    [planType]
-  )
+  useEffect(() => {
+    retrievePricePreview()
+  }, [billingDetails])
+
+  const applyCoupon = async () => {
+    if (!coupon) return
+    setCouponError('')
+    setCouponDuration(undefined)
+    try {
+      await retrievePricePreview()
+    } catch (e: any) {
+      setCouponError(t('SubscriptionTabs.paymentModal.invalidPromotionCode'))
+    }
+  }
 
   const discountText = useMemo(() => {
     if (retrievedCoupon) {
@@ -100,7 +112,7 @@ export default function SubscriptionSummary({
   }, [retrievedCoupon])
 
   const totalPrice = useMemo(() => {
-    const tot = planPricePerSeat * nbSeats
+    const tot = priceData.subTotalPerSeatInCents * priceData.quantity
 
     if (retrievedCoupon) {
       if (retrievedCoupon.amountOff) return tot - retrievedCoupon.amountOff
@@ -109,12 +121,16 @@ export default function SubscriptionSummary({
     }
 
     return tot
-  }, [planPricePerSeat, retrievedCoupon])
+  }, [priceData, retrievedCoupon])
+
+  const totalPriceWithVAT = useMemo(() => {
+    return totalPrice + (totalPrice * (priceData.tax ?? 1)) / 100
+  }, [priceData, totalPrice])
 
   const pricePerMonth = useMemo(() => {
     if (retrievedCoupon) {
       if (retrievedCoupon.duration.type === 'once') {
-        return planPricePerSeat * nbSeats
+        return priceData.subTotalPerSeatInCents * priceData.quantity
       } else if (retrievedCoupon.duration.type === 'repeating') {
         setCouponDuration(retrievedCoupon.duration.durationInMonth)
         return totalPrice
@@ -143,79 +159,129 @@ export default function SubscriptionSummary({
         <Card w="100%" h="100%" p="3" variant="outline">
           <VStack h="100%" alignItems="space-between">
             <Text mb="4">{t('SubscriptionTabs.paymentModal.payment')}</Text>
-            <Box>
-              <HStack justifyContent="space-between" fontSize={14}>
-                <Text>{t('SubscriptionTabs.paymentModal.subscription')}</Text>
-                <Text {...textProps}>
-                  {capitalizeFirstLetter(planType.toLocaleLowerCase())}
-                </Text>
+            {loading && (
+              <HStack w="100%" justify="center">
+                <Spinner size="xl" />
               </HStack>
-
-              <HStack justifyContent="space-between" fontSize={14}>
-                <Text>{t('SubscriptionTabs.paymentModal.pricePerSeat')}</Text>
-                <Text {...textProps}>
-                  €{(planPricePerSeat / 100).toFixed(2)}
-                </Text>
-              </HStack>
-
-              <HStack justifyContent="space-between" fontSize={14}>
-                <Text>
-                  {t('SubscriptionTabs.paymentModal.nbSeat', {
-                    count: nbSeats,
-                  })}
-                </Text>
-                <Text {...textProps}>{nbSeats}</Text>
-              </HStack>
-
-              <Divider mt="1" mb="2" />
-              {retrievedCoupon && (
-                <HStack
-                  justifyContent="space-between"
-                  alignItems="end"
-                  fontSize={14}
-                >
-                  <Text>{t('SubscriptionTabs.paymentModal.dueNow')}</Text>
-                  <Flex flexDir="column" alignItems="end">
-                    <Flex
-                      flexDir="column"
-                      alignItems="end"
-                      fontWeight="400 !important"
-                      as="i"
-                      fontSize={12}
-                    >
-                      <Text textDecoration="line-through" {...textProps}>
-                        {((planPricePerSeat * nbSeats) / 100).toFixed(2)}€
-                      </Text>
-                      <Text {...textProps}>{discountText}</Text>
-                    </Flex>
-                    <Text fontSize={18} {...textProps}>
-                      {(totalPrice / 100).toFixed(2)}€
+            )}
+            {!loading && (
+              <>
+                <Box>
+                  <HStack justifyContent="space-between" fontSize={14}>
+                    <Text>
+                      {t('SubscriptionTabs.paymentModal.subscription')}
                     </Text>
-                  </Flex>
-                </HStack>
-              )}
-              <HStack
-                justifyContent="space-between"
-                alignItems="end"
-                fontSize={14}
-              >
-                <Text>{t('SubscriptionTabs.paymentModal.total')}</Text>
-                <Text fontSize={18} {...textProps}>
-                  {(pricePerMonth / 100).toFixed(2)}€/
-                  {t('SubscriptionTabs.paymentModal.month')}
-                </Text>
-              </HStack>
-              {couponDuration && (
-                <Flex w="100%" justify="end">
-                  <Text fontSize={12} {...textProps}>
-                    {t('SubscriptionTabs.paymentModal.duration', {
-                      price: (planPricePerSeat * nbSeats) / 100,
-                      durationInMonth: couponDuration,
-                    })}
-                  </Text>
-                </Flex>
-              )}
-            </Box>
+                    <Text {...textProps}>
+                      {capitalizeFirstLetter(planType.toLocaleLowerCase())}
+                    </Text>
+                  </HStack>
+
+                  <HStack justifyContent="space-between" fontSize={14}>
+                    <Text>
+                      {t('SubscriptionTabs.paymentModal.pricePerSeat')}
+                    </Text>
+                    <Text {...textProps}>
+                      €{(priceData.subTotalPerSeatInCents / 100).toFixed(2)}
+                    </Text>
+                  </HStack>
+
+                  <HStack justifyContent="space-between" fontSize={14}>
+                    <Text>
+                      {t('SubscriptionTabs.paymentModal.nbSeat', {
+                        count: priceData.quantity,
+                      })}
+                    </Text>
+                    <Text {...textProps}>{priceData.quantity}</Text>
+                  </HStack>
+
+                  <Divider mt="1" mb="2" />
+                  {retrievedCoupon && (
+                    <HStack
+                      justifyContent="space-between"
+                      alignItems="end"
+                      fontSize={14}
+                    >
+                      <Text>{t('SubscriptionTabs.paymentModal.dueNow')}</Text>
+                      <Flex flexDir="column" alignItems="end">
+                        <Flex
+                          flexDir="column"
+                          alignItems="end"
+                          fontWeight="400 !important"
+                          as="i"
+                          fontSize={12}
+                        >
+                          <Text textDecoration="line-through" {...textProps}>
+                            {(
+                              (priceData.subTotalPerSeatInCents *
+                                priceData.quantity) /
+                              100
+                            ).toFixed(2)}
+                            €
+                          </Text>
+                          <Text {...textProps}>{discountText}</Text>
+                        </Flex>
+                        <Text fontSize={18} {...textProps}>
+                          {(totalPrice / 100).toFixed(2)}€
+                        </Text>
+                      </Flex>
+                    </HStack>
+                  )}
+                  <HStack
+                    justifyContent="space-between"
+                    alignItems="end"
+                    fontSize={14}
+                  >
+                    <Text>
+                      {t(
+                        `SubscriptionTabs.paymentModal.${
+                          priceData.tax ? 'subTotal' : 'total'
+                        }`
+                      )}
+                    </Text>
+                    <Text fontSize={18} {...textProps}>
+                      {(pricePerMonth / 100).toFixed(2)}€/
+                      {t('SubscriptionTabs.paymentModal.month')}
+                    </Text>
+                  </HStack>
+                  {priceData.tax && (
+                    <HStack
+                      justifyContent="space-between"
+                      alignItems="end"
+                      fontSize={14}
+                    >
+                      <Text>
+                        {t('SubscriptionTabs.paymentModal.totalWithVAT', {
+                          percentage: priceData.tax,
+                          count: (
+                            (totalPrice * (priceData.tax ?? 1)) /
+                            10000
+                          ).toFixed(2),
+                        })}
+                      </Text>
+                      <Text fontSize={18} {...textProps}>
+                        {(totalPriceWithVAT / 100).toFixed(2)}
+                        €/
+                        {t('SubscriptionTabs.paymentModal.month')}
+                      </Text>
+                    </HStack>
+                  )}
+
+                  {couponDuration && (
+                    <Flex w="100%" justify="end">
+                      <Text fontSize={12} {...textProps}>
+                        {t('SubscriptionTabs.paymentModal.duration', {
+                          price:
+                            (priceData.subTotalPerSeatInCents *
+                              priceData.quantity) /
+                            100,
+                          durationInMonth: couponDuration,
+                        })}
+                      </Text>
+                    </Flex>
+                  )}
+                </Box>
+              </>
+            )}
           </VStack>
         </Card>
       </Flex>
@@ -225,7 +291,7 @@ export default function SubscriptionSummary({
           placeholder={t('SubscriptionTabs.paymentModal.promotionPlaceholder')}
           onChange={(e) => setCoupon(e.target.value)}
         />
-        <Button isLoading={couponLoading} onClick={applyCoupon}>
+        <Button isLoading={loading} onClick={applyCoupon}>
           {t('common.apply')}
         </Button>
       </Flex>
