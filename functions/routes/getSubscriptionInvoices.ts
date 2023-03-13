@@ -5,7 +5,7 @@ import { dateFromSeconds } from '@utils/dateFromSeconds'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
-import { route, RouteError } from '@utils/route'
+import { route } from '@utils/route'
 import { getStripeCustomerInvoices } from '@utils/stripe'
 import Stripe from 'stripe'
 import * as yup from 'yup'
@@ -17,10 +17,6 @@ const yupSchema = yup.object().shape({
 export default route(async (context): Promise<Invoice[]> => {
   guardAuth(context)
   const { orgId } = guardBodyParams(context, yupSchema)
-
-  if (!orgId) {
-    throw new RouteError(400, 'Invalid request')
-  }
 
   await guardOrg(context, orgId, Member_Role_Enum.Owner)
 

@@ -11,12 +11,11 @@ import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
   memberId: yup.string().required(),
-  orgId: yup.string().required(),
 })
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
-  const { memberId, orgId } = guardBodyParams(context, yupSchema)
+  const { memberId } = guardBodyParams(context, yupSchema)
 
   // Get member
   const memberToArchive = await getMemberById(memberId)
@@ -27,7 +26,7 @@ export default route(async (context): Promise<void> => {
 
   const { member: issuerMember } = await guardOrg(
     context,
-    orgId,
+    memberToArchive.orgId,
     Member_Role_Enum.Admin
   )
 
