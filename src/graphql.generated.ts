@@ -18084,16 +18084,6 @@ export const MeetingFragmentDoc = gql`
     recurringDate
   }
 `
-export const MeetingStepFragmentDoc = gql`
-  fragment MeetingStep on meeting_step {
-    id
-    meetingId
-    stepConfigId
-    notes
-    type
-    data
-  }
-`
 export const OrgFragmentDoc = gql`
   fragment Org on org {
     id
@@ -18102,6 +18092,87 @@ export const OrgFragmentDoc = gql`
     createdAt
     defaultWorkedMinPerWeek
     slug
+  }
+`
+export const MeetingNotificationDataFragmentDoc = gql`
+  fragment MeetingNotificationData on meeting {
+    id
+    orgId
+    circleId
+    org {
+      ...Org
+      members(where: { userId: { _eq: $userId } }) {
+        id
+      }
+    }
+    title
+    circle {
+      id
+      role {
+        name
+      }
+    }
+    attendees
+    participantsScope
+    participantsMembersIds
+    recurringId
+  }
+  ${OrgFragmentDoc}
+`
+export const MeetingRecurringFragmentDoc = gql`
+  fragment MeetingRecurring on meeting_recurring {
+    id
+    orgId
+    circleId
+    circle {
+      role {
+        name
+        colorHue
+      }
+    }
+    participantsScope
+    participantsMembersIds
+    templateId
+    template {
+      title
+      stepsConfig
+    }
+    rrule
+    duration
+    videoConf
+    createdAt
+  }
+`
+export const MeetingRecurringNotificationDataFragmentDoc = gql`
+  fragment MeetingRecurringNotificationData on meeting_recurring {
+    id
+    orgId
+    circleId
+    org {
+      ...Org
+      members(where: { userId: { _eq: $userId } }) {
+        id
+      }
+    }
+    circle {
+      id
+      role {
+        name
+      }
+    }
+    participantsScope
+    participantsMembersIds
+  }
+  ${OrgFragmentDoc}
+`
+export const MeetingStepFragmentDoc = gql`
+  fragment MeetingStep on meeting_step {
+    id
+    meetingId
+    stepConfigId
+    notes
+    type
+    data
   }
 `
 export const MemberSummaryFragmentDoc = gql`
@@ -18267,30 +18338,6 @@ export const ThreadActivityFragmentDoc = gql`
   ${TaskFragmentDoc}
   ${DecisionFragmentDoc}
 `
-export const MeetingRecurringFragmentDoc = gql`
-  fragment MeetingRecurring on meeting_recurring {
-    id
-    orgId
-    circleId
-    circle {
-      role {
-        name
-        colorHue
-      }
-    }
-    participantsScope
-    participantsMembersIds
-    templateId
-    template {
-      title
-      stepsConfig
-    }
-    rrule
-    duration
-    videoConf
-    createdAt
-  }
-`
 export const MeetingTemplateFragmentDoc = gql`
   fragment MeetingTemplate on meeting_template {
     id
@@ -18368,6 +18415,27 @@ export function useGetCircleQuery(
     options
   )
 }
+
+export const CreateCircleDocument = gql`
+  mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
+    insert_circle_one(
+      object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }
+    ) {
+      ...Circle
+    }
+  }
+  ${CircleFragmentDoc}
+`
+export const CirclesDocument = gql`
+  subscription circles($orgId: uuid!, $archived: Boolean!) {
+    circle(where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }) {
+      ...Circle
+      members(where: { archived: { _eq: false } }) {
+        ...CircleMember
+      }
+      
+  ${CircleMemberFragmentDoc}
+`
 export function useGetCircleLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
     GetCircleQuery,
@@ -18391,28 +18459,6 @@ export type GetCircleQueryResult = Apollo.QueryResult<
 export function refetchGetCircleQuery(variables: GetCircleQueryVariables) {
   return { query: GetCircleDocument, variables: variables }
 }
-export const CreateCircleDocument = gql`
-  mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
-    insert_circle_one(
-      object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }
-    ) {
-      ...Circle
-    }
-  }
-  ${CircleFragmentDoc}
-`
-export const CirclesDocument = gql`
-  subscription circles($orgId: uuid!, $archived: Boolean!) {
-    circle(where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }) {
-      ...Circle
-      members(where: { archived: { _eq: false } }) {
-        ...CircleMember
-      }
-    }
-  }
-
-  ${CircleMemberFragmentDoc}
-`
 
 /**
  * __useCirclesSubscription__
@@ -20812,12 +20858,17 @@ export function refetchGetOrgQuery(variables: GetOrgQueryVariables) {
   return { query: GetOrgDocument, variables: variables }
 }
 export const OrgsDocument = gql`
-    subscription orgs($userId: uuid!) {
-  member(
-    where: {userId: {_eq: $userId}, archived: {_eq: false}, org: {archived: {_eq: false}}}
-  ) {
-    org {
-      ...Org
+  subscription orgs($userId: uuid!) {
+    member(
+      where: {
+        userId: { _eq: $userId }
+        archived: { _eq: false }
+        org: { archived: { _eq: false } }
+      }
+    ) {
+      org {
+        ...Org
+      }
     }
   }
   ${OrgFragmentDoc}

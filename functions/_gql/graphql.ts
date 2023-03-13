@@ -15658,6 +15658,18 @@ export type LogFragment = {
   canceled: boolean
 }
 
+export type DecisionFragment = {
+  __typename?: 'decision'
+  id: string
+  orgId: string
+  circleId: string
+  memberId: string
+  title: string
+  description: string
+  archived: boolean
+  createdAt: string
+}
+
 export type MeetingFragment = {
   __typename?: 'meeting'
   id: string
@@ -15693,6 +15705,80 @@ export type MeetingSummaryFragment = {
   currentStepId?: string | null
 }
 
+export type MeetingNotificationDataFragment = {
+  __typename?: 'meeting'
+  id: string
+  orgId: string
+  circleId: string
+  title: string
+  attendees?: Array<MeetingAttendee> | null
+  participantsScope: Member_Scope_Enum
+  participantsMembersIds: Array<string>
+  recurringId?: string | null
+  org: {
+    __typename?: 'org'
+    id: string
+    name: string
+    archived: boolean
+    createdAt: string
+    defaultWorkedMinPerWeek: number
+    slug?: string | null
+    members: Array<{ __typename?: 'member'; id: string }>
+  }
+  circle: {
+    __typename?: 'circle'
+    id: string
+    role: { __typename?: 'role'; name: string }
+  }
+}
+
+export type MeetingRecurringFragment = {
+  __typename?: 'meeting_recurring'
+  id: string
+  orgId: string
+  circleId: string
+  participantsScope: Member_Scope_Enum
+  participantsMembersIds: Array<string>
+  templateId: string
+  rrule: string
+  duration: number
+  videoConf?: any | null
+  createdAt: string
+  circle: {
+    __typename?: 'circle'
+    role: { __typename?: 'role'; name: string; colorHue?: number | null }
+  }
+  template: {
+    __typename?: 'meeting_template'
+    title: string
+    stepsConfig: Array<MeetingStepConfig>
+  }
+}
+
+export type MeetingRecurringNotificationDataFragment = {
+  __typename?: 'meeting_recurring'
+  id: string
+  orgId: string
+  circleId: string
+  participantsScope: Member_Scope_Enum
+  participantsMembersIds: Array<string>
+  org: {
+    __typename?: 'org'
+    id: string
+    name: string
+    archived: boolean
+    createdAt: string
+    defaultWorkedMinPerWeek: number
+    slug?: string | null
+    members: Array<{ __typename?: 'member'; id: string }>
+  }
+  circle: {
+    __typename?: 'circle'
+    id: string
+    role: { __typename?: 'role'; name: string }
+  }
+}
+
 export type MeetingStepFragment = {
   __typename?: 'meeting_step'
   id: string
@@ -15703,22 +15789,64 @@ export type MeetingStepFragment = {
   data: MeetingStepData
 }
 
-export type MemberFragment = {
-  __typename?: 'member'
+export type OrgFullLightFragment = {
+  __typename?: 'org'
   id: string
-  orgId: string
-  archived: boolean
   name: string
-  description: string
-  pictureFileId?: string | null
-  picture?: string | null
-  userId?: string | null
-  inviteEmail?: string | null
-  inviteDate?: string | null
-  workedMinPerWeek?: number | null
-  role?: Member_Role_Enum | null
-  meetingId?: string | null
-  preferences?: MemberPreferences | null
+  archived: boolean
+  createdAt: string
+  defaultWorkedMinPerWeek: number
+  slug?: string | null
+  circles: Array<{
+    __typename?: 'circle'
+    id: string
+    orgId: string
+    roleId: string
+    parentId?: string | null
+    archived: boolean
+    members: Array<{
+      __typename?: 'circle_member'
+      id: string
+      memberId: string
+      avgMinPerWeek?: number | null
+    }>
+  }>
+  roles: Array<{
+    __typename?: 'role'
+    id: string
+    orgId: string
+    archived: boolean
+    base: boolean
+    name: string
+    purpose: string
+    domain: string
+    accountabilities: string
+    checklist: string
+    indicators: string
+    notes: string
+    singleMember: boolean
+    autoCreate: boolean
+    link: string
+    defaultMinPerWeek?: number | null
+    colorHue?: number | null
+  }>
+  members: Array<{
+    __typename?: 'member'
+    id: string
+    orgId: string
+    archived: boolean
+    name: string
+    description: string
+    pictureFileId?: string | null
+    picture?: string | null
+    userId?: string | null
+    inviteEmail?: string | null
+    inviteDate?: string | null
+    workedMinPerWeek?: number | null
+    role?: Member_Role_Enum | null
+    meetingId?: string | null
+    preferences?: MemberPreferences | null
+  }>
 }
 
 export type MemberSummaryFragment = {
@@ -15833,64 +15961,13 @@ export type RoleFragment = {
   colorHue?: number | null
 }
 
-export type OrgFullLightFragment = {
-  __typename?: 'org'
+export type RoleSummaryFragment = {
+  __typename?: 'role'
   id: string
   name: string
-  archived: boolean
-  createdAt: string
-  defaultWorkedMinPerWeek: number
-  slug?: string | null
-  circles: Array<{
-    __typename?: 'circle'
-    id: string
-    orgId: string
-    roleId: string
-    parentId?: string | null
-    archived: boolean
-    members: Array<{
-      __typename?: 'circle_member'
-      id: string
-      memberId: string
-      avgMinPerWeek?: number | null
-    }>
-  }>
-  roles: Array<{
-    __typename?: 'role'
-    id: string
-    orgId: string
-    archived: boolean
-    base: boolean
-    name: string
-    purpose: string
-    domain: string
-    accountabilities: string
-    checklist: string
-    indicators: string
-    notes: string
-    singleMember: boolean
-    autoCreate: boolean
-    link: string
-    defaultMinPerWeek?: number | null
-    colorHue?: number | null
-  }>
-  members: Array<{
-    __typename?: 'member'
-    id: string
-    orgId: string
-    archived: boolean
-    name: string
-    description: string
-    pictureFileId?: string | null
-    picture?: string | null
-    userId?: string | null
-    inviteEmail?: string | null
-    inviteDate?: string | null
-    workedMinPerWeek?: number | null
-    role?: Member_Role_Enum | null
-    meetingId?: string | null
-    preferences?: MemberPreferences | null
-  }>
+  link: string
+  singleMember: boolean
+  colorHue?: number | null
 }
 
 export type TaskFragment = {
@@ -15996,6 +16073,87 @@ export type GetMemberQuery = {
   } | null
 }
 
+export type GetOrgQueryVariables = Exact<{
+  id: Scalars['uuid']
+}>
+
+export type GetOrgQuery = {
+  __typename?: 'query_root'
+  org_by_pk?: {
+    __typename?: 'org'
+    id: string
+    name: string
+    archived: boolean
+    createdAt: string
+    defaultWorkedMinPerWeek: number
+    slug?: string | null
+    circles: Array<{
+      __typename?: 'circle'
+      id: string
+      orgId: string
+      roleId: string
+      parentId?: string | null
+      archived: boolean
+      role: {
+        __typename?: 'role'
+        id: string
+        name: string
+        link: string
+        singleMember: boolean
+        colorHue?: number | null
+      }
+      members: Array<{
+        __typename?: 'circle_member'
+        id: string
+        avgMinPerWeek?: number | null
+        member: {
+          __typename?: 'member'
+          id: string
+          userId?: string | null
+          name: string
+          picture?: string | null
+        }
+      }>
+    }>
+    roles: Array<{
+      __typename?: 'role'
+      id: string
+      orgId: string
+      archived: boolean
+      base: boolean
+      name: string
+      purpose: string
+      domain: string
+      accountabilities: string
+      checklist: string
+      indicators: string
+      notes: string
+      singleMember: boolean
+      autoCreate: boolean
+      link: string
+      defaultMinPerWeek?: number | null
+      colorHue?: number | null
+    }>
+    members: Array<{
+      __typename?: 'member'
+      id: string
+      orgId: string
+      archived: boolean
+      name: string
+      description: string
+      pictureFileId?: string | null
+      picture?: string | null
+      userId?: string | null
+      inviteEmail?: string | null
+      inviteDate?: string | null
+      workedMinPerWeek?: number | null
+      role?: Member_Role_Enum | null
+      meetingId?: string | null
+      preferences?: MemberPreferences | null
+    }>
+  } | null
+}
+
 export type GetOrgMembersQueryVariables = Exact<{
   orgId: Scalars['uuid']
 }>
@@ -16029,11 +16187,11 @@ export type GetOrgRoleQuery = {
   } | null
 }
 
-export type GetOrgQueryVariables = Exact<{
+export type GetOrgSubAndMembersQueryVariables = Exact<{
   orgId: Scalars['uuid']
 }>
 
-export type GetOrgQuery = {
+export type GetOrgSubAndMembersQuery = {
   __typename?: 'query_root'
   org_by_pk?: {
     __typename?: 'org'
@@ -16747,15 +16905,6 @@ export type UpdateOrgSlugMutation = {
 export type GetOrgSubscriptionStripeCustomerIdQueryVariables = Exact<{
   orgId: Scalars['uuid']
 }>
-
-export type GetOrgSubscriptionStripeCustomerIdQuery = {
-  __typename?: 'query_root'
-  org_subscription: Array<{
-    __typename?: 'org_subscription'
-    id: string
-    stripeCustomerId: string
-  }>
-}
 
 export const CircleSearchFragmentDoc = {
   kind: 'Document',
