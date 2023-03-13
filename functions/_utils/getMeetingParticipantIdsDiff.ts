@@ -1,39 +1,35 @@
-import { MeetingFragment, MeetingRecurringFragment } from '@gql'
-import { getScopeMemberIdsDiff } from '@utils/getScopeMemberIdsDiff'
+import { Meeting_Set_Input, Member_Scope_Enum } from '@gql'
 import { RouteError } from '@utils/route'
+import { getParticipantIdsByScope } from './getParticipantIdsByScope'
 
-export async function getMeetingParticipantIdsDiff<
-  T extends Partial<MeetingFragment> | Partial<MeetingRecurringFragment>
->(oldMeeting: T, newMeeting: T) {
+export async function getMeetingParticipantIdsDiff(
+  oldMeeting: Meeting_Set_Input,
+  newMeeting: Meeting_Set_Input
+) {
   if (!oldMeeting || !newMeeting) {
     throw new RouteError(400, 'Bad request')
   }
 
-  let participantIdsDiff: string[] = []
+  // Get old participants
+  const oldParticipantIds = await getParticipantIdsByScope(
+    oldMeeting.orgId!,
+    oldMeeting.circleId!,
+    oldMeeting.participantsScope as Member_Scope_Enum,
+    oldMeeting.participantsMembersIds
+  )
 
-  // Get participants diff between old and new participantsScope
-  if (newMeeting.participantsScope !== oldMeeting.participantsScope) {
-    const newMemberIdsFromScopeDiff = await getScopeMemberIdsDiff(
-      newMeeting.orgId!,
-      newMeeting.circleId!,
-      oldMeeting.participantsScope!,
-      newMeeting.participantsScope!
-    )
+  // Get new participants
+  const newParticipantIds = await getParticipantIdsByScope(
+    newMeeting.orgId!,
+    newMeeting.circleId!,
+    newMeeting.participantsScope as Member_Scope_Enum,
+    newMeeting.participantsMembersIds
+  )
 
-    participantIdsDiff.push(...newMemberIdsFromScopeDiff)
-  }
+  // Get participants diff between old and new
+  const participantIdsDiff = newParticipantIds.filter(
+    (id) => !oldParticipantIds.includes(id)
+  )
 
-  // Get participants diff between old and new participantsMembersIds
-  newMeeting.participantsMembersIds &&
-    newMeeting.participantsMembersIds.every((id: string) => {
-      if (
-        oldMeeting.participantsMembersIds &&
-        !oldMeeting.participantsMembersIds.includes(id)
-      ) {
-        participantIdsDiff.push(id)
-      }
-    })
-
-  const newRecipientIds = [...new Set(participantIdsDiff)]
-  return newRecipientIds
+  return participantIdsDiff
 }

@@ -1,4 +1,4 @@
-import { Meeting_Set_Input, Meeting_Step_Type_Enum } from '@gql'
+import { Meeting_Step_Type_Enum } from '@gql'
 
 export interface MeetingStepConfig {
   id: string
@@ -25,9 +25,4 @@ export type VideoConf =
 export enum VideoConfTypes {
   Url = 'Url',
   Jitsi = 'Jitsi',
-}
-
-export type UpdateMeetingParams = {
-  meetingId: string
-  values: Meeting_Set_Input
 }

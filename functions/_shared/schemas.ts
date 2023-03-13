@@ -1,8 +1,4 @@
-import {
-  Member_Role_Enum,
-  Member_Scope_Enum,
-  Subscription_Plan_Type_Enum,
-} from '@gql'
+import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import * as yup from 'yup'
 
 export const nameSchema = yup.string().min(1)
@@ -49,24 +45,3 @@ export const stepsConfigSchema = yup.array().of(
     title: yup.string().required(),
   })
 )
-
-const updateMeetingCommonShape = {
-  circleId: yup.string(),
-  startDate: yup.string(),
-  duration: yup.number(),
-  stepsConfig: stepsConfigSchema,
-  videoConf: yup.string().nullable(),
-  archived: yup.boolean(),
-  currentStepId: yup.string(),
-  endDate: yup.string(),
-  participantsMembersIds: yup.array().of(yup.string()),
-  participantsScope: yup
-    .mixed<Member_Scope_Enum>()
-    .oneOf(Object.values(Member_Scope_Enum)),
-}
-
-export const updateMeetingSchema = yup.object().shape({
-  ...updateMeetingCommonShape,
-  title: nameSchema,
-  attendees: yup.array().of(yup.string()),
-})

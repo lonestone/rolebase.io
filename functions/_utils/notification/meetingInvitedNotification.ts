@@ -6,7 +6,7 @@ import settings from '@utils/settings'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { OrgFragment } from '@gql'
 
-type MeetingInvitedNotificationParameters = {
+export type MeetingInvitedNotificationParameters = {
   org?: OrgFragment
   orgId: string
   meetingId: string

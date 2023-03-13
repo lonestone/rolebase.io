@@ -12,11 +12,17 @@ export async function getNotificationSenderAndRecipients(
   senderId: string,
   recipientMemberIds: string[]
 ): Promise<GetNotificationSenderAndRecipientsReturn> {
+  if (!senderId) {
+    throw new RouteError(404, 'Bad request')
+  }
+
   const recipientsResult = await adminRequest(GET_RECIPIENTS, {
     memberIds: recipientMemberIds,
     userId: senderId,
   })
-  if (!recipientsResult) throw new RouteError(404, 'Members not found')
+  if (!recipientsResult) {
+    throw new RouteError(404, 'Members not found')
+  }
 
   // Get sender data
   const senderData = recipientsResult.member.filter(

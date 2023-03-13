@@ -1,5 +1,4 @@
 import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
-import { UpdateMeetingParams } from '@shared/model/meeting'
 import {
   MeetingInvitedNotificationBodyParams,
   MeetingStartedNotificationBodyParams,
@@ -49,8 +48,6 @@ export const getNovuConfig = fn<{}, NovuConfig>('getNovuConfig')
 export const getMeetingsToken = fn<{ orgId: string }, string>(
   'getMeetingsToken'
 )
-
-export const updateMeeting = fn<UpdateMeetingParams>('updateMeeting')
 
 export const sendMeetingStartedNotification =
   fn<MeetingStartedNotificationBodyParams>('sendMeetingStartedNotification')

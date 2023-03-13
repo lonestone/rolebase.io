@@ -1,4 +1,3 @@
-import { updateMeeting } from '@api/functions'
 import NumberInputController from '@atoms/NumberInputController'
 import {
   Box,
@@ -25,6 +24,7 @@ import {
   MeetingTemplateFragment,
   Meeting_Step_Type_Enum,
   Member_Scope_Enum,
+  useUpdateMeetingMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
@@ -93,6 +93,7 @@ export default function MeetingEditModal({
   const currentMember = useCurrentMember()
   const navigate = useNavigate()
   const createMeeting = useCreateMeeting()
+  const [updateMeeting] = useUpdateMeetingMutation()
 
   const defaultValues: Values = useMemo(
     () => ({
@@ -191,8 +192,10 @@ export default function MeetingEditModal({
       if (meeting && !duplicate) {
         // Update meeting
         await updateMeeting({
-          meetingId: meeting.id,
-          values: meetingUpdate,
+          variables: {
+            id: meeting.id,
+            values: meetingUpdate,
+          },
         })
       } else {
         // Create meeting
