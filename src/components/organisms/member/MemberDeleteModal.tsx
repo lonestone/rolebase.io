@@ -42,7 +42,6 @@ export default function MemberDeleteModal({
     try {
       await archiveMember({
         memberId: id,
-        orgId,
       })
     } catch (error: any) {
       toast({
