@@ -1,4 +1,4 @@
-import { MeetingNotificationDataFragment, Member_Role_Enum } from '@gql'
+import { Member_Role_Enum } from '@gql'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { route } from '@utils/route'
@@ -9,26 +9,22 @@ import { guardOrg } from '@utils/guardOrg'
 import { MeetingInvitedNotification } from '@utils/notification/meetingInvitedNotification'
 import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
 import { getParticipantIdsByScope } from '@utils/getParticipantIdsByScope'
-import { getNotificationMeetingRecurringData } from '@utils/notification/getNotificationMeetingRecurringData'
 
 const yupSchema = yup.object({
   recipientMemberIds: yup.array().of(yup.string().required()),
   meetingId: yup.string().required(),
-  isRecurring: yup.boolean(),
 })
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
 
-  const { meetingId, recipientMemberIds, isRecurring } = guardBodyParams(
-    context,
-    yupSchema
-  )
+  const { meetingId, recipientMemberIds } = guardBodyParams(context, yupSchema)
 
   // Get meeting data
-  const meetingDataResult = !isRecurring
-    ? await getNotificationMeetingData(meetingId, context?.userId!)
-    : await getNotificationMeetingRecurringData(meetingId, context?.userId!)
+  const meetingDataResult = await getNotificationMeetingData(
+    meetingId,
+    context?.userId!
+  )
 
   // Check if user can access org data
   const orgId = meetingDataResult.org.id
@@ -61,13 +57,10 @@ export default route(async (context): Promise<void> => {
 
   // Build MeetingInvitedNotification instance
   const notification = new MeetingInvitedNotification(locale, {
-    isRecurring: !!isRecurring,
     org: meetingDataResult.org,
     orgId: meetingDataResult.orgId,
     meetingId: meetingDataResult.id,
-    title: !isRecurring
-      ? (meetingDataResult as MeetingNotificationDataFragment).title
-      : '',
+    title: meetingDataResult.title || '',
     role: meetingDataResult?.circle.role.name || '',
     sender: sender?.name || '',
   })

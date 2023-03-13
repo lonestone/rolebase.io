@@ -1,8 +1,5 @@
 import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
-import {
-  UpdateMeetingParams,
-  UpdateMeetingRecurringParams,
-} from '@shared/model/meeting'
+import { UpdateMeetingParams } from '@shared/model/meeting'
 import {
   MeetingInvitedNotificationBodyParams,
   MeetingStartedNotificationBodyParams,
@@ -54,10 +51,6 @@ export const getMeetingsToken = fn<{ orgId: string }, string>(
 )
 
 export const updateMeeting = fn<UpdateMeetingParams>('updateMeeting')
-
-export const updateMeetingRecurring = fn<UpdateMeetingRecurringParams>(
-  'updateMeetingRecurring'
-)
 
 export const sendMeetingStartedNotification =
   fn<MeetingStartedNotificationBodyParams>('sendMeetingStartedNotification')

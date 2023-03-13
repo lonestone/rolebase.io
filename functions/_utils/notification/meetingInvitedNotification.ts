@@ -7,7 +7,6 @@ import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { OrgFragment } from '@gql'
 
 type MeetingInvitedNotificationParameters = {
-  isRecurring: boolean
   org?: OrgFragment
   orgId: string
   meetingId: string
@@ -28,44 +27,30 @@ export class MeetingInvitedNotification extends Notification<
   }
 
   get actionUrl(): string {
-    return this.parameters.org
-      ? `${settings.url}${getOrgPath(this.parameters.org)}/meetings`
-      : `${settings.url}/orgs/${this.parameters.orgId}/meetings`
+    return `${settings.url}${
+      this.parameters.org
+        ? getOrgPath(this.parameters.org)
+        : `/orgs/${this.parameters.orgId}`
+    }/meetings/${this.parameters.meetingId}`
   }
 
   get payload(): MeetingInvitedNotificationPayload {
     const { t } = i18n
 
-    const titleReplace = this.parameters.isRecurring
-      ? {
-          role: this.parameters.role,
-        }
-      : {
+    return {
+      title: t('notifications.sendMeetingInvitedNotification.title', {
+        lng: this.locale,
+        replace: {
           role: this.parameters.role,
           title: this.parameters.title,
-        }
-
-    return {
-      title: t(
-        `notifications.sendMeetingInvitedNotification.${
-          this.parameters.isRecurring ? 'recurringMeetingtitle' : 'title'
-        }`,
-        {
-          lng: this.locale,
-          replace: titleReplace,
-        }
-      ),
-      content: t(
-        `notifications.sendMeetingInvitedNotification.${
-          this.parameters.isRecurring ? 'recurringMeetingcontent' : 'content'
-        }`,
-        {
-          lng: this.locale,
-          replace: {
-            sender: this.parameters.sender,
-          },
-        }
-      ),
+        },
+      }),
+      content: t('notifications.sendMeetingInvitedNotification.content', {
+        lng: this.locale,
+        replace: {
+          sender: this.parameters.sender,
+        },
+      }),
       actionUrl: this.actionUrl,
       notificationReceived: t(
         'notifications.common.email.notificationReceived',

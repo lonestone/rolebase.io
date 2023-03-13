@@ -70,10 +70,3 @@ export const updateMeetingSchema = yup.object().shape({
   title: nameSchema,
   attendees: yup.array().of(yup.string()),
 })
-
-export const updateMeetingRecurringSchema = yup.object().shape({
-  ...updateMeetingCommonShape,
-  recurringDate: yup.string(),
-  rrule: yup.string(),
-  templateId: yup.string(),
-})
