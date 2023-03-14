@@ -1,5 +1,7 @@
 import { ThreadFragment } from '@gql'
+import useDateLocale from '@hooks/useDateLocale'
 import { SearchTypes } from '@shared/model/search'
+import { formatSearchDate } from '@utils/formatSearchDate'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
@@ -7,6 +9,8 @@ export function useThreadSearchItems(
   threads: ThreadFragment[],
   excludeIds?: string[]
 ): SearchItem[] {
+  const dateLocale = useDateLocale()
+
   return useMemo(
     () =>
       threads
@@ -19,7 +23,7 @@ export function useThreadSearchItems(
             text: thread.title.toLowerCase(),
             type: SearchTypes.Thread,
             title: thread.title,
-            createdAt: thread.createdAt,
+            createdAt: formatSearchDate(thread.createdAt, dateLocale),
           }
         })
         .filter(Boolean) as SearchItem[],

@@ -1,5 +1,4 @@
 import { Box, Button, ButtonProps } from '@chakra-ui/react'
-import DateInfo from '@molecules/DateInfo'
 import React from 'react'
 import SearchResultIcon from './SearchResultIcon'
 import { SearchItem } from './searchTypes'
@@ -24,9 +23,6 @@ export default React.forwardRef<HTMLButtonElement, Props>(
           <>
             <SearchResultIcon item={item} />
             <Box ml={2}>{item.title}</Box>
-            {item.createdAt && (
-              <DateInfo date={item.createdAt} color="white" ml="auto" />
-            )}
           </>
         )}
       </Button>

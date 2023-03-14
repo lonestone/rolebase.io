@@ -18,7 +18,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Thread,
   title: fragment.title,
   description: '',
-  createdAt: fragment.createdAt,
+  createdAt: new Date(fragment.createdAt).getTime(),
   boost: 0,
 })
 
