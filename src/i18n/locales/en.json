@@ -622,9 +622,9 @@
     "cancelSubscriptionModal": {
       "title": "Cancel my subscription",
       "subtitle": "Are you sure you want to cancel your subscription?",
-      "desc1": "This action will take effect at the end of the subscription period",
-      "desc2": "Active members of the organisation will revert to normal members",
-      "desc3": "You will lose the advantage of priority support from our team"
+      "desc1": "This action will take effect at the end of the subscription period.",
+      "desc2": "Your organization will only be able to have 5 invited members.",
+      "desc3": "You will lose personalized support and priority support with our team."
     },
     "invoiceTab": {
       "heading": "Invoice history",

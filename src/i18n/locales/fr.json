@@ -619,9 +619,9 @@
     "cancelSubscriptionModal": {
       "title": "Annuler mon abonnement",
       "subtitle": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
-      "desc1": "Cette action prendra effet à la fin de la periode d'abonnement",
-      "desc2": "Les membres actifs de l'organisation repasseront en membres normaux",
-      "desc3": "Vous perdrez l’avantage de l’accompagnement et support prioritaire de la part de notre équipe"
+      "desc1": "Cette action prendra effet à la fin de la periode d'abonnement.",
+      "desc2": "Votre organisation ne pourra plus avoir que 5 membres invités.",
+      "desc3": "Vous perdrez l’accompagnement et le support prioritaire avec notre équipe."
     },
     "invoiceTab": {
       "heading": "Historique des factures",
