@@ -21,7 +21,7 @@ export default function CircleButton({
     <CircleMemberLink circleId={circle.id} tabIndex={-1}>
       <Button
         bg={circleColor(
-          colorMode === 'light' ? '92%' : '18%',
+          colorMode === 'light' ? '92%' : '25%',
           circle.role.colorHue ?? undefined
         )}
         borderRadius="full"

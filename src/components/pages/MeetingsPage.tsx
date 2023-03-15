@@ -62,7 +62,7 @@ export default function MeetingsPage() {
 
   // Colors
   const { colorMode } = useColorMode()
-  const colorLightness = colorMode === 'light' ? '92%' : '18%'
+  const colorLightness = colorMode === 'light' ? '92%' : '25%'
 
   // Circles filter menu
   const {
