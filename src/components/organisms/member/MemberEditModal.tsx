@@ -143,7 +143,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
             // Update role
             await updateMemberRole({
               memberId: id,
-              orgId: org?.id ?? '',
               role: newRole,
             })
           } else if (newRole && inviteEmail) {
@@ -212,7 +211,6 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
     setLoading(true)
     await updateMemberRole({
       memberId: member.id,
-      orgId: org?.id ?? '',
     })
     setLoading(false)
     toast({

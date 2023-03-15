@@ -30,26 +30,32 @@ export default route(async (context): Promise<Subscription | null> => {
 
   await guardOrg(context, orgId, Member_Role_Enum.Owner)
 
-  const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION, { orgId })
-  const stripeSubscriptionId =
-    orgSubscription?.org_subscription[0]?.stripeSubscriptionId
-  const stripeCustomerId =
-    orgSubscription?.org_subscription[0]?.stripeCustomerId
-  const orgSubscriptionStatus = orgSubscription?.org_subscription[0]?.status
-  const orgSubscriptionType = orgSubscription?.org_subscription[0]?.type
+  const orgSubscription = (
+    await adminRequest(GET_ORG_SUBSCRIPTION, {
+      orgId,
+    })
+  )?.org_subscription?.[0]
+  const stripeSubscriptionId = orgSubscription?.stripeSubscriptionId
+  const stripeCustomerId = orgSubscription?.stripeCustomerId
+  const orgSubscriptionStatus = orgSubscription?.status
+  const orgSubscriptionType = orgSubscription?.type
 
   if (!stripeCustomerId || !isSubscriptionActive(orgSubscriptionStatus)) {
     return null
   }
 
+  let subscription: Stripe.Subscription = null
+  let customer: ExtendedStripeCustomer = null
+  let upcomingInvoice: Stripe.UpcomingInvoice = null
+
   try {
     // Get stripe invoices
-    const customer = await getStripeExtendedCustomer(stripeCustomerId)
-    const subscription = customer.subscriptions.data.find(
+    customer = await getStripeExtendedCustomer(stripeCustomerId)
+    subscription = customer.subscriptions.data.find(
       (sub) => sub.id === stripeSubscriptionId
     )
 
-    const upcomingInvoice = stripeSubscriptionId
+    upcomingInvoice = stripeSubscriptionId
       ? await getStripeUpcomingInvoice(stripeSubscriptionId)
       : null
 
@@ -63,9 +69,9 @@ export default route(async (context): Promise<Subscription | null> => {
     )
   } catch (e) {
     return formatSubscription(
-      null,
-      null,
-      null,
+      customer,
+      subscription,
+      upcomingInvoice,
       orgId,
       orgSubscriptionStatus,
       orgSubscriptionType
@@ -82,7 +88,8 @@ const formatSubscription = (
   type: Subscription_Plan_Type_Enum
 ): Subscription => {
   const customerCard =
-    extendedCustomer?.invoice_settings.default_payment_method.card
+    extendedCustomer?.invoice_settings?.default_payment_method?.card
+
   return {
     card: customerCard
       ? {

@@ -33,7 +33,6 @@ export const acceptMemberInvitation = fn<{
 
 export const updateMemberRole = fn<{
   memberId: string
-  orgId: string
   role?: Member_Role_Enum
 }>('updateMemberRole')
 
@@ -162,9 +161,7 @@ export function getMeetingsIcalUrl(
   }`
 }
 
-export const archiveMember = fn<{ memberId: string; orgId: string }>(
-  'archiveMember'
-)
+export const archiveMember = fn<{ memberId: string }>('archiveMember')
 
 export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 
