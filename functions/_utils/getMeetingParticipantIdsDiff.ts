@@ -1,30 +1,38 @@
-import { Meeting_Set_Input, Member_Scope_Enum } from '@gql'
+import { MeetingFragment, Member_Scope_Enum } from '@gql'
+import { getParticipantsByScope } from '@shared/helpers/getParticipantsByScope'
 import { RouteError } from '@utils/route'
-import { getParticipantIdsByScope } from './getParticipantIdsByScope'
+import { getOrg } from './getOrg'
 
 export async function getMeetingParticipantIdsDiff(
-  oldMeeting: Meeting_Set_Input,
-  newMeeting: Meeting_Set_Input
+  oldMeeting: MeetingFragment,
+  newMeeting: MeetingFragment
 ) {
   if (!oldMeeting || !newMeeting) {
     throw new RouteError(400, 'Bad request')
   }
 
+  const org = await getOrg(newMeeting.orgId)
+  if (!org) {
+    throw new RouteError(404, 'Org not found')
+  }
+
   // Get old participants
-  const oldParticipantIds = await getParticipantIdsByScope(
-    oldMeeting.orgId!,
-    oldMeeting.circleId!,
+  const oldParticipantIds = getParticipantsByScope(
+    org.members,
+    oldMeeting.circleId,
+    org.circles,
     oldMeeting.participantsScope as Member_Scope_Enum,
     oldMeeting.participantsMembersIds
-  )
+  ).map((participant) => participant.member.id)
 
   // Get new participants
-  const newParticipantIds = await getParticipantIdsByScope(
-    newMeeting.orgId!,
-    newMeeting.circleId!,
+  const newParticipantIds = getParticipantsByScope(
+    org.members,
+    newMeeting.circleId,
+    org.circles,
     newMeeting.participantsScope as Member_Scope_Enum,
     newMeeting.participantsMembersIds
-  )
+  ).map((participant) => participant.member.id)
 
   // Get participants diff between old and new
   const participantIdsDiff = newParticipantIds.filter(

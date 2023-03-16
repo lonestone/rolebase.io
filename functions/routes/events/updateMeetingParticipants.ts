@@ -1,4 +1,4 @@
-import { Meeting_Set_Input, Member_Role_Enum } from '@gql'
+import { MeetingFragment, Member_Role_Enum } from '@gql'
 import { getMeetingParticipantIdsDiff } from '@utils/getMeetingParticipantIdsDiff'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
 import { HasuraEvent } from '@utils/nhost'
@@ -19,7 +19,7 @@ export default route(async (context): Promise<void> => {
   }
 
   // Old meeting
-  const oldMeeting: Meeting_Set_Input = event.event.data.old
+  const oldMeeting: MeetingFragment = event.event.data.old
   if (!oldMeeting) {
     throw new RouteError(404, 'No old meeting')
   }
@@ -31,7 +31,7 @@ export default route(async (context): Promise<void> => {
   )
 
   // New meeting
-  const newMeeting: Meeting_Set_Input = event.event.data.new
+  const newMeeting: MeetingFragment = event.event.data.new
   if (!newMeeting) {
     throw new RouteError(404, 'No new meeting')
   }
