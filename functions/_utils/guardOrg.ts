@@ -5,7 +5,7 @@ import { FunctionContext } from './getContext'
 import { RouteError } from './route'
 
 export async function guardOrg(
-  context: FunctionContext | { userId: string },
+  context: Partial<FunctionContext>,
   orgId: string,
   minRole: Member_Role_Enum
 ) {

@@ -1,3 +1,5 @@
+import { TaskNotificationDataFragment } from '@gql'
+
 export interface NovuConfig {
   appId: string
   userKey: string
@@ -19,7 +21,4 @@ export type MeetingStartedNotificationBodyParams = {
   meetingId: string
 }
 
-export type TaskAssignedNotificationBodyParams = {
-  memberId: string
-  taskId: string
-}
+export type TaskAssignedActionReturn = TaskNotificationDataFragment | null

@@ -1,8 +1,8 @@
 import { NotificationCategories } from '@shared/model/notification'
 import i18n, { resources } from '@i18n'
 import { Notification } from '@utils/notification/notificationBuilder'
-import { TaskAssignedNotificationPayload } from './notificationPayloadBuilder'
 import { OrgFragment } from '@gql'
+import { TaskAssignedNotificationPayload } from '@utils/notification/notificationPayloadBuilder'
 
 type TaskAssignedNotificationParameters = {
   org?: OrgFragment

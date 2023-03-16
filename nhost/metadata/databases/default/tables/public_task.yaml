@@ -106,9 +106,11 @@ event_triggers:
       paused: true
       schedule: 0 0 * * *
       timeout: 60
-  - name: update-task-member-assigned
+  - name: send-task-assigned-notification
     definition:
       enable_manual: false
+      insert:
+        columns: '*'
       update:
         columns:
           - memberId
@@ -116,7 +118,7 @@ event_triggers:
       interval_sec: 10
       num_retries: 0
       timeout_sec: 60
-    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/events/updateTaskMemberAssigned'
+    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/events/sendTaskAssignedNotification'
     headers:
       - name: x-nhost-webhook-secret
         value_from_env: NHOST_WEBHOOK_SECRET

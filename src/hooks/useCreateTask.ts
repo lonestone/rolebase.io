@@ -1,4 +1,3 @@
-import { sendTaskAssignedNotification } from '@api/functions'
 import { useToast } from '@chakra-ui/react'
 import {
   Task_Insert_Input,
@@ -33,14 +32,6 @@ export default function useCreateTask() {
       const newTask = newTaskData?.insert_task_one
 
       if (!newTask) return
-
-      // Send notification if a member is assigned
-      if (newTask.memberId) {
-        await sendTaskAssignedNotification({
-          memberId: newTask.memberId,
-          taskId: newTask.id,
-        })
-      }
 
       // Record log
       createLog({

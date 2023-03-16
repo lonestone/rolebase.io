@@ -5,12 +5,19 @@ const nhost = new NhostClient({
   adminSecret: process.env.NHOST_ADMIN_SECRET,
 })
 
+export enum HasuraEventOp {
+  INSERT = 'INSERT',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+  MANUAL = 'MANUAL',
+}
+
 export { nhost }
 
 export interface HasuraEvent<T = any> {
   event: {
     session_variables: { [x: string]: string }
-    op: 'INSERT' | 'UPDATE' | 'DELETE' | 'MANUAL'
+    op: HasuraEventOp
     data: {
       old: T | null
       new: T | null

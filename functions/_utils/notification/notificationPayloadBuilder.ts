@@ -15,19 +15,12 @@ type NotificationEmailPayload = {
   appUrl?: string
 }
 
-type NotificationMeetingStartedPayload = {}
-
-type NotificationTaskAssignedPayload = {}
-
 type NotificationPayloadBuilder<Data extends any> = NotificationCommonPayload &
   Data
 
 export type MeetingStartedNotificationPayload = NotificationPayloadBuilder<
-  NotificationInAppPayload &
-    NotificationEmailPayload &
-    NotificationMeetingStartedPayload
+  NotificationInAppPayload & NotificationEmailPayload
 >
 
-export type TaskAssignedNotificationPayload = NotificationPayloadBuilder<
-  NotificationInAppPayload & NotificationTaskAssignedPayload
->
+export type TaskAssignedNotificationPayload =
+  NotificationPayloadBuilder<NotificationInAppPayload>

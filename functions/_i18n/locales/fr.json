@@ -22,8 +22,8 @@
       "content": "{{sender}} a démarré la réunion !"
     },
     "sendTaskAssignedNotification": {
-      "title": "Une tâche vous a été assigné pour {{role}}",
-      "content": "La tâche {{title}} vous a été assigné"
+      "title": "Une tâche vous a été assignée pour {{role}}",
+      "content": "La tâche {{title}} vous a été assignée"
     }
   }
 }
