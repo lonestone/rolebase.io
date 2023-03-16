@@ -1,3 +1,5 @@
+import { MeetingNotificationDataFragment } from '@gql'
+
 export interface NovuConfig {
   appId: string
   userKey: string
@@ -22,4 +24,9 @@ export type MeetingStartedNotificationBodyParams = {
 export type MeetingInvitedNotificationBodyParams = {
   recipientMemberIds?: string[]
   meetingId: string
+}
+
+export type MeetingInvitedActionReturn = {
+  meeting: MeetingNotificationDataFragment
+  participantsIds: string[]
 }

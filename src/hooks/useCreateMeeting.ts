@@ -1,4 +1,3 @@
-import { sendMeetingInvitedNotification } from '@api/functions'
 import { Meeting_Insert_Input, useCreateMeetingMutation } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useDuplicateMeetingSteps } from '@hooks/useDuplicateMeetingSteps'
@@ -25,11 +24,6 @@ export default function useCreateMeeting() {
       if (!newMeeting) return console.error(errors)
 
       const path = `${meetingsPath}/${newMeeting.id}`
-
-      // Send "meetinginvited" notification to participants
-      await sendMeetingInvitedNotification({
-        meetingId: newMeeting.id,
-      })
 
       if (duplicateMeetingId) {
         // Duplicate steps
