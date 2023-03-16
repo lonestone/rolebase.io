@@ -20,23 +20,3 @@ fragment MeetingRecurring on meeting_recurring {
   videoConf
   createdAt
 }
-
-fragment MeetingRecurringNotificationData on meeting_recurring {
-  id
-  orgId
-  circleId
-  org {
-    ...Org
-    members(where: { userId: { _eq: $userId } }) {
-      id
-    }
-  }
-  circle {
-    id
-    role {
-      name
-    }
-  }
-  participantsScope
-  participantsMembersIds
-}

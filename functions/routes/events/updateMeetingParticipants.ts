@@ -53,12 +53,7 @@ export default route(async (context): Promise<void> => {
 
   // Send notification
   // If changes on participants : send meetinginvited notification only to new participants
-  if (newParticipantIds) {
-    const meeting = await getNotificationMeetingData(
-      newMeeting.id!,
-      senderUserId
-    )
+  const meeting = await getNotificationMeetingData(newMeeting.id!, senderUserId)
 
-    await meetingInvitedSend(senderUserId, newParticipantIds, meeting)
-  }
+  await meetingInvitedSend(senderUserId, newParticipantIds, meeting)
 })

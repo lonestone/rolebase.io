@@ -18345,7 +18345,13 @@ export const MeetingTemplateFragmentDoc = gql`
     title
     stepsConfig
   }
-`
+  rrule
+  duration
+  videoConf
+  createdAt
+}
+    `
+
 export const OrgSubscriptionFieldsFragmentDoc = gql`
   fragment OrgSubscriptionFields on org_subscription {
     id
