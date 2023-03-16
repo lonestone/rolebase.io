@@ -21,11 +21,6 @@ export type MeetingStartedNotificationBodyParams = {
   meetingId: string
 }
 
-export type MeetingInvitedNotificationBodyParams = {
-  recipientMemberIds?: string[]
-  meetingId: string
-}
-
 export type MeetingInvitedActionReturn = {
   meeting: MeetingNotificationDataFragment
   participantsIds: string[]
