@@ -2,6 +2,7 @@ import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
 import {
   MeetingStartedNotificationBodyParams,
   NovuConfig,
+  TaskAssignedNotificationBodyParams,
 } from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import {
@@ -50,6 +51,9 @@ export const getMeetingsToken = fn<{ orgId: string }, string>(
 
 export const sendMeetingStartedNotification =
   fn<MeetingStartedNotificationBodyParams>('sendMeetingStartedNotification')
+
+export const sendTaskAssignedNotification =
+  fn<TaskAssignedNotificationBodyParams>('sendTaskAssignedNotification')
 
 export const startMembersMeeting = fn<{
   membersIds: string[]

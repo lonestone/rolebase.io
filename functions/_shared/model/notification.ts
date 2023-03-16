@@ -18,3 +18,8 @@ export type MeetingStartedNotificationBodyParams = {
   recipientMemberIds?: string[]
   meetingId: string
 }
+
+export type TaskAssignedNotificationBodyParams = {
+  memberId: string
+  taskId: string
+}

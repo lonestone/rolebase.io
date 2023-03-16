@@ -10,3 +10,25 @@ fragment Task on task {
   dueDate
   status
 }
+
+fragment TaskNotificationData on task {
+  ...Task
+  org {
+    ...Org
+    members(where: { id: { _eq: $memberId } }) {
+      id
+      name
+      user {
+        id
+        email
+        locale
+      }
+    }
+  }
+  circle {
+    id
+    role {
+      name
+    }
+  }
+}

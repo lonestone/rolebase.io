@@ -17,6 +17,8 @@ type NotificationEmailPayload = {
 
 type NotificationMeetingStartedPayload = {}
 
+type NotificationTaskAssignedPayload = {}
+
 type NotificationPayloadBuilder<Data extends any> = NotificationCommonPayload &
   Data
 
@@ -24,4 +26,8 @@ export type MeetingStartedNotificationPayload = NotificationPayloadBuilder<
   NotificationInAppPayload &
     NotificationEmailPayload &
     NotificationMeetingStartedPayload
+>
+
+export type TaskAssignedNotificationPayload = NotificationPayloadBuilder<
+  NotificationInAppPayload & NotificationTaskAssignedPayload
 >
