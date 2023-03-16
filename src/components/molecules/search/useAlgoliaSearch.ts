@@ -1,12 +1,7 @@
 import { getAlgoliaConfig } from '@api/functions'
 import useDateLocale from '@hooks/useDateLocale'
 import { useOrgId } from '@hooks/useOrgId'
-import {
-  AlgoliaConfig,
-  SearchDoc,
-  SearchTypes,
-  searchWithStartDate,
-} from '@shared/model/search'
+import { AlgoliaConfig, SearchDoc, SearchTypes } from '@shared/model/search'
 import { formatSearchDate } from '@utils/formatSearchDate'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import algoliasearch from 'algoliasearch'
@@ -71,15 +66,9 @@ export function useAlgoliaSearch() {
 
         setFilteredItems(
           hits.map((hit) => {
-            let title = hit.title
-
-            if (searchWithStartDate.includes(hit.type) && hit.startDate) {
-              const startDateFormatted = formatSearchDate(
-                hit.startDate,
-                dateLocale
-              )
-              title = `${title}, ${startDateFormatted}`
-            }
+            const title = hit.startDate
+              ? `${hit.title}, ${formatSearchDate(hit.startDate, dateLocale)}`
+              : hit.title
 
             return {
               id: hit.objectID,

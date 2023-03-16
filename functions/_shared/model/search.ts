@@ -33,6 +33,3 @@ export interface AlgoliaConfig {
   apiKey: string
   indexName: string
 }
-
-export const searchWithStartDate: SearchTypes[] = [SearchTypes.Meeting]
-export const searchWithCreatedAt: SearchTypes[] = []

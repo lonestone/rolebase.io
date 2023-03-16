@@ -6,5 +6,4 @@ export type SearchItem = {
   text: string
   title: string
   picture?: string
-  createdAt?: string
 }
