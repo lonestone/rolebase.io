@@ -85,7 +85,8 @@ export default function useMeetingState(meetingId: string): MeetingState {
     createMissingMeetingSteps(
       meeting.id,
       meeting.stepsConfig,
-      circle,
+      circle.id,
+      circle.role.id,
       steps.map((s) => s.stepConfigId)
     )
   }, [meeting?.stepsConfig, steps])

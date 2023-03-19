@@ -77,7 +77,7 @@ export default function useCopyCircle() {
 
   return useCallback(
     async (circleId: string, targetCircleId: string | null) => {
-      const { circles, roles } = store.getState().org
+      const { circles, baseRoles: roles } = store.getState().org
       if (!circles || !roles) return
 
       // Prepare data for circles, roles and circle_members insertion

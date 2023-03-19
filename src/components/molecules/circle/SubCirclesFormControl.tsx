@@ -28,7 +28,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const circles = useStoreState((state) => state.org.circles)
-  const roles = useStoreState((state) => state.org.roles)
+  const roles = useStoreState((state) => state.org.baseRoles)
   const orgId = useOrgId()
   const [createCircle] = useCreateCircleMutation()
   const [createRole] = useCreateRoleMutation()
@@ -66,7 +66,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   )
 
   // Create circle and open it
-  const handleCreateRole = useCallback(
+  const handleCreateCircle = useCallback(
     async (roleOrName: RoleFragment | string) => {
       if (!orgId) return
 
@@ -151,9 +151,9 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
     (roleId: string) => {
       const role = roles?.find((r) => r.id === roleId)
       if (!role) return
-      handleCreateRole(role)
+      handleCreateCircle(role)
     },
-    [handleCreateRole, roles]
+    [handleCreateCircle, roles]
   )
 
   return (
@@ -171,14 +171,13 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         {isMember && (
           <StackItem>
             <RoleSearchButton
-              base
               excludeIds={childrenRolesIds}
               size="sm"
               variant="outline"
               borderRadius="full"
               leftIcon={<FiPlus />}
               onSelect={handleAddRole}
-              onCreate={handleCreateRole}
+              onCreate={handleCreateCircle}
             >
               {t('SubCirclesFormControl.addRole')}
             </RoleSearchButton>

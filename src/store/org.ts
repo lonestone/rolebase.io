@@ -2,19 +2,20 @@ import {
   CircleFullFragment,
   MemberFragment,
   OrgFragment,
-  OrgFullFragment,
+  OrgFullLightFragment,
   RoleFragment,
 } from '@gql'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { fixLostCircles } from '@shared/helpers/fixLostCircles'
 import { omit } from '@utils/omit'
+import { truthy } from '@utils/truthy'
 import { action, Action } from 'easy-peasy'
 
 interface OrgModel {
   currentId: string | undefined
   current: OrgFragment | undefined
   circles: CircleFullFragment[] | undefined
-  roles: RoleFragment[] | undefined
+  baseRoles: RoleFragment[] | undefined
   members: MemberFragment[] | undefined
   loading: boolean
   error: Error | undefined
@@ -24,7 +25,7 @@ interface OrgModel {
   setSubscriptionResult: Action<
     OrgModel,
     {
-      result: OrgFullFragment | undefined
+      result: OrgFullLightFragment | undefined
       loading: boolean
       error: Error | undefined
     }
@@ -35,7 +36,7 @@ const extendedModel: OrgModel = {
   currentId: undefined,
   current: undefined,
   circles: undefined,
-  roles: undefined,
+  baseRoles: undefined,
   members: undefined,
   loading: false,
   error: undefined,
@@ -44,7 +45,7 @@ const extendedModel: OrgModel = {
     if (state.currentId !== id) {
       state.currentId = id
       state.circles = undefined
-      state.roles = undefined
+      state.baseRoles = undefined
       state.members = undefined
     }
   }),
@@ -52,8 +53,45 @@ const extendedModel: OrgModel = {
   setSubscriptionResult: action((state, { result, loading, error }) => {
     if (result) {
       state.current = omit(result, 'members', 'roles', 'circles')
-      state.circles = fixLostCircles(fixCirclesHue(result.circles))
-      state.roles = result.roles.sort((a, b) => a.name.localeCompare(b.name))
+
+      // Reconstruct and fix CircleFullFragments
+      state.circles = fixLostCircles(
+        fixCirclesHue(
+          result.circles
+            .map((circle) => {
+              const role = result.roles.find(
+                (role) => role.id === circle.roleId
+              )
+              const members = circle.members
+                .map((circleMember) => {
+                  const member = result.members.find(
+                    (member) => member.id === circleMember.memberId
+                  )
+                  if (!member) return
+                  return {
+                    ...circleMember,
+                    member,
+                  }
+                })
+                .filter(truthy)
+
+              if (!role) return
+              return {
+                ...circle,
+                role,
+                members,
+              }
+            })
+            .filter(truthy)
+        )
+      )
+
+      // Get and sort base roles
+      state.baseRoles = result.roles
+        .filter((role) => role.base)
+        .sort((a, b) => a.name.localeCompare(b.name))
+
+      // Get and sort members
       state.members = result.members.sort((a, b) =>
         a.name.localeCompare(b.name)
       )

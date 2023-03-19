@@ -15,8 +15,6 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import { EditorHandle } from '../editor'
 import CollabEditor from '../editor/CollabEditor'
-import MeetingStepContentChecklist from './MeetingStepContentChecklist'
-import MeetingStepContentIndicators from './MeetingStepContentIndicators'
 import MeetingStepContentTasks from './MeetingStepContentTasks'
 import MeetingStepContentThreads from './MeetingStepContentThreads'
 
@@ -68,17 +66,6 @@ export default function MeetingStepContent({ step }: Props) {
 
       {step.type === Meeting_Step_Type_Enum.Tasks && (
         <MeetingStepContentTasks step={step as any} />
-      )}
-
-      {step.type === Meeting_Step_Type_Enum.Checklist && (
-        <MeetingStepContentChecklist step={step as any} editorRef={editorRef} />
-      )}
-
-      {step.type === Meeting_Step_Type_Enum.Indicators && (
-        <MeetingStepContentIndicators
-          step={step as any}
-          editorRef={editorRef}
-        />
       )}
 
       {step.notes || forceEdit ? (

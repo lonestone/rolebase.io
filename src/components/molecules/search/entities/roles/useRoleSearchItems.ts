@@ -6,11 +6,10 @@ import { SearchItem } from '../../searchTypes'
 
 export function useRoleSearchItems(
   roles?: RoleFragment[],
-  base?: boolean,
   excludeIds?: string[],
   singleMember?: boolean
 ): SearchItem[] {
-  const rolesInStore = useStoreState((state) => state.org.roles)
+  const rolesInStore = useStoreState((state) => state.org.baseRoles)
 
   return useMemo(
     () =>
@@ -18,11 +17,6 @@ export function useRoleSearchItems(
         ?.map((role): SearchItem | undefined => {
           // Exclude by id
           if (excludeIds?.includes(role.id)) return
-
-          // Exclude by base property
-          if (base !== undefined && (role.base || false) !== base) {
-            return
-          }
 
           // Exclude by singleMember property
           if (

@@ -46,7 +46,6 @@ export default function OnboardingCirclesModal({
   const org = useCurrentOrg()
   const orgId = useOrgId()
   const circles = useStoreState((state) => state.org.circles)
-  const roles = useStoreState((state) => state.org.roles)
   const [createRole] = useCreateRoleMutation()
   const [createCircle] = useCreateCircleMutation()
   const createLog = useCreateLog()
@@ -83,11 +82,10 @@ export default function OnboardingCirclesModal({
   // Create roles and circles
   const handleSubmit = async () => {
     const names = items.filter((name) => name !== '')
-    if (!orgId || !circles || !roles || names.length === 0) return
+    if (!orgId || !circles || names.length === 0) return
 
-    const parentCircle = circles[0]
-    const parentRole = roles.find((role) => role.id === parentCircle.roleId)
-    if (!parentRole) return
+    const parentCircle = circles.find((circle) => circle.parentId === null)
+    if (!parentCircle) return
 
     setLoading(true)
     const newCircles: CircleWithRoleFragment[] = []
@@ -126,7 +124,7 @@ export default function OnboardingCirclesModal({
             id: newCircle.id,
             name: newRole.name,
             parentId: parentCircle.id || null,
-            parentName: parentRole.name || null,
+            parentName: parentCircle.role.name || null,
           },
           changes: {
             circles: [

@@ -16,7 +16,6 @@ import {
 } from '@chakra-ui/react'
 import { CircleFullFragment, useUpdateCircleMemberMutation } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
-import useRole from '@hooks/useRole'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
 import CircleMemberDeleteModal from '@organisms/circle/CircleMemberDeleteModal'
 import React, {
@@ -47,7 +46,7 @@ export default function MemberRoleItem({ memberId, circleAndParents }: Props) {
     () => circle.members.find((m) => m.member.id === memberId),
     [memberId, circle]
   )
-  const role = useRole(circle.roleId)
+  const role = circle.role
 
   const [avgMinPerWeek, setAvgMinPerWeek] = useState<number | null>(
     circleMember?.avgMinPerWeek ?? null
@@ -105,7 +104,6 @@ export default function MemberRoleItem({ memberId, circleAndParents }: Props) {
                     <Markdown>{role?.purpose}</Markdown>
                   </FormControl>
                 )}
-
                 {isMember && (
                   <>
                     <FormControl>

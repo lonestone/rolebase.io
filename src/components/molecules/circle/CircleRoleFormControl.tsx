@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react'
 import { CircleWithRoleFragment } from '@gql'
 import useCircle from '@hooks/useCircle'
-import useRole from '@hooks/useRole'
 import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
 import { ParticipantMember } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
@@ -27,7 +26,7 @@ interface Props {
 
 export default function CircleRoleFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
-  const role = useRole(circle.roleId)
+  const role = circle.role
 
   // Parent circles and linked circle
   const parentCircle = useCircle(circle.parentId || undefined)
@@ -38,8 +37,6 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
 
   // Role info toggle
   const { isOpen: isRoleInfoOpen, onToggle: onRoleInfoToggle } = useDisclosure()
-
-  if (!role) return null
 
   return (
     <VStack spacing={5} align="stretch">

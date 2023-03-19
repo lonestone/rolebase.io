@@ -16,11 +16,3 @@ fragment Role on role {
   defaultMinPerWeek
   colorHue
 }
-
-fragment RoleSummary on role {
-  id
-  name
-  link
-  singleMember
-  colorHue
-}

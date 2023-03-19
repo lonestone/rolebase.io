@@ -1,5 +1,7 @@
 import ColorController from '@atoms/ColorController'
 import DurationSelect from '@atoms/DurationSelect'
+import Loading from '@atoms/Loading'
+import TextError from '@atoms/TextError'
 import {
   Alert,
   AlertDescription,
@@ -25,10 +27,9 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import { useUpdateRoleMutation } from '@gql'
+import { RoleFragment, useGetRoleQuery, useUpdateRoleMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
-import useRole from '@hooks/useRole'
 import { EditorHandle } from '@molecules/editor'
 import EditorController from '@molecules/editor/EditorController'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
@@ -43,7 +44,8 @@ import { FaPlus } from 'react-icons/fa'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
-  id: string
+  id?: string
+  role?: RoleFragment
 }
 
 interface Values {
@@ -75,11 +77,19 @@ enum LinkType {
 }
 const tmpCircleId = 'tmpCircleId'
 
-export default function RoleEditModal({ id, ...modalProps }: Props) {
+export default function RoleEditModal({ id, role, ...modalProps }: Props) {
   const { t } = useTranslation()
-  const role = useRole(id)
   const [updateRole] = useUpdateRoleMutation()
   const createLog = useCreateLog()
+
+  // Get role if not provided
+  const { data, loading, error } = useGetRoleQuery({
+    skip: !id,
+    variables: { id: id || '' },
+  })
+  if (data?.role_by_pk) {
+    role = data?.role_by_pk
+  }
 
   const {
     handleSubmit,
@@ -121,13 +131,13 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
     modalProps.onClose()
 
     // Update role data
-    await updateRole({ variables: { id, values } })
+    await updateRole({ variables: { id: role.id, values } })
 
     // Log change
     createLog({
       display: {
         type: LogType.RoleUpdate,
-        id,
+        id: role.id,
         name: role.name,
       },
       changes: {
@@ -142,6 +152,8 @@ export default function RoleEditModal({ id, ...modalProps }: Props) {
     })
   })
 
+  if (loading) return <Loading size="sm" active center />
+  if (error) return <TextError error={error} />
   if (!role) return null
 
   return (

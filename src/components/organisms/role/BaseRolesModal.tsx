@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import BaseRoleCreateModal from './BaseRoleCreateModal'
@@ -23,14 +23,16 @@ import RoleEditModal from './RoleEditModal'
 
 export default function BaseRolesModal(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const roles = useStoreState((state) => state.org.roles)
-  const baseRoles = useMemo(() => roles?.filter((role) => role.base), [roles])
+  const roles = useStoreState((state) => state.org.baseRoles)
 
   // Modals
   const [roleId, setRoleId] = useState<string | undefined>()
   const editModal = useDisclosure()
   const createModal = useDisclosure()
   const deleteModal = useDisclosure()
+
+  // Get selected role from store to avoid displaying a modal for a role doesn't exist anymore
+  const role = roles?.find((role) => role.id === roleId)
 
   const handleEdit = (id: string) => {
     setRoleId(id)
@@ -51,10 +53,10 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
           <ModalCloseButton />
 
           <ModalBody>
-            {!baseRoles?.length ? (
+            {!roles?.length ? (
               <Text fontStyle="italic">{t('BaseRolesModal.empty')}</Text>
             ) : (
-              baseRoles?.map((role) => (
+              roles?.map((role) => (
                 <ListItemWithButtons
                   key={role.id}
                   onClick={() => handleEdit(role.id)}
@@ -91,14 +93,12 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
         />
       )}
 
-      {editModal.isOpen &&
-        roleId &&
-        roles?.some((role) => role.id === roleId) && (
-          <RoleEditModal id={roleId} isOpen onClose={editModal.onClose} />
-        )}
+      {editModal.isOpen && role && (
+        <RoleEditModal role={role} isOpen onClose={editModal.onClose} />
+      )}
 
-      {deleteModal.isOpen && roleId && (
-        <RoleDeleteModal id={roleId} isOpen onClose={deleteModal.onClose} />
+      {deleteModal.isOpen && role && (
+        <RoleDeleteModal role={role} isOpen onClose={deleteModal.onClose} />
       )}
     </>
   )

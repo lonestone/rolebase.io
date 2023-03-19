@@ -23,7 +23,7 @@ export default function useArchiveCircle() {
   const createLog = useCreateLog()
 
   return useCallback(async (circleId: string) => {
-    const { circles, roles } = store.getState().org
+    const { circles, baseRoles: roles } = store.getState().org
     if (!circles || !roles) return
 
     const changes: EntitiesChanges = { circles: [], roles: [] }

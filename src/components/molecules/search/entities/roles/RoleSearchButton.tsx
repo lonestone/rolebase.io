@@ -12,11 +12,10 @@ interface Props extends Omit<SearchButtonProps, 'items'> {
 
 export default function RoleSearchButton({
   roles,
-  base,
   singleMember,
   excludeIds,
   ...props
 }: Props) {
-  const items = useRoleSearchItems(roles, base, excludeIds, singleMember)
+  const items = useRoleSearchItems(roles, excludeIds, singleMember)
   return <SearchButton {...props} items={items} />
 }

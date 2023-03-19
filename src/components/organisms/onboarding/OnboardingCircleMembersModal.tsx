@@ -40,7 +40,7 @@ export default function OnboardingCircleMembersModal({
 }: Props) {
   const { t } = useTranslation()
   const orgId = useOrgId()
-  const roles = useStoreState((state) => state.org.roles)
+  const roles = useStoreState((state) => state.org.baseRoles)
   const leaderRole = useMemo(
     () => roles?.find((role) => role.autoCreate),
     [roles]
@@ -167,9 +167,7 @@ export default function OnboardingCircleMembersModal({
           </Stack>
 
           {roles && !leaderRole && (
-            <TextError
-              error={new Error('No role found with autoCreate=true')}
-            />
+            <TextError error={new Error('No leader role found')} />
           )}
         </ModalBody>
 

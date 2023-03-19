@@ -4,12 +4,12 @@ query getOrg($id: uuid!) {
   }
 }
 
-subscription orgs($userId: uuid!, $archived: Boolean!) {
+subscription orgs($userId: uuid!) {
   member(
     where: {
       userId: { _eq: $userId }
       archived: { _eq: false }
-      org: { archived: { _eq: $archived } }
+      org: { archived: { _eq: false } }
     }
   ) {
     org {
@@ -20,7 +20,7 @@ subscription orgs($userId: uuid!, $archived: Boolean!) {
 
 subscription org($id: uuid!) {
   org_by_pk(id: $id) {
-    ...OrgFull
+    ...OrgFullLight
   }
 }
 

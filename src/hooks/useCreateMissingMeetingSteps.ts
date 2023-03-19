@@ -1,14 +1,14 @@
 import {
-  CircleWithRoleFragment,
   MeetingStepFragment,
   Meeting_Step_Type_Enum,
+  RoleFragment,
   useCreateMeetingStepMutation,
   useGetCircleThreadsIdsLazyQuery,
   useGetMeetingStepsIdsLazyQuery,
+  useGetRoleLazyQuery,
 } from '@gql'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { TasksViewTypes } from '@shared/model/task'
-import { useStoreState } from '@store/hooks'
 import { useCallback } from 'react'
 
 // When a meeting is created, it has a stepsConfig property
@@ -17,14 +17,15 @@ import { useCallback } from 'react'
 export default function useCreateMissingMeetingSteps() {
   const [getMeetingStepsIds] = useGetMeetingStepsIdsLazyQuery()
   const [createMeetingStep] = useCreateMeetingStepMutation()
+  const [getRole] = useGetRoleLazyQuery()
   const [getCircleThreadsIds] = useGetCircleThreadsIdsLazyQuery()
-  const roles = useStoreState((state) => state.org.roles)
 
   const getDefaultMeetingStep = useCallback(
     async (
       meetingId: string,
       stepConfig: MeetingStepConfig,
-      circle: CircleWithRoleFragment
+      circleId: string,
+      role: RoleFragment
     ): Promise<Omit<MeetingStepFragment, 'id'>> => {
       const type = stepConfig.type
       const step = {
@@ -33,7 +34,6 @@ export default function useCreateMissingMeetingSteps() {
         notes: '',
         data: {},
       }
-      const role = roles?.find((r) => r.id === circle.roleId)
 
       switch (type) {
         case Meeting_Step_Type_Enum.Tour:
@@ -42,7 +42,7 @@ export default function useCreateMissingMeetingSteps() {
         case Meeting_Step_Type_Enum.Threads: {
           // Get circle's threads
           const { data } = await getCircleThreadsIds({
-            variables: { circleId: circle.id },
+            variables: { circleId },
           })
           if (!data) throw new Error('Error getting circle threads')
           return {
@@ -69,27 +69,36 @@ export default function useCreateMissingMeetingSteps() {
           return {
             ...step,
             type,
-            notes: role?.checklist || '',
+            notes: role.checklist || '',
           }
 
         case Meeting_Step_Type_Enum.Indicators:
           return {
             ...step,
             type,
-            notes: role?.indicators || '',
+            notes: role.indicators || '',
           }
       }
     },
-    [roles]
+    []
   )
 
   return useCallback(
     async (
       meetingId: string,
       stepsConfig: MeetingStepConfig[],
-      circle: CircleWithRoleFragment,
+      circleId: string,
+      roleId: string,
       existingStepsConfigIds?: string[]
     ) => {
+      // Get role
+      const { data } = await getRole({ variables: { id: roleId } })
+      const role = data?.role_by_pk
+      if (!role) {
+        return console.error(`Error getting circle ${roleId}`)
+      }
+
+      // Get steps ids if not provided
       if (!existingStepsConfigIds) {
         const { data } = await getMeetingStepsIds({ variables: { meetingId } })
         existingStepsConfigIds =
@@ -101,6 +110,7 @@ export default function useCreateMissingMeetingSteps() {
           (stepConfig) => !existingStepsConfigIds?.includes(stepConfig.id)
         ) || []
 
+      // Create all missing steps
       await Promise.all(
         missingSteps.map(async (stepConfig) =>
           createMeetingStep({
@@ -108,7 +118,8 @@ export default function useCreateMissingMeetingSteps() {
               values: await getDefaultMeetingStep(
                 meetingId,
                 stepConfig,
-                circle
+                circleId,
+                role
               ),
             },
           })

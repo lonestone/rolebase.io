@@ -9,33 +9,31 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { useArchiveRoleMutation } from '@gql'
+import { RoleFragment, useArchiveRoleMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
-import useRole from '@hooks/useRole'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
-  id: string
+  role: RoleFragment
   onDelete?(): void
 }
 
 export default function RoleDeleteModal({
-  id,
+  role,
   onDelete,
   ...alertProps
 }: Props) {
   const { t } = useTranslation()
-  const role = useRole(id)
   const [archiveRole] = useArchiveRoleMutation()
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)
 
   const handleDelete = async () => {
     if (!role) return
-    await archiveRole({ variables: { id } })
+    await archiveRole({ variables: { id: role.id } })
     onDelete?.()
     alertProps.onClose()
 
@@ -43,7 +41,7 @@ export default function RoleDeleteModal({
     createLog({
       display: {
         type: LogType.RoleArchive,
-        id,
+        id: role.id,
         name: role.name,
       },
       changes: {

@@ -37,7 +37,7 @@ export default function PrivateRoute() {
   // Subscribe to orgs
   const result = useOrgsSubscription({
     skip: !userId,
-    variables: { userId: userId!, archived: false },
+    variables: { userId: userId! },
   })
   const setSubscriptionResult = useStoreActions(
     (actions) => actions.orgs.setSubscriptionResult

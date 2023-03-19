@@ -1,18 +1,6 @@
 query getCircle($id: uuid!) {
   circle_by_pk(id: $id) {
     ...Circle
-    members(where: { archived: { _eq: false } }) {
-      ...CircleMember
-    }
-  }
-}
-
-subscription circles($orgId: uuid!, $archived: Boolean!) {
-  circle(where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }) {
-    ...Circle
-    members(where: { archived: { _eq: false } }) {
-      ...CircleMember
-    }
   }
 }
 

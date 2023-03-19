@@ -9,15 +9,12 @@ fragment Circle on circle {
 fragment CircleWithRole on circle {
   ...Circle
   role {
-    ...RoleSummary
+    ...Role
   }
 }
 
 fragment CircleFull on circle {
-  ...Circle
-  role {
-    ...RoleSummary
-  }
+  ...CircleWithRole
   members(
     where: { archived: { _eq: false }, member: { archived: { _eq: false } } }
   ) {
