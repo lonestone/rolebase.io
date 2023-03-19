@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  useColorMode,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -29,29 +28,25 @@ import { useTranslation } from 'react-i18next'
 
 interface Props {
   memberId: string
-  circleAndParents: CircleFullFragment[]
+  circle: CircleFullFragment
 }
 
-export default function MemberRoleItem({ memberId, circleAndParents }: Props) {
+export default function MemberRoleItem({ memberId, circle }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const [updateCircleMember] = useUpdateCircleMemberMutation()
 
-  const { colorMode } = useColorMode()
-  const hoverColor = colorMode === 'light' ? 'gray.50' : 'whiteAlpha.100'
-  const expandedColor = colorMode === 'light' ? 'gray.200' : 'gray.500'
-
-  const circle = circleAndParents[circleAndParents.length - 1]
+  // Circle member data
   const circleMember = useMemo(
     () => circle.members.find((m) => m.member.id === memberId),
     [memberId, circle]
   )
   const role = circle.role
 
+  // Form state
   const [avgMinPerWeek, setAvgMinPerWeek] = useState<number | null>(
     circleMember?.avgMinPerWeek ?? null
   )
-
   const [saving, setSaving] = useState(false)
   const isDirty = avgMinPerWeek !== circleMember?.avgMinPerWeek ?? null
 
@@ -82,17 +77,18 @@ export default function MemberRoleItem({ memberId, circleAndParents }: Props) {
     <AccordionItem border="none">
       {({ isExpanded }) => (
         <Box
-          boxShadow={isExpanded ? 'lg' : 'sm'}
-          ml="-3px"
-          borderLeft="3px solid"
-          borderLeftColor={isExpanded ? expandedColor : 'transparent'}
+          boxShadow={isExpanded ? 'xl' : 'sm'}
+          bg={isExpanded ? 'whiteAlpha.500' : 'transparent'}
+          _dark={{ bg: isExpanded ? 'whiteAlpha.100' : 'transparent' }}
         >
           <AccordionButton
             as={Box}
             cursor="pointer"
-            _hover={{ bg: hoverColor }}
+            pr={1}
+            _hover={{ bg: 'whiteAlpha.500' }}
+            _dark={{ _hover: { bg: 'whiteAlpha.100' } }}
           >
-            <CircleAndParentsLinks id={circle.id} flex={1} />
+            <CircleAndParentsLinks circle={circle} flex={1} />
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pt={3} pb={5} pl={10}>

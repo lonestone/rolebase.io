@@ -109,7 +109,7 @@ export default function CircleContent({
       {changeTitle && <Title>{role.name}</Title>}
 
       <Flex p={2} pl={6}>
-        <CircleAndParentsLinks id={id} size="md" />
+        <CircleAndParentsLinks circle={circle} size="md" />
         <Spacer />
 
         <Box>

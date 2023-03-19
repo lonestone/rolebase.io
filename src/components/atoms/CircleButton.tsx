@@ -1,4 +1,4 @@
-import { Button, ButtonProps, useColorMode } from '@chakra-ui/react'
+import { Button, ButtonProps } from '@chakra-ui/react'
 import { CircleWithRoleFragment } from '@gql'
 import { textEllipsis } from '@utils/textEllipsis'
 import React from 'react'
@@ -15,16 +15,18 @@ export default function CircleButton({
   noEllipsis,
   ...buttonProps
 }: Props) {
-  const { colorMode } = useColorMode()
+  const hue = circle.role.colorHue ?? undefined
 
   return (
     <CircleMemberLink circleId={circle.id} tabIndex={-1}>
       <Button
-        bg={circleColor(
-          colorMode === 'light' ? '92%' : '25%',
-          circle.role.colorHue ?? undefined
-        )}
         borderRadius="full"
+        bg={circleColor('92%', hue)}
+        _hover={{ bg: circleColor('87%', hue) }}
+        _dark={{
+          bg: circleColor('25%', hue),
+          _hover: { bg: circleColor('30%', hue) },
+        }}
         {...buttonProps}
         size={buttonProps.size || 'sm'}
       >

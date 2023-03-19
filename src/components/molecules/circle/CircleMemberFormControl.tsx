@@ -2,7 +2,7 @@ import { FormControl, FormLabel, useDisclosure } from '@chakra-ui/react'
 import { GraphZoomContext } from '@contexts/GraphZoomContext'
 import { MemberFragment } from '@gql'
 import useAddCircleMember from '@hooks/useAddCircleMember'
-import useCircleAndParents from '@hooks/useCircleAndParents'
+import useCircle from '@hooks/useCircle'
 import useOrgMember from '@hooks/useOrgMember'
 import CircleMemberDeleteModal from '@organisms/circle/CircleMemberDeleteModal'
 import { useStoreState } from '@store/hooks'
@@ -18,9 +18,8 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const zoomContext = useContext(GraphZoomContext)
-  const circleAndParents = useCircleAndParents(circleId)
+  const circle = useCircle(circleId)
   const members = useStoreState((state) => state.org.members)
-  const circle = circleAndParents?.[circleAndParents.length - 1]
   const role = circle?.role
 
   const membersIds = useMemo(

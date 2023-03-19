@@ -11,7 +11,6 @@ import { MemberFragment } from '@gql'
 import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import useOrgMember from '@hooks/useOrgMember'
-import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
@@ -36,28 +35,30 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   const memberCircles = useMemo(() => {
     if (!circles) return []
     return circles
-      .filter((c) => c.members.some((m) => m.member.id === member.id))
-      .map((circle) => getCircleAndParents(circles, circle.id))
+      .filter((circle) => circle.members.some((m) => m.member.id === member.id))
       .sort((a, b) => {
-        const roleA = a[a.length - 1].role
-        const roleB = b[b.length - 1].role
         // Put leaders at the top
-        if (roleA.link === RoleLink.Parent && roleB.link !== RoleLink.Parent) {
+        if (
+          a.role.link === RoleLink.Parent &&
+          b.role.link !== RoleLink.Parent
+        ) {
           return -1
         }
-        if (roleA.link !== RoleLink.Parent && roleB.link === RoleLink.Parent) {
+        if (
+          a.role.link !== RoleLink.Parent &&
+          b.role.link === RoleLink.Parent
+        ) {
           return 1
         }
         // Sort by name
-        return roleA.name.localeCompare(roleB.name)
+        return a.role.name.localeCompare(b.role.name)
       })
   }, [member.id, circles])
 
   // Compute total number of allocated hours
   const totalWorkedMin = useMemo(
     () =>
-      memberCircles.reduce((total, circleWithRoles) => {
-        const circle = circleWithRoles[circleWithRoles.length - 1]
+      memberCircles.reduce((total, circle) => {
         const circleMember = circle.members.find(
           (m) => m.member.id === member.id
         )
@@ -70,10 +71,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
 
   // Index of the currently selected circle in list
   const selectedCircleIndex = useMemo(
-    () =>
-      memberCircles.findIndex(
-        (mc) => mc[mc.length - 1].id === selectedCircleId
-      ),
+    () => memberCircles.findIndex((mc) => mc.id === selectedCircleId),
     [memberCircles, selectedCircleId]
   )
 
@@ -86,8 +84,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
       } else {
         const memberCircle = memberCircles[index]
         if (!memberCircle) return
-        const circle = memberCircle[memberCircle.length - 1]
-        circleMemberContext?.goTo(circle.id, member.id)
+        circleMemberContext?.goTo(memberCircle.id, member.id)
       }
     },
     [selectedCircleIndex, memberCircles]
@@ -112,7 +109,7 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
 
         {isMember && (
           <CircleSearchButton
-            excludeIds={memberCircles.map((mc) => mc[mc.length - 1].id)}
+            excludeIds={memberCircles.map((circle) => circle.id)}
             size="sm"
             variant="outline"
             borderRadius="full"
@@ -131,11 +128,11 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
         mb={5}
         onChange={handleAccordionChange}
       >
-        {memberCircles.map((entries) => (
+        {memberCircles.map((circle) => (
           <MemberRoleItem
-            key={entries[entries.length - 1].id}
+            key={circle.id}
             memberId={member.id}
-            circleAndParents={entries}
+            circle={circle}
           />
         ))}
       </Accordion>
