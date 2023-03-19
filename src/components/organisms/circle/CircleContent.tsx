@@ -176,12 +176,8 @@ export default function CircleContent({
         </Accordion>
       </Box>
 
-      {editRoleModal.isOpen && circle && (
-        <RoleEditModal
-          id={circle.roleId}
-          isOpen
-          onClose={editRoleModal.onClose}
-        />
+      {editRoleModal.isOpen && role && (
+        <RoleEditModal role={role} isOpen onClose={editRoleModal.onClose} />
       )}
 
       {deleteModal.isOpen && (
