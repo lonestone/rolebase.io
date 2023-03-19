@@ -1,6 +1,5 @@
 import * as d3 from 'd3'
 import { MoveTransition } from '../helpers/createTransition'
-import { getFirstname } from '../helpers/getFirstname'
 import { NodeData, NodesSelection, NodeType } from '../types'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
@@ -40,7 +39,7 @@ export class MemberCircleElement extends AbstractCircleElement {
       .attr('stroke-linecap', 'butt')
       .attr('stroke-linejoin', 'miter')
       .attr('dominant-baseline', 'central')
-      .text((d) => getFirstname(d.data.name))
+      .text((d) => this.getFirstname(d.data.name))
       .attr('pointer-events', 'none')
       .attr('paint-order', 'stroke')
       .attr('transform', 'scale(0.1)')
@@ -69,7 +68,7 @@ export class MemberCircleElement extends AbstractCircleElement {
     // Update member name
     selection
       .select<SVGTextElement>('.member-name')
-      .text((d) => getFirstname(d.data.name))
+      .text((d) => this.getFirstname(d.data.name))
       .attr('opacity', (d) => (d.data.picture ? 0 : 1))
 
     // Update member picture
@@ -85,10 +84,14 @@ export class MemberCircleElement extends AbstractCircleElement {
   exit(selection: NodesSelection, transition: MoveTransition) {
     selection
       .select<SVGTextElement>('.member-name')
-      .text((d) => getFirstname(d.data.name))
+      .text((d) => this.getFirstname(d.data.name))
       .transition(transition)
       .attr('transform', 'scale(0.1)')
       .attr('opacity', 0)
       .remove()
+  }
+
+  private getFirstname(name: string) {
+    return name.replace(/ .*$/, '')
   }
 }

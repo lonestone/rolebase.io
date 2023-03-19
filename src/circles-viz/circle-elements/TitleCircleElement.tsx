@@ -1,6 +1,5 @@
-import { getTopFontSize, getTopNameOpacity } from '../helpers/circleName'
 import { MoveTransition } from '../helpers/createTransition'
-import { NodesSelection, NodeType } from '../types'
+import { NodeData, NodesSelection, NodeType } from '../types'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
 export class TitleCircleElement extends AbstractCircleElement {
@@ -14,8 +13,8 @@ export class TitleCircleElement extends AbstractCircleElement {
       .attr('cursor', 'var(--circle-cursor)')
       .attr('alignment-baseline', 'hanging')
       .attr('pointer-events', 'none')
-      .attr('font-size', getTopFontSize)
-      .attr('opacity', getTopNameOpacity)
+      .attr('font-size', this.getTopFontSize)
+      .attr('opacity', this.getTopNameOpacity)
       .attr('y', 0)
       .attr('transform', 'scale(0.1)')
       .transition(transition)
@@ -30,8 +29,8 @@ export class TitleCircleElement extends AbstractCircleElement {
       .text((d) => d.data.name)
       .transition(transition)
       .attr('y', (d) => -d.r + 2)
-      .attr('font-size', getTopFontSize)
-      .attr('opacity', getTopNameOpacity)
+      .attr('font-size', this.getTopFontSize)
+      .attr('opacity', this.getTopNameOpacity)
       .attr('transform', 'scale(1)')
   }
 
@@ -42,5 +41,22 @@ export class TitleCircleElement extends AbstractCircleElement {
       .transition(transition)
       .attr('transform', 'scale(0)')
       .attr('y', 0)
+  }
+
+  // Opacity depends on zoom scale and node depth
+  // Visible when:
+  // - zoom more than 1
+  // - circle is bigger than 2/3 of graph size
+  private getTopNameOpacity(data: NodeData) {
+    return `max(
+    clamp(0, (var(--zoom-scale) - 1) * 10 + 1, 1),
+    clamp(0,
+      (var(--zoom-scale) * ${data.r * 2} / var(--graph-min-size) - 2/3) * 10
+      , 1)
+  )`
+  }
+
+  private getTopFontSize() {
+    return `calc(12px / var(--zoom-scale) + var(--zoom-scale) * 1px)`
   }
 }

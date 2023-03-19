@@ -9,7 +9,6 @@ import { MouseCircleElement } from './circle-elements/MouseCircleElement'
 import { ParticipantsCircleElement } from './circle-elements/ParticipantsCircleElement'
 import { TitleCircleElement } from './circle-elements/TitleCircleElement'
 import { Graph } from './Graph'
-import { getCenterFontSize, getCenterNameOpacity } from './helpers/circleName'
 import { createMoveTransition } from './helpers/createTransition'
 import selectAppend from './helpers/selectAppend'
 import settings from './settings'
@@ -301,8 +300,8 @@ export abstract class CirclesGraph extends Graph {
             .attr('dominant-baseline', 'central')
             .attr('y', 0)
             .attr('font-size', '1em')
-            .attr('font-size', getCenterFontSize)
-            .attr('opacity', getCenterNameOpacity)
+            .attr('font-size', this.getFontSize)
+            .attr('opacity', this.getNameOpacity)
 
           return nodeGroup
         },
@@ -319,11 +318,45 @@ export abstract class CirclesGraph extends Graph {
             .select<SVGTextElement>('text')
             .text((d) => d.data.name)
             .attr('font-size', '1em')
-            .attr('font-size', getCenterFontSize)
-            .attr('opacity', getCenterNameOpacity)
+            .attr('font-size', this.getFontSize)
+            .attr('opacity', this.getNameOpacity)
           return nodeUpdate
         },
         (nodeExit) => nodeExit.remove()
       )
+  }
+
+  // Opacity depends on zoom scale, circle size and graph size
+  // Visible when:
+  // - zoom less than 1
+  // - circle is smaller than 2/3 of graph size
+  // - parent is not visible
+  private getNameOpacity(data: NodeData) {
+    return `min(
+    clamp(0, (1 - var(--zoom-scale) - 0.1) * 10, 1),
+    clamp(0,
+      1 - (var(--zoom-scale) * ${
+        data.r * 2
+      } / var(--graph-min-size) - 2/3 + 0.1) * 10
+      , 1),
+    ${
+      // Inverse of parent opacity
+      data.parent && data.parent.data.id !== 'root'
+        ? `clamp(0,
+            (var(--zoom-scale) * ${
+              data.parent.r * 2
+            } / var(--graph-min-size) - 2/3) * 10
+            , 1)`
+        : '1'
+    }
+  )`
+  }
+
+  private getFontSize(
+    data: NodeData,
+    index: number,
+    nodes: SVGTextElement[] | ArrayLike<SVGTextElement>
+  ) {
+    return `${(data.r * 2 * 0.9) / nodes[index].getBBox().width}em`
   }
 }
