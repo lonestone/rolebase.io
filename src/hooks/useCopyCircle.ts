@@ -1,7 +1,6 @@
 import {
   CircleFullFragment,
   Circle_Insert_Input,
-  RoleFragment,
   useCreateCirclesMutation,
 } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
@@ -13,24 +12,21 @@ import { useCallback } from 'react'
 
 function getCircleAndChildren(
   circles: CircleFullFragment[],
-  roles: RoleFragment[],
   circleId: string
 ): Circle_Insert_Input | undefined {
   const circle = circles.find((c) => c.id === circleId)
   if (!circle) return
-  const role = roles.find((r) => r.id === circle.roleId)
-  if (!role) return
 
   // New circle
   const input: Circle_Insert_Input = pick(circle, 'orgId')
 
-  if (role.base) {
+  if (circle.role.base) {
     input.roleId = circle.roleId
   } else {
     // New role
     input.role = {
       data: pick(
-        role,
+        circle.role,
         'orgId',
         'name',
         'purpose',
@@ -50,7 +46,7 @@ function getCircleAndChildren(
   // Add children
   const children = circles
     .filter((c) => c.parentId === circleId)
-    .map((c) => getCircleAndChildren(circles, roles, c.id))
+    .map((c) => getCircleAndChildren(circles, c.id))
     .filter(Boolean) as Circle_Insert_Input[]
 
   if (children.length) {
@@ -77,11 +73,11 @@ export default function useCopyCircle() {
 
   return useCallback(
     async (circleId: string, targetCircleId: string | null) => {
-      const { circles, baseRoles: roles } = store.getState().org
-      if (!circles || !roles) return
+      const { circles } = store.getState().org
+      if (!circles) return
 
       // Prepare data for circles, roles and circle_members insertion
-      const circlesInput = getCircleAndChildren(circles, roles, circleId)
+      const circlesInput = getCircleAndChildren(circles, circleId)
       if (!circlesInput) return
       circlesInput.parentId = targetCircleId
 
@@ -97,7 +93,6 @@ export default function useCopyCircle() {
       // Log changes
       const copiedCircle = circles?.find((c) => c.id === circleId)
       const targetCircle = circles?.find((c) => c.id === targetCircleId)
-      const targetRole = roles?.find((r) => r.id === targetCircle?.roleId)
       if (!copiedCircle) return
 
       // Build changes
@@ -126,7 +121,7 @@ export default function useCopyCircle() {
           id: newCircles[0].id,
           name: newCircles[0].role.name,
           parentId: targetCircleId,
-          parentName: targetRole?.name || null,
+          parentName: targetCircle?.role.name || null,
         },
         changes,
       })
