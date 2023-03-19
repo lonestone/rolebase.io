@@ -49,7 +49,6 @@ interface Props extends UseModalProps {
 }
 
 interface Values {
-  base: boolean
   name: string
   purpose: string
   domain: string
@@ -77,19 +76,27 @@ enum LinkType {
 }
 const tmpCircleId = 'tmpCircleId'
 
+function getDefaultValues(role: RoleFragment): Values {
+  return {
+    name: role.name,
+    purpose: role.purpose,
+    domain: role.domain,
+    accountabilities: role.accountabilities,
+    checklist: role.checklist,
+    indicators: role.indicators,
+    notes: role.notes,
+    defaultMinPerWeek: role.defaultMinPerWeek ?? null,
+    singleMember: role.singleMember,
+    autoCreate: role.autoCreate,
+    link: role.link,
+    colorHue: role.colorHue ?? null,
+  }
+}
+
 export default function RoleEditModal({ id, role, ...modalProps }: Props) {
   const { t } = useTranslation()
   const [updateRole] = useUpdateRoleMutation()
   const createLog = useCreateLog()
-
-  // Get role if not provided
-  const { data, loading, error } = useGetRoleQuery({
-    skip: !id,
-    variables: { id: id || '' },
-  })
-  if (data?.role_by_pk) {
-    role = data?.role_by_pk
-  }
 
   const {
     handleSubmit,
@@ -97,24 +104,26 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
     control,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<Values>({
     resolver,
-    defaultValues: role && {
-      name: role.name,
-      purpose: role.purpose,
-      domain: role.domain,
-      accountabilities: role.accountabilities,
-      checklist: role.checklist,
-      indicators: role.indicators,
-      notes: role.notes,
-      defaultMinPerWeek: role.defaultMinPerWeek,
-      singleMember: role.singleMember,
-      autoCreate: role.autoCreate,
-      link: role.link,
-      colorHue: role.colorHue,
-    },
+    defaultValues: role && getDefaultValues(role),
   })
+
+  // Get role if not provided
+  const { data, loading, error } = useGetRoleQuery({
+    skip: !id,
+    variables: { id: id || '' },
+  })
+  const fetchedRole = data?.role_by_pk
+  if (fetchedRole) {
+    role = fetchedRole
+  }
+  useEffect(() => {
+    if (!fetchedRole) return
+    reset(fetchedRole && getDefaultValues(fetchedRole))
+  }, [fetchedRole])
 
   // Register some fields
   const link = watch('link')
