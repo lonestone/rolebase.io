@@ -15533,30 +15533,6 @@ export type MeetingRecurringFragment = {
   }
 }
 
-export type MeetingRecurringNotificationDataFragment = {
-  __typename?: 'meeting_recurring'
-  id: string
-  orgId: string
-  circleId: string
-  participantsScope: Member_Scope_Enum
-  participantsMembersIds: Array<string>
-  org: {
-    __typename?: 'org'
-    id: string
-    name: string
-    archived: boolean
-    createdAt: string
-    defaultWorkedMinPerWeek: number
-    slug?: string | null
-    members: Array<{ __typename?: 'member'; id: string }>
-  }
-  circle: {
-    __typename?: 'circle'
-    id: string
-    role: { __typename?: 'role'; name: string }
-  }
-}
-
 export type MeetingStepFragment = {
   __typename?: 'meeting_step'
   id: string
@@ -15565,6 +15541,42 @@ export type MeetingStepFragment = {
   notes: string
   type: Meeting_Step_Type_Enum
   data: MeetingStepData
+}
+
+export type MemberFragment = {
+  __typename?: 'member'
+  id: string
+  orgId: string
+  archived: boolean
+  name: string
+  description: string
+  pictureFileId?: string | null
+  picture?: string | null
+  userId?: string | null
+  inviteEmail?: string | null
+  inviteDate?: string | null
+  workedMinPerWeek?: number | null
+  role?: Member_Role_Enum | null
+  meetingId?: string | null
+  preferences?: MemberPreferences | null
+}
+
+export type MemberSummaryFragment = {
+  __typename?: 'member'
+  id: string
+  userId?: string | null
+  name: string
+  picture?: string | null
+}
+
+export type OrgFragment = {
+  __typename?: 'org'
+  id: string
+  name: string
+  archived: boolean
+  createdAt: string
+  defaultWorkedMinPerWeek: number
+  slug?: string | null
 }
 
 export type OrgFullFragment = {
@@ -15711,54 +15723,6 @@ export type OrgFullLightFragment = {
     preferences?: MemberPreferences | null
   }>
 }
-export type MemberFragment = {
-  __typename?: 'member'
-  id: string
-  orgId: string
-  archived: boolean
-  name: string
-  description: string
-  pictureFileId?: string | null
-  picture?: string | null
-  userId?: string | null
-  inviteEmail?: string | null
-  inviteDate?: string | null
-  workedMinPerWeek?: number | null
-  role?: Member_Role_Enum | null
-  meetingId?: string | null
-  preferences?: MemberPreferences | null
-}
-
-export type MemberSummaryFragment = {
-  __typename?: 'member'
-  id: string
-  userId?: string | null
-  name: string
-  picture?: string | null
-}
-
-export type TaskFragment = {
-  __typename?: 'task'
-  id: string
-  orgId: string
-  circleId: string
-  memberId?: string | null
-  title: string
-  description: string
-  archived: boolean
-  createdAt: string
-  dueDate?: string | null
-  status: Task_Status_Enum
-}
-export type OrgFragment = {
-  __typename?: 'org'
-  id: string
-  name: string
-  archived: boolean
-  createdAt: string
-  defaultWorkedMinPerWeek: number
-  slug?: string | null
-}
 
 export type RoleFragment = {
   __typename?: 'role'
@@ -15780,13 +15744,18 @@ export type RoleFragment = {
   colorHue?: number | null
 }
 
-export type RoleSummaryFragment = {
-  __typename?: 'role'
+export type TaskFragment = {
+  __typename?: 'task'
   id: string
-  name: string
-  link: string
-  singleMember: boolean
-  colorHue?: number | null
+  orgId: string
+  circleId: string
+  memberId?: string | null
+  title: string
+  description: string
+  archived: boolean
+  createdAt: string
+  dueDate?: string | null
+  status: Task_Status_Enum
 }
 
 export type ThreadFragment = {
@@ -15874,42 +15843,7 @@ export type GetCircleQuery = {
     roleId: string
     parentId?: string | null
     archived: boolean
-    members: Array<{
-      __typename?: 'circle_member'
-      id: string
-      circleId: string
-      memberId: string
-      avgMinPerWeek?: number | null
-      createdAt: string
-      archived: boolean
-    }>
   } | null
-}
-
-export type CirclesSubscriptionVariables = Exact<{
-  orgId: Scalars['uuid']
-  archived: Scalars['Boolean']
-}>
-
-export type CirclesSubscription = {
-  __typename?: 'subscription_root'
-  circle: Array<{
-    __typename?: 'circle'
-    id: string
-    orgId: string
-    roleId: string
-    parentId?: string | null
-    archived: boolean
-    members: Array<{
-      __typename?: 'circle_member'
-      id: string
-      circleId: string
-      memberId: string
-      avgMinPerWeek?: number | null
-      createdAt: string
-      archived: boolean
-    }>
-  }>
 }
 
 export type CreateCircleMutationVariables = Exact<{
@@ -16948,25 +16882,11 @@ export type OrgSubscription = {
       roleId: string
       parentId?: string | null
       archived: boolean
-      role: {
-        __typename?: 'role'
-        id: string
-        name: string
-        link: string
-        singleMember: boolean
-        colorHue?: number | null
-      }
       members: Array<{
         __typename?: 'circle_member'
         id: string
+        memberId: string
         avgMinPerWeek?: number | null
-        member: {
-          __typename?: 'member'
-          id: string
-          userId?: string | null
-          name: string
-          picture?: string | null
-        }
       }>
     }>
     roles: Array<{
@@ -18008,34 +17928,6 @@ export type ChangeLocaleMutation = {
   updateUser?: { __typename?: 'users'; id: string; locale: string } | null
 }
 
-export const CircleFragmentDoc = gql`
-  fragment Circle on circle {
-    id
-    orgId
-    roleId
-    parentId
-    archived
-  }
-`
-export const RoleSummaryFragmentDoc = gql`
-  fragment RoleSummary on role {
-    id
-    name
-    link
-    singleMember
-    colorHue
-  }
-`
-export const CircleWithRoleFragmentDoc = gql`
-  fragment CircleWithRole on circle {
-    ...Circle
-    role {
-      ...RoleSummary
-    }
-  }
-  ${CircleFragmentDoc}
-  ${RoleSummaryFragmentDoc}
-`
 export const CircleMemberFragmentDoc = gql`
   fragment CircleMember on circle_member {
     id
@@ -18143,28 +18035,6 @@ export const MeetingRecurringFragmentDoc = gql`
     createdAt
   }
 `
-export const MeetingRecurringNotificationDataFragmentDoc = gql`
-  fragment MeetingRecurringNotificationData on meeting_recurring {
-    id
-    orgId
-    circleId
-    org {
-      ...Org
-      members(where: { userId: { _eq: $userId } }) {
-        id
-      }
-    }
-    circle {
-      id
-      role {
-        name
-      }
-    }
-    participantsScope
-    participantsMembersIds
-  }
-  ${OrgFragmentDoc}
-`
 export const MeetingStepFragmentDoc = gql`
   fragment MeetingStep on meeting_step {
     id
@@ -18175,33 +18045,14 @@ export const MeetingStepFragmentDoc = gql`
     data
   }
 `
-export const MemberSummaryFragmentDoc = gql`
-  fragment MemberSummary on member {
+export const CircleFragmentDoc = gql`
+  fragment Circle on circle {
     id
-    userId
-    name
-    picture
+    orgId
+    roleId
+    parentId
+    archived
   }
-`
-export const CircleFullFragmentDoc = gql`
-  fragment CircleFull on circle {
-    ...Circle
-    role {
-      ...RoleSummary
-    }
-    members(
-      where: { archived: { _eq: false }, member: { archived: { _eq: false } } }
-    ) {
-      id
-      avgMinPerWeek
-      member {
-        ...MemberSummary
-      }
-    }
-  }
-  ${CircleFragmentDoc}
-  ${RoleSummaryFragmentDoc}
-  ${MemberSummaryFragmentDoc}
 `
 export const RoleFragmentDoc = gql`
   fragment Role on role {
@@ -18222,6 +18073,40 @@ export const RoleFragmentDoc = gql`
     defaultMinPerWeek
     colorHue
   }
+`
+export const CircleWithRoleFragmentDoc = gql`
+  fragment CircleWithRole on circle {
+    ...Circle
+    role {
+      ...Role
+    }
+  }
+  ${CircleFragmentDoc}
+  ${RoleFragmentDoc}
+`
+export const MemberSummaryFragmentDoc = gql`
+  fragment MemberSummary on member {
+    id
+    userId
+    name
+    picture
+  }
+`
+export const CircleFullFragmentDoc = gql`
+  fragment CircleFull on circle {
+    ...CircleWithRole
+    members(
+      where: { archived: { _eq: false }, member: { archived: { _eq: false } } }
+    ) {
+      id
+      avgMinPerWeek
+      member {
+        ...MemberSummary
+      }
+    }
+  }
+  ${CircleWithRoleFragmentDoc}
+  ${MemberSummaryFragmentDoc}
 `
 export const MemberFragmentDoc = gql`
   fragment Member on member {
@@ -18247,7 +18132,7 @@ export const OrgFullFragmentDoc = gql`
     circles(where: { archived: { _eq: false } }) {
       ...CircleFull
     }
-    roles(where: { archived: { _eq: false } }) {
+    roles(where: { archived: { _eq: false }, base: { _eq: true } }) {
       ...Role
     }
     members(where: { archived: { _eq: false } }) {
@@ -18256,6 +18141,29 @@ export const OrgFullFragmentDoc = gql`
   }
   ${OrgFragmentDoc}
   ${CircleFullFragmentDoc}
+  ${RoleFragmentDoc}
+  ${MemberFragmentDoc}
+`
+export const OrgFullLightFragmentDoc = gql`
+  fragment OrgFullLight on org {
+    ...Org
+    circles(where: { archived: { _eq: false } }) {
+      ...Circle
+      members(where: { archived: { _eq: false } }) {
+        id
+        memberId
+        avgMinPerWeek
+      }
+    }
+    roles(where: { archived: { _eq: false } }) {
+      ...Role
+    }
+    members(where: { archived: { _eq: false } }) {
+      ...Member
+    }
+  }
+  ${OrgFragmentDoc}
+  ${CircleFragmentDoc}
   ${RoleFragmentDoc}
   ${MemberFragmentDoc}
 `
@@ -18345,13 +18253,7 @@ export const MeetingTemplateFragmentDoc = gql`
     title
     stepsConfig
   }
-  rrule
-  duration
-  videoConf
-  createdAt
-}
-    `
-
+`
 export const OrgSubscriptionFieldsFragmentDoc = gql`
   fragment OrgSubscriptionFields on org_subscription {
     id
@@ -18387,13 +18289,9 @@ export const GetCircleDocument = gql`
   query getCircle($id: uuid!) {
     circle_by_pk(id: $id) {
       ...Circle
-      members(where: { archived: { _eq: false } }) {
-        ...CircleMember
-      }
     }
   }
   ${CircleFragmentDoc}
-  ${CircleMemberFragmentDoc}
 `
 
 /**
@@ -18421,27 +18319,6 @@ export function useGetCircleQuery(
     options
   )
 }
-
-export const CreateCircleDocument = gql`
-  mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
-    insert_circle_one(
-      object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }
-    ) {
-      ...Circle
-    }
-  }
-  ${CircleFragmentDoc}
-`
-export const CirclesDocument = gql`
-  subscription circles($orgId: uuid!, $archived: Boolean!) {
-    circle(where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }) {
-      ...Circle
-      members(where: { archived: { _eq: false } }) {
-        ...CircleMember
-      }
-      
-  ${CircleMemberFragmentDoc}
-`
 export function useGetCircleLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
     GetCircleQuery,
@@ -18465,42 +18342,16 @@ export type GetCircleQueryResult = Apollo.QueryResult<
 export function refetchGetCircleQuery(variables: GetCircleQueryVariables) {
   return { query: GetCircleDocument, variables: variables }
 }
-
-/**
- * __useCirclesSubscription__
- *
- * To run a query within a React component, call `useCirclesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCirclesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCirclesSubscription({
- *   variables: {
- *      orgId: // value for 'orgId'
- *      archived: // value for 'archived'
- *   },
- * });
- */
-export function useCirclesSubscription(
-  baseOptions: Apollo.SubscriptionHookOptions<
-    CirclesSubscription,
-    CirclesSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useSubscription<
-    CirclesSubscription,
-    CirclesSubscriptionVariables
-  >(CirclesDocument, options)
-}
-export type CirclesSubscriptionHookResult = ReturnType<
-  typeof useCirclesSubscription
->
-export type CirclesSubscriptionResult =
-  Apollo.SubscriptionResult<CirclesSubscription>
-
+export const CreateCircleDocument = gql`
+  mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
+    insert_circle_one(
+      object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }
+    ) {
+      ...Circle
+    }
+  }
+  ${CircleFragmentDoc}
+`
 export type CreateCircleMutationFn = Apollo.MutationFunction<
   CreateCircleMutation,
   CreateCircleMutationVariables
@@ -20593,7 +20444,6 @@ export type GetMemberQueryResult = Apollo.QueryResult<
 export function refetchGetMemberQuery(variables: GetMemberQueryVariables) {
   return { query: GetMemberDocument, variables: variables }
 }
-
 export const GetOrgsMembersDocument = gql`
   query getOrgsMembers($orgsIds: [uuid!]!) {
     member(
@@ -20913,10 +20763,10 @@ export type OrgsSubscriptionResult = Apollo.SubscriptionResult<OrgsSubscription>
 export const OrgDocument = gql`
   subscription org($id: uuid!) {
     org_by_pk(id: $id) {
-      ...OrgFull
+      ...OrgFullLight
     }
   }
-  ${OrgFullFragmentDoc}
+  ${OrgFullLightFragmentDoc}
 `
 
 /**
