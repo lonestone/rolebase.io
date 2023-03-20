@@ -8,7 +8,7 @@ import { meetingInvitedUpdateAction } from '@utils/notification/meetingInvitedUp
 import { defaultLang, resources } from '@i18n'
 import { MeetingInvitedNotification } from '@utils/notification/meetingInvitedNotification'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import { MeetingInvitedActionReturn } from '@shared/model/notification'
+import { NotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
 
 export default route(async (context): Promise<void> => {
   guardWebhookSecret(context)
@@ -32,11 +32,17 @@ export default route(async (context): Promise<void> => {
   }
 
   // Check permission for new meeting org
-  const orgId = event.event.data.new.orgId
-  await guardOrg({ userId: senderUserId }, orgId, Member_Role_Enum.Member)
+  await guardOrg(
+    { userId: senderUserId },
+    event.event.data.new.orgId,
+    Member_Role_Enum.Member
+  )
 
   // What needs to be done in each event case
-  let meetingInvitedActionReturn: MeetingInvitedActionReturn | null = null
+  let meetingInvitedActionReturn: {
+    meeting: NotificationMeetingData
+    participantsIds: string[]
+  } | null = null
   switch (event.event.op) {
     case HasuraEventOp.INSERT:
       meetingInvitedActionReturn = await meetingInvitedInsertAction(
@@ -72,13 +78,15 @@ export default route(async (context): Promise<void> => {
 
   const locale = (sender?.locale as keyof typeof resources) || defaultLang
 
+  const { org, orgId, id, title, circle } = meetingInvitedActionReturn.meeting
+
   // Build MeetingInvitedNotification instance
   const notification = new MeetingInvitedNotification(locale, {
-    org: meetingInvitedActionReturn.meeting.org,
-    orgId: meetingInvitedActionReturn.meeting.orgId,
-    meetingId: meetingInvitedActionReturn.meeting.id,
-    title: meetingInvitedActionReturn.meeting.title || '',
-    role: meetingInvitedActionReturn.meeting.circle.role.name || '',
+    org,
+    orgId,
+    meetingId: id,
+    title,
+    role: circle.role.name,
     sender: sender?.name || '',
   })
 

@@ -15483,33 +15483,6 @@ export type MeetingSummaryFragment = {
   currentStepId?: string | null
 }
 
-export type MeetingNotificationDataFragment = {
-  __typename?: 'meeting'
-  id: string
-  orgId: string
-  circleId: string
-  title: string
-  attendees?: Array<MeetingAttendee> | null
-  participantsScope: Member_Scope_Enum
-  participantsMembersIds: Array<string>
-  recurringId?: string | null
-  org: {
-    __typename?: 'org'
-    id: string
-    name: string
-    archived: boolean
-    createdAt: string
-    defaultWorkedMinPerWeek: number
-    slug?: string | null
-    members: Array<{ __typename?: 'member'; id: string }>
-  }
-  circle: {
-    __typename?: 'circle'
-    id: string
-    role: { __typename?: 'role'; name: string }
-  }
-}
-
 export type MeetingRecurringFragment = {
   __typename?: 'meeting_recurring'
   id: string
@@ -17976,41 +17949,6 @@ export const MeetingFragmentDoc = gql`
     recurringDate
   }
 `
-export const OrgFragmentDoc = gql`
-  fragment Org on org {
-    id
-    name
-    archived
-    createdAt
-    defaultWorkedMinPerWeek
-    slug
-  }
-`
-export const MeetingNotificationDataFragmentDoc = gql`
-  fragment MeetingNotificationData on meeting {
-    id
-    orgId
-    circleId
-    org {
-      ...Org
-      members(where: { userId: { _eq: $userId } }) {
-        id
-      }
-    }
-    title
-    circle {
-      id
-      role {
-        name
-      }
-    }
-    attendees
-    participantsScope
-    participantsMembersIds
-    recurringId
-  }
-  ${OrgFragmentDoc}
-`
 export const MeetingRecurringFragmentDoc = gql`
   fragment MeetingRecurring on meeting_recurring {
     id
@@ -18124,6 +18062,16 @@ export const MemberFragmentDoc = gql`
     role
     meetingId
     preferences
+  }
+`
+export const OrgFragmentDoc = gql`
+  fragment Org on org {
+    id
+    name
+    archived
+    createdAt
+    defaultWorkedMinPerWeek
+    slug
   }
 `
 export const OrgFullFragmentDoc = gql`
@@ -18246,6 +18194,7 @@ export const ThreadActivityFragmentDoc = gql`
   ${TaskFragmentDoc}
   ${DecisionFragmentDoc}
 `
+
 export const MeetingTemplateFragmentDoc = gql`
   fragment MeetingTemplate on meeting_template {
     id

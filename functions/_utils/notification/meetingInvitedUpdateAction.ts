@@ -3,13 +3,12 @@ import { getMeetingParticipantIdsDiff } from '@utils/getMeetingParticipantIdsDif
 import { guardOrg } from '@utils/guardOrg'
 import { RouteError } from '@utils/route'
 import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
-import { MeetingInvitedActionReturn } from '@shared/model/notification'
 
 export async function meetingInvitedUpdateAction(
   senderUserId: string,
   newMeeting: MeetingFragment,
   oldMeeting: MeetingFragment | null
-): Promise<MeetingInvitedActionReturn | null> {
+) {
   if (!oldMeeting) {
     throw new RouteError(404, 'Bad request')
   }

@@ -3,12 +3,11 @@ import { RouteError } from '@utils/route'
 import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
 import { getParticipantsByScope } from '@shared/helpers/getParticipantsByScope'
 import { getOrg } from '../getOrg'
-import { MeetingInvitedActionReturn } from '@shared/model/notification'
 
 export async function meetingInvitedInsertAction(
   senderUserId: string,
   meeting: MeetingFragment
-): Promise<MeetingInvitedActionReturn | null> {
+) {
   // Get meeting data
   const meetingDataResult = await getNotificationMeetingData(
     meeting.id,

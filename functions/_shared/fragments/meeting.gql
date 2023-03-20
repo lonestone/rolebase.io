@@ -30,26 +30,3 @@ fragment MeetingSummary on meeting {
   title
   currentStepId
 }
-
-fragment MeetingNotificationData on meeting {
-  id
-  orgId
-  circleId
-  org {
-    ...Org
-    members(where: { userId: { _eq: $userId } }) {
-      id
-    }
-  }
-  title
-  circle {
-    id
-    role {
-      name
-    }
-  }
-  attendees
-  participantsScope
-  participantsMembersIds
-  recurringId
-}

@@ -1,5 +1,3 @@
-import { MeetingNotificationDataFragment } from '@gql'
-
 export interface NovuConfig {
   appId: string
   userKey: string
@@ -19,9 +17,4 @@ export enum NotificationCategories {
 export type MeetingStartedNotificationBodyParams = {
   recipientMemberIds?: string[]
   meetingId: string
-}
-
-export type MeetingInvitedActionReturn = {
-  meeting: MeetingNotificationDataFragment
-  participantsIds: string[]
 }
