@@ -52,9 +52,7 @@ update_permissions:
       filter:
         userId:
           _eq: X-Hasura-User-Id
-      check:
-        userId:
-          _eq: X-Hasura-User-Id
+      check: {}
 delete_permissions:
   - role: user
     permission:
@@ -67,10 +65,11 @@ delete_permissions:
                     _and:
                       - userId:
                           _eq: X-Hasura-User-Id
-                      - role:
-                          _eq: Admin
-                      - role:
-                          _eq: Owner
+                      - _or:
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
           - userId:
               _eq: X-Hasura-User-Id
           - activity:

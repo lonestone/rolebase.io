@@ -91,23 +91,12 @@ update_permissions:
                 _and:
                   - userId:
                       _eq: X-Hasura-User-Id
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
-      check:
-        _or:
-          - userId:
-              _eq: X-Hasura-User-Id
-          - org:
-              members:
-                _and:
-                  - userId:
-                      _eq: X-Hasura-User-Id
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+                  - _or:
+                      - role:
+                          _eq: Admin
+                      - role:
+                          _eq: Owner
+      check: {}
 event_triggers:
   - name: index-member
     definition:

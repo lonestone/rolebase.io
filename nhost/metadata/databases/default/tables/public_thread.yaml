@@ -93,19 +93,7 @@ update_permissions:
                       _eq: Admin
                   - role:
                       _eq: Owner
-      check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+      check: {}
 event_triggers:
   - name: index-thread
     definition:

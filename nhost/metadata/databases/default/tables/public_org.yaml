@@ -125,13 +125,4 @@ update_permissions:
                     _eq: Admin
                 - role:
                     _eq: Owner
-      check:
-        members:
-          _and:
-            - userId:
-                _eq: X-Hasura-User-Id
-            - _or:
-                - role:
-                    _eq: Admin
-                - role:
-                    _eq: Owner
+      check: {}
