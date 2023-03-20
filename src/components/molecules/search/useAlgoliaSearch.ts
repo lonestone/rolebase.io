@@ -1,8 +1,11 @@
 import { getAlgoliaConfig } from '@api/functions'
+import useDateLocale from '@hooks/useDateLocale'
 import { useOrgId } from '@hooks/useOrgId'
 import { AlgoliaConfig, SearchDoc, SearchTypes } from '@shared/model/search'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import algoliasearch from 'algoliasearch'
+import { format } from 'date-fns'
 import debounce from 'lodash.debounce'
 import { useMemo, useState } from 'react'
 import { SearchItem } from './searchTypes'
@@ -23,6 +26,7 @@ async function getConfig(orgId: string): Promise<AlgoliaConfig> {
 }
 
 export function useAlgoliaSearch() {
+  const dateLocale = useDateLocale()
   const orgId = useOrgId()
   const [loading, setLoading] = useState(false)
   const [filteredItems, setFilteredItems] = useState<SearchItem[]>([])
@@ -60,14 +64,25 @@ export function useAlgoliaSearch() {
           value,
           type ? { facetFilters: `type:${type}` } : undefined
         )
+
         setFilteredItems(
-          hits.map((hit) => ({
-            id: hit.objectID,
-            type: hit.type,
-            text: '',
-            title: hit.title,
-            picture: hit.picture,
-          }))
+          hits.map((hit) => {
+            const title = hit.startDate
+              ? `${hit.title}, ${capitalizeFirstLetter(
+                  format(new Date(hit.startDate), 'PPPP', {
+                    locale: dateLocale,
+                  })
+                )}`
+              : hit.title
+
+            return {
+              id: hit.objectID,
+              type: hit.type,
+              text: '',
+              title,
+              picture: hit.picture,
+            }
+          })
         )
       } catch (e) {
         console.error(e)

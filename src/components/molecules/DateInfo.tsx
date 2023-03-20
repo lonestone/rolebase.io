@@ -17,7 +17,7 @@ export default function DateInfo({ date, ...boxProps }: Props) {
   )
 
   return (
-    <HStack spacing={2} color="gray.500" {...boxProps}>
+    <HStack spacing={2} {...boxProps}>
       <FiClock />
       <Text>
         {capitalizeFirstLetter(

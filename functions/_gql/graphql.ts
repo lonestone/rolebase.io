@@ -15948,33 +15948,33 @@ export type GetRoleCirclesForSearchQueryVariables = Exact<{
 
 export type GetRoleCirclesForSearchQuery = { __typename?: 'query_root', role: Array<{ __typename?: 'role', circles: Array<{ __typename?: 'circle', id: string, orgId: string, role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string } } | null } | null }> }> };
 
-export type DecisionSearchFragment = { __typename?: 'decision', id: string, orgId: string, title: string };
+export type DecisionSearchFragment = { __typename?: 'decision', id: string, orgId: string, title: string, createdAt: string };
 
 export type GetDecisionForSearchQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetDecisionForSearchQuery = { __typename?: 'query_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, title: string } | null };
+export type GetDecisionForSearchQuery = { __typename?: 'query_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, title: string, createdAt: string } | null };
 
 export type GetDecisionsForSearchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDecisionsForSearchQuery = { __typename?: 'query_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, title: string }> };
+export type GetDecisionsForSearchQuery = { __typename?: 'query_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, title: string, createdAt: string }> };
 
-export type MeetingSearchFragment = { __typename?: 'meeting', id: string, orgId: string, title: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, steps: Array<{ __typename?: 'meeting_step', notes: string }> };
+export type MeetingSearchFragment = { __typename?: 'meeting', id: string, orgId: string, title: string, createdAt: string, startDate: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, steps: Array<{ __typename?: 'meeting_step', notes: string }> };
 
 export type GetMeetingForSearchQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetMeetingForSearchQuery = { __typename?: 'query_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, title: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, steps: Array<{ __typename?: 'meeting_step', notes: string }> } | null };
+export type GetMeetingForSearchQuery = { __typename?: 'query_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, title: string, createdAt: string, startDate: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, steps: Array<{ __typename?: 'meeting_step', notes: string }> } | null };
 
 export type GetMeetingsForSearchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeetingsForSearchQuery = { __typename?: 'query_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, title: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, steps: Array<{ __typename?: 'meeting_step', notes: string }> }> };
+export type GetMeetingsForSearchQuery = { __typename?: 'query_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, title: string, createdAt: string, startDate: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string } }, steps: Array<{ __typename?: 'meeting_step', notes: string }> }> };
 
 export type MemberSearchFragment = { __typename?: 'member', id: string, orgId: string, name: string, picture?: string | null };
 
@@ -15990,33 +15990,33 @@ export type GetMembersForSearchQueryVariables = Exact<{ [key: string]: never; }>
 
 export type GetMembersForSearchQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, name: string, picture?: string | null }> };
 
-export type TaskSearchFragment = { __typename?: 'task', id: string, orgId: string, title: string };
+export type TaskSearchFragment = { __typename?: 'task', id: string, orgId: string, title: string, createdAt: string };
 
 export type GetTaskForSearchQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetTaskForSearchQuery = { __typename?: 'query_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, title: string } | null };
+export type GetTaskForSearchQuery = { __typename?: 'query_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, title: string, createdAt: string } | null };
 
 export type GetTasksForSearchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTasksForSearchQuery = { __typename?: 'query_root', task: Array<{ __typename?: 'task', id: string, orgId: string, title: string }> };
+export type GetTasksForSearchQuery = { __typename?: 'query_root', task: Array<{ __typename?: 'task', id: string, orgId: string, title: string, createdAt: string }> };
 
-export type ThreadSearchFragment = { __typename?: 'thread', id: string, orgId: string, title: string };
+export type ThreadSearchFragment = { __typename?: 'thread', id: string, orgId: string, title: string, createdAt: string };
 
 export type GetThreadForSearchQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetThreadForSearchQuery = { __typename?: 'query_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, title: string } | null };
+export type GetThreadForSearchQuery = { __typename?: 'query_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, title: string, createdAt: string } | null };
 
 export type GetThreadsForSearchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetThreadsForSearchQuery = { __typename?: 'query_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, title: string }> };
+export type GetThreadsForSearchQuery = { __typename?: 'query_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, title: string, createdAt: string }> };
 
 export type CircleFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean };
 
@@ -16327,11 +16327,11 @@ export type GetOrgSubscriptionStripeCustomerIdQueryVariables = Exact<{
 export type GetOrgSubscriptionStripeCustomerIdQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string, stripeCustomerId: string }> };
 
 export const CircleSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<CircleSearchFragment, unknown>;
-export const DecisionSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DecisionSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"decision"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode<DecisionSearchFragment, unknown>;
-export const MeetingSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"steps"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notes"}}]}}]}}]} as unknown as DocumentNode<MeetingSearchFragment, unknown>;
+export const DecisionSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DecisionSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"decision"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<DecisionSearchFragment, unknown>;
+export const MeetingSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"steps"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notes"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}}]}}]} as unknown as DocumentNode<MeetingSearchFragment, unknown>;
 export const MemberSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}}]} as unknown as DocumentNode<MemberSearchFragment, unknown>;
-export const TaskSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaskSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode<TaskSearchFragment, unknown>;
-export const ThreadSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode<ThreadSearchFragment, unknown>;
+export const TaskSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaskSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<TaskSearchFragment, unknown>;
+export const ThreadSearchFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<ThreadSearchFragment, unknown>;
 export const CircleMemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleMember"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle_member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}}]} as unknown as DocumentNode<CircleMemberFragment, unknown>;
 export const LogFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Log"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"log"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"memberName"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"display"}},{"kind":"Field","name":{"kind":"Name","value":"changes"}},{"kind":"Field","name":{"kind":"Name","value":"cancelLogId"}},{"kind":"Field","name":{"kind":"Name","value":"cancelMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"cancelMemberName"}},{"kind":"Field","name":{"kind":"Name","value":"canceled"}}]}}]} as unknown as DocumentNode<LogFragment, unknown>;
 export const MeetingFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Meeting"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"attendees"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}}]}}]} as unknown as DocumentNode<MeetingFragment, unknown>;

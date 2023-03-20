@@ -8,6 +8,7 @@ const Fragment = gql(`
     id
     orgId
     title
+    createdAt
   }
 `)
 
@@ -17,6 +18,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Thread,
   title: fragment.title,
   description: '',
+  createdAt: new Date(fragment.createdAt).getTime(),
   boost: 0,
 })
 
