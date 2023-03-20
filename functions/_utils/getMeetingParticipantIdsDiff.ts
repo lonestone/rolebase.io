@@ -1,7 +1,7 @@
 import { MeetingFragment, Member_Scope_Enum } from '@gql'
 import { getParticipantsByScope } from '@shared/helpers/getParticipantsByScope'
 import { RouteError } from '@utils/route'
-import { getOrg } from './getOrg'
+import { getOrgCirclesFullAndMembers } from '@utils/getOrgCirclesFullAndMembers'
 
 export async function getMeetingParticipantIdsDiff(
   oldMeeting: MeetingFragment,
@@ -11,7 +11,7 @@ export async function getMeetingParticipantIdsDiff(
     throw new RouteError(400, 'Bad request')
   }
 
-  const org = await getOrg(newMeeting.orgId)
+  const org = await getOrgCirclesFullAndMembers(newMeeting.orgId)
   if (!org) {
     throw new RouteError(404, 'Org not found')
   }

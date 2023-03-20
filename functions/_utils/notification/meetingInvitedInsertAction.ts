@@ -2,7 +2,7 @@ import { MeetingFragment } from '@gql'
 import { RouteError } from '@utils/route'
 import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
 import { getParticipantsByScope } from '@shared/helpers/getParticipantsByScope'
-import { getOrg } from '../getOrg'
+import { getOrgCirclesFullAndMembers } from '@utils/getOrgCirclesFullAndMembers'
 
 export async function meetingInvitedInsertAction(
   senderUserId: string,
@@ -15,7 +15,7 @@ export async function meetingInvitedInsertAction(
   )
 
   // Get meeting org
-  const org = await getOrg(meeting.orgId)
+  const org = await getOrgCirclesFullAndMembers(meeting.orgId)
   if (!org) {
     throw new RouteError(404, 'Org not found')
   }
