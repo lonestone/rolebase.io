@@ -27,7 +27,7 @@ export abstract class Notification<
   // Get notification payload
   abstract get payload(): Payload
 
-  // Get notification payload
+  // Get actionUrl
   getActionUrl(
     category: NotificationCategories,
     orgId: string,

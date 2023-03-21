@@ -2,12 +2,15 @@ import { NotificationCategories } from '@shared/model/notification'
 import i18n, { resources } from '@i18n'
 import { Notification } from '@utils/notification/notificationBuilder'
 import { MeetingStartedNotificationPayload } from '@utils/notification/notificationPayloadBuilder'
+import { OrgFragment } from '@gql'
 
 type MeetingStartedNotificationParameters = {
+  org?: OrgFragment
+  orgId: string
+  meetingId: string
   title: string
   role: string
   sender: string
-  actionUrl: string
 }
 
 export class MeetingStartedNotification extends Notification<
@@ -24,6 +27,13 @@ export class MeetingStartedNotification extends Notification<
   get payload(): MeetingStartedNotificationPayload {
     const { t } = i18n
 
+    const actionUrl = this.getActionUrl(
+      NotificationCategories.meetingstarted,
+      this.parameters.orgId,
+      this.parameters.org,
+      this.parameters.meetingId
+    )
+
     return {
       title: t('notifications.sendMeetingStartedNotification.title', {
         lng: this.locale,
@@ -38,7 +48,7 @@ export class MeetingStartedNotification extends Notification<
           sender: this.parameters.sender,
         },
       }),
-      actionUrl: this.parameters.actionUrl,
+      actionUrl,
       notificationReceived: t(
         'notifications.common.email.notificationReceived',
         {

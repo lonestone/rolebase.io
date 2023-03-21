@@ -80,7 +80,7 @@ export default route(async (context): Promise<void> => {
     orgId,
     taskId: id,
     title,
-    role: circle.role.name || '',
+    role: circle.role.name,
   })
   // Send notification "taskassigned"
   await notification.send([recipient])
