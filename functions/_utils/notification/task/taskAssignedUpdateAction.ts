@@ -26,6 +26,6 @@ export default async function taskAssignedUpdateAction(
   )
 
   return newTask.memberId !== oldTask.memberId
-    ? await getNotificationTaskData(newTask.id, newTask.memberId)
+    ? await getNotificationTaskData(newTask.id)
     : null
 }

@@ -15960,8 +15960,6 @@ export type RoleFragment = { __typename?: 'role', id: string, orgId: string, arc
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
-export type TaskNotificationDataFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, members: Array<{ __typename?: 'member', id: string, name: string, user?: { __typename?: 'users', id: string, email?: string | null, locale: string } | null }> }, circle: { __typename?: 'circle', id: string, role: { __typename?: 'role', name: string } } };
-
 export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean };
 
 export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
@@ -16797,44 +16795,6 @@ export const OrgFullLightFragmentDoc = gql`
 ${CircleFragmentDoc}
 ${RoleFragmentDoc}
 ${MemberFragmentDoc}`;
-export const TaskFragmentDoc = gql`
-    fragment Task on task {
-  id
-  orgId
-  circleId
-  memberId
-  title
-  description
-  archived
-  createdAt
-  dueDate
-  status
-}
-    `;
-export const TaskNotificationDataFragmentDoc = gql`
-    fragment TaskNotificationData on task {
-  ...Task
-  org {
-    ...Org
-    members(where: {id: {_eq: $memberId}}) {
-      id
-      name
-      user {
-        id
-        email
-        locale
-      }
-    }
-  }
-  circle {
-    id
-    role {
-      name
-    }
-  }
-}
-    ${TaskFragmentDoc}
-${OrgFragmentDoc}`;
 export const ThreadFragmentDoc = gql`
     fragment Thread on thread {
   id
@@ -16860,6 +16820,20 @@ export const MeetingSummaryFragmentDoc = gql`
   ended
   title
   currentStepId
+}
+    `;
+export const TaskFragmentDoc = gql`
+    fragment Task on task {
+  id
+  orgId
+  circleId
+  memberId
+  title
+  description
+  archived
+  createdAt
+  dueDate
+  status
 }
     `;
 export const DecisionFragmentDoc = gql`

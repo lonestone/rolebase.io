@@ -1,10 +1,9 @@
-import { Member_Role_Enum, TaskFragment } from '@gql'
+import { GetTaskDataQuery, Member_Role_Enum, TaskFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
-import { TaskAssignedActionReturn } from '@shared/model/notification'
 import { guardOrg } from '@utils/guardOrg'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
 import { HasuraEvent, HasuraEventOp } from '@utils/nhost'
-import taskAssignedInsertAction from '@utils/notification/task/taskAssignedInsertAction'
+import { getNotificationTaskData } from '@utils/notification/task/getNotificationTaskData'
 import { TaskAssignedNotification } from '@utils/notification/task/taskAssignedNotification'
 import taskAssignedUpdateAction from '@utils/notification/task/taskAssignedUpdateAction'
 import { route, RouteError } from '@utils/route'
@@ -26,17 +25,20 @@ export default route(async (context): Promise<void> => {
   }
 
   // Check permission for new meeting org
-  const orgId = event.event.data.new.orgId
-  await guardOrg({ userId: senderUserId }, orgId, Member_Role_Enum.Member)
+  await guardOrg(
+    { userId: senderUserId },
+    event.event.data.new.orgId,
+    Member_Role_Enum.Member
+  )
 
   // What needs to be done in each event case
-  let taskAssignedActionReturn: TaskAssignedActionReturn = null
+  let taskAssignedActionReturn: NonNullable<
+    GetTaskDataQuery['task_by_pk']
+  > | null = null
   switch (event.event.op) {
     case HasuraEventOp.INSERT:
-      taskAssignedActionReturn = await taskAssignedInsertAction(
-        event.event.data.new.id,
-        event.event.data.new.memberId
-      )
+      taskAssignedActionReturn =
+        (await getNotificationTaskData(event.event.data.new.id)) ?? null
       break
 
     case HasuraEventOp.UPDATE:
@@ -54,30 +56,31 @@ export default route(async (context): Promise<void> => {
   if (
     // Don't send notification if no task
     !taskAssignedActionReturn ||
+    // Don't send notification if no assignee
+    !taskAssignedActionReturn.member?.user?.id ||
     // Don't send notification if creator is the same person as assignee
-    senderUserId === taskAssignedActionReturn.org.members[0].user?.id ||
-    // Don't send notification if no assignee data
-    !taskAssignedActionReturn.org.members[0].user?.id
+    senderUserId === taskAssignedActionReturn.member?.user?.id
   ) {
     return
   }
 
+  const { member, org, orgId, id, title, circle } = taskAssignedActionReturn
+
   const recipientLocale =
-    (taskAssignedActionReturn.org.members[0].user
-      ?.locale as keyof typeof resources) || defaultLang
+    (member?.user?.locale as keyof typeof resources) || defaultLang
 
   const recipient = {
-    subscriberId: taskAssignedActionReturn.org.members[0].user?.id!,
+    subscriberId: member?.user?.id!,
     locale: recipientLocale,
   }
 
   // Build TaskAssignedNotification instance for each recipient
   const notification = new TaskAssignedNotification(recipientLocale, {
-    org: taskAssignedActionReturn.org,
-    orgId: taskAssignedActionReturn.orgId,
-    taskId: taskAssignedActionReturn.id,
-    title: taskAssignedActionReturn?.title || '',
-    role: taskAssignedActionReturn?.circle.role.name || '',
+    org,
+    orgId,
+    taskId: id,
+    title,
+    role: circle.role.name || '',
   })
   // Send notification "taskassigned"
   await notification.send([recipient])
