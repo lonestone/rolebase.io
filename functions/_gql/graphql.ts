@@ -15392,13 +15392,6 @@ export type GetRoleCirclesForSearchQueryVariables = Exact<{
   id: Scalars['uuid']
 }>
 
-export type DecisionSearchFragment = {
-  __typename?: 'decision'
-  id: string
-  orgId: string
-  title: string
-  createdAt: string
-}
 export type GetRoleCirclesForSearchQuery = {
   __typename?: 'query_root'
   role: Array<{
@@ -15420,8 +15413,31 @@ export type GetRoleCirclesForSearchQuery = {
   }>
 }
 
+export type DecisionSearchFragment = {
+  __typename?: 'decision'
+  id: string
+  orgId: string
+  title: string
+  createdAt: string
+}
+
 export type GetDecisionForSearchQueryVariables = Exact<{
   id: Scalars['uuid']
+}>
+
+export type GetDecisionForSearchQuery = {
+  __typename?: 'query_root'
+  decision_by_pk?: {
+    __typename?: 'decision'
+    id: string
+    orgId: string
+    title: string
+    createdAt: string
+  } | null
+}
+
+export type GetDecisionsForSearchQueryVariables = Exact<{
+  [key: string]: never
 }>
 
 export type GetDecisionsForSearchQuery = {
@@ -15433,49 +15449,6 @@ export type GetDecisionsForSearchQuery = {
     title: string
     createdAt: string
   }>
-}
-
-export type MeetingSearchFragment = {
-  __typename?: 'meeting'
-  id: string
-  orgId: string
-  title: string
-  createdAt: string
-  startDate: string
-  circle: { __typename?: 'circle'; role: { __typename?: 'role'; name: string } }
-  steps: Array<{ __typename?: 'meeting_step'; notes: string }>
-}
-
-export type GetDecisionForSearchQuery = {
-  __typename?: 'query_root'
-  decision_by_pk?: {
-    __typename?: 'decision'
-    id: string
-    orgId: string
-    title: string
-  } | null
-}
-export type GetDecisionsForSearchQueryVariables = Exact<{
-  [key: string]: never
-}>
-
-export type GetMeetingForSearchQueryVariables = Exact<{}>
-
-export type GetMeetingForSearchQuery = {
-  __typename?: 'query_root'
-  meeting_by_pk?: {
-    __typename?: 'meeting'
-    id: string
-    orgId: string
-    title: string
-    createdAt: string
-    startDate: string
-    circle: {
-      __typename?: 'circle'
-      role: { __typename?: 'role'; name: string }
-    }
-    steps: Array<{ __typename?: 'meeting_step'; notes: string }>
-  } | null
 }
 
 export type GetMeetingsForSearchQueryVariables = Exact<{ [key: string]: never }>
@@ -15496,8 +15469,20 @@ export type GetMeetingsForSearchQuery = {
     steps: Array<{ __typename?: 'meeting_step'; notes: string }>
   }>
 }
+export type MeetingSearchFragment = {
+  __typename?: 'meeting'
+  id: string
+  orgId: string
+  title: string
+  createdAt: string
+  startDate: string
+  circle: { __typename?: 'circle'; role: { __typename?: 'role'; name: string } }
+  steps: Array<{ __typename?: 'meeting_step'; notes: string }>
+}
 
-export type GetMeetingsForSearchQueryVariables = Exact<{ [key: string]: never }>
+export type GetMeetingForSearchQueryVariables = Exact<{
+  id: Scalars['uuid']
+}>
 
 export type MemberSearchFragment = {
   __typename?: 'member'
@@ -15524,12 +15509,21 @@ export type GetMemberForSearchQuery = {
 }
 export type GetMembersForSearchQueryVariables = Exact<{ [key: string]: never }>
 
-export type TaskSearchFragment = {
-  __typename?: 'task'
-  id: string
-  orgId: string
-  title: string
-  createdAt: string
+export type GetMeetingForSearchQuery = {
+  __typename?: 'query_root'
+  meeting_by_pk?: {
+    __typename?: 'meeting'
+    id: string
+    orgId: string
+    title: string
+    createdAt: string
+    startDate: string
+    circle: {
+      __typename?: 'circle'
+      role: { __typename?: 'role'; name: string }
+    }
+    steps: Array<{ __typename?: 'meeting_step'; notes: string }>
+  } | null
 }
 
 export type GetMembersForSearchQuery = {
@@ -15542,6 +15536,14 @@ export type GetMembersForSearchQuery = {
     description: string
     picture?: string | null
   }>
+}
+
+export type TaskSearchFragment = {
+  __typename?: 'task'
+  id: string
+  orgId: string
+  title: string
+  createdAt: string
 }
 
 export type GetTaskForSearchQueryVariables = Exact<{
@@ -15559,19 +15561,25 @@ export type GetTaskForSearchQuery = {
   } | null
 }
 
+export type GetTasksForSearchQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetTasksForSearchQuery = {
+  __typename?: 'query_root'
+  task: Array<{
+    __typename?: 'task'
+    id: string
+    orgId: string
+    title: string
+    createdAt: string
+  }>
+}
+
 export type ThreadSearchFragment = {
   __typename?: 'thread'
   id: string
   orgId: string
   title: string
   createdAt: string
-}
-
-export type GetTasksForSearchQueryVariables = Exact<{ [key: string]: never }>
-
-export type GetTasksForSearchQuery = {
-  __typename?: 'query_root'
-  task: Array<{ __typename?: 'task'; id: string; orgId: string; title: string }>
 }
 
 export type GetThreadForSearchQueryVariables = Exact<{
@@ -15589,14 +15597,7 @@ export type GetThreadForSearchQuery = {
   } | null
 }
 
-export type CircleFragment = {
-  __typename?: 'circle'
-  id: string
-  orgId: string
-  roleId: string
-  parentId?: string | null
-  archived: boolean
-}
+export type GetThreadsForSearchQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetThreadsForSearchQuery = {
   __typename?: 'query_root'
@@ -15609,7 +15610,16 @@ export type GetThreadsForSearchQuery = {
   }>
 }
 
-export type CircleFullFragment = {
+export type CircleFragment = {
+  __typename?: 'circle'
+  id: string
+  orgId: string
+  roleId: string
+  parentId?: string | null
+  archived: boolean
+}
+
+export type CircleWithRoleFragment = {
   __typename?: 'circle'
   id: string
   orgId: string
@@ -15619,11 +15629,31 @@ export type CircleFullFragment = {
   role: {
     __typename?: 'role'
     id: string
+    orgId: string
+    archived: boolean
+    base: boolean
     name: string
-    link: string
+    purpose: string
+    domain: string
+    accountabilities: string
+    checklist: string
+    indicators: string
+    notes: string
     singleMember: boolean
+    autoCreate: boolean
+    link: string
+    defaultMinPerWeek?: number | null
     colorHue?: number | null
   }
+}
+
+export type CircleFullFragment = {
+  __typename?: 'circle'
+  id: string
+  orgId: string
+  roleId: string
+  parentId?: string | null
+  archived: boolean
   members: Array<{
     __typename?: 'circle_member'
     id: string
@@ -15636,34 +15666,6 @@ export type CircleFullFragment = {
       picture?: string | null
     }
   }>
-}
-
-export type LogFragment = {
-  __typename?: 'log'
-  id: string
-  orgId: string
-  userId: string
-  memberId: string
-  memberName: string
-  meetingId?: string | null
-  createdAt: string
-  display: LogDisplay
-  changes: EntitiesChanges
-  cancelLogId?: string | null
-  cancelMemberId?: string | null
-  cancelMemberName?: string | null
-  canceled: boolean
-}
-
-export type GetThreadsForSearchQueryVariables = Exact<{ [key: string]: never }>
-
-export type CircleWithRoleFragment = {
-  __typename?: 'circle'
-  id: string
-  orgId: string
-  roleId: string
-  parentId?: string | null
-  archived: boolean
   role: {
     __typename?: 'role'
     id: string
@@ -15707,6 +15709,23 @@ export type DecisionFragment = {
   createdAt: string
 }
 
+export type LogFragment = {
+  __typename?: 'log'
+  id: string
+  orgId: string
+  userId: string
+  memberId: string
+  memberName: string
+  meetingId?: string | null
+  createdAt: string
+  display: LogDisplay
+  changes: EntitiesChanges
+  cancelLogId?: string | null
+  cancelMemberId?: string | null
+  cancelMemberName?: string | null
+  canceled: boolean
+}
+
 export type MeetingFragment = {
   __typename?: 'meeting'
   id: string
@@ -15740,33 +15759,6 @@ export type MeetingSummaryFragment = {
   ended: boolean
   title: string
   currentStepId?: string | null
-}
-
-export type MeetingNotificationDataFragment = {
-  __typename?: 'meeting'
-  id: string
-  orgId: string
-  circleId: string
-  title: string
-  attendees?: Array<MeetingAttendee> | null
-  participantsScope: Member_Scope_Enum
-  participantsMembersIds: Array<string>
-  recurringId?: string | null
-  org: {
-    __typename?: 'org'
-    id: string
-    name: string
-    archived: boolean
-    createdAt: string
-    defaultWorkedMinPerWeek: number
-    slug?: string | null
-    members: Array<{ __typename?: 'member'; id: string }>
-  }
-  circle: {
-    __typename?: 'circle'
-    id: string
-    role: { __typename?: 'role'; name: string }
-  }
 }
 
 export type MeetingRecurringFragment = {
@@ -16106,20 +16098,14 @@ export type GetMemberQuery = {
   } | null
 }
 
-export type GetOrgQueryVariables = Exact<{
+export type GetOrgCirclesFullAndMembersQueryVariables = Exact<{
   id: Scalars['uuid']
 }>
 
-export type GetOrgQuery = {
+export type GetOrgCirclesFullAndMembersQuery = {
   __typename?: 'query_root'
   org_by_pk?: {
     __typename?: 'org'
-    id: string
-    name: string
-    archived: boolean
-    createdAt: string
-    defaultWorkedMinPerWeek: number
-    slug?: string | null
     circles: Array<{
       __typename?: 'circle'
       id: string
@@ -16158,25 +16144,6 @@ export type GetOrgQuery = {
         defaultMinPerWeek?: number | null
         colorHue?: number | null
       }
-    }>
-    roles: Array<{
-      __typename?: 'role'
-      id: string
-      orgId: string
-      archived: boolean
-      base: boolean
-      name: string
-      purpose: string
-      domain: string
-      accountabilities: string
-      checklist: string
-      indicators: string
-      notes: string
-      singleMember: boolean
-      autoCreate: boolean
-      link: string
-      defaultMinPerWeek?: number | null
-      colorHue?: number | null
     }>
     members: Array<{
       __typename?: 'member'
@@ -16835,6 +16802,15 @@ export type GetOrgSubscriptionStripeCustomerIdQueryVariables = Exact<{
   orgId: Scalars['uuid']
 }>
 
+export type GetOrgSubscriptionStripeCustomerIdQuery = {
+  __typename?: 'query_root'
+  org_subscription: Array<{
+    __typename?: 'org_subscription'
+    id: string
+    stripeCustomerId: string
+  }>
+}
+
 export const CircleSearchFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -17018,7 +16994,6 @@ export const MemberSearchFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'orgId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'picture' } },
         ],
       },
@@ -17162,6 +17137,71 @@ export const MeetingFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<MeetingFragment, unknown>
+export const MeetingRecurringFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MeetingRecurring' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'meeting_recurring' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'orgId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'circleId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'circle' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'role' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'colorHue' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'participantsScope' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'participantsMembersIds' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'templateId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'template' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'stepsConfig' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'rrule' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'videoConf' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MeetingRecurringFragment, unknown>
 export const MeetingStepFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -18791,6 +18831,131 @@ export const GetMemberDocument = {
     },
   ],
 } as unknown as DocumentNode<GetMemberQuery, GetMemberQueryVariables>
+export const GetOrgCirclesFullAndMembersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'getOrgCirclesFullAndMembers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'org_by_pk' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'circles' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'where' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'archived' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: { kind: 'BooleanValue', value: false },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CircleFull' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'members' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'where' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'archived' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: { kind: 'BooleanValue', value: false },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'Member' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...CircleFullFragmentDoc.definitions,
+    ...MemberFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  GetOrgCirclesFullAndMembersQuery,
+  GetOrgCirclesFullAndMembersQueryVariables
+>
 export const GetOrgMembersDocument = {
   kind: 'Document',
   definitions: [
@@ -18977,13 +19142,13 @@ export const GetOrgRoleDocument = {
     },
   ],
 } as unknown as DocumentNode<GetOrgRoleQuery, GetOrgRoleQueryVariables>
-export const GetOrgDocument = {
+export const GetOrgSubAndMembersDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'getOrg' },
+      name: { kind: 'Name', value: 'getOrgSubAndMembers' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -19065,7 +19230,160 @@ export const GetOrgDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<GetOrgQuery, GetOrgQueryVariables>
+} as unknown as DocumentNode<
+  GetOrgSubAndMembersQuery,
+  GetOrgSubAndMembersQueryVariables
+>
+export const GetMeetingDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'getMeetingData' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'meeting_by_pk' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'orgId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'circleId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'org' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'Org' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'members' },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'where' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'userId' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: '_eq' },
+                                        value: {
+                                          kind: 'Variable',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userId',
+                                          },
+                                        },
+                                      },
+                                    ],
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'circle' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'role' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'attendees' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'participantsScope' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'participantsMembersIds' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'recurringId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...OrgFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<GetMeetingDataQuery, GetMeetingDataQueryVariables>
 export const GetRecipientsDocument = {
   kind: 'Document',
   definitions: [
@@ -19094,6 +19412,17 @@ export const GetRecipientsDocument = {
             },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -19110,17 +19439,56 @@ export const GetRecipientsDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
+                      name: { kind: 'Name', value: '_or' },
                       value: {
-                        kind: 'ObjectValue',
-                        fields: [
+                        kind: 'ListValue',
+                        values: [
                           {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'memberIds' },
-                            },
+                            kind: 'ObjectValue',
+                            fields: [
+                              {
+                                kind: 'ObjectField',
+                                name: { kind: 'Name', value: 'id' },
+                                value: {
+                                  kind: 'ObjectValue',
+                                  fields: [
+                                    {
+                                      kind: 'ObjectField',
+                                      name: { kind: 'Name', value: '_in' },
+                                      value: {
+                                        kind: 'Variable',
+                                        name: {
+                                          kind: 'Name',
+                                          value: 'memberIds',
+                                        },
+                                      },
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          {
+                            kind: 'ObjectValue',
+                            fields: [
+                              {
+                                kind: 'ObjectField',
+                                name: { kind: 'Name', value: 'userId' },
+                                value: {
+                                  kind: 'ObjectValue',
+                                  fields: [
+                                    {
+                                      kind: 'ObjectField',
+                                      name: { kind: 'Name', value: '_eq' },
+                                      value: {
+                                        kind: 'Variable',
+                                        name: { kind: 'Name', value: 'userId' },
+                                      },
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
                           },
                         ],
                       },
@@ -20845,144 +21213,6 @@ export const GetOldIdsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetOldIdsQuery, GetOldIdsQueryVariables>
-export const GetMeetingDataDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'getMeetingData' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'userId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'meeting_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'org' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'Org' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'members' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'where' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: 'userId' },
-                                  value: {
-                                    kind: 'ObjectValue',
-                                    fields: [
-                                      {
-                                        kind: 'ObjectField',
-                                        name: { kind: 'Name', value: '_eq' },
-                                        value: {
-                                          kind: 'Variable',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'userId',
-                                          },
-                                        },
-                                      },
-                                    ],
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'circle' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'role' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'attendees' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    ...OrgFragmentDoc.definitions,
-  ],
-} as unknown as DocumentNode<GetMeetingDataQuery, GetMeetingDataQueryVariables>
 export const StartMembersMeetingDocument = {
   kind: 'Document',
   definitions: [
@@ -22181,273 +22411,4 @@ export const GetOrgSubscriptionStripeCustomerIdDocument = {
 } as unknown as DocumentNode<
   GetOrgSubscriptionStripeCustomerIdQuery,
   GetOrgSubscriptionStripeCustomerIdQueryVariables
->
-
-export type GetOrgSubscriptionStripeCustomerIdQuery = {
-  __typename?: 'query_root'
-  org_subscription: Array<{
-    __typename?: 'org_subscription'
-    id: string
-    stripeCustomerId: string
-  }>
-}
-
-export const MeetingNotificationDataFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MeetingNotificationData' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'meeting' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'orgId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'circleId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'org' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'Org' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'members' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'where' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'userId' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_eq' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: { kind: 'Name', value: 'userId' },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'circle' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'role' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'attendees' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'participantsScope' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'participantsMembersIds' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'recurringId' } },
-        ],
-      },
-    },
-    ...OrgFragmentDoc.definitions,
-  ],
-} as unknown as DocumentNode<MeetingNotificationDataFragment, unknown>
-export const MeetingRecurringFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MeetingRecurring' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'meeting_recurring' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'orgId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'circleId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'circle' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'role' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'colorHue' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'participantsScope' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'participantsMembersIds' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'templateId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'template' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'stepsConfig' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'rrule' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'videoConf' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<MeetingRecurringFragment, unknown>
-
-export const GetOrgSubAndMembersDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'getOrgSubAndMembers' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orgId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'org_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orgId' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'members' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'userId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'archived' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'org_subscription' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'stripeCustomerId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'stripeSubscriptionId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'status' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GetOrgSubAndMembersQuery,
-  GetOrgSubAndMembersQueryVariables
 >
