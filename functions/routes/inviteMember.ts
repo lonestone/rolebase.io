@@ -31,7 +31,11 @@ export default route(async (context) => {
   }
 
   // Check and get org
-  const org = await guardOrg(context, member.orgId, Member_Role_Enum.Admin)
+  const { org } = await guardOrg(
+    member.orgId,
+    Member_Role_Enum.Admin,
+    context.userId
+  )
 
   // Get inviter member
   const inviterMemberResult = await adminRequest(GET_MEMBER_BY_USER_ID, {

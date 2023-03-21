@@ -31,7 +31,7 @@ export default route(async (context): Promise<void> => {
   }
   // Check if user can access org data
   const orgId = meeting_by_pk.org.id
-  await guardOrg(context, orgId, Member_Role_Enum.Member)
+  await guardOrg(orgId, Member_Role_Enum.Member, context.userId)
 
   // If recipientMemberIds provided : send only to those recipients
   // Else send to all attendees

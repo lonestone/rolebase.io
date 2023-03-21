@@ -22,7 +22,7 @@ export default route(async (context): Promise<CustomerBillingDetails> => {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await guardOrg(context, orgId, Member_Role_Enum.Owner)
+  await guardOrg(orgId, Member_Role_Enum.Owner, context.userId)
 
   const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION_CUSTOMERID, {
     orgId,

@@ -19,11 +19,7 @@ export default async function taskAssignedUpdateAction(
   }
 
   // Check permission for old task org
-  await guardOrg(
-    { userId: senderUserId },
-    oldTask.orgId!,
-    Member_Role_Enum.Member
-  )
+  await guardOrg(oldTask.orgId!, Member_Role_Enum.Member, senderUserId)
 
   return newTask.memberId !== oldTask.memberId
     ? await getNotificationTaskData(newTask.id)

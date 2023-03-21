@@ -16,7 +16,7 @@ export default route(async (context): Promise<AlgoliaConfig> => {
   guardAuth(context)
   const { orgId } = guardBodyParams(context, yupSchema)
 
-  await guardOrg(context, orgId, Member_Role_Enum.Readonly)
+  await guardOrg(orgId, Member_Role_Enum.Readonly, context.userId)
 
   const apiKey = algoliasearch(
     settings.algolia.appId,

@@ -1,22 +1,21 @@
 import { gql, Member_Role_Enum } from '@gql'
 import { isRoleSufficient } from '@shared/helpers/isRoleSufficient'
 import { adminRequest } from './adminRequest'
-import { FunctionContext } from './getContext'
 import { RouteError } from './route'
 
 export async function guardOrg(
-  context: Partial<FunctionContext>,
   orgId: string,
-  minRole: Member_Role_Enum
+  minRole: Member_Role_Enum,
+  userId?: string
 ) {
-  if (!context.userId) {
+  if (!userId) {
     throw new RouteError(401, 'Unauthorized')
   }
 
   // Get user role in org
   const result = await adminRequest(GET_ORG_ROLE, {
     orgId,
-    userId: context.userId,
+    userId,
   })
 
   // Check if role is sufficient

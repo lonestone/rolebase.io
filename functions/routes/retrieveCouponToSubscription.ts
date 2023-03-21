@@ -21,7 +21,7 @@ export default route(async (context): Promise<PromotionCode> => {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await guardOrg(context, orgId, Member_Role_Enum.Owner)
+  await guardOrg(orgId, Member_Role_Enum.Owner, context.userId)
 
   const res = await retrievePromotionCode(promotionCode)
 
