@@ -54,7 +54,7 @@ export abstract class CirclesGraph extends Graph {
         const data: Data = {
           id: circle.id,
           parentId: circle.parentId,
-          name: textEllipsis(circle.role.name, 20),
+          name: circle.role.name,
           type: NodeType.Circle,
           colorHue: circle.role.colorHue ?? undefined,
         }
