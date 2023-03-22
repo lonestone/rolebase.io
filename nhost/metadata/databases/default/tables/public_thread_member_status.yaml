@@ -39,12 +39,7 @@ select_permissions:
         - lastReadActivityId
         - memberId
         - threadId
-      filter:
-        thread:
-          org:
-            members:
-              userId:
-                _eq: X-Hasura-User-Id
+      filter: {}
 update_permissions:
   - role: user
     permission:

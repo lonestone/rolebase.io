@@ -33,11 +33,7 @@ select_permissions:
         - key
         - orgId
         - tasksIds
-      filter:
-        org:
-          members:
-            userId:
-              _eq: X-Hasura-User-Id
+      filter: {}
 update_permissions:
   - role: user
     permission:

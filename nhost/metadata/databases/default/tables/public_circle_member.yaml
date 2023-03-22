@@ -39,12 +39,7 @@ select_permissions:
         - createdAt
         - id
         - memberId
-      filter:
-        circle:
-          org:
-            members:
-              userId:
-                _eq: X-Hasura-User-Id
+      filter: {}
       allow_aggregations: true
 update_permissions:
   - role: user
