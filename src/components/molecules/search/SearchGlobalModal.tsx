@@ -51,7 +51,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
 
   // Search
   const [type, setType] = useState<(typeof searchTypes)[number] | undefined>()
-  const { filteredItems, search, loading } = useAlgoliaSearch()
+  const { items, search, loading } = useAlgoliaSearch()
 
   // Search when input value changes
   const onInputValueChange = useIdleCallback(
@@ -90,7 +90,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
     getItemProps,
     inputValue,
   } = useCombobox({
-    items: filteredItems,
+    items,
     itemToString: () => '',
     defaultHighlightedIndex: 0,
     onInputValueChange,
@@ -176,7 +176,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
           {...getMenuProps()}
         >
           {!loading &&
-            filteredItems.slice(0, maxDisplayedItems).map((item, index) => (
+            items.slice(0, maxDisplayedItems).map((item, index) => (
               <ListItem key={index} mb={1}>
                 <SearchResultItem
                   item={item}
@@ -201,7 +201,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
             </ListItem>
           )}
 
-          {!loading && inputValue !== '' && filteredItems.length === 0 && (
+          {!loading && inputValue !== '' && items.length === 0 && (
             <ListItem>
               <Box pb={2} color="gray.500" fontSize="sm" textAlign="center">
                 {t('SearchGlobalModal.noResults')}

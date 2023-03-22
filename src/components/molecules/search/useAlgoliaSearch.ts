@@ -29,7 +29,7 @@ export function useAlgoliaSearch() {
   const dateLocale = useDateLocale()
   const orgId = useOrgId()
   const [loading, setLoading] = useState(false)
-  const [filteredItems, setFilteredItems] = useState<SearchItem[]>([])
+  const [items, setItems] = useState<SearchItem[]>([])
 
   // Get Algolia config
   const indexPromise = useMemo(() => {
@@ -44,7 +44,7 @@ export function useAlgoliaSearch() {
   const search = useMemo(() => {
     return debounce(async (value: string, type?: SearchTypes) => {
       if (!value) {
-        setFilteredItems([])
+        setItems([])
         return
       }
 
@@ -65,7 +65,7 @@ export function useAlgoliaSearch() {
           type ? { facetFilters: `type:${type}` } : undefined
         )
 
-        setFilteredItems(
+        setItems(
           hits.map((hit) => {
             const title = hit.startDate
               ? `${hit.title}, ${capitalizeFirstLetter(
@@ -94,7 +94,7 @@ export function useAlgoliaSearch() {
 
   return {
     loading,
-    filteredItems,
+    items,
     search,
   }
 }

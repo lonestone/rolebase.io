@@ -1,3 +1,4 @@
+import Loading from '@atoms/Loading'
 import MemberLinkOverlay from '@atoms/MemberLinkOverlay'
 import { Title } from '@atoms/Title'
 import {
@@ -19,11 +20,14 @@ import {
 import { Member_Role_Enum } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useOrgAdmin from '@hooks/useOrgAdmin'
+import { useAlgoliaSearch } from '@molecules/search/useAlgoliaSearch'
 import MemberCreateModal from '@organisms/member/MemberCreateModal'
 import MemberEditModal from '@organisms/member/MemberEditModal'
 import MembersInviteModal from '@organisms/member/MembersInviteModal'
+import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo, useState } from 'react'
+import { truthy } from '@utils/truthy'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 
@@ -61,15 +65,24 @@ export default function MembersPage() {
   }
 
   // Search
+  const { items, search, loading } = useAlgoliaSearch()
   const [searchText, setSearchText] = useState('')
+
+  useEffect(() => {
+    if (searchText.length !== 0) {
+      search(searchText, SearchTypes.Member)
+    }
+  }, [searchText])
 
   // Filter members
   const filteredMembers = useMemo(() => {
-    const text = searchText.toLowerCase()
-    return members?.filter(
-      (member) => member.name.toLowerCase().indexOf(text) !== -1
-    )
-  }, [members, searchText])
+    if (searchText.length === 0 || !members) {
+      return members
+    }
+    return items
+      .map((item) => members.find((member) => member.id === item.id))
+      .filter(truthy)
+  }, [members, searchText, items])
 
   return (
     <Container maxW="xl" py={10}>
@@ -172,6 +185,8 @@ export default function MembersPage() {
           </HStack>
         </LinkBox>
       ))}
+
+      <Loading active={loading} size="md" />
 
       {isCreateOpen && (
         <MemberCreateModal
