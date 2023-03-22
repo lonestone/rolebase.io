@@ -16270,13 +16270,6 @@ export type GetMemberQueryVariables = Exact<{
 
 export type GetMemberQuery = { __typename?: 'query_root', member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null } | null };
 
-export type GetOrgsMembersQueryVariables = Exact<{
-  orgsIds: Array<Scalars['uuid']> | Scalars['uuid'];
-}>;
-
-
-export type GetOrgsMembersQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
-
 export type MembersSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
   archived: Scalars['Boolean'];
@@ -18368,47 +18361,6 @@ export type GetMemberLazyQueryHookResult = ReturnType<typeof useGetMemberLazyQue
 export type GetMemberQueryResult = Apollo.QueryResult<GetMemberQuery, GetMemberQueryVariables>;
 export function refetchGetMemberQuery(variables: GetMemberQueryVariables) {
       return { query: GetMemberDocument, variables: variables }
-    }
-export const GetOrgsMembersDocument = gql`
-    query getOrgsMembers($orgsIds: [uuid!]!) {
-  member(
-    where: {orgId: {_in: $orgsIds}, archived: {_eq: false}}
-    order_by: {name: asc}
-  ) {
-    ...Member
-  }
-}
-    ${MemberFragmentDoc}`;
-
-/**
- * __useGetOrgsMembersQuery__
- *
- * To run a query within a React component, call `useGetOrgsMembersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrgsMembersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOrgsMembersQuery({
- *   variables: {
- *      orgsIds: // value for 'orgsIds'
- *   },
- * });
- */
-export function useGetOrgsMembersQuery(baseOptions: Apollo.QueryHookOptions<GetOrgsMembersQuery, GetOrgsMembersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrgsMembersQuery, GetOrgsMembersQueryVariables>(GetOrgsMembersDocument, options);
-      }
-export function useGetOrgsMembersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgsMembersQuery, GetOrgsMembersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrgsMembersQuery, GetOrgsMembersQueryVariables>(GetOrgsMembersDocument, options);
-        }
-export type GetOrgsMembersQueryHookResult = ReturnType<typeof useGetOrgsMembersQuery>;
-export type GetOrgsMembersLazyQueryHookResult = ReturnType<typeof useGetOrgsMembersLazyQuery>;
-export type GetOrgsMembersQueryResult = Apollo.QueryResult<GetOrgsMembersQuery, GetOrgsMembersQueryVariables>;
-export function refetchGetOrgsMembersQuery(variables: GetOrgsMembersQueryVariables) {
-      return { query: GetOrgsMembersDocument, variables: variables }
     }
 export const MembersDocument = gql`
     subscription members($orgId: uuid!, $archived: Boolean!) {

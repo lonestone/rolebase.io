@@ -4,15 +4,6 @@ query getMember($id: uuid!) {
   }
 }
 
-query getOrgsMembers($orgsIds: [uuid!]!) {
-  member(
-    where: { orgId: { _in: $orgsIds }, archived: { _eq: false } }
-    order_by: { name: asc }
-  ) {
-    ...Member
-  }
-}
-
 subscription members($orgId: uuid!, $archived: Boolean!) {
   member(
     where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }
