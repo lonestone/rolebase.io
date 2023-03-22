@@ -418,7 +418,7 @@
   "MembersPage": {
     "heading": "Membres",
     "searchPlaceholder": "Rechercher...",
-    "invite": "Inviter",
+    "invite": "Inviter des membres à participer",
     "tags": {
       "readonly": "Lecture seule",
       "member": "Membre",

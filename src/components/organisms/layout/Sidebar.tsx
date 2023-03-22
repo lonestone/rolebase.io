@@ -4,6 +4,7 @@ import SidebarItem from '@atoms/SidebarItem'
 import SidebarItemLink from '@atoms/SidebarItemLink'
 import SidebarTopIcon from '@atoms/SidebarTopIcon'
 import SidebarTopIconLink from '@atoms/SidebarTopIconLink'
+import { SearchIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
@@ -36,7 +37,7 @@ import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaQuestionCircle, FaSearch } from 'react-icons/fa'
+import { FaQuestionCircle } from 'react-icons/fa'
 import {
   FiArrowLeft,
   FiCalendar,
@@ -221,8 +222,13 @@ export default function Sidebar() {
                   hasArrow
                 >
                   <InputGroup size="sm">
-                    <InputLeftElement>
-                      <FaSearch />
+                    <InputLeftElement pointerEvents="none">
+                      <SearchIcon
+                        color="gray.400"
+                        _dark={{
+                          color: 'whiteAlpha.600',
+                        }}
+                      />
                     </InputLeftElement>
                     <Input
                       placeholder={t('Sidebar.search')}

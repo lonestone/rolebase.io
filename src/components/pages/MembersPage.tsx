@@ -1,6 +1,7 @@
 import Loading from '@atoms/Loading'
 import MemberLinkOverlay from '@atoms/MemberLinkOverlay'
 import { Title } from '@atoms/Title'
+import { SearchIcon } from '@chakra-ui/icons'
 import {
   Button,
   CloseButton,
@@ -11,8 +12,13 @@ import {
   IconButton,
   Input,
   InputGroup,
+  InputLeftElement,
   InputRightElement,
   LinkBox,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Spacer,
   Tag,
   useDisclosure,
@@ -29,7 +35,7 @@ import { useStoreState } from '@store/hooks'
 import { truthy } from '@utils/truthy'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
+import { FiEdit3, FiMail, FiMoreVertical, FiPlus } from 'react-icons/fi'
 
 export default function MembersPage() {
   const { t } = useTranslation()
@@ -67,6 +73,7 @@ export default function MembersPage() {
   // Search
   const { items, search, loading } = useAlgoliaSearch()
   const [searchText, setSearchText] = useState('')
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
 
   useEffect(() => {
     if (searchText.length !== 0) {
@@ -95,15 +102,21 @@ export default function MembersPage() {
         <Spacer />
 
         <InputGroup size="sm" w="auto">
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon color="gray.500" />
+          </InputLeftElement>
           <Input
             type="text"
             placeholder={t('MembersPage.searchPlaceholder')}
             borderRadius="md"
-            w="200px"
+            transition="width 0.2s"
+            w={isSearchFocused ? '200px' : '130px'}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setIsSearchFocused(false)}
           />
-          <InputRightElement>
+          <InputRightElement display="none" _groupFocus={{ display: 'block' }}>
             <CloseButton
               colorScheme="gray"
               size="sm"
@@ -114,18 +127,29 @@ export default function MembersPage() {
 
         {isAdmin && (
           <>
-            <Button
-              size="sm"
-              ml={2}
-              leftIcon={<FiMail />}
-              onClick={onInviteOpen}
-            >
-              {t('MembersPage.invite')}
-            </Button>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                size="sm"
+                variant="ghost"
+                icon={<FiMoreVertical />}
+                aria-label={t('ActionsMenu.label')}
+              />
+              <MenuList
+                fontFamily="body"
+                fontSize="1rem"
+                fontWeight="normal"
+                zIndex={1000}
+              >
+                <MenuItem icon={<FiMail />} onClick={onInviteOpen}>
+                  {t('MembersPage.invite')}
+                </MenuItem>
+              </MenuList>
+            </Menu>
+
             <Button
               size="sm"
               colorScheme="blue"
-              ml={1}
               leftIcon={<FiPlus />}
               onClick={onCreateOpen}
             >

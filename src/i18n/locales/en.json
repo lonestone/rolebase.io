@@ -419,7 +419,7 @@
   "MembersPage": {
     "heading": "Members",
     "searchPlaceholder": "Search...",
-    "invite": "Invite",
+    "invite": "Invite members to participate",
     "tags": {
       "readonly": "Read only",
       "member": "Member",
