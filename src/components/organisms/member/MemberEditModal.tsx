@@ -249,11 +249,7 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
 
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel>{t('common.name')}</FormLabel>
-                  <Input
-                    {...register('name')}
-                    placeholder={t('common.namePlaceholder')}
-                    autoFocus
-                  />
+                  <Input {...register('name')} autoFocus />
                 </FormControl>
               </HStack>
               <FormControl isInvalid={!!errors.description}>

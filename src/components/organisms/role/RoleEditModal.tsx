@@ -188,11 +188,7 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
 
               <FormControl isInvalid={!!errors.name}>
                 <FormLabel>{t('RoleEditModal.name')}</FormLabel>
-                <Input
-                  {...register('name')}
-                  placeholder={t('RoleEditModal.namePlaceholder')}
-                  autoFocus
-                />
+                <Input {...register('name')} autoFocus />
               </FormControl>
 
               <FormControl isInvalid={!!errors.purpose}>

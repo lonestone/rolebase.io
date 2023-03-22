@@ -111,7 +111,6 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                 <FormLabel>{t('common.name')}</FormLabel>
                 <Input
                   {...register('name')}
-                  placeholder={t('common.namePlaceholder')}
                   autoFocus
                   autoComplete="off"
                   data-lpignore="true"

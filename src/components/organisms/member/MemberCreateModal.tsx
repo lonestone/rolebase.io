@@ -66,11 +66,7 @@ export default function MemberCreateModal({ onCreate, ...modalProps }: Props) {
           <ModalBody>
             <FormControl isInvalid={!!errors.name}>
               <FormLabel>{t('common.name')}</FormLabel>
-              <Input
-                {...register('name')}
-                placeholder={t('common.namePlaceholder')}
-                autoFocus
-              />
+              <Input {...register('name')} autoFocus />
             </FormControl>
 
             <Box textAlign="right" my={2}>
