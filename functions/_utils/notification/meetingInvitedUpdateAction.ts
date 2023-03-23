@@ -14,11 +14,7 @@ export async function meetingInvitedUpdateAction(
   }
 
   //  Check permission for old meeting org
-  await guardOrg(
-    { userId: senderUserId },
-    oldMeeting.orgId!,
-    Member_Role_Enum.Member
-  )
+  await guardOrg(oldMeeting.orgId!, Member_Role_Enum.Member, senderUserId)
 
   // Get diff in meeting participants
   const newParticipantIds = await getMeetingParticipantIdsDiff(

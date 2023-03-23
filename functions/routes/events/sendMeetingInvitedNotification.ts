@@ -33,9 +33,9 @@ export default route(async (context): Promise<void> => {
 
   // Check permission for new meeting org
   await guardOrg(
-    { userId: senderUserId },
     event.event.data.new.orgId,
-    Member_Role_Enum.Member
+    Member_Role_Enum.Member,
+    senderUserId
   )
 
   // What needs to be done in each event case

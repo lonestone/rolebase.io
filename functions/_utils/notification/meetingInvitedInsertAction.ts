@@ -21,7 +21,7 @@ export async function meetingInvitedInsertAction(
   }
 
   // Get all recipients (by scope or extra) to send notification to
-  let recipientIds = getParticipantsByScope(
+  const recipientIds = getParticipantsByScope(
     org.members,
     meetingDataResult.circleId,
     org.circles,
@@ -29,7 +29,7 @@ export async function meetingInvitedInsertAction(
     meetingDataResult.participantsMembersIds
   ).map((participant) => participant.member.id)
 
-  return recipientIds?.length !== 0
+  return recipientIds?.length
     ? {
         meeting: meetingDataResult,
         participantsIds: recipientIds,
