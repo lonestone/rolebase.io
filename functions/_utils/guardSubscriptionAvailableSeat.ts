@@ -12,7 +12,7 @@ export async function guardSubscriptionAvailableSeat(
 ) {
   guardAuth(context)
 
-  const orgResponse = await adminRequest(GET_ORG_MEMBERS, {
+  const orgResponse = await adminRequest(GET_ORG_SUB_AND_MEMBERS, {
     orgId,
   })
   const org = orgResponse.org_by_pk
@@ -34,8 +34,8 @@ export async function guardSubscriptionAvailableSeat(
   }
 }
 
-export const GET_ORG_MEMBERS = gql(`
-  query getOrg($orgId: uuid!) {
+export const GET_ORG_SUB_AND_MEMBERS = gql(`
+  query getOrgSubAndMembers($orgId: uuid!) {
     org_by_pk(id: $orgId) {
       id
       members {

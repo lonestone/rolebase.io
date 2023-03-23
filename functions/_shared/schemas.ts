@@ -39,3 +39,9 @@ export const subscriptionPlanTypeSchema = yup
   .mixed<Subscription_Plan_Type_Enum>()
   .oneOf(Object.values(Subscription_Plan_Type_Enum))
   .required()
+
+export const stepsConfigSchema = yup.array().of(
+  yup.object().shape({
+    title: yup.string().required(),
+  })
+)

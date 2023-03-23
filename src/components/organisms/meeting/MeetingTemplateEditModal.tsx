@@ -21,10 +21,9 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
 import MeetingStepsConfigController, {
-  stepsConfigSchema,
   StepsValues,
 } from '@molecules/meeting/MeetingStepsConfigController'
-import { nameSchema } from '@shared/schemas'
+import { nameSchema, stepsConfigSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

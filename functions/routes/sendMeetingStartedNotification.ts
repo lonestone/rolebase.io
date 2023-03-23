@@ -1,13 +1,13 @@
-import { gql, Member_Role_Enum } from '@gql'
+import { Member_Role_Enum } from '@gql'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { RouteError, route } from '@utils/route'
-import { adminRequest } from '@utils/adminRequest'
+import { route } from '@utils/route'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import * as yup from 'yup'
 import { MeetingStartedNotification } from '@utils/notification/meetingStartedNotification'
 import { defaultLang, resources } from '@i18n'
 import { guardOrg } from '@utils/guardOrg'
+import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
 
 const yupSchema = yup.object({
   recipientMemberIds: yup.array().of(yup.string().required()),
@@ -20,13 +20,10 @@ export default route(async (context): Promise<void> => {
   const { meetingId, recipientMemberIds } = guardBodyParams(context, yupSchema)
 
   // Get meeting data
-  const { meeting_by_pk } = await adminRequest(GET_MEETING_DATA, {
-    id: meetingId,
-    userId: context?.userId!,
-  })
-  if (!meeting_by_pk) {
-    throw new RouteError(404, 'Meeting not found')
-  }
+  const meeting_by_pk = await getNotificationMeetingData(
+    meetingId,
+    context?.userId!
+  )
 
   const { org, id, title, circle, attendees } = meeting_by_pk
 
@@ -43,7 +40,7 @@ export default route(async (context): Promise<void> => {
   // Get sender and recipients
   const { sender, recipients } = await getNotificationSenderAndRecipients(
     context?.userId!,
-    [...new Set([org.members[0].id, ...allRecipientIds])]
+    [...new Set([...allRecipientIds])]
   )
   if (recipients.length === 0) return
 
@@ -61,24 +58,3 @@ export default route(async (context): Promise<void> => {
   // Send notification "meetingstarted"
   await notification.send(recipients)
 })
-
-const GET_MEETING_DATA = gql(`
-  query getMeetingData($id: uuid!, $userId:uuid!) {
-    meeting_by_pk(id: $id) {
-      id
-      org {
-        ...Org
-        members(where: { userId: { _eq: $userId }}) {
-          id
-        }
-      }
-      title
-      circle {
-        role {
-          name
-        }
-      }
-      attendees
-    }
-  }
-`)

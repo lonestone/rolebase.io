@@ -22,5 +22,9 @@ export type MeetingStartedNotificationPayload = NotificationPayloadBuilder<
   NotificationInAppPayload & NotificationEmailPayload
 >
 
+export type MeetingInvitedNotificationPayload = NotificationPayloadBuilder<
+  NotificationInAppPayload & NotificationEmailPayload
+>
+
 export type TaskAssignedNotificationPayload =
   NotificationPayloadBuilder<NotificationInAppPayload>

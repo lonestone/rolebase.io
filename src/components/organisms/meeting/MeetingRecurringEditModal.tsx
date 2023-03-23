@@ -136,7 +136,10 @@ export default function MeetingRecurringEditModal({
       if (meetingRecurring) {
         // Update recurring meeting
         await updateMeetingRecurring({
-          variables: { id: meetingRecurring.id, values: meetingUpdate },
+          variables: {
+            id: meetingRecurring.id,
+            values: meetingUpdate,
+          },
         })
       } else {
         // Create recurring meeting

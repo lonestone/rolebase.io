@@ -6,7 +6,6 @@ import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
-import * as yup from 'yup'
 import SortableList from '../SortableList'
 import MeetingStepSortableItem from './MeetingStepSortableItem'
 
@@ -20,12 +19,6 @@ interface Props {
   control: Control<StepsValues>
   errors?: FieldErrors<StepsValues>
 }
-
-export const stepsConfigSchema = yup.array().of(
-  yup.object().shape({
-    title: yup.string().required(),
-  })
-)
 
 export default function MeetingStepsConfigController({
   control,

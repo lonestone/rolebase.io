@@ -33,14 +33,13 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MeetingStepsConfigController, {
-  stepsConfigSchema,
   StepsValues,
 } from '@molecules/meeting/MeetingStepsConfigController'
 import MeetingTemplateMenu from '@molecules/meeting/MeetingTemplateMenu'
 import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
-import { nameSchema } from '@shared/schemas'
+import { nameSchema, stepsConfigSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/getDateTimeLocal'
 import { nanoid } from 'nanoid'
 import React, { useMemo } from 'react'
@@ -193,7 +192,10 @@ export default function MeetingEditModal({
       if (meeting && !duplicate) {
         // Update meeting
         await updateMeeting({
-          variables: { id: meeting.id, values: meetingUpdate },
+          variables: {
+            id: meeting.id,
+            values: meetingUpdate,
+          },
         })
       } else {
         // Create meeting

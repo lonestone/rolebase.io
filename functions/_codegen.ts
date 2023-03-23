@@ -50,6 +50,7 @@ const config: CodegenConfig = {
   ],
   documents: [
     'routes/*.ts',
+    'routes/**/*.ts',
     '_utils/*.ts',
     '_utils/**/*.ts',
     '_shared/fragments/*.gql',

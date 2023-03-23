@@ -15944,6 +15944,8 @@ export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: strin
 
 export type MeetingSummaryFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null };
 
+export type MeetingRecurringFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } };
+
 export type MeetingStepFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData };
 
 export type MemberFragment = { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null };
@@ -16157,8 +16159,6 @@ export type ArchiveMeetingMutationVariables = Exact<{
 
 
 export type ArchiveMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string } | null };
-
-export type MeetingRecurringFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } };
 
 export type MeetingRecurringSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
@@ -16652,6 +16652,30 @@ export const MeetingFragmentDoc = gql`
   recurringDate
 }
     `;
+export const MeetingRecurringFragmentDoc = gql`
+    fragment MeetingRecurring on meeting_recurring {
+  id
+  orgId
+  circleId
+  circle {
+    role {
+      name
+      colorHue
+    }
+  }
+  participantsScope
+  participantsMembersIds
+  templateId
+  template {
+    title
+    stepsConfig
+  }
+  rrule
+  duration
+  videoConf
+  createdAt
+}
+    `;
 export const MeetingStepFragmentDoc = gql`
     fragment MeetingStep on meeting_step {
   id
@@ -16866,30 +16890,6 @@ export const ThreadActivityFragmentDoc = gql`
 ${MeetingSummaryFragmentDoc}
 ${TaskFragmentDoc}
 ${DecisionFragmentDoc}`;
-export const MeetingRecurringFragmentDoc = gql`
-    fragment MeetingRecurring on meeting_recurring {
-  id
-  orgId
-  circleId
-  circle {
-    role {
-      name
-      colorHue
-    }
-  }
-  participantsScope
-  participantsMembersIds
-  templateId
-  template {
-    title
-    stepsConfig
-  }
-  rrule
-  duration
-  videoConf
-  createdAt
-}
-    `;
 export const MeetingTemplateFragmentDoc = gql`
     fragment MeetingTemplate on meeting_template {
   id
