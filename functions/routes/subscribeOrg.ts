@@ -35,7 +35,11 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     throw new RouteError(400, 'Invalid request')
   }
 
-  const { member } = await guardOrg(context, orgId, Member_Role_Enum.Owner)
+  const { member } = await guardOrg(
+    orgId,
+    Member_Role_Enum.Owner,
+    context.userId
+  )
 
   const user = (await adminRequest(GET_USER_EMAIL, { id: member.userId })).user
 

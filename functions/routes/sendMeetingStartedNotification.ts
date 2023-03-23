@@ -2,8 +2,6 @@ import { gql, Member_Role_Enum } from '@gql'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { RouteError, route } from '@utils/route'
-import settings from '@utils/settings'
-import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { adminRequest } from '@utils/adminRequest'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import * as yup from 'yup'
@@ -29,36 +27,36 @@ export default route(async (context): Promise<void> => {
   if (!meeting_by_pk) {
     throw new RouteError(404, 'Meeting not found')
   }
+
+  const { org, id, title, circle, attendees } = meeting_by_pk
+
   // Check if user can access org data
-  const orgId = meeting_by_pk.org.id
-  await guardOrg(context, orgId, Member_Role_Enum.Member)
+  const orgId = org.id
+  await guardOrg(orgId, Member_Role_Enum.Member, context.userId)
 
   // If recipientMemberIds provided : send only to those recipients
   // Else send to all attendees
   const allRecipientIds =
-    recipientMemberIds ?? meeting_by_pk.attendees?.map((a) => a.memberId) ?? []
+    recipientMemberIds ?? attendees?.map((a) => a.memberId) ?? []
 
   if (!allRecipientIds || allRecipientIds.length === 0) return
   // Get sender and recipients
   const { sender, recipients } = await getNotificationSenderAndRecipients(
     context?.userId!,
-    [...new Set([meeting_by_pk.org.members[0].id, ...allRecipientIds])]
+    [...new Set([org.members[0].id, ...allRecipientIds])]
   )
   if (recipients.length === 0) return
 
   const locale = (sender?.locale as keyof typeof resources) || defaultLang
 
-  // Get actionUrl
-  const actionUrl = meeting_by_pk.org
-    ? `${settings.url}${getOrgPath(meeting_by_pk.org)}/meetings/${meetingId}`
-    : `${settings.url}/orgs/${orgId}/meetings/${meetingId}`
-
   // Build MeetingStartedNotification instance for each recipient depending on its locale
   const notification = new MeetingStartedNotification(locale, {
-    title: meeting_by_pk?.title || '',
-    role: meeting_by_pk?.circle.role.name || '',
+    org,
+    orgId,
+    meetingId: id,
+    title,
+    role: circle.role.name,
     sender: sender?.name || '',
-    actionUrl,
   })
   // Send notification "meetingstarted"
   await notification.send(recipients)

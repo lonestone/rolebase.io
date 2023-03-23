@@ -22,9 +22,9 @@ export default route(async (context): Promise<void> => {
   const memberToUpdate = await getMemberById(memberId)
 
   const { member: issuerMember } = await guardOrg(
-    context,
     memberToUpdate.orgId,
-    Member_Role_Enum.Admin
+    Member_Role_Enum.Admin,
+    context.userId
   )
 
   if (

@@ -13,6 +13,6 @@ const yupSchema = yup.object().shape({
 export default route(async (context): Promise<string> => {
   guardAuth(context)
   const { orgId } = guardBodyParams(context, yupSchema)
-  await guardOrg(context, orgId, Member_Role_Enum.Readonly)
+  await guardOrg(orgId, Member_Role_Enum.Readonly, context.userId)
   return generateMeetingToken(orgId)
 })

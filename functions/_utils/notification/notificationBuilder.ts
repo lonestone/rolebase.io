@@ -2,6 +2,14 @@ import { NotificationCategories } from '@shared/model/notification'
 import { resources } from '@i18n'
 import { Novu, TriggerRecipientsPayload } from '@novu/node'
 import settings from '@utils/settings'
+import { OrgFragment } from '@gql'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
+
+const mappingActionUrl = new Map([
+  [NotificationCategories.meetingstarted, 'meetings'],
+  [NotificationCategories.meetinginvited, 'meetings'],
+  [NotificationCategories.taskassigned, 'tasks'],
+])
 
 export abstract class Notification<
   T extends NotificationCategories,
@@ -18,6 +26,18 @@ export abstract class Notification<
 
   // Get notification payload
   abstract get payload(): Payload
+
+  // Get actionUrl
+  getActionUrl(
+    category: NotificationCategories,
+    orgId: string,
+    org?: OrgFragment,
+    id?: string
+  ): string {
+    return `${settings.url}${
+      org ? getOrgPath(org) : `/orgs/${orgId}`
+    }/${mappingActionUrl.get(category)}/${id}`
+  }
 
   // Send notification
   async send(to: TriggerRecipientsPayload) {

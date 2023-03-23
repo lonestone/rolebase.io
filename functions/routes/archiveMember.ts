@@ -25,9 +25,9 @@ export default route(async (context): Promise<void> => {
   }
 
   const { member: issuerMember } = await guardOrg(
-    context,
     memberToArchive.orgId,
-    Member_Role_Enum.Admin
+    Member_Role_Enum.Admin,
+    context.userId
   )
 
   if (!memberToArchive) {

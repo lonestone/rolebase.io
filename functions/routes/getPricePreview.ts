@@ -28,7 +28,7 @@ export default route(async (context): Promise<PricePreview> => {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await guardOrg(context, orgId, Member_Role_Enum.Owner)
+  await guardOrg(orgId, Member_Role_Enum.Owner, context.userId)
 
   const org = (await adminRequest(GET_QUANTITY, { orgId })).org_by_pk
 
