@@ -4,8 +4,6 @@ type NotificationCommonPayload = {
   actionUrl?: string
 }
 
-type NotificationInAppPayload = {}
-
 type NotificationEmailPayload = {
   notificationReceived: string
   actionButton: string
@@ -15,16 +13,26 @@ type NotificationEmailPayload = {
   appUrl?: string
 }
 
+type NotificationDigestPayload = {
+  titleSingular: string
+  contentSingular: string
+  titlePlural: string
+  contentPlural: string
+  digestKey?: string | null
+}
+
 type NotificationPayloadBuilder<Data extends any> = NotificationCommonPayload &
   Data
 
-export type MeetingStartedNotificationPayload = NotificationPayloadBuilder<
-  NotificationInAppPayload & NotificationEmailPayload
->
+export type MeetingStartedNotificationPayload =
+  NotificationPayloadBuilder<NotificationEmailPayload>
 
-export type MeetingInvitedNotificationPayload = NotificationPayloadBuilder<
-  NotificationInAppPayload & NotificationEmailPayload
->
+export type MeetingInvitedNotificationPayload =
+  NotificationPayloadBuilder<NotificationEmailPayload>
 
-export type TaskAssignedNotificationPayload =
-  NotificationPayloadBuilder<NotificationInAppPayload>
+export type TaskAssignedNotificationPayload = NotificationCommonPayload
+
+export type ThreadNotificationPayload = NotificationCommonPayload
+
+export type ThreadActivityNotificationPayload =
+  NotificationPayloadBuilder<NotificationDigestPayload>

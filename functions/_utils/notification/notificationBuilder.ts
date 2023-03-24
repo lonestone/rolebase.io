@@ -9,6 +9,8 @@ const mappingActionUrl = new Map([
   [NotificationCategories.meetingstarted, 'meetings'],
   [NotificationCategories.meetinginvited, 'meetings'],
   [NotificationCategories.taskassigned, 'tasks'],
+  [NotificationCategories.thread, 'threads'],
+  [NotificationCategories.threadActivity, 'threads'],
 ])
 
 export abstract class Notification<
@@ -37,6 +39,11 @@ export abstract class Notification<
     return `${settings.url}${
       org ? getOrgPath(org) : `/orgs/${orgId}`
     }/${mappingActionUrl.get(category)}/${id}`
+  }
+
+  // Get digestKey
+  getDigestKey(category: NotificationCategories, id?: string) {
+    return category && id ? `${category}${id}` : null
   }
 
   // Send notification
