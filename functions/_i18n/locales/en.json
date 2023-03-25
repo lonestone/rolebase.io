@@ -22,8 +22,8 @@
       "content": "{{sender}} started the meeting!"
     },
     "sendTaskAssignedNotification": {
-      "title": "Task assigned to you for {{role}}",
-      "content": "Task {{title}} was assigned to you"
+      "title": "Task assigned to you ({{role}})",
+      "content": "{{title}}"
     }
   }
 }

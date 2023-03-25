@@ -1,11 +1,9 @@
-import { GetTaskDataQuery, Member_Role_Enum, TaskFragment } from '@gql'
+import { TaskFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
-import { guardOrg } from '@utils/guardOrg'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
-import { HasuraEvent, HasuraEventOp } from '@utils/nhost'
+import { HasuraEvent } from '@utils/nhost'
 import { getNotificationTaskData } from '@utils/notification/task/getNotificationTaskData'
 import { TaskAssignedNotification } from '@utils/notification/task/taskAssignedNotification'
-import taskAssignedUpdateAction from '@utils/notification/task/taskAssignedUpdateAction'
 import { route, RouteError } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
@@ -24,47 +22,26 @@ export default route(async (context): Promise<void> => {
     throw new RouteError(404, 'No new task')
   }
 
-  // Check permission for new meeting org
-  await guardOrg(
-    event.event.data.new.orgId,
-    Member_Role_Enum.Member,
-    senderUserId
-  )
-
-  // What needs to be done in each event case
-  let taskAssignedActionReturn: NonNullable<
-    GetTaskDataQuery['task_by_pk']
-  > | null = null
-  switch (event.event.op) {
-    case HasuraEventOp.INSERT:
-      taskAssignedActionReturn =
-        (await getNotificationTaskData(event.event.data.new.id)) ?? null
-      break
-
-    case HasuraEventOp.UPDATE:
-      taskAssignedActionReturn = await taskAssignedUpdateAction(
-        senderUserId,
-        event.event.data.new,
-        event.event.data.old
-      )
-      break
-
-    default:
-      break
+  // Check if task has a new assignee
+  const oldTask = event.event.data.old
+  const newTask = event.event.data.new
+  if (!newTask.memberId || newTask.memberId === oldTask?.memberId) {
+    return
   }
 
+  // What needs to be done in each event case
+  const notifData = await getNotificationTaskData(newTask.id)
+
   if (
-    // Don't send notification if no task
-    !taskAssignedActionReturn ||
     // Don't send notification if no assignee
-    !taskAssignedActionReturn.member?.user?.id ||
+    !notifData.member?.user?.id ||
     // Don't send notification if creator is the same person as assignee
-    senderUserId === taskAssignedActionReturn.member?.user?.id
+    senderUserId === notifData.member?.user?.id
   ) {
     return
   }
 
-  const { member, org, orgId, id, title, circle } = taskAssignedActionReturn
+  const { member, org, orgId, id, title, circle } = notifData
 
   const recipientLocale =
     (member?.user?.locale as keyof typeof resources) || defaultLang
