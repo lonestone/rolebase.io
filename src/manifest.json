@@ -5,8 +5,18 @@
   "icons": [
     {
       "src": "/src/images/icon.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/src/images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/src/images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }
