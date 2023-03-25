@@ -8,6 +8,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiBell } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   isMobile: boolean
@@ -15,24 +16,21 @@ interface Props {
 
 export default function NotificationsCenter({ isMobile }: Props) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { colorMode } = useColorMode()
 
-  const onMarkNotificationsAsSuccess = (data: IMessage[]) => {
-    if (data[0].cta.data.url) {
-      window.location.href = data[0].cta.data.url
-    }
-  }
-  const onMarkNotificationsAsError = (error: Error) => {
-    console.error(error)
-  }
-
   // Hook needs to be in a NovuProvider instance to work
-  const { markNotificationsAs } = useMarkNotificationsAs({
-    onSuccess: onMarkNotificationsAsSuccess,
-    onError: onMarkNotificationsAsError,
-  })
+  const { markNotificationsAs } = useMarkNotificationsAs()
 
   const onNotificationClick = async (notification: IMessage) => {
+    const url = notification.cta.data.url?.replace(
+      /^https?:\/\/[^/]+(?=\/)/,
+      ''
+    )
+    if (url) {
+      navigate(url)
+    }
+
     markNotificationsAs({
       messageId: notification?._id,
       seen: true,
