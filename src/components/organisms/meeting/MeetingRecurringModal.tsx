@@ -26,13 +26,17 @@ import useCreateMeeting from '@hooks/useCreateMeeting'
 import useDateLocale from '@hooks/useDateLocale'
 import useParticipants from '@hooks/useParticipants'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
+import {
+  excludeMeetingsFromRRule,
+  getDateFromUTCDate,
+  getUTCDateFromDate,
+} from '@shared/helpers/rrule'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FiCalendar, FiRepeat } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
-import { RRule } from 'rrule'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 
 interface Props extends UseModalProps {
@@ -70,35 +74,34 @@ export default function MeetingRecurringModal({
   // Next dates
   const nextDates = useMemo(() => {
     if (!meetingRecurring) return
-    const rrule = RRule.fromString(meetingRecurring.rrule)
-    const after = new Date()
-    const before = new Date()
+
+    // Exclude meetings from rrule
+    const rrule = excludeMeetingsFromRRule(
+      meetingRecurring.rrule,
+      meetingRecurring.meetings
+    )
+
+    // After and before dates
+    const after = getUTCDateFromDate(new Date())
+    const before = getUTCDateFromDate(new Date())
     before.setFullYear(before.getFullYear() + 1)
+
     return rrule
       .between(after, before, true, (date, i) => i < 10)
-      .filter(
-        (date) =>
-          !meetingRecurring.meetings.some(
-            (m) =>
-              m.recurringDate &&
-              new Date(m.recurringDate).getTime() === date.getTime()
-          )
-      )
-      .map((date) => date.toISOString())
+      .map((date) => getDateFromUTCDate(date).toISOString())
   }, [meetingRecurring])
+
+  // Additional date
+  const additionalDate = useMemo(() => {
+    const dateStr = defaultDate?.toISOString()
+    if (!dateStr || nextDates?.includes(dateStr)) return
+    return dateStr
+  }, [defaultDate, nextDates])
 
   // Next date select
   const [nextDate, setNextDate] = React.useState<string | undefined>(
     defaultDate?.toISOString()
   )
-
-  // Set next date to first available if nextDates changes
-  useEffect(() => {
-    if (!nextDates) return
-    if (!nextDate || !nextDates.includes(nextDate)) {
-      setNextDate(nextDates[0])
-    }
-  }, [nextDates])
 
   const editModal = useDisclosure()
 
@@ -125,7 +128,7 @@ export default function MeetingRecurringModal({
   }
 
   return (
-    <Modal size="xl" {...modalProps}>
+    <Modal size="xl" blockScrollOnMount={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalBody>
@@ -171,7 +174,10 @@ export default function MeetingRecurringModal({
             value={nextDate}
             onChange={(e) => setNextDate(e.target.value)}
           >
-            {nextDates?.map((date) => (
+            {(additionalDate
+              ? nextDates?.concat(additionalDate)
+              : nextDates
+            )?.map((date) => (
               <option key={date} value={date}>
                 {capitalizeFirstLetter(
                   format(new Date(date), 'PPPP, HH:mm', { locale: dateLocale })

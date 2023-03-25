@@ -40,7 +40,7 @@ import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchIn
 import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
 import TaskStatusInput from '@molecules/task/TaskStatusInput'
 import { nameSchema } from '@shared/schemas'
-import { getDateTimeLocal } from '@utils/getDateTimeLocal'
+import { getDateTimeLocal } from '@utils/dates'
 import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'

@@ -121,7 +121,9 @@ export default function MeetingRecurringListModal({
                     color="gray.500"
                     _dark={{ color: 'gray.300' }}
                   >
-                    {RRule.fromString(mt.rrule).toText()}
+                    {RRule.fromString(mt.rrule)
+                      .toText()
+                      .replace(' (~ approximate)', '')}
                   </Text>
                 </ListItemWithButtons>
               ))

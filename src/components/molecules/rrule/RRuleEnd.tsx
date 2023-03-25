@@ -6,8 +6,9 @@ import {
   InputRightAddon,
   Select,
 } from '@chakra-ui/react'
-import { getDateTimeLocal } from '@utils/getDateTimeLocal'
-import React, { ChangeEventHandler } from 'react'
+import { getDateFromUTCDate, getUTCDateFromDate } from '@shared/helpers/rrule'
+import { getDateTimeLocal } from '@utils/dates'
+import React, { ChangeEventHandler, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'
@@ -21,7 +22,7 @@ enum EndTypes {
 export default function RRuleEnd({ options, onChange }: FormPartProps) {
   const { t } = useTranslation()
 
-  const toggleEnd: ChangeEventHandler<HTMLSelectElement> = (e) => {
+  const toggleEnd: ChangeEventHandler<HTMLSelectElement> = useCallback((e) => {
     const endType = e.target.value as EndTypes
     switch (endType) {
       case EndTypes.NEVER:
@@ -33,11 +34,24 @@ export default function RRuleEnd({ options, onChange }: FormPartProps) {
       case EndTypes.UNTIL:
         onChange({
           count: undefined,
-          until: options.dtstart || new Date(),
+          until: options.until || getUTCDateFromDate(new Date()),
         })
         break
     }
-  }
+  }, [])
+
+  const untilValue = useMemo(
+    () =>
+      options.until ? getDateTimeLocal(getDateFromUTCDate(options.until)) : '',
+    [options.until, options.tzid]
+  )
+
+  const handleUntilChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange({ until: getUTCDateFromDate(new Date(event.target.value)) })
+    },
+    []
+  )
 
   return (
     <FormRow label={t('RRuleEditor.end')}>
@@ -70,12 +84,12 @@ export default function RRuleEnd({ options, onChange }: FormPartProps) {
           </InputGroup>
         )}
 
-        {options.until && (
+        {untilValue && (
           <Input
             type="datetime-local"
-            value={getDateTimeLocal(options.until)}
+            value={untilValue}
             w="150%"
-            onChange={(e) => onChange({ until: new Date(e.target.value) })}
+            onChange={handleUntilChange}
           />
         )}
       </HStack>

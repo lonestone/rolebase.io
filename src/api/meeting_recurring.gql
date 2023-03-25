@@ -1,3 +1,12 @@
+# Useful for temporary fix of rrules
+# Please delete after first execution
+query getRecurringMeetingsRrules {
+  meeting_recurring(where: { rrule: { _like: "%DTSTART:%" } }) {
+    id
+    rrule
+  }
+}
+
 subscription meetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
     ...MeetingRecurring

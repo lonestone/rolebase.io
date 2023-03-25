@@ -14,10 +14,10 @@ export function getParticipantCircles(
   const representedCircles = directMemberCircles.reduce<CircleFullFragment[]>(
     (acc, { id, parentId, role: { link } }) => {
       // Find Leader
-      const leader = circles.find((circle) => {
-        if (circle.parentId !== id) return false
-        return circle.role.link === RoleLink.Parent
-      })
+      const leader = circles.find(
+        (circle) =>
+          circle.parentId === id && circle.role.link === RoleLink.Parent
+      )
       if (!leader) {
         const parent = circles.find((c) => c.id === parentId)
         if (!parent) return acc

@@ -1,22 +1,18 @@
-// Fix for fullcalendar with Vite
-// Must be imported first
-import '@fullcalendar/react/dist/vdom'
-
 import { Text, useMediaQuery } from '@chakra-ui/react'
-import { CalendarOptions } from '@fullcalendar/common'
+import { CalendarOptions, DayHeaderContentArg } from '@fullcalendar/core'
 import localeFr from '@fullcalendar/core/locales/fr'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import FullCalendar, { DayHeaderContentArg } from '@fullcalendar/react'
+import FullCalendar from '@fullcalendar/react'
 import rrulePlugin from '@fullcalendar/rrule'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import useDateLocale from '@hooks/useDateLocale'
+import { format } from 'date-fns'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 // Load additional CSS after all imports
-import { format } from 'date-fns'
 import 'src/fullcalendar.css'
 
 // Dirty fix to avoid collision with dayGridPlugin's id

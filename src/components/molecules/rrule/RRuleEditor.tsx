@@ -1,4 +1,5 @@
 import { VStack } from '@chakra-ui/react'
+import { getTimeZone } from '@utils/dates'
 import { pick } from '@utils/pick'
 import React, { useCallback, useMemo } from 'react'
 import { RRule } from 'rrule'
@@ -20,11 +21,6 @@ export interface FormPartProps {
   onChange: (newOptions: Partial<ParsedOptions>) => void
 }
 
-const defaultOptions: Partial<ParsedOptions> = {
-  freq: 1,
-  interval: 1,
-}
-
 const rruleParams: Array<keyof ParsedOptions> = [
   'freq',
   'dtstart',
@@ -39,10 +35,17 @@ const rruleParams: Array<keyof ParsedOptions> = [
 ]
 
 export default function RRuleEditor({ value, onChange }: RRuleEditorProps) {
+  const tzid = useMemo(() => getTimeZone(), [])
+
   // Build RRule options from value
-  const options = useMemo(() => {
+  const options: Partial<ParsedOptions> = useMemo(() => {
     if (!value) {
-      return defaultOptions
+      // Default options
+      return {
+        freq: 1,
+        interval: 1,
+        tzid,
+      }
     }
     const rrule = RRule.fromString(value)
     return pick(rrule.options, ...rruleParams)
@@ -59,6 +62,11 @@ export default function RRuleEditor({ value, onChange }: RRuleEditorProps) {
         o.byweekday = undefined
         o.bymonthday = undefined
         o.bymonth = undefined
+      }
+
+      // Set timezone
+      if (!o.tzid) {
+        o.tzid = tzid
       }
 
       onChange(new RRule(o).toString())

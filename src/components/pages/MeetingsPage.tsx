@@ -22,8 +22,8 @@ import {
   DatesSetArg,
   EventChangeArg,
   EventClickArg,
-} from '@fullcalendar/common'
-import { EventInput } from '@fullcalendar/react'
+  EventInput,
+} from '@fullcalendar/core'
 import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
@@ -38,6 +38,7 @@ import MeetingOpenCurrent from '@organisms/meeting/MeetingOpenCurrent'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
 import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
+import { excludeMeetingsFromRRule } from '@shared/helpers/rrule'
 import { EntityFilters } from '@shared/model/participants'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -52,7 +53,6 @@ import {
   FiRepeat,
   FiUpload,
 } from 'react-icons/fi'
-import { RRule } from 'rrule'
 import { circleColor } from 'src/theme'
 
 export default function MeetingsPage() {
@@ -143,18 +143,11 @@ export default function MeetingsPage() {
         // Add events from recurring meetings
         .concat(
           (meetingsRecurring || []).map((mr): EventInput => {
-            // Parse RRule and exclude past events by redefining start date
-            const rrule = RRule.fromString(mr.rrule)
-            const start = rrule.after(new Date(), true)
-            const rruleFuture = new RRule({
-              ...rrule.origOptions,
-              dtstart: start,
-            })
-
             // Exclude dates of meetings from the serie
-            const exdate = meetingsRecurring
-              ?.filter((m) => m.id === mr.id)
-              .flatMap((m) => m.meetings.map((m) => m.recurringDate || ''))
+            const rrule = excludeMeetingsFromRRule(
+              mr.rrule,
+              mr.meetings
+            ).toString()
 
             // Fix circle color (can be inherited from parents)
             const circle = circles?.find((c) => c.id === mr.circleId)
@@ -164,8 +157,7 @@ export default function MeetingsPage() {
             return {
               id: mr.id,
               title: `${mr.circle.role.name} - ${mr.template.title}`,
-              rrule: rruleFuture.toString(),
-              exdate,
+              rrule,
               duration: {
                 minutes: mr.duration,
               },

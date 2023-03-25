@@ -1,4 +1,5 @@
 import { gql } from '@gql'
+import { getDateFromUTCDate } from '@shared/helpers/rrule'
 import { adminRequest } from '@utils/adminRequest'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
 import { route } from '@utils/route'
@@ -13,13 +14,18 @@ export default route(async (context): Promise<void> => {
   for (const recurringMeeting of meeting_recurring) {
     const nowDate = new Date()
     const rrule = RRule.fromString(recurringMeeting.rrule)
-    const nextDate = rrule.after(nowDate, true)
-    const nextDateStr = nextDate.toISOString().substring(0, 10)
+    const nextDateDirty = rrule.after(nowDate, true)
+    if (!nextDateDirty) continue
+    const nextDate = getDateFromUTCDate(nextDateDirty)
 
     // Check if next meeting already exists
-    const meetingExists = recurringMeeting.meetings.some(
-      (meeting) => meeting.recurringDate?.substring(0, 10) === nextDateStr
-    )
+    const nextDateStr = nextDate.toISOString().substring(0, 10)
+    const meetingExists = recurringMeeting.meetings.some((meeting) => {
+      const dateStr = meeting.recurringDate?.substring(0, 10)
+      if (!dateStr) return false
+      // Meeting exist (in the future, see query) at exact next date or before
+      return dateStr <= nextDateStr
+    })
     if (meetingExists) continue
 
     // Create meeting
@@ -40,8 +46,6 @@ export default route(async (context): Promise<void> => {
         recurringId: recurringMeeting.id,
       },
     })
-
-    // TODO: Send notification to participants
 
     console.log(
       `Next meeting created for ${
@@ -74,7 +78,7 @@ const GET_RECURRING_MEETINGS = gql(`
       rrule
       duration
       videoConf
-      meetings {
+      meetings(where: { recurringDate: { _gt: "now()" } }) {
         recurringDate
       }
     }

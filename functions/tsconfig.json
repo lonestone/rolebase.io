@@ -21,11 +21,5 @@
       "@search/*": ["./_search/*"]
     }
   },
-  "include": [
-    "./",
-    "../shared",
-    "_shared/model/task.ts",
-    "_shared/model/thread_activity.ts",
-    "_shared/model/meeting_step.ts"
-  ]
+  "include": ["./", "../shared"]
 }
