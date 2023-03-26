@@ -491,6 +491,16 @@
     "CircleMembers": "Les membres du Rôle et des sous-Rôles",
     "None": "Seulement certains membres invités"
   },
+  "RateAppModal": {
+    "question": "Comment noteriez-vous votre expérience avec Rolebase ?",
+    "thanks": "Wow merci 😃",
+    "gift": "On a un cadeau pour vous !",
+    "giftDescription": "Postez simplement votre avis à propos de Rolebase sur Capterra pour obtenir un chèque cadeau Amazon de 20 €. Ca nous aiderait grandement 🙏",
+    "giftButton": "Ecrire un avis = 🎁 20 €",
+    "declineButton": "Non merci",
+    "feedback": "Merci ! Avez-vous des suggestions ? Est-ce qu'on peut vous aider ?",
+    "helpButton": "Parler à un humain"
+  },
   "ResetPasswordPage": {
     "heading": "Mot de passe oublié ?",
     "done1": "Un email de réinitialisation de mot de passe vous a été envoyé !",

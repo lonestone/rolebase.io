@@ -1,8 +1,12 @@
 import { CircleWithRoleFragment } from '@gql'
+import useMemberPreferences from '@hooks/useMemberPreferences'
+import { useUserData } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
+import { add, isBefore } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import OnboardingCircleMembersModal from './OnboardingCircleMembersModal'
 import OnboardingCirclesModal from './OnboardingCirclesModal'
+import RateAppModal from './RateAppModal'
 
 enum Steps {
   None,
@@ -14,6 +18,8 @@ enum Steps {
 const noop = () => {}
 
 export default function Onboarding() {
+  const user = useUserData()
+  const { preferences } = useMemberPreferences()
   const circles = useStoreState((state) => state.org.circles)
 
   const [step, setStep] = useState(Steps.None)
@@ -68,6 +74,17 @@ export default function Onboarding() {
         />
       )
     default:
+      {
+        // Show modal to ask user to rate the app
+        // if user signed up more than 7 days ago
+        const showRateModal =
+          user &&
+          !preferences?.ratedApp &&
+          isBefore(new Date(user.createdAt), add(new Date(), { days: -7 }))
+        if (showRateModal) {
+          return <RateAppModal />
+        }
+      }
       return null
   }
 }

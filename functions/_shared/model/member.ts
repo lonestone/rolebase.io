@@ -15,4 +15,5 @@ export interface ParticipantMember {
 
 export interface MemberPreferences {
   calendarShowWeekend?: boolean
+  ratedApp?: boolean
 }

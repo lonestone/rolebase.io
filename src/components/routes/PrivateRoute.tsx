@@ -1,4 +1,5 @@
 import { replaceOldIds } from '@api/functions'
+import CrispSetUser from '@atoms/CrispSetUser'
 import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
 import { useOrgsSubscription } from '@gql'
@@ -25,9 +26,9 @@ export default function PrivateRoute() {
   const {
     i18n: { changeLanguage },
   } = useTranslation()
-  const userLocale = useUserLocale()
 
   // Update translation language with user's locale in DB
+  const userLocale = useUserLocale()
   useEffect(() => {
     if (userLocale && langs.includes(userLocale as keyof typeof locales)) {
       changeLanguage(userLocale)
@@ -86,6 +87,8 @@ export default function PrivateRoute() {
 
         <Route path="*" element={<Page404 />} />
       </Routes>
+
+      <CrispSetUser />
     </LoggedLayout>
   )
 }

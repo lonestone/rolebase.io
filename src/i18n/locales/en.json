@@ -492,6 +492,16 @@
     "CircleMembers": "Members of the Role and sub-Roles",
     "None": "Only some invited members"
   },
+  "RateAppModal": {
+    "question": "How would you rate your experience with Rolebase?",
+    "thanks": "Wow thank you 😃",
+    "gift": "We have a gift for you!",
+    "giftDescription": "Just post your review about Rolebase on Capterra to get a 20€ Amazon gift card. It would help us a lot 🙏",
+    "giftButton": "Write a review = 🎁 20 €",
+    "declineButton": "No thanks",
+    "feedback": "Thank you! Do you have any suggestions? Can we help you?",
+    "helpButton": "Talk to a human"
+  },
   "ResetPasswordPage": {
     "heading": "Forgot your password?",
     "done1": "A password reset email has been sent to you!",

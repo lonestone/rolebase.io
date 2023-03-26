@@ -41,6 +41,11 @@
       $crisp.push(['safe', true])
       $crisp.push(['do', 'chat:hide'])
       $crisp.push(['on', 'chat:closed', () => $crisp.push(['do', 'chat:hide'])])
+      $crisp.push([
+        'on',
+        'message:received',
+        () => $crisp.push(['do', 'chat:show']),
+      ])
 
       window.CRISP_WEBSITE_ID = '652544cd-14f6-4c8c-9a04-2a56676dd4a0'
       ;(function () {
