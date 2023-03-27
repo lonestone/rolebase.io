@@ -79,7 +79,8 @@ export default function Onboarding() {
         // if user signed up more than 7 days ago
         const showRateModal =
           user &&
-          !preferences?.ratedApp &&
+          preferences &&
+          !preferences.ratedApp &&
           isBefore(new Date(user.createdAt), add(new Date(), { days: -7 }))
         if (showRateModal) {
           return <RateAppModal />

@@ -29,6 +29,7 @@ export default function RRuleWeekly({ options, onChange }: FormPartProps) {
             key={index}
             value={index}
             variant={options.byweekday?.includes(index) ? 'solid' : 'ghost'}
+            borderRadius="full"
             onClick={toggleByWeekDay}
           >
             {day.substring(0, 2)}

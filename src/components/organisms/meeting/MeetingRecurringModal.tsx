@@ -29,7 +29,6 @@ import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import {
   excludeMeetingsFromRRule,
   getDateFromUTCDate,
-  getUTCDateFromDate,
 } from '@shared/helpers/rrule'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
@@ -82,8 +81,8 @@ export default function MeetingRecurringModal({
     )
 
     // After and before dates
-    const after = getUTCDateFromDate(new Date())
-    const before = getUTCDateFromDate(new Date())
+    const after = new Date()
+    const before = new Date()
     before.setFullYear(before.getFullYear() + 1)
 
     return rrule

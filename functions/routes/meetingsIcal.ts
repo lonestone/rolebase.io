@@ -2,6 +2,7 @@ import { CircleFullFragment, gql } from '@gql'
 import i18n from '@i18n'
 import filterEntities from '@shared/helpers/filterEntities'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
+import { excludeMeetingsFromRRule } from '@shared/helpers/rrule'
 import { EntityFilters } from '@shared/model/participants'
 import { adminRequest } from '@utils/adminRequest'
 import { generateMeetingToken } from '@utils/generateMeetingToken'
@@ -9,7 +10,6 @@ import { guardQueryParams } from '@utils/guardQueryParams'
 import { route, RouteError } from '@utils/route'
 import settings from '@utils/settings'
 import { ICalCalendar } from 'ical-generator'
-import { RRule, RRuleSet } from 'rrule'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -67,6 +67,7 @@ export default route(async (context) => {
     const url = `${orgUrl}/meetings/${meeting.id}`
 
     cal.createEvent({
+      id: meeting.id,
       start: new Date(meeting.startDate),
       end: new Date(meeting.endDate),
       summary: i18n.t('meetingsIcal.meetingTitle', {
@@ -96,34 +97,26 @@ export default route(async (context) => {
   for (const recurringMeeting of recurringMeetings) {
     const url = `${orgUrl}/meetings-recurring/${recurringMeeting.id}`
 
-    // Parse RRule and exclude past events by redefining start date
-    const rrule = RRule.fromString(recurringMeeting.rrule)
-    const start = rrule.after(new Date(), true)
+    // Parse RRule and exclude existing meetings
+    const rrule = excludeMeetingsFromRRule(
+      recurringMeeting.rrule,
+      meetings.filter((m) => m.recurringId === recurringMeeting.id)
+    )
+
+    // Separate DTSTART from RRULE
+    const rruleOptions = rrule._rrule[0].options
+    const repeating = rrule.toString().replace(/DTSTART.*\s+/, '')
+    const start = rruleOptions.dtstart
     const end = new Date(
       start.getTime() + recurringMeeting.duration * 60 * 1000
     )
-    const rruleFuture = new RRuleSet()
-    rruleFuture.rrule(
-      new RRule({
-        ...rrule.origOptions,
-        dtstart: start,
-      })
-    )
-
-    // Exclude dates of meetings from the serie
-    for (const meeting of meetings) {
-      if (
-        meeting.recurringId === recurringMeeting.id &&
-        meeting.recurringDate
-      ) {
-        rruleFuture.exdate(new Date(meeting.recurringDate))
-      }
-    }
 
     cal.createEvent({
+      id: recurringMeeting.id,
+      timezone: rruleOptions.tzid,
       start,
       end,
-      repeating: rruleFuture.toString(),
+      repeating,
       summary: i18n.t('meetingsIcal.meetingTitle', {
         lng: lang,
         interpolation: {

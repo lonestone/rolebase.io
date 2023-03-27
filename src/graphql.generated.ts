@@ -16160,11 +16160,6 @@ export type ArchiveMeetingMutationVariables = Exact<{
 
 export type ArchiveMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string } | null };
 
-export type GetRecurringMeetingsRrulesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetRecurringMeetingsRrulesQuery = { __typename?: 'query_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, rrule: string }> };
-
 export type MeetingRecurringSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -17858,44 +17853,6 @@ export function useArchiveMeetingMutation(baseOptions?: Apollo.MutationHookOptio
 export type ArchiveMeetingMutationHookResult = ReturnType<typeof useArchiveMeetingMutation>;
 export type ArchiveMeetingMutationResult = Apollo.MutationResult<ArchiveMeetingMutation>;
 export type ArchiveMeetingMutationOptions = Apollo.BaseMutationOptions<ArchiveMeetingMutation, ArchiveMeetingMutationVariables>;
-export const GetRecurringMeetingsRrulesDocument = gql`
-    query getRecurringMeetingsRrules {
-  meeting_recurring(where: {rrule: {_like: "%DTSTART:%"}}) {
-    id
-    rrule
-  }
-}
-    `;
-
-/**
- * __useGetRecurringMeetingsRrulesQuery__
- *
- * To run a query within a React component, call `useGetRecurringMeetingsRrulesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecurringMeetingsRrulesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetRecurringMeetingsRrulesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetRecurringMeetingsRrulesQuery(baseOptions?: Apollo.QueryHookOptions<GetRecurringMeetingsRrulesQuery, GetRecurringMeetingsRrulesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRecurringMeetingsRrulesQuery, GetRecurringMeetingsRrulesQueryVariables>(GetRecurringMeetingsRrulesDocument, options);
-      }
-export function useGetRecurringMeetingsRrulesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecurringMeetingsRrulesQuery, GetRecurringMeetingsRrulesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRecurringMeetingsRrulesQuery, GetRecurringMeetingsRrulesQueryVariables>(GetRecurringMeetingsRrulesDocument, options);
-        }
-export type GetRecurringMeetingsRrulesQueryHookResult = ReturnType<typeof useGetRecurringMeetingsRrulesQuery>;
-export type GetRecurringMeetingsRrulesLazyQueryHookResult = ReturnType<typeof useGetRecurringMeetingsRrulesLazyQuery>;
-export type GetRecurringMeetingsRrulesQueryResult = Apollo.QueryResult<GetRecurringMeetingsRrulesQuery, GetRecurringMeetingsRrulesQueryVariables>;
-export function refetchGetRecurringMeetingsRrulesQuery(variables?: GetRecurringMeetingsRrulesQueryVariables) {
-      return { query: GetRecurringMeetingsRrulesDocument, variables: variables }
-    }
 export const MeetingRecurringDocument = gql`
     subscription meetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
