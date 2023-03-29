@@ -56,11 +56,7 @@ select_permissions:
         - orgId
         - parentId
         - roleId
-      filter:
-        org:
-          members:
-            userId:
-              _eq: X-Hasura-User-Id
+      filter: {}
       allow_aggregations: true
 update_permissions:
   - role: user
