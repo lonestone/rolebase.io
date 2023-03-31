@@ -88,19 +88,11 @@ function FloatingLinkEditor({
       rootElement.contains(nativeSelection.anchorNode) &&
       editor.isEditable()
     ) {
-      const domRange = nativeSelection.getRangeAt(0)
-      let rect
-      if (nativeSelection.anchorNode === rootElement) {
-        let inner = rootElement
-        while (inner.firstElementChild != null) {
-          inner = inner.firstElementChild as HTMLElement
-        }
-        rect = inner.getBoundingClientRect()
-      } else {
-        rect = domRange.getBoundingClientRect()
+      const domRect: DOMRect | undefined =
+        nativeSelection.focusNode?.parentElement?.getBoundingClientRect()
+      if (domRect) {
+        setFloatingElemPosition(domRect, editorElem, anchorElem)
       }
-
-      setFloatingElemPosition(rect, editorElem, anchorElem)
     }
 
     return true
@@ -274,14 +266,21 @@ export default function FloatingLinkEditorPlugin({
   }, [])
 
   useEffect(() => {
-    return editor.registerCommand(
-      SELECTION_CHANGE_COMMAND,
-      (_payload, newEditor) => {
-        updateToolbar()
-        setActiveEditor(newEditor)
-        return false
-      },
-      COMMAND_PRIORITY_CRITICAL
+    return mergeRegister(
+      editor.registerUpdateListener(({ editorState }) => {
+        editorState.read(() => {
+          updateToolbar()
+        })
+      }),
+      editor.registerCommand(
+        SELECTION_CHANGE_COMMAND,
+        (_payload, newEditor) => {
+          updateToolbar()
+          setActiveEditor(newEditor)
+          return false
+        },
+        COMMAND_PRIORITY_CRITICAL
+      )
     )
   }, [editor, updateToolbar])
 

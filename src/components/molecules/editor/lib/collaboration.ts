@@ -6,6 +6,7 @@
  *
  */
 
+import { Provider } from '@lexical/yjs'
 import settings from 'src/settings'
 import { WebsocketProvider } from 'y-websocket'
 import { Doc } from 'yjs'
@@ -14,7 +15,7 @@ import { Doc } from 'yjs'
 export function createWebsocketProvider(
   id: string,
   yjsDocMap: Map<string, Doc>
-): WebsocketProvider {
+): Provider {
   let doc = yjsDocMap.get(id)
 
   // if (doc) {
@@ -24,6 +25,7 @@ export function createWebsocketProvider(
   yjsDocMap.set(id, doc)
   // }
 
+  // @ts-ignore
   return new WebsocketProvider(settings.yjsCollab.url, id, doc, {
     connect: false,
   })

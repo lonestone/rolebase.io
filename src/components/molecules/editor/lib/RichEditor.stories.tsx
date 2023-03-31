@@ -33,6 +33,10 @@ const dummyMentionables = DUMMY_USERNAMES.map(
 )
 const placeholder = 'Enter some text...'
 
+function getDummyUsername() {
+  return DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)]
+}
+
 export default {
   title: 'RichEditor',
   component: Editor,
@@ -79,7 +83,35 @@ ReadonlyEmpty.args = {
   value: '',
 }
 
-export const Markdown = Template.bind({})
+export const Markdown: ComponentStory<typeof Editor> = (args) => {
+  const ref = useRef<EditorHandle>(null)
+  const [result, setResult] = useState('')
+
+  return (
+    <>
+      <Editor ref={ref} {...args} />
+
+      <ButtonGroup size="sm" my={2}>
+        <Button
+          leftIcon={<FiArrowDown />}
+          onClick={() =>
+            ref.current && setResult(ref.current?.exportMarkdown())
+          }
+        >
+          Get
+        </Button>
+        <Button
+          leftIcon={<FiArrowUp />}
+          onClick={() => ref.current?.importMarkdown(result)}
+        >
+          Set
+        </Button>
+      </ButtonGroup>
+
+      <Textarea value={result} onChange={(e) => setResult(e.target.value)} />
+    </>
+  )
+}
 Markdown.args = {
   value: DUMMY_MARKDOWN,
 }
@@ -88,7 +120,7 @@ export const Collab = Template.bind({})
 Collab.args = {
   id: 'storybook-rich-editor',
   collaboration: true,
-  username: DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)],
+  username: getDummyUsername(),
 }
 
 export const CollabMarkdown = Template.bind({})
@@ -96,7 +128,7 @@ CollabMarkdown.args = {
   id: 'storybook-rich-editor-markdown',
   value: DUMMY_MARKDOWN,
   collaboration: true,
-  username: DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)],
+  username: getDummyUsername(),
 }
 
 export const Multiple: ComponentStory<typeof Editor> = (args) => {
@@ -109,9 +141,9 @@ export const Multiple: ComponentStory<typeof Editor> = (args) => {
 
   return (
     <VStack align="stretch">
-      <Editor value="Editor 1" {...props} />
-      <Editor value="Editor 2" {...props} />
-      <Editor value="Editor 3" {...props} />
+      <Editor value="Editor 1" {...props} username={getDummyUsername()} />
+      <Editor value="Editor 2" {...props} username={getDummyUsername()} />
+      <Editor value="Editor 3" {...props} username={getDummyUsername()} />
     </VStack>
   )
 }
@@ -121,7 +153,6 @@ export const MultipleCollab = Multiple.bind({})
 MultipleCollab.args = {
   id: 'storybook-rich-editor-markdown',
   collaboration: true,
-  username: DUMMY_USERNAMES[Math.floor(Math.random() * DUMMY_USERNAMES.length)],
 }
 
 export const EditorRef: ComponentStory<typeof Editor> = (args) => {
@@ -148,7 +179,7 @@ export const EditorRef: ComponentStory<typeof Editor> = (args) => {
         </Button>
         <Button
           leftIcon={<FiArrowUp />}
-          onClick={() => ref.current?.setValue(JSON.parse(result))}
+          onClick={() => ref.current?.setValue(result)}
         >
           Set
         </Button>

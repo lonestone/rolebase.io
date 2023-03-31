@@ -32,11 +32,10 @@ import {
 import React, { useCallback, useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 
-import { $setBlocksType_experimental } from '@lexical/selection'
+import { $setBlocksType } from '@lexical/selection'
 import useModal from '../../hooks/useModal'
 import { EmbedConfigs } from '../AutoEmbedPlugin'
 import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
-import { INSERT_EQUATION_COMMAND } from '../EquationsPlugin'
 import { useImagePicker } from '../ImagesPlugin'
 
 class ComponentPickerOption extends TypeaheadOption {
@@ -170,9 +169,7 @@ export default function ComponentPickerMenuPlugin() {
           editor.update(() => {
             const selection = $getSelection()
             if ($isRangeSelection(selection)) {
-              $setBlocksType_experimental(selection, () =>
-                $createParagraphNode()
-              )
+              $setBlocksType(selection, () => $createParagraphNode())
             }
           }),
       }),
@@ -185,7 +182,7 @@ export default function ComponentPickerMenuPlugin() {
               editor.update(() => {
                 const selection = $getSelection()
                 if ($isRangeSelection(selection)) {
-                  $setBlocksType_experimental(selection, () =>
+                  $setBlocksType(selection, () =>
                     // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
                     $createHeadingNode(`h${n}`)
                   )
@@ -228,7 +225,7 @@ export default function ComponentPickerMenuPlugin() {
           editor.update(() => {
             const selection = $getSelection()
             if ($isRangeSelection(selection)) {
-              $setBlocksType_experimental(selection, () => $createQuoteNode())
+              $setBlocksType(selection, () => $createQuoteNode())
             }
           }),
       }),
@@ -252,7 +249,7 @@ export default function ComponentPickerMenuPlugin() {
 
             if ($isRangeSelection(selection)) {
               if (selection.isCollapsed()) {
-                $setBlocksType_experimental(selection, () => $createCodeNode())
+                $setBlocksType(selection, () => $createCodeNode())
               } else {
                 // Will this ever happen?
                 const textContent = selection.getTextContent()
@@ -278,24 +275,6 @@ export default function ComponentPickerMenuPlugin() {
               editor.dispatchCommand(INSERT_EMBED_COMMAND, embedConfig.type),
           })
       ),
-      new ComponentPickerOption('Inline Equation', {
-        icon: <i className="icon equation" />,
-        keywords: ['equation', 'latex', 'math', 'inline'],
-        onSelect: () =>
-          editor.dispatchCommand(INSERT_EQUATION_COMMAND, {
-            equation: '',
-            inline: true,
-          }),
-      }),
-      new ComponentPickerOption('Block Equation', {
-        icon: <i className="icon equation" />,
-        keywords: ['equation', 'latex', 'math', 'block'],
-        onSelect: () =>
-          editor.dispatchCommand(INSERT_EQUATION_COMMAND, {
-            equation: '',
-            inline: false,
-          }),
-      }),
       ...['left', 'center', 'right', 'justify'].map(
         (alignment) =>
           new ComponentPickerOption(`Align ${alignment}`, {

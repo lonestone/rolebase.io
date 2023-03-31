@@ -56,7 +56,7 @@
 }
 
 .RichEditor__indent {
-  --lexical-indent-base-value: 20px;
+  --lexical-indent-base-value: 40px;
 }
 
 .RichEditor__textBold {

@@ -8,8 +8,9 @@
 
 import { $createLinkNode, LinkNode } from '@lexical/link'
 import {
+  $convertFromMarkdownString,
+  $convertToMarkdownString,
   CHECK_LIST,
-  createMarkdownImport,
   ElementTransformer,
   TextMatchTransformer,
   Transformer,
@@ -35,10 +36,8 @@ import {
 import {
   $createParagraphNode,
   $createTextNode,
-  $isElementNode,
   $isParagraphNode,
   $isTextNode,
-  ElementNode,
   LexicalNode,
 } from 'lexical'
 import {
@@ -56,7 +55,7 @@ import {
   $isTweetNode,
   TweetNode,
 } from '../../nodes/TweetNode'
-import emojiList from '../EmojiPickerPlugin/emoji-list'
+import emojiList from '../../utils/emoji-list'
 
 // Simple links with chevrons: <https://example.com>
 const SIMPLE_LINK: TextMatchTransformer = {
@@ -123,8 +122,6 @@ const HR: ElementTransformer = {
     } else {
       parentNode.insertBefore(line)
     }
-
-    line.selectNext()
   },
   type: 'element',
 }
@@ -192,52 +189,67 @@ const TWEET: ElementTransformer = {
 
 // Very primitive table setup
 const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/
-const TABLE_ROW_DIVIDER_REG_EXP = /^(?:\|)[-|]+(?:\|)\s?$/
+const TABLE_ROW_DIVIDER_REG_EXP = /^(?:\|)[- |]+(?:\|)\s?$/
 
 const TABLE: ElementTransformer = {
-  // TODO: refactor transformer for new TableNode
   dependencies: [TableNode, TableRowNode, TableCellNode],
-  export: (
-    node: LexicalNode,
-    exportChildren: (elementNode: ElementNode) => string
-  ) => {
+  export: (node: LexicalNode) => {
     if (!$isTableNode(node)) {
       return null
     }
 
-    const output = []
+    const output: string[] = []
 
     for (const row of node.getChildren()) {
       const rowOutput = []
+      if (!$isTableRowNode(row)) {
+        continue
+      }
 
-      if ($isTableRowNode(row)) {
-        for (const cell of row.getChildren()) {
-          // It's TableCellNode (hence ElementNode) so it's just to make flow happy
-          if ($isElementNode(cell)) {
-            rowOutput.push(exportChildren(cell))
+      let isHeaderRow = false
+      for (const cell of row.getChildren()) {
+        // It's TableCellNode so it's just to make flow happy
+        if ($isTableCellNode(cell)) {
+          rowOutput.push(
+            $convertToMarkdownString(markdownTransformers, cell).replace(
+              /\n/g,
+              '\\n'
+            )
+          )
+          if (cell.__headerState === TableCellHeaderStates.ROW) {
+            isHeaderRow = true
           }
         }
       }
 
       output.push(`| ${rowOutput.join(' | ')} |`)
+      if (isHeaderRow) {
+        output.push(`| ${rowOutput.map((_) => '---').join(' | ')} |`)
+      }
     }
 
     return output.join('\n')
   },
   regExp: TABLE_ROW_REG_EXP,
-  replace: (parentNode, _, match) => {
+  replace: (parentNode, _1, match) => {
     // Header row
-    if (match[0].match(TABLE_ROW_DIVIDER_REG_EXP)) {
+    if (TABLE_ROW_DIVIDER_REG_EXP.test(match[0])) {
       const table = parentNode.getPreviousSibling()
-      if (!table || !$isTableNode(table)) return
+      if (!table || !$isTableNode(table)) {
+        return
+      }
 
       const rows = table.getChildren()
       const lastRow = rows[rows.length - 1]
-      if (!lastRow || !$isTableRowNode(lastRow)) return
+      if (!lastRow || !$isTableRowNode(lastRow)) {
+        return
+      }
 
       // Add header state to row cells
       lastRow.getChildren().forEach((cell) => {
-        if (!$isTableCellNode(cell)) return
+        if (!$isTableCellNode(cell)) {
+          return
+        }
         cell.toggleHeaderStyle(TableCellHeaderStates.ROW)
       })
 
@@ -305,8 +317,6 @@ const TABLE: ElementTransformer = {
     } else {
       parentNode.replace(table)
     }
-
-    table.selectEnd()
   },
   type: 'element',
 }
@@ -319,13 +329,15 @@ function getTableColumnsSize(table: TableNode) {
 const createTableCell = (textContent: string): TableCellNode => {
   textContent = textContent.replace(/\\n/g, '\n')
   const cell = $createTableCellNode(TableCellHeaderStates.NO_STATUS)
-  createMarkdownImport(markdownTransformers)(textContent, cell)
+  $convertFromMarkdownString(textContent, markdownTransformers, cell)
   return cell
 }
 
 const mapToTableCells = (textContent: string): Array<TableCellNode> | null => {
   const match = textContent.match(TABLE_ROW_REG_EXP)
-  if (!match || !match[1]) return null
+  if (!match || !match[1]) {
+    return null
+  }
   return match[1].split('|').map((text) => createTableCell(text))
 }
 

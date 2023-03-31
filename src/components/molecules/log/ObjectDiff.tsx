@@ -1,4 +1,5 @@
 import { chakra, List, ListItem, Text } from '@chakra-ui/react'
+import { exportHeadlessEditorStateToMarkdown } from '@molecules/editor/lib/exportHeadlessEditorStateToMarkdown'
 import { diffChars } from 'diff'
 import isEqual from 'lodash.isequal'
 import React, { ReactNode, useMemo } from 'react'
@@ -157,17 +158,24 @@ function ValueDiff({ value, compareValue }: CompareProps<Value>) {
 }
 
 function TextDiff({ value, compareValue }: CompareProps<string>) {
-  if (!compareValue) return <JsonDiff value={value} />
+  const valueMarkdown = exportHeadlessEditorStateToMarkdown(value)
+  if (!compareValue) return <JsonDiff value={valueMarkdown} />
 
-  const diffParts = diffChars(compareValue, value)
+  const compareValueMarkdown = exportHeadlessEditorStateToMarkdown(compareValue)
+
+  // Compute diff
+  const diffParts = diffChars(compareValueMarkdown, valueMarkdown)
+
   const tooManyChanges =
     diffParts.reduce(
       (sum, part) =>
-        sum + part.value.length * (part.added || part.removed ? -1 : 1),
+        sum + part.value.length * (part.added || part.removed ? 0 : 1),
       0
-    ) > 0
+    ) < 10
 
   return tooManyChanges ? (
+    <JsonDiff value={valueMarkdown} compareValue={compareValueMarkdown} />
+  ) : (
     <>
       "
       {diffParts.map((part, index) => {
@@ -180,8 +188,6 @@ function TextDiff({ value, compareValue }: CompareProps<string>) {
       })}
       "
     </>
-  ) : (
-    <JsonDiff value={value} compareValue={compareValue} />
   )
 }
 

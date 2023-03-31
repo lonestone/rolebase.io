@@ -18,7 +18,8 @@ import type {
 
 import katex from 'katex'
 import { $applyNodeReplacement, DecoratorNode, DOMExportOutput } from 'lexical'
-import React, { Suspense } from 'react'
+import * as React from 'react'
+import { Suspense } from 'react'
 
 const EquationComponent = React.lazy(
   // @ts-ignore
@@ -49,36 +50,28 @@ function convertEquationElement(
   return null
 }
 
-export class EquationNode extends DecoratorNode<React.ReactNode> {
+export class EquationNode extends DecoratorNode<React.ReactElement> {
   __equation: string
   __inline: boolean
-  __isNew: boolean
 
   static getType(): string {
     return 'equation'
   }
 
   static clone(node: EquationNode): EquationNode {
-    return new EquationNode(node.__equation, node.__inline, true, node.__key)
+    return new EquationNode(node.__equation, node.__inline, node.__key)
   }
 
-  constructor(
-    equation: string,
-    inline?: boolean,
-    isNew?: boolean,
-    key?: NodeKey
-  ) {
+  constructor(equation: string, inline?: boolean, key?: NodeKey) {
     super(key)
     this.__equation = equation
     this.__inline = inline ?? false
-    this.__isNew = isNew ?? false
   }
 
   static importJSON(serializedNode: SerializedEquationNode): EquationNode {
     const node = $createEquationNode(
       serializedNode.equation,
-      serializedNode.inline,
-      false
+      serializedNode.inline
     )
     return node
   }
@@ -93,8 +86,12 @@ export class EquationNode extends DecoratorNode<React.ReactNode> {
   }
 
   createDOM(_config: EditorConfig): HTMLElement {
-    return document.createElement(this.__inline ? 'span' : 'div')
+    const element = document.createElement(this.__inline ? 'span' : 'div')
+    // EquationNodes should implement `user-action:none` in their CSS to avoid issues with deletion on Android.
+    element.className = 'editor-equation'
+    return element
   }
+
   exportDOM(): DOMExportOutput {
     const element = document.createElement(this.__inline ? 'span' : 'div')
     // Encode the equation as base64 to avoid issues with special characters
@@ -160,7 +157,6 @@ export class EquationNode extends DecoratorNode<React.ReactNode> {
           equation={this.__equation}
           inline={this.__inline}
           nodeKey={this.__key}
-          showEditor={this.__isNew}
         />
       </Suspense>
     )
@@ -169,10 +165,9 @@ export class EquationNode extends DecoratorNode<React.ReactNode> {
 
 export function $createEquationNode(
   equation = '',
-  inline = false,
-  isNew = true
+  inline = false
 ): EquationNode {
-  const equationNode = new EquationNode(equation, inline, isNew)
+  const equationNode = new EquationNode(equation, inline)
   return $applyNodeReplacement(equationNode)
 }
 

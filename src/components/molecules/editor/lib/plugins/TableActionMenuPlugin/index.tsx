@@ -19,17 +19,16 @@ import {
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import useLexicalEditable from '@lexical/react/useLexicalEditable'
 import {
-  $deleteTableColumn,
-  $getElementGridForTableNode,
+  $deleteTableColumn__EXPERIMENTAL,
+  $deleteTableRow__EXPERIMENTAL,
   $getTableCellNodeFromLexicalNode,
   $getTableColumnIndexFromTableCellNode,
   $getTableNodeFromLexicalNodeOrThrow,
   $getTableRowIndexFromTableCellNode,
-  $insertTableColumn,
-  $insertTableRow,
+  $insertTableColumn__EXPERIMENTAL,
+  $insertTableRow__EXPERIMENTAL,
   $isTableCellNode,
   $isTableRowNode,
-  $removeTableRowAtIndex,
   getTableSelectionFromTableElement,
   HTMLTableElementWithWithTableSelectionState,
   TableCellHeaderStates,
@@ -39,24 +38,90 @@ import {
   $getRoot,
   $getSelection,
   $isRangeSelection,
+  DEPRECATED_$getNodeTriplet,
+  DEPRECATED_$isGridCellNode,
   DEPRECATED_$isGridSelection,
+  GridSelection,
 } from 'lexical'
-import React, {
-  ReactPortal,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import * as React from 'react'
+import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { FiChevronDown } from 'react-icons/fi'
 
+function computeSelectionCount(selection: GridSelection): {
+  columns: number
+  rows: number
+} {
+  const selectionShape = selection.getShape()
+  return {
+    columns: selectionShape.toX - selectionShape.fromX + 1,
+    rows: selectionShape.toY - selectionShape.fromY + 1,
+  }
+}
+
+// This is important when merging cells as there is no good way to re-merge weird shapes (a result
+// of selecting merged cells and non-merged)
+function isGridSelectionRectangular(selection: GridSelection): boolean {
+  const nodes = selection.getNodes()
+  const currentRows: Array<number> = []
+  let currentRow = null
+  let expectedColumns = null
+  let currentColumns = 0
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i]
+    if ($isTableCellNode(node)) {
+      const row = node.getParentOrThrow()
+      if (!$isTableRowNode(row)) {
+        throw new Error('Expected CellNode to have a RowNode parent')
+      }
+      if (currentRow !== row) {
+        if (expectedColumns !== null && currentColumns !== expectedColumns) {
+          return false
+        }
+        if (currentRow !== null) {
+          expectedColumns = currentColumns
+        }
+        currentRow = row
+        currentColumns = 0
+      }
+      const colSpan = node.__colSpan
+      for (let j = 0; j < colSpan; j++) {
+        if (currentRows[currentColumns + j] === undefined) {
+          currentRows[currentColumns + j] = 0
+        }
+        currentRows[currentColumns + j] += node.__rowSpan
+      }
+      currentColumns += colSpan
+    }
+  }
+  return (
+    (expectedColumns === null || currentColumns === expectedColumns) &&
+    currentRows.every((v) => v === currentRows[0])
+  )
+}
+
+function $canUnmerge(): boolean {
+  const selection = $getSelection()
+  if (
+    ($isRangeSelection(selection) && !selection.isCollapsed()) ||
+    (DEPRECATED_$isGridSelection(selection) &&
+      !selection.anchor.is(selection.focus)) ||
+    (!$isRangeSelection(selection) && !DEPRECATED_$isGridSelection(selection))
+  ) {
+    return false
+  }
+  const [cell] = DEPRECATED_$getNodeTriplet(selection.anchor)
+  return cell.__colSpan > 1 || cell.__rowSpan > 1
+}
+
 type TableCellActionMenuProps = Readonly<{
   tableCellNode: TableCellNode
+  cellMerge: boolean
 }>
 
 function TableActionMenu({
   tableCellNode: _tableCellNode,
+  cellMerge,
 }: TableCellActionMenuProps) {
   const [editor] = useLexicalComposerContext()
   const [tableCellNode, updateTableCellNode] = useState(_tableCellNode)
@@ -64,6 +129,8 @@ function TableActionMenu({
     columns: 1,
     rows: 1,
   })
+  const [canMergeCells, setCanMergeCells] = useState(false)
+  const [canUnmergeCell, setCanUnmergeCell] = useState(false)
 
   useEffect(() => {
     return editor.registerMutationListener(TableCellNode, (nodeMutations) => {
@@ -81,15 +148,18 @@ function TableActionMenu({
   useEffect(() => {
     editor.getEditorState().read(() => {
       const selection = $getSelection()
-
+      // Merge cells
       if (DEPRECATED_$isGridSelection(selection)) {
-        const selectionShape = selection.getShape()
-
-        updateSelectionCounts({
-          columns: selectionShape.toX - selectionShape.fromX + 1,
-          rows: selectionShape.toY - selectionShape.fromY + 1,
-        })
+        const currentSelectionCounts = computeSelectionCount(selection)
+        updateSelectionCounts(computeSelectionCount(selection))
+        setCanMergeCells(
+          isGridSelectionRectangular(selection) &&
+            (currentSelectionCounts.columns > 1 ||
+              currentSelectionCounts.rows > 1)
+        )
       }
+      // Unmerge cell
+      setCanUnmergeCell($canUnmerge())
     })
   }, [editor])
 
@@ -119,85 +189,66 @@ function TableActionMenu({
     })
   }, [editor, tableCellNode])
 
+  const mergeTableCellsAtSelection = () => {
+    editor.update(() => {
+      const selection = $getSelection()
+      if (DEPRECATED_$isGridSelection(selection)) {
+        const { columns, rows } = computeSelectionCount(selection)
+        const nodes = selection.getNodes()
+        let isFirstCell = true
+        for (let i = 0; i < nodes.length; i++) {
+          const node = nodes[i]
+          if (DEPRECATED_$isGridCellNode(node)) {
+            if (isFirstCell) {
+              node.setColSpan(columns).setRowSpan(rows)
+              // TODO copy other editors' cell selection behavior
+              const lastDescendant = node.getLastDescendant()
+              if (lastDescendant === null) {
+                throw new Error(
+                  'Unexpected empty lastDescendant on the resulting merged cell'
+                )
+              }
+              lastDescendant.select()
+              isFirstCell = false
+            } else {
+              nodes[i].remove()
+            }
+          }
+        }
+      }
+    })
+  }
+
+  const unmergeTableCellsAtSelection = () => {
+    editor.update(() => {
+      // Fix import $unmergeCell
+      // $unmergeCell()
+    })
+  }
+
   const insertTableRowAtSelection = useCallback(
     (shouldInsertAfter: boolean) => {
       editor.update(() => {
-        const selection = $getSelection()
-
-        const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode)
-
-        let tableRowIndex
-
-        if (DEPRECATED_$isGridSelection(selection)) {
-          const selectionShape = selection.getShape()
-          tableRowIndex = shouldInsertAfter
-            ? selectionShape.toY
-            : selectionShape.fromY
-        } else {
-          tableRowIndex = $getTableRowIndexFromTableCellNode(tableCellNode)
-        }
-
-        const grid = $getElementGridForTableNode(editor, tableNode)
-
-        $insertTableRow(
-          tableNode,
-          tableRowIndex,
-          shouldInsertAfter,
-          selectionCounts.rows,
-          grid
-        )
-
-        clearTableSelection()
+        $insertTableRow__EXPERIMENTAL(shouldInsertAfter)
       })
     },
-    [editor, tableCellNode, selectionCounts.rows, clearTableSelection]
+    [editor]
   )
 
   const insertTableColumnAtSelection = useCallback(
     (shouldInsertAfter: boolean) => {
       editor.update(() => {
-        const selection = $getSelection()
-
-        const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode)
-
-        let tableColumnIndex
-
-        if (DEPRECATED_$isGridSelection(selection)) {
-          const selectionShape = selection.getShape()
-          tableColumnIndex = shouldInsertAfter
-            ? selectionShape.toX
-            : selectionShape.fromX
-        } else {
-          tableColumnIndex =
-            $getTableColumnIndexFromTableCellNode(tableCellNode)
-        }
-
-        const grid = $getElementGridForTableNode(editor, tableNode)
-
-        $insertTableColumn(
-          tableNode,
-          tableColumnIndex,
-          shouldInsertAfter,
-          selectionCounts.columns,
-          grid
-        )
-
-        clearTableSelection()
+        $insertTableColumn__EXPERIMENTAL(shouldInsertAfter)
       })
     },
-    [editor, tableCellNode, selectionCounts.columns, clearTableSelection]
+    [editor]
   )
 
   const deleteTableRowAtSelection = useCallback(() => {
     editor.update(() => {
-      const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode)
-      const tableRowIndex = $getTableRowIndexFromTableCellNode(tableCellNode)
-
-      $removeTableRowAtIndex(tableNode, tableRowIndex)
-
-      clearTableSelection()
+      $deleteTableRow__EXPERIMENTAL()
     })
-  }, [editor, tableCellNode, clearTableSelection])
+  }, [editor])
 
   const deleteTableAtSelection = useCallback(() => {
     editor.update(() => {
@@ -210,16 +261,9 @@ function TableActionMenu({
 
   const deleteTableColumnAtSelection = useCallback(() => {
     editor.update(() => {
-      const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode)
-
-      const tableColumnIndex =
-        $getTableColumnIndexFromTableCellNode(tableCellNode)
-
-      $deleteTableColumn(tableNode, tableColumnIndex)
-
-      clearTableSelection()
+      $deleteTableColumn__EXPERIMENTAL()
     })
-  }, [editor, tableCellNode, clearTableSelection])
+  }, [editor])
 
   const toggleTableRowIsHeader = useCallback(() => {
     editor.update(() => {
@@ -286,6 +330,23 @@ function TableActionMenu({
     })
   }, [editor, tableCellNode, clearTableSelection])
 
+  let mergeCellButton: null | React.ReactElement = null
+  if (cellMerge) {
+    if (canMergeCells) {
+      mergeCellButton = (
+        <MenuItem onClick={() => mergeTableCellsAtSelection()}>
+          Merge cells
+        </MenuItem>
+      )
+    } else if (canUnmergeCell) {
+      mergeCellButton = (
+        <MenuItem onClick={() => unmergeTableCellsAtSelection()}>
+          Unmerge cells
+        </MenuItem>
+      )
+    }
+  }
+
   return (
     <Menu>
       {({ isOpen }) => (
@@ -303,6 +364,12 @@ function TableActionMenu({
           {isOpen && (
             <Portal>
               <MenuList zIndex={2000}>
+                {mergeCellButton !== null && (
+                  <>
+                    {mergeCellButton}
+                    <MenuDivider />
+                  </>
+                )}
                 <MenuItem onClick={() => insertTableRowAtSelection(false)}>
                   Insert{' '}
                   {selectionCounts.rows === 1
@@ -369,9 +436,11 @@ function TableActionMenu({
 
 function TableCellActionMenuContainer({
   anchorElem,
+  cellMerge,
 }: {
   anchorElem: HTMLElement
-}) {
+  cellMerge: boolean
+}): React.ReactElement {
   const [editor] = useLexicalComposerContext()
 
   const menuButtonRef = useRef(null)
@@ -443,7 +512,7 @@ function TableCellActionMenuContainer({
         const anchorRect = anchorElem.getBoundingClientRect()
 
         const top = tableCellRect.top - anchorRect.top + 4
-        const left = tableCellRect.right - menuRect.width - 2 - anchorRect.left
+        const left = tableCellRect.right - menuRect.width - 10 - anchorRect.left
 
         menuButtonDOM.style.opacity = '1'
         menuButtonDOM.style.transform = `translate(${left}px, ${top}px)`
@@ -454,6 +523,12 @@ function TableCellActionMenuContainer({
     }
   }, [menuButtonRef, tableCellNode, editor, anchorElem])
 
+  const prevTableCellDOM = useRef(tableCellNode)
+
+  useEffect(() => {
+    prevTableCellDOM.current = tableCellNode
+  }, [prevTableCellDOM, tableCellNode])
+
   return (
     <Box
       ref={menuButtonRef}
@@ -463,7 +538,7 @@ function TableCellActionMenuContainer({
       willChange="transform"
     >
       {tableCellNode != null && (
-        <TableActionMenu tableCellNode={tableCellNode} />
+        <TableActionMenu tableCellNode={tableCellNode} cellMerge={cellMerge} />
       )}
     </Box>
   )
@@ -471,13 +546,18 @@ function TableCellActionMenuContainer({
 
 export default function TableActionMenuPlugin({
   anchorElem = document.body,
+  cellMerge = false,
 }: {
   anchorElem?: HTMLElement
+  cellMerge?: boolean
 }): null | ReactPortal {
   const isEditable = useLexicalEditable()
   return createPortal(
     isEditable ? (
-      <TableCellActionMenuContainer anchorElem={anchorElem} />
+      <TableCellActionMenuContainer
+        anchorElem={anchorElem}
+        cellMerge={cellMerge}
+      />
     ) : null,
     anchorElem
   )

@@ -6,8 +6,6 @@
  *
  */
 
-import type { NodeKey } from 'lexical'
-
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { mergeRegister } from '@lexical/utils'
 import {
@@ -16,9 +14,11 @@ import {
   $isNodeSelection,
   COMMAND_PRIORITY_HIGH,
   KEY_ESCAPE_COMMAND,
+  NodeKey,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import * as React from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import EquationEditor from '../ui/EquationEditor'
 import KatexRenderer from '../ui/KatexRenderer'
@@ -27,20 +27,17 @@ import { $isEquationNode } from './EquationNode'
 type EquationComponentProps = {
   equation: string
   inline: boolean
-  showEditor?: boolean
   nodeKey: NodeKey
 }
 
 export default function EquationComponent({
   equation,
   inline,
-  showEditor = false,
   nodeKey,
-}: EquationComponentProps) {
+}: EquationComponentProps): React.ReactElement {
   const [editor] = useLexicalComposerContext()
   const [equationValue, setEquationValue] = useState(equation)
-  const [showEquationEditor, setShowEquationEditor] =
-    useState<boolean>(showEditor)
+  const [showEquationEditor, setShowEquationEditor] = useState<boolean>(false)
   const inputRef = useRef(null)
 
   const onHide = useCallback(
@@ -70,7 +67,7 @@ export default function EquationComponent({
       return mergeRegister(
         editor.registerCommand(
           SELECTION_CHANGE_COMMAND,
-          () => {
+          (payload) => {
             const activeElement = document.activeElement
             const inputElem = inputRef.current
             if (inputElem !== activeElement) {
@@ -82,7 +79,7 @@ export default function EquationComponent({
         ),
         editor.registerCommand(
           KEY_ESCAPE_COMMAND,
-          () => {
+          (payload) => {
             const activeElement = document.activeElement
             const inputElem = inputRef.current
             if (inputElem === activeElement) {
@@ -118,15 +115,13 @@ export default function EquationComponent({
           equation={equationValue}
           setEquation={setEquationValue}
           inline={inline}
-          inputRef={inputRef}
+          ref={inputRef}
         />
       ) : (
         <KatexRenderer
           equation={equationValue}
           inline={inline}
-          onClick={() => {
-            setShowEquationEditor(true)
-          }}
+          onDoubleClick={() => setShowEquationEditor(true)}
         />
       )}
     </>

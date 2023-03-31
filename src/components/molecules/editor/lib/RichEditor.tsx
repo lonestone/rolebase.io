@@ -6,7 +6,6 @@
  *
  */
 
-import { $convertFromMarkdownString } from '@lexical/markdown'
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
@@ -67,7 +66,6 @@ import LinkPlugin from './plugins/LinkPlugin'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
 import MainEventsPlugin from './plugins/MainEventsPlugin'
 import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin'
-import { markdownTransformers } from './plugins/MarkdownTransformers'
 import MentionsPlugin, { Mentionable } from './plugins/MentionsPlugin'
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin'
 import TabFocusPlugin from './plugins/TabFocusPlugin'
@@ -80,6 +78,7 @@ import { CollabOfflineOverlay } from './ui/CollabOfflineOverlay'
 import Placeholder from './ui/Placeholder'
 
 import './RichEditor.css'
+import { fixInitialState } from './utils/fixInitialState'
 
 export interface RichEditorProps extends BoxProps {
   id?: string
@@ -96,18 +95,6 @@ export interface RichEditorProps extends BoxProps {
   onFocus?: () => void
   onBlur?: () => void
   onSubmit?: () => void
-}
-
-function fixInitialState(
-  value?: InitialEditorStateType
-): InitialEditorStateType | undefined {
-  if (!value) return undefined
-  // Markdown
-  if (typeof value === 'string' && value[0] !== '{') {
-    return () => $convertFromMarkdownString(value, markdownTransformers)
-  }
-  // Other types: EditorState, string, function
-  return value
 }
 
 export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(

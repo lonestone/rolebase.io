@@ -468,75 +468,6 @@ span.editor-image {
   font-weight: bold;
 }
 
-.actions {
-  position: absolute;
-  text-align: right;
-  padding: 10px;
-  bottom: 0;
-  right: 0;
-}
-
-.actions.tree-view {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.actions i {
-  background-size: contain;
-  display: inline-block;
-  height: 15px;
-  width: 15px;
-  vertical-align: -0.25em;
-}
-
-.actions i.indent {
-  background-image: url(images/icons/indent.svg);
-}
-
-.actions i.outdent {
-  background-image: url(images/icons/outdent.svg);
-}
-
-.actions i.lock {
-  background-image: url(images/icons/lock-fill.svg);
-}
-
-.actions i.image {
-  background-image: url(images/icons/file-image.svg);
-}
-
-.actions i.table {
-  background-image: url(images/icons/table.svg);
-}
-
-.actions i.unlock {
-  background-image: url(images/icons/lock.svg);
-}
-
-.actions i.left-align {
-  background-image: url(images/icons/text-left.svg);
-}
-
-.actions i.center-align {
-  background-image: url(images/icons/text-center.svg);
-}
-
-.actions i.right-align {
-  background-image: url(images/icons/text-right.svg);
-}
-
-.actions i.justify-align {
-  background-image: url(images/icons/justify.svg);
-}
-
-.actions i.disconnect {
-  background-image: url(images/icons/plug.svg);
-}
-
-.actions i.connect {
-  background-image: url(images/icons/plug-fill.svg);
-}
-
 .ltr {
   text-align: left;
 }
@@ -547,6 +478,15 @@ span.editor-image {
 
 .spacer {
   letter-spacing: -2px;
+}
+
+.editor-equation {
+  cursor: default;
+  user-select: none;
+}
+
+.editor-equation.focused {
+  outline: 2px solid rgb(60, 132, 244);
 }
 
 hr {

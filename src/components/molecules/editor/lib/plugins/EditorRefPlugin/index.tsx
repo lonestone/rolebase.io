@@ -7,7 +7,10 @@
  */
 
 import { insertList, ListType } from '@lexical/list'
-import { $convertFromMarkdownString } from '@lexical/markdown'
+import {
+  $convertFromMarkdownString,
+  $convertToMarkdownString,
+} from '@lexical/markdown'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $rootTextContent } from '@lexical/text'
 import {
@@ -25,6 +28,8 @@ export interface EditorHandle {
   getValue(cleanEmpty?: boolean): string
   getText(): string
   setValue(value: string): void
+  exportMarkdown(): string
+  importMarkdown(value: string): void
   clear(): void
   isEmpty(): boolean
   addBulletList(): void
@@ -50,6 +55,18 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
 
   // Update value of editor without rendering the component
   const setValue = (value: string) => setEditorValue(editor, value)
+
+  // Export state to markdown
+  const exportMarkdown = () => {
+    return editor
+      .getEditorState()
+      .read(() => $convertToMarkdownString(markdownTransformers))
+  }
+
+  // Set state from markdown
+  const importMarkdown = (value: string) => {
+    editor.update(() => $convertFromMarkdownString(value, markdownTransformers))
+  }
 
   // Clear root
   const clear = () => editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
@@ -101,6 +118,8 @@ export default forwardRef<EditorHandle>(function EditorRefPlugin(
       getValue,
       getText,
       setValue,
+      exportMarkdown,
+      importMarkdown,
       isEmpty,
       clear,
       addBulletList,

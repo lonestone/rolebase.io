@@ -208,6 +208,7 @@ function useDraggableBlockMenu(
 
   const menuRef = useRef<HTMLButtonElement>(null)
   const targetLineRef = useRef<HTMLDivElement>(null)
+  const isDraggingBlockRef = useRef<boolean>(false)
   const [draggableBlockElem, setDraggableBlockElem] =
     useState<HTMLElement | null>(null)
 
@@ -249,6 +250,9 @@ function useDraggableBlockMenu(
 
   useEffect(() => {
     function onDragover(event: DragEvent): boolean {
+      if (!isDraggingBlockRef.current) {
+        return false
+      }
       const [isFileTransfer] = eventFiles(event)
       if (isFileTransfer) {
         return false
@@ -269,6 +273,9 @@ function useDraggableBlockMenu(
     }
 
     function onDrop(event: DragEvent): boolean {
+      if (!isDraggingBlockRef.current) {
+        return false
+      }
       const [isFileTransfer] = eventFiles(event)
       if (isFileTransfer) {
         return false
@@ -332,10 +339,12 @@ function useDraggableBlockMenu(
         nodeKey = node.getKey()
       }
     })
+    isDraggingBlockRef.current = true
     dataTransfer.setData(DRAG_DATA_FORMAT, nodeKey)
   }
 
   function onDragEnd(): void {
+    isDraggingBlockRef.current = false
     hideTargetLine(targetLineRef.current)
   }
 

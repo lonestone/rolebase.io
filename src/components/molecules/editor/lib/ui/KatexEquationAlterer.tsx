@@ -75,7 +75,7 @@ export default function KatexEquationAlterer({
             <KatexRenderer
               equation={equation}
               inline={false}
-              onClick={() => null}
+              onDoubleClick={() => null}
             />
           </FormControl>
         </VStack>
