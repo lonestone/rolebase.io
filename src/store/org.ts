@@ -92,7 +92,7 @@ const extendedModel: OrgModel = {
         .sort((a, b) => a.name.localeCompare(b.name))
 
       // Get and sort members
-      state.members = result.members.sort((a, b) =>
+      state.members = [...result.members].sort((a, b) =>
         a.name.localeCompare(b.name)
       )
     }
