@@ -16110,13 +16110,6 @@ export type CancelLogMutationVariables = Exact<{
 
 export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
 
-export type MeetingSummarySubscriptionVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type MeetingSummarySubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null };
-
 export type MeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -17593,36 +17586,6 @@ export function useCancelLogMutation(baseOptions?: Apollo.MutationHookOptions<Ca
 export type CancelLogMutationHookResult = ReturnType<typeof useCancelLogMutation>;
 export type CancelLogMutationResult = Apollo.MutationResult<CancelLogMutation>;
 export type CancelLogMutationOptions = Apollo.BaseMutationOptions<CancelLogMutation, CancelLogMutationVariables>;
-export const MeetingSummaryDocument = gql`
-    subscription meetingSummary($id: uuid!) {
-  meeting_by_pk(id: $id) {
-    ...MeetingSummary
-  }
-}
-    ${MeetingSummaryFragmentDoc}`;
-
-/**
- * __useMeetingSummarySubscription__
- *
- * To run a query within a React component, call `useMeetingSummarySubscription` and pass it any options that fit your needs.
- * When your component renders, `useMeetingSummarySubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMeetingSummarySubscription({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useMeetingSummarySubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingSummarySubscription, MeetingSummarySubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<MeetingSummarySubscription, MeetingSummarySubscriptionVariables>(MeetingSummaryDocument, options);
-      }
-export type MeetingSummarySubscriptionHookResult = ReturnType<typeof useMeetingSummarySubscription>;
-export type MeetingSummarySubscriptionResult = Apollo.SubscriptionResult<MeetingSummarySubscription>;
 export const MeetingDocument = gql`
     subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {

@@ -7,6 +7,7 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { usePathInOrg } from '@hooks/usePathInOrg'
+import useWindowSize from '@hooks/useWindowSize'
 import React from 'react'
 import MeetingContent from '../meeting/MeetingContent'
 
@@ -16,11 +17,18 @@ interface Props extends UseModalProps {
 
 export default function MeetingModal({ id, ...modalProps }: Props) {
   const path = usePathInOrg(`meetings/${id}`)
+  const windowSize = useWindowSize()
 
   return (
-    <Modal size="3xl" autoFocus={false} {...modalProps}>
+    <Modal size="4xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent
+        borderRadius="lg"
+        overflow="hidden"
+        _dark={{
+          bg: 'gray.800',
+        }}
+      >
         <MeetingContent
           id={id}
           onClose={modalProps.onClose}
@@ -30,8 +38,7 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
               <ModalCloseStaticButton />
             </>
           }
-          px={6}
-          py={4}
+          h={`${windowSize.height * 0.9}px`}
         />
       </ModalContent>
     </Modal>

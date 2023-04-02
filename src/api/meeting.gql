@@ -1,9 +1,3 @@
-subscription meetingSummary($id: uuid!) {
-  meeting_by_pk(id: $id) {
-    ...MeetingSummary
-  }
-}
-
 subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting

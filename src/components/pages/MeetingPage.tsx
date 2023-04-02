@@ -1,4 +1,3 @@
-import { Container } from '@chakra-ui/react'
 import MeetingContent from '@organisms/meeting/MeetingContent'
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -15,12 +14,11 @@ export default function MeetingPage() {
   if (!meetingId) return <Page404 />
 
   return (
-    <Container maxW="3xl" py={10}>
-      <MeetingContent
-        id={meetingId}
-        changeTitle
-        onClose={() => navigate('..')}
-      />
-    </Container>
+    <MeetingContent
+      id={meetingId}
+      changeTitle
+      h="100%"
+      onClose={() => navigate('..')}
+    />
   )
 }

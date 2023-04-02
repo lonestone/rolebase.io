@@ -1,12 +1,7 @@
-import Loading from '@atoms/Loading'
 import Markdown from '@atoms/Markdown'
-import TextErrors from '@atoms/TextErrors'
 import { Box, Heading } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import {
-  useMeetingSummarySubscription,
-  useUpdateThreadActivityMutation,
-} from '@gql'
+import { useUpdateThreadActivityMutation } from '@gql'
 import useCreateThreadMeetingNote from '@hooks/useCreateThreadMeetingNote'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import CollabEditor from '@molecules/editor/CollabEditor'
@@ -32,17 +27,15 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
   const createThreadMeetingNote = useCreateThreadMeetingNote()
   const [updateThreadActivity] = useUpdateThreadActivityMutation()
 
-  const isEditable =
-    !!meetingState &&
-    meetingState.meeting?.id === activity.refMeeting?.id &&
-    meetingState.editable
+  if (!activity.refMeeting) {
+    console.error('No activity.refMeeting')
+    return null
+  }
+  const meeting = activity.refMeeting
 
-  // Load meeting if there is not meetingState
-  const { data, loading, error } = useMeetingSummarySubscription({
-    skip: isEditable || !activity.refMeeting,
-    variables: { id: activity.refMeeting?.id! },
-  })
-  const meeting = data?.meeting_by_pk || meetingState?.meeting
+  const isEditable =
+    meetingState?.editable &&
+    meetingState.meeting?.id === activity.refMeeting?.id
 
   // Update notes
   const handleNotesChange = useCallback(
@@ -77,9 +70,6 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
         }}
         p={5}
       >
-        {loading && <Loading active size="md" />}
-        <TextErrors errors={[error]} />
-
         {meeting && (
           <>
             <Heading as="h3" fontSize="md" mb={2}>

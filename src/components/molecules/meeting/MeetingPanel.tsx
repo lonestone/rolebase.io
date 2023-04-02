@@ -1,25 +1,20 @@
-import GlassBox from '@atoms/GlassBox'
 import {
   Container,
   Flex,
-  Heading,
   Icon,
   Link,
+  Spacer,
   useDisclosure,
   useMediaQuery,
-  Wrap,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import { SidebarContext } from '@contexts/SidebarContext'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import MeetingStartNotificationModal from '@organisms/meeting/MeetingStartNotificationModal'
 import React, { useContext } from 'react'
 import { FiArrowRight } from 'react-icons/fi'
-import MeetingDate from './MeetingDate'
 import MeetingPanelEnded from './MeetingPanelEnded'
 import MeetingPanelNotStarted from './MeetingPanelNotStarted'
 import MeetingPanelStarted from './MeetingPanelStarted'
-import MeetingTitle from './MeetingTitle'
 
 interface Props {
   forceEdit: boolean
@@ -27,7 +22,6 @@ interface Props {
 }
 
 export default function MeetingPanel({ forceEdit, isModal }: Props) {
-  const sidebarContext = useContext(SidebarContext)
   const [isSmallScreen] = useMediaQuery('(max-width: 750px)')
 
   const {
@@ -54,58 +48,36 @@ export default function MeetingPanel({ forceEdit, isModal }: Props) {
   }
 
   return (
-    <GlassBox
-      position="fixed"
-      zIndex={10}
-      bottom={0}
-      left={isModal ? 0 : sidebarContext?.width}
-      right={0}
-      p={3}
-      borderTopWidth="1px"
+    <Container
+      maxW="3xl"
+      display="flex"
+      justifyContent="space-between"
+      flexDirection={isSmallScreen ? 'column' : 'row'}
     >
-      <Container
-        maxW="3xl"
-        display="flex"
-        justifyContent="space-between"
-        flexDirection={isSmallScreen ? 'column' : 'row'}
-      >
-        <Flex
-          mb={isSmallScreen ? 2 : 0}
-          flexDirection="column"
-          justifyContent="space-around"
+      {currentStepConfig ? (
+        <Link
+          href={`step-${currentStep?.id}`}
+          display="flex"
+          fontSize="lg"
+          alignItems="center"
+          onClick={handleStepLinkClick}
         >
-          <Heading as="h1" size="sm">
-            <MeetingTitle />
-          </Heading>
-          {currentStepConfig ? (
-            <Link
-              href={`step-${currentStep?.id}`}
-              fontSize="sm"
-              color="gray.500"
-              display="flex"
-              alignItems="center"
-              onClick={handleStepLinkClick}
-            >
-              <Icon as={FiArrowRight} mr={2} />
-              {currentStepConfig?.title}
-            </Link>
-          ) : (
-            <Wrap spacing={5} align="center" fontSize="sm">
-              <MeetingDate meeting={meeting} />
-            </Wrap>
-          )}
-        </Flex>
+          <Icon as={FiArrowRight} mr={2} />
+          {currentStepConfig?.title}
+        </Link>
+      ) : (
+        <Spacer />
+      )}
 
-        <Flex justifyContent="end">
-          {isNotStarted && (
-            <MeetingPanelNotStarted onStart={startNotifModal.onOpen} />
-          )}
+      <Flex justifyContent="end">
+        {isNotStarted && (
+          <MeetingPanelNotStarted onStart={startNotifModal.onOpen} />
+        )}
 
-          {isEnded && forceEdit && <MeetingPanelEnded />}
+        {isEnded && forceEdit && <MeetingPanelEnded />}
 
-          {isStarted && <MeetingPanelStarted />}
-        </Flex>
-      </Container>
+        {isStarted && <MeetingPanelStarted />}
+      </Flex>
 
       {startNotifModal.isOpen && (
         <MeetingStartNotificationModal
@@ -113,6 +85,6 @@ export default function MeetingPanel({ forceEdit, isModal }: Props) {
           onClose={startNotifModal.onClose}
         />
       )}
-    </GlassBox>
+    </Container>
   )
 }

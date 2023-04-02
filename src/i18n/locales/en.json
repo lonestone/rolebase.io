@@ -209,7 +209,7 @@
   },
   "MeetingContent": {
     "title": "Meeting {{title}} - {{circle}}",
-    "heading": "Meeting {{title}} <circle />",
+    "heading": "Meeting {{title}}",
     "started": "Started",
     "ended": "Ended",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",

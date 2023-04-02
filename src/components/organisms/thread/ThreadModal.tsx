@@ -25,7 +25,6 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
       <ModalContent
         margin={0}
         borderRadius="lg"
-        overflow="hidden"
         _dark={{
           bg: 'gray.800',
         }}

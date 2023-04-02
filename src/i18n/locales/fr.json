@@ -209,7 +209,7 @@
   },
   "MeetingContent": {
     "title": "Réunion {{title}} - {{circle}}",
-    "heading": "Réunion {{title}} <circle />",
+    "heading": "Réunion {{title}}",
     "started": "En cours",
     "ended": "Terminée",
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
