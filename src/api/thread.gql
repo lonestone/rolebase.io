@@ -8,8 +8,7 @@ subscription thread($id: uuid!, $memberId: uuid!) {
   thread_by_pk(id: $id) {
     ...Thread
     member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
-      lastReadActivityId
-      lastReadDate
+      ...ThreadMemberStatus
     }
   }
 }
@@ -22,8 +21,7 @@ subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
       createdAt
     }
     member_status(where: { memberId: { _eq: $memberId } }, limit: 1) {
-      lastReadActivityId
-      lastReadDate
+      ...ThreadMemberStatus
     }
   }
 }

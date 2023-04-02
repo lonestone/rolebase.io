@@ -19,7 +19,7 @@ export default function ThreadActivityMessage({ activity }: Props) {
   return (
     <ThreadActivityLayout
       activity={activity}
-      allowDelete={isUserOwner}
+      allowDelete
       onEdit={isUserOwner ? () => setEditing(true) : undefined}
     >
       {!editing ? (

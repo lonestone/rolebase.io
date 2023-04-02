@@ -8,19 +8,17 @@ import {
   Flex,
   Heading,
   HStack,
+  IconButton,
   Spacer,
   Tag,
   useDisclosure,
   Wrap,
 } from '@chakra-ui/react'
 import { ThreadContext } from '@contexts/ThreadContext'
-import { useThreadSubscription, useUpdateThreadMutation } from '@gql'
-import useCircle from '@hooks/useCircle'
-import useCurrentMember from '@hooks/useCurrentMember'
+import { useUpdateThreadMutation } from '@gql'
 import { useElementSize } from '@hooks/useElementSize'
-import useOrgMember from '@hooks/useOrgMember'
-import useParticipants from '@hooks/useParticipants'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
+import useThreadState from '@hooks/useThreadState'
 import ActionsMenu from '@molecules/ActionsMenu'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
@@ -29,6 +27,7 @@ import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import Page404 from '@pages/Page404'
 import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FiArrowDown, FiArrowUp } from 'react-icons/fi'
 
 interface Props extends BoxProps {
   id: string
@@ -43,27 +42,21 @@ export default function ThreadContent({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
-  const currentMember = useCurrentMember()
-  const isMember = useOrgMember()
   const [updateThread] = useUpdateThreadMutation()
 
-  // Subscribe thread
-  const { data, loading, error } = useThreadSubscription({
-    skip: !currentMember,
-    variables: { id, memberId: currentMember?.id! },
-  })
-  const thread = data?.thread_by_pk || undefined
-  const memberStatus = data?.thread_by_pk?.member_status[0]
+  // Load thread and activities
+  const threadState = useThreadState(id)
 
-  // Circle
-  const circle = useCircle(thread?.circleId)
-
-  // Participants
-  const participants = useParticipants(
-    thread?.circleId,
-    thread?.participantsScope,
-    thread?.participantsMembersIds
-  )
+  const {
+    thread,
+    memberStatus,
+    loading,
+    error,
+    circle,
+    participants,
+    canEdit,
+    canParticipate,
+  } = threadState
 
   // Scrollable content
   const topRef = useRef<HTMLDivElement>(null)
@@ -92,96 +85,127 @@ export default function ThreadContent({
   )
 
   if (error) {
+    console.error(error)
     return <Page404 />
   }
 
   return (
-    <Box
-      position="relative"
-      display="flex"
-      flexDirection="column"
-      {...boxProps}
-    >
-      {changeTitle && <Title>{thread?.title || '…'}</Title>}
-
-      {loading && <Loading active center />}
-
+    <ThreadContext.Provider value={threadState}>
       <Box
-        ref={containerRef}
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        px={5}
-        overflow="auto"
-        onScroll={handleScroll}
-      >
-        <Box h={`${topSize?.height}px`} />
-        <ThreadContext.Provider value={thread}>
-          <ThreadActivities ref={contentRef} memberStatus={memberStatus} />
-        </ThreadContext.Provider>
-        <Box h={`${bottomSize?.height}px`} />
-      </Box>
-
-      <GlassBox
-        ref={topRef}
+        position="relative"
         display="flex"
-        w="100%"
-        px={5}
-        py={2}
-        borderBottomWidth={1}
-        borderTopRadius="lg"
+        flexDirection="column"
+        {...boxProps}
       >
-        <Wrap spacing={2} flex={1} align="center">
-          <Heading as="h1" size="md">
-            {thread?.title || (loading ? '…' : null)}
-          </Heading>
+        {changeTitle && <Title>{thread?.title || '…'}</Title>}
 
-          <Spacer />
+        {loading && <Loading active center />}
 
-          <HStack spacing={2}>
-            {thread?.archived && <Tag>{t('common.archived')}</Tag>}
+        {/* Activities in container */}
+        <Box
+          ref={containerRef}
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          overflowY="scroll"
+          onScroll={handleScroll}
+        >
+          <Box h={`${topSize?.height}px`} />
+          <ThreadActivities ref={contentRef} memberStatus={memberStatus} />
+          <Box h={`${bottomSize?.height}px`} />
+        </Box>
 
-            {circle && <CircleButton circle={circle} />}
-
-            <Box>
-              <ParticipantsNumber participants={participants} />
-            </Box>
-          </HStack>
-        </Wrap>
-
-        <Flex mr={headerIcons ? -2 : 0}>
-          {isMember && (
-            <ActionsMenu
-              onEdit={editModal.onOpen}
-              onArchive={!thread?.archived ? handleArchive : undefined}
-              onUnarchive={thread?.archived ? handleUnarchive : undefined}
-              ml={2}
-            />
-          )}
-          {headerIcons}
-        </Flex>
-      </GlassBox>
-
-      <Box flex={1} />
-
-      <GlassBox
-        ref={bottomRef}
-        p={5}
-        borderTopWidth={
-          isScrollable && scrollPosition !== ScrollPosition.Bottom ? 3 : 1
-        }
-        borderBottomRadius="lg"
-      >
-        {thread && isMember && (
-          <ThreadActivityCreate thread={thread} w="100%" />
+        {/* Buttons to scroll to top/bottom */}
+        {isScrollable && scrollPosition !== ScrollPosition.Top && (
+          <IconButton
+            aria-label="Scroll to top"
+            position="absolute"
+            top={`${(topSize?.height || 0) + 10}px`}
+            right="30px"
+            icon={<FiArrowUp />}
+            onClick={() => {
+              containerRef.current?.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+              })
+            }}
+          />
         )}
-      </GlassBox>
+        {isScrollable && scrollPosition !== ScrollPosition.Bottom && (
+          <IconButton
+            aria-label="Scroll to bottom"
+            position="absolute"
+            bottom={`${(bottomSize?.height || 0) + 10}px`}
+            right="30px"
+            icon={<FiArrowDown />}
+            onClick={() => {
+              containerRef.current?.scrollTo({
+                top: containerRef.current?.scrollHeight,
+                behavior: 'smooth',
+              })
+            }}
+          />
+        )}
 
-      {editModal.isOpen && (
-        <ThreadEditModal isOpen thread={thread} onClose={editModal.onClose} />
-      )}
-    </Box>
+        <GlassBox
+          ref={topRef}
+          display="flex"
+          w="100%"
+          px={5}
+          py={2}
+          borderBottomWidth={1}
+        >
+          <Wrap spacing={2} flex={1} align="center">
+            <Heading as="h1" size="md">
+              {thread?.title || (loading ? '…' : null)}
+            </Heading>
+
+            <Spacer />
+
+            <HStack spacing={2}>
+              {thread?.archived && <Tag>{t('common.archived')}</Tag>}
+
+              {circle && <CircleButton circle={circle} />}
+
+              <Box>
+                <ParticipantsNumber participants={participants} />
+              </Box>
+            </HStack>
+          </Wrap>
+
+          <Flex mr={headerIcons ? -2 : 0}>
+            {canEdit && (
+              <ActionsMenu
+                onEdit={editModal.onOpen}
+                onArchive={!thread?.archived ? handleArchive : undefined}
+                onUnarchive={thread?.archived ? handleUnarchive : undefined}
+                ml={2}
+              />
+            )}
+            {headerIcons}
+          </Flex>
+        </GlassBox>
+
+        <Box flex={1} />
+
+        <GlassBox
+          ref={bottomRef}
+          p={5}
+          borderTopWidth={
+            isScrollable && scrollPosition !== ScrollPosition.Bottom ? 3 : 1
+          }
+        >
+          {thread && canParticipate && (
+            <ThreadActivityCreate thread={thread} w="100%" />
+          )}
+        </GlassBox>
+
+        {editModal.isOpen && (
+          <ThreadEditModal isOpen thread={thread} onClose={editModal.onClose} />
+        )}
+      </Box>
+    </ThreadContext.Provider>
   )
 }

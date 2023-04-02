@@ -15964,6 +15964,8 @@ export type TaskFragment = { __typename?: 'task', id: string, orgId: string, cir
 
 export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean };
 
+export type ThreadMemberStatusFragment = { __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string };
+
 export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
 export type GetCircleQueryVariables = Exact<{
@@ -16503,13 +16505,6 @@ export type GetLastThreadActivityQueryVariables = Exact<{
 
 export type GetLastThreadActivityQuery = { __typename?: 'query_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
 
-export type ThreadActivitySubscriptionVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type ThreadActivitySubscription = { __typename?: 'subscription_root', thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null } | null };
-
 export type ThreadActivitiesSubscriptionVariables = Exact<{
   threadId: Scalars['uuid'];
 }>;
@@ -16539,23 +16534,12 @@ export type DeleteThreadActivityMutationVariables = Exact<{
 
 export type DeleteThreadActivityMutation = { __typename?: 'mutation_root', delete_thread_activity_by_pk?: { __typename?: 'thread_activity', id: string } | null };
 
-export type ThreadMemberStatusFieldsFragment = { __typename?: 'thread_member_status', id: string, threadId: string, memberId: string, lastReadActivityId?: string | null, lastReadDate: string };
-
-export type CreateThreadMemberStatusMutationVariables = Exact<{
+export type UpsertThreadMemberStatusMutationVariables = Exact<{
   values: Thread_Member_Status_Insert_Input;
 }>;
 
 
-export type CreateThreadMemberStatusMutation = { __typename?: 'mutation_root', insert_thread_member_status_one?: { __typename?: 'thread_member_status', id: string, threadId: string, memberId: string, lastReadActivityId?: string | null, lastReadDate: string } | null };
-
-export type UpdateThreadMemberStatusMutationVariables = Exact<{
-  threadId: Scalars['uuid'];
-  memberId: Scalars['uuid'];
-  values: Thread_Member_Status_Set_Input;
-}>;
-
-
-export type UpdateThreadMemberStatusMutation = { __typename?: 'mutation_root', update_thread_member_status?: { __typename?: 'thread_member_status_mutation_response', returning: Array<{ __typename?: 'thread_member_status', id: string, threadId: string, memberId: string, lastReadActivityId?: string | null, lastReadDate: string }> } | null };
+export type UpsertThreadMemberStatusMutation = { __typename?: 'mutation_root', insert_thread_member_status_one?: { __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string } | null };
 
 export type ThreadPollAnswerFragment = { __typename?: 'thread_poll_answer', id: string, activityId: string, userId: string, choicesPoints: Array<number>, createdAt: string };
 
@@ -16812,6 +16796,12 @@ export const OrgFullLightFragmentDoc = gql`
 ${CircleFragmentDoc}
 ${RoleFragmentDoc}
 ${MemberFragmentDoc}`;
+export const ThreadMemberStatusFragmentDoc = gql`
+    fragment ThreadMemberStatus on thread_member_status {
+  lastReadActivityId
+  lastReadDate
+}
+    `;
 export const ThreadFragmentDoc = gql`
     fragment Thread on thread {
   id
@@ -16909,15 +16899,6 @@ export const TaskViewFragmentDoc = gql`
   orgId
   key
   tasksIds
-}
-    `;
-export const ThreadMemberStatusFieldsFragmentDoc = gql`
-    fragment ThreadMemberStatusFields on thread_member_status {
-  id
-  threadId
-  memberId
-  lastReadActivityId
-  lastReadDate
 }
     `;
 export const ThreadPollAnswerFragmentDoc = gql`
@@ -19172,12 +19153,12 @@ export const ThreadDocument = gql`
   thread_by_pk(id: $id) {
     ...Thread
     member_status(where: {memberId: {_eq: $memberId}}, limit: 1) {
-      lastReadActivityId
-      lastReadDate
+      ...ThreadMemberStatus
     }
   }
 }
-    ${ThreadFragmentDoc}`;
+    ${ThreadFragmentDoc}
+${ThreadMemberStatusFragmentDoc}`;
 
 /**
  * __useThreadSubscription__
@@ -19211,12 +19192,12 @@ export const ThreadsDocument = gql`
       createdAt
     }
     member_status(where: {memberId: {_eq: $memberId}}, limit: 1) {
-      lastReadActivityId
-      lastReadDate
+      ...ThreadMemberStatus
     }
   }
 }
-    ${ThreadFragmentDoc}`;
+    ${ThreadFragmentDoc}
+${ThreadMemberStatusFragmentDoc}`;
 
 /**
  * __useThreadsSubscription__
@@ -19420,36 +19401,6 @@ export type GetLastThreadActivityQueryResult = Apollo.QueryResult<GetLastThreadA
 export function refetchGetLastThreadActivityQuery(variables: GetLastThreadActivityQueryVariables) {
       return { query: GetLastThreadActivityDocument, variables: variables }
     }
-export const ThreadActivityDocument = gql`
-    subscription threadActivity($id: uuid!) {
-  thread_activity_by_pk(id: $id) {
-    ...ThreadActivity
-  }
-}
-    ${ThreadActivityFragmentDoc}`;
-
-/**
- * __useThreadActivitySubscription__
- *
- * To run a query within a React component, call `useThreadActivitySubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadActivitySubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useThreadActivitySubscription({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useThreadActivitySubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadActivitySubscription, ThreadActivitySubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ThreadActivitySubscription, ThreadActivitySubscriptionVariables>(ThreadActivityDocument, options);
-      }
-export type ThreadActivitySubscriptionHookResult = ReturnType<typeof useThreadActivitySubscription>;
-export type ThreadActivitySubscriptionResult = Apollo.SubscriptionResult<ThreadActivitySubscription>;
 export const ThreadActivitiesDocument = gql`
     subscription threadActivities($threadId: uuid!) {
   thread_activity(where: {threadId: {_eq: $threadId}}, order_by: {createdAt: asc}) {
@@ -19580,79 +19531,42 @@ export function useDeleteThreadActivityMutation(baseOptions?: Apollo.MutationHoo
 export type DeleteThreadActivityMutationHookResult = ReturnType<typeof useDeleteThreadActivityMutation>;
 export type DeleteThreadActivityMutationResult = Apollo.MutationResult<DeleteThreadActivityMutation>;
 export type DeleteThreadActivityMutationOptions = Apollo.BaseMutationOptions<DeleteThreadActivityMutation, DeleteThreadActivityMutationVariables>;
-export const CreateThreadMemberStatusDocument = gql`
-    mutation createThreadMemberStatus($values: thread_member_status_insert_input!) {
-  insert_thread_member_status_one(object: $values) {
-    ...ThreadMemberStatusFields
-  }
-}
-    ${ThreadMemberStatusFieldsFragmentDoc}`;
-export type CreateThreadMemberStatusMutationFn = Apollo.MutationFunction<CreateThreadMemberStatusMutation, CreateThreadMemberStatusMutationVariables>;
-
-/**
- * __useCreateThreadMemberStatusMutation__
- *
- * To run a mutation, you first call `useCreateThreadMemberStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateThreadMemberStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createThreadMemberStatusMutation, { data, loading, error }] = useCreateThreadMemberStatusMutation({
- *   variables: {
- *      values: // value for 'values'
- *   },
- * });
- */
-export function useCreateThreadMemberStatusMutation(baseOptions?: Apollo.MutationHookOptions<CreateThreadMemberStatusMutation, CreateThreadMemberStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateThreadMemberStatusMutation, CreateThreadMemberStatusMutationVariables>(CreateThreadMemberStatusDocument, options);
-      }
-export type CreateThreadMemberStatusMutationHookResult = ReturnType<typeof useCreateThreadMemberStatusMutation>;
-export type CreateThreadMemberStatusMutationResult = Apollo.MutationResult<CreateThreadMemberStatusMutation>;
-export type CreateThreadMemberStatusMutationOptions = Apollo.BaseMutationOptions<CreateThreadMemberStatusMutation, CreateThreadMemberStatusMutationVariables>;
-export const UpdateThreadMemberStatusDocument = gql`
-    mutation updateThreadMemberStatus($threadId: uuid!, $memberId: uuid!, $values: thread_member_status_set_input!) {
-  update_thread_member_status(
-    where: {threadId: {_eq: $threadId}, memberId: {_eq: $memberId}}
-    _set: $values
+export const UpsertThreadMemberStatusDocument = gql`
+    mutation upsertThreadMemberStatus($values: thread_member_status_insert_input!) {
+  insert_thread_member_status_one(
+    object: $values
+    on_conflict: {constraint: thread_member_status_threadId_memberId_key, update_columns: [lastReadActivityId, lastReadDate]}
   ) {
-    returning {
-      ...ThreadMemberStatusFields
-    }
+    ...ThreadMemberStatus
   }
 }
-    ${ThreadMemberStatusFieldsFragmentDoc}`;
-export type UpdateThreadMemberStatusMutationFn = Apollo.MutationFunction<UpdateThreadMemberStatusMutation, UpdateThreadMemberStatusMutationVariables>;
+    ${ThreadMemberStatusFragmentDoc}`;
+export type UpsertThreadMemberStatusMutationFn = Apollo.MutationFunction<UpsertThreadMemberStatusMutation, UpsertThreadMemberStatusMutationVariables>;
 
 /**
- * __useUpdateThreadMemberStatusMutation__
+ * __useUpsertThreadMemberStatusMutation__
  *
- * To run a mutation, you first call `useUpdateThreadMemberStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateThreadMemberStatusMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpsertThreadMemberStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpsertThreadMemberStatusMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateThreadMemberStatusMutation, { data, loading, error }] = useUpdateThreadMemberStatusMutation({
+ * const [upsertThreadMemberStatusMutation, { data, loading, error }] = useUpsertThreadMemberStatusMutation({
  *   variables: {
- *      threadId: // value for 'threadId'
- *      memberId: // value for 'memberId'
  *      values: // value for 'values'
  *   },
  * });
  */
-export function useUpdateThreadMemberStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateThreadMemberStatusMutation, UpdateThreadMemberStatusMutationVariables>) {
+export function useUpsertThreadMemberStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpsertThreadMemberStatusMutation, UpsertThreadMemberStatusMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateThreadMemberStatusMutation, UpdateThreadMemberStatusMutationVariables>(UpdateThreadMemberStatusDocument, options);
+        return Apollo.useMutation<UpsertThreadMemberStatusMutation, UpsertThreadMemberStatusMutationVariables>(UpsertThreadMemberStatusDocument, options);
       }
-export type UpdateThreadMemberStatusMutationHookResult = ReturnType<typeof useUpdateThreadMemberStatusMutation>;
-export type UpdateThreadMemberStatusMutationResult = Apollo.MutationResult<UpdateThreadMemberStatusMutation>;
-export type UpdateThreadMemberStatusMutationOptions = Apollo.BaseMutationOptions<UpdateThreadMemberStatusMutation, UpdateThreadMemberStatusMutationVariables>;
+export type UpsertThreadMemberStatusMutationHookResult = ReturnType<typeof useUpsertThreadMemberStatusMutation>;
+export type UpsertThreadMemberStatusMutationResult = Apollo.MutationResult<UpsertThreadMemberStatusMutation>;
+export type UpsertThreadMemberStatusMutationOptions = Apollo.BaseMutationOptions<UpsertThreadMemberStatusMutation, UpsertThreadMemberStatusMutationVariables>;
 export const ThreadPollAnswersDocument = gql`
     subscription threadPollAnswers($activityId: uuid!) {
   thread_poll_answer(where: {activityId: {_eq: $activityId}}) {

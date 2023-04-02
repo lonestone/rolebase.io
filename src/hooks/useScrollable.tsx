@@ -11,7 +11,7 @@ export default function useScrollable() {
   // Scroll handling
   const [isScrollable, setIsScrollable] = useState(false)
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(
-    ScrollPosition.Bottom
+    ScrollPosition.Top
   )
 
   // Elements should be there at first render for their refs to be available

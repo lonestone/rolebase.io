@@ -65,7 +65,7 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
   if (!isEditable && !activity.data.notes) return null
 
   return (
-    <Box py={5}>
+    <Box p={5}>
       <Box
         border="2px solid"
         borderRadius="md"

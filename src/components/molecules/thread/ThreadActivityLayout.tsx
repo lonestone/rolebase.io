@@ -1,12 +1,16 @@
-import HourLink from '@atoms/HourLink'
 import MemberLink from '@atoms/MemberLink'
-import { Avatar, Box, Flex, Text, useDisclosure } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Link, Text, useDisclosure } from '@chakra-ui/react'
+import { ThreadContext } from '@contexts/ThreadContext'
 import { ThreadActivityFragment } from '@gql'
+import useCurrentMember from '@hooks/useCurrentMember'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
+import useOrgAdmin from '@hooks/useOrgAdmin'
 import ActionsMenu from '@molecules/ActionsMenu'
 import ActivityDeleteModal from '@organisms/thread/ActivityDeleteModal'
 import { useStoreState } from '@store/hooks'
-import React, { ReactNode, useMemo } from 'react'
+import { format } from 'date-fns'
+import React, { ReactNode, useContext, useMemo } from 'react'
+import { Link as ReachLink } from 'react-router-dom'
 
 interface Props {
   activity: ThreadActivityFragment
@@ -21,12 +25,22 @@ export default function ThreadActivityLayout({
   allowDelete,
   children,
 }: Props) {
+  const hover = useHoverItemStyle()
+  const { path, handleMarkUnread } = useContext(ThreadContext)!
+  const anchor = `activity-${activity.id}`
+
+  // Retrieve author member
   const members = useStoreState((state) => state.org.members)
   const member = useMemo(
     () => members?.find((m) => m.userId === activity.userId),
     [activity.userId, members]
   )
-  const hover = useHoverItemStyle()
+
+  // Can delete?
+  const currentMember = useCurrentMember()
+  const isAdmin = useOrgAdmin()
+  const isUserOwner = currentMember?.userId === activity.userId
+  const canDelete = allowDelete && (isAdmin || isUserOwner)
 
   // Delete modal
   const {
@@ -36,13 +50,17 @@ export default function ThreadActivityLayout({
   } = useDisclosure()
 
   return (
-    <Flex id={`activity-${activity.id}`} p={3} _hover={hover} role="group">
+    <Flex p={3} pl={6} _hover={hover} role="group">
+      {/* Anchor */}
+      <Box id={anchor} transform="translateY(-100px)" />
+
       <Avatar
         name={member?.name || '?'}
         src={member?.picture || undefined}
         size="md"
         mr={3}
       />
+
       <Box flex="1">
         {(onEdit || allowDelete) && (
           <ActionsMenu
@@ -51,13 +69,24 @@ export default function ThreadActivityLayout({
             opacity={0}
             _groupHover={{ opacity: 1 }}
             onEdit={onEdit}
-            onDelete={allowDelete ? onDeleteOpen : undefined}
+            onDelete={canDelete ? onDeleteOpen : undefined}
+            onMarkUnread={() => handleMarkUnread(activity.id)}
           />
         )}
 
         <Text>
           {member && <MemberLink id={member.id} name={member.name} />}
-          <HourLink activityId={activity.id} date={activity.createdAt} ml={2} />
+          <Link
+            as={ReachLink}
+            to={`${path}#${anchor}`}
+            fontSize="sm"
+            fontWeight="normal"
+            ml={2}
+            color="gray.500"
+            _dark={{ color: 'gray.300' }}
+          >
+            {format(new Date(activity.createdAt), 'HH:mm')}
+          </Link>
         </Text>
 
         {children}

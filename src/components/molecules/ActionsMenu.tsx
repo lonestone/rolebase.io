@@ -12,6 +12,7 @@ import {
   FiArchive,
   FiCopy,
   FiEdit3,
+  FiEyeOff,
   FiMoreVertical,
   FiMove,
   FiTrash2,
@@ -24,6 +25,7 @@ interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onDelete?(): void
   onArchive?(): void
   onUnarchive?(): void
+  onMarkUnread?(): void
 }
 
 export default function ActionsMenu({
@@ -33,6 +35,7 @@ export default function ActionsMenu({
   onArchive,
   onUnarchive,
   onDelete,
+  onMarkUnread,
   ...props
 }: Props) {
   const { t } = useTranslation()
@@ -67,6 +70,11 @@ export default function ActionsMenu({
         {onDuplicate && (
           <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
             {t('common.duplicate')}
+          </MenuItem>
+        )}
+        {onMarkUnread && (
+          <MenuItem icon={<FiEyeOff />} onClick={onMarkUnread}>
+            {t('common.markUnread')}
           </MenuItem>
         )}
         {onArchive && (

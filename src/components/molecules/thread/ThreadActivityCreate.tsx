@@ -13,7 +13,6 @@ import {
   Thread_Activity_Insert_Input,
   Thread_Activity_Type_Enum,
   useCreateThreadActivityMutation,
-  useUpdateThreadMutation,
 } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -58,7 +57,6 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
   const currentMember = useCurrentMember()
   const org = useCurrentOrg()
   const [createThreadActivity] = useCreateThreadActivityMutation()
-  const [updateThread] = useUpdateThreadMutation()
   const editorRef = useRef<EditorHandle>(null)
 
   // Save message draft
@@ -86,7 +84,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
       if (!org || !userId) return
 
       // Create activity
-      const { data } = await createThreadActivity({
+      await createThreadActivity({
         variables: {
           values: {
             userId: isSuperAdmin ? userId : undefined,
@@ -96,7 +94,6 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           },
         },
       })
-      const id = data?.insert_thread_activity_one?.id
     },
     [org?.id, isSuperAdmin, userId, thread]
   )
@@ -183,7 +180,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
         onSubmit={handleSubmit}
       />
 
-      <HStack spacing={2} my={2}>
+      <HStack spacing={2} mt={2}>
         <IconTextButton
           aria-label={t(`ThreadActivityCreate.poll`)}
           size="sm"

@@ -1,4 +1,4 @@
-import { Flex, Icon } from '@chakra-ui/react'
+import { Icon, Tag } from '@chakra-ui/react'
 import { MeetingFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
@@ -15,15 +15,15 @@ export default function MeetingDate({ meeting }: Props) {
 
   return (
     <>
-      <Flex align="center">
+      <Tag h="26px">
         <Icon as={FiCalendar} mr={2} />
         {capitalizeFirstLetter(
           format(new Date(meeting.startDate), 'PPPP', {
             locale: dateLocale,
           })
         )}
-      </Flex>
-      <Flex align="center">
+      </Tag>
+      <Tag h="26px">
         <Icon as={FiClock} mr={2} />
         {format(new Date(meeting.startDate), 'p', {
           locale: dateLocale,
@@ -32,7 +32,7 @@ export default function MeetingDate({ meeting }: Props) {
         {format(new Date(meeting.endDate), 'p', {
           locale: dateLocale,
         })}
-      </Flex>
+      </Tag>
     </>
   )
 }

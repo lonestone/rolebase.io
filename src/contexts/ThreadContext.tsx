@@ -1,6 +1,4 @@
-import { ThreadFragment } from '@gql'
+import { ThreadState } from '@hooks/useThreadState'
 import { createContext } from 'react'
 
-export const ThreadContext = createContext<ThreadFragment | undefined>(
-  undefined
-)
+export const ThreadContext = createContext<ThreadState | undefined>(undefined)

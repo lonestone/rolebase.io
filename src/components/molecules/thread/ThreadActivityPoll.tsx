@@ -89,7 +89,7 @@ export default function ThreadActivityPoll({ activity }: Props) {
   return (
     <ThreadActivityLayout
       activity={activity}
-      allowDelete={isUserOwner}
+      allowDelete
       onEdit={isUserOwner ? onEditOpen : undefined}
     >
       <Box

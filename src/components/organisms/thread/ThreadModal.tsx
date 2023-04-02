@@ -22,7 +22,14 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
   return (
     <Modal size="3xl" isCentered autoFocus={false} {...modalProps}>
       <ModalOverlay />
-      <ModalContent margin={0}>
+      <ModalContent
+        margin={0}
+        borderRadius="lg"
+        overflow="hidden"
+        _dark={{
+          bg: 'gray.800',
+        }}
+      >
         <ThreadContent
           id={id}
           headerIcons={

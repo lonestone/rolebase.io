@@ -1,5 +1,3 @@
-import Loading from '@atoms/Loading'
-import TextErrors from '@atoms/TextErrors'
 import ThreadDaySeparator from '@atoms/ThreadDaySeparator'
 import {
   Alert,
@@ -11,12 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { ThreadContext } from '@contexts/ThreadContext'
-import {
-  Thread_Activity_Type_Enum,
-  useCreateThreadMemberStatusMutation,
-  useThreadActivitiesSubscription,
-  useUpdateThreadMemberStatusMutation,
-} from '@gql'
+import { ThreadMemberStatusFragment, Thread_Activity_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import ThreadActivity from '@molecules/thread/ThreadActivity'
 import { ThreadActivityMeetingNoteFragment } from '@shared/model/thread_activity'
@@ -32,12 +25,7 @@ import { useTranslation } from 'react-i18next'
 import { FiMessageSquare } from 'react-icons/fi'
 
 interface Props extends StackProps {
-  memberStatus?: MemberStatus
-}
-
-interface MemberStatus {
-  lastReadActivityId?: string | null | undefined
-  lastReadDate: string
+  memberStatus?: ThreadMemberStatusFragment
 }
 
 export const activityMeetingNoteTmpId = 'tmp'
@@ -45,20 +33,9 @@ export const activityMeetingNoteTmpId = 'tmp'
 const ThreadActivities = forwardRef<HTMLDivElement, Props>(
   ({ memberStatus, ...stackProps }, ref) => {
     const { t } = useTranslation()
-    const thread = useContext(ThreadContext)
+    const { thread, activities } = useContext(ThreadContext)!
     const meetingState = useContext(MeetingContext)
     const currentMember = useCurrentMember()
-    const [createThreadMemberStatus] = useCreateThreadMemberStatusMutation()
-    const [updateThreadMemberStatus] = useUpdateThreadMemberStatusMutation()
-
-    // Subscribe to activities
-    const { data, error, loading } = useThreadActivitiesSubscription({
-      skip: !thread,
-      variables: { threadId: thread?.id! },
-    })
-
-    // If there is a current meeting state, assure that we have a MeetingNote activity
-    const activities = data?.thread_activity
 
     // Temporary meeting note
     const tmpMeetingNoteActivity = useMemo(() => {
@@ -91,62 +68,31 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
 
     // Previous status to show a mark
     const [lastReadActivityId, setLastReadActivityId] = useState<
-      string | null | undefined
+      string | undefined
     >()
 
-    // Update read status
+    // Update read mark
     useEffect(() => {
       if (!thread || !activities || !currentMember) {
         return
       }
       const lastActivityId = activities[activities.length - 1]?.id || null
+      const lastReadActivityId = memberStatus?.lastReadActivityId
 
-      // Up to date
-      if (memberStatus?.lastReadActivityId === lastActivityId) {
-        if (lastReadActivityId === undefined) {
-          // No mark
-          setLastReadActivityId(null)
-        }
+      if (lastReadActivityId && lastReadActivityId !== lastActivityId) {
+        setLastReadActivityId(lastReadActivityId)
       }
-      // Unread activities
-      else {
-        // Show a mark after previously seen activity
-        if (lastReadActivityId === undefined) {
-          setLastReadActivityId(memberStatus?.lastReadActivityId || null)
-        }
-
-        // Save new status
-        if (memberStatus) {
-          updateThreadMemberStatus({
-            variables: {
-              threadId: thread.id,
-              memberId: currentMember.id,
-              values: {
-                lastReadActivityId: lastActivityId,
-                lastReadDate: new Date().toISOString(),
-              },
-            },
-          })
-        } else {
-          createThreadMemberStatus({
-            variables: {
-              values: {
-                threadId: thread.id,
-                memberId: currentMember.id,
-                lastReadActivityId: lastActivityId,
-                lastReadDate: new Date().toISOString(),
-              },
-            },
-          })
-        }
-      }
-    }, [thread, activities, memberStatus, currentMember])
+    }, [
+      memberStatus,
+      // Member status may be provided after other deps,
+      // so we need to check the existence of their values
+      !thread,
+      !activities,
+      !currentMember,
+    ])
 
     return (
       <VStack spacing={0} mb={2} align="stretch" ref={ref} {...stackProps}>
-        {loading && <Loading active center />}
-        <TextErrors errors={[error]} />
-
         {activities &&
           activities.map((activity, i) => (
             <React.Fragment key={activity.id}>

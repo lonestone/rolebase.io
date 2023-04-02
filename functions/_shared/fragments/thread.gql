@@ -9,3 +9,8 @@ fragment Thread on thread {
   createdAt
   archived
 }
+
+fragment ThreadMemberStatus on thread_member_status {
+  lastReadActivityId
+  lastReadDate
+}

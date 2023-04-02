@@ -21,7 +21,7 @@ export default function MeetingStepLayout({
   onStepClick,
   children,
 }: Props) {
-  const { handleScrollToStep } = useContext(MeetingContext)!
+  const { handleScrollToStep, path } = useContext(MeetingContext)!
   const anchor = `step-${stepId}`
   const [isSmallScreen] = useMediaQuery('(max-width: 1000px)')
 
@@ -45,7 +45,7 @@ export default function MeetingStepLayout({
           onStepClick={onStepClick}
         />
         <Heading as="h2" size="md">
-          <a href={`#${anchor}`} onClick={handleStepLinkClick}>
+          <a href={`${path}#${anchor}`} onClick={handleStepLinkClick}>
             {title}
           </a>
         </Heading>
