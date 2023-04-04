@@ -19,17 +19,24 @@ type NotificationDigestPayload = {
   digestKey?: string | null
 }
 
+type NotificationPushPayload = {
+  fcmTag: string
+}
+
 type NotificationPayloadBuilder<Data extends any> = NotificationCommonPayload &
   Data
 
-export type MeetingStartedNotificationPayload =
-  NotificationPayloadBuilder<NotificationEmailPayload>
+export type MeetingStartedNotificationPayload = NotificationPayloadBuilder<
+  NotificationEmailPayload & NotificationPushPayload
+>
 
-export type MeetingInvitedNotificationPayload =
-  NotificationPayloadBuilder<NotificationEmailPayload>
+export type MeetingInvitedNotificationPayload = NotificationPayloadBuilder<
+  NotificationEmailPayload & NotificationPushPayload
+>
 
-export type TaskAssignedNotificationPayload =
-  NotificationPayloadBuilder<NotificationEmailPayload>
+export type TaskAssignedNotificationPayload = NotificationPayloadBuilder<
+  NotificationEmailPayload & NotificationPushPayload
+>
 
 export type ThreadNotificationPayload =
   NotificationPayloadBuilder<NotificationEmailPayload>

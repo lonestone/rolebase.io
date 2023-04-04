@@ -9,6 +9,7 @@ node_modules
 
 # Builds
 dist
+dev-dist
 storybook-static
 
 # Rollup visualizer

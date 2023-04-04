@@ -4,6 +4,7 @@ import { terser } from 'rollup-plugin-terser'
 import visualizer from 'rollup-plugin-visualizer'
 import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -11,12 +12,63 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [
     svgr({ exportAsDefault: true }),
-    react({
-      // Required to prevent error "pragma and pragmaFrag cannot be set when runtime is automatic"
-      // with @magicbell/magicbell-react
-      jsxRuntime: 'classic',
-    }),
+    react(),
     tsconfigPaths(),
+    VitePWA({
+      includeAssets: ['/icons/*'],
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'Rolebase',
+        short_name: 'Rolebase',
+        description:
+          'A tool that makes your organization clear and participatory',
+        theme_color: '#FBF7FC',
+        start_url: '/',
+        display: 'standalone',
+        icons: [
+          {
+            src: '/icons/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/apple-touch-icon.png',
+            sizes: '180x180',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/favicon-16x16.png',
+            sizes: '16x16',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/favicon-32x32.png',
+            sizes: '32x32',
+            type: 'image/png',
+          },
+        ],
+      },
+      workbox: {
+        importScripts: ['/public/firebase-messaging-sw.js'],
+        navigateFallbackAllowlist: [/^index.html$/],
+        navigateFallbackDenylist: [
+          /^\/functions/,
+          /^\/nhost/,
+          /^\/patches/,
+          /^\/docs/,
+        ],
+      },
+      devOptions: {
+        enabled: true,
+        type: 'module',
+        navigateFallbackAllowlist: [/^index.html$/],
+      },
+    }),
     terser({
       format: {
         comments: false,

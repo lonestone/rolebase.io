@@ -1,3 +1,4 @@
+import { getTokenFromFirebase, onMessageListener } from '@api/firebase'
 import { replaceOldIds } from '@api/functions'
 import CrispSetUser from '@atoms/CrispSetUser'
 import Loading from '@atoms/Loading'
@@ -33,6 +34,17 @@ export default function PrivateRoute() {
     if (userLocale && langs.includes(userLocale as keyof typeof locales)) {
       changeLanguage(userLocale)
     }
+  }, [])
+
+  // Push notifications setup
+  useEffect(() => {
+    // Get Fcm token and register device in Novu for push notification
+    getTokenFromFirebase()
+
+    // Listener on push message
+    onMessageListener()
+      .then((payload) => console.log('Push message received', payload))
+      .catch((err) => console.error(err))
   }, [])
 
   // Subscribe to orgs

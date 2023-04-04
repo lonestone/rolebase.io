@@ -44,6 +44,10 @@ export const searchReindexAll = fn('searchReindexAll')
 
 export const getNovuConfig = fn<{}, NovuConfig>('getNovuConfig')
 
+export const setNovuSubscriberCredentialsWithFcmToken = fn<{
+  token: string
+}>('setNovuSubscriberCredentialsWithFcmToken')
+
 export const getMeetingsToken = fn<{ orgId: string }, string>(
   'getMeetingsToken'
 )
