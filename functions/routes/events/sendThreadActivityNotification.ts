@@ -1,38 +1,28 @@
 import { gql, Member_Role_Enum, ThreadActivityFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
 import { adminRequest } from '@utils/adminRequest'
+import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { guardOrg } from '@utils/guardOrg'
-import { guardWebhookSecret } from '@utils/guardWebhookSecret'
-import { HasuraEvent, HasuraEventOp } from '@utils/nhost'
+import { HasuraEventOp } from '@utils/nhost'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import { NotificationThreadActivityData } from '@utils/notification/thread/getNotificationThreadActivityData'
 import { threadActivityInsertAction } from '@utils/notification/thread/threadActivityInsertAction'
 import { ThreadActivityNotification } from '@utils/notification/thread/threadActivityNotification'
 import { route, RouteError } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
-  guardWebhookSecret(context)
+  const {
+    fullEvent: { event },
+    senderUserId,
+  } = checkSendNotificationEvent<ThreadActivityFragment>(context)
 
-  const event: HasuraEvent<ThreadActivityFragment> = context.req.body
-
-  if (!event) {
-    throw new RouteError(400, 'No event')
-  }
-
-  // Sender
-  const senderUserId = event.event.session_variables['x-hasura-user-id']
-  if (!senderUserId) {
-    throw new RouteError(401, 'Unauthorized')
-  }
-
-  // Check if new thread activity (should always be provided in event)
-  if (!event.event.data.new) {
-    throw new RouteError(404, 'No new thread activity')
+  // Currently we just send notification when a new thread is inserted in DB
+  if (event.op !== HasuraEventOp.INSERT) {
+    return
   }
 
   // Get thread activity org
   const threadActivityOrgResult = await adminRequest(GET_THREAD_ACTIVITY_ORG, {
-    threadId: event.event.data.new.threadId,
+    threadId: event.data.new!.threadId,
     userId: senderUserId,
   })
 
@@ -40,28 +30,17 @@ export default route(async (context): Promise<void> => {
   if (!threadActivityOrgResult.org?.[0]) {
     throw new RouteError(404, 'No org found for this thread activity')
   }
-  await guardOrg(
-    threadActivityOrgResult.org[0].id,
-    Member_Role_Enum.Member,
-    senderUserId
-  )
+  const org = threadActivityOrgResult.org[0]
+  await guardOrg(org.id, Member_Role_Enum.Member, senderUserId)
 
-  // What needs to be done in each event case
-  let threadActivityActionReturn: {
-    threadActivity: NotificationThreadActivityData
-    participantsIds: string[]
-  } | null = null
-  switch (event.event.op) {
-    case HasuraEventOp.INSERT:
-      threadActivityActionReturn = await threadActivityInsertAction(
-        event.event.data.new.id,
-        senderUserId
-      )
-      break
-
-    default:
-      break
+  // Check if new thread activity id
+  if (!event.data.new!.id) {
+    throw new RouteError(404, 'No new thread activity')
   }
+  // What needs to be done
+  const threadActivityActionReturn = await threadActivityInsertAction(
+    event.data.new!.id
+  )
 
   // Don't send notification if no thread activity or participants
   if (
@@ -82,8 +61,7 @@ export default route(async (context): Promise<void> => {
 
   const locale = (sender?.locale as keyof typeof resources) || defaultLang
 
-  const { org, orgId, id, title } =
-    threadActivityActionReturn.threadActivity.thread
+  const { orgId, id, title } = threadActivityActionReturn.threadActivity.thread
 
   // Build ThreadActivityNotification instance for each recipient
   const notification = new ThreadActivityNotification(locale, {
@@ -99,7 +77,10 @@ export default route(async (context): Promise<void> => {
 const GET_THREAD_ACTIVITY_ORG = gql(`
   query getThreadActivityOrg($threadId: uuid!, $userId:uuid!) {
     org(where: { _and: [{threads: {id: {_eq: $threadId}}}, {members: {userId: {_eq: $userId}}}]}) {
-      id
+      ...Org
+      members(where: {userId: {_eq: $userId}}) {
+        id
+      }
     }
   }
 `)

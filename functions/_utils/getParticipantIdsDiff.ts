@@ -10,25 +10,22 @@ export async function getParticipantIdsDiff<
     throw new RouteError(400, 'Bad request')
   }
 
-  const org = await getOrgCirclesFullAndMembers(newData.orgId)
-  if (!org) {
-    throw new RouteError(404, 'Org not found')
-  }
+  const { circles, members } = await getOrgCirclesFullAndMembers(newData.orgId)
 
   // Get oldData participants
   const oldDataParticipantIds = getParticipantsByScope(
-    org.members,
+    members,
     oldData.circleId,
-    org.circles,
+    circles,
     oldData.participantsScope,
     oldData.participantsMembersIds
   ).map((participant) => participant.member.id)
 
   // Get newData participants
   const newParticipantIds = getParticipantsByScope(
-    org.members,
+    members,
     newData.circleId,
-    org.circles,
+    circles,
     newData.participantsScope,
     newData.participantsMembersIds
   ).map((participant) => participant.member.id)

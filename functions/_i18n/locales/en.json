@@ -23,20 +23,18 @@
       "content": "{{sender}} started the meeting!"
     },
     "sendTaskAssignedNotification": {
-      "title": "Task assigned to you ({{role}})",
+      "title": "Task assigned to you - {{role}}",
       "content": "{{title}}"
     },
     "sendThreadNotification": {
-      "title": "New topic for you in {{role}}",
-      "content": "This topic '{{title}}' concerns you."
+      "title": "New topic for you - {{role}}",
+      "content": "{{title}}"
     },
     "sendThreadActivityNotification": {
       "title": "New activity for this topic : {{title}}",
       "content": "New message for this topic : {{title}}.",
-      "titleSingular": "New activity for this topic : {{title}}",
-      "titlePlural": "New activities for this topic : {{title}}.",
-      "contentSingular": "new message for this topic : {{title}}",
-      "contentPlural": "new messages for this topic : {{title}}."
+      "digestContentSingular": "new message for this topic : {{title}}",
+      "digestContentPlural": "new messages for this topic : {{title}}."
     }
   }
 }

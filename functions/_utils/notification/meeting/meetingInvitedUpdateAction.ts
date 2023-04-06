@@ -1,8 +1,8 @@
 import { MeetingFragment, Member_Role_Enum } from '@gql'
 import { getParticipantIdsDiff } from '@utils/getParticipantIdsDiff'
 import { guardOrg } from '@utils/guardOrg'
-import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
 import { RouteError } from '@utils/route'
+import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
 
 export async function meetingInvitedUpdateAction(
   senderUserId: string,
@@ -19,7 +19,10 @@ export async function meetingInvitedUpdateAction(
   })
 
   // Get diff in meeting participants
-  const newParticipantIds = await getParticipantIdsDiff(oldMeeting, newMeeting)
+  const newParticipantIds = await getParticipantIdsDiff<MeetingFragment>(
+    oldMeeting,
+    newMeeting
+  )
   if (!newParticipantIds || newParticipantIds.length === 0) {
     return null
   }

@@ -6,8 +6,9 @@ export interface NovuConfig {
 
 // Categories comes from Novu notification identifier which can be found in the admin panel
 export enum NotificationCategories {
-  threadActivity = 'threadactivity',
-  thread = 'thread',
+  // tempthread and tempthreadactivity are temporary templates, 'till some problem with template in prod are solved
+  threadActivity = 'tempthreadactivity',
+  thread = 'tempthread',
   taskassigned = 'taskassigned',
   meetinginvited = 'meetinginvited',
   meetingstarted = 'meetingstarted',

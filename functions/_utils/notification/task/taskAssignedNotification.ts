@@ -25,6 +25,13 @@ export class TaskAssignedNotification extends Notification<
 
   get payload(): TaskAssignedNotificationPayload {
     const { t } = i18n
+    const i18nOptions = {
+      lng: this.locale,
+      replace: {
+        role: this.parameters.role,
+        title: this.parameters.title,
+      },
+    }
 
     const actionUrl = this.getActionUrl(
       NotificationCategories.taskassigned,
@@ -34,18 +41,11 @@ export class TaskAssignedNotification extends Notification<
     )
 
     return {
-      title: t('notifications.sendTaskAssignedNotification.title', {
-        lng: this.locale,
-        replace: {
-          role: this.parameters.role,
-        },
-      }),
-      content: t('notifications.sendTaskAssignedNotification.content', {
-        lng: this.locale,
-        replace: {
-          title: this.parameters.title,
-        },
-      }),
+      title: t('notifications.sendTaskAssignedNotification.title', i18nOptions),
+      content: t(
+        'notifications.sendTaskAssignedNotification.content',
+        i18nOptions
+      ),
       actionUrl,
     }
   }

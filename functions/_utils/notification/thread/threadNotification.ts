@@ -25,6 +25,13 @@ export class ThreadNotification extends Notification<
 
   get payload(): ThreadNotificationPayload {
     const { t } = i18n
+    const i18nOptions = {
+      lng: this.locale,
+      replace: {
+        role: this.parameters.role,
+        title: this.parameters.title,
+      },
+    }
 
     const actionUrl = this.getActionUrl(
       NotificationCategories.thread,
@@ -34,18 +41,8 @@ export class ThreadNotification extends Notification<
     )
 
     return {
-      title: t('notifications.sendThreadNotification.title', {
-        lng: this.locale,
-        replace: {
-          role: this.parameters.role,
-        },
-      }),
-      content: t('notifications.sendThreadNotification.content', {
-        lng: this.locale,
-        replace: {
-          title: this.parameters.title,
-        },
-      }),
+      title: t('notifications.sendThreadNotification.title', i18nOptions),
+      content: t('notifications.sendThreadNotification.content', i18nOptions),
       actionUrl,
     }
   }

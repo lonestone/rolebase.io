@@ -7,18 +7,12 @@ export type NotificationThreadActivityData = NonNullable<
 >
 
 export async function getNotificationThreadActivityData(
-  threadActivityId: string,
-  userId: string
+  threadActivityId: string
 ): Promise<NotificationThreadActivityData> {
-  if (!threadActivityId || !userId) {
-    throw new RouteError(404, 'Bad request')
-  }
-
   const { thread_activity_by_pk } = await adminRequest(
     GET_THREAD_ACTIVITY_DATA,
     {
       id: threadActivityId,
-      userId,
     }
   )
   if (!thread_activity_by_pk) {
@@ -29,7 +23,7 @@ export async function getNotificationThreadActivityData(
 }
 
 const GET_THREAD_ACTIVITY_DATA = gql(`
-  query getThreadActivityData($id: uuid!, $userId:uuid!) {
+  query getThreadActivityData($id: uuid!) {
     thread_activity_by_pk(id: $id) {
       ...ThreadActivity
       thread {
@@ -39,12 +33,6 @@ const GET_THREAD_ACTIVITY_DATA = gql(`
         participantsScope
         participantsMembersIds
         title
-        org {
-          ...Org
-          members(where: { userId: { _eq: $userId } }) {
-            id
-          }
-        }
       }
     }
   }

@@ -2,7 +2,7 @@ import { Member_Role_Enum, ThreadFragment } from '@gql'
 import { getParticipantIdsDiff } from '@utils/getParticipantIdsDiff'
 import { guardOrg } from '@utils/guardOrg'
 import { RouteError } from '@utils/route'
-import { getNotificationThreadData } from './getNotificationThreadData'
+import { getNotificationThreadData } from '@utils/notification/thread/getNotificationThreadData'
 
 export async function threadUpdateAction(
   senderUserId: string,
@@ -27,7 +27,7 @@ export async function threadUpdateAction(
 
   // Send notification
   // If changes on participants : send thread notification only to new participants
-  const thread = await getNotificationThreadData(newThread.id!, senderUserId)
+  const thread = await getNotificationThreadData(newThread.id, senderUserId)
 
   return { thread, participantsIds: newParticipantIds }
 }

@@ -1,6 +1,6 @@
 import { GetMeetingDataQuery, gql } from '@gql'
-import { adminRequest } from '../adminRequest'
-import { RouteError } from '../route'
+import { adminRequest } from '@utils/adminRequest'
+import { RouteError } from '@utils/route'
 
 export type NotificationMeetingData = NonNullable<
   GetMeetingDataQuery['meeting_by_pk']

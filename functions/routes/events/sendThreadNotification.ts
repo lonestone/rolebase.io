@@ -1,60 +1,44 @@
 import { Member_Role_Enum, ThreadFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
+import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { guardOrg } from '@utils/guardOrg'
-import { guardWebhookSecret } from '@utils/guardWebhookSecret'
-import { HasuraEvent, HasuraEventOp } from '@utils/nhost'
+import { HasuraEventOp } from '@utils/nhost'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import { NotificationThreadData } from '@utils/notification/thread/getNotificationThreadData'
 import { threadInsertAction } from '@utils/notification/thread/threadInsertAction'
 import { ThreadNotification } from '@utils/notification/thread/threadNotification'
 import { threadUpdateAction } from '@utils/notification/thread/threadUpdateAction'
-import { route, RouteError } from '@utils/route'
+import { route } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
-  guardWebhookSecret(context)
-
-  const event: HasuraEvent<ThreadFragment> = context.req.body
-
-  if (!event) {
-    throw new RouteError(400, 'No event')
-  }
-
-  // Sender
-  const senderUserId = event.event.session_variables['x-hasura-user-id']
-  if (!senderUserId) {
-    throw new RouteError(401, 'Unauthorized')
-  }
-
-  // Check if new thread (should always be provided in event)
-  if (!event.event.data.new) {
-    throw new RouteError(404, 'No new thread')
-  }
+  const {
+    fullEvent: { event },
+    senderUserId,
+  } = checkSendNotificationEvent<ThreadFragment>(context)
 
   // Check permission for new thread org
-  await guardOrg(
-    event.event.data.new.orgId,
-    Member_Role_Enum.Member,
-    senderUserId
-  )
+  await guardOrg(event.data.new!.orgId, Member_Role_Enum.Member, senderUserId)
 
   // What needs to be done in each event case
   let threadActionReturn: {
     thread: NotificationThreadData
     participantsIds: string[]
   } | null = null
-  switch (event.event.op) {
+  switch (event.op) {
+    // Done if a new thread is inserted in DB
     case HasuraEventOp.INSERT:
       threadActionReturn = await threadInsertAction(
         senderUserId,
-        event.event.data.new
+        event.data.new!
       )
       break
 
+    // Done if there is an update for some fields of a thread in DB
     case HasuraEventOp.UPDATE:
       threadActionReturn = await threadUpdateAction(
         senderUserId,
-        event.event.data.new,
-        event.event.data.old
+        event.data.new!,
+        event.data.old
       )
       break
 

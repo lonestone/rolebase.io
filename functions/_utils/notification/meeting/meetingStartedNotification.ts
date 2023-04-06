@@ -26,6 +26,14 @@ export class MeetingStartedNotification extends Notification<
 
   get payload(): MeetingStartedNotificationPayload {
     const { t } = i18n
+    const i18nOptions = {
+      lng: this.locale,
+      replace: {
+        role: this.parameters.role,
+        title: this.parameters.title,
+        sender: this.parameters.sender,
+      },
+    }
 
     const actionUrl = this.getActionUrl(
       NotificationCategories.meetingstarted,
@@ -35,35 +43,25 @@ export class MeetingStartedNotification extends Notification<
     )
 
     return {
-      title: t('notifications.sendMeetingStartedNotification.title', {
-        lng: this.locale,
-        replace: {
-          role: this.parameters.role,
-          title: this.parameters.title,
-        },
-      }),
-      content: t('notifications.sendMeetingStartedNotification.content', {
-        lng: this.locale,
-        replace: {
-          sender: this.parameters.sender,
-        },
-      }),
+      title: t(
+        'notifications.sendMeetingStartedNotification.title',
+        i18nOptions
+      ),
+      content: t(
+        'notifications.sendMeetingStartedNotification.content',
+        i18nOptions
+      ),
       actionUrl,
       notificationReceived: t(
         'notifications.common.email.notificationReceived',
-        {
-          lng: this.locale,
-        }
+        i18nOptions
       ),
-      actionButton: t('notifications.common.action.openMeeting', {
-        lng: this.locale,
-      }),
-      automaticEmail: t('notifications.common.email.automaticEmail', {
-        lng: this.locale,
-      }),
-      unsubscribe: t('notifications.common.email.unsubscribe', {
-        lng: this.locale,
-      }),
+      actionButton: t('notifications.common.action.openMeeting', i18nOptions),
+      automaticEmail: t(
+        'notifications.common.email.automaticEmail',
+        i18nOptions
+      ),
+      unsubscribe: t('notifications.common.email.unsubscribe', i18nOptions),
     }
   }
 }

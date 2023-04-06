@@ -14,10 +14,8 @@ type NotificationEmailPayload = {
 }
 
 type NotificationDigestPayload = {
-  titleSingular: string
-  contentSingular: string
-  titlePlural: string
-  contentPlural: string
+  digestContentSingular: string
+  digestContentPlural: string
   digestKey?: string | null
 }
 

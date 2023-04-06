@@ -10,10 +10,6 @@ export async function getNotificationThreadData(
   threadId: string,
   userId: string
 ): Promise<NotificationThreadData> {
-  if (!threadId || !userId) {
-    throw new RouteError(404, 'Bad request')
-  }
-
   const { thread_by_pk } = await adminRequest(GET_THREAD_DATA, {
     id: threadId,
     userId,

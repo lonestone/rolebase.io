@@ -24,6 +24,12 @@ export class ThreadActivityNotification extends Notification<
 
   get payload(): ThreadActivityNotificationPayload {
     const { t } = i18n
+    const i18nOptions = {
+      lng: this.locale,
+      replace: {
+        title: this.parameters.title,
+      },
+    }
 
     const actionUrl = this.getActionUrl(
       NotificationCategories.threadActivity,
@@ -38,53 +44,21 @@ export class ThreadActivityNotification extends Notification<
     )
 
     return {
-      title: t('notifications.sendThreadActivityNotification.title', {
-        lng: this.locale,
-        replace: {
-          title: this.parameters.title,
-        },
-      }),
-      content: t('notifications.sendThreadActivityNotification.content', {
-        lng: this.locale,
-        replace: {
-          title: this.parameters.title,
-        },
-      }),
-      titleSingular: t(
-        'notifications.sendThreadActivityNotification.titleSingular',
-        {
-          lng: this.locale,
-          replace: {
-            title: this.parameters.title,
-          },
-        }
+      title: t(
+        'notifications.sendThreadActivityNotification.title',
+        i18nOptions
       ),
-      contentSingular: t(
-        'notifications.sendThreadActivityNotification.contentSingular',
-        {
-          lng: this.locale,
-          replace: {
-            title: this.parameters.title,
-          },
-        }
+      content: t(
+        'notifications.sendThreadActivityNotification.content',
+        i18nOptions
       ),
-      titlePlural: t(
-        'notifications.sendThreadActivityNotification.titlePlural',
-        {
-          lng: this.locale,
-          replace: {
-            title: this.parameters.title,
-          },
-        }
+      digestContentSingular: t(
+        'notifications.sendThreadActivityNotification.digestContentSingular',
+        i18nOptions
       ),
-      contentPlural: t(
-        'notifications.sendThreadActivityNotification.contentPlural',
-        {
-          lng: this.locale,
-          replace: {
-            title: this.parameters.title,
-          },
-        }
+      digestContentPlural: t(
+        'notifications.sendThreadActivityNotification.digestContentPlural',
+        i18nOptions
       ),
       actionUrl,
       digestKey,

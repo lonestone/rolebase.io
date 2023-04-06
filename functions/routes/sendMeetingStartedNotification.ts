@@ -2,12 +2,12 @@ import { Member_Role_Enum } from '@gql'
 import { defaultLang, resources } from '@i18n'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { guardOrg } from '@utils/guardOrg'
-import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
-import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import { MeetingStartedNotification } from '@utils/notification/meetingStartedNotification'
 import { route } from '@utils/route'
 import * as yup from 'yup'
+import { guardOrg } from '@utils/guardOrg'
+import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
+import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
+import { MeetingStartedNotification } from '@utils/notification/meeting/meetingStartedNotification'
 
 const yupSchema = yup.object({
   recipientMemberIds: yup.array().of(yup.string().required()),
