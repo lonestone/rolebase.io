@@ -21,18 +21,13 @@ export default route(async (context): Promise<void> => {
   // Get member
   const memberToUpdate = await getMemberById(memberId)
 
-  const { member: issuerMember } = await guardOrg(
+  await guardOrg(
     memberToUpdate.orgId,
-    Member_Role_Enum.Admin,
-    context.userId
+    memberToUpdate.role === Member_Role_Enum.Owner
+      ? Member_Role_Enum.Owner
+      : Member_Role_Enum.Admin,
+    context
   )
-
-  if (
-    memberToUpdate.role === Member_Role_Enum.Owner &&
-    issuerMember.role !== Member_Role_Enum.Owner
-  ) {
-    throw new RouteError(403, 'Insufficient permissions')
-  }
 
   if (memberToUpdate.role === Member_Role_Enum.Owner) {
     // Ensures at least one other owner of the org will remain active

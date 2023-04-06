@@ -24,21 +24,16 @@ export default route(async (context): Promise<void> => {
     throw new RouteError(400, 'Member does not exist')
   }
 
-  const { member: issuerMember } = await guardOrg(
+  await guardOrg(
     memberToArchive.orgId,
-    Member_Role_Enum.Admin,
-    context.userId
+    memberToArchive.role === Member_Role_Enum.Owner
+      ? Member_Role_Enum.Owner
+      : Member_Role_Enum.Admin,
+    context
   )
 
   if (!memberToArchive) {
     throw new RouteError(400, 'Member does not exist')
-  }
-
-  if (
-    memberToArchive.role === Member_Role_Enum.Owner &&
-    issuerMember.role !== Member_Role_Enum.Owner
-  ) {
-    throw new RouteError(403, 'Insufficient permissions')
   }
 
   if (memberToArchive.role === Member_Role_Enum.Owner) {

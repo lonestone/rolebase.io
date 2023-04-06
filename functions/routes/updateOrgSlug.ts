@@ -17,7 +17,7 @@ export default route(async (context): Promise<void> => {
   const { orgId, slug } = guardBodyParams(context, yupSchema)
 
   guardAuth(context)
-  await guardOrg(orgId, Member_Role_Enum.Admin, context.userId)
+  await guardOrg(orgId, Member_Role_Enum.Admin, context)
 
   // Check forbidden slugs
   if (settings.forbiddenSlugs.includes(slug)) {

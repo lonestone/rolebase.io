@@ -1,14 +1,14 @@
 import { MeetingFragment, Member_Role_Enum } from '@gql'
+import { defaultLang, resources } from '@i18n'
 import { guardOrg } from '@utils/guardOrg'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
 import { HasuraEvent, HasuraEventOp } from '@utils/nhost'
-import { route, RouteError } from '@utils/route'
-import { meetingInvitedInsertAction } from '@utils/notification/meetingInvitedInsertAction'
-import { meetingInvitedUpdateAction } from '@utils/notification/meetingInvitedUpdateAction'
-import { defaultLang, resources } from '@i18n'
-import { MeetingInvitedNotification } from '@utils/notification/meetingInvitedNotification'
-import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import { NotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
+import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
+import { meetingInvitedInsertAction } from '@utils/notification/meetingInvitedInsertAction'
+import { MeetingInvitedNotification } from '@utils/notification/meetingInvitedNotification'
+import { meetingInvitedUpdateAction } from '@utils/notification/meetingInvitedUpdateAction'
+import { route, RouteError } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
   guardWebhookSecret(context)
@@ -32,11 +32,9 @@ export default route(async (context): Promise<void> => {
   }
 
   // Check permission for new meeting org
-  await guardOrg(
-    event.event.data.new.orgId,
-    Member_Role_Enum.Member,
-    senderUserId
-  )
+  await guardOrg(event.event.data.new.orgId, Member_Role_Enum.Member, {
+    userId: senderUserId,
+  })
 
   // What needs to be done in each event case
   let meetingInvitedActionReturn: {

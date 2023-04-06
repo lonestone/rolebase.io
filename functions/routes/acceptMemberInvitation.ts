@@ -47,8 +47,9 @@ export default route(async (context): Promise<void> => {
   }
 
   // Verify that the org has not reached it's member limit
-  const { nbActiveMembers, subscription } =
-    await guardSubscriptionAvailableSeat(context, member.orgId)
+  const { activeMembers, subscription } = await guardSubscriptionAvailableSeat(
+    member.orgId
+  )
 
   if (
     subscription &&
@@ -57,7 +58,7 @@ export default route(async (context): Promise<void> => {
   ) {
     await updateStripeSubscription(
       subscription.stripeSubscriptionId,
-      nbActiveMembers + 1
+      activeMembers + 1
     )
   }
 

@@ -1,8 +1,8 @@
 import { MeetingFragment, Member_Role_Enum } from '@gql'
 import { getMeetingParticipantIdsDiff } from '@utils/getMeetingParticipantIdsDiff'
 import { guardOrg } from '@utils/guardOrg'
-import { RouteError } from '@utils/route'
 import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
+import { RouteError } from '@utils/route'
 
 export async function meetingInvitedUpdateAction(
   senderUserId: string,
@@ -14,7 +14,9 @@ export async function meetingInvitedUpdateAction(
   }
 
   //  Check permission for old meeting org
-  await guardOrg(oldMeeting.orgId!, Member_Role_Enum.Member, senderUserId)
+  await guardOrg(oldMeeting.orgId!, Member_Role_Enum.Member, {
+    userId: senderUserId,
+  })
 
   // Get diff in meeting participants
   const newParticipantIds = await getMeetingParticipantIdsDiff(

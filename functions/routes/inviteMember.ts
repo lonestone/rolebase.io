@@ -31,24 +31,21 @@ export default route(async (context) => {
   }
 
   // Check and get org
-  const { org } = await guardOrg(
-    member.orgId,
-    Member_Role_Enum.Admin,
-    context.userId
-  )
+  await guardOrg(member.orgId, Member_Role_Enum.Admin, context)
 
   // Get inviter member
-  const inviterMemberResult = await adminRequest(GET_MEMBER_BY_USER_ID, {
+  const orgAndMemberResult = await adminRequest(GET_ORG_AND_MEMBER, {
     orgId: member.orgId,
     userId: context.userId,
   })
-  const inviterMember = inviterMemberResult.member[0]
+  const org = orgAndMemberResult.org_by_pk
+  const inviterMember = org?.members[0]
   if (!inviterMember) {
     throw new RouteError(404, 'Inviter member not found')
   }
 
   // Verify that the org has not reached it's member limit
-  await guardSubscriptionAvailableSeat(context, member.orgId)
+  await guardSubscriptionAvailableSeat(member.orgId)
 
   // Update member
   const inviteDate = new Date()
@@ -88,11 +85,15 @@ export default route(async (context) => {
   }
 })
 
-const GET_MEMBER_BY_USER_ID = gql(`
-  query getMemberByUserId($orgId: uuid!, $userId: uuid!) {
-    member(where: { orgId: { _eq: $orgId }, userId: { _eq: $userId } }) {
+const GET_ORG_AND_MEMBER = gql(`
+  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {
+    org_by_pk(id: $orgId) {
       id
       name
+      members(where: { userId: { _eq: $userId } }) {
+        id
+        name
+      }
     }
   }
 `)

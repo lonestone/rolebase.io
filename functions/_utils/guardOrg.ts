@@ -6,16 +6,21 @@ import { RouteError } from './route'
 export async function guardOrg(
   orgId: string,
   minRole: Member_Role_Enum,
-  userId?: string
-) {
-  if (!userId) {
+  context: { userId?: string; isAdmin?: boolean }
+): Promise<void> {
+  // Allow Hasura admins to bypass
+  if (context.isAdmin) {
+    return
+  }
+
+  if (!context.userId) {
     throw new RouteError(401, 'Unauthorized')
   }
 
   // Get user role in org
-  const result = await adminRequest(GET_ORG_ROLE, {
+  const result = await adminRequest(GET_USER_ROLE_IN_ORG, {
     orgId,
-    userId,
+    userId: context.userId,
   })
 
   // Check if role is sufficient
@@ -24,19 +29,13 @@ export async function guardOrg(
   if (!org || !isRoleSufficient(role, minRole)) {
     throw new RouteError(403, 'Forbidden')
   }
-
-  return { org, member: org?.members[0] }
 }
 
-const GET_ORG_ROLE = gql(`
-  query getOrgRole($orgId: uuid!, $userId: uuid!) {
+const GET_USER_ROLE_IN_ORG = gql(`
+  query getUserRoleInOrg($orgId: uuid!, $userId: uuid!) {
     org_by_pk(id: $orgId) {
-      id
-      name
       members(where: {userId: {_eq: $userId}}) {
-        id
         role
-        userId
       }
     }
   }`)

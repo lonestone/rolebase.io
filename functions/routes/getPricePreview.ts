@@ -1,7 +1,7 @@
-import { gql, Member_Role_Enum } from '@gql'
+import { Member_Role_Enum } from '@gql'
 import { PricePreview } from '@shared/model/subscription'
 import { addressSchema, subscriptionPlanTypeSchema } from '@shared/schemas'
-import { adminRequest } from '@utils/adminRequest'
+import { getOrgSubscriptionAndActiveMembers } from '@utils/getOrgSubscriptionAndActiveMembers'
 import { getPlanTypePriceId } from '@utils/getPlanTypePriceId'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
@@ -28,14 +28,14 @@ export default route(async (context): Promise<PricePreview> => {
     throw new RouteError(400, 'Invalid request')
   }
 
-  await guardOrg(orgId, Member_Role_Enum.Owner, context.userId)
+  await guardOrg(orgId, Member_Role_Enum.Owner, context)
 
-  const org = (await adminRequest(GET_QUANTITY, { orgId })).org_by_pk
+  const { activeMembers } = await getOrgSubscriptionAndActiveMembers(orgId)
 
   // TODO: retrieve priceId and quantity
   const { coupon, price } = await getPricePreview(
     getPlanTypePriceId(planType),
-    org.members.length,
+    activeMembers,
     address,
     promotionCode
   )
@@ -61,14 +61,3 @@ export default route(async (context): Promise<PricePreview> => {
       : null,
   }
 })
-
-const GET_QUANTITY = gql(`
-  query getQuantity($orgId: uuid!) {
-    org_by_pk(id: $orgId) {
-      id
-      members(where: {userId: {_is_null: false}}) {
-        id
-      }
-    }
-  }
-`)

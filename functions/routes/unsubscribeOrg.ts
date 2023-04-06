@@ -17,7 +17,7 @@ export default route(async (context): Promise<{ cancelAt: Date }> => {
   guardAuth(context)
   const { orgId } = guardBodyParams(context, yupSchema)
 
-  await guardOrg(orgId, Member_Role_Enum.Owner, context.userId)
+  await guardOrg(orgId, Member_Role_Enum.Owner, context)
 
   const orgSubscriptionResponse = await adminRequest(GET_ORG_SUBSCRIPTION, {
     orgId,

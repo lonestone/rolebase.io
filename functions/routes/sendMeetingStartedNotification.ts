@@ -1,13 +1,13 @@
 import { Member_Role_Enum } from '@gql'
+import { defaultLang, resources } from '@i18n'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { route } from '@utils/route'
-import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import * as yup from 'yup'
-import { MeetingStartedNotification } from '@utils/notification/meetingStartedNotification'
-import { defaultLang, resources } from '@i18n'
 import { guardOrg } from '@utils/guardOrg'
 import { getNotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
+import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
+import { MeetingStartedNotification } from '@utils/notification/meetingStartedNotification'
+import { route } from '@utils/route'
+import * as yup from 'yup'
 
 const yupSchema = yup.object({
   recipientMemberIds: yup.array().of(yup.string().required()),
@@ -29,7 +29,7 @@ export default route(async (context): Promise<void> => {
 
   // Check if user can access org data
   const orgId = org.id
-  await guardOrg(orgId, Member_Role_Enum.Member, context.userId)
+  await guardOrg(orgId, Member_Role_Enum.Member, context)
 
   // If recipientMemberIds provided : send only to those recipients
   // Else send to all attendees

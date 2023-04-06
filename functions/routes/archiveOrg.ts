@@ -15,7 +15,7 @@ export default route(async (context): Promise<string> => {
   guardAuth(context)
   const { orgId } = guardBodyParams(context, yupSchema)
 
-  await guardOrg(orgId, Member_Role_Enum.Owner, context.userId)
+  await guardOrg(orgId, Member_Role_Enum.Owner, context)
 
   const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION, { orgId })
   let stripeSubscriptionId =
