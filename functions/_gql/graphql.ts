@@ -16348,15 +16348,10 @@ export type GetThreadActivityDataQuery = {
       participantsScope: Member_Scope_Enum
       participantsMembersIds: Array<string>
       title: string
-      org: {
-        __typename?: 'org'
+      circle: {
+        __typename?: 'circle'
         id: string
-        name: string
-        archived: boolean
-        createdAt: string
-        defaultWorkedMinPerWeek: number
-        slug?: string | null
-        members: Array<{ __typename?: 'member'; id: string }>
+        role: { __typename?: 'role'; name: string }
       }
     }
     refThread?: {
@@ -19856,6 +19851,32 @@ export const GetThreadActivityDataDocument = {
                         name: { kind: 'Name', value: 'participantsMembersIds' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'circle' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'role' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },

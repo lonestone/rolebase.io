@@ -33,6 +33,12 @@ const GET_THREAD_ACTIVITY_DATA = gql(`
         participantsScope
         participantsMembersIds
         title
+        circle {
+          id
+          role {
+            name
+          }
+        }
       }
     }
   }

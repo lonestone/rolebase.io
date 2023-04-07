@@ -6,6 +6,7 @@
     "common": {
       "action": {
         "openMeeting": "Ouvrir la réunion",
+        "openTask": "Open la tâche",
         "openThread": "Ouvrir le sujet"
       },
       "email": {
@@ -31,10 +32,10 @@
       "content": "{{title}}"
     },
     "sendThreadActivityNotification": {
-      "title": "Nouvelle activité sur le sujet '{{title}}'",
-      "content": "Nouveau message sur le sujet '{{title}}'.",
-      "digestContentSingular": "nouveau message sur le sujet '{{title}}'",
-      "digestContentPlural": "nouveaux messages sur le sujet '{{title}}'."
+      "title": "Nouvelle activité sur un sujet - {{role}}",
+      "content": "{{title}}",
+      "digestContentSingular": "nouveau message sur le sujet : {{title}}",
+      "digestContentPlural": "nouveaux messages sur le sujet : {{title}}."
     }
   }
 }

@@ -61,7 +61,8 @@ export default route(async (context): Promise<void> => {
 
   const locale = (sender?.locale as keyof typeof resources) || defaultLang
 
-  const { orgId, id, title } = threadActivityActionReturn.threadActivity.thread
+  const { orgId, id, title, circle } =
+    threadActivityActionReturn.threadActivity.thread
 
   // Build ThreadActivityNotification instance for each recipient
   const notification = new ThreadActivityNotification(locale, {
@@ -69,6 +70,7 @@ export default route(async (context): Promise<void> => {
     orgId,
     threadId: id,
     title,
+    role: circle.role.name,
   })
   // Send notification "threadactivity"
   await notification.send(recipients)

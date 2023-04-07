@@ -44,6 +44,16 @@ export class ThreadNotification extends Notification<
       title: t('notifications.sendThreadNotification.title', i18nOptions),
       content: t('notifications.sendThreadNotification.content', i18nOptions),
       actionUrl,
+      notificationReceived: t(
+        'notifications.common.email.notificationReceived',
+        i18nOptions
+      ),
+      actionButton: t('notifications.common.action.openThread', i18nOptions),
+      automaticEmail: t(
+        'notifications.common.email.automaticEmail',
+        i18nOptions
+      ),
+      unsubscribe: t('notifications.common.email.unsubscribe', i18nOptions),
     }
   }
 }

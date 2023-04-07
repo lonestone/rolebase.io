@@ -9,6 +9,7 @@ type ThreadActivityNotificationParameters = {
   orgId: string
   threadId: string
   title: string
+  role: string
 }
 
 export class ThreadActivityNotification extends Notification<
@@ -27,6 +28,7 @@ export class ThreadActivityNotification extends Notification<
     const i18nOptions = {
       lng: this.locale,
       replace: {
+        role: this.parameters.role,
         title: this.parameters.title,
       },
     }
@@ -62,6 +64,16 @@ export class ThreadActivityNotification extends Notification<
       ),
       actionUrl,
       digestKey,
+      notificationReceived: t(
+        'notifications.common.email.notificationReceived',
+        i18nOptions
+      ),
+      actionButton: t('notifications.common.action.openThread', i18nOptions),
+      automaticEmail: t(
+        'notifications.common.email.automaticEmail',
+        i18nOptions
+      ),
+      unsubscribe: t('notifications.common.email.unsubscribe', i18nOptions),
     }
   }
 }

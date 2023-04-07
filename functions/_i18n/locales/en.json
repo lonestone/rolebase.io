@@ -6,6 +6,7 @@
     "common": {
       "action": {
         "openMeeting": "Open meeting",
+        "openTask": "Open task",
         "openThread": "Open topic"
       },
       "email": {
@@ -31,8 +32,8 @@
       "content": "{{title}}"
     },
     "sendThreadActivityNotification": {
-      "title": "New activity for this topic : {{title}}",
-      "content": "New message for this topic : {{title}}.",
+      "title": "New activity in a topic - {{role}}",
+      "content": "{{title}}",
       "digestContentSingular": "new message for this topic : {{title}}",
       "digestContentPlural": "new messages for this topic : {{title}}."
     }
