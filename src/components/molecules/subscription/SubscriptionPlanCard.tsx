@@ -58,7 +58,7 @@ export default function SubscriptionPlanCard({
         <Divider my="2" />
         <Text
           _dark={{
-            color: 'var(--chakra-colors-gray-200)',
+            color: 'gray.200',
           }}
           color="gray.400"
           fontWeight={600}

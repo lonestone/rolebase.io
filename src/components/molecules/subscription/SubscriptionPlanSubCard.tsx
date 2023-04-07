@@ -57,7 +57,7 @@ export default function SubscriptionPlanSubCard({
             </Flex>
             <Text
               _dark={{
-                color: 'var(--chakra-colors-gray-200)',
+                color: 'gray.200',
               }}
               color="gray.400"
               fontWeight={600}

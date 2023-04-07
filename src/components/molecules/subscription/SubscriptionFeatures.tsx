@@ -19,7 +19,7 @@ export default function SubscriptionFeatures({
             color="gray.600"
             fontWeight={600}
             _dark={{
-              color: 'var(--chakra-colors-gray-100)',
+              color: 'gray.100',
             }}
           >
             {feature}

@@ -29,7 +29,7 @@ export default function SubscriptionFreePlanCardFooter(props: FlexProps) {
       <Text
         fontWeight={600}
         _dark={{
-          color: 'var(--chakra-colors-gray-300)',
+          color: 'gray.300',
         }}
         color="gray.500"
       >

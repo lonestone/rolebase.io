@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY ?? '', {
 })
 
 const acceptedPaymentMethods: Stripe.SubscriptionCreateParams.PaymentSettings.PaymentMethodType[] =
-  ['card']
+  ['card', 'sepa_debit']
 
 type StripeSubscriptionCreation = Stripe.Subscription & {
   latest_invoice: Stripe.Invoice & {
