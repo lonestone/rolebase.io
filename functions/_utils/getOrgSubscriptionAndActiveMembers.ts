@@ -21,8 +21,11 @@ const GET_ORG_SUB_AND_ACTIVE_MEMBERS = gql(`
         status
         type
       }
-      members_aggregate(where: {userId: {_is_null: false}}) {
-        aggregate{
+      members_aggregate(where: {
+        archived: { _eq: false },
+        userId: { _is_null: false }
+      }) {
+        aggregate {
           count
         }
       }
