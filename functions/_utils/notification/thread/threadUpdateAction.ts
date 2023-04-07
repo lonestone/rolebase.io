@@ -14,7 +14,9 @@ export async function threadUpdateAction(
   }
 
   //  Check permission for old thread org
-  await guardOrg(oldThread.orgId, Member_Role_Enum.Member, senderUserId)
+  await guardOrg(oldThread.orgId, Member_Role_Enum.Member, {
+    userId: senderUserId,
+  })
 
   // Get diff in thread participants
   const newParticipantIds = await getParticipantIdsDiff<ThreadFragment>(

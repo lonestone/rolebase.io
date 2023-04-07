@@ -40,11 +40,6 @@ export class ThreadActivityNotification extends Notification<
       this.parameters.threadId
     )
 
-    const digestKey = this.getDigestKey(
-      NotificationCategories.threadActivity,
-      this.parameters.threadId
-    )
-
     return {
       title: t(
         'notifications.sendThreadActivityNotification.title',
@@ -63,7 +58,7 @@ export class ThreadActivityNotification extends Notification<
         i18nOptions
       ),
       actionUrl,
-      digestKey,
+      digestKey: this.parameters.threadId,
       notificationReceived: t(
         'notifications.common.email.notificationReceived',
         i18nOptions

@@ -17,7 +17,9 @@ export default route(async (context): Promise<void> => {
   } = checkSendNotificationEvent<ThreadFragment>(context)
 
   // Check permission for new thread org
-  await guardOrg(event.data.new!.orgId, Member_Role_Enum.Member, senderUserId)
+  await guardOrg(event.data.new!.orgId, Member_Role_Enum.Member, {
+    userId: senderUserId,
+  })
 
   // What needs to be done in each event case
   let threadActionReturn: {

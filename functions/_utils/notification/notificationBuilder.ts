@@ -41,11 +41,6 @@ export abstract class Notification<
     }/${mappingActionUrl.get(category)}/${id}`
   }
 
-  // Get digestKey
-  getDigestKey(category: NotificationCategories, id?: string) {
-    return category && id ? `${category}${id}` : null
-  }
-
   // Send notification
   async send(to: TriggerRecipientsPayload) {
     await this.novu

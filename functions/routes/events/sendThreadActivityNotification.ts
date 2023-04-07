@@ -31,7 +31,9 @@ export default route(async (context): Promise<void> => {
     throw new RouteError(404, 'No org found for this thread activity')
   }
   const org = threadActivityOrgResult.org[0]
-  await guardOrg(org.id, Member_Role_Enum.Member, senderUserId)
+  await guardOrg(org.id, Member_Role_Enum.Member, {
+    userId: senderUserId,
+  })
 
   // Check if new thread activity id
   if (!event.data.new!.id) {
