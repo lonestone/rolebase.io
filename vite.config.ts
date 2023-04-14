@@ -27,6 +27,11 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
+            src: '/icons/icon.svg',
+            sizes: '256x256',
+            type: 'image/svg+xml',
+          },
+          {
             src: '/icons/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
