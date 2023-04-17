@@ -6,20 +6,16 @@ import { TaskAssignedNotification } from '@utils/notification/task/taskAssignedN
 import { route } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
-  const {
-    fullEvent: { event },
-    senderUserId,
-  } = checkSendNotificationEvent<TaskFragment>(context)
+  const { newEntity, oldEntity, senderUserId } =
+    checkSendNotificationEvent<TaskFragment>(context)
 
   // Check if task has a new assignee
-  const oldTask = event.data.old
-  const newTask = event.data.new
-  if (!newTask!.memberId || newTask!.memberId === oldTask?.memberId) {
+  if (!newEntity!.memberId || newEntity!.memberId === oldEntity?.memberId) {
     return
   }
 
   // What needs to be done
-  const notifData = await getNotificationTaskData(newTask!.id)
+  const notifData = await getNotificationTaskData(newEntity!.id)
 
   if (
     // Don't send notification if no assignee

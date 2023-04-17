@@ -1,7 +1,6 @@
-import { Member_Role_Enum, ThreadFragment } from '@gql'
+import { ThreadFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
 import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
-import { guardOrg } from '@utils/guardOrg'
 import { HasuraEventOp } from '@utils/nhost'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import { NotificationThreadData } from '@utils/notification/thread/getNotificationThreadData'
@@ -12,35 +11,31 @@ import { route } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
   const {
-    fullEvent: { event },
+    eventBody: {
+      event: { op },
+    },
+    newEntity,
+    oldEntity,
     senderUserId,
   } = checkSendNotificationEvent<ThreadFragment>(context)
-
-  // Check permission for new thread org
-  await guardOrg(event.data.new!.orgId, Member_Role_Enum.Member, {
-    userId: senderUserId,
-  })
 
   // What needs to be done in each event case
   let threadActionReturn: {
     thread: NotificationThreadData
     participantsIds: string[]
   } | null = null
-  switch (event.op) {
+  switch (op) {
     // Done if a new thread is inserted in DB
     case HasuraEventOp.INSERT:
-      threadActionReturn = await threadInsertAction(
-        senderUserId,
-        event.data.new!
-      )
+      threadActionReturn = await threadInsertAction(senderUserId, newEntity)
       break
 
     // Done if there is an update for some fields of a thread in DB
     case HasuraEventOp.UPDATE:
       threadActionReturn = await threadUpdateAction(
         senderUserId,
-        event.data.new!,
-        event.data.old
+        newEntity,
+        oldEntity
       )
       break
 

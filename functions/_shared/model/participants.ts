@@ -14,3 +14,7 @@ export enum EntityFilters {
   Invited = 'Invited',
   NotInvited = 'NotInvited',
 }
+
+export type EntityWithParticipantsAndOrgId = EntityWithParticipants & {
+  orgId: string
+}

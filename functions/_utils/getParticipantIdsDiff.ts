@@ -1,11 +1,14 @@
-import { MeetingFragment, ThreadFragment } from '@gql'
 import { getParticipantsByScope } from '@shared/helpers/getParticipantsByScope'
+import { EntityWithParticipantsAndOrgId } from '@shared/model/participants'
 import { getOrgCirclesFullAndMembers } from '@utils/getOrgCirclesFullAndMembers'
 import { RouteError } from '@utils/route'
 
-export async function getParticipantIdsDiff<
-  T extends MeetingFragment | ThreadFragment
->(oldData: T, newData: T) {
+// Beware, this function is quite heavy, use it wisely
+// Be careful not to use with getEntityWithParticipantsRecipientIds because of heavy call redundancy
+export async function getParticipantIdsDiff(
+  oldData: EntityWithParticipantsAndOrgId,
+  newData: EntityWithParticipantsAndOrgId
+) {
   if (!oldData || !newData) {
     throw new RouteError(400, 'Bad request')
   }

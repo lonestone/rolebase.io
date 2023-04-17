@@ -6,7 +6,7 @@
     "common": {
       "action": {
         "openMeeting": "Ouvrir la réunion",
-        "openTask": "Open la tâche",
+        "openTask": "Ouvrir la tâche",
         "openThread": "Ouvrir le sujet"
       },
       "email": {

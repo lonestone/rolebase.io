@@ -25,7 +25,7 @@ export async function getNotificationThreadActivityData(
 const GET_THREAD_ACTIVITY_DATA = gql(`
   query getThreadActivityData($id: uuid!) {
     thread_activity_by_pk(id: $id) {
-      ...ThreadActivity
+      id
       thread {
         id
         orgId
@@ -38,6 +38,9 @@ const GET_THREAD_ACTIVITY_DATA = gql(`
           role {
             name
           }
+        }
+        org {
+          ...Org
         }
       }
     }

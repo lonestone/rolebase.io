@@ -1,6 +1,5 @@
-import { MeetingFragment, Member_Role_Enum } from '@gql'
+import { MeetingFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
-import { guardOrg } from '@utils/guardOrg'
 import { HasuraEventOp } from '@utils/nhost'
 import { route } from '@utils/route'
 import { meetingInvitedInsertAction } from '@utils/notification/meeting/meetingInvitedInsertAction'
@@ -12,31 +11,30 @@ import { checkSendNotificationEvent } from '@utils/notification/checkSendNotific
 
 export default route(async (context): Promise<void> => {
   const {
-    fullEvent: { event },
+    eventBody: {
+      event: { op },
+    },
+    newEntity,
+    oldEntity,
     senderUserId,
   } = checkSendNotificationEvent<MeetingFragment>(context)
 
   // Check if it's an occurrence of a recurring meeting
-  if (event.data.new!.recurringId) {
+  if (newEntity.recurringId) {
     return
   }
-
-  // Check permission for new meeting org
-  await guardOrg(event.data.new!.orgId, Member_Role_Enum.Member, {
-    userId: senderUserId,
-  })
 
   // What needs to be done in each event case
   let meetingInvitedActionReturn: {
     meeting: NotificationMeetingData
     participantsIds: string[]
   } | null = null
-  switch (event.op) {
+  switch (op) {
     // Done if a new meeting is inserted in DB
     case HasuraEventOp.INSERT:
       meetingInvitedActionReturn = await meetingInvitedInsertAction(
         senderUserId,
-        event.data.new!
+        newEntity
       )
       break
 
@@ -44,8 +42,8 @@ export default route(async (context): Promise<void> => {
     case HasuraEventOp.UPDATE:
       meetingInvitedActionReturn = await meetingInvitedUpdateAction(
         senderUserId,
-        event.data.new!,
-        event.data.old
+        newEntity,
+        oldEntity
       )
       break
 
