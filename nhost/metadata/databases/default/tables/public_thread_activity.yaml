@@ -140,18 +140,6 @@ event_triggers:
       enable_manual: false
       insert:
         columns: '*'
-      update:
-        columns:
-          - id
-          - threadId
-          - userId
-          - createdAt
-          - data
-          - refThreadId
-          - refMeetingId
-          - refTaskId
-          - refDecisionId
-          - type
     retry_conf:
       interval_sec: 10
       num_retries: 0

@@ -1,7 +1,6 @@
 import { getParticipantsByScope } from '@shared/helpers/getParticipantsByScope'
 import { EntityWithParticipantsAndOrgId } from '@shared/model/participants'
 import { getOrgCirclesFullAndMembers } from '@utils/getOrgCirclesFullAndMembers'
-import { RouteError } from '@utils/route'
 
 // Beware, this function is quite heavy, use it wisely
 // Be careful not to use with getEntityWithParticipantsRecipientIds because of heavy call redundancy
@@ -9,10 +8,6 @@ export async function getParticipantIdsDiff(
   oldData: EntityWithParticipantsAndOrgId,
   newData: EntityWithParticipantsAndOrgId
 ) {
-  if (!oldData || !newData) {
-    throw new RouteError(400, 'Bad request')
-  }
-
   const { circles, members } = await getOrgCirclesFullAndMembers(newData.orgId)
 
   // Get oldData participants

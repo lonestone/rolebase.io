@@ -5,7 +5,7 @@ import { HasuraEventOp } from '@utils/nhost'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import { threadActivityInsertAction } from '@utils/notification/thread/threadActivityInsertAction'
 import { ThreadActivityNotification } from '@utils/notification/thread/threadActivityNotification'
-import { route, RouteError } from '@utils/route'
+import { route } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
   const {
@@ -16,15 +16,11 @@ export default route(async (context): Promise<void> => {
     senderUserId,
   } = checkSendNotificationEvent<ThreadActivityFragment>(context)
 
-  // Currently we just send notification when a new thread is inserted in DB
+  // Currently we just send notification when a new thread activity is inserted in DB
   if (op !== HasuraEventOp.INSERT) {
     return
   }
 
-  // Check if new thread activity id
-  if (!newEntity.id) {
-    throw new RouteError(404, 'No new thread activity')
-  }
   // What needs to be done
   const threadActivityActionReturn = await threadActivityInsertAction(
     newEntity.id
