@@ -1,7 +1,10 @@
 {
   "name": "functions",
   "scripts": {
-    "codegen": "graphql-codegen --config _codegen.ts"
+    "codegen": "graphql-codegen --config _codegen.ts",
+    "tsc": "tsc",
+    "lint": "eslint \"{routes,_utils,_shared,_search, _i18n, _gql}/**/*.ts\" --ext .js,.ts",
+    "lint:fix": "eslint \"{routes,_utils,_shared,_search, _i18n, _gql}/**/*.ts\" --ext .js,.ts --quiet --fix"
   },
   "dependencies": {
     "@nhost/nhost-js": "^2.1.1",
@@ -36,9 +39,13 @@
     "@types/node": "^18.8.3",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
-    "eslint": "^7.6.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier": "^2.6.0",
     "typescript": "^5.0.4"
   }
 }

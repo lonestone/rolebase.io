@@ -3,6 +3,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
+    project: ['./tsconfig.json', './functions/tsconfig.json'],
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
@@ -14,7 +15,7 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        paths: ['src'],
+        paths: ['src', 'public', 'functions'],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
@@ -27,16 +28,21 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:prettier/recommended', // Make sure this is always the last element in the array.
+    'plugin:react/jsx-runtime',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
   ],
-  plugins: ['@typescript-eslint', 'react', 'prettier'],
+  plugins: ['@typescript-eslint', 'react', 'import', 'unused-imports'],
   rules: {
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
-    'react/no-unescaped-entities': 'off',
-    'react/prop-types': 'off',
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
-    '@typescript-eslint/explicit-function-return-type': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'import/order': [
+      'error',
+      {
+        alphabetize: {
+          order: 'asc',
+        },
+      },
+    ],
   },
-  ignorePatterns: ['**/*generated.ts'],
+  ignorePatterns: ['.eslintrc.js', '**/*generated.ts'],
 }

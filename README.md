@@ -88,6 +88,34 @@ docker stop $(docker ps -a -q)
 nhost down
 ```
 
+## Code quality
+
+### Linting and formatting
+
+We use [Prettier](https://prettier.io/) as code formatter and [ESLint](https://eslint.org/) as linter.
+
+Run linter (command available in both front and back) :
+
+```
+npm run lint
+```
+
+Run linter and automatic fix (command available in both front and back) :
+
+```
+npm run lint:fix
+```
+
+Note : For VSCode users, a setup is already done in `.vscode` folder
+
+### Type checking
+
+As we are using [Typescript](https://www.typescriptlang.org/) in this project, you can check types by using this command (command available in both front and back) :
+
+```
+npm run tsc
+```
+
 ## External services
 
 ### Mailjet
