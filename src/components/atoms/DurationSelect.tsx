@@ -1,5 +1,5 @@
 import { Flex, Input, Select } from '@chakra-ui/react'
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {

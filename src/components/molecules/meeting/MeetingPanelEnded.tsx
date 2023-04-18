@@ -1,7 +1,7 @@
 import IconTextButton from '@atoms/IconTextButton'
 import { Button, HStack } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck, FiPlay } from 'react-icons/fi'
 

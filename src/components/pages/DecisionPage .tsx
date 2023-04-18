@@ -1,6 +1,5 @@
 import { Container } from '@chakra-ui/react'
 import DecisionContent from '@organisms/decision/DecisionContent'
-import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Page404 from './Page404'
 

@@ -5,7 +5,7 @@ import {
   StripePaymentElement,
   StripePaymentElementChangeEvent,
 } from '@stripe/stripe-js'
-import React, { FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const toastDefault = { duration: 4000, isClosable: true }

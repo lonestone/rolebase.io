@@ -12,7 +12,7 @@ import {
 import { TaskFragment, useArchiveTaskMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props

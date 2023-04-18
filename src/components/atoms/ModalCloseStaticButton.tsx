@@ -1,5 +1,4 @@
 import { Icon, IconButton, IconProps, useModalContext } from '@chakra-ui/react'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 // From https://github.com/chakra-ui/chakra-ui/blob/main/packages/close-button/src/close-button.tsx

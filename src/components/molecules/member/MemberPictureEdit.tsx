@@ -6,7 +6,7 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, {
+import {
   ChangeEventHandler,
   lazy,
   Suspense,

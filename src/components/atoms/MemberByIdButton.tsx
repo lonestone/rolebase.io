@@ -1,6 +1,5 @@
 import { ButtonProps } from '@chakra-ui/react'
 import useMember from '@hooks/useMember'
-import React from 'react'
 import CircleMemberLink from './CircleMemberLink'
 import MemberButton from './MemberButton'
 

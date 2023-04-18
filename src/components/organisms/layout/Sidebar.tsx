@@ -36,7 +36,7 @@ import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
 import { Crisp } from 'crisp-sdk-web'
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaQuestionCircle } from 'react-icons/fa'
 import {

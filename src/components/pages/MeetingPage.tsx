@@ -1,5 +1,4 @@
 import MeetingContent from '@organisms/meeting/MeetingContent'
-import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Page404 from './Page404'
 

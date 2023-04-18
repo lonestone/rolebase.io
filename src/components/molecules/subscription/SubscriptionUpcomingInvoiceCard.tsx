@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react'
 import { UpcomingInvoice } from '@shared/model/subscription'
 import { format } from 'date-fns'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiHelpCircle } from 'react-icons/fi'
 import SubscriptionInvoiceCalculationDetails from './SubscriptionInvoiceCalculationDetails'

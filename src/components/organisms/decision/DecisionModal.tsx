@@ -7,7 +7,6 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import React from 'react'
 import DecisionContent from './DecisionContent'
 
 interface Props extends UseModalProps {

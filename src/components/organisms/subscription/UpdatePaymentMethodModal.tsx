@@ -17,7 +17,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import { useStripeAppearance } from '@hooks/useStripeAppearance'
 import { Elements } from '@stripe/react-stripe-js'
 import { StripeElementLocale } from '@stripe/stripe-js'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import UpdatePaymentMethodForm from './UpdatePaymentMethodForm'
 

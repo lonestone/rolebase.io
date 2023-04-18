@@ -3,7 +3,7 @@ import MemberAvatar from '@atoms/MemberAvatar'
 import { Box, BoxProps, Circle, Flex, Tooltip } from '@chakra-ui/react'
 import { CircleWithRoleFragment } from '@gql'
 import { ParticipantMember } from '@shared/model/member'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props extends BoxProps {

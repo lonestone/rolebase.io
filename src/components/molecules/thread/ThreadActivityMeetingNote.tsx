@@ -9,7 +9,7 @@ import MeetingItem from '@molecules/meeting/MeetingItem'
 import { useUserId } from '@nhost/react'
 import { activityMeetingNoteTmpId } from '@organisms/thread/ThreadActivities'
 import { ThreadActivityMeetingNoteFragment } from '@shared/model/thread_activity'
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props {

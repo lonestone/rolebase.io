@@ -1,6 +1,5 @@
 import MemberLink from '@atoms/MemberLink'
 import { LogFragment } from '@gql'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCornerDownRight } from 'react-icons/fi'
 

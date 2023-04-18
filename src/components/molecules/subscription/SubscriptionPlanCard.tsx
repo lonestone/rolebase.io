@@ -3,7 +3,7 @@ import SubscriptionPlanIcon from '@atoms/SubscriptionPlanIcon'
 import { Box, CardProps, Divider, Flex, Tag, Text } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import SubscriptionFeatures from '@molecules/subscription/SubscriptionFeatures'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubscrptionPlanCard = {

@@ -7,7 +7,6 @@ import {
 } from '@chakra-ui/react'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import React from 'react'
 import MemberContent from '../member/MemberContent'
 import CircleContent from './CircleContent'
 

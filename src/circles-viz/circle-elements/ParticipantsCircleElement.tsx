@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Participant } from '@shared/model/member'
 import * as d3 from 'd3'
 import { MoveTransition } from '../helpers/createTransition'

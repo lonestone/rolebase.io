@@ -29,7 +29,7 @@ import ThreadItem from '@molecules/thread/ThreadItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { EntityFilters } from '@shared/model/participants'
 import { threadStatusList } from '@shared/model/thread'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 

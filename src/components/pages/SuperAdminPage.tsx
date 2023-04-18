@@ -1,7 +1,7 @@
 import { searchReindexAll } from '@api/functions'
 import { WarningIcon } from '@chakra-ui/icons'
 import { Box, Button, Container, Heading } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function SuperAdminPage() {

@@ -1,4 +1,3 @@
-import React from 'react'
 import Logo from 'src/images/logo.svg'
 
 const logoWidth = 430

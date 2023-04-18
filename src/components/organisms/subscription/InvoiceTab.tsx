@@ -1,7 +1,6 @@
 import { Flex, FlexProps } from '@chakra-ui/react'
 import InvoiceTabLayout from '@organisms/subscription/InvoiceTabLayout'
 import { Invoice } from '@shared/model/subscription'
-import React from 'react'
 
 type InvoiceTabProps = {
   invoices: Invoice[]

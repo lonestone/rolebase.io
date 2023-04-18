@@ -1,6 +1,5 @@
 import { Tag, TagProps } from '@chakra-ui/react'
 import { Task_Status_Enum } from '@gql'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { taskStatusColors } from 'src/theme'
 

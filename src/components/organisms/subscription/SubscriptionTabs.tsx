@@ -18,7 +18,7 @@ import AccountTab from '@organisms/subscription/AccountTab'
 import InvoiceTab from '@organisms/subscription/InvoiceTab'
 import SubscriptionTab from '@organisms/subscription/SubscriptionTab'
 import { Invoice, Subscription } from '@shared/model/subscription'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCreditCard, FiFileText, FiUser } from 'react-icons/fi'
 

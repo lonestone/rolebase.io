@@ -1,5 +1,4 @@
 import { CircleFragment } from '@gql'
-import React from 'react'
 import SearchInput, { SearchInputProps } from '../../SearchInput'
 import { useCircleSearchItems } from './useCircleSearchItems'
 

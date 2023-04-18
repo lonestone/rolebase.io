@@ -11,7 +11,6 @@ import {
 import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
-import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiEdit3 } from 'react-icons/fi'

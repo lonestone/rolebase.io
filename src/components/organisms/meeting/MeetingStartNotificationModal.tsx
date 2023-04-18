@@ -16,7 +16,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IoMdSend } from 'react-icons/io'
 

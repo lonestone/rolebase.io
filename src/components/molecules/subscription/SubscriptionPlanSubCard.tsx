@@ -13,7 +13,7 @@ import ParticipantsGroup from '@molecules/ParticipantsGroup'
 import SubscriptionFeatures from '@molecules/subscription/SubscriptionFeatures'
 import { useStoreState } from '@store/hooks'
 import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubscriptionPlanCard = SubscriptionPlan & CardProps

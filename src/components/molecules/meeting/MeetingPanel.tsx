@@ -10,7 +10,7 @@ import {
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import MeetingStartNotificationModal from '@organisms/meeting/MeetingStartNotificationModal'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { FiArrowRight } from 'react-icons/fi'
 import MeetingPanelEnded from './MeetingPanelEnded'
 import MeetingPanelNotStarted from './MeetingPanelNotStarted'

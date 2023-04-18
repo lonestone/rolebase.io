@@ -8,7 +8,6 @@ import {
 } from '@chakra-ui/react'
 import { Task_Status_Enum } from '@gql'
 import { taskStatusList } from '@shared/model/task'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { taskStatusColors } from 'src/theme'
 

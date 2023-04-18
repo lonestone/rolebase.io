@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { decorators } from '../../stories'
 import { StarsRating } from './StarsRating'
 

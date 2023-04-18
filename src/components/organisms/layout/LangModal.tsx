@@ -10,7 +10,6 @@ import {
 import { useChangeLocaleMutation } from '@gql'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { useUserId } from '@nhost/react'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'
 import { langs, locales } from 'src/i18n'

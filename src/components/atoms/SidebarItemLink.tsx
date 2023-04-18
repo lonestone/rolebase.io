@@ -1,5 +1,4 @@
 import { forwardRef } from '@chakra-ui/react'
-import React from 'react'
 import SidebarItem, { SidebarItemProps } from './SidebarItem'
 import SidebarLink, { SidebarLinkProps } from './SidebarLink'
 

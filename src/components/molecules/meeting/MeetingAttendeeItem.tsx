@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react'
 import useMember from '@hooks/useMember'
 import { MeetingAttendee } from '@shared/model/meeting'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck, FiX } from 'react-icons/fi'
 

@@ -12,7 +12,7 @@ import {
 import { CircleFullFragment } from '@gql'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function VacantRolesModal(modalProps: UseModalProps) {

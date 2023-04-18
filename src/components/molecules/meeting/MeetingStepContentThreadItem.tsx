@@ -12,7 +12,7 @@ import useCreateThreadMeetingNote from '@hooks/useCreateThreadMeetingNote'
 import { EditorHandle } from '@molecules/editor'
 import CollabEditor from '@molecules/editor/CollabEditor'
 import { ThreadActivityDataMeetingNote } from '@shared/model/thread_activity'
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,

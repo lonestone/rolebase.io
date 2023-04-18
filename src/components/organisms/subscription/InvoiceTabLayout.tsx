@@ -1,6 +1,5 @@
 import { Flex, FlexProps, Text } from '@chakra-ui/react'
 import { Invoice } from '@shared/model/subscription'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import InvoiceTable from './InvoiceTable'
 

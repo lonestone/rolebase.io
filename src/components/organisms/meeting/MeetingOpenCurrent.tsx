@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function MeetingOpenCurrent(modalProps: UseModalProps) {

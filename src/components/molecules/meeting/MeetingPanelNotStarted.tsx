@@ -1,7 +1,7 @@
 import BounceAnimation from '@atoms/BounceAnimation'
 import { Button } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlay } from 'react-icons/fi'
 

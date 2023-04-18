@@ -10,7 +10,6 @@ import {
 import { Meeting_Step_Type_Enum } from '@gql'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { nanoid } from 'nanoid'
-import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {

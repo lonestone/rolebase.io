@@ -1,5 +1,4 @@
 import SimpleEditor from '@molecules/editor/SimpleEditor'
-import React from 'react'
 
 interface Props {
   children: string

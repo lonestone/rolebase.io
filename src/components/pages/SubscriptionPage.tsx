@@ -13,7 +13,7 @@ import useOrgOwner from '@hooks/useOrgOwner'
 import SubscriptionConfirmationModal from '@organisms/subscription/SubscriptionConfirmationModal'
 import SubscriptionTabs from '@organisms/subscription/SubscriptionTabs'
 import { Elements } from '@stripe/react-stripe-js'
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 

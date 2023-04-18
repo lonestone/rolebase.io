@@ -1,6 +1,5 @@
 import { Avatar } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
-import React from 'react'
 import {
   FiCalendar,
   FiCheckSquare,

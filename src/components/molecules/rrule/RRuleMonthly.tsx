@@ -1,6 +1,6 @@
 import { HStack, Radio, RadioGroup, Select, Text } from '@chakra-ui/react'
 import { range } from '@utils/range'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'

@@ -1,5 +1,5 @@
 import { ButtonProps, forwardRef, IconButton } from '@chakra-ui/react'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import SidebarIcon from './SidebarIcon'
 
 export interface SidebarTopIconProps extends ButtonProps {

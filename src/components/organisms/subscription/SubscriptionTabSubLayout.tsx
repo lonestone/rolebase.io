@@ -14,7 +14,7 @@ import {
   SubscriptionPlan,
   SubscriptionPlanCardData,
 } from '@utils/subscriptionPlansTypes'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight } from 'react-icons/fi'
 import CancelSubscriptionModal from './CancelSubscriptionModal'

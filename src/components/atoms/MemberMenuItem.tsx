@@ -2,7 +2,7 @@ import { Avatar, MenuItem, MenuItemProps, Stack, Text } from '@chakra-ui/react'
 import { MemberSummaryFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import { textEllipsis } from '@utils/textEllipsis'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
 interface Props extends MenuItemProps {
   member: MemberSummaryFragment

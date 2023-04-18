@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiMaximize2 } from 'react-icons/fi'
 import { Link, LinkProps } from 'react-router-dom'

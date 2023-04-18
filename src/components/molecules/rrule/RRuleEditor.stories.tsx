@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { decorators } from '../../../stories'
-import RRuleEditor from './RRuleEditor'
+import RRuleEditor, { RRuleEditorProps } from './RRuleEditor'
 
 export default {
   title: 'RRuleEditor',
@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof RRuleEditor> = ({
   value,
   onChange,
   ...args
-}) => {
+}: RRuleEditorProps) => {
   const [stateValue, setValue] = useState(value)
 
   useEffect(() => {

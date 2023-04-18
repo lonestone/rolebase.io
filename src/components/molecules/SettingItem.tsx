@@ -1,5 +1,5 @@
 import { Button, HStack, StackProps, Text } from '@chakra-ui/react'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SettingItemProps = {

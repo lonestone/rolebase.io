@@ -1,5 +1,5 @@
 import { Box, FormControl, FormLabel } from '@chakra-ui/react'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 interface Props {
   label: string

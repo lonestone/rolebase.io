@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react'
 import { ThreadActivityMeetingFragment } from '@shared/model/thread_activity'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import MeetingItem from '../meeting/MeetingItem'
 import ThreadActivityLayout from './ThreadActivityLayout'

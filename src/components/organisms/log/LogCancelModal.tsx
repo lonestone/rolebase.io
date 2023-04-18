@@ -23,7 +23,7 @@ import LogCancelText from '@molecules/log/LogCancelText'
 import LogEntityChanges from '@molecules/log/LogEntityChanges'
 import LogText from '@molecules/log/LogText'
 import { EntitiesChanges, EntityChange } from '@shared/model/log'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 

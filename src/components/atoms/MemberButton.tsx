@@ -1,7 +1,6 @@
 import { Avatar, Button, ButtonProps, forwardRef } from '@chakra-ui/react'
 import { MemberSummaryFragment } from '@gql'
 import { textEllipsis } from '@utils/textEllipsis'
-import React from 'react'
 
 interface Props extends ButtonProps {
   member: Pick<MemberSummaryFragment, 'name' | 'picture'>

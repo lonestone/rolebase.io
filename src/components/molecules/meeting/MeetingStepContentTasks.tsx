@@ -6,7 +6,7 @@ import { LogType } from '@shared/model/log'
 import { MeetingStepTasksFragment } from '@shared/model/meeting_step'
 import { TasksViewTypes } from '@shared/model/task'
 import throttle from 'lodash.throttle'
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,

@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 import useMemberPreferences from '@hooks/useMemberPreferences'
 import { Crisp } from 'crisp-sdk-web'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StarsRating } from '../../molecules/StarsRating'
 

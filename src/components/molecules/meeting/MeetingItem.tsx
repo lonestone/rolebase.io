@@ -18,7 +18,6 @@ import { usePathInOrg } from '@hooks/usePathInOrg'
 import MeetingModal from '@organisms/meeting/MeetingModal'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
-import React from 'react'
 import { FiCalendar } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 

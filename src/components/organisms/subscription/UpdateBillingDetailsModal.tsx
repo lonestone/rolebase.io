@@ -25,7 +25,7 @@ import {
   StripeAddressElementChangeEvent,
   StripeElementLocale,
 } from '@stripe/stripe-js'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type UpdateBillingDetailsModalProps = {
@@ -87,7 +87,7 @@ export default function UpdateBillingDetailsModal({
   }
 
   const saveDetails = async () => {
-    // @ts-ignore - Method exists
+    // @ts-expect-error - Method exists
     const fields = await stripeElement?.getValue()
 
     if (!fields) return

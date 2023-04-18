@@ -7,7 +7,6 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import React from 'react'
 import TaskContent from '../task/TaskContent'
 
 interface Props extends UseModalProps {

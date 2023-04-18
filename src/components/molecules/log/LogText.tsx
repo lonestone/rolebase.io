@@ -8,7 +8,6 @@ import ThreadLink from '@atoms/ThreadLink'
 import ThreadStatusTag from '@atoms/ThreadStatusTag'
 import { LogFragment } from '@gql'
 import { LogType } from '@shared/model/log'
-import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props {

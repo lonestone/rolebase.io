@@ -21,7 +21,7 @@ import {
 } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import { RRule } from 'rrule'

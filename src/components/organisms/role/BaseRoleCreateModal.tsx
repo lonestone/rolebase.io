@@ -18,7 +18,6 @@ import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
@@ -66,6 +65,7 @@ export default function BaseRoleCreateModal({
         },
       },
     })
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     const role = data?.insert_role_one!
     onCreate?.(role.id)
 

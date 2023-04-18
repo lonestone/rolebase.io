@@ -17,7 +17,7 @@ import { CircleFullFragment, useUpdateCircleMemberMutation } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
 import CircleMemberDeleteModal from '@organisms/circle/CircleMemberDeleteModal'
-import React, {
+import {
   FormEvent,
   useCallback,
   useEffect,

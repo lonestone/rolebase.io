@@ -11,7 +11,6 @@ import {
   UseModalProps,
 } from '@chakra-ui/react'
 import { cmdOrCtrlKey } from '@utils/env'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function CircleMoveModal(modalProps: UseModalProps) {

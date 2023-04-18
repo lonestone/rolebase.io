@@ -12,7 +12,7 @@ import {
   UseComboboxGetItemPropsOptions,
   UseComboboxGetMenuPropsOptions,
 } from 'downshift'
-import React, { RefObject } from 'react'
+import { RefObject } from 'react'
 import SearchResultItem from './SearchResultItem'
 import { SearchItem } from './searchTypes'
 

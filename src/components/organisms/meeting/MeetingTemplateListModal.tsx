@@ -17,7 +17,7 @@ import {
 import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'

@@ -2,7 +2,7 @@ import { resumeSubscription } from '@api/functions'
 import { Button, Card, CardProps, Flex, Text, useToast } from '@chakra-ui/react'
 import { useOrgId } from '@hooks/useOrgId'
 import { format } from 'date-fns'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiFeather } from 'react-icons/fi'
 

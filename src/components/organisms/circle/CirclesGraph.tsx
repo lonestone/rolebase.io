@@ -3,7 +3,7 @@ import { GraphZoomContext } from '@contexts/GraphZoomContext'
 import styled from '@emotion/styled'
 import { CircleFullFragment } from '@gql'
 import { ColorModeProps, mode } from '@utils/colorMode'
-import React, {
+import {
   forwardRef,
   useContext,
   useEffect,

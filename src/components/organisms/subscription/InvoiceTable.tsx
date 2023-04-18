@@ -22,7 +22,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiArrowDown, FiArrowUp, FiDownload, FiFileText } from 'react-icons/fi'
 

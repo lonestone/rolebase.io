@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { ThreadActivityFragment, useDeleteThreadActivityMutation } from '@gql'
 import ThreadActivity from '@molecules/thread/ThreadActivity'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props

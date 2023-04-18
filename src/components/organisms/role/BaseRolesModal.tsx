@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { useStoreState } from '@store/hooks'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import BaseRoleCreateModal from './BaseRoleCreateModal'

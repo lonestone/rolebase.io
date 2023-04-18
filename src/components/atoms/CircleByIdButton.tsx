@@ -1,6 +1,5 @@
 import { ButtonProps } from '@chakra-ui/react'
 import useCircle from '@hooks/useCircle'
-import React from 'react'
 import CircleButton from './CircleButton'
 
 interface Props extends ButtonProps {

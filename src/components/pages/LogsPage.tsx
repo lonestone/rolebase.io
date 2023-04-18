@@ -5,7 +5,6 @@ import { Box, Container, Flex, Heading } from '@chakra-ui/react'
 import { useLastLogsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import LogsList from '@molecules/log/LogsList'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function LogsPage() {

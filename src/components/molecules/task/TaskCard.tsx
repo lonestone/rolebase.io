@@ -17,7 +17,6 @@ import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import TaskModal from '@organisms/task/TaskModal'
 import { formatRelative } from 'date-fns'
-import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {

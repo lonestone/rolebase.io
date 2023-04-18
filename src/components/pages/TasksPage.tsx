@@ -4,7 +4,6 @@ import { Task_Status_Enum } from '@gql'
 import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
 import TasksModule from '@organisms/task/TasksModule'
 import { TasksViewTypes } from '@shared/model/task'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type Params = {

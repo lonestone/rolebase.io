@@ -2,7 +2,7 @@ import { Box, BoxProps, Text, useDisclosure } from '@chakra-ui/react'
 import { LogFragment } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
 import LogCancelModal from '@organisms/log/LogCancelModal'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LogItem from '../log/LogItem'
 

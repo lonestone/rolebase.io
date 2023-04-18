@@ -10,7 +10,6 @@ import {
 import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiEdit3, FiFileText } from 'react-icons/fi'
 

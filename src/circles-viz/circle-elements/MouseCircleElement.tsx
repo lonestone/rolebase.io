@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-this-alias */
 import * as d3 from 'd3'
 import { MoveTransition } from '../helpers/createTransition'
 import { getTargetNodeData } from '../helpers/getTargetNodeData'

@@ -1,5 +1,4 @@
 import { Card, CardProps } from '@chakra-ui/react'
-import React from 'react'
 
 export default function FadeCard({
   colorScheme,

@@ -1,7 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react'
 import SettingItem from '@molecules/SettingItem'
 import { CustomerBillingDetails } from '@shared/model/subscription'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import UpdateBillingDetailsModal from './UpdateBillingDetailsModal'
 

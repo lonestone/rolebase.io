@@ -1,7 +1,6 @@
 import { CustomerBillingDetails } from '@shared/model/subscription'
 import { AddressElement } from '@stripe/react-stripe-js'
 import { StripeAddressElementChangeEvent } from '@stripe/stripe-js'
-import React from 'react'
 
 type StripeBillingDetailsFormProps = {
   defaultValues: CustomerBillingDetails | null

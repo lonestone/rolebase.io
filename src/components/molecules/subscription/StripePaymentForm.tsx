@@ -4,7 +4,7 @@ import {
   StripeElements,
   StripePaymentElementChangeEvent,
 } from '@stripe/stripe-js'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 type StripePaymentFormProps = {
   onValidityChanged: (valid: boolean) => void

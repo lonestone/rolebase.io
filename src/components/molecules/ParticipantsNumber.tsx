@@ -9,7 +9,7 @@ import {
   Portal,
 } from '@chakra-ui/react'
 import { ParticipantMember } from '@shared/model/member'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import CircleMemberLink from '../atoms/CircleMemberLink'
 import MemberMenuItem from '../atoms/MemberMenuItem'
 

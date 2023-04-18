@@ -51,7 +51,8 @@ export default function useThreadState(threadId: string): ThreadState {
     skip: !currentMember,
     variables: {
       id: threadId,
-      memberId: currentMember?.id!,
+      // currentMember!.id can be used here because we check with skip directive
+      memberId: currentMember!.id,
     },
   })
   const thread = threadResult.data?.thread_by_pk || undefined

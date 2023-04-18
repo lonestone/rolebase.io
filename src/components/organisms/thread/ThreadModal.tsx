@@ -8,7 +8,6 @@ import {
 } from '@chakra-ui/react'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useWindowSize from '@hooks/useWindowSize'
-import React from 'react'
 import ThreadContent from './ThreadContent'
 
 interface Props extends UseModalProps {

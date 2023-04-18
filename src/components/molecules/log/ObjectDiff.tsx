@@ -1,8 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/ban-types */
 import { chakra, List, ListItem, Text } from '@chakra-ui/react'
 import { exportHeadlessEditorStateToMarkdown } from '@molecules/editor/lib/exportHeadlessEditorStateToMarkdown'
 import { diffChars } from 'diff'
 import isEqual from 'lodash.isequal'
-import React, { ReactNode, useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { FiArrowRight } from 'react-icons/fi'
 
 type Value = Object | Value[] | string | number | boolean | null

@@ -7,7 +7,7 @@ import { CircleFullFragment } from '@gql'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { FiLink2 } from 'react-icons/fi'
 
 interface Props extends BoxProps {

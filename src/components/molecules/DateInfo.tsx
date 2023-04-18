@@ -2,7 +2,7 @@ import { BoxProps, HStack, Text } from '@chakra-ui/react'
 import useDateLocale from '@hooks/useDateLocale'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { FiClock } from 'react-icons/fi'
 
 interface Props extends BoxProps {

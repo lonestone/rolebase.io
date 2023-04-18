@@ -29,7 +29,7 @@ import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { cmdOrCtrlKey } from '@utils/env'
 import { UserLocalStorageKeys } from '@utils/localStorage'
-import React, {
+import {
   MouseEvent,
   useCallback,
   useEffect,

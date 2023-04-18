@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useOrg from '@hooks/useOrg'
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 

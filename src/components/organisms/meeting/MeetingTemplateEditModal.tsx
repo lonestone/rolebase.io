@@ -24,7 +24,6 @@ import MeetingStepsConfigController, {
   StepsValues,
 } from '@molecules/meeting/MeetingStepsConfigController'
 import { nameSchema, stepsConfigSchema } from '@shared/schemas'
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'

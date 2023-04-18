@@ -1,7 +1,8 @@
 import { Text } from '@chakra-ui/react'
 import { ThreadActivityFragment, Thread_Activity_Type_Enum } from '@gql'
 import { ThreadActivityChangeStatus } from '@molecules/thread/ThreadActivityChangeStatus'
-import React, { memo } from 'react'
+import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
+import { memo } from 'react'
 import ThreadActivityDecision from './ThreadActivityDecision'
 import ThreadActivityMeeting from './ThreadActivityMeeting'
 import ThreadActivityMeetingNote from './ThreadActivityMeetingNote'
@@ -9,7 +10,6 @@ import ThreadActivityMessage from './ThreadActivityMessage'
 import ThreadActivityPoll from './ThreadActivityPoll'
 import ThreadActivityTask from './ThreadActivityTask'
 import ThreadActivityThread from './ThreadActivityThread'
-import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 
 interface Props {
   activity: ThreadActivityFragment | ThreadActivityChangeStatusFragment

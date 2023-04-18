@@ -13,6 +13,7 @@ export default function useAddCircleMember() {
       variables: { memberId, circleId },
     })
     if (errors?.length) throw errors[0]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     const circleMember = data?.insert_circle_member_one!
 
     // Log change

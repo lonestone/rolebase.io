@@ -13,7 +13,7 @@ import TasksPage from '@pages/TasksPage'
 import ThreadPage from '@pages/ThreadPage'
 import ThreadsPage from '@pages/ThreadsPage'
 import { useStoreActions } from '@store/hooks'
-import React, { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 // Lazy pages

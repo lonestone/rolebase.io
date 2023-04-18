@@ -1,7 +1,6 @@
 import { MemberFragment } from '@gql'
 import useCreateMember from '@hooks/useCreateMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
-import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useMemberSearchItems } from './useMemberSearchItems'
 

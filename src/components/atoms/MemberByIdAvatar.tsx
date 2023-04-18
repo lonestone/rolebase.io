@@ -1,6 +1,5 @@
 import { AvatarProps } from '@chakra-ui/react'
 import useMember from '@hooks/useMember'
-import React from 'react'
 import MemberAvatar from './MemberAvatar'
 
 interface Props extends AvatarProps {

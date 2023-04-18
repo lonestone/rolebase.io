@@ -1,7 +1,7 @@
 import Markdown from '@atoms/Markdown'
 import { useUserId } from '@nhost/react'
 import { ThreadActivityMessageFragment } from '@shared/model/thread_activity'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ThreadActivityLayout from './ThreadActivityLayout'
 import ThreadActivityMessageEdit from './ThreadActivityMessageEdit'
 

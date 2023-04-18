@@ -1,6 +1,5 @@
 import { Avatar, AvatarGroup, AvatarGroupProps } from '@chakra-ui/react'
 import { MemberFragment } from '@gql'
-import React from 'react'
 
 type ParticipantsGroupProps = {
   participants: MemberFragment[]

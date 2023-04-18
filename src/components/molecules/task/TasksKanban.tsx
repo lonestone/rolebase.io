@@ -5,7 +5,7 @@ import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import { KanbanColumn } from '@molecules/task/KanbanColumn'
 import TaskCard from '@molecules/task/TaskCard'
 import { taskStatusList } from '@shared/model/task'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { taskStatusColors } from 'src/theme'
 

@@ -9,7 +9,7 @@ import rrulePlugin from '@fullcalendar/rrule'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import useDateLocale from '@hooks/useDateLocale'
 import { format } from 'date-fns'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 // Load additional CSS after all imports

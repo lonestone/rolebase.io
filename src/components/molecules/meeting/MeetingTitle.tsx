@@ -1,6 +1,6 @@
 import CircleButton from '@atoms/CircleButton'
 import { MeetingContext } from '@contexts/MeetingContext'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Trans } from 'react-i18next'
 
 export default function MeetingTitle() {

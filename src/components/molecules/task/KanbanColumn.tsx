@@ -1,6 +1,6 @@
 import { Box, Heading, Tag, ThemingProps } from '@chakra-ui/react'
 import { Droppable } from '@hello-pangea/dnd'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 interface Props {
   id: string

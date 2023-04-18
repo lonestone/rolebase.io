@@ -12,7 +12,7 @@ import {
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import useArchiveCircle from '@hooks/useArchiveCircle'
 import useCircle from '@hooks/useCircle'
-import React, { useContext, useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props

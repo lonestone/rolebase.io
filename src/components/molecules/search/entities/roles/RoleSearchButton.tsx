@@ -1,5 +1,4 @@
 import { RoleFragment } from '@gql'
-import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useRoleSearchItems } from './useRoleSearchItems'
 

@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react'
 import useOrgMember from '@hooks/useOrgMember'
 import { cmdOrCtrlKey } from '@utils/env'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaKeyboard } from 'react-icons/fa'
 

@@ -1,6 +1,5 @@
 import { Avatar, AvatarProps, Tooltip } from '@chakra-ui/react'
 import { MemberSummaryFragment } from '@gql'
-import React from 'react'
 import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends AvatarProps {

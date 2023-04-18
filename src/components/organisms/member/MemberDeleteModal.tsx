@@ -14,7 +14,7 @@ import {
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props

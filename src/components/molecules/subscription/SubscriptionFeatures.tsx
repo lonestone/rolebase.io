@@ -1,5 +1,4 @@
 import { Flex, FlexProps, Text } from '@chakra-ui/react'
-import React from 'react'
 import { FiCheck } from 'react-icons/fi'
 
 type SubscriptionFeaturesProps = {

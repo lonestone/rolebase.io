@@ -1,7 +1,6 @@
 import AuthPage from '@pages/AuthPage'
 import Homepage from '@pages/Homepage'
 import ResetPasswordPage from '@pages/ResetPasswordPage'
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 export default function PublicRoute() {

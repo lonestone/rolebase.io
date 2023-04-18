@@ -42,7 +42,9 @@ export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
 
 export const searchReindexAll = fn('searchReindexAll')
 
-export const getNovuConfig = fn<{}, NovuConfig>('getNovuConfig')
+export const getNovuConfig = fn<Record<string, never>, NovuConfig>(
+  'getNovuConfig'
+)
 
 export const getMeetingsToken = fn<{ orgId: string }, string>(
   'getMeetingsToken'

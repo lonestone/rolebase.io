@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Box, Tag, Text } from '@chakra-ui/react'
 import { EntityChange, EntityChangeType } from '@shared/model/log'
-import React from 'react'
 import { ObjectDiff } from './ObjectDiff'
 
 interface Props<Entity extends {}> {

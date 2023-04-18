@@ -7,7 +7,6 @@ import { INovuProviderProps, NovuProvider } from '@novu/notification-center'
 import { NovuConfig } from '@shared/model/notification'
 import { getPureLanguageCode } from '@utils/getPureLanguageCode'
 import { UserLocalStorageKeys } from '@utils/localStorage'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 async function getConfig(): Promise<NovuConfig | undefined> {

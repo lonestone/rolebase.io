@@ -9,18 +9,12 @@ import {
 } from '@gql'
 import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
 import { shuffleArray } from '@utils/shuffleArray'
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
-import SortableList from '../SortableList'
 import ThreadSearchButton from '../search/entities/threads/ThreadSearchButton'
+import SortableList from '../SortableList'
 import MeetingStepContentThreadItem, {
   CircleThreadWithMeetingNote,
 } from './MeetingStepContentThreadItem'

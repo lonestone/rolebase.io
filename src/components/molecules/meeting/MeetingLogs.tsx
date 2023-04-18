@@ -4,7 +4,7 @@ import { BoxProps } from '@chakra-ui/react'
 import { useMeetingLogsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import { LogType } from '@shared/model/log'
-import React, { ReactNode, useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import LogsList from '../log/LogsList'
 
 interface Props extends BoxProps {

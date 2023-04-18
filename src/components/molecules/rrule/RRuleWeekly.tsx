@@ -1,5 +1,5 @@
 import { Button, Flex } from '@chakra-ui/react'
-import React, { MouseEventHandler } from 'react'
+import { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'

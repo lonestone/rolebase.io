@@ -5,7 +5,7 @@ import SubscriptionPlanSubCard from '@molecules/subscription/SubscriptionPlanSub
 import SubscriptionUpcomingInvoiceCard from '@molecules/subscription/SubscriptionUpcomingInvoiceCard'
 import { Subscription } from '@shared/model/subscription'
 import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
 type CurrentSubscriptionDetailsProps = {
   currentPlan: SubscriptionPlan

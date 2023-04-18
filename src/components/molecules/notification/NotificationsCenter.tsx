@@ -5,7 +5,6 @@ import {
   PopoverNotificationCenter,
   useMarkNotificationsAs,
 } from '@novu/notification-center'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiBell } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'

@@ -1,5 +1,4 @@
 import { Box, Input } from '@chakra-ui/react'
-import React from 'react'
 
 // Hidden confirmation password field to make password generation
 // works with password managers

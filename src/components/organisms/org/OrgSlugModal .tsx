@@ -19,7 +19,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
 import { slugSchema } from '@shared/schemas'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'

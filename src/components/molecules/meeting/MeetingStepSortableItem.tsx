@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react'
 import { Meeting_Step_Type_Enum } from '@gql'
 import { Draggable } from '@hello-pangea/dnd'
-import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiHelpCircle, FiTrash2 } from 'react-icons/fi'

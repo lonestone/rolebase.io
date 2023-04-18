@@ -4,7 +4,7 @@ import { useToast } from '@chakra-ui/react'
 import useOrg from '@hooks/useOrg'
 import useQueryParams from '@hooks/useQueryParams'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, useParams } from 'react-router'
 

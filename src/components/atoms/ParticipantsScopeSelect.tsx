@@ -1,6 +1,6 @@
 import { Select, SelectProps } from '@chakra-ui/react'
 import { Member_Scope_Enum } from '@gql'
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const ParticipantsScopeSelect = forwardRef<HTMLSelectElement, SelectProps>(

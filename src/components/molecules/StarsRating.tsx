@@ -1,6 +1,6 @@
 import { StarIcon } from '@chakra-ui/icons'
 import { Flex, FlexProps, IconButton } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 export interface StarsRateProps extends Omit<FlexProps, 'onChange'> {
   value?: number

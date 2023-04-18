@@ -1,7 +1,7 @@
 import { Flex, FlexProps, Text, useBreakpointValue } from '@chakra-ui/react'
 import ParticipantsGroup from '@molecules/ParticipantsGroup'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const MAX_MEMBERS_FREE = 5

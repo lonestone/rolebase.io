@@ -16,7 +16,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useSendVerificationEmail, useSignInEmailPassword } from '@nhost/react'
 import { emailSchema } from '@shared/schemas'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'

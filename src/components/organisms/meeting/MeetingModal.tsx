@@ -8,7 +8,6 @@ import {
 } from '@chakra-ui/react'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useWindowSize from '@hooks/useWindowSize'
-import React from 'react'
 import MeetingContent from '../meeting/MeetingContent'
 
 interface Props extends UseModalProps {

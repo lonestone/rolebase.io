@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react'
 import { ThreadActivityDecisionFragment } from '@shared/model/thread_activity'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import DecisionItem from '../DecisionItem'
 import ThreadActivityLayout from './ThreadActivityLayout'

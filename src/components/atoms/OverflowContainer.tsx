@@ -1,7 +1,7 @@
 import { Box, BoxProps } from '@chakra-ui/react'
 import { useElementSize } from '@hooks/useElementSize'
 import useWindowSize from '@hooks/useWindowSize'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export interface OverflowContainerProps extends BoxProps {
   expandRight?: boolean

@@ -13,9 +13,9 @@ import {
   StepIcon,
   StepIndicator,
   StepNumber,
+  Stepper,
   StepSeparator,
   StepStatus,
-  Stepper,
   useStepContext,
   useSteps,
   useToast,
@@ -34,7 +34,7 @@ import {
   StripeElementLocale,
   StripeElements,
 } from '@stripe/stripe-js'
-import React, { FormEvent, ReactNode, useMemo, useState } from 'react'
+import { FormEvent, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SubscriptionSummary from './SubscriptionSummary'
 

@@ -18,7 +18,6 @@ import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import { CircleThreadStatus } from '@molecules/CircleThreadStatus'
 import ThreadModal from '@organisms/thread/ThreadModal'
-import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {

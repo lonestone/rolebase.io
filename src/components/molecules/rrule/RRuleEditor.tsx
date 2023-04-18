@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react'
 import { getTimeZone } from '@utils/dates'
 import { pick } from '@utils/pick'
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { RRule } from 'rrule'
 import { Frequency, ParsedOptions } from 'rrule/dist/esm/types'
 import RRuleMonthly from './RRuleMonthly'

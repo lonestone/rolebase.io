@@ -46,7 +46,7 @@ import {
   ThreadActivityPollFragment,
 } from '@shared/model/thread_activity'
 import { getDateTimeLocal } from '@utils/dates'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiHelpCircle, FiPlus, FiX } from 'react-icons/fi'
@@ -115,7 +115,8 @@ export default function ActivityPollModal({
   const [acceptErasingAnswers, setAcceptErasingAnswers] = useState(false)
   const { data } = useThreadPollAnswersSubscription({
     skip: !activity,
-    variables: { activityId: activity?.id! },
+    // activity!.id can be used here because we check with skip directive
+    variables: { activityId: activity!.id },
   })
   const answers = data?.thread_poll_answer
 

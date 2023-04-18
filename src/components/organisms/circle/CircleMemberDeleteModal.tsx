@@ -13,7 +13,7 @@ import { GraphZoomContext } from '@contexts/GraphZoomContext'
 import useCircle from '@hooks/useCircle'
 import useMember from '@hooks/useMember'
 import useRemoveCircleMember from '@hooks/useRemoveCircleMember'
-import React, { useContext, useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props

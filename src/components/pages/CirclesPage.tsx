@@ -22,7 +22,7 @@ import CircleContent from '@organisms/circle/CircleContent'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import MemberContent from '@organisms/member/MemberContent'
 import { useStoreState } from '@store/hooks'
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,

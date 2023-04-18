@@ -1,7 +1,7 @@
 import { Box, chakra, ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import useWindowSize from '@hooks/useWindowSize'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
-import React, { StrictMode, useEffect, useRef, useState } from 'react'
+import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { I18nextProvider } from 'react-i18next'
 import { Transition, TransitionGroup } from 'react-transition-group'

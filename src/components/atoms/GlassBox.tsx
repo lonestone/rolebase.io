@@ -1,5 +1,4 @@
 import { Box, BoxProps, forwardRef } from '@chakra-ui/react'
-import React from 'react'
 import { bgForBlurDark, bgForBlurLight } from 'src/theme'
 
 export default forwardRef(function GlassBox(props: BoxProps, ref) {

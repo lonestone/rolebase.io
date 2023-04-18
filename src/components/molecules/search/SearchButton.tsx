@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
 import { useCombobox, UseComboboxStateChange } from 'downshift'
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import SearchResultsList from './SearchResultsList'
 import { SearchItem } from './searchTypes'
 import { useSearch } from './useSearch'

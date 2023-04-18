@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useOrgId } from '@hooks/useOrgId'
 import { format } from 'date-fns'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type CancelSubscriptionModalProps = {

@@ -19,7 +19,7 @@ import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import TaskModal from '@organisms/task/TaskModal'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import React, { MouseEvent, useCallback, useContext, useState } from 'react'
+import { MouseEvent, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import {

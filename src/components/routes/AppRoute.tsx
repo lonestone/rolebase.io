@@ -1,6 +1,5 @@
 import Loading from '@atoms/Loading'
 import { useAuthenticationStatus } from '@nhost/react'
-import React from 'react'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 

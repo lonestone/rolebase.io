@@ -6,7 +6,6 @@ import PaymentMethodSettingItem from '@organisms/subscription/PaymentMethodSetti
 import { Subscription } from '@shared/model/subscription'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type AccountSettingsListProps = {

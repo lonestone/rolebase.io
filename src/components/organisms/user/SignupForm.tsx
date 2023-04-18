@@ -13,7 +13,6 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useSendVerificationEmail, useSignUpEmailPassword } from '@nhost/react'
 import { emailSchema, nameSchema } from '@shared/schemas'
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'

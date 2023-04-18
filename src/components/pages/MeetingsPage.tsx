@@ -47,7 +47,7 @@ import {
 import { EntityFilters } from '@shared/model/participants'
 import { useStoreState } from '@store/hooks'
 import { truthy } from '@utils/truthy'
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiChevronDown,
@@ -90,9 +90,12 @@ export default function MeetingsPage() {
   const { data, error, loading } = useMeetingsByDatesSubscription({
     skip: !orgId || !datesRange,
     variables: {
+      // orgId! can be used here because we check with skip directive that it's defined
       orgId: orgId!,
-      fromDate: datesRange?.[0].toISOString()!,
-      toDate: datesRange?.[1].toISOString()!,
+      // same as orgId!
+      fromDate: datesRange![0].toISOString(),
+      // same as orgId!
+      toDate: datesRange![1].toISOString(),
     },
   })
 

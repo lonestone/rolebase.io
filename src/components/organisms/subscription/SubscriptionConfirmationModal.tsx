@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { useStripe } from '@stripe/react-stripe-js'
 import { PaymentIntent } from '@stripe/stripe-js'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubscriptionConfirmationModalProps = {

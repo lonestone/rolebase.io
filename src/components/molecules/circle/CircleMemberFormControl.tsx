@@ -6,7 +6,7 @@ import useCircle from '@hooks/useCircle'
 import useOrgMember from '@hooks/useOrgMember'
 import CircleMemberDeleteModal from '@organisms/circle/CircleMemberDeleteModal'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import { useCallback, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import MembersMultiSelect from '../member/MembersMultiSelect'
 

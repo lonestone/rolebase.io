@@ -16,7 +16,6 @@ import useUserSignOut from '@hooks/useUserSignOut'
 import { useUserData } from '@nhost/react'
 import LangModal from '@organisms/layout/LangModal'
 import CurrentUserModal from '@organisms/user/CurrentUserModal'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiChevronRight,

@@ -2,7 +2,6 @@ import CreditCardIcon from '@atoms/CreditCardIcon'
 import { HStack, StackProps, Text, useDisclosure } from '@chakra-ui/react'
 import SettingItem from '@molecules/SettingItem'
 import { SubscriptionCard } from '@shared/model/subscription'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import UpdatePaymentMethodModal from './UpdatePaymentMethodModal'
 

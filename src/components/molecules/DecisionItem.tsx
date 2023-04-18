@@ -13,7 +13,6 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import DecisionModal from '@organisms/decision/DecisionModal'
-import React from 'react'
 import { FiTriangle } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 

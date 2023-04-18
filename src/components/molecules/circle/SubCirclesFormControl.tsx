@@ -13,7 +13,7 @@ import { ParticipantMember } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import { omit } from '@utils/omit'
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import RoleSearchButton from '../search/entities/roles/RoleSearchButton'
@@ -81,6 +81,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
             },
           },
         })
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         role = data?.insert_role_one!
       } else {
         role = roleOrName
@@ -94,6 +95,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
           parentId: circle.id,
         },
       })
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       const newCircle = data?.insert_circle_one!
 
       const changes: EntitiesChanges = {

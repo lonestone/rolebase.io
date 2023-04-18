@@ -1,5 +1,4 @@
 import { Select } from '@chakra-ui/react'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
 import { FormPartProps } from './RRuleEditor'

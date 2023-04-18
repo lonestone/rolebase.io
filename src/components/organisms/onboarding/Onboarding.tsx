@@ -1,7 +1,7 @@
 import useMemberPreferences from '@hooks/useMemberPreferences'
 import { useUserData } from '@nhost/react'
 import { add, isBefore } from 'date-fns'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import settings from 'src/settings'
 import userflow from 'userflow.js'
 import RateAppModal from './RateAppModal'

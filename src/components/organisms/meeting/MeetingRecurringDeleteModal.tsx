@@ -12,7 +12,7 @@ import {
   MeetingRecurringFragment,
   useDeleteMeetingRecurringMutation,
 } from '@gql'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface Props

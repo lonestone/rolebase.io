@@ -5,7 +5,7 @@ import {
 } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
 import { useThreadSearchItems } from './useThreadSearchItems'
 

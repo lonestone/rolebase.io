@@ -10,7 +10,7 @@ import ActivityDeleteModal from '@organisms/thread/ActivityDeleteModal'
 import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
-import React, { ReactNode, useContext, useMemo } from 'react'
+import { ReactNode, useContext, useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props {

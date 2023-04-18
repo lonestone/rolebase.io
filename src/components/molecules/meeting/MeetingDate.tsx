@@ -3,7 +3,6 @@ import { MeetingFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
-import React from 'react'
 import { FiClock } from 'react-icons/fi'
 
 interface Props {

@@ -2,7 +2,7 @@ import { Box, Button } from '@chakra-ui/react'
 import { useUpdateThreadActivityMutation } from '@gql'
 import SimpleEditor from '@molecules/editor/SimpleEditor'
 import { ThreadActivityDataMessage } from '@shared/model/thread_activity'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EditorHandle } from '../editor'
 

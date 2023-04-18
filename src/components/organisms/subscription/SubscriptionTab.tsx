@@ -1,6 +1,5 @@
 import { Flex, FlexProps } from '@chakra-ui/react'
 import { Subscription } from '@shared/model/subscription'
-import React from 'react'
 import SubscriptionTabFreeLayout from './SubscriptionTabFreeLayout'
 import SubscriptionTabSubLayout from './SubscriptionTabSubLayout'
 

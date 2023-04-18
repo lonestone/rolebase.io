@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react'
 import { Member_Role_Enum } from '@gql'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useMemo, useReducer, useState } from 'react'
+import { useCallback, useMemo, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiMail } from 'react-icons/fi'
 import {

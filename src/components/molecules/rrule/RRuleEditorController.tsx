@@ -1,4 +1,3 @@
-import React from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 import RRuleEditor, { RRuleEditorProps } from './RRuleEditor'
 

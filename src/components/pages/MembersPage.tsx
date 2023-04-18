@@ -30,7 +30,7 @@ import MembersInviteModal from '@organisms/member/MembersInviteModal'
 import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
 import { truthy } from '@utils/truthy'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
 

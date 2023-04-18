@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react'
 import UpdatePaymentMethodModal from '@organisms/subscription/UpdatePaymentMethodModal'
 import { SubscriptionCard } from '@shared/model/subscription'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiEdit2, FiMail } from 'react-icons/fi'
 

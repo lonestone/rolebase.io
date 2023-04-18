@@ -34,8 +34,10 @@ export default function useThreads(filters?: {
   } = useThreadsSubscription({
     skip: !orgId || !currentMember,
     variables: {
-      memberId: currentMember?.id!,
+      // currentMember!.id can be used here because we check with skip directive that it's defined
+      memberId: currentMember!.id,
       filters: [
+        // same as currentMember!.id
         { orgId: { _eq: orgId! } },
         {
           archived: {

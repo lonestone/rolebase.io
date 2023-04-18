@@ -12,6 +12,7 @@ export default function useRemoveCircleMember() {
       variables: { memberId, circleId },
     })
     if (errors?.length) throw errors[0]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     const circleMember = data?.update_circle_member?.returning[0]!
 
     // Log change

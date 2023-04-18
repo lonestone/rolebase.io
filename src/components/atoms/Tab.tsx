@@ -3,7 +3,7 @@ import {
   TabProps as ChakraTabProps,
   Text,
 } from '@chakra-ui/react'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 type TabProps = {
   title: string

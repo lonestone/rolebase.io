@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import SubscriptionPaymentStepper from './SubscriptionPaymentStepper'
 

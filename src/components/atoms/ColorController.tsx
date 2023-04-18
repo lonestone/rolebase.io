@@ -13,7 +13,7 @@ import {
   SliderTrack,
 } from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 import { defaultCircleColorHue } from 'src/theme'
 

@@ -4,7 +4,6 @@ import {
   keyframes,
   usePrefersReducedMotion,
 } from '@chakra-ui/react'
-import React from 'react'
 
 interface Props extends BoxProps {
   active: boolean

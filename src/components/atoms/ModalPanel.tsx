@@ -1,6 +1,6 @@
 import { Modal, ModalProps } from '@chakra-ui/react'
 import { SidebarContext } from '@contexts/SidebarContext'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import GlassBox from './GlassBox'
 
 export const modalPanelWidth = 450

@@ -1,6 +1,6 @@
 import Loading from '@atoms/Loading'
 import AuthPage from '@pages/AuthPage'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import settings from 'src/settings'
 
 export default function Homepage() {
