@@ -45,5 +45,12 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['.eslintrc.js', '**/*generated.ts'],
+  ignorePatterns: [
+    '.eslintrc.js',
+    '**/*generated.ts',
+    // Code from another lib, to not touch
+    'src/components/molecules/editor/**',
+    // Code from another lib, to not touch
+    'src/components/molecules/editor/**/**',
+  ],
 }
