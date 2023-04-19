@@ -18,7 +18,7 @@ export default route(async (context): Promise<string> => {
   await guardOrg(orgId, Member_Role_Enum.Owner, context)
 
   const orgSubscription = await adminRequest(GET_ORG_SUBSCRIPTION, { orgId })
-  let stripeSubscriptionId =
+  const stripeSubscriptionId =
     orgSubscription?.org_subscription[0]?.stripeSubscriptionId
 
   if (stripeSubscriptionId) {

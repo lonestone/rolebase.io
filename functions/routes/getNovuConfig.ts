@@ -1,8 +1,8 @@
+import { createHmac } from 'crypto'
 import { NovuConfig } from '@shared/model/notification'
 import { guardAuth } from '@utils/guardAuth'
 import { route } from '@utils/route'
 import settings from '@utils/settings'
-import { createHmac } from 'crypto'
 
 export default route(async (context): Promise<NovuConfig> => {
   guardAuth(context)

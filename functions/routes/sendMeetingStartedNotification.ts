@@ -2,12 +2,13 @@ import { Member_Role_Enum } from '@gql'
 import { defaultLang, resources } from '@i18n'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
+import { guardOrg } from '@utils/guardOrg'
+import { guardUserId } from '@utils/guardUserId'
+import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
+import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
+import { MeetingStartedNotification } from '@utils/notification/meeting/meetingStartedNotification'
 import { route } from '@utils/route'
 import * as yup from 'yup'
-import { guardOrg } from '@utils/guardOrg'
-import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
-import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import { MeetingStartedNotification } from '@utils/notification/meeting/meetingStartedNotification'
 
 const yupSchema = yup.object({
   recipientMemberIds: yup.array().of(yup.string().required()),
@@ -16,14 +17,12 @@ const yupSchema = yup.object({
 
 export default route(async (context): Promise<void> => {
   guardAuth(context)
+  const userId = guardUserId(context)
 
   const { meetingId, recipientMemberIds } = guardBodyParams(context, yupSchema)
 
   // Get meeting data
-  const meeting_by_pk = await getNotificationMeetingData(
-    meetingId,
-    context?.userId!
-  )
+  const meeting_by_pk = await getNotificationMeetingData(meetingId, userId)
 
   const { org, id, title, circle, attendees } = meeting_by_pk
 
@@ -39,7 +38,7 @@ export default route(async (context): Promise<void> => {
   if (!allRecipientIds || allRecipientIds.length === 0) return
   // Get sender and recipients
   const { sender, recipients } = await getNotificationSenderAndRecipients(
-    context?.userId!,
+    userId,
     [...new Set([...allRecipientIds])]
   )
   if (recipients.length === 0) return

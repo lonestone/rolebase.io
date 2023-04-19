@@ -1,8 +1,8 @@
-import { NotificationCategories } from '@shared/model/notification'
+import { OrgFragment } from '@gql'
 import i18n, { resources } from '@i18n'
+import { NotificationCategories } from '@shared/model/notification'
 import { Notification } from '@utils/notification/notificationBuilder'
 import { MeetingStartedNotificationPayload } from '@utils/notification/notificationPayloadBuilder'
-import { OrgFragment } from '@gql'
 
 type MeetingStartedNotificationParameters = {
   org?: OrgFragment

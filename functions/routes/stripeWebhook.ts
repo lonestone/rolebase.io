@@ -53,7 +53,7 @@ const validateEvent = (context: FunctionContext): Stripe.Event => {
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET
 
     return stripe.webhooks.constructEvent(
-      // @ts-ignore - rawBody does exists
+      // @ts-expect-error - rawBody does exists
       context.req.rawBody,
       sig!,
       endpointSecret!

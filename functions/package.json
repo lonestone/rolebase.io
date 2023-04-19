@@ -3,8 +3,8 @@
   "scripts": {
     "codegen": "graphql-codegen --config _codegen.ts",
     "tsc": "tsc",
-    "lint": "eslint \"{routes,_utils,_shared,_search, _i18n, _gql}/**/*.ts\" --ext .js,.ts",
-    "lint:fix": "eslint \"{routes,_utils,_shared,_search, _i18n, _gql}/**/*.ts\" --ext .js,.ts --quiet --fix"
+    "lint": "eslint \"{routes,_utils,_shared,_search, _i18n, _gql}/**/*.{js,ts}\" --ext .js,.ts",
+    "lint:fix": "eslint \"{routes,_utils,_shared,_search, _i18n, _gql}/**/*.{js,ts}\" --ext .js,.ts --quiet --fix"
   },
   "dependencies": {
     "@nhost/nhost-js": "^2.1.1",

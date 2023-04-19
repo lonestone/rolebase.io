@@ -1,9 +1,9 @@
-import { NotificationCategories } from '@shared/model/notification'
+import { OrgFragment } from '@gql'
 import { resources } from '@i18n'
 import { Novu, TriggerRecipientsPayload } from '@novu/node'
-import settings from '@utils/settings'
-import { OrgFragment } from '@gql'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { NotificationCategories } from '@shared/model/notification'
+import settings from '@utils/settings'
 
 const mappingActionUrl = new Map([
   [NotificationCategories.meetingstarted, 'meetings'],

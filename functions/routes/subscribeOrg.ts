@@ -50,8 +50,8 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
 
   const status = orgSubscription?.status
   let customerId = orgSubscription?.stripeCustomerId
-  let subscriptionId = orgSubscription?.stripeSubscriptionId
-  let currentPlanType = orgSubscription?.type
+  const subscriptionId = orgSubscription?.stripeSubscriptionId
+  const currentPlanType = orgSubscription?.type
 
   if (isSubscriptionActive(status)) {
     // A subscription is already active, at the moment throwing an error as there is only one plan available

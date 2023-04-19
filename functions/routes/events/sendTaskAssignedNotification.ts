@@ -32,7 +32,8 @@ export default route(async (context): Promise<void> => {
     (member?.user?.locale as keyof typeof resources) || defaultLang
 
   const recipient = {
-    subscriberId: member?.user?.id!,
+    // member!.user!.id can be used here because we checked
+    subscriberId: member!.user!.id,
     locale: recipientLocale,
   }
 

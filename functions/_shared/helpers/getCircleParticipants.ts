@@ -42,7 +42,7 @@ export function getCircleParticipants(
     })
     .filter(Boolean) as Participant[]
 
-  let hasLeader = leaders.some((l) => l.leader)
+  const hasLeader = leaders.some((l) => l.leader)
 
   // Direct members
   const directParticipants =

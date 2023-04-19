@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import {
   MeetingStepFragment,
   Meeting_Step_Type_Enum,

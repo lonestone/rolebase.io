@@ -44,9 +44,9 @@ export default route(async (context): Promise<Subscription | null> => {
     return null
   }
 
-  let subscription: Stripe.Subscription = null
-  let customer: ExtendedStripeCustomer = null
-  let upcomingInvoice: Stripe.UpcomingInvoice = null
+  let subscription: Stripe.Subscription | null = null
+  let customer: ExtendedStripeCustomer | null = null
+  let upcomingInvoice: Stripe.UpcomingInvoice | null = null
 
   try {
     // Get stripe invoices
@@ -106,7 +106,8 @@ const formatSubscription = (
             upcomingInvoice.next_payment_attempt ??
               upcomingInvoice.lines.data[0].period.end
           ),
-          totalInCents: upcomingInvoice?.total!,
+          // upcomingInvoice!.total can be used here because we checked it
+          totalInCents: upcomingInvoice!.total,
         }
       : null,
     status,

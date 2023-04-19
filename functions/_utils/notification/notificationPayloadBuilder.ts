@@ -19,6 +19,7 @@ type NotificationDigestPayload = {
   digestKey?: string | null
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 type NotificationPayloadBuilder<Data extends any> = NotificationCommonPayload &
   Data
 
