@@ -38,9 +38,10 @@ export type TaskAssignedNotificationPayload = NotificationPayloadBuilder<
   NotificationEmailPayload & NotificationPushPayload
 >
 
-export type ThreadNotificationPayload =
-  NotificationPayloadBuilder<NotificationEmailPayload>
+export type ThreadNotificationPayload = NotificationPayloadBuilder<
+  NotificationEmailPayload & NotificationPushPayload
+>
 
 export type ThreadActivityNotificationPayload = NotificationPayloadBuilder<
-  NotificationEmailPayload & NotificationDigestPayload
+  NotificationEmailPayload & NotificationDigestPayload & NotificationPushPayload
 >

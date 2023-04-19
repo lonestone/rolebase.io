@@ -69,6 +69,7 @@ export class ThreadActivityNotification extends Notification<
         i18nOptions
       ),
       unsubscribe: t('notifications.common.email.unsubscribe', i18nOptions),
+      fcmTag: `threadActivity-of-thread-${this.parameters.threadId}`,
     }
   }
 }
