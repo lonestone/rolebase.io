@@ -1,59 +1,49 @@
-import { MeetingFragment, Member_Role_Enum } from '@gql'
+import { MeetingFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
-import { guardOrg } from '@utils/guardOrg'
-import { guardWebhookSecret } from '@utils/guardWebhookSecret'
-import { HasuraEvent, HasuraEventOp } from '@utils/nhost'
-import { NotificationMeetingData } from '@utils/notification/getNotificationMeetingData'
+import { HasuraEventOp } from '@utils/nhost'
+import { route } from '@utils/route'
+import { meetingInvitedInsertAction } from '@utils/notification/meeting/meetingInvitedInsertAction'
+import { meetingInvitedUpdateAction } from '@utils/notification/meeting/meetingInvitedUpdateAction'
+import { MeetingInvitedNotification } from '@utils/notification/meeting/meetingInvitedNotification'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import { meetingInvitedInsertAction } from '@utils/notification/meetingInvitedInsertAction'
-import { MeetingInvitedNotification } from '@utils/notification/meetingInvitedNotification'
-import { meetingInvitedUpdateAction } from '@utils/notification/meetingInvitedUpdateAction'
-import { route, RouteError } from '@utils/route'
+import { NotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
+import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 
 export default route(async (context): Promise<void> => {
-  guardWebhookSecret(context)
-
-  const event: HasuraEvent<MeetingFragment> = context.req.body
-
-  // Sender
-  const senderUserId = event.event.session_variables['x-hasura-user-id']
-  if (!senderUserId) {
-    throw new RouteError(401, 'Unauthorized')
-  }
-
-  // Check if new meeting (should always be provided in event)
-  if (!event.event.data.new) {
-    throw new RouteError(404, 'No new meeting')
-  }
+  const {
+    eventBody: {
+      event: { op },
+    },
+    newEntity,
+    oldEntity,
+    senderUserId,
+  } = checkSendNotificationEvent<MeetingFragment>(context)
 
   // Check if it's an occurrence of a recurring meeting
-  if (event.event.data.new.recurringId) {
+  if (newEntity.recurringId) {
     return
   }
-
-  // Check permission for new meeting org
-  await guardOrg(event.event.data.new.orgId, Member_Role_Enum.Member, {
-    userId: senderUserId,
-  })
 
   // What needs to be done in each event case
   let meetingInvitedActionReturn: {
     meeting: NotificationMeetingData
     participantsIds: string[]
   } | null = null
-  switch (event.event.op) {
+  switch (op) {
+    // Done if a new meeting is inserted in DB
     case HasuraEventOp.INSERT:
       meetingInvitedActionReturn = await meetingInvitedInsertAction(
         senderUserId,
-        event.event.data.new
+        newEntity
       )
       break
 
+    // Done if there is an update for some fields of a meeting in DB
     case HasuraEventOp.UPDATE:
       meetingInvitedActionReturn = await meetingInvitedUpdateAction(
         senderUserId,
-        event.event.data.new,
-        event.event.data.old
+        newEntity,
+        oldEntity
       )
       break
 

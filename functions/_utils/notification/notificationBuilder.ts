@@ -9,6 +9,8 @@ const mappingActionUrl = new Map([
   [NotificationCategories.meetingstarted, 'meetings'],
   [NotificationCategories.meetinginvited, 'meetings'],
   [NotificationCategories.taskassigned, 'tasks'],
+  [NotificationCategories.thread, 'threads'],
+  [NotificationCategories.threadActivity, 'threads'],
 ])
 
 export abstract class Notification<

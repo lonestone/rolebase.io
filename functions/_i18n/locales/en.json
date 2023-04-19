@@ -5,7 +5,9 @@
   "notifications": {
     "common": {
       "action": {
-        "openMeeting": "Open meeting"
+        "openMeeting": "Open meeting",
+        "openTask": "Open task",
+        "openThread": "Open topic"
       },
       "email": {
         "notificationReceived": "You have received a notification :",
@@ -22,8 +24,18 @@
       "content": "{{sender}} started the meeting!"
     },
     "sendTaskAssignedNotification": {
-      "title": "Task assigned to you ({{role}})",
+      "title": "Task assigned to you - {{role}}",
       "content": "{{title}}"
+    },
+    "sendThreadNotification": {
+      "title": "New topic for you - {{role}}",
+      "content": "{{title}}"
+    },
+    "sendThreadActivityNotification": {
+      "title": "New activity in a topic - {{role}}",
+      "content": "{{title}}",
+      "digestContentSingular": "new message for this topic : {{title}}",
+      "digestContentPlural": "new messages for this topic : {{title}}."
     }
   }
 }

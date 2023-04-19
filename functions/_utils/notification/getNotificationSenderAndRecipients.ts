@@ -1,11 +1,11 @@
 import { gql } from '@gql'
-import { ISubscribersDefine, TriggerRecipientsPayload } from '@novu/node'
+import { ISubscriberPayload, TriggerRecipients } from '@novu/node'
 import { adminRequest } from '@utils/adminRequest'
 import { RouteError } from '@utils/route'
 
 type GetNotificationSenderAndRecipientsReturn = {
-  sender: ISubscribersDefine & { name: string }
-  recipients: TriggerRecipientsPayload
+  sender: ISubscriberPayload & { subscriberId: string } & { name: string }
+  recipients: TriggerRecipients
 }
 
 export async function getNotificationSenderAndRecipients(
@@ -50,7 +50,7 @@ export async function getNotificationSenderAndRecipients(
           }
         : undefined
     )
-    .filter(Boolean) as TriggerRecipientsPayload
+    .filter(Boolean) as TriggerRecipients
 
   return { sender, recipients }
 }

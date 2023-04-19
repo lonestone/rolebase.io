@@ -1,36 +1,21 @@
 import { TaskFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
-import { guardWebhookSecret } from '@utils/guardWebhookSecret'
-import { HasuraEvent } from '@utils/nhost'
+import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { getNotificationTaskData } from '@utils/notification/task/getNotificationTaskData'
 import { TaskAssignedNotification } from '@utils/notification/task/taskAssignedNotification'
-import { route, RouteError } from '@utils/route'
+import { route } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
-  guardWebhookSecret(context)
-
-  const event: HasuraEvent<TaskFragment> = context.req.body
-
-  // Sender
-  const senderUserId = event.event.session_variables['x-hasura-user-id']
-  if (!senderUserId) {
-    throw new RouteError(401, `Unauthorized`)
-  }
-
-  // Check if new task (should always be provided in event)
-  if (!event.event.data.new) {
-    throw new RouteError(404, 'No new task')
-  }
+  const { newEntity, oldEntity, senderUserId } =
+    checkSendNotificationEvent<TaskFragment>(context)
 
   // Check if task has a new assignee
-  const oldTask = event.event.data.old
-  const newTask = event.event.data.new
-  if (!newTask.memberId || newTask.memberId === oldTask?.memberId) {
+  if (!newEntity!.memberId || newEntity!.memberId === oldEntity?.memberId) {
     return
   }
 
-  // What needs to be done in each event case
-  const notifData = await getNotificationTaskData(newTask.id)
+  // What needs to be done
+  const notifData = await getNotificationTaskData(newEntity!.id)
 
   if (
     // Don't send notification if no assignee

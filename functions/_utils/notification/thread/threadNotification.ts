@@ -1,29 +1,29 @@
 import { NotificationCategories } from '@shared/model/notification'
 import i18n, { resources } from '@i18n'
 import { Notification } from '@utils/notification/notificationBuilder'
+import { ThreadNotificationPayload } from '@utils/notification/notificationPayloadBuilder'
 import { OrgFragment } from '@gql'
-import { TaskAssignedNotificationPayload } from '@utils/notification/notificationPayloadBuilder'
 
-type TaskAssignedNotificationParameters = {
+type ThreadNotificationParameters = {
   org?: OrgFragment
   orgId: string
-  taskId: string
+  threadId: string
   title: string
   role: string
 }
 
-export class TaskAssignedNotification extends Notification<
-  NotificationCategories.taskassigned,
-  TaskAssignedNotificationPayload
+export class ThreadNotification extends Notification<
+  NotificationCategories.thread,
+  ThreadNotificationPayload
 > {
   constructor(
     locale: keyof typeof resources,
-    private readonly parameters: TaskAssignedNotificationParameters
+    private readonly parameters: ThreadNotificationParameters
   ) {
-    super(NotificationCategories.taskassigned, locale)
+    super(NotificationCategories.thread, locale)
   }
 
-  get payload(): TaskAssignedNotificationPayload {
+  get payload(): ThreadNotificationPayload {
     const { t } = i18n
     const i18nOptions = {
       lng: this.locale,
@@ -34,24 +34,21 @@ export class TaskAssignedNotification extends Notification<
     }
 
     const actionUrl = this.getActionUrl(
-      NotificationCategories.taskassigned,
+      NotificationCategories.thread,
       this.parameters.orgId,
       this.parameters.org,
-      this.parameters.taskId
+      this.parameters.threadId
     )
 
     return {
-      title: t('notifications.sendTaskAssignedNotification.title', i18nOptions),
-      content: t(
-        'notifications.sendTaskAssignedNotification.content',
-        i18nOptions
-      ),
+      title: t('notifications.sendThreadNotification.title', i18nOptions),
+      content: t('notifications.sendThreadNotification.content', i18nOptions),
       actionUrl,
       notificationReceived: t(
         'notifications.common.email.notificationReceived',
         i18nOptions
       ),
-      actionButton: t('notifications.common.action.openTask', i18nOptions),
+      actionButton: t('notifications.common.action.openThread', i18nOptions),
       automaticEmail: t(
         'notifications.common.email.automaticEmail',
         i18nOptions

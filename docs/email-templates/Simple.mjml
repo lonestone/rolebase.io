@@ -27,6 +27,6 @@
       <mj-column>
         <mj-text font-size="12px" font-style="italic" padding='2px'>{{automaticEmail}}</mj-text>
         <mj-text font-size="12px" font-style="italic" padding='2px'>{{unsubscribe}} <a href={{appUrl}}>Rolebase</a>.</mj-text>
-      </mj-section>
+    </mj-section>
   </mj-body>
 </mjml>

@@ -5,7 +5,9 @@
   "notifications": {
     "common": {
       "action": {
-        "openMeeting": "Ouvrir la réunion"
+        "openMeeting": "Ouvrir la réunion",
+        "openTask": "Ouvrir la tâche",
+        "openThread": "Ouvrir le sujet"
       },
       "email": {
         "notificationReceived": "Vous avez reçu une notification :",
@@ -22,8 +24,18 @@
       "content": "{{sender}} a démarré la réunion !"
     },
     "sendTaskAssignedNotification": {
-      "title": "Une tâche vous a été assignée ({{role}})",
+      "title": "Une tâche vous a été assignée - {{role}}",
       "content": "{{title}}"
+    },
+    "sendThreadNotification": {
+      "title": "Nouveau sujet pour vous - {{role}}",
+      "content": "{{title}}"
+    },
+    "sendThreadActivityNotification": {
+      "title": "Nouvelle activité sur un sujet - {{role}}",
+      "content": "{{title}}",
+      "digestContentSingular": "nouveau message sur le sujet : {{title}}",
+      "digestContentPlural": "nouveaux messages sur le sujet : {{title}}."
     }
   }
 }
