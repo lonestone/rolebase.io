@@ -30,6 +30,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:react/jsx-runtime',
+    'plugin:jsonc/recommended-with-jsonc',
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
