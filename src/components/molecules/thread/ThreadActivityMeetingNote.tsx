@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Markdown from '@atoms/Markdown'
 import { Box, Heading } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
