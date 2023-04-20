@@ -1,7 +1,7 @@
 import { ThreadFragment } from '@gql'
 import { getParticipantIdsDiff } from '@utils/getParticipantIdsDiff'
-import { RouteError } from '@utils/route'
 import { getNotificationThreadData } from '@utils/notification/thread/getNotificationThreadData'
+import { RouteError } from '@utils/route'
 
 export async function threadUpdateAction(
   senderUserId: string,

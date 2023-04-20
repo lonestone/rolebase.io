@@ -1,6 +1,6 @@
-import { RouteError } from '@utils/route'
-import { getNotificationThreadActivityData } from '@utils/notification/thread/getNotificationThreadActivityData'
 import { getEntityWithParticipantsRecipientIds } from '@utils/getEntityWithParticipantsRecipientIds'
+import { getNotificationThreadActivityData } from '@utils/notification/thread/getNotificationThreadActivityData'
+import { RouteError } from '@utils/route'
 
 export async function threadActivityInsertAction(threadActivityId: string) {
   // Get thread data

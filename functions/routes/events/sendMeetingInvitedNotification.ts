@@ -1,13 +1,13 @@
 import { MeetingFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
 import { HasuraEventOp } from '@utils/nhost'
-import { route } from '@utils/route'
-import { meetingInvitedInsertAction } from '@utils/notification/meeting/meetingInvitedInsertAction'
-import { meetingInvitedUpdateAction } from '@utils/notification/meeting/meetingInvitedUpdateAction'
-import { MeetingInvitedNotification } from '@utils/notification/meeting/meetingInvitedNotification'
+import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import { NotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
-import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
+import { meetingInvitedInsertAction } from '@utils/notification/meeting/meetingInvitedInsertAction'
+import { MeetingInvitedNotification } from '@utils/notification/meeting/meetingInvitedNotification'
+import { meetingInvitedUpdateAction } from '@utils/notification/meeting/meetingInvitedUpdateAction'
+import { route } from '@utils/route'
 
 export default route(async (context): Promise<void> => {
   const {

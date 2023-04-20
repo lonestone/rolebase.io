@@ -1,6 +1,6 @@
 import { MeetingFragment } from '@gql'
-import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
 import { getEntityWithParticipantsRecipientIds } from '@utils/getEntityWithParticipantsRecipientIds'
+import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
 
 export async function meetingInvitedInsertAction(
   senderUserId: string,

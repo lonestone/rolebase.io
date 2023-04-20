@@ -1,7 +1,7 @@
 import { ThreadFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
-import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { HasuraEventOp } from '@utils/nhost'
+import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import { NotificationThreadData } from '@utils/notification/thread/getNotificationThreadData'
 import { threadInsertAction } from '@utils/notification/thread/threadInsertAction'

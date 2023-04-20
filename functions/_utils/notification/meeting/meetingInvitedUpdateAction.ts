@@ -1,7 +1,7 @@
 import { MeetingFragment } from '@gql'
 import { getParticipantIdsDiff } from '@utils/getParticipantIdsDiff'
-import { RouteError } from '@utils/route'
 import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
+import { RouteError } from '@utils/route'
 
 export async function meetingInvitedUpdateAction(
   senderUserId: string,
