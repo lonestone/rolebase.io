@@ -15,46 +15,54 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     VitePWA({
-      includeAssets: ['/icons/*'],
+      includeAssets: ['/*.{ico,png,svg}'],
       registerType: 'autoUpdate',
       manifest: {
         name: 'Rolebase',
         short_name: 'Rolebase',
         description:
           'A tool that makes your organization clear and participatory',
-        theme_color: '#FBF7FC',
+        theme_color: '#fbf7fc',
+        background_color: '#fbf7fc',
         start_url: '/',
         display: 'standalone',
+        prefer_related_applications: false,
         icons: [
           {
-            src: '/icons/icon.svg',
-            sizes: '256x256',
-            type: 'image/svg+xml',
-          },
-          {
-            src: '/icons/pwa-192x192.png',
+            src: '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/icons/pwa-512x512.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: '/icons/apple-touch-icon.png',
+            src: '/apple-touch-icon.png',
             sizes: '180x180',
             type: 'image/png',
           },
           {
-            src: '/icons/favicon-16x16.png',
+            src: '/favicon-16x16.png',
             sizes: '16x16',
             type: 'image/png',
           },
           {
-            src: '/icons/favicon-32x32.png',
+            src: '/favicon-32x32.png',
             sizes: '32x32',
             type: 'image/png',
+          },
+          {
+            src: '/maskable-icon.png',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: '/safari-pinned-tab.svg',
+            color: '#9a65f6',
+            type: 'image/svg+xml',
+            purpose: 'maskable',
           },
         ],
       },
