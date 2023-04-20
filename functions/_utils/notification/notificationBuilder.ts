@@ -49,6 +49,13 @@ export abstract class Notification<
         payload: {
           ...this.payload,
         },
+        overrides: {
+          fcm: {
+            // Current workaround to not have duplicate push notification
+            // TODO : refacto when version 0.14.x (some changes on overrides and FCM integration coming)
+            type: 'data',
+          },
+        },
       })
       .catch((err) => console.error(err))
   }

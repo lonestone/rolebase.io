@@ -57,6 +57,7 @@ export class TaskAssignedNotification extends Notification<
         i18nOptions
       ),
       unsubscribe: t('notifications.common.email.unsubscribe', i18nOptions),
+      fcmTag: this.parameters.taskId,
     }
   }
 }
