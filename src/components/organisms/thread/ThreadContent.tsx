@@ -121,7 +121,11 @@ export default function ThreadContent({
         }
         footer={
           thread && canParticipate ? (
-            <ThreadActivityCreate thread={thread} w="100%" />
+            <ThreadActivityCreate
+              thread={thread}
+              w="100%"
+              className="userflow-thread-create"
+            />
           ) : undefined
         }
       />

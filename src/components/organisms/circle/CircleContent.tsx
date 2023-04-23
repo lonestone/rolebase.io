@@ -118,6 +118,7 @@ export default function CircleContent({
 
         {isMember && (
           <ActionsMenu
+            className="userflow-circle-actions"
             onEdit={editRoleModal.onOpen}
             onDelete={circle.parentId ? deleteModal.onOpen : undefined}
             onMove={circle.parentId ? moveModal.onOpen : undefined}

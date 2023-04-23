@@ -73,6 +73,7 @@
     "react-transition-group": "^4.4.5",
     "rrule": "^2.7.2",
     "slugify": "^1.6.5",
+    "userflow.js": "^2.7.0",
     "y-websocket": "^1.4.5",
     "yjs": "^13.5.43",
     "yup": "^0.32.11"

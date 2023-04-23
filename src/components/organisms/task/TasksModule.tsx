@@ -96,6 +96,7 @@ export default function TasksModule({
           {onCircleChange &&
             (circleId ? (
               <CircleSearchInput
+                className="userflow-tasks-role"
                 value={circleId}
                 placeholder={t('TasksModule.filterCircle')}
                 maxW="170px"
@@ -104,6 +105,7 @@ export default function TasksModule({
               />
             ) : (
               <CircleSearchButton
+                className="userflow-tasks-role"
                 rightIcon={<FiChevronDown />}
                 onSelect={onCircleChange}
               >
@@ -114,6 +116,7 @@ export default function TasksModule({
           {onMemberChange &&
             (memberId ? (
               <MemberSearchInput
+                className="userflow-tasks-member"
                 value={memberId}
                 placeholder={t('TasksModule.filterMember')}
                 maxW="170px"
@@ -122,6 +125,7 @@ export default function TasksModule({
               />
             ) : (
               <MemberSearchButton
+                className="userflow-tasks-member"
                 rightIcon={<FiChevronDown />}
                 onSelect={onMemberChange}
               >
@@ -134,12 +138,14 @@ export default function TasksModule({
 
         <ButtonGroup isAttached variant="outline" size="sm" mr={2}>
           <IconTextButton
+            className="userflow-tasks-kanban"
             aria-label={t('TasksModule.kanban')}
             icon={<FiTrello />}
             isActive={view === TasksViewTypes.Kanban}
             onClick={() => onViewChange(TasksViewTypes.Kanban)}
           />
           <IconTextButton
+            className="userflow-tasks-list"
             aria-label={t('TasksModule.list')}
             icon={<FiList />}
             isActive={view === TasksViewTypes.List}
@@ -149,6 +155,7 @@ export default function TasksModule({
 
         {isMember && (
           <Button
+            className="userflow-tasks-create"
             size="sm"
             colorScheme="blue"
             leftIcon={<FiPlus />}

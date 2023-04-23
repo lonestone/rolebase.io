@@ -78,6 +78,7 @@ export default function ThreadsPage() {
         <Menu closeOnSelect={false}>
           <MenuButton
             as={Button}
+            className="userflow-threads-filter"
             size="sm"
             variant="outline"
             rightIcon={<FiChevronDown />}
@@ -114,6 +115,7 @@ export default function ThreadsPage() {
 
         {isMember && (
           <Button
+            className="userflow-threads-create"
             size="sm"
             colorScheme="blue"
             ml={1}
@@ -134,9 +136,10 @@ export default function ThreadsPage() {
             <Text fontStyle="italic">{t('ThreadsPage.empty')}</Text>
           )}
 
-          {filteredThreads.map((thread) => (
+          {filteredThreads.map((thread, i) => (
             <ThreadItem
               key={thread.id}
+              className={`userflow-thread-${i}`}
               thread={thread}
               showCircle
               showIcon

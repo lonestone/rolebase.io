@@ -149,11 +149,17 @@ export default function Sidebar() {
 
             {!context.expand.isOpen && orgId && (
               <>
-                <SidebarTopIconLink to={rootPath} exact icon={<FiDisc />}>
+                <SidebarTopIconLink
+                  className="userflow-sidebar-roles"
+                  to={rootPath}
+                  exact
+                  icon={<FiDisc />}
+                >
                   {t('Sidebar.roles')}
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
+                  className="userflow-sidebar-threads"
                   to={`${rootPath}threads`}
                   icon={<FiMessageSquare />}
                 >
@@ -161,6 +167,7 @@ export default function Sidebar() {
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
+                  className="userflow-sidebar-meetings"
                   to={`${rootPath}meetings`}
                   icon={<FiCalendar />}
                   alert={!!currentMember?.meetingId}
@@ -169,6 +176,7 @@ export default function Sidebar() {
                 </SidebarTopIconLink>
 
                 <SidebarTopIconLink
+                  className="userflow-sidebar-tasks"
                   to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                   icon={<FiCheckSquare />}
                 >
@@ -218,7 +226,7 @@ export default function Sidebar() {
               >
                 <Tooltip
                   label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
-                  placement={'right'}
+                  placement="right"
                   hasArrow
                 >
                   <InputGroup size="sm">
@@ -231,9 +239,13 @@ export default function Sidebar() {
                       />
                     </InputLeftElement>
                     <Input
-                      placeholder={t('Sidebar.search')}
+                      value={t('Sidebar.search')}
                       borderRadius="md"
                       isReadOnly
+                      color="gray.400"
+                      _dark={{
+                        color: 'whiteAlpha.600',
+                      }}
                       onFocus={function (e) {
                         e.target.blur()
                       }}
@@ -243,11 +255,17 @@ export default function Sidebar() {
                 </Tooltip>
               </Box>
 
-              <SidebarItemLink to={rootPath} exact icon={<FiDisc />}>
+              <SidebarItemLink
+                className="userflow-sidebar-roles"
+                to={rootPath}
+                exact
+                icon={<FiDisc />}
+              >
                 {t('Sidebar.roles')}
               </SidebarItemLink>
 
               <SidebarItemLink
+                className="userflow-sidebar-threads"
                 to={`${rootPath}threads`}
                 icon={<FiMessageSquare />}
               >
@@ -255,6 +273,7 @@ export default function Sidebar() {
               </SidebarItemLink>
 
               <SidebarItemLink
+                className="userflow-sidebar-meetings"
                 to={`${rootPath}meetings`}
                 icon={<FiCalendar />}
                 alert={!!currentMember?.meetingId}
@@ -263,13 +282,18 @@ export default function Sidebar() {
               </SidebarItemLink>
 
               <SidebarItemLink
+                className="userflow-sidebar-tasks"
                 to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
                 icon={<FiCheckSquare />}
               >
                 {t('Sidebar.tasks')}
               </SidebarItemLink>
 
-              <SidebarItemLink to={`${rootPath}members`} icon={<FiUsers />}>
+              <SidebarItemLink
+                className="userflow-sidebar-members"
+                to={`${rootPath}members`}
+                icon={<FiUsers />}
+              >
                 {t('Sidebar.members')}
               </SidebarItemLink>
             </>
@@ -285,7 +309,7 @@ export default function Sidebar() {
           <Spacer />
 
           {orgId && (
-            <Box>
+            <Box className="userflow-sidebar-settings">
               <Menu placement={isMobile ? 'auto' : 'right-start'}>
                 <MenuButton as={SidebarItem} icon={<FiSettings />}>
                   {t('Sidebar.settings')}
@@ -297,11 +321,20 @@ export default function Sidebar() {
 
           <Notifications isMobile={isMobile} />
 
-          <SidebarItem icon={<FaQuestionCircle />} onClick={handleOpenHelp}>
+          <SidebarItem
+            className="userflow-sidebar-help"
+            icon={<FaQuestionCircle />}
+            onClick={handleOpenHelp}
+          >
             {t('Sidebar.help')}
           </SidebarItem>
 
-          <UserMenu isMobile={isMobile} mt={7} mb={2} />
+          <UserMenu
+            className="userflow-sidebar-member"
+            isMobile={isMobile}
+            mt={7}
+            mb={2}
+          />
         </Flex>
       )}
 

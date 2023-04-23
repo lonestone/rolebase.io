@@ -5,6 +5,7 @@ import TextError from '@atoms/TextError'
 import { useOrgsSubscription } from '@gql'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useUserId, useUserLocale } from '@nhost/react'
+import Onboarding from '@organisms/onboarding/Onboarding'
 import MemberInvitationPage from '@pages/MemberInvitationPage'
 import OrgsPage from '@pages/OrgsPage'
 import Page404 from '@pages/Page404'
@@ -89,6 +90,7 @@ export default function PrivateRoute() {
       </Routes>
 
       <CrispSetUser />
+      <Onboarding />
     </LoggedLayout>
   )
 }

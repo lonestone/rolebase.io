@@ -437,18 +437,6 @@
   "Notifications": {
     "tooltip": "Notifications"
   },
-  "OnboardingCircleMembersModal": {
-    "heading": "{{role}}",
-    "leader": "Qui représente le rôle {{role}} ?",
-    "memberPlaceholder": "Prénom Nom...",
-    "choiceSingle": "{{member}} occupe ce rôle seul(e)",
-    "choiceCircle": "D'autres personnes participent"
-  },
-  "OnboardingCirclesModal": {
-    "heading": "Quelles sont les grandes activités chez {{org}} ?",
-    "info": "On va créer les rôles principaux de l’organisation. Dans une structure traditionnelle, on parlerait de fonctions, de pôles ou de départements.",
-    "help": "Vous pourrez modifier et ajouter des rôles plus tard."
-  },
   "OrgCreateModal": {
     "heading": "Créer une organisation"
   },

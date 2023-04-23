@@ -45,7 +45,11 @@ export default function NotificationsCenter({ isMobile }: Props) {
       position={isMobile ? 'top' : 'right-start'}
     >
       {({ unseenCount }) => (
-        <SidebarItem icon={<FiBell />} alert={!!unseenCount}>
+        <SidebarItem
+          className="userflow-sidebar-notifications"
+          icon={<FiBell />}
+          alert={!!unseenCount}
+        >
           {t('Notifications.tooltip')}
         </SidebarItem>
       )}

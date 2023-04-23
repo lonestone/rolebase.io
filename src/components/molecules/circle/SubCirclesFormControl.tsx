@@ -160,9 +160,10 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
     <FormControl>
       <FormLabel>{t('SubCirclesFormControl.roles')}</FormLabel>
       <VStack spacing={2} align="start">
-        {childrenAndRoles?.map((circle) => (
+        {childrenAndRoles?.map((circle, i) => (
           <CircleWithLeaderItem
             key={circle.id}
+            className={`userflow-circle-${i}`}
             circle={circle}
             participants={participants}
           />
@@ -171,6 +172,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         {isMember && (
           <StackItem>
             <RoleSearchButton
+              className="userflow-add-role-btn"
               excludeIds={childrenRolesIds}
               size="sm"
               variant="outline"

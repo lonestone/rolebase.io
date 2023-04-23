@@ -279,6 +279,7 @@ export default function MeetingsPage() {
         <Menu closeOnSelect={false}>
           <MenuButton
             as={Button}
+            className="userflow-meetings-filter"
             size="sm"
             variant="outline"
             rightIcon={<FiChevronDown />}
@@ -305,6 +306,7 @@ export default function MeetingsPage() {
         <Menu>
           <MenuButton
             as={IconButton}
+            className="userflow-meetings-actions"
             size="sm"
             variant="ghost"
             icon={<FiMoreVertical />}
@@ -330,7 +332,11 @@ export default function MeetingsPage() {
                 ? t('MeetingsPage.hideWeekend')
                 : t('MeetingsPage.showWeekend')}
             </MenuItem>
-            <MenuItem icon={<FiUpload />} onClick={exportModal.onOpen}>
+            <MenuItem
+              className="userflow-meetings-export"
+              icon={<FiUpload />}
+              onClick={exportModal.onOpen}
+            >
               {t('MeetingsPage.export')}
             </MenuItem>
           </MenuList>
@@ -338,6 +344,7 @@ export default function MeetingsPage() {
 
         {isMember && (
           <Button
+            className="userflow-meetings-create"
             size="sm"
             colorScheme="blue"
             ml={1}

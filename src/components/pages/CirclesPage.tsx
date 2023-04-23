@@ -19,7 +19,6 @@ import CirclesKeyboardShortcuts from '@molecules/circle/CirclesKeyboardShortcuts
 import CircleContent from '@organisms/circle/CircleContent'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import MemberContent from '@organisms/member/MemberContent'
-import Onboarding from '@organisms/onboarding/Onboarding'
 import { useStoreState } from '@store/hooks'
 import React, {
   useCallback,
@@ -191,8 +190,6 @@ export default function CirclesPage() {
         bottom={0}
         m={2}
       />
-
-      <Onboarding />
     </GraphZoomProvider>
   )
 }

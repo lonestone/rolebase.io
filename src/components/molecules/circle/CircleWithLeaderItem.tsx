@@ -1,17 +1,21 @@
 import CircleButton from '@atoms/CircleButton'
 import MemberAvatar from '@atoms/MemberAvatar'
-import { Box, Circle, Flex, Tooltip } from '@chakra-ui/react'
+import { Box, BoxProps, Circle, Flex, Tooltip } from '@chakra-ui/react'
 import { CircleWithRoleFragment } from '@gql'
 import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface Props {
+interface Props extends BoxProps {
   circle: CircleWithRoleFragment
   participants: ParticipantMember[]
 }
 
-export default function CircleWithLeaderItem({ circle, participants }: Props) {
+export default function CircleWithLeaderItem({
+  circle,
+  participants,
+  ...boxProps
+}: Props) {
   const { t } = useTranslation()
 
   const members = useMemo(
@@ -23,7 +27,7 @@ export default function CircleWithLeaderItem({ circle, participants }: Props) {
   )
 
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" {...boxProps}>
       <CircleButton circle={circle} />
 
       <Box h="8px" w={1} bg={'gray.200'} _dark={{ bg: 'whiteAlpha.200' }} />

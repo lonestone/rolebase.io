@@ -1,6 +1,6 @@
 import CircleMemberLink from '@atoms/CircleMemberLink'
 import MemberButton from '@atoms/MemberButton'
-import { ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
+import { BoxProps, ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
 import { MemberFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { FiPlus, FiX } from 'react-icons/fi'
 import MemberSearchButton from '../search/entities/members/MemberSearchButton'
 
-interface Props {
+interface Props extends BoxProps {
   circleId?: string // Used for member link
   membersIds: string[]
   excludeMembersIds?: string[]
@@ -24,6 +24,7 @@ export default function MembersMultiSelect({
   max,
   onAdd,
   onRemove,
+  ...boxProps
 }: Props) {
   const { t } = useTranslation()
   const members = useStoreState((state) => state.org.members)
@@ -43,10 +44,11 @@ export default function MembersMultiSelect({
   )
 
   return (
-    <VStack spacing={2} alignItems="start">
-      {selectedMembers.map((m) => (
+    <VStack spacing={2} alignItems="start" {...boxProps}>
+      {selectedMembers.map((m, i) => (
         <CircleMemberLink
           key={m.id}
+          className={`userflow-member-${i}`}
           memberId={m.id}
           circleId={circleId}
           tabIndex={-1}
@@ -71,6 +73,7 @@ export default function MembersMultiSelect({
       {onAdd && (!max || selectedMembers.length < max) ? (
         <MemberSearchButton
           excludeIds={excludeMembersIdsMemo}
+          className="userflow-add-member-btn"
           size="sm"
           variant="outline"
           leftIcon={<FiPlus />}
