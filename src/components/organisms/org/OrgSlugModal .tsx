@@ -75,15 +75,13 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
       navigate(`/${slug}`)
 
       modalProps.onClose()
-    } catch (e) {
+    } catch (e: any) {
       setLoading(false)
-      if (e instanceof Error) {
-        const message =
-          (e as any).response.status === 409
-            ? t('OrgSlugModal.already-exists')
-            : e.message
-        setError('slug', { message })
-      }
+      const message =
+        e.message === 'Conflict'
+          ? t('OrgSlugModal.already-exists')
+          : e.message || e.toString()
+      setError('slug', { message })
     }
   })
 
@@ -104,7 +102,9 @@ export default function OrgSlugModal({ id, ...modalProps }: Props) {
               <FormControl isInvalid={!!errors.slug}>
                 <FormLabel>{t('OrgSlugModal.slug')}</FormLabel>
                 <InputGroup>
-                  <InputLeftAddon>{settings.url}/</InputLeftAddon>
+                  <InputLeftAddon _dark={{ borderColor: 'whiteAlpha.400' }}>
+                    {settings.url}/
+                  </InputLeftAddon>
                   <Input
                     {...register('slug')}
                     placeholder={t('OrgSlugModal.slugPlaceholder', {

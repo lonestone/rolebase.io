@@ -11,26 +11,31 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useOrg from '@hooks/useOrg'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
   id: string
-  onDelete(): void
 }
 
-export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
+export default function OrgDeleteModal({ id, ...alertProps }: Props) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const org = useOrg(id)
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const [loading, setLoading] = useState(false)
 
+  // Archive org and set loading=true while waiting for org to disappear
   const handleDelete = async () => {
+    setLoading(true)
     await archiveOrg({
       orgId: org?.id ?? '',
     })
-    onDelete()
-    alertProps.onClose()
+
+    // Redirect to root when org disappears
+    setTimeout(() => navigate('/'), 4000)
   }
 
   if (!org) return null
@@ -61,7 +66,12 @@ export default function OrgDeleteModal({ id, onDelete, ...alertProps }: Props) {
             <Button ref={cancelRef} onClick={alertProps.onClose}>
               {t('common.cancel')}
             </Button>
-            <Button colorScheme="red" onClick={handleDelete} ml={3}>
+            <Button
+              colorScheme="red"
+              ml={3}
+              isLoading={loading}
+              onClick={handleDelete}
+            >
               {t('common.delete')}
             </Button>
           </AlertDialogFooter>

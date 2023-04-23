@@ -1,7 +1,6 @@
 export enum UserLocalStorageKeys {
   AlgoliaConfig = 'algolia-config-{id}',
   NovuConfig = 'novu-config',
-  OrgId = 'orgId',
   ThreadDrafts = 'thread-draft-{id}',
 }
 

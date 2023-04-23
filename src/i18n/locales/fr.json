@@ -438,7 +438,14 @@
     "tooltip": "Notifications"
   },
   "OrgCreateModal": {
-    "heading": "Créer une organisation"
+    "join": {
+      "heading": "Rejoindre une organisation",
+      "text": "Pour rejoindre une organisation, vous devez être invité(e) par un administrateur de l'organisation. Vous devez cliquer sur le bouton dans l'e-mail que vous avez reçu. Si vous n'avez pas reçu d'e-mail, vous pouvez demander à l'administrateur de renvoyer l'invitation."
+    },
+    "create": {
+      "heading": "Créer une organisation",
+      "slug": "URL"
+    }
   },
   "OrgDeleteModal": {
     "heading": "Supprimer une organisation",
@@ -460,13 +467,7 @@
     "create": "Créer une organisation"
   },
   "OrgsPage": {
-    "heading": "Organisations",
-    "empty": {
-      "title": "Vous n'avez aucune organisation",
-      "info1": "Créez une nouvelle organisation",
-      "info2": "Ou demandez à un admin d'une organisation de vous inviter.",
-      "create": "Créer une organisation"
-    }
+    "heading": "Mes Organisations"
   },
   "Page404": {
     "heading": "Page introuvable !",

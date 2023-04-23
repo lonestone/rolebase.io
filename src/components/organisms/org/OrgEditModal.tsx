@@ -162,12 +162,7 @@ export default function OrgEditModal({ id, ...modalProps }: Props) {
       </Modal>
 
       {deleteModal.isOpen && (
-        <OrgDeleteModal
-          id={id}
-          isOpen
-          onDelete={modalProps.onClose}
-          onClose={deleteModal.onClose}
-        />
+        <OrgDeleteModal id={id} isOpen onClose={deleteModal.onClose} />
       )}
 
       {slugModal.isOpen && (

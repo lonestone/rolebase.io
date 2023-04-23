@@ -439,7 +439,14 @@
     "tooltip": "Notifications"
   },
   "OrgCreateModal": {
-    "heading": "Create Organization"
+    "join": {
+      "heading": "Join an organization",
+      "text": "To join an organization, you must be invited by an organization administrator. You need to click on the button in the email you received. If you haven't received an email, you can ask the administrator to resend the invitation."
+    },
+    "create": {
+      "heading": "Create an organization",
+      "slug": "URL"
+    }
   },
   "OrgDeleteModal": {
     "heading": "Delete Organization",
@@ -461,13 +468,7 @@
     "create": "Create an organization"
   },
   "OrgsPage": {
-    "heading": "Organizations",
-    "empty": {
-      "title": "You have no organization",
-      "info1": "Create a new organization",
-      "info2": "Or ask an organization admin to invite you.",
-      "create": "Create Organization"
-    }
+    "heading": "My Organizations"
   },
   "Page404": {
     "heading": "Page not found!",

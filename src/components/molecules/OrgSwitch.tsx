@@ -14,7 +14,6 @@ import { useOrgId } from '@hooks/useOrgId'
 import OrgCreateModal from '@organisms/org/OrgCreateModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
-import { UserLocalStorageKeys } from '@utils/localStorage'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCircle, FiPlus } from 'react-icons/fi'
@@ -29,9 +28,8 @@ export default function OrgSwitch(props: MenuButtonProps) {
   const sortedOrgs = orgs?.sort((a, b) => (a.name < b.name ? -1 : 1))
   const showName = org && org.id === orgId
 
-  // Set orgId in localStorage
-  const handleOrgClick = (orgId: string) => {
-    localStorage.setItem(UserLocalStorageKeys.OrgId, orgId)
+  // Close sidebar on item click
+  const handleCloseSidebar = () => {
     sidebarContext?.expand.onClose()
   }
 
@@ -64,11 +62,7 @@ export default function OrgSwitch(props: MenuButtonProps) {
 
       <MenuList zIndex={10} shadow="lg" ml={2}>
         {sortedOrgs?.map((org) => (
-          <Link
-            key={org.id}
-            to={getOrgPath(org)}
-            onClick={() => handleOrgClick(org.id)}
-          >
+          <Link key={org.id} to={getOrgPath(org)} onClick={handleCloseSidebar}>
             <MenuItem icon={<FiCircle />}>{org.name}</MenuItem>
           </Link>
         ))}

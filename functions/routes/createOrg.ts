@@ -4,46 +4,58 @@ import { getSeedRoles } from '@shared/seeds/roles'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { route } from '@utils/route'
+import { route, RouteError } from '@utils/route'
+import settings from '@utils/settings'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
   name: nameSchema.required(),
+  slug: nameSchema.required(),
 })
 
 export default route(async (context): Promise<string> => {
   guardAuth(context)
-  const { name } = guardBodyParams(context, yupSchema)
+  const { name, slug } = guardBodyParams(context, yupSchema)
+
+  // Check forbidden slugs
+  if (settings.forbiddenSlugs.includes(slug)) {
+    throw new RouteError(409, 'Conflict')
+  }
 
   // Get user
   const userResult = await adminRequest(GET_USER, { id: context.userId! })
 
   // Create org
-  const orgResult = await adminRequest(CREATE_ORG, {
-    name,
-    userId: context.userId!,
-    memberName: userResult.user!.displayName,
-  })
-  const orgId = orgResult.insert_org_one!.id
+  try {
+    const orgResult = await adminRequest(CREATE_ORG, {
+      name,
+      slug,
+      userId: context.userId!,
+      memberName: userResult.user!.displayName,
+    })
+    const orgId = orgResult.insert_org_one!.id
 
-  // Create role
-  const roleResult = await adminRequest(CREATE_ROLE, {
-    orgId,
-    name,
-  })
-  const roleId = roleResult.insert_role_one!.id
+    // Create role
+    const roleResult = await adminRequest(CREATE_ROLE, {
+      orgId,
+      name,
+    })
+    const roleId = roleResult.insert_role_one!.id
 
-  // Create circle
-  await adminRequest(CREATE_CIRCLE, {
-    orgId,
-    roleId,
-  })
+    // Create circle
+    await adminRequest(CREATE_CIRCLE, {
+      orgId,
+      roleId,
+    })
 
-  // Create seed roles
-  const roles = getSeedRoles(orgId)
-  await adminRequest(CREATE_ROLES, { roles })
+    // Create seed roles
+    const roles = getSeedRoles(orgId)
+    await adminRequest(CREATE_ROLES, { roles })
 
-  return orgId
+    return orgId
+  } catch (error) {
+    throw new RouteError(409, 'Conflict')
+  }
 })
 
 const GET_USER = gql(`
@@ -55,9 +67,10 @@ const GET_USER = gql(`
   }`)
 
 const CREATE_ORG = gql(`
-  mutation createOrg($name: String!, $userId: uuid!, $memberName: String!) {
+  mutation createOrg($name: String!, $slug: String!, $userId: uuid!, $memberName: String!) {
     insert_org_one(object: {
       name: $name
+      slug: $slug
       archived: false
       defaultWorkedMinPerWeek: 2100
       members: {

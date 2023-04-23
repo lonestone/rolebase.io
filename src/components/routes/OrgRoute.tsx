@@ -40,6 +40,11 @@ export default function OrgRoute({ orgId }: Props) {
     actions.setCurrentId(orgId)
   }, [orgId])
 
+  // Reset current id on unmount
+  useEffect(() => {
+    return () => actions.setCurrentId(undefined)
+  }, [])
+
   // Set current state in store
   useEffect(() => {
     actions.setSubscriptionResult({

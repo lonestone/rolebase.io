@@ -14,7 +14,7 @@ import {
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 
-export const createOrg = fn<{ name: string }, string>('createOrg')
+export const createOrg = fn<{ name: string; slug: string }, string>('createOrg')
 
 export const updateOrgSlug = fn<{ orgId: string; slug: string }>(
   'updateOrgSlug'
