@@ -1,5 +1,5 @@
 import Loading from '@atoms/Loading'
-import LoginPage from '@pages/LoginPage'
+import AuthPage from '@pages/AuthPage'
 import React, { useEffect } from 'react'
 import settings from 'src/settings'
 
@@ -11,5 +11,5 @@ export default function Homepage() {
     }
   }, [])
 
-  return settings.isLocal ? <LoginPage /> : <Loading active center />
+  return settings.isLocal ? <AuthPage /> : <Loading active center />
 }

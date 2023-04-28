@@ -1,24 +1,26 @@
 import PasswordConfirmInputDummy from '@atoms/PasswordConfirmInputDummy'
 import PasswordInput from '@atoms/PasswordInput'
+import TextErrors from '@atoms/TextErrors'
 import {
   Button,
+  Checkbox,
   FormControl,
   FormLabel,
+  Heading,
   Input,
-  Spinner,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useSendVerificationEmail, useSignUpEmailPassword } from '@nhost/react'
 import { emailSchema, nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 interface Props {
   defaultEmail?: string
-  loading?: boolean
-  onSubmit(values: Values): void
 }
 
 export interface Values {
@@ -33,8 +35,32 @@ const schema = yup.object().shape({
   password: yup.string().required(),
 })
 
-export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
-  const { t } = useTranslation()
+export default function SignupForm({ defaultEmail }: Props) {
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
+  const navigate = useNavigate()
+  const { signUpEmailPassword, isLoading, error } = useSignUpEmailPassword()
+  const { sendEmail } = useSendVerificationEmail()
+
+  const onSubmit = async (values: Values) => {
+    // Sign up
+    const { isSuccess } = await signUpEmailPassword(
+      values.email,
+      values.password,
+      {
+        displayName: values.name,
+        locale: language.substring(0, 2),
+      }
+    )
+    if (!isSuccess) return
+
+    navigate('/')
+
+    // Send verification email
+    await sendEmail(values.email)
+  }
 
   const {
     handleSubmit,
@@ -47,6 +73,10 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Heading as="h1" size="md" mb={7}>
+        {t('SignupForm.heading')}
+      </Heading>
+
       <VStack spacing={5}>
         <FormControl isInvalid={!!errors.name}>
           <FormLabel>{t('SignupForm.name')}</FormLabel>
@@ -78,11 +108,22 @@ export default function SignupForm({ defaultEmail, loading, onSubmit }: Props) {
           />
         </FormControl>
 
+        <FormControl>
+          <Checkbox
+            name="terms"
+            required
+            sx={{ a: { textDecoration: 'underline' } }}
+          >
+            <div dangerouslySetInnerHTML={{ __html: t('SignupForm.terms') }} />
+          </Checkbox>
+        </FormControl>
+
         <PasswordConfirmInputDummy />
 
-        <Button colorScheme="blue" type="submit" isDisabled={loading}>
-          {t('SignupForm.signup')}
-          {loading && <Spinner ml={2} />}
+        <TextErrors errors={[error]} />
+
+        <Button colorScheme="blue" type="submit" isLoading={isLoading}>
+          {t('SignupForm.submit')}
         </Button>
       </VStack>
     </form>

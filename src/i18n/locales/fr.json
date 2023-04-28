@@ -186,10 +186,7 @@
     "email": "Email",
     "password": "Mot de passe",
     "resetPassword": "Mot de passe oublié ?",
-    "submit": "Connexion"
-  },
-  "LoginPage": {
-    "signup": "Créer un compte",
+    "submit": "Je me connecte",
     "needsEmailVerification": "Vous devez cliquer sur le lien de vérification dans votre boîte email pour vous connecter.",
     "sendEmail": "Renvoyer",
     "emailSent": "Envoyé"
@@ -495,8 +492,7 @@
     "done1": "Un email de réinitialisation de mot de passe vous a été envoyé !",
     "done2": "Vérifiez votre boîte email.",
     "email": "Email",
-    "reset": "Réinitialiser mon mot de passe",
-    "signin": "Connexion"
+    "reset": "Réinitialiser mon mot de passe"
   },
   "RoleDeleteModal": {
     "heading": "Supprimer un rôle",
@@ -583,15 +579,12 @@
     "help": "Aide"
   },
   "SignupForm": {
-    "name": "Nom",
+    "heading": "Inscription",
+    "name": "Prénom et nom",
     "email": "Email",
     "password": "Mot de passe",
-    "signup": "Créer mon compte"
-  },
-  "SignupPage": {
-    "heading": "Inscription",
-    "signin": "Connexion",
-    "complete": "Bienvenue ! Vous n'avez plus qu'à cliquer sur le lien de vérification envoyé par email."
+    "terms": "J'accepte les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions Générales de Vente</a> et la <a href=\"https://www.rolebase.io/policy\">Politique de Confidentialité</a>",
+    "submit": "Je crée mon compte"
   },
   "SubCirclesFormControl": {
     "roles": "Rôles :",

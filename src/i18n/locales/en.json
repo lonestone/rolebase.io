@@ -186,10 +186,7 @@
     "email": "Email",
     "password": "Password",
     "resetPassword": "Forgot password?",
-    "submit": "Sign in"
-  },
-  "LoginPage": {
-    "signup": "Create an account",
+    "submit": "Sign in",
     "needsEmailVerification": "You must click on the verification link in your email box to log in.",
     "sendEmail": "Resend",
     "emailSent": "Sent"
@@ -497,8 +494,7 @@
     "done2": "Check your mailbox.",
     "email": "Email",
     "emailPlaceholder": "Your email address...",
-    "reset": "Reset my password",
-    "signin": "Sign in"
+    "reset": "Reset my password"
   },
   "RoleDeleteModal": {
     "heading": "Remove Role",
@@ -586,15 +582,12 @@
     "help": "Help"
   },
   "SignupForm": {
-    "name": "Name",
+    "heading": "Sign up",
+    "name": "First and last name",
     "email": "Email",
     "password": "Password",
-    "signup": "Create my account"
-  },
-  "SignupPage": {
-    "heading": "Register",
-    "signin": "Sign in",
-    "complete": "Welcome! All you have to do now is click on the verification link sent by email."
+    "terms": "I accept the <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</term> and the <a href=\"https://www.rolebase.io/policy\">Privacy Policy</policy>",
+    "submit": "Create my account"
   },
   "SubCirclesFormControl": {
     "roles": "Roles:",
