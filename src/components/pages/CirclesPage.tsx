@@ -105,9 +105,9 @@ export default function CirclesPage() {
       <Box
         ref={boxRef}
         position="absolute"
-        top={sidebarContext?.height || 0}
+        top={0}
+        left={`-${sidebarContext?.width || 0}px`}
         bottom={0}
-        left={0}
         right={0}
         overflow="hidden"
       >
@@ -150,12 +150,7 @@ export default function CirclesPage() {
 
       {panel === Panels.None && org && <Title>{org.name}</Title>}
 
-      <HStack
-        position="absolute"
-        left={sidebarContext?.width}
-        top={sidebarContext?.height}
-        m={2}
-      >
+      <HStack p={2}>
         <Box>
           <GraphViewsSelect value={view} onChange={setView} />
         </Box>

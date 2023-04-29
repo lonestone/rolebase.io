@@ -18,7 +18,7 @@ export default forwardRef(function IconTextButton(
   ref
 ) {
   return showText ? (
-    <Button ref={ref} leftIcon={icon} colorScheme="blue" {...props}>
+    <Button ref={ref} leftIcon={icon} {...props}>
       {label}
     </Button>
   ) : (

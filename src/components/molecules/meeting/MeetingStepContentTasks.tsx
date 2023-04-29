@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { Task_Status_Enum, useUpdateMeetingStepMutation } from '@gql'
 import TasksModule from '@organisms/task/TasksModule'
@@ -6,7 +6,6 @@ import { LogType } from '@shared/model/log'
 import { MeetingStepTasksFragment } from '@shared/model/meeting_step'
 import { TasksViewTypes } from '@shared/model/task'
 import React, { useCallback, useContext } from 'react'
-import { useTranslation } from 'react-i18next'
 import MeetingLogs from './MeetingLogs'
 
 interface Props {
@@ -21,7 +20,6 @@ export const taskLogTypes = [
 ]
 
 export default function MeetingStepContentTasks({ step }: Props) {
-  const { t } = useTranslation()
   const { meeting, circle, isEnded } = useContext(MeetingContext)!
   const [updateMeetingStep] = useUpdateMeetingStepMutation()
 
@@ -69,12 +67,14 @@ export default function MeetingStepContentTasks({ step }: Props) {
           memberId={step.data.filterMemberId || undefined}
           status={step.data.filterStatus || undefined}
           overflowContainer={{
+            expandLeft: true,
             expandRight: true,
           }}
           onViewChange={handleViewChange}
           onMemberChange={handleMemberChange}
           onStatusChange={handleStatusChange}
-          mb={5}
+          mt={5}
+          mb={10}
         />
       )}
 
@@ -82,12 +82,6 @@ export default function MeetingStepContentTasks({ step }: Props) {
         meetingId={meeting.id}
         includeTypes={taskLogTypes}
         hideEmpty
-        header={
-          <Heading as="h3" size="sm" mb={2}>
-            {t('MeetingStepContentTasks.logs')}
-          </Heading>
-        }
-        mt={5}
       />
     </Box>
   )

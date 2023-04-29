@@ -17,10 +17,11 @@ export default function LoggedLayout({ children }: Props) {
     <CircleMemberProvider>
       <Sidebar />
       <Box
+        position="relative"
         h={0}
-        minH={`${windowSize.height}px`}
-        pl={sidebarContext?.width ? `${sidebarContext?.width}px` : 0}
-        pt={sidebarContext?.height ? `${sidebarContext?.height}px` : 0}
+        minH={`${windowSize.height - (sidebarContext?.height || 0)}px`}
+        ml={sidebarContext?.width ? `${sidebarContext?.width}px` : 0}
+        mt={sidebarContext?.height ? `${sidebarContext?.height}px` : 0}
       >
         {children}
       </Box>

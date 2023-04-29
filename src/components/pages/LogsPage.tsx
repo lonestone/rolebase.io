@@ -1,7 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
-import { Container, Flex, Heading } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading } from '@chakra-ui/react'
 import { useLastLogsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import LogsList from '@molecules/log/LogsList'
@@ -20,10 +20,10 @@ export default function LogsPage() {
   const logs = data?.log
 
   return (
-    <Container maxW="xl" py={10}>
+    <Box p={5}>
       <Title>{t('LogsPage.heading')}</Title>
 
-      <Flex mb={5} alignItems="center" flexWrap="wrap">
+      <Flex mb={16} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           {t('LogsPage.heading')}
         </Heading>
@@ -32,7 +32,9 @@ export default function LogsPage() {
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      {logs && <LogsList logs={logs} />}
-    </Container>
+      <Container maxW="xl" p={0}>
+        {logs && <LogsList logs={logs} />}
+      </Container>
+    </Box>
   )
 }

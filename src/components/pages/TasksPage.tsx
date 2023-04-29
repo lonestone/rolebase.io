@@ -1,6 +1,5 @@
-import { taskStatusColors } from '@atoms/TaskStatusTag'
 import { Title } from '@atoms/Title'
-import { Container, Flex, Heading, Tag } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import { Task_Status_Enum } from '@gql'
 import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
 import TasksModule from '@organisms/task/TasksModule'
@@ -47,26 +46,20 @@ export default function TasksPage() {
     changeParams({ status })
 
   return (
-    <Container maxW="3xl" py={10}>
+    <Box p={5}>
       <Title>{t('TasksPage.heading')}</Title>
-
-      <Flex mb={5} alignItems="center" flexWrap="wrap">
-        <Heading as="h1" size="md">
-          {t('TasksPage.heading')}
-        </Heading>
-
-        {status && (
-          <Tag colorScheme={taskStatusColors[status]} ml={2}>
-            {t(`common.taskStatus.${status}`)}
-          </Tag>
-        )}
-      </Flex>
 
       <TasksModule
         view={view}
         circleId={circleId}
         memberId={memberId}
         status={status}
+        header={
+          <Heading as="h1" size="md" mr={5} mb={3}>
+            {t('TasksPage.heading')}
+          </Heading>
+        }
+        headerPaddingBottom={16}
         overflowContainer={{
           expandLeft: true,
           expandRight: true,
@@ -77,6 +70,6 @@ export default function TasksPage() {
         onMemberChange={handleMemberChange}
         onStatusChange={handleStatusChange}
       />
-    </Container>
+    </Box>
   )
 }

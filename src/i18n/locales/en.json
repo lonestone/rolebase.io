@@ -284,9 +284,6 @@
     "addNotes": "Add notes",
     "notesPlaceholder": "Notes..."
   },
-  "MeetingStepContentTasks": {
-    "logs": "Edited tasks"
-  },
   "MeetingStepContentThreads": {
     "add": "Add a topic",
     "randomize": "Randomize"
@@ -420,7 +417,7 @@
   "MembersPage": {
     "heading": "Members",
     "searchPlaceholder": "Search...",
-    "invite": "Invite members to participate",
+    "invite": "Invite",
     "tags": {
       "readonly": "Read only",
       "member": "Member",

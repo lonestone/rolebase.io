@@ -2,6 +2,7 @@ import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
+  Box,
   Button,
   Container,
   Flex,
@@ -58,10 +59,10 @@ export default function ThreadsPage() {
   } = useDisclosure()
 
   return (
-    <Container maxW="3xl" py={10}>
+    <Box p={5}>
       <Title>{t('ThreadsPage.heading')}</Title>
 
-      <Flex mb={5} alignItems="center" flexWrap="wrap">
+      <Flex mb={16} alignItems="center" flexWrap="wrap">
         <Heading as="h1" size="md">
           {t('ThreadsPage.heading')}
         </Heading>
@@ -118,7 +119,7 @@ export default function ThreadsPage() {
             className="userflow-threads-create"
             size="sm"
             colorScheme="blue"
-            ml={1}
+            ml={2}
             leftIcon={<FiPlus />}
             onClick={onCreateOpen}
           >
@@ -130,26 +131,28 @@ export default function ThreadsPage() {
       {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
-      {filteredThreads && (
-        <VStack spacing={0} align="stretch">
-          {filteredThreads.length === 0 && (
-            <Text fontStyle="italic">{t('ThreadsPage.empty')}</Text>
-          )}
+      <Container maxW="3xl" p={0}>
+        {filteredThreads && (
+          <VStack spacing={0} align="stretch">
+            {filteredThreads.length === 0 && (
+              <Text fontStyle="italic">{t('ThreadsPage.empty')}</Text>
+            )}
 
-          {filteredThreads.map((thread, i) => (
-            <ThreadItem
-              key={thread.id}
-              className={`userflow-thread-${i}`}
-              thread={thread}
-              showCircle
-              showIcon
-              unread={thread.read === false}
-            />
-          ))}
-        </VStack>
-      )}
+            {filteredThreads.map((thread, i) => (
+              <ThreadItem
+                key={thread.id}
+                className={`userflow-thread-${i}`}
+                thread={thread}
+                showCircle
+                showIcon
+                unread={thread.read === false}
+              />
+            ))}
+          </VStack>
+        )}
+      </Container>
 
       {isCreateOpen && <ThreadEditModal isOpen onClose={onCreateClose} />}
-    </Container>
+    </Box>
   )
 }

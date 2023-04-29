@@ -9,6 +9,7 @@ import {
   BoxProps,
   Button,
   ButtonGroup,
+  Container,
   Flex,
   Spacer,
   useDisclosure,
@@ -25,7 +26,7 @@ import TasksFilterStatus from '@molecules/task/TasksFilterStatus'
 import TasksKanban from '@molecules/task/TasksKanban'
 import TasksList from '@molecules/task/TasksList'
 import { TasksViewTypes } from '@shared/model/task'
-import React, { useEffect, useMemo } from 'react'
+import React, { ReactNode, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiList, FiPlus, FiTrello } from 'react-icons/fi'
 import TaskModal from './TaskModal'
@@ -35,6 +36,8 @@ interface Props extends BoxProps {
   circleId?: string
   memberId?: string
   status?: Task_Status_Enum
+  header?: ReactNode
+  headerPaddingBottom?: string | number
   overflowContainer?: OverflowContainerProps
   onViewChange: (view: TasksViewTypes) => void
   onCircleChange?: (circleId: string | undefined) => void
@@ -47,6 +50,8 @@ export default function TasksModule({
   circleId,
   memberId,
   status,
+  header,
+  headerPaddingBottom,
   overflowContainer,
   onViewChange,
   onCircleChange,
@@ -86,8 +91,31 @@ export default function TasksModule({
 
   return (
     <Box {...boxProps}>
-      <Flex alignItems="center" flexWrap="wrap" mb={5}>
-        <ButtonGroup size="sm" variant="outline" spacing={1}>
+      <Flex alignItems="center" flexWrap="wrap" mb={headerPaddingBottom || 5}>
+        {header}
+
+        <ButtonGroup isAttached variant="outline" size="sm" mb={3}>
+          <IconTextButton
+            className="userflow-tasks-kanban"
+            aria-label={t('TasksModule.kanban')}
+            showText
+            icon={<FiTrello />}
+            isActive={view === TasksViewTypes.Kanban}
+            onClick={() => onViewChange(TasksViewTypes.Kanban)}
+          />
+          <IconTextButton
+            className="userflow-tasks-list"
+            aria-label={t('TasksModule.list')}
+            showText
+            icon={<FiList />}
+            isActive={view === TasksViewTypes.List}
+            onClick={() => onViewChange(TasksViewTypes.List)}
+          />
+        </ButtonGroup>
+
+        <Spacer />
+
+        <ButtonGroup size="sm" variant="outline" spacing={1} mr={5} mb={3}>
           {view === TasksViewTypes.List && onStatusChange && (
             <Box>
               <TasksFilterStatus value={status} onChange={onStatusChange} />
@@ -134,30 +162,12 @@ export default function TasksModule({
             ))}
         </ButtonGroup>
 
-        <Spacer />
-
-        <ButtonGroup isAttached variant="outline" size="sm" mr={2}>
-          <IconTextButton
-            className="userflow-tasks-kanban"
-            aria-label={t('TasksModule.kanban')}
-            icon={<FiTrello />}
-            isActive={view === TasksViewTypes.Kanban}
-            onClick={() => onViewChange(TasksViewTypes.Kanban)}
-          />
-          <IconTextButton
-            className="userflow-tasks-list"
-            aria-label={t('TasksModule.list')}
-            icon={<FiList />}
-            isActive={view === TasksViewTypes.List}
-            onClick={() => onViewChange(TasksViewTypes.List)}
-          />
-        </ButtonGroup>
-
         {isMember && (
           <Button
             className="userflow-tasks-create"
             size="sm"
             colorScheme="blue"
+            mb={3}
             leftIcon={<FiPlus />}
             onClick={modal.onOpen}
           >
@@ -182,12 +192,14 @@ export default function TasksModule({
       )}
 
       {!loading && view === TasksViewTypes.List && (
-        <TasksList
-          tasks={tasks}
-          onOrderChange={isMember ? changeOrder : undefined}
-          showMember={!memberId}
-          showCircle={!circleId}
-        />
+        <Container maxW="3xl" p={0}>
+          <TasksList
+            tasks={tasks}
+            onOrderChange={isMember ? changeOrder : undefined}
+            showMember={!memberId}
+            showCircle={!circleId}
+          />
+        </Container>
       )}
 
       {modal.isOpen && (
