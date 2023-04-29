@@ -1,10 +1,10 @@
 import { CircleFullFragment } from '@gql'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
 import { HierarchyNode } from 'd3-hierarchy'
-import { CircleData, CirclesGraph } from './CirclesGraph'
-import { Data } from './types'
+import { Data } from '../types'
+import { AbstractCirclesGraph, CircleData } from './AbstractCirclesGraph'
 
-export class SimpleCirclesGraph extends CirclesGraph {
+export class SimpleCirclesGraph extends AbstractCirclesGraph {
   private circlesCache: CircleFullFragment[] | undefined
 
   selectCircle(id: string | undefined) {
@@ -72,7 +72,5 @@ export class SimpleCirclesGraph extends CirclesGraph {
       circle = parent
     }
     return result
-    // Remove members (we don't display them on this view)
-    // .map((c) => ({ ...c, members: [] }))
   }
 }

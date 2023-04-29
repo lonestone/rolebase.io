@@ -3,22 +3,22 @@ import { Participant } from '@shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
 import * as d3 from 'd3'
 import { HierarchyNode } from 'd3'
-import { ContainerCircleElement } from './circle-elements/ContainerCircleElement'
-import { MemberCircleElement } from './circle-elements/MemberCircleElement'
-import { MouseCircleElement } from './circle-elements/MouseCircleElement'
-import { ParticipantsCircleElement } from './circle-elements/ParticipantsCircleElement'
-import { TitleCircleElement } from './circle-elements/TitleCircleElement'
-import { Graph } from './Graph'
-import { createMoveTransition } from './helpers/createTransition'
-import selectAppend from './helpers/selectAppend'
-import settings from './settings'
-import { Data, NodeData, NodeType } from './types'
+import { ContainerCircleElement } from '../circle-elements/ContainerCircleElement'
+import { MemberCircleElement } from '../circle-elements/MemberCircleElement'
+import { MouseCircleElement } from '../circle-elements/MouseCircleElement'
+import { ParticipantsCircleElement } from '../circle-elements/ParticipantsCircleElement'
+import { TitleCircleElement } from '../circle-elements/TitleCircleElement'
+import { Graph } from '../Graph'
+import { createMoveTransition } from '../helpers/createTransition'
+import selectAppend from '../helpers/selectAppend'
+import settings from '../settings'
+import { Data, NodeData, NodeType } from '../types'
 
 export interface CircleData extends CircleFullFragment {
   participants?: Participant[]
 }
 
-export abstract class CirclesGraph extends Graph {
+export abstract class AbstractCirclesGraph extends Graph {
   private circleElements = [
     new ContainerCircleElement(this),
     new TitleCircleElement(this),

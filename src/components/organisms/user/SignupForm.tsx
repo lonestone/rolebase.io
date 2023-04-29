@@ -85,7 +85,6 @@ export default function SignupForm({ defaultEmail }: Props) {
             type="name"
             required
             autoComplete="name"
-            autoFocus
           />
         </FormControl>
 

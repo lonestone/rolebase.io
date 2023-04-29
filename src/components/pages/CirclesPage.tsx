@@ -1,12 +1,6 @@
 import ModalPanel, { modalPanelWidth } from '@atoms/ModalPanel'
 import { Title } from '@atoms/Title'
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  useColorMode,
-  useMediaQuery,
-} from '@chakra-ui/react'
+import { Box, HStack, useColorMode, useMediaQuery } from '@chakra-ui/react'
 import { GraphZoomProvider } from '@contexts/GraphZoomContext'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -16,6 +10,7 @@ import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
 import CirclesKeyboardShortcuts from '@molecules/circle/CirclesKeyboardShortcuts'
+import GraphViewsSelect from '@molecules/circle/GraphViewsSelect'
 import CircleContent from '@organisms/circle/CircleContent'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import MemberContent from '@organisms/member/MemberContent'
@@ -28,8 +23,6 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { useTranslation } from 'react-i18next'
-import { FiCircle, FiDisc } from 'react-icons/fi'
 import { GraphViews } from 'src/circles-viz/types'
 
 type CirclesPageParams = {
@@ -46,7 +39,6 @@ enum Panels {
 export default function CirclesPage() {
   useOverflowHidden()
 
-  const { t } = useTranslation()
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
@@ -158,38 +150,19 @@ export default function CirclesPage() {
 
       {panel === Panels.None && org && <Title>{org.name}</Title>}
 
-      <Box
+      <HStack
         position="absolute"
         left={sidebarContext?.width}
         top={sidebarContext?.height}
         m={2}
       >
-        <ButtonGroup isAttached variant="outline" size="sm">
-          <Button
-            aria-label=""
-            leftIcon={<FiDisc />}
-            isActive={view === GraphViews.AllCircles}
-            onClick={() => setView(GraphViews.AllCircles)}
-          >
-            {t('CirclesPage.views.All')}
-          </Button>
-          <Button
-            aria-label=""
-            leftIcon={<FiCircle />}
-            isActive={view === GraphViews.SimpleCircles}
-            onClick={() => setView(GraphViews.SimpleCircles)}
-          >
-            {t('CirclesPage.views.Simple')}
-          </Button>
-        </ButtonGroup>
-      </Box>
-
-      <CirclesKeyboardShortcuts
-        position="absolute"
-        left={sidebarContext?.width}
-        bottom={0}
-        m={2}
-      />
+        <Box>
+          <GraphViewsSelect value={view} onChange={setView} />
+        </Box>
+        <Box>
+          <CirclesKeyboardShortcuts />
+        </Box>
+      </HStack>
     </GraphZoomProvider>
   )
 }

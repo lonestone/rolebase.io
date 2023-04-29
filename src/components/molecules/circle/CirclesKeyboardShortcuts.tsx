@@ -1,11 +1,12 @@
 import IconTextButton from '@atoms/IconTextButton'
 import {
-  Box,
   BoxProps,
-  Collapse,
   Kbd,
+  Menu,
+  MenuButton,
+  MenuList,
   StackItem,
-  useDisclosure,
+  Text,
   useMediaQuery,
   VStack,
 } from '@chakra-ui/react'
@@ -17,7 +18,6 @@ import { FaKeyboard } from 'react-icons/fa'
 
 export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
   const { t } = useTranslation()
-  const { isOpen, onToggle } = useDisclosure()
   const [isSmallScreen] = useMediaQuery('(max-width: 600px)')
   const isMember = useOrgMember()
 
@@ -26,22 +26,29 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
   }
 
   return (
-    <Box pointerEvents="none" {...boxProps}>
-      <IconTextButton
-        variant="ghost"
-        aria-label={t('CirclesKeyboardShortcuts.label')}
-        pointerEvents="auto"
+    <Menu>
+      <MenuButton
+        as={IconTextButton}
         icon={<FaKeyboard />}
-        onClick={onToggle}
+        aria-label={t('CirclesKeyboardShortcuts.label')}
+        className="userflow-graph-views"
+        variant="solid"
+        boxShadow="md"
+        bg="white"
+        _dark={{
+          bg: 'gray.700',
+        }}
+        _focus={{
+          boxShadow: 'md !important',
+        }}
       />
-      <Collapse in={isOpen} animateOpacity>
-        <VStack
-          mt={2}
-          spacing={2}
-          align="stretch"
-          fontSize="sm"
-          pointerEvents="auto"
-        >
+
+      <MenuList zIndex={2000} shadow="md" p={4}>
+        <Text mb={4} fontWeight="bold">
+          {t('CirclesKeyboardShortcuts.label')}
+        </Text>
+
+        <VStack spacing={2} align="stretch" fontSize="sm" pointerEvents="auto">
           <StackItem>
             <Kbd>{cmdOrCtrlKey}</Kbd> + <Kbd>Click</Kbd>
             {t('CirclesKeyboardShortcuts.CmdClick')}
@@ -52,7 +59,7 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
             {t('CirclesKeyboardShortcuts.CmdShiftClick')}
           </StackItem>
         </VStack>
-      </Collapse>
-    </Box>
+      </MenuList>
+    </Menu>
   )
 }

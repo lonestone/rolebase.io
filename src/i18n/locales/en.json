@@ -94,12 +94,6 @@
     "representCircle": "Represent role <link />",
     "representInCircle": "in role <link />"
   },
-  "CirclesPage": {
-    "views": {
-      "All": "All",
-      "Simple": "Simple"
-    }
-  },
   "CircleTasks": {
     "create": "Create a task"
   },
@@ -141,6 +135,16 @@
   "DurationSelect": {
     "min": "Min / week",
     "hours": "Heures / week"
+  },
+  "GraphViewsSelect": {
+    "AllCircles": "All Roles",
+    "AllCircles_desc": "Display all nested Roles and the Members who occupy them. The size of each displayed circle depends on the number of Roles and Members it contains.",
+    "SimpleCircles": "Holarchy",
+    "SimpleCircles_desc": "Display at the same size the Roles of the selected Role, with the members who represent them.",
+    "FlatCircle": "Operational",
+    "FlatCircle_desc": "Display all Roles at the same level, mixed, with the members who represent them.",
+    "Members": "Members only",
+    "Members_desc": "Display all Members."
   },
   "LangModal": {
     "heading": "Language"

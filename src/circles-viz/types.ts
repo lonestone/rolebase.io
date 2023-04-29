@@ -26,6 +26,8 @@ export interface Data {
 export enum GraphViews {
   AllCircles = 'AllCircles',
   SimpleCircles = 'SimpleCircles',
+  FlatCircle = 'FlatCircle',
+  Members = 'Members',
 }
 
 export interface GraphParams {

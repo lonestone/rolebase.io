@@ -11,9 +11,8 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { AllCirclesGraph } from 'src/circles-viz/AllCirclesGraph'
+import { getGraphInstance } from 'src/circles-viz'
 import { Graph } from 'src/circles-viz/Graph'
-import { SimpleCirclesGraph } from 'src/circles-viz/SimpleCirclesGraph'
 import { GraphEvents, GraphViews, Position } from 'src/circles-viz/types'
 import { circleColor } from 'src/theme'
 
@@ -31,6 +30,7 @@ interface Props {
 }
 
 type SVGProps = ColorModeProps & {
+  view: GraphViews
   circleCursor: string
   selectedCircleId?: string
   width: number
@@ -106,7 +106,10 @@ const StyledSVG = styled.svg<SVGProps>`
 
   .type-Member {
     // Hide member when zoom < 1
-    opacity: clamp(0, (var(--zoom-scale) - 1) * 10 + 1, 1);
+    opacity: ${(p) =>
+      p.view === GraphViews.Members
+        ? '1'
+        : 'clamp(0, (var(--zoom-scale) - 1) * 10 + 1, 1)'};
     // Allow click only when zoom >= 1
     pointer-events: var(--member-pointer-events);
   }
@@ -152,10 +155,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
         focusCrop,
         events,
       }
-      const graph =
-        view === GraphViews.AllCircles
-          ? new AllCirclesGraph(svg, params)
-          : new SimpleCirclesGraph(svg, params)
+      const graph = getGraphInstance(view, svg, params)
 
       // Change ready state after first draw
       graph.addDrawListener(() => setReady(true), true)
@@ -234,6 +234,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
     <StyledSVG
       ref={svgRef}
       id={id}
+      view={view}
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}

@@ -94,12 +94,6 @@
     "representCircle": "Représente le rôle <link />",
     "representInCircle": "dans le rôle <link />"
   },
-  "CirclesPage": {
-    "views": {
-      "All": "Tout",
-      "Simple": "Simple"
-    }
-  },
   "CircleTasks": {
     "create": "Créer une tâche"
   },
@@ -141,6 +135,16 @@
   "DurationSelect": {
     "min": "Min / semaine",
     "hours": "Heures / semaine"
+  },
+  "GraphViewsSelect": {
+    "AllCircles": "Tous les Rôles",
+    "AllCircles_desc": "Afficher en même temps tous les Rôles imbriqués et les Membres qui les occupent. La taille de chaque cercle affiché dépend du nombre de Rôles et de Membres qu'il contient.",
+    "SimpleCircles": "Holarchie",
+    "SimpleCircles_desc": "Afficher à la même taille les Rôles du Rôle sélectionné, avec les membres qui les représentent.",
+    "FlatCircle": "Opérationnel",
+    "FlatCircle_desc": "Afficher tous les Rôles à un même niveau, mélangés, avec les membres qui les représentent.",
+    "Members": "Membres uniquement",
+    "Members_desc": "Afficher tous les Membres."
   },
   "LangModal": {
     "heading": "Langue"
