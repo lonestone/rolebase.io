@@ -115,24 +115,24 @@ export default function MeetingPanelStarted() {
           </a>
         )}
 
+        {!isLastStep && (
+          <IconTextButton
+            aria-label={t('MeetingPanelStarted.next')}
+            icon={<FiArrowDown />}
+            colorScheme="blue"
+            showText
+            onClick={handleNextStep}
+          />
+        )}
+
         <BounceAnimation active={isEndTimePassed}>
-          {isLastStep ? (
-            <IconTextButton
-              aria-label={t('MeetingPanelStarted.end')}
-              icon={<FaStop />}
-              colorScheme="pink"
-              showText={isEndTimePassed}
-              onClick={handleEnd}
-            />
-          ) : (
-            <IconTextButton
-              aria-label={t('MeetingPanelStarted.next')}
-              icon={<FiArrowDown />}
-              colorScheme="blue"
-              showText
-              onClick={handleNextStep}
-            />
-          )}
+          <IconTextButton
+            aria-label={t('MeetingPanelStarted.end')}
+            icon={<FaStop />}
+            colorScheme="pink"
+            showText={isEndTimePassed || isLastStep}
+            onClick={handleEnd}
+          />
         </BounceAnimation>
       </HStack>
 
