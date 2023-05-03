@@ -6607,6 +6607,10 @@ export type Mutation_Root = {
   delete_thread_poll_answer?: Maybe<Thread_Poll_Answer_Mutation_Response>;
   /** delete single row from the table: "thread_poll_answer" */
   delete_thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
+  /** delete data from the table: "thread_status" */
+  delete_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** delete single row from the table: "thread_status" */
+  delete_thread_status_by_pk?: Maybe<Thread_Status>;
   /** insert a single row into the table: "auth.providers" */
   insertAuthProvider?: Maybe<AuthProviders>;
   /** insert a single row into the table: "auth.provider_requests" */
@@ -6755,6 +6759,10 @@ export type Mutation_Root = {
   insert_thread_poll_answer?: Maybe<Thread_Poll_Answer_Mutation_Response>;
   /** insert a single row into the table: "thread_poll_answer" */
   insert_thread_poll_answer_one?: Maybe<Thread_Poll_Answer>;
+  /** insert data into the table: "thread_status" */
+  insert_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** insert a single row into the table: "thread_status" */
+  insert_thread_status_one?: Maybe<Thread_Status>;
   /** update single row of the table: "auth.providers" */
   updateAuthProvider?: Maybe<AuthProviders>;
   /** update single row of the table: "auth.provider_requests" */
@@ -6975,6 +6983,12 @@ export type Mutation_Root = {
   update_thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
   /** update multiples rows of table: "thread_poll_answer" */
   update_thread_poll_answer_many?: Maybe<Array<Maybe<Thread_Poll_Answer_Mutation_Response>>>;
+  /** update data of the table: "thread_status" */
+  update_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** update single row of the table: "thread_status" */
+  update_thread_status_by_pk?: Maybe<Thread_Status>;
+  /** update multiples rows of table: "thread_status" */
+  update_thread_status_many?: Maybe<Array<Maybe<Thread_Status_Mutation_Response>>>;
   /** update multiples rows of table: "auth.users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
 };
@@ -7421,6 +7435,18 @@ export type Mutation_RootDelete_Thread_Poll_AnswerArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Thread_Poll_Answer_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_StatusArgs = {
+  where: Thread_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -7939,6 +7965,20 @@ export type Mutation_RootInsert_Thread_Poll_AnswerArgs = {
 export type Mutation_RootInsert_Thread_Poll_Answer_OneArgs = {
   object: Thread_Poll_Answer_Insert_Input;
   on_conflict?: InputMaybe<Thread_Poll_Answer_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_StatusArgs = {
+  objects: Array<Thread_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Thread_Status_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_Status_OneArgs = {
+  object: Thread_Status_Insert_Input;
+  on_conflict?: InputMaybe<Thread_Status_On_Conflict>;
 };
 
 
@@ -8709,6 +8749,26 @@ export type Mutation_RootUpdate_Thread_Poll_Answer_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Thread_Poll_Answer_ManyArgs = {
   updates: Array<Thread_Poll_Answer_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_StatusArgs = {
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  where: Thread_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Status_By_PkArgs = {
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  pk_columns: Thread_Status_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Status_ManyArgs = {
+  updates: Array<Thread_Status_Updates>;
 };
 
 
@@ -10095,6 +10155,12 @@ export type Query_Root = {
   thread_poll_answer_aggregate: Thread_Poll_Answer_Aggregate;
   /** fetch data from the table: "thread_poll_answer" using primary key columns */
   thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
+  /** fetch data from the table: "thread_status" */
+  thread_status: Array<Thread_Status>;
+  /** fetch aggregated fields from the table: "thread_status" */
+  thread_status_aggregate: Thread_Status_Aggregate;
+  /** fetch data from the table: "thread_status" using primary key columns */
+  thread_status_by_pk?: Maybe<Thread_Status>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
   /** fetch data from the table: "auth.users" */
@@ -10947,6 +11013,29 @@ export type Query_RootThread_Poll_Answer_AggregateArgs = {
 
 export type Query_RootThread_Poll_Answer_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootThread_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -12120,6 +12209,14 @@ export type Subscription_Root = {
   thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
   /** fetch data from the table in a streaming manner: "thread_poll_answer" */
   thread_poll_answer_stream: Array<Thread_Poll_Answer>;
+  /** fetch data from the table: "thread_status" */
+  thread_status: Array<Thread_Status>;
+  /** fetch aggregated fields from the table: "thread_status" */
+  thread_status_aggregate: Thread_Status_Aggregate;
+  /** fetch data from the table: "thread_status" using primary key columns */
+  thread_status_by_pk?: Maybe<Thread_Status>;
+  /** fetch data from the table in a streaming manner: "thread_status" */
+  thread_status_stream: Array<Thread_Status>;
   /** fetch data from the table in a streaming manner: "thread" */
   thread_stream: Array<Thread>;
   /** fetch data from the table: "auth.users" using primary key columns */
@@ -13231,6 +13328,36 @@ export type Subscription_RootThread_Poll_Answer_StreamArgs = {
 };
 
 
+export type Subscription_RootThread_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootThread_Status_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Thread_Status_Stream_Cursor_Input>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
 export type Subscription_RootThread_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Thread_Stream_Cursor_Input>>;
@@ -13974,6 +14101,7 @@ export type Thread = {
   orgId: Scalars['uuid'];
   participantsMembersIds: Array<Scalars['uuid']>;
   participantsScope: Member_Scope_Enum;
+  status: Thread_Status_Enum;
   title: Scalars['String'];
 };
 
@@ -14577,6 +14705,7 @@ export type Thread_Bool_Exp = {
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
   participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
+  status?: InputMaybe<Thread_Status_Enum_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -14601,6 +14730,7 @@ export type Thread_Insert_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -14908,6 +15038,7 @@ export type Thread_Order_By = {
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
 
@@ -15115,6 +15246,8 @@ export enum Thread_Select_Column {
   /** column name */
   ParticipantsScope = 'participantsScope',
   /** column name */
+  Status = 'status',
+  /** column name */
   Title = 'title'
 }
 
@@ -15140,7 +15273,161 @@ export type Thread_Set_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "thread_status" */
+export type Thread_Status = {
+  __typename?: 'thread_status';
+  comment: Scalars['String'];
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "thread_status" */
+export type Thread_Status_Aggregate = {
+  __typename?: 'thread_status_aggregate';
+  aggregate?: Maybe<Thread_Status_Aggregate_Fields>;
+  nodes: Array<Thread_Status>;
+};
+
+/** aggregate fields of "thread_status" */
+export type Thread_Status_Aggregate_Fields = {
+  __typename?: 'thread_status_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Thread_Status_Max_Fields>;
+  min?: Maybe<Thread_Status_Min_Fields>;
+};
+
+
+/** aggregate fields of "thread_status" */
+export type Thread_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "thread_status". All fields are combined with a logical 'AND'. */
+export type Thread_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Thread_Status_Bool_Exp>>;
+  _not?: InputMaybe<Thread_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Thread_Status_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "thread_status" */
+export enum Thread_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  ThreadStatusPkey = 'thread_status_pkey'
+}
+
+export enum Thread_Status_Enum {
+  /**   */
+  Active = 'Active',
+  /**   */
+  Blocked = 'Blocked',
+  /**   */
+  Closed = 'Closed',
+  /**   */
+  Preparation = 'Preparation'
+}
+
+/** Boolean expression to compare columns of type "thread_status_enum". All fields are combined with logical 'AND'. */
+export type Thread_Status_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Thread_Status_Enum>;
+  _in?: InputMaybe<Array<Thread_Status_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Thread_Status_Enum>;
+  _nin?: InputMaybe<Array<Thread_Status_Enum>>;
+};
+
+/** input type for inserting data into table "thread_status" */
+export type Thread_Status_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Thread_Status_Max_Fields = {
+  __typename?: 'thread_status_max_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Thread_Status_Min_Fields = {
+  __typename?: 'thread_status_min_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "thread_status" */
+export type Thread_Status_Mutation_Response = {
+  __typename?: 'thread_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Thread_Status>;
+};
+
+/** on_conflict condition type for table "thread_status" */
+export type Thread_Status_On_Conflict = {
+  constraint: Thread_Status_Constraint;
+  update_columns?: Array<Thread_Status_Update_Column>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "thread_status". */
+export type Thread_Status_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: thread_status */
+export type Thread_Status_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "thread_status" */
+export enum Thread_Status_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "thread_status" */
+export type Thread_Status_Set_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "thread_status" */
+export type Thread_Status_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Thread_Status_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Thread_Status_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "thread_status" */
+export enum Thread_Status_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+export type Thread_Status_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  where: Thread_Status_Bool_Exp;
 };
 
 /** Streaming cursor of the table "thread" */
@@ -15161,6 +15448,7 @@ export type Thread_Stream_Cursor_Value_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -15182,6 +15470,8 @@ export enum Thread_Update_Column {
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  Status = 'status',
   /** column name */
   Title = 'title'
 }
@@ -16052,11 +16342,11 @@ export type RoleFragment = { __typename?: 'role', id: string, orgId: string, arc
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
-export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean };
+export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum };
 
 export type ThreadMemberStatusFragment = { __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string };
 
-export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
 export type GetMemberQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -16130,7 +16420,7 @@ export type GetThreadDataQueryVariables = Exact<{
 }>;
 
 
-export type GetThreadDataQuery = { __typename?: 'query_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, members: Array<{ __typename?: 'member', id: string }> }, circle: { __typename?: 'circle', id: string, role: { __typename?: 'role', name: string } } } | null };
+export type GetThreadDataQuery = { __typename?: 'query_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, members: Array<{ __typename?: 'member', id: string }> }, circle: { __typename?: 'circle', id: string, role: { __typename?: 'role', name: string } } } | null };
 
 export type UpdateMemberMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16368,7 +16658,7 @@ export const MemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"Frag
 export const OrgFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrgFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Org"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"base"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},...OrgFragmentDoc.definitions,...CircleFullFragmentDoc.definitions,...RoleFragmentDoc.definitions,...MemberFragmentDoc.definitions]} as unknown as DocumentNode<OrgFullFragment, unknown>;
 export const OrgFullLightFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrgFullLight"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Org"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},...OrgFragmentDoc.definitions,...CircleFragmentDoc.definitions,...RoleFragmentDoc.definitions,...MemberFragmentDoc.definitions]} as unknown as DocumentNode<OrgFullLightFragment, unknown>;
 export const ThreadMemberStatusFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadMemberStatus"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread_member_status"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lastReadActivityId"}},{"kind":"Field","name":{"kind":"Name","value":"lastReadDate"}}]}}]} as unknown as DocumentNode<ThreadMemberStatusFragment, unknown>;
-export const ThreadFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Thread"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"initiatorMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}}]} as unknown as DocumentNode<ThreadFragment, unknown>;
+export const ThreadFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Thread"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"initiatorMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]} as unknown as DocumentNode<ThreadFragment, unknown>;
 export const MeetingSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}}]}}]} as unknown as DocumentNode<MeetingSummaryFragment, unknown>;
 export const TaskFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Task"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"dueDate"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]} as unknown as DocumentNode<TaskFragment, unknown>;
 export const DecisionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Decision"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"decision"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<DecisionFragment, unknown>;

@@ -101,6 +101,14 @@
     "create": "Créer un sujet",
     "empty": "Aucun sujet pour le moment"
   },
+  "CircleThreadStatus":{
+    "status":{
+      "Active": "En cours",
+      "Blocked": "Bloqué",
+      "Closed": "Terminé",
+      "Preparation": "En préparation"
+    }
+  },
   "CircleWithLeaderItem": {
     "notAssigned": "Non assigné"
   },
@@ -830,6 +838,15 @@
     "titlePlaceholder": "On discute de quoi ?...",
     "invite": "Inviter",
     "settings": "Paramètres"
+  },
+  "ThreadStatusMenu":{
+    "title": "Statut du sujet",
+    "status":{
+      "Active": "En cours",
+      "Blocked": "Bloqué",
+      "Closed": "Terminé",
+      "Preparation": "En préparation"
+    }
   },
   "ThreadsPage": {
     "heading": "Sujets",
