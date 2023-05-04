@@ -664,13 +664,6 @@
     }
   },
   "SubscriptionInvoiceCalculationDetails": {
-    "title": "How is my invoice calculated?",
-    "explaination": "The amount of your invoice is calculated in the following way:",
-    "desc1": "Each active member (member associated to a Rolebase account) cost 5 euros per month",
-    "desc2": "If an active user is added during the month, the amount is prorated between the current date and the end of the billing cycle and will be added to your next invoice",
-    "desc3": "If an active user is deleted during the month, a credit note for the time spent during the month will be applied to your next invoice"
-  },
-  "SubscriptionInvoiceCalculationDetails": {
     "title": "Comment ma facture est-elle calculée ?",
     "explaination": "Le montant de votre facture est calculé de la manière suivante :",
     "desc1": "Chaque membre actif (membre associé à un compte de base de rôle) coûte 5 euros par mois.",
