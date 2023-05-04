@@ -842,6 +842,9 @@
       "NotInvited": "Other topics",
       "All": "All topics"
     },
+    "status":{
+      "title": "Status"
+    },
     "archives": {
       "title": "Archive",
       "show": "Show Archive"

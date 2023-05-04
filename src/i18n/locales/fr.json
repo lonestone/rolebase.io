@@ -839,6 +839,9 @@
       "NotInvited": "Autres sujets",
       "All": "Tous les sujets"
     },
+    "status":{
+      "title": "Statuts"
+    },
     "archives": {
       "title": "Archives",
       "show": "Afficher les archives"

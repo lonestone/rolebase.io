@@ -7,12 +7,6 @@ import {
   Container,
   Flex,
   Heading,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
   Spacer,
   Tag,
   TagCloseButton,
@@ -20,16 +14,17 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { Thread_Status_Enum } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
 import ThreadItem from '@molecules/thread/ThreadItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
-import { EntityFilters } from '@shared/model/participants'
+import { ThreadListSelect } from '@organisms/thread/ThreadListSelect'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiPlus } from 'react-icons/fi'
+import { FiPlus } from 'react-icons/fi'
 
 export default function ThreadsPage() {
   const { t } = useTranslation()
@@ -44,6 +39,9 @@ export default function ThreadsPage() {
 
   // Archives filter menu
   const [archives, setArchives] = useState(false)
+
+  // Status filter menu
+  const [status, setStatus] = useState<Thread_Status_Enum[]>([])
 
   // Subscribe to threads
   const { threads, error, loading } = useThreads({ archived: archives })
@@ -76,43 +74,15 @@ export default function ThreadsPage() {
 
         <Spacer />
 
-        <Menu closeOnSelect={false}>
-          <MenuButton
-            as={Button}
-            className="userflow-threads-filter"
-            size="sm"
-            variant="outline"
-            rightIcon={<FiChevronDown />}
-          >
-            {t(`ThreadsPage.participation.${filter}` as any)}
-          </MenuButton>
-          <MenuList zIndex={2}>
-            <MenuOptionGroup
-              title={t('ThreadsPage.participation.title')}
-              type="checkbox"
-              value={filterValue}
-              onChange={handleFilterChange}
-            >
-              <MenuItemOption value={EntityFilters.Invited}>
-                {t('ThreadsPage.participation.Invited')}
-              </MenuItemOption>
-              <MenuItemOption value={EntityFilters.NotInvited}>
-                {t('ThreadsPage.participation.NotInvited')}
-              </MenuItemOption>
-            </MenuOptionGroup>
-            <MenuDivider />
-            <MenuOptionGroup
-              title={t('ThreadsPage.archives.title')}
-              type="checkbox"
-              value={archives ? ['archives'] : []}
-              onChange={(value) => setArchives(value.includes('archives'))}
-            >
-              <MenuItemOption value="archives">
-                {t('ThreadsPage.archives.show')}
-              </MenuItemOption>
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu>
+        <ThreadListSelect
+          filter={filter}
+          filterValue={filterValue}
+          handleFilterChange={handleFilterChange}
+          archives={archives}
+          setArchives={setArchives}
+          status={status}
+          setStatus={setStatus}
+        />
 
         {isMember && (
           <Button
