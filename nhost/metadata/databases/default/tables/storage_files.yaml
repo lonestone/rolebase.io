@@ -94,6 +94,7 @@ select_permissions:
         - id
         - uploaded_by_user_id
       filter: {}
+      limit: 1
   - role: user
     permission:
       columns:
@@ -108,3 +109,4 @@ select_permissions:
         - id
         - uploaded_by_user_id
       filter: {}
+      limit: 1

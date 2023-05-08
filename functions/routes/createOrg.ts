@@ -71,7 +71,6 @@ const CREATE_ORG = gql(`
     insert_org_one(object: {
       name: $name
       slug: $slug
-      archived: false
       defaultWorkedMinPerWeek: 2100
       members: {
         data: [

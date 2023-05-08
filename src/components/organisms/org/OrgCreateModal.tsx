@@ -1,10 +1,8 @@
 import { createOrg } from '@api/functions'
-import BrandIcon from '@atoms/BrandIcon'
 import TextError from '@atoms/TextError'
 import {
   Box,
   Button,
-  Center,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -12,25 +10,22 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
   SimpleGrid,
+  Text,
   useMediaQuery,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
+import BrandModal from '@molecules/BrandModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { nameSchema, slugSchema } from '@shared/schemas'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiArrowRight } from 'react-icons/fi'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import slugify from 'slugify'
 import settings from 'src/settings'
 import * as yup from 'yup'
@@ -100,66 +95,67 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
   }, [org])
 
   return (
-    <Modal closeOnOverlayClick={false} size="6xl" {...modalProps}>
-      <ModalOverlay bg="gray.100" _dark={{ bg: 'gray.800' }} />
+    <BrandModal size="6xl" bodyProps={{ mx: 10 }} {...modalProps}>
+      <SimpleGrid columns={isSmallScreen ? 1 : 2} spacing="50px">
+        <Box>
+          <Heading as="h1" size="md" mb={7}>
+            {t('OrgCreateModal.join.heading')}
+          </Heading>
+          {t('OrgCreateModal.join.text')}
+        </Box>
 
-      <ModalContent my="115px">
-        <ModalCloseButton />
+        <form onSubmit={onSubmit}>
+          <Heading as="h1" size="md" mb={7}>
+            {t('OrgCreateModal.create.heading')}
+          </Heading>
 
-        <Center w="100%" textAlign="center" position="absolute" top="-70px">
-          <BrandIcon size="md" />
-        </Center>
+          <VStack spacing={7}>
+            <FormControl isInvalid={!!errors.name}>
+              <FormLabel>{t('common.name')}</FormLabel>
+              <Input {...register('name')} autoFocus />
+            </FormControl>
 
-        <ModalBody mx={5} my={7}>
-          <SimpleGrid columns={isSmallScreen ? 1 : 2} spacing="50px">
-            <Box>
-              <Heading as="h1" size="md" mb={7}>
-                {t('OrgCreateModal.join.heading')}
-              </Heading>
-              {t('OrgCreateModal.join.text')}
-            </Box>
+            <FormControl isInvalid={!!errors.slug}>
+              <FormLabel>{t('OrgCreateModal.create.slug')}</FormLabel>
+              <InputGroup>
+                <InputLeftAddon _dark={{ borderColor: 'whiteAlpha.400' }}>
+                  {settings.url}/
+                </InputLeftAddon>
+                <Input {...register('slug')} maxLength={30} />
+              </InputGroup>
 
-            <form onSubmit={onSubmit}>
-              <Heading as="h1" size="md" mb={7}>
-                {t('OrgCreateModal.create.heading')}
-              </Heading>
+              {errors.slug && (
+                <FormErrorMessage>{errors.slug.message}</FormErrorMessage>
+              )}
+            </FormControl>
 
-              <VStack spacing={7}>
-                <FormControl isInvalid={!!errors.name}>
-                  <FormLabel>{t('common.name')}</FormLabel>
-                  <Input {...register('name')} autoFocus />
-                </FormControl>
+            {error && <TextError error={error} />}
 
-                <FormControl isInvalid={!!errors.slug}>
-                  <FormLabel>{t('OrgCreateModal.create.slug')}</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon _dark={{ borderColor: 'whiteAlpha.400' }}>
-                      {settings.url}/
-                    </InputLeftAddon>
-                    <Input {...register('slug')} maxLength={30} />
-                  </InputGroup>
+            <Button
+              rightIcon={<FiArrowRight />}
+              colorScheme="blue"
+              type="submit"
+              isLoading={loading}
+              ml={3}
+            >
+              {t('common.create')}
+            </Button>
+          </VStack>
+        </form>
 
-                  {errors.slug && (
-                    <FormErrorMessage>{errors.slug.message}</FormErrorMessage>
-                  )}
-                </FormControl>
+        <Box>
+          <Heading as="h1" size="md" mb={7}>
+            {t('OrgCreateModal.import.heading')}
+          </Heading>
+          <Text>{t('OrgCreateModal.import.text')}</Text>
 
-                {error && <TextError error={error} />}
-
-                <Button
-                  rightIcon={<FiArrowRight />}
-                  colorScheme="blue"
-                  type="submit"
-                  isLoading={loading}
-                  ml={3}
-                >
-                  {t('common.create')}
-                </Button>
-              </VStack>
-            </form>
-          </SimpleGrid>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+          <Link to="/import" tabIndex={-1}>
+            <Button colorScheme="blue" mt={7}>
+              {t('OrgCreateModal.import.button')}
+            </Button>
+          </Link>
+        </Box>
+      </SimpleGrid>
+    </BrandModal>
   )
 }

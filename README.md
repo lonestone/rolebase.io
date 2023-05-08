@@ -221,3 +221,26 @@ sudo nhost upgrade
 ```
 
 3.  Upgrade package `@nhost/nhost-js`.
+
+## Contributions
+
+Any pull request is welcome to be submitted on this Github project!
+
+Before committing, please:
+
+- Check diff to avoid superfluous changes: `git diff`
+- Check typing: `npm run tsc`
+- Check linting: `npm run lint`
+- Check Migrations:
+  - Keep migrations simple and safe, always test them
+  - Squash migrations: https://hasura.io/docs/latest/hasura-cli/commands/hasura_migrate_squash/
+  - Don't edit a commited migration
+
+Before sending your pull request, please:
+
+- Rebase: `git fetch origin main:main && git rebase main`
+- Explain what you're doing and why
+
+## Help & issues
+
+If you're having an issue with Rolebase, feel free to [contact us](https://www.rolebase.io/contact) or to open an issue on this Github project.

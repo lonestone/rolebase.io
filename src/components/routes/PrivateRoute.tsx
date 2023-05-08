@@ -6,6 +6,7 @@ import { useOrgsSubscription } from '@gql'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useUserId, useUserLocale } from '@nhost/react'
 import Onboarding from '@organisms/onboarding/Onboarding'
+import ImportPage from '@pages/ImportPage'
 import MemberInvitationPage from '@pages/MemberInvitationPage'
 import OrgsPage from '@pages/OrgsPage'
 import Page404 from '@pages/Page404'
@@ -80,6 +81,7 @@ export default function PrivateRoute() {
         <Route path="login" element={<Navigate to="/" />} />
         <Route path="reset-password" element={<Navigate to="/" />} />
         <Route path="signup" element={<Navigate to="/" />} />
+        <Route path="import" element={<ImportPage />} />
 
         <Route path="orgs/:orgId/*" element={<OrgIdRoute />} />
         <Route path=":slug/*" element={<OrgSlugRoute />} />

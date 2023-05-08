@@ -165,6 +165,8 @@ export const archiveMember = fn<{ memberId: string }>('archiveMember')
 
 export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 
+export const importOrg = fn<{ provider: string; fileId: string }>('importOrg')
+
 // Helper to call a function
 function fn<Params, Result = void>(route: string) {
   return async (params: Params): Promise<Result> => {

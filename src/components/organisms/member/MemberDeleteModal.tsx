@@ -13,7 +13,6 @@ import {
 } from '@chakra-ui/react'
 import useCreateLog from '@hooks/useCreateLog'
 import useMember from '@hooks/useMember'
-import { useOrgId } from '@hooks/useOrgId'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -31,7 +30,6 @@ export default function MemberDeleteModal({
 }: Props) {
   const { t } = useTranslation()
   const member = useMember(id)
-  const orgId = useOrgId()
   const toast = useToast()
   const createLog = useCreateLog()
   const cancelRef = useRef<HTMLButtonElement>(null)

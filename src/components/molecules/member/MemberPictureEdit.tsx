@@ -47,7 +47,7 @@ export default function MemberPictureEdit({ id, name, src, size }: Props) {
     <chakra.label position="relative">
       <Tooltip
         label={t(`MemberPictureEdit.editPicture`)}
-        placement="top"
+        placement="left"
         hasArrow
       >
         <Box

@@ -5,7 +5,7 @@
   "ActivityDeleteModal": {
     "heading": "Delete a message",
     "info1": "Are you sure you want to delete this message?",
-    "info2": "No delete possible!"
+    "info2": "No cancellation possible!"
   },
   "ActivityPollModal": {
     "headingEdit": "Edit a poll",
@@ -339,7 +339,6 @@
     "create": "New meeting"
   },
   "MemberContent": {
-    "heading": "Roles",
     "notFound": "Member not found"
   },
   "MemberCreateModal": {
@@ -427,6 +426,9 @@
       "notInvited": "Not invited"
     }
   },
+  "ModalBackButton": {
+    "label": "Back"
+  },
   "ModalCloseStaticButton": {
     "label": "Close"
   },
@@ -444,6 +446,11 @@
     "create": {
       "heading": "Create an organization",
       "slug": "URL"
+    },
+    "import": {
+      "heading": "Import an organization",
+      "text": "If you have data in another app, you can import it into a new Rolebase organization!",
+      "button": "Import"
     }
   },
   "OrgDeleteModal": {
@@ -494,7 +501,6 @@
     "done1": "A password reset email has been sent to you!",
     "done2": "Check your mailbox.",
     "email": "Email",
-    "emailPlaceholder": "Your email address...",
     "reset": "Reset my password"
   },
   "RoleDeleteModal": {
@@ -658,11 +664,7 @@
       "billingEmailUpdateError": "Error processing billing email update",
       "updateBillingDetails": "Update billing details",
       "billingDetailsUpdated": "Billing details updated",
-      "billingDetailsUpdateError": "Error processing billing details update",
-      "updatePaymentMethod": "Update payment method",
-      "PaymentMethodUpdated": "Payment method updated",
-      "PaymentMethodUpdateError": "Error processing payment method update",
-      "errorLoadingInvoices": "Failed to retrieve invoices"
+      "billingDetailsUpdateError": "Error processing billing details update"
     }
   },
   "SubscriptionInvoiceCalculationDetails": {
@@ -934,5 +936,37 @@
   },
   "useUpdateTaskStatus": {
     "toast": "Task marked as \"{{status}}\""
+  },
+  "ImportPage": {
+    "title": "Import an organization.",
+    "provider": {
+      "heading": "Import an organization from...",
+      "text": "Where does your data come from?",
+      "other": "Other app",
+      "otherName": "App or format name",
+      "otherSubmit": "Continue"
+    },
+    "upload": {
+      "button": "Select the file to import",
+      "heading": "Import from {{provider}}",
+      "terms": "I certify that the data belongs to me and that I am authorized to import them.",
+      "text-Holaspirit": "Export your organization from Holaspirit (<a href=\"https://help.holaspirit.com/en/articles/1822926-export-my-organization-s-data-as-an-admin\">How? \n</a>),<br />then select the resulting file on your hard drive."
+    },
+    "loading": {
+      "text": "Your organization is being created.",
+      "heading": "Import in progress..."
+    },
+    "success": {
+      "heading": "Your organization is ready 🎉",
+      "text": ""
+    },
+    "error": {
+      "heading": "An error has occurred",
+      "text": "A message has been sent to support."
+    },
+    "unknown": {
+      "heading": "File not supported, but we can help you",
+      "text": "The format of your file is not supported by our import system at this time. \nA request has been sent to support to help you within 12 hours."
+    }
   }
 }

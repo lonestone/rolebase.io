@@ -1,4 +1,3 @@
-import BrandIcon from '@atoms/BrandIcon'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
@@ -6,21 +5,16 @@ import {
   AlertDescription,
   AlertIcon,
   Button,
-  Center,
   FormControl,
   FormLabel,
   Heading,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
   Spinner,
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useQueryParams from '@hooks/useQueryParams'
+import BrandModal from '@molecules/BrandModal'
 import { useResetPassword } from '@nhost/react'
 import { emailSchema } from '@shared/schemas'
 import React from 'react'
@@ -62,60 +56,48 @@ export default function ResetPasswordPage() {
   const handleClose = () => navigate(email ? `/?email=${email}` : '/')
 
   return (
-    <Modal closeOnOverlayClick={false} size="md" isOpen onClose={handleClose}>
-      <ModalOverlay bg="gray.100" _dark={{ bg: 'gray.800' }} />
+    <BrandModal size="md" bodyProps={{ mx: 10 }} isOpen onClose={handleClose}>
+      <Title>{t('ResetPasswordPage.heading')}</Title>
 
-      <ModalContent my="115px">
-        <ModalCloseButton />
+      <Heading as="h1" size="md" mb={7}>
+        {t('ResetPasswordPage.heading')}
+      </Heading>
 
-        <Center w="100%" textAlign="center" position="absolute" top="-70px">
-          <BrandIcon size="md" />
-        </Center>
-
-        <ModalBody mx={10} my={7}>
-          <Title>{t('ResetPasswordPage.heading')}</Title>
-
-          <Heading as="h1" size="md" mb={7}>
-            {t('ResetPasswordPage.heading')}
-          </Heading>
-
-          {isSent ? (
-            <Alert status="success">
-              <AlertIcon />
-              <AlertDescription>
-                <p>{t('ResetPasswordPage.done1')}</p>
-                <p>{t('ResetPasswordPage.done2')}</p>
-              </AlertDescription>
-            </Alert>
-          ) : (
-            <form
-              onSubmit={handleSubmit(({ email }: Values) =>
-                resetPassword(email, { redirectTo: '/user-info' })
-              )}
-            >
-              <VStack spacing={5}>
-                <FormControl isInvalid={!!errors.email}>
-                  <FormLabel>{t('ResetPasswordPage.email')}</FormLabel>
-                  <Input
-                    {...register('email')}
-                    type="email"
-                    autoComplete="email"
-                    autoFocus
-                    required
-                  />
-                </FormControl>
-
-                <Button colorScheme="blue" type="submit" isDisabled={isLoading}>
-                  {t('ResetPasswordPage.reset')}
-                  {isLoading && <Spinner ml={2} />}
-                </Button>
-              </VStack>
-
-              <TextErrors errors={[error]} />
-            </form>
+      {isSent ? (
+        <Alert status="success">
+          <AlertIcon />
+          <AlertDescription>
+            <p>{t('ResetPasswordPage.done1')}</p>
+            <p>{t('ResetPasswordPage.done2')}</p>
+          </AlertDescription>
+        </Alert>
+      ) : (
+        <form
+          onSubmit={handleSubmit(({ email }: Values) =>
+            resetPassword(email, { redirectTo: '/user-info' })
           )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        >
+          <VStack spacing={5} alignItems="start">
+            <FormControl isInvalid={!!errors.email}>
+              <FormLabel>{t('ResetPasswordPage.email')}</FormLabel>
+              <Input
+                {...register('email')}
+                type="email"
+                autoComplete="email"
+                autoFocus
+                required
+              />
+            </FormControl>
+
+            <Button colorScheme="blue" type="submit" isDisabled={isLoading}>
+              {t('ResetPasswordPage.reset')}
+              {isLoading && <Spinner ml={2} />}
+            </Button>
+          </VStack>
+
+          <TextErrors errors={[error]} />
+        </form>
+      )}
+    </BrandModal>
   )
 }

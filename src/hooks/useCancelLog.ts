@@ -1,6 +1,5 @@
 import {
   LogFragment,
-  MemberFragment,
   useCancelLogMutation,
   useGetCircleLazyQuery,
   useGetCircleMemberLazyQuery,
@@ -43,7 +42,7 @@ export function useCancelLog(log: LogFragment) {
     members: {
       async get(id: string) {
         const { data } = await getMember({ variables: { id } })
-        return (data?.member_by_pk as MemberFragment) || undefined
+        return data?.member_by_pk || undefined
       },
       async update(id, values) {
         await updateMember({ variables: { id, values } })
