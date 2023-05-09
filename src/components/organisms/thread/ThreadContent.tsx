@@ -25,6 +25,7 @@ import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import ThreadActivities from '@organisms/thread/ThreadActivities'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import Page404 from '@pages/Page404'
+import useOrgMember from '@hooks/useOrgMember'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -42,6 +43,7 @@ export default function ThreadContent({
 }: Props) {
   const { t } = useTranslation()
   const [updateThread] = useUpdateThreadMutation()
+  const isMember = useOrgMember()
 
   // Load thread and activities
   const threadState = useThreadState(id)
@@ -86,7 +88,9 @@ export default function ThreadContent({
             {changeTitle && <Title>{thread?.title || '…'}</Title>}
 
             <Wrap spacing={2} flex={1} align="center">
-              <CircleThreadStatus status={threadStatus} />
+              {isMember && threadStatus && (
+                <CircleThreadStatus status={threadStatus} />
+              )}
 
               <Heading as="h1" size="md">
                 {thread?.title || (loading ? '…' : null)}
@@ -95,7 +99,9 @@ export default function ThreadContent({
               <Spacer />
 
               <HStack spacing={2}>
-                <ThreadStatusMenu value={threadStatus} onChange={setStatus} />
+                {isMember && (
+                  <ThreadStatusMenu value={threadStatus} onChange={setStatus} />
+                )}
 
                 {thread?.archived && <Tag>{t('common.archived')}</Tag>}
 

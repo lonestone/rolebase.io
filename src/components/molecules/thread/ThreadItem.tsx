@@ -24,7 +24,6 @@ interface Props extends LinkBoxProps {
   thread: ThreadFragment
   unread?: boolean
   showCircle?: boolean
-  showIcon?: boolean
   isDragging?: boolean
   labelProps?: TypographyProps
 }
@@ -35,7 +34,6 @@ const ThreadItem = forwardRef<Props, 'div'>(
       thread,
       unread,
       showCircle,
-      showIcon,
       isDragging,
       labelProps,
       children,
@@ -69,11 +67,11 @@ const ThreadItem = forwardRef<Props, 'div'>(
           }
         >
           <Flex align="center">
-            {showIcon && (
-              <Center w={6} h={6} mr={2} zIndex={'overlay'}>
-                <CircleThreadStatus status={thread.status} />
-              </Center>
-            )}
+            <CircleThreadStatus
+              status={thread.status}
+              mr={'2'}
+              zIndex={'overlay'}
+            />
             <LinkOverlay
               as={ReachLink}
               flex={1}

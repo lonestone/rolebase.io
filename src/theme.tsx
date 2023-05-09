@@ -9,6 +9,7 @@ import '@fontsource/nunito/700.css'
 import { StepsTheme as Steps } from 'chakra-ui-steps'
 import 'focus-visible/dist/focus-visible'
 import './theme.css'
+import { Task_Status_Enum, Thread_Status_Enum } from '@gql'
 
 export const defaultCircleColorHue = 200
 
@@ -40,6 +41,36 @@ const Input = {
         bg: 'transparent',
       },
     }),
+  },
+}
+
+export const taskStatusColors: Record<Task_Status_Enum, string> = {
+  [Task_Status_Enum.Open]: 'gray',
+  [Task_Status_Enum.InProgress]: 'blue',
+  [Task_Status_Enum.InReview]: 'yellow',
+  [Task_Status_Enum.Blocked]: 'red',
+  [Task_Status_Enum.Done]: 'green',
+}
+
+export const threadStatusColors: Record<
+  Thread_Status_Enum,
+  { bg: string; darkBg: string }
+> = {
+  [Thread_Status_Enum.Active]: {
+    bg: 'blue.400',
+    darkBg: 'blue.400',
+  },
+  [Thread_Status_Enum.Blocked]: {
+    bg: 'red.400',
+    darkBg: 'red.400',
+  },
+  [Thread_Status_Enum.Closed]: {
+    bg: 'green.400',
+    darkBg: 'green.400',
+  },
+  [Thread_Status_Enum.Preparation]: {
+    bg: 'gray.200',
+    darkBg: 'whiteAlpha.100',
   },
 }
 

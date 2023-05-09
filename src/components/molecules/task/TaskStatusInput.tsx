@@ -1,4 +1,3 @@
-import { taskStatusColors } from '@atoms/TaskStatusTag'
 import {
   Menu,
   MenuButton,
@@ -11,6 +10,7 @@ import { Task_Status_Enum } from '@gql'
 import { taskStatusList } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { taskStatusColors } from 'src/theme'
 
 interface Props extends Omit<TagProps, 'onChange'> {
   value: Task_Status_Enum
