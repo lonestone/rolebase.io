@@ -15280,7 +15280,7 @@ export type Thread_Set_Input = {
 /** columns and relationships of "thread_status" */
 export type Thread_Status = {
   __typename?: 'thread_status';
-  comment: Scalars['String'];
+  comment?: Maybe<Scalars['String']>;
   value: Scalars['String'];
 };
 
@@ -15322,13 +15322,9 @@ export enum Thread_Status_Constraint {
 }
 
 export enum Thread_Status_Enum {
-  /**   */
   Active = 'Active',
-  /**   */
   Blocked = 'Blocked',
-  /**   */
   Closed = 'Closed',
-  /**   */
   Preparation = 'Preparation'
 }
 
