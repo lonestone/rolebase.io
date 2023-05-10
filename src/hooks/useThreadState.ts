@@ -28,6 +28,7 @@ export interface ThreadState {
   thread: ThreadFragment | undefined
   memberStatus: ThreadMemberStatusFragment | undefined
   activities: ThreadActivityFragment[] | undefined
+  threadLogs: LogFragment[] | undefined
   loading: boolean
   error: Error | undefined
   path: string
@@ -65,6 +66,12 @@ export default function useThreadState(threadId: string): ThreadState {
   const activities =
     activitiesLogsResult.data?.thread_by_pk?.activities || undefined
   const threadLogs = activitiesLogsResult.data?.thread_by_pk?.logs || undefined
+
+  const threadLogsResult = useThreadLogsSubscription({
+    variables: { threadId },
+  })
+
+  const threadLogs = threadLogsResult.data?.log || undefined
 
   // Meeting page path
   const path = usePathInOrg(`threads/${thread?.id}`)
