@@ -8,21 +8,18 @@ import { FiArrowDown, FiArrowUp } from 'react-icons/fi'
 interface Props extends BoxProps {
   header?: React.ReactElement
   content: React.ReactElement
-  inner?: React.ReactElement
   footer?: React.ReactElement
 }
 
 export default function ScrollableLayout({
   header,
   content,
-  inner,
   footer,
   ...boxProps
 }: Props) {
   // Scrollable content
   const topRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const innerRef = useRef<HTMLDivElement>(null)
   const topSize = useElementSize(topRef)
   const bottomSize = useElementSize(bottomRef)
   const {
@@ -55,19 +52,6 @@ export default function ScrollableLayout({
           <Box h={`${(topSize?.height || 0) - 5}px`} />
           <Box ref={contentRef}>{content}</Box>
           <Box h={`${(bottomSize?.height || 0) - 5}px`} />
-          {inner && (
-            <Box
-              ref={innerRef}
-              position="absolute"
-              left={0}
-              right={0}
-              bottom={`${(bottomSize?.height || 0) - 5}px`}
-              my="25px"
-              mx="25px"
-            >
-              {inner}
-            </Box>
-          )}
         </Box>
       )}
 

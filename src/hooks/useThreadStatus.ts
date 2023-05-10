@@ -39,6 +39,7 @@ export default function useThreadStatus(thread?: ThreadFragment) {
 
       // Record log
       await createLog({
+        threadId: thread.id,
         display: {
           type: LogType.ThreadStatusUpdate,
           id: thread.id,

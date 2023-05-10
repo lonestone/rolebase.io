@@ -9,7 +9,7 @@ INSERT INTO "public"."thread_status"("value", "comment") VALUES (E'Blocked', nul
 
 INSERT INTO "public"."thread_status"("value", "comment") VALUES (E'Closed', null);
 
-INSERT INTO "public"."thread_status"("value", "comment") VALUES (E'Done', null);
+INSERT INTO "public"."thread_status"("value", "comment") VALUES (E'Active', null);
 
 alter table "public"."thread" add column "status" text
  null default 'Preparation';

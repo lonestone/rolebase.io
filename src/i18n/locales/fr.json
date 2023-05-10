@@ -180,7 +180,7 @@
     "TaskCreate": "<author /> a créé la tâche <task />",
     "TaskUpdate": "<author /> a modifié la tâche <task />",
     "TaskStatusUpdate": "<author /> a marqué la tâche <task /> comme <status />",
-    "ThreadStatusUpdate": "<author /> a changé le sujet <task /> de \"<prevStatus />\" à \"<status />\"",
+    "ThreadStatusUpdate": "<author /> a changé le sujet <task /> de <prevStatus /> à <status />",
     "TaskArchive": "<author /> a archivé la tâche <task />",
     "DecisionCreate": "<author /> a créé la décision <decision />",
     "DecisionUpdate": "<author /> a modifié la décision <decision />",
@@ -824,6 +824,9 @@
   "ThreadActivityThread": {
     "text": "a créé un sujet :"
   },
+  "ThreadActivityChangeStatus": {
+    "text": "a changé le sujet de <prevStatus /> à <status />"
+  },
   "ThreadEditModal": {
     "headingEdit": "Modifier un sujet",
     "headingCreate": "Nouveau sujet",
@@ -831,9 +834,6 @@
     "titlePlaceholder": "On discute de quoi ?...",
     "invite": "Inviter",
     "settings": "Paramètres"
-  },
-  "ThreadStatusMenu":{
-    "title": "Statut du sujet"
   },
   "ThreadStatusLogItem": {
     "button": "Voir historique"

@@ -4,6 +4,7 @@ import {
   ThreadFragment,
   ThreadMemberStatusFragment,
   useThreadActivitiesSubscription,
+  useThreadLogsSubscription,
   useThreadSubscription,
   useUpsertThreadMemberStatusMutation,
 } from '@gql'
@@ -15,6 +16,7 @@ import useParticipants from '@hooks/useParticipants'
 import { ParticipantMember } from '@shared/model/member'
 import { useCallback, useEffect } from 'react'
 import { usePathInOrg } from './usePathInOrg'
+import { LogFragment } from '@gql'
 
 /***
  * Thread state hook
@@ -26,6 +28,7 @@ export interface ThreadState {
   thread: ThreadFragment | undefined
   memberStatus: ThreadMemberStatusFragment | undefined
   activities: ThreadActivityFragment[] | undefined
+  threadLogs: LogFragment[] | undefined
   loading: boolean
   error: Error | undefined
   path: string
@@ -59,7 +62,14 @@ export default function useThreadState(threadId: string): ThreadState {
   const activitiesResult = useThreadActivitiesSubscription({
     variables: { threadId },
   })
+
   const activities = activitiesResult.data?.thread_activity || undefined
+
+  const threadLogsResult = useThreadLogsSubscription({
+    variables: { threadId },
+  })
+
+  const threadLogs = threadLogsResult.data?.log || undefined
 
   // Meeting page path
   const path = usePathInOrg(`threads/${thread?.id}`)
@@ -153,6 +163,7 @@ export default function useThreadState(threadId: string): ThreadState {
     thread,
     memberStatus,
     activities,
+    threadLogs,
     loading: threadResult.loading || activitiesResult.loading,
     error: threadResult.error || activitiesResult.error,
     path,

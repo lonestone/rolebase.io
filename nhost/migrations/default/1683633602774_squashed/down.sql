@@ -8,7 +8,7 @@ alter table "public"."thread" alter column "status" drop not null;
 -- alter table "public"."thread" add column "status" text
 --  null default 'Preparation';
 
-DELETE FROM "public"."thread_status" WHERE "value" = 'Done';
+DELETE FROM "public"."thread_status" WHERE "value" = 'Active';
 
 DELETE FROM "public"."thread_status" WHERE "value" = 'Closed';
 
