@@ -1,7 +1,7 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
 import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 import {
-  Center,
+  Box,
   Flex,
   forwardRef,
   LinkBox,
@@ -67,11 +67,9 @@ const ThreadItem = forwardRef<Props, 'div'>(
           }
         >
           <Flex align="center">
-            <CircleThreadStatus
-              status={thread.status}
-              mr={'2'}
-              zIndex={'overlay'}
-            />
+            <Box zIndex={'overlay'} mr={2}>
+              <CircleThreadStatus status={thread.status} />
+            </Box>
             <LinkOverlay
               as={ReachLink}
               flex={1}
@@ -82,7 +80,6 @@ const ThreadItem = forwardRef<Props, 'div'>(
             >
               {thread.title}
             </LinkOverlay>
-
             {threadInitiator && (
               <MemberByIdAvatar
                 id={threadInitiator.id}
@@ -93,9 +90,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
                 size="xs"
               />
             )}
-
             {showCircle && <CircleByIdButton id={thread.circleId} size="xs" />}
-
             {children}
           </Flex>
         </LinkBox>

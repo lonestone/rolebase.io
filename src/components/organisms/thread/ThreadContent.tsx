@@ -24,7 +24,6 @@ import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
 import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import ThreadActivities from '@organisms/thread/ThreadActivities'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
-import { ThreadStatusLogs } from '@organisms/thread/ThreadStatusLogs'
 import Page404 from '@pages/Page404'
 import useOrgMember from '@hooks/useOrgMember'
 import React, { useCallback } from 'react'
@@ -133,17 +132,14 @@ export default function ThreadContent({
             <ThreadActivities memberStatus={memberStatus} />
           </>
         }
-        inner={<ThreadStatusLogs threadId={thread?.id} />}
         footer={
-          <>
-            {thread && canParticipate ? (
-              <ThreadActivityCreate
-                thread={thread}
-                w="100%"
-                className="userflow-thread-create"
-              />
-            ) : undefined}
-          </>
+          thread && canParticipate ? (
+            <ThreadActivityCreate
+              thread={thread}
+              w="100%"
+              className="userflow-thread-create"
+            />
+          ) : undefined
         }
       />
       {editModal.isOpen && (
