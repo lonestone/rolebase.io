@@ -15940,7 +15940,7 @@ export type DecisionFragment = { __typename?: 'decision', id: string, orgId: str
 
 export type LogFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
 
-export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null };
+export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', notes: string, type: Meeting_Step_Type_Enum, stepConfigId: string, id: string, meetingId: string, data: MeetingStepData }> };
 
 export type MeetingSummaryFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null };
 
@@ -16110,12 +16110,19 @@ export type CancelLogMutationVariables = Exact<{
 
 export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
 
+export type GetMeetingsQueryVariables = Exact<{
+  recurringId: Scalars['uuid'];
+}>;
+
+
+export type GetMeetingsQuery = { __typename?: 'query_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', notes: string, type: Meeting_Step_Type_Enum, stepConfigId: string, id: string, meetingId: string, data: MeetingStepData }> }> };
+
 export type MeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> } | null };
+export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', notes: string, type: Meeting_Step_Type_Enum, stepConfigId: string, id: string, meetingId: string, data: MeetingStepData }> } | null };
 
 export type MeetingsByDatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -16138,7 +16145,7 @@ export type CreateMeetingMutationVariables = Exact<{
 }>;
 
 
-export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', notes: string, type: Meeting_Step_Type_Enum, stepConfigId: string, id: string, meetingId: string, data: MeetingStepData }> } | null };
 
 export type UpdateMeetingMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16146,7 +16153,7 @@ export type UpdateMeetingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', notes: string, type: Meeting_Step_Type_Enum, stepConfigId: string, id: string, meetingId: string, data: MeetingStepData }> } | null };
 
 export type ArchiveMeetingMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16627,6 +16634,14 @@ export const MeetingFragmentDoc = gql`
   videoConf
   recurringId
   recurringDate
+  steps {
+    notes
+    type
+    stepConfigId
+    id
+    meetingId
+    data
+  }
 }
     `;
 export const MeetingRecurringFragmentDoc = gql`
@@ -17586,6 +17601,44 @@ export function useCancelLogMutation(baseOptions?: Apollo.MutationHookOptions<Ca
 export type CancelLogMutationHookResult = ReturnType<typeof useCancelLogMutation>;
 export type CancelLogMutationResult = Apollo.MutationResult<CancelLogMutation>;
 export type CancelLogMutationOptions = Apollo.BaseMutationOptions<CancelLogMutation, CancelLogMutationVariables>;
+export const GetMeetingsDocument = gql`
+    query getMeetings($recurringId: uuid!) {
+  meeting(where: {recurringId: {_eq: $recurringId}, archived: {_eq: false}}) {
+    ...Meeting
+  }
+}
+    ${MeetingFragmentDoc}`;
+
+/**
+ * __useGetMeetingsQuery__
+ *
+ * To run a query within a React component, call `useGetMeetingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeetingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeetingsQuery({
+ *   variables: {
+ *      recurringId: // value for 'recurringId'
+ *   },
+ * });
+ */
+export function useGetMeetingsQuery(baseOptions: Apollo.QueryHookOptions<GetMeetingsQuery, GetMeetingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMeetingsQuery, GetMeetingsQueryVariables>(GetMeetingsDocument, options);
+      }
+export function useGetMeetingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeetingsQuery, GetMeetingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMeetingsQuery, GetMeetingsQueryVariables>(GetMeetingsDocument, options);
+        }
+export type GetMeetingsQueryHookResult = ReturnType<typeof useGetMeetingsQuery>;
+export type GetMeetingsLazyQueryHookResult = ReturnType<typeof useGetMeetingsLazyQuery>;
+export type GetMeetingsQueryResult = Apollo.QueryResult<GetMeetingsQuery, GetMeetingsQueryVariables>;
+export function refetchGetMeetingsQuery(variables: GetMeetingsQueryVariables) {
+      return { query: GetMeetingsDocument, variables: variables }
+    }
 export const MeetingDocument = gql`
     subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
