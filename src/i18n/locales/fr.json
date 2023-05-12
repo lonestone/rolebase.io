@@ -947,6 +947,7 @@
     "error": "Erreur",
     "name": "Nom",
     "copy": "Copier",
+    "copyStepNotes": "Reprendre les notes de la réunion précédente",
     "toastCopied": "URL copiée",
     "none": "Aucun",
     "errorOccurred": "Une erreur s'est produite.",

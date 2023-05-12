@@ -16,6 +16,14 @@ fragment Meeting on meeting {
   videoConf
   recurringId
   recurringDate
+  steps {
+    notes
+    type
+    stepConfigId
+    id
+    meetingId
+    data
+  }
 }
 
 fragment MeetingSummary on meeting {

@@ -36,6 +36,9 @@ import { useTranslation } from 'react-i18next'
 import { FiCalendar } from 'react-icons/fi'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
+import { isPast } from 'date-fns'
+import { MeetingFragment, useUpdateMeetingMutation } from '@gql'
+import getLastMeetingByRecurringId from '@hooks/usePreviousMeeting'
 
 interface Props extends BoxProps {
   id: string
@@ -73,8 +76,13 @@ export default function MeetingContent({
     handleChangeForceEdit,
   } = meetingState
 
+  const result = getLastMeetingByRecurringId(meeting)
+  const [updateMeeting] = useUpdateMeetingMutation()
+
   // Meeting edition modal
   const [duplicateInModal, setDuplicateInModal] = useState(false)
+  const [loadingNotes, setLoadingNotes] = useState(false)
+
   const editModal = useDisclosure()
 
   const handleEdit = () => {
@@ -89,6 +97,27 @@ export default function MeetingContent({
 
   // Meeting deletion modal
   const deleteModal = useDisclosure()
+
+  const canCopyStepNotes =
+    meeting?.recurringId &&
+    meeting?.recurringDate &&
+    !isPast(new Date(meeting?.recurringDate))
+
+  //@TODO : see if method can be improved using useDuplicateMeetingSteps hook because wee need to copy every step and notes from previous meeting
+  const handleNotesChange = (previousMeeting: MeetingFragment) => {
+    // Update meeting
+    setLoadingNotes(true)
+    console.log(previousMeeting)
+    // updateMeeting({
+    //   variables: {
+    //     id: meeting?.id!,
+    //     values: {
+    //       stepsConfig: previousMeeting?.stepsConfig!,
+    //     },
+    //   },
+    // })
+    setLoadingNotes(false)
+  }
 
   if (error) {
     console.error(error)
@@ -146,6 +175,12 @@ export default function MeetingContent({
                     onDelete={
                       canEdit && !isStarted ? deleteModal.onOpen : undefined
                     }
+                    onCopyStepNotes={
+                      canCopyStepNotes
+                        ? () => result && handleNotesChange(result)
+                        : undefined
+                    }
+                    isLoading={loadingNotes}
                     ml={2}
                   />
                 )}

@@ -67,7 +67,6 @@ export default function MeetingStepContent({ step }: Props) {
       {step.type === Meeting_Step_Type_Enum.Tasks && (
         <MeetingStepContentTasks step={step as any} />
       )}
-
       {step.notes || forceEdit ? (
         <CollabEditor
           ref={editorRef}

@@ -1,3 +1,11 @@
+query getMeetings($recurringId: uuid!) {
+  meeting(
+    where: { recurringId: { _eq: $recurringId }, archived: { _eq: false } }
+  ) {
+    ...Meeting
+  }
+}
+
 subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting
