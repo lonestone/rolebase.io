@@ -15,7 +15,7 @@ subscription meetingLogs($meetingId: uuid!) {
 }
 
 subscription threadLogs($threadId: uuid!) {
-  log(where: { threadId: { _eq: $threadId } }, order_by: { createdAt: asc }) {
+  log(where: { threadId: { _eq: $threadId } }) {
     ...Log
   }
 }

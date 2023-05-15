@@ -1,5 +1,4 @@
-import ThreadLink from '@atoms/ThreadLink'
-import ThreadStatusText from '@atoms/ThreadStatusText'
+import ThreadStatusTag from '@atoms/ThreadStatusTag'
 import { Text } from '@chakra-ui/react'
 import ThreadActivityLayout from '@molecules/thread/ThreadActivityLayout'
 import { LogType } from '@shared/model/log'
@@ -15,15 +14,13 @@ export const ThreadActivityChangeStatus = ({ activity }: Props) => {
   const { display } = activity.data
 
   return (
-    <ThreadActivityLayout activity={activity} allowDelete>
+    <ThreadActivityLayout activity={activity}>
       {display.type === LogType.ThreadStatusUpdate && (
         <Text color="gray.500" _dark={{ color: 'gray.300' }}>
           <Trans
             i18nKey={`ThreadActivityChangeStatus.text`}
             components={{
-              task: <ThreadLink id={display.id} name={display.name} />,
-              prevStatus: <ThreadStatusText status={display.prevStatus} />,
-              status: <ThreadStatusText status={display.status} />,
+              status: <ThreadStatusTag status={display.status} />,
             }}
           />
         </Text>

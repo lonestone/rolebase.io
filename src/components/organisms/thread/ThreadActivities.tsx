@@ -12,10 +12,7 @@ import { ThreadContext } from '@contexts/ThreadContext'
 import { ThreadMemberStatusFragment, Thread_Activity_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import ThreadActivity from '@molecules/thread/ThreadActivity'
-import {
-  ThreadActivityMeetingNoteFragment,
-  ThreadActivityChangeStatusFragment,
-} from '@shared/model/thread_activity'
+import { ThreadActivityMeetingNoteFragment } from '@shared/model/thread_activity'
 import { isSameDay } from 'date-fns'
 import React, {
   forwardRef,
@@ -36,7 +33,7 @@ export const activityMeetingNoteTmpId = 'tmp'
 const ThreadActivities = forwardRef<HTMLDivElement, Props>(
   ({ memberStatus, ...stackProps }, ref) => {
     const { t } = useTranslation()
-    const { thread, activities, threadLogs } = useContext(ThreadContext)!
+    const { thread, activities } = useContext(ThreadContext)!
     const meetingState = useContext(MeetingContext)
     const currentMember = useCurrentMember()
 
@@ -69,32 +66,6 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
       } as ThreadActivityMeetingNoteFragment
     }, [thread, activities, meetingState?.meeting?.id])
 
-    // Thread Logs as activities
-    const threadLogsActivity = useMemo(() => {
-      if (!thread || !threadLogs) {
-        return undefined
-      }
-
-      return threadLogs.map((log) => {
-        return {
-          id: log.id,
-          type: Thread_Activity_Type_Enum.ChangeStatus,
-          userId: log.userId,
-          createdAt: log.createdAt,
-          data: {
-            ...log,
-          },
-        } as ThreadActivityChangeStatusFragment
-      })
-    }, [thread, threadLogs])
-
-    // Concat activities and logs sorted by createdAt asc
-    const concatThreadLogsActivities =
-      activities &&
-      activities.concat(threadLogsActivity || []).sort((a, b) => {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      })
-
     // Previous status to show a mark
     const [lastReadActivityId, setLastReadActivityId] = useState<
       string | undefined
@@ -122,13 +93,13 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
 
     return (
       <VStack spacing={0} mb={2} align="stretch" ref={ref} {...stackProps}>
-        {concatThreadLogsActivities &&
-          concatThreadLogsActivities.map((activity, i) => (
+        {activities &&
+          activities.map((activity, i) => (
             <React.Fragment key={`activity_${activity.id}`}>
               {(i === 0 ||
                 !isSameDay(
                   new Date(activity.createdAt),
-                  new Date(concatThreadLogsActivities[i - 1].createdAt)
+                  new Date(activities[i - 1].createdAt)
                 )) && <ThreadDaySeparator date={activity.createdAt} />}
 
               <ThreadActivity activity={activity} />
@@ -139,26 +110,25 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
             </React.Fragment>
           ))}
 
-        {concatThreadLogsActivities?.length === 0 &&
-          !tmpMeetingNoteActivity && (
-            <Alert
-              status="success"
-              variant="subtle"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              textAlign="center"
-              height="200px"
-            >
-              <FiMessageSquare size={40} />
-              <AlertTitle mt={4} mb={1} fontSize="lg">
-                {t('ThreadActivities.emptyTitle')}
-              </AlertTitle>
-              <AlertDescription maxWidth="sm">
-                {t('ThreadActivities.emptyDescription')}
-              </AlertDescription>
-            </Alert>
-          )}
+        {activities?.length === 0 && !tmpMeetingNoteActivity && (
+          <Alert
+            status="success"
+            variant="subtle"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+            height="200px"
+          >
+            <FiMessageSquare size={40} />
+            <AlertTitle mt={4} mb={1} fontSize="lg">
+              {t('ThreadActivities.emptyTitle')}
+            </AlertTitle>
+            <AlertDescription maxWidth="sm">
+              {t('ThreadActivities.emptyDescription')}
+            </AlertDescription>
+          </Alert>
+        )}
 
         {tmpMeetingNoteActivity && (
           <ThreadActivity activity={tmpMeetingNoteActivity} />

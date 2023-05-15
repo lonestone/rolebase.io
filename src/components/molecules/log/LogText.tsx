@@ -5,7 +5,7 @@ import RoleEditLink from '@atoms/RoleEditLink'
 import TaskLink from '@atoms/TaskLink'
 import TaskStatusTag from '@atoms/TaskStatusTag'
 import ThreadLink from '@atoms/ThreadLink'
-import ThreadStatusText from '@atoms/ThreadStatusText'
+import ThreadStatusTag from '@atoms/ThreadStatusTag'
 import { LogFragment } from '@gql'
 import { LogType } from '@shared/model/log'
 import React from 'react'
@@ -134,8 +134,8 @@ export default function LogText({ log }: Props) {
           components={{
             author,
             task: <ThreadLink id={log.display.id} name={log.display.name} />,
-            prevStatus: <ThreadStatusText status={log.display.prevStatus} />,
-            status: <ThreadStatusText status={log.display.status} />,
+            prevStatus: <ThreadStatusTag status={log.display.prevStatus} />,
+            status: <ThreadStatusTag status={log.display.status} />,
           }}
         />
       )

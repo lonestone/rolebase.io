@@ -3,6 +3,7 @@ import {
   ThreadActivityFragment,
   ThreadFragment,
   ThreadMemberStatusFragment,
+  Thread_Activity_Type_Enum,
   useThreadActivitiesSubscription,
   useThreadLogsSubscription,
   useThreadSubscription,
@@ -14,9 +15,10 @@ import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import { ParticipantMember } from '@shared/model/member'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { usePathInOrg } from './usePathInOrg'
 import { LogFragment } from '@gql'
+import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 
 /***
  * Thread state hook
@@ -159,10 +161,39 @@ export default function useThreadState(threadId: string): ThreadState {
     })
   }, [activities])
 
+  const threadLogsActivity = useMemo(() => {
+    if (!thread || !threadLogs) {
+      return undefined
+    }
+
+    return threadLogs.map((log) => {
+      return {
+        id: log.id,
+        type: Thread_Activity_Type_Enum.ChangeStatus,
+        userId: log.userId,
+        createdAt: log.createdAt,
+        data: {
+          ...log,
+        },
+      } as ThreadActivityChangeStatusFragment
+    })
+  }, [thread, threadLogs])
+
+  // Merge activities and logs sorted by createdAt asc
+  const concatThreadLogsActivities = useMemo(() => {
+    if (!activities || !threadLogsActivity) {
+      return undefined
+    }
+
+    return activities.concat(threadLogsActivity || []).sort((a, b) => {
+      return a.createdAt > b.createdAt ? 1 : -1
+    })
+  }, [activities, threadLogsActivity])
+
   return {
     thread,
     memberStatus,
-    activities,
+    activities: concatThreadLogsActivities,
     threadLogs,
     loading: threadResult.loading || activitiesResult.loading,
     error: threadResult.error || activitiesResult.error,

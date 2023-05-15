@@ -824,7 +824,7 @@
     "text": "has created a topic:"
   },
   "ThreadActivityChangeStatus": {
-    "text": "has changed topic from <prevStatus /> to <status />"
+    "text": "has changed status topic : <status />"
   },
   "ThreadEditModal": {
     "headingEdit": "Edit a topic",

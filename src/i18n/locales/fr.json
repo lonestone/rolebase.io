@@ -825,7 +825,7 @@
     "text": "a créé un sujet :"
   },
   "ThreadActivityChangeStatus": {
-    "text": "a changé le sujet de <prevStatus /> à <status />"
+    "text": "a changé le status du sujet : <status />"
   },
   "ThreadEditModal": {
     "headingEdit": "Modifier un sujet",
@@ -834,9 +834,6 @@
     "titlePlaceholder": "On discute de quoi ?...",
     "invite": "Inviter",
     "settings": "Paramètres"
-  },
-  "ThreadStatusLogItem": {
-    "button": "Voir historique"
   },
   "ThreadsPage": {
     "heading": "Sujets",

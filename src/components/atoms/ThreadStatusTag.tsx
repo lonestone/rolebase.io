@@ -8,7 +8,7 @@ interface Props extends TagProps {
   status: Thread_Status_Enum
 }
 
-export default function ThreadStatusText({ status, ...tagProps }: Props) {
+export default function ThreadStatusTag({ status, ...tagProps }: Props) {
   const { t } = useTranslation()
   return (
     <Tag colorScheme={threadStatusColors[status].tag} {...tagProps}>

@@ -17839,7 +17839,7 @@ export type MeetingLogsSubscriptionHookResult = ReturnType<typeof useMeetingLogs
 export type MeetingLogsSubscriptionResult = Apollo.SubscriptionResult<MeetingLogsSubscription>;
 export const ThreadLogsDocument = gql`
     subscription threadLogs($threadId: uuid!) {
-  log(where: {threadId: {_eq: $threadId}}, order_by: {createdAt: asc}) {
+  log(where: {threadId: {_eq: $threadId}}) {
     ...Log
   }
 }
