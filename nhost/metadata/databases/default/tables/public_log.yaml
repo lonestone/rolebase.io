@@ -81,6 +81,7 @@ update_permissions:
     permission:
       columns:
         - canceled
+        - threadId
       filter:
         org:
           members:
