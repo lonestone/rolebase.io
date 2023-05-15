@@ -3589,6 +3589,8 @@ export type Log = {
   org: Org;
   orgId: Scalars['uuid'];
   taskId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  thread?: Maybe<Thread>;
   threadId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   user: Users;
@@ -3693,6 +3695,7 @@ export type Log_Bool_Exp = {
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   taskId?: InputMaybe<Uuid_Comparison_Exp>;
+  thread?: InputMaybe<Thread_Bool_Exp>;
   threadId?: InputMaybe<Uuid_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3729,6 +3732,7 @@ export type Log_Insert_Input = {
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   taskId?: InputMaybe<Scalars['uuid']>;
+  thread?: InputMaybe<Thread_Obj_Rel_Insert_Input>;
   threadId?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   /** User and member who made the change */
@@ -3863,6 +3867,7 @@ export type Log_Order_By = {
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   taskId?: InputMaybe<Order_By>;
+  thread?: InputMaybe<Thread_Order_By>;
   threadId?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
@@ -6635,6 +6640,10 @@ export type Mutation_Root = {
   delete_thread_poll_answer?: Maybe<Thread_Poll_Answer_Mutation_Response>;
   /** delete single row from the table: "thread_poll_answer" */
   delete_thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
+  /** delete data from the table: "thread_status" */
+  delete_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** delete single row from the table: "thread_status" */
+  delete_thread_status_by_pk?: Maybe<Thread_Status>;
   /** insert a single row into the table: "auth.providers" */
   insertAuthProvider?: Maybe<AuthProviders>;
   /** insert a single row into the table: "auth.provider_requests" */
@@ -6783,6 +6792,10 @@ export type Mutation_Root = {
   insert_thread_poll_answer?: Maybe<Thread_Poll_Answer_Mutation_Response>;
   /** insert a single row into the table: "thread_poll_answer" */
   insert_thread_poll_answer_one?: Maybe<Thread_Poll_Answer>;
+  /** insert data into the table: "thread_status" */
+  insert_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** insert a single row into the table: "thread_status" */
+  insert_thread_status_one?: Maybe<Thread_Status>;
   /** update single row of the table: "auth.providers" */
   updateAuthProvider?: Maybe<AuthProviders>;
   /** update single row of the table: "auth.provider_requests" */
@@ -7003,6 +7016,12 @@ export type Mutation_Root = {
   update_thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
   /** update multiples rows of table: "thread_poll_answer" */
   update_thread_poll_answer_many?: Maybe<Array<Maybe<Thread_Poll_Answer_Mutation_Response>>>;
+  /** update data of the table: "thread_status" */
+  update_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** update single row of the table: "thread_status" */
+  update_thread_status_by_pk?: Maybe<Thread_Status>;
+  /** update multiples rows of table: "thread_status" */
+  update_thread_status_many?: Maybe<Array<Maybe<Thread_Status_Mutation_Response>>>;
   /** update multiples rows of table: "auth.users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
 };
@@ -7449,6 +7468,18 @@ export type Mutation_RootDelete_Thread_Poll_AnswerArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Thread_Poll_Answer_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_StatusArgs = {
+  where: Thread_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -7967,6 +7998,20 @@ export type Mutation_RootInsert_Thread_Poll_AnswerArgs = {
 export type Mutation_RootInsert_Thread_Poll_Answer_OneArgs = {
   object: Thread_Poll_Answer_Insert_Input;
   on_conflict?: InputMaybe<Thread_Poll_Answer_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_StatusArgs = {
+  objects: Array<Thread_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Thread_Status_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_Status_OneArgs = {
+  object: Thread_Status_Insert_Input;
+  on_conflict?: InputMaybe<Thread_Status_On_Conflict>;
 };
 
 
@@ -8737,6 +8782,26 @@ export type Mutation_RootUpdate_Thread_Poll_Answer_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Thread_Poll_Answer_ManyArgs = {
   updates: Array<Thread_Poll_Answer_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_StatusArgs = {
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  where: Thread_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Status_By_PkArgs = {
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  pk_columns: Thread_Status_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Status_ManyArgs = {
+  updates: Array<Thread_Status_Updates>;
 };
 
 
@@ -10123,6 +10188,12 @@ export type Query_Root = {
   thread_poll_answer_aggregate: Thread_Poll_Answer_Aggregate;
   /** fetch data from the table: "thread_poll_answer" using primary key columns */
   thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
+  /** fetch data from the table: "thread_status" */
+  thread_status: Array<Thread_Status>;
+  /** fetch aggregated fields from the table: "thread_status" */
+  thread_status_aggregate: Thread_Status_Aggregate;
+  /** fetch data from the table: "thread_status" using primary key columns */
+  thread_status_by_pk?: Maybe<Thread_Status>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
   /** fetch data from the table: "auth.users" */
@@ -10975,6 +11046,29 @@ export type Query_RootThread_Poll_Answer_AggregateArgs = {
 
 export type Query_RootThread_Poll_Answer_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootThread_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -12148,6 +12242,14 @@ export type Subscription_Root = {
   thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
   /** fetch data from the table in a streaming manner: "thread_poll_answer" */
   thread_poll_answer_stream: Array<Thread_Poll_Answer>;
+  /** fetch data from the table: "thread_status" */
+  thread_status: Array<Thread_Status>;
+  /** fetch aggregated fields from the table: "thread_status" */
+  thread_status_aggregate: Thread_Status_Aggregate;
+  /** fetch data from the table: "thread_status" using primary key columns */
+  thread_status_by_pk?: Maybe<Thread_Status>;
+  /** fetch data from the table in a streaming manner: "thread_status" */
+  thread_status_stream: Array<Thread_Status>;
   /** fetch data from the table in a streaming manner: "thread" */
   thread_stream: Array<Thread>;
   /** fetch data from the table: "auth.users" using primary key columns */
@@ -13259,6 +13361,36 @@ export type Subscription_RootThread_Poll_Answer_StreamArgs = {
 };
 
 
+export type Subscription_RootThread_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootThread_Status_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Thread_Status_Stream_Cursor_Input>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
 export type Subscription_RootThread_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Thread_Stream_Cursor_Input>>;
@@ -13994,6 +14126,10 @@ export type Thread = {
   initiatorMember: Member;
   initiatorMemberId: Scalars['uuid'];
   /** An array relationship */
+  logs: Array<Log>;
+  /** An aggregate relationship */
+  logs_aggregate: Log_Aggregate;
+  /** An array relationship */
   member_status: Array<Thread_Member_Status>;
   /** An aggregate relationship */
   member_status_aggregate: Thread_Member_Status_Aggregate;
@@ -14024,6 +14160,26 @@ export type ThreadActivities_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Thread_Activity_Order_By>>;
   where?: InputMaybe<Thread_Activity_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadLogsArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadLogs_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
 };
 
 
@@ -14601,6 +14757,8 @@ export type Thread_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   initiatorMember?: InputMaybe<Member_Bool_Exp>;
   initiatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
+  logs?: InputMaybe<Log_Bool_Exp>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Bool_Exp>;
   member_status?: InputMaybe<Thread_Member_Status_Bool_Exp>;
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
@@ -14627,6 +14785,7 @@ export type Thread_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   initiatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   initiatorMemberId?: InputMaybe<Scalars['uuid']>;
+  logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
   member_status?: InputMaybe<Thread_Member_Status_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
@@ -14939,6 +15098,7 @@ export type Thread_Order_By = {
   id?: InputMaybe<Order_By>;
   initiatorMember?: InputMaybe<Member_Order_By>;
   initiatorMemberId?: InputMaybe<Order_By>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
@@ -15181,6 +15341,139 @@ export type Thread_Set_Input = {
   participantsScope?: InputMaybe<Member_Scope_Enum>;
   status?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "thread_status" */
+export type Thread_Status = {
+  __typename?: 'thread_status';
+  comment?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "thread_status" */
+export type Thread_Status_Aggregate = {
+  __typename?: 'thread_status_aggregate';
+  aggregate?: Maybe<Thread_Status_Aggregate_Fields>;
+  nodes: Array<Thread_Status>;
+};
+
+/** aggregate fields of "thread_status" */
+export type Thread_Status_Aggregate_Fields = {
+  __typename?: 'thread_status_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Thread_Status_Max_Fields>;
+  min?: Maybe<Thread_Status_Min_Fields>;
+};
+
+
+/** aggregate fields of "thread_status" */
+export type Thread_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "thread_status". All fields are combined with a logical 'AND'. */
+export type Thread_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Thread_Status_Bool_Exp>>;
+  _not?: InputMaybe<Thread_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Thread_Status_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "thread_status" */
+export enum Thread_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  ThreadStatusPkey = 'thread_status_pkey'
+}
+
+/** input type for inserting data into table "thread_status" */
+export type Thread_Status_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Thread_Status_Max_Fields = {
+  __typename?: 'thread_status_max_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Thread_Status_Min_Fields = {
+  __typename?: 'thread_status_min_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "thread_status" */
+export type Thread_Status_Mutation_Response = {
+  __typename?: 'thread_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Thread_Status>;
+};
+
+/** on_conflict condition type for table "thread_status" */
+export type Thread_Status_On_Conflict = {
+  constraint: Thread_Status_Constraint;
+  update_columns?: Array<Thread_Status_Update_Column>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "thread_status". */
+export type Thread_Status_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: thread_status */
+export type Thread_Status_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "thread_status" */
+export enum Thread_Status_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "thread_status" */
+export type Thread_Status_Set_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "thread_status" */
+export type Thread_Status_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Thread_Status_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Thread_Status_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "thread_status" */
+export enum Thread_Status_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+export type Thread_Status_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  where: Thread_Status_Bool_Exp;
 };
 
 /** Streaming cursor of the table "thread" */
