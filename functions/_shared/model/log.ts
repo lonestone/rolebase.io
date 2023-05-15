@@ -6,6 +6,8 @@ import {
   RoleFragment,
   TaskFragment,
   Task_Status_Enum,
+  ThreadFragment,
+  Thread_Status_Enum,
 } from '@gql'
 
 export enum LogType {
@@ -24,6 +26,7 @@ export enum LogType {
   TaskCreate = 'TaskCreate',
   TaskUpdate = 'TaskUpdate',
   TaskStatusUpdate = 'TaskStatusUpdate',
+  ThreadStatusUpdate = 'ThreadStatusUpdate',
   TaskArchive = 'TaskArchive',
   DecisionCreate = 'DecisionCreate',
   DecisionUpdate = 'DecisionUpdate',
@@ -69,6 +72,13 @@ export type LogDisplay =
       name: string
       status: Task_Status_Enum
     }
+  | {
+      type: LogType.ThreadStatusUpdate
+      id: string
+      name: string
+      prevStatus: Thread_Status_Enum
+      status: Thread_Status_Enum
+    }
 
 export enum EntityChangeType {
   Create = 'Create',
@@ -101,6 +111,7 @@ export interface EntitiesTypes {
   members: MemberFragment
   tasks: TaskFragment
   decisions: DecisionFragment
+  thread: ThreadFragment
 }
 
 export type EntitiesChanges = {

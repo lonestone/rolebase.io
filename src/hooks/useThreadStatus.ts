@@ -1,10 +1,17 @@
-import { ThreadFragment, Thread_Status_Enum, useUpdateThreadMutation } from '@gql'
+import {
+  ThreadFragment,
+  Thread_Status_Enum,
+  useUpdateThreadMutation,
+} from '@gql'
+import useCreateLog from '@hooks/useCreateLog'
+import { EntityChangeType, LogType } from '@shared/model/log'
 import { useCallback, useEffect, useState } from 'react'
 
 export default function useThreadStatus(thread?: ThreadFragment) {
   const [updateThread] = useUpdateThreadMutation()
-  const status: Thread_Status_Enum | undefined =
-    thread?.status || undefined
+  const createLog = useCreateLog()
+
+  const status: Thread_Status_Enum | undefined = thread?.status || undefined
   const [cachedStatus, setCachedStatus] = useState(status)
 
   useEffect(() => {
@@ -14,9 +21,7 @@ export default function useThreadStatus(thread?: ThreadFragment) {
 
   // Set thread status value
   const setStatus = useCallback(
-    async(
-      value: Thread_Status_Enum
-    ) => {
+    async (value: Thread_Status_Enum) => {
       if (!thread) return
 
       // Update local state
@@ -27,9 +32,29 @@ export default function useThreadStatus(thread?: ThreadFragment) {
         variables: {
           id: thread.id,
           values: {
-            status :value,
-            
+            status: value,
           },
+        },
+      })
+
+      // Record log
+      await createLog({
+        display: {
+          type: LogType.ThreadStatusUpdate,
+          id: thread.id,
+          name: thread.title,
+          prevStatus: thread.status,
+          status: value,
+        },
+        changes: {
+          thread: [
+            {
+              type: EntityChangeType.Update,
+              id: thread.id,
+              prevData: { status: thread.status },
+              newData: { status: value },
+            },
+          ],
         },
       })
     },
