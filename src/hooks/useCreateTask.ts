@@ -35,6 +35,7 @@ export default function useCreateTask() {
 
       // Record log
       createLog({
+        taskId: newTask.id,
         display: {
           type: LogType.TaskCreate,
           id: newTask.id,

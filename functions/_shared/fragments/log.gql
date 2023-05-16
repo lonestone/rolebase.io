@@ -13,4 +13,5 @@ fragment Log on log {
   cancelMemberName
   canceled
   threadId
+  taskId
 }

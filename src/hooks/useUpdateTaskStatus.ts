@@ -19,6 +19,7 @@ export default function useUpdateTaskStatus() {
 
       // Record log
       await createLog({
+        taskId: task.id,
         display: {
           type: LogType.TaskStatusUpdate,
           id: task.id,
