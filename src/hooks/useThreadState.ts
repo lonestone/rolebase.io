@@ -16,7 +16,6 @@ import useParticipants from '@hooks/useParticipants'
 import { ParticipantMember } from '@shared/model/member'
 import { useCallback, useEffect, useMemo } from 'react'
 import { usePathInOrg } from './usePathInOrg'
-import { LogFragment } from '@gql'
 import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 
 /***
@@ -29,7 +28,6 @@ export interface ThreadState {
   thread: ThreadFragment | undefined
   memberStatus: ThreadMemberStatusFragment | undefined
   activities: ThreadActivityFragment[] | undefined
-  threadLogs: LogFragment[] | undefined
   loading: boolean
   error: Error | undefined
   path: string
@@ -189,7 +187,6 @@ export default function useThreadState(threadId: string): ThreadState {
     thread,
     memberStatus,
     activities: concatThreadLogsActivities,
-    threadLogs,
     loading: threadResult.loading || activitiesLogsResult.loading,
     error: threadResult.error || activitiesLogsResult.error,
     path,

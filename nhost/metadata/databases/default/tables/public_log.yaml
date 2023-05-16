@@ -50,23 +50,25 @@ insert_permissions:
         - memberId
         - memberName
         - orgId
+        - threadId
         - userId
 select_permissions:
   - role: user
     permission:
       columns:
-        - canceled
-        - changes
-        - display
-        - memberName
-        - createdAt
         - cancelLogId
         - cancelMemberId
         - cancelMemberName
+        - canceled
+        - changes
+        - createdAt
+        - display
         - id
         - meetingId
         - memberId
+        - memberName
         - orgId
+        - threadId
         - userId
       filter:
         org:
