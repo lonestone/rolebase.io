@@ -63,8 +63,8 @@ export default function useThreadState(threadId: string): ThreadState {
   })
 
   const activities =
-    activitiesLogsResult.data?.thread[0].activities || undefined
-  const threadLogs = activitiesLogsResult.data?.thread[0].logs || undefined
+    activitiesLogsResult.data?.thread_by_pk?.activities || undefined
+  const threadLogs = activitiesLogsResult.data?.thread_by_pk?.logs || undefined
 
   // Meeting page path
   const path = usePathInOrg(`threads/${thread?.id}`)

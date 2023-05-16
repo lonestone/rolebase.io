@@ -9,7 +9,7 @@ query getLastThreadActivity($threadId: uuid!) {
 }
 
 subscription threadActivitiesLogs($id: uuid!) {
-  thread(where: { id: { _eq: $id } }, order_by: { createdAt: asc }, limit: 1) {
+  thread_by_pk(id: $id) {
     activities {
       ...ThreadActivity
     }
