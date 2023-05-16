@@ -37,8 +37,7 @@ import { FiCalendar } from 'react-icons/fi'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
 import { isPast } from 'date-fns'
-import { MeetingFragment, useUpdateMeetingMutation } from '@gql'
-import getLastMeetingByRecurringId from '@hooks/usePreviousMeeting'
+import { useCopyNotesMeeting } from '@hooks/useCopyNotesMeeting'
 
 interface Props extends BoxProps {
   id: string
@@ -76,12 +75,10 @@ export default function MeetingContent({
     handleChangeForceEdit,
   } = meetingState
 
-  const result = getLastMeetingByRecurringId(meeting)
-  const [updateMeeting] = useUpdateMeetingMutation()
+  const copyStepNotes = useCopyNotesMeeting()
 
   // Meeting edition modal
   const [duplicateInModal, setDuplicateInModal] = useState(false)
-  const [loadingNotes, setLoadingNotes] = useState(false)
 
   const editModal = useDisclosure()
 
@@ -103,20 +100,9 @@ export default function MeetingContent({
     meeting?.recurringDate &&
     !isPast(new Date(meeting?.recurringDate))
 
-  //@TODO : see if method can be improved using useDuplicateMeetingSteps hook because wee need to copy every step and notes from previous meeting
-  const handleNotesChange = (previousMeeting: MeetingFragment) => {
-    // Update meeting
-    setLoadingNotes(true)
-    console.log(previousMeeting)
-    // updateMeeting({
-    //   variables: {
-    //     id: meeting?.id!,
-    //     values: {
-    //       stepsConfig: previousMeeting?.stepsConfig!,
-    //     },
-    //   },
-    // })
-    setLoadingNotes(false)
+  const handleNotesChange = async () => {
+    if (!meeting) return
+    await copyStepNotes(meeting)
   }
 
   if (error) {
@@ -164,6 +150,7 @@ export default function MeetingContent({
               <Flex mr={headerIcons ? -2 : 0}>
                 {canEdit && (
                   <ActionsMenu
+                    ml={2}
                     onEdit={
                       canEdit
                         ? meeting?.ended && !forceEdit
@@ -176,12 +163,8 @@ export default function MeetingContent({
                       canEdit && !isStarted ? deleteModal.onOpen : undefined
                     }
                     onCopyStepNotes={
-                      canCopyStepNotes
-                        ? () => result && handleNotesChange(result)
-                        : undefined
+                      canCopyStepNotes ? handleNotesChange : undefined
                     }
-                    isLoading={loadingNotes}
-                    ml={2}
                   />
                 )}
                 {headerIcons}
