@@ -28,7 +28,6 @@ export interface ThreadState {
   thread: ThreadFragment | undefined
   memberStatus: ThreadMemberStatusFragment | undefined
   activities: ThreadActivityFragment[] | undefined
-  threadLogs: LogFragment[] | undefined
   loading: boolean
   error: Error | undefined
   path: string
