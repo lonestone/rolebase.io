@@ -100,7 +100,6 @@ export default function ThreadsPage() {
             </MenuButton>
             <MenuList zIndex={2}>
               <MenuOptionGroup
-                title={t('ThreadsFilterMenu.participation.title')}
                 type="checkbox"
                 value={filterValue}
                 onChange={(value) => handleFilterChange(value)}
