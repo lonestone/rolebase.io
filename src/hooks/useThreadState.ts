@@ -4,8 +4,7 @@ import {
   ThreadFragment,
   ThreadMemberStatusFragment,
   Thread_Activity_Type_Enum,
-  useThreadActivitiesSubscription,
-  useThreadLogsSubscription,
+  useThreadActivitiesLogsSubscription,
   useThreadSubscription,
   useUpsertThreadMemberStatusMutation,
 } from '@gql'
@@ -60,18 +59,14 @@ export default function useThreadState(threadId: string): ThreadState {
   const thread = threadResult.data?.thread_by_pk || undefined
   const memberStatus = thread?.member_status?.[0]
 
-  // Subscribe to activities
-  const activitiesResult = useThreadActivitiesSubscription({
-    variables: { threadId },
+  // Subscribe to activities and logs
+  const activitiesLogsResult = useThreadActivitiesLogsSubscription({
+    variables: { id: threadId },
   })
 
-  const activities = activitiesResult.data?.thread_activity || undefined
-
-  const threadLogsResult = useThreadLogsSubscription({
-    variables: { threadId },
-  })
-
-  const threadLogs = threadLogsResult.data?.log || undefined
+  const activities =
+    activitiesLogsResult.data?.thread[0].activities || undefined
+  const threadLogs = activitiesLogsResult.data?.thread[0].logs || undefined
 
   // Meeting page path
   const path = usePathInOrg(`threads/${thread?.id}`)
@@ -195,8 +190,8 @@ export default function useThreadState(threadId: string): ThreadState {
     memberStatus,
     activities: concatThreadLogsActivities,
     threadLogs,
-    loading: threadResult.loading || activitiesResult.loading,
-    error: threadResult.error || activitiesResult.error,
+    loading: threadResult.loading || activitiesLogsResult.loading,
+    error: threadResult.error || activitiesLogsResult.error,
     path,
     circle,
     participants,

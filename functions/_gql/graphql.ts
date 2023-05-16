@@ -3588,6 +3588,8 @@ export type Log = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
+  /** An object relationship */
+  thread?: Maybe<Thread>;
   threadId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   user: Users;
@@ -3691,6 +3693,7 @@ export type Log_Bool_Exp = {
   memberName?: InputMaybe<String_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  thread?: InputMaybe<Thread_Bool_Exp>;
   threadId?: InputMaybe<Uuid_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3726,6 +3729,7 @@ export type Log_Insert_Input = {
   memberName?: InputMaybe<Scalars['String']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  thread?: InputMaybe<Thread_Obj_Rel_Insert_Input>;
   threadId?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   /** User and member who made the change */
@@ -3855,6 +3859,7 @@ export type Log_Order_By = {
   memberName?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
+  thread?: InputMaybe<Thread_Order_By>;
   threadId?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
@@ -14107,6 +14112,10 @@ export type Thread = {
   initiatorMember: Member;
   initiatorMemberId: Scalars['uuid'];
   /** An array relationship */
+  logs: Array<Log>;
+  /** An aggregate relationship */
+  logs_aggregate: Log_Aggregate;
+  /** An array relationship */
   member_status: Array<Thread_Member_Status>;
   /** An aggregate relationship */
   member_status_aggregate: Thread_Member_Status_Aggregate;
@@ -14137,6 +14146,26 @@ export type ThreadActivities_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Thread_Activity_Order_By>>;
   where?: InputMaybe<Thread_Activity_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadLogsArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadLogs_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
 };
 
 
@@ -14714,6 +14743,8 @@ export type Thread_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   initiatorMember?: InputMaybe<Member_Bool_Exp>;
   initiatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
+  logs?: InputMaybe<Log_Bool_Exp>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Bool_Exp>;
   member_status?: InputMaybe<Thread_Member_Status_Bool_Exp>;
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
@@ -14740,6 +14771,7 @@ export type Thread_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   initiatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   initiatorMemberId?: InputMaybe<Scalars['uuid']>;
+  logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
   member_status?: InputMaybe<Thread_Member_Status_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
@@ -15048,6 +15080,7 @@ export type Thread_Order_By = {
   id?: InputMaybe<Order_By>;
   initiatorMember?: InputMaybe<Member_Order_By>;
   initiatorMemberId?: InputMaybe<Order_By>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
