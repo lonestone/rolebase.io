@@ -5,9 +5,15 @@ import { Thread_Status_Enum } from '@gql'
 import {
   Box,
   Button,
+  ButtonGroup,
   Container,
   Flex,
   Heading,
+  Menu,
+  MenuButton,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
   Spacer,
   Tag,
   TagCloseButton,
@@ -21,10 +27,19 @@ import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
 import ThreadItem from '@molecules/thread/ThreadItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
-import { ThreadsFilterMenu } from '@organisms/thread/ThreadsFilterMenu'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { FiChevronDown, FiPlus } from 'react-icons/fi'
+import { EntityFilters } from '@shared/model/participants'
+
+const entityFiltersList = [EntityFilters.Invited, EntityFilters.NotInvited]
+
+const threadStatusFiltersList = [
+  Thread_Status_Enum.Active,
+  Thread_Status_Enum.Blocked,
+  Thread_Status_Enum.Closed,
+  Thread_Status_Enum.Preparation,
+]
 
 export default function ThreadsPage() {
   const { t } = useTranslation()
@@ -72,16 +87,58 @@ export default function ThreadsPage() {
         )}
 
         <Spacer />
+        <ButtonGroup>
+          <Menu closeOnSelect={false}>
+            <MenuButton
+              as={Button}
+              className="userflow-threads-filter"
+              size="sm"
+              variant="outline"
+              rightIcon={<FiChevronDown />}
+            >
+              {t(`ThreadsFilterMenu.participation.${filter}` as any)}
+            </MenuButton>
+            <MenuList zIndex={2}>
+              <MenuOptionGroup
+                title={t('ThreadsFilterMenu.participation.title')}
+                type="checkbox"
+                value={filterValue}
+                onChange={(value) => handleFilterChange(value)}
+              >
+                {entityFiltersList.map((filter) => (
+                  <MenuItemOption key={filter} value={filter}>
+                    {t(`ThreadsFilterMenu.participation.${filter}` as any)}
+                  </MenuItemOption>
+                ))}
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
 
-        <ThreadsFilterMenu
-          filter={filter}
-          filterValue={filterValue}
-          handleFilterChange={handleFilterChange}
-          archives={archives}
-          setArchives={setArchives}
-          status={status}
-          setStatus={setStatus}
-        />
+          <Menu closeOnSelect={false}>
+            <MenuButton
+              as={Button}
+              size="sm"
+              variant="outline"
+              className="userflow-threads-status-filter"
+              rightIcon={<FiChevronDown />}
+            >
+              {t('ThreadsFilterMenu.status.title')}
+            </MenuButton>
+            <MenuList zIndex={2000}>
+              <MenuOptionGroup
+                type="checkbox"
+                value={status}
+                onChange={(value) => setStatus(value as Thread_Status_Enum[])}
+              >
+                {threadStatusFiltersList.map((status) => (
+                  <MenuItemOption key={status} value={status}>
+                    {t(`common.threadStatus.${status}`)}
+                  </MenuItemOption>
+                ))}
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
+        </ButtonGroup>
 
         {isMember && (
           <Button
