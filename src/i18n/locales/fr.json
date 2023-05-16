@@ -782,7 +782,8 @@
     "memberId": "Membre assigné",
     "dueDate": "Date limite",
     "description": "Description",
-    "notes": "Notes, liens..."
+    "notes": "Notes, liens...",
+    "logs": "Historique"
   },
   "TaskDeleteModal": {
     "heading": "Supprimer une tâche",

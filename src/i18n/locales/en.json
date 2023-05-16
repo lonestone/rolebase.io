@@ -748,7 +748,8 @@
     "memberId": "Assigned member",
     "dueDate": "Deadline",
     "description": "Description",
-    "notes": "Notes, links..."
+    "notes": "Notes, links...",
+    "logs": "History"
   },
   "TaskDeleteModal": {
     "heading": "Delete task",

@@ -16437,6 +16437,13 @@ export type LastLogsSubscriptionVariables = Exact<{
 
 export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null }> };
 
+export type TaskLogsSubscriptionVariables = Exact<{
+  taskId: Scalars['uuid'];
+}>;
+
+
+export type TaskLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, taskId?: string | null }> };
+
 export type MeetingLogsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
@@ -17848,6 +17855,36 @@ export function useLastLogsSubscription(baseOptions: Apollo.SubscriptionHookOpti
       }
 export type LastLogsSubscriptionHookResult = ReturnType<typeof useLastLogsSubscription>;
 export type LastLogsSubscriptionResult = Apollo.SubscriptionResult<LastLogsSubscription>;
+export const TaskLogsDocument = gql`
+    subscription taskLogs($taskId: uuid!) {
+  log(where: {taskId: {_eq: $taskId}}, order_by: {createdAt: asc}) {
+    ...Log
+  }
+}
+    ${LogFragmentDoc}`;
+
+/**
+ * __useTaskLogsSubscription__
+ *
+ * To run a query within a React component, call `useTaskLogsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTaskLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTaskLogsSubscription({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *   },
+ * });
+ */
+export function useTaskLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<TaskLogsSubscription, TaskLogsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<TaskLogsSubscription, TaskLogsSubscriptionVariables>(TaskLogsDocument, options);
+      }
+export type TaskLogsSubscriptionHookResult = ReturnType<typeof useTaskLogsSubscription>;
+export type TaskLogsSubscriptionResult = Apollo.SubscriptionResult<TaskLogsSubscription>;
 export const MeetingLogsDocument = gql`
     subscription meetingLogs($meetingId: uuid!) {
   log(where: {meetingId: {_eq: $meetingId}}, order_by: {createdAt: asc}) {
