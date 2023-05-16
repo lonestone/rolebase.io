@@ -19,9 +19,13 @@ export function useCopyNotesMeeting() {
       },
     })
 
-    const result = meetings.data?.meeting?.findLast(
-      (meet) =>
-        new Date(meet.recurringDate!) < new Date(fromMeeting?.recurringDate!)
+    //Find last meeting before current meeting
+    const result = meetings?.data?.meeting?.find(
+      (meeting) =>
+        meeting.id !== fromMeeting.id &&
+        new Date(meeting.recurringDate!) <
+          new Date(fromMeeting.recurringDate!) &&
+        meeting.steps.length > 0
     )
 
     const meetingSteps = result?.steps
