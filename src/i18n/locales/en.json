@@ -844,18 +844,23 @@
   },
   "ThreadsPage": {
     "heading": "Topics",
+    "create": "New topic",
+    "empty": "No topic."
+  },
+  "ThreadsFilterMenu":{
     "participation": {
       "title": "Participation",
       "Invited": "My topics",
       "NotInvited": "Other topics",
       "All": "All topics"
     },
+    "status":{
+      "title": "Topics status"
+    },
     "archives": {
       "title": "Archive",
       "show": "Show Archive"
-    },
-    "create": "New topic",
-    "empty": "No topic."
+    }
   },
   "VacantRolesModal": {
     "heading": "Vacant roles",
