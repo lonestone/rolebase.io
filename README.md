@@ -18,7 +18,7 @@ npm i
 
 ### Nhost
 
-Rolebase's backend is built with [Nhost](https://nhost.io). Follow these steps to set it up:
+Rolebase's backend is built with [Nhost](https://nhost.io). Follow these steps to set it up (MacOS, Linux):
 
 1.  Create an account on nhost.io : https://app.nhost.io.
 
@@ -31,6 +31,18 @@ sudo curl -L https://raw.githubusercontent.com/nhost/cli/main/get.sh | bash
 3.  If you don't have them already, install [Docker](https://www.docker.com/get-started) and [Git](https://git-scm.com/downloads)
 
 4.  Log in to Nhost
+
+Set up for Windows users :
+
+1.  Download Ubuntu from Microsoft store or anywhere else where you can find it.
+
+2.  Upgrade for WSL 2.
+
+3.  On Ubuntu install git, nvm, npm and node (https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl).
+
+4.  Clone project on Ubuntu environment and open project from Ubuntu terminal to VSCode.
+
+5.  If Docker permissions got denied, follow this step to add new user : https://stackoverflow.com/questions/47854463/docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socke , also verify in docker desktop > settings > resources > WSL integration > Enable Ubuntu for wsl distro and apply.
 
 ```
 nhost login
