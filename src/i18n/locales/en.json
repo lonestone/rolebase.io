@@ -841,7 +841,6 @@
     "settings": "Settings"
   },
   "ThreadStatusMenu":{
-    "title": "Topic's status",
     "status":{
       "Active": "In progress",
       "Blocked": "Blocked",
