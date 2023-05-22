@@ -54,7 +54,6 @@ insert_permissions:
       columns:
         - archived
         - circleId
-        - createdAt
         - initiatorMemberId
         - orgId
         - participantsMembersIds
@@ -87,9 +86,6 @@ update_permissions:
       columns:
         - archived
         - circleId
-        - id
-        - initiatorMemberId
-        - orgId
         - participantsMembersIds
         - participantsScope
         - status
