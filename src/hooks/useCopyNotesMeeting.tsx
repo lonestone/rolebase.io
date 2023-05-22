@@ -5,41 +5,39 @@ import {
   MeetingFragment,
   useGetMeetingsLazyQuery,
   useUpdateMeetingStepMutation,
+  useGetMeetingStepsLazyQuery,
 } from '@gql'
 import { useCallback } from 'react'
 
 export function useCopyNotesMeeting() {
   const [getMeetings] = useGetMeetingsLazyQuery()
+  const [getMeetingSteps] = useGetMeetingStepsLazyQuery()
   const [updateMeetingStep] = useUpdateMeetingStepMutation()
 
   return useCallback(async (fromMeeting: MeetingFragment) => {
     const meetings = await getMeetings({
       variables: {
         recurringId: fromMeeting?.recurringId!,
+        recurringDate: fromMeeting?.recurringDate!,
       },
     })
 
-    //Find last meeting before current meeting
-    const result = meetings?.data?.meeting?.find(
-      (meeting) =>
-        meeting.id !== fromMeeting.id &&
-        new Date(meeting.recurringDate!) <
-          new Date(fromMeeting.recurringDate!) &&
-        meeting.steps.length > 0
-    )
-
-    const meetingSteps = result?.steps
+    const meetingSteps = meetings?.data?.meeting[0].steps
     if (!meetingSteps) return
 
+    const { data } = await getMeetingSteps({
+      variables: { meetingId: fromMeeting.id },
+    })
+
+    const fromMeetingSteps = data?.meeting_step || []
+
     await Promise.all(
-      meetingSteps
-        .filter((step) =>
-          fromMeeting.stepsConfig.some(
-            (stepConfig) => stepConfig.id === step.stepConfigId
+      meetingSteps.map((step) => {
+        fromMeetingSteps.map((fromStep) => {
+          if (
+            fromStep.type === step.type ||
+            fromStep.stepConfigId === step.stepConfigId
           )
-        )
-        .map((step) => {
-          fromMeeting.steps.map((fromStep) => {
             return updateMeetingStep({
               variables: {
                 id: fromStep.id,
@@ -48,8 +46,8 @@ export function useCopyNotesMeeting() {
                 },
               },
             })
-          })
         })
+      })
     )
   }, [])
 }

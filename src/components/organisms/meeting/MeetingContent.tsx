@@ -95,11 +95,6 @@ export default function MeetingContent({
   // Meeting deletion modal
   const deleteModal = useDisclosure()
 
-  const canCopyStepNotes =
-    meeting?.recurringId &&
-    meeting?.recurringDate &&
-    !isPast(new Date(meeting?.recurringDate))
-
   const handleNotesChange = async () => {
     if (!meeting) return
     await copyStepNotes(meeting)
@@ -162,9 +157,7 @@ export default function MeetingContent({
                     onDelete={
                       canEdit && !isStarted ? deleteModal.onOpen : undefined
                     }
-                    onCopyStepNotes={
-                      canCopyStepNotes ? handleNotesChange : undefined
-                    }
+                    onCopyStepNotes={handleNotesChange}
                   />
                 )}
                 {headerIcons}
