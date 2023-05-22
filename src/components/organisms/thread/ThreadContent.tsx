@@ -142,7 +142,6 @@ export default function ThreadContent({
           ) : undefined
         }
       />
-
       {editModal.isOpen && (
         <ThreadEditModal isOpen thread={thread} onClose={editModal.onClose} />
       )}

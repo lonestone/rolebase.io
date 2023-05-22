@@ -38,19 +38,17 @@ export const ThreadStatusMenu = ({
         variant="outline"
         rightIcon={<FiChevronDown />}
       >
-        {t(
-          `ThreadStatusMenu.status.${value ?? Thread_Status_Enum.Preparation}`
-        )}
+        {t(`common.threadStatus.${value ?? Thread_Status_Enum.Preparation}`)}
       </MenuButton>
       <MenuList zIndex={2}>
-        <MenuOptionGroup type="radio">
+        <MenuOptionGroup type="radio" value={value}>
           {threadStatusOptions.map((option) => (
             <MenuItemOption
               key={option}
               value={option}
-              onClick={() => onChange(option)}
+              onClick={() => option !== value && onChange(option)}
             >
-              {t(`ThreadStatusMenu.status.${option}`)}
+              {t(`common.threadStatus.${option}`)}
             </MenuItemOption>
           ))}
         </MenuOptionGroup>

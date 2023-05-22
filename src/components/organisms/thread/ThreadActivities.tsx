@@ -95,7 +95,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
       <VStack spacing={0} mb={2} align="stretch" ref={ref} {...stackProps}>
         {activities &&
           activities.map((activity, i) => (
-            <React.Fragment key={activity.id}>
+            <React.Fragment key={`activity_${activity.id}`}>
               {(i === 0 ||
                 !isSameDay(
                   new Date(activity.createdAt),

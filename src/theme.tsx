@@ -54,21 +54,25 @@ export const taskStatusColors: Record<Task_Status_Enum, string> = {
 
 export const threadStatusColors: Record<
   Thread_Status_Enum,
-  { bg: string; darkBg: string }
+  { tag: string; bg: string; darkBg: string }
 > = {
   [Thread_Status_Enum.Active]: {
+    tag: 'blue',
     bg: 'blue.400',
     darkBg: 'blue.400',
   },
   [Thread_Status_Enum.Blocked]: {
+    tag: 'red',
     bg: 'red.400',
     darkBg: 'red.400',
   },
   [Thread_Status_Enum.Closed]: {
+    tag: 'green',
     bg: 'green.400',
     darkBg: 'green.400',
   },
   [Thread_Status_Enum.Preparation]: {
+    tag: 'gray',
     bg: 'gray.200',
     darkBg: 'whiteAlpha.100',
   },

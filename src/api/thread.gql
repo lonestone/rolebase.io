@@ -4,6 +4,12 @@ query getCircleThreadsIds($circleId: uuid!) {
   }
 }
 
+query getThread($id: uuid!) {
+  thread_by_pk(id: $id) {
+    ...Thread
+  }
+}
+
 subscription thread($id: uuid!, $memberId: uuid!) {
   thread_by_pk(id: $id) {
     ...Thread
