@@ -31,7 +31,19 @@ array_relationships:
 insert_permissions:
   - role: user
     permission:
-      check: {}
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
       columns:
         - archived
         - circleId
@@ -56,7 +68,12 @@ select_permissions:
         - participantsScope
         - status
         - title
-      filter: {}
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
 update_permissions:
   - role: user
     permission:
@@ -70,8 +87,20 @@ update_permissions:
         - participantsScope
         - status
         - title
-      filter: {}
-      check: null
+      filter:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
+      check: {}
 event_triggers:
   - name: index-thread
     definition:
