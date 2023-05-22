@@ -15,16 +15,18 @@ import {
 import { ThreadContext } from '@contexts/ThreadContext'
 import { useUpdateThreadMutation } from '@gql'
 import useThreadState from '@hooks/useThreadState'
+import useThreadStatus from '@hooks/useThreadStatus'
 import ActionsMenu from '@molecules/ActionsMenu'
+import { CircleThreadStatus } from '@molecules/CircleThreadStatus'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import ScrollableLayout from '@molecules/ScrollableLayout'
 import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
+import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import ThreadActivities from '@organisms/thread/ThreadActivities'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import Page404 from '@pages/Page404'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiMessageSquare } from 'react-icons/fi'
 
 interface Props extends BoxProps {
   id: string
@@ -58,6 +60,8 @@ export default function ThreadContent({
   // Create modal
   const editModal = useDisclosure()
 
+  const { threadStatus, setStatus } = useThreadStatus(thread)
+
   // Archive / unarchive
   const handleArchive = useCallback(
     () => updateThread({ variables: { id, values: { archived: true } } }),
@@ -82,7 +86,8 @@ export default function ThreadContent({
             {changeTitle && <Title>{thread?.title || '…'}</Title>}
 
             <Wrap spacing={2} flex={1} align="center">
-              <FiMessageSquare />
+              <CircleThreadStatus status={threadStatus} />
+
               <Heading as="h1" size="md">
                 {thread?.title || (loading ? '…' : null)}
               </Heading>
@@ -90,6 +95,8 @@ export default function ThreadContent({
               <Spacer />
 
               <HStack spacing={2}>
+                <ThreadStatusMenu value={threadStatus} onChange={setStatus} />
+
                 {thread?.archived && <Tag>{t('common.archived')}</Tag>}
 
                 {circle && <CircleButton circle={circle} />}

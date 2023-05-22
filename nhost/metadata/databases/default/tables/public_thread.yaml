@@ -51,6 +51,7 @@ insert_permissions:
         - orgId
         - participantsMembersIds
         - participantsScope
+        - status
         - title
 select_permissions:
   - role: user
@@ -64,6 +65,7 @@ select_permissions:
         - orgId
         - participantsMembersIds
         - participantsScope
+        - status
         - title
       filter:
         org:
@@ -79,6 +81,7 @@ update_permissions:
         - circleId
         - participantsMembersIds
         - participantsScope
+        - status
         - title
       filter:
         org:

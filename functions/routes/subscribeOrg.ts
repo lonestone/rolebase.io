@@ -41,7 +41,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
 
   if (!user || !user.email) {
     console.error('[SUBSCRIPTION ERROR]: could not retrieve user email')
-    throw new RouteError(500, 'Internal server error') // Should not happen but better be carefull
+    throw new RouteError(500, 'Internal server error') // Should not happen but better be careful
   }
 
   const orgSubscription = (

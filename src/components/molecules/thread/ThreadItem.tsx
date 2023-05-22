@@ -15,9 +15,9 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useMember from '@hooks/useMember'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
+import { CircleThreadStatus } from '@molecules/CircleThreadStatus'
 import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
-import { FiMessageSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {
@@ -70,11 +70,10 @@ const ThreadItem = forwardRef<Props, 'div'>(
         >
           <Flex align="center">
             {showIcon && (
-              <Center w={6} h={6} mr={2}>
-                <FiMessageSquare />
+              <Center w={6} h={6} mr={2} zIndex={'overlay'}>
+                <CircleThreadStatus status={thread.status} />
               </Center>
             )}
-
             <LinkOverlay
               as={ReachLink}
               flex={1}

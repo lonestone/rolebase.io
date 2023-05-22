@@ -19,6 +19,7 @@ import {
   ThreadFragment,
   useCreateThreadMutation,
   useUpdateThreadMutation,
+  Thread_Status_Enum,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -115,6 +116,7 @@ export default function ThreadEditModal({
           values: {
             orgId,
             initiatorMemberId: currentMember.id,
+            status: Thread_Status_Enum.Preparation,
             ...threadUpdate,
           },
         },

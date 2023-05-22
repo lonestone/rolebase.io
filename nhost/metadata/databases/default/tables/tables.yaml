@@ -34,5 +34,6 @@
 - "!include public_thread_activity_type.yaml"
 - "!include public_thread_member_status.yaml"
 - "!include public_thread_poll_answer.yaml"
+- "!include public_thread_status.yaml"
 - "!include storage_buckets.yaml"
 - "!include storage_files.yaml"
