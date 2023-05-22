@@ -3589,6 +3589,7 @@ export type Log = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
+  taskId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   thread?: Maybe<Thread>;
   threadId?: Maybe<Scalars['uuid']>;
@@ -3694,6 +3695,7 @@ export type Log_Bool_Exp = {
   memberName?: InputMaybe<String_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  taskId?: InputMaybe<Uuid_Comparison_Exp>;
   thread?: InputMaybe<Thread_Bool_Exp>;
   threadId?: InputMaybe<Uuid_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
@@ -3730,6 +3732,7 @@ export type Log_Insert_Input = {
   memberName?: InputMaybe<Scalars['String']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  taskId?: InputMaybe<Scalars['uuid']>;
   thread?: InputMaybe<Thread_Obj_Rel_Insert_Input>;
   threadId?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -3753,6 +3756,7 @@ export type Log_Max_Fields = {
   /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  taskId?: Maybe<Scalars['uuid']>;
   threadId?: Maybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
@@ -3773,6 +3777,7 @@ export type Log_Max_Order_By = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  taskId?: InputMaybe<Order_By>;
   threadId?: InputMaybe<Order_By>;
   /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
@@ -3794,6 +3799,7 @@ export type Log_Min_Fields = {
   /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  taskId?: Maybe<Scalars['uuid']>;
   threadId?: Maybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
@@ -3814,6 +3820,7 @@ export type Log_Min_Order_By = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  taskId?: InputMaybe<Order_By>;
   threadId?: InputMaybe<Order_By>;
   /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
@@ -3860,6 +3867,7 @@ export type Log_Order_By = {
   memberName?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
+  taskId?: InputMaybe<Order_By>;
   thread?: InputMaybe<Thread_Order_By>;
   threadId?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
@@ -3898,6 +3906,8 @@ export enum Log_Select_Column {
   /** column name */
   OrgId = 'orgId',
   /** column name */
+  TaskId = 'taskId',
+  /** column name */
   ThreadId = 'threadId',
   /** column name */
   UserId = 'userId'
@@ -3935,6 +3945,7 @@ export type Log_Set_Input = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  taskId?: InputMaybe<Scalars['uuid']>;
   threadId?: InputMaybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
@@ -3968,6 +3979,7 @@ export type Log_Stream_Cursor_Value_Input = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  taskId?: InputMaybe<Scalars['uuid']>;
   threadId?: InputMaybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
@@ -3999,6 +4011,8 @@ export enum Log_Update_Column {
   MemberName = 'memberName',
   /** column name */
   OrgId = 'orgId',
+  /** column name */
+  TaskId = 'taskId',
   /** column name */
   ThreadId = 'threadId',
   /** column name */
