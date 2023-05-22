@@ -12,7 +12,6 @@ export default function useThreadStatus(thread?: ThreadFragment) {
   const createLog = useCreateLog()
 
   const status: Thread_Status_Enum | undefined = thread?.status || undefined
-
   const [cachedStatus, setCachedStatus] = useState(status)
 
   useEffect(() => {
