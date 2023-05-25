@@ -271,7 +271,8 @@
     "scopeMine": "Toutes mes réunions",
     "scopeCircle": "Toutes les réunions d'un rôle",
     "circle": "Rôle",
-    "url": "URL iCal"
+    "url": "URL iCal",
+    "help": "La synchronisation entre votre calendrier Rolebase et votre agenda externe peut prendre quelques minutes."
   },
   "MeetingOpenCurrent": {
     "heading": "Réunion en cours",

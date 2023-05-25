@@ -15,6 +15,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Text,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
@@ -143,6 +144,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                 </InputGroup>
               </FormControl>
             )}
+            <Text>{t('MeetingExportModal.help')}</Text>
           </VStack>
         </ModalBody>
       </ModalContent>

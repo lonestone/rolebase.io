@@ -239,7 +239,8 @@
     "scopeMine": "All my meetings",
     "scopeCircle": "All meetings in a role",
     "circle": "Role",
-    "url": "iCal URL"
+    "url": "iCal URL",
+    "help": "Synchronization between your Rolebase calendar and your external calendar may take up to few minutes."
   },
   "MeetingOpenCurrent": {
     "heading": "Meeting in progress",
