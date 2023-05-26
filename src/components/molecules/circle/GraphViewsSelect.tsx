@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonProps,
   Menu,
   MenuButton,
   MenuItem,
@@ -11,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
 import { GraphViews } from 'src/circles-viz/types'
 
-interface Props {
+interface Props extends Omit<ButtonProps, 'value' | 'onChange'> {
   value: GraphViews
   onChange: (view: GraphViews) => void
 }
@@ -23,7 +24,11 @@ export const viewsList = [
   GraphViews.Members,
 ]
 
-export default function GraphViewsSelect({ value, onChange }: Props) {
+export default function GraphViewsSelect({
+  value,
+  onChange,
+  ...buttonProps
+}: Props) {
   const { t } = useTranslation()
 
   return (
@@ -32,15 +37,7 @@ export default function GraphViewsSelect({ value, onChange }: Props) {
         as={Button}
         rightIcon={<FiChevronDown />}
         className="userflow-graph-views"
-        variant="solid"
-        boxShadow="md"
-        bg="white"
-        _dark={{
-          bg: 'gray.700',
-        }}
-        _focus={{
-          boxShadow: 'md !important',
-        }}
+        {...buttonProps}
       >
         {t(`GraphViewsSelect.${value}` as any)}
       </MenuButton>

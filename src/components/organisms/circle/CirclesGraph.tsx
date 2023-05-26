@@ -13,7 +13,12 @@ import React, {
 } from 'react'
 import { getGraphInstance } from 'src/circles-viz'
 import { Graph } from 'src/circles-viz/Graph'
-import { GraphEvents, GraphViews, Position } from 'src/circles-viz/types'
+import {
+  GraphEvents,
+  GraphViews,
+  Position,
+  ZoomFocusCircleScale,
+} from 'src/circles-viz/types'
 import { circleColor } from 'src/theme'
 
 interface Props {
@@ -24,6 +29,7 @@ interface Props {
   width: number
   height: number
   focusCrop?: Position
+  focusCircleScale?: ZoomFocusCircleScale
   selectedCircleId?: string
   panzoomDisabled?: boolean
   onReady?(): void
@@ -124,6 +130,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
     width,
     height,
     focusCrop,
+    focusCircleScale,
     selectedCircleId,
     panzoomDisabled,
     onReady,
@@ -153,6 +160,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
         width,
         height,
         focusCrop,
+        focusCircleScale,
         events,
       }
       const graph = getGraphInstance(view, svg, params)
@@ -171,7 +179,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   useEffect(() => {
     if (width === 0 || height === 0) return
     graphRef.current?.zoom.changeDimensions(width, height, focusCrop)
-  }, [width, height, focusCrop])
+  }, [width, height, focusCrop, focusCircleScale])
 
   // Update panzoom disabled state
   useEffect(() => {

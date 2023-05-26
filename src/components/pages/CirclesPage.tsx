@@ -1,6 +1,12 @@
 import ModalPanel, { modalPanelWidth } from '@atoms/ModalPanel'
 import { Title } from '@atoms/Title'
-import { Box, HStack, useColorMode, useMediaQuery } from '@chakra-ui/react'
+import {
+  Box,
+  ButtonProps,
+  HStack,
+  useColorMode,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import { GraphZoomProvider } from '@contexts/GraphZoomContext'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -34,6 +40,17 @@ enum Panels {
   None,
   Circle,
   Member,
+}
+
+const menuButtonProps: Partial<Omit<ButtonProps, 'value' | 'onChange'>> = {
+  boxShadow: 'md',
+  bg: 'white',
+  _dark: {
+    bg: 'gray.700',
+  },
+  _focus: {
+    boxShadow: 'md !important',
+  },
 }
 
 export default function CirclesPage() {
@@ -152,10 +169,14 @@ export default function CirclesPage() {
 
       <HStack p={2}>
         <Box>
-          <GraphViewsSelect value={view} onChange={setView} />
+          <GraphViewsSelect
+            value={view}
+            onChange={setView}
+            {...menuButtonProps}
+          />
         </Box>
         <Box>
-          <CirclesKeyboardShortcuts />
+          <CirclesKeyboardShortcuts {...menuButtonProps} />
         </Box>
       </HStack>
     </GraphZoomProvider>

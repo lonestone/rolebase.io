@@ -33,6 +33,7 @@ export enum GraphViews {
 export interface GraphParams {
   width: number
   height: number
+  focusCircleScale?: (node: NodeData) => number
   focusCrop?: Position
   events: GraphEvents
 }
@@ -61,6 +62,7 @@ export interface Zoom {
   y: number
   width: number
   height: number
+  focusCircleScale: ZoomFocusCircleScale
   focusCrop: Position
   focusOffsetX: number
   focusOffsetY: number
@@ -84,6 +86,8 @@ export interface Zoom {
     instant?: boolean
   ): void
 }
+
+export type ZoomFocusCircleScale = (node: NodeData) => number
 
 export type DrawEventListener = (handler: () => void, once?: boolean) => void
 

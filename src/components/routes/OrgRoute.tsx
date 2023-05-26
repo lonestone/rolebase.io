@@ -19,6 +19,7 @@ import { Route, Routes } from 'react-router-dom'
 // Lazy pages
 const MeetingsPage = lazy(() => import('@pages/MeetingsPage'))
 const SubscriptionPage = lazy(() => import('@pages/SubscriptionPage'))
+const CircleExportPage = lazy(() => import('@pages/CircleExportPage'))
 
 interface Props {
   orgId: string
@@ -78,6 +79,10 @@ export default function OrgRoute({ orgId }: Props) {
           <Route path="tasks" element={<TasksPage />} />
           <Route path="decisions/:decisionId" element={<DecisionPage />} />
           <Route path="logs" element={<LogsPage />} />
+          <Route
+            path="export-circle/:circleId"
+            element={<CircleExportPage />}
+          />
           <Route path="*" element={<Page404 />} />
         </Routes>
       )}

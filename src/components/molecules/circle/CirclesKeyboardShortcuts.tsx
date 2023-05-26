@@ -1,6 +1,6 @@
 import IconTextButton from '@atoms/IconTextButton'
 import {
-  BoxProps,
+  ButtonProps,
   Kbd,
   Menu,
   MenuButton,
@@ -16,7 +16,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaKeyboard } from 'react-icons/fa'
 
-export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
+export default function CirclesKeyboardShortcuts(buttonProps: ButtonProps) {
   const { t } = useTranslation()
   const [isSmallScreen] = useMediaQuery('(max-width: 600px)')
   const isMember = useOrgMember()
@@ -32,15 +32,7 @@ export default function CirclesKeyboardShortcuts(boxProps: BoxProps) {
         icon={<FaKeyboard />}
         aria-label={t('CirclesKeyboardShortcuts.label')}
         className="userflow-graph-views"
-        variant="solid"
-        boxShadow="md"
-        bg="white"
-        _dark={{
-          bg: 'gray.700',
-        }}
-        _focus={{
-          boxShadow: 'md !important',
-        }}
+        {...buttonProps}
       />
 
       <MenuList zIndex={2000} shadow="md" p={4}>

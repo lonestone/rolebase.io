@@ -61,6 +61,11 @@
     "heading": "Delete role",
     "info": "Are you sure you want to delete the role <b>{{name}}</b>?"
   },
+  "CircleExportPage": {
+    "heading": "Export a capture",
+    "download": "Download as PNG",
+    "center": "Center"
+  },
   "CircleFormController": {
     "label": "Role"
   },
@@ -885,6 +890,7 @@
     "move": "Move",
     "apply": "Apply",
     "duplicate": "Duplicate",
+    "export": "Export",
     "archive": "Archive",
     "unarchive": "Restore",
     "cancel": "Cancel",

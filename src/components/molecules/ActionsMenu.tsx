@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import {
   FiArchive,
   FiCopy,
+  FiDownload,
   FiEdit3,
   FiEyeOff,
   FiMoreVertical,
@@ -22,6 +23,7 @@ interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onEdit?(): void
   onMove?(): void
   onDuplicate?(): void
+  onExport?(): void
   onDelete?(): void
   onArchive?(): void
   onUnarchive?(): void
@@ -32,6 +34,7 @@ export default function ActionsMenu({
   onEdit,
   onMove,
   onDuplicate,
+  onExport,
   onArchive,
   onUnarchive,
   onDelete,
@@ -70,6 +73,11 @@ export default function ActionsMenu({
         {onDuplicate && (
           <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
             {t('common.duplicate')}
+          </MenuItem>
+        )}
+        {onExport && (
+          <MenuItem icon={<FiDownload />} onClick={onExport}>
+            {t('common.export')}
           </MenuItem>
         )}
         {onMarkUnread && (

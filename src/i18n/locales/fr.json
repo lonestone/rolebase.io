@@ -61,6 +61,11 @@
     "heading": "Supprimer un rôle",
     "info": "Êtes-vous sûr(e) de vouloir supprimer le rôle <b>{{name}}</b> ?"
   },
+  "CircleExportPage": {
+    "heading": "Exporter une capture",
+    "download": "Télécharger au format PNG",
+    "center": "Centrer"
+  },
   "CircleFormController": {
     "label": "Rôle"
   },
@@ -914,6 +919,7 @@
     "edit": "Editer",
     "move": "Déplacer",
     "duplicate": "Dupliquer",
+    "export": "Exporter",
     "archive": "Archiver",
     "unarchive": "Restaurer",
     "cancel": "Annuler",

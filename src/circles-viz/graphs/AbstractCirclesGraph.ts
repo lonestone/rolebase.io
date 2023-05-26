@@ -3,12 +3,12 @@ import { Participant } from '@shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
 import * as d3 from 'd3'
 import { HierarchyNode } from 'd3'
+import { Graph } from '../Graph'
 import { ContainerCircleElement } from '../circle-elements/ContainerCircleElement'
 import { MemberCircleElement } from '../circle-elements/MemberCircleElement'
 import { MouseCircleElement } from '../circle-elements/MouseCircleElement'
 import { ParticipantsCircleElement } from '../circle-elements/ParticipantsCircleElement'
 import { TitleCircleElement } from '../circle-elements/TitleCircleElement'
-import { Graph } from '../Graph'
 import { createMoveTransition } from '../helpers/createTransition'
 import selectAppend from '../helpers/selectAppend'
 import settings from '../settings'
@@ -168,7 +168,7 @@ export abstract class AbstractCirclesGraph extends Graph {
         zoom.to(
           node.x,
           node.y,
-          adaptScale ? Math.max(100, node.r * 1.1) : 0,
+          adaptScale ? zoom.focusCircleScale(node) : 0,
           instant
         )
       }

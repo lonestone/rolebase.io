@@ -2,7 +2,14 @@ import { CircleFullFragment } from '@gql'
 import * as d3 from 'd3'
 import { ZoomTransform } from 'd3'
 import settings from './settings'
-import { Data, DrawEventHandler, GraphParams, Position, Zoom } from './types'
+import {
+  Data,
+  DrawEventHandler,
+  GraphParams,
+  Position,
+  Zoom,
+  ZoomFocusCircleScale,
+} from './types'
 
 const defaultFocusCrop: Position = {
   top: 0,
@@ -10,6 +17,9 @@ const defaultFocusCrop: Position = {
   bottom: 0,
   left: 0,
 }
+
+const defaultFocusCircleScale: ZoomFocusCircleScale = (node) =>
+  Math.max(200, node.r * 1.05)
 
 export abstract class Graph {
   public zoom!: Zoom
@@ -60,7 +70,7 @@ export abstract class Graph {
   }
 
   private initGraph() {
-    const { width, height, focusCrop } = this.params
+    const { width, height, focusCrop, focusCircleScale } = this.params
     const svg = d3.select(this.svg)
     const svgId = svg.attr('id')
 
@@ -100,6 +110,7 @@ export abstract class Graph {
       y: 0,
       width,
       height,
+      focusCircleScale: focusCircleScale || defaultFocusCircleScale,
       focusCrop: focusCrop || defaultFocusCrop,
       focusOffsetX: getFocusOffsetX(width, focusCrop || defaultFocusCrop),
       focusOffsetY: getFocusOffsetY(height, focusCrop || defaultFocusCrop),

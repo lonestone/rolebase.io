@@ -13,18 +13,19 @@ import {
 } from '@chakra-ui/react'
 import { Member_Scope_Enum } from '@gql'
 import useCircle from '@hooks/useCircle'
+import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import useWindowSize from '@hooks/useWindowSize'
 import AccordionLazyItem from '@molecules/AccordionLazyItem'
 import ActionsMenu from '@molecules/ActionsMenu'
+import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
 import CircleDecisions from '@molecules/circle/CircleDecisions'
 import CircleMeetings from '@molecules/circle/CircleMeetings'
 import CircleRoleFormControl from '@molecules/circle/CircleRoleFormControl'
 import CircleTasks from '@molecules/circle/CircleTasks'
 import CircleThreads from '@molecules/circle/CircleThreads'
-import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -57,6 +58,7 @@ export default function CircleContent({
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const circle = useCircle(id)
+  const navigateOrg = useNavigateOrg()
   const role = circle?.role
 
   // Participants
@@ -123,6 +125,7 @@ export default function CircleContent({
             onDelete={circle.parentId ? deleteModal.onOpen : undefined}
             onMove={circle.parentId ? moveModal.onOpen : undefined}
             onDuplicate={circle.parentId ? duplicateModal.onOpen : undefined}
+            onExport={() => navigateOrg(`export-circle/${id}`)}
           />
         )}
 
