@@ -7,13 +7,14 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import ActionsMenu from '@molecules/ActionsMenu'
 import ActivityDeleteModal from '@organisms/thread/ActivityDeleteModal'
+import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
 import React, { ReactNode, useContext, useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props {
-  activity: ThreadActivityFragment
+  activity: ThreadActivityFragment | ThreadActivityChangeStatusFragment
   onEdit?(): void
   allowDelete?: boolean
   children: ReactNode

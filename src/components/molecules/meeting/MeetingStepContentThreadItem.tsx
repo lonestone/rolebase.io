@@ -99,7 +99,6 @@ export default function MeetingStepContentThreadItem({
         >
           <ThreadItem
             thread={thread}
-            showIcon
             isDragging={snapshot.isDragging}
             mb={editMode ? 2 : 0}
             mx={-2}

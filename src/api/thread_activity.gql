@@ -8,12 +8,14 @@ query getLastThreadActivity($threadId: uuid!) {
   }
 }
 
-subscription threadActivities($threadId: uuid!) {
-  thread_activity(
-    where: { threadId: { _eq: $threadId } }
-    order_by: { createdAt: asc }
-  ) {
-    ...ThreadActivity
+subscription threadActivitiesLogs($id: uuid!) {
+  thread_by_pk(id: $id) {
+    activities {
+      ...ThreadActivity
+    }
+    logs {
+      ...Log
+    }
   }
 }
 

@@ -144,7 +144,6 @@ export default function ThreadsPage() {
                 className={`userflow-thread-${i}`}
                 thread={thread}
                 showCircle
-                showIcon
                 unread={thread.read === false}
               />
             ))}

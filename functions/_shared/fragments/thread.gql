@@ -8,6 +8,7 @@ fragment Thread on thread {
   title
   createdAt
   archived
+  status
 }
 
 fragment ThreadMemberStatus on thread_member_status {

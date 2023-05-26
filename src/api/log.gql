@@ -14,6 +14,12 @@ subscription meetingLogs($meetingId: uuid!) {
   }
 }
 
+subscription threadLogs($threadId: uuid!) {
+  log(where: { threadId: { _eq: $threadId } }) {
+    ...Log
+  }
+}
+
 mutation createLog($values: log_insert_input!) {
   insert_log_one(object: $values) {
     ...Log

@@ -13,6 +13,8 @@ import {
   useUpdateMemberMutation,
   useUpdateRoleMutation,
   useUpdateTaskMutation,
+  useGetThreadLazyQuery,
+  useUpdateThreadMutation,
 } from '@gql'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import useCreateLog from '@hooks/useCreateLog'
@@ -37,6 +39,8 @@ export function useCancelLog(log: LogFragment) {
   const [updateTask] = useUpdateTaskMutation()
   const [getDecision] = useGetDecisionLazyQuery()
   const [updateDecision] = useUpdateDecisionMutation()
+  const [getThread] = useGetThreadLazyQuery()
+  const [updateThread] = useUpdateThreadMutation()
 
   const methods: EntitiesMethods = {
     members: {
@@ -91,6 +95,15 @@ export function useCancelLog(log: LogFragment) {
       },
       async update(id, values) {
         await updateDecision({ variables: { id, values } })
+      },
+    },
+    thread: {
+      async get(id: string) {
+        const { data } = await getThread({ variables: { id } })
+        return data?.thread_by_pk || undefined
+      },
+      async update(id, values) {
+        await updateThread({ variables: { id, values } })
       },
     },
   }

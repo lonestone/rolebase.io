@@ -3590,6 +3590,12 @@ export type Log = {
   org: Org;
   orgId: Scalars['uuid'];
   /** An object relationship */
+  task?: Maybe<Task>;
+  taskId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  thread?: Maybe<Thread>;
+  threadId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
   user: Users;
   /** User and member who made the change */
   userId: Scalars['uuid'];
@@ -3691,6 +3697,10 @@ export type Log_Bool_Exp = {
   memberName?: InputMaybe<String_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  task?: InputMaybe<Task_Bool_Exp>;
+  taskId?: InputMaybe<Uuid_Comparison_Exp>;
+  thread?: InputMaybe<Thread_Bool_Exp>;
+  threadId?: InputMaybe<Uuid_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
 };
@@ -3725,6 +3735,10 @@ export type Log_Insert_Input = {
   memberName?: InputMaybe<Scalars['String']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  task?: InputMaybe<Task_Obj_Rel_Insert_Input>;
+  taskId?: InputMaybe<Scalars['uuid']>;
+  thread?: InputMaybe<Thread_Obj_Rel_Insert_Input>;
+  threadId?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
@@ -3746,6 +3760,8 @@ export type Log_Max_Fields = {
   /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  taskId?: Maybe<Scalars['uuid']>;
+  threadId?: Maybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
 };
@@ -3765,6 +3781,8 @@ export type Log_Max_Order_By = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  taskId?: InputMaybe<Order_By>;
+  threadId?: InputMaybe<Order_By>;
   /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
 };
@@ -3785,6 +3803,8 @@ export type Log_Min_Fields = {
   /** Keep name for display, in case of deleted member */
   memberName?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+  taskId?: Maybe<Scalars['uuid']>;
+  threadId?: Maybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: Maybe<Scalars['uuid']>;
 };
@@ -3804,6 +3824,8 @@ export type Log_Min_Order_By = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  taskId?: InputMaybe<Order_By>;
+  threadId?: InputMaybe<Order_By>;
   /** User and member who made the change */
   userId?: InputMaybe<Order_By>;
 };
@@ -3849,6 +3871,10 @@ export type Log_Order_By = {
   memberName?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
+  task?: InputMaybe<Task_Order_By>;
+  taskId?: InputMaybe<Order_By>;
+  thread?: InputMaybe<Thread_Order_By>;
+  threadId?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
@@ -3885,6 +3911,10 @@ export enum Log_Select_Column {
   /** column name */
   OrgId = 'orgId',
   /** column name */
+  TaskId = 'taskId',
+  /** column name */
+  ThreadId = 'threadId',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -3920,6 +3950,8 @@ export type Log_Set_Input = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  taskId?: InputMaybe<Scalars['uuid']>;
+  threadId?: InputMaybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
@@ -3952,6 +3984,8 @@ export type Log_Stream_Cursor_Value_Input = {
   /** Keep name for display, in case of deleted member */
   memberName?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  taskId?: InputMaybe<Scalars['uuid']>;
+  threadId?: InputMaybe<Scalars['uuid']>;
   /** User and member who made the change */
   userId?: InputMaybe<Scalars['uuid']>;
 };
@@ -3982,6 +4016,10 @@ export enum Log_Update_Column {
   MemberName = 'memberName',
   /** column name */
   OrgId = 'orgId',
+  /** column name */
+  TaskId = 'taskId',
+  /** column name */
+  ThreadId = 'threadId',
   /** column name */
   UserId = 'userId'
 }
@@ -6608,6 +6646,10 @@ export type Mutation_Root = {
   delete_thread_poll_answer?: Maybe<Thread_Poll_Answer_Mutation_Response>;
   /** delete single row from the table: "thread_poll_answer" */
   delete_thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
+  /** delete data from the table: "thread_status" */
+  delete_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** delete single row from the table: "thread_status" */
+  delete_thread_status_by_pk?: Maybe<Thread_Status>;
   /** insert a single row into the table: "auth.providers" */
   insertAuthProvider?: Maybe<AuthProviders>;
   /** insert a single row into the table: "auth.provider_requests" */
@@ -6756,6 +6798,10 @@ export type Mutation_Root = {
   insert_thread_poll_answer?: Maybe<Thread_Poll_Answer_Mutation_Response>;
   /** insert a single row into the table: "thread_poll_answer" */
   insert_thread_poll_answer_one?: Maybe<Thread_Poll_Answer>;
+  /** insert data into the table: "thread_status" */
+  insert_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** insert a single row into the table: "thread_status" */
+  insert_thread_status_one?: Maybe<Thread_Status>;
   /** update single row of the table: "auth.providers" */
   updateAuthProvider?: Maybe<AuthProviders>;
   /** update single row of the table: "auth.provider_requests" */
@@ -6976,6 +7022,12 @@ export type Mutation_Root = {
   update_thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
   /** update multiples rows of table: "thread_poll_answer" */
   update_thread_poll_answer_many?: Maybe<Array<Maybe<Thread_Poll_Answer_Mutation_Response>>>;
+  /** update data of the table: "thread_status" */
+  update_thread_status?: Maybe<Thread_Status_Mutation_Response>;
+  /** update single row of the table: "thread_status" */
+  update_thread_status_by_pk?: Maybe<Thread_Status>;
+  /** update multiples rows of table: "thread_status" */
+  update_thread_status_many?: Maybe<Array<Maybe<Thread_Status_Mutation_Response>>>;
   /** update multiples rows of table: "auth.users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
 };
@@ -7422,6 +7474,18 @@ export type Mutation_RootDelete_Thread_Poll_AnswerArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Thread_Poll_Answer_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_StatusArgs = {
+  where: Thread_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -7940,6 +8004,20 @@ export type Mutation_RootInsert_Thread_Poll_AnswerArgs = {
 export type Mutation_RootInsert_Thread_Poll_Answer_OneArgs = {
   object: Thread_Poll_Answer_Insert_Input;
   on_conflict?: InputMaybe<Thread_Poll_Answer_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_StatusArgs = {
+  objects: Array<Thread_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Thread_Status_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_Status_OneArgs = {
+  object: Thread_Status_Insert_Input;
+  on_conflict?: InputMaybe<Thread_Status_On_Conflict>;
 };
 
 
@@ -8710,6 +8788,26 @@ export type Mutation_RootUpdate_Thread_Poll_Answer_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Thread_Poll_Answer_ManyArgs = {
   updates: Array<Thread_Poll_Answer_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_StatusArgs = {
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  where: Thread_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Status_By_PkArgs = {
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  pk_columns: Thread_Status_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Status_ManyArgs = {
+  updates: Array<Thread_Status_Updates>;
 };
 
 
@@ -10096,6 +10194,12 @@ export type Query_Root = {
   thread_poll_answer_aggregate: Thread_Poll_Answer_Aggregate;
   /** fetch data from the table: "thread_poll_answer" using primary key columns */
   thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
+  /** fetch data from the table: "thread_status" */
+  thread_status: Array<Thread_Status>;
+  /** fetch aggregated fields from the table: "thread_status" */
+  thread_status_aggregate: Thread_Status_Aggregate;
+  /** fetch data from the table: "thread_status" using primary key columns */
+  thread_status_by_pk?: Maybe<Thread_Status>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
   /** fetch data from the table: "auth.users" */
@@ -10948,6 +11052,29 @@ export type Query_RootThread_Poll_Answer_AggregateArgs = {
 
 export type Query_RootThread_Poll_Answer_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootThread_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -12121,6 +12248,14 @@ export type Subscription_Root = {
   thread_poll_answer_by_pk?: Maybe<Thread_Poll_Answer>;
   /** fetch data from the table in a streaming manner: "thread_poll_answer" */
   thread_poll_answer_stream: Array<Thread_Poll_Answer>;
+  /** fetch data from the table: "thread_status" */
+  thread_status: Array<Thread_Status>;
+  /** fetch aggregated fields from the table: "thread_status" */
+  thread_status_aggregate: Thread_Status_Aggregate;
+  /** fetch data from the table: "thread_status" using primary key columns */
+  thread_status_by_pk?: Maybe<Thread_Status>;
+  /** fetch data from the table in a streaming manner: "thread_status" */
+  thread_status_stream: Array<Thread_Status>;
   /** fetch data from the table in a streaming manner: "thread" */
   thread_stream: Array<Thread>;
   /** fetch data from the table: "auth.users" using primary key columns */
@@ -13232,6 +13367,36 @@ export type Subscription_RootThread_Poll_Answer_StreamArgs = {
 };
 
 
+export type Subscription_RootThread_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Thread_Status_Order_By>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Status_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootThread_Status_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Thread_Status_Stream_Cursor_Input>>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+
 export type Subscription_RootThread_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Thread_Stream_Cursor_Input>>;
@@ -13279,6 +13444,10 @@ export type Task = {
   description: Scalars['String'];
   dueDate?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
+  /** An array relationship */
+  logs: Array<Log>;
+  /** An aggregate relationship */
+  logs_aggregate: Log_Aggregate;
   /** An object relationship */
   member?: Maybe<Member>;
   memberId?: Maybe<Scalars['uuid']>;
@@ -13288,6 +13457,26 @@ export type Task = {
   status: Task_Status_Enum;
   tasksIds: Array<Scalars['uuid']>;
   title: Scalars['String'];
+};
+
+
+/** columns and relationships of "task" */
+export type TaskLogsArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
+};
+
+
+/** columns and relationships of "task" */
+export type TaskLogs_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
 };
 
 /** aggregated selection of "task" */
@@ -13365,6 +13554,8 @@ export type Task_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   dueDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  logs?: InputMaybe<Log_Bool_Exp>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Bool_Exp>;
   member?: InputMaybe<Member_Bool_Exp>;
   memberId?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
@@ -13388,6 +13579,7 @@ export type Task_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   dueDate?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
+  logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
   member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
@@ -13478,6 +13670,7 @@ export type Task_Order_By = {
   description?: InputMaybe<Order_By>;
   dueDate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
   member?: InputMaybe<Member_Order_By>;
   memberId?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
@@ -13967,6 +14160,10 @@ export type Thread = {
   initiatorMember: Member;
   initiatorMemberId: Scalars['uuid'];
   /** An array relationship */
+  logs: Array<Log>;
+  /** An aggregate relationship */
+  logs_aggregate: Log_Aggregate;
+  /** An array relationship */
   member_status: Array<Thread_Member_Status>;
   /** An aggregate relationship */
   member_status_aggregate: Thread_Member_Status_Aggregate;
@@ -13975,6 +14172,7 @@ export type Thread = {
   orgId: Scalars['uuid'];
   participantsMembersIds: Array<Scalars['uuid']>;
   participantsScope: Member_Scope_Enum;
+  status: Thread_Status_Enum;
   title: Scalars['String'];
 };
 
@@ -13996,6 +14194,26 @@ export type ThreadActivities_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Thread_Activity_Order_By>>;
   where?: InputMaybe<Thread_Activity_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadLogsArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadLogs_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
 };
 
 
@@ -14358,6 +14576,7 @@ export enum Thread_Activity_Type_Constraint {
 }
 
 export enum Thread_Activity_Type_Enum {
+  ChangeStatus = 'ChangeStatus',
   Decision = 'Decision',
   Meeting = 'Meeting',
   MeetingNote = 'MeetingNote',
@@ -14572,12 +14791,15 @@ export type Thread_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   initiatorMember?: InputMaybe<Member_Bool_Exp>;
   initiatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
+  logs?: InputMaybe<Log_Bool_Exp>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Bool_Exp>;
   member_status?: InputMaybe<Thread_Member_Status_Bool_Exp>;
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
   participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
+  status?: InputMaybe<Thread_Status_Enum_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -14597,11 +14819,13 @@ export type Thread_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   initiatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   initiatorMemberId?: InputMaybe<Scalars['uuid']>;
+  logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
   member_status?: InputMaybe<Thread_Member_Status_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -14904,11 +15128,13 @@ export type Thread_Order_By = {
   id?: InputMaybe<Order_By>;
   initiatorMember?: InputMaybe<Member_Order_By>;
   initiatorMemberId?: InputMaybe<Order_By>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
 
@@ -15116,6 +15342,8 @@ export enum Thread_Select_Column {
   /** column name */
   ParticipantsScope = 'participantsScope',
   /** column name */
+  Status = 'status',
+  /** column name */
   Title = 'title'
 }
 
@@ -15141,7 +15369,157 @@ export type Thread_Set_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "thread_status" */
+export type Thread_Status = {
+  __typename?: 'thread_status';
+  comment?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "thread_status" */
+export type Thread_Status_Aggregate = {
+  __typename?: 'thread_status_aggregate';
+  aggregate?: Maybe<Thread_Status_Aggregate_Fields>;
+  nodes: Array<Thread_Status>;
+};
+
+/** aggregate fields of "thread_status" */
+export type Thread_Status_Aggregate_Fields = {
+  __typename?: 'thread_status_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Thread_Status_Max_Fields>;
+  min?: Maybe<Thread_Status_Min_Fields>;
+};
+
+
+/** aggregate fields of "thread_status" */
+export type Thread_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Thread_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "thread_status". All fields are combined with a logical 'AND'. */
+export type Thread_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Thread_Status_Bool_Exp>>;
+  _not?: InputMaybe<Thread_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Thread_Status_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "thread_status" */
+export enum Thread_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  ThreadStatusPkey = 'thread_status_pkey'
+}
+
+export enum Thread_Status_Enum {
+  Active = 'Active',
+  Blocked = 'Blocked',
+  Closed = 'Closed',
+  Preparation = 'Preparation'
+}
+
+/** Boolean expression to compare columns of type "thread_status_enum". All fields are combined with logical 'AND'. */
+export type Thread_Status_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Thread_Status_Enum>;
+  _in?: InputMaybe<Array<Thread_Status_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Thread_Status_Enum>;
+  _nin?: InputMaybe<Array<Thread_Status_Enum>>;
+};
+
+/** input type for inserting data into table "thread_status" */
+export type Thread_Status_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Thread_Status_Max_Fields = {
+  __typename?: 'thread_status_max_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Thread_Status_Min_Fields = {
+  __typename?: 'thread_status_min_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "thread_status" */
+export type Thread_Status_Mutation_Response = {
+  __typename?: 'thread_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Thread_Status>;
+};
+
+/** on_conflict condition type for table "thread_status" */
+export type Thread_Status_On_Conflict = {
+  constraint: Thread_Status_Constraint;
+  update_columns?: Array<Thread_Status_Update_Column>;
+  where?: InputMaybe<Thread_Status_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "thread_status". */
+export type Thread_Status_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: thread_status */
+export type Thread_Status_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "thread_status" */
+export enum Thread_Status_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "thread_status" */
+export type Thread_Status_Set_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "thread_status" */
+export type Thread_Status_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Thread_Status_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Thread_Status_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "thread_status" */
+export enum Thread_Status_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+export type Thread_Status_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Thread_Status_Set_Input>;
+  where: Thread_Status_Bool_Exp;
 };
 
 /** Streaming cursor of the table "thread" */
@@ -15162,6 +15540,7 @@ export type Thread_Stream_Cursor_Value_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   participantsMembersIds?: InputMaybe<Scalars['json']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -15183,6 +15562,8 @@ export enum Thread_Update_Column {
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  Status = 'status',
   /** column name */
   Title = 'title'
 }
@@ -15938,7 +16319,7 @@ export type CircleMemberFragment = { __typename?: 'circle_member', id: string, c
 
 export type DecisionFragment = { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string };
 
-export type LogFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean };
+export type LogFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null };
 
 export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null };
 
@@ -15962,11 +16343,11 @@ export type RoleFragment = { __typename?: 'role', id: string, orgId: string, arc
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
-export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean };
+export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum };
 
 export type ThreadMemberStatusFragment = { __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string };
 
-export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
 export type GetCircleQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -16087,28 +16468,35 @@ export type LastLogsSubscriptionVariables = Exact<{
 }>;
 
 
-export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null }> };
 
 export type MeetingLogsSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean }> };
+export type MeetingLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null }> };
+
+export type ThreadLogsSubscriptionVariables = Exact<{
+  threadId: Scalars['uuid'];
+}>;
+
+
+export type ThreadLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null }> };
 
 export type CreateLogMutationVariables = Exact<{
   values: Log_Insert_Input;
 }>;
 
 
-export type CreateLogMutation = { __typename?: 'mutation_root', insert_log_one?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
+export type CreateLogMutation = { __typename?: 'mutation_root', insert_log_one?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null } | null };
 
 export type CancelLogMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean } | null };
+export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null } | null };
 
 export type MeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
@@ -16445,13 +16833,20 @@ export type GetCircleThreadsIdsQueryVariables = Exact<{
 
 export type GetCircleThreadsIdsQuery = { __typename?: 'query_root', thread: Array<{ __typename?: 'thread', id: string }> };
 
+export type GetThreadQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GetThreadQuery = { __typename?: 'query_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
+
 export type ThreadSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
   memberId: Scalars['uuid'];
 }>;
 
 
-export type ThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> } | null };
+export type ThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> } | null };
 
 export type ThreadsSubscriptionVariables = Exact<{
   filters?: InputMaybe<Array<Thread_Bool_Exp> | Thread_Bool_Exp>;
@@ -16459,7 +16854,7 @@ export type ThreadsSubscriptionVariables = Exact<{
 }>;
 
 
-export type ThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, lastActivity: Array<{ __typename?: 'thread_activity', id: string, createdAt: string }>, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
+export type ThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, lastActivity: Array<{ __typename?: 'thread_activity', id: string, createdAt: string }>, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
 
 export type CircleThreadsWithMeetingNoteSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
@@ -16467,14 +16862,14 @@ export type CircleThreadsWithMeetingNoteSubscriptionVariables = Exact<{
 }>;
 
 
-export type CircleThreadsWithMeetingNoteSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> }> };
+export type CircleThreadsWithMeetingNoteSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> }> };
 
 export type CreateThreadMutationVariables = Exact<{
   values: Thread_Insert_Input;
 }>;
 
 
-export type CreateThreadMutation = { __typename?: 'mutation_root', insert_thread_one?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null };
+export type CreateThreadMutation = { __typename?: 'mutation_root', insert_thread_one?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
 
 export type UpdateThreadMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16482,7 +16877,7 @@ export type UpdateThreadMutationVariables = Exact<{
 }>;
 
 
-export type UpdateThreadMutation = { __typename?: 'mutation_root', update_thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null };
+export type UpdateThreadMutation = { __typename?: 'mutation_root', update_thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
 
 export type ArchiveThreadMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16496,21 +16891,21 @@ export type GetLastThreadActivityQueryVariables = Exact<{
 }>;
 
 
-export type GetLastThreadActivityQuery = { __typename?: 'query_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
+export type GetLastThreadActivityQuery = { __typename?: 'query_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
 
-export type ThreadActivitiesSubscriptionVariables = Exact<{
-  threadId: Scalars['uuid'];
+export type ThreadActivitiesLogsSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
 }>;
 
 
-export type ThreadActivitiesSubscription = { __typename?: 'subscription_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
+export type ThreadActivitiesLogsSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }>, logs: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null }> } | null };
 
 export type CreateThreadActivityMutationVariables = Exact<{
   values: Thread_Activity_Insert_Input;
 }>;
 
 
-export type CreateThreadActivityMutation = { __typename?: 'mutation_root', insert_thread_activity_one?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null } | null };
+export type CreateThreadActivityMutation = { __typename?: 'mutation_root', insert_thread_activity_one?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null } | null };
 
 export type UpdateThreadActivityMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16518,7 +16913,7 @@ export type UpdateThreadActivityMutationVariables = Exact<{
 }>;
 
 
-export type UpdateThreadActivityMutation = { __typename?: 'mutation_root', update_thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null } | null };
+export type UpdateThreadActivityMutation = { __typename?: 'mutation_root', update_thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null } | null };
 
 export type DeleteThreadActivityMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -16606,6 +17001,7 @@ export const LogFragmentDoc = gql`
   cancelMemberId
   cancelMemberName
   canceled
+  threadId
 }
     `;
 export const MeetingFragmentDoc = gql`
@@ -16806,6 +17202,7 @@ export const ThreadFragmentDoc = gql`
   title
   createdAt
   archived
+  status
 }
     `;
 export const MeetingSummaryFragmentDoc = gql`
@@ -17520,6 +17917,36 @@ export function useMeetingLogsSubscription(baseOptions: Apollo.SubscriptionHookO
       }
 export type MeetingLogsSubscriptionHookResult = ReturnType<typeof useMeetingLogsSubscription>;
 export type MeetingLogsSubscriptionResult = Apollo.SubscriptionResult<MeetingLogsSubscription>;
+export const ThreadLogsDocument = gql`
+    subscription threadLogs($threadId: uuid!) {
+  log(where: {threadId: {_eq: $threadId}}) {
+    ...Log
+  }
+}
+    ${LogFragmentDoc}`;
+
+/**
+ * __useThreadLogsSubscription__
+ *
+ * To run a query within a React component, call `useThreadLogsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useThreadLogsSubscription({
+ *   variables: {
+ *      threadId: // value for 'threadId'
+ *   },
+ * });
+ */
+export function useThreadLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadLogsSubscription, ThreadLogsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<ThreadLogsSubscription, ThreadLogsSubscriptionVariables>(ThreadLogsDocument, options);
+      }
+export type ThreadLogsSubscriptionHookResult = ReturnType<typeof useThreadLogsSubscription>;
+export type ThreadLogsSubscriptionResult = Apollo.SubscriptionResult<ThreadLogsSubscription>;
 export const CreateLogDocument = gql`
     mutation createLog($values: log_insert_input!) {
   insert_log_one(object: $values) {
@@ -19111,6 +19538,44 @@ export type GetCircleThreadsIdsQueryResult = Apollo.QueryResult<GetCircleThreads
 export function refetchGetCircleThreadsIdsQuery(variables: GetCircleThreadsIdsQueryVariables) {
       return { query: GetCircleThreadsIdsDocument, variables: variables }
     }
+export const GetThreadDocument = gql`
+    query getThread($id: uuid!) {
+  thread_by_pk(id: $id) {
+    ...Thread
+  }
+}
+    ${ThreadFragmentDoc}`;
+
+/**
+ * __useGetThreadQuery__
+ *
+ * To run a query within a React component, call `useGetThreadQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetThreadQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetThreadQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetThreadQuery(baseOptions: Apollo.QueryHookOptions<GetThreadQuery, GetThreadQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetThreadQuery, GetThreadQueryVariables>(GetThreadDocument, options);
+      }
+export function useGetThreadLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetThreadQuery, GetThreadQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetThreadQuery, GetThreadQueryVariables>(GetThreadDocument, options);
+        }
+export type GetThreadQueryHookResult = ReturnType<typeof useGetThreadQuery>;
+export type GetThreadLazyQueryHookResult = ReturnType<typeof useGetThreadLazyQuery>;
+export type GetThreadQueryResult = Apollo.QueryResult<GetThreadQuery, GetThreadQueryVariables>;
+export function refetchGetThreadQuery(variables: GetThreadQueryVariables) {
+      return { query: GetThreadDocument, variables: variables }
+    }
 export const ThreadDocument = gql`
     subscription thread($id: uuid!, $memberId: uuid!) {
   thread_by_pk(id: $id) {
@@ -19364,36 +19829,42 @@ export type GetLastThreadActivityQueryResult = Apollo.QueryResult<GetLastThreadA
 export function refetchGetLastThreadActivityQuery(variables: GetLastThreadActivityQueryVariables) {
       return { query: GetLastThreadActivityDocument, variables: variables }
     }
-export const ThreadActivitiesDocument = gql`
-    subscription threadActivities($threadId: uuid!) {
-  thread_activity(where: {threadId: {_eq: $threadId}}, order_by: {createdAt: asc}) {
-    ...ThreadActivity
+export const ThreadActivitiesLogsDocument = gql`
+    subscription threadActivitiesLogs($id: uuid!) {
+  thread_by_pk(id: $id) {
+    activities {
+      ...ThreadActivity
+    }
+    logs {
+      ...Log
+    }
   }
 }
-    ${ThreadActivityFragmentDoc}`;
+    ${ThreadActivityFragmentDoc}
+${LogFragmentDoc}`;
 
 /**
- * __useThreadActivitiesSubscription__
+ * __useThreadActivitiesLogsSubscription__
  *
- * To run a query within a React component, call `useThreadActivitiesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useThreadActivitiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useThreadActivitiesLogsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadActivitiesLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useThreadActivitiesSubscription({
+ * const { data, loading, error } = useThreadActivitiesLogsSubscription({
  *   variables: {
- *      threadId: // value for 'threadId'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useThreadActivitiesSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadActivitiesSubscription, ThreadActivitiesSubscriptionVariables>) {
+export function useThreadActivitiesLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadActivitiesLogsSubscription, ThreadActivitiesLogsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<ThreadActivitiesSubscription, ThreadActivitiesSubscriptionVariables>(ThreadActivitiesDocument, options);
+        return Apollo.useSubscription<ThreadActivitiesLogsSubscription, ThreadActivitiesLogsSubscriptionVariables>(ThreadActivitiesLogsDocument, options);
       }
-export type ThreadActivitiesSubscriptionHookResult = ReturnType<typeof useThreadActivitiesSubscription>;
-export type ThreadActivitiesSubscriptionResult = Apollo.SubscriptionResult<ThreadActivitiesSubscription>;
+export type ThreadActivitiesLogsSubscriptionHookResult = ReturnType<typeof useThreadActivitiesLogsSubscription>;
+export type ThreadActivitiesLogsSubscriptionResult = Apollo.SubscriptionResult<ThreadActivitiesLogsSubscription>;
 export const CreateThreadActivityDocument = gql`
     mutation createThreadActivity($values: thread_activity_insert_input!) {
   insert_thread_activity_one(object: $values) {

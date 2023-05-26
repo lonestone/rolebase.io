@@ -180,6 +180,7 @@
     "TaskCreate": "<author /> has created the task <task />",
     "TaskUpdate": "<author /> has modified the task <task />",
     "TaskStatusUpdate": "<author /> marked the task <task /> as <status />",
+    "ThreadStatusUpdate": "<author /> changed the topic <task /> from <prevStatus /> to <status />",
     "TaskArchive": "<author /> has archived the task <task />",
     "DecisionCreate": "<author /> has created the decision <decision />",
     "DecisionUpdate": "<author /> has modified the decision <decision />",
@@ -824,6 +825,9 @@
   "ThreadActivityThread": {
     "text": "has created a topic:"
   },
+  "ThreadActivityChangeStatus": {
+    "text": "has changed status topic : <status />"
+  },
   "ThreadEditModal": {
     "headingEdit": "Edit a topic",
     "headingCreate": "New topic",
@@ -926,6 +930,12 @@
       "Blocked": "Blocked",
       "Done": "Done",
       "NotDone": "Not done"
+    },
+    "threadStatus":{
+      "Active": "In progress",
+      "Blocked": "Blocked",
+      "Closed": "Done",
+      "Preparation": "In preparation"
     }
   },
   "useCreateTask": {

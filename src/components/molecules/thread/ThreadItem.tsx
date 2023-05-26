@@ -1,7 +1,7 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
 import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 import {
-  Center,
+  Box,
   Flex,
   forwardRef,
   LinkBox,
@@ -15,16 +15,15 @@ import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useMember from '@hooks/useMember'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
+import { CircleThreadStatus } from '@molecules/CircleThreadStatus'
 import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
-import { FiMessageSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
 interface Props extends LinkBoxProps {
   thread: ThreadFragment
   unread?: boolean
   showCircle?: boolean
-  showIcon?: boolean
   isDragging?: boolean
   labelProps?: TypographyProps
 }
@@ -35,7 +34,6 @@ const ThreadItem = forwardRef<Props, 'div'>(
       thread,
       unread,
       showCircle,
-      showIcon,
       isDragging,
       labelProps,
       children,
@@ -69,12 +67,9 @@ const ThreadItem = forwardRef<Props, 'div'>(
           }
         >
           <Flex align="center">
-            {showIcon && (
-              <Center w={6} h={6} mr={2}>
-                <FiMessageSquare />
-              </Center>
-            )}
-
+            <Box zIndex={'overlay'} mr={2}>
+              <CircleThreadStatus status={thread.status} />
+            </Box>
             <LinkOverlay
               as={ReachLink}
               flex={1}
@@ -85,7 +80,6 @@ const ThreadItem = forwardRef<Props, 'div'>(
             >
               {thread.title}
             </LinkOverlay>
-
             {threadInitiator && (
               <MemberByIdAvatar
                 id={threadInitiator.id}
@@ -96,9 +90,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
                 size="xs"
               />
             )}
-
             {showCircle && <CircleByIdButton id={thread.circleId} size="xs" />}
-
             {children}
           </Flex>
         </LinkBox>

@@ -3,7 +3,8 @@ import {
   ThreadActivityFragment,
   ThreadFragment,
   ThreadMemberStatusFragment,
-  useThreadActivitiesSubscription,
+  Thread_Activity_Type_Enum,
+  useThreadActivitiesLogsSubscription,
   useThreadSubscription,
   useUpsertThreadMemberStatusMutation,
 } from '@gql'
@@ -13,8 +14,9 @@ import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import { ParticipantMember } from '@shared/model/member'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { usePathInOrg } from './usePathInOrg'
+import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 
 /***
  * Thread state hook
@@ -55,11 +57,14 @@ export default function useThreadState(threadId: string): ThreadState {
   const thread = threadResult.data?.thread_by_pk || undefined
   const memberStatus = thread?.member_status?.[0]
 
-  // Subscribe to activities
-  const activitiesResult = useThreadActivitiesSubscription({
-    variables: { threadId },
+  // Subscribe to activities and logs
+  const activitiesLogsResult = useThreadActivitiesLogsSubscription({
+    variables: { id: threadId },
   })
-  const activities = activitiesResult.data?.thread_activity || undefined
+
+  const activities =
+    activitiesLogsResult.data?.thread_by_pk?.activities || undefined
+  const threadLogs = activitiesLogsResult.data?.thread_by_pk?.logs || undefined
 
   // Meeting page path
   const path = usePathInOrg(`threads/${thread?.id}`)
@@ -149,12 +154,41 @@ export default function useThreadState(threadId: string): ThreadState {
     })
   }, [activities])
 
+  const threadLogsActivity = useMemo(() => {
+    if (!thread || !threadLogs) {
+      return undefined
+    }
+
+    return threadLogs.map((log) => {
+      return {
+        id: log.id,
+        type: Thread_Activity_Type_Enum.ChangeStatus,
+        userId: log.userId,
+        createdAt: log.createdAt,
+        data: {
+          ...log,
+        },
+      } as ThreadActivityChangeStatusFragment
+    })
+  }, [thread, threadLogs])
+
+  // Merge activities and logs sorted by createdAt asc
+  const concatThreadLogsActivities = useMemo(() => {
+    if (!activities || !threadLogsActivity) {
+      return undefined
+    }
+
+    return activities.concat(threadLogsActivity || []).sort((a, b) => {
+      return a.createdAt > b.createdAt ? 1 : -1
+    })
+  }, [activities, threadLogsActivity])
+
   return {
     thread,
     memberStatus,
-    activities,
-    loading: threadResult.loading || activitiesResult.loading,
-    error: threadResult.error || activitiesResult.error,
+    activities: concatThreadLogsActivities,
+    loading: threadResult.loading || activitiesLogsResult.loading,
+    error: threadResult.error || activitiesLogsResult.error,
     path,
     circle,
     participants,
