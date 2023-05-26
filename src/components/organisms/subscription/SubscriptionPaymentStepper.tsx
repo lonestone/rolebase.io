@@ -1,6 +1,25 @@
 import { subscribeOrg, updateSubscriptionBillingDetails } from '@api/functions'
 import { stripePromise } from '@api/stripe'
-import { Box, Button, HStack, useToast } from '@chakra-ui/react'
+import { ChevronLeftIcon } from '@chakra-ui/icons'
+import {
+  Box,
+  Button,
+  Collapse,
+  Flex,
+  Heading,
+  Spacer,
+  Step,
+  StepDescription,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  Stepper,
+  useStepContext,
+  useSteps,
+  useToast,
+} from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useOrg from '@hooks/useOrg'
 import { useOrgId } from '@hooks/useOrgId'
@@ -15,8 +34,7 @@ import {
   StripeElementLocale,
   StripeElements,
 } from '@stripe/stripe-js'
-import { Step, Steps, useSteps } from 'chakra-ui-steps'
-import React, { FormEvent, useMemo, useState } from 'react'
+import React, { FormEvent, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SubscriptionSummary from './SubscriptionSummary'
 
@@ -28,8 +46,9 @@ export default function SubscriptionPaymentStepper({
   planType,
 }: SubscriptionPaymentStepperProps) {
   const { t, i18n } = useTranslation()
-  const { nextStep, prevStep, activeStep } = useSteps({
-    initialStep: 0,
+  const { activeStep, goToNext, goToPrevious } = useSteps({
+    index: 0,
+    count: 3,
   })
   const orgId = useOrgId()
   const org = useOrg(orgId)
@@ -128,10 +147,8 @@ export default function SubscriptionPaymentStepper({
   const handleNext = async () => {
     if (activeStep === 1) {
       await subscribe()
-      nextStep()
-    } else {
-      nextStep()
     }
+    goToNext()
   }
 
   const isNextDisabled = useMemo(() => {
@@ -143,41 +160,34 @@ export default function SubscriptionPaymentStepper({
 
   return (
     <form onSubmit={handleSubmit}>
-      <Steps
-        colorScheme="orange"
-        orientation="vertical"
-        activeStep={activeStep}
-        trackColor="gray.300"
-      >
-        <Step label={t('SubscriptionTabs.paymentModal.details')}>
-          <Box p="2">
-            <Elements
-              stripe={stripePromise}
-              options={{
-                loader: 'always',
-                locale: i18n.language as StripeElementLocale,
-                appearance: stripeAppearance,
+      <Stepper index={activeStep} orientation="vertical" gap="0">
+        <StepItem label={t('SubscriptionTabs.paymentModal.details')}>
+          <Elements
+            stripe={stripePromise}
+            options={{
+              loader: 'always',
+              locale: i18n.language as StripeElementLocale,
+              appearance: stripeAppearance,
+            }}
+          >
+            <StripeBillingDetailsForm
+              onDetailsChanged={addressDetailsChange}
+              defaultValues={{
+                name: billingDetails.name,
+                address: {
+                  city: null,
+                  line1: null,
+                  line2: null,
+                  postal_code: null,
+                  state: null,
+                  country: 'FR',
+                },
               }}
-            >
-              <StripeBillingDetailsForm
-                onDetailsChanged={addressDetailsChange}
-                defaultValues={{
-                  name: billingDetails.name,
-                  address: {
-                    city: null,
-                    line1: null,
-                    line2: null,
-                    postal_code: null,
-                    state: null,
-                    country: 'FR',
-                  },
-                }}
-              />
-            </Elements>
-          </Box>
-        </Step>
+            />
+          </Elements>
+        </StepItem>
 
-        <Step label={t('SubscriptionTabs.paymentModal.summary')}>
+        <StepItem label={t('SubscriptionTabs.paymentModal.summary')}>
           {billingDetails && (
             <SubscriptionSummary
               planType={planType}
@@ -185,40 +195,43 @@ export default function SubscriptionPaymentStepper({
               billingDetails={billingDetails}
             />
           )}
-        </Step>
+        </StepItem>
 
-        <Step label={t('SubscriptionTabs.paymentModal.payment')}>
-          <Box p="2">
-            {clientSecret && (
-              <Elements
-                stripe={stripePromise}
-                options={{
-                  loader: 'always',
-                  locale: i18n.language as StripeElementLocale,
-                  appearance: stripeAppearance,
-                  clientSecret,
-                }}
-              >
-                <StripePaymentForm
-                  onElementChange={setPaymentElement}
-                  onStripeChange={setStripe}
-                  onValidityChanged={setPaymentDetailsComplete}
-                />
-              </Elements>
-            )}
-          </Box>
-        </Step>
-      </Steps>
-      <HStack paddingY="2" w="100%" justifyContent="end" alignItems="center">
+        <StepItem label={t('SubscriptionTabs.paymentModal.payment')}>
+          {clientSecret && (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                loader: 'always',
+                locale: i18n.language as StripeElementLocale,
+                appearance: stripeAppearance,
+                clientSecret,
+              }}
+            >
+              <StripePaymentForm
+                onElementChange={setPaymentElement}
+                onStripeChange={setStripe}
+                onValidityChanged={setPaymentDetailsComplete}
+              />
+            </Elements>
+          )}
+        </StepItem>
+      </Stepper>
+
+      <Flex py={2}>
         <Button
           isDisabled={activeStep === 0}
           mr={4}
-          onClick={prevStep}
+          leftIcon={<ChevronLeftIcon />}
+          onClick={goToPrevious}
           size="sm"
           variant="ghost"
         >
           {t('SubscriptionTabs.paymentModal.prev')}
         </Button>
+
+        <Spacer />
+
         {activeStep < 2 && (
           <Button
             isLoading={loading}
@@ -239,7 +252,45 @@ export default function SubscriptionPaymentStepper({
             {t('SubscriptionTabs.paymentModal.confirm')}
           </Button>
         )}
-      </HStack>
+      </Flex>
     </form>
+  )
+}
+
+interface StepItemProps {
+  label: string
+  children: ReactNode
+}
+
+function StepItem({ label, children }: StepItemProps) {
+  const { status } = useStepContext()
+
+  return (
+    <Step>
+      <StepIndicator>
+        <StepStatus
+          complete={<StepIcon />}
+          incomplete={<StepNumber />}
+          active={<StepNumber />}
+        />
+      </StepIndicator>
+
+      <Box flex={1} ml={3} mr={2} pb={10}>
+        <Heading
+          as="h3"
+          fontSize="lg"
+          h="var(--stepper-indicator-size)"
+          lineHeight="var(--stepper-indicator-size)"
+          mb={5}
+        >
+          {label}
+        </Heading>
+        <Collapse in={status === 'active'}>
+          <StepDescription>{children}</StepDescription>
+        </Collapse>
+      </Box>
+
+      <StepSeparator />
+    </Step>
   )
 }

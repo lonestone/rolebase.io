@@ -6,10 +6,9 @@ import '@fontsource/nunito/400.css'
 import '@fontsource/nunito/500.css'
 import '@fontsource/nunito/600.css'
 import '@fontsource/nunito/700.css'
-import { StepsTheme as Steps } from 'chakra-ui-steps'
+import { Task_Status_Enum, Thread_Status_Enum } from '@gql'
 import 'focus-visible/dist/focus-visible'
 import './theme.css'
-import { Task_Status_Enum, Thread_Status_Enum } from '@gql'
 
 export const defaultCircleColorHue = 200
 
@@ -164,7 +163,6 @@ const theme = extendTheme({
         },
       },
     },
-    Steps,
   },
 })
 

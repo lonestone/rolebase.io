@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   HStack,
+  Heading,
   Input,
   Spinner,
   StackProps,
@@ -142,11 +143,12 @@ export default function SubscriptionSummary({
   }, [retrievedCoupon, totalPrice])
 
   return (
-    <VStack p="2" w="100%" {...stackProps}>
-      <Text m="auto">{t('SubscriptionTabs.paymentModal.summary')}</Text>
+    <VStack w="100%" {...stackProps}>
       <Flex flexDir="column" alignItems="stretch" gap="2" h="100%" w="100%">
         <Card w="100%" h="100%" p="3" variant="outline">
-          <Text mb="4">{t('SubscriptionTabs.paymentModal.details')}</Text>
+          <Heading as="h4" fontSize="md" mb="4">
+            {t('SubscriptionTabs.paymentModal.details')}
+          </Heading>
           <VStack alignItems={'start'}>
             {parsedDetails.map((detail) => (
               <Text mt="0 !important" key={detail} {...textProps}>
@@ -158,7 +160,9 @@ export default function SubscriptionSummary({
 
         <Card w="100%" h="100%" p="3" variant="outline">
           <VStack h="100%" alignItems="space-between">
-            <Text mb="4">{t('SubscriptionTabs.paymentModal.payment')}</Text>
+            <Heading as="h4" fontSize="md" mb="4">
+              {t('SubscriptionTabs.paymentModal.payment')}
+            </Heading>
             {loading && (
               <HStack w="100%" justify="center">
                 <Spinner size="xl" />

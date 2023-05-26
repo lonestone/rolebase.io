@@ -11,7 +11,7 @@ export default {
 
   // Nhost
   nhost: {
-    subdomain: isLocal ? 'localhost' : 'fsudktxishllphxeibqs',
+    subdomain: isLocal ? 'local' : 'fsudktxishllphxeibqs',
     region: isLocal ? undefined : 'eu-central-1',
   },
 
