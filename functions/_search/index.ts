@@ -4,7 +4,7 @@ import { IndexDecision } from './decision'
 import { IndexMeeting, IndexMeetingStep } from './meeting'
 import { IndexMember } from './member'
 import { IndexTask } from './task'
-import { IndexThread } from './thread'
+import { IndexThread, IndexThreadActivity } from './thread'
 
 export const indexTables = [
   IndexCircle,
@@ -15,6 +15,7 @@ export const indexTables = [
   IndexRole,
   IndexTask,
   IndexThread,
+  IndexThreadActivity,
 ]
 
 export async function reindexAll() {
