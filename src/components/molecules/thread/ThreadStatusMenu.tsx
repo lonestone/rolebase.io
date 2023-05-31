@@ -1,10 +1,10 @@
 import {
+  Button,
   Menu,
   MenuButton,
-  Button,
+  MenuItemOption,
   MenuList,
   MenuOptionGroup,
-  MenuItemOption,
 } from '@chakra-ui/react'
 import { Thread_Status_Enum } from '@gql'
 import React from 'react'
@@ -30,7 +30,7 @@ export const ThreadStatusMenu = ({
   const { t } = useTranslation()
 
   return (
-    <Menu closeOnSelect={false}>
+    <Menu>
       <MenuButton
         as={Button}
         className="userflow-threads-status"

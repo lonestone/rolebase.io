@@ -1,7 +1,6 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
-import { Thread_Status_Enum } from '@gql'
 import {
   Box,
   Button,
@@ -21,26 +20,27 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { Thread_Status_Enum } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
 import ThreadItem from '@molecules/thread/ThreadItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
+import { EntityFilters } from '@shared/model/participants'
+import { threadStatusList } from '@shared/model/thread'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
-import { EntityFilters } from '@shared/model/participants'
-import { threadStatusList } from '@shared/model/thread'
 
 const entityFiltersList = [EntityFilters.Invited, EntityFilters.NotInvited]
 
 // Thread Status filter
-const threadStatusNotDone = 'NotDone'
-type ThreadStatusFilter = Thread_Status_Enum | typeof threadStatusNotDone
+const threadStatusNotClosed = 'NotClosed'
+type ThreadStatusFilter = Thread_Status_Enum | typeof threadStatusNotClosed
 
 const threadStatusFiltersList: ThreadStatusFilter[] = [
-  threadStatusNotDone,
+  threadStatusNotClosed,
   ...threadStatusList,
 ]
 
@@ -76,7 +76,7 @@ export default function ThreadsPage() {
   const handleThreadStatusChange = useCallback((status: string | string[]) => {
     if (typeof status !== 'string') return
     setStatus(
-      status === threadStatusNotDone
+      status === threadStatusNotClosed
         ? undefined
         : (status as Thread_Status_Enum)
     )
@@ -100,55 +100,59 @@ export default function ThreadsPage() {
 
         <Spacer />
         <ButtonGroup>
-          <Menu closeOnSelect={false}>
-            <MenuButton
-              as={Button}
-              className="userflow-threads-filter"
-              size="sm"
-              variant="outline"
-              rightIcon={<FiChevronDown />}
-            >
-              {t(`ThreadsFilterMenu.participation.${filter}` as any)}
-            </MenuButton>
-            <MenuList zIndex={2}>
-              <MenuOptionGroup
-                type="checkbox"
-                value={filterValue}
-                onChange={(value) => handleFilterChange(value)}
+          <Box>
+            <Menu closeOnSelect={false}>
+              <MenuButton
+                as={Button}
+                className="userflow-threads-filter"
+                size="sm"
+                variant="outline"
+                rightIcon={<FiChevronDown />}
               >
-                {entityFiltersList.map((filter) => (
-                  <MenuItemOption key={filter} value={filter}>
-                    {t(`ThreadsFilterMenu.participation.${filter}` as any)}
-                  </MenuItemOption>
-                ))}
-              </MenuOptionGroup>
-            </MenuList>
-          </Menu>
+                {t(`ThreadsFilterMenu.participation.${filter}` as any)}
+              </MenuButton>
+              <MenuList zIndex={2}>
+                <MenuOptionGroup
+                  type="checkbox"
+                  value={filterValue}
+                  onChange={(value) => handleFilterChange(value)}
+                >
+                  {entityFiltersList.map((filter) => (
+                    <MenuItemOption key={filter} value={filter}>
+                      {t(`ThreadsFilterMenu.participation.${filter}` as any)}
+                    </MenuItemOption>
+                  ))}
+                </MenuOptionGroup>
+              </MenuList>
+            </Menu>
+          </Box>
 
-          <Menu closeOnSelect={false}>
-            <MenuButton
-              as={Button}
-              size="sm"
-              rightIcon={<FiChevronDown />}
-              className="userflow-threads-status-filter"
-              {...(status ? { variant: 'solid' } : {})}
-            >
-              {t('ThreadsFilterMenu.status.title')}
-            </MenuButton>
-            <MenuList zIndex={2000}>
-              <MenuOptionGroup
-                type="radio"
-                value={status ?? threadStatusNotDone}
-                onChange={handleThreadStatusChange}
+          <Box>
+            <Menu>
+              <MenuButton
+                as={Button}
+                size="sm"
+                rightIcon={<FiChevronDown />}
+                className="userflow-threads-status-filter"
+                variant={status ? 'solid' : 'outline'}
               >
-                {threadStatusFiltersList.map((status) => (
-                  <MenuItemOption key={status} value={status}>
-                    {t(`common.threadStatus.${status}`)}
-                  </MenuItemOption>
-                ))}
-              </MenuOptionGroup>
-            </MenuList>
-          </Menu>
+                {t(`common.threadStatus.${status ?? threadStatusNotClosed}`)}
+              </MenuButton>
+              <MenuList zIndex={2000}>
+                <MenuOptionGroup
+                  type="radio"
+                  value={status ?? threadStatusNotClosed}
+                  onChange={handleThreadStatusChange}
+                >
+                  {threadStatusFiltersList.map((status) => (
+                    <MenuItemOption key={status} value={status}>
+                      {t(`common.threadStatus.${status}`)}
+                    </MenuItemOption>
+                  ))}
+                </MenuOptionGroup>
+              </MenuList>
+            </Menu>
+          </Box>
         </ButtonGroup>
 
         {isMember && (

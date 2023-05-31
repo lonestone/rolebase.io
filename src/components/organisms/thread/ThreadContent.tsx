@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { ThreadContext } from '@contexts/ThreadContext'
 import { useUpdateThreadMutation } from '@gql'
+import useOrgMember from '@hooks/useOrgMember'
 import useThreadState from '@hooks/useThreadState'
 import useThreadStatus from '@hooks/useThreadStatus'
 import ActionsMenu from '@molecules/ActionsMenu'
@@ -24,7 +25,6 @@ import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import ThreadActivities from '@organisms/thread/ThreadActivities'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import Page404 from '@pages/Page404'
-import useOrgMember from '@hooks/useOrgMember'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -98,9 +98,14 @@ export default function ThreadContent({
               </Flex>
 
               <HStack spacing={2}>
-                {isMember && (
-                  <ThreadStatusMenu value={threadStatus} onChange={setStatus} />
-                )}
+                <Box>
+                  {isMember && (
+                    <ThreadStatusMenu
+                      value={threadStatus}
+                      onChange={setStatus}
+                    />
+                  )}
+                </Box>
 
                 {thread?.archived && <Tag>{t('common.archived')}</Tag>}
 

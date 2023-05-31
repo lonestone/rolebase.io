@@ -847,15 +847,12 @@
     "create": "New topic",
     "empty": "No topic."
   },
-  "ThreadsFilterMenu":{
+  "ThreadsFilterMenu": {
     "participation": {
       "title": "Participation",
       "Invited": "My topics",
       "NotInvited": "Other topics",
       "All": "All topics"
-    },
-    "status":{
-      "title": "Topics status"
     },
     "archives": {
       "title": "Archive",
@@ -943,12 +940,12 @@
       "Done": "Done",
       "NotDone": "Not done"
     },
-    "threadStatus":{
+    "threadStatus": {
       "Preparation": "In preparation",
       "Active": "In progress",
       "Blocked": "Blocked",
       "Closed": "Done",
-      "NotDone": "Not done"
+      "NotClosed": "Not done"
     }
   },
   "useCreateTask": {

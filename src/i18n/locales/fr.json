@@ -878,15 +878,12 @@
     "create": "Nouveau sujet",
     "empty": "Aucun sujet."
   },
-  "ThreadsFilterMenu":{
+  "ThreadsFilterMenu": {
     "participation": {
       "title": "Participation",
       "Invited": "Mes sujets",
       "NotInvited": "Autres sujets",
       "All": "Tous les sujets"
-    },
-    "status":{
-      "title": "Statut du sujet"
     },
     "archives": {
       "title": "Archives",
@@ -974,12 +971,12 @@
       "Done": "Terminée",
       "NotDone": "Non terminée"
     },
-    "threadStatus":{
+    "threadStatus": {
       "Preparation": "En préparation",
       "Active": "En cours",
       "Blocked": "Bloqué",
       "Closed": "Terminé",
-      "NotDone": "Non terminé"
+      "NotClosed": "Non terminé"
     }
   },
   "useCreateTask": {
