@@ -176,7 +176,7 @@ export default function TasksModule({
         )}
       </Flex>
 
-      {loading && <Loading active center />}
+      {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       {view === TasksViewTypes.Kanban && (

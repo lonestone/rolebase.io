@@ -5,7 +5,15 @@ import TasksModule from '@organisms/task/TasksModule'
 import { LogType } from '@shared/model/log'
 import { MeetingStepTasksFragment } from '@shared/model/meeting_step'
 import { TasksViewTypes } from '@shared/model/task'
-import React, { useCallback, useContext } from 'react'
+import throttle from 'lodash.throttle'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import MeetingLogs from './MeetingLogs'
 
 interface Props {
@@ -23,18 +31,38 @@ export default function MeetingStepContentTasks({ step }: Props) {
   const { meeting, circle, isEnded } = useContext(MeetingContext)!
   const [updateMeetingStep] = useUpdateMeetingStepMutation()
 
-  // Persisted filters
+  // Cached data for optimistic updates
+  const cachedDataRef = useRef<MeetingStepTasksFragment['data']>(step.data)
+  const [cachedData, setCachedData] = useState<
+    MeetingStepTasksFragment['data']
+  >(step.data)
+  useEffect(() => setCachedData(step.data), [step.data])
+
+  // We use throttle because we sometimes update the data multiple times at once
+  const saveDataThrottled = useMemo(
+    () =>
+      throttle(
+        () =>
+          updateMeetingStep({
+            variables: {
+              id: step.id,
+              values: {
+                data: cachedDataRef.current,
+              },
+            },
+          }),
+        100,
+        { leading: false }
+      ),
+    [step.id, updateMeetingStep]
+  )
 
   const updateData = useCallback(
     (data: Partial<MeetingStepTasksFragment['data']>) => {
-      updateMeetingStep({
-        variables: {
-          id: step.id,
-          values: {
-            data: { ...step.data, ...data },
-          },
-        },
-      })
+      const newData = { ...cachedDataRef.current, ...data }
+      cachedDataRef.current = newData
+      setCachedData(newData)
+      saveDataThrottled()
     },
     [step.id]
   )
@@ -62,10 +90,10 @@ export default function MeetingStepContentTasks({ step }: Props) {
     <Box mb={5}>
       {!isEnded && (
         <TasksModule
-          view={step.data.viewType || TasksViewTypes.Kanban}
+          view={cachedData.viewType || TasksViewTypes.Kanban}
           circleId={circle.id}
-          memberId={step.data.filterMemberId || undefined}
-          status={step.data.filterStatus || undefined}
+          memberId={cachedData.filterMemberId || undefined}
+          status={cachedData.filterStatus || undefined}
           overflowContainer={{
             expandLeft: true,
             expandRight: true,
