@@ -3588,6 +3588,8 @@ export type Log = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
+  /** An object relationship */
+  task?: Maybe<Task>;
   taskId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   thread?: Maybe<Thread>;
@@ -3694,6 +3696,7 @@ export type Log_Bool_Exp = {
   memberName?: InputMaybe<String_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  task?: InputMaybe<Task_Bool_Exp>;
   taskId?: InputMaybe<Uuid_Comparison_Exp>;
   thread?: InputMaybe<Thread_Bool_Exp>;
   threadId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3731,6 +3734,7 @@ export type Log_Insert_Input = {
   memberName?: InputMaybe<Scalars['String']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  task?: InputMaybe<Task_Obj_Rel_Insert_Input>;
   taskId?: InputMaybe<Scalars['uuid']>;
   thread?: InputMaybe<Thread_Obj_Rel_Insert_Input>;
   threadId?: InputMaybe<Scalars['uuid']>;
@@ -3866,6 +3870,7 @@ export type Log_Order_By = {
   memberName?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
+  task?: InputMaybe<Task_Order_By>;
   taskId?: InputMaybe<Order_By>;
   thread?: InputMaybe<Thread_Order_By>;
   threadId?: InputMaybe<Order_By>;
@@ -13438,6 +13443,10 @@ export type Task = {
   description: Scalars['String'];
   dueDate?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
+  /** An array relationship */
+  logs: Array<Log>;
+  /** An aggregate relationship */
+  logs_aggregate: Log_Aggregate;
   /** An object relationship */
   member?: Maybe<Member>;
   memberId?: Maybe<Scalars['uuid']>;
@@ -13447,6 +13456,26 @@ export type Task = {
   status: Task_Status_Enum;
   tasksIds: Array<Scalars['uuid']>;
   title: Scalars['String'];
+};
+
+
+/** columns and relationships of "task" */
+export type TaskLogsArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
+};
+
+
+/** columns and relationships of "task" */
+export type TaskLogs_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Log_Order_By>>;
+  where?: InputMaybe<Log_Bool_Exp>;
 };
 
 /** aggregated selection of "task" */
@@ -13524,6 +13553,8 @@ export type Task_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   dueDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  logs?: InputMaybe<Log_Bool_Exp>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Bool_Exp>;
   member?: InputMaybe<Member_Bool_Exp>;
   memberId?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
@@ -13547,6 +13578,7 @@ export type Task_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   dueDate?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
+  logs?: InputMaybe<Log_Arr_Rel_Insert_Input>;
   member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
@@ -13637,6 +13669,7 @@ export type Task_Order_By = {
   description?: InputMaybe<Order_By>;
   dueDate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  logs_aggregate?: InputMaybe<Log_Aggregate_Order_By>;
   member?: InputMaybe<Member_Order_By>;
   memberId?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
