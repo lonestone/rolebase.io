@@ -38,9 +38,15 @@ import MeetingOpenCurrent from '@organisms/meeting/MeetingOpenCurrent'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
 import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
-import { excludeMeetingsFromRRule } from '@shared/helpers/rrule'
+import {
+  dateFromTimeZone,
+  excludeMeetingsFromRRule,
+  getDateFromUTCDate,
+  getUTCDateFromDate,
+} from '@shared/helpers/rrule'
 import { EntityFilters } from '@shared/model/participants'
 import { useStoreState } from '@store/hooks'
+import { truthy } from '@utils/truthy'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -53,6 +59,7 @@ import {
   FiRepeat,
   FiUpload,
 } from 'react-icons/fi'
+import { RRule } from 'rrule'
 import { circleColor } from 'src/theme'
 
 export default function MeetingsPage() {
@@ -142,29 +149,42 @@ export default function MeetingsPage() {
 
         // Add events from recurring meetings
         .concat(
-          (meetingsRecurring || []).map((mr): EventInput => {
-            // Exclude dates of meetings from the serie
-            const rrule = excludeMeetingsFromRRule(
-              mr.rrule,
-              mr.meetings
-            ).toString()
+          (meetingsRecurring || [])
+            .map((mr): EventInput | undefined => {
+              const rruleOrig = RRule.fromString(mr.rrule)
+              const nextDate = rruleOrig.after(new Date())
+              const timezone = rruleOrig.options.tzid
+              if (!nextDate || !timezone) return undefined
 
-            // Fix circle color (can be inherited from parents)
-            const circle = circles?.find((c) => c.id === mr.circleId)
-            const colorHue =
-              circle?.role.colorHue ?? mr.circle.role.colorHue ?? undefined
+              // Exclude dates of meetings from the serie
+              const rrule = excludeMeetingsFromRRule(
+                new RRule({
+                  ...rruleOrig.origOptions,
+                  // Change start date to next occurrence
+                  dtstart: getUTCDateFromDate(
+                    dateFromTimeZone(getDateFromUTCDate(nextDate), timezone)
+                  ),
+                }),
+                mr.meetings
+              ).toString()
 
-            return {
-              id: mr.id,
-              title: `${mr.circle.role.name} - ${mr.template.title}`,
-              rrule,
-              duration: {
-                minutes: mr.duration,
-              },
-              backgroundColor: circleColor(colorLightness, colorHue),
-              editable: false,
-            }
-          })
+              // Fix circle color (can be inherited from parents)
+              const circle = circles?.find((c) => c.id === mr.circleId)
+              const colorHue =
+                circle?.role.colorHue ?? mr.circle.role.colorHue ?? undefined
+
+              return {
+                id: mr.id,
+                title: `${mr.circle.role.name} - ${mr.template.title}`,
+                rrule,
+                duration: {
+                  minutes: mr.duration,
+                },
+                backgroundColor: circleColor(colorLightness, colorHue),
+                editable: false,
+              }
+            })
+            .filter(truthy)
         ),
     [meetings, meetingsRecurring, circles, colorMode]
   )

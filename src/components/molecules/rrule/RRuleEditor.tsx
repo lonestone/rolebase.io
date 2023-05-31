@@ -4,7 +4,6 @@ import { pick } from '@utils/pick'
 import React, { useCallback, useMemo } from 'react'
 import { RRule } from 'rrule'
 import { Frequency, ParsedOptions } from 'rrule/dist/esm/types'
-import RRuleEnd from './RRuleEnd'
 import RRuleMonthly from './RRuleMonthly'
 import RRuleRepeat from './RRuleRepeat'
 import RRuleStartDate from './RRuleStartDate'
@@ -85,7 +84,9 @@ export default function RRuleEditor({ value, onChange }: RRuleEditorProps) {
       {options.freq === Frequency.MONTHLY && <RRuleMonthly {...bind} />}
       {options.freq === Frequency.WEEKLY && <RRuleWeekly {...bind} />}
 
-      <RRuleEnd {...bind} />
+      {/* Disabled because we don't need it and it can cause bugs
+        <RRuleEnd {...bind} />
+      */}
     </VStack>
   )
 }

@@ -2,14 +2,19 @@ import { CircleFullFragment, gql } from '@gql'
 import i18n from '@i18n'
 import filterEntities from '@shared/helpers/filterEntities'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
-import { excludeMeetingsFromRRule } from '@shared/helpers/rrule'
+import {
+  dateFromTimeZone,
+  excludeMeetingsFromRRule,
+  getUTCDateFromDate,
+} from '@shared/helpers/rrule'
 import { EntityFilters } from '@shared/model/participants'
 import { adminRequest } from '@utils/adminRequest'
 import { generateMeetingToken } from '@utils/generateMeetingToken'
 import { guardQueryParams } from '@utils/guardQueryParams'
-import { route, RouteError } from '@utils/route'
+import { RouteError, route } from '@utils/route'
 import settings from '@utils/settings'
 import { ICalCalendar } from 'ical-generator'
+import { RRule } from 'rrule'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({
@@ -97,9 +102,18 @@ export default route(async (context) => {
   for (const recurringMeeting of recurringMeetings) {
     const url = `${orgUrl}/meetings-recurring/${recurringMeeting.id}`
 
-    // Parse RRule and exclude existing meetings
+    const rruleOrig = RRule.fromString(recurringMeeting.rrule)
+    const nextDate = rruleOrig.after(new Date())
+    const timezone = rruleOrig.options.tzid
+    if (!nextDate || !timezone) continue
+
+    // Exclude dates of meetings from the serie
     const rrule = excludeMeetingsFromRRule(
-      recurringMeeting.rrule,
+      new RRule({
+        ...rruleOrig.origOptions,
+        // Change start date to next occurrence
+        dtstart: getUTCDateFromDate(dateFromTimeZone(nextDate, timezone)),
+      }),
       meetings.filter((m) => m.recurringId === recurringMeeting.id)
     )
 
