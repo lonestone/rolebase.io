@@ -107,8 +107,6 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
     // Get value
     const value = editorRef.current.getValue()
 
-    const message = JSON.parse(value).root.children[0].children[0].text
-
     // Clear editor
     editorRef.current?.clear()
     localStorage.setItem(draftKey, '')
@@ -118,7 +116,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
       await handleCreateActivity({
         type: Thread_Activity_Type_Enum.Message,
         data: {
-          message,
+          message: value,
         },
       })
     } catch (error) {

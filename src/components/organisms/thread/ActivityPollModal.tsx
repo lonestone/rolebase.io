@@ -188,14 +188,10 @@ export default function ActivityPollModal({
   const onSubmit = handleSubmit(async ({ endDate, ...data }) => {
     if (!orgId || !userId) return
 
-    const question = JSON.parse(data.question).root.children[0].children[0]
-      .text as string
-
     try {
       const activityData = {
         endDate: endDate ? new Date(endDate).toISOString() : null,
         ...data,
-        question,
       }
       if (activity) {
         // Erase answers

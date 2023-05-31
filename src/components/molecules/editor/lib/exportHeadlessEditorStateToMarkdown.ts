@@ -9,7 +9,7 @@ export function exportHeadlessEditorStateToMarkdown(value: string) {
     return value
   }
 
-  // Instanciate editor
+  // Instantiate editor
   const editor = createHeadlessEditor({
     nodes: [...nodes],
     onError: () => {},
