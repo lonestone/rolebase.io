@@ -840,6 +840,8 @@
     "title": "Title",
     "titlePlaceholder": "What are we discussing?...",
     "invite": "Invite",
+    "inviteWarning": "You are not a participant, do you want to participate in this topic?",
+    "inviteButton": "Add me",
     "settings": "Settings"
   },
   "ThreadsPage": {

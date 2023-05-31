@@ -871,6 +871,8 @@
     "title": "Titre",
     "titlePlaceholder": "On discute de quoi ?...",
     "invite": "Inviter",
+    "inviteWarning": "Vous ne faites pas partie des participants, souhaitez-vous participer à ce sujet ?",
+    "inviteButton": "M'ajouter",
     "settings": "Paramètres"
   },
   "ThreadsPage": {

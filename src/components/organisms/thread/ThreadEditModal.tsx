@@ -1,5 +1,6 @@
 import ParticipantsScopeSelect from '@atoms/ParticipantsScopeSelect'
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -33,6 +34,7 @@ import { nameSchema } from '@shared/schemas'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { FiPlus } from 'react-icons/fi'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -184,6 +186,26 @@ export default function ThreadEditModal({
                       onRemove={removeParticipant}
                     />
                   </Box>
+
+                  {!thread &&
+                    circleId &&
+                    currentMember &&
+                    !participants.some(
+                      (p) => p.member.id === currentMember.id
+                    ) && (
+                      <Alert status="warning" mt={2}>
+                        {t('ThreadEditModal.inviteWarning')}
+                        <Button
+                          variant="solid"
+                          colorScheme="yellow"
+                          leftIcon={<FiPlus />}
+                          ml={5}
+                          onClick={() => addParticipant(currentMember.id)}
+                        >
+                          {t('ThreadEditModal.inviteButton')}
+                        </Button>
+                      </Alert>
+                    )}
                 </FormControl>
 
                 <Box textAlign="right" mt={2}>
