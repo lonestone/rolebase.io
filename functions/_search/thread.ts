@@ -23,7 +23,7 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Thread,
   title: fragment.title,
   description: fragment.activities
-    .map((activity) => activity.data.message)
+    .map((activity) => activity.data.message || activity.data.question)
     .join('\n'),
   createdAt: new Date(fragment.createdAt).getTime(),
   boost: 0,
@@ -67,12 +67,11 @@ export class IndexThreadActivity extends IndexEntity<ThreadActivityFragment> {
   async applyEvent(event: HasuraEvent<ThreadActivityFragment>) {
     const { data } = event.event
     const threadId = data.new?.threadId
-    console.log('IndexThreadActivity.applyEvent', { event, threadId })
+
     if (threadId && data.new?.data !== data.old?.data) {
       const searchDoc = await new IndexThread().getById(threadId)
       if (!searchDoc) return
       // Update thread
-      console.log('IndexThreadActivity.applyEvent', { searchDoc })
       await this.index.saveObject(searchDoc).catch(console.error)
     }
   }
