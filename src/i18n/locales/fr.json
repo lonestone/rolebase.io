@@ -875,18 +875,23 @@
   },
   "ThreadsPage": {
     "heading": "Sujets",
+    "create": "Nouveau sujet",
+    "empty": "Aucun sujet."
+  },
+  "ThreadsFilterMenu":{
     "participation": {
       "title": "Participation",
       "Invited": "Mes sujets",
       "NotInvited": "Autres sujets",
       "All": "Tous les sujets"
     },
+    "status":{
+      "title": "Statut du sujet"
+    },
     "archives": {
       "title": "Archives",
       "show": "Afficher les archives"
-    },
-    "create": "Nouveau sujet",
-    "empty": "Aucun sujet."
+    }
   },
   "UserMenu": {
     "tooltip": "Mes paramètres",
@@ -970,10 +975,11 @@
       "NotDone": "Non terminée"
     },
     "threadStatus":{
+      "Preparation": "En préparation",
       "Active": "En cours",
       "Blocked": "Bloqué",
       "Closed": "Terminé",
-      "Preparation": "En préparation"
+      "NotDone": "Non terminé"
     }
   },
   "useCreateTask": {

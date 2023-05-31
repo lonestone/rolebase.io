@@ -1,4 +1,8 @@
-import { ThreadFragment, useThreadsSubscription } from '@gql'
+import {
+  ThreadFragment,
+  Thread_Status_Enum,
+  useThreadsSubscription,
+} from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useMemo } from 'react'
 import { useOrgId } from './useOrgId'
@@ -10,6 +14,7 @@ export interface ThreadWithStatus extends ThreadFragment {
 export default function useThreads(filters?: {
   circleId?: string
   archived?: boolean
+  status?: Thread_Status_Enum
 }) {
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
@@ -30,6 +35,12 @@ export default function useThreads(filters?: {
             _eq: filters?.archived === undefined ? false : filters.archived,
           },
         },
+        {
+          status: filters?.status
+            ? { _eq: filters?.status }
+            : { _neq: Thread_Status_Enum.Closed },
+        },
+
         ...(filters?.circleId
           ? [{ circleId: { _eq: filters?.circleId } }]
           : []),
