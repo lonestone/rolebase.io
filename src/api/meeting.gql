@@ -1,12 +1,13 @@
-query getMeetings($recurringId: uuid!, $recurringDate: timestamptz!) {
+query getLastMeetingSteps($recurringId: uuid!, $recurringDate: timestamptz!) {
   meeting(
     where: {
       recurringId: { _eq: $recurringId }
       recurringDate: { _lt: $recurringDate }
       archived: { _eq: false }
     }
+    order_by: { createdAt: desc }
+    limit: 10
   ) {
-    ...Meeting
     steps {
       ...MeetingStep
     }

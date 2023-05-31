@@ -36,7 +36,6 @@ import { useTranslation } from 'react-i18next'
 import { FiCalendar } from 'react-icons/fi'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
-import { isPast } from 'date-fns'
 import { useCopyNotesMeeting } from '@hooks/useCopyNotesMeeting'
 
 interface Props extends BoxProps {
@@ -97,7 +96,7 @@ export default function MeetingContent({
 
   const handleNotesChange = async () => {
     if (!meeting) return
-    await copyStepNotes(meeting)
+    await copyStepNotes(meeting, steps)
   }
 
   if (error) {
