@@ -975,10 +975,11 @@
       "NotDone": "Non terminée"
     },
     "threadStatus":{
+      "Preparation": "En préparation",
       "Active": "En cours",
       "Blocked": "Bloqué",
       "Closed": "Terminé",
-      "Preparation": "En préparation"
+      "NotDone": "Non terminé"
     }
   },
   "useCreateTask": {

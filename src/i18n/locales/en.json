@@ -944,10 +944,11 @@
       "NotDone": "Not done"
     },
     "threadStatus":{
+      "Preparation": "In preparation",
       "Active": "In progress",
       "Blocked": "Blocked",
       "Closed": "Done",
-      "Preparation": "In preparation"
+      "NotDone": "Not done"
     }
   },
   "useCreateTask": {

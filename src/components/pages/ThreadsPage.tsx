@@ -27,18 +27,21 @@ import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
 import ThreadItem from '@molecules/thread/ThreadItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown, FiPlus } from 'react-icons/fi'
 import { EntityFilters } from '@shared/model/participants'
+import { threadStatusList } from '@shared/model/thread'
 
 const entityFiltersList = [EntityFilters.Invited, EntityFilters.NotInvited]
 
-const threadStatusFiltersList = [
-  Thread_Status_Enum.Active,
-  Thread_Status_Enum.Blocked,
-  Thread_Status_Enum.Closed,
-  Thread_Status_Enum.Preparation,
+// Thread Status filter
+const threadStatusNotDone = 'NotDone'
+type ThreadStatusFilter = Thread_Status_Enum | typeof threadStatusNotDone
+
+const threadStatusFiltersList: ThreadStatusFilter[] = [
+  threadStatusNotDone,
+  ...threadStatusList,
 ]
 
 export default function ThreadsPage() {
@@ -55,7 +58,7 @@ export default function ThreadsPage() {
   // Archives filter menu
   const [archives, setArchives] = useState(false)
 
-  const [status, setStatus] = useState<Thread_Status_Enum[]>([])
+  const [status, setStatus] = useState<Thread_Status_Enum | undefined>()
 
   // Subscribe to threads
   const { threads, error, loading } = useThreads({ archived: archives, status })
@@ -69,6 +72,15 @@ export default function ThreadsPage() {
     onOpen: onCreateOpen,
     onClose: onCreateClose,
   } = useDisclosure()
+
+  const handleThreadStatusChange = useCallback((status: string | string[]) => {
+    if (typeof status !== 'string') return
+    setStatus(
+      status === threadStatusNotDone
+        ? undefined
+        : (status as Thread_Status_Enum)
+    )
+  }, [])
 
   return (
     <Box p={5}>
@@ -117,17 +129,17 @@ export default function ThreadsPage() {
             <MenuButton
               as={Button}
               size="sm"
-              variant="outline"
-              className="userflow-threads-status-filter"
               rightIcon={<FiChevronDown />}
+              className="userflow-threads-status-filter"
+              {...(status ? { variant: 'solid' } : {})}
             >
               {t('ThreadsFilterMenu.status.title')}
             </MenuButton>
             <MenuList zIndex={2000}>
               <MenuOptionGroup
-                type="checkbox"
-                value={status}
-                onChange={(value) => setStatus(value as Thread_Status_Enum[])}
+                type="radio"
+                value={status ?? threadStatusNotDone}
+                onChange={handleThreadStatusChange}
               >
                 {threadStatusFiltersList.map((status) => (
                   <MenuItemOption key={status} value={status}>
