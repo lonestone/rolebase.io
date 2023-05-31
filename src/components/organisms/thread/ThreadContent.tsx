@@ -7,7 +7,6 @@ import {
   Flex,
   Heading,
   HStack,
-  Spacer,
   Tag,
   useDisclosure,
   Wrap,
@@ -87,16 +86,16 @@ export default function ThreadContent({
           <>
             {changeTitle && <Title>{thread?.title || '…'}</Title>}
 
-            <Wrap spacing={2} flex={1} align="center">
-              {isMember && threadStatus && (
-                <CircleThreadStatus status={threadStatus} />
-              )}
+            <Wrap spacing={4} flex={1} align="center">
+              <Flex gap={2}>
+                {isMember && threadStatus && (
+                  <CircleThreadStatus status={threadStatus} />
+                )}
 
-              <Heading as="h1" size="md">
-                {thread?.title || (loading ? '…' : null)}
-              </Heading>
-
-              <Spacer />
+                <Heading as="h1" size="md">
+                  {thread?.title || (loading ? '…' : null)}
+                </Heading>
+              </Flex>
 
               <HStack spacing={2}>
                 {isMember && (

@@ -62,12 +62,12 @@ const ThreadItem = forwardRef<Props, 'div'>(
           _hover={hover}
           {...linkBoxProps}
           tabIndex={
-            // Remove tabIndex because it's redondant with link
+            // Remove tabIndex because it's redundant with link
             undefined
           }
         >
           <Flex align="center">
-            <Box zIndex={'overlay'} mr={2}>
+            <Box zIndex="2" mr={2}>
               <CircleThreadStatus status={thread.status} />
             </Box>
             <LinkOverlay
