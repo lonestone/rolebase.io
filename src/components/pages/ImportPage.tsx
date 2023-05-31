@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import BrandModal from '@molecules/BrandModal'
 import { useUserId } from '@nhost/react'
+import { Crisp } from 'crisp-sdk-web'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiUpload } from 'react-icons/fi'
@@ -44,24 +45,13 @@ enum ImportSteps {
 
 // Send feature request
 function handleSendSupport(text: string, fileName?: string, fileUrl?: string) {
-  const $crisp = (window as any).$crisp
-  if (!$crisp) {
-    throw new Error('Crisp not found')
-  }
-  $crisp.push(['do', 'message:send', ['text', text]])
+  Crisp.message.sendText(text)
   if (fileName && fileUrl) {
-    $crisp.push([
-      'do',
-      'message:send',
-      [
-        'file',
-        {
-          name: fileName,
-          url: fileUrl,
-          type: 'text/application',
-        },
-      ],
-    ])
+    Crisp.message.sendFile({
+      name: fileName,
+      url: fileUrl,
+      type: 'text/application',
+    })
   }
 }
 

@@ -35,6 +35,7 @@ import UserMenu from '@molecules/UserMenu'
 import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
+import { Crisp } from 'crisp-sdk-web'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaQuestionCircle } from 'react-icons/fa'
@@ -74,12 +75,12 @@ export default function Sidebar() {
 
   // Open help chatbox
   const handleOpenHelp = () => {
-    const $crisp = (window as any).$crisp
-    if (!$crisp) {
-      throw new Error('Crisp not found')
+    if (Crisp.chat.isVisible()) {
+      Crisp.chat.hide()
+    } else {
+      Crisp.chat.show()
+      Crisp.chat.open()
     }
-    $crisp.push(['do', 'chat:show'])
-    $crisp.push(['do', 'chat:toggle'])
   }
 
   // Show different layout for small screens

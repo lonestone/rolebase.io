@@ -9,6 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import useMemberPreferences from '@hooks/useMemberPreferences'
+import { Crisp } from 'crisp-sdk-web'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StarsRating } from '../../molecules/StarsRating'
@@ -22,11 +23,7 @@ export default function RateAppModal() {
 
   const handleRate = (rating: number) => {
     setRating(rating)
-    const $crisp = (window as any).$crisp
-    if (!$crisp) {
-      throw new Error('Crisp not found')
-    }
-    $crisp.push(['do', 'message:send', ['text', `Rating: ${rating}`]])
+    Crisp.message.sendText(`Rating: ${rating}`)
   }
 
   const handleGiftClick = () => {
@@ -43,12 +40,8 @@ export default function RateAppModal() {
   }
 
   const handleHelp = () => {
-    const $crisp = (window as any).$crisp
-    if (!$crisp) {
-      throw new Error('Crisp not found')
-    }
-    $crisp.push(['do', 'chat:show'])
-    $crisp.push(['do', 'chat:open'])
+    Crisp.chat.show()
+    Crisp.chat.open()
   }
 
   // Don't show if already rated

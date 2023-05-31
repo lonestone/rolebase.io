@@ -1,6 +1,7 @@
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useUserData } from '@nhost/react'
+import { Crisp } from 'crisp-sdk-web'
 import { useEffect } from 'react'
 
 export default function CrispSetUser() {
@@ -12,29 +13,24 @@ export default function CrispSetUser() {
   const nickname = member?.name || user?.displayName
   const avatar = member?.picture || user?.avatarUrl
 
-  const $crisp = (window as any).$crisp
-  if (!$crisp) {
-    console.error('Crisp not found')
-  }
-
   useEffect(() => {
-    if (!email || !$crisp) return
-    $crisp.push(['set', 'user:email', [email]])
+    if (!email) return
+    Crisp.user.setEmail(email)
   }, [email])
 
   useEffect(() => {
-    if (!nickname || !$crisp) return
-    $crisp.push(['set', 'user:nickname', [nickname]])
+    if (!nickname) return
+    Crisp.user.setNickname(nickname)
   }, [nickname])
 
   useEffect(() => {
-    if (!avatar || !$crisp) return
-    $crisp.push(['set', 'user:avatar', [avatar]])
+    if (!avatar) return
+    Crisp.user.setAvatar(avatar)
   }, [avatar])
 
   useEffect(() => {
-    if (!org || !$crisp) return
-    $crisp.push(['set', 'user:company', [org.name]])
+    if (!org) return
+    Crisp.user.setCompany(org.name, {})
   }, [org?.name])
 
   return null

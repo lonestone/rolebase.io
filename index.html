@@ -34,28 +34,6 @@
 
       gtag('config', 'G-PE74WG5DB8')
     </script>
-
-    <!-- Crisp -->
-    <script type="text/javascript">
-      window.$crisp = []
-      $crisp.push(['safe', true])
-      $crisp.push(['do', 'chat:hide'])
-      $crisp.push(['on', 'chat:closed', () => $crisp.push(['do', 'chat:hide'])])
-      $crisp.push([
-        'on',
-        'message:received',
-        () => $crisp.push(['do', 'chat:show']),
-      ])
-
-      window.CRISP_WEBSITE_ID = '652544cd-14f6-4c8c-9a04-2a56676dd4a0'
-      ;(function () {
-        d = document
-        s = d.createElement('script')
-        s.src = 'https://client.crisp.chat/l.js'
-        s.async = 1
-        d.getElementsByTagName('head')[0].appendChild(s)
-      })()
-    </script>
   </head>
   <body>
     <div id="root"></div>
