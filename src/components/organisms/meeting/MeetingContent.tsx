@@ -184,6 +184,12 @@ export default function MeetingContent({
                   </Alert>
                 )}
 
+                <Collapse in={!!meeting.attendees} animateOpacity>
+                  {meeting.attendees && circle && (
+                    <MeetingAttendeesList mb={16} />
+                  )}
+                </Collapse>
+
                 {meeting.stepsConfig.map((stepConfig, index) => {
                   const step = steps?.find(
                     (s) => s.stepConfigId === stepConfig.id
@@ -204,14 +210,6 @@ export default function MeetingContent({
                           : undefined
                       }
                     >
-                      {index === 0 && (
-                        <Collapse in={!!meeting.attendees} animateOpacity>
-                          {meeting.attendees && circle && (
-                            <MeetingAttendeesList mb={5} />
-                          )}
-                        </Collapse>
-                      )}
-
                       <MeetingStepContent step={step} />
                     </MeetingStepLayout>
                   )
