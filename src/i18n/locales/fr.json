@@ -909,7 +909,8 @@
   },
   "VerifyEmailModal":{
     "heading": "Vérification de votre adresse email",
-    "text": "Cliquez sur le lien que nous venons de vous envoyer par email pour vérifier votre adresse.",
+    "text": "Vous avez reçu un email, cliquez sur le lien pour vérifier votre adresse.",
+    "resend": "Recevoir un nouvel email",
     "close": "Fermer"
   },
   "VideoConfFormControl": {
