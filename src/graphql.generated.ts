@@ -18057,7 +18057,7 @@ export const GetLastMeetingStepsDocument = gql`
   meeting(
     where: {recurringId: {_eq: $recurringId}, recurringDate: {_lt: $recurringDate}, archived: {_eq: false}}
     order_by: {createdAt: desc}
-    limit: 10
+    limit: 1
   ) {
     steps {
       ...MeetingStep

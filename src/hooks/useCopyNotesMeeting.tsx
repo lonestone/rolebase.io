@@ -38,9 +38,11 @@ export function useCopyNotesMeeting() {
               fromStep.stepConfigId === step.stepConfigId
             )
           })
+          if (!result) return
+
           return updateMeetingStep({
             variables: {
-              id: result?.id!,
+              id: result.id,
               values: {
                 notes: step.notes,
               },
