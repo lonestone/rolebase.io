@@ -1,9 +1,12 @@
-import IconTextButton from '@atoms/IconTextButton'
 import {
   Box,
   BoxProps,
   Button,
   HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Spacer,
   Text,
   useDisclosure,
@@ -35,11 +38,12 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiArrowRightCircle,
   FiBarChart2,
   FiCalendar,
   FiCheckSquare,
   FiMessageSquare,
+  FiPlus,
+  FiTriangle,
 } from 'react-icons/fi'
 import { IoMdSend } from 'react-icons/io'
 import settings from 'src/settings'
@@ -181,44 +185,46 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
       />
 
       <HStack spacing={2} mt={2}>
-        <IconTextButton
-          aria-label={t(`ThreadActivityCreate.poll`)}
-          size="sm"
-          icon={<FiBarChart2 />}
-          onClick={pollModal.onOpen}
-        />
-
-        <IconTextButton
-          aria-label={t(`common.createDecision`)}
-          size="sm"
-          icon={<FiArrowRightCircle />}
-          data-type={Thread_Activity_Type_Enum.Decision}
-          onClick={handleEntityOpen}
-        />
-
-        <IconTextButton
-          aria-label={t(`common.createTask`)}
-          size="sm"
-          icon={<FiCheckSquare />}
-          data-type={Thread_Activity_Type_Enum.Task}
-          onClick={handleEntityOpen}
-        />
-
-        <IconTextButton
-          aria-label={t(`common.createMeeting`)}
-          size="sm"
-          icon={<FiCalendar />}
-          data-type={Thread_Activity_Type_Enum.Meeting}
-          onClick={handleEntityOpen}
-        />
-
-        <IconTextButton
-          aria-label={t(`common.createThread`)}
-          size="sm"
-          icon={<FiMessageSquare />}
-          data-type={Thread_Activity_Type_Enum.Thread}
-          onClick={handleEntityOpen}
-        />
+        <Box>
+          <Menu isLazy>
+            <MenuButton as={Button} size="sm" leftIcon={<FiPlus />}>
+              {t(`common.add`)}
+            </MenuButton>
+            <MenuList>
+              <MenuItem
+                icon={<FiTriangle />}
+                data-type={Thread_Activity_Type_Enum.Decision}
+                onClick={handleEntityOpen}
+              >
+                {t(`common.createDecision`)}
+              </MenuItem>
+              <MenuItem icon={<FiBarChart2 />} onClick={pollModal.onOpen}>
+                {t(`ThreadActivityCreate.poll`)}
+              </MenuItem>
+              <MenuItem
+                icon={<FiCheckSquare />}
+                data-type={Thread_Activity_Type_Enum.Task}
+                onClick={handleEntityOpen}
+              >
+                {t(`common.createTask`)}
+              </MenuItem>
+              <MenuItem
+                icon={<FiCalendar />}
+                data-type={Thread_Activity_Type_Enum.Meeting}
+                onClick={handleEntityOpen}
+              >
+                {t(`common.createMeeting`)}
+              </MenuItem>
+              <MenuItem
+                icon={<FiMessageSquare />}
+                data-type={Thread_Activity_Type_Enum.Thread}
+                onClick={handleEntityOpen}
+              >
+                {t(`common.createThread`)}
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
 
         <Spacer />
 

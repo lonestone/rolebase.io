@@ -44,7 +44,7 @@ export default function ActionsMenu({
   const { t } = useTranslation()
 
   return (
-    <Menu>
+    <Menu isLazy>
       <MenuButton
         aria-label={t('ActionsMenu.label')}
         as={IconButton}

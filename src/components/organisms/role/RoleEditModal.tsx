@@ -222,7 +222,7 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
                 <FormLabel>
                   {t('RoleEditModal.checklist')}
                   <IconButton
-                    aria-label={t('RoleEditModal.checklistAdd')}
+                    aria-label={t('common.add')}
                     icon={<FaPlus />}
                     size="xs"
                     ml={2}
@@ -241,7 +241,7 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
                 <FormLabel>
                   {t('RoleEditModal.indicator')}
                   <IconButton
-                    aria-label={t('RoleEditModal.indicatorAdd')}
+                    aria-label={t('common.add')}
                     icon={<FaPlus />}
                     size="xs"
                     ml={2}

@@ -1,6 +1,15 @@
 import BounceAnimation from '@atoms/BounceAnimation'
 import IconTextButton from '@atoms/IconTextButton'
-import { HStack, useDisclosure } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { Thread_Activity_Type_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -15,10 +24,11 @@ import { useTranslation } from 'react-i18next'
 import { FaStop } from 'react-icons/fa'
 import {
   FiArrowDown,
-  FiArrowRightCircle,
   FiCalendar,
   FiCheckSquare,
   FiMessageSquare,
+  FiPlus,
+  FiTriangle,
   FiVideo,
 } from 'react-icons/fi'
 import settings from 'src/settings'
@@ -70,39 +80,43 @@ export default function MeetingPanelStarted() {
 
   return (
     <HStack spacing={4}>
-      <HStack spacing={2}>
-        <IconTextButton
-          aria-label={t(`common.createDecision`)}
-          size="sm"
-          icon={<FiArrowRightCircle />}
-          data-type={Thread_Activity_Type_Enum.Decision}
-          onClick={handleEntityOpen}
-        />
-
-        <IconTextButton
-          aria-label={t(`common.createTask`)}
-          size="sm"
-          icon={<FiCheckSquare />}
-          data-type={Thread_Activity_Type_Enum.Task}
-          onClick={handleEntityOpen}
-        />
-
-        <IconTextButton
-          aria-label={t(`common.createMeeting`)}
-          size="sm"
-          icon={<FiCalendar />}
-          data-type={Thread_Activity_Type_Enum.Meeting}
-          onClick={handleEntityOpen}
-        />
-
-        <IconTextButton
-          aria-label={t(`common.createThread`)}
-          size="sm"
-          icon={<FiMessageSquare />}
-          data-type={Thread_Activity_Type_Enum.Thread}
-          onClick={handleEntityOpen}
-        />
-      </HStack>
+      <Box>
+        <Menu isLazy>
+          <MenuButton as={Button} size="sm" leftIcon={<FiPlus />}>
+            {t(`common.add`)}
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              icon={<FiTriangle />}
+              data-type={Thread_Activity_Type_Enum.Decision}
+              onClick={handleEntityOpen}
+            >
+              {t(`common.createDecision`)}
+            </MenuItem>
+            <MenuItem
+              icon={<FiCheckSquare />}
+              data-type={Thread_Activity_Type_Enum.Task}
+              onClick={handleEntityOpen}
+            >
+              {t(`common.createTask`)}
+            </MenuItem>
+            <MenuItem
+              icon={<FiCalendar />}
+              data-type={Thread_Activity_Type_Enum.Meeting}
+              onClick={handleEntityOpen}
+            >
+              {t(`common.createMeeting`)}
+            </MenuItem>
+            <MenuItem
+              icon={<FiMessageSquare />}
+              data-type={Thread_Activity_Type_Enum.Thread}
+              onClick={handleEntityOpen}
+            >
+              {t(`common.createThread`)}
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Box>
 
       <HStack spacing={2}>
         {videoConfUrl && (

@@ -562,10 +562,8 @@
     "accountabilities": "Redevabilités",
     "accountabilitiesPlaceholder": "Ce qu'il doit faire...",
     "checklist": "Checklist",
-    "checklistAdd": "Ajouter",
     "checklistPlaceholder": "Liste des actions récurrentes...",
     "indicator": "Indicateurs",
-    "indicatorAdd": "Ajouter",
     "indicatorPlaceholder": "Liste des indicateurs...",
     "notes": "Notes",
     "notesPlaceholder": "Notes, liens...",
@@ -821,7 +819,7 @@
   },
   "ThreadActivityCreate": {
     "placeholder": "Message...",
-    "poll": "Créer un Sondage",
+    "poll": "Sondage",
     "defaultEntityDescription": "Sujet : {{thread}}"
   },
   "ThreadActivityDecision": {
@@ -915,13 +913,14 @@
   "common": {
     "save": "Enregistrer",
     "create": "Créer",
+    "add": "Ajouter",
     "send": "Envoyer",
     "open": "Ouvrir",
     "skip": "Passer",
-    "createThread": "Créer un Sujet",
-    "createMeeting": "Créer une Réunion",
-    "createTask": "Créer une Tâche",
-    "createDecision": "Créer une Décision",
+    "createThread": "Sujet",
+    "createMeeting": "Réunion",
+    "createTask": "Tâche",
+    "createDecision": "Décision",
     "close": "Fermer",
     "edit": "Editer",
     "move": "Déplacer",

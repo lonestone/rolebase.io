@@ -2,12 +2,12 @@ import { Avatar } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
 import React from 'react'
 import {
-  FiArrowRightCircle,
   FiCalendar,
   FiCheckSquare,
   FiCircle,
   FiDisc,
   FiMessageSquare,
+  FiTriangle,
   FiUser,
 } from 'react-icons/fi'
 import { SearchItem } from './searchTypes'
@@ -23,7 +23,7 @@ export const searchIcons = {
   Thread: FiMessageSquare,
   Meeting: FiCalendar,
   Task: FiCheckSquare,
-  Decision: FiArrowRightCircle,
+  Decision: FiTriangle,
 }
 
 export default function SearchResultIcon({ item }: Props) {

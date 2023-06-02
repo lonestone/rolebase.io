@@ -29,11 +29,11 @@ import CircleThreads from '@molecules/circle/CircleThreads'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiArrowRightCircle,
   FiCalendar,
   FiCheckSquare,
   FiDisc,
   FiMessageSquare,
+  FiTriangle,
 } from 'react-icons/fi'
 import RoleEditModal from '../role/RoleEditModal'
 import CircleCopyModal from './CircleCopyModal'
@@ -171,7 +171,7 @@ export default function CircleContent({
           </AccordionLazyItem>
 
           <AccordionLazyItem
-            icon={<FiArrowRightCircle />}
+            icon={<FiTriangle />}
             label={t('CircleContent.tabDecisions')}
             h={accordionHeight}
           >
