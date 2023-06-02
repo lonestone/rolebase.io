@@ -17,17 +17,18 @@ import {
   $isRangeSelection,
 } from 'lexical'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type LinkFilter = (event: MouseEvent, linkNode: LinkNode) => boolean
 
 export default function ClickableLinkPlugin({
   filter,
-  newTab = true,
 }: {
   filter?: LinkFilter
-  newTab?: boolean
 }) {
   const [editor] = useLexicalComposerContext()
+  const navigate = useNavigate()
+
   useEffect(() => {
     function onClick(e: Event) {
       const event = e as MouseEvent | PointerEvent
@@ -71,12 +72,13 @@ export default function ClickableLinkPlugin({
       try {
         if (href !== null) {
           const isMiddle = event.type === 'auxclick' && event.button === 1
-          window.open(
-            href,
-            newTab || event.metaKey || event.ctrlKey || isMiddle
-              ? '_blank'
-              : '_self'
-          )
+          const newTab = event.metaKey || event.ctrlKey || isMiddle
+
+          if (!newTab && href.startsWith(window.location.origin)) {
+            navigate(href.slice(window.location.origin.length))
+          } else {
+            window.open(href, '_blank')
+          }
           event.preventDefault()
         }
       } catch {
@@ -100,7 +102,7 @@ export default function ClickableLinkPlugin({
         }
       }
     )
-  }, [editor, filter, newTab])
+  }, [editor, filter])
   return null
 }
 
