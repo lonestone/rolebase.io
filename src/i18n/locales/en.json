@@ -114,6 +114,11 @@
     "CmdClick": ": Move a role or a member",
     "CmdShiftClick": " : Copy a role or a member"
   },
+  "CirclesSettings": {
+    "label": "Settings",
+    "baseRoles": "Basic roles",
+    "vacantRoles": "Vacant roles"
+  },
   "CurrentUserModal": {
     "heading": "My personal information",
     "email": "Email",
@@ -577,8 +582,6 @@
   },
   "SettingsMenuList": {
     "org": "Organization",
-    "baseRoles": "Basic roles",
-    "vacantRoles": "Vacant roles",
     "logs": "History",
     "superAdmin": "Admin",
     "subscription": "Subscription"

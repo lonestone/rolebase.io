@@ -16,6 +16,7 @@ import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
 import CirclesKeyboardShortcuts from '@molecules/circle/CirclesKeyboardShortcuts'
+import CirclesSettings from '@molecules/circle/CirclesSettings'
 import GraphViewsSelect from '@molecules/circle/GraphViewsSelect'
 import CircleContent from '@organisms/circle/CircleContent'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
@@ -177,6 +178,9 @@ export default function CirclesPage() {
         </Box>
         <Box>
           <CirclesKeyboardShortcuts {...menuButtonProps} />
+        </Box>
+        <Box>
+          <CirclesSettings {...menuButtonProps} />
         </Box>
       </HStack>
     </GraphZoomProvider>
