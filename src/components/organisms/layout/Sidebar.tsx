@@ -217,10 +217,13 @@ export default function Sidebar() {
         >
           {orgId ? (
             <>
-              <OrgSwitch mb={5} />
+              <OrgSwitch mb={3} />
+
+              <Notifications isMobile={isMobile} />
 
               <Box
                 px={4}
+                mt={3}
                 mb={5}
                 transition="opacity 200ms"
                 opacity={searchModal.isOpen ? 0 : 1}
@@ -319,8 +322,6 @@ export default function Sidebar() {
               </Menu>
             </Box>
           )}
-
-          <Notifications isMobile={isMobile} />
 
           <SidebarItem
             className="userflow-sidebar-help"
