@@ -1,5 +1,11 @@
 query getCircleThreadsIds($circleId: uuid!) {
-  thread(where: { circleId: { _eq: $circleId }, archived: { _eq: false } }) {
+  thread(
+    where: {
+      circleId: { _eq: $circleId }
+      status: { _neq: Closed }
+      archived: { _eq: false }
+    }
+  ) {
     id
   }
 }
@@ -32,8 +38,20 @@ subscription threads($filters: [thread_bool_exp!], $memberId: uuid!) {
   }
 }
 
-subscription circleThreadsWithMeetingNote($circleId: uuid!, $meetingId: uuid!) {
-  thread(where: { circleId: { _eq: $circleId } }) {
+subscription circleThreads($circleId: uuid!) {
+  thread(
+    where: {
+      circleId: { _eq: $circleId }
+      status: { _neq: Closed }
+      archived: { _eq: false }
+    }
+  ) {
+    ...Thread
+  }
+}
+
+subscription threadsWithMeetingNote($threadsIds: [uuid!]!, $meetingId: uuid!) {
+  thread(where: { id: { _in: $threadsIds } }) {
     ...Thread
     activities(
       where: {

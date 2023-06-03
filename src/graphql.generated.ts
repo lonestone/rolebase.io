@@ -16802,13 +16802,20 @@ export type ThreadsSubscriptionVariables = Exact<{
 
 export type ThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, lastActivity: Array<{ __typename?: 'thread_activity', id: string, createdAt: string }>, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
 
-export type CircleThreadsWithMeetingNoteSubscriptionVariables = Exact<{
+export type CircleThreadsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
+}>;
+
+
+export type CircleThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum }> };
+
+export type ThreadsWithMeetingNoteSubscriptionVariables = Exact<{
+  threadsIds: Array<Scalars['uuid']> | Scalars['uuid'];
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type CircleThreadsWithMeetingNoteSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> }> };
+export type ThreadsWithMeetingNoteSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> }> };
 
 export type CreateThreadMutationVariables = Exact<{
   values: Thread_Insert_Input;
@@ -19418,7 +19425,9 @@ export type UpdateTaskViewMutationResult = Apollo.MutationResult<UpdateTaskViewM
 export type UpdateTaskViewMutationOptions = Apollo.BaseMutationOptions<UpdateTaskViewMutation, UpdateTaskViewMutationVariables>;
 export const GetCircleThreadsIdsDocument = gql`
     query getCircleThreadsIds($circleId: uuid!) {
-  thread(where: {circleId: {_eq: $circleId}, archived: {_eq: false}}) {
+  thread(
+    where: {circleId: {_eq: $circleId}, status: {_neq: Closed}, archived: {_eq: false}}
+  ) {
     id
   }
 }
@@ -19566,9 +19575,41 @@ export function useThreadsSubscription(baseOptions: Apollo.SubscriptionHookOptio
       }
 export type ThreadsSubscriptionHookResult = ReturnType<typeof useThreadsSubscription>;
 export type ThreadsSubscriptionResult = Apollo.SubscriptionResult<ThreadsSubscription>;
-export const CircleThreadsWithMeetingNoteDocument = gql`
-    subscription circleThreadsWithMeetingNote($circleId: uuid!, $meetingId: uuid!) {
-  thread(where: {circleId: {_eq: $circleId}}) {
+export const CircleThreadsDocument = gql`
+    subscription circleThreads($circleId: uuid!) {
+  thread(
+    where: {circleId: {_eq: $circleId}, status: {_neq: Closed}, archived: {_eq: false}}
+  ) {
+    ...Thread
+  }
+}
+    ${ThreadFragmentDoc}`;
+
+/**
+ * __useCircleThreadsSubscription__
+ *
+ * To run a query within a React component, call `useCircleThreadsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCircleThreadsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCircleThreadsSubscription({
+ *   variables: {
+ *      circleId: // value for 'circleId'
+ *   },
+ * });
+ */
+export function useCircleThreadsSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleThreadsSubscription, CircleThreadsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<CircleThreadsSubscription, CircleThreadsSubscriptionVariables>(CircleThreadsDocument, options);
+      }
+export type CircleThreadsSubscriptionHookResult = ReturnType<typeof useCircleThreadsSubscription>;
+export type CircleThreadsSubscriptionResult = Apollo.SubscriptionResult<CircleThreadsSubscription>;
+export const ThreadsWithMeetingNoteDocument = gql`
+    subscription threadsWithMeetingNote($threadsIds: [uuid!]!, $meetingId: uuid!) {
+  thread(where: {id: {_in: $threadsIds}}) {
     ...Thread
     activities(
       where: {_and: {type: {_eq: MeetingNote}, refMeetingId: {_eq: $meetingId}}}
@@ -19581,28 +19622,28 @@ export const CircleThreadsWithMeetingNoteDocument = gql`
 ${ThreadActivityFragmentDoc}`;
 
 /**
- * __useCircleThreadsWithMeetingNoteSubscription__
+ * __useThreadsWithMeetingNoteSubscription__
  *
- * To run a query within a React component, call `useCircleThreadsWithMeetingNoteSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCircleThreadsWithMeetingNoteSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useThreadsWithMeetingNoteSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useThreadsWithMeetingNoteSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCircleThreadsWithMeetingNoteSubscription({
+ * const { data, loading, error } = useThreadsWithMeetingNoteSubscription({
  *   variables: {
- *      circleId: // value for 'circleId'
+ *      threadsIds: // value for 'threadsIds'
  *      meetingId: // value for 'meetingId'
  *   },
  * });
  */
-export function useCircleThreadsWithMeetingNoteSubscription(baseOptions: Apollo.SubscriptionHookOptions<CircleThreadsWithMeetingNoteSubscription, CircleThreadsWithMeetingNoteSubscriptionVariables>) {
+export function useThreadsWithMeetingNoteSubscription(baseOptions: Apollo.SubscriptionHookOptions<ThreadsWithMeetingNoteSubscription, ThreadsWithMeetingNoteSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<CircleThreadsWithMeetingNoteSubscription, CircleThreadsWithMeetingNoteSubscriptionVariables>(CircleThreadsWithMeetingNoteDocument, options);
+        return Apollo.useSubscription<ThreadsWithMeetingNoteSubscription, ThreadsWithMeetingNoteSubscriptionVariables>(ThreadsWithMeetingNoteDocument, options);
       }
-export type CircleThreadsWithMeetingNoteSubscriptionHookResult = ReturnType<typeof useCircleThreadsWithMeetingNoteSubscription>;
-export type CircleThreadsWithMeetingNoteSubscriptionResult = Apollo.SubscriptionResult<CircleThreadsWithMeetingNoteSubscription>;
+export type ThreadsWithMeetingNoteSubscriptionHookResult = ReturnType<typeof useThreadsWithMeetingNoteSubscription>;
+export type ThreadsWithMeetingNoteSubscriptionResult = Apollo.SubscriptionResult<ThreadsWithMeetingNoteSubscription>;
 export const CreateThreadDocument = gql`
     mutation createThread($values: thread_insert_input!) {
   insert_thread_one(object: $values) {

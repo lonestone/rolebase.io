@@ -3,7 +3,8 @@ import TextErrors from '@atoms/TextErrors'
 import { Box, Button, HStack } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import {
-  useCircleThreadsWithMeetingNoteSubscription,
+  useCircleThreadsSubscription,
+  useThreadsWithMeetingNoteSubscription,
   useUpdateMeetingStepMutation,
 } from '@gql'
 import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
@@ -18,8 +19,8 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
-import ThreadSearchButton from '../search/entities/threads/ThreadSearchButton'
 import SortableList from '../SortableList'
+import ThreadSearchButton from '../search/entities/threads/ThreadSearchButton'
 import MeetingStepContentThreadItem, {
   CircleThreadWithMeetingNote,
 } from './MeetingStepContentThreadItem'
@@ -42,16 +43,17 @@ export default function MeetingStepContentThreads({ step }: Props) {
     setThreadsIdsCache(step.data.threadsIds)
   }, [step.data.threadsIds])
 
-  // Subscribe threads
-  // Subscribe to threads
-  const { data, error, loading } = useCircleThreadsWithMeetingNoteSubscription({
-    skip: !circle,
+  // Subscribe to selected threads
+  const { data, error, loading } = useThreadsWithMeetingNoteSubscription({
+    skip: !step.data.threadsIds || step.data.threadsIds.length === 0,
     variables: {
-      circleId: circle?.id!,
+      threadsIds: step.data.threadsIds
+        // Sort ids to prevent from reloading when changing order
+        .slice()
+        .sort((a, b) => a.localeCompare(b)),
       meetingId: step.meetingId,
     },
   })
-
   const threads = data?.thread
 
   // Prepare sortable items
@@ -62,6 +64,15 @@ export default function MeetingStepContentThreads({ step }: Props) {
         .filter(Boolean) as CircleThreadWithMeetingNote[],
     [threads, threadsIdsCache]
   )
+
+  // Subscribe to all threads of circle
+  const { data: threadsData } = useCircleThreadsSubscription({
+    skip: !circle,
+    variables: {
+      circleId: circle?.id!,
+    },
+  })
+  const threadsAll = threadsData?.thread || []
 
   const handleChange = useCallback(
     (ids: string[]) => {
@@ -131,7 +142,7 @@ export default function MeetingStepContentThreads({ step }: Props) {
       {editable && (
         <HStack mt={5}>
           <ThreadSearchButton
-            threads={threads || []}
+            threads={threadsAll}
             createCircleId={circle.id}
             excludeIds={threadsIdsCache}
             size="sm"
