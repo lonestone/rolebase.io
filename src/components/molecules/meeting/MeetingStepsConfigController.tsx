@@ -109,6 +109,7 @@ export default function MeetingStepsConfigController({
             <MenuItem
               key={step.type}
               display="block"
+              py={2}
               onClick={() => handleAdd(step.type)}
             >
               <Flex alignItems="center">

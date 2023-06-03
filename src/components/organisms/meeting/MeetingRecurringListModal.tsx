@@ -2,13 +2,13 @@ import CircleByIdButton from '@atoms/CircleByIdButton'
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import {
+  Box,
   Button,
   IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
@@ -21,7 +21,7 @@ import {
 } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import { RRule } from 'rrule'
@@ -48,7 +48,21 @@ export default function MeetingRecurringListModal({
         : { orgId: { _eq: orgId } },
     },
   })
-  const meetingsRecurring = data?.meeting_recurring
+
+  // Group recurring meetings by circle
+  const groupedByCircle = useMemo(
+    () =>
+      data?.meeting_recurring?.reduce((acc, mt) => {
+        const circle = acc.find((c) => c.circleId === mt.circleId)
+        if (circle) {
+          circle.meetingsRecurring.push(mt)
+        } else {
+          acc.push({ circleId: mt.circleId, meetingsRecurring: [mt] })
+        }
+        return acc
+      }, [] as { circleId: string; meetingsRecurring: MeetingRecurringFragment[] }[]),
+    [data?.meeting_recurring]
+  )
 
   // Create/Edit modal
   const [meetingRecurring, setMeetingRecurring] = useState<
@@ -79,62 +93,61 @@ export default function MeetingRecurringListModal({
       <Modal blockScrollOnMount={false} {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {t('MeetingRecurringListModal.heading')}
-            {circleId && <CircleByIdButton id={circleId} ml={2} />}
-          </ModalHeader>
+          <ModalHeader>{t('MeetingRecurringListModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             {loading && <Loading active size="md" />}
             <TextErrors errors={[error]} />
 
-            {!meetingsRecurring?.length ? (
+            <Box textAlign="center" mb={7}>
+              <Button leftIcon={<FiPlus />} onClick={handleCreate}>
+                {t('MeetingRecurringListModal.create')}
+              </Button>
+            </Box>
+
+            {!groupedByCircle?.length ? (
               <Text fontStyle="italic">
                 {t('MeetingRecurringListModal.empty')}
               </Text>
             ) : (
-              meetingsRecurring?.map((mt) => (
-                <ListItemWithButtons
-                  key={mt.id}
-                  mb={2}
-                  onClick={() => handleEdit(mt)}
-                  buttons={
-                    <>
-                      {!circleId && (
-                        <CircleByIdButton id={mt.circleId} ml={2} />
-                      )}
-                      <IconButton
-                        aria-label={t('common.delete')}
-                        size="sm"
-                        variant="ghost"
-                        zIndex={2}
-                        onClick={() => handleDelete(mt)}
-                        icon={<FiTrash2 />}
-                      />
-                    </>
-                  }
-                >
-                  <Text>{mt.template.title}</Text>
-                  <Text
-                    fontSize="sm"
-                    color="gray.500"
-                    _dark={{ color: 'gray.300' }}
-                  >
-                    {RRule.fromString(mt.rrule)
-                      .toText()
-                      .replace(' (~ approximate)', '')}
-                  </Text>
-                </ListItemWithButtons>
+              groupedByCircle?.map(({ circleId, meetingsRecurring }) => (
+                <Box key={circleId} mb={5}>
+                  <CircleByIdButton id={circleId} mb={2} />
+
+                  {meetingsRecurring.map((mt) => (
+                    <ListItemWithButtons
+                      key={mt.id}
+                      mb={2}
+                      pl={6}
+                      onClick={() => handleEdit(mt)}
+                      buttons={
+                        <IconButton
+                          aria-label={t('common.delete')}
+                          size="sm"
+                          variant="ghost"
+                          zIndex={2}
+                          onClick={() => handleDelete(mt)}
+                          icon={<FiTrash2 />}
+                        />
+                      }
+                    >
+                      <Text>{mt.template.title}</Text>
+                      <Text
+                        fontSize="sm"
+                        color="gray.500"
+                        _dark={{ color: 'gray.300' }}
+                      >
+                        {RRule.fromString(mt.rrule)
+                          .toText()
+                          .replace(' (~ approximate)', '')}
+                      </Text>
+                    </ListItemWithButtons>
+                  ))}
+                </Box>
               ))
             )}
           </ModalBody>
-
-          <ModalFooter justifyContent="center">
-            <Button leftIcon={<FiPlus />} onClick={handleCreate}>
-              {t('MeetingRecurringListModal.create')}
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
 

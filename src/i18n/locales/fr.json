@@ -272,6 +272,7 @@
     "start": "Début",
     "duration": "Durée",
     "durationSuffix": "minutes",
+    "recurrence": "Récurrence",
     "invite": "Inviter",
     "steps": "Déroulé"
   },

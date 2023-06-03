@@ -20,9 +20,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import {
+  Meeting_Step_Type_Enum,
   MeetingFragment,
   MeetingTemplateFragment,
-  Meeting_Step_Type_Enum,
   Member_Scope_Enum,
   useUpdateMeetingMutation,
 } from '@gql'
@@ -45,6 +45,7 @@ import { nanoid } from 'nanoid'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { FiChevronDown } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
@@ -55,6 +56,7 @@ interface Props extends UseModalProps {
   defaultStartDate?: Date
   defaultDuration?: number
   onCreate?(meetingId: string): void
+  onRecurring?(): void
 }
 
 interface Values extends StepsValues {
@@ -86,6 +88,7 @@ export default function MeetingEditModal({
   defaultStartDate,
   defaultDuration,
   onCreate,
+  onRecurring,
   ...modalProps
 }: Props) {
   const { t } = useTranslation()
@@ -258,34 +261,49 @@ export default function MeetingEditModal({
                   </InputGroup>
                 </FormControl>
 
-                <Flex>
-                  <FormControl isInvalid={!!errors.startDate} maxW="50%">
-                    <FormLabel>{t('MeetingEditModal.start')}</FormLabel>
-                    <Input
-                      {...register('startDate')}
-                      type="datetime-local"
-                      w="250px"
-                      maxW="100%"
-                    />
-                  </FormControl>
-
-                  <FormControl isInvalid={!!errors.duration} ml={5}>
-                    <FormLabel>{t('MeetingEditModal.duration')}</FormLabel>
-                    <InputGroup>
-                      <NumberInputController
-                        name="duration"
-                        control={control}
-                        w="80px"
-                        min={10}
-                        max={600}
-                        step={10}
+                <Box>
+                  <Flex>
+                    <FormControl isInvalid={!!errors.startDate} maxW="50%">
+                      <FormLabel>{t('MeetingEditModal.start')}</FormLabel>
+                      <Input
+                        {...register('startDate')}
+                        type="datetime-local"
+                        w="250px"
+                        maxW="100%"
                       />
-                      <InputRightAddon>
-                        {t('MeetingEditModal.durationSuffix')}
-                      </InputRightAddon>
-                    </InputGroup>
-                  </FormControl>
-                </Flex>
+                    </FormControl>
+
+                    <FormControl isInvalid={!!errors.duration} ml={5}>
+                      <FormLabel display="flex">
+                        {t('MeetingEditModal.duration')}
+                        <Spacer />
+                        {onRecurring && (
+                          <Button
+                            variant="link"
+                            size="sm"
+                            rightIcon={<FiChevronDown />}
+                            onClick={onRecurring}
+                          >
+                            {t('MeetingEditModal.recurrence')}
+                          </Button>
+                        )}
+                      </FormLabel>
+                      <InputGroup>
+                        <NumberInputController
+                          name="duration"
+                          control={control}
+                          w="80px"
+                          min={10}
+                          max={600}
+                          step={10}
+                        />
+                        <InputRightAddon>
+                          {t('MeetingEditModal.durationSuffix')}
+                        </InputRightAddon>
+                      </InputGroup>
+                    </FormControl>
+                  </Flex>
+                </Box>
 
                 <CircleFormController singleMember={false} />
 

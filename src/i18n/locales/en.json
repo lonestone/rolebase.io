@@ -240,6 +240,7 @@
     "start": "Start",
     "duration": "Duration",
     "durationSuffix": "minutes",
+    "recurrence": "Recurrence",
     "invite": "Invite",
     "steps": "Steps"
   },

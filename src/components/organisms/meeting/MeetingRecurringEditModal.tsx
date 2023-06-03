@@ -180,7 +180,16 @@ export default function MeetingRecurringEditModal({
               <VStack spacing={7} align="stretch">
                 <MeetingTemplateIdFormControl />
 
-                <FormControl isInvalid={!!errors.duration} ml={5}>
+                <FormControl isInvalid={!!errors.rrule}>
+                  <FormLabel>
+                    {t('MeetingRecurringEditModal.recurrence')}
+                  </FormLabel>
+                  <Box p={3} borderWidth="1px" borderRadius="md">
+                    <RRuleEditorController name="rrule" control={control} />
+                  </Box>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.duration}>
                   <FormLabel>{t('MeetingEditModal.duration')}</FormLabel>
                   <InputGroup>
                     <NumberInputController
@@ -195,15 +204,6 @@ export default function MeetingRecurringEditModal({
                       {t('MeetingEditModal.durationSuffix')}
                     </InputRightAddon>
                   </InputGroup>
-                </FormControl>
-
-                <FormControl isInvalid={!!errors.rrule}>
-                  <FormLabel>
-                    {t('MeetingRecurringEditModal.recurrence')}
-                  </FormLabel>
-                  <Box p={3} borderWidth="1px" borderRadius="md">
-                    <RRuleEditorController name="rrule" control={control} />
-                  </Box>
                 </FormControl>
 
                 <CircleFormController singleMember={false} />

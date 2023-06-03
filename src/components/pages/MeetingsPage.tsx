@@ -402,6 +402,7 @@ export default function MeetingsPage() {
           defaultDuration={duration}
           isOpen
           onCreate={handleCreated}
+          onRecurring={recurringListModal.onOpen}
           onClose={createModal.onClose}
         />
       )}
