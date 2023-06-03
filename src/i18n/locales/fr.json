@@ -906,9 +906,9 @@
     "empty": "Aucun rôle vacant 🎉"
   },
   "VideoConfFormControl": {
-    "enable": "Activer la vidéo-conférence",
+    "enable": "Vidéo-conférence",
     "jitsi": "Générer une URL Jitsi",
-    "url": "URL personnalisée"
+    "url": "URL personnalisée (Zoom, Teams, etc)"
   },
   "common": {
     "save": "Enregistrer",
@@ -961,11 +961,16 @@
       "Decision": "Décisions"
     },
     "meetingSteps": {
-      "Tour": "Tour de table",
+      "Tour": "Note libre",
+      "Tour_desc": "Pour avoir une discussion libre ou faire un tour de table. Vous pourrez prendre des notes.",
       "Threads": "Sujets",
+      "Threads_desc": "Pour discuter de Sujets concernant le Rôle. Idéal pour un ordre du jour. Vous pourrez prendre des notes pour chaque Sujet choisi.",
       "Checklist": "Checklist",
+      "Checklist_desc": "Pour faire un point sur les actions récurrentes du Rôle. La Checklist du Rôle est reprise automatiquement en note à la création de la Réunion.",
       "Indicators": "Indicateurs",
-      "Tasks": "Tâches"
+      "Indicators_desc": "Pour faire un point sur les indicateurs du Rôle. Les Indicateurs du Rôle sont repris automatiquement en note à la création de la Réunion.",
+      "Tasks": "Tâches",
+      "Tasks_desc": "Pour faire un point sur les Tâches du Rôle et préparer les next steps."
     },
     "taskStatus": {
       "Open": "À faire",

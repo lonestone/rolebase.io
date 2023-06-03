@@ -1,15 +1,53 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from '@chakra-ui/react'
 import { Meeting_Step_Type_Enum } from '@gql'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown } from 'react-icons/fi'
+import {
+  FiCheckSquare,
+  FiChevronDown,
+  FiCompass,
+  FiFile,
+  FiList,
+  FiMessageSquare,
+} from 'react-icons/fi'
 import SortableList from '../SortableList'
 import MeetingStepSortableItem from './MeetingStepSortableItem'
 
 export const fieldName = 'stepsConfig' as const
+
+export const steps = [
+  {
+    type: Meeting_Step_Type_Enum.Tour,
+    icon: FiFile,
+  },
+  {
+    type: Meeting_Step_Type_Enum.Threads,
+    icon: FiMessageSquare,
+  },
+  {
+    type: Meeting_Step_Type_Enum.Checklist,
+    icon: FiList,
+  },
+  {
+    type: Meeting_Step_Type_Enum.Indicators,
+    icon: FiCompass,
+  },
+  {
+    type: Meeting_Step_Type_Enum.Tasks,
+    icon: FiCheckSquare,
+  },
+]
 
 export interface StepsValues {
   [fieldName]: MeetingStepConfig[]
@@ -66,16 +104,20 @@ export default function MeetingStepsConfigController({
         <MenuButton as={Button} rightIcon={<FiChevronDown />} mt={2}>
           {t(`MeetingStepsConfigController.addStep`)}
         </MenuButton>
-        <MenuList>
-          {[
-            Meeting_Step_Type_Enum.Tour,
-            Meeting_Step_Type_Enum.Threads,
-            Meeting_Step_Type_Enum.Checklist,
-            Meeting_Step_Type_Enum.Indicators,
-            Meeting_Step_Type_Enum.Tasks,
-          ].map((type) => (
-            <MenuItem key={type} onClick={() => handleAdd(type)}>
-              {t(`common.meetingSteps.${type}`)}
+        <MenuList maxW="400">
+          {steps.map((step) => (
+            <MenuItem
+              key={step.type}
+              display="block"
+              onClick={() => handleAdd(step.type)}
+            >
+              <Flex alignItems="center">
+                <step.icon />
+                <Text fontWeight="bold" ml={2}>
+                  {t(`common.meetingSteps.${step.type}`)}
+                </Text>
+              </Flex>
+              <Text>{t(`common.meetingSteps.${step.type}_desc`)}</Text>
             </MenuItem>
           ))}
         </MenuList>

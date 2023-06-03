@@ -1,12 +1,22 @@
 import { DragHandleIcon } from '@chakra-ui/icons'
-import { Center, HStack, IconButton, Input, Tag, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Center,
+  Flex,
+  HStack,
+  IconButton,
+  Input,
+  Tag,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react'
 import { Meeting_Step_Type_Enum } from '@gql'
 import { Draggable } from '@hello-pangea/dnd'
 import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiX } from 'react-icons/fi'
-import { fieldName, StepsValues } from './MeetingStepsConfigController'
+import { FiHelpCircle, FiTrash2 } from 'react-icons/fi'
+import { StepsValues, fieldName } from './MeetingStepsConfigController'
 
 interface Props {
   id: string // react-hook-form id
@@ -49,9 +59,20 @@ export default function MeetingStepSortableItem({
             {index + 1}
           </Tag>
 
-          <Text flex={1} pl={5}>
-            {t(`common.meetingSteps.${stepType}`)}
-          </Text>
+          <Flex flex={1} pl={5} alignItems="center">
+            <Text fontWeight="bold">
+              {t(`common.meetingSteps.${stepType}`)}
+            </Text>
+            <Tooltip
+              hasArrow
+              p={3}
+              label={t(`common.meetingSteps.${stepType}_desc`)}
+            >
+              <Box ml={3}>
+                <FiHelpCircle />
+              </Box>
+            </Tooltip>
+          </Flex>
 
           <Input
             {...control.register(`${fieldName}.${index}.title`)}
@@ -64,7 +85,7 @@ export default function MeetingStepSortableItem({
             <IconButton
               aria-label={t('common.delete')}
               variant="ghost"
-              icon={<FiX />}
+              icon={<FiTrash2 />}
               onClick={() => onRemove?.(index)}
             />
           )}

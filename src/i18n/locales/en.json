@@ -867,9 +867,9 @@
     "empty": "No vacant roles 🎉"
   },
   "VideoConfFormControl": {
-    "enable": "Enable video conferencing",
+    "enable": "Video conferencing",
     "jitsi": "Generate a Jitsi URL",
-    "url": "Custom URL"
+    "url": "Custom URL (Zoom, Teams, etc)"
   },
   "UserMenu": {
     "tooltip": "My settings",
@@ -930,11 +930,16 @@
       "Decision": "Decisions"
     },
     "meetingSteps": {
-      "Tour": "Round table",
+      "Tour": "Free note",
+      "Tour_desc": "For a free discussion or a round table. You will be able to take notes.",
       "Threads": "Topics",
+      "Threads_desc": "To discuss Topics concerning the Role. Ideal for an agenda. You will be able to take notes for each chosen Topic.",
       "Checklist": "Checklist",
+      "Checklist_desc": "To review the Role's recurring actions. The Role's Checklist is automatically included in the note when the Meeting is created.",
       "Indicators": "Indicators",
-      "Tasks": "Tasks"
+      "Indicators_desc": "To review the Role's indicators. The Role's Indicators are automatically included in the note when the Meeting is created.",
+      "Tasks": "Tasks",
+      "Tasks_desc": "To review the Role's Tasks and prepare the next steps."
     },
     "taskStatus": {
       "Open": "To do",
