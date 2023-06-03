@@ -224,7 +224,7 @@ export default function MeetingEditModal({
 
   return (
     <FormProvider {...formMethods}>
-      <Modal size="xl" {...modalProps}>
+      <Modal size="xl" blockScrollOnMount={false} {...modalProps}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
