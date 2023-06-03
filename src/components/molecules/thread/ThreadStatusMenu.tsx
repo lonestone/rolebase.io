@@ -17,10 +17,10 @@ export type ThreadStatusMenuProps = {
 }
 
 const threadStatusOptions = [
+  Thread_Status_Enum.Preparation,
   Thread_Status_Enum.Active,
   Thread_Status_Enum.Blocked,
   Thread_Status_Enum.Closed,
-  Thread_Status_Enum.Preparation,
 ]
 
 export const ThreadStatusMenu = ({
