@@ -2,6 +2,7 @@ import CircleByIdButton from '@atoms/CircleByIdButton'
 import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 import {
   Box,
+  Circle,
   Flex,
   forwardRef,
   LinkBox,
@@ -67,8 +68,18 @@ const ThreadItem = forwardRef<Props, 'div'>(
           }
         >
           <Flex align="center">
-            <Box zIndex="2" mr={2}>
+            <Box zIndex="2" mr={2} position="relative">
               <CircleThreadStatus status={thread.status} />
+              {unread && (
+                <Circle
+                  size="8px"
+                  position="absolute"
+                  top="-1px"
+                  right="-1px"
+                  bg="red.400"
+                  _dark={{ bg: 'red.600' }}
+                />
+              )}
             </Box>
             <LinkOverlay
               as={ReachLink}
