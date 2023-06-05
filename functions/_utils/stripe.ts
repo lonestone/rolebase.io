@@ -29,7 +29,7 @@ export type ExtendedStripeCustomer = (
 export const createStripeCustomer = async (
   email: string,
   name: string,
-  address: Stripe.Address
+  address: Stripe.Emptyable<Stripe.AddressParam> | undefined
 ): Promise<Stripe.Customer> => {
   try {
     const customer = await stripe.customers.create({
@@ -211,9 +211,9 @@ export const updateStripeSubscription = async (
 export const getPricePreview = async (
   priceId: string,
   quantity: number,
-  address: Stripe.Address,
+  address: Stripe.Emptyable<Stripe.AddressParam> | undefined,
   promotionCode?: string | null
-): Promise<{ price: Stripe.Price; coupon: Stripe.PromotionCode }> => {
+): Promise<{ price: Stripe.UpcomingInvoice; coupon: Stripe.PromotionCode }> => {
   try {
     let coupon
 

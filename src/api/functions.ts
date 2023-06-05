@@ -7,12 +7,14 @@ import { AlgoliaConfig } from '@shared/model/search'
 import {
   CustomerBillingDetails,
   Invoice,
+  PricePreview,
   PromotionCode,
   Subscription,
   SubscriptionIntentResponse,
 } from '@shared/model/subscription'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
+import Stripe from 'stripe'
 
 export const createOrg = fn<{ name: string; slug: string }, string>('createOrg')
 
@@ -64,7 +66,7 @@ export const subscribeOrg = fn<
   {
     orgId: string
     planType: Subscription_Plan_Type_Enum
-    address: CustomerBillingDetails
+    address: Stripe.Address | null
     promotionCode?: string
   },
   SubscriptionIntentResponse
@@ -134,17 +136,10 @@ export const getPricePreview = fn<
   {
     orgId: string
     promotionCode?: string
-    address: {
-      city: string
-      country: string
-      line1: string
-      line2?: string
-      postal_code: string
-      state?: string
-    }
+    address: Stripe.Address | null
     planType: Subscription_Plan_Type_Enum
   },
-  PromotionCode
+  PricePreview
 >('getPricePreview')
 
 export function getMeetingsIcalUrl(
