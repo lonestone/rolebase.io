@@ -655,8 +655,8 @@
       "nbSeat": "Number of users:",
       "subTotal": "Sub-total",
       "total": "Total",
-      "totalWithVAT": "Total (VAT {{percentage}}% / {{count}}€)",
-      "month": "month",
+      "totalWithVAT": "Total (VAT {{percentage}}% / {{amount}}€)",
+      "pricePerMonth": "{{price}} €/month",
       "promotionPlaceholder": "Promotion code",
       "dueNow": "Due now",
       "invalidPromotionCode": "Invalid promotion code",
@@ -724,7 +724,7 @@
     "startup": {
       "title": "Startup",
       "desc": "To involve your entire team in your shared governance.",
-      "feature1": "Price: 5€/month/member",
+      "feature1": "Price: 5 €/month/member",
       "feature2": "All features",
       "feature3": "Limited to 200 active members",
       "feature4": "1h/month support"

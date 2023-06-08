@@ -117,6 +117,7 @@ export default function SubscriptionPaymentStepper({
   }
 
   const subscribe = async () => {
+    console.log(orgId, planType, promoCode, billingDetails.address)
     setLoading(true)
     try {
       const res = await subscribeOrg({
@@ -125,6 +126,7 @@ export default function SubscriptionPaymentStepper({
         promotionCode: promoCode,
         address: billingDetails.address ?? null,
       })
+
       if (res.isFreeOrTrial) {
         location.reload()
       }

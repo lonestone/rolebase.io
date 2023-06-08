@@ -686,8 +686,8 @@
       "nbSeat": "Nombre d'utilisateurs :",
       "subTotal": "Sous-total",
       "total": "Total",
-      "totalWithVAT": "Total (TVA {{percentage}}% / {{count}}€)",
-      "month": "mois",
+      "totalWithVAT": "Total (TVA {{percentage}}% / {{amount}}€)",
+      "pricePerMonth": "{{price}} €/mois",
       "promotionPlaceholder": "Coupon de réduction",
       "invalidPromotionCode": "Ce code promo n'est pas valide",
       "dueNow": "A payer maintenant",
@@ -758,7 +758,7 @@
     "startup": {
       "title": "Startup",
       "desc": "Pour faire participer toute votre équipe à votre gouvernance partagée.",
-      "feature1": "Tarif : 5€/mois/membre",
+      "feature1": "Tarif : 5€ /mois/membre",
       "feature2": "Toutes les fonctionnalités",
       "feature3": "Jusqu’à 200 membres actifs",
       "feature4": "1h/mois d’accompagnement"

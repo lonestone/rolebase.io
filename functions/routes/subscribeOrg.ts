@@ -85,6 +85,15 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
     quantity,
     promotionCode
   )
+  console.log(
+    { orgId },
+    { customerId },
+    { priceId },
+    { quantity },
+    { promotionCode },
+    { planType },
+    { user }
+  )
 
   if (!orgSubscription) {
     await adminRequest(CREATE_ORG_SUBSCRIPTION, {
