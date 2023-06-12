@@ -117,7 +117,6 @@ export default function SubscriptionPaymentStepper({
   }
 
   const subscribe = async () => {
-    console.log(orgId, planType, promoCode, billingDetails.address)
     setLoading(true)
     try {
       const res = await subscribeOrg({

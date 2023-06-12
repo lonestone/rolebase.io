@@ -73,7 +73,7 @@ export default function SubscriptionSummary({
 
       if (retrieved && retrieved.promotionCode) {
         setRetrievedCoupon(retrieved)
-        onPromoApplied(retrieved.promotionCode.id)
+        onPromoApplied(coupon)
       }
 
       if (retrieved) {
