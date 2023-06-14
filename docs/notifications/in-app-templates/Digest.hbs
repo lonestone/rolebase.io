@@ -1,0 +1,14 @@
+{{#if step.digest}}
+  <div>{{title}}</div>
+  <div>
+    {{step.total_count}}
+    {{pluralize
+      step.total_count
+      step.events.0.digestContentSingular
+      step.events.0.digestContentPlural
+    }}
+  </div>
+{{else}}
+  <div>{{title}}</div>
+  <div>{{content}}</div>
+{{/if}}

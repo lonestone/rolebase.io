@@ -122,8 +122,44 @@ It'll should output your [Stripe webhook endpoint secret](https://dashboard.stri
 
 ### Novu
 
-To send notifications to your organization's users, you need a [Novu](https://novu.co/) account.
-You'll also need to create the notification in your Novu admin panel as you'll have to pass the notification identifier (triggerId) to send a notification.
+For Rolebase's notifications system, we are using an open source service : [**Novu**](https://novu.co/)
+
+Novu lets you choose between :
+
+- using their cloud
+- self-hosting your Novu
+
+On Rolebase, we are using Novu cloud.  
+Steps for Novu cloud :
+
+1. Create an account on Novu : https://web.novu.co/auth/signup
+2. Follow the _Quick Start Guide_, where you should :
+
+   1. Configure your providers in the "Integration Store" page
+      - Currently we only use : In-App, Email
+   2. Build notification workflows :
+
+   | Identifier         | Channels      | Workflow                          | Template                                                                                                                                        | Variables                                                                                                                                                                                                                                                                 |
+   | ------------------ | ------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | meetingstarted     | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs`<br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml`  | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | meetinginvited     | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | taskassigned       | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | thread             | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | tempthreadactivity | In-App, Email | Trigger > Digest > In-App > Email | In-App : `docs` > `notifications` > `in-app-templates` > `Digest.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Digest.mjml` | In-App : _title_ , _content_, _digestContentSingular_, _digestContentPlural_, _actionUrl_ <br> Email : _title_ , _content_, _digestContentSingular_, _digestContentPlural_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_ |
+
+3. Use your account API keys in your environment variables :
+   - `NOVU_APP_ID` : Novu dashboard (https://web.novu.co) > Settings > API Keys > **_Application Identifier_**
+   - `NOVU_API_KEY` : Novu dashboard (https://web.novu.co) > Settings > API Keys > **_API Key_**
+
+More :
+
+- Notification templates : check templates used for Rolebase (`docs` > `notifications`).
+- Notification template variables : check notification's payload to know which ones to pass (`functions` > `utils` > `notification` > `notificationPayloadBuilder.ts`).
+
+If you want to learn more about Novu, here is their [documentation](https://docs.novu.co/).  
+If you want to self-host Novu, here is their [Docker deployment documentation](https://docs.novu.co/overview/docker-deploy).
+
+_FYI : Due to Novu still being in Beta, a lot of things are likely to change._
 
 ## Configuration
 
