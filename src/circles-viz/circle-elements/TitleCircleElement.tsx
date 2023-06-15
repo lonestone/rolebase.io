@@ -48,12 +48,14 @@ export class TitleCircleElement extends AbstractCircleElement {
   // - zoom more than 1
   // - circle is bigger than 2/3 of graph size
   private getTopNameOpacity(data: NodeData) {
-    return `max(
-    clamp(0, (var(--zoom-scale) - 1) * 10 + 1, 1),
-    clamp(0,
-      (var(--zoom-scale) * ${data.r * 2} / var(--graph-min-size) - 2/3) * 10
-      , 1)
-  )`
+    const threshold = 2 / 3
+    const rate = 20
+    return `clamp(0, max(
+      (var(--zoom-scale) - 1) * ${rate} + 1,
+      (var(--zoom-scale) * ${
+        data.r * 2
+      } / var(--graph-min-size) - ${threshold}) * ${rate}
+    ), 1)`
   }
 
   private getTopFontSize() {

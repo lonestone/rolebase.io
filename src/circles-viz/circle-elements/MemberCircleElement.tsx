@@ -7,6 +7,11 @@ export class MemberCircleElement extends AbstractCircleElement {
   enter(selection: NodesSelection, transition: MoveTransition) {
     // Add member picture
     const nodeMembers = selection.filter((d) => d.data.type === NodeType.Member)
+
+    nodeMembers
+      .attr('opacity', 'clamp(0, (var(--zoom-scale) - 1) * 20 + 1, 1)')
+      .attr('pointer-events', 'var(--member-pointer-events)')
+
     nodeMembers
       .append('image')
       .attr('class', 'member-picture')

@@ -41,6 +41,8 @@ type SVGProps = ColorModeProps & {
   selectedCircleId?: string
   width: number
   height: number
+  focusWidth: number
+  focusHeight: number
 }
 
 const StyledSVG = styled.svg<SVGProps>`
@@ -51,9 +53,9 @@ const StyledSVG = styled.svg<SVGProps>`
 
   --circle-cursor: ${(p) => p.circleCursor};
   --member-pointer-events: auto;
-  --graph-width: ${(p) => p.width};
-  --graph-height: ${(p) => p.height};
-  --graph-min-size: ${(p) => Math.min(p.width, p.height)};
+  --graph-width: ${(p) => p.focusWidth};
+  --graph-height: ${(p) => p.focusHeight};
+  --graph-min-size: ${(p) => Math.min(p.focusWidth, p.focusHeight)};
   --depth-color-variation: 5%;
 
   circle {
@@ -111,13 +113,8 @@ const StyledSVG = styled.svg<SVGProps>`
   }
 
   .type-Member {
-    // Hide member when zoom < 1
-    opacity: ${(p) =>
-      p.view === GraphViews.Members
-        ? '1'
-        : 'clamp(0, (var(--zoom-scale) - 1) * 10 + 1, 1)'};
-    // Allow click only when zoom >= 1
-    pointer-events: var(--member-pointer-events);
+    // Always show members on members view
+    ${(p) => (p.view === GraphViews.Members ? 'opacity: 1 !important' : '')};
   }
 `
 
@@ -245,6 +242,8 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
       view={view}
       width={width}
       height={height}
+      focusWidth={width - (focusCrop?.left || 0) - (focusCrop?.right || 0)}
+      focusHeight={height - (focusCrop?.top || 0) - (focusCrop?.bottom || 0)}
       viewBox={`0 0 ${width} ${height}`}
       textAnchor="middle"
       circleCursor={cursor}

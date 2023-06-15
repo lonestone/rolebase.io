@@ -1,6 +1,8 @@
 import { CircleFullFragment } from '@gql'
+import { isSafari } from '@utils/env'
 import * as d3 from 'd3'
 import { ZoomTransform } from 'd3'
+import debounce from 'lodash.debounce'
 import settings from './settings'
 import {
   Data,
@@ -29,6 +31,7 @@ export abstract class Graph {
   constructor(public svg: SVGSVGElement, public params: GraphParams) {
     const { zoom } = this.initGraph()
     this.zoom = zoom
+    this.updateCSSVariables()
 
     // Handle outside click
     svg.addEventListener('click', (event) => {
@@ -95,13 +98,7 @@ export abstract class Graph {
         zoom.y = event.transform.y
         zoom.scale = event.transform.k
         zoomG.attr('transform', event.transform)
-        this.svg.style.setProperty('--zoom-scale', zoom.scale.toString())
-
-        // Prevent from interacting with members when zoom < 1
-        this.svg.style.setProperty(
-          '--member-pointer-events',
-          zoom.scale > 1 ? 'auto' : 'none'
-        )
+        this.updateCSSVariablesDebounced()
       })
     svg.call(zoomBehaviour)
 
@@ -189,6 +186,22 @@ export abstract class Graph {
       zoom,
     }
   }
+
+  // Update CSS variables according to zoom
+  updateCSSVariables() {
+    this.svg.style.setProperty('--zoom-scale', this.zoom.scale.toString())
+
+    // Prevent from interacting with members when zoom < 1
+    this.svg.style.setProperty(
+      '--member-pointer-events',
+      this.zoom.scale > 1 ? 'auto' : 'none'
+    )
+  }
+
+  // Debounce CSS variables updates for Safari because it's slow
+  updateCSSVariablesDebounced = isSafari
+    ? debounce(this.updateCSSVariables, 50)
+    : this.updateCSSVariables
 }
 
 const getFocusOffsetX = (width: number, focusCrop: Position) =>

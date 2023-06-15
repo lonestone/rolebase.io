@@ -260,8 +260,6 @@ export abstract class AbstractCirclesGraph extends Graph {
         a.depth === b.depth ? a.y - b.y : a.depth < b.depth ? -1 : 1
       )
       .raise()
-
-    this.drawCircleNames(svg, nodesMap)
   }
 
   private drawCircleNames(
@@ -300,6 +298,7 @@ export abstract class AbstractCirclesGraph extends Graph {
             .attr('dominant-baseline', 'central')
             .attr('y', 0)
             .attr('font-size', this.getFontSize)
+            .attr('font-size', this.getFontSize) // Repeated to fix bug on Safari
             .attr('opacity', this.getNameOpacity)
 
           return nodeGroup
@@ -330,24 +329,22 @@ export abstract class AbstractCirclesGraph extends Graph {
   // - circle is smaller than 2/3 of graph size
   // - parent is not visible
   private getNameOpacity(data: NodeData) {
-    return `min(
-    clamp(0, (1 - var(--zoom-scale) - 0.1) * 10, 1),
-    clamp(0,
+    const gap = 0.01
+    const rate = 20
+    const threshold = 2 / 3
+    return `clamp(0, min(
+      (1 - var(--zoom-scale) - ${gap}) * ${rate},
       1 - (var(--zoom-scale) * ${
         data.r * 2
-      } / var(--graph-min-size) - 2/3 + 0.1) * 10
-      , 1),
-    ${
-      // Inverse of parent opacity
-      data.parent && data.parent.data.id !== 'root'
-        ? `clamp(0,
-            (var(--zoom-scale) * ${
+      } / var(--graph-min-size) - ${threshold} + ${gap}) * ${rate},
+      ${
+        data.parent && data.parent.data.id !== 'root'
+          ? `(var(--zoom-scale) * ${
               data.parent.r * 2
-            } / var(--graph-min-size) - 2/3) * 10
-            , 1)`
-        : '1'
-    }
-  )`
+            } / var(--graph-min-size) - ${threshold}) * ${rate}`
+          : '1'
+      }
+    ), 1)`
   }
 
   private getFontSize(
