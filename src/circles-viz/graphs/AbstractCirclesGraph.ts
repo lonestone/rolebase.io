@@ -299,7 +299,6 @@ export abstract class AbstractCirclesGraph extends Graph {
             .attr('pointer-events', 'none')
             .attr('dominant-baseline', 'central')
             .attr('y', 0)
-            .attr('font-size', '1em')
             .attr('font-size', this.getFontSize)
             .attr('opacity', this.getNameOpacity)
 
@@ -317,7 +316,6 @@ export abstract class AbstractCirclesGraph extends Graph {
           nodeUpdate
             .select<SVGTextElement>('text')
             .text((d) => d.data.name)
-            .attr('font-size', '1em')
             .attr('font-size', this.getFontSize)
             .attr('opacity', this.getNameOpacity)
           return nodeUpdate
@@ -357,6 +355,17 @@ export abstract class AbstractCirclesGraph extends Graph {
     index: number,
     nodes: SVGTextElement[] | ArrayLike<SVGTextElement>
   ) {
-    return `${(data.r * 2 * 0.9) / nodes[index].getBBox().width}em`
+    const node = nodes[index]
+    // Get current font size
+    const fontSize = window.getComputedStyle(node).fontSize
+    // Replace font size with new value
+    return fontSize.replace(
+      /^([0-9.]+)(.+)$/,
+      ($0, $1, $2) =>
+        `${
+          // Scale font size to fit circle
+          (parseFloat($1) * (data.r * 2 * 0.9)) / node.getBBox().width
+        }${$2}`
+    )
   }
 }
