@@ -1,6 +1,5 @@
 import { Circle, Tooltip } from '@chakra-ui/react'
 import { Thread_Status_Enum } from '@gql'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { threadStatusColors } from 'src/theme'
 

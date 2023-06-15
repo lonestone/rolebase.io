@@ -14,9 +14,9 @@ import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import { ParticipantMember } from '@shared/model/member'
+import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 import { useCallback, useEffect, useMemo } from 'react'
 import { usePathInOrg } from './usePathInOrg'
-import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 
 /***
  * Thread state hook

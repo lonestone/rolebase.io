@@ -7,7 +7,6 @@ import {
   MenuList,
   Text,
 } from '@chakra-ui/react'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
 import { GraphViews } from 'src/circles-viz/types'

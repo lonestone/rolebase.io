@@ -10,7 +10,6 @@ import {
 import useOrgMember from '@hooks/useOrgMember'
 import BaseRolesModal from '@organisms/role/BaseRolesModal'
 import VacantRolesModal from '@organisms/role/VacantRolesModal'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiSettings } from 'react-icons/fi'
 

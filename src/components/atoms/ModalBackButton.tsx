@@ -1,6 +1,5 @@
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { IconButton, useModalContext } from '@chakra-ui/react'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ModalBackButton() {

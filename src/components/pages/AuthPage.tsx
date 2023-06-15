@@ -3,7 +3,6 @@ import useQueryParams from '@hooks/useQueryParams'
 import BrandModal from '@molecules/BrandModal'
 import LoginForm from '@organisms/user/LoginForm'
 import SignupForm from '@organisms/user/SignupForm'
-import React from 'react'
 import settings from 'src/settings'
 
 type Params = {

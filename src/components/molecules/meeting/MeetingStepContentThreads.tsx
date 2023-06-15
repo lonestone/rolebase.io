@@ -7,14 +7,14 @@ import {
   useThreadsWithMeetingNoteSubscription,
   useUpdateMeetingStepMutation,
 } from '@gql'
+import SortableList from '@molecules/SortableList'
+import ThreadSearchButton from '@molecules/search/entities/threads/ThreadSearchButton'
 import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
 import { shuffleArray } from '@utils/shuffleArray'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
-import ThreadSearchButton from '../search/entities/threads/ThreadSearchButton'
-import SortableList from '../SortableList'
 import MeetingStepContentThreadItem, {
   CircleThreadWithMeetingNote,
 } from './MeetingStepContentThreadItem'
@@ -63,6 +63,7 @@ export default function MeetingStepContentThreads({ step }: Props) {
   const { data: threadsData } = useCircleThreadsSubscription({
     skip: !circle,
     variables: {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       circleId: circle?.id!,
     },
   })

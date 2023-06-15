@@ -1,25 +1,25 @@
 import {
-  Button,
-  HStack,
-  Table,
-  TableContainer,
-  TableContainerProps,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
+    Button,
+    HStack,
+    Table,
+    TableContainer,
+    TableContainerProps,
+    Tbody,
+    Td,
+    Text,
+    Th,
+    Thead,
+    Tr,
 } from '@chakra-ui/react'
 import { Invoice } from '@shared/model/subscription'
 import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  Row,
-  SortingState,
-  useReactTable,
+    Row,
+    SortingState,
+    createColumnHelper,
+    flexRender,
+    getCoreRowModel,
+    getSortedRowModel,
+    useReactTable,
 } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { useMemo, useState } from 'react'
@@ -75,6 +75,7 @@ export default function InvoiceTable({
             <FiFileText />
             <Text {...textStyle} ml="2">
               {`${t('SubscriptionTabs.invoiceTab.invoice')} ${getFormattedDate(
+                // Error tsc :  Argument of type 'Date' is not assignable to parameter of type 'string'
                 info.getValue()
               )}`}
             </Text>
@@ -89,6 +90,7 @@ export default function InvoiceTable({
         enableSorting: true,
         sortingFn: sortDates,
         cell: (info) => (
+          // Error tsc : Argument of type 'Date' is not assignable to parameter of type 'string'
           <Text {...textStyle}>{getFormattedDate(info.getValue())}</Text>
         ),
         footer: (props) => props.column.id,

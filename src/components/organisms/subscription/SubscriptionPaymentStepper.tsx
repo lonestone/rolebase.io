@@ -2,23 +2,23 @@ import { subscribeOrg, updateSubscriptionBillingDetails } from '@api/functions'
 import { stripePromise } from '@api/stripe'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import {
-  Box,
-  Button,
-  Collapse,
-  Flex,
-  Heading,
-  Spacer,
-  Step,
-  StepDescription,
-  StepIcon,
-  StepIndicator,
-  StepNumber,
-  Stepper,
-  StepSeparator,
-  StepStatus,
-  useStepContext,
-  useSteps,
-  useToast,
+    Box,
+    Button,
+    Collapse,
+    Flex,
+    Heading,
+    Spacer,
+    Step,
+    StepDescription,
+    StepIcon,
+    StepIndicator,
+    StepNumber,
+    StepSeparator,
+    StepStatus,
+    Stepper,
+    useStepContext,
+    useSteps,
+    useToast,
 } from '@chakra-ui/react'
 import { Subscription_Plan_Type_Enum } from '@gql'
 import useOrg from '@hooks/useOrg'
@@ -29,10 +29,10 @@ import StripePaymentForm from '@molecules/subscription/StripePaymentForm'
 import { CustomerBillingDetails } from '@shared/model/subscription'
 import { Elements } from '@stripe/react-stripe-js'
 import {
-  Stripe,
-  StripeAddressElementChangeEvent,
-  StripeElementLocale,
-  StripeElements,
+    Stripe,
+    StripeAddressElementChangeEvent,
+    StripeElementLocale,
+    StripeElements,
 } from '@stripe/stripe-js'
 import { FormEvent, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -123,6 +123,7 @@ export default function SubscriptionPaymentStepper({
         orgId: orgId ?? '',
         planType,
         promotionCode: promoCode,
+        // Error tsc : Type 'Address | null | undefined' is not assignable to type 'CustomerBillingDetails'.
         address: billingDetails.address,
       })
       if (res.isFreeOrTrial) {

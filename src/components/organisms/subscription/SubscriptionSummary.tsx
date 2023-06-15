@@ -1,3 +1,4 @@
+// Multiple error tsc
 import { getPricePreview } from '@api/functions'
 import {
   Box,
@@ -71,7 +72,7 @@ export default function SubscriptionSummary({
         planType,
         address: billingDetails?.address,
       })
-
+      
       if (retrieved?.promotionCode) {
         setRetrievedCoupon(retrieved?.promotionCode)
         onPromoApplied(retrieved.promotionCode.id)
