@@ -11,6 +11,14 @@ object_relationships:
   - name: org
     using:
       foreign_key_constraint_on: orgId
+array_relationships:
+  - name: logs
+    using:
+      foreign_key_constraint_on:
+        column: taskId
+        table:
+          name: log
+          schema: public
 insert_permissions:
   - role: user
     permission:

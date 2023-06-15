@@ -14,6 +14,9 @@ object_relationships:
   - name: org
     using:
       foreign_key_constraint_on: orgId
+  - name: task
+    using:
+      foreign_key_constraint_on: taskId
   - name: thread
     using:
       foreign_key_constraint_on: threadId
@@ -50,6 +53,7 @@ insert_permissions:
         - memberId
         - memberName
         - orgId
+        - taskId
         - threadId
         - userId
 select_permissions:
@@ -68,6 +72,7 @@ select_permissions:
         - memberId
         - memberName
         - orgId
+        - taskId
         - threadId
         - userId
       filter:

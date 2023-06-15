@@ -10,6 +10,7 @@ import {
   BoxProps,
   Button,
   Checkbox,
+  Container,
   Flex,
   FormControl,
   FormLabel,
@@ -38,6 +39,7 @@ import DateInfo from '@molecules/DateInfo'
 import EditorController from '@molecules/editor/EditorController'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
+import { TaskLogs } from '@molecules/task/TaskLogs'
 import TaskStatusInput from '@molecules/task/TaskStatusInput'
 import { nameSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
@@ -334,6 +336,19 @@ export default function TaskContent({
           )}
         </FormControl>
 
+        {task && (
+          <Container maxW="xl" p={0} mt={10}>
+            <TaskLogs
+              taskId={task.id}
+              hideEmpty
+              header={
+                <Heading as="h2" size="md" mb={2}>
+                  {t('TaskContent.logs')}
+                </Heading>
+              }
+            />
+          </Container>
+        )}
         {!id && isMember && (
           <Box w="100%" textAlign="right">
             <Button colorScheme="blue" onClick={onSubmit}>

@@ -35,6 +35,7 @@ export default function TaskDeleteModal({
     await archiveTask({ variables: { id: task.id } })
     onDelete?.()
     createLog({
+      taskId: task.id,
       display: {
         type: LogType.TaskArchive,
         id: task.id,
