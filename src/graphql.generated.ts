@@ -16463,12 +16463,14 @@ export type ArchiveDecisionMutationVariables = Exact<{
 
 export type ArchiveDecisionMutation = { __typename?: 'mutation_root', update_decision_by_pk?: { __typename?: 'decision', id: string } | null };
 
-export type LastLogsSubscriptionVariables = Exact<{
+export type LastLogsQueryVariables = Exact<{
   orgId: Scalars['uuid'];
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type LastLogsSubscription = { __typename?: 'subscription_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null }> };
+export type LastLogsQuery = { __typename?: 'query_root', log: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null }>, log_aggregate: { __typename?: 'log_aggregate', aggregate?: { __typename?: 'log_aggregate_fields', count: number } | null } };
 
 export type TaskLogsSubscriptionVariables = Exact<{
   taskId: Scalars['uuid'];
@@ -17866,35 +17868,55 @@ export type ArchiveDecisionMutationHookResult = ReturnType<typeof useArchiveDeci
 export type ArchiveDecisionMutationResult = Apollo.MutationResult<ArchiveDecisionMutation>;
 export type ArchiveDecisionMutationOptions = Apollo.BaseMutationOptions<ArchiveDecisionMutation, ArchiveDecisionMutationVariables>;
 export const LastLogsDocument = gql`
-    subscription lastLogs($orgId: uuid!) {
-  log(where: {orgId: {_eq: $orgId}}, order_by: {createdAt: desc}, limit: 100) {
+    query lastLogs($orgId: uuid!, $limit: Int, $offset: Int) {
+  log(
+    where: {orgId: {_eq: $orgId}}
+    order_by: {createdAt: desc}
+    limit: $limit
+    offset: $offset
+  ) {
     ...Log
+  }
+  log_aggregate(where: {orgId: {_eq: $orgId}}) {
+    aggregate {
+      count
+    }
   }
 }
     ${LogFragmentDoc}`;
 
 /**
- * __useLastLogsSubscription__
+ * __useLastLogsQuery__
  *
- * To run a query within a React component, call `useLastLogsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useLastLogsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useLastLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLastLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useLastLogsSubscription({
+ * const { data, loading, error } = useLastLogsQuery({
  *   variables: {
  *      orgId: // value for 'orgId'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
  *   },
  * });
  */
-export function useLastLogsSubscription(baseOptions: Apollo.SubscriptionHookOptions<LastLogsSubscription, LastLogsSubscriptionVariables>) {
+export function useLastLogsQuery(baseOptions: Apollo.QueryHookOptions<LastLogsQuery, LastLogsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<LastLogsSubscription, LastLogsSubscriptionVariables>(LastLogsDocument, options);
+        return Apollo.useQuery<LastLogsQuery, LastLogsQueryVariables>(LastLogsDocument, options);
       }
-export type LastLogsSubscriptionHookResult = ReturnType<typeof useLastLogsSubscription>;
-export type LastLogsSubscriptionResult = Apollo.SubscriptionResult<LastLogsSubscription>;
+export function useLastLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LastLogsQuery, LastLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LastLogsQuery, LastLogsQueryVariables>(LastLogsDocument, options);
+        }
+export type LastLogsQueryHookResult = ReturnType<typeof useLastLogsQuery>;
+export type LastLogsLazyQueryHookResult = ReturnType<typeof useLastLogsLazyQuery>;
+export type LastLogsQueryResult = Apollo.QueryResult<LastLogsQuery, LastLogsQueryVariables>;
+export function refetchLastLogsQuery(variables: LastLogsQueryVariables) {
+      return { query: LastLogsDocument, variables: variables }
+    }
 export const TaskLogsDocument = gql`
     subscription taskLogs($taskId: uuid!) {
   log(where: {taskId: {_eq: $taskId}}, order_by: {createdAt: asc}) {

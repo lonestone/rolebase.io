@@ -1,10 +1,16 @@
-subscription lastLogs($orgId: uuid!) {
+query lastLogs($orgId: uuid!, $limit: Int, $offset: Int) {
   log(
     where: { orgId: { _eq: $orgId } }
     order_by: { createdAt: desc }
-    limit: 100
+    limit: $limit
+    offset: $offset
   ) {
     ...Log
+  }
+  log_aggregate(where: { orgId: { _eq: $orgId } }) {
+    aggregate {
+      count
+    }
   }
 }
 
