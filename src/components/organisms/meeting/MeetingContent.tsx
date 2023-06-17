@@ -219,13 +219,9 @@ export default function MeetingContent({
                   <Box mt={10}>
                     <MeetingLogs
                       meetingId={meeting.id}
+                      title={t('MeetingContent.logs')}
                       excludeTypes={taskLogTypes}
                       hideEmpty
-                      header={
-                        <Heading as="h2" size="md" mb={2}>
-                          {t('MeetingContent.logs')}
-                        </Heading>
-                      }
                     />
                   </Box>
                 )}

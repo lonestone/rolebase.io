@@ -1,29 +1,37 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
-import { BoxProps } from '@chakra-ui/react'
+import {
+  BoxProps,
+  Button,
+  Collapse,
+  Heading,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { useMeetingLogsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import { LogType } from '@shared/model/log'
-import React, { ReactNode, useMemo } from 'react'
+import React, { useMemo } from 'react'
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import LogsList from '../log/LogsList'
 
 interface Props extends BoxProps {
   meetingId: string
+  title: string
   includeTypes?: LogType[]
   excludeTypes?: LogType[]
   hideEmpty?: boolean
-  header?: ReactNode
 }
 
 export default function MeetingLogs({
   meetingId,
+  title,
   includeTypes,
   excludeTypes,
   hideEmpty,
-  header,
   ...boxProps
 }: Props) {
   const orgId = useOrgId()
+  const showLogs = useDisclosure()
 
   // Subscribe to logs
   const { data, error, loading } = useMeetingLogsSubscription({
@@ -52,8 +60,26 @@ export default function MeetingLogs({
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {header}
-      {logs && <LogsList logs={logs} {...boxProps} />}
+      {logs && (
+        <>
+          <Button
+            variant="link"
+            leftIcon={showLogs.isOpen ? <FiChevronUp /> : <FiChevronDown />}
+            onClick={showLogs.onToggle}
+          >
+            {showLogs.isOpen ? (
+              <Heading as="h2" size="md" mb={2}>
+                {title}
+              </Heading>
+            ) : (
+              title
+            )}
+          </Button>
+          <Collapse in={showLogs.isOpen} animateOpacity>
+            <LogsList logs={logs} {...boxProps} />
+          </Collapse>
+        </>
+      )}
     </>
   )
 }

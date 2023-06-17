@@ -297,6 +297,9 @@
     "addNotes": "Add notes",
     "notesPlaceholder": "Notes..."
   },
+  "MeetingStepContentTasks": {
+    "logs": "Tasks modified during the meeting"
+  },
   "MeetingStepContentThreads": {
     "add": "Add a topic",
     "randomize": "Randomize"

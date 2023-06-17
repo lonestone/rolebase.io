@@ -14,6 +14,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import MeetingLogs from './MeetingLogs'
 
 interface Props {
@@ -28,6 +29,7 @@ export const taskLogTypes = [
 ]
 
 export default function MeetingStepContentTasks({ step }: Props) {
+  const { t } = useTranslation()
   const { meeting, circle, isEnded } = useContext(MeetingContext)!
   const [updateMeetingStep] = useUpdateMeetingStepMutation()
 
@@ -108,6 +110,7 @@ export default function MeetingStepContentTasks({ step }: Props) {
 
       <MeetingLogs
         meetingId={meeting.id}
+        title={t('MeetingStepContentTasks.logs')}
         includeTypes={taskLogTypes}
         hideEmpty
       />

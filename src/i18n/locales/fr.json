@@ -329,6 +329,9 @@
     "addNotes": "Ajouter des notes",
     "notesPlaceholder": "Notes..."
   },
+  "MeetingStepContentTasks": {
+    "logs": "Tâches modifiées pendant la réunion"
+  },
   "MeetingStepContentThreads": {
     "add": "Ajouter un sujet",
     "randomize": "Aléatoire"
