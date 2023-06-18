@@ -1,6 +1,6 @@
 import CircleButton from '@atoms/CircleButton'
 import { Text, VStack } from '@chakra-ui/react'
-import { CircleWithRoleFragment } from '@gql'
+import { CircleWithRoleFragment, RoleFragment } from '@gql'
 import useCircle from '@hooks/useCircle'
 import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
 import { ParticipantMember } from '@shared/model/member'
@@ -16,12 +16,15 @@ interface Props {
 }
 
 const editableFields = [
-  'domain',
-  'accountabilities',
-  'checklist',
-  'indicators',
-  'notes',
-] as const
+  { field: 'domain' },
+  { field: 'accountabilities' },
+  { field: 'checklist', initValue: '[] ' },
+  { field: 'indicators', initValue: '- ' },
+  { field: 'notes' },
+] satisfies Array<{
+  field: keyof RoleFragment
+  initValue?: string
+}>
 
 export const fieldsGap = 10
 
@@ -39,8 +42,8 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
   const sortedFields = useMemo(() => {
     if (!role) return editableFields
     return [...editableFields].sort((a, b) => {
-      if (role[a] && !role[b]) return -1
-      if (!role[a] && role[b]) return 1
+      if (role[a.field] && !role[b.field]) return -1
+      if (!role[a.field] && role[b.field]) return 1
       return 0
     })
   }, [role])
@@ -82,13 +85,14 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
         )}
       </VStack>
 
-      {sortedFields.map((field) => (
+      {sortedFields.map(({ field, initValue }) => (
         <RoleEditableField
           key={field}
           label={t(`CircleRoleFormControl.${field}`)}
           placeholder={t(`CircleRoleFormControl.${field}Placeholder`)}
           role={role}
           field={field}
+          initValue={initValue}
         />
       ))}
     </>

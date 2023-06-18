@@ -11,6 +11,7 @@ interface Props extends Omit<BoxProps, 'role'> {
   placeholder?: string
   role: RoleFragment
   field: keyof RoleFragment
+  initValue?: string
 }
 
 export function RoleEditableField({
@@ -18,6 +19,7 @@ export function RoleEditableField({
   placeholder,
   role,
   field,
+  initValue,
   ...boxProps
 }: Props) {
   const isMember = useOrgMember()
@@ -70,6 +72,7 @@ export function RoleEditableField({
       placeholder={placeholder}
       editable={isMember}
       value={value}
+      initValue={initValue}
       onSave={handleSave}
       {...boxProps}
     />

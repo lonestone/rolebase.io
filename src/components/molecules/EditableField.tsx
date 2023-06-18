@@ -1,4 +1,11 @@
-import { Box, BoxProps, Button, Heading, Icon } from '@chakra-ui/react'
+import {
+  Box,
+  BoxProps,
+  Button,
+  Collapse,
+  Heading,
+  Icon,
+} from '@chakra-ui/react'
 import useEscKey from '@hooks/useEscKey'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { EditorHandle } from '@molecules/editor'
@@ -14,6 +21,7 @@ interface Props extends Omit<BoxProps, 'value'> {
   editable: boolean
   hideTitle?: boolean
   value: string
+  initValue?: string
   onSave(value: string): void
 }
 
@@ -23,6 +31,7 @@ export function EditableField({
   editable,
   hideTitle,
   value,
+  initValue,
   onSave,
   ...boxProps
 }: Props) {
@@ -94,10 +103,10 @@ export function EditableField({
                       borderRadius: 'md',
                       position: 'absolute',
                       left: '-8px',
+                      right: '-8px',
                       top: '-4px',
+                      bottom: '-4px',
                       zIndex: -1,
-                      w: 'calc(100% + 16px)',
-                      h: 'calc(100% + 8px)',
                       ...hoverStyle,
                     },
                   }
@@ -107,7 +116,7 @@ export function EditableField({
           >
             <SimpleEditor
               ref={editorRef}
-              value={value}
+              value={value || initValue || ''}
               placeholder={placeholder}
               readOnly={!isEditing}
               autoFocus={isEditing}
@@ -125,24 +134,25 @@ export function EditableField({
               />
             )}
           </Box>
-          {isEditing && (
-            <Box textAlign="right">
-              <Button size="sm" mt={2} onClick={handleCancel}>
-                {t('common.cancel')}
-              </Button>
-              <Button
-                colorScheme="blue"
-                size="sm"
-                mt={2}
-                ml={2}
-                onClick={handleSubmit}
-              >
-                {t('common.save')}
-              </Button>
-            </Box>
-          )}
         </>
       )}
+
+      <Collapse in={isEditing}>
+        <Box textAlign="right">
+          <Button size="sm" mt={2} onClick={handleCancel}>
+            {t('common.cancel')}
+          </Button>
+          <Button
+            colorScheme="blue"
+            size="sm"
+            mt={2}
+            ml={2}
+            onClick={handleSubmit}
+          >
+            {t('common.save')}
+          </Button>
+        </Box>
+      </Collapse>
     </Box>
   )
 }
