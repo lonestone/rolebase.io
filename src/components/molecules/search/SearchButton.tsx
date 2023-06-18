@@ -8,7 +8,7 @@ import {
   useButtonGroup,
 } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
-import { useCombobox, UseComboboxStateChange } from 'downshift'
+import { UseComboboxStateChange, useCombobox } from 'downshift'
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import SearchResultsList from './SearchResultsList'
 import { SearchItem } from './searchTypes'
@@ -131,6 +131,7 @@ export default function SearchButton({
         getMenuProps={getMenuProps}
         getItemProps={getItemProps}
         inputRef={inputRef}
+        showCanCreate={!!onCreate}
       />
     </Box>
   )

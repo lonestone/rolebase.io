@@ -607,6 +607,9 @@
     "placeholder": "Rechercher dans {{org}}...",
     "noResults": "Aucun résultat trouvé."
   },
+  "SearchResultsList": {
+    "canCreate": "Tapez pour créer ou chercher"
+  },
   "SettingsMenuList": {
     "org": "Organisation",
     "logs": "Historique",

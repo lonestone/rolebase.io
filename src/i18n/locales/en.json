@@ -576,6 +576,9 @@
     "placeholder": "Search {{org}}...",
     "noResults": "No results found"
   },
+  "SearchResultsList": {
+    "canCreate": "Type to create or search"
+  },
   "SettingsMenuList": {
     "org": "Organization",
     "logs": "History",

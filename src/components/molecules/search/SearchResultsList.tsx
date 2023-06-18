@@ -13,12 +13,14 @@ import {
   UseComboboxGetMenuPropsOptions,
 } from 'downshift'
 import React, { RefObject } from 'react'
+import { useTranslation } from 'react-i18next'
 import SearchResultItem from './SearchResultItem'
 import { SearchItem } from './searchTypes'
 
 interface Props {
   items: SearchItem[]
   isOpen: boolean
+  showCanCreate: boolean
   highlightedIndex: number
   getMenuProps: (
     options?: UseComboboxGetMenuPropsOptions,
@@ -34,11 +36,13 @@ const satisfyingMinHeight = 250
 export default function SearchResultsList({
   items,
   isOpen,
+  showCanCreate,
   highlightedIndex,
   getMenuProps,
   getItemProps,
   inputRef,
 }: Props) {
+  const { t } = useTranslation()
   const { colorMode } = useColorMode()
   const windowSize = useWindowSize()
 
@@ -105,6 +109,12 @@ export default function SearchResultsList({
         {...layoutProps}
         {...positionProps}
       >
+        {showCanCreate && !items.some((item) => item.id === 'create') && (
+          <ListItem px={2} py={1} fontSize="sm" fontStyle="italic">
+            {t('SearchResultsList.canCreate')}
+          </ListItem>
+        )}
+
         {items.map((item, index) => (
           <ListItem key={index}>
             <SearchResultItem
