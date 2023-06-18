@@ -98,11 +98,15 @@ export default function MemberContent({
         <VStack spacing={5} align="stretch">
           <MemberEditableField
             label={t('MemberEditModal.description')}
-            placeholder={t('MemberEditModal.descriptionPlaceholder')}
+            placeholder={t('MemberEditModal.descriptionPlaceholder', {
+              name: member.name,
+            })}
             member={member}
             field="description"
             editable={canEdit}
             hideTitle
+            mt={0}
+            mb={10}
           />
 
           <MemberRoles member={member} selectedCircleId={selectedCircleId} />
