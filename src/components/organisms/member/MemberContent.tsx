@@ -1,4 +1,3 @@
-import Markdown from '@atoms/Markdown'
 import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
 import { Title } from '@atoms/Title'
 import {
@@ -16,6 +15,7 @@ import {
 import useMember from '@hooks/useMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import ActionsMenu from '@molecules/ActionsMenu'
+import { MemberEditableField } from '@molecules/member/MemberEditableField'
 import MemberPictureEdit from '@molecules/member/MemberPictureEdit'
 import MemberRoles from '@molecules/member/MemberRoles'
 import { useUserId } from '@nhost/react'
@@ -96,11 +96,14 @@ export default function MemberContent({
 
       <Box px={6} pb={7}>
         <VStack spacing={5} align="stretch">
-          {member.description && (
-            <Box mb={3}>
-              <Markdown>{member.description}</Markdown>
-            </Box>
-          )}
+          <MemberEditableField
+            label={t('MemberEditModal.description')}
+            placeholder={t('MemberEditModal.descriptionPlaceholder')}
+            member={member}
+            field="description"
+            editable={canEdit}
+            hideTitle
+          />
 
           <MemberRoles member={member} selectedCircleId={selectedCircleId} />
         </VStack>

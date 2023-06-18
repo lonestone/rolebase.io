@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, StackItem, VStack } from '@chakra-ui/react'
+import { Box, Heading, StackItem, VStack } from '@chakra-ui/react'
 import {
   CircleWithRoleFragment,
   RoleFragment,
@@ -156,9 +156,14 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
     [handleCreateCircle, roles]
   )
 
+  // Hide if read only and empty
+  if (!isMember && !childrenAndRoles?.length) return null
+
   return (
-    <FormControl>
-      <FormLabel>{t('SubCirclesFormControl.roles')}</FormLabel>
+    <Box>
+      <Heading as="h3" size="sm" mb={3}>
+        {t('SubCirclesFormControl.roles')}
+      </Heading>
       <VStack spacing={2} align="start">
         {childrenAndRoles?.map((circle, i) => (
           <CircleWithLeaderItem
@@ -186,6 +191,6 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
           </StackItem>
         )}
       </VStack>
-    </FormControl>
+    </Box>
   )
 }

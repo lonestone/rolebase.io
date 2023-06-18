@@ -79,8 +79,8 @@
     "info": "Are you sure you want to remove remove role <b>{{role}}</b> from member <b>{{member}}</b>?"
   },
   "CircleMemberFormControl": {
-    "labelSingleMember": "Occupied by :",
-    "labelMultiMembers": "Members :"
+    "labelSingleMember": "Occupied by",
+    "labelMultiMembers": "Members"
   },
   "CircleMoveModal": {
     "heading": "Move a role",
@@ -90,12 +90,18 @@
     "action4": "Drop it in the desired role."
   },
   "CircleRoleFormControl": {
-    "purpose": "Purpose:",
-    "domain": "Domain:",
-    "accountabilities": "Accountabilities:",
-    "checklist": "Checklist:",
-    "indicators": "Indicators:",
-    "notes": "Notes:",
+    "purpose": "Purpose",
+    "purposePlaceholder": "Purpose it pursues...",
+    "domain": "Domain",
+    "domainPlaceholder": "What only it can do...",
+    "accountabilities": "Accountabilities",
+    "accountabilitiesPlaceholder": "What it should do...",
+    "checklist": "Checklist",
+    "checklistPlaceholder": "List of recurring actions...",
+    "indicators": "Indicators",
+    "indicatorsPlaceholder": "List of indicators...",
+    "notes": "Notes",
+    "notesPlaceholder": "Notes, links...",
     "representCircle": "Represent role <link />",
     "representInCircle": "in role <link />"
   },
@@ -527,18 +533,6 @@
     "heading": "Edit Role {{name}}",
     "baseInfo": "This role is a Basic Role potentially used in multiple locations.",
     "name": "Role Name",
-    "purpose": "Purpose",
-    "purposePlaceholder": "Purpose it pursues...",
-    "domain": "Domain",
-    "domainPlaceholder": "What only it can do...",
-    "accountabilities": "Accountabilities",
-    "accountabilitiesPlaceholder": "What it should do...",
-    "checklist": "Checklist",
-    "checklistPlaceholder": "List of recurring actions...",
-    "indicator": "Indicators",
-    "indicatorPlaceholder": "List of indicators...",
-    "notes": "Notes",
-    "notesPlaceholder": "Notes, links...",
     "singleMember": "Can only be occupied by a single member",
     "autoCreate": "Create automatically in any new role",
     "linkParent": "Represents its parent rôle (link)",
@@ -609,7 +603,7 @@
     "submit": "Create my account"
   },
   "SubCirclesFormControl": {
-    "roles": "Roles:",
+    "roles": "Roles",
     "addRole": "Add a role"
   },
   "SubscriptionPage": {

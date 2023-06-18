@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, useDisclosure } from '@chakra-ui/react'
+import { Box, Heading, useDisclosure } from '@chakra-ui/react'
 import { GraphZoomContext } from '@contexts/GraphZoomContext'
 import { MemberFragment } from '@gql'
 import useAddCircleMember from '@hooks/useAddCircleMember'
@@ -60,13 +60,16 @@ export default function CircleMemberFormControl({ circleId }: Props) {
     onClose: onDeleteClose,
   } = useDisclosure()
 
+  // Hide if read only and empty
+  if (!isMember && !membersIds?.length) return null
+
   return (
-    <FormControl>
-      <FormLabel>
+    <Box>
+      <Heading as="h3" size="sm" mb={3}>
         {role?.singleMember
           ? t('CircleMemberFormControl.labelSingleMember')
           : t('CircleMemberFormControl.labelMultiMembers')}
-      </FormLabel>
+      </Heading>
 
       {circle && membersIds && (
         <MembersMultiSelect
@@ -86,6 +89,6 @@ export default function CircleMemberFormControl({ circleId }: Props) {
           onClose={onDeleteClose}
         />
       )}
-    </FormControl>
+    </Box>
   )
 }

@@ -215,7 +215,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
                 borderRadius={readOnly ? 0 : 'md'}
                 borderColor={isFocused ? 'outline' : undefined}
                 boxShadow={
-                  isFocused
+                  isFocused && !readOnly
                     ? '0 0 0 1px var(--chakra-colors-outline)'
                     : undefined
                 }

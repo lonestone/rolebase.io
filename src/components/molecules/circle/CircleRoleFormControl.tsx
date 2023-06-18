@@ -1,28 +1,29 @@
 import CircleButton from '@atoms/CircleButton'
-import Markdown from '@atoms/Markdown'
-import {
-  Button,
-  Collapse,
-  FormControl,
-  FormLabel,
-  Text,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react'
+import { Text, VStack } from '@chakra-ui/react'
 import { CircleWithRoleFragment } from '@gql'
 import useCircle from '@hooks/useCircle'
 import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
 import { ParticipantMember } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import CircleMemberFormControl from './CircleMemberFormControl'
+import { RoleEditableField } from './RoleEditableField'
 
 interface Props {
   circle: CircleWithRoleFragment
   participants: ParticipantMember[]
 }
+
+const editableFields = [
+  'domain',
+  'accountabilities',
+  'checklist',
+  'indicators',
+  'notes',
+] as const
+
+export const fieldsGap = 10
 
 export default function CircleRoleFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
@@ -35,97 +36,61 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
       undefined
   )
 
-  // Role info toggle
-  const { isOpen: isRoleInfoOpen, onToggle: onRoleInfoToggle } = useDisclosure()
+  const sortedFields = useMemo(() => {
+    if (!role) return editableFields
+    return [...editableFields].sort((a, b) => {
+      if (role[a] && !role[b]) return -1
+      if (!role[a] && role[b]) return 1
+      return 0
+    })
+  }, [role])
 
   return (
-    <VStack spacing={5} align="stretch">
-      {role.purpose && (
-        <FormControl>
-          <FormLabel>{t('CircleRoleFormControl.purpose')}</FormLabel>
-          <Markdown>{role.purpose}</Markdown>
-        </FormControl>
-      )}
+    <>
+      <RoleEditableField
+        label={t('CircleRoleFormControl.purpose')}
+        placeholder={t('CircleRoleFormControl.purposePlaceholder')}
+        role={role}
+        field="purpose"
+        mt={0}
+        mb={fieldsGap}
+      />
 
-      {(role.domain ||
-        role.accountabilities ||
-        role.checklist ||
-        role.indicators ||
-        role.notes) && (
-        <>
-          <Button
-            variant="link"
-            rightIcon={isRoleInfoOpen ? <FiChevronUp /> : <FiChevronDown />}
-            onClick={onRoleInfoToggle}
-          >
-            {t(isRoleInfoOpen ? 'common.seeLess' : 'common.seeMore')}
-          </Button>
-          <Collapse in={isRoleInfoOpen} animateOpacity>
-            <VStack spacing={5} align="stretch">
-              {role.domain && (
-                <FormControl>
-                  <FormLabel>{t('CircleRoleFormControl.domain')}</FormLabel>
-                  <Markdown>{role.domain}</Markdown>
-                </FormControl>
-              )}
+      <VStack spacing={fieldsGap} mb={fieldsGap} align="stretch">
+        {!role.singleMember ? (
+          <SubCirclesFormControl circle={circle} participants={participants} />
+        ) : null}
 
-              {role.accountabilities && (
-                <FormControl>
-                  <FormLabel>
-                    {t('CircleRoleFormControl.accountabilities')}
-                  </FormLabel>
-                  <Markdown>{role.accountabilities}</Markdown>
-                </FormControl>
-              )}
+        <CircleMemberFormControl circleId={circle.id} />
 
-              {role.checklist && (
-                <FormControl>
-                  <FormLabel>{t('CircleRoleFormControl.checklist')}</FormLabel>
-                  <Markdown>{role.checklist}</Markdown>
-                </FormControl>
-              )}
+        {parentCircle && linkedCircle && (
+          <Text>
+            <Trans
+              i18nKey="CircleRoleFormControl.representCircle"
+              components={{
+                link: <CircleButton circle={parentCircle} />,
+              }}
+            />
+            <br />
+            <Trans
+              i18nKey="CircleRoleFormControl.representInCircle"
+              components={{
+                link: <CircleButton circle={linkedCircle} />,
+              }}
+            />
+          </Text>
+        )}
+      </VStack>
 
-              {role.indicators && (
-                <FormControl>
-                  <FormLabel>{t('CircleRoleFormControl.indicators')}</FormLabel>
-                  <Markdown>{role.indicators}</Markdown>
-                </FormControl>
-              )}
-
-              {role.notes && (
-                <FormControl>
-                  <FormLabel>{t('CircleRoleFormControl.notes')}</FormLabel>
-                  <Markdown>{role.notes}</Markdown>
-                </FormControl>
-              )}
-            </VStack>
-          </Collapse>
-        </>
-      )}
-
-      {!role.singleMember ? (
-        <SubCirclesFormControl circle={circle} participants={participants} />
-      ) : null}
-
-      <CircleMemberFormControl circleId={circle.id} />
-
-      {parentCircle && linkedCircle && (
-        <Text>
-          <Trans
-            i18nKey="CircleRoleFormControl.representCircle"
-            components={{
-              link: <CircleButton circle={parentCircle} />,
-            }}
-          />
-          <br />
-          <Trans
-            i18nKey="CircleRoleFormControl.representInCircle"
-            components={{
-              link: <CircleButton circle={linkedCircle} />,
-            }}
-          />
-        </Text>
-      )}
-    </VStack>
+      {sortedFields.map((field) => (
+        <RoleEditableField
+          key={field}
+          label={t(`CircleRoleFormControl.${field}`)}
+          placeholder={t(`CircleRoleFormControl.${field}Placeholder`)}
+          role={role}
+          field={field}
+        />
+      ))}
+    </>
   )
 }

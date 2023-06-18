@@ -79,8 +79,8 @@
     "info": "Êtes-vous sûr(e) de vouloir retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
   },
   "CircleMemberFormControl": {
-    "labelSingleMember": "Occupé par :",
-    "labelMultiMembers": "Membres :"
+    "labelSingleMember": "Occupé par",
+    "labelMultiMembers": "Membres"
   },
   "CircleMoveModal": {
     "heading": "Déplacer un rôle",
@@ -90,12 +90,18 @@
     "action4": "Déposez-le dans le rôle souhaité."
   },
   "CircleRoleFormControl": {
-    "purpose": "Raison d'être :",
-    "domain": "Domaine :",
-    "accountabilities": "Redevabilités :",
-    "checklist": "Checklist :",
-    "indicators": "Indicateurs :",
-    "notes": "Notes :",
+    "purpose": "Raison d'être",
+    "purposePlaceholder": "But qu'il poursuit...",
+    "domain": "Domaine",
+    "domainPlaceholder": "Ce qu'il est seul à pouvoir faire...",
+    "accountabilities": "Redevabilités",
+    "accountabilitiesPlaceholder": "Ce qu'il doit faire...",
+    "checklist": "Checklist",
+    "checklistPlaceholder": "Liste des actions récurrentes...",
+    "indicators": "Indicateurs",
+    "indicatorsPlaceholder": "Liste des indicateurs...",
+    "notes": "Notes",
+    "notesPlaceholder": "Notes, liens...",
     "representCircle": "Représente le rôle <link />",
     "representInCircle": "dans le rôle <link />"
   },
@@ -559,18 +565,6 @@
     "heading": "Modifier le rôle {{name}}",
     "baseInfo": "Ce rôle est un Rôle de Base potentiellement utilisé à plusieurs endroits.",
     "name": "Nom du rôle",
-    "purpose": "Raison d'être",
-    "purposePlaceholder": "But qu'il poursuit...",
-    "domain": "Domaine",
-    "domainPlaceholder": "Ce qu'il est seul à pouvoir faire...",
-    "accountabilities": "Redevabilités",
-    "accountabilitiesPlaceholder": "Ce qu'il doit faire...",
-    "checklist": "Checklist",
-    "checklistPlaceholder": "Liste des actions récurrentes...",
-    "indicator": "Indicateurs",
-    "indicatorPlaceholder": "Liste des indicateurs...",
-    "notes": "Notes",
-    "notesPlaceholder": "Notes, liens...",
     "singleMember": "Ne peut être occupé que par un seul membre",
     "autoCreate": "Créer automatiquement dans tout nouveau rôle",
     "linkParent": "Représente son rôle parent (lien)",
@@ -640,7 +634,7 @@
     "submit": "Je crée mon compte"
   },
   "SubCirclesFormControl": {
-    "roles": "Rôles :",
+    "roles": "Rôles",
     "addRole": "Ajouter un rôle"
   },
   "SubscriptionPage": {

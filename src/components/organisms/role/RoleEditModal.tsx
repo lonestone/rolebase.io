@@ -11,7 +11,6 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -30,17 +29,14 @@ import {
 import { RoleFragment, useGetRoleQuery, useUpdateRoleMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
-import { EditorHandle } from '@molecules/editor'
-import EditorController from '@molecules/editor/EditorController'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { RoleLink } from '@shared/model/role'
 import { nameSchema } from '@shared/schemas'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FaPlus } from 'react-icons/fa'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -50,12 +46,6 @@ interface Props extends UseModalProps {
 
 interface Values {
   name: string
-  purpose: string
-  domain: string
-  accountabilities: string
-  checklist: string
-  indicators: string
-  notes: string
   singleMember: boolean
   autoCreate: boolean
   link: string
@@ -79,12 +69,6 @@ const tmpCircleId = 'tmpCircleId'
 function getDefaultValues(role: RoleFragment): Values {
   return {
     name: role.name,
-    purpose: role.purpose,
-    domain: role.domain,
-    accountabilities: role.accountabilities,
-    checklist: role.checklist,
-    indicators: role.indicators,
-    notes: role.notes,
     defaultMinPerWeek: role.defaultMinPerWeek ?? null,
     singleMember: role.singleMember,
     autoCreate: role.autoCreate,
@@ -130,10 +114,6 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
   useEffect(() => {
     register('link')
   }, [register])
-
-  // Checklist and indicators items
-  const checklistEditor = useRef<EditorHandle>(null)
-  const indicatorsEditor = useRef<EditorHandle>(null)
 
   const onSubmit = handleSubmit(async (values) => {
     if (!role) return
@@ -189,80 +169,6 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
               <FormControl isInvalid={!!errors.name}>
                 <FormLabel>{t('RoleEditModal.name')}</FormLabel>
                 <Input {...register('name')} autoFocus />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.purpose}>
-                <FormLabel>{t('RoleEditModal.purpose')}</FormLabel>
-                <EditorController
-                  name="purpose"
-                  placeholder={t('RoleEditModal.purposePlaceholder')}
-                  control={control}
-                />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.domain}>
-                <FormLabel>{t('RoleEditModal.domain')}</FormLabel>
-                <EditorController
-                  name="domain"
-                  placeholder={t('RoleEditModal.domainPlaceholder')}
-                  control={control}
-                />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.accountabilities}>
-                <FormLabel>{t('RoleEditModal.accountabilities')}</FormLabel>
-                <EditorController
-                  name="accountabilities"
-                  placeholder={t('RoleEditModal.accountabilitiesPlaceholder')}
-                  control={control}
-                />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.checklist}>
-                <FormLabel>
-                  {t('RoleEditModal.checklist')}
-                  <IconButton
-                    aria-label={t('common.add')}
-                    icon={<FaPlus />}
-                    size="xs"
-                    ml={2}
-                    onClick={() => checklistEditor.current?.addCheckboxList()}
-                  />
-                </FormLabel>
-                <EditorController
-                  ref={checklistEditor}
-                  name="checklist"
-                  placeholder={t('RoleEditModal.checklistPlaceholder')}
-                  control={control}
-                />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.indicators}>
-                <FormLabel>
-                  {t('RoleEditModal.indicator')}
-                  <IconButton
-                    aria-label={t('common.add')}
-                    icon={<FaPlus />}
-                    size="xs"
-                    ml={2}
-                    onClick={() => indicatorsEditor.current?.addBulletList()}
-                  />
-                </FormLabel>
-                <EditorController
-                  ref={indicatorsEditor}
-                  name="indicators"
-                  placeholder={t('RoleEditModal.indicatorPlaceholder')}
-                  control={control}
-                />
-              </FormControl>
-
-              <FormControl isInvalid={!!errors.notes}>
-                <FormLabel>{t('RoleEditModal.notes')}</FormLabel>
-                <EditorController
-                  name="notes"
-                  placeholder={t('RoleEditModal.notesPlaceholder')}
-                  control={control}
-                />
               </FormControl>
 
               <FormControl>
