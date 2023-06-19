@@ -1,15 +1,9 @@
-import {
-  DocumentType,
-  gql,
-  ThreadActivityFragment,
-  ThreadFragment,
-  Thread_Activity_Type_Enum,
-} from '@gql'
+import { DocumentType, gql, ThreadActivityFragment, ThreadFragment } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { IndexEntity } from './IndexEntity'
 import { HasuraEvent } from '@utils/nhost'
-import getTextFromJSONEditor from '@utils/getTextFromJSONEditor'
+import getActivitiesEditorTextByType from '@utils/getActivitiesEditorTextByType'
 
 const Fragment = gql(`
   fragment ThreadSearch on thread {
@@ -30,12 +24,8 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Thread,
   title: fragment.title,
   description: fragment.activities
-    .map(
-      (activity) =>
-        (activity.type === Thread_Activity_Type_Enum.Message &&
-          getTextFromJSONEditor(JSON.parse(activity.data.message).root)) ||
-        (activity.type === Thread_Activity_Type_Enum.Poll &&
-          getTextFromJSONEditor(JSON.parse(activity.data.question).root))
+    .map((activity) =>
+      getActivitiesEditorTextByType(activity.data, activity.type)
     )
     .join('\n'),
   createdAt: new Date(fragment.createdAt).getTime(),
