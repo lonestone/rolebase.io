@@ -3589,7 +3589,6 @@ export type Log = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
-  taskId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   task?: Maybe<Task>;
   taskId?: Maybe<Scalars['uuid']>;
