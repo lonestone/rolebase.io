@@ -20,6 +20,7 @@ import { langs, locales } from 'src/i18n'
 import LoggedLayout from '../molecules/LoggedLayout'
 import OrgIdRoute from './OrgIdRoute'
 import OrgSlugRoute from './OrgSlugRoute'
+import VerifyEmailModal from '@organisms/user/VerifiyEmailModal'
 
 export default function PrivateRoute() {
   const superAdmin = useSuperAdmin()
@@ -92,6 +93,7 @@ export default function PrivateRoute() {
       </Routes>
 
       <CrispSetUser />
+      <VerifyEmailModal />
       <Onboarding />
     </LoggedLayout>
   )

@@ -907,6 +907,11 @@
     "heading": "Rôles vacants",
     "empty": "Aucun rôle vacant 🎉"
   },
+  "VerifyEmailModal":{
+    "heading": "Vérification de votre adresse email",
+    "text": "Cliquez sur le lien que nous venons de vous envoyer par email pour vérifier votre adresse.",
+    "close": "Fermer"
+  },
   "VideoConfFormControl": {
     "enable": "Vidéo-conférence",
     "jitsi": "Générer une URL Jitsi",

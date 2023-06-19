@@ -868,6 +868,11 @@
     "heading": "Vacant roles",
     "empty": "No vacant roles 🎉"
   },
+  "VerifyEmailModal":{
+    "heading": "Verify your email address",
+    "text": "Click on the link we sent you by email to verify your email address.",
+    "close": "Close"
+  },
   "VideoConfFormControl": {
     "enable": "Video conferencing",
     "jitsi": "Generate a Jitsi URL",
