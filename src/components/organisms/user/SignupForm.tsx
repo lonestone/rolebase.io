@@ -11,7 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useSendVerificationEmail, useSignUpEmailPassword } from '@nhost/react'
+import { useNhostClient, useSignUpEmailPassword } from '@nhost/react'
 import { emailSchema, nameSchema } from '@shared/schemas'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -42,11 +42,19 @@ export default function SignupForm({ defaultEmail }: Props) {
   } = useTranslation()
   const navigate = useNavigate()
   const { signUpEmailPassword, isLoading, error } = useSignUpEmailPassword()
-  const { sendEmail } = useSendVerificationEmail()
+  const { auth } = useNhostClient()
+
+  const sendVerifyEmail = async (email: string) => {
+    try {
+      await auth.sendVerificationEmail({ email })
+    } catch (error) {
+      console.error('SENDING VERIFICATION EMAIL FAILED', error)
+    }
+  }
 
   const onSubmit = async (values: Values) => {
     // Sign up
-    const { isSuccess } = await signUpEmailPassword(
+    const { isSuccess, user } = await signUpEmailPassword(
       values.email,
       values.password,
       {
@@ -54,12 +62,13 @@ export default function SignupForm({ defaultEmail }: Props) {
         locale: language.substring(0, 2),
       }
     )
+    if (user && !user.emailVerified) {
+      await sendVerifyEmail(user?.email!)
+    }
+
     if (!isSuccess) return
 
     navigate('/')
-
-    // Send verification email
-    await sendEmail(values.email)
   }
 
   const {

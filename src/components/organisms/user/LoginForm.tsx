@@ -2,9 +2,6 @@ import PasswordInput from '@atoms/PasswordInput'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
   Button,
   FormControl,
   FormLabel,
@@ -14,12 +11,11 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useSendVerificationEmail, useSignInEmailPassword } from '@nhost/react'
+import { useSignInEmailPassword } from '@nhost/react'
 import { emailSchema } from '@shared/schemas'
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiCheck } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 import * as yup from 'yup'
 
@@ -40,25 +36,10 @@ const schema = yup.object().shape({
 export default function LoginForm({ defaultEmail }: Props) {
   const { t } = useTranslation()
 
-  const { signInEmailPassword, isLoading, error, needsEmailVerification } =
-    useSignInEmailPassword()
-
-  // Email verification
-  const {
-    sendEmail,
-    isLoading: isEmailLoading,
-    isSent,
-  } = useSendVerificationEmail()
-  const [verifEmail, setVerifEmail] = useState<string | undefined>()
+  const { signInEmailPassword, isLoading, error } = useSignInEmailPassword()
 
   const onSubmit = async (values: Values) => {
-    const { needsEmailVerification } = await signInEmailPassword(
-      values.email,
-      values.password
-    )
-    if (needsEmailVerification) {
-      setVerifEmail(values.email)
-    }
+    await signInEmailPassword(values.email, values.password)
   }
 
   const {
@@ -116,26 +97,6 @@ export default function LoginForm({ defaultEmail }: Props) {
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('LoginForm.submit')}
         </Button>
-
-        {needsEmailVerification && (
-          <Alert status="info" mb={3}>
-            <AlertIcon />
-            <AlertDescription>
-              {t('LoginForm.needsEmailVerification')}
-              <Button
-                variant="link"
-                colorScheme="blue"
-                ml={3}
-                isLoading={isEmailLoading}
-                isDisabled={isSent}
-                leftIcon={isSent ? <FiCheck /> : undefined}
-                onClick={() => verifEmail && sendEmail(verifEmail)}
-              >
-                {t(isSent ? 'LoginForm.emailSent' : 'LoginForm.sendEmail')}
-              </Button>
-            </AlertDescription>
-          </Alert>
-        )}
       </VStack>
     </form>
   )
