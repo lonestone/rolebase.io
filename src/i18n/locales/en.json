@@ -233,10 +233,10 @@
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
     "logs": "Actions during the meeting"
   },
-  "MeetingConfirmModal":{
+  "MeetingConfirmModal": {
     "heading": "Creation with conflicts",
-    "info":"Warning : the following user is not available on the chosen slot :",
-    "info_other":"Warning : the following users are not available on the chosen slot :",
+    "info": "Warning, the following user is not available on the chosen slot :",
+    "info_other": "Warning, the following users are not available on the chosen slot :",
     "button": "Continue anyway"
   },
   "MeetingDeleteModal": {

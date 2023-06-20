@@ -22,15 +22,16 @@ import {
 import {
   Meeting_Step_Type_Enum,
   MeetingFragment,
+  MeetingSummaryFragment,
   MeetingTemplateFragment,
   Member_Scope_Enum,
+  useMeetingsAtSameTimeLazyQuery,
   useUpdateMeetingMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useCurrentMember from '@hooks/useCurrentMember'
-import { CreatedMeeting } from '@hooks/useMatchMeetings'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MeetingStepsConfigController, {
@@ -72,6 +73,11 @@ interface Values extends StepsValues {
   videoConfUrl: string
 }
 
+export type MeetingFormDataValues = Omit<
+  MeetingSummaryFragment,
+  'id' | 'orgId' | 'ended'
+>
+
 const resolver = yupResolver(
   yup.object().shape({
     title: nameSchema.required(),
@@ -100,8 +106,10 @@ export default function MeetingEditModal({
   const createMeeting = useCreateMeeting()
   const [updateMeeting] = useUpdateMeetingMutation()
 
-  const [currentMeeting, setCurrentMeeting] = useState<CreatedMeeting>()
-
+  const [newMeeting, setNewMeeting] = useState<MeetingFormDataValues>()
+  const [conflictingMeetings, setConflictingMeetings] = useState<
+    MeetingSummaryFragment[]
+  >([])
   const [confirmModal, setConfirmModal] = useState(false)
 
   const defaultValues: Values = useMemo(
@@ -144,6 +152,7 @@ export default function MeetingEditModal({
     resolver,
     defaultValues,
   })
+
   const {
     handleSubmit,
     register,
@@ -157,10 +166,63 @@ export default function MeetingEditModal({
   const circleId = watch('circleId')
   const circle = useCircle(circleId)
 
+  const [checkConflictingMeetings] = useMeetingsAtSameTimeLazyQuery()
+
   // Template change
   const handleTemplateSelect = (template: MeetingTemplateFragment) => {
     setValue('title', template.title)
     setValue('stepsConfig', template.stepsConfig)
+  }
+
+  const checkOccupation = async (meetingUpdate: MeetingFormDataValues) => {
+    try {
+      const { data } = await checkConflictingMeetings({
+        variables: {
+          startDate: meetingUpdate.startDate?.toString()!,
+          endDate: meetingUpdate.endDate?.toString()!,
+        },
+      })
+      if (data && data.meeting && !!data.meeting.length) {
+        setNewMeeting(meetingUpdate)
+        setConflictingMeetings(data.meeting)
+        setConfirmModal(true)
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleConfirm = async (meetingUpdate: MeetingFormDataValues) => {
+    if (meeting && !duplicate) {
+      // Update meeting
+      await updateMeeting({
+        variables: {
+          id: meeting.id,
+          values: meetingUpdate,
+        },
+      })
+    } else {
+      // Create meeting
+      const result = await createMeeting(
+        {
+          orgId,
+          ...meetingUpdate,
+        },
+        meeting && duplicate ? meeting.id : undefined
+      )
+      if (!result) return
+
+      if (onCreate) {
+        onCreate(result.id)
+      } else {
+        navigate(result.path)
+      }
+    }
+
+    modalProps.onClose()
   }
 
   // Submit
@@ -200,36 +262,12 @@ export default function MeetingEditModal({
         videoConf,
       }
 
-      setCurrentMeeting(meetingUpdate)
-      setConfirmModal(true)
+      console.log('meetingUpdate', meetingUpdate)
 
-      // if (meeting && !duplicate) {
-      //   // Update meeting
-      //   await updateMeeting({
-      //     variables: {
-      //       id: meeting.id,
-      //       values: meetingUpdate,
-      //     },
-      //   })
-      // } else {
-      //   // Create meeting
-      //   const result = await createMeeting(
-      //     {
-      //       orgId,
-      //       ...meetingUpdate,
-      //     },
-      //     meeting && duplicate ? meeting.id : undefined
-      //   )
-      //   if (!result) return
-
-      //   if (onCreate) {
-      //     onCreate(result.id)
-      //   } else {
-      //     navigate(result.path)
-      //   }
-      // }
-
-      // modalProps.onClose()
+      if (await checkOccupation(meetingUpdate)) {
+        return
+      }
+      handleConfirm(meetingUpdate)
     }
   )
 
@@ -344,9 +382,11 @@ export default function MeetingEditModal({
       </Modal>
       {confirmModal && (
         <MeetingConfirmModal
-          meeting={currentMeeting}
           isOpen
+          newMeeting={newMeeting}
+          conflictedMeetings={conflictingMeetings}
           onClose={() => setConfirmModal(false)}
+          onAccept={handleConfirm}
         />
       )}
     </FormProvider>

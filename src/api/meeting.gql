@@ -41,16 +41,16 @@ subscription circleMeetings($circleId: uuid!) {
 }
 
 
-subscription meetingsAtSameTime($startDate: timestamptz!, $endDate: timestamptz!) {
+query meetingsAtSameTime($startDate: timestamptz!, $endDate: timestamptz!) {
   meeting(
-    where: { _or: [{startDate: { _gte: $startDate }, startDate: { _lt: $startDate }}, { endDate: { _gt: $endDate }, endDate: { _lte: $endDate } } ]}
+    where: { _or: [
+      { startDate: { _gte: $startDate }, endDate: { _lte: $endDate } }, 
+      { startDate: { _lte: $startDate }, endDate: { _gte: $endDate } },
+      {_and: [{ startDate: { _lte: $startDate }, endDate: { _lte: $endDate } }, { endDate: { _gt: $startDate } }]},
+      {_and: [{ startDate: { _gte: $startDate }, endDate: { _gte: $endDate } }, { startDate: { _lt: $endDate } }]} 
+      ]}
   ) {
-    endDate
-    startDate
-    title
-    participantsMembersIds
-    participantsScope
-    circleId
+   ...MeetingSummary
   }
 }
 

@@ -1,54 +1,31 @@
-// 1. find every meeting which are at the same time as the current meeting
-// 2. find if the current meeting doesnt have same participant as the other meeting
-
-import { Meeting, useMeetingsAtSameTimeSubscription } from '@gql'
-import { useOrgId } from '@hooks/useOrgId'
+import { MeetingSummaryFragment } from '@gql'
 import useParticipants from '@hooks/useParticipants'
+import { MeetingFormDataValues } from '@organisms/meeting/MeetingEditModal'
 
-export type CreatedMeeting = Pick<
-  Meeting,
-  | 'title'
-  | 'startDate'
-  | 'endDate'
-  | 'circleId'
-  | 'participantsScope'
-  | 'participantsMembersIds'
->
-
-interface Props {
-  currentMeeting: CreatedMeeting
-}
-
-export default function useMatchMeetings({ currentMeeting }: Props) {
-  const orgId = useOrgId()
-
-  console.log(currentMeeting.startDate, currentMeeting.endDate);
-  
-  // Subscribe to meetings
-  const { data } = useMeetingsAtSameTimeSubscription({
-    skip: !orgId || !currentMeeting,
-    variables: {
-      startDate: currentMeeting.startDate.toString()!,
-      endDate: currentMeeting.endDate.toString()!,
-    },
-  })
+export default function useMatchMeetings(
+  newMeeting?: MeetingFormDataValues,
+  conflictedMeetings?: MeetingSummaryFragment[]
+) {
+  if (!newMeeting || !conflictedMeetings) {
+    return { matchingParticipants: [] }
+  }
 
   const currentMeetingParticipants = useParticipants(
-    currentMeeting.circleId,
-    currentMeeting.participantsScope,
-    currentMeeting.participantsMembersIds
+    newMeeting.circleId,
+    newMeeting.participantsScope,
+    newMeeting.participantsMembersIds
   ).map((p) => p.member)
 
-  console.log({ data })
-
-  const dataMeetingsParticipants = useParticipants(
-    data?.meeting[0].circleId,
-    data?.meeting[0].participantsScope,
-    data?.meeting[0].participantsMembersIds
-  ).map((p) => p.member)
+  const dataMeetingsParticipants = conflictedMeetings.map((meeting) => {
+    return useParticipants(
+      meeting.circleId,
+      meeting.participantsScope,
+      meeting.participantsMembersIds
+    ).map((p) => p.member)
+  })
 
   const matchingParticipants = currentMeetingParticipants.filter((p) =>
-    dataMeetingsParticipants.some((m) => m.id === p.id)
+    dataMeetingsParticipants.some((m) => m.find((mp) => mp.id === p.id))
   )
 
   return { matchingParticipants }
