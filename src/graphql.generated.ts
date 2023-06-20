@@ -16524,12 +16524,12 @@ export type CircleMeetingsSubscriptionVariables = Exact<{
 export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
 
 export type MeetingsAtSameTimeQueryVariables = Exact<{
-  startDate: Scalars['timestamptz'];
-  endDate: Scalars['timestamptz'];
+  NMstartDate: Scalars['timestamptz'];
+  NMendDate: Scalars['timestamptz'];
 }>;
 
 
-export type MeetingsAtSameTimeQuery = { __typename?: 'query_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
+export type MeetingsAtSameTimeQuery = { __typename?: 'query_root', meeting: Array<{ __typename?: 'meeting', archived: boolean, id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
 
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
@@ -18163,11 +18163,12 @@ export function useCircleMeetingsSubscription(baseOptions: Apollo.SubscriptionHo
 export type CircleMeetingsSubscriptionHookResult = ReturnType<typeof useCircleMeetingsSubscription>;
 export type CircleMeetingsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingsSubscription>;
 export const MeetingsAtSameTimeDocument = gql`
-    query meetingsAtSameTime($startDate: timestamptz!, $endDate: timestamptz!) {
+    query meetingsAtSameTime($NMstartDate: timestamptz!, $NMendDate: timestamptz!) {
   meeting(
-    where: {_or: [{startDate: {_gte: $startDate}, endDate: {_lte: $endDate}}, {startDate: {_lte: $startDate}, endDate: {_gte: $endDate}}, {_and: [{startDate: {_lte: $startDate}, endDate: {_lte: $endDate}}, {endDate: {_gt: $startDate}}]}, {_and: [{startDate: {_gte: $startDate}, endDate: {_gte: $endDate}}, {startDate: {_lt: $endDate}}]}]}
+    where: {archived: {_eq: false}, _or: [{startDate: {_gt: $NMstartDate}, endDate: {_lt: $NMendDate}}, {startDate: {_lte: $NMstartDate}, endDate: {_gte: $NMendDate}}, {_and: [{startDate: {_lte: $NMstartDate}, endDate: {_gte: $NMstartDate}}, {endDate: {_lte: $NMendDate}}]}, {_and: [{startDate: {_gte: $NMstartDate}, endDate: {_gte: $NMendDate}}, {startDate: {_lt: $NMendDate}}]}]}
   ) {
     ...MeetingSummary
+    archived
   }
 }
     ${MeetingSummaryFragmentDoc}`;
@@ -18184,8 +18185,8 @@ export const MeetingsAtSameTimeDocument = gql`
  * @example
  * const { data, loading, error } = useMeetingsAtSameTimeQuery({
  *   variables: {
- *      startDate: // value for 'startDate'
- *      endDate: // value for 'endDate'
+ *      NMstartDate: // value for 'NMstartDate'
+ *      NMendDate: // value for 'NMendDate'
  *   },
  * });
  */

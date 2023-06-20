@@ -41,16 +41,16 @@ subscription circleMeetings($circleId: uuid!) {
 }
 
 
-query meetingsAtSameTime($startDate: timestamptz!, $endDate: timestamptz!) {
-  meeting(
-    where: { _or: [
-      { startDate: { _gte: $startDate }, endDate: { _lte: $endDate } }, 
-      { startDate: { _lte: $startDate }, endDate: { _gte: $endDate } },
-      {_and: [{ startDate: { _lte: $startDate }, endDate: { _lte: $endDate } }, { endDate: { _gt: $startDate } }]},
-      {_and: [{ startDate: { _gte: $startDate }, endDate: { _gte: $endDate } }, { startDate: { _lt: $endDate } }]} 
-      ]}
-  ) {
+query meetingsAtSameTime($NMstartDate: timestamptz!, $NMendDate: timestamptz!) {
+  meeting(where: { archived: {_eq: false}, 
+  _or: [
+    { startDate: { _gt: $NMstartDate }, endDate: { _lt: $NMendDate } }, 
+    { startDate: { _lte: $NMstartDate }, endDate: { _gte: $NMendDate } },
+    {_and: [{ startDate: { _lte: $NMstartDate }, endDate: { _gte: $NMstartDate } }, { endDate: { _lte: $NMendDate } }]},
+    {_and: [{ startDate: { _gte: $NMstartDate }, endDate: { _gte: $NMendDate } }, { startDate: { _lt: $NMendDate } }]}
+    ]}) {
    ...MeetingSummary
+   archived
   }
 }
 

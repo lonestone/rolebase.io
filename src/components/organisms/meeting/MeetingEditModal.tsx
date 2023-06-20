@@ -178,8 +178,8 @@ export default function MeetingEditModal({
     try {
       const { data } = await checkConflictingMeetings({
         variables: {
-          startDate: meetingUpdate.startDate?.toString()!,
-          endDate: meetingUpdate.endDate?.toString()!,
+          NMstartDate: meetingUpdate.startDate?.toString()!,
+          NMendDate: meetingUpdate.endDate?.toString()!,
         },
       })
       if (data && data.meeting && !!data.meeting.length) {
@@ -261,8 +261,6 @@ export default function MeetingEditModal({
         participantsMembersIds: participantsMembersIds.map((m) => m.memberId),
         videoConf,
       }
-
-      console.log('meetingUpdate', meetingUpdate)
 
       if (await checkOccupation(meetingUpdate)) {
         return
