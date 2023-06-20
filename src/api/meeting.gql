@@ -40,6 +40,21 @@ subscription circleMeetings($circleId: uuid!) {
   }
 }
 
+
+subscription meetingsAtSameTime($startDate: timestamptz!, $endDate: timestamptz!) {
+  meeting(
+    where: { _or: [{startDate: { _gte: $startDate }, startDate: { _lt: $startDate }}, { endDate: { _gt: $endDate }, endDate: { _lte: $endDate } } ]}
+  ) {
+    endDate
+    startDate
+    title
+    participantsMembersIds
+    participantsScope
+    circleId
+  }
+}
+
+
 mutation createMeeting($values: meeting_insert_input!) {
   insert_meeting_one(object: $values) {
     ...Meeting

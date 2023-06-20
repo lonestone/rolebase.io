@@ -35,7 +35,7 @@ i18n
     defaultNS,
     resources,
     interpolation: {
-      escapeValue: false,
+      escapeValue: false, 
     },
   })
 

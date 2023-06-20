@@ -16523,6 +16523,14 @@ export type CircleMeetingsSubscriptionVariables = Exact<{
 
 export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
 
+export type MeetingsAtSameTimeSubscriptionVariables = Exact<{
+  startDate: Scalars['timestamptz'];
+  endDate: Scalars['timestamptz'];
+}>;
+
+
+export type MeetingsAtSameTimeSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', endDate: string, startDate: string, title: string, participantsMembersIds: Array<string>, participantsScope: Member_Scope_Enum, circleId: string }> };
+
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
 }>;
@@ -18154,6 +18162,44 @@ export function useCircleMeetingsSubscription(baseOptions: Apollo.SubscriptionHo
       }
 export type CircleMeetingsSubscriptionHookResult = ReturnType<typeof useCircleMeetingsSubscription>;
 export type CircleMeetingsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingsSubscription>;
+export const MeetingsAtSameTimeDocument = gql`
+    subscription meetingsAtSameTime($startDate: timestamptz!, $endDate: timestamptz!) {
+  meeting(
+    where: {_or: [{startDate: {_gte: $startDate}, endDate: {_lte: $endDate}}, {startDate: {_lte: $startDate}, endDate: {_gt: $endDate}}]}
+  ) {
+    endDate
+    startDate
+    title
+    participantsMembersIds
+    participantsScope
+    circleId
+  }
+}
+    `;
+
+/**
+ * __useMeetingsAtSameTimeSubscription__
+ *
+ * To run a query within a React component, call `useMeetingsAtSameTimeSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingsAtSameTimeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeetingsAtSameTimeSubscription({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useMeetingsAtSameTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<MeetingsAtSameTimeSubscription, MeetingsAtSameTimeSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<MeetingsAtSameTimeSubscription, MeetingsAtSameTimeSubscriptionVariables>(MeetingsAtSameTimeDocument, options);
+      }
+export type MeetingsAtSameTimeSubscriptionHookResult = ReturnType<typeof useMeetingsAtSameTimeSubscription>;
+export type MeetingsAtSameTimeSubscriptionResult = Apollo.SubscriptionResult<MeetingsAtSameTimeSubscription>;
 export const CreateMeetingDocument = gql`
     mutation createMeeting($values: meeting_insert_input!) {
   insert_meeting_one(object: $values) {

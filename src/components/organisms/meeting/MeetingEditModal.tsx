@@ -30,6 +30,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useCurrentMember from '@hooks/useCurrentMember'
+import { CreatedMeeting } from '@hooks/useMatchMeetings'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MeetingStepsConfigController, {
@@ -38,11 +39,12 @@ import MeetingStepsConfigController, {
 import MeetingTemplateMenu from '@molecules/meeting/MeetingTemplateMenu'
 import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
+import MeetingConfirmModal from '@organisms/meeting/MeetingConfirmModal'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { nameSchema, stepsConfigSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
 import { nanoid } from 'nanoid'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
@@ -97,6 +99,10 @@ export default function MeetingEditModal({
   const navigate = useNavigate()
   const createMeeting = useCreateMeeting()
   const [updateMeeting] = useUpdateMeetingMutation()
+
+  const [currentMeeting, setCurrentMeeting] = useState<CreatedMeeting>()
+
+  const [confirmModal, setConfirmModal] = useState(false)
 
   const defaultValues: Values = useMemo(
     () => ({
@@ -168,7 +174,11 @@ export default function MeetingEditModal({
       ...data
     }) => {
       if (!orgId || !currentMember || !circle) return
+
       const startDateDate = new Date(startDate)
+      const endDateDate = new Date(
+        startDateDate.getTime() + duration * 60 * 1000
+      )
 
       const videoConf: VideoConf | null =
         videoConfType === VideoConfTypes.Url
@@ -185,40 +195,41 @@ export default function MeetingEditModal({
       const meetingUpdate = {
         ...data,
         startDate: startDateDate.toISOString(),
-        endDate: new Date(
-          startDateDate.getTime() + duration * 60 * 1000
-        ).toISOString(),
+        endDate: endDateDate.toISOString(),
         participantsMembersIds: participantsMembersIds.map((m) => m.memberId),
         videoConf,
       }
 
-      if (meeting && !duplicate) {
-        // Update meeting
-        await updateMeeting({
-          variables: {
-            id: meeting.id,
-            values: meetingUpdate,
-          },
-        })
-      } else {
-        // Create meeting
-        const result = await createMeeting(
-          {
-            orgId,
-            ...meetingUpdate,
-          },
-          meeting && duplicate ? meeting.id : undefined
-        )
-        if (!result) return
+      setCurrentMeeting(meetingUpdate)
+      setConfirmModal(true)
 
-        if (onCreate) {
-          onCreate(result.id)
-        } else {
-          navigate(result.path)
-        }
-      }
+      // if (meeting && !duplicate) {
+      //   // Update meeting
+      //   await updateMeeting({
+      //     variables: {
+      //       id: meeting.id,
+      //       values: meetingUpdate,
+      //     },
+      //   })
+      // } else {
+      //   // Create meeting
+      //   const result = await createMeeting(
+      //     {
+      //       orgId,
+      //       ...meetingUpdate,
+      //     },
+      //     meeting && duplicate ? meeting.id : undefined
+      //   )
+      //   if (!result) return
 
-      modalProps.onClose()
+      //   if (onCreate) {
+      //     onCreate(result.id)
+      //   } else {
+      //     navigate(result.path)
+      //   }
+      // }
+
+      // modalProps.onClose()
     }
   )
 
@@ -331,6 +342,13 @@ export default function MeetingEditModal({
           </form>
         </ModalContent>
       </Modal>
+      {confirmModal && (
+        <MeetingConfirmModal
+          meeting={currentMeeting}
+          isOpen
+          onClose={() => setConfirmModal(false)}
+        />
+      )}
     </FormProvider>
   )
 }
