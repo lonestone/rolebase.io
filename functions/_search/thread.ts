@@ -1,7 +1,9 @@
-import { DocumentType, gql, ThreadFragment } from '@gql'
+import { DocumentType, gql, ThreadActivityFragment, ThreadFragment } from '@gql'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { IndexEntity } from './IndexEntity'
+import { HasuraEvent } from '@utils/nhost'
+import getActivitiesEditorTextByType from '@utils/getActivitiesEditorTextByType'
 
 const Fragment = gql(`
   fragment ThreadSearch on thread {
@@ -9,6 +11,10 @@ const Fragment = gql(`
     orgId
     title
     createdAt
+    activities {
+      type
+      data
+    }
   }
 `)
 
@@ -17,7 +23,11 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   orgId: fragment.orgId,
   type: SearchTypes.Thread,
   title: fragment.title,
-  description: '',
+  description: fragment.activities
+    .map((activity) =>
+      getActivitiesEditorTextByType(activity.data, activity.type)
+    )
+    .join('\n'),
   createdAt: new Date(fragment.createdAt).getTime(),
   boost: 0,
 })
@@ -51,5 +61,21 @@ export class IndexThread extends IndexEntity<ThreadFragment> {
       `)
     )
     return thread.map(transform)
+  }
+}
+
+export class IndexThreadActivity extends IndexEntity<ThreadActivityFragment> {
+  static table = 'public.thread_activity'
+
+  async applyEvent(event: HasuraEvent<ThreadActivityFragment>) {
+    const { data } = event.event
+    const threadId = data.new?.threadId
+
+    if (threadId && data.new?.data !== data.old?.data) {
+      const searchDoc = await new IndexThread().getById(threadId)
+      if (!searchDoc) return
+      // Update thread
+      await this.index.saveObject(searchDoc).catch(console.error)
+    }
   }
 }

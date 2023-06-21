@@ -187,6 +187,7 @@ export default function ActivityPollModal({
 
   const onSubmit = handleSubmit(async ({ endDate, ...data }) => {
     if (!orgId || !userId) return
+
     try {
       const activityData = {
         endDate: endDate ? new Date(endDate).toISOString() : null,
