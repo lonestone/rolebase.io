@@ -92,7 +92,27 @@ nhost down
 
 ### Mailjet
 
-Rolebase uses [Mailjet](https://www.mailjet.com/) to send some of its mail. You will need an account to there to be able to use it. You can then import your private and public key to add them to Rolebase's configuration (see below).
+Rolebase uses [Mailjet](https://www.mailjet.com/) to send some of its mail.
+
+1. Create a Mailjet account : https://app.mailjet.com/signup
+2. Add your account API keys in your environment variables
+
+   - `MAILJET_PUBIC_KEY` : API Key displayed by Mailjet upon account creation or when resetting secret tokens
+   - `MAILJET_PRIVATE_KEY` : Secret Key displayed by Mailjet upon account creation or when resetting secret tokens
+
+3. Create needed templates :
+
+| Name         | Template                                                                             | TemplateID          | Variables                                 |
+| ------------ | ------------------------------------------------------------------------------------ | ------------------- | ----------------------------------------- |
+| InviteMember | `docs/email-templates/InviteMember.mjml` or `docs/email-templates/InviteMember.html` | Provided by Mailjet | _orgName_, _inviterName_, _invitationUrl_ |
+
+4. Use the correct TemplateID provided to you by Mailjet when using `sendMailjetEmail` function :
+
+   - `functions/routes/inviteMember.ts`
+
+_FYI : Templates offered here are only simple examples to allow faster integration. You can freely and easily do ones of your own in Mailjet's emails editor. Just beware to use correct variables in it._
+
+To learn more on Mailjet usage, check their [documentation](https://dev.mailjet.com/).
 
 ### Algolia
 
@@ -139,13 +159,13 @@ Steps for Novu cloud :
       - Currently we only use : In-App, Email
    2. Build notification workflows :
 
-   | Identifier         | Channels      | Workflow                          | Template                                                                                                                                        | Variables                                                                                                                                                                                                                                                                 |
-   | ------------------ | ------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | meetingstarted     | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs`<br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml`  | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
-   | meetinginvited     | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
-   | taskassigned       | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
-   | thread             | In-App, Email | Trigger > In-App > Email          | In-App : `docs` > `notifications` > `in-app-templates` > `Simple.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Simple.mjml` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
-   | tempthreadactivity | In-App, Email | Trigger > Digest > In-App > Email | In-App : `docs` > `notifications` > `in-app-templates` > `Digest.hbs` <br> Email : `docs` > `notifications` > `email-templates` > `Digest.mjml` | In-App : _title_ , _content_, _digestContentSingular_, _digestContentPlural_, _actionUrl_ <br> Email : _title_ , _content_, _digestContentSingular_, _digestContentPlural_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_ |
+   | Identifier         | Channels      | Workflow                          | Template                                                                                                                | Variables                                                                                                                                                                                                                                                                 |
+   | ------------------ | ------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | meetingstarted     | In-App, Email | Trigger > In-App > Email          | In-App : `docs/notifications/in-app-templates/Simple.hbs`<br> Email : `docs/notifications/email-templates/Simple.html`  | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | meetinginvited     | In-App, Email | Trigger > In-App > Email          | In-App : `docs/notifications/in-app-templates/Simple.hbs` <br> Email : `docs/notifications/email-templates/Simple.html` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | taskassigned       | In-App, Email | Trigger > In-App > Email          | In-App : `docs/notifications/in-app-templates/Simple.hbs` <br> Email : `docs/notifications/email-templates/Simple.html` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | thread             | In-App, Email | Trigger > In-App > Email          | In-App : `docs/notifications/in-app-templates/Simple.hbs` <br> Email : `docs/notifications/email-templates/Simple.html` | In-App : _title_ , _content_, _actionUrl_ <br> Email : _title_ , _content_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_                                                                                                 |
+   | tempthreadactivity | In-App, Email | Trigger > Digest > In-App > Email | In-App : `docs/notifications/in-app-templates/Digest.hbs` <br> Email : `docs/notifications/email-templates/Digest.html` | In-App : _title_ , _content_, _digestContentSingular_, _digestContentPlural_, _actionUrl_ <br> Email : _title_ , _content_, _digestContentSingular_, _digestContentPlural_, _actionUrl_ _notificationReceived_, _actionButton_, _automaticEmail_, _unsubscribe_, _appUrl_ |
 
 3. Use your account API keys in your environment variables :
    - `NOVU_APP_ID` : Novu dashboard (https://web.novu.co) > Settings > API Keys > **_Application Identifier_**
@@ -153,8 +173,9 @@ Steps for Novu cloud :
 
 More :
 
-- Notification templates : check templates used for Rolebase (`docs` > `notifications`).
-- Notification template variables : check notification's payload to know which ones to pass (`functions` > `utils` > `notification` > `notificationPayloadBuilder.ts`).
+- Notification templates : check templates used for Rolebase (`docs/notifications/*`).
+- Email notification templates : we first create it in a MJML version which we then convert to the HTML version used in Novu.
+- Notification template variables : check notification's payload to know which ones to pass (`functions/utils/notification/notificationPayloadBuilder.ts`).
 
 If you want to learn more about Novu, here is their [documentation](https://docs.novu.co/).  
 If you want to self-host Novu, here is their [Docker deployment documentation](https://docs.novu.co/overview/docker-deploy).
@@ -214,6 +235,8 @@ Email templates for Nhost are defined in `nhost/emails` folder.
 They must be translated in french and english.
 
 We're using MJML templates to generate HTML templates.
+
+Check the [documentation](https://docs.nhost.io/authentication/email-templates) to learn more about it.
 
 VSCode extension "MJML" is useful to get syntax highlighting and export to HTML:
 https://marketplace.visualstudio.com/items?itemName=attilabuti.vscode-mjml
