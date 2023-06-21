@@ -16500,6 +16500,14 @@ export type CancelLogMutationVariables = Exact<{
 
 export type CancelLogMutation = { __typename?: 'mutation_root', update_log_by_pk?: { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null } | null };
 
+export type GetLastMeetingStepsQueryVariables = Exact<{
+  recurringId: Scalars['uuid'];
+  recurringDate: Scalars['timestamptz'];
+}>;
+
+
+export type GetLastMeetingStepsQuery = { __typename?: 'query_root', meeting: Array<{ __typename?: 'meeting', steps: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> }> };
+
 export type MeetingSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -18043,6 +18051,51 @@ export function useCancelLogMutation(baseOptions?: Apollo.MutationHookOptions<Ca
 export type CancelLogMutationHookResult = ReturnType<typeof useCancelLogMutation>;
 export type CancelLogMutationResult = Apollo.MutationResult<CancelLogMutation>;
 export type CancelLogMutationOptions = Apollo.BaseMutationOptions<CancelLogMutation, CancelLogMutationVariables>;
+export const GetLastMeetingStepsDocument = gql`
+    query getLastMeetingSteps($recurringId: uuid!, $recurringDate: timestamptz!) {
+  meeting(
+    where: {recurringId: {_eq: $recurringId}, recurringDate: {_lt: $recurringDate}, archived: {_eq: false}}
+    order_by: {createdAt: desc}
+    limit: 1
+  ) {
+    steps {
+      ...MeetingStep
+    }
+  }
+}
+    ${MeetingStepFragmentDoc}`;
+
+/**
+ * __useGetLastMeetingStepsQuery__
+ *
+ * To run a query within a React component, call `useGetLastMeetingStepsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLastMeetingStepsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLastMeetingStepsQuery({
+ *   variables: {
+ *      recurringId: // value for 'recurringId'
+ *      recurringDate: // value for 'recurringDate'
+ *   },
+ * });
+ */
+export function useGetLastMeetingStepsQuery(baseOptions: Apollo.QueryHookOptions<GetLastMeetingStepsQuery, GetLastMeetingStepsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLastMeetingStepsQuery, GetLastMeetingStepsQueryVariables>(GetLastMeetingStepsDocument, options);
+      }
+export function useGetLastMeetingStepsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLastMeetingStepsQuery, GetLastMeetingStepsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLastMeetingStepsQuery, GetLastMeetingStepsQueryVariables>(GetLastMeetingStepsDocument, options);
+        }
+export type GetLastMeetingStepsQueryHookResult = ReturnType<typeof useGetLastMeetingStepsQuery>;
+export type GetLastMeetingStepsLazyQueryHookResult = ReturnType<typeof useGetLastMeetingStepsLazyQuery>;
+export type GetLastMeetingStepsQueryResult = Apollo.QueryResult<GetLastMeetingStepsQuery, GetLastMeetingStepsQueryVariables>;
+export function refetchGetLastMeetingStepsQuery(variables: GetLastMeetingStepsQueryVariables) {
+      return { query: GetLastMeetingStepsDocument, variables: variables }
+    }
 export const MeetingDocument = gql`
     subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {

@@ -916,6 +916,7 @@
     "error": "Error",
     "name": "Name",
     "copy": "Copy",
+    "copyStepNotes": "Copy previous meeting's notes",
     "toastCopied": "URL copied",
     "none": "None",
     "errorOccurred": "An error occurred.",

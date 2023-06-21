@@ -1,3 +1,19 @@
+query getLastMeetingSteps($recurringId: uuid!, $recurringDate: timestamptz!) {
+  meeting(
+    where: {
+      recurringId: { _eq: $recurringId }
+      recurringDate: { _lt: $recurringDate }
+      archived: { _eq: false }
+    }
+    order_by: { createdAt: desc }
+    limit: 1
+  ) {
+    steps {
+      ...MeetingStep
+    }
+  }
+}
+
 subscription meeting($id: uuid!) {
   meeting_by_pk(id: $id) {
     ...Meeting

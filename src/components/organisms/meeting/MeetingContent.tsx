@@ -36,6 +36,7 @@ import { useTranslation } from 'react-i18next'
 import { FiCalendar } from 'react-icons/fi'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
+import { useCopyNotesMeeting } from '@hooks/useCopyNotesMeeting'
 
 interface Props extends BoxProps {
   id: string
@@ -73,8 +74,11 @@ export default function MeetingContent({
     handleChangeForceEdit,
   } = meetingState
 
+  const copyStepNotes = useCopyNotesMeeting()
+
   // Meeting edition modal
   const [duplicateInModal, setDuplicateInModal] = useState(false)
+
   const editModal = useDisclosure()
 
   const handleEdit = () => {
@@ -89,6 +93,11 @@ export default function MeetingContent({
 
   // Meeting deletion modal
   const deleteModal = useDisclosure()
+
+  const handleNotesChange = async () => {
+    if (!meeting) return
+    await copyStepNotes(meeting, steps)
+  }
 
   if (error) {
     console.error(error)
@@ -135,6 +144,7 @@ export default function MeetingContent({
               <Flex mr={headerIcons ? -2 : 0}>
                 {canEdit && (
                   <ActionsMenu
+                    ml={2}
                     onEdit={
                       canEdit
                         ? meeting?.ended && !forceEdit
@@ -146,7 +156,7 @@ export default function MeetingContent({
                     onDelete={
                       canEdit && !isStarted ? deleteModal.onOpen : undefined
                     }
-                    ml={2}
+                    onCopyStepNotes={handleNotesChange}
                   />
                 )}
                 {headerIcons}
