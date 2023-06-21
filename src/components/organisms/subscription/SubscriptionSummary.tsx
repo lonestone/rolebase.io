@@ -41,9 +41,8 @@ export default function SubscriptionSummary({
   const [couponError, setCouponError] = useState<string>()
   const [loading, setLoading] = useState<boolean>(false)
   const [couponDuration, setCouponDuration] = useState<number>()
-  const [priceData, setPriceData] = useState<
-    Omit<PricePreview, 'promotionCode'>
-  >({})
+  const [priceData, setPriceData] =
+    useState<Omit<PricePreview, 'promotionCode'>>()
   const orgId = useOrgId()
   const parsedDetails = useMemo(() => {
     if (!billingDetails?.address) return []
@@ -69,12 +68,12 @@ export default function SubscriptionSummary({
         orgId: orgId ?? '',
         promotionCode: coupon,
         planType,
-        address: billingDetails?.address,
+        address: billingDetails?.address ?? null,
       })
 
-      if (retrieved?.promotionCode) {
-        setRetrievedCoupon(retrieved?.promotionCode)
-        onPromoApplied(retrieved.promotionCode.id)
+      if (retrieved && retrieved.promotionCode) {
+        setRetrievedCoupon(retrieved)
+        onPromoApplied(coupon)
       }
 
       if (retrieved) {
@@ -89,6 +88,10 @@ export default function SubscriptionSummary({
     retrievePricePreview()
   }, [billingDetails])
 
+  const formatPriceCents = (price?: number) => {
+    return price ? (price / 100).toFixed(2) : '0.00'
+  }
+
   const applyCoupon = async () => {
     if (!coupon) return
     setCouponError('')
@@ -101,39 +104,55 @@ export default function SubscriptionSummary({
   }
 
   const discountText = useMemo(() => {
-    if (retrievedCoupon) {
-      if (retrievedCoupon.amountOff) {
-        return `(${retrievedCoupon.id}: -${retrievedCoupon.amountOff}€)`
+    const { promotionCode } = retrievedCoupon ?? {}
+
+    if (promotionCode) {
+      if (promotionCode.amountOff) {
+        return `(${promotionCode.name}: -${promotionCode.amountOff}€)`
       }
 
-      if (retrievedCoupon.percentOff) {
-        return `(${retrievedCoupon.id}: -${retrievedCoupon.percentOff}%)`
+      if (promotionCode.percentOff) {
+        return `(${promotionCode.name}: -${promotionCode.percentOff}%)`
       }
     }
   }, [retrievedCoupon])
 
-  const totalPrice = useMemo(() => {
-    const tot = priceData.subTotalPerSeatInCents * priceData.quantity
+  const calculatedPrice = priceData
+    ? priceData.subTotalPerSeatInCents * priceData.quantity
+    : 0
 
-    if (retrievedCoupon) {
-      if (retrievedCoupon.amountOff) return tot - retrievedCoupon.amountOff
-      if (retrievedCoupon.percentOff)
-        return tot - (tot * retrievedCoupon.percentOff) / 100
+  const totalPrice = useMemo(() => {
+    const { promotionCode } = retrievedCoupon ?? {}
+
+    if (promotionCode) {
+      if (promotionCode.amountOff && calculatedPrice)
+        return calculatedPrice - promotionCode.amountOff
+      if (promotionCode.percentOff && calculatedPrice)
+        return (
+          calculatedPrice - (calculatedPrice * promotionCode.percentOff) / 100
+        )
     }
 
-    return tot
+    return calculatedPrice
   }, [priceData, retrievedCoupon])
 
   const totalPriceWithVAT = useMemo(() => {
-    return totalPrice + (totalPrice * (priceData.tax ?? 1)) / 100
+    return totalPrice + (totalPrice * priceData?.tax?.percentage!) / 100
   }, [priceData, totalPrice])
 
   const pricePerMonth = useMemo(() => {
-    if (retrievedCoupon) {
-      if (retrievedCoupon.duration.type === 'once') {
-        return priceData.subTotalPerSeatInCents * priceData.quantity
-      } else if (retrievedCoupon.duration.type === 'repeating') {
-        setCouponDuration(retrievedCoupon.duration.durationInMonth)
+    const { promotionCode } = retrievedCoupon ?? {}
+
+    if (promotionCode) {
+      if (promotionCode.duration.type === 'once') {
+        return (
+          priceData && priceData.subTotalPerSeatInCents * priceData.quantity
+        )
+      } else if (
+        promotionCode.duration.type === 'repeating' &&
+        promotionCode.duration.durationInMonth !== null
+      ) {
+        setCouponDuration(promotionCode.duration.durationInMonth)
         return totalPrice
       } else {
         return totalPrice
@@ -185,17 +204,17 @@ export default function SubscriptionSummary({
                       {t('SubscriptionTabs.paymentModal.pricePerSeat')}
                     </Text>
                     <Text {...textProps}>
-                      €{(priceData.subTotalPerSeatInCents / 100).toFixed(2)}
+                      {formatPriceCents(priceData?.subTotalPerSeatInCents)} €
                     </Text>
                   </HStack>
 
                   <HStack justifyContent="space-between" fontSize={14}>
                     <Text>
                       {t('SubscriptionTabs.paymentModal.nbSeat', {
-                        count: priceData.quantity,
+                        count: priceData?.quantity,
                       })}
                     </Text>
-                    <Text {...textProps}>{priceData.quantity}</Text>
+                    <Text {...textProps}>{priceData?.quantity}</Text>
                   </HStack>
 
                   <Divider mt="1" mb="2" />
@@ -215,17 +234,12 @@ export default function SubscriptionSummary({
                           fontSize={12}
                         >
                           <Text textDecoration="line-through" {...textProps}>
-                            {(
-                              (priceData.subTotalPerSeatInCents *
-                                priceData.quantity) /
-                              100
-                            ).toFixed(2)}
-                            €
+                            {formatPriceCents(calculatedPrice)} €
                           </Text>
                           <Text {...textProps}>{discountText}</Text>
                         </Flex>
                         <Text fontSize={18} {...textProps}>
-                          {(totalPrice / 100).toFixed(2)}€
+                          {formatPriceCents(totalPrice)} €
                         </Text>
                       </Flex>
                     </HStack>
@@ -238,16 +252,17 @@ export default function SubscriptionSummary({
                     <Text>
                       {t(
                         `SubscriptionTabs.paymentModal.${
-                          priceData.tax ? 'subTotal' : 'total'
+                          priceData?.tax ? 'subTotal' : 'total'
                         }`
                       )}
                     </Text>
                     <Text fontSize={18} {...textProps}>
-                      {(pricePerMonth / 100).toFixed(2)}€/
-                      {t('SubscriptionTabs.paymentModal.month')}
+                      {t('SubscriptionTabs.paymentModal.pricePerMonth', {
+                        price: formatPriceCents(pricePerMonth),
+                      })}
                     </Text>
                   </HStack>
-                  {priceData.tax && (
+                  {priceData?.tax && (
                     <HStack
                       justifyContent="space-between"
                       alignItems="end"
@@ -255,17 +270,15 @@ export default function SubscriptionSummary({
                     >
                       <Text>
                         {t('SubscriptionTabs.paymentModal.totalWithVAT', {
-                          percentage: priceData.tax,
-                          count: (
-                            (totalPrice * (priceData.tax ?? 1)) /
-                            10000
-                          ).toFixed(2),
+                          percentage: priceData.tax.percentage,
+                          amount:
+                            (totalPrice * priceData?.tax?.percentage!) / 10000,
                         })}
                       </Text>
                       <Text fontSize={18} {...textProps}>
-                        {(totalPriceWithVAT / 100).toFixed(2)}
-                        €/
-                        {t('SubscriptionTabs.paymentModal.month')}
+                        {t('SubscriptionTabs.paymentModal.pricePerMonth', {
+                          price: formatPriceCents(totalPriceWithVAT),
+                        })}
                       </Text>
                     </HStack>
                   )}
@@ -274,10 +287,7 @@ export default function SubscriptionSummary({
                     <Flex w="100%" justify="end">
                       <Text fontSize={12} {...textProps}>
                         {t('SubscriptionTabs.paymentModal.duration', {
-                          price:
-                            (priceData.subTotalPerSeatInCents *
-                              priceData.quantity) /
-                            100,
+                          price: calculatedPrice / 100,
                           durationInMonth: couponDuration,
                         })}
                       </Text>

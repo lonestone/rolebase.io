@@ -123,8 +123,9 @@ export default function SubscriptionPaymentStepper({
         orgId: orgId ?? '',
         planType,
         promotionCode: promoCode,
-        address: billingDetails.address,
+        address: billingDetails.address ?? null,
       })
+
       if (res.isFreeOrTrial) {
         location.reload()
       }

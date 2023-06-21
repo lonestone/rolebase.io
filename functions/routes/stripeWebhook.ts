@@ -48,15 +48,15 @@ export default route(async (context): Promise<void> => {
 
 const validateEvent = (context: FunctionContext): Stripe.Event => {
   // Verify that the call came from Stripe
-  try {
-    const sig = context.req.headers['stripe-signature']
-    const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET
+  const sig = context.req.headers['stripe-signature']
+  const endpointSecret: string = process.env.STRIPE_ENDPOINT_SECRET ?? ''
 
+  try {
     return stripe.webhooks.constructEvent(
       // @ts-ignore - rawBody does exists
       context.req.rawBody,
       sig!,
-      endpointSecret!
+      endpointSecret
     )
   } catch (err) {
     console.error(`[STRIPE WEBHOOK ERROR]: ${err.message}`)

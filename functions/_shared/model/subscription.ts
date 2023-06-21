@@ -21,7 +21,7 @@ export type SubscriptionIntentResponse = {
 
 export enum InvoiceStatus {
   PAID = 'paid',
-  DRAF = 'draft',
+  DRAFT = 'draft',
   OPEN = 'open',
   UNCOLLECTIBLE = 'uncollectible',
   VOID = 'void',

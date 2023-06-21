@@ -54,7 +54,7 @@ export default function InvoiceTable({
     return invoice1.getTime() - invoice2.getTime()
   }
 
-  const getFormattedDate = (dateAsString: string) => {
+  const getFormattedDate = (dateAsString: Date | string) => {
     try {
       const res = format(new Date(dateAsString), 'dd/MM/uu')
 

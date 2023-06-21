@@ -40,24 +40,32 @@ export default route(async (context): Promise<PricePreview> => {
     promotionCode
   )
 
+  const { lines, total_tax_amounts } = price
+
   return {
-    subTotalPerSeatInCents: price.lines.data[0]?.price.unit_amount,
-    quantity: price.lines.data[0]?.quantity,
+    subTotalPerSeatInCents: lines.data[0]?.price?.unit_amount ?? 0,
+    quantity: lines.data[0]?.quantity ?? 0,
     promotionCode: coupon
       ? {
-          id: coupon.code,
-          restrictions: coupon.restrictions,
+          id: coupon.coupon.id,
+          amountOff: coupon.coupon.amount_off,
           duration: {
             type: coupon.coupon.duration,
             durationInMonth: coupon.coupon.duration_in_months,
           },
-          name: coupon.coupon.name,
-          amountOff: coupon.coupon.amount_off,
+          name: coupon.coupon.name ?? '',
           percentOff: coupon.coupon.percent_off,
+          restrictions: {
+            ...coupon.restrictions,
+          },
         }
       : null,
-    tax: price.total_tax_amounts[0]
-      ? price.total_tax_amounts[0]?.tax_rate.percentage
-      : null,
+    tax:
+      typeof total_tax_amounts[0]?.tax_rate !== 'string'
+        ? {
+            percentage: total_tax_amounts[0]?.tax_rate.percentage,
+            amount: total_tax_amounts[0]?.amount,
+          }
+        : null,
   }
 })
