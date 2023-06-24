@@ -184,23 +184,31 @@ _FYI : Due to Novu still being in Beta, a lot of things are likely to change._
 
 ## Configuration
 
-### Function environment variables
+### Secrets
 
-Write these env variables in the file `functions/.env`:
+Write Nhost secrets in the file `.secrets`:
 
-- **SECURITY_INVITATION_TOKEN**: Secret token used to validate invitations. You can generate a token with Lastpass for example
-- **MAILJET_PUBLIC_KEY**: MailJet public key. You can find it here: https://app.mailjet.com/account/api_keys
-- **MAILJET_PRIVATE_KEY**: MailJet private key
-- **ALGOLIA_APP_ID**: Algolia application ID
-- **ALGOLIA_SEARCH_API_KEY**: Algolia search API key (must remain secret!)
-- **ALGOLIA_ADMIN_API_KEY**: Algolia admin API key (must remain secret!)
-- **NOVU_APP_ID**: Public application identifier provided by Novu
-- **NOVU_API_KEY**: Secret API key provided by Novu
-- **STRIPE_STARTUP_PLAN_PRICE_ID**: Price id of the startup plan inside stripe
-- **STRIPE_ENDPOINT_SECRET**: [Stripe webhook endpoint secret](https://dashboard.stripe.com/test/webhooks)
-- **STRIPE_PRIVATE_KEY**: [Stripe API private key](https://stripe.com/docs/keys#obtain-api-keys)
+```conf
+# Nhost config
+NHOST_WEBHOOK_SECRET = nhost-admin-secret
+HASURA_GRAPHQL_ADMIN_SECRET = nhost-admin-secret
+HASURA_GRAPHQL_JWT_SECRET = # Generate a password
+GRAFANA_ADMIN_PASSWORD = # Generate a password
+MAILJET_SMTP_PASSWORD = # MailJet private key
 
-You can find a reusable template in `functions/.env.template`.
+# Env variables injected in nhost.toml
+MAILJET_PUBIC_KEY = # MailJet public key. You can find it here: https://app.mailjet.com/account/api_keys
+MAILJET_PRIVATE_KEY = # MailJet private key
+SECURITY_INVITATION_TOKEN = # Secret token used to validate invitations. You can generate a token with Lastpass for example
+ALGOLIA_APP_ID = # Algolia application ID
+ALGOLIA_SEARCH_API_KEY = # Algolia search API key
+ALGOLIA_ADMIN_API_KEY = # Algolia admin API key
+NOVU_APP_ID = # Public application identifier provided by Novu
+NOVU_API_KEY = # Secret API key provided by Novu
+STRIPE_STARTUP_PLAN_PRICE_ID = # Price id of the startup plan inside stripe
+STRIPE_ENDPOINT_SECRET = # Stripe webhook endpoint secret: https://dashboard.stripe.com/test/webhooks
+STRIPE_PRIVATE_KEY = # Stripe API private key: https://stripe.com/docs/keys#obtain-api-keys
+```
 
 ### Webapp config
 
