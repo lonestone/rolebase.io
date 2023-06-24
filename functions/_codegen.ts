@@ -40,7 +40,7 @@ const config: CodegenConfig = {
   watch: true,
   schema: [
     {
-      'http://localhost:1337/v1/graphql': {
+      'https://local.hasura.nhost.run/v1/graphql': {
         headers: {
           'x-hasura-admin-secret': 'nhost-admin-secret',
         },

@@ -135,7 +135,7 @@ You'll need to [install the cli](https://stripe.com/docs/stripe-cli#install) fir
 Once done, run the following command:
 
 ```bash
-stripe listen --forward-to http://localhost:1337/v1/functions/routes/stripeWebhook
+stripe listen --forward-to https://local.functions.nhost.run/routes/stripeWebhook
 ```
 
 It'll should output your [Stripe webhook endpoint secret](https://dashboard.stripe.com/test/webhooks).
@@ -221,7 +221,6 @@ Webapp configuration can be written in `settings.ts`:
 The server config is localized in `functions/_utils/settings.ts`. You can edit in it:
 
 - url: URL of the webapp
-- storageUrl: URL where your files will be stored
 - mail.sender: Name and address to use in send mail
 
 **Note:** Like previous configuration, do avoid editing values for local environment. You should also not edit configurations using environment variables those are to be configured in `.env`).

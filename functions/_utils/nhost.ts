@@ -1,7 +1,7 @@
 import { NhostClient } from '@nhost/nhost-js'
 
 const nhost = new NhostClient({
-  backendUrl: process.env.NHOST_BACKEND_URL,
+  subdomain: process.env.NHOST_SUBDOMAIN,
   adminSecret: process.env.NHOST_ADMIN_SECRET,
 })
 

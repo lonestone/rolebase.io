@@ -16,7 +16,7 @@ export default {
   },
 
   functionsUrl: isLocal
-    ? 'http://localhost:1337/v1/functions/'
+    ? 'https://local.functions.nhost.run/v1/'
     : 'https://fsudktxishllphxeibqs.nhost.run/v1/functions/',
 
   yjsCollab: {

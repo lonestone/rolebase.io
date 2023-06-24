@@ -1,0 +1,200 @@
+[global]
+[[global.environment]]
+name = 'MAILJET_PUBIC_KEY'
+value = '{{ secrets.MAILJET_PUBIC_KEY }}'
+
+[[global.environment]]
+name = 'MAILJET_PRIVATE_KEY'
+value = '{{ secrets.MAILJET_PRIVATE_KEY }}'
+
+[[global.environment]]
+name = 'SECURITY_INVITATION_TOKEN'
+value = '{{ secrets.SECURITY_INVITATION_TOKEN }}'
+
+[[global.environment]]
+name = 'ALGOLIA_APP_ID'
+value = '{{ secrets.ALGOLIA_APP_ID }}'
+
+[[global.environment]]
+name = 'ALGOLIA_SEARCH_API_KEY'
+value = '{{ secrets.ALGOLIA_SEARCH_API_KEY }}'
+
+[[global.environment]]
+name = 'ALGOLIA_ADMIN_API_KEY'
+value = '{{ secrets.ALGOLIA_ADMIN_API_KEY }}'
+
+[[global.environment]]
+name = 'NOVU_APP_ID'
+value = '{{ secrets.NOVU_APP_ID }}'
+
+[[global.environment]]
+name = 'NOVU_API_KEY'
+value = '{{ secrets.NOVU_API_KEY }}'
+
+[[global.environment]]
+name = 'STRIPE_STARTUP_PLAN_PRICE_ID'
+value = '{{ secrets.STRIPE_STARTUP_PLAN_PRICE_ID }}'
+
+[[global.environment]]
+name = 'STRIPE_ENDPOINT_SECRET'
+value = '{{ secrets.STRIPE_ENDPOINT_SECRET }}'
+
+[[global.environment]]
+name = 'STRIPE_PRIVATE_KEY'
+value = '{{ secrets.STRIPE_PRIVATE_KEY }}'
+
+[hasura]
+version = 'v2.27.0-ce'
+adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
+webhookSecret = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
+
+[[hasura.jwtSecrets]]
+type = 'HS256'
+key = '{{ secrets.HASURA_GRAPHQL_JWT_SECRET }}'
+
+[hasura.settings]
+corsDomain = ['*']
+devMode = true
+enableAllowList = false
+enableConsole = true
+enableRemoteSchemaPermissions = false
+enabledAPIs = ['metadata', 'graphql', 'pgdump', 'config']
+
+[hasura.logs]
+level = 'warn'
+
+[hasura.events]
+httpPoolSize = 100
+
+[functions]
+[functions.node]
+version = 16
+
+[auth]
+version = '0.20.1'
+
+[auth.redirections]
+clientUrl = 'https://rolebase.io'
+
+[auth.signUp]
+enabled = true
+
+[auth.user]
+[auth.user.roles]
+default = 'user'
+allowed = ['user', 'me']
+
+[auth.user.locale]
+default = 'en'
+allowed = ['en']
+
+[auth.user.gravatar]
+enabled = false
+default = 'blank'
+rating = 'g'
+
+[auth.user.email]
+
+[auth.user.emailDomains]
+
+[auth.session]
+[auth.session.accessToken]
+expiresIn = 900
+
+[auth.session.refreshToken]
+expiresIn = 2592000
+
+[auth.method]
+[auth.method.anonymous]
+enabled = false
+
+[auth.method.emailPasswordless]
+enabled = true
+
+[auth.method.emailPassword]
+hibpEnabled = false
+emailVerificationRequired = false
+passwordMinLength = 8
+
+[auth.method.smsPasswordless]
+enabled = false
+
+[auth.method.oauth]
+[auth.method.oauth.apple]
+enabled = false
+
+[auth.method.oauth.azuread]
+tenant = 'common'
+enabled = false
+
+[auth.method.oauth.bitbucket]
+enabled = false
+
+[auth.method.oauth.discord]
+enabled = false
+
+[auth.method.oauth.facebook]
+enabled = false
+
+[auth.method.oauth.github]
+enabled = false
+
+[auth.method.oauth.gitlab]
+enabled = false
+
+[auth.method.oauth.google]
+enabled = false
+
+[auth.method.oauth.linkedin]
+enabled = false
+
+[auth.method.oauth.spotify]
+enabled = false
+
+[auth.method.oauth.strava]
+enabled = false
+
+[auth.method.oauth.twitch]
+enabled = false
+
+[auth.method.oauth.twitter]
+enabled = false
+
+[auth.method.oauth.windowslive]
+enabled = false
+
+[auth.method.oauth.workos]
+enabled = false
+
+[auth.method.webauthn]
+enabled = false
+
+[auth.method.webauthn.relyingParty]
+name = 'Rolebase'
+
+[auth.method.webauthn.attestation]
+timeout = 0
+
+[auth.totp]
+enabled = false
+issuer = 'nhost'
+
+[postgres]
+version = '14.5-20221009-1'
+
+[provider]
+[provider.smtp]
+user = '62097712e48bf474678465f967d7f832'
+password = '{{ secrets.MAILJET_SMTP_PASSWORD }}'
+sender = 'contact@rolebase.io'
+host = 'in-v3.mailjet.com'
+port = 465
+secure = true
+method = 'LOGIN'
+
+[storage]
+version = '0.3.5'
+
+[observability]
+[observability.grafana]
+adminPassword = '{{ secrets.GRAFANA_ADMIN_PASSWORD }}'
