@@ -48,6 +48,7 @@ export default function CircleAndParentsLinks({
     <Box pb="1em" mb={1} {...boxProps}>
       <Text
         mb={1}
+        h="1em"
         lineHeight="1em"
         color="gray.500"
         _dark={{ color: 'gray.300' }}
