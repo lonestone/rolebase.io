@@ -62,8 +62,8 @@ export default function SignupForm({ defaultEmail }: Props) {
         locale: language.substring(0, 2),
       }
     )
-    if (user && !user.emailVerified) {
-      await sendVerifyEmail(user?.email!)
+    if (user && user.email && !user.emailVerified) {
+      await sendVerifyEmail(user.email)
     }
 
     if (!isSuccess) return
@@ -127,9 +127,7 @@ export default function SignupForm({ defaultEmail }: Props) {
         </FormControl>
 
         <PasswordConfirmInputDummy />
-
         <TextErrors errors={[error]} />
-
         <Button colorScheme="blue" type="submit" isLoading={isLoading}>
           {t('SignupForm.submit')}
         </Button>

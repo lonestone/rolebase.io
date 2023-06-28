@@ -6,6 +6,7 @@ node_modules
 .env
 .env.default
 .nhost
+.secrets
 
 # Builds
 dist

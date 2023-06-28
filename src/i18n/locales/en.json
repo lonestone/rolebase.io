@@ -207,10 +207,7 @@
     "email": "Email",
     "password": "Password",
     "resetPassword": "Forgot password?",
-    "submit": "Sign in",
-    "needsEmailVerification": "You must click on the verification link in your email box to log in.",
-    "sendEmail": "Resend",
-    "emailSent": "Sent"
+    "submit": "Sign in"
   },
   "LogsList": {
     "empty": "No action"
@@ -868,7 +865,7 @@
     "heading": "Vacant roles",
     "empty": "No vacant roles 🎉"
   },
-  "VerifyEmailModal":{
+  "VerifyEmailModal": {
     "heading": "Verify your email address",
     "text": "You received an email, click on the link to verify your email address.",
     "resend": "Receive a new email",

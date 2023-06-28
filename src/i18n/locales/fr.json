@@ -239,10 +239,7 @@
     "email": "Email",
     "password": "Mot de passe",
     "resetPassword": "Mot de passe oublié ?",
-    "submit": "Je me connecte",
-    "needsEmailVerification": "Vous devez cliquer sur le lien de vérification dans votre boîte email pour vous connecter.",
-    "sendEmail": "Renvoyer",
-    "emailSent": "Envoyé"
+    "submit": "Je me connecte"
   },
   "LogsList": {
     "empty": "Aucune action"
@@ -907,7 +904,7 @@
     "heading": "Rôles vacants",
     "empty": "Aucun rôle vacant 🎉"
   },
-  "VerifyEmailModal":{
+  "VerifyEmailModal": {
     "heading": "Vérification de votre adresse email",
     "text": "Vous avez reçu un email, cliquez sur le lien pour vérifier votre adresse.",
     "resend": "Recevoir un nouvel email",
