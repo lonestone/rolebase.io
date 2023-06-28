@@ -26,18 +26,18 @@ export function useCopyNotesMeeting() {
       })
 
       const meetingSteps = meetings?.data?.meeting[0].steps
-      if (!meetingSteps) return
 
-      const fromMeetingSteps = toMeetingSteps || []
+      if (!meetingSteps) return
 
       await Promise.all(
         meetingSteps.map((step) => {
-          const result = fromMeetingSteps.find((fromStep) => {
+          const result = (toMeetingSteps || []).find((toMeetingStep) => {
             return (
-              fromStep.type === step.type ||
-              fromStep.stepConfigId === step.stepConfigId
+              toMeetingStep.type === step.type &&
+              toMeetingStep.stepConfigId === step.stepConfigId
             )
           })
+
           if (!result) return
 
           return updateMeetingStep({
