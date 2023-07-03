@@ -2,6 +2,7 @@ import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
 import { useOrgSubscription } from '@gql'
 import CirclesPage from '@pages/CirclesPage'
+import DashboardPage from '@pages/DashboardPage'
 import DecisionPage from '@pages/DecisionPage '
 import LogsPage from '@pages/LogsPage'
 import MeetingPage from '@pages/MeetingPage'
@@ -64,7 +65,8 @@ export default function OrgRoute({ orgId }: Props) {
         <Page404 />
       ) : (
         <Routes>
-          <Route index element={<CirclesPage />} />
+          <Route index element={<DashboardPage />} />
+          <Route path="roles" element={<CirclesPage />} />
           <Route path="members" element={<MembersPage />} />
           <Route path="threads/:threadId" element={<ThreadPage />} />
           <Route path="threads" element={<ThreadsPage />} />

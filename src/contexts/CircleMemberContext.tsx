@@ -24,11 +24,11 @@ export const CircleMemberContext = createContext<
 
 export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
   if (circleId && memberId) {
-    return `?circleId=${circleId}&memberId=${memberId}`
+    return `roles?circleId=${circleId}&memberId=${memberId}`
   } else if (circleId) {
-    return `?circleId=${circleId}`
+    return `roles?circleId=${circleId}`
   } else if (memberId) {
-    return `?memberId=${memberId}`
+    return `roles?memberId=${memberId}`
   }
   return ''
 }

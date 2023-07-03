@@ -13,7 +13,7 @@ export default function useCircleMemberLink(
 ) {
   const orgId = useOrgId()
   const circleMemberContext = useContext(CircleMemberContext)
-  const path = usePathInOrg('')
+  const path = usePathInOrg('roles')
 
   const goToCircle = useCallback(() => {
     circleMemberContext?.goTo(circleId, memberId)

@@ -17,16 +17,16 @@ export default function useGraphEvents(): GraphEvents {
 
   // Navigation Events
   const onMemberClick = useCallback(
-    (memberId: string) => navigateOrg(`?memberId=${memberId}`),
+    (memberId: string) => navigateOrg(`roles?memberId=${memberId}`),
     []
   )
   const onCircleClick = useCallback(
-    (circleId: string) => navigateOrg(`?circleId=${circleId}`),
+    (circleId: string) => navigateOrg(`roles?circleId=${circleId}`),
     []
   )
   const onCircleMemberClick = useCallback(
     (circleId: string, memberId: string) =>
-      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`),
+      navigateOrg(`roles?circleId=${circleId}&memberId=${memberId}`),
     []
   )
 

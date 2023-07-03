@@ -1,0 +1,35 @@
+fragment MeetingNews on meeting {
+  id
+  title
+}
+
+fragment DecisionNews on decision {
+  id
+  title
+}
+
+fragment ThreadNews on thread {
+  id
+  title
+}
+
+fragment OrgNews on org {
+  news {
+    id
+    decision {
+      ...DecisionNews
+    }
+    meeting {
+      ...MeetingNews
+    }
+    thread {
+      ...ThreadNews
+    }
+  }
+}
+
+query getOrgNews($orgId: uuid!) {
+  org_by_pk(id: $orgId) {
+    ...OrgNews
+  }
+}

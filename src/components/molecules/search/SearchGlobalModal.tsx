@@ -66,9 +66,9 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
       if (!item) return
       modalProps.onClose()
       if (item.type === SearchTypes.Member) {
-        navigateOrg(`?memberId=${item.id}`)
+        navigateOrg(`roles?memberId=${item.id}`)
       } else if (item.type === SearchTypes.Circle) {
-        navigateOrg(`?circleId=${item.id}`)
+        navigateOrg(`roles?circleId=${item.id}`)
       } else if (item.type === SearchTypes.Thread) {
         navigateOrg(`threads/${item.id}`)
       } else if (item.type === SearchTypes.Meeting) {
