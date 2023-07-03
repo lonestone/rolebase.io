@@ -23,7 +23,7 @@ export default function CircleMemberModal({
   ...modalProps
 }: Props) {
   const handleClose = useNormalClickHandler(modalProps.onClose, true)
-  const path = usePathInOrg('')
+  const path = usePathInOrg('roles')
 
   if (!circleId && !memberId) return null
 

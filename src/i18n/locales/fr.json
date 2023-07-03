@@ -30,6 +30,15 @@
     "endWhenAllVoted": "Clôturer quand tous les participants ont voté",
     "endDate": "Date de clôture"
   },
+  "DashboardNews": { "heading": "Actualités" },
+  "DashboardNewsItem": {
+    "tag": {
+      "decision": "Décision",
+      "meeting": "Réunion",
+      "thread": "Sujet",
+      "default": "Actualité"
+    }
+  },
   "BaseRoleCreateModal": {
     "heading": "Créer un rôle de base"
   },
@@ -105,6 +114,9 @@
     "representCircle": "Représente le rôle <link />",
     "representInCircle": "dans le rôle <link />"
   },
+  "CirclesPage": {
+    "title": "Rôles"
+  },
   "CircleTasks": {
     "create": "Créer une tâche"
   },
@@ -133,6 +145,11 @@
     "password": "Modifier le mot de passe",
     "passwordPlaceholder": "Nouveau mot de passe...",
     "toastSuccess": "Informations mises à jour"
+  },
+  "DashboardPage": {
+    "title": "Home",
+    "heading": "Bonjour, {{firstName}}",
+    "firstNameUnknown": "Inconnu"
   },
   "DecisionContent": {
     "heading": "Décision"
@@ -611,7 +628,8 @@
   "Sidebar": {
     "orgs": "Organisations",
     "menu": "Menu",
-    "roles": "Rôles",
+    "dashboard": "Dashboard",
+    "roles": "Organigramme",
     "threads": "Sujets",
     "meetings": "Réunions",
     "tasks": "Tâches",

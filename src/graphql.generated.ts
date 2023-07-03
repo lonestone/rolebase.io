@@ -9141,6 +9141,180 @@ export type Mutation_RootUpdate_Users_ManyArgs = {
   updates: Array<Users_Updates>;
 };
 
+/** columns and relationships of "news" */
+export type News = {
+  __typename?: 'news';
+  /** An object relationship */
+  decision?: Maybe<Decision>;
+  decisionId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  meeting?: Maybe<Meeting>;
+  meetingId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  org?: Maybe<Org>;
+  orgId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  thread?: Maybe<Thread>;
+  threadId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregated selection of "news" */
+export type News_Aggregate = {
+  __typename?: 'news_aggregate';
+  aggregate?: Maybe<News_Aggregate_Fields>;
+  nodes: Array<News>;
+};
+
+export type News_Aggregate_Bool_Exp = {
+  count?: InputMaybe<News_Aggregate_Bool_Exp_Count>;
+};
+
+export type News_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<News_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<News_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "news" */
+export type News_Aggregate_Fields = {
+  __typename?: 'news_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<News_Max_Fields>;
+  min?: Maybe<News_Min_Fields>;
+};
+
+
+/** aggregate fields of "news" */
+export type News_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<News_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "news" */
+export type News_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<News_Max_Order_By>;
+  min?: InputMaybe<News_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "news" */
+export type News_Arr_Rel_Insert_Input = {
+  data: Array<News_Insert_Input>;
+};
+
+/** Boolean expression to filter rows from the table "news". All fields are combined with a logical 'AND'. */
+export type News_Bool_Exp = {
+  _and?: InputMaybe<Array<News_Bool_Exp>>;
+  _not?: InputMaybe<News_Bool_Exp>;
+  _or?: InputMaybe<Array<News_Bool_Exp>>;
+  decision?: InputMaybe<Decision_Bool_Exp>;
+  decisionId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  meeting?: InputMaybe<Meeting_Bool_Exp>;
+  meetingId?: InputMaybe<Uuid_Comparison_Exp>;
+  org?: InputMaybe<Org_Bool_Exp>;
+  orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  thread?: InputMaybe<Thread_Bool_Exp>;
+  threadId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** input type for inserting data into table "news" */
+export type News_Insert_Input = {
+  decision?: InputMaybe<Decision_Obj_Rel_Insert_Input>;
+  decisionId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  meeting?: InputMaybe<Meeting_Obj_Rel_Insert_Input>;
+  meetingId?: InputMaybe<Scalars['uuid']>;
+  org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  thread?: InputMaybe<Thread_Obj_Rel_Insert_Input>;
+  threadId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type News_Max_Fields = {
+  __typename?: 'news_max_fields';
+  decisionId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  meetingId?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  threadId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "news" */
+export type News_Max_Order_By = {
+  decisionId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  threadId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type News_Min_Fields = {
+  __typename?: 'news_min_fields';
+  decisionId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  meetingId?: Maybe<Scalars['uuid']>;
+  orgId?: Maybe<Scalars['uuid']>;
+  threadId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "news" */
+export type News_Min_Order_By = {
+  decisionId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  threadId?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "news". */
+export type News_Order_By = {
+  decision?: InputMaybe<Decision_Order_By>;
+  decisionId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  meeting?: InputMaybe<Meeting_Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  org?: InputMaybe<Org_Order_By>;
+  orgId?: InputMaybe<Order_By>;
+  thread?: InputMaybe<Thread_Order_By>;
+  threadId?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "news" */
+export enum News_Select_Column {
+  /** column name */
+  DecisionId = 'decisionId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MeetingId = 'meetingId',
+  /** column name */
+  OrgId = 'orgId',
+  /** column name */
+  ThreadId = 'threadId'
+}
+
+/** Streaming cursor of the table "news" */
+export type News_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: News_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type News_Stream_Cursor_Value_Input = {
+  decisionId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  meetingId?: InputMaybe<Scalars['uuid']>;
+  orgId?: InputMaybe<Scalars['uuid']>;
+  threadId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** columns and relationships of "old_id" */
 export type Old_Id = {
   __typename?: 'old_id';
@@ -9345,6 +9519,10 @@ export type Org = {
   /** An aggregate relationship */
   members_aggregate: Member_Aggregate;
   name: Scalars['String'];
+  /** An array relationship */
+  news: Array<News>;
+  /** An aggregate relationship */
+  news_aggregate: News_Aggregate;
   /** An object relationship */
   org_subscription?: Maybe<Org_Subscription>;
   /** An array relationship */
@@ -9529,6 +9707,26 @@ export type OrgMembers_AggregateArgs = {
 
 
 /** columns and relationships of "org" */
+export type OrgNewsArgs = {
+  distinct_on?: InputMaybe<Array<News_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<News_Order_By>>;
+  where?: InputMaybe<News_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgNews_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<News_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<News_Order_By>>;
+  where?: InputMaybe<News_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
 export type OrgRolesArgs = {
   distinct_on?: InputMaybe<Array<Role_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -9669,6 +9867,8 @@ export type Org_Bool_Exp = {
   members?: InputMaybe<Member_Bool_Exp>;
   members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  news?: InputMaybe<News_Bool_Exp>;
+  news_aggregate?: InputMaybe<News_Aggregate_Bool_Exp>;
   org_subscription?: InputMaybe<Org_Subscription_Bool_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
@@ -9905,6 +10105,7 @@ export type Org_Insert_Input = {
   meetings_recurring?: InputMaybe<Meeting_Recurring_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
+  news?: InputMaybe<News_Arr_Rel_Insert_Input>;
   org_subscription?: InputMaybe<Org_Subscription_Obj_Rel_Insert_Input>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
@@ -9974,6 +10175,7 @@ export type Org_Order_By = {
   meetings_recurring_aggregate?: InputMaybe<Meeting_Recurring_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
+  news_aggregate?: InputMaybe<News_Aggregate_Order_By>;
   org_subscription?: InputMaybe<Org_Subscription_Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
@@ -10439,6 +10641,10 @@ export type Query_Root = {
   member_scope_aggregate: Member_Scope_Aggregate;
   /** fetch data from the table: "member_scope" using primary key columns */
   member_scope_by_pk?: Maybe<Member_Scope>;
+  /** An array relationship */
+  news: Array<News>;
+  /** An aggregate relationship */
+  news_aggregate: News_Aggregate;
   /** fetch data from the table: "old_id" */
   old_id: Array<Old_Id>;
   /** fetch aggregated fields from the table: "old_id" */
@@ -11065,6 +11271,24 @@ export type Query_RootMember_Scope_AggregateArgs = {
 
 export type Query_RootMember_Scope_By_PkArgs = {
   value: Scalars['String'];
+};
+
+
+export type Query_RootNewsArgs = {
+  distinct_on?: InputMaybe<Array<News_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<News_Order_By>>;
+  where?: InputMaybe<News_Bool_Exp>;
+};
+
+
+export type Query_RootNews_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<News_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<News_Order_By>>;
+  where?: InputMaybe<News_Bool_Exp>;
 };
 
 
@@ -12485,6 +12709,12 @@ export type Subscription_Root = {
   member_scope_stream: Array<Member_Scope>;
   /** fetch data from the table in a streaming manner: "member" */
   member_stream: Array<Member>;
+  /** An array relationship */
+  news: Array<News>;
+  /** An aggregate relationship */
+  news_aggregate: News_Aggregate;
+  /** fetch data from the table in a streaming manner: "news" */
+  news_stream: Array<News>;
   /** fetch data from the table: "old_id" */
   old_id: Array<Old_Id>;
   /** fetch aggregated fields from the table: "old_id" */
@@ -13306,6 +13536,31 @@ export type Subscription_RootMember_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Member_Stream_Cursor_Input>>;
   where?: InputMaybe<Member_Bool_Exp>;
+};
+
+
+export type Subscription_RootNewsArgs = {
+  distinct_on?: InputMaybe<Array<News_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<News_Order_By>>;
+  where?: InputMaybe<News_Bool_Exp>;
+};
+
+
+export type Subscription_RootNews_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<News_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<News_Order_By>>;
+  where?: InputMaybe<News_Bool_Exp>;
+};
+
+
+export type Subscription_RootNews_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<News_Stream_Cursor_Input>>;
+  where?: InputMaybe<News_Bool_Exp>;
 };
 
 
@@ -17120,6 +17375,21 @@ export type ChangeOrgSlugMutationVariables = Exact<{
 
 export type ChangeOrgSlugMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
+export type MeetingNewsFragment = { __typename?: 'meeting', id: string, title: string };
+
+export type DecisionNewsFragment = { __typename?: 'decision', id: string, title: string };
+
+export type ThreadNewsFragment = { __typename?: 'thread', id: string, title: string };
+
+export type OrgNewsFragment = { __typename?: 'org', news: Array<{ __typename?: 'news', id?: string | null, decision?: { __typename?: 'decision', id: string, title: string } | null, meeting?: { __typename?: 'meeting', id: string, title: string } | null, thread?: { __typename?: 'thread', id: string, title: string } | null }> };
+
+export type GetOrgNewsQueryVariables = Exact<{
+  orgId: Scalars['uuid'];
+}>;
+
+
+export type GetOrgNewsQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', news: Array<{ __typename?: 'news', id?: string | null, decision?: { __typename?: 'decision', id: string, title: string } | null, meeting?: { __typename?: 'meeting', id: string, title: string } | null, thread?: { __typename?: 'thread', id: string, title: string } | null }> } | null };
+
 export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
 
 export type GetOrgSubscriptionQueryVariables = Exact<{
@@ -17690,6 +17960,42 @@ export const MeetingTemplateFragmentDoc = gql`
   stepsConfig
 }
     `;
+export const DecisionNewsFragmentDoc = gql`
+    fragment DecisionNews on decision {
+  id
+  title
+}
+    `;
+export const MeetingNewsFragmentDoc = gql`
+    fragment MeetingNews on meeting {
+  id
+  title
+}
+    `;
+export const ThreadNewsFragmentDoc = gql`
+    fragment ThreadNews on thread {
+  id
+  title
+}
+    `;
+export const OrgNewsFragmentDoc = gql`
+    fragment OrgNews on org {
+  news {
+    id
+    decision {
+      ...DecisionNews
+    }
+    meeting {
+      ...MeetingNews
+    }
+    thread {
+      ...ThreadNews
+    }
+  }
+}
+    ${DecisionNewsFragmentDoc}
+${MeetingNewsFragmentDoc}
+${ThreadNewsFragmentDoc}`;
 export const OrgSubscriptionFieldsFragmentDoc = gql`
     fragment OrgSubscriptionFields on org_subscription {
   id
@@ -19486,6 +19792,44 @@ export function useChangeOrgSlugMutation(baseOptions?: Apollo.MutationHookOption
 export type ChangeOrgSlugMutationHookResult = ReturnType<typeof useChangeOrgSlugMutation>;
 export type ChangeOrgSlugMutationResult = Apollo.MutationResult<ChangeOrgSlugMutation>;
 export type ChangeOrgSlugMutationOptions = Apollo.BaseMutationOptions<ChangeOrgSlugMutation, ChangeOrgSlugMutationVariables>;
+export const GetOrgNewsDocument = gql`
+    query getOrgNews($orgId: uuid!) {
+  org_by_pk(id: $orgId) {
+    ...OrgNews
+  }
+}
+    ${OrgNewsFragmentDoc}`;
+
+/**
+ * __useGetOrgNewsQuery__
+ *
+ * To run a query within a React component, call `useGetOrgNewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrgNewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrgNewsQuery({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *   },
+ * });
+ */
+export function useGetOrgNewsQuery(baseOptions: Apollo.QueryHookOptions<GetOrgNewsQuery, GetOrgNewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrgNewsQuery, GetOrgNewsQueryVariables>(GetOrgNewsDocument, options);
+      }
+export function useGetOrgNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgNewsQuery, GetOrgNewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrgNewsQuery, GetOrgNewsQueryVariables>(GetOrgNewsDocument, options);
+        }
+export type GetOrgNewsQueryHookResult = ReturnType<typeof useGetOrgNewsQuery>;
+export type GetOrgNewsLazyQueryHookResult = ReturnType<typeof useGetOrgNewsLazyQuery>;
+export type GetOrgNewsQueryResult = Apollo.QueryResult<GetOrgNewsQuery, GetOrgNewsQueryVariables>;
+export function refetchGetOrgNewsQuery(variables: GetOrgNewsQueryVariables) {
+      return { query: GetOrgNewsDocument, variables: variables }
+    }
 export const GetOrgSubscriptionDocument = gql`
     query getOrgSubscription($orgId: uuid!) {
   org_subscription(where: {orgId: {_eq: $orgId}}) {

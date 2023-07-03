@@ -30,6 +30,15 @@
     "endWhenAllVoted": "Close when all participants have voted",
     "endDate": "Closing date"
   },
+  "DashboardNews": { "heading": "News" },
+  "DashboardNewsItem": {
+    "tag": {
+      "decision": "Decision",
+      "meeting": "Meeting",
+      "thread": "Thread",
+      "default": "Actuality"
+    }
+  },
   "BaseRoleCreateModal": {
     "heading": "Create a basic role"
   },
@@ -105,6 +114,9 @@
     "representCircle": "Represent role <link />",
     "representInCircle": "in role <link />"
   },
+  "CirclesPage": {
+    "title": "Roles"
+  },
   "CircleTasks": {
     "create": "Create a task"
   },
@@ -133,6 +145,11 @@
     "password": "Change password",
     "passwordPlaceholder": "New password...",
     "toastSuccess": "Information updated"
+  },
+  "DashboardPage": {
+    "title": "Home",
+    "heading": "Hello, {{firstName}}",
+    "firstNameUnknown": "Stranger"
   },
   "DecisionContent": {
     "heading": "Decision"
@@ -579,7 +596,8 @@
   "Sidebar": {
     "orgs": "Organizations",
     "menu": "Menu",
-    "roles": "Roles",
+    "dashboard": "Dashboard",
+    "roles": "Organizational chart",
     "threads": "Topics",
     "meetings": "Meetings",
     "tasks": "Tasks",
