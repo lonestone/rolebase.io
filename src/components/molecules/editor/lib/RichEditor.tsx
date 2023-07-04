@@ -78,12 +78,14 @@ import { CollabOfflineOverlay } from './ui/CollabOfflineOverlay'
 import Placeholder from './ui/Placeholder'
 
 import './RichEditor.css'
+import { ParagraphPlaceholderPlugin } from './plugins/ParagraphPlaceholderPlugin'
 import { fixInitialState } from './utils/fixInitialState'
 
 export interface RichEditorProps extends BoxProps {
   id?: string
   value?: InitialEditorStateType
   placeholder?: string
+  emptyParagraphPlaceholder?: string
   readOnly?: boolean
   autoFocus?: boolean
   collaboration?: boolean
@@ -102,6 +104,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
     id,
     value,
     placeholder,
+    emptyParagraphPlaceholder,
     readOnly,
     autoFocus,
     collaboration,
@@ -276,6 +279,13 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           <EquationsPlugin />
           <TabFocusPlugin />
           <CollapsiblePlugin />
+
+          {emptyParagraphPlaceholder && (
+            <ParagraphPlaceholderPlugin
+              placeholder={emptyParagraphPlaceholder}
+              hideOnEmptyEditor
+            />
+          )}
 
           {floatingAnchorElem && (
             <>

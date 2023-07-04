@@ -922,6 +922,7 @@
     "errorOccurred": "An error occurred.",
     "errorRetry": "An error occurred, plase try again later.",
     "errorContact": "If this persists contact us at contact@rolebase.io",
+    "emptyParagraphPlaceholder": "Press '/' for commands…",
     "searchTypes": {
       "All": "Everything",
       "Member": "Members",

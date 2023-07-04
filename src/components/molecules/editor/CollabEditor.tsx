@@ -9,8 +9,9 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { EditorHandle } from './lib/plugins/EditorRefPlugin'
+import { useTranslation } from 'react-i18next'
 import RichEditor from './lib/RichEditor'
+import { EditorHandle } from './lib/plugins/EditorRefPlugin'
 import useFileUpload from './useFileUpload'
 import useMentionables from './useMentionables'
 
@@ -47,6 +48,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     },
     ref
   ) => {
+    const { t } = useTranslation()
     const currentMember = useCurrentMember()
     const localRef = useRef<EditorHandle>(null)
     const { handleUpload } = useFileUpload()
@@ -94,6 +96,7 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
         username={currentMember?.name}
         value={value}
         placeholder={placeholder}
+        emptyParagraphPlaceholder={t('common.emptyParagraphPlaceholder')}
         autoFocus={autoFocus}
         readOnly={readOnly}
         minH={minH}

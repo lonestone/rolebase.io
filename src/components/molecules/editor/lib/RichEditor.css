@@ -539,3 +539,12 @@ body > div > span > span + span[style] > span[style] {
     visibility: hidden;
   }
 }
+
+.paragraph-placeholder:before {
+  content: attr(data-placeholder);
+  color: var(--chakra-colors-gray-500);
+  float: left;
+  pointer-events: none;
+  user-select: none;
+  height: 0;
+}

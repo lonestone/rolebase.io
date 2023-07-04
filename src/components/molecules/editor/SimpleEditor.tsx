@@ -7,8 +7,9 @@ import React, {
   useImperativeHandle,
   useRef,
 } from 'react'
-import { EditorHandle } from './lib/plugins/EditorRefPlugin'
+import { useTranslation } from 'react-i18next'
 import RichEditor from './lib/RichEditor'
+import { EditorHandle } from './lib/plugins/EditorRefPlugin'
 import useFileUpload from './useFileUpload'
 import useMentionables from './useMentionables'
 
@@ -30,6 +31,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
     { value, placeholder, autoFocus, readOnly, minH, maxH, onChange, onSubmit },
     ref
   ) => {
+    const { t } = useTranslation()
     const localRef = useRef<EditorHandle>(null)
     const formControlProps = useFormControl<HTMLInputElement>({})
     const { handleUpload } = useFileUpload()
@@ -64,6 +66,7 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
         ref={localRef}
         value={value}
         placeholder={placeholder}
+        emptyParagraphPlaceholder={t('common.emptyParagraphPlaceholder')}
         autoFocus={autoFocus}
         readOnly={computedReadOnly}
         minH={minH}

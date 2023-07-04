@@ -953,6 +953,7 @@
     "errorOccurred": "Une erreur s'est produite.",
     "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",
+    "emptyParagraphPlaceholder": "Appuyez sur \"/\" pour afficher les commandes…",
     "searchTypes": {
       "All": "Tout",
       "Member": "Membres",
