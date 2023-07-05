@@ -19,19 +19,21 @@ export const ParagraphPlaceholderPlugin = ({
   const [editor] = useLexicalComposerContext()
   const paragraphRef = useRef<HTMLElement | null>(null)
 
+  const cleanUp = () => {
+    if (paragraphRef?.current) {
+      paragraphRef.current.removeAttribute('data-placeholder')
+      paragraphRef.current.classList.remove('paragraph-placeholder')
+      paragraphRef.current = null
+    }
+  }
+
   useEffect(() => {
     const removeUpdateListener = editor.registerUpdateListener(
       ({ editorState }) => {
         const nativeSelection = window.getSelection()
 
         editorState.read(() => {
-          // Cleanup
-          if (paragraphRef?.current) {
-            paragraphRef.current.removeAttribute('data-placeholder')
-            paragraphRef.current.classList.remove('paragraph-placeholder')
-            paragraphRef.current = null
-          }
-
+          cleanUp()
           const selection = $getSelection()
 
           if (!nativeSelection || !selection || !$isRangeSelection(selection))
@@ -67,6 +69,7 @@ export const ParagraphPlaceholderPlugin = ({
     )
 
     return () => {
+      cleanUp()
       removeUpdateListener()
     }
   }, [editor, hideOnEmptyEditor, placeholder])
