@@ -6865,6 +6865,10 @@ export type Mutation_Root = {
   delete_role?: Maybe<Role_Mutation_Response>;
   /** delete single row from the table: "role" */
   delete_role_by_pk?: Maybe<Role>;
+  /** delete data from the table: "skill" */
+  delete_skill?: Maybe<Skill_Mutation_Response>;
+  /** delete single row from the table: "skill" */
+  delete_skill_by_pk?: Maybe<Skill>;
   /** delete data from the table: "skill_category" */
   delete_skill_category?: Maybe<Skill_Category_Mutation_Response>;
   /** delete single row from the table: "skill_category" */
@@ -7025,10 +7029,14 @@ export type Mutation_Root = {
   insert_role?: Maybe<Role_Mutation_Response>;
   /** insert a single row into the table: "role" */
   insert_role_one?: Maybe<Role>;
+  /** insert data into the table: "skill" */
+  insert_skill?: Maybe<Skill_Mutation_Response>;
   /** insert data into the table: "skill_category" */
   insert_skill_category?: Maybe<Skill_Category_Mutation_Response>;
   /** insert a single row into the table: "skill_category" */
   insert_skill_category_one?: Maybe<Skill_Category>;
+  /** insert a single row into the table: "skill" */
+  insert_skill_one?: Maybe<Skill>;
   /** insert data into the table: "subscription_payment_status" */
   insert_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** insert a single row into the table: "subscription_payment_status" */
@@ -7239,12 +7247,18 @@ export type Mutation_Root = {
   update_role_by_pk?: Maybe<Role>;
   /** update multiples rows of table: "role" */
   update_role_many?: Maybe<Array<Maybe<Role_Mutation_Response>>>;
+  /** update data of the table: "skill" */
+  update_skill?: Maybe<Skill_Mutation_Response>;
+  /** update single row of the table: "skill" */
+  update_skill_by_pk?: Maybe<Skill>;
   /** update data of the table: "skill_category" */
   update_skill_category?: Maybe<Skill_Category_Mutation_Response>;
   /** update single row of the table: "skill_category" */
   update_skill_category_by_pk?: Maybe<Skill_Category>;
   /** update multiples rows of table: "skill_category" */
   update_skill_category_many?: Maybe<Array<Maybe<Skill_Category_Mutation_Response>>>;
+  /** update multiples rows of table: "skill" */
+  update_skill_many?: Maybe<Array<Maybe<Skill_Mutation_Response>>>;
   /** update data of the table: "subscription_payment_status" */
   update_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** update single row of the table: "subscription_payment_status" */
@@ -7648,6 +7662,18 @@ export type Mutation_RootDelete_RoleArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Role_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_SkillArgs = {
+  where: Skill_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -8189,6 +8215,13 @@ export type Mutation_RootInsert_Role_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_SkillArgs = {
+  objects: Array<Skill_Insert_Input>;
+  on_conflict?: InputMaybe<Skill_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Skill_CategoryArgs = {
   objects: Array<Skill_Category_Insert_Input>;
   on_conflict?: InputMaybe<Skill_Category_On_Conflict>;
@@ -8199,6 +8232,13 @@ export type Mutation_RootInsert_Skill_CategoryArgs = {
 export type Mutation_RootInsert_Skill_Category_OneArgs = {
   object: Skill_Category_Insert_Input;
   on_conflict?: InputMaybe<Skill_Category_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Skill_OneArgs = {
+  object: Skill_Insert_Input;
+  on_conflict?: InputMaybe<Skill_On_Conflict>;
 };
 
 
@@ -8957,6 +8997,20 @@ export type Mutation_RootUpdate_Role_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_SkillArgs = {
+  _set?: InputMaybe<Skill_Set_Input>;
+  where: Skill_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_By_PkArgs = {
+  _set?: InputMaybe<Skill_Set_Input>;
+  pk_columns: Skill_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Skill_CategoryArgs = {
   _set?: InputMaybe<Skill_Category_Set_Input>;
   where: Skill_Category_Bool_Exp;
@@ -8973,6 +9027,12 @@ export type Mutation_RootUpdate_Skill_Category_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Skill_Category_ManyArgs = {
   updates: Array<Skill_Category_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_ManyArgs = {
+  updates: Array<Skill_Updates>;
 };
 
 
@@ -10529,6 +10589,12 @@ export type Query_Root = {
   role_aggregate: Role_Aggregate;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
+  /** fetch data from the table: "skill" */
+  skill: Array<Skill>;
+  /** fetch aggregated fields from the table: "skill" */
+  skill_aggregate: Skill_Aggregate;
+  /** fetch data from the table: "skill" using primary key columns */
+  skill_by_pk?: Maybe<Skill>;
   /** fetch data from the table: "skill_category" */
   skill_category: Array<Skill_Category>;
   /** fetch aggregated fields from the table: "skill_category" */
@@ -11245,6 +11311,29 @@ export type Query_RootRole_AggregateArgs = {
 
 
 export type Query_RootRole_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSkillArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Order_By>>;
+  where?: InputMaybe<Skill_Bool_Exp>;
+};
+
+
+export type Query_RootSkill_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Order_By>>;
+  where?: InputMaybe<Skill_Bool_Exp>;
+};
+
+
+export type Query_RootSkill_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -12114,6 +12203,76 @@ export type Role_Variance_Order_By = {
   defaultMinPerWeek?: InputMaybe<Order_By>;
 };
 
+/** columns and relationships of "skill" */
+export type Skill = {
+  __typename?: 'skill';
+  /** An object relationship */
+  category: Skill_Category;
+  categoryId: Scalars['uuid'];
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "skill" */
+export type Skill_Aggregate = {
+  __typename?: 'skill_aggregate';
+  aggregate?: Maybe<Skill_Aggregate_Fields>;
+  nodes: Array<Skill>;
+};
+
+export type Skill_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Skill_Aggregate_Bool_Exp_Count>;
+};
+
+export type Skill_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Skill_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Skill_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "skill" */
+export type Skill_Aggregate_Fields = {
+  __typename?: 'skill_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Skill_Max_Fields>;
+  min?: Maybe<Skill_Min_Fields>;
+};
+
+
+/** aggregate fields of "skill" */
+export type Skill_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Skill_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "skill" */
+export type Skill_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Skill_Max_Order_By>;
+  min?: InputMaybe<Skill_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "skill" */
+export type Skill_Arr_Rel_Insert_Input = {
+  data: Array<Skill_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "skill". All fields are combined with a logical 'AND'. */
+export type Skill_Bool_Exp = {
+  _and?: InputMaybe<Array<Skill_Bool_Exp>>;
+  _not?: InputMaybe<Skill_Bool_Exp>;
+  _or?: InputMaybe<Array<Skill_Bool_Exp>>;
+  category?: InputMaybe<Skill_Category_Bool_Exp>;
+  categoryId?: InputMaybe<Uuid_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** columns and relationships of "skill_category" */
 export type Skill_Category = {
   __typename?: 'skill_category';
@@ -12121,6 +12280,30 @@ export type Skill_Category = {
   id: Scalars['uuid'];
   name: Scalars['String'];
   orgId: Scalars['uuid'];
+  /** An array relationship */
+  skills: Array<Skill>;
+  /** An aggregate relationship */
+  skills_aggregate: Skill_Aggregate;
+};
+
+
+/** columns and relationships of "skill_category" */
+export type Skill_CategorySkillsArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Order_By>>;
+  where?: InputMaybe<Skill_Bool_Exp>;
+};
+
+
+/** columns and relationships of "skill_category" */
+export type Skill_CategorySkills_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Order_By>>;
+  where?: InputMaybe<Skill_Bool_Exp>;
 };
 
 /** aggregated selection of "skill_category" */
@@ -12154,6 +12337,8 @@ export type Skill_Category_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  skills?: InputMaybe<Skill_Bool_Exp>;
+  skills_aggregate?: InputMaybe<Skill_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "skill_category" */
@@ -12168,6 +12353,7 @@ export type Skill_Category_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
+  skills?: InputMaybe<Skill_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -12197,6 +12383,13 @@ export type Skill_Category_Mutation_Response = {
   returning: Array<Skill_Category>;
 };
 
+/** input type for inserting object relation for remote table "skill_category" */
+export type Skill_Category_Obj_Rel_Insert_Input = {
+  data: Skill_Category_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_Category_On_Conflict>;
+};
+
 /** on_conflict condition type for table "skill_category" */
 export type Skill_Category_On_Conflict = {
   constraint: Skill_Category_Constraint;
@@ -12210,6 +12403,7 @@ export type Skill_Category_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
+  skills_aggregate?: InputMaybe<Skill_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: skill_category */
@@ -12270,6 +12464,140 @@ export type Skill_Category_Updates = {
   _set?: InputMaybe<Skill_Category_Set_Input>;
   /** filter the rows which have to be updated */
   where: Skill_Category_Bool_Exp;
+};
+
+/** unique or primary key constraints on table "skill" */
+export enum Skill_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  SkillPkey = 'skill_pkey'
+}
+
+/** input type for inserting data into table "skill" */
+export type Skill_Insert_Input = {
+  category?: InputMaybe<Skill_Category_Obj_Rel_Insert_Input>;
+  categoryId?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Skill_Max_Fields = {
+  __typename?: 'skill_max_fields';
+  categoryId?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "skill" */
+export type Skill_Max_Order_By = {
+  categoryId?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Skill_Min_Fields = {
+  __typename?: 'skill_min_fields';
+  categoryId?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "skill" */
+export type Skill_Min_Order_By = {
+  categoryId?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "skill" */
+export type Skill_Mutation_Response = {
+  __typename?: 'skill_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Skill>;
+};
+
+/** on_conflict condition type for table "skill" */
+export type Skill_On_Conflict = {
+  constraint: Skill_Constraint;
+  update_columns?: Array<Skill_Update_Column>;
+  where?: InputMaybe<Skill_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "skill". */
+export type Skill_Order_By = {
+  category?: InputMaybe<Skill_Category_Order_By>;
+  categoryId?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: skill */
+export type Skill_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "skill" */
+export enum Skill_Select_Column {
+  /** column name */
+  CategoryId = 'categoryId',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "skill" */
+export type Skill_Set_Input = {
+  categoryId?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "skill" */
+export type Skill_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Skill_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Skill_Stream_Cursor_Value_Input = {
+  categoryId?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "skill" */
+export enum Skill_Update_Column {
+  /** column name */
+  CategoryId = 'categoryId',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+export type Skill_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Skill_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Skill_Bool_Exp;
 };
 
 /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
@@ -12786,6 +13114,12 @@ export type Subscription_Root = {
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table in a streaming manner: "role" */
   role_stream: Array<Role>;
+  /** fetch data from the table: "skill" */
+  skill: Array<Skill>;
+  /** fetch aggregated fields from the table: "skill" */
+  skill_aggregate: Skill_Aggregate;
+  /** fetch data from the table: "skill" using primary key columns */
+  skill_by_pk?: Maybe<Skill>;
   /** fetch data from the table: "skill_category" */
   skill_category: Array<Skill_Category>;
   /** fetch aggregated fields from the table: "skill_category" */
@@ -12794,6 +13128,8 @@ export type Subscription_Root = {
   skill_category_by_pk?: Maybe<Skill_Category>;
   /** fetch data from the table in a streaming manner: "skill_category" */
   skill_category_stream: Array<Skill_Category>;
+  /** fetch data from the table in a streaming manner: "skill" */
+  skill_stream: Array<Skill>;
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
@@ -13728,6 +14064,29 @@ export type Subscription_RootRole_StreamArgs = {
 };
 
 
+export type Subscription_RootSkillArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Order_By>>;
+  where?: InputMaybe<Skill_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Order_By>>;
+  where?: InputMaybe<Skill_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootSkill_CategoryArgs = {
   distinct_on?: InputMaybe<Array<Skill_Category_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -13755,6 +14114,13 @@ export type Subscription_RootSkill_Category_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Skill_Category_Stream_Cursor_Input>>;
   where?: InputMaybe<Skill_Category_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Skill_Stream_Cursor_Input>>;
+  where?: InputMaybe<Skill_Bool_Exp>;
 };
 
 
@@ -17035,6 +17401,8 @@ export type OrgFullLightFragment = { __typename?: 'org', id: string, name: strin
 
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
+export type SkillFragment = { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } };
+
 export type SkillCategoryFragment = { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string };
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
@@ -17466,6 +17834,78 @@ export type ArchiveRoleMutationVariables = Exact<{
 
 
 export type ArchiveRoleMutation = { __typename?: 'mutation_root', update_role_by_pk?: { __typename?: 'role', id: string } | null };
+
+export type GetSkillQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GetSkillQuery = { __typename?: 'query_root', skill_by_pk?: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } | null };
+
+export type SkillsSubscriptionVariables = Exact<{
+  categoryId: Scalars['uuid'];
+}>;
+
+
+export type SkillsSubscription = { __typename?: 'subscription_root', skill: Array<{ __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } }> };
+
+export type CreateSkillMutationVariables = Exact<{
+  values: Skill_Insert_Input;
+}>;
+
+
+export type CreateSkillMutation = { __typename?: 'mutation_root', insert_skill_one?: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } | null };
+
+export type UpdateSkillMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  values: Skill_Set_Input;
+}>;
+
+
+export type UpdateSkillMutation = { __typename?: 'mutation_root', update_skill_by_pk?: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } | null };
+
+export type DeleteSkillMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteSkillMutation = { __typename?: 'mutation_root', delete_skill_by_pk?: { __typename?: 'skill', id: string } | null };
+
+export type GetSkillCategoryQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GetSkillCategoryQuery = { __typename?: 'query_root', skill_category_by_pk?: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } | null };
+
+export type SkillCategoriesSubscriptionVariables = Exact<{
+  orgId: Scalars['uuid'];
+}>;
+
+
+export type SkillCategoriesSubscription = { __typename?: 'subscription_root', skill_category: Array<{ __typename?: 'skill_category', id: string, name: string, description: string, orgId: string }> };
+
+export type CreateSkillCategoryMutationVariables = Exact<{
+  values: Skill_Category_Insert_Input;
+}>;
+
+
+export type CreateSkillCategoryMutation = { __typename?: 'mutation_root', insert_skill_category_one?: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } | null };
+
+export type UpdateSkillCategoryMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  values: Skill_Category_Set_Input;
+}>;
+
+
+export type UpdateSkillCategoryMutation = { __typename?: 'mutation_root', update_skill_category_by_pk?: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } | null };
+
+export type DeleteSkillCategoryMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteSkillCategoryMutation = { __typename?: 'mutation_root', delete_skill_category_by_pk?: { __typename?: 'skill_category', id: string } | null };
 
 export type GetTaskQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -17907,6 +18347,17 @@ export const SkillCategoryFragmentDoc = gql`
   orgId
 }
     `;
+export const SkillFragmentDoc = gql`
+    fragment Skill on skill {
+  id
+  name
+  description
+  categoryId
+  category {
+    ...SkillCategory
+  }
+}
+    ${SkillCategoryFragmentDoc}`;
 export const ThreadMemberStatusFragmentDoc = gql`
     fragment ThreadMemberStatus on thread_member_status {
   lastReadActivityId
@@ -20006,6 +20457,342 @@ export function useArchiveRoleMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ArchiveRoleMutationHookResult = ReturnType<typeof useArchiveRoleMutation>;
 export type ArchiveRoleMutationResult = Apollo.MutationResult<ArchiveRoleMutation>;
 export type ArchiveRoleMutationOptions = Apollo.BaseMutationOptions<ArchiveRoleMutation, ArchiveRoleMutationVariables>;
+export const GetSkillDocument = gql`
+    query getSkill($id: uuid!) {
+  skill_by_pk(id: $id) {
+    ...Skill
+  }
+}
+    ${SkillFragmentDoc}`;
+
+/**
+ * __useGetSkillQuery__
+ *
+ * To run a query within a React component, call `useGetSkillQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSkillQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSkillQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetSkillQuery(baseOptions: Apollo.QueryHookOptions<GetSkillQuery, GetSkillQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSkillQuery, GetSkillQueryVariables>(GetSkillDocument, options);
+      }
+export function useGetSkillLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSkillQuery, GetSkillQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSkillQuery, GetSkillQueryVariables>(GetSkillDocument, options);
+        }
+export type GetSkillQueryHookResult = ReturnType<typeof useGetSkillQuery>;
+export type GetSkillLazyQueryHookResult = ReturnType<typeof useGetSkillLazyQuery>;
+export type GetSkillQueryResult = Apollo.QueryResult<GetSkillQuery, GetSkillQueryVariables>;
+export function refetchGetSkillQuery(variables: GetSkillQueryVariables) {
+      return { query: GetSkillDocument, variables: variables }
+    }
+export const SkillsDocument = gql`
+    subscription skills($categoryId: uuid!) {
+  skill(where: {categoryId: {_eq: $categoryId}}, order_by: {name: asc}) {
+    ...Skill
+  }
+}
+    ${SkillFragmentDoc}`;
+
+/**
+ * __useSkillsSubscription__
+ *
+ * To run a query within a React component, call `useSkillsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSkillsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSkillsSubscription({
+ *   variables: {
+ *      categoryId: // value for 'categoryId'
+ *   },
+ * });
+ */
+export function useSkillsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SkillsSubscription, SkillsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SkillsSubscription, SkillsSubscriptionVariables>(SkillsDocument, options);
+      }
+export type SkillsSubscriptionHookResult = ReturnType<typeof useSkillsSubscription>;
+export type SkillsSubscriptionResult = Apollo.SubscriptionResult<SkillsSubscription>;
+export const CreateSkillDocument = gql`
+    mutation createSkill($values: skill_insert_input!) {
+  insert_skill_one(object: $values) {
+    ...Skill
+  }
+}
+    ${SkillFragmentDoc}`;
+export type CreateSkillMutationFn = Apollo.MutationFunction<CreateSkillMutation, CreateSkillMutationVariables>;
+
+/**
+ * __useCreateSkillMutation__
+ *
+ * To run a mutation, you first call `useCreateSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSkillMutation, { data, loading, error }] = useCreateSkillMutation({
+ *   variables: {
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useCreateSkillMutation(baseOptions?: Apollo.MutationHookOptions<CreateSkillMutation, CreateSkillMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSkillMutation, CreateSkillMutationVariables>(CreateSkillDocument, options);
+      }
+export type CreateSkillMutationHookResult = ReturnType<typeof useCreateSkillMutation>;
+export type CreateSkillMutationResult = Apollo.MutationResult<CreateSkillMutation>;
+export type CreateSkillMutationOptions = Apollo.BaseMutationOptions<CreateSkillMutation, CreateSkillMutationVariables>;
+export const UpdateSkillDocument = gql`
+    mutation updateSkill($id: uuid!, $values: skill_set_input!) {
+  update_skill_by_pk(pk_columns: {id: $id}, _set: $values) {
+    ...Skill
+  }
+}
+    ${SkillFragmentDoc}`;
+export type UpdateSkillMutationFn = Apollo.MutationFunction<UpdateSkillMutation, UpdateSkillMutationVariables>;
+
+/**
+ * __useUpdateSkillMutation__
+ *
+ * To run a mutation, you first call `useUpdateSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSkillMutation, { data, loading, error }] = useUpdateSkillMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useUpdateSkillMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSkillMutation, UpdateSkillMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSkillMutation, UpdateSkillMutationVariables>(UpdateSkillDocument, options);
+      }
+export type UpdateSkillMutationHookResult = ReturnType<typeof useUpdateSkillMutation>;
+export type UpdateSkillMutationResult = Apollo.MutationResult<UpdateSkillMutation>;
+export type UpdateSkillMutationOptions = Apollo.BaseMutationOptions<UpdateSkillMutation, UpdateSkillMutationVariables>;
+export const DeleteSkillDocument = gql`
+    mutation deleteSkill($id: uuid!) {
+  delete_skill_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteSkillMutationFn = Apollo.MutationFunction<DeleteSkillMutation, DeleteSkillMutationVariables>;
+
+/**
+ * __useDeleteSkillMutation__
+ *
+ * To run a mutation, you first call `useDeleteSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSkillMutation, { data, loading, error }] = useDeleteSkillMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSkillMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSkillMutation, DeleteSkillMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSkillMutation, DeleteSkillMutationVariables>(DeleteSkillDocument, options);
+      }
+export type DeleteSkillMutationHookResult = ReturnType<typeof useDeleteSkillMutation>;
+export type DeleteSkillMutationResult = Apollo.MutationResult<DeleteSkillMutation>;
+export type DeleteSkillMutationOptions = Apollo.BaseMutationOptions<DeleteSkillMutation, DeleteSkillMutationVariables>;
+export const GetSkillCategoryDocument = gql`
+    query getSkillCategory($id: uuid!) {
+  skill_category_by_pk(id: $id) {
+    ...SkillCategory
+  }
+}
+    ${SkillCategoryFragmentDoc}`;
+
+/**
+ * __useGetSkillCategoryQuery__
+ *
+ * To run a query within a React component, call `useGetSkillCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSkillCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSkillCategoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetSkillCategoryQuery(baseOptions: Apollo.QueryHookOptions<GetSkillCategoryQuery, GetSkillCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSkillCategoryQuery, GetSkillCategoryQueryVariables>(GetSkillCategoryDocument, options);
+      }
+export function useGetSkillCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSkillCategoryQuery, GetSkillCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSkillCategoryQuery, GetSkillCategoryQueryVariables>(GetSkillCategoryDocument, options);
+        }
+export type GetSkillCategoryQueryHookResult = ReturnType<typeof useGetSkillCategoryQuery>;
+export type GetSkillCategoryLazyQueryHookResult = ReturnType<typeof useGetSkillCategoryLazyQuery>;
+export type GetSkillCategoryQueryResult = Apollo.QueryResult<GetSkillCategoryQuery, GetSkillCategoryQueryVariables>;
+export function refetchGetSkillCategoryQuery(variables: GetSkillCategoryQueryVariables) {
+      return { query: GetSkillCategoryDocument, variables: variables }
+    }
+export const SkillCategoriesDocument = gql`
+    subscription skillCategories($orgId: uuid!) {
+  skill_category(where: {orgId: {_eq: $orgId}}, order_by: {name: asc}) {
+    ...SkillCategory
+  }
+}
+    ${SkillCategoryFragmentDoc}`;
+
+/**
+ * __useSkillCategoriesSubscription__
+ *
+ * To run a query within a React component, call `useSkillCategoriesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSkillCategoriesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSkillCategoriesSubscription({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *   },
+ * });
+ */
+export function useSkillCategoriesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SkillCategoriesSubscription, SkillCategoriesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SkillCategoriesSubscription, SkillCategoriesSubscriptionVariables>(SkillCategoriesDocument, options);
+      }
+export type SkillCategoriesSubscriptionHookResult = ReturnType<typeof useSkillCategoriesSubscription>;
+export type SkillCategoriesSubscriptionResult = Apollo.SubscriptionResult<SkillCategoriesSubscription>;
+export const CreateSkillCategoryDocument = gql`
+    mutation createSkillCategory($values: skill_category_insert_input!) {
+  insert_skill_category_one(object: $values) {
+    ...SkillCategory
+  }
+}
+    ${SkillCategoryFragmentDoc}`;
+export type CreateSkillCategoryMutationFn = Apollo.MutationFunction<CreateSkillCategoryMutation, CreateSkillCategoryMutationVariables>;
+
+/**
+ * __useCreateSkillCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateSkillCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSkillCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSkillCategoryMutation, { data, loading, error }] = useCreateSkillCategoryMutation({
+ *   variables: {
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useCreateSkillCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateSkillCategoryMutation, CreateSkillCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSkillCategoryMutation, CreateSkillCategoryMutationVariables>(CreateSkillCategoryDocument, options);
+      }
+export type CreateSkillCategoryMutationHookResult = ReturnType<typeof useCreateSkillCategoryMutation>;
+export type CreateSkillCategoryMutationResult = Apollo.MutationResult<CreateSkillCategoryMutation>;
+export type CreateSkillCategoryMutationOptions = Apollo.BaseMutationOptions<CreateSkillCategoryMutation, CreateSkillCategoryMutationVariables>;
+export const UpdateSkillCategoryDocument = gql`
+    mutation updateSkillCategory($id: uuid!, $values: skill_category_set_input!) {
+  update_skill_category_by_pk(pk_columns: {id: $id}, _set: $values) {
+    ...SkillCategory
+  }
+}
+    ${SkillCategoryFragmentDoc}`;
+export type UpdateSkillCategoryMutationFn = Apollo.MutationFunction<UpdateSkillCategoryMutation, UpdateSkillCategoryMutationVariables>;
+
+/**
+ * __useUpdateSkillCategoryMutation__
+ *
+ * To run a mutation, you first call `useUpdateSkillCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSkillCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSkillCategoryMutation, { data, loading, error }] = useUpdateSkillCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useUpdateSkillCategoryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSkillCategoryMutation, UpdateSkillCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSkillCategoryMutation, UpdateSkillCategoryMutationVariables>(UpdateSkillCategoryDocument, options);
+      }
+export type UpdateSkillCategoryMutationHookResult = ReturnType<typeof useUpdateSkillCategoryMutation>;
+export type UpdateSkillCategoryMutationResult = Apollo.MutationResult<UpdateSkillCategoryMutation>;
+export type UpdateSkillCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateSkillCategoryMutation, UpdateSkillCategoryMutationVariables>;
+export const DeleteSkillCategoryDocument = gql`
+    mutation deleteSkillCategory($id: uuid!) {
+  delete_skill_category_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteSkillCategoryMutationFn = Apollo.MutationFunction<DeleteSkillCategoryMutation, DeleteSkillCategoryMutationVariables>;
+
+/**
+ * __useDeleteSkillCategoryMutation__
+ *
+ * To run a mutation, you first call `useDeleteSkillCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSkillCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSkillCategoryMutation, { data, loading, error }] = useDeleteSkillCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSkillCategoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSkillCategoryMutation, DeleteSkillCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSkillCategoryMutation, DeleteSkillCategoryMutationVariables>(DeleteSkillCategoryDocument, options);
+      }
+export type DeleteSkillCategoryMutationHookResult = ReturnType<typeof useDeleteSkillCategoryMutation>;
+export type DeleteSkillCategoryMutationResult = Apollo.MutationResult<DeleteSkillCategoryMutation>;
+export type DeleteSkillCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteSkillCategoryMutation, DeleteSkillCategoryMutationVariables>;
 export const GetTaskDocument = gql`
     query getTask($id: uuid!) {
   task_by_pk(id: $id) {

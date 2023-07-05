@@ -1,0 +1,9 @@
+fragment Skill on skill {
+  id
+  name
+  description
+  categoryId
+  category {
+    ...SkillCategory
+  }
+}

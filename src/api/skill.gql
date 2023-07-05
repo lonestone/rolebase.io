@@ -1,0 +1,29 @@
+query getSkill($id: uuid!) {
+  skill_by_pk(id: $id) {
+    ...Skill
+  }
+}
+
+subscription skills($categoryId: uuid!) {
+  skill(where: { categoryId: { _eq: $categoryId } }, order_by: { name: asc }) {
+    ...Skill
+  }
+}
+
+mutation createSkill($values: skill_insert_input!) {
+  insert_skill_one(object: $values) {
+    ...Skill
+  }
+}
+
+mutation updateSkill($id: uuid!, $values: skill_set_input!) {
+  update_skill_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...Skill
+  }
+}
+
+mutation deleteSkill($id: uuid!) {
+  delete_skill_by_pk(id: $id) {
+    id
+  }
+}

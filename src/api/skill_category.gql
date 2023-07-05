@@ -1,0 +1,29 @@
+query getSkillCategory($id: uuid!) {
+  skill_category_by_pk(id: $id) {
+    ...SkillCategory
+  }
+}
+
+subscription skillCategories($orgId: uuid!) {
+  skill_category(where: { orgId: { _eq: $orgId } }, order_by: { name: asc }) {
+    ...SkillCategory
+  }
+}
+
+mutation createSkillCategory($values: skill_category_insert_input!) {
+  insert_skill_category_one(object: $values) {
+    ...SkillCategory
+  }
+}
+
+mutation updateSkillCategory($id: uuid!, $values: skill_category_set_input!) {
+  update_skill_category_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...SkillCategory
+  }
+}
+
+mutation deleteSkillCategory($id: uuid!) {
+  delete_skill_category_by_pk(id: $id) {
+    id
+  }
+}
