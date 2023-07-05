@@ -19,11 +19,16 @@ export default function VerifyEmailModal() {
   const [closed, setClosed] = useState(false)
   const { t } = useTranslation()
 
-  // Show modal as long as the email is not verified
+  const handleResendEmail = async () => {
+    await sendEmail(user?.email!)
+    setClosed(true)
+  }
 
+  // Show modal only if the user email is not verified
   const showVerifyEmailModal = user && !user.emailVerified && !closed
+  if (!showVerifyEmailModal) return null
 
-  return showVerifyEmailModal ? (
+  return (
     <BottomFixedModal>
       <Flex justifyContent="space-between" alignItems="baseline">
         <Heading as="h2" fontSize="lg" mb={3}>
@@ -35,13 +40,10 @@ export default function VerifyEmailModal() {
 
       <Text mb={3}>{t('VerifyEmailModal.text')}</Text>
       <Wrap>
-        <Button
-          variant={'solid'}
-          onClick={async () => await sendEmail(user?.email!)}
-        >
+        <Button variant="solid" onClick={handleResendEmail}>
           {t('VerifyEmailModal.resend')}
         </Button>
       </Wrap>
     </BottomFixedModal>
-  ) : null
+  )
 }

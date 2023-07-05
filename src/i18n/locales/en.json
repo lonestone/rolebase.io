@@ -867,9 +867,8 @@
   },
   "VerifyEmailModal": {
     "heading": "Verify your email address",
-    "text": "You received an email, click on the link to verify your email address.",
-    "resend": "Receive a new email",
-    "close": "Close"
+    "text": "You should have received an email (check your spam). Click on the link in the email to verify your address 🙏",
+    "resend": "Receive a new link by email"
   },
   "VideoConfFormControl": {
     "enable": "Video conferencing",

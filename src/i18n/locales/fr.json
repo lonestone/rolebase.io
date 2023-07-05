@@ -863,7 +863,7 @@
     "text": "a créé un sujet :"
   },
   "ThreadActivityChangeStatus": {
-    "text": "a changé le status du sujet : <status />"
+    "text": "a changé le statut du sujet : <status />"
   },
   "ThreadEditModal": {
     "headingEdit": "Modifier un sujet",
@@ -905,10 +905,9 @@
     "empty": "Aucun rôle vacant 🎉"
   },
   "VerifyEmailModal": {
-    "heading": "Vérification de votre adresse email",
-    "text": "Vous avez reçu un email, cliquez sur le lien pour vérifier votre adresse.",
-    "resend": "Recevoir un nouvel email",
-    "close": "Fermer"
+    "heading": "Vérifiez votre adresse email",
+    "text": "Vous vous avez du recevoir un email (pensez à consulter vos courriers indésirables). Cliquez sur le lien dans l'email pour vérifier votre adresse 🙏",
+    "resend": "Recevoir un nouveau lien par email"
   },
   "VideoConfFormControl": {
     "enable": "Vidéo-conférence",
