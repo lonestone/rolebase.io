@@ -25,6 +25,7 @@
 - "!include public_org_file.yaml"
 - "!include public_org_subscription.yaml"
 - "!include public_role.yaml"
+- "!include public_skill_category.yaml"
 - "!include public_subscription_payment_status.yaml"
 - "!include public_subscription_plan_type.yaml"
 - "!include public_task.yaml"
