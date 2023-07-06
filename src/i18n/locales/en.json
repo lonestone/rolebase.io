@@ -842,7 +842,7 @@
     "invite": "Invite",
     "inviteWarning": "You are not a participant, do you want to participate in this topic?",
     "inviteButton": "Add me",
-    "settings": "Settings"
+    "status": "Status"
   },
   "ThreadsPage": {
     "heading": "Topics",

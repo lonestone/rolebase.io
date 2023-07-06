@@ -13,6 +13,7 @@ import { FiChevronDown } from 'react-icons/fi'
 
 export type ThreadStatusMenuProps = {
   value?: Thread_Status_Enum
+  size?: 'sm' | 'md' | 'lg'
   onChange: (value: Thread_Status_Enum) => void
 }
 
@@ -25,6 +26,7 @@ const threadStatusOptions = [
 
 export const ThreadStatusMenu = ({
   value,
+  size = 'sm',
   onChange,
 }: ThreadStatusMenuProps) => {
   const { t } = useTranslation()
@@ -34,7 +36,7 @@ export const ThreadStatusMenu = ({
       <MenuButton
         as={Button}
         className="userflow-threads-status"
-        size="sm"
+        size={size}
         variant="outline"
         rightIcon={<FiChevronDown />}
       >

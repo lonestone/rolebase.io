@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import {
   Member_Scope_Enum,
+  Thread_Status_Enum,
   ThreadFragment,
   useCreateThreadMutation,
   useUpdateThreadMutation,
@@ -30,9 +31,10 @@ import useParticipants from '@hooks/useParticipants'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MembersMultiSelect from '@molecules/member/MembersMultiSelect'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
+import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 import * as yup from 'yup'
@@ -47,6 +49,7 @@ interface Values {
   title: string
   circleId: string
   participantsScope: Member_Scope_Enum
+  status: Thread_Status_Enum
 }
 
 const resolver = yupResolver(
@@ -76,11 +79,13 @@ export default function ThreadEditModal({
           title: thread.title,
           circleId: thread.circleId,
           participantsScope: thread.participantsScope,
+          status: thread.status,
         }
       : {
           title: '',
           circleId: defaultCircleId || '',
           participantsScope: Member_Scope_Enum.CircleLeaders,
+          status: Thread_Status_Enum.Active,
         },
   })
 
@@ -88,6 +93,7 @@ export default function ThreadEditModal({
     handleSubmit,
     register,
     watch,
+    control,
     formState: { errors },
   } = formMethods
 
@@ -207,6 +213,23 @@ export default function ThreadEditModal({
                       </Alert>
                     )}
                 </FormControl>
+
+                {!thread && (
+                  <FormControl>
+                    <FormLabel>{t('ThreadEditModal.status')}</FormLabel>
+                    <Controller
+                      name="status"
+                      control={control}
+                      render={({ field }) => (
+                        <ThreadStatusMenu
+                          size="md"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                )}
 
                 <Box textAlign="right" mt={2}>
                   <Button colorScheme="blue" type="submit">

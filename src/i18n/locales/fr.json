@@ -873,7 +873,7 @@
     "invite": "Inviter",
     "inviteWarning": "Vous ne faites pas partie des participants, souhaitez-vous participer à ce sujet ?",
     "inviteButton": "M'ajouter",
-    "settings": "Paramètres"
+    "status": "Statut"
   },
   "ThreadsPage": {
     "heading": "Sujets",
