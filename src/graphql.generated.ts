@@ -6610,12 +6610,12 @@ export type Member_Set_Input = {
 export type Member_Skill_Level = {
   __typename?: 'member_skill_level';
   id: Scalars['uuid'];
-  /** An object relationship */
-  levels: Skill_Level;
   memberId: Scalars['uuid'];
   /** An object relationship */
   members: Member;
   skillLevelId: Scalars['uuid'];
+  /** An object relationship */
+  skillLevels: Skill_Level;
 };
 
 /** aggregated selection of "member_skill_level" */
@@ -6646,10 +6646,10 @@ export type Member_Skill_Level_Bool_Exp = {
   _not?: InputMaybe<Member_Skill_Level_Bool_Exp>;
   _or?: InputMaybe<Array<Member_Skill_Level_Bool_Exp>>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  levels?: InputMaybe<Skill_Level_Bool_Exp>;
   memberId?: InputMaybe<Uuid_Comparison_Exp>;
   members?: InputMaybe<Member_Bool_Exp>;
   skillLevelId?: InputMaybe<Uuid_Comparison_Exp>;
+  skillLevels?: InputMaybe<Skill_Level_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "member_skill_level" */
@@ -6661,10 +6661,10 @@ export enum Member_Skill_Level_Constraint {
 /** input type for inserting data into table "member_skill_level" */
 export type Member_Skill_Level_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
-  levels?: InputMaybe<Skill_Level_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']>;
   members?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   skillLevelId?: InputMaybe<Scalars['uuid']>;
+  skillLevels?: InputMaybe<Skill_Level_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -6702,10 +6702,10 @@ export type Member_Skill_Level_On_Conflict = {
 /** Ordering options when selecting data from "member_skill_level". */
 export type Member_Skill_Level_Order_By = {
   id?: InputMaybe<Order_By>;
-  levels?: InputMaybe<Skill_Level_Order_By>;
   memberId?: InputMaybe<Order_By>;
   members?: InputMaybe<Member_Order_By>;
   skillLevelId?: InputMaybe<Order_By>;
+  skillLevels?: InputMaybe<Skill_Level_Order_By>;
 };
 
 /** primary key columns input for table: member_skill_level */
@@ -9749,6 +9749,10 @@ export type Org = {
   roles: Array<Role>;
   /** An aggregate relationship */
   roles_aggregate: Role_Aggregate;
+  /** An array relationship */
+  skill_categories: Array<Skill_Category>;
+  /** An aggregate relationship */
+  skill_categories_aggregate: Skill_Category_Aggregate;
   slug?: Maybe<Scalars['String']>;
   subscriptionId?: Maybe<Scalars['uuid']>;
   /** An array relationship */
@@ -9947,6 +9951,26 @@ export type OrgRoles_AggregateArgs = {
 
 
 /** columns and relationships of "org" */
+export type OrgSkill_CategoriesArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Category_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Category_Order_By>>;
+  where?: InputMaybe<Skill_Category_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
+export type OrgSkill_Categories_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Category_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Category_Order_By>>;
+  where?: InputMaybe<Skill_Category_Bool_Exp>;
+};
+
+
+/** columns and relationships of "org" */
 export type OrgTask_ViewsArgs = {
   distinct_on?: InputMaybe<Array<Task_View_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -10070,6 +10094,8 @@ export type Org_Bool_Exp = {
   org_subscription?: InputMaybe<Org_Subscription_Bool_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
+  skill_categories?: InputMaybe<Skill_Category_Bool_Exp>;
+  skill_categories_aggregate?: InputMaybe<Skill_Category_Aggregate_Bool_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
   subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
   task_views?: InputMaybe<Task_View_Bool_Exp>;
@@ -10305,6 +10331,7 @@ export type Org_Insert_Input = {
   name?: InputMaybe<Scalars['String']>;
   org_subscription?: InputMaybe<Org_Subscription_Obj_Rel_Insert_Input>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
+  skill_categories?: InputMaybe<Skill_Category_Arr_Rel_Insert_Input>;
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
@@ -10374,6 +10401,7 @@ export type Org_Order_By = {
   name?: InputMaybe<Order_By>;
   org_subscription?: InputMaybe<Org_Subscription_Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
+  skill_categories_aggregate?: InputMaybe<Skill_Category_Aggregate_Order_By>;
   slug?: InputMaybe<Order_By>;
   subscriptionId?: InputMaybe<Order_By>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
@@ -12543,11 +12571,35 @@ export type Role_Variance_Order_By = {
 export type Skill = {
   __typename?: 'skill';
   /** An object relationship */
-  category: Skill_Category;
-  categoryId: Scalars['uuid'];
+  category?: Maybe<Skill_Category>;
+  categoryId?: Maybe<Scalars['uuid']>;
   description: Scalars['String'];
   id: Scalars['uuid'];
   name: Scalars['String'];
+  /** An array relationship */
+  skill_levels: Array<Skill_Level>;
+  /** An aggregate relationship */
+  skill_levels_aggregate: Skill_Level_Aggregate;
+};
+
+
+/** columns and relationships of "skill" */
+export type SkillSkill_LevelsArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+/** columns and relationships of "skill" */
+export type SkillSkill_Levels_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
 };
 
 /** aggregated selection of "skill" */
@@ -12607,12 +12659,14 @@ export type Skill_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  skill_levels?: InputMaybe<Skill_Level_Bool_Exp>;
+  skill_levels_aggregate?: InputMaybe<Skill_Level_Aggregate_Bool_Exp>;
 };
 
 /** columns and relationships of "skill_category" */
 export type Skill_Category = {
   __typename?: 'skill_category';
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['uuid'];
   name: Scalars['String'];
   orgId: Scalars['uuid'];
@@ -12649,6 +12703,17 @@ export type Skill_Category_Aggregate = {
   nodes: Array<Skill_Category>;
 };
 
+export type Skill_Category_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Skill_Category_Aggregate_Bool_Exp_Count>;
+};
+
+export type Skill_Category_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Skill_Category_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Skill_Category_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "skill_category" */
 export type Skill_Category_Aggregate_Fields = {
   __typename?: 'skill_category_aggregate_fields';
@@ -12662,6 +12727,20 @@ export type Skill_Category_Aggregate_Fields = {
 export type Skill_Category_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Skill_Category_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "skill_category" */
+export type Skill_Category_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Skill_Category_Max_Order_By>;
+  min?: InputMaybe<Skill_Category_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "skill_category" */
+export type Skill_Category_Arr_Rel_Insert_Input = {
+  data: Array<Skill_Category_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_Category_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "skill_category". All fields are combined with a logical 'AND'. */
@@ -12701,6 +12780,14 @@ export type Skill_Category_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "skill_category" */
+export type Skill_Category_Max_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Skill_Category_Min_Fields = {
   __typename?: 'skill_category_min_fields';
@@ -12708,6 +12795,14 @@ export type Skill_Category_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   orgId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "skill_category" */
+export type Skill_Category_Min_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "skill_category" */
@@ -12815,6 +12910,7 @@ export type Skill_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
+  skill_levels?: InputMaybe<Skill_Level_Arr_Rel_Insert_Input>;
 };
 
 /** columns and relationships of "skill_level" */
@@ -12834,6 +12930,17 @@ export type Skill_Level_Aggregate = {
   __typename?: 'skill_level_aggregate';
   aggregate?: Maybe<Skill_Level_Aggregate_Fields>;
   nodes: Array<Skill_Level>;
+};
+
+export type Skill_Level_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Skill_Level_Aggregate_Bool_Exp_Count>;
+};
+
+export type Skill_Level_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Skill_Level_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "skill_level" */
@@ -12859,10 +12966,37 @@ export type Skill_Level_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "skill_level" */
+export type Skill_Level_Aggregate_Order_By = {
+  avg?: InputMaybe<Skill_Level_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Skill_Level_Max_Order_By>;
+  min?: InputMaybe<Skill_Level_Min_Order_By>;
+  stddev?: InputMaybe<Skill_Level_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Skill_Level_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Skill_Level_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Skill_Level_Sum_Order_By>;
+  var_pop?: InputMaybe<Skill_Level_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Skill_Level_Var_Samp_Order_By>;
+  variance?: InputMaybe<Skill_Level_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "skill_level" */
+export type Skill_Level_Arr_Rel_Insert_Input = {
+  data: Array<Skill_Level_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_Level_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Skill_Level_Avg_Fields = {
   __typename?: 'skill_level_avg_fields';
   degree?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "skill_level" */
+export type Skill_Level_Avg_Order_By = {
+  degree?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "skill_level". All fields are combined with a logical 'AND'. */
@@ -12909,6 +13043,15 @@ export type Skill_Level_Max_Fields = {
   skillId?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "skill_level" */
+export type Skill_Level_Max_Order_By = {
+  degree?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  skillId?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Skill_Level_Min_Fields = {
   __typename?: 'skill_level_min_fields';
@@ -12917,6 +13060,15 @@ export type Skill_Level_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   skillId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "skill_level" */
+export type Skill_Level_Min_Order_By = {
+  degree?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  skillId?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "skill_level" */
@@ -12986,16 +13138,31 @@ export type Skill_Level_Stddev_Fields = {
   degree?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "skill_level" */
+export type Skill_Level_Stddev_Order_By = {
+  degree?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Skill_Level_Stddev_Pop_Fields = {
   __typename?: 'skill_level_stddev_pop_fields';
   degree?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_pop() on columns of table "skill_level" */
+export type Skill_Level_Stddev_Pop_Order_By = {
+  degree?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Skill_Level_Stddev_Samp_Fields = {
   __typename?: 'skill_level_stddev_samp_fields';
   degree?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "skill_level" */
+export type Skill_Level_Stddev_Samp_Order_By = {
+  degree?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "skill_level" */
@@ -13019,6 +13186,11 @@ export type Skill_Level_Stream_Cursor_Value_Input = {
 export type Skill_Level_Sum_Fields = {
   __typename?: 'skill_level_sum_fields';
   degree?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "skill_level" */
+export type Skill_Level_Sum_Order_By = {
+  degree?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "skill_level" */
@@ -13050,16 +13222,31 @@ export type Skill_Level_Var_Pop_Fields = {
   degree?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "skill_level" */
+export type Skill_Level_Var_Pop_Order_By = {
+  degree?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Skill_Level_Var_Samp_Fields = {
   __typename?: 'skill_level_var_samp_fields';
   degree?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_samp() on columns of table "skill_level" */
+export type Skill_Level_Var_Samp_Order_By = {
+  degree?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Skill_Level_Variance_Fields = {
   __typename?: 'skill_level_variance_fields';
   degree?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "skill_level" */
+export type Skill_Level_Variance_Order_By = {
+  degree?: InputMaybe<Order_By>;
 };
 
 /** aggregate max on columns */
@@ -13126,6 +13313,7 @@ export type Skill_Order_By = {
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  skill_levels_aggregate?: InputMaybe<Skill_Level_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: skill */
@@ -18057,21 +18245,21 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
-export type MemberSkillLevelFragment = { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } };
+export type MemberSkillLevelFragment = { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } };
 
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
-export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }>, skill_categories: Array<{ __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> }> };
 
-export type OrgFullLightFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
+export type OrgFullLightFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }>, skill_categories: Array<{ __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> }> };
 
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
-export type SkillFragment = { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } };
+export type SkillFragment = { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> };
 
-export type SkillCategoryFragment = { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string };
+export type SkillCategoryFragment = { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> };
 
-export type SkillLevelFragment = { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } };
+export type SkillLevelFragment = { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } };
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
@@ -18424,22 +18612,21 @@ export type GetMemberSkillLevelQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberSkillLevelQuery = { __typename?: 'query_root', member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } } | null };
+export type GetMemberSkillLevelQuery = { __typename?: 'query_root', member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } } | null };
 
 export type MemberSkillLevelsSubscriptionVariables = Exact<{
   memberId: Scalars['uuid'];
-  skillLevelId: Scalars['uuid'];
 }>;
 
 
-export type MemberSkillLevelsSubscription = { __typename?: 'subscription_root', member_skill_level: Array<{ __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } }> };
+export type MemberSkillLevelsSubscription = { __typename?: 'subscription_root', member_skill_level: Array<{ __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } }> };
 
 export type CreateMemberSkillLevelMutationVariables = Exact<{
   values: Member_Skill_Level_Insert_Input;
 }>;
 
 
-export type CreateMemberSkillLevelMutation = { __typename?: 'mutation_root', insert_member_skill_level_one?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } } | null };
+export type CreateMemberSkillLevelMutation = { __typename?: 'mutation_root', insert_member_skill_level_one?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } } | null };
 
 export type UpdateMemberSkillLevelMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18447,7 +18634,7 @@ export type UpdateMemberSkillLevelMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMemberSkillLevelMutation = { __typename?: 'mutation_root', update_member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } } | null };
+export type UpdateMemberSkillLevelMutation = { __typename?: 'mutation_root', update_member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } } | null };
 
 export type DeleteMemberSkillLevelMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18475,7 +18662,7 @@ export type OrgSubscriptionVariables = Exact<{
 }>;
 
 
-export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> } | null };
+export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }>, skill_categories: Array<{ __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> }> } | null };
 
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18545,21 +18732,21 @@ export type GetSkillQueryVariables = Exact<{
 }>;
 
 
-export type GetSkillQuery = { __typename?: 'query_root', skill_by_pk?: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } | null };
+export type GetSkillQuery = { __typename?: 'query_root', skill_by_pk?: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } | null };
 
-export type SkillsSubscriptionVariables = Exact<{
+export type SkillsByCategorySubscriptionVariables = Exact<{
   categoryId: Scalars['uuid'];
 }>;
 
 
-export type SkillsSubscription = { __typename?: 'subscription_root', skill: Array<{ __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } }> };
+export type SkillsByCategorySubscription = { __typename?: 'subscription_root', skill: Array<{ __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> }> };
 
 export type CreateSkillMutationVariables = Exact<{
   values: Skill_Insert_Input;
 }>;
 
 
-export type CreateSkillMutation = { __typename?: 'mutation_root', insert_skill_one?: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } | null };
+export type CreateSkillMutation = { __typename?: 'mutation_root', insert_skill_one?: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } | null };
 
 export type UpdateSkillMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18567,7 +18754,7 @@ export type UpdateSkillMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSkillMutation = { __typename?: 'mutation_root', update_skill_by_pk?: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } | null };
+export type UpdateSkillMutation = { __typename?: 'mutation_root', update_skill_by_pk?: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } | null };
 
 export type DeleteSkillMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18581,21 +18768,21 @@ export type GetSkillCategoryQueryVariables = Exact<{
 }>;
 
 
-export type GetSkillCategoryQuery = { __typename?: 'query_root', skill_category_by_pk?: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } | null };
+export type GetSkillCategoryQuery = { __typename?: 'query_root', skill_category_by_pk?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null };
 
 export type SkillCategoriesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
 
 
-export type SkillCategoriesSubscription = { __typename?: 'subscription_root', skill_category: Array<{ __typename?: 'skill_category', id: string, name: string, description: string, orgId: string }> };
+export type SkillCategoriesSubscription = { __typename?: 'subscription_root', skill_category: Array<{ __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> }> };
 
 export type CreateSkillCategoryMutationVariables = Exact<{
   values: Skill_Category_Insert_Input;
 }>;
 
 
-export type CreateSkillCategoryMutation = { __typename?: 'mutation_root', insert_skill_category_one?: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } | null };
+export type CreateSkillCategoryMutation = { __typename?: 'mutation_root', insert_skill_category_one?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null };
 
 export type UpdateSkillCategoryMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18603,7 +18790,7 @@ export type UpdateSkillCategoryMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSkillCategoryMutation = { __typename?: 'mutation_root', update_skill_category_by_pk?: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } | null };
+export type UpdateSkillCategoryMutation = { __typename?: 'mutation_root', update_skill_category_by_pk?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null };
 
 export type DeleteSkillCategoryMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18941,7 +19128,11 @@ export const SkillCategoryFragmentDoc = gql`
   id
   name
   description
-  orgId
+  skills {
+    id
+    name
+    description
+  }
 }
     `;
 export const SkillFragmentDoc = gql`
@@ -18952,6 +19143,12 @@ export const SkillFragmentDoc = gql`
   categoryId
   category {
     ...SkillCategory
+  }
+  skill_levels {
+    id
+    name
+    description
+    degree
   }
 }
     ${SkillCategoryFragmentDoc}`;
@@ -18971,11 +19168,11 @@ export const MemberSkillLevelFragmentDoc = gql`
     fragment MemberSkillLevel on member_skill_level {
   id
   memberId
+  skillLevelId
   members {
     ...Member
   }
-  skillLevelId
-  levels {
+  skillLevels {
     ...SkillLevel
   }
 }
@@ -19062,11 +19259,15 @@ export const OrgFullFragmentDoc = gql`
   members(where: {archived: {_eq: false}}) {
     ...Member
   }
+  skill_categories {
+    ...SkillCategory
+  }
 }
     ${OrgFragmentDoc}
 ${CircleFullFragmentDoc}
 ${RoleFragmentDoc}
-${MemberFragmentDoc}`;
+${MemberFragmentDoc}
+${SkillCategoryFragmentDoc}`;
 export const OrgFullLightFragmentDoc = gql`
     fragment OrgFullLight on org {
   ...Org
@@ -19084,11 +19285,15 @@ export const OrgFullLightFragmentDoc = gql`
   members(where: {archived: {_eq: false}}) {
     ...Member
   }
+  skill_categories {
+    ...SkillCategory
+  }
 }
     ${OrgFragmentDoc}
 ${CircleFragmentDoc}
 ${RoleFragmentDoc}
-${MemberFragmentDoc}`;
+${MemberFragmentDoc}
+${SkillCategoryFragmentDoc}`;
 export const ThreadMemberStatusFragmentDoc = gql`
     fragment ThreadMemberStatus on thread_member_status {
   lastReadActivityId
@@ -20843,10 +21048,8 @@ export function refetchGetMemberSkillLevelQuery(variables: GetMemberSkillLevelQu
       return { query: GetMemberSkillLevelDocument, variables: variables }
     }
 export const MemberSkillLevelsDocument = gql`
-    subscription memberSkillLevels($memberId: uuid!, $skillLevelId: uuid!) {
-  member_skill_level(
-    where: {memberId: {_eq: $memberId}, skillLevelId: {_eq: $skillLevelId}}
-  ) {
+    subscription memberSkillLevels($memberId: uuid!) {
+  member_skill_level(where: {memberId: {_eq: $memberId}}) {
     ...MemberSkillLevel
   }
 }
@@ -20865,7 +21068,6 @@ export const MemberSkillLevelsDocument = gql`
  * const { data, loading, error } = useMemberSkillLevelsSubscription({
  *   variables: {
  *      memberId: // value for 'memberId'
- *      skillLevelId: // value for 'skillLevelId'
  *   },
  * });
  */
@@ -21397,8 +21599,8 @@ export type GetSkillQueryResult = Apollo.QueryResult<GetSkillQuery, GetSkillQuer
 export function refetchGetSkillQuery(variables: GetSkillQueryVariables) {
       return { query: GetSkillDocument, variables: variables }
     }
-export const SkillsDocument = gql`
-    subscription skills($categoryId: uuid!) {
+export const SkillsByCategoryDocument = gql`
+    subscription skillsByCategory($categoryId: uuid!) {
   skill(where: {categoryId: {_eq: $categoryId}}, order_by: {name: asc}) {
     ...Skill
   }
@@ -21406,27 +21608,27 @@ export const SkillsDocument = gql`
     ${SkillFragmentDoc}`;
 
 /**
- * __useSkillsSubscription__
+ * __useSkillsByCategorySubscription__
  *
- * To run a query within a React component, call `useSkillsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSkillsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSkillsByCategorySubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSkillsByCategorySubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSkillsSubscription({
+ * const { data, loading, error } = useSkillsByCategorySubscription({
  *   variables: {
  *      categoryId: // value for 'categoryId'
  *   },
  * });
  */
-export function useSkillsSubscription(baseOptions: Apollo.SubscriptionHookOptions<SkillsSubscription, SkillsSubscriptionVariables>) {
+export function useSkillsByCategorySubscription(baseOptions: Apollo.SubscriptionHookOptions<SkillsByCategorySubscription, SkillsByCategorySubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SkillsSubscription, SkillsSubscriptionVariables>(SkillsDocument, options);
+        return Apollo.useSubscription<SkillsByCategorySubscription, SkillsByCategorySubscriptionVariables>(SkillsByCategoryDocument, options);
       }
-export type SkillsSubscriptionHookResult = ReturnType<typeof useSkillsSubscription>;
-export type SkillsSubscriptionResult = Apollo.SubscriptionResult<SkillsSubscription>;
+export type SkillsByCategorySubscriptionHookResult = ReturnType<typeof useSkillsByCategorySubscription>;
+export type SkillsByCategorySubscriptionResult = Apollo.SubscriptionResult<SkillsByCategorySubscription>;
 export const CreateSkillDocument = gql`
     mutation createSkill($values: skill_insert_input!) {
   insert_skill_one(object: $values) {
@@ -21568,10 +21770,17 @@ export function refetchGetSkillCategoryQuery(variables: GetSkillCategoryQueryVar
 export const SkillCategoriesDocument = gql`
     subscription skillCategories($orgId: uuid!) {
   skill_category(where: {orgId: {_eq: $orgId}}, order_by: {name: asc}) {
-    ...SkillCategory
+    id
+    name
+    description
+    skills {
+      id
+      name
+      description
+    }
   }
 }
-    ${SkillCategoryFragmentDoc}`;
+    `;
 
 /**
  * __useSkillCategoriesSubscription__

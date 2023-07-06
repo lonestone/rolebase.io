@@ -2,12 +2,12 @@ table:
   name: member_skill_level
   schema: public
 object_relationships:
-  - name: levels
-    using:
-      foreign_key_constraint_on: skillLevelId
   - name: members
     using:
       foreign_key_constraint_on: memberId
+  - name: skillLevels
+    using:
+      foreign_key_constraint_on: skillLevelId
 insert_permissions:
   - role: user
     permission:

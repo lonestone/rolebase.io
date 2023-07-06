@@ -5,6 +5,14 @@ object_relationships:
   - name: category
     using:
       foreign_key_constraint_on: categoryId
+array_relationships:
+  - name: skill_levels
+    using:
+      foreign_key_constraint_on:
+        column: skillId
+        table:
+          name: skill_level
+          schema: public
 insert_permissions:
   - role: user
     permission:

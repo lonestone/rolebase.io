@@ -26,6 +26,7 @@ export enum SearchTypes {
   Meeting = 'Meeting',
   Task = 'Task',
   Decision = 'Decision',
+  Skill = 'Skill',
 }
 
 export interface AlgoliaConfig {

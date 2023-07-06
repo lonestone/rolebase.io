@@ -1,11 +1,11 @@
 fragment MemberSkillLevel on member_skill_level {
   id
   memberId
+  skillLevelId
   members {
     ...Member
   }
-  skillLevelId
-  levels {
+  skillLevels {
     ...SkillLevel
   }
 }

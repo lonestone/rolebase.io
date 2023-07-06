@@ -4,6 +4,7 @@ import {
   OrgFragment,
   OrgFullLightFragment,
   RoleFragment,
+  SkillCategoryFragment,
 } from '@gql'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { fixLostCircles } from '@shared/helpers/fixLostCircles'
@@ -17,6 +18,7 @@ interface OrgModel {
   circles: CircleFullFragment[] | undefined
   baseRoles: RoleFragment[] | undefined
   members: MemberFragment[] | undefined
+  skillCategories: SkillCategoryFragment[] | undefined
   loading: boolean
   error: Error | undefined
   // Set Id instantly from URL params
@@ -38,6 +40,7 @@ const extendedModel: OrgModel = {
   circles: undefined,
   baseRoles: undefined,
   members: undefined,
+  skillCategories: undefined,
   loading: false,
   error: undefined,
 
@@ -47,12 +50,19 @@ const extendedModel: OrgModel = {
       state.circles = undefined
       state.baseRoles = undefined
       state.members = undefined
+      state.skillCategories = undefined
     }
   }),
 
   setSubscriptionResult: action((state, { result, loading, error }) => {
     if (result) {
-      state.current = omit(result, 'members', 'roles', 'circles')
+      state.current = omit(
+        result,
+        'members',
+        'roles',
+        'circles',
+        'skill_categories'
+      )
 
       // Reconstruct and fix CircleFullFragments
       state.circles = fixLostCircles(

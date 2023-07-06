@@ -416,6 +416,11 @@
     "totalAllocatedTime": "Total allocated time:",
     "alertTooMuchTime": "Total allocated time is too large, you need to lower the total time allocated to a role or increase the member's working time."
   },
+  "MemberSkills": {
+    "heading": "Skills",
+    "emptySkills": "None",
+    "addSkill": "Add a skill"
+  },
   "MembersInviteModal": {
     "heading": "Invite members by email",
     "toastSuccess_one": "{{count}} member have been invited!",

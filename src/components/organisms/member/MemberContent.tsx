@@ -22,6 +22,7 @@ import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import MemberEditModal from './MemberEditModal'
+import MemberSkills from '@molecules/member/MemberSkills'
 
 interface Props {
   id: string
@@ -95,7 +96,7 @@ export default function MemberContent({
       </Box>
 
       <Box px={6} pb={7}>
-        <VStack spacing={5} align="stretch">
+        <VStack spacing={5} align="stretch" gap={10}>
           <MemberEditableField
             label={t('MemberEditModal.description')}
             placeholder={t('MemberEditModal.descriptionPlaceholder', {
@@ -106,10 +107,10 @@ export default function MemberContent({
             editable={canEdit}
             hideTitle
             mt={0}
-            mb={10}
           />
 
           <MemberRoles member={member} selectedCircleId={selectedCircleId} />
+          <MemberSkills member={member} />
         </VStack>
       </Box>
 

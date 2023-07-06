@@ -2,5 +2,9 @@ fragment SkillCategory on skill_category {
   id
   name
   description
-  orgId
+  skills {
+    id
+    name
+    description
+  }
 }

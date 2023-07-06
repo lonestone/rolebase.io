@@ -6,4 +6,10 @@ fragment Skill on skill {
   category {
     ...SkillCategory
   }
+  skill_levels {
+    id
+    name
+    description
+    degree
+  }
 }

@@ -4,11 +4,11 @@ query getMemberSkillLevel($id: uuid!) {
   }
 }
 
-subscription memberSkillLevels($memberId: uuid!, $skillLevelId: uuid!) {
+subscription memberSkillLevels($memberId: uuid!) {
   member_skill_level(
     where: {
       memberId: { _eq: $memberId }
-      skillLevelId: { _eq: $skillLevelId }
+      # skillLevelId: { _eq: $skillLevelId }
     }
   ) {
     ...MemberSkillLevel

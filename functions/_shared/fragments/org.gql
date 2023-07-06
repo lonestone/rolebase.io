@@ -21,6 +21,9 @@ fragment OrgFull on org {
   members(where: { archived: { _eq: false } }) {
     ...Member
   }
+  skill_categories {
+    ...SkillCategory
+  }
 }
 
 fragment OrgFullLight on org {
@@ -38,5 +41,8 @@ fragment OrgFullLight on org {
   }
   members(where: { archived: { _eq: false } }) {
     ...Member
+  }
+  skill_categories {
+    ...SkillCategory
   }
 }

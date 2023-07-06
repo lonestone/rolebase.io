@@ -4,9 +4,36 @@ query getSkillCategory($id: uuid!) {
   }
 }
 
+# query getSkillCategories($orgId: uuid!) {
+#   skill_category(where: { orgId: { _eq: $orgId } }, order_by: { name: asc }) {
+#     id
+#     orgId
+#     name
+#     description
+#     skills {
+#       name
+#       levels {
+#         id
+#         name
+#         description
+#         degree
+#       }
+#       id
+#       description
+#     }
+#   }
+# }
+
 subscription skillCategories($orgId: uuid!) {
   skill_category(where: { orgId: { _eq: $orgId } }, order_by: { name: asc }) {
-    ...SkillCategory
+    id
+    name
+    description
+    skills {
+      id
+      name
+      description
+    }
   }
 }
 

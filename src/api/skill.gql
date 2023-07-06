@@ -4,7 +4,7 @@ query getSkill($id: uuid!) {
   }
 }
 
-subscription skills($categoryId: uuid!) {
+subscription skillsByCategory($categoryId: uuid!) {
   skill(where: { categoryId: { _eq: $categoryId } }, order_by: { name: asc }) {
     ...Skill
   }

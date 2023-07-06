@@ -37,7 +37,10 @@ export default function SearchResultIcon({ item }: Props) {
       />
     )
   }
-  if (item.type === SearchTypes.CreateAction) {
+  if (
+    item.type === SearchTypes.CreateAction ||
+    item.type === SearchTypes.Skill
+  ) {
     return null
   }
 

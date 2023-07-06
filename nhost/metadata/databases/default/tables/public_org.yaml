@@ -73,6 +73,15 @@ array_relationships:
         table:
           name: role
           schema: public
+  - name: skill_categories
+    using:
+      manual_configuration:
+        column_mapping:
+          id: orgId
+        insertion_order: null
+        remote_table:
+          name: skill_category
+          schema: public
   - name: task_views
     using:
       foreign_key_constraint_on:

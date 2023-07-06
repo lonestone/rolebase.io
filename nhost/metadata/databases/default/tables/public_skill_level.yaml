@@ -5,3 +5,31 @@ object_relationships:
   - name: skills
     using:
       foreign_key_constraint_on: skillId
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - degree
+        - description
+        - name
+        - skillId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - degree
+        - description
+        - id
+        - name
+        - skillId
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - degree
+        - description
+        - name
+      filter: {}
+      check: null

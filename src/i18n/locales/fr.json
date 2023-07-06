@@ -448,6 +448,11 @@
     "totalAllocatedTime": "Temps total alloué :",
     "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
   },
+  "MemberSkills": {
+    "heading": "Compétences",
+    "emptySkills": "Aucune compétence",
+    "addSkill": "Ajouter une compétence"
+  },
   "MembersInviteModal": {
     "heading": "Inviter des membres par email",
     "toastSuccess_one": "{{count}} membre invité !",
