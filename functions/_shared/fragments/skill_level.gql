@@ -1,0 +1,10 @@
+fragment SkillLevel on skill_level {
+  id
+  name
+  description
+  degree
+  skillId
+  skills {
+    ...Skill
+  }
+}

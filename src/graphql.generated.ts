@@ -6606,6 +6606,162 @@ export type Member_Set_Input = {
   workedMinPerWeek?: InputMaybe<Scalars['Int']>;
 };
 
+/** columns and relationships of "member_skill_level" */
+export type Member_Skill_Level = {
+  __typename?: 'member_skill_level';
+  id: Scalars['uuid'];
+  /** An object relationship */
+  levels: Skill_Level;
+  memberId: Scalars['uuid'];
+  /** An object relationship */
+  members: Member;
+  skillLevelId: Scalars['uuid'];
+};
+
+/** aggregated selection of "member_skill_level" */
+export type Member_Skill_Level_Aggregate = {
+  __typename?: 'member_skill_level_aggregate';
+  aggregate?: Maybe<Member_Skill_Level_Aggregate_Fields>;
+  nodes: Array<Member_Skill_Level>;
+};
+
+/** aggregate fields of "member_skill_level" */
+export type Member_Skill_Level_Aggregate_Fields = {
+  __typename?: 'member_skill_level_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Member_Skill_Level_Max_Fields>;
+  min?: Maybe<Member_Skill_Level_Min_Fields>;
+};
+
+
+/** aggregate fields of "member_skill_level" */
+export type Member_Skill_Level_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "member_skill_level". All fields are combined with a logical 'AND'. */
+export type Member_Skill_Level_Bool_Exp = {
+  _and?: InputMaybe<Array<Member_Skill_Level_Bool_Exp>>;
+  _not?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+  _or?: InputMaybe<Array<Member_Skill_Level_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  levels?: InputMaybe<Skill_Level_Bool_Exp>;
+  memberId?: InputMaybe<Uuid_Comparison_Exp>;
+  members?: InputMaybe<Member_Bool_Exp>;
+  skillLevelId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "member_skill_level" */
+export enum Member_Skill_Level_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  MemberSkillLevelPkey = 'member_skill_level_pkey'
+}
+
+/** input type for inserting data into table "member_skill_level" */
+export type Member_Skill_Level_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  levels?: InputMaybe<Skill_Level_Obj_Rel_Insert_Input>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+  members?: InputMaybe<Member_Obj_Rel_Insert_Input>;
+  skillLevelId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Member_Skill_Level_Max_Fields = {
+  __typename?: 'member_skill_level_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  memberId?: Maybe<Scalars['uuid']>;
+  skillLevelId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Member_Skill_Level_Min_Fields = {
+  __typename?: 'member_skill_level_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  memberId?: Maybe<Scalars['uuid']>;
+  skillLevelId?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "member_skill_level" */
+export type Member_Skill_Level_Mutation_Response = {
+  __typename?: 'member_skill_level_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Member_Skill_Level>;
+};
+
+/** on_conflict condition type for table "member_skill_level" */
+export type Member_Skill_Level_On_Conflict = {
+  constraint: Member_Skill_Level_Constraint;
+  update_columns?: Array<Member_Skill_Level_Update_Column>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "member_skill_level". */
+export type Member_Skill_Level_Order_By = {
+  id?: InputMaybe<Order_By>;
+  levels?: InputMaybe<Skill_Level_Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  members?: InputMaybe<Member_Order_By>;
+  skillLevelId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: member_skill_level */
+export type Member_Skill_Level_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "member_skill_level" */
+export enum Member_Skill_Level_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  SkillLevelId = 'skillLevelId'
+}
+
+/** input type for updating data in table "member_skill_level" */
+export type Member_Skill_Level_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+  skillLevelId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "member_skill_level" */
+export type Member_Skill_Level_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Member_Skill_Level_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Member_Skill_Level_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+  skillLevelId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "member_skill_level" */
+export enum Member_Skill_Level_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  SkillLevelId = 'skillLevelId'
+}
+
+export type Member_Skill_Level_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Member_Skill_Level_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Member_Skill_Level_Bool_Exp;
+};
+
 /** aggregate stddev on columns */
 export type Member_Stddev_Fields = {
   __typename?: 'member_stddev_fields';
@@ -6845,6 +7001,10 @@ export type Mutation_Root = {
   delete_member_scope?: Maybe<Member_Scope_Mutation_Response>;
   /** delete single row from the table: "member_scope" */
   delete_member_scope_by_pk?: Maybe<Member_Scope>;
+  /** delete data from the table: "member_skill_level" */
+  delete_member_skill_level?: Maybe<Member_Skill_Level_Mutation_Response>;
+  /** delete single row from the table: "member_skill_level" */
+  delete_member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
   /** delete data from the table: "old_id" */
   delete_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** delete single row from the table: "old_id" */
@@ -6873,6 +7033,10 @@ export type Mutation_Root = {
   delete_skill_category?: Maybe<Skill_Category_Mutation_Response>;
   /** delete single row from the table: "skill_category" */
   delete_skill_category_by_pk?: Maybe<Skill_Category>;
+  /** delete data from the table: "skill_level" */
+  delete_skill_level?: Maybe<Skill_Level_Mutation_Response>;
+  /** delete single row from the table: "skill_level" */
+  delete_skill_level_by_pk?: Maybe<Skill_Level>;
   /** delete data from the table: "subscription_payment_status" */
   delete_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** delete single row from the table: "subscription_payment_status" */
@@ -7009,6 +7173,10 @@ export type Mutation_Root = {
   insert_member_scope?: Maybe<Member_Scope_Mutation_Response>;
   /** insert a single row into the table: "member_scope" */
   insert_member_scope_one?: Maybe<Member_Scope>;
+  /** insert data into the table: "member_skill_level" */
+  insert_member_skill_level?: Maybe<Member_Skill_Level_Mutation_Response>;
+  /** insert a single row into the table: "member_skill_level" */
+  insert_member_skill_level_one?: Maybe<Member_Skill_Level>;
   /** insert data into the table: "old_id" */
   insert_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** insert a single row into the table: "old_id" */
@@ -7035,6 +7203,10 @@ export type Mutation_Root = {
   insert_skill_category?: Maybe<Skill_Category_Mutation_Response>;
   /** insert a single row into the table: "skill_category" */
   insert_skill_category_one?: Maybe<Skill_Category>;
+  /** insert data into the table: "skill_level" */
+  insert_skill_level?: Maybe<Skill_Level_Mutation_Response>;
+  /** insert a single row into the table: "skill_level" */
+  insert_skill_level_one?: Maybe<Skill_Level>;
   /** insert a single row into the table: "skill" */
   insert_skill_one?: Maybe<Skill>;
   /** insert data into the table: "subscription_payment_status" */
@@ -7217,6 +7389,12 @@ export type Mutation_Root = {
   update_member_scope_by_pk?: Maybe<Member_Scope>;
   /** update multiples rows of table: "member_scope" */
   update_member_scope_many?: Maybe<Array<Maybe<Member_Scope_Mutation_Response>>>;
+  /** update data of the table: "member_skill_level" */
+  update_member_skill_level?: Maybe<Member_Skill_Level_Mutation_Response>;
+  /** update single row of the table: "member_skill_level" */
+  update_member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
+  /** update multiples rows of table: "member_skill_level" */
+  update_member_skill_level_many?: Maybe<Array<Maybe<Member_Skill_Level_Mutation_Response>>>;
   /** update data of the table: "old_id" */
   update_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** update single row of the table: "old_id" */
@@ -7257,6 +7435,12 @@ export type Mutation_Root = {
   update_skill_category_by_pk?: Maybe<Skill_Category>;
   /** update multiples rows of table: "skill_category" */
   update_skill_category_many?: Maybe<Array<Maybe<Skill_Category_Mutation_Response>>>;
+  /** update data of the table: "skill_level" */
+  update_skill_level?: Maybe<Skill_Level_Mutation_Response>;
+  /** update single row of the table: "skill_level" */
+  update_skill_level_by_pk?: Maybe<Skill_Level>;
+  /** update multiples rows of table: "skill_level" */
+  update_skill_level_many?: Maybe<Array<Maybe<Skill_Level_Mutation_Response>>>;
   /** update multiples rows of table: "skill" */
   update_skill_many?: Maybe<Array<Maybe<Skill_Mutation_Response>>>;
   /** update data of the table: "subscription_payment_status" */
@@ -7607,6 +7791,18 @@ export type Mutation_RootDelete_Member_Scope_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Member_Skill_LevelArgs = {
+  where: Member_Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Member_Skill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Old_IdArgs = {
   where: Old_Id_Bool_Exp;
 };
@@ -7686,6 +7882,18 @@ export type Mutation_RootDelete_Skill_CategoryArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Skill_Category_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Skill_LevelArgs = {
+  where: Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Skill_Level_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -8145,6 +8353,20 @@ export type Mutation_RootInsert_Member_Scope_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Member_Skill_LevelArgs = {
+  objects: Array<Member_Skill_Level_Insert_Input>;
+  on_conflict?: InputMaybe<Member_Skill_Level_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Member_Skill_Level_OneArgs = {
+  object: Member_Skill_Level_Insert_Input;
+  on_conflict?: InputMaybe<Member_Skill_Level_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Old_IdArgs = {
   objects: Array<Old_Id_Insert_Input>;
   on_conflict?: InputMaybe<Old_Id_On_Conflict>;
@@ -8232,6 +8454,20 @@ export type Mutation_RootInsert_Skill_CategoryArgs = {
 export type Mutation_RootInsert_Skill_Category_OneArgs = {
   object: Skill_Category_Insert_Input;
   on_conflict?: InputMaybe<Skill_Category_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Skill_LevelArgs = {
+  objects: Array<Skill_Level_Insert_Input>;
+  on_conflict?: InputMaybe<Skill_Level_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Skill_Level_OneArgs = {
+  object: Skill_Level_Insert_Input;
+  on_conflict?: InputMaybe<Skill_Level_On_Conflict>;
 };
 
 
@@ -8893,6 +9129,26 @@ export type Mutation_RootUpdate_Member_Scope_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Member_Skill_LevelArgs = {
+  _set?: InputMaybe<Member_Skill_Level_Set_Input>;
+  where: Member_Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Member_Skill_Level_By_PkArgs = {
+  _set?: InputMaybe<Member_Skill_Level_Set_Input>;
+  pk_columns: Member_Skill_Level_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Member_Skill_Level_ManyArgs = {
+  updates: Array<Member_Skill_Level_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Old_IdArgs = {
   _set?: InputMaybe<Old_Id_Set_Input>;
   where: Old_Id_Bool_Exp;
@@ -9027,6 +9283,28 @@ export type Mutation_RootUpdate_Skill_Category_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Skill_Category_ManyArgs = {
   updates: Array<Skill_Category_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_LevelArgs = {
+  _inc?: InputMaybe<Skill_Level_Inc_Input>;
+  _set?: InputMaybe<Skill_Level_Set_Input>;
+  where: Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_Level_By_PkArgs = {
+  _inc?: InputMaybe<Skill_Level_Inc_Input>;
+  _set?: InputMaybe<Skill_Level_Set_Input>;
+  pk_columns: Skill_Level_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_Level_ManyArgs = {
+  updates: Array<Skill_Level_Updates>;
 };
 
 
@@ -10559,6 +10837,12 @@ export type Query_Root = {
   member_scope_aggregate: Member_Scope_Aggregate;
   /** fetch data from the table: "member_scope" using primary key columns */
   member_scope_by_pk?: Maybe<Member_Scope>;
+  /** fetch data from the table: "member_skill_level" */
+  member_skill_level: Array<Member_Skill_Level>;
+  /** fetch aggregated fields from the table: "member_skill_level" */
+  member_skill_level_aggregate: Member_Skill_Level_Aggregate;
+  /** fetch data from the table: "member_skill_level" using primary key columns */
+  member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
   /** fetch data from the table: "old_id" */
   old_id: Array<Old_Id>;
   /** fetch aggregated fields from the table: "old_id" */
@@ -10601,6 +10885,12 @@ export type Query_Root = {
   skill_category_aggregate: Skill_Category_Aggregate;
   /** fetch data from the table: "skill_category" using primary key columns */
   skill_category_by_pk?: Maybe<Skill_Category>;
+  /** fetch data from the table: "skill_level" */
+  skill_level: Array<Skill_Level>;
+  /** fetch aggregated fields from the table: "skill_level" */
+  skill_level_aggregate: Skill_Level_Aggregate;
+  /** fetch data from the table: "skill_level" using primary key columns */
+  skill_level_by_pk?: Maybe<Skill_Level>;
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
@@ -11200,6 +11490,29 @@ export type Query_RootMember_Scope_By_PkArgs = {
 };
 
 
+export type Query_RootMember_Skill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootMember_Skill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootMember_Skill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootOld_IdArgs = {
   distinct_on?: InputMaybe<Array<Old_Id_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11357,6 +11670,29 @@ export type Query_RootSkill_Category_AggregateArgs = {
 
 
 export type Query_RootSkill_Category_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSkill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootSkill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootSkill_Level_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -12481,6 +12817,251 @@ export type Skill_Insert_Input = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+/** columns and relationships of "skill_level" */
+export type Skill_Level = {
+  __typename?: 'skill_level';
+  degree: Scalars['Int'];
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  skillId: Scalars['uuid'];
+  /** An object relationship */
+  skills: Skill;
+};
+
+/** aggregated selection of "skill_level" */
+export type Skill_Level_Aggregate = {
+  __typename?: 'skill_level_aggregate';
+  aggregate?: Maybe<Skill_Level_Aggregate_Fields>;
+  nodes: Array<Skill_Level>;
+};
+
+/** aggregate fields of "skill_level" */
+export type Skill_Level_Aggregate_Fields = {
+  __typename?: 'skill_level_aggregate_fields';
+  avg?: Maybe<Skill_Level_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Skill_Level_Max_Fields>;
+  min?: Maybe<Skill_Level_Min_Fields>;
+  stddev?: Maybe<Skill_Level_Stddev_Fields>;
+  stddev_pop?: Maybe<Skill_Level_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Skill_Level_Stddev_Samp_Fields>;
+  sum?: Maybe<Skill_Level_Sum_Fields>;
+  var_pop?: Maybe<Skill_Level_Var_Pop_Fields>;
+  var_samp?: Maybe<Skill_Level_Var_Samp_Fields>;
+  variance?: Maybe<Skill_Level_Variance_Fields>;
+};
+
+
+/** aggregate fields of "skill_level" */
+export type Skill_Level_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Skill_Level_Avg_Fields = {
+  __typename?: 'skill_level_avg_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "skill_level". All fields are combined with a logical 'AND'. */
+export type Skill_Level_Bool_Exp = {
+  _and?: InputMaybe<Array<Skill_Level_Bool_Exp>>;
+  _not?: InputMaybe<Skill_Level_Bool_Exp>;
+  _or?: InputMaybe<Array<Skill_Level_Bool_Exp>>;
+  degree?: InputMaybe<Int_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  skillId?: InputMaybe<Uuid_Comparison_Exp>;
+  skills?: InputMaybe<Skill_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "skill_level" */
+export enum Skill_Level_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  SkillLevelPkey = 'skill_level_pkey'
+}
+
+/** input type for incrementing numeric columns in table "skill_level" */
+export type Skill_Level_Inc_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "skill_level" */
+export type Skill_Level_Insert_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  skillId?: InputMaybe<Scalars['uuid']>;
+  skills?: InputMaybe<Skill_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Skill_Level_Max_Fields = {
+  __typename?: 'skill_level_max_fields';
+  degree?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  skillId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Skill_Level_Min_Fields = {
+  __typename?: 'skill_level_min_fields';
+  degree?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  skillId?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "skill_level" */
+export type Skill_Level_Mutation_Response = {
+  __typename?: 'skill_level_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Skill_Level>;
+};
+
+/** input type for inserting object relation for remote table "skill_level" */
+export type Skill_Level_Obj_Rel_Insert_Input = {
+  data: Skill_Level_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_Level_On_Conflict>;
+};
+
+/** on_conflict condition type for table "skill_level" */
+export type Skill_Level_On_Conflict = {
+  constraint: Skill_Level_Constraint;
+  update_columns?: Array<Skill_Level_Update_Column>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "skill_level". */
+export type Skill_Level_Order_By = {
+  degree?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  skillId?: InputMaybe<Order_By>;
+  skills?: InputMaybe<Skill_Order_By>;
+};
+
+/** primary key columns input for table: skill_level */
+export type Skill_Level_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "skill_level" */
+export enum Skill_Level_Select_Column {
+  /** column name */
+  Degree = 'degree',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  SkillId = 'skillId'
+}
+
+/** input type for updating data in table "skill_level" */
+export type Skill_Level_Set_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  skillId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type Skill_Level_Stddev_Fields = {
+  __typename?: 'skill_level_stddev_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Skill_Level_Stddev_Pop_Fields = {
+  __typename?: 'skill_level_stddev_pop_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Skill_Level_Stddev_Samp_Fields = {
+  __typename?: 'skill_level_stddev_samp_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "skill_level" */
+export type Skill_Level_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Skill_Level_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Skill_Level_Stream_Cursor_Value_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  skillId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type Skill_Level_Sum_Fields = {
+  __typename?: 'skill_level_sum_fields';
+  degree?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "skill_level" */
+export enum Skill_Level_Update_Column {
+  /** column name */
+  Degree = 'degree',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  SkillId = 'skillId'
+}
+
+export type Skill_Level_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Skill_Level_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Skill_Level_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Skill_Level_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Skill_Level_Var_Pop_Fields = {
+  __typename?: 'skill_level_var_pop_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Skill_Level_Var_Samp_Fields = {
+  __typename?: 'skill_level_var_samp_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Skill_Level_Variance_Fields = {
+  __typename?: 'skill_level_variance_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
 /** aggregate max on columns */
 export type Skill_Max_Fields = {
   __typename?: 'skill_max_fields';
@@ -12522,6 +13103,13 @@ export type Skill_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Skill>;
+};
+
+/** input type for inserting object relation for remote table "skill" */
+export type Skill_Obj_Rel_Insert_Input = {
+  data: Skill_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_On_Conflict>;
 };
 
 /** on_conflict condition type for table "skill" */
@@ -13072,6 +13660,14 @@ export type Subscription_Root = {
   member_scope_by_pk?: Maybe<Member_Scope>;
   /** fetch data from the table in a streaming manner: "member_scope" */
   member_scope_stream: Array<Member_Scope>;
+  /** fetch data from the table: "member_skill_level" */
+  member_skill_level: Array<Member_Skill_Level>;
+  /** fetch aggregated fields from the table: "member_skill_level" */
+  member_skill_level_aggregate: Member_Skill_Level_Aggregate;
+  /** fetch data from the table: "member_skill_level" using primary key columns */
+  member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
+  /** fetch data from the table in a streaming manner: "member_skill_level" */
+  member_skill_level_stream: Array<Member_Skill_Level>;
   /** fetch data from the table in a streaming manner: "member" */
   member_stream: Array<Member>;
   /** fetch data from the table: "old_id" */
@@ -13128,6 +13724,14 @@ export type Subscription_Root = {
   skill_category_by_pk?: Maybe<Skill_Category>;
   /** fetch data from the table in a streaming manner: "skill_category" */
   skill_category_stream: Array<Skill_Category>;
+  /** fetch data from the table: "skill_level" */
+  skill_level: Array<Skill_Level>;
+  /** fetch aggregated fields from the table: "skill_level" */
+  skill_level_aggregate: Skill_Level_Aggregate;
+  /** fetch data from the table: "skill_level" using primary key columns */
+  skill_level_by_pk?: Maybe<Skill_Level>;
+  /** fetch data from the table in a streaming manner: "skill_level" */
+  skill_level_stream: Array<Skill_Level>;
   /** fetch data from the table in a streaming manner: "skill" */
   skill_stream: Array<Skill>;
   /** fetch data from the table: "subscription_payment_status" */
@@ -13907,6 +14511,36 @@ export type Subscription_RootMember_Scope_StreamArgs = {
 };
 
 
+export type Subscription_RootMember_Skill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootMember_Skill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootMember_Skill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMember_Skill_Level_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Member_Skill_Level_Stream_Cursor_Input>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
 export type Subscription_RootMember_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Member_Stream_Cursor_Input>>;
@@ -14114,6 +14748,36 @@ export type Subscription_RootSkill_Category_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Skill_Category_Stream_Cursor_Input>>;
   where?: InputMaybe<Skill_Category_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSkill_Level_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Skill_Level_Stream_Cursor_Input>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
 };
 
 
@@ -17393,6 +18057,8 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
+export type MemberSkillLevelFragment = { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } };
+
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
 export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
@@ -17404,6 +18070,8 @@ export type RoleFragment = { __typename?: 'role', id: string, orgId: string, arc
 export type SkillFragment = { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } };
 
 export type SkillCategoryFragment = { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string };
+
+export type SkillLevelFragment = { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } };
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
@@ -17750,6 +18418,43 @@ export type UpdateMemberMutationVariables = Exact<{
 
 
 export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null } | null };
+
+export type GetMemberSkillLevelQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GetMemberSkillLevelQuery = { __typename?: 'query_root', member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } } | null };
+
+export type MemberSkillLevelsSubscriptionVariables = Exact<{
+  memberId: Scalars['uuid'];
+  skillLevelId: Scalars['uuid'];
+}>;
+
+
+export type MemberSkillLevelsSubscription = { __typename?: 'subscription_root', member_skill_level: Array<{ __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } }> };
+
+export type CreateMemberSkillLevelMutationVariables = Exact<{
+  values: Member_Skill_Level_Insert_Input;
+}>;
+
+
+export type CreateMemberSkillLevelMutation = { __typename?: 'mutation_root', insert_member_skill_level_one?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } } | null };
+
+export type UpdateMemberSkillLevelMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  values: Member_Skill_Level_Set_Input;
+}>;
+
+
+export type UpdateMemberSkillLevelMutation = { __typename?: 'mutation_root', update_member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } } | null };
+
+export type DeleteMemberSkillLevelMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteMemberSkillLevelMutation = { __typename?: 'mutation_root', delete_member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string } | null };
 
 export type GetOrgQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -18213,6 +18918,69 @@ export const MeetingStepFragmentDoc = gql`
   data
 }
     `;
+export const MemberFragmentDoc = gql`
+    fragment Member on member {
+  id
+  orgId
+  archived
+  name
+  description
+  pictureFileId
+  picture
+  userId
+  inviteEmail
+  inviteDate
+  workedMinPerWeek
+  role
+  meetingId
+  preferences
+}
+    `;
+export const SkillCategoryFragmentDoc = gql`
+    fragment SkillCategory on skill_category {
+  id
+  name
+  description
+  orgId
+}
+    `;
+export const SkillFragmentDoc = gql`
+    fragment Skill on skill {
+  id
+  name
+  description
+  categoryId
+  category {
+    ...SkillCategory
+  }
+}
+    ${SkillCategoryFragmentDoc}`;
+export const SkillLevelFragmentDoc = gql`
+    fragment SkillLevel on skill_level {
+  id
+  name
+  description
+  degree
+  skillId
+  skills {
+    ...Skill
+  }
+}
+    ${SkillFragmentDoc}`;
+export const MemberSkillLevelFragmentDoc = gql`
+    fragment MemberSkillLevel on member_skill_level {
+  id
+  memberId
+  members {
+    ...Member
+  }
+  skillLevelId
+  levels {
+    ...SkillLevel
+  }
+}
+    ${MemberFragmentDoc}
+${SkillLevelFragmentDoc}`;
 export const OrgFragmentDoc = gql`
     fragment Org on org {
   id
@@ -18282,24 +19050,6 @@ export const CircleFullFragmentDoc = gql`
 }
     ${CircleWithRoleFragmentDoc}
 ${MemberSummaryFragmentDoc}`;
-export const MemberFragmentDoc = gql`
-    fragment Member on member {
-  id
-  orgId
-  archived
-  name
-  description
-  pictureFileId
-  picture
-  userId
-  inviteEmail
-  inviteDate
-  workedMinPerWeek
-  role
-  meetingId
-  preferences
-}
-    `;
 export const OrgFullFragmentDoc = gql`
     fragment OrgFull on org {
   ...Org
@@ -18339,25 +19089,6 @@ export const OrgFullLightFragmentDoc = gql`
 ${CircleFragmentDoc}
 ${RoleFragmentDoc}
 ${MemberFragmentDoc}`;
-export const SkillCategoryFragmentDoc = gql`
-    fragment SkillCategory on skill_category {
-  id
-  name
-  description
-  orgId
-}
-    `;
-export const SkillFragmentDoc = gql`
-    fragment Skill on skill {
-  id
-  name
-  description
-  categoryId
-  category {
-    ...SkillCategory
-  }
-}
-    ${SkillCategoryFragmentDoc}`;
 export const ThreadMemberStatusFragmentDoc = gql`
     fragment ThreadMemberStatus on thread_member_status {
   lastReadActivityId
@@ -20073,6 +20804,177 @@ export function useUpdateMemberMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateMemberMutationHookResult = ReturnType<typeof useUpdateMemberMutation>;
 export type UpdateMemberMutationResult = Apollo.MutationResult<UpdateMemberMutation>;
 export type UpdateMemberMutationOptions = Apollo.BaseMutationOptions<UpdateMemberMutation, UpdateMemberMutationVariables>;
+export const GetMemberSkillLevelDocument = gql`
+    query getMemberSkillLevel($id: uuid!) {
+  member_skill_level_by_pk(id: $id) {
+    ...MemberSkillLevel
+  }
+}
+    ${MemberSkillLevelFragmentDoc}`;
+
+/**
+ * __useGetMemberSkillLevelQuery__
+ *
+ * To run a query within a React component, call `useGetMemberSkillLevelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMemberSkillLevelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMemberSkillLevelQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetMemberSkillLevelQuery(baseOptions: Apollo.QueryHookOptions<GetMemberSkillLevelQuery, GetMemberSkillLevelQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMemberSkillLevelQuery, GetMemberSkillLevelQueryVariables>(GetMemberSkillLevelDocument, options);
+      }
+export function useGetMemberSkillLevelLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberSkillLevelQuery, GetMemberSkillLevelQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMemberSkillLevelQuery, GetMemberSkillLevelQueryVariables>(GetMemberSkillLevelDocument, options);
+        }
+export type GetMemberSkillLevelQueryHookResult = ReturnType<typeof useGetMemberSkillLevelQuery>;
+export type GetMemberSkillLevelLazyQueryHookResult = ReturnType<typeof useGetMemberSkillLevelLazyQuery>;
+export type GetMemberSkillLevelQueryResult = Apollo.QueryResult<GetMemberSkillLevelQuery, GetMemberSkillLevelQueryVariables>;
+export function refetchGetMemberSkillLevelQuery(variables: GetMemberSkillLevelQueryVariables) {
+      return { query: GetMemberSkillLevelDocument, variables: variables }
+    }
+export const MemberSkillLevelsDocument = gql`
+    subscription memberSkillLevels($memberId: uuid!, $skillLevelId: uuid!) {
+  member_skill_level(
+    where: {memberId: {_eq: $memberId}, skillLevelId: {_eq: $skillLevelId}}
+  ) {
+    ...MemberSkillLevel
+  }
+}
+    ${MemberSkillLevelFragmentDoc}`;
+
+/**
+ * __useMemberSkillLevelsSubscription__
+ *
+ * To run a query within a React component, call `useMemberSkillLevelsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMemberSkillLevelsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMemberSkillLevelsSubscription({
+ *   variables: {
+ *      memberId: // value for 'memberId'
+ *      skillLevelId: // value for 'skillLevelId'
+ *   },
+ * });
+ */
+export function useMemberSkillLevelsSubscription(baseOptions: Apollo.SubscriptionHookOptions<MemberSkillLevelsSubscription, MemberSkillLevelsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<MemberSkillLevelsSubscription, MemberSkillLevelsSubscriptionVariables>(MemberSkillLevelsDocument, options);
+      }
+export type MemberSkillLevelsSubscriptionHookResult = ReturnType<typeof useMemberSkillLevelsSubscription>;
+export type MemberSkillLevelsSubscriptionResult = Apollo.SubscriptionResult<MemberSkillLevelsSubscription>;
+export const CreateMemberSkillLevelDocument = gql`
+    mutation createMemberSkillLevel($values: member_skill_level_insert_input!) {
+  insert_member_skill_level_one(object: $values) {
+    ...MemberSkillLevel
+  }
+}
+    ${MemberSkillLevelFragmentDoc}`;
+export type CreateMemberSkillLevelMutationFn = Apollo.MutationFunction<CreateMemberSkillLevelMutation, CreateMemberSkillLevelMutationVariables>;
+
+/**
+ * __useCreateMemberSkillLevelMutation__
+ *
+ * To run a mutation, you first call `useCreateMemberSkillLevelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMemberSkillLevelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMemberSkillLevelMutation, { data, loading, error }] = useCreateMemberSkillLevelMutation({
+ *   variables: {
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useCreateMemberSkillLevelMutation(baseOptions?: Apollo.MutationHookOptions<CreateMemberSkillLevelMutation, CreateMemberSkillLevelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMemberSkillLevelMutation, CreateMemberSkillLevelMutationVariables>(CreateMemberSkillLevelDocument, options);
+      }
+export type CreateMemberSkillLevelMutationHookResult = ReturnType<typeof useCreateMemberSkillLevelMutation>;
+export type CreateMemberSkillLevelMutationResult = Apollo.MutationResult<CreateMemberSkillLevelMutation>;
+export type CreateMemberSkillLevelMutationOptions = Apollo.BaseMutationOptions<CreateMemberSkillLevelMutation, CreateMemberSkillLevelMutationVariables>;
+export const UpdateMemberSkillLevelDocument = gql`
+    mutation updateMemberSkillLevel($id: uuid!, $values: member_skill_level_set_input!) {
+  update_member_skill_level_by_pk(pk_columns: {id: $id}, _set: $values) {
+    ...MemberSkillLevel
+  }
+}
+    ${MemberSkillLevelFragmentDoc}`;
+export type UpdateMemberSkillLevelMutationFn = Apollo.MutationFunction<UpdateMemberSkillLevelMutation, UpdateMemberSkillLevelMutationVariables>;
+
+/**
+ * __useUpdateMemberSkillLevelMutation__
+ *
+ * To run a mutation, you first call `useUpdateMemberSkillLevelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMemberSkillLevelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMemberSkillLevelMutation, { data, loading, error }] = useUpdateMemberSkillLevelMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useUpdateMemberSkillLevelMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMemberSkillLevelMutation, UpdateMemberSkillLevelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMemberSkillLevelMutation, UpdateMemberSkillLevelMutationVariables>(UpdateMemberSkillLevelDocument, options);
+      }
+export type UpdateMemberSkillLevelMutationHookResult = ReturnType<typeof useUpdateMemberSkillLevelMutation>;
+export type UpdateMemberSkillLevelMutationResult = Apollo.MutationResult<UpdateMemberSkillLevelMutation>;
+export type UpdateMemberSkillLevelMutationOptions = Apollo.BaseMutationOptions<UpdateMemberSkillLevelMutation, UpdateMemberSkillLevelMutationVariables>;
+export const DeleteMemberSkillLevelDocument = gql`
+    mutation deleteMemberSkillLevel($id: uuid!) {
+  delete_member_skill_level_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteMemberSkillLevelMutationFn = Apollo.MutationFunction<DeleteMemberSkillLevelMutation, DeleteMemberSkillLevelMutationVariables>;
+
+/**
+ * __useDeleteMemberSkillLevelMutation__
+ *
+ * To run a mutation, you first call `useDeleteMemberSkillLevelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMemberSkillLevelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMemberSkillLevelMutation, { data, loading, error }] = useDeleteMemberSkillLevelMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteMemberSkillLevelMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMemberSkillLevelMutation, DeleteMemberSkillLevelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMemberSkillLevelMutation, DeleteMemberSkillLevelMutationVariables>(DeleteMemberSkillLevelDocument, options);
+      }
+export type DeleteMemberSkillLevelMutationHookResult = ReturnType<typeof useDeleteMemberSkillLevelMutation>;
+export type DeleteMemberSkillLevelMutationResult = Apollo.MutationResult<DeleteMemberSkillLevelMutation>;
+export type DeleteMemberSkillLevelMutationOptions = Apollo.BaseMutationOptions<DeleteMemberSkillLevelMutation, DeleteMemberSkillLevelMutationVariables>;
 export const GetOrgDocument = gql`
     query getOrg($id: uuid!) {
   org_by_pk(id: $id) {

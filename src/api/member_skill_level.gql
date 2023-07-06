@@ -1,0 +1,37 @@
+query getMemberSkillLevel($id: uuid!) {
+  member_skill_level_by_pk(id: $id) {
+    ...MemberSkillLevel
+  }
+}
+
+subscription memberSkillLevels($memberId: uuid!, $skillLevelId: uuid!) {
+  member_skill_level(
+    where: {
+      memberId: { _eq: $memberId }
+      skillLevelId: { _eq: $skillLevelId }
+    }
+  ) {
+    ...MemberSkillLevel
+  }
+}
+
+mutation createMemberSkillLevel($values: member_skill_level_insert_input!) {
+  insert_member_skill_level_one(object: $values) {
+    ...MemberSkillLevel
+  }
+}
+
+mutation updateMemberSkillLevel(
+  $id: uuid!
+  $values: member_skill_level_set_input!
+) {
+  update_member_skill_level_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...MemberSkillLevel
+  }
+}
+
+mutation deleteMemberSkillLevel($id: uuid!) {
+  delete_member_skill_level_by_pk(id: $id) {
+    id
+  }
+}

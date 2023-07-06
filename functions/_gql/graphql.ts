@@ -6605,6 +6605,162 @@ export type Member_Set_Input = {
   workedMinPerWeek?: InputMaybe<Scalars['Int']>;
 };
 
+/** columns and relationships of "member_skill_level" */
+export type Member_Skill_Level = {
+  __typename?: 'member_skill_level';
+  id: Scalars['uuid'];
+  /** An object relationship */
+  levels: Skill_Level;
+  memberId: Scalars['uuid'];
+  /** An object relationship */
+  members: Member;
+  skillLevelId: Scalars['uuid'];
+};
+
+/** aggregated selection of "member_skill_level" */
+export type Member_Skill_Level_Aggregate = {
+  __typename?: 'member_skill_level_aggregate';
+  aggregate?: Maybe<Member_Skill_Level_Aggregate_Fields>;
+  nodes: Array<Member_Skill_Level>;
+};
+
+/** aggregate fields of "member_skill_level" */
+export type Member_Skill_Level_Aggregate_Fields = {
+  __typename?: 'member_skill_level_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Member_Skill_Level_Max_Fields>;
+  min?: Maybe<Member_Skill_Level_Min_Fields>;
+};
+
+
+/** aggregate fields of "member_skill_level" */
+export type Member_Skill_Level_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "member_skill_level". All fields are combined with a logical 'AND'. */
+export type Member_Skill_Level_Bool_Exp = {
+  _and?: InputMaybe<Array<Member_Skill_Level_Bool_Exp>>;
+  _not?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+  _or?: InputMaybe<Array<Member_Skill_Level_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  levels?: InputMaybe<Skill_Level_Bool_Exp>;
+  memberId?: InputMaybe<Uuid_Comparison_Exp>;
+  members?: InputMaybe<Member_Bool_Exp>;
+  skillLevelId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "member_skill_level" */
+export enum Member_Skill_Level_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  MemberSkillLevelPkey = 'member_skill_level_pkey'
+}
+
+/** input type for inserting data into table "member_skill_level" */
+export type Member_Skill_Level_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  levels?: InputMaybe<Skill_Level_Obj_Rel_Insert_Input>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+  members?: InputMaybe<Member_Obj_Rel_Insert_Input>;
+  skillLevelId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Member_Skill_Level_Max_Fields = {
+  __typename?: 'member_skill_level_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  memberId?: Maybe<Scalars['uuid']>;
+  skillLevelId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Member_Skill_Level_Min_Fields = {
+  __typename?: 'member_skill_level_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  memberId?: Maybe<Scalars['uuid']>;
+  skillLevelId?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "member_skill_level" */
+export type Member_Skill_Level_Mutation_Response = {
+  __typename?: 'member_skill_level_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Member_Skill_Level>;
+};
+
+/** on_conflict condition type for table "member_skill_level" */
+export type Member_Skill_Level_On_Conflict = {
+  constraint: Member_Skill_Level_Constraint;
+  update_columns?: Array<Member_Skill_Level_Update_Column>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "member_skill_level". */
+export type Member_Skill_Level_Order_By = {
+  id?: InputMaybe<Order_By>;
+  levels?: InputMaybe<Skill_Level_Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  members?: InputMaybe<Member_Order_By>;
+  skillLevelId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: member_skill_level */
+export type Member_Skill_Level_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "member_skill_level" */
+export enum Member_Skill_Level_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  SkillLevelId = 'skillLevelId'
+}
+
+/** input type for updating data in table "member_skill_level" */
+export type Member_Skill_Level_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+  skillLevelId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "member_skill_level" */
+export type Member_Skill_Level_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Member_Skill_Level_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Member_Skill_Level_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+  skillLevelId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "member_skill_level" */
+export enum Member_Skill_Level_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  SkillLevelId = 'skillLevelId'
+}
+
+export type Member_Skill_Level_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Member_Skill_Level_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Member_Skill_Level_Bool_Exp;
+};
+
 /** aggregate stddev on columns */
 export type Member_Stddev_Fields = {
   __typename?: 'member_stddev_fields';
@@ -6844,6 +7000,10 @@ export type Mutation_Root = {
   delete_member_scope?: Maybe<Member_Scope_Mutation_Response>;
   /** delete single row from the table: "member_scope" */
   delete_member_scope_by_pk?: Maybe<Member_Scope>;
+  /** delete data from the table: "member_skill_level" */
+  delete_member_skill_level?: Maybe<Member_Skill_Level_Mutation_Response>;
+  /** delete single row from the table: "member_skill_level" */
+  delete_member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
   /** delete data from the table: "old_id" */
   delete_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** delete single row from the table: "old_id" */
@@ -6872,6 +7032,10 @@ export type Mutation_Root = {
   delete_skill_category?: Maybe<Skill_Category_Mutation_Response>;
   /** delete single row from the table: "skill_category" */
   delete_skill_category_by_pk?: Maybe<Skill_Category>;
+  /** delete data from the table: "skill_level" */
+  delete_skill_level?: Maybe<Skill_Level_Mutation_Response>;
+  /** delete single row from the table: "skill_level" */
+  delete_skill_level_by_pk?: Maybe<Skill_Level>;
   /** delete data from the table: "subscription_payment_status" */
   delete_subscription_payment_status?: Maybe<Subscription_Payment_Status_Mutation_Response>;
   /** delete single row from the table: "subscription_payment_status" */
@@ -7008,6 +7172,10 @@ export type Mutation_Root = {
   insert_member_scope?: Maybe<Member_Scope_Mutation_Response>;
   /** insert a single row into the table: "member_scope" */
   insert_member_scope_one?: Maybe<Member_Scope>;
+  /** insert data into the table: "member_skill_level" */
+  insert_member_skill_level?: Maybe<Member_Skill_Level_Mutation_Response>;
+  /** insert a single row into the table: "member_skill_level" */
+  insert_member_skill_level_one?: Maybe<Member_Skill_Level>;
   /** insert data into the table: "old_id" */
   insert_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** insert a single row into the table: "old_id" */
@@ -7034,6 +7202,10 @@ export type Mutation_Root = {
   insert_skill_category?: Maybe<Skill_Category_Mutation_Response>;
   /** insert a single row into the table: "skill_category" */
   insert_skill_category_one?: Maybe<Skill_Category>;
+  /** insert data into the table: "skill_level" */
+  insert_skill_level?: Maybe<Skill_Level_Mutation_Response>;
+  /** insert a single row into the table: "skill_level" */
+  insert_skill_level_one?: Maybe<Skill_Level>;
   /** insert a single row into the table: "skill" */
   insert_skill_one?: Maybe<Skill>;
   /** insert data into the table: "subscription_payment_status" */
@@ -7216,6 +7388,12 @@ export type Mutation_Root = {
   update_member_scope_by_pk?: Maybe<Member_Scope>;
   /** update multiples rows of table: "member_scope" */
   update_member_scope_many?: Maybe<Array<Maybe<Member_Scope_Mutation_Response>>>;
+  /** update data of the table: "member_skill_level" */
+  update_member_skill_level?: Maybe<Member_Skill_Level_Mutation_Response>;
+  /** update single row of the table: "member_skill_level" */
+  update_member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
+  /** update multiples rows of table: "member_skill_level" */
+  update_member_skill_level_many?: Maybe<Array<Maybe<Member_Skill_Level_Mutation_Response>>>;
   /** update data of the table: "old_id" */
   update_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** update single row of the table: "old_id" */
@@ -7256,6 +7434,12 @@ export type Mutation_Root = {
   update_skill_category_by_pk?: Maybe<Skill_Category>;
   /** update multiples rows of table: "skill_category" */
   update_skill_category_many?: Maybe<Array<Maybe<Skill_Category_Mutation_Response>>>;
+  /** update data of the table: "skill_level" */
+  update_skill_level?: Maybe<Skill_Level_Mutation_Response>;
+  /** update single row of the table: "skill_level" */
+  update_skill_level_by_pk?: Maybe<Skill_Level>;
+  /** update multiples rows of table: "skill_level" */
+  update_skill_level_many?: Maybe<Array<Maybe<Skill_Level_Mutation_Response>>>;
   /** update multiples rows of table: "skill" */
   update_skill_many?: Maybe<Array<Maybe<Skill_Mutation_Response>>>;
   /** update data of the table: "subscription_payment_status" */
@@ -7606,6 +7790,18 @@ export type Mutation_RootDelete_Member_Scope_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Member_Skill_LevelArgs = {
+  where: Member_Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Member_Skill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Old_IdArgs = {
   where: Old_Id_Bool_Exp;
 };
@@ -7685,6 +7881,18 @@ export type Mutation_RootDelete_Skill_CategoryArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Skill_Category_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Skill_LevelArgs = {
+  where: Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Skill_Level_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -8144,6 +8352,20 @@ export type Mutation_RootInsert_Member_Scope_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Member_Skill_LevelArgs = {
+  objects: Array<Member_Skill_Level_Insert_Input>;
+  on_conflict?: InputMaybe<Member_Skill_Level_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Member_Skill_Level_OneArgs = {
+  object: Member_Skill_Level_Insert_Input;
+  on_conflict?: InputMaybe<Member_Skill_Level_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Old_IdArgs = {
   objects: Array<Old_Id_Insert_Input>;
   on_conflict?: InputMaybe<Old_Id_On_Conflict>;
@@ -8231,6 +8453,20 @@ export type Mutation_RootInsert_Skill_CategoryArgs = {
 export type Mutation_RootInsert_Skill_Category_OneArgs = {
   object: Skill_Category_Insert_Input;
   on_conflict?: InputMaybe<Skill_Category_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Skill_LevelArgs = {
+  objects: Array<Skill_Level_Insert_Input>;
+  on_conflict?: InputMaybe<Skill_Level_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Skill_Level_OneArgs = {
+  object: Skill_Level_Insert_Input;
+  on_conflict?: InputMaybe<Skill_Level_On_Conflict>;
 };
 
 
@@ -8892,6 +9128,26 @@ export type Mutation_RootUpdate_Member_Scope_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Member_Skill_LevelArgs = {
+  _set?: InputMaybe<Member_Skill_Level_Set_Input>;
+  where: Member_Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Member_Skill_Level_By_PkArgs = {
+  _set?: InputMaybe<Member_Skill_Level_Set_Input>;
+  pk_columns: Member_Skill_Level_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Member_Skill_Level_ManyArgs = {
+  updates: Array<Member_Skill_Level_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Old_IdArgs = {
   _set?: InputMaybe<Old_Id_Set_Input>;
   where: Old_Id_Bool_Exp;
@@ -9026,6 +9282,28 @@ export type Mutation_RootUpdate_Skill_Category_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Skill_Category_ManyArgs = {
   updates: Array<Skill_Category_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_LevelArgs = {
+  _inc?: InputMaybe<Skill_Level_Inc_Input>;
+  _set?: InputMaybe<Skill_Level_Set_Input>;
+  where: Skill_Level_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_Level_By_PkArgs = {
+  _inc?: InputMaybe<Skill_Level_Inc_Input>;
+  _set?: InputMaybe<Skill_Level_Set_Input>;
+  pk_columns: Skill_Level_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Skill_Level_ManyArgs = {
+  updates: Array<Skill_Level_Updates>;
 };
 
 
@@ -10558,6 +10836,12 @@ export type Query_Root = {
   member_scope_aggregate: Member_Scope_Aggregate;
   /** fetch data from the table: "member_scope" using primary key columns */
   member_scope_by_pk?: Maybe<Member_Scope>;
+  /** fetch data from the table: "member_skill_level" */
+  member_skill_level: Array<Member_Skill_Level>;
+  /** fetch aggregated fields from the table: "member_skill_level" */
+  member_skill_level_aggregate: Member_Skill_Level_Aggregate;
+  /** fetch data from the table: "member_skill_level" using primary key columns */
+  member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
   /** fetch data from the table: "old_id" */
   old_id: Array<Old_Id>;
   /** fetch aggregated fields from the table: "old_id" */
@@ -10600,6 +10884,12 @@ export type Query_Root = {
   skill_category_aggregate: Skill_Category_Aggregate;
   /** fetch data from the table: "skill_category" using primary key columns */
   skill_category_by_pk?: Maybe<Skill_Category>;
+  /** fetch data from the table: "skill_level" */
+  skill_level: Array<Skill_Level>;
+  /** fetch aggregated fields from the table: "skill_level" */
+  skill_level_aggregate: Skill_Level_Aggregate;
+  /** fetch data from the table: "skill_level" using primary key columns */
+  skill_level_by_pk?: Maybe<Skill_Level>;
   /** fetch data from the table: "subscription_payment_status" */
   subscription_payment_status: Array<Subscription_Payment_Status>;
   /** fetch aggregated fields from the table: "subscription_payment_status" */
@@ -11199,6 +11489,29 @@ export type Query_RootMember_Scope_By_PkArgs = {
 };
 
 
+export type Query_RootMember_Skill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootMember_Skill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootMember_Skill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootOld_IdArgs = {
   distinct_on?: InputMaybe<Array<Old_Id_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11356,6 +11669,29 @@ export type Query_RootSkill_Category_AggregateArgs = {
 
 
 export type Query_RootSkill_Category_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSkill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootSkill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Query_RootSkill_Level_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -12480,6 +12816,251 @@ export type Skill_Insert_Input = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+/** columns and relationships of "skill_level" */
+export type Skill_Level = {
+  __typename?: 'skill_level';
+  degree: Scalars['Int'];
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  skillId: Scalars['uuid'];
+  /** An object relationship */
+  skills: Skill;
+};
+
+/** aggregated selection of "skill_level" */
+export type Skill_Level_Aggregate = {
+  __typename?: 'skill_level_aggregate';
+  aggregate?: Maybe<Skill_Level_Aggregate_Fields>;
+  nodes: Array<Skill_Level>;
+};
+
+/** aggregate fields of "skill_level" */
+export type Skill_Level_Aggregate_Fields = {
+  __typename?: 'skill_level_aggregate_fields';
+  avg?: Maybe<Skill_Level_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Skill_Level_Max_Fields>;
+  min?: Maybe<Skill_Level_Min_Fields>;
+  stddev?: Maybe<Skill_Level_Stddev_Fields>;
+  stddev_pop?: Maybe<Skill_Level_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Skill_Level_Stddev_Samp_Fields>;
+  sum?: Maybe<Skill_Level_Sum_Fields>;
+  var_pop?: Maybe<Skill_Level_Var_Pop_Fields>;
+  var_samp?: Maybe<Skill_Level_Var_Samp_Fields>;
+  variance?: Maybe<Skill_Level_Variance_Fields>;
+};
+
+
+/** aggregate fields of "skill_level" */
+export type Skill_Level_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Skill_Level_Avg_Fields = {
+  __typename?: 'skill_level_avg_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "skill_level". All fields are combined with a logical 'AND'. */
+export type Skill_Level_Bool_Exp = {
+  _and?: InputMaybe<Array<Skill_Level_Bool_Exp>>;
+  _not?: InputMaybe<Skill_Level_Bool_Exp>;
+  _or?: InputMaybe<Array<Skill_Level_Bool_Exp>>;
+  degree?: InputMaybe<Int_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  skillId?: InputMaybe<Uuid_Comparison_Exp>;
+  skills?: InputMaybe<Skill_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "skill_level" */
+export enum Skill_Level_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  SkillLevelPkey = 'skill_level_pkey'
+}
+
+/** input type for incrementing numeric columns in table "skill_level" */
+export type Skill_Level_Inc_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "skill_level" */
+export type Skill_Level_Insert_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  skillId?: InputMaybe<Scalars['uuid']>;
+  skills?: InputMaybe<Skill_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Skill_Level_Max_Fields = {
+  __typename?: 'skill_level_max_fields';
+  degree?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  skillId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Skill_Level_Min_Fields = {
+  __typename?: 'skill_level_min_fields';
+  degree?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  skillId?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "skill_level" */
+export type Skill_Level_Mutation_Response = {
+  __typename?: 'skill_level_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Skill_Level>;
+};
+
+/** input type for inserting object relation for remote table "skill_level" */
+export type Skill_Level_Obj_Rel_Insert_Input = {
+  data: Skill_Level_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_Level_On_Conflict>;
+};
+
+/** on_conflict condition type for table "skill_level" */
+export type Skill_Level_On_Conflict = {
+  constraint: Skill_Level_Constraint;
+  update_columns?: Array<Skill_Level_Update_Column>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "skill_level". */
+export type Skill_Level_Order_By = {
+  degree?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  skillId?: InputMaybe<Order_By>;
+  skills?: InputMaybe<Skill_Order_By>;
+};
+
+/** primary key columns input for table: skill_level */
+export type Skill_Level_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "skill_level" */
+export enum Skill_Level_Select_Column {
+  /** column name */
+  Degree = 'degree',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  SkillId = 'skillId'
+}
+
+/** input type for updating data in table "skill_level" */
+export type Skill_Level_Set_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  skillId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type Skill_Level_Stddev_Fields = {
+  __typename?: 'skill_level_stddev_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Skill_Level_Stddev_Pop_Fields = {
+  __typename?: 'skill_level_stddev_pop_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Skill_Level_Stddev_Samp_Fields = {
+  __typename?: 'skill_level_stddev_samp_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "skill_level" */
+export type Skill_Level_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Skill_Level_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Skill_Level_Stream_Cursor_Value_Input = {
+  degree?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  skillId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type Skill_Level_Sum_Fields = {
+  __typename?: 'skill_level_sum_fields';
+  degree?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "skill_level" */
+export enum Skill_Level_Update_Column {
+  /** column name */
+  Degree = 'degree',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  SkillId = 'skillId'
+}
+
+export type Skill_Level_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Skill_Level_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Skill_Level_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Skill_Level_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Skill_Level_Var_Pop_Fields = {
+  __typename?: 'skill_level_var_pop_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Skill_Level_Var_Samp_Fields = {
+  __typename?: 'skill_level_var_samp_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Skill_Level_Variance_Fields = {
+  __typename?: 'skill_level_variance_fields';
+  degree?: Maybe<Scalars['Float']>;
+};
+
 /** aggregate max on columns */
 export type Skill_Max_Fields = {
   __typename?: 'skill_max_fields';
@@ -12521,6 +13102,13 @@ export type Skill_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Skill>;
+};
+
+/** input type for inserting object relation for remote table "skill" */
+export type Skill_Obj_Rel_Insert_Input = {
+  data: Skill_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Skill_On_Conflict>;
 };
 
 /** on_conflict condition type for table "skill" */
@@ -13071,6 +13659,14 @@ export type Subscription_Root = {
   member_scope_by_pk?: Maybe<Member_Scope>;
   /** fetch data from the table in a streaming manner: "member_scope" */
   member_scope_stream: Array<Member_Scope>;
+  /** fetch data from the table: "member_skill_level" */
+  member_skill_level: Array<Member_Skill_Level>;
+  /** fetch aggregated fields from the table: "member_skill_level" */
+  member_skill_level_aggregate: Member_Skill_Level_Aggregate;
+  /** fetch data from the table: "member_skill_level" using primary key columns */
+  member_skill_level_by_pk?: Maybe<Member_Skill_Level>;
+  /** fetch data from the table in a streaming manner: "member_skill_level" */
+  member_skill_level_stream: Array<Member_Skill_Level>;
   /** fetch data from the table in a streaming manner: "member" */
   member_stream: Array<Member>;
   /** fetch data from the table: "old_id" */
@@ -13127,6 +13723,14 @@ export type Subscription_Root = {
   skill_category_by_pk?: Maybe<Skill_Category>;
   /** fetch data from the table in a streaming manner: "skill_category" */
   skill_category_stream: Array<Skill_Category>;
+  /** fetch data from the table: "skill_level" */
+  skill_level: Array<Skill_Level>;
+  /** fetch aggregated fields from the table: "skill_level" */
+  skill_level_aggregate: Skill_Level_Aggregate;
+  /** fetch data from the table: "skill_level" using primary key columns */
+  skill_level_by_pk?: Maybe<Skill_Level>;
+  /** fetch data from the table in a streaming manner: "skill_level" */
+  skill_level_stream: Array<Skill_Level>;
   /** fetch data from the table in a streaming manner: "skill" */
   skill_stream: Array<Skill>;
   /** fetch data from the table: "subscription_payment_status" */
@@ -13906,6 +14510,36 @@ export type Subscription_RootMember_Scope_StreamArgs = {
 };
 
 
+export type Subscription_RootMember_Skill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootMember_Skill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Member_Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Member_Skill_Level_Order_By>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootMember_Skill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMember_Skill_Level_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Member_Skill_Level_Stream_Cursor_Input>>;
+  where?: InputMaybe<Member_Skill_Level_Bool_Exp>;
+};
+
+
 export type Subscription_RootMember_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Member_Stream_Cursor_Input>>;
@@ -14113,6 +14747,36 @@ export type Subscription_RootSkill_Category_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Skill_Category_Stream_Cursor_Input>>;
   where?: InputMaybe<Skill_Category_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_LevelArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_Level_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Skill_Level_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Skill_Level_Order_By>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
+};
+
+
+export type Subscription_RootSkill_Level_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSkill_Level_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Skill_Level_Stream_Cursor_Input>>;
+  where?: InputMaybe<Skill_Level_Bool_Exp>;
 };
 
 
@@ -17483,6 +18147,8 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
+export type MemberSkillLevelFragment = { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, levels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } } };
+
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
 export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, autoCreate: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }> };
@@ -17494,6 +18160,8 @@ export type RoleFragment = { __typename?: 'role', id: string, orgId: string, arc
 export type SkillFragment = { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } };
 
 export type SkillCategoryFragment = { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string };
+
+export type SkillLevelFragment = { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId: string, category: { __typename?: 'skill_category', id: string, name: string, description: string, orgId: string } } };
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
@@ -17842,17 +18510,19 @@ export const LogFragmentDoc = {"kind":"Document","definitions":[{"kind":"Fragmen
 export const MeetingFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Meeting"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"attendees"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}}]}}]} as unknown as DocumentNode<MeetingFragment, unknown>;
 export const MeetingRecurringFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingRecurring"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_recurring"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"templateId"}},{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rrule"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<MeetingRecurringFragment, unknown>;
 export const MeetingStepFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingStep"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_step"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"stepConfigId"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]} as unknown as DocumentNode<MeetingStepFragment, unknown>;
+export const MemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"pictureFileId"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"inviteEmail"}},{"kind":"Field","name":{"kind":"Name","value":"inviteDate"}},{"kind":"Field","name":{"kind":"Name","value":"workedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"preferences"}}]}}]} as unknown as DocumentNode<MemberFragment, unknown>;
+export const SkillCategoryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SkillCategory"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill_category"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}}]}}]} as unknown as DocumentNode<SkillCategoryFragment, unknown>;
+export const SkillFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Skill"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"categoryId"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SkillCategory"}}]}}]}},...SkillCategoryFragmentDoc.definitions]} as unknown as DocumentNode<SkillFragment, unknown>;
+export const SkillLevelFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SkillLevel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill_level"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"degree"}},{"kind":"Field","name":{"kind":"Name","value":"skillId"}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Skill"}}]}}]}},...SkillFragmentDoc.definitions]} as unknown as DocumentNode<SkillLevelFragment, unknown>;
+export const MemberSkillLevelFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSkillLevel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member_skill_level"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skillLevelId"}},{"kind":"Field","name":{"kind":"Name","value":"levels"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SkillLevel"}}]}}]}},...MemberFragmentDoc.definitions,...SkillLevelFragmentDoc.definitions]} as unknown as DocumentNode<MemberSkillLevelFragment, unknown>;
 export const OrgFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Org"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"defaultWorkedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]} as unknown as DocumentNode<OrgFragment, unknown>;
 export const CircleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Circle"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}}]} as unknown as DocumentNode<CircleFragment, unknown>;
 export const RoleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Role"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"purpose"}},{"kind":"Field","name":{"kind":"Name","value":"domain"}},{"kind":"Field","name":{"kind":"Name","value":"accountabilities"}},{"kind":"Field","name":{"kind":"Name","value":"checklist"}},{"kind":"Field","name":{"kind":"Name","value":"indicators"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"autoCreate"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"defaultMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}}]} as unknown as DocumentNode<RoleFragment, unknown>;
 export const CircleWithRoleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleWithRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}}]}},...CircleFragmentDoc.definitions,...RoleFragmentDoc.definitions]} as unknown as DocumentNode<CircleWithRoleFragment, unknown>;
 export const MemberSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}}]} as unknown as DocumentNode<MemberSummaryFragment, unknown>;
 export const CircleFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleWithRole"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"member"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSummary"}}]}}]}}]}},...CircleWithRoleFragmentDoc.definitions,...MemberSummaryFragmentDoc.definitions]} as unknown as DocumentNode<CircleFullFragment, unknown>;
-export const MemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"pictureFileId"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"inviteEmail"}},{"kind":"Field","name":{"kind":"Name","value":"inviteDate"}},{"kind":"Field","name":{"kind":"Name","value":"workedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"preferences"}}]}}]} as unknown as DocumentNode<MemberFragment, unknown>;
 export const OrgFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrgFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Org"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"base"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},...OrgFragmentDoc.definitions,...CircleFullFragmentDoc.definitions,...RoleFragmentDoc.definitions,...MemberFragmentDoc.definitions]} as unknown as DocumentNode<OrgFullFragment, unknown>;
 export const OrgFullLightFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrgFullLight"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Org"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},...OrgFragmentDoc.definitions,...CircleFragmentDoc.definitions,...RoleFragmentDoc.definitions,...MemberFragmentDoc.definitions]} as unknown as DocumentNode<OrgFullLightFragment, unknown>;
-export const SkillCategoryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SkillCategory"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill_category"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}}]}}]} as unknown as DocumentNode<SkillCategoryFragment, unknown>;
-export const SkillFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Skill"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"categoryId"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SkillCategory"}}]}}]}},...SkillCategoryFragmentDoc.definitions]} as unknown as DocumentNode<SkillFragment, unknown>;
 export const ThreadMemberStatusFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadMemberStatus"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread_member_status"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lastReadActivityId"}},{"kind":"Field","name":{"kind":"Name","value":"lastReadDate"}}]}}]} as unknown as DocumentNode<ThreadMemberStatusFragment, unknown>;
 export const ThreadFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Thread"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"initiatorMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]} as unknown as DocumentNode<ThreadFragment, unknown>;
 export const MeetingSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}}]}}]} as unknown as DocumentNode<MeetingSummaryFragment, unknown>;

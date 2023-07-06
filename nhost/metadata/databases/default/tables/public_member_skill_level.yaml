@@ -1,0 +1,48 @@
+table:
+  name: member_skill_level
+  schema: public
+object_relationships:
+  - name: levels
+    using:
+      foreign_key_constraint_on: skillLevelId
+  - name: members
+    using:
+      foreign_key_constraint_on: memberId
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - memberId
+        - skillLevelId
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - memberId
+        - skillLevelId
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - memberId
+        - skillLevelId
+      filter: {}
+      check: null
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        members:
+          _and:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - _or:
+                - role:
+                    _eq: Member
+                - role:
+                    _eq: Admin
+                - role:
+                    _eq: Owner

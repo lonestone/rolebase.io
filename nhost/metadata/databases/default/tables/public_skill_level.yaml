@@ -1,0 +1,7 @@
+table:
+  name: skill_level
+  schema: public
+object_relationships:
+  - name: skills
+    using:
+      foreign_key_constraint_on: skillId

@@ -1,0 +1,11 @@
+fragment MemberSkillLevel on member_skill_level {
+  id
+  memberId
+  members {
+    ...Member
+  }
+  skillLevelId
+  levels {
+    ...SkillLevel
+  }
+}
