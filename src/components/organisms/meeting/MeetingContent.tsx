@@ -12,12 +12,14 @@ import {
   Flex,
   Heading,
   HStack,
+  Link,
   Spacer,
   Tag,
   useDisclosure,
   Wrap,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
+import { useCopyNotesMeeting } from '@hooks/useCopyNotesMeeting'
 import useMeetingState from '@hooks/useMeetingState'
 import useOrgMember from '@hooks/useOrgMember'
 import ActionsMenu from '@molecules/ActionsMenu'
@@ -36,7 +38,6 @@ import { useTranslation } from 'react-i18next'
 import { FiCalendar } from 'react-icons/fi'
 import MeetingDeleteModal from './MeetingDeleteModal'
 import MeetingEditModal from './MeetingEditModal'
-import { useCopyNotesMeeting } from '@hooks/useCopyNotesMeeting'
 
 interface Props extends BoxProps {
   id: string
@@ -123,9 +124,11 @@ export default function MeetingContent({
               <Wrap spacing={2} flex={1} align="center">
                 <FiCalendar />
                 <Heading as="h1" size="md">
-                  {t('MeetingContent.heading', {
-                    title: meeting?.title || '…',
-                  })}
+                  <Link href="#" onClick={editModal.onOpen}>
+                    {t('MeetingContent.heading', {
+                      title: meeting?.title || '…',
+                    })}
+                  </Link>
                 </Heading>
 
                 <Spacer />

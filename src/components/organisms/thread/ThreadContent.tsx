@@ -7,6 +7,8 @@ import {
   Flex,
   Heading,
   HStack,
+  Link,
+  Spacer,
   Tag,
   useDisclosure,
   Wrap,
@@ -93,9 +95,13 @@ export default function ThreadContent({
                 )}
 
                 <Heading as="h1" size="md">
-                  {thread?.title || (loading ? '…' : null)}
+                  <Link href="#" onClick={editModal.onOpen}>
+                    {thread?.title || (loading ? '…' : null)}
+                  </Link>
                 </Heading>
               </Flex>
+
+              <Spacer />
 
               <HStack spacing={2}>
                 <Box>
