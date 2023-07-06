@@ -66,12 +66,26 @@ level = 'warn'
 [hasura.events]
 httpPoolSize = 100
 
+[hasura.resources]
+replicas = 1
+
+[hasura.resources.compute]
+cpu = 500
+memory = 1536
+
 [functions]
 [functions.node]
 version = 16
 
 [auth]
 version = '0.20.1'
+
+[auth.resources]
+replicas = 1
+
+[auth.resources.compute]
+cpu = 250
+memory = 256
 
 [auth.redirections]
 clientUrl = 'https://rolebase.io'
@@ -182,6 +196,13 @@ issuer = 'nhost'
 [postgres]
 version = '14.5-20221009-1'
 
+[postgres.resources]
+replicas = 1
+
+[postgres.resources.compute]
+cpu = 1000
+memory = 2048
+
 [provider]
 [provider.smtp]
 user = '62097712e48bf474678465f967d7f832'
@@ -194,6 +215,13 @@ method = 'LOGIN'
 
 [storage]
 version = '0.3.5'
+
+[storage.resources]
+replicas = 1
+
+[storage.resources.compute]
+cpu = 250
+memory = 256
 
 [observability]
 [observability.grafana]
