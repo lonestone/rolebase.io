@@ -906,7 +906,7 @@
   },
   "VerifyEmailModal": {
     "heading": "Vérifiez votre adresse email",
-    "text": "Vous vous avez du recevoir un email (pensez à consulter vos courriers indésirables). Cliquez sur le lien dans l'email pour vérifier votre adresse 🙏",
+    "text": "Vous avez du recevoir un email (pensez à consulter vos courriers indésirables). Cliquez sur le lien dans l'email pour vérifier votre adresse 🙏",
     "resend": "Recevoir un nouveau lien par email"
   },
   "VideoConfFormControl": {
