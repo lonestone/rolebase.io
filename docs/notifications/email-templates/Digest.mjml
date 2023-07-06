@@ -9,13 +9,13 @@
     <mj-wrapper border="1px solid #B2B3C7" padding="0px">
       <mj-section background-color="#9A65F6">
         <mj-column> 
-          <mj-text font-size="18px" font-weight="700" color="white" align="center" padding="10px">{{step.events.0.title}}</mj-text>
+          <mj-text font-size="18px" font-weight="700" color="white" align="center" padding="10px">{{{step.events.0.title}}}</mj-text>
         </mj-column>
       </mj-section>
       <mj-section>
         <mj-column>
           <mj-text font-size="16px" align="center" padding='2px'>{{step.events.0.notificationReceived}}</mj-text>
-          <mj-text font-size="16px" align="center">{{step.total_count}} &nbsp; <mj-raw>{{pluralize step.total_count step.events.0.digestContentSingular step.events.0.digestContentPlural}}</mj-raw></mj-text>
+          <mj-text font-size="16px" align="center">{{step.total_count}} &nbsp; <mj-raw>{{{pluralize step.total_count step.events.0.digestContentSingular step.events.0.digestContentPlural}}}</mj-raw></mj-text>
           <mj-button
           href={{step.events.0.actionUrl}}
           background-color="#3182CE"
@@ -38,13 +38,13 @@
     <mj-wrapper border="1px solid #B2B3C7" padding="0px">
       <mj-section background-color="#9A65F6">
         <mj-column> 
-          <mj-text font-size="18px" font-weight="700" color="white" align="center" padding="10px">{{title}}</mj-text>
+          <mj-text font-size="18px" font-weight="700" color="white" align="center" padding="10px">{{{title}}}</mj-text>
         </mj-column>
       </mj-section>
       <mj-section>
         <mj-column>
           <mj-text font-size="16px" align="center" padding='2px'>{{notificationReceived}}</mj-text>
-          <mj-text font-size="16px" align="center">{{content}}</mj-text>
+          <mj-text font-size="16px" align="center">{{{content}}}</mj-text>
           <mj-button
           href={{actionUrl}}
           background-color="#3182CE"
