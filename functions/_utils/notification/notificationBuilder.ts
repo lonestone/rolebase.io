@@ -1,6 +1,6 @@
 import { NotificationCategories } from '@shared/model/notification'
 import { resources } from '@i18n'
-import { Novu, TriggerRecipientsPayload } from '@novu/node'
+import { ITriggerPayloadOptions, Novu } from '@novu/node'
 import settings from '@utils/settings'
 import { OrgFragment } from '@gql'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
@@ -42,7 +42,7 @@ export abstract class Notification<
   }
 
   // Send notification
-  async send(to: TriggerRecipientsPayload) {
+  async send(to: ITriggerPayloadOptions['to']) {
     await this.novu
       .trigger(this.category, {
         to,

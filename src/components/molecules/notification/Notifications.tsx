@@ -178,6 +178,10 @@ export default function Notifications({ isMobile }: Props) {
         subscriberId={userId}
         subscriberHash={config.userKey}
         applicationIdentifier={config.appId}
+        initialFetchingStrategy={{
+          fetchNotifications: true,
+          fetchUserPreferences: true,
+        }}
         i18n={getPureLanguageCode(language) as INovuProviderProps['i18n']}
         styles={novuStyles}
       >
