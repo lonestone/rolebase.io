@@ -115,7 +115,7 @@
     "representInCircle": "in role <link />"
   },
   "CirclesPage": {
-    "title": "{{org}}'s roles"
+    "title": "{{org}}'s org chart"
   },
   "CircleTasks": {
     "create": "Create a task"

@@ -38,28 +38,23 @@ const DashboardNews = ({ ...rest }: DashboardNewsProps) => {
 
       <CardBody p={4}>
         <Stack spacing={1}>
-          {data?.org_by_pk?.news &&
-            data?.org_by_pk.news.map((news) => {
-              if (news.thread) {
-                return (
-                  <DashboardNewsItem key={news.id} fragment={news.thread} />
-                )
-              }
+          {data?.org_by_pk?.news?.map((news) => {
+            if (news.thread) {
+              return <DashboardNewsItem key={news.id} fragment={news.thread} />
+            }
 
-              if (news.meeting) {
-                return (
-                  <DashboardNewsItem key={news.id} fragment={news.meeting} />
-                )
-              }
+            if (news.meeting) {
+              return <DashboardNewsItem key={news.id} fragment={news.meeting} />
+            }
 
-              if (news.decision) {
-                return (
-                  <DashboardNewsItem key={news.id} fragment={news.decision} />
-                )
-              }
+            if (news.decision) {
+              return (
+                <DashboardNewsItem key={news.id} fragment={news.decision} />
+              )
+            }
 
-              return <></>
-            })}
+            return <></>
+          })}
         </Stack>
       </CardBody>
     </Card>
