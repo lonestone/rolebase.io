@@ -168,7 +168,9 @@ export default function CirclesPage() {
         </ModalPanel>
       )}
 
-      {panel === Panels.None && <Title>{t('CirclesPage.title')}</Title>}
+      {panel === Panels.None && (
+        <Title>{t('CirclesPage.title', { org: org?.name })}</Title>
+      )}
 
       <HStack p={2}>
         <Box>

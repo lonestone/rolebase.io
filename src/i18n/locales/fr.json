@@ -115,7 +115,7 @@
     "representInCircle": "dans le rôle <link />"
   },
   "CirclesPage": {
-    "title": "Rôles"
+    "title": "Organigramme de {{org}}"
   },
   "CircleTasks": {
     "create": "Créer une tâche"
@@ -148,8 +148,7 @@
   },
   "DashboardPage": {
     "title": "Home",
-    "heading": "Bonjour, {{firstName}}",
-    "firstNameUnknown": "Inconnu"
+    "heading": "Bonjour {{firstName}}"
   },
   "DecisionContent": {
     "heading": "Décision"
