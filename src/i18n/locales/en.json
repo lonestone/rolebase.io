@@ -36,7 +36,7 @@
       "decision": "Decision",
       "meeting": "Meeting",
       "thread": "Thread",
-      "default": "Actuality"
+      "default": "News"
     }
   },
   "BaseRoleCreateModal": {
@@ -115,7 +115,7 @@
     "representInCircle": "in role <link />"
   },
   "CirclesPage": {
-    "title": "Roles"
+    "title": "{{org}}'s roles"
   },
   "CircleTasks": {
     "create": "Create a task"
@@ -147,8 +147,7 @@
   },
   "DashboardPage": {
     "title": "Home",
-    "heading": "Hello, {{firstName}}",
-    "firstNameUnknown": "Stranger"
+    "heading": "Hello {{firstName}}"
   },
   "DecisionContent": {
     "heading": "Decision"
@@ -603,7 +602,7 @@
     "orgs": "Organizations",
     "menu": "Menu",
     "dashboard": "Dashboard",
-    "roles": "Organizational chart",
+    "roles": "Org chart",
     "threads": "Topics",
     "meetings": "Meetings",
     "tasks": "Tasks",
