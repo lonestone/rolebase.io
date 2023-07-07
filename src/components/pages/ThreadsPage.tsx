@@ -1,11 +1,8 @@
-import Loading from '@atoms/Loading'
-import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
   Box,
   Button,
   ButtonGroup,
-  Container,
   Flex,
   Heading,
   Menu,
@@ -16,17 +13,13 @@ import {
   Spacer,
   Tag,
   TagCloseButton,
-  Text,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
 import { Thread_Status_Enum } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
-import useFilterEntities from '@hooks/useFilterEntities'
 import useOrgMember from '@hooks/useOrgMember'
-import useThreads from '@hooks/useThreads'
-import ThreadItem from '@molecules/thread/ThreadItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
+import ThreadsList from '@organisms/thread/ThreadsList'
 import { EntityFilters } from '@shared/model/participants'
 import { threadStatusList } from '@shared/model/thread'
 import React, { useCallback, useState } from 'react'
@@ -59,12 +52,6 @@ export default function ThreadsPage() {
   const [archives, setArchives] = useState(false)
 
   const [status, setStatus] = useState<Thread_Status_Enum | undefined>()
-
-  // Subscribe to threads
-  const { threads, error, loading } = useThreads({ archived: archives, status })
-
-  // Filter threads
-  const filteredThreads = useFilterEntities(filter, threads)
 
   // Create modal
   const {
@@ -169,28 +156,7 @@ export default function ThreadsPage() {
         )}
       </Flex>
 
-      {loading && <Loading active center />}
-      <TextErrors errors={[error]} />
-
-      <Container maxW="3xl" p={0}>
-        {filteredThreads && (
-          <VStack spacing={0} align="stretch">
-            {filteredThreads.length === 0 && (
-              <Text fontStyle="italic">{t('ThreadsPage.empty')}</Text>
-            )}
-
-            {filteredThreads.map((thread, i) => (
-              <ThreadItem
-                key={thread.id}
-                className={`userflow-thread-${i}`}
-                thread={thread}
-                showCircle
-                unread={thread.read === false}
-              />
-            ))}
-          </VStack>
-        )}
-      </Container>
+      <ThreadsList filter={filter} archives={archives} status={status} />
 
       {isCreateOpen && <ThreadEditModal isOpen onClose={onCreateClose} />}
     </Box>

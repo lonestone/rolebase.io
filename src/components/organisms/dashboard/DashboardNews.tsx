@@ -11,9 +11,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOrgId } from '@hooks/useOrgId'
 import { useGetOrgNewsQuery } from '@gql'
-import DashboardNewsItem from '@molecules/news/DashboardNewsItem'
-
-export const defaultDashboardNewsWidth = 300
+import DashboardNewsItem from '@molecules/dashboard/DashboardNewsItem'
 
 export type DashboardNewsProps = CardProps
 
@@ -29,7 +27,7 @@ const DashboardNews = ({ ...rest }: DashboardNewsProps) => {
   })
 
   return (
-    <Card w={isMobile ? '100%' : `${defaultDashboardNewsWidth}px`} {...rest}>
+    <Card w={isMobile ? '100%' : '40%'} {...rest}>
       <CardHeader>
         <Heading as="h2" size="md">
           {t('DashboardNews.heading')}
@@ -53,7 +51,7 @@ const DashboardNews = ({ ...rest }: DashboardNewsProps) => {
               )
             }
 
-            return <></>
+            return null
           })}
         </Stack>
       </CardBody>

@@ -30,15 +30,6 @@
     "endWhenAllVoted": "Clôturer quand tous les participants ont voté",
     "endDate": "Date de clôture"
   },
-  "DashboardNews": { "heading": "Actualités" },
-  "DashboardNewsItem": {
-    "tag": {
-      "decision": "Décision",
-      "meeting": "Réunion",
-      "thread": "Sujet",
-      "default": "Actualité"
-    }
-  },
   "BaseRoleCreateModal": {
     "heading": "Créer un rôle de base"
   },
@@ -145,6 +136,32 @@
     "password": "Modifier le mot de passe",
     "passwordPlaceholder": "Nouveau mot de passe...",
     "toastSuccess": "Informations mises à jour"
+  },
+  "DashboardMyInfosItem": {
+    "footer": "Voir plus"
+  },
+  "DashboardMyRoles": { "title": "Mes rôles", "add": "Ajouter un rôle" },
+  "DashboardMyMeetings": {
+    "title": "Mes réunions à venir",
+    "add": "Ajouter une réunion"
+  },
+  "DashboardMyThreads": {
+    "title": "Mes sujets",
+    "add": "Ajouter un sujet",
+    "empty": "Aucun sujet."
+  },
+  "DashboardMyTasks": { "title": "Mes tâches", "add": "Ajouter une tâche" },
+  "DashboardNews": { "heading": "Actualités" },
+  "DashboardNewsItem": {
+    "tag": {
+      "decision": "Décision",
+      "meeting": "Réunion",
+      "thread": "Sujet",
+      "default": "Actualité"
+    }
+  },
+  "DashboardOrgChart": {
+    "title": "Organigramme"
   },
   "DashboardPage": {
     "title": "Home",
@@ -408,7 +425,8 @@
     "create": "Nouvelle réunion"
   },
   "MemberContent": {
-    "notFound": "Membre introuvable"
+    "notFound": "Membre introuvable",
+    "memberRolesHeading": "Rôles"
   },
   "MemberCreateModal": {
     "heading": "Ajouter un membre"
@@ -457,9 +475,7 @@
     "workingTime": "Temps de travail"
   },
   "MemberRoles": {
-    "heading": "Rôles",
     "emptyRoles": "Aucun",
-    "addRole": "Ajouter un rôle",
     "totalAllocatedTime": "Temps total alloué :",
     "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
   },
