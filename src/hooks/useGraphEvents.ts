@@ -55,7 +55,7 @@ export default function useGraphEvents(): GraphEvents {
     onCircleClick,
     onMemberClick,
     onCircleMemberClick,
-    onClickOutside: navigateOrg,
+    onClickOutside: () => navigateOrg('roles'),
     onCircleMove: isMember ? moveCircle : undefined,
     onCircleCopy: isMember ? copyCircle : undefined,
     onMemberMove: isMember ? onMemberMove : undefined,

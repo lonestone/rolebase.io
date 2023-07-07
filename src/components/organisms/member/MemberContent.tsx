@@ -109,7 +109,15 @@ export default function MemberContent({
             mb={10}
           />
 
-          <MemberRoles member={member} selectedCircleId={selectedCircleId} />
+          <Box>
+            <Flex mb={2} alignItems="center" justifyContent="space-between">
+              <Heading as="h3" size="sm">
+                {t('MemberContent.memberRolesHeading')}
+              </Heading>
+            </Flex>
+
+            <MemberRoles member={member} selectedCircleId={selectedCircleId} />
+          </Box>
         </VStack>
       </Box>
 

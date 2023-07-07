@@ -30,15 +30,6 @@
     "endWhenAllVoted": "Close when all participants have voted",
     "endDate": "Closing date"
   },
-  "DashboardNews": { "heading": "News" },
-  "DashboardNewsItem": {
-    "tag": {
-      "decision": "Decision",
-      "meeting": "Meeting",
-      "thread": "Thread",
-      "default": "News"
-    }
-  },
   "BaseRoleCreateModal": {
     "heading": "Create a basic role"
   },
@@ -145,9 +136,34 @@
     "passwordPlaceholder": "New password...",
     "toastSuccess": "Information updated"
   },
+  "DashboardMyInfosItem": {
+    "footer": "See more"
+  },
+  "DashboardMyRoles": { "title": "My roles", "add": "Add role" },
+  "DashboardMyMeetings": {
+    "title": "My meetings to come",
+    "add": "Add meeting"
+  },
+  "DashboardMyThreads": {
+    "title": "My threads",
+    "add": "Add thread",
+    "empty": "No topic."
+  },
+  "DashboardMyTasks": { "title": "My tasks", "add": "Add task" },
+  "DashboardNews": { "heading": "News" },
+  "DashboardNewsItem": {
+    "tag": {
+      "decision": "Decision",
+      "meeting": "Meeting",
+      "thread": "Thread",
+      "default": "Actuality"
+    }
+  },
+  "DashboardOrgChart": {
+    "title": "Org chart"
+  },
   "DashboardPage": {
-    "title": "Home",
-    "heading": "Hello {{firstName}}"
+    "title": "Home"
   },
   "DecisionContent": {
     "heading": "Decision"
@@ -374,7 +390,8 @@
     "create": "New meeting"
   },
   "MemberContent": {
-    "notFound": "Member not found"
+    "notFound": "Member not found",
+    "memberRolesHeading": "Roles"
   },
   "MemberCreateModal": {
     "heading": "Add Member"
@@ -423,9 +440,7 @@
     "workingTime": "Working time"
   },
   "MemberRoles": {
-    "heading": "Roles",
     "emptyRoles": "None",
-    "addRole": "Add a role",
     "totalAllocatedTime": "Total allocated time:",
     "alertTooMuchTime": "Total allocated time is too large, you need to lower the total time allocated to a role or increase the member's working time."
   },
