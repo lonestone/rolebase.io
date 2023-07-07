@@ -23,7 +23,7 @@ const DashboardPage = () => {
       <Grid flexGrow={1}>
         <Heading as="h1" size="md">
           {t('DashboardPage.heading', {
-            firstName: user?.displayName ?? t('DashboardPage.firstNameUnknown'),
+            firstName: user?.displayName ?? '',
           })}
         </Heading>
       </Grid>
