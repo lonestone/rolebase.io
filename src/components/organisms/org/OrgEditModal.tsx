@@ -22,6 +22,7 @@ import {
 import { useUpdateOrgMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useOrg from '@hooks/useOrg'
+import { useOrgId } from '@hooks/useOrgId'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { nameSchema } from '@shared/schemas'
 import React, { useEffect } from 'react'
@@ -35,7 +36,7 @@ import OrgDeleteModal from './OrgDeleteModal'
 import OrgSlugModal from './OrgSlugModal '
 
 interface Props extends UseModalProps {
-  id: string
+  id?: string
 }
 
 interface Values {
@@ -50,9 +51,14 @@ const resolver = yupResolver(
   })
 )
 
-export default function OrgEditModal({ id, ...modalProps }: Props) {
-  const { t } = useTranslation()
+export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
+  const orgId = useOrgId()
+  const id = maybeId || orgId
+  if (!id) {
+    throw new Error('No org id')
+  }
   const org = useOrg(id)
+  const { t } = useTranslation()
   const [editOrg] = useUpdateOrgMutation()
 
   const deleteModal = useDisclosure()

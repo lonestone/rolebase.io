@@ -122,6 +122,7 @@
   },
   "CirclesSettings": {
     "label": "Paramètres",
+    "orgEdit": "Paramètres de l'Organisation",
     "baseRoles": "Rôles de base",
     "vacantRoles": "Rôles vacants"
   },
@@ -607,12 +608,6 @@
   "SearchResultsList": {
     "canCreate": "Tapez pour créer ou chercher"
   },
-  "SettingsMenuList": {
-    "org": "Organisation",
-    "logs": "Historique",
-    "superAdmin": "Admin",
-    "subscription": "Abonnement"
-  },
   "Sidebar": {
     "orgs": "Organisations",
     "menu": "Menu",
@@ -621,7 +616,9 @@
     "meetings": "Réunions",
     "tasks": "Tâches",
     "members": "Membres",
-    "settings": "Paramètres",
+    "logs": "Historique",
+    "superAdmin": "Admin",
+    "subscription": "Abonnement",
     "search": "Rechercher...",
     "help": "Aide"
   },

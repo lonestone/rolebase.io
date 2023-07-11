@@ -12,8 +12,6 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
-  Menu,
-  MenuButton,
   Spacer,
   Tooltip,
   useDisclosure,
@@ -26,11 +24,12 @@ import {
 } from '@contexts/SidebarContext'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgOwner from '@hooks/useOrgOwner'
 import { usePathInOrg } from '@hooks/usePathInOrg'
+import useSuperAdmin from '@hooks/useSuperAdmin'
 import Notifications from '@molecules/notification/Notifications'
 import OrgSwitch from '@molecules/OrgSwitch'
 import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
-import SettingsMenuList from '@molecules/SettingsMenuList'
 import UserMenu from '@molecules/UserMenu'
 import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
@@ -38,16 +37,18 @@ import { cmdOrCtrlKey } from '@utils/env'
 import { Crisp } from 'crisp-sdk-web'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaQuestionCircle } from 'react-icons/fa'
 import {
+  FiActivity,
   FiArrowLeft,
   FiCalendar,
   FiCheckSquare,
+  FiClock,
   FiDisc,
   FiExternalLink,
+  FiHelpCircle,
   FiMenu,
   FiMessageSquare,
-  FiSettings,
+  FiStar,
   FiUsers,
 } from 'react-icons/fi'
 import settings from 'src/settings'
@@ -63,6 +64,8 @@ export default function Sidebar() {
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()
+  const isSuperAdmin = useSuperAdmin()
+  const isOwner = useOrgOwner()
 
   // Get Sidebar context
   const context = useContext(SidebarContext)
@@ -292,14 +295,6 @@ export default function Sidebar() {
               >
                 {t('Sidebar.tasks')}
               </SidebarItemLink>
-
-              <SidebarItemLink
-                className="userflow-sidebar-members"
-                to={`${rootPath}members`}
-                icon={<FiUsers />}
-              >
-                {t('Sidebar.members')}
-              </SidebarItemLink>
             </>
           ) : (
             !orgLoading &&
@@ -312,20 +307,41 @@ export default function Sidebar() {
 
           <Spacer />
 
-          {orgId && (
-            <Box className="userflow-sidebar-settings">
-              <Menu placement={isMobile ? 'auto' : 'right-start'}>
-                <MenuButton as={SidebarItem} icon={<FiSettings />}>
-                  {t('Sidebar.settings')}
-                </MenuButton>
-                <SettingsMenuList ml={-2} />
-              </Menu>
-            </Box>
+          <SidebarItemLink
+            className="userflow-sidebar-members"
+            to={`${rootPath}members`}
+            icon={<FiUsers />}
+          >
+            {t('Sidebar.members')}
+          </SidebarItemLink>
+
+          <SidebarItemLink
+            className="userflow-sidebar-logs"
+            to={`${rootPath}logs`}
+            icon={<FiClock />}
+          >
+            {t('Sidebar.logs')}
+          </SidebarItemLink>
+
+          {isOwner && (
+            <SidebarItemLink
+              className="userflow-sidebar-subscription"
+              to={`${rootPath}subscription`}
+              icon={<FiStar />}
+            >
+              {t('Sidebar.subscription')}
+            </SidebarItemLink>
+          )}
+
+          {isSuperAdmin && (
+            <SidebarItemLink to={`${rootPath}admin`} icon={<FiActivity />}>
+              {t('Sidebar.superAdmin')}
+            </SidebarItemLink>
           )}
 
           <SidebarItem
             className="userflow-sidebar-help"
-            icon={<FaQuestionCircle />}
+            icon={<FiHelpCircle />}
             onClick={handleOpenHelp}
           >
             {t('Sidebar.help')}

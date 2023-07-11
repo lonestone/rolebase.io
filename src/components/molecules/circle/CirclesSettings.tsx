@@ -7,7 +7,9 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
+import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
+import OrgEditModal from '@organisms/org/OrgEditModal'
 import BaseRolesModal from '@organisms/role/BaseRolesModal'
 import VacantRolesModal from '@organisms/role/VacantRolesModal'
 import React from 'react'
@@ -17,8 +19,10 @@ import { FiSettings } from 'react-icons/fi'
 export default function CirclesSettings(buttonProps: ButtonProps) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
+  const isAdmin = useOrgAdmin()
 
   // Modals
+  const orgEditModal = useDisclosure()
   const baseRolesModal = useDisclosure()
   const vacantRolesModal = useDisclosure()
 
@@ -35,6 +39,11 @@ export default function CirclesSettings(buttonProps: ButtonProps) {
       <MenuList zIndex={2000} shadow="md">
         {isMember && (
           <>
+            {isAdmin && (
+              <MenuItem onClick={orgEditModal.onOpen}>
+                {t('CirclesSettings.orgEdit')}
+              </MenuItem>
+            )}
             <MenuItem onClick={baseRolesModal.onOpen}>
               {t('CirclesSettings.baseRoles')}
             </MenuItem>
@@ -44,6 +53,10 @@ export default function CirclesSettings(buttonProps: ButtonProps) {
           </>
         )}
       </MenuList>
+
+      {orgEditModal.isOpen && (
+        <OrgEditModal isOpen onClose={orgEditModal.onClose} />
+      )}
 
       {baseRolesModal.isOpen && (
         <BaseRolesModal isOpen onClose={baseRolesModal.onClose} />

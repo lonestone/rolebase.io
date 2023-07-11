@@ -122,6 +122,7 @@
   },
   "CirclesSettings": {
     "label": "Settings",
+    "orgEdit": "Organization Settings",
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles"
   },
@@ -576,12 +577,6 @@
   "SearchResultsList": {
     "canCreate": "Type to create or search"
   },
-  "SettingsMenuList": {
-    "org": "Organization",
-    "logs": "History",
-    "superAdmin": "Admin",
-    "subscription": "Subscription"
-  },
   "Sidebar": {
     "orgs": "Organizations",
     "menu": "Menu",
@@ -590,7 +585,9 @@
     "meetings": "Meetings",
     "tasks": "Tasks",
     "members": "Members",
-    "settings": "Settings",
+    "logs": "History",
+    "superAdmin": "Admin",
+    "subscription": "Subscription",
     "search": "Search...",
     "help": "Help"
   },
