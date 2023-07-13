@@ -14,9 +14,9 @@ import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
 import { ParticipantMember } from '@shared/model/member'
+import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 import { useCallback, useEffect, useMemo } from 'react'
 import { usePathInOrg } from './usePathInOrg'
-import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 
 /***
  * Thread state hook
@@ -63,7 +63,9 @@ export default function useThreadState(threadId: string): ThreadState {
   })
 
   const activities =
-    activitiesLogsResult.data?.thread_by_pk?.activities || undefined
+    activitiesLogsResult.data?.thread_by_pk?.activities
+      // Sort activities here because we need order before injectig logs
+      .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1)) || undefined
   const threadLogs = activitiesLogsResult.data?.thread_by_pk?.logs || undefined
 
   // Meeting page path
@@ -178,9 +180,9 @@ export default function useThreadState(threadId: string): ThreadState {
       return undefined
     }
 
-    return activities.concat(threadLogsActivity || []).sort((a, b) => {
-      return a.createdAt > b.createdAt ? 1 : -1
-    })
+    return activities
+      .concat(threadLogsActivity || [])
+      .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
   }, [activities, threadLogsActivity])
 
   return {
