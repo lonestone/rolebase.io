@@ -179,7 +179,7 @@
       "button": "Sélectionner le fichier à importer"
     },
     "loading": {
-      "heading": "Import en cours...",
+      "heading": "Import en cours",
       "text": "Votre organisation est en cours de création."
     },
     "success": {
@@ -564,7 +564,6 @@
     "baseInfo": "Ce rôle est un Rôle de Base potentiellement utilisé à plusieurs endroits.",
     "name": "Nom du rôle",
     "singleMember": "Ne peut être occupé que par un seul membre",
-    "autoCreate": "Créer automatiquement dans tout nouveau rôle",
     "linkParent": "Représente son rôle parent (lien)",
     "linkToParent": "Dans le rôle parent",
     "linkToCircle": "Dans un autre rôle",

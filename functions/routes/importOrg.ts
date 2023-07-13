@@ -1,6 +1,6 @@
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
-import { ImportProviders, importers } from '@utils/import'
+import { importers } from '@utils/import'
 import { nhost } from '@utils/nhost'
 import { RouteError, route } from '@utils/route'
 import axios from 'axios'
@@ -9,7 +9,7 @@ import * as yup from 'yup'
 /* Import a new organization from a file */
 
 const yupSchema = yup.object().shape({
-  provider: yup.mixed().oneOf(Object.values(ImportProviders)).required(),
+  provider: yup.mixed().oneOf(Object.keys(importers)).required(),
   fileId: yup.string().required(),
 })
 
@@ -26,9 +26,10 @@ export default route(async (context): Promise<void> => {
   const fileData = result.data
 
   // Run importer
-  const importer = importers[provider]
-  if (!importer) {
+  const importerFactory = importers[provider as keyof typeof importers]
+  if (!importerFactory) {
     throw new RouteError(400, 'Unknown provider')
   }
-  await importer(context, fileData)
+  const importer = importerFactory(context)
+  await importer.importFile(fileData)
 })

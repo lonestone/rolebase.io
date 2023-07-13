@@ -30,9 +30,7 @@ enum ImportProviders {
   CSV = 'CSV',
 }
 
-const supportedProviders: ImportProviders[] = [
-  // ImportProviders.Holaspirit
-]
+const supportedProviders: ImportProviders[] = [ImportProviders.Holaspirit]
 
 enum ImportSteps {
   Provider,
@@ -254,8 +252,8 @@ export default function ImportPage() {
       {step === ImportSteps.Loading && (
         <>
           <Heading as="h1" size="md" mb={7} display="flex">
-            <Loading active size="md" mr={5} />{' '}
             {t('ImportPage.loading.heading')}
+            <Loading active size="md" ml={5} />
           </Heading>
 
           <Text>{t('ImportPage.loading.text')}</Text>

@@ -33,5 +33,5 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["./src", "./shared"]
+  "include": ["./src", "./shared", "functions/_shared/helpers/getFileSHA1.ts"]
 }

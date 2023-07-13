@@ -104,7 +104,6 @@ const roleBase = {
   indicators: '',
   notes: '',
   singleMember: false,
-  autoCreate: false,
   link: RoleLink.No,
   defaultMinPerWeek: null,
   colorHue: null,

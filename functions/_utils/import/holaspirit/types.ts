@@ -2,7 +2,7 @@ export interface HolaspiritSheets {
   Members: HolaspiritMember[]
   Assignations: HolaspiritAssignation[]
   'Circles & Roles': HolaspiritCirclesRole[]
-  Policies: HolaspiritPolicie[]
+  Policies: HolaspiritPolicy[]
   Actions: HolaspiritAction[]
   Projects: HolaspiritProject[]
   'Projects To-do lists': HolaspiritProjectsTodolist[]
@@ -11,6 +11,20 @@ export interface HolaspiritSheets {
   Metrics: HolaspiritMetric[]
   Meeting: HolaspiritMeeting[]
 }
+
+export const holaspiritSheetsNames: Array<keyof HolaspiritSheets> = [
+  'Members',
+  'Assignations',
+  'Circles & Roles',
+  'Policies',
+  'Actions',
+  'Projects',
+  'Projects To-do lists',
+  'Publications',
+  'Checklists',
+  'Metrics',
+  'Meeting',
+]
 
 export interface HolaspiritMember {
   'Last name': string
@@ -27,48 +41,54 @@ export interface HolaspiritMember {
 }
 
 export interface HolaspiritAssignation {
-  'Last name': 'Dantz'
-  'First name': 'Sarah'
-  Email: 'sarah@semawe.fr'
-  'Circle ID': '63062b6763af194f735ec552'
-  Circle: 'AO Métro Malraux'
-  'Role ID': '63062b6863af194f735ec554'
-  Role: 'Admin AO'
-  TimeSpent: 0
-  Since: string // Date
+  'Last name': string
+  'First name': string
+  Email: string
+  'Circle ID': string
+  Circle: string
+  'Role ID'?: string
+  Role?: string
+  TimeSpent: number
+  Since?: string // Date
+  Until?: string // Date
   Core: true
 }
 
 export interface HolaspiritCirclesRole {
-  'Circle ID': '620a186b7d5d44296d371a1d'
-  Circle: 'Sémawé'
-  'Role ID': '61384a6d5bee686c19342f04'
-  Role: '1er ministre'
+  'Circle ID'?: string
+  Circle?: string
+  'Role ID': string
+  Role: string
   HasAssignation: true
   Created: string // Date
-  TimeSpent: 0
-  IsCircle: false
-  Purpose: 'Le meilleur fit-for-role'
-  Domains: 'Affectation des rôles pour les rôles du Cercle'
-  Accountabilities: 'Nommer les meilleures personnes pour les rôles'
+  TimeSpent: number
+  IsCircle: boolean
+  Purpose: string
+  Domains: string
+  Accountabilities: string
+  Strategy?: string
+  ['OBJECTIFS CLES']?: string
+  NOTES?: string
 }
 
-export interface HolaspiritPolicie {
-  'Circle ID': '620a2043431a815cf73d90cc'
-  Circle: 'Accompagnements'
-  Domain: 'All functions and activities within the Circle'
-  Policy: 'Espace de maturation de la pratique'
-  Description: "Les Coaches et accompagnants s'engagent dans des espace de supervision ou de covision entre pairs pour murir dans leur pratique"
+export interface HolaspiritPolicy {
+  'Circle ID': string
+  Circle: string
+  'Role ID'?: string
+  Role?: string
+  Domain: string
+  Policy: string
+  Description?: string
 }
 
 export interface HolaspiritAction {
-  'Circle ID': '61384a6d5bee686c19342ad1'
-  Circle: 'Blossom HappyWork'
-  'Role ID': '61384a6d5bee686c19342f48'
-  Role: 'Actionnaire'
-  Members: 'isabelle.rappart@happywork.pro'
-  Status: 'done'
-  Title: 'mettre un post slack pour voyage noirmoutiers'
+  'Circle ID': string
+  Circle: string
+  'Role ID': string
+  Role: string
+  Members: string
+  Status: string // 'done'
+  Title: string
   Created: string // Date
   Archived: string // Date
 }
@@ -101,23 +121,25 @@ export interface HolaspiritPublication {
 }
 
 export interface HolaspiritChecklist {
-  'Circle ID': '632066c159125f42580d0f8a'
-  Circle: 'Finance'
-  'Role ID': '61384a6d5bee686c19343c39'
-  Role: 'Analyse des entrées et sorties'
-  Recurrence: 'monthly'
-  Members: 'maud.ivanoff@ivolve.fr'
-  Title: 'Les relevés bancaires mensuels sont intégrés au récapitulatif financier'
+  'Circle ID': string
+  Circle: string
+  'Role ID'?: string
+  Role?: string
+  Recurrence: string
+  Members: string
+  Title: string
+  Description?: string
 }
 
 export interface HolaspiritMetric {
-  'Circle ID': '632066c159125f42580d0f8a'
-  Circle: 'Finance'
-  'Role ID': '61384a6d5bee686c19343c39'
-  Role: 'Analyse des entrées et sorties'
-  Recurrence: 'monthly'
-  Members: 'maud.ivanoff@ivolve.fr'
-  Title: 'Entrées et Sorties €'
+  'Circle ID': string
+  Circle: string
+  'Role ID'?: string
+  Role?: string
+  Recurrence: string
+  Members: string
+  Title: string
+  Description?: string
 }
 
 export interface HolaspiritMeeting {

@@ -47,7 +47,6 @@ interface Props extends UseModalProps {
 interface Values {
   name: string
   singleMember: boolean
-  autoCreate: boolean
   link: string
   defaultMinPerWeek: number | null
   colorHue: number | null
@@ -71,7 +70,6 @@ function getDefaultValues(role: RoleFragment): Values {
     name: role.name,
     defaultMinPerWeek: role.defaultMinPerWeek ?? null,
     singleMember: role.singleMember,
-    autoCreate: role.autoCreate,
     link: role.link,
     colorHue: role.colorHue ?? null,
   }
@@ -176,12 +174,6 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
                   <Checkbox {...register('singleMember')}>
                     {t('RoleEditModal.singleMember')}
                   </Checkbox>
-
-                  {/* role.base && (
-                    <Checkbox {...register('autoCreate')}>
-                      {t('RoleEditModal.autoCreate')}
-                    </Checkbox>
-                  ) */}
 
                   <Checkbox
                     name="link"

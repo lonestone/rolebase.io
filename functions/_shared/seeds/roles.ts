@@ -11,7 +11,6 @@ const roleBase = {
   indicators: '',
   notes: '',
   singleMember: true,
-  autoCreate: false,
   link: RoleLink.No,
   defaultMinPerWeek: null,
   colorHue: null,
@@ -19,7 +18,7 @@ const roleBase = {
 
 export const getSeedRoles = (orgId: string): Omit<RoleFragment, 'id'>[] =>
   [
-    { name: 'Leader', autoCreate: true, link: RoleLink.Parent, colorHue: 0 },
+    { name: 'Leader', link: RoleLink.Parent, colorHue: 0 },
     { name: 'Représentant', link: RoleLink.Parent, colorHue: 18 },
     { name: 'Secrétaire', colorHue: 283 },
     { name: 'Facilitateur', colorHue: 111 },

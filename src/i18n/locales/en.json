@@ -532,7 +532,6 @@
     "baseInfo": "This role is a Basic Role potentially used in multiple locations.",
     "name": "Role Name",
     "singleMember": "Can only be occupied by a single member",
-    "autoCreate": "Create automatically in any new role",
     "linkParent": "Represents its parent rôle (link)",
     "linkToParent": "In parent rôle",
     "linkToCircle": "In another rôle",
@@ -986,7 +985,7 @@
     },
     "loading": {
       "text": "Your organization is being created.",
-      "heading": "Import in progress..."
+      "heading": "Import in progress"
     },
     "success": {
       "heading": "Your organization is ready 🎉",

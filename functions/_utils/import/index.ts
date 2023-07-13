@@ -1,15 +1,6 @@
 import { FunctionContext } from '@utils/getContext'
-import { Holaspirit } from './holaspirit'
+import { HolaspiritImporter } from './holaspirit/HolaspiritImporter'
 
-export enum ImportProviders {
-  Holaspirit = 'Holaspirit',
-}
-
-export type Importer = (
-  context: FunctionContext,
-  fileData: Buffer
-) => Promise<void>
-
-export const importers: Record<ImportProviders, Importer> = {
-  Holaspirit,
+export const importers = {
+  Holaspirit: (context: FunctionContext) => new HolaspiritImporter(context),
 }
