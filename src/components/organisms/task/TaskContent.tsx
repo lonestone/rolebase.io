@@ -35,7 +35,6 @@ import useOrgMember from '@hooks/useOrgMember'
 import { usePreventClose } from '@hooks/usePreventClose'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import ActionsMenu from '@molecules/ActionsMenu'
-import DateInfo from '@molecules/DateInfo'
 import EditorController from '@molecules/editor/EditorController'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
@@ -255,7 +254,22 @@ export default function TaskContent({
           />
         </FormControl>
 
-        {task && <DateInfo date={task.createdAt} />}
+        <FormControl isInvalid={!!errors.description}>
+          <FormLabel>{t('TaskContent.description')}</FormLabel>
+          {isMember ? (
+            <EditorController
+              name="description"
+              placeholder={t('TaskContent.notes')}
+              control={control}
+            />
+          ) : (
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => <Markdown>{field.value}</Markdown>}
+            />
+          )}
+        </FormControl>
 
         <Flex flexWrap="wrap">
           <FormControl isInvalid={!!errors.circleId} w="auto" mr={5}>
@@ -317,23 +331,6 @@ export default function TaskContent({
               />
             </Box>
           ) : null}
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.description}>
-          <FormLabel>{t('TaskContent.description')}</FormLabel>
-          {isMember ? (
-            <EditorController
-              name="description"
-              placeholder={t('TaskContent.notes')}
-              control={control}
-            />
-          ) : (
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => <Markdown>{field.value}</Markdown>}
-            />
-          )}
         </FormControl>
 
         {task && (
