@@ -50,7 +50,7 @@ export default function MemberInvitationPage() {
 
   // When org is joined and exist in the store, redirect to the org page
   if (storeOrg) {
-    return <Navigate to={getOrgPath(storeOrg)} />
+    return <Navigate to={`${getOrgPath(storeOrg)}/`} />
   } else if (errorOccurred) {
     return <Navigate to="/" />
   } else {

@@ -38,7 +38,7 @@ export default function OrgsPage() {
 
     // Redirect to org when there is only one org
     if (orgs?.length === 1) {
-      navigate(getOrgPath(orgs[0]))
+      navigate(`${getOrgPath(orgs[0])}/`)
       return
     }
   }, [orgs])

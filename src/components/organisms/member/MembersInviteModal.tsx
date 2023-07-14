@@ -4,12 +4,9 @@ import {
   Box,
   Button,
   Checkbox,
-  CloseButton,
   Flex,
   HStack,
   Input,
-  InputGroup,
-  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,7 +21,13 @@ import {
 } from '@chakra-ui/react'
 import { Member_Role_Enum } from '@gql'
 import { useStoreState } from '@store/hooks'
-import React, { useCallback, useMemo, useReducer, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiMail } from 'react-icons/fi'
 import {
@@ -47,17 +50,21 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
   const [isInviting, setIsInviting] = useState(false)
   const [role, setRole] = useState(Member_Role_Enum.Member)
 
-  // Search
-  const [searchText, setSearchText] = useState('')
+  // Set emails when members change
+  useEffect(() => {
+    if (!notInvitedMembers) return
+    for (const member of notInvitedMembers) {
+      const memberState = state[member.id]
+      if (memberState?.email || !member.inviteEmail) return
+      dispatch({
+        type: 'SetEmail',
+        id: member.id,
+        email: member.inviteEmail,
+      })
+    }
+  }, [notInvitedMembers])
 
-  // Filter members
-  const filteredMembers = useMemo(() => {
-    const text = searchText.toLowerCase()
-    return notInvitedMembers?.filter(
-      (member) => member.name.toLowerCase().indexOf(text) !== -1
-    )
-  }, [notInvitedMembers, searchText])
-
+  // Count selected members
   const nbSelectedMembers = useMemo(
     () =>
       Object.values(state).reduce(
@@ -65,6 +72,16 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
         0
       ),
     [state]
+  )
+
+  // Toggle a member
+  const handleCheck = useCallback(
+    (id: string) =>
+      dispatch({
+        type: 'Toggle',
+        id,
+      }),
+    []
   )
 
   // Auto-fill email addresses from a detected patterxn
@@ -155,47 +172,21 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
               <p>{t('MembersInviteModal.empty2')}</p>
             </Box>
           ) : (
-            <VStack spacing={5} align="stretch">
-              <InputGroup>
-                <Input
-                  type="text"
-                  placeholder={t('MembersInviteModal.searchPlaceholder')}
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                />
-                <InputRightElement>
-                  <CloseButton
-                    colorScheme="gray"
-                    size="sm"
-                    onClick={() => setSearchText('')}
-                  />
-                </InputRightElement>
-              </InputGroup>
-
+            <>
               <VStack spacing={2} align="stretch">
-                {filteredMembers.map((member) => {
+                {notInvitedMembers.map((member) => {
                   const memberState = state[member.id]
                   return (
                     <Flex key={member.id} alignItems="center" wrap="wrap">
                       <Checkbox
                         mr={2}
                         isChecked={memberState?.selected || false}
-                        onChange={() =>
-                          dispatch({
-                            type: 'Toggle',
-                            id: member.id,
-                          })
-                        }
+                        onChange={() => handleCheck(member.id)}
                       />
                       <MemberButton
                         member={member}
                         variant="ghost"
-                        onClick={() =>
-                          dispatch({
-                            type: 'Toggle',
-                            id: member.id,
-                          })
-                        }
+                        onClick={() => handleCheck(member.id)}
                       />
                       <Spacer />
                       <Input
@@ -216,7 +207,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                 })}
               </VStack>
 
-              <HStack justify="end" my={2}>
+              <HStack justify="end" mt={5} mb={2}>
                 <Select
                   value={role}
                   onChange={(e) => setRole(e.target.value as Member_Role_Enum)}
@@ -246,7 +237,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                   })}
                 </Button>
               </HStack>
-            </VStack>
+            </>
           )}
         </ModalBody>
       </ModalContent>
