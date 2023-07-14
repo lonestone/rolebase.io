@@ -7,13 +7,13 @@ import {
   useGetMemberLazyQuery,
   useGetRoleLazyQuery,
   useGetTaskLazyQuery,
+  useGetThreadLazyQuery,
   useUpdateCircleMemberMutation,
   useUpdateCircleMutation,
   useUpdateDecisionMutation,
   useUpdateMemberMutation,
   useUpdateRoleMutation,
   useUpdateTaskMutation,
-  useGetThreadLazyQuery,
   useUpdateThreadMutation,
 } from '@gql'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
@@ -123,9 +123,11 @@ export function useCancelLog(log: LogFragment) {
 
     // Log cancelation
     createLog({
-      meetingId: log.meetingId || null,
       display: log.display,
       changes,
+      meetingId: log.meetingId,
+      taskId: log.taskId,
+      threadId: log.threadId,
       ...(!log.cancelLogId
         ? {
             cancelLogId: log.id,
