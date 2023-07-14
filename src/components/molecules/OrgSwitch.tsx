@@ -62,7 +62,11 @@ export default function OrgSwitch(props: MenuButtonProps) {
 
       <MenuList zIndex={10} shadow="lg" ml={2}>
         {sortedOrgs?.map((org) => (
-          <Link key={org.id} to={getOrgPath(org)} onClick={handleCloseSidebar}>
+          <Link
+            key={org.id}
+            to={`${getOrgPath(org)}/`}
+            onClick={handleCloseSidebar}
+          >
             <MenuItem icon={<FiCircle />}>{org.name}</MenuItem>
           </Link>
         ))}

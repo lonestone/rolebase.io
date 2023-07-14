@@ -160,7 +160,9 @@ export const archiveMember = fn<{ memberId: string }>('archiveMember')
 
 export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 
-export const importOrg = fn<{ provider: string; fileId: string }>('importOrg')
+export const importOrg = fn<{ provider: string; fileId: string }, string>(
+  'importOrg'
+)
 
 // Helper to call a function
 function fn<Params, Result = void>(route: string) {

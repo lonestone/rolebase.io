@@ -17,7 +17,7 @@ import { useUserId } from '@nhost/react'
 import { Crisp } from 'crisp-sdk-web'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiUpload } from 'react-icons/fi'
+import { FiArrowRight, FiUpload } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { nhost } from 'src/nhost'
 
@@ -69,6 +69,9 @@ export default function ImportPage() {
     }
   }
 
+  // New org if after creation
+  const [newOrgId, setNewOrgId] = useState<string | undefined>()
+
   // Provider selection
   const [showOtherProvider, setShowOtherProvider] = useState(false)
   const [provider, setProvider] = useState('')
@@ -118,8 +121,8 @@ export default function ImportPage() {
 
       // Import org with nhost function
       try {
-        const result = await importOrg({ provider, fileId })
-        console.log('result', result)
+        const orgId = await importOrg({ provider, fileId })
+        setNewOrgId(orgId)
         setStep(ImportSteps.Success)
       } catch (error: any) {
         handleSendSupport(
@@ -246,6 +249,15 @@ export default function ImportPage() {
           </Heading>
 
           <Text>{t('ImportPage.success.text')}</Text>
+
+          <Button
+            colorScheme="blue"
+            mt={5}
+            rightIcon={<FiArrowRight />}
+            onClick={() => navigate(`/orgs/${newOrgId}`)}
+          >
+            {t('ImportPage.success.button')}
+          </Button>
         </>
       )}
 

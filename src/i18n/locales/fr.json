@@ -184,7 +184,8 @@
     },
     "success": {
       "heading": "Votre organisation est prête 🎉",
-      "text": ""
+      "text": "Découvrez-la et faites-la vivre ! Vous pouvez maintenant inviter des membres à participer.",
+      "button": "Ouvrir mon organisation"
     },
     "error": {
       "heading": "Une erreur s'est produite",

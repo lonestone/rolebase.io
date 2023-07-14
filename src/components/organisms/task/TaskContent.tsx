@@ -10,7 +10,6 @@ import {
   BoxProps,
   Button,
   Checkbox,
-  Container,
   Flex,
   FormControl,
   FormLabel,
@@ -333,18 +332,15 @@ export default function TaskContent({
           ) : null}
         </FormControl>
 
-        {task && (
-          <Container maxW="xl" p={0} mt={10}>
-            <TaskLogs
-              taskId={task.id}
-              hideEmpty
-              header={
-                <Heading as="h2" size="md" mb={2}>
-                  {t('TaskContent.logs')}
-                </Heading>
-              }
-            />
-          </Container>
+        {id && (
+          <TaskLogs
+            taskId={id}
+            header={
+              <Heading as="h2" size="md" mt={10} mb={2}>
+                {t('TaskContent.logs')}
+              </Heading>
+            }
+          />
         )}
         {!id && isMember && (
           <Box w="100%" textAlign="right">

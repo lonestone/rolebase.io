@@ -5,6 +5,8 @@ import {
   Member_Insert_Input,
   Member_Role_Enum,
   RoleFragment,
+  Task_Insert_Input,
+  Task_Status_Enum,
 } from '@gql'
 import { getSeedRoles } from '@shared/seeds/roles'
 import { adminRequest } from '@utils/adminRequest'
@@ -19,6 +21,7 @@ import {
   CREATE_MEMBERS,
   CREATE_ORG,
   CREATE_ROLES,
+  CREATE_TASKS,
   GET_USER,
 } from '../utils/graphql'
 import { importFileUpload } from '../utils/importFileUpload'
@@ -33,6 +36,7 @@ export class HolaspiritImporter extends Importer {
   private data: HolaspiritSheets
   private orgId: string
   private orgName: string
+  private orgCircleId: string
   private defaultMemberId: string
   private mapCircleNameToId = new Map<string, string>() // <circleName>#<roleName> => circleId
   private mapMemberEmailToId = new Map<string, string>() // <email> => memberId
@@ -74,6 +78,10 @@ export class HolaspiritImporter extends Importer {
     await this.importCircles()
     await this.importAssginations()
     await this.importPolicies()
+    await this.importActions()
+    await this.importProjects()
+
+    return this.orgId
   }
 
   private async importOrg() {
@@ -192,6 +200,7 @@ export class HolaspiritImporter extends Importer {
       ],
     })
     const orgCircleId = orgCircleResult.insert_circle!.returning[0].id
+    this.orgCircleId = orgCircleId
     this.setMapCircleId(orgRole.Circle, orgRole.Role, orgCircleId)
 
     // Import circles recursively, starting by circles contained directly in org circle
@@ -342,9 +351,7 @@ export class HolaspiritImporter extends Importer {
 
     for (const row of this.data['Policies']) {
       // Get circleId
-      const circleId = row.Role
-        ? this.getMapCircleId(row.Circle, row.Role)
-        : this.getMapCircleId(undefined, row.Circle)
+      const circleId = this.getMapCircleId(row.Circle, row.Role)
       if (!circleId) {
         console.error(
           '[Holaspirit import] Circle not found:',
@@ -366,6 +373,129 @@ export class HolaspiritImporter extends Importer {
     await adminRequest(CREATE_DECISIONS, { decisions })
   }
 
+  private async importActions() {
+    const tasks: Task_Insert_Input[] = []
+
+    for (const row of this.data['Actions']) {
+      // Get circleId
+      const circleId =
+        this.getMapCircleId(row.Circle, row.Role) || this.orgCircleId
+
+      // Get memberId
+      // TODO: Handle multiple members
+      const membersEmails = row.Members?.split('\n') || []
+      const memberId =
+        membersEmails[0] && this.mapMemberEmailToId.get(membersEmails[0])
+
+      // Prepare status
+      const status =
+        row.Status === 'done' ? Task_Status_Enum.Done : Task_Status_Enum.Open
+      if (row.Status !== 'done' && row.Status !== 'current') {
+        console.error('[Holaspirit import] Task status not found:', row.Status)
+      }
+
+      tasks.push({
+        orgId: this.orgId,
+        circleId,
+        memberId,
+        title: row.Title,
+        description: await this.importHTMLContent(row.Description),
+        status,
+        createdAt: row.Created
+          ? new Date(row.Created).toISOString()
+          : undefined,
+      })
+    }
+
+    // Create circles members
+    await adminRequest(CREATE_TASKS, { tasks })
+  }
+
+  private async importProjects() {
+    const tasks: Task_Insert_Input[] = []
+
+    for (const row of this.data['Projects']) {
+      // Get circleId
+      const circleId = this.getMapCircleId(row.Circle, row.Role)
+      if (!circleId) {
+        console.error(
+          '[Holaspirit import] Circle not found:',
+          row.Circle,
+          row.Role
+        )
+        continue
+      }
+
+      // Get memberId
+      // TODO: Handle multiple members
+      const membersEmails = row.Members?.split('\n') || []
+      const memberId =
+        membersEmails[0] && this.mapMemberEmailToId.get(membersEmails[0])
+
+      // Prepare status
+      let status = Task_Status_Enum.Open
+      if (
+        row.Status === 'archived' ||
+        /^(Done|Fini|Cancel|Annulé)$/.test(row.Column)
+      ) {
+        status = Task_Status_Enum.Done
+      } else if (/^(Current|En cours)$/.test(row.Column)) {
+        status = Task_Status_Enum.InProgress
+      } else if (/^(Waiting|En attente)$/.test(row.Column)) {
+        status = Task_Status_Enum.Blocked
+      }
+
+      // Get Todo lists
+      const todos = new Map<string, Array<{ item: string; checked: boolean }>>()
+      for (const todoRow of this.data['Projects To-do lists']) {
+        if (
+          todoRow.Project !== row.Title ||
+          todoRow['Circle ID'] !== row['Circle ID']
+        ) {
+          continue
+        }
+
+        const todoTitle = todoRow['To-do list'] || 'Todo'
+        const todoItem = {
+          item: todoRow['Item'],
+          checked: todoRow['Checked'],
+        }
+        const todo = todos.get(todoTitle)
+        if (todo) {
+          todo.push(todoItem)
+        } else {
+          todos.set(todoTitle, [todoItem])
+        }
+      }
+
+      // Prepare description
+      let description = await this.importHTMLContent(row.Description)
+      for (const [todoTitle, todoItems] of todos) {
+        const todoItemsText = todoItems
+          .map(
+            (todoItem) => (todoItem.checked ? '[x] ' : '[ ] ') + todoItem.item
+          )
+          .join('\n')
+        description += `\n### ${todoTitle}\n${todoItemsText}`
+      }
+
+      tasks.push({
+        orgId: this.orgId,
+        circleId,
+        memberId,
+        title: row.Title,
+        description,
+        status,
+        createdAt: row.Created
+          ? new Date(row.Created).toISOString()
+          : undefined,
+      })
+    }
+
+    // Create circles members
+    await adminRequest(CREATE_TASKS, { tasks })
+  }
+
   private async importHTMLContent(text: string | undefined): Promise<string> {
     if (!text) return ''
     return importFilesFromText(NodeHtmlMarkdown.translate(text), this.orgId)
@@ -378,10 +508,12 @@ export class HolaspiritImporter extends Importer {
       notes += await this.importHTMLContent(roleData.NOTES)
     }
     if (roleData['OBJECTIFS CLES']) {
-      notes += '\n\n*Objectifs :* ' + roleData['OBJECTIFS CLES']
+      const goals = await this.importHTMLContent(roleData['OBJECTIFS CLES'])
+      notes += `\n### Objectifs :\n${goals}`
     }
     if (roleData['Strategy']) {
-      notes += '\n\n*Stratégie :* ' + roleData['Strategy']
+      const strategy = await this.importHTMLContent(roleData['Strategy'])
+      notes += `\n### Stratégie :\n${strategy}`
     }
 
     // Get indicators from Metrics sheet
@@ -419,20 +551,21 @@ export class HolaspiritImporter extends Importer {
   // Match Holaspirit role names to Rolebase seed roles names
   // and return seed role
   private findBaseRole(holaspiritName: string): RoleFragment | undefined {
-    let name = holaspiritName.toLowerCase()
-    if (name === 'leader de cercle' || name === 'circle lead') {
-      name = 'Leader'
-    }
-    if (name === 'représentant de cercle' || name === 'circle rep') {
-      name = 'Représentant'
-    }
-    if (name === 'facilitateur' || name === 'facilitator') {
-      name = 'Facilitateur'
-    }
-    if (name === 'secrétaire' || name === 'secretary') {
-      name = 'Secrétaire'
-    }
+    const name = this.transformBaseRoleName(holaspiritName)
     return this.baseRoles.find((r) => r.name === name)
+  }
+
+  private transformBaseRoleName(holaspiritName: string): string | undefined {
+    const name = holaspiritName.toLowerCase()
+    if (/^(leader (de|du) cercle|circle lead)$/.test(name)) {
+      return 'Leader'
+    } else if (/^(représentant (de|du) cercle|circle rep)$/.test(name)) {
+      return 'Représentant'
+    } else if (/^(facilitateur|facilitator)$/.test(name)) {
+      return 'Facilitateur'
+    } else if (/^(secrétaire|secretary)$/.test(name)) {
+      return 'Secrétaire'
+    }
   }
 
   private setMapCircleId(
@@ -448,12 +581,15 @@ export class HolaspiritImporter extends Importer {
 
   private getMapCircleId(
     circleName: string | undefined,
-    roleName: string
+    roleName: string | undefined
   ): string | undefined {
-    if (circleName) {
+    if (circleName && roleName) {
       return this.mapCircleNameToId.get(`${circleName}#${roleName}`)
     }
-    return this.mapCircleNameToId.get(roleName)
+    const name = circleName || roleName
+    if (name) {
+      return this.mapCircleNameToId.get(name)
+    }
   }
 
   private hasMapCircleId(

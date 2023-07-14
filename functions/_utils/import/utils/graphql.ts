@@ -64,3 +64,12 @@ export const CREATE_DECISIONS = gql(`
       }
     }
   }`)
+
+export const CREATE_TASKS = gql(`
+  mutation createTasksImport($tasks: [task_insert_input!]!) {
+    insert_task(objects: $tasks) {
+      returning {
+        id
+      }
+    }
+  }`)

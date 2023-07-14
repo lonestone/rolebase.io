@@ -85,7 +85,7 @@ export default function OrgsPage() {
             }}
           >
             <Heading size="md" my="2">
-              <LinkOverlay flex={1} as={ReachLink} to={getOrgPath(org)}>
+              <LinkOverlay flex={1} as={ReachLink} to={`${getOrgPath(org)}/`}>
                 {org.name}
               </LinkOverlay>
             </Heading>

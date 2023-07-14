@@ -82,33 +82,40 @@ export interface HolaspiritPolicy {
 }
 
 export interface HolaspiritAction {
-  'Circle ID': string
-  Circle: string
-  'Role ID': string
-  Role: string
-  Members: string
-  Status: string // 'done'
+  'Circle ID'?: string
+  Circle?: string
+  'Role ID'?: string
+  Role?: string
+  Members?: string
+  Status: 'current' | 'done'
   Title: string
+  Description?: string
   Created: string // Date
   Archived: string // Date
 }
 
 export interface HolaspiritProject {
-  'Circle ID': '620a2043431a815cf73d90cc'
-  Circle: 'Accompagnements'
-  Members: 'thomas@semawe.fr'
-  Column: 'Future'
-  Status: 'current'
-  Title: 'Les kakemonos pour POPSU sont prêt'
+  'Circle ID': string
+  Circle: string
+  'Role ID'?: string
+  Role?: string
+  Members?: string
+  Column: string
+  Status: 'current' | 'archived'
+  Title: string
+  Description?: string
   Created: string // Date
 }
 
 export interface HolaspiritProjectsTodolist {
-  'Circle ID': '61384a6d5bee686c19342ad1'
-  Circle: 'Blossom HappyWork'
-  Project: 'La stratégie Marketing España est sur les rails'
-  Item: 'deal avec Dani pour démarrage en avril'
-  Checked: true
+  'Circle ID': string
+  Circle: string
+  'Role ID'?: string
+  Role?: string
+  Project: string
+  'To-do list'?: string
+  Item: string
+  Checked: boolean
 }
 
 export interface HolaspiritPublication {
