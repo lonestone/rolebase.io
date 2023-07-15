@@ -16926,6 +16926,14 @@ export type CircleMeetingsSubscriptionVariables = Exact<{
 
 export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
 
+export type MeetingsAtSameTimeQueryVariables = Exact<{
+  NMstartDate: Scalars['timestamptz'];
+  NMendDate: Scalars['timestamptz'];
+}>;
+
+
+export type MeetingsAtSameTimeQuery = { __typename?: 'query_root', meeting: Array<{ __typename?: 'meeting', archived: boolean, id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
+
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
 }>;
@@ -18601,6 +18609,48 @@ export function useCircleMeetingsSubscription(baseOptions: Apollo.SubscriptionHo
       }
 export type CircleMeetingsSubscriptionHookResult = ReturnType<typeof useCircleMeetingsSubscription>;
 export type CircleMeetingsSubscriptionResult = Apollo.SubscriptionResult<CircleMeetingsSubscription>;
+export const MeetingsAtSameTimeDocument = gql`
+    query meetingsAtSameTime($NMstartDate: timestamptz!, $NMendDate: timestamptz!) {
+  meeting(
+    where: {archived: {_eq: false}, _or: [{startDate: {_gt: $NMstartDate}, endDate: {_lt: $NMendDate}}, {startDate: {_lte: $NMstartDate}, endDate: {_gte: $NMendDate}}, {_and: [{startDate: {_lte: $NMstartDate}, endDate: {_gte: $NMstartDate}}, {endDate: {_lte: $NMendDate}}]}, {_and: [{startDate: {_gte: $NMstartDate}, endDate: {_gte: $NMendDate}}, {startDate: {_lt: $NMendDate}}]}]}
+  ) {
+    ...MeetingSummary
+    archived
+  }
+}
+    ${MeetingSummaryFragmentDoc}`;
+
+/**
+ * __useMeetingsAtSameTimeQuery__
+ *
+ * To run a query within a React component, call `useMeetingsAtSameTimeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeetingsAtSameTimeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeetingsAtSameTimeQuery({
+ *   variables: {
+ *      NMstartDate: // value for 'NMstartDate'
+ *      NMendDate: // value for 'NMendDate'
+ *   },
+ * });
+ */
+export function useMeetingsAtSameTimeQuery(baseOptions: Apollo.QueryHookOptions<MeetingsAtSameTimeQuery, MeetingsAtSameTimeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeetingsAtSameTimeQuery, MeetingsAtSameTimeQueryVariables>(MeetingsAtSameTimeDocument, options);
+      }
+export function useMeetingsAtSameTimeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeetingsAtSameTimeQuery, MeetingsAtSameTimeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeetingsAtSameTimeQuery, MeetingsAtSameTimeQueryVariables>(MeetingsAtSameTimeDocument, options);
+        }
+export type MeetingsAtSameTimeQueryHookResult = ReturnType<typeof useMeetingsAtSameTimeQuery>;
+export type MeetingsAtSameTimeLazyQueryHookResult = ReturnType<typeof useMeetingsAtSameTimeLazyQuery>;
+export type MeetingsAtSameTimeQueryResult = Apollo.QueryResult<MeetingsAtSameTimeQuery, MeetingsAtSameTimeQueryVariables>;
+export function refetchMeetingsAtSameTimeQuery(variables: MeetingsAtSameTimeQueryVariables) {
+      return { query: MeetingsAtSameTimeDocument, variables: variables }
+    }
 export const CreateMeetingDocument = gql`
     mutation createMeeting($values: meeting_insert_input!) {
   insert_meeting_one(object: $values) {

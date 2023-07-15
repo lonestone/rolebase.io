@@ -264,6 +264,12 @@
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
     "logs": "Actions pendant la réunion"
   },
+  "MeetingConfirmModal": {
+    "heading": "Création avec des conflits",
+    "info": "Attention, l'utilisateur suivant n'est pas disponible sur le créneau choisi :",
+    "info_other": "Attention, les utilisateurs suivants ne sont pas disponibles sur le créneau choisi :",
+    "button": "Créer quand même"
+  },
   "MeetingDeleteModal": {
     "heading": "Supprimer une réunion",
     "info": "Êtes-vous sûr(e) de vouloir supprimer la réunion <b>{{name}}</b> ?"

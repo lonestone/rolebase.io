@@ -22,8 +22,10 @@ import {
 import {
   Meeting_Step_Type_Enum,
   MeetingFragment,
+  MeetingSummaryFragment,
   MeetingTemplateFragment,
   Member_Scope_Enum,
+  useMeetingsAtSameTimeLazyQuery,
   useUpdateMeetingMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -38,11 +40,12 @@ import MeetingStepsConfigController, {
 import MeetingTemplateMenu from '@molecules/meeting/MeetingTemplateMenu'
 import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
+import MeetingConfirmModal from '@organisms/meeting/MeetingConfirmModal'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { nameSchema, stepsConfigSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
 import { nanoid } from 'nanoid'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FiChevronDown } from 'react-icons/fi'
@@ -69,6 +72,11 @@ interface Values extends StepsValues {
   videoConfType: VideoConfTypes | null
   videoConfUrl: string
 }
+
+export type MeetingFormDataValues = Omit<
+  MeetingSummaryFragment,
+  'id' | 'orgId' | 'ended'
+>
 
 const resolver = yupResolver(
   yup.object().shape({
@@ -97,6 +105,12 @@ export default function MeetingEditModal({
   const navigate = useNavigate()
   const createMeeting = useCreateMeeting()
   const [updateMeeting] = useUpdateMeetingMutation()
+
+  const [newMeeting, setNewMeeting] = useState<MeetingFormDataValues>()
+  const [conflictingMeetings, setConflictingMeetings] = useState<
+    MeetingSummaryFragment[]
+  >([])
+  const [confirmModal, setConfirmModal] = useState(false)
 
   const defaultValues: Values = useMemo(
     () => ({
@@ -138,6 +152,7 @@ export default function MeetingEditModal({
     resolver,
     defaultValues,
   })
+
   const {
     handleSubmit,
     register,
@@ -151,10 +166,63 @@ export default function MeetingEditModal({
   const circleId = watch('circleId')
   const circle = useCircle(circleId)
 
+  const [checkConflictingMeetings] = useMeetingsAtSameTimeLazyQuery()
+
   // Template change
   const handleTemplateSelect = (template: MeetingTemplateFragment) => {
     setValue('title', template.title)
     setValue('stepsConfig', template.stepsConfig)
+  }
+
+  const checkOccupation = async (meetingUpdate: MeetingFormDataValues) => {
+    try {
+      const { data } = await checkConflictingMeetings({
+        variables: {
+          NMstartDate: meetingUpdate.startDate?.toString()!,
+          NMendDate: meetingUpdate.endDate?.toString()!,
+        },
+      })
+      if (data && data.meeting && !!data.meeting.length) {
+        setNewMeeting(meetingUpdate)
+        setConflictingMeetings(data.meeting)
+        setConfirmModal(true)
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleConfirm = async (meetingUpdate: MeetingFormDataValues) => {
+    if (meeting && !duplicate) {
+      // Update meeting
+      await updateMeeting({
+        variables: {
+          id: meeting.id,
+          values: meetingUpdate,
+        },
+      })
+    } else {
+      // Create meeting
+      const result = await createMeeting(
+        {
+          orgId,
+          ...meetingUpdate,
+        },
+        meeting && duplicate ? meeting.id : undefined
+      )
+      if (!result) return
+
+      if (onCreate) {
+        onCreate(result.id)
+      } else {
+        navigate(result.path)
+      }
+    }
+
+    modalProps.onClose()
   }
 
   // Submit
@@ -168,7 +236,11 @@ export default function MeetingEditModal({
       ...data
     }) => {
       if (!orgId || !currentMember || !circle) return
+
       const startDateDate = new Date(startDate)
+      const endDateDate = new Date(
+        startDateDate.getTime() + duration * 60 * 1000
+      )
 
       const videoConf: VideoConf | null =
         videoConfType === VideoConfTypes.Url
@@ -185,40 +257,15 @@ export default function MeetingEditModal({
       const meetingUpdate = {
         ...data,
         startDate: startDateDate.toISOString(),
-        endDate: new Date(
-          startDateDate.getTime() + duration * 60 * 1000
-        ).toISOString(),
+        endDate: endDateDate.toISOString(),
         participantsMembersIds: participantsMembersIds.map((m) => m.memberId),
         videoConf,
       }
 
-      if (meeting && !duplicate) {
-        // Update meeting
-        await updateMeeting({
-          variables: {
-            id: meeting.id,
-            values: meetingUpdate,
-          },
-        })
-      } else {
-        // Create meeting
-        const result = await createMeeting(
-          {
-            orgId,
-            ...meetingUpdate,
-          },
-          meeting && duplicate ? meeting.id : undefined
-        )
-        if (!result) return
-
-        if (onCreate) {
-          onCreate(result.id)
-        } else {
-          navigate(result.path)
-        }
+      if (await checkOccupation(meetingUpdate)) {
+        return
       }
-
-      modalProps.onClose()
+      handleConfirm(meetingUpdate)
     }
   )
 
@@ -331,6 +378,15 @@ export default function MeetingEditModal({
           </form>
         </ModalContent>
       </Modal>
+      {confirmModal && (
+        <MeetingConfirmModal
+          isOpen
+          newMeeting={newMeeting}
+          conflictedMeetings={conflictingMeetings}
+          onClose={() => setConfirmModal(false)}
+          onAccept={handleConfirm}
+        />
+      )}
     </FormProvider>
   )
 }

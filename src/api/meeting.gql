@@ -56,6 +56,21 @@ subscription circleMeetings($circleId: uuid!) {
   }
 }
 
+
+query meetingsAtSameTime($NMstartDate: timestamptz!, $NMendDate: timestamptz!) {
+  meeting(where: { archived: {_eq: false}, 
+  _or: [
+    { startDate: { _gt: $NMstartDate }, endDate: { _lt: $NMendDate } }, 
+    { startDate: { _lte: $NMstartDate }, endDate: { _gte: $NMendDate } },
+    {_and: [{ startDate: { _lte: $NMstartDate }, endDate: { _gte: $NMstartDate } }, { endDate: { _lte: $NMendDate } }]},
+    {_and: [{ startDate: { _gte: $NMstartDate }, endDate: { _gte: $NMendDate } }, { startDate: { _lt: $NMendDate } }]}
+    ]}) {
+   ...MeetingSummary
+   archived
+  }
+}
+
+
 mutation createMeeting($values: meeting_insert_input!) {
   insert_meeting_one(object: $values) {
     ...Meeting
