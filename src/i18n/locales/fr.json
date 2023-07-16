@@ -141,7 +141,7 @@
   },
   "DashboardMyRoles": { "title": "Mes Rôles" },
   "DashboardMyMeetings": {
-    "title": "Mes Réunions à venir",
+    "title": "Mes prochaines Réunions",
     "add": "Nouvelle réunion"
   },
   "DashboardMyThreads": {
@@ -360,7 +360,7 @@
     "title": "Réunion récurrente"
   },
   "MeetingsList": {
-    "empty": "Aucune réunion à venir."
+    "empty": "Aucune réunion prévue."
   },
   "MeetingStepContent": {
     "addNotes": "Ajouter des notes",
@@ -474,7 +474,9 @@
     "workingTime": "Temps de travail"
   },
   "MemberRoles": {
-    "emptyRoles": "Aucun",
+    "empty": "Aucun rôle."
+  },
+  "MemberWorkingTime": {
     "totalAllocatedTime": "Temps total alloué :",
     "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
   },

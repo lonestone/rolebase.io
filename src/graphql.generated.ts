@@ -18872,6 +18872,7 @@ export const NextMeetingsDocument = gql`
   meeting(
     where: {archived: {_eq: false}, endDate: {_gt: "now()"}}
     order_by: {startDate: asc}
+    limit: 5
   ) {
     ...MeetingSummary
   }

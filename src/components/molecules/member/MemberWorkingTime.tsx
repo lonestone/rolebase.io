@@ -40,7 +40,7 @@ export default function MemberWorkingTime({ member, ...boxProps }: Props) {
     <Box {...boxProps}>
       <Alert status="info">
         <AlertIcon />
-        {t(`MemberRoles.totalAllocatedTime`)}{' '}
+        {t(`MemberWorkingTime.totalAllocatedTime`)}{' '}
         {Math.floor(totalWorkedMin / 6) / 10}h /{' '}
         {Math.floor(maxWorkedMin / 6) / 10}h
       </Alert>
@@ -48,7 +48,7 @@ export default function MemberWorkingTime({ member, ...boxProps }: Props) {
       {totalWorkedMin > maxWorkedMin && (
         <Alert status="warning" mt={2}>
           <AlertIcon />
-          {t(`MemberRoles.alertTooMuchTime`)}
+          {t(`MemberWorkingTime.alertTooMuchTime`)}
         </Alert>
       )}
     </Box>

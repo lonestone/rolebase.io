@@ -54,6 +54,7 @@ subscription nextMeetings {
       endDate: { _gt: "now()" } # Include meetings that are still in progress
     }
     order_by: { startDate: asc }
+    limit: 5
   ) {
     ...MeetingSummary
   }

@@ -1,9 +1,10 @@
-import { Accordion, BoxProps } from '@chakra-ui/react'
+import { Accordion, BoxProps, Text } from '@chakra-ui/react'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import { MemberFragment } from '@gql'
 import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import MemberRoleItem from './MemberRoleItem'
 
 interface Props extends BoxProps {
@@ -16,6 +17,7 @@ export default function MemberRoles({
   selectedCircleId,
   ...boxProps
 }: Props) {
+  const { t } = useTranslation()
   const circles = useStoreState((state) => state.org.circles)
   const circleMemberContext = useContext(CircleMemberContext)
 
@@ -65,15 +67,25 @@ export default function MemberRoles({
   )
 
   return (
-    <Accordion
-      index={selectedCircleIndex}
-      allowToggle
-      {...boxProps}
-      onChange={handleAccordionChange}
-    >
-      {memberCircles.map((circle) => (
-        <MemberRoleItem key={circle.id} memberId={member.id} circle={circle} />
-      ))}
-    </Accordion>
+    <>
+      {memberCircles.length === 0 && (
+        <Text fontStyle="italic">{t('MemberRoles.empty')}</Text>
+      )}
+
+      <Accordion
+        index={selectedCircleIndex}
+        allowToggle
+        {...boxProps}
+        onChange={handleAccordionChange}
+      >
+        {memberCircles.map((circle) => (
+          <MemberRoleItem
+            key={circle.id}
+            memberId={member.id}
+            circle={circle}
+          />
+        ))}
+      </Accordion>
+    </>
   )
 }

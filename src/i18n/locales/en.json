@@ -141,7 +141,7 @@
   },
   "DashboardMyRoles": { "title": "My Roles" },
   "DashboardMyMeetings": {
-    "title": "My Meetings to come",
+    "title": "My next Meetings",
     "add": "New meeting"
   },
   "DashboardMyThreads": {
@@ -326,7 +326,7 @@
     "title": "Recurring Meeting"
   },
   "MeetingsList": {
-    "empty": "No meeting to come."
+    "empty": "No meeting planned."
   },
   "MeetingStepContent": {
     "addNotes": "Add notes",
@@ -440,7 +440,9 @@
     "workingTime": "Working time"
   },
   "MemberRoles": {
-    "emptyRoles": "None",
+    "empty": "No role."
+  },
+  "MemberWorkingTime": {
     "totalAllocatedTime": "Total allocated time:",
     "alertTooMuchTime": "Total allocated time is too large, you need to lower the total time allocated to a role or increase the member's working time."
   },

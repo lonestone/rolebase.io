@@ -1,5 +1,6 @@
 import { Title } from '@atoms/Title'
 import { Box, SimpleGrid, VStack, useMediaQuery } from '@chakra-ui/react'
+import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import DashboardMyMeetings from '@organisms/dashboard/DashboardMyMeetings'
 import DashboardMyRoles from '@organisms/dashboard/DashboardMyRoles'
@@ -15,7 +16,10 @@ const minColumnWidth = 400
 const DashboardPage = () => {
   const { t } = useTranslation()
   const org = useCurrentOrg()
+  const currentMember = useCurrentMember()
   const [isSmall] = useMediaQuery(`(max-width: ${minColumnWidth + 100}px)`)
+
+  if (!currentMember || !org) return null
 
   return (
     <>
@@ -33,9 +37,9 @@ const DashboardPage = () => {
         </VStack>
 
         <VStack spacing={10} align="stretch">
+          <DashboardMyTasks />
           <DashboardMyMeetings />
           <DashboardMyThreads />
-          <DashboardMyTasks />
         </VStack>
 
         <Box>
