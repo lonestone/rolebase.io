@@ -17185,7 +17185,9 @@ export type MeetingsByDatesSubscriptionVariables = Exact<{
 
 export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
 
-export type NextMeetingsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type NextMeetingsSubscriptionVariables = Exact<{
+  orgId: Scalars['uuid'];
+}>;
 
 
 export type NextMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
@@ -18868,9 +18870,9 @@ export function useMeetingsByDatesSubscription(baseOptions: Apollo.SubscriptionH
 export type MeetingsByDatesSubscriptionHookResult = ReturnType<typeof useMeetingsByDatesSubscription>;
 export type MeetingsByDatesSubscriptionResult = Apollo.SubscriptionResult<MeetingsByDatesSubscription>;
 export const NextMeetingsDocument = gql`
-    subscription nextMeetings {
+    subscription nextMeetings($orgId: uuid!) {
   meeting(
-    where: {archived: {_eq: false}, endDate: {_gt: "now()"}}
+    where: {orgId: {_eq: $orgId}, archived: {_eq: false}, endDate: {_gt: "now()"}}
     order_by: {startDate: asc}
     limit: 5
   ) {
@@ -18891,10 +18893,11 @@ export const NextMeetingsDocument = gql`
  * @example
  * const { data, loading, error } = useNextMeetingsSubscription({
  *   variables: {
+ *      orgId: // value for 'orgId'
  *   },
  * });
  */
-export function useNextMeetingsSubscription(baseOptions?: Apollo.SubscriptionHookOptions<NextMeetingsSubscription, NextMeetingsSubscriptionVariables>) {
+export function useNextMeetingsSubscription(baseOptions: Apollo.SubscriptionHookOptions<NextMeetingsSubscription, NextMeetingsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<NextMeetingsSubscription, NextMeetingsSubscriptionVariables>(NextMeetingsDocument, options);
       }

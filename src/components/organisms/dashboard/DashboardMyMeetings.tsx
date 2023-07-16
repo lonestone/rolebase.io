@@ -3,6 +3,7 @@ import TextErrors from '@atoms/TextErrors'
 import { Button, useDisclosure } from '@chakra-ui/react'
 import { useNextMeetingsSubscription } from '@gql'
 import useFilterEntities from '@hooks/useFilterEntities'
+import { useOrgId } from '@hooks/useOrgId'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
 import MeetingsList from '@molecules/meeting/MeetingsList'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
@@ -15,8 +16,14 @@ import { FiPlus } from 'react-icons/fi'
 
 export default function DashboardMyMeetings() {
   const { t } = useTranslation()
+  const orgId = useOrgId()
 
-  const { data, error, loading } = useNextMeetingsSubscription()
+  const { data, error, loading } = useNextMeetingsSubscription({
+    skip: !orgId,
+    variables: {
+      orgId: orgId!,
+    },
+  })
 
   // Filter meetings
   const meetings = useFilterEntities(EntityFilters.Invited, data?.meeting)

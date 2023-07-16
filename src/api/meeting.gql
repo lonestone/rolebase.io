@@ -47,9 +47,10 @@ subscription meetingsByDates(
   }
 }
 
-subscription nextMeetings {
+subscription nextMeetings($orgId: uuid!) {
   meeting(
     where: {
+      orgId: { _eq: $orgId }
       archived: { _eq: false }
       endDate: { _gt: "now()" } # Include meetings that are still in progress
     }
