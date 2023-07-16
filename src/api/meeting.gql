@@ -47,6 +47,18 @@ subscription meetingsByDates(
   }
 }
 
+subscription nextMeetings {
+  meeting(
+    where: {
+      archived: { _eq: false }
+      endDate: { _gt: "now()" } # Include meetings that are still in progress
+    }
+    order_by: { startDate: asc }
+  ) {
+    ...MeetingSummary
+  }
+}
+
 subscription circleMeetings($circleId: uuid!) {
   meeting(
     where: { circleId: { _eq: $circleId }, archived: { _eq: false } }

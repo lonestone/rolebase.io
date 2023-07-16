@@ -81,6 +81,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
                 />
               )}
             </Box>
+
             <LinkOverlay
               as={ReachLink}
               flex={1}
@@ -91,6 +92,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
             >
               {thread.title}
             </LinkOverlay>
+
             {threadInitiator && (
               <MemberByIdAvatar
                 id={threadInitiator.id}
@@ -101,7 +103,9 @@ const ThreadItem = forwardRef<Props, 'div'>(
                 size="xs"
               />
             )}
+
             {showCircle && <CircleByIdButton id={thread.circleId} size="xs" />}
+
             {children}
           </Flex>
         </LinkBox>

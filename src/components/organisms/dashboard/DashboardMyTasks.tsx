@@ -1,57 +1,53 @@
-import React from 'react'
-import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
-import { useTranslation } from 'react-i18next'
-import { MemberFragment } from '@gql'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import { Button, useDisclosure } from '@chakra-ui/react'
+import useCurrentMember from '@hooks/useCurrentMember'
 import { useTasks } from '@hooks/useTasks'
-import { TasksViewTypes } from '@shared/model/task'
-import { Container, useDisclosure } from '@chakra-ui/react'
+import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
+import TasksList from '@molecules/task/TasksList'
 import TaskModal from '@organisms/task/TaskModal'
-import IconTextButton from '@atoms/IconTextButton'
+import { TasksViewTypes } from '@shared/model/task'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
-import TaskItem from '@molecules/task/TaskItem'
 
-export type DashboardMyTasksProps = {
-  path: string
-  member: MemberFragment
-}
-
-const DashboardMyTasks = ({ path, member }: DashboardMyTasksProps) => {
+export default function DashboardMyTasks() {
   const { t } = useTranslation()
+  const member = useCurrentMember()
 
-  const { tasks } = useTasks(TasksViewTypes.List, {
-    memberId: member.id,
+  const { tasks, error, loading, changeOrder } = useTasks(TasksViewTypes.List, {
+    memberId: member?.id,
   })
 
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
+  const createModal = useDisclosure()
 
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyTasks.title')}
-      path={path}
+      path={`tasks?member=${member?.id}`}
       actions={
-        <IconTextButton
-          aria-label={t('DashboardMyTasks.add')}
-          icon={<FiPlus />}
+        <Button
           size="sm"
-          onClick={onCreateOpen}
-        />
+          colorScheme="blue"
+          leftIcon={<FiPlus />}
+          onClick={createModal.onOpen}
+        >
+          {t('DashboardMyTasks.add')}
+        </Button>
       }
     >
-      <Container maxW="3xl" p={0}>
-        {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} showCircle />
-        ))}
-      </Container>
+      {loading && <Loading active size="md" />}
+      <TextErrors errors={[error]} />
 
-      {isCreateOpen && (
-        <TaskModal isOpen defaultMemberId={member.id} onClose={onCreateClose} />
+      <TasksList tasks={tasks} onOrderChange={changeOrder} showMember={false} />
+
+      {createModal.isOpen && (
+        <TaskModal
+          isOpen
+          defaultMemberId={member?.id}
+          onClose={createModal.onClose}
+        />
       )}
     </DashboardMyInfosItem>
   )
 }
-
-export default DashboardMyTasks

@@ -1,22 +1,21 @@
-import React from 'react'
+import useCurrentMember from '@hooks/useCurrentMember'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
-import { useTranslation } from 'react-i18next'
-import { MemberFragment } from '@gql'
 import MemberRoles from '@molecules/member/MemberRoles'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-export type DashboardMyRolesProps = {
-  path: string
-  member: MemberFragment
-}
-
-const DashboardMyRoles = ({ path, member }: DashboardMyRolesProps) => {
+export default function DashboardMyRoles() {
   const { t } = useTranslation()
+  const member = useCurrentMember()
+
+  if (!member) return null
 
   return (
-    <DashboardMyInfosItem title={t('DashboardMyRoles.title')} path={path}>
-      <MemberRoles member={member} />
+    <DashboardMyInfosItem
+      title={t('DashboardMyRoles.title')}
+      path={`roles?memberId=${member.id}`}
+    >
+      <MemberRoles member={member} mx={-2} mt={2} mb={-4} />
     </DashboardMyInfosItem>
   )
 }
-
-export default DashboardMyRoles

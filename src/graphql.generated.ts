@@ -9144,6 +9144,7 @@ export type Mutation_RootUpdate_Users_ManyArgs = {
 /** columns and relationships of "news" */
 export type News = {
   __typename?: 'news';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   decision?: Maybe<Decision>;
   decisionId?: Maybe<Scalars['uuid']>;
@@ -9209,6 +9210,7 @@ export type News_Bool_Exp = {
   _and?: InputMaybe<Array<News_Bool_Exp>>;
   _not?: InputMaybe<News_Bool_Exp>;
   _or?: InputMaybe<Array<News_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   decision?: InputMaybe<Decision_Bool_Exp>;
   decisionId?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -9222,6 +9224,7 @@ export type News_Bool_Exp = {
 
 /** input type for inserting data into table "news" */
 export type News_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   decision?: InputMaybe<Decision_Obj_Rel_Insert_Input>;
   decisionId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
@@ -9236,6 +9239,7 @@ export type News_Insert_Input = {
 /** aggregate max on columns */
 export type News_Max_Fields = {
   __typename?: 'news_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   decisionId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   meetingId?: Maybe<Scalars['uuid']>;
@@ -9245,6 +9249,7 @@ export type News_Max_Fields = {
 
 /** order by max() on columns of table "news" */
 export type News_Max_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   meetingId?: InputMaybe<Order_By>;
@@ -9255,6 +9260,7 @@ export type News_Max_Order_By = {
 /** aggregate min on columns */
 export type News_Min_Fields = {
   __typename?: 'news_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   decisionId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   meetingId?: Maybe<Scalars['uuid']>;
@@ -9264,6 +9270,7 @@ export type News_Min_Fields = {
 
 /** order by min() on columns of table "news" */
 export type News_Min_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   meetingId?: InputMaybe<Order_By>;
@@ -9273,6 +9280,7 @@ export type News_Min_Order_By = {
 
 /** Ordering options when selecting data from "news". */
 export type News_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
   decision?: InputMaybe<Decision_Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -9286,6 +9294,8 @@ export type News_Order_By = {
 
 /** select columns of table "news" */
 export enum News_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
   /** column name */
   DecisionId = 'decisionId',
   /** column name */
@@ -9308,6 +9318,7 @@ export type News_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type News_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   decisionId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['uuid']>;
@@ -17174,6 +17185,11 @@ export type MeetingsByDatesSubscriptionVariables = Exact<{
 
 export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
 
+export type NextMeetingsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NextMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null }> };
+
 export type CircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid'];
 }>;
@@ -17337,6 +17353,17 @@ export type UpdateMemberMutationVariables = Exact<{
 
 export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null } | null };
 
+export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
+
+export type LastNewsQueryVariables = Exact<{
+  orgId: Scalars['uuid'];
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type LastNewsQuery = { __typename?: 'query_root', news: Array<{ __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null }>, news_aggregate: { __typename?: 'news_aggregate', aggregate?: { __typename?: 'news_aggregate_fields', count: number } | null } };
+
 export type GetOrgQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -17374,21 +17401,6 @@ export type ChangeOrgSlugMutationVariables = Exact<{
 
 
 export type ChangeOrgSlugMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
-
-export type MeetingNewsFragment = { __typename?: 'meeting', id: string, title: string };
-
-export type DecisionNewsFragment = { __typename?: 'decision', id: string, title: string };
-
-export type ThreadNewsFragment = { __typename?: 'thread', id: string, title: string };
-
-export type OrgNewsFragment = { __typename?: 'org', news: Array<{ __typename?: 'news', id?: string | null, decision?: { __typename?: 'decision', id: string, title: string } | null, meeting?: { __typename?: 'meeting', id: string, title: string } | null, thread?: { __typename?: 'thread', id: string, title: string } | null }> };
-
-export type GetOrgNewsQueryVariables = Exact<{
-  orgId: Scalars['uuid'];
-}>;
-
-
-export type GetOrgNewsQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', news: Array<{ __typename?: 'news', id?: string | null, decision?: { __typename?: 'decision', id: string, title: string } | null, meeting?: { __typename?: 'meeting', id: string, title: string } | null, thread?: { __typename?: 'thread', id: string, title: string } | null }> } | null };
 
 export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
 
@@ -17960,42 +17972,23 @@ export const MeetingTemplateFragmentDoc = gql`
   stepsConfig
 }
     `;
-export const DecisionNewsFragmentDoc = gql`
-    fragment DecisionNews on decision {
+export const NewsFragmentDoc = gql`
+    fragment News on news {
   id
-  title
-}
-    `;
-export const MeetingNewsFragmentDoc = gql`
-    fragment MeetingNews on meeting {
-  id
-  title
-}
-    `;
-export const ThreadNewsFragmentDoc = gql`
-    fragment ThreadNews on thread {
-  id
-  title
-}
-    `;
-export const OrgNewsFragmentDoc = gql`
-    fragment OrgNews on org {
-  news {
-    id
-    decision {
-      ...DecisionNews
-    }
-    meeting {
-      ...MeetingNews
-    }
-    thread {
-      ...ThreadNews
-    }
+  createdAt
+  decision {
+    ...Decision
+  }
+  meeting {
+    ...MeetingSummary
+  }
+  thread {
+    ...Thread
   }
 }
-    ${DecisionNewsFragmentDoc}
-${MeetingNewsFragmentDoc}
-${ThreadNewsFragmentDoc}`;
+    ${DecisionFragmentDoc}
+${MeetingSummaryFragmentDoc}
+${ThreadFragmentDoc}`;
 export const OrgSubscriptionFieldsFragmentDoc = gql`
     fragment OrgSubscriptionFields on org_subscription {
   id
@@ -18874,6 +18867,38 @@ export function useMeetingsByDatesSubscription(baseOptions: Apollo.SubscriptionH
       }
 export type MeetingsByDatesSubscriptionHookResult = ReturnType<typeof useMeetingsByDatesSubscription>;
 export type MeetingsByDatesSubscriptionResult = Apollo.SubscriptionResult<MeetingsByDatesSubscription>;
+export const NextMeetingsDocument = gql`
+    subscription nextMeetings {
+  meeting(
+    where: {archived: {_eq: false}, endDate: {_gt: "now()"}}
+    order_by: {startDate: asc}
+  ) {
+    ...MeetingSummary
+  }
+}
+    ${MeetingSummaryFragmentDoc}`;
+
+/**
+ * __useNextMeetingsSubscription__
+ *
+ * To run a query within a React component, call `useNextMeetingsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useNextMeetingsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNextMeetingsSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useNextMeetingsSubscription(baseOptions?: Apollo.SubscriptionHookOptions<NextMeetingsSubscription, NextMeetingsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<NextMeetingsSubscription, NextMeetingsSubscriptionVariables>(NextMeetingsDocument, options);
+      }
+export type NextMeetingsSubscriptionHookResult = ReturnType<typeof useNextMeetingsSubscription>;
+export type NextMeetingsSubscriptionResult = Apollo.SubscriptionResult<NextMeetingsSubscription>;
 export const CircleMeetingsDocument = gql`
     subscription circleMeetings($circleId: uuid!) {
   meeting(
@@ -19618,6 +19643,56 @@ export function useUpdateMemberMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateMemberMutationHookResult = ReturnType<typeof useUpdateMemberMutation>;
 export type UpdateMemberMutationResult = Apollo.MutationResult<UpdateMemberMutation>;
 export type UpdateMemberMutationOptions = Apollo.BaseMutationOptions<UpdateMemberMutation, UpdateMemberMutationVariables>;
+export const LastNewsDocument = gql`
+    query lastNews($orgId: uuid!, $limit: Int, $offset: Int) {
+  news(
+    where: {orgId: {_eq: $orgId}}
+    order_by: {createdAt: desc}
+    limit: $limit
+    offset: $offset
+  ) {
+    ...News
+  }
+  news_aggregate(where: {orgId: {_eq: $orgId}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    ${NewsFragmentDoc}`;
+
+/**
+ * __useLastNewsQuery__
+ *
+ * To run a query within a React component, call `useLastNewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLastNewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLastNewsQuery({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useLastNewsQuery(baseOptions: Apollo.QueryHookOptions<LastNewsQuery, LastNewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LastNewsQuery, LastNewsQueryVariables>(LastNewsDocument, options);
+      }
+export function useLastNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LastNewsQuery, LastNewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LastNewsQuery, LastNewsQueryVariables>(LastNewsDocument, options);
+        }
+export type LastNewsQueryHookResult = ReturnType<typeof useLastNewsQuery>;
+export type LastNewsLazyQueryHookResult = ReturnType<typeof useLastNewsLazyQuery>;
+export type LastNewsQueryResult = Apollo.QueryResult<LastNewsQuery, LastNewsQueryVariables>;
+export function refetchLastNewsQuery(variables: LastNewsQueryVariables) {
+      return { query: LastNewsDocument, variables: variables }
+    }
 export const GetOrgDocument = gql`
     query getOrg($id: uuid!) {
   org_by_pk(id: $id) {
@@ -19792,44 +19867,6 @@ export function useChangeOrgSlugMutation(baseOptions?: Apollo.MutationHookOption
 export type ChangeOrgSlugMutationHookResult = ReturnType<typeof useChangeOrgSlugMutation>;
 export type ChangeOrgSlugMutationResult = Apollo.MutationResult<ChangeOrgSlugMutation>;
 export type ChangeOrgSlugMutationOptions = Apollo.BaseMutationOptions<ChangeOrgSlugMutation, ChangeOrgSlugMutationVariables>;
-export const GetOrgNewsDocument = gql`
-    query getOrgNews($orgId: uuid!) {
-  org_by_pk(id: $orgId) {
-    ...OrgNews
-  }
-}
-    ${OrgNewsFragmentDoc}`;
-
-/**
- * __useGetOrgNewsQuery__
- *
- * To run a query within a React component, call `useGetOrgNewsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrgNewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOrgNewsQuery({
- *   variables: {
- *      orgId: // value for 'orgId'
- *   },
- * });
- */
-export function useGetOrgNewsQuery(baseOptions: Apollo.QueryHookOptions<GetOrgNewsQuery, GetOrgNewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrgNewsQuery, GetOrgNewsQueryVariables>(GetOrgNewsDocument, options);
-      }
-export function useGetOrgNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgNewsQuery, GetOrgNewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrgNewsQuery, GetOrgNewsQueryVariables>(GetOrgNewsDocument, options);
-        }
-export type GetOrgNewsQueryHookResult = ReturnType<typeof useGetOrgNewsQuery>;
-export type GetOrgNewsLazyQueryHookResult = ReturnType<typeof useGetOrgNewsLazyQuery>;
-export type GetOrgNewsQueryResult = Apollo.QueryResult<GetOrgNewsQuery, GetOrgNewsQueryVariables>;
-export function refetchGetOrgNewsQuery(variables: GetOrgNewsQueryVariables) {
-      return { query: GetOrgNewsDocument, variables: variables }
-    }
 export const GetOrgSubscriptionDocument = gql`
     query getOrgSubscription($orgId: uuid!) {
   org_subscription(where: {orgId: {_eq: $orgId}}) {

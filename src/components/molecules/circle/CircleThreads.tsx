@@ -1,13 +1,13 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
-import { Button, Text, useDisclosure } from '@chakra-ui/react'
+import { Button, useDisclosure } from '@chakra-ui/react'
 import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
+import ThreadsList from '@organisms/thread/ThreadsList'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
-import ThreadItem from '../thread/ThreadItem'
 
 interface Props {
   circleId: string
@@ -38,17 +38,7 @@ export default function CircleThreads({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {threads?.length === 0 && (
-        <Text fontStyle="italic">{t('CircleThreads.empty')}</Text>
-      )}
-
-      {threads?.map((thread) => (
-        <ThreadItem
-          key={thread.id}
-          thread={thread}
-          unread={thread.read === false}
-        />
-      ))}
+      {threads && <ThreadsList threads={threads} />}
 
       {isCreateOpen && (
         <ThreadEditModal

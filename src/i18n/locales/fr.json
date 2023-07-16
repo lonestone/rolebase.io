@@ -71,7 +71,6 @@
   },
   "CircleMeetings": {
     "create": "Créer une réunion",
-    "empty": "Aucune réunion pour le moment",
     "recurring": "Réunions récurrentes"
   },
   "CircleMemberDeleteModal": {
@@ -140,17 +139,17 @@
   "DashboardMyInfosItem": {
     "footer": "Voir plus"
   },
-  "DashboardMyRoles": { "title": "Mes rôles", "add": "Ajouter un rôle" },
+  "DashboardMyRoles": { "title": "Mes Rôles" },
   "DashboardMyMeetings": {
-    "title": "Mes réunions à venir",
-    "add": "Ajouter une réunion"
+    "title": "Mes Réunions à venir",
+    "add": "Nouvelle réunion"
   },
   "DashboardMyThreads": {
-    "title": "Mes sujets",
-    "add": "Ajouter un sujet",
+    "title": "Mes Sujets",
+    "add": "Nouveau sujet",
     "empty": "Aucun sujet."
   },
-  "DashboardMyTasks": { "title": "Mes tâches", "add": "Ajouter une tâche" },
+  "DashboardMyTasks": { "title": "Mes Tâches", "add": "Nouvelle tâche" },
   "DashboardNews": { "heading": "Actualités" },
   "DashboardNewsItem": {
     "tag": {
@@ -159,9 +158,6 @@
       "thread": "Sujet",
       "default": "Actualité"
     }
-  },
-  "DashboardOrgChart": {
-    "title": "Organigramme"
   },
   "DashboardPage": {
     "title": "Home",
@@ -362,6 +358,9 @@
   },
   "MeetingRecurringPage": {
     "title": "Réunion récurrente"
+  },
+  "MeetingsList": {
+    "empty": "Aucune réunion à venir."
   },
   "MeetingStepContent": {
     "addNotes": "Ajouter des notes",
@@ -905,10 +904,12 @@
     "inviteButton": "M'ajouter",
     "status": "Statut"
   },
+  "ThreadsList": {
+    "empty": "Aucun sujet."
+  },
   "ThreadsPage": {
     "heading": "Sujets",
-    "create": "Nouveau sujet",
-    "empty": "Aucun sujet."
+    "create": "Nouveau sujet"
   },
   "ThreadsFilterMenu": {
     "participation": {
@@ -986,6 +987,10 @@
     "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",
     "emptyParagraphPlaceholder": "Appuyez sur \"/\" pour afficher les commandes…",
+    "dates": {
+      "today": "Aujourd'hui",
+      "tomorrow": "Demain"
+    },
     "searchTypes": {
       "All": "Tout",
       "Member": "Membres",

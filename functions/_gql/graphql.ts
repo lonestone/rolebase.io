@@ -9143,6 +9143,7 @@ export type Mutation_RootUpdate_Users_ManyArgs = {
 /** columns and relationships of "news" */
 export type News = {
   __typename?: 'news';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   decision?: Maybe<Decision>;
   decisionId?: Maybe<Scalars['uuid']>;
@@ -9208,6 +9209,7 @@ export type News_Bool_Exp = {
   _and?: InputMaybe<Array<News_Bool_Exp>>;
   _not?: InputMaybe<News_Bool_Exp>;
   _or?: InputMaybe<Array<News_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   decision?: InputMaybe<Decision_Bool_Exp>;
   decisionId?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -9221,6 +9223,7 @@ export type News_Bool_Exp = {
 
 /** input type for inserting data into table "news" */
 export type News_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   decision?: InputMaybe<Decision_Obj_Rel_Insert_Input>;
   decisionId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
@@ -9235,6 +9238,7 @@ export type News_Insert_Input = {
 /** aggregate max on columns */
 export type News_Max_Fields = {
   __typename?: 'news_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   decisionId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   meetingId?: Maybe<Scalars['uuid']>;
@@ -9244,6 +9248,7 @@ export type News_Max_Fields = {
 
 /** order by max() on columns of table "news" */
 export type News_Max_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   meetingId?: InputMaybe<Order_By>;
@@ -9254,6 +9259,7 @@ export type News_Max_Order_By = {
 /** aggregate min on columns */
 export type News_Min_Fields = {
   __typename?: 'news_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   decisionId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   meetingId?: Maybe<Scalars['uuid']>;
@@ -9263,6 +9269,7 @@ export type News_Min_Fields = {
 
 /** order by min() on columns of table "news" */
 export type News_Min_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   meetingId?: InputMaybe<Order_By>;
@@ -9272,6 +9279,7 @@ export type News_Min_Order_By = {
 
 /** Ordering options when selecting data from "news". */
 export type News_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
   decision?: InputMaybe<Decision_Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -9285,6 +9293,8 @@ export type News_Order_By = {
 
 /** select columns of table "news" */
 export enum News_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
   /** column name */
   DecisionId = 'decisionId',
   /** column name */
@@ -9307,6 +9317,7 @@ export type News_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type News_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   decisionId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['uuid']>;

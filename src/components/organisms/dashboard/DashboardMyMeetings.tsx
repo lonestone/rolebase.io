@@ -1,88 +1,76 @@
-import React, { useCallback, useState } from 'react'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import { Button, useDisclosure } from '@chakra-ui/react'
+import { useNextMeetingsSubscription } from '@gql'
+import useFilterEntities from '@hooks/useFilterEntities'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
-import { useTranslation } from 'react-i18next'
-import IconTextButton from '@atoms/IconTextButton'
-import { FiPlus } from 'react-icons/fi'
+import MeetingsList from '@molecules/meeting/MeetingsList'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
-import { useDisclosure } from '@chakra-ui/react'
-import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
 import MeetingModal from '@organisms/meeting/MeetingModal'
+import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
+import { EntityFilters } from '@shared/model/participants'
+import React, { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiPlus } from 'react-icons/fi'
 
-export type DashboardMyMeetingsProps = {
-  path: string
-}
-
-const DashboardMyMeetings = ({ path }: DashboardMyMeetingsProps) => {
+export default function DashboardMyMeetings() {
   const { t } = useTranslation()
 
-  // Meeting id for modal
+  const { data, error, loading } = useNextMeetingsSubscription()
+
+  // Filter meetings
+  const meetings = useFilterEntities(EntityFilters.Invited, data?.meeting)
+
+  // Modals
   const [meetingId, setMeetingId] = useState<string | undefined>()
-
-  // Dates for meeting creation modal
-  const [startDate, setStartDate] = useState<Date | undefined>()
-
-  const {
-    isOpen: isMeetingModalOpen,
-    onOpen: onMeetingModalOpen,
-    onClose: onMeetingModalClose,
-  } = useDisclosure()
-
-  const {
-    isOpen: isCreateModalOpen,
-    onOpen: onCreateModalOpen,
-    onClose: onCreateModalClose,
-  } = useDisclosure()
-
-  const {
-    isOpen: isRecurringListModalOpen,
-    onOpen: onRecurringListModalOpen,
-    onClose: onRecurringListModalClose,
-  } = useDisclosure()
-
-  // Handlers
-  const handleCreate = useCallback(() => {
-    setStartDate(undefined)
-    onCreateModalOpen()
-  }, [])
+  const meetingModal = useDisclosure()
+  const createModal = useDisclosure()
+  const recurringListModal = useDisclosure()
 
   const handleCreated = useCallback((id: string) => {
     setMeetingId(id)
-    onMeetingModalOpen()
+    meetingModal.onOpen()
   }, [])
 
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyMeetings.title')}
-      path={path}
+      path="meetings"
       actions={
-        <IconTextButton
-          aria-label={t('DashboardMyMeetings.add')}
-          icon={<FiPlus />}
+        <Button
           size="sm"
-          onClick={handleCreate}
-        />
+          colorScheme="blue"
+          leftIcon={<FiPlus />}
+          onClick={createModal.onOpen}
+        >
+          {t('DashboardMyMeetings.add')}
+        </Button>
       }
     >
-      {isMeetingModalOpen && meetingId && (
-        <MeetingModal id={meetingId} isOpen onClose={onMeetingModalClose} />
+      {loading && <Loading active size="md" />}
+      <TextErrors errors={[error]} />
+
+      {meetings && <MeetingsList meetings={meetings} showCircle />}
+
+      {meetingModal.isOpen && meetingId && (
+        <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />
       )}
 
-      {isCreateModalOpen && (
+      {createModal.isOpen && (
         <MeetingEditModal
-          defaultStartDate={startDate}
-          defaultDuration={30}
           isOpen
           onCreate={handleCreated}
-          onRecurring={onRecurringListModalOpen}
-          onClose={onCreateModalClose}
+          onRecurring={recurringListModal.onOpen}
+          onClose={createModal.onClose}
         />
       )}
 
-      {isRecurringListModalOpen && (
-        <MeetingRecurringListModal isOpen onClose={onRecurringListModalClose} />
+      {recurringListModal.isOpen && (
+        <MeetingRecurringListModal
+          isOpen
+          onClose={recurringListModal.onClose}
+        />
       )}
     </DashboardMyInfosItem>
   )
 }
-
-export default DashboardMyMeetings

@@ -1,44 +1,49 @@
-import React from 'react'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
+import { Button, useDisclosure } from '@chakra-ui/react'
+import useFilterEntities from '@hooks/useFilterEntities'
+import useThreads from '@hooks/useThreads'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
-import { useTranslation } from 'react-i18next'
-import { useDisclosure } from '@chakra-ui/react'
-import { EntityFilters } from '@shared/model/participants'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
-import IconTextButton from '@atoms/IconTextButton'
-import { FiPlus } from 'react-icons/fi'
 import ThreadsList from '@organisms/thread/ThreadsList'
+import { EntityFilters } from '@shared/model/participants'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiPlus } from 'react-icons/fi'
 
-export type DashboardMyThreadsProps = {
-  path: string
-}
-
-const DashboardMyThreads = ({ path }: DashboardMyThreadsProps) => {
+export default function DashboardMyThreads() {
   const { t } = useTranslation()
+  const createModal = useDisclosure()
 
-  const {
-    isOpen: isCreateOpen,
-    onOpen: onCreateOpen,
-    onClose: onCreateClose,
-  } = useDisclosure()
+  // Subscribe to threads
+  const { threads, error, loading } = useThreads()
+
+  // Filter threads
+  const filteredThreads = useFilterEntities(EntityFilters.Invited, threads)
 
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyThreads.title')}
-      path={path}
+      path="threads"
       actions={
-        <IconTextButton
-          aria-label={t('DashboardMyThreads.add')}
-          icon={<FiPlus />}
+        <Button
           size="sm"
-          onClick={onCreateOpen}
-        />
+          colorScheme="blue"
+          leftIcon={<FiPlus />}
+          onClick={createModal.onOpen}
+        >
+          {t('DashboardMyThreads.add')}
+        </Button>
       }
     >
-      <ThreadsList filter={EntityFilters.Invited} archives={false} />
+      {loading && <Loading active center />}
+      <TextErrors errors={[error]} />
 
-      {isCreateOpen && <ThreadEditModal isOpen onClose={onCreateClose} />}
+      {filteredThreads && <ThreadsList threads={filteredThreads} showCircle />}
+
+      {createModal.isOpen && (
+        <ThreadEditModal isOpen onClose={createModal.onClose} />
+      )}
     </DashboardMyInfosItem>
   )
 }
-
-export default DashboardMyThreads

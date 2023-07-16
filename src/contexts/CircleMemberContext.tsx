@@ -30,7 +30,7 @@ export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
   } else if (memberId) {
     return `roles?memberId=${memberId}`
   }
-  return ''
+  return 'roles'
 }
 
 interface CircleMemberProviderProps {

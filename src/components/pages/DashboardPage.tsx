@@ -1,30 +1,48 @@
 import { Title } from '@atoms/Title'
-import { Stack, useMediaQuery } from '@chakra-ui/react'
+import { Box, SimpleGrid, VStack, useMediaQuery } from '@chakra-ui/react'
 import useCurrentOrg from '@hooks/useCurrentOrg'
+import DashboardMyMeetings from '@organisms/dashboard/DashboardMyMeetings'
+import DashboardMyRoles from '@organisms/dashboard/DashboardMyRoles'
+import DashboardMyTasks from '@organisms/dashboard/DashboardMyTasks'
+import DashboardMyThreads from '@organisms/dashboard/DashboardMyThreads'
 import DashboardNews from '@organisms/dashboard/DashboardNews'
-import DashboardMyInfos from '@organisms/dashboard/DashboardMyInfos'
+import DashboardOrgChart from '@organisms/dashboard/DashboardOrgChart'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+
+const minColumnWidth = 400
 
 const DashboardPage = () => {
   const { t } = useTranslation()
   const org = useCurrentOrg()
-
-  const [isMobile] = useMediaQuery('(max-width: 730px)')
+  const [isSmall] = useMediaQuery(`(max-width: ${minColumnWidth + 100}px)`)
 
   return (
-    <Stack
-      direction={isMobile ? 'column-reverse' : 'row'}
-      h="100%"
-      p={5}
-      spacing={4}
-      overflow="scroll"
-    >
+    <>
       <Title>{org?.name ?? t('DashboardPage.title')}</Title>
 
-      <DashboardMyInfos />
-      <DashboardNews />
-    </Stack>
+      <SimpleGrid
+        columns={isSmall ? 1 : 3}
+        spacing={10}
+        minChildWidth={isSmall ? undefined : `${minColumnWidth}px`}
+        p={isSmall ? 3 : 10}
+      >
+        <VStack spacing={10} align="stretch">
+          <DashboardOrgChart />
+          <DashboardMyRoles />
+        </VStack>
+
+        <VStack spacing={10} align="stretch">
+          <DashboardMyMeetings />
+          <DashboardMyThreads />
+          <DashboardMyTasks />
+        </VStack>
+
+        <Box>
+          <DashboardNews />
+        </Box>
+      </SimpleGrid>
+    </>
   )
 }
 

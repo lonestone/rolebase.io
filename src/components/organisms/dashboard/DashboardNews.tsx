@@ -1,62 +1,113 @@
+import DayLabel from '@atoms/DayLabel'
+import Loading from '@atoms/Loading'
+import TextErrors from '@atoms/TextErrors'
 import {
+  Box,
   Card,
   CardBody,
   CardHeader,
-  CardProps,
   Heading,
   Stack,
-  useMediaQuery,
 } from '@chakra-ui/react'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useLastNewsQuery } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
-import { useGetOrgNewsQuery } from '@gql'
-import DashboardNewsItem from '@molecules/dashboard/DashboardNewsItem'
+import DecisionItem from '@molecules/DecisionItem'
+import MeetingItem from '@molecules/meeting/MeetingItem'
+import ThreadItem from '@molecules/thread/ThreadItem'
+import React, { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
-export type DashboardNewsProps = CardProps
+const limit = 20
 
-const DashboardNews = ({ ...rest }: DashboardNewsProps) => {
+export default function DashboardNews() {
   const { t } = useTranslation()
-  const [isMobile] = useMediaQuery('(max-width: 730px)')
-
   const orgId = useOrgId()
 
-  // Get last news for : decisions, threads, meetings
-  const { data } = useGetOrgNewsQuery({
-    variables: { orgId: orgId || '' },
+  const bottomRef = useRef(null)
+
+  // Subscribe to news
+  const { data, error, loading, fetchMore } = useLastNewsQuery({
+    skip: !orgId,
+    variables: { orgId: orgId!, limit },
+    notifyOnNetworkStatusChange: true,
   })
+  const news = data?.news
+  const count = data?.news_aggregate.aggregate?.count
+
+  // Load more news when user reaches bottom of page
+  useEffect(() => {
+    if (!bottomRef.current || !news || news.length === count || loading) return
+
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        fetchMore({
+          variables: {
+            offset: news.length,
+          },
+          // Update cache with new news
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            if (!fetchMoreResult) {
+              return previousResult
+            }
+            return {
+              ...fetchMoreResult,
+              news: [...previousResult.news, ...fetchMoreResult.news],
+            }
+          },
+        })
+      }
+    }, options)
+
+    observer.observe(bottomRef.current)
+
+    return () => {
+      if (!bottomRef.current) return
+      observer.unobserve(bottomRef.current)
+    }
+  }, [news, loading])
 
   return (
-    <Card w={isMobile ? '100%' : '40%'} {...rest}>
+    <Card>
       <CardHeader>
         <Heading as="h2" size="md">
           {t('DashboardNews.heading')}
         </Heading>
       </CardHeader>
 
-      <CardBody p={4}>
+      <CardBody p={4} pt={0}>
         <Stack spacing={1}>
-          {data?.org_by_pk?.news?.map((news) => {
-            if (news.thread) {
-              return <DashboardNewsItem key={news.id} fragment={news.thread} />
-            }
+          {news?.map((item, i) => (
+            <React.Fragment key={item.id}>
+              <DayLabel
+                date={item.createdAt!}
+                prevDate={news[i - 1]?.createdAt || undefined}
+                mt={i === 0 ? 0 : 4}
+              />
 
-            if (news.meeting) {
-              return <DashboardNewsItem key={news.id} fragment={news.meeting} />
-            }
+              {item.thread && <ThreadItem thread={item.thread} showCircle />}
 
-            if (news.decision) {
-              return (
-                <DashboardNewsItem key={news.id} fragment={news.decision} />
-              )
-            }
+              {item.meeting && (
+                <MeetingItem meeting={item.meeting} showCircle showIcon />
+              )}
 
-            return null
-          })}
+              {item.decision && (
+                <DecisionItem decision={item.decision} showCircle showIcon />
+              )}
+            </React.Fragment>
+          ))}
         </Stack>
+
+        <Box ref={bottomRef} textAlign="center">
+          {loading && <Loading active />}
+        </Box>
+
+        <TextErrors errors={[error]} />
       </CardBody>
     </Card>
   )
 }
-
-export default DashboardNews

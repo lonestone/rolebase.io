@@ -71,7 +71,6 @@
   },
   "CircleMeetings": {
     "create": "Create a meeting",
-    "empty": "No meeting yet",
     "recurring": "Recurring meetings"
   },
   "CircleMemberDeleteModal": {
@@ -140,17 +139,17 @@
   "DashboardMyInfosItem": {
     "footer": "See more"
   },
-  "DashboardMyRoles": { "title": "My roles", "add": "Add role" },
+  "DashboardMyRoles": { "title": "My Roles" },
   "DashboardMyMeetings": {
-    "title": "My meetings to come",
-    "add": "Add meeting"
+    "title": "My Meetings to come",
+    "add": "New meeting"
   },
   "DashboardMyThreads": {
-    "title": "My threads",
-    "add": "Add thread",
+    "title": "My Threads",
+    "add": "New thread",
     "empty": "No topic."
   },
-  "DashboardMyTasks": { "title": "My tasks", "add": "Add task" },
+  "DashboardMyTasks": { "title": "My Tasks", "add": "New task" },
   "DashboardNews": { "heading": "News" },
   "DashboardNewsItem": {
     "tag": {
@@ -159,9 +158,6 @@
       "thread": "Thread",
       "default": "Actuality"
     }
-  },
-  "DashboardOrgChart": {
-    "title": "Org chart"
   },
   "DashboardPage": {
     "title": "Home"
@@ -328,6 +324,9 @@
   },
   "MeetingRecurringPage": {
     "title": "Recurring Meeting"
+  },
+  "MeetingsList": {
+    "empty": "No meeting to come."
   },
   "MeetingStepContent": {
     "addNotes": "Add notes",
@@ -872,10 +871,12 @@
     "inviteButton": "Add me",
     "status": "Status"
   },
+  "ThreadsList": {
+    "empty": "No topic."
+  },
   "ThreadsPage": {
     "heading": "Topics",
-    "create": "New topic",
-    "empty": "No topic."
+    "create": "New topic"
   },
   "ThreadsFilterMenu": {
     "participation": {
@@ -953,6 +954,10 @@
     "errorRetry": "An error occurred, plase try again later.",
     "errorContact": "If this persists contact us at contact@rolebase.io",
     "emptyParagraphPlaceholder": "Press '/' for commands…",
+    "dates": {
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    },
     "searchTypes": {
       "All": "Everything",
       "Member": "Members",

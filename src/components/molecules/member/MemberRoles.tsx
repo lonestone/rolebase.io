@@ -1,21 +1,21 @@
-import { Accordion, Alert, AlertIcon } from '@chakra-ui/react'
+import { Accordion, BoxProps } from '@chakra-ui/react'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import { MemberFragment } from '@gql'
-import useCurrentOrg from '@hooks/useCurrentOrg'
 import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import MemberRoleItem from './MemberRoleItem'
 
-interface Props {
+interface Props extends BoxProps {
   member: MemberFragment
   selectedCircleId?: string
 }
 
-export default function MemberRoles({ member, selectedCircleId }: Props) {
-  const { t } = useTranslation()
-  const org = useCurrentOrg()
+export default function MemberRoles({
+  member,
+  selectedCircleId,
+  ...boxProps
+}: Props) {
   const circles = useStoreState((state) => state.org.circles)
   const circleMemberContext = useContext(CircleMemberContext)
 
@@ -43,20 +43,6 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
       })
   }, [member.id, circles])
 
-  // Compute total number of allocated hours
-  const totalWorkedMin = useMemo(
-    () =>
-      memberCircles.reduce((total, circle) => {
-        const circleMember = circle.members.find(
-          (m) => m.member.id === member.id
-        )
-        return total + (circleMember?.avgMinPerWeek || 0)
-      }, 0),
-    [memberCircles]
-  )
-  const maxWorkedMin =
-    member.workedMinPerWeek || org?.defaultWorkedMinPerWeek || 0
-
   // Index of the currently selected circle in list
   const selectedCircleIndex = useMemo(
     () => memberCircles.findIndex((mc) => mc.id === selectedCircleId),
@@ -79,36 +65,15 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
   )
 
   return (
-    <>
-      <Accordion
-        index={selectedCircleIndex}
-        allowToggle
-        mx={-4}
-        mb={5}
-        onChange={handleAccordionChange}
-      >
-        {memberCircles.map((circle) => (
-          <MemberRoleItem
-            key={circle.id}
-            memberId={member.id}
-            circle={circle}
-          />
-        ))}
-      </Accordion>
-
-      <Alert status="info" mt={5}>
-        <AlertIcon />
-        {t(`MemberRoles.totalAllocatedTime`)}{' '}
-        {Math.floor(totalWorkedMin / 6) / 10}h /{' '}
-        {Math.floor(maxWorkedMin / 6) / 10}h
-      </Alert>
-
-      {totalWorkedMin > maxWorkedMin && (
-        <Alert status="warning" mt={2}>
-          <AlertIcon />
-          {t(`MemberRoles.alertTooMuchTime`)}
-        </Alert>
-      )}
-    </>
+    <Accordion
+      index={selectedCircleIndex}
+      allowToggle
+      {...boxProps}
+      onChange={handleAccordionChange}
+    >
+      {memberCircles.map((circle) => (
+        <MemberRoleItem key={circle.id} memberId={member.id} circle={circle} />
+      ))}
+    </Accordion>
   )
 }

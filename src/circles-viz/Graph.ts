@@ -3,6 +3,7 @@ import { isSafari } from '@utils/env'
 import * as d3 from 'd3'
 import { ZoomTransform } from 'd3'
 import debounce from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 import settings from './settings'
 import {
   Data,
@@ -155,31 +156,46 @@ export abstract class Graph {
       },
 
       // Conserve center on window resize
-      changeDimensions(width: number, height: number, focusCrop?: Position) {
-        focusCrop = focusCrop || defaultFocusCrop
+      changeDimensions: throttle(
+        (width: number, height: number, focusCrop?: Position) => {
+          focusCrop = focusCrop || defaultFocusCrop
 
-        const focusOffsetX = getFocusOffsetX(width, focusCrop)
-        const focusOffsetY = getFocusOffsetY(height, focusCrop)
+          const focusOffsetX = getFocusOffsetX(width, focusCrop)
+          const focusOffsetY = getFocusOffsetY(height, focusCrop)
 
-        const transform = new ZoomTransform(
-          zoom.scale,
-          // Reposition to conserve x,y
-          zoom.x - zoom.focusOffsetX + focusOffsetX,
-          zoom.y - zoom.focusOffsetY + focusOffsetY
-        )
+          // Compute scale change ratio
+          const prevCropWidth =
+            zoom.width - zoom.focusCrop.left - zoom.focusCrop.right
+          const prevCropHeight =
+            zoom.height - zoom.focusCrop.top - zoom.focusCrop.bottom
+          const cropWidth = width - focusCrop.left - focusCrop.right
+          const cropHeight = height - focusCrop.top - focusCrop.bottom
+          const scaleRatio =
+            Math.min(cropWidth, cropHeight) /
+            Math.min(prevCropWidth, prevCropHeight)
 
-        zoom.width = width
-        zoom.height = height
-        zoom.focusCrop = focusCrop
-        zoom.focusOffsetX = focusOffsetX
-        zoom.focusOffsetY = focusOffsetY
+          const transform = new ZoomTransform(
+            // Change scale to keep framing
+            zoom.scale * scaleRatio,
+            // Reposition
+            (zoom.x - zoom.focusOffsetX) * scaleRatio + focusOffsetX,
+            (zoom.y - zoom.focusOffsetY) * scaleRatio + focusOffsetY
+          )
 
-        svg
-          .transition()
-          .duration(settings.zoom.duration)
-          .ease(settings.zoom.transition)
-          .call(zoomBehaviour.transform, transform)
-      },
+          zoom.width = width
+          zoom.height = height
+          zoom.focusCrop = focusCrop
+          zoom.focusOffsetX = focusOffsetX
+          zoom.focusOffsetY = focusOffsetY
+
+          svg
+            .transition()
+            .duration(settings.zoom.duration)
+            .ease(settings.zoom.transition)
+            .call(zoomBehaviour.transform, transform)
+        },
+        500
+      ),
     }
 
     return {

@@ -80,7 +80,7 @@ export default function CirclesPage() {
   const circles = useStoreState((state) => state.org.circles)
   const events = useCirclesEvents()
 
-  const handleClosePanel = useCallback(() => navigateOrg(), [])
+  const handleClosePanel = useCallback(() => navigateOrg('roles'), [])
 
   // Zoom offsets when focusing
   const focusCrop = useMemo(

@@ -45,8 +45,7 @@ export interface GraphEvents {
     circleId: string,
     targetCircleId: string | null
   ): Promise<string | undefined>
-  onCircleMemberClick?(circleId: string, memberId: string): void
-  onMemberClick?(memberId: string): void
+  onMemberClick?(circleId: string, memberId: string): void
   onMemberMove?(
     memberId: string,
     parentCircleId: string,

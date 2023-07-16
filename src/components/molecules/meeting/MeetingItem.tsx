@@ -6,8 +6,7 @@ import {
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
-  Tag,
-  useColorMode,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 import { MeetingSummaryFragment } from '@gql'
@@ -27,7 +26,6 @@ interface Props extends LinkBoxProps {
   showCircle?: boolean
   showIcon?: boolean
   showDate?: boolean
-  showDay?: boolean
   showTime?: boolean
 }
 
@@ -38,20 +36,19 @@ const MeetingItem = forwardRef<Props, 'div'>(
       showCircle,
       showIcon,
       showDate,
-      showDay,
       showTime,
       children,
       ...linkBoxProps
     },
     ref
   ) => {
-    const { colorMode } = useColorMode()
     const path = usePathInOrg(`meetings/${meeting.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
     const hover = useHoverItemStyle()
     const dateLocale = useDateLocale()
-    const date = new Date(meeting.startDate)
+    const startDate = new Date(meeting.startDate)
+    const endDate = new Date(meeting.endDate)
 
     return (
       <>
@@ -65,41 +62,27 @@ const MeetingItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex align="start">
+          <Flex align="center">
             {showIcon && (
               <Center w={6} h={6} mr={2}>
                 <FiCalendar />
               </Center>
             )}
 
-            {(showDate || showDay || showTime) && (
-              <Tag
-                colorScheme={
-                  colorMode === 'light' ? 'blackAlpha' : 'whiteAlpha'
-                }
-                _dark={{
-                  color: 'whiteAlpha.800',
-                }}
-                mr={2}
-              >
-                {showDate &&
-                  capitalizeFirstLetter(
-                    format(date, 'eeee P', {
-                      locale: dateLocale,
-                    })
-                  )}
-                {showDay &&
-                  capitalizeFirstLetter(
-                    format(date, 'eeee d', {
-                      locale: dateLocale,
-                    })
-                  )}
-                {(showDate || showDay) && showTime && <>,&nbsp;</>}
-                {showTime &&
-                  format(date, 'p', {
-                    locale: dateLocale,
-                  })}
-              </Tag>
+            {showDate && (
+              <Text mr={3} color="gray.500" _dark={{ color: 'gray.300' }}>
+                {capitalizeFirstLetter(
+                  format(startDate, 'eeee P', { locale: dateLocale })
+                )}
+              </Text>
+            )}
+
+            {showTime && (
+              <Text mr={3} color="gray.500" _dark={{ color: 'gray.300' }}>
+                {format(startDate, 'p', { locale: dateLocale })}
+                {' - '}
+                {format(endDate, 'p', { locale: dateLocale })}
+              </Text>
             )}
 
             <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
