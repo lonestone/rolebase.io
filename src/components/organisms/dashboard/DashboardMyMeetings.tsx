@@ -14,6 +14,9 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus } from 'react-icons/fi'
 
+// Max number of meetings to display
+const max = 5
+
 export default function DashboardMyMeetings() {
   const { t } = useTranslation()
   const orgId = useOrgId()
@@ -57,7 +60,9 @@ export default function DashboardMyMeetings() {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {meetings && <MeetingsList meetings={meetings} showCircle />}
+      {meetings && (
+        <MeetingsList meetings={meetings.slice(0, max)} showCircle />
+      )}
 
       {meetingModal.isOpen && meetingId && (
         <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />
