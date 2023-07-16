@@ -66,6 +66,15 @@ array_relationships:
         table:
           name: member
           schema: public
+  - name: news
+    using:
+      manual_configuration:
+        column_mapping:
+          id: orgId
+        insertion_order: null
+        remote_table:
+          name: news
+          schema: public
   - name: roles
     using:
       foreign_key_constraint_on:

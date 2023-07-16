@@ -50,6 +50,7 @@ const StyledSVG = styled.svg<SVGProps>`
   font-size: 8px;
   font-weight: 600;
   fill: ${mode('#1a202c', 'rgba(255, 255, 255, 0.92)')};
+  user-select: none;
 
   --circle-cursor: ${(p) => p.circleCursor};
   --member-pointer-events: auto;
@@ -212,7 +213,11 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   // It's useful for the drag behavior
   const [cursor, setCursor] = useState('pointer')
   useEffect(() => {
-    if (!events.onCircleClick || !events.onMemberClick) {
+    const canClick = !!(events.onCircleClick && events.onMemberClick)
+    const canMove = !!(events.onCircleMove && events.onMemberMove)
+    const canCopy = !!(events.onCircleCopy && events.onMemberAdd)
+
+    if (!canClick) {
       setCursor('default')
       return
     }
@@ -224,7 +229,13 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
       if (newShift !== shift || newCtrl !== ctrl) {
         shift = newShift
         ctrl = newCtrl
-        setCursor(ctrl ? (shift ? 'copy' : 'grab') : 'pointer')
+        if (canCopy && ctrl && shift) {
+          setCursor('copy')
+        } else if (canMove && ctrl) {
+          setCursor('grab')
+        } else if (canClick) {
+          setCursor('pointer')
+        }
       }
     }
     document.body.addEventListener('keydown', handler)
@@ -233,7 +244,14 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
       document.body.removeEventListener('keydown', handler)
       document.body.removeEventListener('keyup', handler)
     }
-  }, [events.onCircleClick, events.onMemberClick])
+  }, [
+    !events.onCircleClick,
+    !events.onMemberClick,
+    !events.onCircleMove,
+    !events.onMemberMove,
+    !events.onCircleCopy,
+    !events.onMemberAdd,
+  ])
 
   return (
     <StyledSVG

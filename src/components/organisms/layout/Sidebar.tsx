@@ -46,6 +46,7 @@ import {
   FiDisc,
   FiExternalLink,
   FiHelpCircle,
+  FiHome,
   FiMenu,
   FiMessageSquare,
   FiStar,
@@ -154,8 +155,17 @@ export default function Sidebar() {
             {!context.expand.isOpen && orgId && (
               <>
                 <SidebarTopIconLink
-                  className="userflow-sidebar-roles"
+                  className="userflow-sidebar-dashboard"
                   to={rootPath}
+                  exact
+                  icon={<FiHome />}
+                >
+                  {t('Sidebar.dashboard')}
+                </SidebarTopIconLink>
+
+                <SidebarTopIconLink
+                  className="userflow-sidebar-roles"
+                  to={`${rootPath}roles`}
                   exact
                   icon={<FiDisc />}
                 >
@@ -263,8 +273,17 @@ export default function Sidebar() {
               </Box>
 
               <SidebarItemLink
-                className="userflow-sidebar-roles"
+                className="userflow-sidebar-dashboard"
                 to={rootPath}
+                exact
+                icon={<FiHome />}
+              >
+                {t('Sidebar.dashboard')}
+              </SidebarItemLink>
+
+              <SidebarItemLink
+                className="userflow-sidebar-roles"
+                to={`${rootPath}roles`}
                 exact
                 icon={<FiDisc />}
               >

@@ -26,11 +26,7 @@ export class MouseCircleElement extends AbstractCircleElement {
         const g = d3.select<SVGGElement, NodeData>(this)
 
         // Add circle border
-        if (
-          !that.dragNodes &&
-          events.onCircleClick &&
-          events.onCircleMemberClick
-        ) {
+        if (!that.dragNodes && events.onCircleClick && events.onMemberClick) {
           g.attr('data-hover', '')
         }
       })
@@ -60,7 +56,7 @@ export class MouseCircleElement extends AbstractCircleElement {
           d.data.memberId
         ) {
           // Click on member
-          events.onCircleMemberClick?.(d.data.parentId, d.data.memberId)
+          events.onMemberClick?.(d.data.parentId, d.data.memberId)
         }
       })
 
@@ -176,10 +172,7 @@ export class MouseCircleElement extends AbstractCircleElement {
                   // Copy member to another circle
                   events.onMemberAdd?.(dragNode.data.memberId, targetCircleId)
                   // Focus new circle member
-                  events.onCircleMemberClick?.(
-                    targetCircleId,
-                    dragNode.data.memberId
-                  )
+                  events.onMemberClick?.(targetCircleId, dragNode.data.memberId)
                 } else {
                   // Move member to another circle
                   events.onMemberMove?.(

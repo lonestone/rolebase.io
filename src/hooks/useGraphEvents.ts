@@ -16,17 +16,13 @@ export default function useGraphEvents(): GraphEvents {
   const removeCircleMember = useRemoveCircleMember()
 
   // Navigation Events
-  const onMemberClick = useCallback(
-    (memberId: string) => navigateOrg(`?memberId=${memberId}`),
-    []
-  )
   const onCircleClick = useCallback(
-    (circleId: string) => navigateOrg(`?circleId=${circleId}`),
+    (circleId: string) => navigateOrg(`roles?circleId=${circleId}`),
     []
   )
-  const onCircleMemberClick = useCallback(
+  const onMemberClick = useCallback(
     (circleId: string, memberId: string) =>
-      navigateOrg(`?circleId=${circleId}&memberId=${memberId}`),
+      navigateOrg(`roles?circleId=${circleId}&memberId=${memberId}`),
     []
   )
 
@@ -54,8 +50,7 @@ export default function useGraphEvents(): GraphEvents {
   return {
     onCircleClick,
     onMemberClick,
-    onCircleMemberClick,
-    onClickOutside: navigateOrg,
+    onClickOutside: () => navigateOrg('roles'),
     onCircleMove: isMember ? moveCircle : undefined,
     onCircleCopy: isMember ? copyCircle : undefined,
     onMemberMove: isMember ? onMemberMove : undefined,

@@ -71,7 +71,6 @@
   },
   "CircleMeetings": {
     "create": "Créer une réunion",
-    "empty": "Aucune réunion pour le moment",
     "recurring": "Réunions récurrentes"
   },
   "CircleMemberDeleteModal": {
@@ -105,6 +104,9 @@
     "representCircle": "Représente le rôle <link />",
     "representInCircle": "dans le rôle <link />"
   },
+  "CirclesPage": {
+    "title": "Organigramme de {{org}}"
+  },
   "CircleTasks": {
     "create": "Créer une tâche"
   },
@@ -133,6 +135,33 @@
     "password": "Modifier le mot de passe",
     "passwordPlaceholder": "Nouveau mot de passe...",
     "toastSuccess": "Informations mises à jour"
+  },
+  "DashboardMyInfosItem": {
+    "footer": "Voir plus"
+  },
+  "DashboardMyRoles": { "title": "Mes Rôles" },
+  "DashboardMyMeetings": {
+    "title": "Mes Réunions à venir",
+    "add": "Nouvelle réunion"
+  },
+  "DashboardMyThreads": {
+    "title": "Mes Sujets",
+    "add": "Nouveau sujet",
+    "empty": "Aucun sujet."
+  },
+  "DashboardMyTasks": { "title": "Mes Tâches", "add": "Nouvelle tâche" },
+  "DashboardNews": { "heading": "Actualités" },
+  "DashboardNewsItem": {
+    "tag": {
+      "decision": "Décision",
+      "meeting": "Réunion",
+      "thread": "Sujet",
+      "default": "Actualité"
+    }
+  },
+  "DashboardPage": {
+    "title": "Home",
+    "heading": "Bonjour {{firstName}}"
   },
   "DecisionContent": {
     "heading": "Décision"
@@ -330,6 +359,9 @@
   "MeetingRecurringPage": {
     "title": "Réunion récurrente"
   },
+  "MeetingsList": {
+    "empty": "Aucune réunion à venir."
+  },
   "MeetingStepContent": {
     "addNotes": "Ajouter des notes",
     "notesPlaceholder": "Notes..."
@@ -392,7 +424,8 @@
     "create": "Nouvelle réunion"
   },
   "MemberContent": {
-    "notFound": "Membre introuvable"
+    "notFound": "Membre introuvable",
+    "memberRolesHeading": "Rôles"
   },
   "MemberCreateModal": {
     "heading": "Ajouter un membre"
@@ -441,9 +474,7 @@
     "workingTime": "Temps de travail"
   },
   "MemberRoles": {
-    "heading": "Rôles",
     "emptyRoles": "Aucun",
-    "addRole": "Ajouter un rôle",
     "totalAllocatedTime": "Temps total alloué :",
     "alertTooMuchTime": "Le temps total alloué est trop grand, vous devez baisser le temps total alloué à un rôle ou augmenter le temps de travail du membre."
   },
@@ -611,7 +642,8 @@
   "Sidebar": {
     "orgs": "Organisations",
     "menu": "Menu",
-    "roles": "Rôles",
+    "dashboard": "Dashboard",
+    "roles": "Organigramme",
     "threads": "Sujets",
     "meetings": "Réunions",
     "tasks": "Tâches",
@@ -872,10 +904,12 @@
     "inviteButton": "M'ajouter",
     "status": "Statut"
   },
+  "ThreadsList": {
+    "empty": "Aucun sujet."
+  },
   "ThreadsPage": {
     "heading": "Sujets",
-    "create": "Nouveau sujet",
-    "empty": "Aucun sujet."
+    "create": "Nouveau sujet"
   },
   "ThreadsFilterMenu": {
     "participation": {
@@ -953,6 +987,10 @@
     "errorRetry": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "errorContact": "Si le problème persiste, contactez-nous à l'adresse contact@rolebase.io",
     "emptyParagraphPlaceholder": "Appuyez sur \"/\" pour afficher les commandes…",
+    "dates": {
+      "today": "Aujourd'hui",
+      "tomorrow": "Demain"
+    },
     "searchTypes": {
       "All": "Tout",
       "Member": "Membres",

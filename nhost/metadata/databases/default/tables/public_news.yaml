@@ -1,0 +1,56 @@
+table:
+  name: news
+  schema: public
+object_relationships:
+  - name: decision
+    using:
+      manual_configuration:
+        column_mapping:
+          decisionId: id
+        insertion_order: null
+        remote_table:
+          name: decision
+          schema: public
+  - name: meeting
+    using:
+      manual_configuration:
+        column_mapping:
+          meetingId: id
+        insertion_order: null
+        remote_table:
+          name: meeting
+          schema: public
+  - name: org
+    using:
+      manual_configuration:
+        column_mapping:
+          orgId: id
+        insertion_order: null
+        remote_table:
+          name: org
+          schema: public
+  - name: thread
+    using:
+      manual_configuration:
+        column_mapping:
+          threadId: id
+        insertion_order: null
+        remote_table:
+          name: thread
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - createdAt
+        - decisionId
+        - id
+        - meetingId
+        - orgId
+        - threadId
+      filter:
+        org:
+          members:
+            userId:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true

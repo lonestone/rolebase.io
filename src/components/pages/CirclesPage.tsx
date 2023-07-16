@@ -30,6 +30,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GraphViews } from 'src/circles-viz/types'
 
 type CirclesPageParams = {
@@ -56,6 +57,7 @@ const menuButtonProps: Partial<Omit<ButtonProps, 'value' | 'onChange'>> = {
 
 export default function CirclesPage() {
   useOverflowHidden()
+  const { t } = useTranslation()
 
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
@@ -78,7 +80,7 @@ export default function CirclesPage() {
   const circles = useStoreState((state) => state.org.circles)
   const events = useCirclesEvents()
 
-  const handleClosePanel = useCallback(() => navigateOrg(), [])
+  const handleClosePanel = useCallback(() => navigateOrg('roles'), [])
 
   // Zoom offsets when focusing
   const focusCrop = useMemo(
@@ -166,7 +168,9 @@ export default function CirclesPage() {
         </ModalPanel>
       )}
 
-      {panel === Panels.None && org && <Title>{org.name}</Title>}
+      {panel === Panels.None && (
+        <Title>{t('CirclesPage.title', { org: org?.name })}</Title>
+      )}
 
       <HStack p={2}>
         <Box>

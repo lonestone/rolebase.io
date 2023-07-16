@@ -16,17 +16,15 @@ import {
   Spacer,
   Tag,
   TagCloseButton,
-  Text,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
 import { Thread_Status_Enum } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
 import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
-import ThreadItem from '@molecules/thread/ThreadItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
+import ThreadsList from '@organisms/thread/ThreadsList'
 import { EntityFilters } from '@shared/model/participants'
 import { threadStatusList } from '@shared/model/thread'
 import React, { useCallback, useState } from 'react'
@@ -174,21 +172,7 @@ export default function ThreadsPage() {
 
       <Container maxW="3xl" p={0}>
         {filteredThreads && (
-          <VStack spacing={0} align="stretch">
-            {filteredThreads.length === 0 && (
-              <Text fontStyle="italic">{t('ThreadsPage.empty')}</Text>
-            )}
-
-            {filteredThreads.map((thread, i) => (
-              <ThreadItem
-                key={thread.id}
-                className={`userflow-thread-${i}`}
-                thread={thread}
-                showCircle
-                unread={thread.read === false}
-              />
-            ))}
-          </VStack>
+          <ThreadsList threads={filteredThreads} showCircle />
         )}
       </Container>
 

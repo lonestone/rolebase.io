@@ -1,35 +1,23 @@
-import {
-  Accordion,
-  Alert,
-  AlertIcon,
-  Box,
-  Flex,
-  Heading,
-} from '@chakra-ui/react'
+import { Accordion, BoxProps } from '@chakra-ui/react'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import { MemberFragment } from '@gql'
-import useAddCircleMember from '@hooks/useAddCircleMember'
-import useCurrentOrg from '@hooks/useCurrentOrg'
-import useOrgMember from '@hooks/useOrgMember'
 import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
-import CircleSearchButton from '../search/entities/circles/CircleSearchButton'
 import MemberRoleItem from './MemberRoleItem'
 
-interface Props {
+interface Props extends BoxProps {
   member: MemberFragment
   selectedCircleId?: string
 }
 
-export default function MemberRoles({ member, selectedCircleId }: Props) {
-  const { t } = useTranslation()
-  const org = useCurrentOrg()
+export default function MemberRoles({
+  member,
+  selectedCircleId,
+  ...boxProps
+}: Props) {
   const circles = useStoreState((state) => state.org.circles)
   const circleMemberContext = useContext(CircleMemberContext)
-  const isMember = useOrgMember()
 
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
@@ -55,20 +43,6 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
       })
   }, [member.id, circles])
 
-  // Compute total number of allocated hours
-  const totalWorkedMin = useMemo(
-    () =>
-      memberCircles.reduce((total, circle) => {
-        const circleMember = circle.members.find(
-          (m) => m.member.id === member.id
-        )
-        return total + (circleMember?.avgMinPerWeek || 0)
-      }, 0),
-    [memberCircles]
-  )
-  const maxWorkedMin =
-    member.workedMinPerWeek || org?.defaultWorkedMinPerWeek || 0
-
   // Index of the currently selected circle in list
   const selectedCircleIndex = useMemo(
     () => memberCircles.findIndex((mc) => mc.id === selectedCircleId),
@@ -90,66 +64,16 @@ export default function MemberRoles({ member, selectedCircleId }: Props) {
     [selectedCircleIndex, memberCircles]
   )
 
-  // Add member to an existing circle
-  const addCircleMember = useAddCircleMember()
-  const handleAddCircle = useCallback(
-    async (circleId: string) => {
-      await addCircleMember(circleId, member.id)
-      circleMemberContext?.goTo(circleId, member.id)
-    },
-    [circles, member]
-  )
-
   return (
-    <Box>
-      <Flex mb={2} alignItems="center" justifyContent="space-between">
-        <Heading as="h3" size="sm">
-          {t('MemberRoles.heading')}
-        </Heading>
-
-        {isMember && (
-          <CircleSearchButton
-            excludeIds={memberCircles.map((circle) => circle.id)}
-            size="sm"
-            variant="outline"
-            borderRadius="full"
-            leftIcon={<FiPlus />}
-            onSelect={handleAddCircle}
-          >
-            {t('MemberRoles.addRole')}
-          </CircleSearchButton>
-        )}
-      </Flex>
-
-      <Accordion
-        index={selectedCircleIndex}
-        allowToggle
-        mx={-4}
-        mb={5}
-        onChange={handleAccordionChange}
-      >
-        {memberCircles.map((circle) => (
-          <MemberRoleItem
-            key={circle.id}
-            memberId={member.id}
-            circle={circle}
-          />
-        ))}
-      </Accordion>
-
-      <Alert status="info" mt={5}>
-        <AlertIcon />
-        {t(`MemberRoles.totalAllocatedTime`)}{' '}
-        {Math.floor(totalWorkedMin / 6) / 10}h /{' '}
-        {Math.floor(maxWorkedMin / 6) / 10}h
-      </Alert>
-
-      {totalWorkedMin > maxWorkedMin && (
-        <Alert status="warning" mt={2}>
-          <AlertIcon />
-          {t(`MemberRoles.alertTooMuchTime`)}
-        </Alert>
-      )}
-    </Box>
+    <Accordion
+      index={selectedCircleIndex}
+      allowToggle
+      {...boxProps}
+      onChange={handleAccordionChange}
+    >
+      {memberCircles.map((circle) => (
+        <MemberRoleItem key={circle.id} memberId={member.id} circle={circle} />
+      ))}
+    </Accordion>
   )
 }

@@ -1,18 +1,15 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
-import { Button, Flex, Spacer, Text, useDisclosure } from '@chakra-ui/react'
+import { Button, Flex, Spacer, useDisclosure } from '@chakra-ui/react'
 import { useCircleMeetingsSubscription } from '@gql'
-import useDateLocale from '@hooks/useDateLocale'
 import useOrgMember from '@hooks/useOrgMember'
+import MeetingsList from '@molecules/meeting/MeetingsList'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import MeetingModal from '@organisms/meeting/MeetingModal'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
-import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
-import { format, isSameMonth } from 'date-fns'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiPlus, FiRepeat } from 'react-icons/fi'
-import MeetingItem from '../meeting/MeetingItem'
 
 interface Props {
   circleId: string
@@ -21,7 +18,6 @@ interface Props {
 export default function CircleMeetings({ circleId }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const dateLocale = useDateLocale()
 
   const { data, error, loading } = useCircleMeetingsSubscription({
     variables: {
@@ -64,29 +60,7 @@ export default function CircleMeetings({ circleId }: Props) {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {meetings?.length === 0 && (
-        <Text fontStyle="italic">{t('CircleMeetings.empty')}</Text>
-      )}
-
-      {meetings?.map((meeting, i) => {
-        const date = new Date(meeting.startDate)
-        return (
-          <React.Fragment key={meeting.id}>
-            {(i === 0 ||
-              !isSameMonth(date, new Date(meetings[i - 1].startDate))) && (
-              <Text mt={3} px={2} fontSize="sm">
-                {capitalizeFirstLetter(
-                  format(date, 'LLLL y', {
-                    locale: dateLocale,
-                  })
-                )}
-              </Text>
-            )}
-
-            <MeetingItem meeting={meeting} showDay showTime pl={2} />
-          </React.Fragment>
-        )
-      })}
+      {meetings && <MeetingsList meetings={meetings} />}
 
       {meetingModal.isOpen && meetingId && (
         <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />

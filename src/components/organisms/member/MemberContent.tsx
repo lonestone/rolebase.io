@@ -18,6 +18,7 @@ import ActionsMenu from '@molecules/ActionsMenu'
 import { MemberEditableField } from '@molecules/member/MemberEditableField'
 import MemberPictureEdit from '@molecules/member/MemberPictureEdit'
 import MemberRoles from '@molecules/member/MemberRoles'
+import MemberWorkingTime from '@molecules/member/MemberWorkingTime'
 import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -109,7 +110,21 @@ export default function MemberContent({
             mb={10}
           />
 
-          <MemberRoles member={member} selectedCircleId={selectedCircleId} />
+          <Box>
+            <Flex mb={2} alignItems="center" justifyContent="space-between">
+              <Heading as="h3" size="sm">
+                {t('MemberContent.memberRolesHeading')}
+              </Heading>
+            </Flex>
+
+            <MemberRoles
+              member={member}
+              selectedCircleId={selectedCircleId}
+              mx={-4}
+              mb={10}
+            />
+            <MemberWorkingTime member={member} />
+          </Box>
         </VStack>
       </Box>
 

@@ -71,7 +71,6 @@
   },
   "CircleMeetings": {
     "create": "Create a meeting",
-    "empty": "No meeting yet",
     "recurring": "Recurring meetings"
   },
   "CircleMemberDeleteModal": {
@@ -105,6 +104,9 @@
     "representCircle": "Represent role <link />",
     "representInCircle": "in role <link />"
   },
+  "CirclesPage": {
+    "title": "{{org}}'s org chart"
+  },
   "CircleTasks": {
     "create": "Create a task"
   },
@@ -133,6 +135,32 @@
     "password": "Change password",
     "passwordPlaceholder": "New password...",
     "toastSuccess": "Information updated"
+  },
+  "DashboardMyInfosItem": {
+    "footer": "See more"
+  },
+  "DashboardMyRoles": { "title": "My Roles" },
+  "DashboardMyMeetings": {
+    "title": "My Meetings to come",
+    "add": "New meeting"
+  },
+  "DashboardMyThreads": {
+    "title": "My Threads",
+    "add": "New thread",
+    "empty": "No topic."
+  },
+  "DashboardMyTasks": { "title": "My Tasks", "add": "New task" },
+  "DashboardNews": { "heading": "News" },
+  "DashboardNewsItem": {
+    "tag": {
+      "decision": "Decision",
+      "meeting": "Meeting",
+      "thread": "Thread",
+      "default": "Actuality"
+    }
+  },
+  "DashboardPage": {
+    "title": "Home"
   },
   "DecisionContent": {
     "heading": "Decision"
@@ -297,6 +325,9 @@
   "MeetingRecurringPage": {
     "title": "Recurring Meeting"
   },
+  "MeetingsList": {
+    "empty": "No meeting to come."
+  },
   "MeetingStepContent": {
     "addNotes": "Add notes",
     "notesPlaceholder": "Notes..."
@@ -359,7 +390,8 @@
     "create": "New meeting"
   },
   "MemberContent": {
-    "notFound": "Member not found"
+    "notFound": "Member not found",
+    "memberRolesHeading": "Roles"
   },
   "MemberCreateModal": {
     "heading": "Add Member"
@@ -408,9 +440,7 @@
     "workingTime": "Working time"
   },
   "MemberRoles": {
-    "heading": "Roles",
     "emptyRoles": "None",
-    "addRole": "Add a role",
     "totalAllocatedTime": "Total allocated time:",
     "alertTooMuchTime": "Total allocated time is too large, you need to lower the total time allocated to a role or increase the member's working time."
   },
@@ -579,7 +609,8 @@
   "Sidebar": {
     "orgs": "Organizations",
     "menu": "Menu",
-    "roles": "Roles",
+    "dashboard": "Dashboard",
+    "roles": "Org chart",
     "threads": "Topics",
     "meetings": "Meetings",
     "tasks": "Tasks",
@@ -840,10 +871,12 @@
     "inviteButton": "Add me",
     "status": "Status"
   },
+  "ThreadsList": {
+    "empty": "No topic."
+  },
   "ThreadsPage": {
     "heading": "Topics",
-    "create": "New topic",
-    "empty": "No topic."
+    "create": "New topic"
   },
   "ThreadsFilterMenu": {
     "participation": {
@@ -921,6 +954,10 @@
     "errorRetry": "An error occurred, plase try again later.",
     "errorContact": "If this persists contact us at contact@rolebase.io",
     "emptyParagraphPlaceholder": "Press '/' for commands…",
+    "dates": {
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    },
     "searchTypes": {
       "All": "Everything",
       "Member": "Members",
