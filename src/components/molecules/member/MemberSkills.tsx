@@ -75,7 +75,7 @@ export default function MemberSkills({ member }: Props) {
       </Flex>
 
       <Box>
-        <MemberSkillsTable />
+        <MemberSkillsTable skills={memberSkills} />
       </Box>
 
       {/* <Accordion

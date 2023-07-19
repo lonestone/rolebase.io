@@ -6,34 +6,46 @@ import {
   Th,
   Tbody,
   Td,
+  Text,
 } from '@chakra-ui/react'
 import { MemberSkillLevelFragment } from '@gql'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiTrash2 } from 'react-icons/fi'
 
 interface Props {
   skills?: MemberSkillLevelFragment[]
 }
 
 const MemberSkillsTable = ({ skills }: Props) => {
+  const { t } = useTranslation()
+
+  if (!skills?.length)
+    return <Text fontStyle="italic">{t('MemberSkillsTable.emptySkills')}</Text>
+
   return (
     <TableContainer>
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>Name / categorie</Th>
-            <Th>niveau</Th>
-            <Th>description</Th>
+            <Th>{t('MemberSkillsTable.header.title')}</Th>
+            <Th>{t('MemberSkillsTable.header.level')}</Th>
+            <Th>{t('MemberSkillsTable.header.description')}</Th>
+            <Th />
           </Tr>
         </Thead>
-        <Tbody>
+        {/* <Tbody>
           {skills?.map((skill) => (
-            <Tr key={skill.id}>
-              <Td></Td>
-              <Td></Td>
-              <Td></Td>
+            <Tr key={skill.skillLevels.id}>
+              <Td>{skill.name}</Td>
+              <Td>{skill.skillLevels.}</Td>
+              <Td>{skill.skillLevels.description}</Td>
+              <Td>
+                <FiTrash2 />
+              </Td>
             </Tr>
           ))}
-        </Tbody>
+        </Tbody> */}
       </Table>
     </TableContainer>
   )

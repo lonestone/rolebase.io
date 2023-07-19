@@ -450,8 +450,15 @@
   },
   "MemberSkills": {
     "heading": "Compétences",
-    "emptySkills": "Aucune compétence",
     "addSkill": "Ajouter une compétence"
+  },
+  "MemberSkillsTable": {
+    "emptySkills": "Aucune compétence",
+    "header": {
+      "title": "Titre",
+      "level": "Niveau",
+      "description": "Description"
+    }
   },
   "MembersInviteModal": {
     "heading": "Inviter des membres par email",

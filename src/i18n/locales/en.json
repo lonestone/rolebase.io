@@ -418,8 +418,15 @@
   },
   "MemberSkills": {
     "heading": "Skills",
-    "emptySkills": "None",
     "addSkill": "Add a skill"
+  },
+  "MemberSkillsTable": {
+    "emptySkills": "None",
+    "header": {
+      "title": "Title",
+      "level": "Level",
+      "description": "Description"
+    }
   },
   "MembersInviteModal": {
     "heading": "Invite members by email",

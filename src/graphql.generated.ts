@@ -18245,7 +18245,7 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
-export type MemberSkillLevelFragment = { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } };
+export type MemberSkillLevelFragment = { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string };
 
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
 
@@ -18260,6 +18260,8 @@ export type SkillFragment = { __typename?: 'skill', id: string, name: string, de
 export type SkillCategoryFragment = { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> };
 
 export type SkillLevelFragment = { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } };
+
+export type SkillLevelSummaryFragment = { __typename?: 'skill_level', id: string, name: string, description: string, degree: number };
 
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
@@ -18612,21 +18614,21 @@ export type GetMemberSkillLevelQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberSkillLevelQuery = { __typename?: 'query_root', member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } } | null };
+export type GetMemberSkillLevelQuery = { __typename?: 'query_root', member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string } | null };
 
 export type MemberSkillLevelsSubscriptionVariables = Exact<{
   memberId: Scalars['uuid'];
 }>;
 
 
-export type MemberSkillLevelsSubscription = { __typename?: 'subscription_root', member_skill_level: Array<{ __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } }> };
+export type MemberSkillLevelsSubscription = { __typename?: 'subscription_root', member_skill_level: Array<{ __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string }> };
 
 export type CreateMemberSkillLevelMutationVariables = Exact<{
   values: Member_Skill_Level_Insert_Input;
 }>;
 
 
-export type CreateMemberSkillLevelMutation = { __typename?: 'mutation_root', insert_member_skill_level_one?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } } | null };
+export type CreateMemberSkillLevelMutation = { __typename?: 'mutation_root', insert_member_skill_level_one?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string } | null };
 
 export type UpdateMemberSkillLevelMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -18634,7 +18636,7 @@ export type UpdateMemberSkillLevelMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMemberSkillLevelMutation = { __typename?: 'mutation_root', update_member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string, members: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null, preferences?: MemberPreferences | null }, skillLevels: { __typename?: 'skill_level', id: string, name: string, description: string, degree: number, skillId: string, skills: { __typename?: 'skill', id: string, name: string, description: string, categoryId?: string | null, category?: { __typename?: 'skill_category', id: string, name: string, description?: string | null, skills: Array<{ __typename?: 'skill', id: string, name: string, description: string }> } | null, skill_levels: Array<{ __typename?: 'skill_level', id: string, name: string, description: string, degree: number }> } } } | null };
+export type UpdateMemberSkillLevelMutation = { __typename?: 'mutation_root', update_member_skill_level_by_pk?: { __typename?: 'member_skill_level', id: string, memberId: string, skillLevelId: string } | null };
 
 export type DeleteMemberSkillLevelMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -19105,79 +19107,13 @@ export const MeetingStepFragmentDoc = gql`
   data
 }
     `;
-export const MemberFragmentDoc = gql`
-    fragment Member on member {
-  id
-  orgId
-  archived
-  name
-  description
-  pictureFileId
-  picture
-  userId
-  inviteEmail
-  inviteDate
-  workedMinPerWeek
-  role
-  meetingId
-  preferences
-}
-    `;
-export const SkillCategoryFragmentDoc = gql`
-    fragment SkillCategory on skill_category {
-  id
-  name
-  description
-  skills {
-    id
-    name
-    description
-  }
-}
-    `;
-export const SkillFragmentDoc = gql`
-    fragment Skill on skill {
-  id
-  name
-  description
-  categoryId
-  category {
-    ...SkillCategory
-  }
-  skill_levels {
-    id
-    name
-    description
-    degree
-  }
-}
-    ${SkillCategoryFragmentDoc}`;
-export const SkillLevelFragmentDoc = gql`
-    fragment SkillLevel on skill_level {
-  id
-  name
-  description
-  degree
-  skillId
-  skills {
-    ...Skill
-  }
-}
-    ${SkillFragmentDoc}`;
 export const MemberSkillLevelFragmentDoc = gql`
     fragment MemberSkillLevel on member_skill_level {
   id
   memberId
   skillLevelId
-  members {
-    ...Member
-  }
-  skillLevels {
-    ...SkillLevel
-  }
 }
-    ${MemberFragmentDoc}
-${SkillLevelFragmentDoc}`;
+    `;
 export const OrgFragmentDoc = gql`
     fragment Org on org {
   id
@@ -19247,6 +19183,36 @@ export const CircleFullFragmentDoc = gql`
 }
     ${CircleWithRoleFragmentDoc}
 ${MemberSummaryFragmentDoc}`;
+export const MemberFragmentDoc = gql`
+    fragment Member on member {
+  id
+  orgId
+  archived
+  name
+  description
+  pictureFileId
+  picture
+  userId
+  inviteEmail
+  inviteDate
+  workedMinPerWeek
+  role
+  meetingId
+  preferences
+}
+    `;
+export const SkillCategoryFragmentDoc = gql`
+    fragment SkillCategory on skill_category {
+  id
+  name
+  description
+  skills {
+    id
+    name
+    description
+  }
+}
+    `;
 export const OrgFullFragmentDoc = gql`
     fragment OrgFull on org {
   ...Org
@@ -19294,6 +19260,41 @@ ${CircleFragmentDoc}
 ${RoleFragmentDoc}
 ${MemberFragmentDoc}
 ${SkillCategoryFragmentDoc}`;
+export const SkillLevelSummaryFragmentDoc = gql`
+    fragment SkillLevelSummary on skill_level {
+  id
+  name
+  description
+  degree
+}
+    `;
+export const SkillFragmentDoc = gql`
+    fragment Skill on skill {
+  id
+  name
+  description
+  categoryId
+  category {
+    ...SkillCategory
+  }
+  skill_levels {
+    ...SkillLevelSummary
+  }
+}
+    ${SkillCategoryFragmentDoc}
+${SkillLevelSummaryFragmentDoc}`;
+export const SkillLevelFragmentDoc = gql`
+    fragment SkillLevel on skill_level {
+  id
+  name
+  description
+  degree
+  skillId
+  skills {
+    ...Skill
+  }
+}
+    ${SkillFragmentDoc}`;
 export const ThreadMemberStatusFragmentDoc = gql`
     fragment ThreadMemberStatus on thread_member_status {
   lastReadActivityId

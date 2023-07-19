@@ -8,3 +8,10 @@ fragment SkillLevel on skill_level {
     ...Skill
   }
 }
+
+fragment SkillLevelSummary on skill_level {
+  id
+  name
+  description
+  degree
+}
