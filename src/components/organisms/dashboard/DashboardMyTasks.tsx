@@ -39,7 +39,7 @@ export default function DashboardMyTasks() {
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      <TasksList tasks={tasks} onOrderChange={changeOrder} showMember={false} />
+      <TasksList tasks={tasks} onOrderChange={changeOrder} showCircle />
 
       {createModal.isOpen && (
         <TaskModal
