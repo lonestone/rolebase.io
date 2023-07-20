@@ -542,9 +542,13 @@ body > div > span > span + span[style] > span[style] {
 
 .paragraph-placeholder:before {
   content: attr(data-placeholder);
-  color: var(--chakra-colors-gray-500);
+  color: var(--chakra-colors-gray-400);
   float: left;
   pointer-events: none;
   user-select: none;
   height: 0;
+}
+
+.chakra-ui-dark .paragraph-placeholder:before {
+  color: var(--chakra-colors-gray-500);
 }

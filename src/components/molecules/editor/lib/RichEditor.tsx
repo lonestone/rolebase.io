@@ -280,7 +280,7 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           <TabFocusPlugin />
           <CollapsiblePlugin />
 
-          {emptyParagraphPlaceholder && !readOnly && (
+          {emptyParagraphPlaceholder && !readOnly && isFocused && (
             <ParagraphPlaceholderPlugin
               placeholder={emptyParagraphPlaceholder}
               hideOnEmptyEditor

@@ -1,21 +1,26 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import './Placeholder.css'
+import { Box } from '@chakra-ui/react'
 
 import React, { ReactNode } from 'react'
 
-export default function Placeholder({
-  children,
-  className,
-}: {
-  children: ReactNode
-  className?: string
-}) {
-  return <div className={className || 'Placeholder__root'}>{children}</div>
+export default function Placeholder({ children }: { children: ReactNode }) {
+  return (
+    <Box
+      color="gray.400"
+      overflow="hidden"
+      position="absolute"
+      textOverflow="ellipsis"
+      top={2}
+      left={4}
+      m="1px"
+      user-select="none"
+      white-space="nowrap"
+      display="inline-block"
+      pointerEvents="none"
+      _dark={{
+        color: 'gray.500',
+      }}
+    >
+      {children}
+    </Box>
+  )
 }
