@@ -2,12 +2,12 @@ import { Member_Role_Enum } from '@gql'
 import { defaultLang, resources } from '@i18n'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
+import { guardOrg } from '@utils/guardOrg'
+import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
+import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
+import { MeetingStartedNotification } from '@utils/notification/meeting/meetingStartedNotification'
 import { route } from '@utils/route'
 import * as yup from 'yup'
-import { guardOrg } from '@utils/guardOrg'
-import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
-import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import { MeetingStartedNotification } from '@utils/notification/meeting/meetingStartedNotification'
 
 const yupSchema = yup.object({
   recipientMemberIds: yup.array().of(yup.string().required()),
@@ -40,7 +40,8 @@ export default route(async (context): Promise<void> => {
   // Get sender and recipients
   const { sender, recipients } = await getNotificationSenderAndRecipients(
     context?.userId!,
-    [...new Set([...allRecipientIds])]
+    [...new Set([...allRecipientIds])],
+    orgId
   )
   if (recipients.length === 0) return
 

@@ -1,7 +1,7 @@
 import { ThreadActivityFragment } from '@gql'
 import { defaultLang, resources } from '@i18n'
-import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { HasuraEventOp } from '@utils/nhost'
+import { checkSendNotificationEvent } from '@utils/notification/checkSendNotificationEvent'
 import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
 import { threadActivityInsertAction } from '@utils/notification/thread/threadActivityInsertAction'
 import { ThreadActivityNotification } from '@utils/notification/thread/threadActivityNotification'
@@ -37,7 +37,8 @@ export default route(async (context): Promise<void> => {
   // Get sender and recipients
   const { sender, recipients } = await getNotificationSenderAndRecipients(
     senderUserId,
-    threadActivityActionReturn.participantsIds
+    threadActivityActionReturn.participantsIds,
+    threadActivityActionReturn.threadActivity.thread.orgId
   )
   if (recipients.length === 0) {
     return
