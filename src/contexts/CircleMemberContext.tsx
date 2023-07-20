@@ -24,13 +24,13 @@ export const CircleMemberContext = createContext<
 
 export function getCircleMemberUrlSearch(circleId?: string, memberId?: string) {
   if (circleId && memberId) {
-    return `roles?circleId=${circleId}&memberId=${memberId}`
+    return `?circleId=${circleId}&memberId=${memberId}`
   } else if (circleId) {
-    return `roles?circleId=${circleId}`
+    return `?circleId=${circleId}`
   } else if (memberId) {
-    return `roles?memberId=${memberId}`
+    return `?memberId=${memberId}`
   }
-  return 'roles'
+  return ''
 }
 
 interface CircleMemberProviderProps {
@@ -63,7 +63,9 @@ export function CircleMemberProvider({ children }: CircleMemberProviderProps) {
       onOpen()
     } else {
       // Navigate to circle member page
-      navigateOrg(getCircleMemberUrlSearch(state.circleId, state.memberId))
+      navigateOrg(
+        `roles${getCircleMemberUrlSearch(state.circleId, state.memberId)}`
+      )
       // Reset state
       setState({})
     }
