@@ -2,6 +2,7 @@ import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Button, useDisclosure } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useOrgMember from '@hooks/useOrgMember'
 import { useTasks } from '@hooks/useTasks'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
 import TasksList from '@molecules/task/TasksList'
@@ -14,6 +15,7 @@ import { FiPlus } from 'react-icons/fi'
 export default function DashboardMyTasks() {
   const { t } = useTranslation()
   const member = useCurrentMember()
+  const isMember = useOrgMember()
 
   const { tasks, error, loading, changeOrder } = useTasks(TasksViewTypes.List, {
     memberId: member?.id,
@@ -26,14 +28,16 @@ export default function DashboardMyTasks() {
       title={t('DashboardMyTasks.title')}
       path={`tasks?member=${member?.id}`}
       actions={
-        <Button
-          size="sm"
-          colorScheme="blue"
-          leftIcon={<FiPlus />}
-          onClick={createModal.onOpen}
-        >
-          {t('DashboardMyTasks.add')}
-        </Button>
+        isMember && (
+          <Button
+            size="sm"
+            colorScheme="blue"
+            leftIcon={<FiPlus />}
+            onClick={createModal.onOpen}
+          >
+            {t('DashboardMyTasks.add')}
+          </Button>
+        )
       }
     >
       {loading && <Loading active size="md" />}

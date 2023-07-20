@@ -12,6 +12,7 @@ import {
   Flex,
   Heading,
   HStack,
+  Icon,
   Link,
   Spacer,
   Tag,
@@ -122,14 +123,22 @@ export default function MeetingContent({
               )}
 
               <Wrap spacing={2} flex={1} align="center">
-                <FiCalendar />
-                <Heading as="h1" size="md">
-                  <Link href="#" onClick={editModal.onOpen}>
-                    {t('MeetingContent.heading', {
-                      title: meeting?.title || '…',
-                    })}
-                  </Link>
-                </Heading>
+                <HStack spacing={2}>
+                  <Icon as={FiCalendar} />
+                  <Heading as="h1" size="md">
+                    {isMember ? (
+                      <Link href="#" onClick={editModal.onOpen}>
+                        {t('MeetingContent.heading', {
+                          title: meeting?.title || '…',
+                        })}
+                      </Link>
+                    ) : (
+                      t('MeetingContent.heading', {
+                        title: meeting?.title || '…',
+                      })
+                    )}
+                  </Heading>
+                </HStack>
 
                 <Spacer />
 

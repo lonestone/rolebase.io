@@ -63,17 +63,15 @@ export default function ThreadActivityLayout({
       />
 
       <Box flex="1">
-        {(onEdit || allowDelete) && (
-          <ActionsMenu
-            variant="solid"
-            float="right"
-            opacity={0}
-            _groupHover={{ opacity: 1 }}
-            onEdit={onEdit}
-            onDelete={canDelete ? onDeleteOpen : undefined}
-            onMarkUnread={() => handleMarkUnread(activity.id)}
-          />
-        )}
+        <ActionsMenu
+          variant="solid"
+          float="right"
+          opacity={0}
+          _groupHover={{ opacity: 1 }}
+          onEdit={onEdit}
+          onDelete={canDelete ? onDeleteOpen : undefined}
+          onMarkUnread={() => handleMarkUnread(activity.id)}
+        />
 
         <Text>
           {member && <MemberLink id={member.id} name={member.name} />}

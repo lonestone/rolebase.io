@@ -1,10 +1,12 @@
 import {
   Button,
   ButtonProps,
+  Flex,
   Menu,
   MenuButton,
-  MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
   Text,
 } from '@chakra-ui/react'
 import React from 'react'
@@ -42,22 +44,27 @@ export default function GraphViewsSelect({
         {t(`GraphViewsSelect.${value}` as any)}
       </MenuButton>
 
-      <MenuList zIndex={2000} shadow="md" maxW="300px">
-        {viewsList.map((view) => (
-          <MenuItem
-            key={view}
-            flexDirection="column"
-            alignItems="left"
-            onClick={() => onChange(view)}
-          >
-            <Text fontWeight="bold">
-              {t(`GraphViewsSelect.${view}` as any)}
-            </Text>
-            <Text fontSize="sm">
-              {t(`GraphViewsSelect.${view}_desc` as any)}
-            </Text>
-          </MenuItem>
-        ))}
+      <MenuList zIndex={2000} shadow="md" maxW="330px">
+        <MenuOptionGroup type="radio" value={value}>
+          {viewsList.map((view) => (
+            <MenuItemOption
+              key={view}
+              value={view}
+              alignItems="start"
+              pt={2}
+              onClick={() => onChange(view)}
+            >
+              <Flex flexDirection="column" alignItems="left" mt={-2} mb={2}>
+                <Text fontWeight="bold">
+                  {t(`GraphViewsSelect.${view}` as any)}
+                </Text>
+                <Text fontSize="sm">
+                  {t(`GraphViewsSelect.${view}_desc` as any)}
+                </Text>
+              </Flex>
+            </MenuItemOption>
+          ))}
+        </MenuOptionGroup>
       </MenuList>
     </Menu>
   )

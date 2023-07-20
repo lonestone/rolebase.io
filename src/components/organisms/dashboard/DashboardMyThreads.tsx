@@ -2,6 +2,7 @@ import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Button, useDisclosure } from '@chakra-ui/react'
 import useFilterEntities from '@hooks/useFilterEntities'
+import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
@@ -14,6 +15,7 @@ import { FiPlus } from 'react-icons/fi'
 export default function DashboardMyThreads() {
   const { t } = useTranslation()
   const createModal = useDisclosure()
+  const isMember = useOrgMember()
 
   // Subscribe to threads
   const { threads, error, loading } = useThreads()
@@ -26,14 +28,16 @@ export default function DashboardMyThreads() {
       title={t('DashboardMyThreads.title')}
       path="threads"
       actions={
-        <Button
-          size="sm"
-          colorScheme="blue"
-          leftIcon={<FiPlus />}
-          onClick={createModal.onOpen}
-        >
-          {t('DashboardMyThreads.add')}
-        </Button>
+        isMember && (
+          <Button
+            size="sm"
+            colorScheme="blue"
+            leftIcon={<FiPlus />}
+            onClick={createModal.onOpen}
+          >
+            {t('DashboardMyThreads.add')}
+          </Button>
+        )
       }
     >
       {loading && <Loading active center />}

@@ -11,7 +11,7 @@ interface Props extends TagProps {
 export default function ThreadStatusTag({ status, ...tagProps }: Props) {
   const { t } = useTranslation()
   return (
-    <Tag colorScheme={threadStatusColors[status].tag} {...tagProps}>
+    <Tag colorScheme={threadStatusColors[status]} {...tagProps}>
       {t(`common.threadStatus.${status}`)}
     </Tag>
   )

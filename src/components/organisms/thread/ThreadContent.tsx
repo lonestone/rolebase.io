@@ -19,10 +19,10 @@ import useOrgMember from '@hooks/useOrgMember'
 import useThreadState from '@hooks/useThreadState'
 import useThreadStatus from '@hooks/useThreadStatus'
 import ActionsMenu from '@molecules/ActionsMenu'
-import { CircleThreadStatus } from '@molecules/CircleThreadStatus'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import ScrollableLayout from '@molecules/ScrollableLayout'
 import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
+import ThreadStatusCircle from '@molecules/thread/ThreadStatusCircle'
 import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import ThreadActivities from '@organisms/thread/ThreadActivities'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
@@ -80,32 +80,40 @@ export default function ThreadContent({
     return <Page404 />
   }
 
+  const title = thread?.title || '…'
+
   return (
     <ThreadContext.Provider value={threadState}>
       <ScrollableLayout
         {...boxProps}
         header={
           <>
-            {changeTitle && <Title>{thread?.title || '…'}</Title>}
+            {changeTitle && <Title>{title}</Title>}
 
             <Wrap spacing={4} flex={1} align="center">
-              <Flex gap={2}>
-                {isMember && threadStatus && (
-                  <CircleThreadStatus status={threadStatus} />
-                )}
+              <HStack spacing={2}>
+                <ThreadStatusCircle
+                  value={threadStatus}
+                  readOnly={!isMember}
+                  onChange={setStatus}
+                />
 
                 <Heading as="h1" size="md">
-                  <Link href="#" onClick={editModal.onOpen}>
-                    {thread?.title || (loading ? '…' : null)}
-                  </Link>
+                  {isMember ? (
+                    <Link href="#" onClick={editModal.onOpen}>
+                      {title}
+                    </Link>
+                  ) : (
+                    title
+                  )}
                 </Heading>
-              </Flex>
+              </HStack>
 
               <Spacer />
 
               <HStack spacing={2}>
                 <Box>
-                  {isMember && (
+                  {isMember && threadStatus && (
                     <ThreadStatusMenu
                       value={threadStatus}
                       onChange={setStatus}

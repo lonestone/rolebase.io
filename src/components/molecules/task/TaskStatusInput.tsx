@@ -1,8 +1,9 @@
 import {
   Menu,
   MenuButton,
-  MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
   Tag,
   TagProps,
 } from '@chakra-ui/react'
@@ -43,19 +44,18 @@ export default function TaskStatusInput({
         {t(`common.taskStatus.${value}`)}
       </MenuButton>
 
-      <MenuList zIndex={2000} minW={0} p={0} shadow="md">
-        {taskStatusList.map((status) => (
-          <MenuItem
-            key={status}
-            as={Tag}
-            cursor="pointer"
-            py={2}
-            borderRadius={0}
-            onClick={() => onChange(status)}
-          >
-            {t(`common.taskStatus.${status}`)}
-          </MenuItem>
-        ))}
+      <MenuList zIndex={2000}>
+        <MenuOptionGroup type="radio" value={value}>
+          {taskStatusList.map((status) => (
+            <MenuItemOption
+              key={status}
+              value={status}
+              onClick={() => onChange(status)}
+            >
+              {t(`common.taskStatus.${status}`)}
+            </MenuItemOption>
+          ))}
+        </MenuOptionGroup>
       </MenuList>
     </Menu>
   )

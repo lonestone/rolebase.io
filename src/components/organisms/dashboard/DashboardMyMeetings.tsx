@@ -4,6 +4,7 @@ import { Button, useDisclosure } from '@chakra-ui/react'
 import { useNextMeetingsSubscription } from '@gql'
 import useFilterEntities from '@hooks/useFilterEntities'
 import { useOrgId } from '@hooks/useOrgId'
+import useOrgMember from '@hooks/useOrgMember'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
 import MeetingsList from '@molecules/meeting/MeetingsList'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
@@ -20,6 +21,7 @@ const max = 5
 export default function DashboardMyMeetings() {
   const { t } = useTranslation()
   const orgId = useOrgId()
+  const isMember = useOrgMember()
 
   const { data, error, loading } = useNextMeetingsSubscription({
     skip: !orgId,
@@ -47,14 +49,16 @@ export default function DashboardMyMeetings() {
       title={t('DashboardMyMeetings.title')}
       path="meetings"
       actions={
-        <Button
-          size="sm"
-          colorScheme="blue"
-          leftIcon={<FiPlus />}
-          onClick={createModal.onOpen}
-        >
-          {t('DashboardMyMeetings.add')}
-        </Button>
+        isMember && (
+          <Button
+            size="sm"
+            colorScheme="blue"
+            leftIcon={<FiPlus />}
+            onClick={createModal.onOpen}
+          >
+            {t('DashboardMyMeetings.add')}
+          </Button>
+        )
       }
     >
       {loading && <Loading active size="md" />}

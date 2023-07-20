@@ -15,11 +15,13 @@ import { ThreadFragment } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useMember from '@hooks/useMember'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
+import useOrgMember from '@hooks/useOrgMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import { CircleThreadStatus } from '@molecules/CircleThreadStatus'
+import useThreadStatus from '@hooks/useThreadStatus'
 import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
+import ThreadStatusCircle from './ThreadStatusCircle'
 
 interface Props extends LinkBoxProps {
   thread: ThreadFragment
@@ -46,9 +48,13 @@ const ThreadItem = forwardRef<Props, 'div'>(
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
     const hover = useHoverItemStyle()
+    const isMember = useOrgMember()
 
     // Get thread initiator
     const threadInitiator = useMember(thread.initiatorMemberId)
+
+    // Thread status
+    const { threadStatus, setStatus } = useThreadStatus(thread)
 
     return (
       <>
@@ -69,7 +75,11 @@ const ThreadItem = forwardRef<Props, 'div'>(
         >
           <Flex align="center">
             <Box zIndex="2" mr={2} position="relative">
-              <CircleThreadStatus status={thread.status} />
+              <ThreadStatusCircle
+                value={threadStatus}
+                readOnly={!isMember}
+                onChange={setStatus}
+              />
               {unread && (
                 <Circle
                   size="8px"
