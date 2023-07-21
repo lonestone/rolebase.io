@@ -4,7 +4,7 @@ import { useElementSize } from '@hooks/useElementSize'
 import useCirclesEvents from '@hooks/useGraphEvents'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import { useStoreState } from '@store/hooks'
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { GraphViews } from 'src/circles-viz/types'
 
 export default function DashboardOrgChart() {
@@ -18,6 +18,7 @@ export default function DashboardOrgChart() {
   // Data
   const circles = useStoreState((state) => state.org.circles)
   const { onCircleClick, onMemberClick } = useCirclesEvents()
+  const events = useMemo(() => ({ onCircleClick, onMemberClick }), [])
 
   // Color mode
   const { colorMode } = useColorMode()
@@ -30,7 +31,7 @@ export default function DashboardOrgChart() {
           view={GraphViews.AllCircles}
           id={`dashboard-graph-${org.id}`}
           circles={circles}
-          events={{ onCircleClick, onMemberClick }}
+          events={events}
           width={size}
           height={size}
           panzoomDisabled

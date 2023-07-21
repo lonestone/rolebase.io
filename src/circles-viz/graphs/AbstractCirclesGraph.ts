@@ -138,8 +138,6 @@ export abstract class AbstractCirclesGraph extends Graph {
   }
 
   protected draw(data: Data) {
-    const { zoom } = this
-
     // Pack data with d3.pack
     const root = this.packData(data)
     const svg = d3.select<SVGSVGElement, NodeData>(this.svg)
@@ -158,42 +156,15 @@ export abstract class AbstractCirclesGraph extends Graph {
       node.y *= nodeScale
     }
 
-    // Set focus functions
-    const focusCircle = (
-      node: NodeData = root,
-      adaptScale?: boolean,
-      instant?: boolean
-    ) => {
-      if (node.r > 0) {
-        zoom.to(
-          node.x,
-          node.y,
-          adaptScale ? zoom.focusCircleScale(node) : 0,
-          instant
-        )
-      }
-    }
-
     // Change zoom extent
-    zoom.changeExtent(root.r * 2, root.r * 2)
-
-    // Set function to zoom on a circle
-    zoom.focusCircle = (circleId = root.data.id, adaptScale, instant) => {
-      const circle = nodesMap.find((c) => c.data.id === circleId)
-      if (!circle) return
-      focusCircle(circle, adaptScale, instant)
-    }
-
-    // Set function to zoom on a circle after redraw
-    zoom.focusCircleAfterDraw = (...args) =>
-      this.addDrawListener(
-        () => setTimeout(() => zoom.focusCircle?.(...args), 100),
-        true
-      )
+    this.changeExtent(root.r * 2, root.r * 2)
 
     // Zoom on root circle at first draw
     if (firstDraw) {
-      setTimeout(() => focusCircle(root, true, true), 0)
+      setTimeout(
+        () => this.zoomTo(root.x, root.y, this.focusCircleScale(root)),
+        0
+      )
     }
 
     this.drawCircles(svg, nodesMap)

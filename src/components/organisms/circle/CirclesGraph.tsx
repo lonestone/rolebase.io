@@ -1,5 +1,5 @@
 import { useColorMode } from '@chakra-ui/react'
-import { GraphZoomContext } from '@contexts/GraphZoomContext'
+import { GraphContext } from '@contexts/GraphContext'
 import styled from '@emotion/styled'
 import { CircleFullFragment } from '@gql'
 import { ColorModeProps, mode } from '@utils/colorMode'
@@ -25,7 +25,7 @@ interface Props {
   id: string
   view: GraphViews
   circles: CircleFullFragment[]
-  events: GraphEvents
+  events?: GraphEvents
   width: number
   height: number
   focusCrop?: Position
@@ -137,7 +137,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
 ) {
   // Utils
   const { colorMode } = useColorMode()
-  const zoomContext = useContext(GraphZoomContext)
+  const graphContext = useContext(GraphContext)
 
   // Viz
   const svgRef = useRef<SVGSVGElement>(null)
@@ -159,38 +159,38 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
         height,
         focusCrop,
         focusCircleScale,
-        events,
+        events: events || {},
       }
       const graph = getGraphInstance(view, svg, params)
 
       // Change ready state after first draw
       graph.addDrawListener(() => setReady(true), true)
       graphRef.current = graph
-      zoomContext?.setZoom(graph.zoom)
+      graphContext?.setGraph(graph)
     }
 
     // (Re)-draw graph
     graphRef.current.updateData(circles)
-  }, [view, circles, ...Object.values(events)])
+  }, [view, circles, events])
 
   // Update dimensions
   useEffect(() => {
     if (width === 0 || height === 0) return
-    graphRef.current?.zoom.changeDimensions(width, height, focusCrop)
+    graphRef.current?.changeDimensions(width, height, focusCrop)
   }, [width, height, focusCrop, focusCircleScale])
 
   // Update panzoom disabled state
   useEffect(() => {
     const graph = graphRef.current
     if (!graph) return
-    graph.zoom.disabled = panzoomDisabled || false
+    graph.zoomDisabled = panzoomDisabled || false
   }, [panzoomDisabled])
 
   // Unmount
   useEffect(
     () => () => {
       // Reset zoom context
-      zoomContext?.setZoom(undefined)
+      graphContext?.setGraph(undefined)
     },
     []
   )
@@ -213,9 +213,9 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   // It's useful for the drag behavior
   const [cursor, setCursor] = useState('pointer')
   useEffect(() => {
-    const canClick = !!(events.onCircleClick && events.onMemberClick)
-    const canMove = !!(events.onCircleMove && events.onMemberMove)
-    const canCopy = !!(events.onCircleCopy && events.onMemberAdd)
+    const canClick = !!(events?.onCircleClick && events?.onMemberClick)
+    const canMove = !!(events?.onCircleMove && events?.onMemberMove)
+    const canCopy = !!(events?.onCircleCopy && events?.onMemberAdd)
 
     if (!canClick) {
       setCursor('default')
@@ -244,14 +244,7 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
       document.body.removeEventListener('keydown', handler)
       document.body.removeEventListener('keyup', handler)
     }
-  }, [
-    !events.onCircleClick,
-    !events.onMemberClick,
-    !events.onCircleMove,
-    !events.onMemberMove,
-    !events.onCircleCopy,
-    !events.onMemberAdd,
-  ])
+  }, [events])
 
   return (
     <StyledSVG

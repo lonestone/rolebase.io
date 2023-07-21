@@ -7,7 +7,7 @@ import {
   useColorMode,
   useMediaQuery,
 } from '@chakra-ui/react'
-import { GraphZoomProvider } from '@contexts/GraphZoomContext'
+import { GraphProvider } from '@contexts/GraphContext'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
@@ -121,7 +121,7 @@ export default function CirclesPage() {
   const { colorMode } = useColorMode()
 
   return (
-    <GraphZoomProvider>
+    <GraphProvider>
       <Box
         ref={boxRef}
         position="absolute"
@@ -187,6 +187,6 @@ export default function CirclesPage() {
           <CirclesSettings {...menuButtonProps} />
         </Box>
       </HStack>
-    </GraphZoomProvider>
+    </GraphProvider>
   )
 }

@@ -1,5 +1,5 @@
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { GraphEvents } from 'src/circles-viz/types'
 import useAddCircleMember from './useAddCircleMember'
 import useCopyCircle from './useCopyCircle'
@@ -47,13 +47,16 @@ export default function useGraphEvents(): GraphEvents {
     []
   )
 
-  return {
-    onCircleClick,
-    onMemberClick,
-    onClickOutside: () => navigateOrg('roles'),
-    onCircleMove: isMember ? moveCircle : undefined,
-    onCircleCopy: isMember ? copyCircle : undefined,
-    onMemberMove: isMember ? onMemberMove : undefined,
-    onMemberAdd: isMember ? onMemberAdd : undefined,
-  }
+  return useMemo(
+    () => ({
+      onCircleClick,
+      onMemberClick,
+      onClickOutside: () => navigateOrg('roles'),
+      onCircleMove: isMember ? moveCircle : undefined,
+      onCircleCopy: isMember ? copyCircle : undefined,
+      onMemberMove: isMember ? onMemberMove : undefined,
+      onMemberAdd: isMember ? onMemberAdd : undefined,
+    }),
+    []
+  )
 }

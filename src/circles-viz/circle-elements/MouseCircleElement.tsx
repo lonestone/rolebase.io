@@ -15,8 +15,8 @@ export class MouseCircleElement extends AbstractCircleElement {
 
   enter(selection: NodesSelection, transition: MoveTransition) {
     const that = this
+    const graph = this.graph
     const {
-      zoom,
       params: { events },
     } = this.graph
 
@@ -82,9 +82,9 @@ export class MouseCircleElement extends AbstractCircleElement {
 
             // Register selection of circles and its descendants
             const descendants = dragNode.descendants()
-            const circles = d3
-              .select<SVGSVGElement, NodeData>(that.graph.svg)
-              .selectAll<SVGGElement, NodeData>('.circle')
+            const circles = graph.svgD3.selectAll<SVGGElement, NodeData>(
+              '.circle'
+            )
             that.dragNodes = circles
               .filter((node) => descendants.includes(node))
               .raise() // Put on top of everything
@@ -106,7 +106,7 @@ export class MouseCircleElement extends AbstractCircleElement {
               )
               // Move circles names
               that.dragNodes.data().forEach((d) => {
-                d3.select<SVGSVGElement, NodeData>(that.graph.svg)
+                graph.svgD3
                   .select(`#circle-name-${d.data.id}`)
                   .attr(
                     'transform',
@@ -117,7 +117,7 @@ export class MouseCircleElement extends AbstractCircleElement {
               const targetData = getTargetNodeData(
                 that.dragTargets,
                 event,
-                zoom
+                graph
               )
 
               if (targetData !== that.dragTarget) {
@@ -154,11 +154,13 @@ export class MouseCircleElement extends AbstractCircleElement {
                         events.onCircleClick?.(newCircleId)
                       }
                     })
+                  // Focus zoom on target circle
+                  that.graph.focusNodeIdAfterDraw(targetCircleId, true)
                 } else if (differentParent) {
                   // Move circle to another circle
                   events.onCircleMove?.(dragNode.data.id, targetCircleId)
-                  // (Re-)focus circle
-                  zoom.focusCircleAfterDraw?.(dragNode.data.id)
+                  // Focus zoom on target circle
+                  that.graph.focusNodeIdAfterDraw(targetCircleId, true)
                   actionMoved = true
                 }
               } else if (
@@ -180,10 +182,10 @@ export class MouseCircleElement extends AbstractCircleElement {
                     dragNode.data.parentId,
                     targetCircleId
                   )
-                  // (Re-)focus member
-                  zoom.focusCircleAfterDraw?.(dragNode.data.id)
                   actionMoved = true
                 }
+                // Focus zoom on target circle
+                that.graph.focusNodeIdAfterDraw(targetCircleId, true)
               }
 
               // Unhighlight target circle
@@ -210,7 +212,7 @@ export class MouseCircleElement extends AbstractCircleElement {
 
               // Reset circles names
               that.dragNodes.data().forEach((d) => {
-                d3.select<SVGSVGElement, NodeData>(that.graph.svg)
+                graph.svgD3
                   .select(`#circle-name-${d.data.id}`)
                   .transition(transition)
                   .attr('transform', (d) => `translate(${d.x},${d.y})`)

@@ -9,7 +9,7 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { GraphZoomContext } from '@contexts/GraphZoomContext'
+import { GraphContext } from '@contexts/GraphContext'
 import useCircle from '@hooks/useCircle'
 import useMember from '@hooks/useMember'
 import useRemoveCircleMember from '@hooks/useRemoveCircleMember'
@@ -34,7 +34,7 @@ export default function CircleMemberDeleteModal({
   const member = useMember(memberId)
   const removeCircleMember = useRemoveCircleMember()
   const cancelRef = useRef<HTMLButtonElement>(null)
-  const zoomContext = useContext(GraphZoomContext)
+  const graphContext = useContext(GraphContext)
 
   const handleDelete = async () => {
     if (!circle || !member) return
@@ -43,7 +43,7 @@ export default function CircleMemberDeleteModal({
     alertProps.onClose()
 
     // Focus circle in graph
-    zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
+    graphContext?.graph?.focusNodeIdAfterDraw(circleId, true)
   }
 
   return (

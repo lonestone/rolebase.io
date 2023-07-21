@@ -10,7 +10,7 @@ import {
   Spacer,
   useColorMode,
 } from '@chakra-ui/react'
-import { GraphZoomProvider } from '@contexts/GraphZoomContext'
+import { GraphProvider } from '@contexts/GraphContext'
 import { useOrgId } from '@hooks/useOrgId'
 import GraphViewsSelect from '@molecules/circle/GraphViewsSelect'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
@@ -62,7 +62,7 @@ export default function CircleExportPage() {
   // Center graph
   const handleCenter = () => {
     if (!circleId || !graphRef.current) return
-    graphRef.current.zoom.focusCircle?.(undefined, true)
+    graphRef.current.focusNodeId(undefined, true)
   }
 
   // Center graph and adapt scale on width change
@@ -83,7 +83,7 @@ export default function CircleExportPage() {
   }
 
   return (
-    <GraphZoomProvider>
+    <GraphProvider>
       <Box p={5}>
         <Title>{t('CircleExportPage.heading')}</Title>
 
@@ -155,7 +155,6 @@ export default function CircleExportPage() {
               view={view}
               id={`graph-${orgId}`}
               circles={selectedCircles}
-              events={{}}
               width={width}
               height={width}
               focusCircleScale={(node) => node.r * 1.01}
@@ -164,6 +163,6 @@ export default function CircleExportPage() {
           )}
         </Box>
       </Box>
-    </GraphZoomProvider>
+    </GraphProvider>
   )
 }

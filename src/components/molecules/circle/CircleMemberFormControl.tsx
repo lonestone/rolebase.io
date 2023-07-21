@@ -1,5 +1,5 @@
 import { Box, Heading, useDisclosure } from '@chakra-ui/react'
-import { GraphZoomContext } from '@contexts/GraphZoomContext'
+import { GraphContext } from '@contexts/GraphContext'
 import { MemberFragment } from '@gql'
 import useAddCircleMember from '@hooks/useAddCircleMember'
 import useCircle from '@hooks/useCircle'
@@ -17,7 +17,7 @@ interface Props {
 export default function CircleMemberFormControl({ circleId }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const zoomContext = useContext(GraphZoomContext)
+  const graphContext = useContext(GraphContext)
   const circle = useCircle(circleId)
   const members = useStoreState((state) => state.org.members)
   const role = circle?.role
@@ -42,7 +42,7 @@ export default function CircleMemberFormControl({ circleId }: Props) {
     async (memberId: string) => {
       await addCircleMember(circleId, memberId)
       // Focus circle in graph
-      zoomContext?.zoom?.focusCircleAfterDraw?.(circleId, true)
+      graphContext?.graph?.focusNodeIdAfterDraw(circleId, true)
     },
     [circleId, circle]
   )

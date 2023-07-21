@@ -33,6 +33,7 @@ export enum GraphViews {
 export interface GraphParams {
   width: number
   height: number
+  zoomDisabled?: boolean
   focusCircleScale?: (node: NodeData) => number
   focusCrop?: Position
   events: GraphEvents
@@ -74,16 +75,8 @@ export interface Zoom {
     height: number,
     focusCrop?: Position
   ) => void
-  focusCircle?(
-    circleId: string | undefined,
-    adaptScale?: boolean,
-    instant?: boolean
-  ): void
-  focusCircleAfterDraw?(
-    circleId: string | undefined,
-    adaptScale?: boolean,
-    instant?: boolean
-  ): void
+  focusNode(node: NodeData, adaptScale?: boolean, instant?: boolean): void
+  focusNodeId(nodeId: string, adaptScale?: boolean, instant?: boolean): void
 }
 
 export type ZoomFocusCircleScale = (node: NodeData) => number

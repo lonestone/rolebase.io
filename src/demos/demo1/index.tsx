@@ -7,7 +7,7 @@ import { I18nextProvider } from 'react-i18next'
 import { Transition, TransitionGroup } from 'react-transition-group'
 import { Graph } from 'src/circles-viz/Graph'
 import settings from 'src/circles-viz/settings'
-import { GraphEvents, GraphViews } from 'src/circles-viz/types'
+import { GraphViews } from 'src/circles-viz/types'
 import i18n from '../../i18n'
 import { circles } from './data'
 
@@ -105,7 +105,6 @@ function Demo1() {
 
   // Graph
   const graphRef = useRef<Graph>()
-  const events: GraphEvents = {}
 
   // Current step
   const [stepIndex, setStepIndex] = useState<number>()
@@ -120,13 +119,11 @@ function Demo1() {
     if (step.circleId === undefined) {
       // Unzoom
       setTimeout(() => {
-        const zoom = graphRef.current?.zoom
-        if (!zoom) return
-        zoom.to(0, 0, (2 / 3) * windowSize.height)
+        graphRef.current?.zoomTo(0, 0, (2 / 3) * windowSize.height)
       }, settings.zoom.duration)
     } else if (step.circleId === null) {
       // Focus on root circle
-      graphRef.current?.zoom.focusCircle?.(undefined, true)
+      graphRef.current?.focusNodeId(undefined, true)
     }
   }, [step])
 
@@ -203,7 +200,6 @@ function Demo1() {
           id="graph"
           view={GraphViews.AllCircles}
           circles={circles}
-          events={events}
           selectedCircleId={step?.circleId ?? undefined}
           panzoomDisabled
           width={windowSize.width}
