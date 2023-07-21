@@ -3,8 +3,8 @@ import { CloseIcon } from '@chakra-ui/icons'
 import { Box, Button } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import {
-  CircleThreadsWithMeetingNoteSubscription,
   ThreadActivityFragment,
+  ThreadsWithMeetingNoteSubscription,
   useUpdateThreadActivityMutation,
 } from '@gql'
 import { Draggable } from '@hello-pangea/dnd'
@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next'
 import ThreadItem from '../thread/ThreadItem'
 
 export type CircleThreadWithMeetingNote = NonNullable<
-  CircleThreadsWithMeetingNoteSubscription['thread']
+  ThreadsWithMeetingNoteSubscription['thread']
 >[0]
 
 interface Props {
