@@ -57,28 +57,6 @@ export interface GraphEvents {
   onClickOutside?(): void
 }
 
-export interface Zoom {
-  x: number
-  y: number
-  width: number
-  height: number
-  focusCircleScale: ZoomFocusCircleScale
-  focusCrop: Position
-  focusOffsetX: number
-  focusOffsetY: number
-  scale: number
-  disabled: boolean
-  to(x: number, y: number, radius?: number, instant?: boolean): void
-  changeExtent(width: number, height: number): void
-  changeDimensions: (
-    width: number,
-    height: number,
-    focusCrop?: Position
-  ) => void
-  focusNode(node: NodeData, adaptScale?: boolean, instant?: boolean): void
-  focusNodeId(nodeId: string, adaptScale?: boolean, instant?: boolean): void
-}
-
 export type ZoomFocusCircleScale = (node: NodeData) => number
 
 export type DrawEventListener = (handler: () => void, once?: boolean) => void
