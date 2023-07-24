@@ -326,36 +326,40 @@ export default function Sidebar() {
 
           <Spacer />
 
-          <SidebarItemLink
-            className="userflow-sidebar-members"
-            to={`${rootPath}members`}
-            icon={<FiUsers />}
-          >
-            {t('Sidebar.members')}
-          </SidebarItemLink>
+          {orgId && (
+            <>
+              <SidebarItemLink
+                className="userflow-sidebar-members"
+                to={`${rootPath}members`}
+                icon={<FiUsers />}
+              >
+                {t('Sidebar.members')}
+              </SidebarItemLink>
 
-          <SidebarItemLink
-            className="userflow-sidebar-logs"
-            to={`${rootPath}logs`}
-            icon={<FiClock />}
-          >
-            {t('Sidebar.logs')}
-          </SidebarItemLink>
+              <SidebarItemLink
+                className="userflow-sidebar-logs"
+                to={`${rootPath}logs`}
+                icon={<FiClock />}
+              >
+                {t('Sidebar.logs')}
+              </SidebarItemLink>
 
-          {isOwner && (
-            <SidebarItemLink
-              className="userflow-sidebar-subscription"
-              to={`${rootPath}subscription`}
-              icon={<FiStar />}
-            >
-              {t('Sidebar.subscription')}
-            </SidebarItemLink>
-          )}
+              {isOwner && (
+                <SidebarItemLink
+                  className="userflow-sidebar-subscription"
+                  to={`${rootPath}subscription`}
+                  icon={<FiStar />}
+                >
+                  {t('Sidebar.subscription')}
+                </SidebarItemLink>
+              )}
 
-          {isSuperAdmin && (
-            <SidebarItemLink to={`${rootPath}admin`} icon={<FiActivity />}>
-              {t('Sidebar.superAdmin')}
-            </SidebarItemLink>
+              {isSuperAdmin && (
+                <SidebarItemLink to={`${rootPath}admin`} icon={<FiActivity />}>
+                  {t('Sidebar.superAdmin')}
+                </SidebarItemLink>
+              )}
+            </>
           )}
 
           <SidebarItem
