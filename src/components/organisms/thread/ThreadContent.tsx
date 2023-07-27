@@ -91,7 +91,7 @@ export default function ThreadContent({
             {changeTitle && <Title>{title}</Title>}
 
             <Wrap spacing={4} flex={1} align="center">
-              <HStack spacing={2}>
+              <HStack spacing={2} align="center">
                 <ThreadStatusCircle
                   value={threadStatus}
                   readOnly={!isMember}

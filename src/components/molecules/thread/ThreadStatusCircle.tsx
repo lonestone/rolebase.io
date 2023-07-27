@@ -20,15 +20,15 @@ export default function ThreadStatusCircle({
 
   return (
     <Menu>
-      <MenuButton disabled={readOnly}>
-        <Tooltip
-          hasArrow
-          placement="left"
-          label={t(`common.threadStatus.${value}`)}
-        >
+      <Tooltip
+        hasArrow
+        placement="left"
+        label={t(`common.threadStatus.${value}`)}
+      >
+        <MenuButton disabled={readOnly}>
           <Circle size="18px" bg={`${threadStatusColors[value]}.400`} />
-        </Tooltip>
-      </MenuButton>
+        </MenuButton>
+      </Tooltip>
       <Portal>
         <ThreadStatusMenuList value={value} onChange={onChange} />
       </Portal>
