@@ -9,13 +9,7 @@ import {
 } from '@gql'
 import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
 import { shuffleArray } from '@utils/shuffleArray'
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
@@ -46,6 +40,7 @@ export default function MeetingStepContentThreads({ step }: Props) {
   // Subscribe to selected threads
   const { data, error, loading } = useThreadsWithMeetingNoteSubscription({
     skip: !step.data.threadsIds || step.data.threadsIds.length === 0,
+    fetchPolicy: 'cache-first',
     variables: {
       threadsIds: step.data.threadsIds
         // Sort ids to prevent from reloading when changing order
@@ -54,16 +49,18 @@ export default function MeetingStepContentThreads({ step }: Props) {
       meetingId: step.meetingId,
     },
   })
-  const threads = data?.thread
 
   // Prepare sortable items
-  const items = useMemo(
-    () =>
+  // We use a state because subscription resets data when variables change
+  const [threads, setThreads] = useState<CircleThreadWithMeetingNote[]>()
+  useEffect(() => {
+    if (loading || !data?.thread) return
+    setThreads(
       threadsIdsCache
-        .map((id) => threads?.find((thread) => thread.id === id))
-        .filter(Boolean) as CircleThreadWithMeetingNote[],
-    [threads, threadsIdsCache]
-  )
+        .map((id) => data?.thread.find((thread) => thread.id === id))
+        .filter(Boolean) as CircleThreadWithMeetingNote[]
+    )
+  }, [data, threadsIdsCache, loading])
 
   // Subscribe to all threads of circle
   const { data: threadsData } = useCircleThreadsSubscription({
@@ -75,14 +72,14 @@ export default function MeetingStepContentThreads({ step }: Props) {
   const threadsAll = threadsData?.thread || []
 
   const handleChange = useCallback(
-    (ids: string[]) => {
-      setThreadsIdsCache(ids)
+    (threadsIds: string[]) => {
+      setThreadsIdsCache(threadsIds)
       updateMeetingStep({
         variables: {
           id: step.id,
           values: {
             data: {
-              threadsIds: ids,
+              threadsIds,
             },
           },
         },
@@ -125,11 +122,10 @@ export default function MeetingStepContentThreads({ step }: Props) {
 
   return (
     <Box mb={5}>
-      {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       <SortableList disabled={!editable} onDragEnd={handleDragEnd}>
-        {items.map((item, i) => (
+        {threads?.map((item, i) => (
           <MeetingStepContentThreadItem
             key={item.id}
             thread={item}
@@ -152,11 +148,13 @@ export default function MeetingStepContentThreads({ step }: Props) {
             {t('MeetingStepContentThreads.add')}
           </ThreadSearchButton>
 
-          {items.length > 2 && (
+          {threads && threads.length > 2 && (
             <Button size="sm" leftIcon={<FaRandom />} onClick={handleRandomize}>
               {t('MeetingStepContentThreads.randomize')}
             </Button>
           )}
+
+          {loading && <Loading active size="sm" />}
         </HStack>
       )}
     </Box>
