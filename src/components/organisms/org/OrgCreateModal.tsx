@@ -90,7 +90,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
   useEffect(() => {
     if (org) {
       modalProps.onClose()
-      navigate(`${getOrgPath(org)}/`)
+      navigate(`${getOrgPath(org)}/roles`)
     }
   }, [org])
 
