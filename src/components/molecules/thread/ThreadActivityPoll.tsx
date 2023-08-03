@@ -17,7 +17,6 @@ import {
 } from '@gql'
 import useOrgMember from '@hooks/useOrgMember'
 import usePollState from '@hooks/usePollState'
-import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useUserId } from '@nhost/react'
 import ActivityPollModal from '@organisms/thread/ActivityPollModal'
 import { ThreadActivityPollFragment } from '@shared/model/thread_activity'
@@ -35,7 +34,6 @@ export default function ThreadActivityPoll({ activity }: Props) {
   const { t } = useTranslation()
   const userId = useUserId()
   const isMember = useOrgMember()
-  const isSuperAdmin = useSuperAdmin()
   const { colorMode } = useColorMode()
   const bgColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100'
 
@@ -84,7 +82,6 @@ export default function ThreadActivityPoll({ activity }: Props) {
       createPollAnswer({
         variables: {
           values: {
-            userId: isSuperAdmin ? userId : undefined,
             activityId: activity.id,
             choicesPoints,
           },

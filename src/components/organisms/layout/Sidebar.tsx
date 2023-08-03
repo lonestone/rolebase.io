@@ -355,7 +355,7 @@ export default function Sidebar() {
               )}
 
               {isSuperAdmin && (
-                <SidebarItemLink to={`${rootPath}admin`} icon={<FiActivity />}>
+                <SidebarItemLink to={`admin`} icon={<FiActivity />}>
                   {t('Sidebar.superAdmin')}
                 </SidebarItemLink>
               )}

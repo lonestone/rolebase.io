@@ -38,9 +38,7 @@ import {
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOrgId } from '@hooks/useOrgId'
-import useSuperAdmin from '@hooks/useSuperAdmin'
 import EditorController from '@molecules/editor/EditorController'
-import { useUserId } from '@nhost/react'
 import {
   PollChoice,
   ThreadActivityPollFragment,
@@ -104,9 +102,7 @@ export default function ActivityPollModal({
   ...modalProps
 }: Props) {
   const { t } = useTranslation()
-  const userId = useUserId()
   const orgId = useOrgId()
-  const isSuperAdmin = useSuperAdmin()
   const [updateActivity] = useUpdateThreadActivityMutation()
   const [createActivity] = useCreateThreadActivityMutation()
   const [deletePollAnswers] = useDeleteThreadPollAnswersMutation()
@@ -186,7 +182,7 @@ export default function ActivityPollModal({
   const endDate = watch('endDate')
 
   const onSubmit = handleSubmit(async ({ endDate, ...data }) => {
-    if (!orgId || !userId) return
+    if (!orgId) return
 
     try {
       const activityData = {
@@ -205,7 +201,6 @@ export default function ActivityPollModal({
         await createActivity({
           variables: {
             values: {
-              userId: isSuperAdmin ? userId : undefined,
               threadId,
               type: Thread_Activity_Type_Enum.Poll,
               data: activityData,
