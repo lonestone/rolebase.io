@@ -28,7 +28,6 @@ interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onArchive?(): void
   onUnarchive?(): void
   onMarkUnread?(): void
-  onCopyStepNotes?(): void
 }
 
 export default function ActionsMenu({
@@ -40,7 +39,6 @@ export default function ActionsMenu({
   onUnarchive,
   onDelete,
   onMarkUnread,
-  onCopyStepNotes,
   ...props
 }: Props) {
   const { t } = useTranslation()
@@ -60,6 +58,7 @@ export default function ActionsMenu({
         fontFamily="body"
         fontSize="1rem"
         fontWeight="normal"
+        shadow="lg"
         zIndex={1000}
       >
         {onEdit && (
@@ -100,11 +99,6 @@ export default function ActionsMenu({
         {onDelete && (
           <MenuItem icon={<FiTrash2 />} onClick={onDelete}>
             {t('common.delete')}
-          </MenuItem>
-        )}
-        {onCopyStepNotes && (
-          <MenuItem icon={<FiCopy />} onClick={onCopyStepNotes}>
-            {t('common.copyStepNotes')}
           </MenuItem>
         )}
       </MenuList>

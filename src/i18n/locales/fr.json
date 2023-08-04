@@ -278,6 +278,19 @@
   "LogsPage": {
     "heading": "Historique"
   },
+  "MeetingActionsMenu": {
+    "edit": "Paramètres",
+    "forceEdit": "Modifier le compte rendu",
+    "restart": "Démarrer à nouveau"
+  },
+  "MeetingAlertEnded": {
+    "stop": "Enregistrer et quitter l'édition"
+  },
+  "MeetingAlertNotStarted": {
+    "start": "Démarrer",
+    "future": "La réunion pourra être démarrée le <date>{{date}}</date>",
+    "past": "La réunion aurait du être démarrée le <date>{{date}}</date>"
+  },
   "MeetingAttendees": {
     "maybe": "Peut-être",
     "absent": "Absent(e)",
@@ -285,13 +298,22 @@
     "add": "Ajouter un(e) participant(e)",
     "confirmRemove": "Êtes-vous sûr(e) de vouloir retirer ce(tte) participant(e) ?"
   },
+  "MeetingContainer": {
+    "title": "Réunion {{title}} - {{circle}}"
+  },
   "MeetingContent": {
-    "title": "Réunion {{title}} - {{circle}}",
-    "heading": "Réunion {{title}}",
-    "started": "En cours",
-    "ended": "Terminée",
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
     "logs": "Actions pendant la réunion"
+  },
+  "MeetingContentEmpty": {
+    "new": "Préparer un nouveau compte-rendu",
+    "copy": "Copier la réunion précédente",
+    "or": "ou"
+  },
+  "MeetingHeader": {
+    "heading": "Réunion {{title}}",
+    "started": "En cours",
+    "ended": "Terminée"
   },
   "MeetingDeleteModal": {
     "heading": "Supprimer une réunion",
@@ -300,6 +322,7 @@
   "MeetingEditModal": {
     "headingEdit": "Modifier une réunion",
     "headingCreate": "Nouvelle réunion",
+    "duplicateInfo": "Le compte rendu de la réunion dupliquée sera repris dans cette nouvelle réunion.",
     "title": "Titre",
     "titlePrefix": "Réunion",
     "titlePlaceholder": "Titre...",
@@ -324,18 +347,11 @@
     "heading": "Réunion en cours",
     "info": "Vous avez une réunion en cours, souhaitez-vous la rejoindre ?"
   },
-  "MeetingPanelNotStarted": {
-    "start": "Démarrer"
-  },
   "MeetingPanelStarted": {
     "next": "Étape suivante",
     "end": "Terminer",
     "videoConf": "Rejoindre la visio",
     "defaultEntityDescription": "Réunion : {{meeting}}"
-  },
-  "MeetingPanelEnded": {
-    "reopen": "Démarrer à nouveau",
-    "stop": "Enregistrer et quitter l'édition"
   },
   "MeetingRecurringDeleteModal": {
     "heading": "Supprimer une réunion récurrente",
@@ -982,7 +998,6 @@
     "error": "Erreur",
     "name": "Nom",
     "copy": "Copier",
-    "copyStepNotes": "Reprendre les notes de la réunion précédente",
     "toastCopied": "URL copiée",
     "none": "Aucun",
     "errorOccurred": "Une erreur s'est produite.",

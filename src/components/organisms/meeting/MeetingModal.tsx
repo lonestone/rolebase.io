@@ -9,7 +9,7 @@ import {
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useWindowSize from '@hooks/useWindowSize'
 import React from 'react'
-import MeetingContent from '../meeting/MeetingContent'
+import MeetingContainer from './MeetingContainer'
 
 interface Props extends UseModalProps {
   id: string
@@ -29,9 +29,8 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
           bg: 'gray.800',
         }}
       >
-        <MeetingContent
+        <MeetingContainer
           id={id}
-          onClose={modalProps.onClose}
           headerIcons={
             <>
               <ModalMaximizeButton to={path} />

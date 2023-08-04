@@ -4,7 +4,7 @@ import {
   stopMembersMeeting,
 } from '@api/functions'
 import {
-  CircleWithRoleFragment,
+  CircleFullFragment,
   MeetingFragment,
   MeetingStepFragment,
   useMeetingSubscription,
@@ -19,8 +19,8 @@ import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
 import { MeetingStepConfig, VideoConfTypes } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
+import { isSameDay } from 'date-fns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import useCreateMissingMeetingSteps from './useCreateMissingMeetingSteps'
 import { usePathInOrg } from './usePathInOrg'
 
 /***
@@ -35,7 +35,7 @@ export interface MeetingState {
   loading: boolean
   error: Error | undefined
   steps: MeetingStepFragment[] | undefined
-  circle: CircleWithRoleFragment | undefined
+  circle: CircleFullFragment | undefined
   participants: ParticipantMember[]
   currentStep: MeetingStepFragment | undefined
   currentStepConfig: MeetingStepConfig | undefined
@@ -46,6 +46,7 @@ export interface MeetingState {
   isEnded: boolean
   isNotStarted: boolean
   isStarted: boolean
+  isToday: boolean
   isStartTimePassed: boolean
   isEndTimePassed: boolean
   isLastStep: boolean
@@ -63,7 +64,6 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
   const members = useStoreState((state) => state.org.members)
-  const createMissingMeetingSteps = useCreateMissingMeetingSteps()
   const [updateMeeting] = useUpdateMeetingMutation()
 
   // Subscribe meeting
@@ -79,22 +79,17 @@ export default function useMeetingState(meetingId: string): MeetingState {
   // Circle
   const circle = useCircle(meeting?.circleId)
 
-  // Create missing steps
-  useEffect(() => {
-    if (!meeting || !circle || !steps) return
-    createMissingMeetingSteps(
-      meeting.id,
-      meeting.stepsConfig,
-      circle.id,
-      circle.role.id,
-      steps.map((s) => s.stepConfigId)
-    )
-  }, [meeting?.stepsConfig, steps])
-
   // Meeting not started?
   const isEnded = !!meeting?.ended
   const isNotStarted = !isEnded && meeting?.currentStepId === null
   const isStarted = !isEnded && meeting?.currentStepId !== null
+
+  // Is meeting today?
+  const isToday = useMemo(
+    () =>
+      meeting ? isSameDay(new Date(), new Date(meeting.startDate)) : false,
+    [meeting?.startDate]
+  )
 
   // Start time passed?
   const [isStartTimePassed, setStartTimePassed] = useState(false)
@@ -356,6 +351,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
     isEnded,
     isNotStarted,
     isStarted,
+    isToday,
     isStartTimePassed,
     isEndTimePassed,
     isLastStep,

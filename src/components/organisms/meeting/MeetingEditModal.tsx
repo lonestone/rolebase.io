@@ -1,5 +1,7 @@
 import NumberInputController from '@atoms/NumberInputController'
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Flex,
@@ -20,6 +22,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import {
+  Meeting_Set_Input,
   Meeting_Step_Type_Enum,
   MeetingFragment,
   MeetingTemplateFragment,
@@ -182,7 +185,7 @@ export default function MeetingEditModal({
             }
           : null
 
-      const meetingUpdate = {
+      const meetingUpdate: Meeting_Set_Input = {
         ...data,
         startDate: startDateDate.toISOString(),
         endDate: new Date(
@@ -193,6 +196,13 @@ export default function MeetingEditModal({
       }
 
       if (meeting && !duplicate) {
+        // Reset meeting when date is in the future
+        if (startDateDate > new Date()) {
+          meetingUpdate.ended = false
+          meetingUpdate.currentStepId = null
+          meetingUpdate.attendees = null
+        }
+
         // Update meeting
         await updateMeeting({
           variables: {
@@ -239,6 +249,13 @@ export default function MeetingEditModal({
 
             <ModalBody>
               <VStack spacing={7} align="stretch">
+                {duplicate && (
+                  <Alert status="info">
+                    <AlertIcon />
+                    {t('MeetingEditModal.duplicateInfo')}
+                  </Alert>
+                )}
+
                 <FormControl isInvalid={!!errors.title}>
                   <FormLabel>
                     <Flex>

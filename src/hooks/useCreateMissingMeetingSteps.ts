@@ -1,11 +1,10 @@
 import {
+  CircleFullFragment,
+  MeetingFragment,
   MeetingStepFragment,
   Meeting_Step_Type_Enum,
-  RoleFragment,
   useCreateMeetingStepMutation,
   useGetCircleThreadsIdsLazyQuery,
-  useGetMeetingStepsIdsLazyQuery,
-  useGetRoleLazyQuery,
 } from '@gql'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { TasksViewTypes } from '@shared/model/task'
@@ -15,17 +14,14 @@ import { useCallback } from 'react'
 // but it doesn't have step in meeting_step table.
 // So we need to create a step for each stepConfig after meeting edition
 export default function useCreateMissingMeetingSteps() {
-  const [getMeetingStepsIds] = useGetMeetingStepsIdsLazyQuery()
   const [createMeetingStep] = useCreateMeetingStepMutation()
-  const [getRole] = useGetRoleLazyQuery()
   const [getCircleThreadsIds] = useGetCircleThreadsIdsLazyQuery()
 
   const getDefaultMeetingStep = useCallback(
     async (
       meetingId: string,
       stepConfig: MeetingStepConfig,
-      circleId: string,
-      role: RoleFragment
+      circle: CircleFullFragment
     ): Promise<Omit<MeetingStepFragment, 'id'>> => {
       const type = stepConfig.type
       const step = {
@@ -42,7 +38,7 @@ export default function useCreateMissingMeetingSteps() {
         case Meeting_Step_Type_Enum.Threads: {
           // Get circle's threads
           const { data } = await getCircleThreadsIds({
-            variables: { circleId },
+            variables: { circleId: circle.id },
           })
           if (!data) throw new Error('Error getting circle threads')
           return {
@@ -69,14 +65,14 @@ export default function useCreateMissingMeetingSteps() {
           return {
             ...step,
             type,
-            notes: role.checklist || '',
+            notes: circle.role.checklist || '',
           }
 
         case Meeting_Step_Type_Enum.Indicators:
           return {
             ...step,
             type,
-            notes: role.indicators || '',
+            notes: circle.role.indicators || '',
           }
       }
     },
@@ -85,46 +81,37 @@ export default function useCreateMissingMeetingSteps() {
 
   return useCallback(
     async (
-      meetingId: string,
-      stepsConfig: MeetingStepConfig[],
-      circleId: string,
-      roleId: string,
-      existingStepsConfigIds?: string[]
+      meeting: MeetingFragment,
+      circle: CircleFullFragment,
+      existingStepsConfigIds: string[],
+      stepsToCopy?: MeetingStepFragment[]
     ) => {
-      // Get role
-      const { data } = await getRole({ variables: { id: roleId } })
-      const role = data?.role_by_pk
-      if (!role) {
-        return console.error(`Error getting circle ${roleId}`)
-      }
-
-      // Get steps ids if not provided
-      if (!existingStepsConfigIds) {
-        const { data } = await getMeetingStepsIds({ variables: { meetingId } })
-        existingStepsConfigIds =
-          data?.meeting_step?.map((step) => step.stepConfigId) || []
-      }
-
-      const missingSteps =
-        stepsConfig.filter(
-          (stepConfig) => !existingStepsConfigIds?.includes(stepConfig.id)
-        ) || []
-
       // Create all missing steps
-      await Promise.all(
-        missingSteps.map(async (stepConfig) =>
-          createMeetingStep({
-            variables: {
-              values: await getDefaultMeetingStep(
-                meetingId,
-                stepConfig,
-                circleId,
-                role
-              ),
-            },
-          })
+      for (const stepConfig of meeting.stepsConfig) {
+        if (existingStepsConfigIds.includes(stepConfig.id)) {
+          continue
+        }
+
+        const newSteps = await getDefaultMeetingStep(
+          meeting.id,
+          stepConfig,
+          circle
         )
-      )
+
+        // Copy step content?
+        const stepToCopy = stepsToCopy?.find(
+          (step) => step.stepConfigId === stepConfig.id
+        )
+        if (stepToCopy) {
+          newSteps.notes = stepToCopy.notes
+        }
+
+        await createMeetingStep({
+          variables: {
+            values: newSteps,
+          },
+        })
+      }
     },
     [getDefaultMeetingStep]
   )

@@ -5,11 +5,11 @@ import TextErrors from '@atoms/TextErrors'
 import {
   Alert,
   AlertIcon,
-  Box,
   Button,
-  Flex,
   FormLabel,
   Heading,
+  HStack,
+  Icon,
   Modal,
   ModalBody,
   ModalContent,
@@ -19,6 +19,7 @@ import {
   Spacer,
   useDisclosure,
   UseModalProps,
+  Wrap,
 } from '@chakra-ui/react'
 import { useMeetingRecurringSubscription } from '@gql'
 import useCircle from '@hooks/useCircle'
@@ -33,7 +34,7 @@ import {
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
 import React, { useMemo } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { FiCalendar, FiRepeat } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
@@ -131,35 +132,28 @@ export default function MeetingRecurringModal({
       <ModalOverlay />
       <ModalContent>
         <ModalBody>
-          <Flex mt={2} mb={4} alignItems="center">
-            <Heading as="h1" size="md">
-              <Trans
-                i18nKey="MeetingContent.heading"
-                values={{ title: meetingRecurring?.template.title || '…' }}
-                components={{
-                  circle: circle ? (
-                    <CircleButton circle={circle} mx={1} />
-                  ) : (
-                    <></>
-                  ),
-                }}
-              />
-            </Heading>
-            <Box mx={2}>
-              <FiRepeat />
-            </Box>
-            {loading && <Loading active size="md" />}
+          <Wrap spacing={2} flex={1} align="center">
+            <HStack spacing={2}>
+              <Icon as={FiRepeat} />
+              <Heading as="h1" size="md">
+                {t('MeetingHeader.heading', {
+                  title: meetingRecurring?.template.title || '…',
+                })}
+              </Heading>
+            </HStack>
 
             <Spacer />
 
-            <Flex mr={-2}>
+            <HStack spacing={2}>
+              {circle && <CircleButton circle={circle} />}
+
               {participants && (
-                <ParticipantsNumber participants={participants} mr={2} />
+                <ParticipantsNumber participants={participants} />
               )}
 
               <ModalCloseStaticButton />
-            </Flex>
-          </Flex>
+            </HStack>
+          </Wrap>
 
           <TextErrors errors={[error]} />
 
@@ -187,15 +181,20 @@ export default function MeetingRecurringModal({
         </ModalBody>
 
         <ModalFooter>
-          <Button onClick={editModal.onOpen}>
-            {t(`MeetingRecurringModal.edit`)}
-          </Button>
+          {loading ? (
+            <Loading active size="md" />
+          ) : (
+            <Button onClick={editModal.onOpen}>
+              {t(`MeetingRecurringModal.edit`)}
+            </Button>
+          )}
 
           <Spacer />
 
           <Button
             colorScheme="blue"
             leftIcon={<FiCalendar />}
+            isDisabled={loading}
             onClick={handleCreate}
           >
             {t(`common.create`)}

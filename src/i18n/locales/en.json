@@ -244,6 +244,19 @@
   "LogsPage": {
     "heading": "History"
   },
+  "MeetingActionsMenu": {
+    "edit": "Settings",
+    "forceEdit": "Edit report",
+    "restart": "Restart"
+  },
+  "MeetingAlertEnded": {
+    "stop": "Save and exit editing"
+  },
+  "MeetingAlertNotStarted": {
+    "start": "Start",
+    "future": "The meeting can be started on <date>{{date}}</date>",
+    "past": "The meeting should have started on <date>{{date}}</date>"
+  },
   "MeetingAttendees": {
     "maybe": "Maybe",
     "absent": "Absent",
@@ -251,13 +264,22 @@
     "add": "Add an attendee",
     "confirmRemove": "Are you sure you want to remove this attendee from the meeting?"
   },
+  "MeetingContainer": {
+    "title": "Meeting {{title}} - {{circle}}"
+  },
   "MeetingContent": {
-    "title": "Meeting {{title}} - {{circle}}",
-    "heading": "Meeting {{title}}",
-    "started": "Started",
-    "ended": "Ended",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
     "logs": "Actions during the meeting"
+  },
+  "MeetingContentEmpty": {
+    "new": "Prepare a new report",
+    "copy": "Copy the previous meeting",
+    "or": "or"
+  },
+  "MeetingHeader": {
+    "heading": "Meeting {{title}}",
+    "started": "Started",
+    "ended": "Ended"
   },
   "MeetingDeleteModal": {
     "heading": "Delete meeting",
@@ -266,6 +288,7 @@
   "MeetingEditModal": {
     "headingEdit": "Edit meeting",
     "headingCreate": "New meeting",
+    "duplicateInfo": "The report of the duplicated meeting will be taken up in this new meeting.",
     "title": "Title",
     "titlePrefix": "Meeting",
     "titlePlaceholder": "Title...",
@@ -290,18 +313,11 @@
     "heading": "Meeting in progress",
     "info": "You have a meeting in progress, would you like to join it?"
   },
-  "MeetingPanelNotStarted": {
-    "start": "Start meeting"
-  },
   "MeetingPanelStarted": {
     "next": "Next step",
     "end": "End meeting",
     "videoConf": "Join the videoconf",
     "defaultEntityDescription": "Meeting: {{meeting}}"
-  },
-  "MeetingPanelEnded": {
-    "reopen": "Start again",
-    "stop": "Save and stop editing"
   },
   "MeetingRecurringDeleteModal": {
     "heading": "Delete a recurring meeting",
@@ -318,7 +334,7 @@
     "create": "Create a recurring meeting"
   },
   "MeetingRecurringModal": {
-    "info": "This meeting is recurring.",
+    "info": "This meeting is recurring. The occurrence you have selected does not yet exist, you can create it or wait for it to be created automatically.",
     "createLabel": "Create and modify the meeting of",
     "edit": "Modify the recurrence"
   },
@@ -949,7 +965,6 @@
     "error": "Error",
     "name": "Name",
     "copy": "Copy",
-    "copyStepNotes": "Copy previous meeting's notes",
     "toastCopied": "URL copied",
     "none": "None",
     "errorOccurred": "An error occurred.",

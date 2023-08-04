@@ -1,13 +1,21 @@
-query getMeetingStepsIds($meetingId: uuid!) {
-  meeting_step(where: { meetingId: { _eq: $meetingId } }) {
-    id
-    stepConfigId
-  }
-}
-
 query getMeetingSteps($meetingId: uuid!) {
   meeting_step(where: { meetingId: { _eq: $meetingId } }) {
     ...MeetingStep
+  }
+}
+
+query getPrevMeetingSteps($beforeDate: timestamptz!, $stepsIds: [String!]!) {
+  meeting(
+    where: {
+      startDate: { _lt: $beforeDate }
+      steps: { stepConfigId: { _in: $stepsIds } }
+    }
+    order_by: { startDate: desc }
+    limit: 1
+  ) {
+    steps(where: { stepConfigId: { _in: $stepsIds } }) {
+      ...MeetingStep
+    }
   }
 }
 

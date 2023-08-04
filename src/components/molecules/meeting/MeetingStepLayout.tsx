@@ -40,7 +40,6 @@ export default function MeetingStepLayout({
           current={current}
           mr={4}
           position={isSmallScreen ? undefined : 'absolute'}
-          sx={{ '.chakra-modal__content &': { position: 'static' } }}
           left="-45px"
           onStepClick={onStepClick}
         />
