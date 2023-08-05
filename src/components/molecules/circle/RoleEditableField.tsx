@@ -1,10 +1,11 @@
-import { BoxProps } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, BoxProps } from '@chakra-ui/react'
 import { RoleFragment, useUpdateRoleMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import useOrgMember from '@hooks/useOrgMember'
 import { EditableField } from '@molecules/EditableField'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props extends Omit<BoxProps, 'role'> {
   label: string
@@ -22,6 +23,7 @@ export function RoleEditableField({
   initValue,
   ...boxProps
 }: Props) {
+  const { t } = useTranslation()
   const isMember = useOrgMember()
   const [updateRole] = useUpdateRoleMutation()
   const createLog = useCreateLog()
@@ -73,6 +75,16 @@ export function RoleEditableField({
       editable={isMember}
       value={value}
       initValue={initValue}
+      info={
+        role.base ? (
+          <Alert status="warning">
+            <AlertIcon />
+            <AlertDescription>
+              {t('RoleEditableField.baseRoleInfo', { role: role.name })}
+            </AlertDescription>
+          </Alert>
+        ) : undefined
+      }
       onSave={handleSave}
       {...boxProps}
     />

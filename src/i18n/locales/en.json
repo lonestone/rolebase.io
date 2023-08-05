@@ -564,6 +564,9 @@
     "feedback": "Thank you! Do you have any suggestions? Can we help you?",
     "helpButton": "Talk to a human"
   },
+  "RoleEditableField": {
+    "baseRoleInfo": "The modification will apply to all {{role}} roles of the organization because it is a basic role."
+  },
   "ResetPasswordPage": {
     "heading": "Forgot your password?",
     "done1": "A password reset email has been sent to you!",

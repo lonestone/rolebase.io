@@ -598,6 +598,9 @@
     "feedback": "Merci ! Avez-vous des suggestions ? Est-ce qu'on peut vous aider ?",
     "helpButton": "Parler à un humain"
   },
+  "RoleEditableField": {
+    "baseRoleInfo": "La modification s'appliquera à tous les Rôles {{role}} de l'organisation car c'est une rôle de base."
+  },
   "ResetPasswordPage": {
     "heading": "Mot de passe oublié ?",
     "done1": "Un email de réinitialisation de mot de passe vous a été envoyé !",

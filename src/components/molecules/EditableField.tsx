@@ -22,6 +22,7 @@ interface Props extends Omit<BoxProps, 'value'> {
   hideTitle?: boolean
   value: string
   initValue?: string
+  info?: React.ReactNode
   onSave(value: string): void
 }
 
@@ -32,6 +33,7 @@ export function EditableField({
   hideTitle,
   value,
   initValue,
+  info,
   onSave,
   ...boxProps
 }: Props) {
@@ -136,6 +138,8 @@ export function EditableField({
           </Box>
         </>
       )}
+
+      {isEditing && info}
 
       <Collapse in={isEditing}>
         <Box textAlign="right">
