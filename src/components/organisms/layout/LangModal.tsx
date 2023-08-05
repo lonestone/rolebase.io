@@ -14,6 +14,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck } from 'react-icons/fi'
 import { langs, locales } from 'src/i18n'
+import { nhost } from 'src/nhost'
 
 export default function LangModal(modalProps: UseModalProps) {
   const {
@@ -27,10 +28,12 @@ export default function LangModal(modalProps: UseModalProps) {
 
   const handleClick = async (locale: string) => {
     if (!userId) return
-    // Change user locale in DB
-    await changeLocale({ variables: { userId, locale } })
     // Change i18n locale
     changeLanguage(locale)
+    // Change user locale in DB
+    await changeLocale({ variables: { userId, locale } })
+    // Refresh user data
+    await nhost.auth.refreshSession()
   }
 
   return (

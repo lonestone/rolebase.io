@@ -11,3 +11,10 @@ mutation changeLocale($userId: uuid!, $locale: String!) {
     locale
   }
 }
+
+mutation changeMetadata($userId: uuid!, $metadata: jsonb!) {
+  updateUser(pk_columns: { id: $userId }, _set: { metadata: $metadata }) {
+    id
+    metadata
+  }
+}

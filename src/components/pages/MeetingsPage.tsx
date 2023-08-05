@@ -27,9 +27,9 @@ import {
 import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
 import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
 import useFilterEntities from '@hooks/useFilterEntities'
-import useMemberPreferences from '@hooks/useMemberPreferences'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
+import useUserMetadata from '@hooks/useUserMetadata'
 import Calendar from '@molecules/meeting/Calendar'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import MeetingExportModal from '@organisms/meeting/MeetingExportModal'
@@ -190,8 +190,8 @@ export default function MeetingsPage() {
   )
 
   // Show/hide weekends
-  const { preferences, setPreference } = useMemberPreferences()
-  const weekend = preferences?.calendarShowWeekend ?? false
+  const { metadata, setMetadata } = useUserMetadata()
+  const weekend = metadata?.calendarShowWeekend ?? false
 
   // Modals
   const meetingModal = useDisclosure()
@@ -346,7 +346,7 @@ export default function MeetingsPage() {
             </MenuItem>
             <MenuItem
               icon={weekend ? <FiEyeOff /> : <FiEye />}
-              onClick={() => setPreference('calendarShowWeekend', !weekend)}
+              onClick={() => setMetadata('calendarShowWeekend', !weekend)}
             >
               {weekend
                 ? t('MeetingsPage.hideWeekend')

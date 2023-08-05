@@ -12,8 +12,3 @@ export interface ParticipantMember {
   // Represented circles
   circlesIds: string[]
 }
-
-export interface MemberPreferences {
-  calendarShowWeekend?: boolean
-  ratedApp?: boolean
-}

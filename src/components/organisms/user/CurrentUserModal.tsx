@@ -20,7 +20,7 @@ import { useChangeDisplayNameMutation } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useUserDisplayName, useUserEmail, useUserId } from '@nhost/react'
 import { emailSchema, nameSchema } from '@shared/schemas'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { nhost } from 'src/nhost'
@@ -53,6 +53,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
   const userName = useUserDisplayName()
   const userEmail = useUserEmail()
   const toast = useToast()
+  const [saving, setSaving] = useState(false)
 
   // Mutations
   const [changeDisplayName] = useChangeDisplayNameMutation()
@@ -72,21 +73,25 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
 
   const onSubmit = handleSubmit(async ({ name, email, password }) => {
     if (!userId) return
+    setSaving(true)
 
     // Update display name
     if (name !== userName) {
-      changeDisplayName({ variables: { userId, displayName: name } })
+      await changeDisplayName({ variables: { userId, displayName: name } })
     }
 
     // Update email
     if (email !== userEmail) {
-      nhost.auth.changeEmail({ newEmail: email })
+      await nhost.auth.changeEmail({ newEmail: email })
     }
 
     // Update password
     if (password) {
-      nhost.auth.changePassword({ newPassword: password })
+      await nhost.auth.changePassword({ newPassword: password })
     }
+
+    // Refresh user data
+    await nhost.auth.refreshSession()
 
     toast({
       title: t('CurrentUserModal.toastSuccess'),
@@ -140,7 +145,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
               <PasswordConfirmInputDummy />
 
               <Box textAlign="right">
-                <Button colorScheme="blue" type="submit">
+                <Button colorScheme="blue" type="submit" isLoading={saving}>
                   {t('common.save')}
                 </Button>
               </Box>

@@ -1,5 +1,4 @@
 scalar strings
-scalar member_preferences
 scalar attendee
 scalar meeting_step_config
 scalar meeting_step_data
@@ -7,10 +6,6 @@ scalar videoconf
 scalar thread_activity_data
 scalar log_display
 scalar log_changes
-
-extend type member {
-  preferences: member_preferences
-}
 
 extend type meeting {
   participantsMembersIds: [uuid!]!

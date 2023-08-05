@@ -1,14 +1,14 @@
 import { Button, Collapse, Flex, Heading, Spacer, Text } from '@chakra-ui/react'
-import useMemberPreferences from '@hooks/useMemberPreferences'
-import { Crisp } from 'crisp-sdk-web'
+import useUserMetadata from '@hooks/useUserMetadata'
 import { BottomFixedModal } from '@molecules/BottomFixedModal'
+import { StarsRating } from '@molecules/StarsRating'
+import { Crisp } from 'crisp-sdk-web'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StarsRating } from '@molecules/StarsRating'
 
 export default function RateAppModal() {
   const { t } = useTranslation()
-  const { preferences, setPreference } = useMemberPreferences()
+  const { metadata, setMetadata } = useUserMetadata()
   const [rating, setRating] = useState(0)
   const [clickedGift, setClickedGift] = useState(false)
   const [closed, setClosed] = useState(false)
@@ -28,7 +28,7 @@ export default function RateAppModal() {
 
   const handleClose = () => {
     setClosed(true)
-    setPreference('ratedApp', true)
+    setMetadata('ratedApp', true)
   }
 
   const handleHelp = () => {
@@ -37,7 +37,7 @@ export default function RateAppModal() {
   }
 
   // Don't show if already rated
-  if (preferences?.ratedApp || closed) {
+  if (metadata?.ratedApp || closed) {
     return null
   }
 

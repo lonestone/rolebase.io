@@ -4,7 +4,6 @@ export function getAddPlugin() {
   return {
     add: {
       content: `
-import { MemberPreferences } from '@shared/model/member'
 import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
 import { LogDisplay, EntitiesChanges } from '@shared/model/log'
@@ -24,7 +23,6 @@ export function getConfig() {
       bigint: 'number',
       timestamptz: 'string',
       citext: 'string',
-      member_preferences: 'MemberPreferences',
       attendee: 'MeetingAttendee',
       meeting_step_config: 'MeetingStepConfig',
       meeting_step_data: 'MeetingStepData',

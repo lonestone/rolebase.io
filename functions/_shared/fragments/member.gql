@@ -12,7 +12,6 @@ fragment Member on member {
   workedMinPerWeek
   role
   meetingId
-  preferences
 }
 
 fragment MemberSummary on member {
