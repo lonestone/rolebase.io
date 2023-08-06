@@ -17589,6 +17589,7 @@ export type GetMeetingStepsQuery = { __typename?: 'query_root', meeting_step: Ar
 
 export type GetPrevMeetingStepsQueryVariables = Exact<{
   beforeDate: Scalars['timestamptz'];
+  circleId: Scalars['uuid'];
   stepsIds: Array<Scalars['String']> | Scalars['String'];
 }>;
 
@@ -19536,9 +19537,9 @@ export function refetchGetMeetingStepsQuery(variables: GetMeetingStepsQueryVaria
       return { query: GetMeetingStepsDocument, variables: variables }
     }
 export const GetPrevMeetingStepsDocument = gql`
-    query getPrevMeetingSteps($beforeDate: timestamptz!, $stepsIds: [String!]!) {
+    query getPrevMeetingSteps($beforeDate: timestamptz!, $circleId: uuid!, $stepsIds: [String!]!) {
   meeting(
-    where: {startDate: {_lt: $beforeDate}, steps: {stepConfigId: {_in: $stepsIds}}}
+    where: {startDate: {_lt: $beforeDate}, archived: {_eq: false}, circleId: {_eq: $circleId}, steps: {stepConfigId: {_in: $stepsIds}}}
     order_by: {startDate: desc}
     limit: 1
   ) {
@@ -19562,6 +19563,7 @@ export const GetPrevMeetingStepsDocument = gql`
  * const { data, loading, error } = useGetPrevMeetingStepsQuery({
  *   variables: {
  *      beforeDate: // value for 'beforeDate'
+ *      circleId: // value for 'circleId'
  *      stepsIds: // value for 'stepsIds'
  *   },
  * });

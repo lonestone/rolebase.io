@@ -4,11 +4,16 @@ query getMeetingSteps($meetingId: uuid!) {
   }
 }
 
-query getPrevMeetingSteps($beforeDate: timestamptz!, $stepsIds: [String!]!) {
+query getPrevMeetingSteps(
+  $beforeDate: timestamptz!
+  $circleId: uuid!
+  $stepsIds: [String!]!
+) {
   meeting(
     where: {
       startDate: { _lt: $beforeDate }
       archived: { _eq: false }
+      circleId: { _eq: $circleId }
       steps: { stepConfigId: { _in: $stepsIds } }
     }
     order_by: { startDate: desc }
