@@ -44,16 +44,17 @@ export default route(async (context): Promise<Subscription | null> => {
     return null
   }
 
-  let subscription: Stripe.Subscription = null
-  let customer: ExtendedStripeCustomer = null
-  let upcomingInvoice: Stripe.UpcomingInvoice = null
+  let subscription: Stripe.Subscription | null = null
+  let customer: ExtendedStripeCustomer | null = null
+  let upcomingInvoice: Stripe.UpcomingInvoice | null = null
 
   try {
     // Get stripe invoices
     customer = await getStripeExtendedCustomer(stripeCustomerId)
-    subscription = customer.subscriptions.data.find(
-      (sub) => sub.id === stripeSubscriptionId
-    )
+    subscription =
+      customer.subscriptions.data.find(
+        (sub) => sub.id === stripeSubscriptionId
+      ) || null
 
     upcomingInvoice = stripeSubscriptionId
       ? await getStripeUpcomingInvoice(stripeSubscriptionId)

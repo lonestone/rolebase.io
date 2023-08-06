@@ -32,7 +32,7 @@ export default route(async (context): Promise<PromotionCode> => {
       type: res.coupon.duration,
       durationInMonth: res.coupon.duration_in_months,
     },
-    name: res.coupon.name,
+    name: res.coupon.name || '',
     amountOff: res.coupon.amount_off,
     percentOff: res.coupon.percent_off,
   }
