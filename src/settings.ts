@@ -1,12 +1,12 @@
 export const isLocal = location.hostname === 'localhost'
-export const isStaging = location.hostname === 'staging.rolebase.io'
+export const isStaging = location.hostname === 'staging--rolebase.netlify.app'
 
 export default {
   // Webapp url
   url: isLocal
     ? 'http://localhost:3000'
     : isStaging
-    ? 'https://staging.rolebase.io'
+    ? 'https://staging--rolebase.netlify.app'
     : 'https://rolebase.io',
 
   // Website to redirect unauthentified users to
