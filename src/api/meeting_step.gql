@@ -8,6 +8,7 @@ query getPrevMeetingSteps($beforeDate: timestamptz!, $stepsIds: [String!]!) {
   meeting(
     where: {
       startDate: { _lt: $beforeDate }
+      archived: { _eq: false }
       steps: { stepConfigId: { _in: $stepsIds } }
     }
     order_by: { startDate: desc }
