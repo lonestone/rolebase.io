@@ -43,6 +43,10 @@ value = '{{ secrets.STRIPE_ENDPOINT_SECRET }}'
 name = 'STRIPE_PRIVATE_KEY'
 value = '{{ secrets.STRIPE_PRIVATE_KEY }}'
 
+[[global.environment]]
+name = 'OPENAI_API_KEY'
+value = '{{ secrets.OPENAI_API_KEY }}'
+
 [hasura]
 version = 'v2.27.0-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'

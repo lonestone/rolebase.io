@@ -6845,6 +6845,10 @@ export type Mutation_Root = {
   delete_org_subscription_by_pk?: Maybe<Org_Subscription>;
   /** delete data from the table: "role" */
   delete_role?: Maybe<Role_Mutation_Response>;
+  /** delete data from the table: "role_ai" */
+  delete_role_ai?: Maybe<Role_Ai_Mutation_Response>;
+  /** delete single row from the table: "role_ai" */
+  delete_role_ai_by_pk?: Maybe<Role_Ai>;
   /** delete single row from the table: "role" */
   delete_role_by_pk?: Maybe<Role>;
   /** delete data from the table: "subscription_payment_status" */
@@ -7001,6 +7005,10 @@ export type Mutation_Root = {
   insert_org_subscription_one?: Maybe<Org_Subscription>;
   /** insert data into the table: "role" */
   insert_role?: Maybe<Role_Mutation_Response>;
+  /** insert data into the table: "role_ai" */
+  insert_role_ai?: Maybe<Role_Ai_Mutation_Response>;
+  /** insert a single row into the table: "role_ai" */
+  insert_role_ai_one?: Maybe<Role_Ai>;
   /** insert a single row into the table: "role" */
   insert_role_one?: Maybe<Role>;
   /** insert data into the table: "subscription_payment_status" */
@@ -7209,6 +7217,12 @@ export type Mutation_Root = {
   update_org_subscription_many?: Maybe<Array<Maybe<Org_Subscription_Mutation_Response>>>;
   /** update data of the table: "role" */
   update_role?: Maybe<Role_Mutation_Response>;
+  /** update data of the table: "role_ai" */
+  update_role_ai?: Maybe<Role_Ai_Mutation_Response>;
+  /** update single row of the table: "role_ai" */
+  update_role_ai_by_pk?: Maybe<Role_Ai>;
+  /** update multiples rows of table: "role_ai" */
+  update_role_ai_many?: Maybe<Array<Maybe<Role_Ai_Mutation_Response>>>;
   /** update single row of the table: "role" */
   update_role_by_pk?: Maybe<Role>;
   /** update multiples rows of table: "role" */
@@ -7611,6 +7625,18 @@ export type Mutation_RootDelete_Org_Subscription_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootDelete_RoleArgs = {
   where: Role_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Role_AiArgs = {
+  where: Role_Ai_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Role_Ai_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -8134,6 +8160,20 @@ export type Mutation_RootInsert_Org_Subscription_OneArgs = {
 export type Mutation_RootInsert_RoleArgs = {
   objects: Array<Role_Insert_Input>;
   on_conflict?: InputMaybe<Role_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Role_AiArgs = {
+  objects: Array<Role_Ai_Insert_Input>;
+  on_conflict?: InputMaybe<Role_Ai_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Role_Ai_OneArgs = {
+  object: Role_Ai_Insert_Input;
+  on_conflict?: InputMaybe<Role_Ai_On_Conflict>;
 };
 
 
@@ -8881,6 +8921,26 @@ export type Mutation_RootUpdate_RoleArgs = {
   _inc?: InputMaybe<Role_Inc_Input>;
   _set?: InputMaybe<Role_Set_Input>;
   where: Role_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_AiArgs = {
+  _set?: InputMaybe<Role_Ai_Set_Input>;
+  where: Role_Ai_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_Ai_By_PkArgs = {
+  _set?: InputMaybe<Role_Ai_Set_Input>;
+  pk_columns: Role_Ai_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_Ai_ManyArgs = {
+  updates: Array<Role_Ai_Updates>;
 };
 
 
@@ -10666,6 +10726,12 @@ export type Query_Root = {
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
+  /** fetch data from the table: "role_ai" */
+  role_ai: Array<Role_Ai>;
+  /** fetch aggregated fields from the table: "role_ai" */
+  role_ai_aggregate: Role_Ai_Aggregate;
+  /** fetch data from the table: "role_ai" using primary key columns */
+  role_ai_by_pk?: Maybe<Role_Ai>;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table: "subscription_payment_status" */
@@ -11395,6 +11461,29 @@ export type Query_RootRole_AggregateArgs = {
 };
 
 
+export type Query_RootRole_AiArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Query_RootRole_Ai_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Query_RootRole_Ai_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootRole_By_PkArgs = {
   id: Scalars['uuid'];
 };
@@ -11792,6 +11881,226 @@ export type Role_Aggregate_Order_By = {
   var_pop?: InputMaybe<Role_Var_Pop_Order_By>;
   var_samp?: InputMaybe<Role_Var_Samp_Order_By>;
   variance?: InputMaybe<Role_Variance_Order_By>;
+};
+
+/** Role properties generated by AI */
+export type Role_Ai = {
+  __typename?: 'role_ai';
+  accountabilities: Scalars['String'];
+  checklist: Scalars['String'];
+  domain: Scalars['String'];
+  id: Scalars['uuid'];
+  indicators: Scalars['String'];
+  lang: Scalars['String'];
+  name: Scalars['String'];
+  notes: Scalars['String'];
+  purpose: Scalars['String'];
+};
+
+/** aggregated selection of "role_ai" */
+export type Role_Ai_Aggregate = {
+  __typename?: 'role_ai_aggregate';
+  aggregate?: Maybe<Role_Ai_Aggregate_Fields>;
+  nodes: Array<Role_Ai>;
+};
+
+/** aggregate fields of "role_ai" */
+export type Role_Ai_Aggregate_Fields = {
+  __typename?: 'role_ai_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Role_Ai_Max_Fields>;
+  min?: Maybe<Role_Ai_Min_Fields>;
+};
+
+
+/** aggregate fields of "role_ai" */
+export type Role_Ai_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "role_ai". All fields are combined with a logical 'AND'. */
+export type Role_Ai_Bool_Exp = {
+  _and?: InputMaybe<Array<Role_Ai_Bool_Exp>>;
+  _not?: InputMaybe<Role_Ai_Bool_Exp>;
+  _or?: InputMaybe<Array<Role_Ai_Bool_Exp>>;
+  accountabilities?: InputMaybe<String_Comparison_Exp>;
+  checklist?: InputMaybe<String_Comparison_Exp>;
+  domain?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  indicators?: InputMaybe<String_Comparison_Exp>;
+  lang?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  notes?: InputMaybe<String_Comparison_Exp>;
+  purpose?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "role_ai" */
+export enum Role_Ai_Constraint {
+  /** unique or primary key constraint on columns "name", "lang" */
+  RoleAiNameLangKey = 'role_ai_name_lang_key',
+  /** unique or primary key constraint on columns "id" */
+  RoleAiPkey = 'role_ai_pkey'
+}
+
+/** input type for inserting data into table "role_ai" */
+export type Role_Ai_Insert_Input = {
+  accountabilities?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Scalars['String']>;
+  domain?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  indicators?: InputMaybe<Scalars['String']>;
+  lang?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  notes?: InputMaybe<Scalars['String']>;
+  purpose?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Role_Ai_Max_Fields = {
+  __typename?: 'role_ai_max_fields';
+  accountabilities?: Maybe<Scalars['String']>;
+  checklist?: Maybe<Scalars['String']>;
+  domain?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  indicators?: Maybe<Scalars['String']>;
+  lang?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  purpose?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Role_Ai_Min_Fields = {
+  __typename?: 'role_ai_min_fields';
+  accountabilities?: Maybe<Scalars['String']>;
+  checklist?: Maybe<Scalars['String']>;
+  domain?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  indicators?: Maybe<Scalars['String']>;
+  lang?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  purpose?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "role_ai" */
+export type Role_Ai_Mutation_Response = {
+  __typename?: 'role_ai_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Role_Ai>;
+};
+
+/** on_conflict condition type for table "role_ai" */
+export type Role_Ai_On_Conflict = {
+  constraint: Role_Ai_Constraint;
+  update_columns?: Array<Role_Ai_Update_Column>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "role_ai". */
+export type Role_Ai_Order_By = {
+  accountabilities?: InputMaybe<Order_By>;
+  checklist?: InputMaybe<Order_By>;
+  domain?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  indicators?: InputMaybe<Order_By>;
+  lang?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  notes?: InputMaybe<Order_By>;
+  purpose?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: role_ai */
+export type Role_Ai_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "role_ai" */
+export enum Role_Ai_Select_Column {
+  /** column name */
+  Accountabilities = 'accountabilities',
+  /** column name */
+  Checklist = 'checklist',
+  /** column name */
+  Domain = 'domain',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Indicators = 'indicators',
+  /** column name */
+  Lang = 'lang',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Notes = 'notes',
+  /** column name */
+  Purpose = 'purpose'
+}
+
+/** input type for updating data in table "role_ai" */
+export type Role_Ai_Set_Input = {
+  accountabilities?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Scalars['String']>;
+  domain?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  indicators?: InputMaybe<Scalars['String']>;
+  lang?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  notes?: InputMaybe<Scalars['String']>;
+  purpose?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "role_ai" */
+export type Role_Ai_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Role_Ai_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Role_Ai_Stream_Cursor_Value_Input = {
+  accountabilities?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Scalars['String']>;
+  domain?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  indicators?: InputMaybe<Scalars['String']>;
+  lang?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  notes?: InputMaybe<Scalars['String']>;
+  purpose?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "role_ai" */
+export enum Role_Ai_Update_Column {
+  /** column name */
+  Accountabilities = 'accountabilities',
+  /** column name */
+  Checklist = 'checklist',
+  /** column name */
+  Domain = 'domain',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Indicators = 'indicators',
+  /** column name */
+  Lang = 'lang',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Notes = 'notes',
+  /** column name */
+  Purpose = 'purpose'
+}
+
+export type Role_Ai_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Role_Ai_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Role_Ai_Bool_Exp;
 };
 
 /** input type for inserting array relation for remote table "role" */
@@ -12744,6 +13053,14 @@ export type Subscription_Root = {
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
+  /** fetch data from the table: "role_ai" */
+  role_ai: Array<Role_Ai>;
+  /** fetch aggregated fields from the table: "role_ai" */
+  role_ai_aggregate: Role_Ai_Aggregate;
+  /** fetch data from the table: "role_ai" using primary key columns */
+  role_ai_by_pk?: Maybe<Role_Ai>;
+  /** fetch data from the table in a streaming manner: "role_ai" */
+  role_ai_stream: Array<Role_Ai>;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table in a streaming manner: "role" */
@@ -13692,6 +14009,36 @@ export type Subscription_RootRole_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Role_Order_By>>;
   where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_AiArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_Ai_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_Ai_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootRole_Ai_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Role_Ai_Stream_Cursor_Input>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
 };
 
 
@@ -16984,6 +17331,8 @@ export type OrgFullLightFragment = { __typename?: 'org', id: string, name: strin
 
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
+export type RoleAiFragment = { __typename?: 'role_ai', id: string, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string };
+
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
 export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum };
@@ -17863,6 +18212,18 @@ export const OrgFullLightFragmentDoc = gql`
 ${CircleFragmentDoc}
 ${RoleFragmentDoc}
 ${MemberFragmentDoc}`;
+export const RoleAiFragmentDoc = gql`
+    fragment RoleAI on role_ai {
+  id
+  name
+  purpose
+  domain
+  accountabilities
+  checklist
+  indicators
+  notes
+}
+    `;
 export const ThreadMemberStatusFragmentDoc = gql`
     fragment ThreadMemberStatus on thread_member_status {
   lastReadActivityId

@@ -61,4 +61,8 @@ export default {
     appId: process.env.NOVU_APP_ID || '',
     apiKey: process.env.NOVU_API_KEY || '',
   },
+
+  openai: {
+    apiKey: process.env.OPENAI_API_KEY || '',
+  },
 }

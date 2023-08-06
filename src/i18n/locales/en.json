@@ -590,6 +590,11 @@
     "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
     "color": "Customize color"
   },
+  "RoleGeneratorModal": {
+    "heading": "Role {{role}}",
+    "loading": "Generating role properties...",
+    "waitInfo": "This may take a few tens of seconds."
+  },
   "RRuleEditor": {
     "repeat": "Repeat every",
     "freqs": {

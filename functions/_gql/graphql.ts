@@ -6844,6 +6844,10 @@ export type Mutation_Root = {
   delete_org_subscription_by_pk?: Maybe<Org_Subscription>;
   /** delete data from the table: "role" */
   delete_role?: Maybe<Role_Mutation_Response>;
+  /** delete data from the table: "role_ai" */
+  delete_role_ai?: Maybe<Role_Ai_Mutation_Response>;
+  /** delete single row from the table: "role_ai" */
+  delete_role_ai_by_pk?: Maybe<Role_Ai>;
   /** delete single row from the table: "role" */
   delete_role_by_pk?: Maybe<Role>;
   /** delete data from the table: "subscription_payment_status" */
@@ -7000,6 +7004,10 @@ export type Mutation_Root = {
   insert_org_subscription_one?: Maybe<Org_Subscription>;
   /** insert data into the table: "role" */
   insert_role?: Maybe<Role_Mutation_Response>;
+  /** insert data into the table: "role_ai" */
+  insert_role_ai?: Maybe<Role_Ai_Mutation_Response>;
+  /** insert a single row into the table: "role_ai" */
+  insert_role_ai_one?: Maybe<Role_Ai>;
   /** insert a single row into the table: "role" */
   insert_role_one?: Maybe<Role>;
   /** insert data into the table: "subscription_payment_status" */
@@ -7208,6 +7216,12 @@ export type Mutation_Root = {
   update_org_subscription_many?: Maybe<Array<Maybe<Org_Subscription_Mutation_Response>>>;
   /** update data of the table: "role" */
   update_role?: Maybe<Role_Mutation_Response>;
+  /** update data of the table: "role_ai" */
+  update_role_ai?: Maybe<Role_Ai_Mutation_Response>;
+  /** update single row of the table: "role_ai" */
+  update_role_ai_by_pk?: Maybe<Role_Ai>;
+  /** update multiples rows of table: "role_ai" */
+  update_role_ai_many?: Maybe<Array<Maybe<Role_Ai_Mutation_Response>>>;
   /** update single row of the table: "role" */
   update_role_by_pk?: Maybe<Role>;
   /** update multiples rows of table: "role" */
@@ -7610,6 +7624,18 @@ export type Mutation_RootDelete_Org_Subscription_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootDelete_RoleArgs = {
   where: Role_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Role_AiArgs = {
+  where: Role_Ai_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Role_Ai_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -8133,6 +8159,20 @@ export type Mutation_RootInsert_Org_Subscription_OneArgs = {
 export type Mutation_RootInsert_RoleArgs = {
   objects: Array<Role_Insert_Input>;
   on_conflict?: InputMaybe<Role_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Role_AiArgs = {
+  objects: Array<Role_Ai_Insert_Input>;
+  on_conflict?: InputMaybe<Role_Ai_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Role_Ai_OneArgs = {
+  object: Role_Ai_Insert_Input;
+  on_conflict?: InputMaybe<Role_Ai_On_Conflict>;
 };
 
 
@@ -8880,6 +8920,26 @@ export type Mutation_RootUpdate_RoleArgs = {
   _inc?: InputMaybe<Role_Inc_Input>;
   _set?: InputMaybe<Role_Set_Input>;
   where: Role_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_AiArgs = {
+  _set?: InputMaybe<Role_Ai_Set_Input>;
+  where: Role_Ai_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_Ai_By_PkArgs = {
+  _set?: InputMaybe<Role_Ai_Set_Input>;
+  pk_columns: Role_Ai_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_Ai_ManyArgs = {
+  updates: Array<Role_Ai_Updates>;
 };
 
 
@@ -10665,6 +10725,12 @@ export type Query_Root = {
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
+  /** fetch data from the table: "role_ai" */
+  role_ai: Array<Role_Ai>;
+  /** fetch aggregated fields from the table: "role_ai" */
+  role_ai_aggregate: Role_Ai_Aggregate;
+  /** fetch data from the table: "role_ai" using primary key columns */
+  role_ai_by_pk?: Maybe<Role_Ai>;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table: "subscription_payment_status" */
@@ -11394,6 +11460,29 @@ export type Query_RootRole_AggregateArgs = {
 };
 
 
+export type Query_RootRole_AiArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Query_RootRole_Ai_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Query_RootRole_Ai_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootRole_By_PkArgs = {
   id: Scalars['uuid'];
 };
@@ -11791,6 +11880,226 @@ export type Role_Aggregate_Order_By = {
   var_pop?: InputMaybe<Role_Var_Pop_Order_By>;
   var_samp?: InputMaybe<Role_Var_Samp_Order_By>;
   variance?: InputMaybe<Role_Variance_Order_By>;
+};
+
+/** Role properties generated by AI */
+export type Role_Ai = {
+  __typename?: 'role_ai';
+  accountabilities: Scalars['String'];
+  checklist: Scalars['String'];
+  domain: Scalars['String'];
+  id: Scalars['uuid'];
+  indicators: Scalars['String'];
+  lang: Scalars['String'];
+  name: Scalars['String'];
+  notes: Scalars['String'];
+  purpose: Scalars['String'];
+};
+
+/** aggregated selection of "role_ai" */
+export type Role_Ai_Aggregate = {
+  __typename?: 'role_ai_aggregate';
+  aggregate?: Maybe<Role_Ai_Aggregate_Fields>;
+  nodes: Array<Role_Ai>;
+};
+
+/** aggregate fields of "role_ai" */
+export type Role_Ai_Aggregate_Fields = {
+  __typename?: 'role_ai_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Role_Ai_Max_Fields>;
+  min?: Maybe<Role_Ai_Min_Fields>;
+};
+
+
+/** aggregate fields of "role_ai" */
+export type Role_Ai_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "role_ai". All fields are combined with a logical 'AND'. */
+export type Role_Ai_Bool_Exp = {
+  _and?: InputMaybe<Array<Role_Ai_Bool_Exp>>;
+  _not?: InputMaybe<Role_Ai_Bool_Exp>;
+  _or?: InputMaybe<Array<Role_Ai_Bool_Exp>>;
+  accountabilities?: InputMaybe<String_Comparison_Exp>;
+  checklist?: InputMaybe<String_Comparison_Exp>;
+  domain?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  indicators?: InputMaybe<String_Comparison_Exp>;
+  lang?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  notes?: InputMaybe<String_Comparison_Exp>;
+  purpose?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "role_ai" */
+export enum Role_Ai_Constraint {
+  /** unique or primary key constraint on columns "name", "lang" */
+  RoleAiNameLangKey = 'role_ai_name_lang_key',
+  /** unique or primary key constraint on columns "id" */
+  RoleAiPkey = 'role_ai_pkey'
+}
+
+/** input type for inserting data into table "role_ai" */
+export type Role_Ai_Insert_Input = {
+  accountabilities?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Scalars['String']>;
+  domain?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  indicators?: InputMaybe<Scalars['String']>;
+  lang?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  notes?: InputMaybe<Scalars['String']>;
+  purpose?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Role_Ai_Max_Fields = {
+  __typename?: 'role_ai_max_fields';
+  accountabilities?: Maybe<Scalars['String']>;
+  checklist?: Maybe<Scalars['String']>;
+  domain?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  indicators?: Maybe<Scalars['String']>;
+  lang?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  purpose?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Role_Ai_Min_Fields = {
+  __typename?: 'role_ai_min_fields';
+  accountabilities?: Maybe<Scalars['String']>;
+  checklist?: Maybe<Scalars['String']>;
+  domain?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  indicators?: Maybe<Scalars['String']>;
+  lang?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  purpose?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "role_ai" */
+export type Role_Ai_Mutation_Response = {
+  __typename?: 'role_ai_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Role_Ai>;
+};
+
+/** on_conflict condition type for table "role_ai" */
+export type Role_Ai_On_Conflict = {
+  constraint: Role_Ai_Constraint;
+  update_columns?: Array<Role_Ai_Update_Column>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "role_ai". */
+export type Role_Ai_Order_By = {
+  accountabilities?: InputMaybe<Order_By>;
+  checklist?: InputMaybe<Order_By>;
+  domain?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  indicators?: InputMaybe<Order_By>;
+  lang?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  notes?: InputMaybe<Order_By>;
+  purpose?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: role_ai */
+export type Role_Ai_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "role_ai" */
+export enum Role_Ai_Select_Column {
+  /** column name */
+  Accountabilities = 'accountabilities',
+  /** column name */
+  Checklist = 'checklist',
+  /** column name */
+  Domain = 'domain',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Indicators = 'indicators',
+  /** column name */
+  Lang = 'lang',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Notes = 'notes',
+  /** column name */
+  Purpose = 'purpose'
+}
+
+/** input type for updating data in table "role_ai" */
+export type Role_Ai_Set_Input = {
+  accountabilities?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Scalars['String']>;
+  domain?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  indicators?: InputMaybe<Scalars['String']>;
+  lang?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  notes?: InputMaybe<Scalars['String']>;
+  purpose?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "role_ai" */
+export type Role_Ai_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Role_Ai_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Role_Ai_Stream_Cursor_Value_Input = {
+  accountabilities?: InputMaybe<Scalars['String']>;
+  checklist?: InputMaybe<Scalars['String']>;
+  domain?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  indicators?: InputMaybe<Scalars['String']>;
+  lang?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  notes?: InputMaybe<Scalars['String']>;
+  purpose?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "role_ai" */
+export enum Role_Ai_Update_Column {
+  /** column name */
+  Accountabilities = 'accountabilities',
+  /** column name */
+  Checklist = 'checklist',
+  /** column name */
+  Domain = 'domain',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Indicators = 'indicators',
+  /** column name */
+  Lang = 'lang',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Notes = 'notes',
+  /** column name */
+  Purpose = 'purpose'
+}
+
+export type Role_Ai_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Role_Ai_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Role_Ai_Bool_Exp;
 };
 
 /** input type for inserting array relation for remote table "role" */
@@ -12743,6 +13052,14 @@ export type Subscription_Root = {
   role: Array<Role>;
   /** fetch aggregated fields from the table: "role" */
   role_aggregate: Role_Aggregate;
+  /** fetch data from the table: "role_ai" */
+  role_ai: Array<Role_Ai>;
+  /** fetch aggregated fields from the table: "role_ai" */
+  role_ai_aggregate: Role_Ai_Aggregate;
+  /** fetch data from the table: "role_ai" using primary key columns */
+  role_ai_by_pk?: Maybe<Role_Ai>;
+  /** fetch data from the table in a streaming manner: "role_ai" */
+  role_ai_stream: Array<Role_Ai>;
   /** fetch data from the table: "role" using primary key columns */
   role_by_pk?: Maybe<Role>;
   /** fetch data from the table in a streaming manner: "role" */
@@ -13691,6 +14008,36 @@ export type Subscription_RootRole_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Role_Order_By>>;
   where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_AiArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_Ai_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Role_Ai_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Role_Ai_Order_By>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_Ai_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootRole_Ai_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Role_Ai_Stream_Cursor_Input>>;
+  where?: InputMaybe<Role_Ai_Bool_Exp>;
 };
 
 
@@ -17074,6 +17421,8 @@ export type OrgFullLightFragment = { __typename?: 'org', id: string, name: strin
 
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
+export type RoleAiFragment = { __typename?: 'role_ai', id: string, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string };
+
 export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
 
 export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum };
@@ -17302,6 +17651,21 @@ export type CreateCircleMutationVariables = Exact<{
 
 export type CreateCircleMutation = { __typename?: 'mutation_root', insert_circle_one?: { __typename?: 'circle', id: string } | null };
 
+export type GetRoleAiQueryVariables = Exact<{
+  name: Scalars['String'];
+  lang: Scalars['String'];
+}>;
+
+
+export type GetRoleAiQuery = { __typename?: 'query_root', role_ai: Array<{ __typename?: 'role_ai', id: string, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string }> };
+
+export type InsertRoleAiMutationVariables = Exact<{
+  role: Role_Ai_Insert_Input;
+}>;
+
+
+export type InsertRoleAiMutation = { __typename?: 'mutation_root', insert_role_ai_one?: { __typename?: 'role_ai', id: string, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string } | null };
+
 export type GetOrgSubscriptionDetailsQueryVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
@@ -17455,6 +17819,7 @@ export const CircleFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"
 export const MemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"pictureFileId"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"inviteEmail"}},{"kind":"Field","name":{"kind":"Name","value":"inviteDate"}},{"kind":"Field","name":{"kind":"Name","value":"workedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}}]}}]} as unknown as DocumentNode<MemberFragment, unknown>;
 export const OrgFullFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrgFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Org"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"base"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":true}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},...OrgFragmentDoc.definitions,...CircleFullFragmentDoc.definitions,...RoleFragmentDoc.definitions,...MemberFragmentDoc.definitions]} as unknown as DocumentNode<OrgFullFragment, unknown>;
 export const OrgFullLightFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrgFullLight"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"org"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Org"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},...OrgFragmentDoc.definitions,...CircleFragmentDoc.definitions,...RoleFragmentDoc.definitions,...MemberFragmentDoc.definitions]} as unknown as DocumentNode<OrgFullLightFragment, unknown>;
+export const RoleAiFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleAI"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role_ai"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"purpose"}},{"kind":"Field","name":{"kind":"Name","value":"domain"}},{"kind":"Field","name":{"kind":"Name","value":"accountabilities"}},{"kind":"Field","name":{"kind":"Name","value":"checklist"}},{"kind":"Field","name":{"kind":"Name","value":"indicators"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}}]}}]} as unknown as DocumentNode<RoleAiFragment, unknown>;
 export const ThreadMemberStatusFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadMemberStatus"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread_member_status"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lastReadActivityId"}},{"kind":"Field","name":{"kind":"Name","value":"lastReadDate"}}]}}]} as unknown as DocumentNode<ThreadMemberStatusFragment, unknown>;
 export const ThreadFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Thread"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"initiatorMemberId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]} as unknown as DocumentNode<ThreadFragment, unknown>;
 export const MeetingSummaryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}}]}}]} as unknown as DocumentNode<MeetingSummaryFragment, unknown>;
@@ -17504,6 +17869,8 @@ export const CreateOrgDocument = {"kind":"Document","definitions":[{"kind":"Oper
 export const CreateRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_role_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateRoleMutation, CreateRoleMutationVariables>;
 export const CreateRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roles"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"role_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roles"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CreateRolesMutation, CreateRolesMutationVariables>;
 export const CreateCircleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createCircle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_circle_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"roleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roleId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateCircleMutation, CreateCircleMutationVariables>;
+export const GetRoleAiDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getRoleAI"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lang"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role_ai"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"lang"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lang"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleAI"}}]}}]}},...RoleAiFragmentDoc.definitions]} as unknown as DocumentNode<GetRoleAiQuery, GetRoleAiQueryVariables>;
+export const InsertRoleAiDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"insertRoleAI"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"role"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"role_ai_insert_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_role_ai_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"Variable","name":{"kind":"Name","value":"role"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleAI"}}]}}]}},...RoleAiFragmentDoc.definitions]} as unknown as DocumentNode<InsertRoleAiMutation, InsertRoleAiMutationVariables>;
 export const GetOrgSubscriptionDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgSubscriptionDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_subscription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"stripeSubscriptionId"}},{"kind":"Field","name":{"kind":"Name","value":"stripeCustomerId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<GetOrgSubscriptionDetailsQuery, GetOrgSubscriptionDetailsQueryVariables>;
 export const GetOrgSubscriptionStripeIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgSubscriptionStripeIds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_subscription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"stripeSubscriptionId"}},{"kind":"Field","name":{"kind":"Name","value":"stripeCustomerId"}}]}}]}}]} as unknown as DocumentNode<GetOrgSubscriptionStripeIdsQuery, GetOrgSubscriptionStripeIdsQueryVariables>;
 export const GetOrgAndMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgAndMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgAndMemberQuery, GetOrgAndMemberQueryVariables>;

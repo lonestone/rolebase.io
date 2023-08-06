@@ -1,12 +1,14 @@
 import CircleButton from '@atoms/CircleButton'
-import { Text, VStack } from '@chakra-ui/react'
+import { Button, Text, VStack, useDisclosure } from '@chakra-ui/react'
 import { CircleWithRoleFragment, RoleFragment } from '@gql'
 import useCircle from '@hooks/useCircle'
 import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
+import RoleGeneratorModal from '@organisms/role/RoleGeneratorModal'
 import { ParticipantMember } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { FaMagic } from 'react-icons/fa'
 import CircleMemberFormControl from './CircleMemberFormControl'
 import { RoleEditableField } from './RoleEditableField'
 
@@ -47,6 +49,8 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
       return 0
     })
   }, [role])
+
+  const generatorModal = useDisclosure()
 
   return (
     <>
@@ -95,6 +99,26 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
           initValue={initValue}
         />
       ))}
+
+      {role.purpose === '' &&
+        editableFields.every(({ field }) => role[field] === '') && (
+          <Button
+            leftIcon={<FaMagic />}
+            variant="outline"
+            colorScheme="blue"
+            onClick={generatorModal.onOpen}
+          >
+            Remplir automatiquement
+          </Button>
+        )}
+
+      {generatorModal.isOpen && (
+        <RoleGeneratorModal
+          isOpen
+          role={role}
+          onClose={generatorModal.onClose}
+        />
+      )}
     </>
   )
 }

@@ -1,4 +1,8 @@
-import { Member_Role_Enum, Subscription_Plan_Type_Enum } from '@gql'
+import {
+  Member_Role_Enum,
+  RoleAiFragment,
+  Subscription_Plan_Type_Enum,
+} from '@gql'
 import {
   MeetingStartedNotificationBodyParams,
   NovuConfig,
@@ -162,6 +166,11 @@ export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 
 export const importOrg = fn<{ provider: string; fileId: string }, string>(
   'importOrg'
+)
+
+// Generate properties for a role with AI
+export const generateRole = fn<{ name: string; lang: string }, RoleAiFragment>(
+  'generateRole'
 )
 
 // Helper to call a function
