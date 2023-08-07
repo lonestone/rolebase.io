@@ -14,6 +14,14 @@ const openai = new OpenAIApi(configuration)
 
 const schema = {
   type: 'object',
+  required: [
+    'purpose',
+    'domain',
+    'accountabilities',
+    'checklist',
+    'indicators',
+    'notes',
+  ],
   properties: {
     purpose: {
       type: 'string',
