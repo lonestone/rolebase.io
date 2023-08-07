@@ -592,6 +592,7 @@
   },
   "RoleGeneratorModal": {
     "heading": "Role {{role}}",
+    "info": "These properties have been written by an AI. You can now modify them before saving them.",
     "loading": "Generating role properties...",
     "waitInfo": "This may take a few tens of seconds."
   },

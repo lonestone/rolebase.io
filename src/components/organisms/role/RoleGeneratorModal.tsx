@@ -2,10 +2,14 @@ import { generateRole } from '@api/functions'
 import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Button,
   Flex,
   FormControl,
   FormLabel,
+  Icon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -25,6 +29,7 @@ import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { FaMagic } from 'react-icons/fa'
 
 interface Props extends UseModalProps {
   role: RoleFragment
@@ -113,7 +118,8 @@ export default function RoleGeneratorModal({ id, role, ...modalProps }: Props) {
     <Modal {...modalProps} size="lg">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
+        <ModalHeader display="flex" alignItems="center">
+          <Icon as={FaMagic} mr={3} />
           {t('RoleGeneratorModal.heading', { role: role.name })}
         </ModalHeader>
         <ModalCloseButton />
@@ -134,6 +140,13 @@ export default function RoleGeneratorModal({ id, role, ...modalProps }: Props) {
 
           {loaded && (
             <VStack spacing={6}>
+              <Alert status="info">
+                <AlertIcon />
+                <AlertDescription>
+                  {t('RoleGeneratorModal.info')}
+                </AlertDescription>
+              </Alert>
+
               {fields.map((field) => (
                 <FormControl key={field} isInvalid={!!errors.purpose}>
                   <FormLabel>{t(`CircleRoleFormControl.${field}`)}</FormLabel>

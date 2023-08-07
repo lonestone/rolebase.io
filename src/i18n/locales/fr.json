@@ -626,6 +626,7 @@
   },
   "RoleGeneratorModal": {
     "heading": "Rôle {{role}}",
+    "info": "Ces propriétés ont rédigées par une IA. Vous pouvez maintenant les modifier avant de les enregistrer.",
     "loading": "Génération des propriétés du rôle...",
     "waitInfo": "Cela peut prendre quelques dizaines de secondes."
   },
