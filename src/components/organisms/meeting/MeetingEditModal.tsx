@@ -324,7 +324,7 @@ export default function MeetingEditModal({
 
                 <CircleFormController singleMember={false} />
 
-                {(!meeting?.attendees || duplicate) && (
+                {(!meeting?.attendees || duplicate) && circleId && (
                   <ParticipantsFormControl />
                 )}
 

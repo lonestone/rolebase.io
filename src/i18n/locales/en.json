@@ -296,7 +296,6 @@
     "duration": "Duration",
     "durationSuffix": "minutes",
     "recurrence": "Recurrence",
-    "invite": "Invite",
     "steps": "Steps"
   },
   "MeetingExportModal": {
@@ -547,6 +546,11 @@
     "heading": "Page not found!",
     "dialog1": "Do you know where is my page?",
     "dialog2": "I don't know, have you looked in the page closet?"
+  },
+  "ParticipantsFormControl": {
+    "invite": "Invite",
+    "inviteButton": "Add me",
+    "inviteWarning": "You are not part of the participants, do you want to add yourself?"
   },
   "ParticipantsScopeSelect": {
     "Organization": "All members of the Organization",
@@ -893,9 +897,6 @@
     "headingCreate": "New topic",
     "title": "Title",
     "titlePlaceholder": "What are we discussing?...",
-    "invite": "Invite",
-    "inviteWarning": "You are not a participant, do you want to participate in this topic?",
-    "inviteButton": "Add me",
     "status": "Status"
   },
   "ThreadsList": {

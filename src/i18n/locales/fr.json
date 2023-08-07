@@ -330,7 +330,6 @@
     "duration": "Durée",
     "durationSuffix": "minutes",
     "recurrence": "Récurrence",
-    "invite": "Inviter",
     "steps": "Déroulé"
   },
   "MeetingExportModal": {
@@ -581,6 +580,11 @@
     "heading": "Page introuvable !",
     "dialog1": "Elle est où ma page ?",
     "dialog2": "Je sais pas, t'as regardé dans le placard à pages ?"
+  },
+  "ParticipantsFormControl": {
+    "invite": "Inviter",
+    "inviteButton": "M'ajouter",
+    "inviteWarning": "Vous ne faites pas partie des participants, souhaitez-vous vous ajouter ?"
   },
   "ParticipantsScopeSelect": {
     "Organization": "Tous les membres de l'Organisation",
@@ -926,9 +930,6 @@
     "headingCreate": "Nouveau sujet",
     "title": "Titre",
     "titlePlaceholder": "On discute de quoi ?...",
-    "invite": "Inviter",
-    "inviteWarning": "Vous ne faites pas partie des participants, souhaitez-vous participer à ce sujet ?",
-    "inviteButton": "M'ajouter",
     "status": "Statut"
   },
   "ThreadsList": {
