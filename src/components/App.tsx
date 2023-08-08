@@ -6,7 +6,7 @@ import { StoreProvider } from 'easy-peasy'
 import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { nhost } from 'src/nhost'
+import { apolloHeaders, nhost } from 'src/nhost'
 import i18n from '../i18n'
 import { store } from '../store'
 import theme from '../theme'
@@ -18,7 +18,7 @@ export default function App() {
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <NhostProvider nhost={nhost}>
-          <NhostApolloProvider nhost={nhost}>
+          <NhostApolloProvider nhost={nhost} headers={apolloHeaders}>
             <SidebarProvider>
               <StoreProvider store={store}>
                 <Router>

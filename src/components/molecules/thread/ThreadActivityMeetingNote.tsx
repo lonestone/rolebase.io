@@ -3,7 +3,6 @@ import { Box, Heading } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useUpdateThreadActivityMutation } from '@gql'
 import useCreateThreadMeetingNote from '@hooks/useCreateThreadMeetingNote'
-import useSuperAdmin from '@hooks/useSuperAdmin'
 import CollabEditor from '@molecules/editor/CollabEditor'
 import MeetingItem from '@molecules/meeting/MeetingItem'
 import { useUserId } from '@nhost/react'
@@ -19,7 +18,6 @@ interface Props {
 export default function ThreadActivityMeetingNote({ activity }: Props) {
   const { t } = useTranslation()
   const userId = useUserId()
-  const isSuperAdmin = useSuperAdmin()
 
   // Meeting state, defined if thread has been opened from a meeting
   const meetingState = useContext(MeetingContext)
@@ -52,7 +50,7 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
         })
       }
     },
-    [activity, meeting, isSuperAdmin, userId]
+    [activity, meeting, userId]
   )
 
   if (!isEditable && !activity.data.notes) return null
