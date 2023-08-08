@@ -117,16 +117,20 @@
   "CircleWithLeaderItem": {
     "notAssigned": "Not assigned"
   },
-  "CirclesKeyboardShortcuts": {
-    "label": "Keyboard shortcuts",
-    "CmdClick": ": Move a role or a member",
-    "CmdShiftClick": " : Copy a role or a member"
+  "CirclesKeyboardShortcutsModal": {
+    "heading": "Keyboard shortcuts",
+    "CmdClick": "Move a role or member with the mouse",
+    "CmdShiftClick": "Copy a role or member with the mouse"
   },
   "CirclesSettings": {
     "label": "Settings",
     "orgEdit": "Organization Settings",
     "baseRoles": "Basic roles",
-    "vacantRoles": "Vacant roles"
+    "vacantRoles": "Vacant roles",
+    "logs": "History",
+    "shortcuts": "Keyboard shortcuts",
+    "export": "Export a capture",
+    "embed": "Interactive export (embed)"
   },
   "CurrentUserModal": {
     "heading": "My personal information",
@@ -646,7 +650,6 @@
     "meetings": "Meetings",
     "tasks": "Tasks",
     "members": "Members",
-    "logs": "History",
     "superAdmin": "Admin",
     "subscription": "Subscription",
     "search": "Search...",

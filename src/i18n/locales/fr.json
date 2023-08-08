@@ -117,16 +117,20 @@
   "CircleWithLeaderItem": {
     "notAssigned": "Non assigné"
   },
-  "CirclesKeyboardShortcuts": {
-    "label": "Raccourcis clavier",
-    "CmdClick": " : Déplacer un rôle ou un membre",
-    "CmdShiftClick": " : Copier un rôle ou un membre"
+  "CirclesKeyboardShortcutsModal": {
+    "heading": "Raccourcis clavier",
+    "CmdClick": "Déplacer un rôle ou un membre avec la souris",
+    "CmdShiftClick": "Copier un rôle ou un membre avec la souris"
   },
   "CirclesSettings": {
     "label": "Paramètres",
-    "orgEdit": "Paramètres de l'Organisation",
+    "orgEdit": "Paramètres de l'organisation",
     "baseRoles": "Rôles de base",
-    "vacantRoles": "Rôles vacants"
+    "vacantRoles": "Rôles vacants",
+    "logs": "Historique",
+    "shortcuts": "Raccourcis clavier",
+    "export": "Exporter (PNG)",
+    "embed": "Partager (lien & embed)"
   },
   "CurrentUserModal": {
     "heading": "Mes informations personnelles",
@@ -630,7 +634,7 @@
   },
   "RoleGeneratorModal": {
     "heading": "Rôle {{role}}",
-    "info": "Ces propriétés ont rédigées par une IA. Vous pouvez maintenant les modifier avant de les enregistrer.",
+    "info": "Ces propriétés ont été rédigées par une IA. Vous pouvez maintenant les modifier avant de les enregistrer.",
     "loading": "Génération des propriétés du rôle...",
     "waitInfo": "Cela peut prendre quelques dizaines de secondes."
   },
@@ -679,7 +683,6 @@
     "meetings": "Réunions",
     "tasks": "Tâches",
     "members": "Membres",
-    "logs": "Historique",
     "superAdmin": "Admin",
     "subscription": "Abonnement",
     "search": "Rechercher...",
