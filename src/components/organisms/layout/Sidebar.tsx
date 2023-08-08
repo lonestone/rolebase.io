@@ -42,7 +42,6 @@ import {
   FiArrowLeft,
   FiCalendar,
   FiCheckSquare,
-  FiClock,
   FiDisc,
   FiExternalLink,
   FiHelpCircle,
@@ -334,14 +333,6 @@ export default function Sidebar() {
                 icon={<FiUsers />}
               >
                 {t('Sidebar.members')}
-              </SidebarItemLink>
-
-              <SidebarItemLink
-                className="userflow-sidebar-logs"
-                to={`${rootPath}logs`}
-                icon={<FiClock />}
-              >
-                {t('Sidebar.logs')}
               </SidebarItemLink>
 
               {isOwner && (

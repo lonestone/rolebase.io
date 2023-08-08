@@ -85,7 +85,6 @@ export default function ColorController<Values extends FieldValues>({
                     aria-label="Palette"
                     variant="ghost"
                     size="sm"
-                    color={hueToColor(field.value)}
                     icon={<TriangleDownIcon />}
                     ml={2}
                   />

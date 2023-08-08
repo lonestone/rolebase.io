@@ -1,12 +1,6 @@
 import ModalPanel, { modalPanelWidth } from '@atoms/ModalPanel'
 import { Title } from '@atoms/Title'
-import {
-  Box,
-  ButtonProps,
-  HStack,
-  useColorMode,
-  useMediaQuery,
-} from '@chakra-ui/react'
+import { Box, HStack, useColorMode, useMediaQuery } from '@chakra-ui/react'
 import { GraphProvider } from '@contexts/GraphContext'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
@@ -15,7 +9,6 @@ import useCirclesEvents from '@hooks/useGraphEvents'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
-import CirclesKeyboardShortcuts from '@molecules/circle/CirclesKeyboardShortcuts'
 import CirclesSettings from '@molecules/circle/CirclesSettings'
 import GraphViewsSelect from '@molecules/circle/GraphViewsSelect'
 import CircleContent from '@organisms/circle/CircleContent'
@@ -42,17 +35,6 @@ enum Panels {
   None,
   Circle,
   Member,
-}
-
-const menuButtonProps: Partial<Omit<ButtonProps, 'value' | 'onChange'>> = {
-  boxShadow: 'md',
-  bg: 'white',
-  _dark: {
-    bg: 'gray.700',
-  },
-  _focus: {
-    boxShadow: 'md !important',
-  },
 }
 
 export default function CirclesPage() {
@@ -177,14 +159,27 @@ export default function CirclesPage() {
           <GraphViewsSelect
             value={view}
             onChange={setView}
-            {...menuButtonProps}
+            bg="white"
+            variant="outline"
+            _hover={{
+              bg: 'gray.100',
+            }}
+            _active={{
+              bg: 'gray.200',
+            }}
+            _dark={{
+              bg: 'gray.700',
+              _hover: {
+                bg: 'gray.600',
+              },
+              _active: {
+                bg: 'gray.550',
+              },
+            }}
           />
         </Box>
         <Box>
-          <CirclesKeyboardShortcuts {...menuButtonProps} />
-        </Box>
-        <Box>
-          <CirclesSettings {...menuButtonProps} />
+          <CirclesSettings showText variant="outline" size="sm" />
         </Box>
       </HStack>
     </GraphProvider>
