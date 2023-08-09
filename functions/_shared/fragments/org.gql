@@ -5,6 +5,8 @@ fragment Org on org {
   createdAt
   defaultWorkedMinPerWeek
   slug
+  shareOrg
+  shareMembers
 }
 
 # This fragment is expensive, so we avoid using it in queries

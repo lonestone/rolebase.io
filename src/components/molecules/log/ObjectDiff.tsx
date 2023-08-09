@@ -17,7 +17,7 @@ const priorityKeys = ['id', 'name']
 // Show the properties of an object recursively
 // With highlighted changes (optional)
 
-export function ObjectDiff({
+export default function ObjectDiff({
   value: obj,
   compareValue: compareObj,
 }: CompareProps<Object>) {

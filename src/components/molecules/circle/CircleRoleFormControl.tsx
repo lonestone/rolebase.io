@@ -2,6 +2,7 @@ import CircleButton from '@atoms/CircleButton'
 import { Button, Text, VStack, useDisclosure } from '@chakra-ui/react'
 import { CircleWithRoleFragment, RoleFragment } from '@gql'
 import useCircle from '@hooks/useCircle'
+import useOrgMember from '@hooks/useOrgMember'
 import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
 import RoleGeneratorModal from '@organisms/role/RoleGeneratorModal'
 import { ParticipantMember } from '@shared/model/member'
@@ -32,6 +33,7 @@ export const fieldsGap = 10
 
 export default function CircleRoleFormControl({ circle, participants }: Props) {
   const { t } = useTranslation()
+  const isMember = useOrgMember()
   const role = circle.role
 
   // Parent circles and linked circle
@@ -63,7 +65,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
         mb={fieldsGap}
       />
 
-      <VStack spacing={fieldsGap} mb={fieldsGap} align="stretch">
+      <VStack spacing={fieldsGap} align="stretch" mb={isMember ? fieldsGap : 0}>
         {!role.singleMember ? (
           <SubCirclesFormControl circle={circle} participants={participants} />
         ) : null}
@@ -101,6 +103,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
       ))}
 
       {role.purpose === '' &&
+        isMember &&
         editableFields.every(({ field }) => role[field] === '') && (
           <Button
             leftIcon={<FaMagic />}

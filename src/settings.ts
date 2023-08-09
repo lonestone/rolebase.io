@@ -1,5 +1,8 @@
+import { NhostReactClientConstructorParams } from '@nhost/react'
+
 export const isLocal = location.hostname === 'localhost'
 export const isStaging = location.hostname === 'staging--rolebase.netlify.app'
+export const isShareApp = /^\/share(\/|$)/.test(location.pathname)
 
 export default {
   // Webapp url
@@ -20,7 +23,11 @@ export default {
       ? 'jjvdhpoooerochuiusam'
       : 'fsudktxishllphxeibqs',
     region: isLocal ? undefined : 'eu-central-1',
-  },
+    // Disable auto signin on share app
+    autoSignIn: !isShareApp,
+    autoRefreshToken: !isShareApp,
+    clientStorageType: isShareApp ? 'cookie' : 'localStorage',
+  } as NhostReactClientConstructorParams,
 
   functionsUrl: isLocal
     ? 'https://local.functions.nhost.run/v1/'

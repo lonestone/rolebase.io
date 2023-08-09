@@ -1,7 +1,5 @@
-import {
-  CircleMemberContext,
-  getCircleMemberUrlSearch,
-} from '@contexts/CircleMemberContext'
+import { CircleMemberContext } from '@contexts/CircleMemberContext'
+import { getCircleMemberUrlSearch } from '@contexts/CircleMemberProvider'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { useCallback, useContext, useMemo } from 'react'
 import { useOrgId } from './useOrgId'

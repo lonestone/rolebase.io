@@ -9582,6 +9582,8 @@ export type Org = {
   roles: Array<Role>;
   /** An aggregate relationship */
   roles_aggregate: Role_Aggregate;
+  shareMembers: Scalars['Boolean'];
+  shareOrg: Scalars['Boolean'];
   slug?: Maybe<Scalars['String']>;
   subscriptionId?: Maybe<Scalars['uuid']>;
   /** An array relationship */
@@ -9925,6 +9927,8 @@ export type Org_Bool_Exp = {
   org_subscription?: InputMaybe<Org_Subscription_Bool_Exp>;
   roles?: InputMaybe<Role_Bool_Exp>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Bool_Exp>;
+  shareMembers?: InputMaybe<Boolean_Comparison_Exp>;
+  shareOrg?: InputMaybe<Boolean_Comparison_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
   subscriptionId?: InputMaybe<Uuid_Comparison_Exp>;
   task_views?: InputMaybe<Task_View_Bool_Exp>;
@@ -10161,6 +10165,8 @@ export type Org_Insert_Input = {
   news?: InputMaybe<News_Arr_Rel_Insert_Input>;
   org_subscription?: InputMaybe<Org_Subscription_Obj_Rel_Insert_Input>;
   roles?: InputMaybe<Role_Arr_Rel_Insert_Input>;
+  shareMembers?: InputMaybe<Scalars['Boolean']>;
+  shareOrg?: InputMaybe<Scalars['Boolean']>;
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
   task_views?: InputMaybe<Task_View_Arr_Rel_Insert_Input>;
@@ -10231,6 +10237,8 @@ export type Org_Order_By = {
   news_aggregate?: InputMaybe<News_Aggregate_Order_By>;
   org_subscription?: InputMaybe<Org_Subscription_Order_By>;
   roles_aggregate?: InputMaybe<Role_Aggregate_Order_By>;
+  shareMembers?: InputMaybe<Order_By>;
+  shareOrg?: InputMaybe<Order_By>;
   slug?: InputMaybe<Order_By>;
   subscriptionId?: InputMaybe<Order_By>;
   task_views_aggregate?: InputMaybe<Task_View_Aggregate_Order_By>;
@@ -10256,6 +10264,10 @@ export enum Org_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  ShareMembers = 'shareMembers',
+  /** column name */
+  ShareOrg = 'shareOrg',
+  /** column name */
   Slug = 'slug',
   /** column name */
   SubscriptionId = 'subscriptionId'
@@ -10268,6 +10280,8 @@ export type Org_Set_Input = {
   defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
+  shareMembers?: InputMaybe<Scalars['Boolean']>;
+  shareOrg?: InputMaybe<Scalars['Boolean']>;
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
 };
@@ -10305,6 +10319,8 @@ export type Org_Stream_Cursor_Value_Input = {
   defaultWorkedMinPerWeek?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
+  shareMembers?: InputMaybe<Scalars['Boolean']>;
+  shareOrg?: InputMaybe<Scalars['Boolean']>;
   slug?: InputMaybe<Scalars['String']>;
   subscriptionId?: InputMaybe<Scalars['uuid']>;
 };
@@ -10523,6 +10539,10 @@ export enum Org_Update_Column {
   Id = 'id',
   /** column name */
   Name = 'name',
+  /** column name */
+  ShareMembers = 'shareMembers',
+  /** column name */
+  ShareOrg = 'shareOrg',
   /** column name */
   Slug = 'slug',
   /** column name */
@@ -17323,11 +17343,11 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
-export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null };
+export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean };
 
-export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> };
+export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> };
 
-export type OrgFullLightFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> };
+export type OrgFullLightFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> };
 
 export type RoleFragment = { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null };
 
@@ -17347,6 +17367,13 @@ export type GetCircleQueryVariables = Exact<{
 
 
 export type GetCircleQuery = { __typename?: 'query_root', circle_by_pk?: { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean } | null };
+
+export type GetPublicCirclesQueryVariables = Exact<{
+  orgId: Scalars['uuid'];
+}>;
+
+
+export type GetPublicCirclesQuery = { __typename?: 'query_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, members: Array<{ __typename?: 'circle_member', id: string, memberId: string }> }>, role: Array<{ __typename?: 'role', id: string, orgId: string, base: boolean, name: string, purpose: string, singleMember: boolean, link: string, colorHue?: number | null }>, member: Array<{ __typename?: 'member', id: string, orgId: string, name: string, picture?: string | null }> };
 
 export type CreateCircleMutationVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -17696,38 +17723,29 @@ export type GetOrgQueryVariables = Exact<{
 }>;
 
 
-export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } | null };
+export type GetOrgQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean } | null };
 
 export type OrgsSubscriptionVariables = Exact<{
   userId: Scalars['uuid'];
 }>;
 
 
-export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null } }> };
+export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean } }> };
 
 export type OrgSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> } | null };
+export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> } | null };
 
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
-  name: Scalars['String'];
-  defaultWorkedMinPerWeek: Scalars['Int'];
+  values: Org_Set_Input;
 }>;
 
 
 export type UpdateOrgMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
-
-export type ChangeOrgSlugMutationVariables = Exact<{
-  id: Scalars['uuid'];
-  slug: Scalars['String'];
-}>;
-
-
-export type ChangeOrgSlugMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
 export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
 
@@ -18097,6 +18115,8 @@ export const OrgFragmentDoc = gql`
   createdAt
   defaultWorkedMinPerWeek
   slug
+  shareOrg
+  shareMembers
 }
     `;
 export const CircleFragmentDoc = gql`
@@ -18394,6 +18414,67 @@ export type GetCircleLazyQueryHookResult = ReturnType<typeof useGetCircleLazyQue
 export type GetCircleQueryResult = Apollo.QueryResult<GetCircleQuery, GetCircleQueryVariables>;
 export function refetchGetCircleQuery(variables: GetCircleQueryVariables) {
       return { query: GetCircleDocument, variables: variables }
+    }
+export const GetPublicCirclesDocument = gql`
+    query getPublicCircles($orgId: uuid!) {
+  circle(where: {orgId: {_eq: $orgId}, archived: {_eq: false}}) {
+    id
+    orgId
+    roleId
+    parentId
+    members(where: {archived: {_eq: false}}) {
+      id
+      memberId
+    }
+  }
+  role(where: {orgId: {_eq: $orgId}, archived: {_eq: false}}) {
+    id
+    orgId
+    base
+    name
+    purpose
+    singleMember
+    link
+    colorHue
+  }
+  member(where: {orgId: {_eq: $orgId}, archived: {_eq: false}}) {
+    id
+    orgId
+    name
+    picture
+  }
+}
+    `;
+
+/**
+ * __useGetPublicCirclesQuery__
+ *
+ * To run a query within a React component, call `useGetPublicCirclesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPublicCirclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPublicCirclesQuery({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *   },
+ * });
+ */
+export function useGetPublicCirclesQuery(baseOptions: Apollo.QueryHookOptions<GetPublicCirclesQuery, GetPublicCirclesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPublicCirclesQuery, GetPublicCirclesQueryVariables>(GetPublicCirclesDocument, options);
+      }
+export function useGetPublicCirclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPublicCirclesQuery, GetPublicCirclesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPublicCirclesQuery, GetPublicCirclesQueryVariables>(GetPublicCirclesDocument, options);
+        }
+export type GetPublicCirclesQueryHookResult = ReturnType<typeof useGetPublicCirclesQuery>;
+export type GetPublicCirclesLazyQueryHookResult = ReturnType<typeof useGetPublicCirclesLazyQuery>;
+export type GetPublicCirclesQueryResult = Apollo.QueryResult<GetPublicCirclesQuery, GetPublicCirclesQueryVariables>;
+export function refetchGetPublicCirclesQuery(variables: GetPublicCirclesQueryVariables) {
+      return { query: GetPublicCirclesDocument, variables: variables }
     }
 export const CreateCircleDocument = gql`
     mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
@@ -20105,11 +20186,8 @@ export function useOrgSubscription(baseOptions: Apollo.SubscriptionHookOptions<O
 export type OrgSubscriptionHookResult = ReturnType<typeof useOrgSubscription>;
 export type OrgSubscriptionResult = Apollo.SubscriptionResult<OrgSubscription>;
 export const UpdateOrgDocument = gql`
-    mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
-  update_org_by_pk(
-    pk_columns: {id: $id}
-    _set: {name: $name, defaultWorkedMinPerWeek: $defaultWorkedMinPerWeek}
-  ) {
+    mutation updateOrg($id: uuid!, $values: org_set_input!) {
+  update_org_by_pk(pk_columns: {id: $id}, _set: $values) {
     id
   }
 }
@@ -20130,8 +20208,7 @@ export type UpdateOrgMutationFn = Apollo.MutationFunction<UpdateOrgMutation, Upd
  * const [updateOrgMutation, { data, loading, error }] = useUpdateOrgMutation({
  *   variables: {
  *      id: // value for 'id'
- *      name: // value for 'name'
- *      defaultWorkedMinPerWeek: // value for 'defaultWorkedMinPerWeek'
+ *      values: // value for 'values'
  *   },
  * });
  */
@@ -20142,40 +20219,6 @@ export function useUpdateOrgMutation(baseOptions?: Apollo.MutationHookOptions<Up
 export type UpdateOrgMutationHookResult = ReturnType<typeof useUpdateOrgMutation>;
 export type UpdateOrgMutationResult = Apollo.MutationResult<UpdateOrgMutation>;
 export type UpdateOrgMutationOptions = Apollo.BaseMutationOptions<UpdateOrgMutation, UpdateOrgMutationVariables>;
-export const ChangeOrgSlugDocument = gql`
-    mutation changeOrgSlug($id: uuid!, $slug: String!) {
-  update_org_by_pk(pk_columns: {id: $id}, _set: {slug: $slug}) {
-    id
-  }
-}
-    `;
-export type ChangeOrgSlugMutationFn = Apollo.MutationFunction<ChangeOrgSlugMutation, ChangeOrgSlugMutationVariables>;
-
-/**
- * __useChangeOrgSlugMutation__
- *
- * To run a mutation, you first call `useChangeOrgSlugMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useChangeOrgSlugMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [changeOrgSlugMutation, { data, loading, error }] = useChangeOrgSlugMutation({
- *   variables: {
- *      id: // value for 'id'
- *      slug: // value for 'slug'
- *   },
- * });
- */
-export function useChangeOrgSlugMutation(baseOptions?: Apollo.MutationHookOptions<ChangeOrgSlugMutation, ChangeOrgSlugMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ChangeOrgSlugMutation, ChangeOrgSlugMutationVariables>(ChangeOrgSlugDocument, options);
-      }
-export type ChangeOrgSlugMutationHookResult = ReturnType<typeof useChangeOrgSlugMutation>;
-export type ChangeOrgSlugMutationResult = Apollo.MutationResult<ChangeOrgSlugMutation>;
-export type ChangeOrgSlugMutationOptions = Apollo.BaseMutationOptions<ChangeOrgSlugMutation, ChangeOrgSlugMutationVariables>;
 export const GetOrgSubscriptionDocument = gql`
     query getOrgSubscription($orgId: uuid!) {
   org_subscription(where: {orgId: {_eq: $orgId}}) {

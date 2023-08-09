@@ -107,11 +107,13 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - id
-        - name
         - archived
         - createdAt
         - defaultWorkedMinPerWeek
+        - id
+        - name
+        - shareMembers
+        - shareOrg
         - slug
       filter:
         members:
@@ -124,6 +126,8 @@ update_permissions:
       columns:
         - defaultWorkedMinPerWeek
         - name
+        - shareMembers
+        - shareOrg
       filter:
         members:
           _and:

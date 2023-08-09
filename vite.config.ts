@@ -23,17 +23,20 @@ export default defineConfig({
       },
       compress: false,
     }),
-    visualizer(),
+    visualizer({
+      template: 'network',
+    }),
   ],
   build: {
     sourcemap: true,
     rollupOptions: {
       // Multiple entry points: https://stackoverflow.com/questions/70522494/multiple-entry-points-in-vite
       input: {
-        main: fileURLToPath(new URL('./index.html', import.meta.url)),
-        demo1: fileURLToPath(
-          new URL('./src/demos/demo1.html', import.meta.url)
-        ),
+        //main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        share: fileURLToPath(new URL('./share/index.html', import.meta.url)),
+        // demo1: fileURLToPath(
+        //   new URL('./src/demos/demo1.html', import.meta.url)
+        // ),
       },
     },
   },

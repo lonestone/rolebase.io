@@ -157,6 +157,7 @@ export default function CirclesPage() {
       <HStack p={2}>
         <Box>
           <GraphViewsSelect
+            className="userflow-graph-views"
             value={view}
             onChange={setView}
             bg="white"
@@ -179,7 +180,12 @@ export default function CirclesPage() {
           />
         </Box>
         <Box>
-          <CirclesSettings showText variant="outline" size="sm" />
+          <CirclesSettings
+            className="userflow-settings"
+            showText
+            variant="outline"
+            size="sm"
+          />
         </Box>
       </HStack>
     </GraphProvider>

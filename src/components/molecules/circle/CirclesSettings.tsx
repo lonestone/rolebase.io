@@ -11,6 +11,7 @@ import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import CirclesKeyboardShortcutsModal from '@organisms/circle/CirclesKeyboardShortcutsModal'
+import CirclesShareModal from '@organisms/circle/CirclesShareModal'
 import OrgEditModal from '@organisms/org/OrgEditModal'
 import BaseRolesModal from '@organisms/role/BaseRolesModal'
 import VacantRolesModal from '@organisms/role/VacantRolesModal'
@@ -47,6 +48,7 @@ export default function CirclesSettings(
   const baseRolesModal = useDisclosure()
   const vacantRolesModal = useDisclosure()
   const shortcutsModal = useDisclosure()
+  const shareModal = useDisclosure()
 
   return (
     <Menu>
@@ -54,7 +56,6 @@ export default function CirclesSettings(
         as={IconTextButton}
         icon={<FiSettings />}
         aria-label={t('CirclesSettings.label')}
-        className="userflow-settings"
         {...buttonProps}
       />
 
@@ -89,9 +90,11 @@ export default function CirclesSettings(
             >
               {t('CirclesSettings.export')}
             </MenuItem>
-            <MenuItem icon={<FiShare2 />} onClick={() => navigateOrg('share')}>
-              {t('CirclesSettings.embed')}
-            </MenuItem>
+            {isAdmin && (
+              <MenuItem icon={<FiShare2 />} onClick={shareModal.onOpen}>
+                {t('CirclesSettings.share')}
+              </MenuItem>
+            )}
           </>
         )}
       </MenuList>
@@ -113,6 +116,10 @@ export default function CirclesSettings(
           isOpen
           onClose={shortcutsModal.onClose}
         />
+      )}
+
+      {shareModal.isOpen && (
+        <CirclesShareModal isOpen onClose={shareModal.onClose} />
       )}
     </Menu>
   )

@@ -1,10 +1,9 @@
 import CircleButton from '@atoms/CircleButton'
 import MemberAvatar from '@atoms/MemberAvatar'
-import { Box, BoxProps, Circle, Flex, Tooltip } from '@chakra-ui/react'
+import { Box, BoxProps, Flex } from '@chakra-ui/react'
 import { CircleWithRoleFragment } from '@gql'
 import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 
 interface Props extends BoxProps {
   circle: CircleWithRoleFragment
@@ -16,8 +15,6 @@ export default function CircleWithLeaderItem({
   participants,
   ...boxProps
 }: Props) {
-  const { t } = useTranslation()
-
   const members = useMemo(
     () =>
       participants
@@ -30,25 +27,19 @@ export default function CircleWithLeaderItem({
     <Flex alignItems="center" {...boxProps}>
       <CircleButton circle={circle} />
 
-      <Box h="8px" w={1} bg={'gray.200'} _dark={{ bg: 'whiteAlpha.200' }} />
+      {members.length !== 0 && (
+        <>
+          <Box h="8px" w={1} bg={'gray.200'} _dark={{ bg: 'whiteAlpha.200' }} />
 
-      {members.length === 0 ? (
-        <Tooltip
-          label={t('CircleWithLeaderItem.notAssigned')}
-          placement="top"
-          hasArrow
-        >
-          <Circle size={8} bg="gray.100" _dark={{ bg: 'whiteAlpha.100' }} />
-        </Tooltip>
-      ) : (
-        members.map((member) => (
-          <MemberAvatar
-            key={member.id}
-            member={member}
-            circleId={circle.id}
-            size="sm"
-          />
-        ))
+          {members.map((member) => (
+            <MemberAvatar
+              key={member.id}
+              member={member}
+              circleId={circle.id}
+              size="sm"
+            />
+          ))}
+        </>
       )}
     </Flex>
   )

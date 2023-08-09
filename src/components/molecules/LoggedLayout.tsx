@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react'
-import { CircleMemberProvider } from '@contexts/CircleMemberContext'
+import { CircleMemberProvider } from '@contexts/CircleMemberProvider'
 import { SidebarContext } from '@contexts/SidebarContext'
 import useWindowSize from '@hooks/useWindowSize'
 import Sidebar from '@organisms/layout/Sidebar'

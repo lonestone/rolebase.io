@@ -1,7 +1,9 @@
 import { FormControlOptions } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import React, {
+  Suspense,
   forwardRef,
+  lazy,
   memo,
   useCallback,
   useEffect,
@@ -10,10 +12,12 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import RichEditor from './lib/RichEditor'
 import { EditorHandle } from './lib/plugins/EditorRefPlugin'
 import useFileUpload from './useFileUpload'
 import useMentionables from './useMentionables'
+
+// Lazy loading
+const RichEditor = lazy(() => import('./lib/RichEditor'))
 
 // Collaborative Markdown editor
 
@@ -88,24 +92,26 @@ const CollabEditor = forwardRef<EditorHandle, Props>(
     }, [saveEvery, isFocus, handleChange])
 
     return (
-      <RichEditor
-        key={docId}
-        ref={localRef}
-        id={docId}
-        collaboration
-        username={currentMember?.name}
-        value={value}
-        placeholder={placeholder}
-        emptyParagraphPlaceholder={t('common.emptyParagraphPlaceholder')}
-        autoFocus={autoFocus}
-        readOnly={readOnly}
-        minH={minH}
-        maxH={maxH}
-        mentionables={mentionables}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onUpload={handleUpload}
-      />
+      <Suspense fallback={null}>
+        <RichEditor
+          key={docId}
+          ref={localRef}
+          id={docId}
+          collaboration
+          username={currentMember?.name}
+          value={value}
+          placeholder={placeholder}
+          emptyParagraphPlaceholder={t('common.emptyParagraphPlaceholder')}
+          autoFocus={autoFocus}
+          readOnly={readOnly}
+          minH={minH}
+          maxH={maxH}
+          mentionables={mentionables}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onUpload={handleUpload}
+        />
+      </Suspense>
     )
   }
 )

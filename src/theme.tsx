@@ -99,7 +99,12 @@ const theme = extendTheme({
         fontSize: '15px',
       },
       body: {
-        bg: mode('gray.50', 'gray.800')(props),
+        bg:
+          // Set background to transparent with "transparent" param in query string
+          // Useful for iframe integration (org chart share)
+          /(\?|&)transparent(&|$)/.test(window.location.search)
+            ? 'transparent'
+            : mode('gray.50', 'gray.800')(props),
       },
       '*::placeholder': {
         color: 'gray.500',

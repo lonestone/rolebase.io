@@ -24,17 +24,8 @@ subscription org($id: uuid!) {
   }
 }
 
-mutation updateOrg($id: uuid!, $name: String!, $defaultWorkedMinPerWeek: Int!) {
-  update_org_by_pk(
-    pk_columns: { id: $id }
-    _set: { name: $name, defaultWorkedMinPerWeek: $defaultWorkedMinPerWeek }
-  ) {
-    id
-  }
-}
-
-mutation changeOrgSlug($id: uuid!, $slug: String!) {
-  update_org_by_pk(pk_columns: { id: $id }, _set: { slug: $slug }) {
+mutation updateOrg($id: uuid!, $values: org_set_input!) {
+  update_org_by_pk(pk_columns: { id: $id }, _set: $values) {
     id
   }
 }

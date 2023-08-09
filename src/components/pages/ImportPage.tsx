@@ -106,7 +106,6 @@ export default function ImportPage() {
       // Save picture url to member
       const fileId = fileMetadata.id
       const fileUrl = nhost.storage.getPublicUrl({ fileId })
-      console.log('fileUrl', fileUrl)
 
       if (!supportedProviders.includes(provider as ImportProviders)) {
         // Provider not supported: send feature request

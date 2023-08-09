@@ -91,7 +91,12 @@ export default function MemberRoleItem({ memberId, circle }: Props) {
             <CircleAndParentsLinks circle={circle} flex={1} />
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel pt={3} pb={5} pl={10}>
+          <AccordionPanel
+            pt={3}
+            pb={5}
+            pl={10}
+            display={!isMember && !role?.purpose ? 'none' : undefined}
+          >
             <form onSubmit={onSubmit}>
               <VStack spacing={3} align="stretch">
                 {role?.purpose && (

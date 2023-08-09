@@ -4,6 +4,35 @@ query getCircle($id: uuid!) {
   }
 }
 
+query getPublicCircles($orgId: uuid!) {
+  circle(where: { orgId: { _eq: $orgId }, archived: { _eq: false } }) {
+    id
+    orgId
+    roleId
+    parentId
+    members(where: { archived: { _eq: false } }) {
+      id
+      memberId
+    }
+  }
+  role(where: { orgId: { _eq: $orgId }, archived: { _eq: false } }) {
+    id
+    orgId
+    base
+    name
+    purpose
+    singleMember
+    link
+    colorHue
+  }
+  member(where: { orgId: { _eq: $orgId }, archived: { _eq: false } }) {
+    id
+    orgId
+    name
+    picture
+  }
+}
+
 mutation createCircle($orgId: uuid!, $roleId: uuid!, $parentId: uuid) {
   insert_circle_one(
     object: { orgId: $orgId, roleId: $roleId, parentId: $parentId }

@@ -107,15 +107,25 @@
   "CirclesPage": {
     "title": "{{org}}'s org chart"
   },
+  "CirclesShareModal": {
+    "heading": "Share your org chart",
+    "headingEnable": "Enable sharing",
+    "shareOrg": "Roles Org Chart",
+    "shareOrgHelp": "Names and purposes only.",
+    "shareMembers": "Members",
+    "shareMembersHelp": "Names and photos only.",
+    "view": "View",
+    "zoom": "Enable zoom and mouse movement",
+    "transparent": "Transparent background",
+    "link": "Share link",
+    "embed": "Embed iframe code"
+  },
   "CircleTasks": {
     "create": "Create a task"
   },
   "CircleThreads": {
     "create": "Create a topic",
     "empty": "No topic yet"
-  },
-  "CircleWithLeaderItem": {
-    "notAssigned": "Not assigned"
   },
   "CirclesKeyboardShortcutsModal": {
     "heading": "Keyboard shortcuts",
@@ -130,7 +140,7 @@
     "logs": "History",
     "shortcuts": "Keyboard shortcuts",
     "export": "Export a capture",
-    "embed": "Interactive export (embed)"
+    "share": "Share (link & embed)"
   },
   "CurrentUserModal": {
     "heading": "My personal information",
@@ -547,9 +557,8 @@
     "heading": "My Organizations"
   },
   "Page404": {
-    "heading": "Page not found!",
-    "dialog1": "Do you know where is my page?",
-    "dialog2": "I don't know, have you looked in the page closet?"
+    "heading": "Page not found",
+    "home": "Back to home"
   },
   "ParticipantsFormControl": {
     "invite": "Invite",

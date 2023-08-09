@@ -1,17 +1,21 @@
 import { FormControlOptions, useFormControl } from '@chakra-ui/react'
 import { pick } from '@utils/pick'
 import React, {
+  Suspense,
   forwardRef,
+  lazy,
   memo,
   useCallback,
   useImperativeHandle,
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import RichEditor from './lib/RichEditor'
 import { EditorHandle } from './lib/plugins/EditorRefPlugin'
 import useFileUpload from './useFileUpload'
 import useMentionables from './useMentionables'
+
+// Lazy loading
+const RichEditor = lazy(() => import('./lib/RichEditor'))
 
 // Simple Markdown editor
 
@@ -62,21 +66,23 @@ const SimpleEditor = forwardRef<EditorHandle, Props>(
     }, [onSubmit])
 
     return (
-      <RichEditor
-        ref={localRef}
-        value={value}
-        placeholder={placeholder}
-        emptyParagraphPlaceholder={t('common.emptyParagraphPlaceholder')}
-        autoFocus={autoFocus}
-        readOnly={computedReadOnly}
-        minH={minH}
-        maxH={maxH}
-        mentionables={mentionables}
-        onBlur={handleBlur}
-        onSubmit={handleSubmit}
-        onUpload={handleUpload}
-        {...ariaProps}
-      />
+      <Suspense fallback={null}>
+        <RichEditor
+          ref={localRef}
+          value={value}
+          placeholder={placeholder}
+          emptyParagraphPlaceholder={t('common.emptyParagraphPlaceholder')}
+          autoFocus={autoFocus}
+          readOnly={computedReadOnly}
+          minH={minH}
+          maxH={maxH}
+          mentionables={mentionables}
+          onBlur={handleBlur}
+          onSubmit={handleSubmit}
+          onUpload={handleUpload}
+          {...ariaProps}
+        />
+      </Suspense>
     )
   }
 )

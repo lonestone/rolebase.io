@@ -107,15 +107,25 @@
   "CirclesPage": {
     "title": "Organigramme de {{org}}"
   },
+  "CirclesShareModal": {
+    "heading": "Partager l'organigramme",
+    "headingEnable": "Activer le partage",
+    "shareOrg": "Organigramme des Rôles",
+    "shareOrgHelp": "Noms et raisons d'être uniquement.",
+    "shareMembers": "Membres",
+    "shareMembersHelp": "Noms et photos uniquement.",
+    "view": "Visualisation",
+    "zoom": "Activer le zoom et le déplacement à la souris",
+    "transparent": "Fond transparent",
+    "link": "Lien de partage",
+    "embed": "Code d'intégration iframe"
+  },
   "CircleTasks": {
     "create": "Créer une tâche"
   },
   "CircleThreads": {
     "create": "Créer un sujet",
     "empty": "Aucun sujet pour le moment"
-  },
-  "CircleWithLeaderItem": {
-    "notAssigned": "Non assigné"
   },
   "CirclesKeyboardShortcutsModal": {
     "heading": "Raccourcis clavier",
@@ -130,7 +140,7 @@
     "logs": "Historique",
     "shortcuts": "Raccourcis clavier",
     "export": "Exporter (PNG)",
-    "embed": "Partager (lien & embed)"
+    "share": "Partager (lien & embed)"
   },
   "CurrentUserModal": {
     "heading": "Mes informations personnelles",
@@ -581,9 +591,8 @@
     "heading": "Mes Organisations"
   },
   "Page404": {
-    "heading": "Page introuvable !",
-    "dialog1": "Elle est où ma page ?",
-    "dialog2": "Je sais pas, t'as regardé dans le placard à pages ?"
+    "heading": "Page introuvable",
+    "home": "Retour à l'accueil"
   },
   "ParticipantsFormControl": {
     "invite": "Inviter",

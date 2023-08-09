@@ -84,7 +84,7 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
   }, [org])
 
   const onSubmit = handleSubmit((values) => {
-    editOrg({ variables: { id, ...values } })
+    editOrg({ variables: { id, values } })
     modalProps.onClose()
   })
 

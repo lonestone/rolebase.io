@@ -35,12 +35,7 @@ export default function GraphViewsSelect({
 
   return (
     <Menu>
-      <MenuButton
-        as={Button}
-        rightIcon={<FiChevronDown />}
-        className="userflow-graph-views"
-        {...buttonProps}
-      >
+      <MenuButton as={Button} rightIcon={<FiChevronDown />} {...buttonProps}>
         {t(`GraphViewsSelect.${value}` as any)}
       </MenuButton>
 
