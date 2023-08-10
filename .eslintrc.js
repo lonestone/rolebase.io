@@ -27,6 +27,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:storybook/recommended',
     'plugin:prettier/recommended', // Make sure this is always the last element in the array.
   ],
   plugins: ['@typescript-eslint', 'react', 'prettier'],

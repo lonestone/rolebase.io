@@ -17,7 +17,7 @@ import {
   $isRangeSelection,
 } from 'lexical'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useInRouterContext, useNavigate } from 'react-router-dom'
 
 type LinkFilter = (event: MouseEvent, linkNode: LinkNode) => boolean
 
@@ -27,7 +27,14 @@ export default function ClickableLinkPlugin({
   filter?: LinkFilter
 }) {
   const [editor] = useLexicalComposerContext()
-  const navigate = useNavigate()
+
+  const inRouter = useInRouterContext()
+  // Conditional usage of hook is OK here because inRouter doesn't change
+  const navigate = inRouter
+    ? useNavigate()
+    : (to: string) => {
+        window.location.href = to
+      }
 
   useEffect(() => {
     function onClick(e: Event) {
