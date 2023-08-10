@@ -25,15 +25,15 @@ services:
   #   autoDeploy: true
 
   # Storybook
-  - type: web
-    name: rolebase-storybook
-    env: static
-    branch: main
-    domains:
-      - storybook.rolebase.io
-    buildCommand: npm i && npm run build-storybook
-    staticPublishPath: ./storybook-static
-    autoDeploy: true
+  # - type: web
+  #   name: rolebase-storybook
+  #   env: static
+  #   branch: main
+  #   domains:
+  #     - storybook.rolebase.io
+  #   buildCommand: npm i && npm run build-storybook
+  #   staticPublishPath: ./storybook-static
+  #   autoDeploy: true
 
   # Collab (y-websocket)
   - type: web
