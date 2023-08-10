@@ -17399,12 +17399,13 @@ export type UpdateCircleMutationVariables = Exact<{
 
 export type UpdateCircleMutation = { __typename?: 'mutation_root', update_circle_by_pk?: { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string } } | null } | null };
 
-export type ArchiveCircleMutationVariables = Exact<{
-  id: Scalars['uuid'];
+export type ArchiveCirclesMutationVariables = Exact<{
+  circlesIds: Array<Scalars['uuid']> | Scalars['uuid'];
+  rolesIds: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
 
-export type ArchiveCircleMutation = { __typename?: 'mutation_root', update_circle_by_pk?: { __typename?: 'circle', id: string } | null };
+export type ArchiveCirclesMutation = { __typename?: 'mutation_root', update_circle?: { __typename?: 'circle_mutation_response', returning: Array<{ __typename?: 'circle', id: string }> } | null, update_role?: { __typename?: 'role_mutation_response', returning: Array<{ __typename?: 'role', id: string }> } | null };
 
 export type GetCircleMemberQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -18592,39 +18593,47 @@ export function useUpdateCircleMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateCircleMutationHookResult = ReturnType<typeof useUpdateCircleMutation>;
 export type UpdateCircleMutationResult = Apollo.MutationResult<UpdateCircleMutation>;
 export type UpdateCircleMutationOptions = Apollo.BaseMutationOptions<UpdateCircleMutation, UpdateCircleMutationVariables>;
-export const ArchiveCircleDocument = gql`
-    mutation archiveCircle($id: uuid!) {
-  update_circle_by_pk(pk_columns: {id: $id}, _set: {archived: true}) {
-    id
+export const ArchiveCirclesDocument = gql`
+    mutation archiveCircles($circlesIds: [uuid!]!, $rolesIds: [uuid!]!) {
+  update_circle(where: {id: {_in: $circlesIds}}, _set: {archived: true}) {
+    returning {
+      id
+    }
+  }
+  update_role(where: {id: {_in: $rolesIds}}, _set: {archived: true}) {
+    returning {
+      id
+    }
   }
 }
     `;
-export type ArchiveCircleMutationFn = Apollo.MutationFunction<ArchiveCircleMutation, ArchiveCircleMutationVariables>;
+export type ArchiveCirclesMutationFn = Apollo.MutationFunction<ArchiveCirclesMutation, ArchiveCirclesMutationVariables>;
 
 /**
- * __useArchiveCircleMutation__
+ * __useArchiveCirclesMutation__
  *
- * To run a mutation, you first call `useArchiveCircleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useArchiveCircleMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useArchiveCirclesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useArchiveCirclesMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [archiveCircleMutation, { data, loading, error }] = useArchiveCircleMutation({
+ * const [archiveCirclesMutation, { data, loading, error }] = useArchiveCirclesMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      circlesIds: // value for 'circlesIds'
+ *      rolesIds: // value for 'rolesIds'
  *   },
  * });
  */
-export function useArchiveCircleMutation(baseOptions?: Apollo.MutationHookOptions<ArchiveCircleMutation, ArchiveCircleMutationVariables>) {
+export function useArchiveCirclesMutation(baseOptions?: Apollo.MutationHookOptions<ArchiveCirclesMutation, ArchiveCirclesMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ArchiveCircleMutation, ArchiveCircleMutationVariables>(ArchiveCircleDocument, options);
+        return Apollo.useMutation<ArchiveCirclesMutation, ArchiveCirclesMutationVariables>(ArchiveCirclesDocument, options);
       }
-export type ArchiveCircleMutationHookResult = ReturnType<typeof useArchiveCircleMutation>;
-export type ArchiveCircleMutationResult = Apollo.MutationResult<ArchiveCircleMutation>;
-export type ArchiveCircleMutationOptions = Apollo.BaseMutationOptions<ArchiveCircleMutation, ArchiveCircleMutationVariables>;
+export type ArchiveCirclesMutationHookResult = ReturnType<typeof useArchiveCirclesMutation>;
+export type ArchiveCirclesMutationResult = Apollo.MutationResult<ArchiveCirclesMutation>;
+export type ArchiveCirclesMutationOptions = Apollo.BaseMutationOptions<ArchiveCirclesMutation, ArchiveCirclesMutationVariables>;
 export const GetCircleMemberDocument = gql`
     query getCircleMember($id: uuid!) {
   circle_member_by_pk(id: $id) {

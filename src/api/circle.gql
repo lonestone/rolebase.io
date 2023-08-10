@@ -66,8 +66,15 @@ mutation updateCircle($id: uuid!, $values: circle_set_input!) {
   }
 }
 
-mutation archiveCircle($id: uuid!) {
-  update_circle_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
-    id
+mutation archiveCircles($circlesIds: [uuid!]!, $rolesIds: [uuid!]!) {
+  update_circle(where: { id: { _in: $circlesIds } }, _set: { archived: true }) {
+    returning {
+      id
+    }
+  }
+  update_role(where: { id: { _in: $rolesIds } }, _set: { archived: true }) {
+    returning {
+      id
+    }
   }
 }

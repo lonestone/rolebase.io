@@ -1,68 +1,62 @@
-import {
-  CircleFragment,
-  useArchiveCircleMutation,
-  useArchiveRoleMutation,
-} from '@gql'
+import { useArchiveCirclesMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
+import { getCircleChildren } from '@shared/helpers/getCircleChildren'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
 import { store } from '@store/index'
 import { useCallback } from 'react'
 
-function getCircleIds(circles: CircleFragment[], circleId: string): string[] {
-  return [
-    circleId,
-    ...circles
-      .filter((c) => c.parentId === circleId)
-      .flatMap((c) => getCircleIds(circles, c.id)),
-  ]
-}
-
+// Archives circles and roles recursively (excluding base roles)
 export default function useArchiveCircle() {
-  const [archiveCircle] = useArchiveCircleMutation()
-  const [archiveRole] = useArchiveRoleMutation()
+  const [archiveCircles] = useArchiveCirclesMutation()
   const createLog = useCreateLog()
 
   return useCallback(async (circleId: string) => {
     const { circles, baseRoles: roles } = store.getState().org
     if (!circles || !roles) return
 
-    const changes: EntitiesChanges = { circles: [], roles: [] }
+    const circle = circles?.find((c) => c.id === circleId)
+    if (!circle) return
 
-    // Archives circles
-    const circlesIds = getCircleIds(circles, circleId)
-    for (const id of circlesIds) {
-      await archiveCircle({ variables: { id } })
-      changes.circles?.push({
+    const children = getCircleChildren(circles, circleId)
+
+    // Ids of all circles to archive
+    const circlesIds = [circleId, ...children.map((c) => c.id)]
+
+    // Ids of all roles to archive
+    const rolesIds = [circle, ...children]
+      .filter((c) => !c.role.base)
+      .map((c) => c.role.id)
+
+    // Prepare log changes
+    const changes: EntitiesChanges = {
+      circles: circlesIds.map((id) => ({
         type: EntityChangeType.Update,
         id,
         prevData: { archived: false },
         newData: { archived: true },
-      })
-
-      // Archive role
-      const circle = circles.find((c) => c.id === id)
-      const role = roles.find((r) => r.id === circle?.roleId)
-      if (role && !role.base) {
-        await archiveRole({ variables: { id: role.id } })
-        changes.roles?.push({
-          type: EntityChangeType.Update,
-          id: role.id,
-          prevData: { archived: false },
-          newData: { archived: true },
-        })
-      }
+      })),
+      roles: rolesIds.map((id) => ({
+        type: EntityChangeType.Update,
+        id,
+        prevData: { archived: false },
+        newData: { archived: true },
+      })),
     }
 
-    const circle = circles?.find((c) => c.id === circleId)
-    const role = roles?.find((r) => r.id === circle?.roleId)
-    if (!circle || !role) return
+    // Archive circles and roles
+    await archiveCircles({
+      variables: {
+        circlesIds,
+        rolesIds,
+      },
+    })
 
     // Log change
     createLog({
       display: {
         type: LogType.CircleArchive,
         id: circleId,
-        name: role.name,
+        name: circle.role.name,
       },
       changes,
     })
