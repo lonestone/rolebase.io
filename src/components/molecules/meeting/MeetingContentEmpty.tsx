@@ -30,11 +30,7 @@ export default function MeetingContentEmpty() {
   const handleNew = () => {
     if (!meeting || !circle || !steps) return
     setCreating(true)
-    createMissingMeetingSteps(
-      meeting,
-      circle,
-      steps.map((s) => s.stepConfigId)
-    )
+    createMissingMeetingSteps()
   }
 
   // If no previous meeting, create empty steps and skip
@@ -47,12 +43,7 @@ export default function MeetingContentEmpty() {
   const handleCopy = () => {
     if (!meeting || !circle || !steps) return
     setCreating(true)
-    createMissingMeetingSteps(
-      meeting,
-      circle,
-      steps.map((s) => s.stepConfigId),
-      prevMeetingSteps
-    )
+    createMissingMeetingSteps(prevMeetingSteps)
   }
 
   if (!canEdit) return null

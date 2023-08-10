@@ -8,6 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
+import useCreateMissingMeetingSteps from '@hooks/useCreateMissingMeetingSteps'
 import useOrgMember from '@hooks/useOrgMember'
 import MeetingAlertForceEdit from '@molecules/meeting/MeetingAlertForceEdit'
 import MeetingAlertNotStarted from '@molecules/meeting/MeetingAlertNotStarted'
@@ -16,7 +17,7 @@ import MeetingLogs from '@molecules/meeting/MeetingLogs'
 import MeetingStepContent from '@molecules/meeting/MeetingStepContent'
 import { taskLogTypes } from '@molecules/meeting/MeetingStepContentTasks'
 import MeetingStepLayout from '@molecules/meeting/MeetingStepLayout'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import MeetingEditModal from '../../organisms/meeting/MeetingEditModal'
 import MeetingStartNotificationModal from '../../organisms/meeting/MeetingStartNotificationModal'
@@ -38,6 +39,13 @@ export default function MeetingContent() {
     isStarted,
     handleGoToStep,
   } = useContext(MeetingContext)!
+
+  // Create missing steps
+  const createMissingMeetingSteps = useCreateMissingMeetingSteps()
+  useEffect(() => {
+    if (!meeting || !circle || !steps) return
+    createMissingMeetingSteps()
+  }, [meeting, circle, steps])
 
   // Meeting edition modal
   const editModal = useDisclosure()

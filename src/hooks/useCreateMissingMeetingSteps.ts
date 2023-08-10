@@ -1,6 +1,6 @@
+import { MeetingContext } from '@contexts/MeetingContext'
 import {
   CircleFullFragment,
-  MeetingFragment,
   MeetingStepFragment,
   Meeting_Step_Type_Enum,
   useCreateMeetingStepMutation,
@@ -8,12 +8,15 @@ import {
 } from '@gql'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { TasksViewTypes } from '@shared/model/task'
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
+import useOrgMember from './useOrgMember'
 
 // When a meeting is created, it has a stepsConfig property
 // but it doesn't have step in meeting_step table.
 // So we need to create a step for each stepConfig after meeting edition
 export default function useCreateMissingMeetingSteps() {
+  const isMember = useOrgMember()
+  const { meeting, circle, steps } = useContext(MeetingContext)!
   const [createMeetingStep] = useCreateMeetingStepMutation()
   const [getCircleThreadsIds] = useGetCircleThreadsIdsLazyQuery()
 
@@ -80,15 +83,12 @@ export default function useCreateMissingMeetingSteps() {
   )
 
   return useCallback(
-    async (
-      meeting: MeetingFragment,
-      circle: CircleFullFragment,
-      existingStepsConfigIds: string[],
-      stepsToCopy?: MeetingStepFragment[]
-    ) => {
+    async (stepsToCopy?: MeetingStepFragment[]) => {
+      if (!isMember || !meeting || !circle || !steps) return
+
       // Create all missing steps
       for (const stepConfig of meeting.stepsConfig) {
-        if (existingStepsConfigIds.includes(stepConfig.id)) {
+        if (steps.some((step) => step.stepConfigId === stepConfig.id)) {
           continue
         }
 
@@ -113,6 +113,6 @@ export default function useCreateMissingMeetingSteps() {
         })
       }
     },
-    [getDefaultMeetingStep]
+    [getDefaultMeetingStep, meeting, circle, steps]
   )
 }
