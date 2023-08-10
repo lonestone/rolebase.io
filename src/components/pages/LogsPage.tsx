@@ -19,6 +19,8 @@ export default function LogsPage() {
   const { data, error, loading, fetchMore } = useLastLogsQuery({
     skip: !orgId,
     variables: { orgId: orgId!, limit },
+    fetchPolicy: 'cache-and-network',
+    initialFetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   })
   const logs = data?.log
