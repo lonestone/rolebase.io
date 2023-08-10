@@ -25,12 +25,12 @@ interface Props {
 
 export interface Values {
   email: string
-  password: string
+  ['current-password']: string
 }
 
 const schema = yup.object().shape({
   email: emailSchema.required(),
-  password: yup.string().required(),
+  ['current-password']: yup.string().required(),
 })
 
 export default function LoginForm({ defaultEmail }: Props) {
@@ -39,7 +39,7 @@ export default function LoginForm({ defaultEmail }: Props) {
   const { signInEmailPassword, isLoading, error } = useSignInEmailPassword()
 
   const onSubmit = async (values: Values) => {
-    await signInEmailPassword(values.email, values.password)
+    await signInEmailPassword(values.email, values['current-password'])
   }
 
   const {
@@ -74,10 +74,10 @@ export default function LoginForm({ defaultEmail }: Props) {
           />
         </FormControl>
 
-        <FormControl isInvalid={!!errors.password}>
+        <FormControl isInvalid={!!errors['current-password']}>
           <FormLabel>{t('LoginForm.password')}</FormLabel>
           <PasswordInput
-            {...register('password')}
+            {...register('current-password')}
             required
             autoComplete="current-password"
           />

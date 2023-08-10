@@ -26,13 +26,13 @@ interface Props {
 export interface Values {
   name: string
   email: string
-  password: string
+  ['new-password']: string
 }
 
 const schema = yup.object().shape({
   name: nameSchema.required(),
   email: emailSchema.required(),
-  password: yup.string().required(),
+  ['new-password']: yup.string().required(),
 })
 
 export default function SignupForm({ defaultEmail }: Props) {
@@ -52,16 +52,16 @@ export default function SignupForm({ defaultEmail }: Props) {
     }
   }
 
-  const onSubmit = async (values: Values) => {
+  const onSubmit = async ({
+    name,
+    email,
+    'new-password': password,
+  }: Values) => {
     // Sign up
-    const { isSuccess, user } = await signUpEmailPassword(
-      values.email,
-      values.password,
-      {
-        displayName: values.name,
-        locale: language.substring(0, 2),
-      }
-    )
+    const { isSuccess, user } = await signUpEmailPassword(email, password, {
+      displayName: name,
+      locale: language.substring(0, 2),
+    })
     if (user && user.email && !user.emailVerified) {
       await sendVerifyEmail(user.email)
     }
@@ -107,12 +107,11 @@ export default function SignupForm({ defaultEmail }: Props) {
           />
         </FormControl>
 
-        <FormControl isInvalid={!!errors.password}>
+        <FormControl isInvalid={!!errors['new-password']}>
           <FormLabel>{t('SignupForm.password')}</FormLabel>
           <PasswordInput
-            {...register('password')}
+            {...register('new-password')}
             required
-            id="new-password"
             autoComplete="new-password"
           />
         </FormControl>

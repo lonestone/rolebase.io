@@ -29,14 +29,14 @@ import * as yup from 'yup'
 interface Values {
   name: string
   email: string
-  password: string
+  ['new-password']: string
 }
 
 const resolver = yupResolver(
   yup.object().shape({
     name: nameSchema.required(),
     email: emailSchema.required(),
-    password: yup
+    ['new-password']: yup
       .string()
       .test(
         'length',
@@ -67,40 +67,42 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
     defaultValues: {
       name: userName || '',
       email: userEmail || '',
-      password: '',
+      ['new-password']: '',
     },
   })
 
-  const onSubmit = handleSubmit(async ({ name, email, password }) => {
-    if (!userId) return
-    setSaving(true)
+  const onSubmit = handleSubmit(
+    async ({ name, email, 'new-password': password }) => {
+      if (!userId) return
+      setSaving(true)
 
-    // Update display name
-    if (name !== userName) {
-      await changeDisplayName({ variables: { userId, displayName: name } })
+      // Update display name
+      if (name !== userName) {
+        await changeDisplayName({ variables: { userId, displayName: name } })
+      }
+
+      // Update email
+      if (email !== userEmail) {
+        await nhost.auth.changeEmail({ newEmail: email })
+      }
+
+      // Update password
+      if (password) {
+        await nhost.auth.changePassword({ newPassword: password })
+      }
+
+      // Refresh user data
+      await nhost.auth.refreshSession()
+
+      toast({
+        title: t('CurrentUserModal.toastSuccess'),
+        status: 'success',
+        duration: 2000,
+      })
+
+      modalProps.onClose()
     }
-
-    // Update email
-    if (email !== userEmail) {
-      await nhost.auth.changeEmail({ newEmail: email })
-    }
-
-    // Update password
-    if (password) {
-      await nhost.auth.changePassword({ newPassword: password })
-    }
-
-    // Refresh user data
-    await nhost.auth.refreshSession()
-
-    toast({
-      title: t('CurrentUserModal.toastSuccess'),
-      status: 'success',
-      duration: 2000,
-    })
-
-    modalProps.onClose()
-  })
+  )
 
   return (
     <Modal
@@ -136,12 +138,11 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                 />
               </FormControl>
 
-              <FormControl isInvalid={!!errors.password}>
+              <FormControl isInvalid={!!errors['new-password']}>
                 <FormLabel>{t('CurrentUserModal.password')}</FormLabel>
                 <PasswordInput
-                  {...register('password')}
+                  {...register('new-password')}
                   placeholder={t('CurrentUserModal.passwordPlaceholder')}
-                  id="new-password"
                   autoComplete="new-password"
                 />
               </FormControl>
