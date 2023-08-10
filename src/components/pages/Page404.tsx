@@ -15,6 +15,10 @@ export default function Page404() {
         <iframe
           width="157"
           height="277"
+          style={{
+            // Fix transparency
+            colorScheme: 'light',
+          }}
           src="https://rive.app/s/_KTEFCoAdECSya8cB_ofqQ/embed"
         />
 
