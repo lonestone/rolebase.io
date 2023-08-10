@@ -669,7 +669,7 @@
     "name": "First and last name",
     "email": "Email",
     "password": "Password",
-    "terms": "I accept the <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</term> and the <a href=\"https://www.rolebase.io/policy\">Privacy Policy</policy>",
+    "terms": "I accept the <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</term> and the <a href=\"https://www.rolebase.io/privacy\">Privacy Policy</policy>",
     "submit": "Create my account"
   },
   "SubCirclesFormControl": {

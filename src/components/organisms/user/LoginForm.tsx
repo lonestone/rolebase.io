@@ -79,7 +79,7 @@ export default function LoginForm({ defaultEmail }: Props) {
           <PasswordInput
             {...register('password')}
             required
-            autoComplete="password"
+            autoComplete="current-password"
           />
           <Link
             to={`/reset-password${email ? `?email=${email}` : ''}`}

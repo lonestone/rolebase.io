@@ -8,12 +8,10 @@ import {
   ModalContent,
   ModalOverlay,
   ModalProps,
-  SpaceProps,
-  UseModalProps,
 } from '@chakra-ui/react'
 import React from 'react'
 
-interface Props extends UseModalProps, SpaceProps {
+interface Props extends ModalProps {
   size: ModalProps['size']
   bodyProps?: ModalBodyProps
   children: React.ReactNode

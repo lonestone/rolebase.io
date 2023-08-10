@@ -10,6 +10,7 @@ export default function PasswordConfirmInputDummy() {
       <Input
         name="confirmPassword"
         type="password"
+        id="confirm-password"
         autoComplete="new-password"
         tabIndex={-1}
       />

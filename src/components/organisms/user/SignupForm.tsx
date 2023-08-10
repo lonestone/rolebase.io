@@ -112,6 +112,7 @@ export default function SignupForm({ defaultEmail }: Props) {
           <PasswordInput
             {...register('password')}
             required
+            id="new-password"
             autoComplete="new-password"
           />
         </FormControl>

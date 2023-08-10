@@ -103,7 +103,10 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
   })
 
   return (
-    <Modal {...modalProps}>
+    <Modal
+      trapFocus={false /* Allow password managers to work */}
+      {...modalProps}
+    >
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>
@@ -138,6 +141,7 @@ export default function CurrentUserModal(modalProps: UseModalProps) {
                 <PasswordInput
                   {...register('password')}
                   placeholder={t('CurrentUserModal.passwordPlaceholder')}
+                  id="new-password"
                   autoComplete="new-password"
                 />
               </FormControl>

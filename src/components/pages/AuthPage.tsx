@@ -23,6 +23,7 @@ export default function AuthPage() {
       size="4xl"
       bodyProps={{ mx: 10 }}
       isOpen
+      trapFocus={false /* Allow password managers to work */}
       closeOnEsc={false}
       onClose={handleClose}
     >

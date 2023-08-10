@@ -702,7 +702,7 @@
     "name": "Prénom et nom",
     "email": "Email",
     "password": "Mot de passe",
-    "terms": "J'accepte les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions Générales de Vente</a> et la <a href=\"https://www.rolebase.io/policy\">Politique de Confidentialité</a>",
+    "terms": "J'accepte les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions Générales de Vente</a> et la <a href=\"https://www.rolebase.io/privacy\">Politique de Confidentialité</a>",
     "submit": "Je crée mon compte"
   },
   "SubCirclesFormControl": {
