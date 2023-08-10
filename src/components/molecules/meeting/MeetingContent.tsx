@@ -59,7 +59,7 @@ export default function MeetingContent() {
       )}
 
       {canEdit &&
-        (steps?.length === 0 ? (
+        (steps?.length === 0 && meeting.stepsConfig.length !== 0 ? (
           <MeetingContentEmpty />
         ) : isNotStarted ? (
           <MeetingAlertNotStarted

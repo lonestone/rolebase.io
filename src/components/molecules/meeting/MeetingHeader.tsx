@@ -12,6 +12,7 @@ import {
   Wrap,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
+import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import useOrgMember from '@hooks/useOrgMember'
 import MeetingActionsMenu from '@molecules/meeting/MeetingActionsMenu'
 import MeetingDate from '@molecules/meeting/MeetingDate'
@@ -29,7 +30,7 @@ export default function MeetingHeader({ headerIcons }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
 
-  const { meeting, circle, participants, isStarted } =
+  const { meeting, circle, participants, isStarted, path } =
     useContext(MeetingContext)!
 
   // Meeting edition modal
@@ -37,11 +38,11 @@ export default function MeetingHeader({ headerIcons }: Props) {
 
   const editModal = useDisclosure()
 
-  const handleEdit = () => {
+  const handleEdit = useNormalClickHandler(() => {
     if (!isMember) return
     setDuplicateInModal(false)
     editModal.onOpen()
-  }
+  })
 
   const handleDuplicate = () => {
     if (!isMember) return
@@ -56,7 +57,7 @@ export default function MeetingHeader({ headerIcons }: Props) {
           <HStack spacing={2}>
             <Icon as={FiCalendar} />
             <Heading as="h1" size="md">
-              <Link href="#" onClick={editModal.onOpen}>
+              <Link href={path} onClick={handleEdit}>
                 {t('MeetingHeader.heading', {
                   title: meeting?.title || '…',
                 })}
@@ -90,7 +91,7 @@ export default function MeetingHeader({ headerIcons }: Props) {
 
       {meeting && (
         <Wrap spacing={5} align="center" fontSize="sm" ml={6}>
-          <Link href="#" onClick={editModal.onOpen}>
+          <Link href={path} onClick={handleEdit}>
             <MeetingDate meeting={meeting} />
           </Link>
 
