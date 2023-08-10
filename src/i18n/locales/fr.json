@@ -317,6 +317,7 @@
   },
   "MeetingContent": {
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
+    "archived": "Cette réunion est archivée.",
     "logs": "Actions pendant la réunion"
   },
   "MeetingContentEmpty": {
@@ -406,7 +407,8 @@
     "placeholder": "Titre de l'étape..."
   },
   "MeetingStepsConfigController": {
-    "addStep": "Ajouter une étape"
+    "addStep": "Ajouter une étape",
+    "empty": "Vous devez ajouter au moins une étape au déroulé."
   },
   "MeetingStartNotificationModal": {
     "heading": "Envoyer une notification ?",

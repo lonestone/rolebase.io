@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   Button,
   Flex,
@@ -72,6 +75,15 @@ export default function MeetingStepsConfigController({
           />
         ))}
       </SortableList>
+
+      {stepsFields.length === 0 && (
+        <Alert status="warning" mt={4}>
+          <AlertIcon />
+          <AlertDescription>
+            {t(`MeetingStepsConfigController.empty`)}
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Menu>
         <MenuButton

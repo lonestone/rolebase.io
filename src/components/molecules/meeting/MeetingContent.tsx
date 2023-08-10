@@ -30,6 +30,7 @@ export default function MeetingContent() {
     meeting,
     steps,
     circle,
+    isParticipant,
     canEdit,
     forceEdit,
     isEnded,
@@ -51,14 +52,22 @@ export default function MeetingContent() {
 
   return (
     <Container maxW="3xl" py={10}>
-      {isMember && !isEnded && !canEdit && (
+      {isMember && !isEnded && !isParticipant && (
         <Alert status="info" mb={16}>
           <AlertIcon />
           <AlertDescription>{t('MeetingContent.notInvited')}</AlertDescription>
         </Alert>
       )}
 
+      {meeting.archived && (
+        <Alert status="info" mb={16}>
+          <AlertIcon />
+          <AlertDescription>{t('MeetingContent.archived')}</AlertDescription>
+        </Alert>
+      )}
+
       {canEdit &&
+        !meeting.archived &&
         (steps?.length === 0 && meeting.stepsConfig.length !== 0 ? (
           <MeetingContentEmpty />
         ) : isNotStarted ? (

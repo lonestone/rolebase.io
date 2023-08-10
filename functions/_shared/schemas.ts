@@ -40,8 +40,11 @@ export const subscriptionPlanTypeSchema = yup
   .oneOf(Object.values(Subscription_Plan_Type_Enum))
   .required()
 
-export const stepsConfigSchema = yup.array().of(
-  yup.object().shape({
-    title: yup.string().required(),
-  })
-)
+export const stepsConfigSchema = yup
+  .array()
+  .of(
+    yup.object().shape({
+      title: yup.string().required(),
+    })
+  )
+  .min(1)
