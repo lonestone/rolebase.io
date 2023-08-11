@@ -1,8 +1,10 @@
 import {
+  CircleFullFragment,
   MeetingStepFragment,
   Meeting_Step_Type_Enum,
   Task_Status_Enum,
 } from '@gql'
+import { MeetingStepConfig } from './meeting'
 import { TasksViewTypes } from './task'
 
 /*** Meeting Step
@@ -65,3 +67,57 @@ export type MeetingStepData =
   | MeetingStepDataChecklist
   | MeetingStepDataIndicators
   | MeetingStepDataTasks
+
+export function getDefaultMeetingStep(
+  meetingId: string,
+  stepConfig: MeetingStepConfig,
+  circle: CircleFullFragment
+): Omit<MeetingStepFragment, 'id'> {
+  const type = stepConfig.type
+  const step = {
+    meetingId,
+    stepConfigId: stepConfig.id,
+    notes: '',
+    data: {},
+  }
+
+  switch (type) {
+    case Meeting_Step_Type_Enum.Tour:
+      return { ...step, type }
+
+    case Meeting_Step_Type_Enum.Threads: {
+      return {
+        ...step,
+        type,
+        data: {
+          threadsIds: [],
+        },
+      }
+    }
+
+    case Meeting_Step_Type_Enum.Tasks:
+      return {
+        ...step,
+        type,
+        data: {
+          viewType: TasksViewTypes.Kanban,
+          filterMemberId: null,
+          filterStatus: null,
+        },
+      }
+
+    case Meeting_Step_Type_Enum.Checklist:
+      return {
+        ...step,
+        type,
+        notes: circle.role.checklist || '',
+      }
+
+    case Meeting_Step_Type_Enum.Indicators:
+      return {
+        ...step,
+        type,
+        notes: circle.role.indicators || '',
+      }
+  }
+}

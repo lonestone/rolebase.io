@@ -64,14 +64,16 @@ export default function MeetingThreadsDragDropContext({
   // All threads ids used in steps
   const stepThreadsIds: string[] = useMemo(() => {
     if (!threadSteps) return []
-    return threadSteps.reduce(
-      (acc, step) =>
-        [...acc, ...(step as MeetingStepThreadsFragment).data.threadsIds]
+    return threadSteps.reduce((acc, step) => {
+      acc.push(
+        ...(step as MeetingStepThreadsFragment).data.threadsIds
+          // Prevent duplicates
+          .filter((id) => !acc.includes(id))
           // Sort ids to prevent from reloading when changing order
-          .slice()
-          .sort((a, b) => a.localeCompare(b)),
-      [] as string[]
-    )
+          .sort((a, b) => a.localeCompare(b))
+      )
+      return acc
+    }, [] as string[])
   }, [threadSteps])
 
   // Subscribe to selected threads
@@ -95,17 +97,26 @@ export default function MeetingThreadsDragDropContext({
 
   useEffect(() => {
     if (!threadSteps || !selectedThreadsData) return
+    const ids: string[] = []
+
     setThreadsByStep(
       threadSteps.reduce((acc, step) => {
         acc[step.id] =
           (step as MeetingStepThreadsFragment).data.threadsIds
             .map((threadId) => {
+              // Prevent duplicates
+              if (ids.includes(threadId)) return
+              ids.push(threadId)
+
+              // Try getting thread with note first
               const threadWithNotes = selectedThreadsData.thread.find(
                 (t) => t.id === threadId
               )
               if (threadWithNotes) {
                 return threadWithNotes
               }
+
+              // Or get thread without note if it's loading
               const thread = threads.find((t) => t.id === threadId)
               if (!thread) return
               return {
