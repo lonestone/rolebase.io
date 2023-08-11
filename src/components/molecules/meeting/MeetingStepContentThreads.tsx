@@ -2,121 +2,46 @@ import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Box, Button, HStack } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import {
-  useCircleThreadsSubscription,
-  useThreadsWithMeetingNoteSubscription,
-  useUpdateMeetingStepMutation,
-} from '@gql'
+import { Droppable } from '@hello-pangea/dnd'
+import { MeetingThreadsContext } from '@molecules/MeetingThreadsDragDropContext'
 import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
-import { shuffleArray } from '@utils/shuffleArray'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 import { FiPlus } from 'react-icons/fi'
-import SortableList from '../SortableList'
 import ThreadSearchButton from '../search/entities/threads/ThreadSearchButton'
-import MeetingStepContentThreadItem, {
-  CircleThreadWithMeetingNote,
-} from './MeetingStepContentThreadItem'
+import MeetingStepContentThreadItem from './MeetingStepContentThreadItem'
 
 interface Props {
   step: MeetingStepThreadsFragment
 }
 
+// Props of drop zone when empty
+const dropzoneProps = {
+  position: 'absolute',
+  h: '100px',
+  top: '-40px',
+  right: 0,
+  left: 0,
+  zIndex: -1,
+} as const
+
 export default function MeetingStepContentThreads({ step }: Props) {
   const { t } = useTranslation()
   const { circle, editable } = useContext(MeetingContext)!
-  const [updateMeetingStep] = useUpdateMeetingStepMutation()
+  const {
+    threads,
+    threadsByStep,
+    stepThreadsIds,
+    loading,
+    error,
+    add,
+    remove,
+    randomize,
+  } = useContext(MeetingThreadsContext)!
 
-  // Cache of threads ids for optimistic UI
-  const [threadsIdsCache, setThreadsIdsCache] = useState(
-    step.data.threadsIds || []
-  )
-
-  useEffect(() => {
-    setThreadsIdsCache(step.data.threadsIds)
-  }, [step.data.threadsIds])
-
-  // Subscribe to selected threads
-  const { data, error, loading } = useThreadsWithMeetingNoteSubscription({
-    skip: !step.data.threadsIds || step.data.threadsIds.length === 0,
-    fetchPolicy: 'cache-first',
-    variables: {
-      threadsIds: step.data.threadsIds
-        // Sort ids to prevent from reloading when changing order
-        .slice()
-        .sort((a, b) => a.localeCompare(b)),
-      meetingId: step.meetingId,
-    },
-  })
-
-  // Prepare sortable items
-  // We use a state because subscription resets data when variables change
-  const [threads, setThreads] = useState<CircleThreadWithMeetingNote[]>()
-  useEffect(() => {
-    if (loading || !data?.thread) return
-    setThreads(
-      threadsIdsCache
-        .map((id) => data?.thread.find((thread) => thread.id === id))
-        .filter(Boolean) as CircleThreadWithMeetingNote[]
-    )
-  }, [data, threadsIdsCache, loading])
-
-  // Subscribe to all threads of circle
-  const { data: threadsData } = useCircleThreadsSubscription({
-    skip: !circle,
-    variables: {
-      circleId: circle?.id!,
-    },
-  })
-  const threadsAll = threadsData?.thread || []
-
-  const handleChange = useCallback(
-    (threadsIds: string[]) => {
-      setThreadsIdsCache(threadsIds)
-      updateMeetingStep({
-        variables: {
-          id: step.id,
-          values: {
-            data: {
-              threadsIds,
-            },
-          },
-        },
-      })
-    },
-    [step.id]
-  )
-
-  const handleAdd = useCallback(
-    (id: string) => handleChange?.([...threadsIdsCache, id]),
-    [threadsIdsCache, handleChange]
-  )
-
-  const handleRemove = useCallback(
-    (threadId: string) => {
-      handleChange?.(threadsIdsCache.filter((id) => id !== threadId))
-    },
-    [threadsIdsCache, handleChange]
-  )
-
-  const handleDragEnd = useCallback(
-    (oldIndex: number, newIndex: number) => {
-      const newThreadsIds = [...threadsIdsCache]
-      newThreadsIds.splice(newIndex, 0, newThreadsIds.splice(oldIndex, 1)[0])
-      handleChange?.(newThreadsIds)
-    },
-    [threadsIdsCache, handleChange]
-  )
-
-  const handleRandomize = useCallback(() => {
-    if (threadsIdsCache.length < 2) return
-    let newThreadsIds = shuffleArray(threadsIdsCache)
-    while (newThreadsIds.join('') === threadsIdsCache.join('')) {
-      newThreadsIds = shuffleArray(threadsIdsCache)
-    }
-    handleChange?.(newThreadsIds)
-  }, [threadsIdsCache, handleChange])
+  const selectedThreads = threadsByStep[step.id]
+  const isEmpty = !selectedThreads || selectedThreads.length === 0
 
   if (!circle) return null
 
@@ -124,32 +49,52 @@ export default function MeetingStepContentThreads({ step }: Props) {
     <Box mb={5}>
       <TextErrors errors={[error]} />
 
-      <SortableList disabled={!editable} onDragEnd={handleDragEnd}>
-        {threads?.map((item, i) => (
-          <MeetingStepContentThreadItem
-            key={item.id}
-            thread={item}
-            index={i}
-            onRemove={editable ? () => handleRemove(item.id) : undefined}
-          />
-        ))}
-      </SortableList>
+      <Box position="relative">
+        <Droppable droppableId={step.id} type="meeting-threads">
+          {(provided, snapshot) => {
+            const fixZone = isEmpty && !snapshot.isDraggingOver
+            return (
+              <Box
+                ref={provided.innerRef}
+                {...(fixZone ? dropzoneProps : {})}
+                {...provided.droppableProps}
+              >
+                {selectedThreads?.map((item, i) => (
+                  <MeetingStepContentThreadItem
+                    key={item.id}
+                    thread={item}
+                    index={i}
+                    onRemove={
+                      editable ? () => remove(step.id, item.id) : undefined
+                    }
+                  />
+                ))}
+                {provided.placeholder}
+              </Box>
+            )
+          }}
+        </Droppable>
+      </Box>
 
       {editable && (
         <HStack mt={5}>
           <ThreadSearchButton
-            threads={threadsAll}
+            threads={threads}
             createCircleId={circle.id}
-            excludeIds={threadsIdsCache}
+            excludeIds={stepThreadsIds}
             size="sm"
             leftIcon={<FiPlus />}
-            onSelect={handleAdd}
+            onSelect={(id) => add(step.id, id)}
           >
             {t('MeetingStepContentThreads.add')}
           </ThreadSearchButton>
 
-          {threads && threads.length > 2 && (
-            <Button size="sm" leftIcon={<FaRandom />} onClick={handleRandomize}>
+          {selectedThreads && selectedThreads.length > 2 && (
+            <Button
+              size="sm"
+              leftIcon={<FaRandom />}
+              onClick={() => randomize(step.id)}
+            >
               {t('MeetingStepContentThreads.randomize')}
             </Button>
           )}

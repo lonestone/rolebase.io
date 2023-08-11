@@ -10,6 +10,7 @@ import {
 import { MeetingContext } from '@contexts/MeetingContext'
 import useCreateMissingMeetingSteps from '@hooks/useCreateMissingMeetingSteps'
 import useOrgMember from '@hooks/useOrgMember'
+import MeetingThreadsDragDropContext from '@molecules/MeetingThreadsDragDropContext'
 import MeetingAlertForceEdit from '@molecules/meeting/MeetingAlertForceEdit'
 import MeetingAlertNotStarted from '@molecules/meeting/MeetingAlertNotStarted'
 import MeetingAttendeesList from '@molecules/meeting/MeetingAttendeesList'
@@ -32,6 +33,7 @@ export default function MeetingContent() {
     steps,
     circle,
     isParticipant,
+    editable,
     canEdit,
     forceEdit,
     isEnded,
@@ -92,26 +94,28 @@ export default function MeetingContent() {
         {meeting.attendees && circle && <MeetingAttendeesList mb={16} />}
       </Collapse>
 
-      {meeting.stepsConfig.map((stepConfig, index) => {
-        const step = steps?.find((s) => s.stepConfigId === stepConfig.id)
-        if (!step) return null
-        const current = meeting.currentStepId === step.id
+      <MeetingThreadsDragDropContext disabled={!editable}>
+        {meeting.stepsConfig.map((stepConfig, index) => {
+          const step = steps?.find((s) => s.stepConfigId === stepConfig.id)
+          if (!step) return null
+          const current = meeting.currentStepId === step.id
 
-        return (
-          <MeetingStepLayout
-            key={step.id}
-            index={index}
-            stepId={step.id}
-            title={stepConfig.title}
-            current={current}
-            onStepClick={
-              isStarted && canEdit ? () => handleGoToStep(step.id) : undefined
-            }
-          >
-            <MeetingStepContent step={step} />
-          </MeetingStepLayout>
-        )
-      })}
+          return (
+            <MeetingStepLayout
+              key={step.id}
+              index={index}
+              stepId={step.id}
+              title={stepConfig.title}
+              current={current}
+              onStepClick={
+                isStarted && canEdit ? () => handleGoToStep(step.id) : undefined
+              }
+            >
+              <MeetingStepContent step={step} />
+            </MeetingStepLayout>
+          )
+        })}
+      </MeetingThreadsDragDropContext>
 
       {!isNotStarted && (
         <Box mt={10}>
