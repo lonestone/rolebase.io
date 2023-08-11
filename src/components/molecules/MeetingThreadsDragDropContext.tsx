@@ -215,13 +215,9 @@ export default function MeetingThreadsDragDropContext({
   // Randomize threads order in a step
   const randomize = useCallback(
     (stepId: string) => {
-      const selectedThreads = threadsByStep[stepId]
-      if (!selectedThreads || selectedThreads.length < 2) return
-      let newThreads = shuffleArray(selectedThreads)
-      while (newThreads.join('') === selectedThreads.join('')) {
-        newThreads = shuffleArray(selectedThreads)
-      }
-      change(stepId, newThreads)
+      const stepThreads = threadsByStep[stepId]
+      if (!stepThreads || stepThreads.length < 2) return
+      change(stepId, shuffleArray(stepThreads))
     },
     [threadsByStep, change]
   )
