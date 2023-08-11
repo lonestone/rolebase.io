@@ -19,6 +19,7 @@ import {
   ModalOverlay,
   Spacer,
   UseModalProps,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import {
@@ -95,6 +96,7 @@ export default function MeetingEditModal({
   ...modalProps
 }: Props) {
   const { t } = useTranslation()
+  const toast = useToast()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const navigate = useNavigate()
@@ -210,6 +212,13 @@ export default function MeetingEditModal({
             values: meetingUpdate,
           },
         })
+
+        toast({
+          title: t('MeetingEditModal.toastUpdated'),
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        })
       } else {
         // Create meeting
         const result = await createMeeting(
@@ -226,6 +235,13 @@ export default function MeetingEditModal({
         } else {
           navigate(result.path)
         }
+
+        toast({
+          title: t('MeetingEditModal.toastCreated'),
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        })
       }
 
       modalProps.onClose()
@@ -237,7 +253,7 @@ export default function MeetingEditModal({
       <Modal size="xl" blockScrollOnMount={false} {...modalProps}>
         <ModalOverlay />
         <ModalContent>
-          <form onSubmit={onSubmit}>
+          <form>
             <ModalHeader>
               {t(
                 meeting && !duplicate
@@ -339,7 +355,7 @@ export default function MeetingEditModal({
                 <VideoConfFormControl />
 
                 <Box textAlign="right" mt={2}>
-                  <Button colorScheme="blue" type="submit">
+                  <Button colorScheme="blue" onClick={onSubmit}>
                     {t(meeting ? 'common.save' : 'common.create')}
                   </Button>
                 </Box>

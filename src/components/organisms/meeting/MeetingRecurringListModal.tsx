@@ -4,7 +4,6 @@ import TextErrors from '@atoms/TextErrors'
 import {
   Box,
   Button,
-  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -23,9 +22,8 @@ import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus, FiTrash2 } from 'react-icons/fi'
+import { FiPlus } from 'react-icons/fi'
 import { RRule } from 'rrule'
-import MeetingRecurringDeleteModal from './MeetingRecurringDeleteModal'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 
 interface Props extends UseModalProps {
@@ -70,9 +68,6 @@ export default function MeetingRecurringListModal({
   >()
   const editModal = useDisclosure()
 
-  // Delete modal
-  const deleteModal = useDisclosure()
-
   const handleCreate = () => {
     setMeetingRecurring(undefined)
     editModal.onOpen()
@@ -81,11 +76,6 @@ export default function MeetingRecurringListModal({
   const handleEdit = (mt: MeetingRecurringFragment) => {
     setMeetingRecurring(mt)
     editModal.onOpen()
-  }
-
-  const handleDelete = (mt: MeetingRecurringFragment) => {
-    setMeetingRecurring(mt)
-    deleteModal.onOpen()
   }
 
   return (
@@ -121,16 +111,6 @@ export default function MeetingRecurringListModal({
                       mb={2}
                       pl={6}
                       onClick={() => handleEdit(mt)}
-                      buttons={
-                        <IconButton
-                          aria-label={t('common.delete')}
-                          size="sm"
-                          variant="ghost"
-                          zIndex={2}
-                          onClick={() => handleDelete(mt)}
-                          icon={<FiTrash2 />}
-                        />
-                      }
                     >
                       <Text>{mt.template.title}</Text>
                       <Text
@@ -157,14 +137,6 @@ export default function MeetingRecurringListModal({
           defaultCircleId={circleId}
           isOpen
           onClose={editModal.onClose}
-        />
-      )}
-
-      {deleteModal.isOpen && meetingRecurring && (
-        <MeetingRecurringDeleteModal
-          meetingRecurring={meetingRecurring}
-          isOpen
-          onClose={deleteModal.onClose}
         />
       )}
     </>

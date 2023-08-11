@@ -10,9 +10,12 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useDisclosure,
   UseModalProps,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import {
@@ -34,6 +37,7 @@ import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
+import MeetingRecurringDeleteModal from './MeetingRecurringDeleteModal'
 
 interface Props extends UseModalProps {
   meetingRecurring?: MeetingRecurringFragment // If provided, the recurring meeting will be updated
@@ -69,6 +73,7 @@ export default function MeetingRecurringEditModal({
   ...modalProps
 }: Props) {
   const { t } = useTranslation()
+  const toast = useToast()
   const orgId = useOrgId()
   const currentMember = useCurrentMember()
   const [createMeetingRecurring] = useCreateMeetingRecurringMutation()
@@ -141,6 +146,13 @@ export default function MeetingRecurringEditModal({
             values: meetingUpdate,
           },
         })
+
+        toast({
+          title: t('MeetingRecurringEditModal.toastUpdated'),
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        })
       } else {
         // Create recurring meeting
         const { data, errors } = await createMeetingRecurring({
@@ -155,11 +167,21 @@ export default function MeetingRecurringEditModal({
         if (!newRecurringMeeting) return console.error(errors)
 
         onCreate?.(newRecurringMeeting.id)
+
+        toast({
+          title: t('MeetingRecurringEditModal.toastCreated'),
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        })
       }
 
       modalProps.onClose()
     }
   )
+
+  // Delete modal
+  const deleteModal = useDisclosure()
 
   return (
     <FormProvider {...formMethods}>
@@ -211,17 +233,36 @@ export default function MeetingRecurringEditModal({
                 <ParticipantsFormControl />
 
                 <VideoConfFormControl />
-
-                <Box textAlign="right" mt={2}>
-                  <Button colorScheme="blue" onClick={onSubmit}>
-                    {t(meetingRecurring ? 'common.save' : 'common.create')}
-                  </Button>
-                </Box>
               </VStack>
             </ModalBody>
+
+            <ModalFooter>
+              {meetingRecurring && (
+                <Button
+                  colorScheme="red"
+                  variant="ghost"
+                  mr={2}
+                  onClick={deleteModal.onOpen}
+                >
+                  {t('common.delete')}
+                </Button>
+              )}
+              <Button colorScheme="blue" onClick={onSubmit}>
+                {t(meetingRecurring ? 'common.save' : 'common.create')}
+              </Button>
+            </ModalFooter>
           </form>
         </ModalContent>
       </Modal>
+
+      {deleteModal.isOpen && meetingRecurring && (
+        <MeetingRecurringDeleteModal
+          meetingRecurring={meetingRecurring}
+          isOpen
+          onDelete={modalProps.onClose}
+          onClose={deleteModal.onClose}
+        />
+      )}
     </FormProvider>
   )
 }

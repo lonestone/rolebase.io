@@ -155,6 +155,7 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
               <Button
                 colorScheme="red"
                 variant="ghost"
+                mr={2}
                 onClick={deleteModal.onOpen}
               >
                 {t('common.delete')}

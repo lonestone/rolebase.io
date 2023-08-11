@@ -1,13 +1,12 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import {
+  Box,
   Button,
-  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
@@ -19,8 +18,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus, FiTrash2 } from 'react-icons/fi'
-import MeetingTemplateDeleteModal from './MeetingTemplateDeleteModal'
+import { FiPlus } from 'react-icons/fi'
 import MeetingTemplateEditModal from './MeetingTemplateEditModal'
 
 export default function MeetingTemplateListModal(modalProps: UseModalProps) {
@@ -40,9 +38,6 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
   >()
   const editModal = useDisclosure()
 
-  // Delete modal
-  const deleteModal = useDisclosure()
-
   const handleCreate = () => {
     setMeetingTemplate(undefined)
     editModal.onOpen()
@@ -53,11 +48,6 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
     editModal.onOpen()
   }
 
-  const handleDelete = (mt: MeetingTemplateFragment) => {
-    setMeetingTemplate(mt)
-    deleteModal.onOpen()
-  }
-
   return (
     <>
       <Modal {...modalProps}>
@@ -66,9 +56,15 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
           <ModalHeader>{t('MeetingTemplateListModal.heading')}</ModalHeader>
           <ModalCloseButton />
 
-          <ModalBody>
+          <ModalBody pb={5}>
             {loading && <Loading active size="md" />}
             <TextErrors errors={[error]} />
+
+            <Box textAlign="center" mb={7}>
+              <Button leftIcon={<FiPlus />} onClick={handleCreate}>
+                {t('MeetingTemplateListModal.create')}
+              </Button>
+            </Box>
 
             {!loading && !meetingTemplates?.length ? (
               <Text fontStyle="italic">
@@ -76,31 +72,12 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
               </Text>
             ) : (
               meetingTemplates?.map((mt) => (
-                <ListItemWithButtons
-                  key={mt.id}
-                  onClick={() => handleEdit(mt)}
-                  buttons={
-                    <IconButton
-                      aria-label={t('common.delete')}
-                      size="sm"
-                      variant="ghost"
-                      zIndex={2}
-                      onClick={() => handleDelete(mt)}
-                      icon={<FiTrash2 />}
-                    />
-                  }
-                >
+                <ListItemWithButtons key={mt.id} onClick={() => handleEdit(mt)}>
                   {mt.title}
                 </ListItemWithButtons>
               ))
             )}
           </ModalBody>
-
-          <ModalFooter justifyContent="center">
-            <Button leftIcon={<FiPlus />} onClick={handleCreate}>
-              {t('MeetingTemplateListModal.create')}
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
 
@@ -109,14 +86,6 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
           meetingTemplate={meetingTemplate}
           isOpen
           onClose={editModal.onClose}
-        />
-      )}
-
-      {deleteModal.isOpen && meetingTemplate && (
-        <MeetingTemplateDeleteModal
-          meetingTemplate={meetingTemplate}
-          isOpen
-          onClose={deleteModal.onClose}
         />
       )}
     </>

@@ -1,26 +1,22 @@
-import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import {
+  Box,
+  Flex,
   FormControl,
   FormLabel,
-  HStack,
-  IconButton,
-  Select,
-  useDisclosure,
+  Input,
+  Menu,
+  useMenuButton,
 } from '@chakra-ui/react'
-import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
+import { useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
-import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiEdit3 } from 'react-icons/fi'
+import { FiChevronDown } from 'react-icons/fi'
+import MeetingTemplateMenuList from './MeetingTemplateMenuList'
 
-interface Props {
-  onSelect?: (template: MeetingTemplateFragment) => void
-}
-
-export default function MeetingTemplateIdFormControl({ onSelect }: Props) {
+export default function MeetingTemplateIdFormControl() {
   const { t } = useTranslation()
   const orgId = useOrgId()
   const {
@@ -31,7 +27,7 @@ export default function MeetingTemplateIdFormControl({ onSelect }: Props) {
   // Subscribe to templates
   const {
     data,
-    loading: meetingTemplatesLoading,
+    loading,
     error: meetingTemplatesError,
   } = useMeetingTemplatesSubscription({
     skip: !orgId,
@@ -39,53 +35,52 @@ export default function MeetingTemplateIdFormControl({ onSelect }: Props) {
   })
   const meetingTemplates = data?.meeting_template
 
-  // Meeting templates modal
-  const modal = useDisclosure()
-
   return (
     <FormControl isInvalid={!!errors.templateId}>
       <FormLabel>{t('MeetingTemplateIdFormControl.template')}</FormLabel>
 
-      {meetingTemplatesLoading && <Loading active size="md" />}
       <TextErrors errors={[meetingTemplatesError]} />
 
-      <HStack spacing={2}>
-        <Controller
-          name="templateId"
-          control={control}
-          render={({ field }) => (
-            <Select
-              value={field.value as number}
-              onChange={(event) => {
-                field.onChange(event)
-                if (onSelect) {
-                  const template = meetingTemplates?.find(
-                    (mt) => mt.id === event.target.value
-                  )
-                  if (template) onSelect(template)
-                }
-              }}
-            >
-              <option value="" />
-              {meetingTemplates?.map((template) => (
-                <option key={template.id} value={template.id}>
-                  {template.title}
-                </option>
-              ))}
-            </Select>
-          )}
-        />
-
-        <IconButton
-          aria-label={t('common.edit')}
-          icon={<FiEdit3 />}
-          onClick={modal.onOpen}
-        />
-      </HStack>
-
-      {modal.isOpen && (
-        <MeetingTemplateListModal isOpen onClose={modal.onClose} />
-      )}
+      <Controller
+        name="templateId"
+        control={control}
+        render={({ field }) => (
+          <Menu placement="bottom-start">
+            <MenuButton>
+              {loading
+                ? '…'
+                : meetingTemplates?.find((mt) => mt.id === field.value)
+                    ?.title || t('MeetingTemplateIdFormControl.select')}
+            </MenuButton>
+            <MeetingTemplateMenuList
+              meetingTemplates={meetingTemplates}
+              onSelect={(template) => field.onChange(template.id)}
+            />
+          </Menu>
+        )}
+      />
     </FormControl>
+  )
+}
+
+interface MenuButtonProps {
+  children: string
+}
+
+function MenuButton({ children }: MenuButtonProps) {
+  const buttonProps = useMenuButton()
+  return (
+    <Box position="relative" w="100%">
+      <Flex
+        position="absolute"
+        right={3}
+        top={0}
+        bottom={0}
+        alignItems="center"
+      >
+        <FiChevronDown />
+      </Flex>
+      <Input {...buttonProps} cursor="pointer" isReadOnly value={children} />
+    </Box>
   )
 }

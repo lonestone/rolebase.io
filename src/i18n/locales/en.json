@@ -8,7 +8,7 @@
     "info2": "No cancellation possible!"
   },
   "ActivityPollModal": {
-    "headingEdit": "Edit a poll",
+    "headingEdit": "Poll settings",
     "headingCreate": "Add a poll",
     "help": "Use a poll to get subjective opinions. To make a collective decision, use a \"Decision\" or \"Election\" instead.",
     "resetNeeded": "This survey has already been answered. You cannot modify it unless you delete the answers",
@@ -134,7 +134,7 @@
   },
   "CirclesSettings": {
     "label": "Settings",
-    "orgEdit": "Organization Settings",
+    "orgEdit": "Organization settings",
     "baseRoles": "Basic roles",
     "vacantRoles": "Vacant roles",
     "logs": "History",
@@ -184,7 +184,7 @@
     "info": "Are you sure you want to delete decision <b>{{name}}</b>?"
   },
   "DecisionEditModal": {
-    "headingEdit": "Edit a decision",
+    "headingEdit": "Edit the decision",
     "headingCreate": "New decision",
     "title": "Decision",
     "titlePlaceholder": "What did you decide?",
@@ -297,7 +297,7 @@
     "ended": "Ended"
   },
   "MeetingEditModal": {
-    "headingEdit": "Edit meeting",
+    "headingEdit": "Meeting settings",
     "headingCreate": "New meeting",
     "duplicateInfo": "The report of the duplicated meeting will be taken up in this new meeting.",
     "title": "Title",
@@ -307,7 +307,9 @@
     "duration": "Duration",
     "durationSuffix": "minutes",
     "recurrence": "Recurrence",
-    "steps": "Steps"
+    "steps": "Steps",
+    "toastCreated": "Meeting created!",
+    "toastUpdated": "Meeting updated!"
   },
   "MeetingExportModal": {
     "heading": "Export Meetings agenda",
@@ -334,9 +336,11 @@
     "info": "Are you sure you want to delete the recurring meeting <b>{{name}}</b> from <b>{{circle}}</b>?"
   },
   "MeetingRecurringEditModal": {
-    "headingEdit": "Edit recurring meeting",
+    "headingEdit": "Recurring meeting",
     "headingCreate": "New recurring meeting",
-    "recurrence": "Recurrence"
+    "recurrence": "Recurrence",
+    "toastCreated": "Recurring meeting created!",
+    "toastUpdated": "Recurring meeting updated!"
   },
   "MeetingRecurringListModal": {
     "heading": "Recurring Meetings",
@@ -383,23 +387,28 @@
     "info": "Are you sure you want to delete template <b>{{name}}</b>?"
   },
   "MeetingTemplateIdFormControl": {
-    "template": "Template"
+    "template": "Template",
+    "select": "Select a template"
   },
   "MeetingTemplateMenu": {
-    "menu": "Use a template",
+    "menu": "Use a template"
+  },
+  "MeetingTemplateMenuList": {
     "edit": "Edit templates"
   },
   "MeetingTemplateEditModal": {
-    "headingEdit": "Edit meeting template",
+    "headingEdit": "Meeting template",
     "headingCreate": "New meeting template",
     "title": "Title",
     "titlePlaceholder": "Title...",
-    "steps": "Steps"
+    "steps": "Steps",
+    "toastCreated": "Meeting template created!",
+    "toastUpdated": "Meeting template updated!"
   },
   "MeetingTemplateListModal": {
     "heading": "Meeting templates",
     "empty": "No meeting template",
-    "create": "Create a new meeting template"
+    "create": "Create a meeting template"
   },
   "MeetingsPage": {
     "heading": "Meetings",
@@ -905,7 +914,7 @@
     "text": "has changed status topic : <status />"
   },
   "ThreadEditModal": {
-    "headingEdit": "Edit a topic",
+    "headingEdit": "Topic settings",
     "headingCreate": "New topic",
     "title": "Title",
     "titlePlaceholder": "What are we discussing?...",

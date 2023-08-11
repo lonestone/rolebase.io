@@ -8,7 +8,7 @@
     "info2": "Pas d'annulation possible !"
   },
   "ActivityPollModal": {
-    "headingEdit": "Modifier un sondage",
+    "headingEdit": "Paramètres du sondage",
     "headingCreate": "Ajouter un sondage",
     "help": "Utilisez un sondage pour obtenir des avis subjectifs. Pour prendre une décision collective, utilisez plutôt une \"Décision\" ou une \"Élection\".",
     "resetNeeded": "Ce sondage a déjà eu des réponses. Vous ne pouvez pas le modifier à moins de supprimer les réponses.",
@@ -185,7 +185,7 @@
     "info": "Êtes-vous sûr(e) de vouloir supprimer la décision <b>{{name}}</b> ?"
   },
   "DecisionEditModal": {
-    "headingEdit": "Modifier une décision",
+    "headingEdit": "Modifier la décision",
     "headingCreate": "Nouvelle décision",
     "title": "Décision",
     "titlePlaceholder": "Qu'avez-vous décidé ?",
@@ -331,7 +331,7 @@
     "ended": "Terminée"
   },
   "MeetingEditModal": {
-    "headingEdit": "Modifier une réunion",
+    "headingEdit": "Paramètres de la réunion",
     "headingCreate": "Nouvelle réunion",
     "duplicateInfo": "Le compte rendu de la réunion dupliquée sera repris dans cette nouvelle réunion.",
     "title": "Titre",
@@ -341,7 +341,9 @@
     "duration": "Durée",
     "durationSuffix": "minutes",
     "recurrence": "Récurrence",
-    "steps": "Déroulé"
+    "steps": "Déroulé",
+    "toastCreated": "Réunion créée !",
+    "toastUpdated": "Réunion mise à jour !"
   },
   "MeetingExportModal": {
     "heading": "Exporter l'agenda des Réunions",
@@ -368,12 +370,14 @@
     "info": "Êtes-vous sûr(e) de vouloir supprimer la réunion récurrente <b>{{name}}</b> de <b>{{circle}}</b> ?"
   },
   "MeetingRecurringEditModal": {
-    "headingEdit": "Modifier une réunion récurrente",
+    "headingEdit": "Réunion récurrente",
     "headingCreate": "Nouvelle réunion récurrente",
-    "recurrence": "Récurrence"
+    "recurrence": "Récurrence",
+    "toastCreated": "Réunion récurrente créée !",
+    "toastUpdated": "Réunion récurrente mise à jour !"
   },
   "MeetingRecurringListModal": {
-    "heading": "Réunion récurrentes",
+    "heading": "Réunions récurrentes",
     "empty": "Aucune réunion récurrente pour le moment.",
     "create": "Créer une réunion récurrente"
   },
@@ -417,23 +421,28 @@
     "info": "Êtes-vous sûr(e) de vouloir supprimer le modèle <b>{{name}}</b> ?"
   },
   "MeetingTemplateIdFormControl": {
-    "template": "Modèle"
+    "template": "Modèle",
+    "select": "Sélectionner un modèle"
   },
   "MeetingTemplateMenu": {
-    "menu": "Utiliser un modèle",
-    "edit": "Modifier les modèles"
+    "menu": "Utiliser un modèle"
+  },
+  "MeetingTemplateMenuList": {
+    "create": "Créer un modèle"
   },
   "MeetingTemplateEditModal": {
-    "headingEdit": "Modifier un modèle de réunion",
+    "headingEdit": "Modèle de réunion",
     "headingCreate": "Nouveau modèle de réunion",
     "title": "Titre",
     "titlePlaceholder": "Titre...",
-    "steps": "Déroulé"
+    "steps": "Déroulé",
+    "toastCreated": "Réunion récurrente créée !",
+    "toastUpdated": "Réunion récurrente mise à jour !"
   },
   "MeetingTemplateListModal": {
     "heading": "Modèles de réunion",
     "empty": "Aucun modèle de réunion",
-    "create": "Créer un nouveau modèle de réunion"
+    "create": "Créer un modèle de réunion"
   },
   "MeetingsPage": {
     "heading": "Réunions",
@@ -938,7 +947,7 @@
     "text": "a changé le statut du sujet : <status />"
   },
   "ThreadEditModal": {
-    "headingEdit": "Modifier un sujet",
+    "headingEdit": "Paramètres du sujet",
     "headingCreate": "Nouveau sujet",
     "title": "Titre",
     "titlePlaceholder": "On discute de quoi ?...",

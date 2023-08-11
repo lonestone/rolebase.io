@@ -34,6 +34,7 @@ import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import MeetingExportModal from '@organisms/meeting/MeetingExportModal'
 import MeetingModal from '@organisms/meeting/MeetingModal'
 import MeetingOpenCurrent from '@organisms/meeting/MeetingOpenCurrent'
+import MeetingRecurringEditModal from '@organisms/meeting/MeetingRecurringEditModal'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
 import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
@@ -197,6 +198,7 @@ export default function MeetingsPage() {
   const createModal = useDisclosure()
   const templatesModal = useDisclosure()
   const recurringModal = useDisclosure()
+  const recurringEditModal = useDisclosure()
   const recurringListModal = useDisclosure()
   const exportModal = useDisclosure()
   const currentMeetingModal = useDisclosure({ defaultIsOpen: true })
@@ -403,7 +405,10 @@ export default function MeetingsPage() {
           defaultDuration={duration}
           isOpen
           onCreate={handleCreated}
-          onRecurring={recurringListModal.onOpen}
+          onRecurring={() => {
+            createModal.onClose()
+            recurringEditModal.onOpen()
+          }}
           onClose={createModal.onClose}
         />
       )}
@@ -418,6 +423,13 @@ export default function MeetingsPage() {
           defaultDate={recurringDate}
           isOpen
           onClose={recurringModal.onClose}
+        />
+      )}
+
+      {recurringEditModal.isOpen && (
+        <MeetingRecurringEditModal
+          isOpen
+          onClose={recurringEditModal.onClose}
         />
       )}
 
