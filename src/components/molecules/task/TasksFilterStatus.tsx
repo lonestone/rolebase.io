@@ -44,12 +44,7 @@ export default function TasksFilterStatus({
 
   return (
     <Menu>
-      <MenuButton
-        as={Button}
-        rightIcon={<FiChevronDown />}
-        {...(value ? { variant: 'solid' } : {})}
-        {...boxProps}
-      >
+      <MenuButton as={Button} rightIcon={<FiChevronDown />} {...boxProps}>
         {t(`common.taskStatus.${statusFilter}`)}
       </MenuButton>
       <MenuList zIndex={2000}>

@@ -1,9 +1,11 @@
+import IconTextButton from '@atoms/IconTextButton'
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
-import { Box, Button, HStack } from '@chakra-ui/react'
+import { Box, Button, HStack, Tag, useDisclosure } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { Droppable } from '@hello-pangea/dnd'
 import { MeetingThreadsContext } from '@molecules/MeetingThreadsDragDropContext'
+import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -30,9 +32,8 @@ export default function MeetingStepContentThreads({ step }: Props) {
   const { t } = useTranslation()
   const { circle, editable } = useContext(MeetingContext)!
   const {
-    threads,
     threadsByStep,
-    stepThreadsIds,
+    availableThreads,
     loading,
     error,
     add,
@@ -42,6 +43,8 @@ export default function MeetingStepContentThreads({ step }: Props) {
 
   const selectedThreads = threadsByStep[step.id]
   const isEmpty = !selectedThreads || selectedThreads.length === 0
+
+  const createModal = useDisclosure()
 
   if (!circle) return null
 
@@ -77,29 +80,53 @@ export default function MeetingStepContentThreads({ step }: Props) {
       </Box>
 
       {editable && (
-        <HStack mt={5}>
+        <HStack mt={5} justifyContent="end">
+          {loading && <Loading active size="sm" />}
+
+          {selectedThreads && selectedThreads.length > 2 && (
+            <IconTextButton
+              size="sm"
+              aria-label={t('MeetingStepContentThreads.randomize')}
+              icon={<FaRandom />}
+              onClick={() => randomize(step.id)}
+            />
+          )}
+
           <ThreadSearchButton
-            threads={threads}
+            threads={availableThreads}
             createCircleId={circle.id}
-            excludeIds={stepThreadsIds}
             size="sm"
-            leftIcon={<FiPlus />}
+            variant="outline"
+            rightIcon={
+              <Tag
+                colorScheme={availableThreads.length === 0 ? 'gray' : 'red'}
+                size="sm"
+              >
+                {availableThreads.length}
+              </Tag>
+            }
             onSelect={(id) => add(step.id, id)}
           >
             {t('MeetingStepContentThreads.add')}
           </ThreadSearchButton>
 
-          {selectedThreads && selectedThreads.length > 2 && (
-            <Button
-              size="sm"
-              leftIcon={<FaRandom />}
-              onClick={() => randomize(step.id)}
-            >
-              {t('MeetingStepContentThreads.randomize')}
-            </Button>
-          )}
+          <Button
+            size="sm"
+            colorScheme="blue"
+            leftIcon={<FiPlus />}
+            onClick={createModal.onOpen}
+          >
+            {t('MeetingStepContentThreads.create')}
+          </Button>
 
-          {loading && <Loading active size="sm" />}
+          {createModal.isOpen && (
+            <ThreadEditModal
+              isOpen
+              defaultCircleId={circle.id}
+              onCreate={(id) => add(step.id, id)}
+              onClose={createModal.onClose}
+            />
+          )}
         </HStack>
       )}
     </Box>

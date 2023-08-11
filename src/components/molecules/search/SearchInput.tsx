@@ -95,7 +95,6 @@ export default function SearchInput({
   const buttonDimensions = useElementSize(buttonGroupRef)
   const [buttonWidth, setButtonWidth] = useState<number>(0)
   const buttonGroup = useButtonGroup()
-  const size = inputMoreProps.size || buttonGroup?.size
 
   useEffect(() => {
     const width = buttonDimensions?.width
@@ -125,8 +124,8 @@ export default function SearchInput({
       <ButtonGroup
         ref={buttonGroupRef}
         display={inputVisible ? 'none' : undefined}
-        size={size}
         maxW="100%"
+        {...buttonGroup}
         {...inputMoreProps}
         isAttached
       >
@@ -141,7 +140,9 @@ export default function SearchInput({
             ref={buttonRef}
             item={valueItem}
             highlighted={false}
+            {...buttonGroup}
             pr={onClear ? 1 : undefined}
+            borderRight={onClear ? 'none' : undefined}
             overflow="hidden"
             sx={{
               div: {
@@ -157,6 +158,7 @@ export default function SearchInput({
           <IconButton
             aria-label={t('common.clear')}
             icon={<FiX />}
+            borderLeft="none"
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
@@ -171,7 +173,7 @@ export default function SearchInput({
         onFocus={openMenu}
         display={inputVisible ? '' : 'none'}
         w={buttonWidth ? `${buttonWidth}px` : 'auto'}
-        size={buttonGroup?.size}
+        {...buttonGroup}
         {...inputMoreProps}
         {...inputProps}
         placeholder={inputMoreProps?.placeholder}

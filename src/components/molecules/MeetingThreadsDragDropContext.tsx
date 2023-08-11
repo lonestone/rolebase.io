@@ -26,12 +26,10 @@ interface Props {
 }
 
 export interface MeetingThreadsContextValue {
-  // All threads of circle
-  threads: ThreadFragment[]
   // Selected threads by step, with meeting activity note
   threadsByStep: Record<string, CircleThreadWithMeetingNote[]>
-  // All selected threads ids, used to exclude threads from selector
-  stepThreadsIds: string[]
+  // Threads that are not selected in any step
+  availableThreads: ThreadFragment[]
   loading: boolean
   error: Error | undefined
   add: (stepId: string, threadId: string) => void
@@ -95,6 +93,9 @@ export default function MeetingThreadsDragDropContext({
     Record<string, CircleThreadWithMeetingNote[]>
   >({})
 
+  // Threads that are not selected in any step
+  const [availableThreads, setAvailableThreads] = useState<ThreadFragment[]>([])
+
   useEffect(() => {
     if (!threadSteps || !selectedThreadsData) return
     const ids: string[] = []
@@ -128,6 +129,8 @@ export default function MeetingThreadsDragDropContext({
         return acc
       }, {} as Record<string, CircleThreadWithMeetingNote[]>)
     )
+
+    setAvailableThreads(threads.filter((thread) => !ids.includes(thread.id)))
   }, [JSON.stringify(stepThreadsIds), selectedThreadsData])
 
   // Subscribe to all threads of circle
@@ -222,27 +225,17 @@ export default function MeetingThreadsDragDropContext({
     [threadsByStep, change]
   )
 
-  const value = useMemo(() => {
+  const value: MeetingThreadsContextValue = useMemo(() => {
     return {
-      threads,
       threadsByStep,
-      stepThreadsIds,
+      availableThreads,
       loading,
       error,
       add,
       remove,
       randomize,
     }
-  }, [
-    threads,
-    threadsByStep,
-    stepThreadsIds,
-    loading,
-    error,
-    add,
-    remove,
-    randomize,
-  ])
+  }, [threadsByStep, availableThreads, loading, error, add, remove, randomize])
 
   return (
     <MeetingThreadsContext.Provider value={value}>

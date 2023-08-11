@@ -115,7 +115,7 @@ export default function TasksModule({
 
         <Spacer />
 
-        <ButtonGroup size="sm" variant="outline" spacing={1} mr={5} mb={3}>
+        <ButtonGroup size="sm" variant="outline" spacing={2} mb={3}>
           {view === TasksViewTypes.List && onStatusChange && (
             <Box>
               <TasksFilterStatus value={status} onChange={onStatusChange} />
@@ -167,6 +167,7 @@ export default function TasksModule({
             className="userflow-tasks-create"
             size="sm"
             colorScheme="blue"
+            ml={5}
             mb={3}
             leftIcon={<FiPlus />}
             onClick={modal.onOpen}

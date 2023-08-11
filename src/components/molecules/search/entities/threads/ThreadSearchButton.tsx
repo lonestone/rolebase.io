@@ -1,6 +1,7 @@
 import {
   Member_Scope_Enum,
   ThreadFragment,
+  Thread_Status_Enum,
   useCreateThreadMutation,
 } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
@@ -32,7 +33,7 @@ export default function ThreadSearchButton({
         throw new Error()
       }
 
-      // Create member
+      // Create thread
       const { data } = await createThread({
         variables: {
           values: {
@@ -42,6 +43,7 @@ export default function ThreadSearchButton({
             participantsScope: Member_Scope_Enum.CircleLeaders,
             participantsMembersIds: [],
             initiatorMemberId: currentMember.id,
+            status: Thread_Status_Enum.Active,
           },
         },
       })

@@ -159,13 +159,13 @@ export default function useMeetingState(meetingId: string): MeetingState {
   const isParticipant = currentMember
     ? participants.some((p) => p.member.id === currentMember.id)
     : false
-  const canEdit = isMember && (isParticipant || isAdmin) && !meeting?.archived
+  const canEdit = isMember && (isParticipant || isAdmin)
 
   // Edit mode when meeting is ended
   const [forceEdit, setForceEdit] = useState(false)
 
   // Data is editable
-  const editable = canEdit && (!isEnded || forceEdit)
+  const editable = canEdit && (!isEnded || forceEdit) && !meeting?.archived
 
   // Reset forced edition when meeting is not ended anymore
   useEffect(() => {

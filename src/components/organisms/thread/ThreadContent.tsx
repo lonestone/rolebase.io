@@ -113,7 +113,7 @@ export default function ThreadContent({
 
               <HStack spacing={2}>
                 <Box>
-                  {isMember && threadStatus && (
+                  {isMember && threadStatus && !thread?.archived && (
                     <ThreadStatusMenu
                       value={threadStatus}
                       onChange={setStatus}

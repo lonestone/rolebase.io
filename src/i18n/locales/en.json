@@ -283,6 +283,7 @@
   },
   "MeetingContent": {
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
+    "archived": "This meeting is archived. You can restore it with the menu at the top right.",
     "logs": "Actions during the meeting"
   },
   "MeetingContentEmpty": {
@@ -294,10 +295,6 @@
     "heading": "Meeting {{title}}",
     "started": "Started",
     "ended": "Ended"
-  },
-  "MeetingDeleteModal": {
-    "heading": "Delete meeting",
-    "info": "Are you sure you want to delete meeting <b>{{name}}</b>?"
   },
   "MeetingEditModal": {
     "headingEdit": "Edit meeting",
@@ -358,14 +355,15 @@
     "empty": "No meeting planned."
   },
   "MeetingStepContent": {
-    "addNotes": "Add notes",
+    "addNotes": "Write notes",
     "notesPlaceholder": "Notes..."
   },
   "MeetingStepContentTasks": {
     "logs": "Tasks modified during the meeting"
   },
   "MeetingStepContentThreads": {
-    "add": "Add a topic",
+    "add": "Attach a topic",
+    "create": "New topic",
     "randomize": "Randomize"
   },
   "MeetingStepSortableItem": {
@@ -411,7 +409,7 @@
       "NotInvited": "Other meetings",
       "All": "All meetings"
     },
-    "options": "Options",
+    "settings": "Settings",
     "templates": "Meeting templates",
     "recurring": "Recurring meetings",
     "export": "Export (iCal)",
@@ -854,6 +852,7 @@
     "emptyDescription": "You can send a first message 👇"
   },
   "ThreadActivityCreate": {
+    "archived": "This topic is archived. You can restore it with the menu at the top right.",
     "placeholder": "Message...",
     "poll": "Poll",
     "defaultEntityDescription": "Topic: {{thread}}"

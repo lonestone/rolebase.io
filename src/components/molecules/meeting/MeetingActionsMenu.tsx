@@ -5,10 +5,9 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useDisclosure,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import MeetingDeleteModal from '@organisms/meeting/MeetingDeleteModal'
+import { useUpdateMeetingMutation } from '@gql'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -31,6 +30,7 @@ export default function MeetingActionsMenu({
   ...buttonProps
 }: Props) {
   const { t } = useTranslation()
+  const [updateMeeting] = useUpdateMeetingMutation()
 
   const {
     meeting,
@@ -42,8 +42,15 @@ export default function MeetingActionsMenu({
     handleChangeForceEdit,
   } = useContext(MeetingContext)!
 
-  // Meeting deletion modal
-  const deleteModal = useDisclosure()
+  // Archive / unarchive
+  const setArchive = (archived: boolean) => {
+    if (!meeting) return
+    updateMeeting({
+      variables: { id: meeting.id, values: { archived } },
+    })
+  }
+  const handleArchive = () => setArchive(true)
+  const handleUnarchive = () => setArchive(false)
 
   if (!canEdit) return null
 
@@ -88,21 +95,17 @@ export default function MeetingActionsMenu({
           {t('common.duplicate')}
         </MenuItem>
 
-        {!isStarted && (
-          <MenuItem icon={<FiTrash2 />} onClick={deleteModal.onOpen}>
-            {t('common.delete')}
+        {!meeting?.archived && !isStarted && (
+          <MenuItem icon={<FiTrash2 />} onClick={handleArchive}>
+            {t('common.archive')}
+          </MenuItem>
+        )}
+        {meeting?.archived && (
+          <MenuItem icon={<FiTrash2 />} onClick={handleUnarchive}>
+            {t('common.unarchive')}
           </MenuItem>
         )}
       </MenuList>
-
-      {deleteModal.isOpen && meeting && (
-        <MeetingDeleteModal
-          meeting={meeting}
-          isOpen
-          onClose={deleteModal.onClose}
-          onDelete={() => {}}
-        />
-      )}
     </Menu>
   )
 }

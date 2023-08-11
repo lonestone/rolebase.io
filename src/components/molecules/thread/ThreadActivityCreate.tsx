@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   BoxProps,
   Button,
@@ -166,6 +169,19 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
       }/threads/${thread.id})`,
     }
   )
+
+  if (thread.archived) {
+    return (
+      <Box {...boxProps}>
+        <Alert status="info" maxW="500px" m="0 auto">
+          <AlertIcon />
+          <AlertDescription>
+            {t('ThreadActivityCreate.archived')}
+          </AlertDescription>
+        </Alert>
+      </Box>
+    )
+  }
 
   return (
     <Box {...boxProps}>

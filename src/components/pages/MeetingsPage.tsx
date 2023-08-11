@@ -6,7 +6,6 @@ import {
   Button,
   Flex,
   Heading,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -54,9 +53,9 @@ import {
   FiCopy,
   FiEye,
   FiEyeOff,
-  FiMoreVertical,
   FiPlus,
   FiRepeat,
+  FiSettings,
   FiUpload,
 } from 'react-icons/fi'
 import { RRule } from 'rrule'
@@ -325,13 +324,15 @@ export default function MeetingsPage() {
 
         <Menu>
           <MenuButton
-            as={IconButton}
+            as={Button}
             className="userflow-meetings-actions"
             size="sm"
-            variant="ghost"
-            icon={<FiMoreVertical />}
-            aria-label={t('ActionsMenu.label')}
-          />
+            variant="outline"
+            leftIcon={<FiSettings />}
+            ml={2}
+          >
+            {t('MeetingsPage.settings')}
+          </MenuButton>
           <MenuList
             fontFamily="body"
             fontSize="1rem"
@@ -367,7 +368,7 @@ export default function MeetingsPage() {
             className="userflow-meetings-create"
             size="sm"
             colorScheme="blue"
-            ml={1}
+            ml={5}
             leftIcon={<FiPlus />}
             onClick={handleCreate}
           >

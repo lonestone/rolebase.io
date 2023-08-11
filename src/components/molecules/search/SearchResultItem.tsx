@@ -21,7 +21,7 @@ export default React.forwardRef<HTMLButtonElement, Props>(
       >
         {item && (
           <>
-            <SearchResultIcon item={item} />
+            <SearchResultIcon item={item} size={buttonProps?.size} />
             <Box ml={2}>{item.title}</Box>
           </>
         )}

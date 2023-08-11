@@ -110,25 +110,27 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
             </React.Fragment>
           ))}
 
-        {activities?.length === 0 && !tmpMeetingNoteActivity && (
-          <Alert
-            status="success"
-            variant="subtle"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            textAlign="center"
-            height="200px"
-          >
-            <FiMessageSquare size={40} />
-            <AlertTitle mt={4} mb={1} fontSize="lg">
-              {t('ThreadActivities.emptyTitle')}
-            </AlertTitle>
-            <AlertDescription maxWidth="sm">
-              {t('ThreadActivities.emptyDescription')}
-            </AlertDescription>
-          </Alert>
-        )}
+        {activities?.length === 0 &&
+          !tmpMeetingNoteActivity &&
+          !thread?.archived && (
+            <Alert
+              status="success"
+              variant="subtle"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              textAlign="center"
+              height="200px"
+            >
+              <FiMessageSquare size={40} />
+              <AlertTitle mt={4} mb={1} fontSize="lg">
+                {t('ThreadActivities.emptyTitle')}
+              </AlertTitle>
+              <AlertDescription maxWidth="sm">
+                {t('ThreadActivities.emptyDescription')}
+              </AlertDescription>
+            </Alert>
+          )}
 
         {tmpMeetingNoteActivity && (
           <ThreadActivity activity={tmpMeetingNoteActivity} />

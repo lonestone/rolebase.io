@@ -1,4 +1,10 @@
-import { Avatar, Button, ButtonProps, forwardRef } from '@chakra-ui/react'
+import {
+  Avatar,
+  Button,
+  ButtonProps,
+  forwardRef,
+  useButtonGroup,
+} from '@chakra-ui/react'
 import { MemberSummaryFragment } from '@gql'
 import { textEllipsis } from '@utils/textEllipsis'
 import React from 'react'
@@ -12,12 +18,16 @@ export default forwardRef(function MemberButton(
   { member, maxNameLength = 30, ...buttonProps }: Props,
   ref
 ) {
+  const buttonGroup = useButtonGroup()
+  const buttonSize = buttonProps.size || buttonGroup?.size
+  const avatarSize = buttonSize === 'sm' ? 'xs' : 'sm'
+
   return (
     <Button ref={ref} {...buttonProps}>
       <Avatar
         name={member.name}
         src={member.picture || undefined}
-        size={buttonProps.size === 'sm' ? 'xs' : 'sm'}
+        size={avatarSize}
         ml="-10px"
         mr={2}
       />

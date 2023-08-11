@@ -97,14 +97,12 @@ export default function ThreadsPage() {
         )}
 
         <Spacer />
-        <ButtonGroup>
+        <ButtonGroup size="sm" variant="outline" spacing={2}>
           <Box>
             <Menu closeOnSelect={false}>
               <MenuButton
                 as={Button}
                 className="userflow-threads-filter"
-                size="sm"
-                variant="outline"
                 rightIcon={<FiChevronDown />}
               >
                 {t(`ThreadsFilterMenu.participation.${filter}` as any)}
@@ -129,10 +127,8 @@ export default function ThreadsPage() {
             <Menu>
               <MenuButton
                 as={Button}
-                size="sm"
                 rightIcon={<FiChevronDown />}
                 className="userflow-threads-status-filter"
-                variant={status ? 'solid' : 'outline'}
               >
                 {t(`common.threadStatus.${status ?? threadStatusNotClosed}`)}
               </MenuButton>
@@ -158,7 +154,7 @@ export default function ThreadsPage() {
             className="userflow-threads-create"
             size="sm"
             colorScheme="blue"
-            ml={2}
+            ml={5}
             leftIcon={<FiPlus />}
             onClick={onCreateOpen}
           >

@@ -317,7 +317,7 @@
   },
   "MeetingContent": {
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
-    "archived": "Cette réunion est archivée.",
+    "archived": "Cette réunion est archivée. Vous pouvez la restaurer avec le menu en haut à droite.",
     "logs": "Actions pendant la réunion"
   },
   "MeetingContentEmpty": {
@@ -329,10 +329,6 @@
     "heading": "Réunion {{title}}",
     "started": "En cours",
     "ended": "Terminée"
-  },
-  "MeetingDeleteModal": {
-    "heading": "Supprimer une réunion",
-    "info": "Êtes-vous sûr(e) de vouloir supprimer la réunion <b>{{name}}</b> ?"
   },
   "MeetingEditModal": {
     "headingEdit": "Modifier une réunion",
@@ -393,15 +389,16 @@
     "empty": "Aucune réunion prévue."
   },
   "MeetingStepContent": {
-    "addNotes": "Ajouter des notes",
+    "addNotes": "Écrire des notes",
     "notesPlaceholder": "Notes..."
   },
   "MeetingStepContentTasks": {
     "logs": "Tâches modifiées pendant la réunion"
   },
   "MeetingStepContentThreads": {
-    "add": "Ajouter un sujet",
-    "randomize": "Aléatoire"
+    "add": "Rattacher un sujet",
+    "create": "Nouveau sujet",
+    "randomize": "Mélanger aléatoirement"
   },
   "MeetingStepSortableItem": {
     "placeholder": "Titre de l'étape..."
@@ -446,7 +443,7 @@
       "NotInvited": "Autres réunions",
       "All": "Toutes les réunions"
     },
-    "options": "Options",
+    "settings": "Paramètres",
     "templates": "Modèles de réunion",
     "recurring": "Réunions récurrentes",
     "export": "Exporter (iCal)",
@@ -891,6 +888,7 @@
     "emptyDescription": "Vous pouvez envoyer un premier message 👇"
   },
   "ThreadActivityCreate": {
+    "archived": "Ce sujet est archivé. Vous pouvez la restaurer avec le menu en haut à droite.",
     "placeholder": "Message...",
     "poll": "Sondage",
     "defaultEntityDescription": "Sujet : {{thread}}"

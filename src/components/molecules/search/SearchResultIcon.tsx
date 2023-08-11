@@ -14,6 +14,7 @@ import { SearchItem } from './searchTypes'
 
 interface Props {
   item: SearchItem
+  size?: 'sm' | 'md'
 }
 
 export const searchIcons = {
@@ -26,14 +27,14 @@ export const searchIcons = {
   Decision: FiTriangle,
 }
 
-export default function SearchResultIcon({ item }: Props) {
+export default function SearchResultIcon({ item, size }: Props) {
   if (item.type === SearchTypes.Member) {
     return (
       <Avatar
         name={item.title}
         src={item.picture || undefined}
-        size="sm"
-        ml="-10px"
+        size={size === 'sm' ? 'xs' : 'sm'}
+        ml="-8px"
       />
     )
   }

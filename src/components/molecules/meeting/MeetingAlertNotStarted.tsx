@@ -7,11 +7,10 @@ import {
   Button,
   Link,
   Spacer,
-  useDisclosure,
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
+import { useUpdateMeetingMutation } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
-import MeetingDeleteModal from '@organisms/meeting/MeetingDeleteModal'
 import { format } from 'date-fns'
 import React, { useCallback, useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -33,8 +32,14 @@ export default function MeetingAlertNotStarted({
   const { meeting, isToday, isStartTimePassed, handleNextStep } =
     useContext(MeetingContext)!
 
-  // Meeting deletion modal
-  const deleteModal = useDisclosure()
+  // Meeting archiving
+  const [updateMeeting] = useUpdateMeetingMutation()
+  const handleArchive = () => {
+    if (!meeting) return
+    updateMeeting({
+      variables: { id: meeting.id, values: { archived: true } },
+    })
+  }
 
   // Start meeting
   const handleStart = useCallback(() => {
@@ -80,24 +85,15 @@ export default function MeetingAlertNotStarted({
           <Button
             variant="outline"
             colorScheme="red"
-            onClick={deleteModal.onOpen}
+            onClick={handleArchive}
             mr={2}
           >
-            {t('common.delete')}
+            {t('common.archive')}
           </Button>
           <Button leftIcon={<FiEdit3 />} colorScheme="blue" onClick={onEdit}>
             {t('common.edit')}
           </Button>
         </>
-      )}
-
-      {deleteModal.isOpen && meeting && (
-        <MeetingDeleteModal
-          meeting={meeting}
-          isOpen
-          onClose={deleteModal.onClose}
-          onDelete={() => {}}
-        />
       )}
     </Alert>
   )
