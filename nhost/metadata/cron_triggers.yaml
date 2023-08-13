@@ -1,5 +1,5 @@
 - name: recurring-meetings
-  webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/createNextRecurringMeetings'
+  webhook: '{{NHOST_FUNCTIONS_URL}}/routes/createNextRecurringMeetings'
   schedule: 0 * * * *
   include_in_metadata: true
   payload: {}

@@ -148,7 +148,7 @@ event_triggers:
       interval_sec: 10
       num_retries: 3
       timeout_sec: 60
-    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/indexEntity'
+    webhook: '{{NHOST_FUNCTIONS_URL}}/routes/indexEntity'
     headers:
       - name: x-nhost-webhook-secret
         value_from_env: NHOST_WEBHOOK_SECRET
@@ -168,7 +168,7 @@ event_triggers:
       interval_sec: 10
       num_retries: 0
       timeout_sec: 60
-    webhook: '{{NHOST_BACKEND_URL}}/v1/functions/routes/events/sendThreadActivityNotification'
+    webhook: '{{NHOST_FUNCTIONS_URL}}/routes/events/sendThreadActivityNotification'
     headers:
       - name: x-nhost-webhook-secret
         value_from_env: NHOST_WEBHOOK_SECRET
