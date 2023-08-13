@@ -1,4 +1,4 @@
-export default function getTextFromJSONEditor(data: any) {
+export default function getTextFromJSONEditor(data: any): string {
   if (data.text) {
     return data.text
   }
