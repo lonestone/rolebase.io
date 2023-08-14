@@ -45,9 +45,9 @@ import {
   FiDisc,
   FiExternalLink,
   FiHelpCircle,
-  FiHome,
   FiMenu,
   FiMessageSquare,
+  FiSettings,
   FiStar,
   FiUsers,
 } from 'react-icons/fi'
@@ -157,7 +157,7 @@ export default function Sidebar() {
                   className="userflow-sidebar-dashboard"
                   to={rootPath}
                   exact
-                  icon={<FiHome />}
+                  icon={<FiActivity />}
                 >
                   {t('Sidebar.dashboard')}
                 </SidebarTopIconLink>
@@ -275,7 +275,7 @@ export default function Sidebar() {
                 className="userflow-sidebar-dashboard"
                 to={rootPath}
                 exact
-                icon={<FiHome />}
+                icon={<FiActivity />}
               >
                 {t('Sidebar.dashboard')}
               </SidebarItemLink>
@@ -346,7 +346,7 @@ export default function Sidebar() {
               )}
 
               {isSuperAdmin && (
-                <SidebarItemLink to={`admin`} icon={<FiActivity />}>
+                <SidebarItemLink to={`admin`} icon={<FiSettings />}>
                   {t('Sidebar.superAdmin')}
                 </SidebarItemLink>
               )}

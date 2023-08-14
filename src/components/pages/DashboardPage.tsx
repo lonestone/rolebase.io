@@ -27,29 +27,29 @@ const DashboardPage = () => {
       <Flex
         w="100%"
         p={{ base: 3, md: margin }}
-        flexDirection={{ base: 'column', lg: 'row' }}
+        flexDirection={{ base: 'column-reverse', lg: 'row' }}
       >
-        <VStack
-          spacing={margin}
-          align="stretch"
-          maxW={{ lg: 'calc(min(45%, 500px))' }}
-        >
-          <DashboardOrgChart />
-          <DashboardMyRoles />
-          <DashboardMyTasks />
-          <DashboardMyMeetings />
-          <DashboardMyThreads />
-        </VStack>
-
         <Flex
           flex={1}
-          ml={{ base: 0, lg: margin }}
+          mr={{ base: 0, lg: margin }}
           mt={{ base: margin, lg: 0 }}
           flexDirection="column"
           alignItems="center"
         >
           <DashboardNews maxW={{ lg: '600px' }} w="100%" />
         </Flex>
+
+        <VStack
+          spacing={margin}
+          align="stretch"
+          maxW={{ lg: 'calc(min(45%, 500px))' }}
+        >
+          <DashboardOrgChart />
+          <DashboardMyMeetings />
+          <DashboardMyTasks />
+          <DashboardMyThreads />
+          <DashboardMyRoles />
+        </VStack>
       </Flex>
     </>
   )
