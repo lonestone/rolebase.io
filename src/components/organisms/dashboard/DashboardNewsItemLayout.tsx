@@ -14,11 +14,11 @@ import useMember from '@hooks/useMember'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React, { ReactNode, useMemo } from 'react'
-import { TFuncKey, Trans, useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { IconType } from 'react-icons'
 
 interface Props extends LinkBoxProps {
-  i18nKey: TFuncKey<'translation'>
+  i18nKey: string
   date: string
   memberId?: string
   icon?: IconType
@@ -56,7 +56,7 @@ export default function DashboardNewsItemLayout({
         <Box flex="1" ml={3}>
           <Text>
             <Trans
-              i18nKey={i18nKey}
+              i18nKey={i18nKey as any}
               components={{
                 author: member ? (
                   <MemberLink id={member.id} name={member.name} />
