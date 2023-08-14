@@ -22,7 +22,7 @@ import DashboardNewsDecision from './DashboardNewsDecision'
 import DashboardNewsMeeting from './DashboardNewsMeeting'
 import DashboardNewsThread from './DashboardNewsThread'
 
-const limit = 20
+const limit = 8
 
 export default function DashboardNews(boxProps: BoxProps) {
   const { t } = useTranslation()
@@ -149,7 +149,9 @@ export default function DashboardNews(boxProps: BoxProps) {
         </React.Fragment>
       ))}
 
-      {loading && <Loading active size="sm" mt={10} />}
+      <Box ref={bottomRef} textAlign="center">
+        {loading && <Loading active size="sm" mt={10} />}
+      </Box>
     </Stack>
   )
 }
