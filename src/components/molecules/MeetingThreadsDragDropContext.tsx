@@ -20,6 +20,8 @@ import React, {
 } from 'react'
 import { CircleThreadWithMeetingNote } from './meeting/MeetingStepContentThreadItem'
 
+const emptyArray: any[] = []
+
 interface Props {
   children: React.ReactNode
   disabled?: boolean
@@ -61,7 +63,7 @@ export default function MeetingThreadsDragDropContext({
 
   // All threads ids used in steps
   const stepThreadsIds: string[] = useMemo(() => {
-    if (!threadSteps) return []
+    if (!threadSteps) return emptyArray as string[]
     return threadSteps.reduce((acc, step) => {
       acc.push(
         ...(step as MeetingStepThreadsFragment).data.threadsIds
@@ -92,6 +94,15 @@ export default function MeetingThreadsDragDropContext({
   const [threadsByStep, setThreadsByStep] = useState<
     Record<string, CircleThreadWithMeetingNote[]>
   >({})
+
+  // Subscribe to all threads of circle
+  const { data: threadsData } = useCircleThreadsSubscription({
+    skip: !circle || !editable,
+    variables: {
+      circleId: circle?.id!,
+    },
+  })
+  const threads = threadsData?.thread || (emptyArray as ThreadFragment[])
 
   // Threads that are not selected in any step
   const [availableThreads, setAvailableThreads] = useState<ThreadFragment[]>([])
@@ -131,16 +142,7 @@ export default function MeetingThreadsDragDropContext({
     )
 
     setAvailableThreads(threads.filter((thread) => !ids.includes(thread.id)))
-  }, [JSON.stringify(stepThreadsIds), selectedThreadsData])
-
-  // Subscribe to all threads of circle
-  const { data: threadsData } = useCircleThreadsSubscription({
-    skip: !circle || !editable,
-    variables: {
-      circleId: circle?.id!,
-    },
-  })
-  const threads = threadsData?.thread || []
+  }, [threadSteps, threads, selectedThreadsData])
 
   const update = useCallback((stepId: string, threadsIds: string[]) => {
     updateMeetingStep({
