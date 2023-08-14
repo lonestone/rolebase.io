@@ -36,7 +36,7 @@ export function AutoFocusPlugin({ defaultSelection }: Props): null {
         },
         { defaultSelection }
       )
-    }, 10) // We need to wait for the next tick to ensure the editor is mounted.
+    }, 100) // We need to wait for the next tick to ensure the editor is mounted.
   }, [defaultSelection, editor])
 
   return null
