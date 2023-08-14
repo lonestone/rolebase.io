@@ -1,5 +1,5 @@
 import { Title } from '@atoms/Title'
-import { Box, SimpleGrid, VStack, useMediaQuery } from '@chakra-ui/react'
+import { Flex, VStack } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import DashboardMyMeetings from '@organisms/dashboard/DashboardMyMeetings'
@@ -11,13 +11,12 @@ import DashboardOrgChart from '@organisms/dashboard/DashboardOrgChart'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-const minColumnWidth = 400
+const margin = 10
 
 const DashboardPage = () => {
   const { t } = useTranslation()
   const org = useCurrentOrg()
   const currentMember = useCurrentMember()
-  const [isSmall] = useMediaQuery(`(max-width: ${minColumnWidth + 100}px)`)
 
   if (!currentMember || !org) return null
 
@@ -25,27 +24,33 @@ const DashboardPage = () => {
     <>
       <Title>{org?.name ?? t('DashboardPage.title')}</Title>
 
-      <SimpleGrid
-        columns={isSmall ? 1 : 3}
-        spacing={10}
-        minChildWidth={isSmall ? undefined : `${minColumnWidth}px`}
-        p={isSmall ? 3 : 10}
+      <Flex
+        w="100%"
+        p={{ base: 3, md: margin }}
+        flexDirection={{ base: 'column', lg: 'row' }}
       >
-        <VStack spacing={10} align="stretch">
+        <VStack
+          spacing={margin}
+          align="stretch"
+          maxW={{ lg: 'calc(min(45%, 500px))' }}
+        >
           <DashboardOrgChart />
           <DashboardMyRoles />
-        </VStack>
-
-        <VStack spacing={10} align="stretch">
           <DashboardMyTasks />
           <DashboardMyMeetings />
           <DashboardMyThreads />
         </VStack>
 
-        <Box>
-          <DashboardNews />
-        </Box>
-      </SimpleGrid>
+        <Flex
+          flex={1}
+          ml={{ base: 0, lg: margin }}
+          mt={{ base: margin, lg: 0 }}
+          flexDirection="column"
+          alignItems="center"
+        >
+          <DashboardNews maxW={{ lg: '600px' }} w="100%" />
+        </Flex>
+      </Flex>
     </>
   )
 }

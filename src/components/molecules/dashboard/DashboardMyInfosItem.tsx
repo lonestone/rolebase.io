@@ -18,7 +18,7 @@ export default function DashboardMyInfosItem({
   const pathInOrg = usePathInOrg(path)
 
   return (
-    <Card w="inherit">
+    <Card>
       <CardHeader
         display="flex"
         justifyContent="space-between"
@@ -31,7 +31,7 @@ export default function DashboardMyInfosItem({
           </Link>
         </Heading>
 
-        {actions && actions}
+        {actions}
       </CardHeader>
 
       <CardBody p={4}>{children}</CardBody>

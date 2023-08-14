@@ -1,5 +1,6 @@
 import { ThreadFragment } from '@gql'
 import { SearchTypes } from '@shared/model/search'
+import { truthy } from '@utils/truthy'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
@@ -21,7 +22,7 @@ export function useThreadSearchItems(
             title: thread.title,
           }
         })
-        .filter(Boolean) as SearchItem[],
+        .filter(truthy),
     [threads, excludeIds]
   )
 }

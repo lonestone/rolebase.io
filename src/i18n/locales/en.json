@@ -164,14 +164,19 @@
     "empty": "No topic."
   },
   "DashboardMyTasks": { "title": "My Tasks", "add": "New task" },
-  "DashboardNews": { "heading": "News" },
-  "DashboardNewsItem": {
-    "tag": {
-      "decision": "Decision",
-      "meeting": "Meeting",
-      "thread": "Thread",
-      "default": "Actuality"
-    }
+  "DashboardNews": {
+    "heading": "News",
+    "empty": "No news for now.",
+    "circle": "Role"
+  },
+  "DashboardNewsDecision": {
+    "action": "<author /> has registered a decision"
+  },
+  "DashboardNewsMeeting": {
+    "action": "A meeting took place"
+  },
+  "DashboardNewsThread": {
+    "action": "<author /> has launched a topic"
   },
   "DashboardPage": {
     "title": "Home"
@@ -1004,7 +1009,8 @@
     "emptyParagraphPlaceholder": "Press '/' for commands…",
     "dates": {
       "today": "Today",
-      "tomorrow": "Tomorrow"
+      "tomorrow": "Tomorrow",
+      "dateHourSeparator": " at "
     },
     "searchTypes": {
       "All": "Everything",

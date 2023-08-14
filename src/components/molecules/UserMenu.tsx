@@ -39,6 +39,7 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
   const signOut = useUserSignOut()
   const { colorMode, toggleColorMode } = useColorMode()
 
+  const menu = useDisclosure()
   const currentUserModal = useDisclosure()
   const langModal = useDisclosure()
   const buttonGroup = useButtonGroup()
@@ -48,7 +49,7 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
 
   return (
     <Flex {...boxProps}>
-      <Menu placement={isMobile ? 'auto' : 'right-end'}>
+      <Menu isOpen={menu.isOpen} placement={isMobile ? 'auto' : 'right-end'}>
         <MenuButton
           as={MemberButton}
           rightIcon={<FiChevronRight />}
@@ -62,9 +63,17 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
             }
           }
           maxNameLength={15}
+          onMouseEnter={menu.onOpen}
+          onMouseLeave={menu.onClose}
         />
 
-        <MenuList ml={-2} zIndex={10} shadow="lg">
+        <MenuList
+          ml={-2}
+          zIndex={10}
+          shadow="lg"
+          onMouseEnter={menu.onOpen}
+          onMouseLeave={menu.onClose}
+        >
           {member && (
             <CircleMemberLink memberId={member.id}>
               <MenuItem icon={<FiUser />}>{t('UserMenu.member')}</MenuItem>

@@ -9186,6 +9186,9 @@ export type Mutation_RootUpdate_Users_ManyArgs = {
 /** columns and relationships of "news" */
 export type News = {
   __typename?: 'news';
+  /** An object relationship */
+  circle?: Maybe<Circle>;
+  circleId?: Maybe<Scalars['uuid']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   decision?: Maybe<Decision>;
@@ -9252,6 +9255,8 @@ export type News_Bool_Exp = {
   _and?: InputMaybe<Array<News_Bool_Exp>>;
   _not?: InputMaybe<News_Bool_Exp>;
   _or?: InputMaybe<Array<News_Bool_Exp>>;
+  circle?: InputMaybe<Circle_Bool_Exp>;
+  circleId?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   decision?: InputMaybe<Decision_Bool_Exp>;
   decisionId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -9266,6 +9271,8 @@ export type News_Bool_Exp = {
 
 /** input type for inserting data into table "news" */
 export type News_Insert_Input = {
+  circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
+  circleId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   decision?: InputMaybe<Decision_Obj_Rel_Insert_Input>;
   decisionId?: InputMaybe<Scalars['uuid']>;
@@ -9281,6 +9288,7 @@ export type News_Insert_Input = {
 /** aggregate max on columns */
 export type News_Max_Fields = {
   __typename?: 'news_max_fields';
+  circleId?: Maybe<Scalars['uuid']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   decisionId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
@@ -9291,6 +9299,7 @@ export type News_Max_Fields = {
 
 /** order by max() on columns of table "news" */
 export type News_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -9302,6 +9311,7 @@ export type News_Max_Order_By = {
 /** aggregate min on columns */
 export type News_Min_Fields = {
   __typename?: 'news_min_fields';
+  circleId?: Maybe<Scalars['uuid']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   decisionId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
@@ -9312,6 +9322,7 @@ export type News_Min_Fields = {
 
 /** order by min() on columns of table "news" */
 export type News_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   decisionId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -9322,6 +9333,8 @@ export type News_Min_Order_By = {
 
 /** Ordering options when selecting data from "news". */
 export type News_Order_By = {
+  circle?: InputMaybe<Circle_Order_By>;
+  circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   decision?: InputMaybe<Decision_Order_By>;
   decisionId?: InputMaybe<Order_By>;
@@ -9336,6 +9349,8 @@ export type News_Order_By = {
 
 /** select columns of table "news" */
 export enum News_Select_Column {
+  /** column name */
+  CircleId = 'circleId',
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
@@ -9360,6 +9375,7 @@ export type News_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type News_Stream_Cursor_Value_Input = {
+  circleId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   decisionId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
@@ -17343,6 +17359,8 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
+export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null };
+
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean };
 
 export type OrgFullFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> };
@@ -17358,6 +17376,8 @@ export type TaskFragment = { __typename?: 'task', id: string, orgId: string, cir
 export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum };
 
 export type ThreadMemberStatusFragment = { __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string };
+
+export type ThreadWithFirstActivityFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
 
 export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
 
@@ -17708,16 +17728,14 @@ export type UpdateMemberMutationVariables = Exact<{
 
 export type UpdateMemberMutation = { __typename?: 'mutation_root', update_member_by_pk?: { __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null } | null };
 
-export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
-
 export type LastNewsQueryVariables = Exact<{
-  orgId: Scalars['uuid'];
+  where: News_Bool_Exp;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type LastNewsQuery = { __typename?: 'query_root', news: Array<{ __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null }>, news_aggregate: { __typename?: 'news_aggregate', aggregate?: { __typename?: 'news_aggregate_fields', count: number } | null } };
+export type LastNewsQuery = { __typename?: 'query_root', news: Array<{ __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null }>, news_aggregate: { __typename?: 'news_aggregate', aggregate?: { __typename?: 'news_aggregate_fields', count: number } | null } };
 
 export type GetOrgQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -18108,6 +18126,111 @@ export const MeetingStepFragmentDoc = gql`
   data
 }
     `;
+export const DecisionFragmentDoc = gql`
+    fragment Decision on decision {
+  id
+  orgId
+  circleId
+  memberId
+  title
+  description
+  archived
+  createdAt
+}
+    `;
+export const MeetingSummaryFragmentDoc = gql`
+    fragment MeetingSummary on meeting {
+  id
+  orgId
+  circleId
+  participantsScope
+  participantsMembersIds
+  startDate
+  endDate
+  ended
+  title
+  currentStepId
+}
+    `;
+export const ThreadFragmentDoc = gql`
+    fragment Thread on thread {
+  id
+  orgId
+  circleId
+  participantsScope
+  participantsMembersIds
+  initiatorMemberId
+  title
+  createdAt
+  archived
+  status
+}
+    `;
+export const TaskFragmentDoc = gql`
+    fragment Task on task {
+  id
+  orgId
+  circleId
+  memberId
+  title
+  description
+  archived
+  createdAt
+  dueDate
+  status
+}
+    `;
+export const ThreadActivityFragmentDoc = gql`
+    fragment ThreadActivity on thread_activity {
+  id
+  threadId
+  userId
+  createdAt
+  type
+  data
+  refThread {
+    ...Thread
+  }
+  refMeeting {
+    ...MeetingSummary
+  }
+  refTask {
+    ...Task
+  }
+  refDecision {
+    ...Decision
+  }
+}
+    ${ThreadFragmentDoc}
+${MeetingSummaryFragmentDoc}
+${TaskFragmentDoc}
+${DecisionFragmentDoc}`;
+export const ThreadWithFirstActivityFragmentDoc = gql`
+    fragment ThreadWithFirstActivity on thread {
+  ...Thread
+  activities(where: {type: {_eq: Message}}, order_by: {createdAt: asc}, limit: 1) {
+    ...ThreadActivity
+  }
+}
+    ${ThreadFragmentDoc}
+${ThreadActivityFragmentDoc}`;
+export const NewsFragmentDoc = gql`
+    fragment News on news {
+  id
+  createdAt
+  decision {
+    ...Decision
+  }
+  meeting {
+    ...MeetingSummary
+  }
+  thread {
+    ...ThreadWithFirstActivity
+  }
+}
+    ${DecisionFragmentDoc}
+${MeetingSummaryFragmentDoc}
+${ThreadWithFirstActivityFragmentDoc}`;
 export const OrgFragmentDoc = gql`
     fragment Org on org {
   id
@@ -18252,85 +18375,6 @@ export const ThreadMemberStatusFragmentDoc = gql`
   lastReadDate
 }
     `;
-export const ThreadFragmentDoc = gql`
-    fragment Thread on thread {
-  id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  initiatorMemberId
-  title
-  createdAt
-  archived
-  status
-}
-    `;
-export const MeetingSummaryFragmentDoc = gql`
-    fragment MeetingSummary on meeting {
-  id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  startDate
-  endDate
-  ended
-  title
-  currentStepId
-}
-    `;
-export const TaskFragmentDoc = gql`
-    fragment Task on task {
-  id
-  orgId
-  circleId
-  memberId
-  title
-  description
-  archived
-  createdAt
-  dueDate
-  status
-}
-    `;
-export const DecisionFragmentDoc = gql`
-    fragment Decision on decision {
-  id
-  orgId
-  circleId
-  memberId
-  title
-  description
-  archived
-  createdAt
-}
-    `;
-export const ThreadActivityFragmentDoc = gql`
-    fragment ThreadActivity on thread_activity {
-  id
-  threadId
-  userId
-  createdAt
-  type
-  data
-  refThread {
-    ...Thread
-  }
-  refMeeting {
-    ...MeetingSummary
-  }
-  refTask {
-    ...Task
-  }
-  refDecision {
-    ...Decision
-  }
-}
-    ${ThreadFragmentDoc}
-${MeetingSummaryFragmentDoc}
-${TaskFragmentDoc}
-${DecisionFragmentDoc}`;
 export const MeetingTemplateFragmentDoc = gql`
     fragment MeetingTemplate on meeting_template {
   id
@@ -18339,23 +18383,6 @@ export const MeetingTemplateFragmentDoc = gql`
   stepsConfig
 }
     `;
-export const NewsFragmentDoc = gql`
-    fragment News on news {
-  id
-  createdAt
-  decision {
-    ...Decision
-  }
-  meeting {
-    ...MeetingSummary
-  }
-  thread {
-    ...Thread
-  }
-}
-    ${DecisionFragmentDoc}
-${MeetingSummaryFragmentDoc}
-${ThreadFragmentDoc}`;
 export const OrgSubscriptionFieldsFragmentDoc = gql`
     fragment OrgSubscriptionFields on org_subscription {
   id
@@ -20043,16 +20070,11 @@ export type UpdateMemberMutationHookResult = ReturnType<typeof useUpdateMemberMu
 export type UpdateMemberMutationResult = Apollo.MutationResult<UpdateMemberMutation>;
 export type UpdateMemberMutationOptions = Apollo.BaseMutationOptions<UpdateMemberMutation, UpdateMemberMutationVariables>;
 export const LastNewsDocument = gql`
-    query lastNews($orgId: uuid!, $limit: Int, $offset: Int) {
-  news(
-    where: {orgId: {_eq: $orgId}}
-    order_by: {createdAt: desc}
-    limit: $limit
-    offset: $offset
-  ) {
+    query lastNews($where: news_bool_exp!, $limit: Int, $offset: Int) {
+  news(where: $where, order_by: {createdAt: desc}, limit: $limit, offset: $offset) {
     ...News
   }
-  news_aggregate(where: {orgId: {_eq: $orgId}}) {
+  news_aggregate(where: $where) {
     aggregate {
       count
     }
@@ -20072,7 +20094,7 @@ export const LastNewsDocument = gql`
  * @example
  * const { data, loading, error } = useLastNewsQuery({
  *   variables: {
- *      orgId: // value for 'orgId'
+ *      where: // value for 'where'
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },

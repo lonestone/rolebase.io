@@ -19,10 +19,10 @@ const Fragment = gql(`
         role {
           name
         }
-      }
-      parent {
-        role {
-          name
+        parent {
+          role {
+            name
+          }
         }
       }
     }

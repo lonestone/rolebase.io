@@ -1,4 +1,4 @@
-import { Avatar } from '@chakra-ui/react'
+import { Avatar, AvatarProps } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
 import React from 'react'
 import {
@@ -14,7 +14,7 @@ import { SearchItem } from './searchTypes'
 
 interface Props {
   item: SearchItem
-  size?: 'sm' | 'md'
+  size?: AvatarProps['size']
 }
 
 export const searchIcons = {

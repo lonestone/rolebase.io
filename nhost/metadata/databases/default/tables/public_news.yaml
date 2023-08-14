@@ -2,6 +2,15 @@ table:
   name: news
   schema: public
 object_relationships:
+  - name: circle
+    using:
+      manual_configuration:
+        column_mapping:
+          circleId: id
+        insertion_order: null
+        remote_table:
+          name: circle
+          schema: public
   - name: decision
     using:
       manual_configuration:
@@ -42,6 +51,7 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - circleId
         - createdAt
         - decisionId
         - id

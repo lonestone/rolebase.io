@@ -1,35 +1,25 @@
+import { SearchItem } from './searchTypes'
+
 const multiSpacesRegex = /[  ]+/g
 
-export default function incrementalSearch<Item>(
-  items: Item[],
-  getItemValue: (item: Item) => string,
+export default function incrementalSearch(
+  items: SearchItem[],
   searchValue: string
-): Item[] {
+): SearchItem[] {
   if (searchValue === '') return []
   searchValue = searchValue.replace(multiSpacesRegex, ' ').trim().toLowerCase()
 
-  return items
-    .map((item) => {
-      const value = getItemValue(item)
+  return items.filter((item) => {
+    let lastPosition = -1
 
-      // Weight with value length
-      let score = searchValue.length / value.length
-      let lastPosition = -1
-
-      // Search for each char to compute a score
-      for (let i = 0; i < searchValue.length; i++) {
-        const index = value.indexOf(searchValue[i], lastPosition + 1)
-        if (index === -1) {
-          score = 0
-          break
-        }
-        score++
-        lastPosition = index
+    // Search for each char to compute a score
+    for (let i = 0; i < searchValue.length; i++) {
+      const index = item.text.indexOf(searchValue[i], lastPosition + 1)
+      if (index === -1) {
+        return false
       }
-
-      return { item, score }
-    })
-    .sort((a, b) => b.score - a.score)
-    .filter((searchItem) => searchItem.score > 0)
-    .map((searchItem) => searchItem.item)
+      lastPosition = index
+    }
+    return true
+  })
 }

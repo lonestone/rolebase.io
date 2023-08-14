@@ -24,6 +24,7 @@ export default function ThreadsList({ threads, showCircle }: Props) {
           className={i < 3 ? `userflow-thread-${i}` : undefined}
           thread={thread}
           showCircle={showCircle}
+          showMember
           unread={thread.read === false}
         />
       ))}

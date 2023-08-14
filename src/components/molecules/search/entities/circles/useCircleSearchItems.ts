@@ -1,7 +1,9 @@
 import { CircleFragment } from '@gql'
+import { searchItemTitleSeparator } from '@molecules/search/SearchResultItem'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
+import { truthy } from '@utils/truthy'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
@@ -14,7 +16,7 @@ export function useCircleSearchItems(
 
   return useMemo(
     () =>
-      ((circlesInStore && (circles || circlesInStore))
+      (circlesInStore && (circles || circlesInStore))
         ?.map((circle): SearchItem | undefined => {
           // Exclude by id
           if (excludeIds?.includes(circle.id)) return
@@ -41,10 +43,10 @@ export function useCircleSearchItems(
             title: circleFull
               .slice(circleFull.length === 1 ? 0 : 1)
               .map((cr) => cr.role.name)
-              .join(' › '),
+              .join(searchItemTitleSeparator),
           }
         })
-        .filter(Boolean) as SearchItem[]) || [],
+        .filter(truthy) || [],
     [circles, circlesInStore, excludeIds, singleMember]
   )
 }

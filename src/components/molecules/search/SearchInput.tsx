@@ -139,6 +139,7 @@ export default function SearchInput({
           <SearchResultItem
             ref={buttonRef}
             item={valueItem}
+            standalone
             highlighted={false}
             {...buttonGroup}
             pr={onClear ? 1 : undefined}

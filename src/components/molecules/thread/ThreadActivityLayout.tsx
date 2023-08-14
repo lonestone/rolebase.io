@@ -81,8 +81,7 @@ export default function ThreadActivityLayout({
             fontSize="sm"
             fontWeight="normal"
             ml={2}
-            color="gray.500"
-            _dark={{ color: 'gray.300' }}
+            color="gray.400"
           >
             {format(new Date(activity.createdAt), 'HH:mm')}
           </Link>

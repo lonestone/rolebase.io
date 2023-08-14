@@ -21,7 +21,10 @@ export function useSearch(
         ? defaultEmpty
           ? []
           : items
-        : incrementalSearch(items, (item) => item.text, searchText)
+        : incrementalSearch(items, searchText)
+
+    // Sort by text
+    searchItems.sort((a, b) => a.text.localeCompare(b.text))
 
     // Add Create item
     if (createItem && searchText.length >= 1) {

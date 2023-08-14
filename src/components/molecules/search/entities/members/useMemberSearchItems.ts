@@ -27,15 +27,6 @@ export function useMemberSearchItems(
             picture: member.picture || undefined,
           }
         })
-        .sort((a, b) => {
-          if (!a || !b) return 0
-          // Position current member at the top
-          if (currentMember) {
-            if (a.id === currentMember.id) return -1
-            if (b.id === currentMember.id) return 1
-          }
-          return a.text.localeCompare(b.text)
-        })
         .filter(Boolean) as SearchItem[]) || [],
     [members, membersInStore, excludeIds, currentMember]
   )

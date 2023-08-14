@@ -24,7 +24,7 @@ export default function DashboardOrgChart() {
   const { colorMode } = useColorMode()
 
   return (
-    <Box ref={boxRef} w="inherit" h={size}>
+    <Box ref={boxRef} h={size}>
       {org && circles && size && (
         <CirclesGraph
           key={colorMode}

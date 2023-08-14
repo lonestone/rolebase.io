@@ -120,6 +120,7 @@ export default function SearchResultsList({
             <SearchResultItem
               {...getItemProps({ item, index })}
               item={item}
+              prevItem={items[index - 1]}
               highlighted={index === highlightedIndex}
               size="sm"
               w="100%"

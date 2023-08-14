@@ -15,3 +15,14 @@ fragment ThreadMemberStatus on thread_member_status {
   lastReadActivityId
   lastReadDate
 }
+
+fragment ThreadWithFirstActivity on thread {
+  ...Thread
+  activities(
+    where: { type: { _eq: Message } }
+    order_by: { createdAt: asc }
+    limit: 1
+  ) {
+    ...ThreadActivity
+  }
+}

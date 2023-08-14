@@ -1,27 +1,13 @@
-fragment News on news {
-  id
-  createdAt
-  decision {
-    ...Decision
-  }
-  meeting {
-    ...MeetingSummary
-  }
-  thread {
-    ...Thread
-  }
-}
-
-query lastNews($orgId: uuid!, $limit: Int, $offset: Int) {
+query lastNews($where: news_bool_exp!, $limit: Int, $offset: Int) {
   news(
-    where: { orgId: { _eq: $orgId } }
+    where: $where
     order_by: { createdAt: desc }
     limit: $limit
     offset: $offset
   ) {
     ...News
   }
-  news_aggregate(where: { orgId: { _eq: $orgId } }) {
+  news_aggregate(where: $where) {
     aggregate {
       count
     }

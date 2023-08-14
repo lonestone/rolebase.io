@@ -164,14 +164,19 @@
     "empty": "Aucun sujet."
   },
   "DashboardMyTasks": { "title": "Mes Tâches", "add": "Nouvelle tâche" },
-  "DashboardNews": { "heading": "Actualités" },
-  "DashboardNewsItem": {
-    "tag": {
-      "decision": "Décision",
-      "meeting": "Réunion",
-      "thread": "Sujet",
-      "default": "Actualité"
-    }
+  "DashboardNews": {
+    "heading": "Actualités",
+    "empty": "Aucune actualité.",
+    "circle": "Rôle"
+  },
+  "DashboardNewsDecision": {
+    "action": "<author /> a enregistré une décision"
+  },
+  "DashboardNewsMeeting": {
+    "action": "Une réunion a eu lieu"
+  },
+  "DashboardNewsThread": {
+    "action": "<author /> a lancé un sujet"
   },
   "DashboardPage": {
     "title": "Home",
@@ -1037,7 +1042,8 @@
     "emptyParagraphPlaceholder": "Appuyez sur \"/\" pour afficher les commandes…",
     "dates": {
       "today": "Aujourd'hui",
-      "tomorrow": "Demain"
+      "tomorrow": "Demain",
+      "dateHourSeparator": " à "
     },
     "searchTypes": {
       "All": "Tout",

@@ -1,0 +1,13 @@
+fragment News on news {
+  id
+  createdAt
+  decision {
+    ...Decision
+  }
+  meeting {
+    ...MeetingSummary
+  }
+  thread {
+    ...ThreadWithFirstActivity
+  }
+}

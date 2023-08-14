@@ -1,34 +1,47 @@
-import DayLabel from '@atoms/DayLabel'
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import {
   Box,
+  BoxProps,
+  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
   Heading,
   Stack,
+  Text,
 } from '@chakra-ui/react'
 import { useLastNewsQuery } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
-import DecisionItem from '@molecules/DecisionItem'
-import MeetingItem from '@molecules/meeting/MeetingItem'
-import ThreadItem from '@molecules/thread/ThreadItem'
-import React, { useEffect, useRef } from 'react'
+import CircleSearchButton from '@molecules/search/entities/circles/CircleSearchButton'
+import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FiChevronDown } from 'react-icons/fi'
+import DashboardNewsDecision from './DashboardNewsDecision'
+import DashboardNewsMeeting from './DashboardNewsMeeting'
+import DashboardNewsThread from './DashboardNewsThread'
 
 const limit = 20
 
-export default function DashboardNews() {
+export default function DashboardNews(boxProps: BoxProps) {
   const { t } = useTranslation()
   const orgId = useOrgId()
+  const [circleId, setCircleId] = useState<string | undefined>()
 
   const bottomRef = useRef(null)
 
   // Subscribe to news
   const { data, error, loading, fetchMore } = useLastNewsQuery({
-    skip: !orgId,
-    variables: { orgId: orgId!, limit },
+    skip: !orgId && !circleId,
+    variables: {
+      where: circleId
+        ? { circleId: { _eq: circleId } }
+        : { orgId: { _eq: orgId } },
+      limit,
+    },
+    fetchPolicy: 'cache-and-network',
+    initialFetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   })
   const news = data?.news
@@ -72,42 +85,71 @@ export default function DashboardNews() {
   }, [news, loading])
 
   return (
-    <Card>
-      <CardHeader>
-        <Heading as="h2" size="md">
-          {t('DashboardNews.heading')}
-        </Heading>
-      </CardHeader>
+    <Stack spacing={0} {...boxProps}>
+      <Card>
+        <CardHeader
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Heading as="h2" size="md">
+            {t('DashboardNews.heading')}
+          </Heading>
 
-      <CardBody p={4} pt={0}>
-        <Stack spacing={1}>
-          {news?.map((item, i) => (
-            <React.Fragment key={item.id}>
-              <DayLabel
-                date={item.createdAt!}
-                prevDate={news[i - 1]?.createdAt || undefined}
-                mt={i === 0 ? 0 : 4}
+          <ButtonGroup size="sm" variant="outline" spacing={2}>
+            {circleId ? (
+              <CircleSearchInput
+                className="userflow-tasks-role"
+                value={circleId}
+                placeholder={t('DashboardNews.circle')}
+                maxW="170px"
+                onChange={setCircleId}
+                onClear={() => setCircleId(undefined)}
               />
+            ) : (
+              <CircleSearchButton
+                className="userflow-tasks-role"
+                rightIcon={<FiChevronDown />}
+                onSelect={setCircleId}
+              >
+                {t('DashboardNews.circle')}
+              </CircleSearchButton>
+            )}
+          </ButtonGroup>
+        </CardHeader>
 
-              {item.thread && <ThreadItem thread={item.thread} showCircle />}
+        {error && (
+          <CardBody p={4} pt={0}>
+            <TextErrors errors={[error]} />
+          </CardBody>
+        )}
+      </Card>
 
-              {item.meeting && (
-                <MeetingItem meeting={item.meeting} showCircle showIcon />
-              )}
+      {news?.length === 0 && (
+        <Text fontStyle="italic" textAlign="center" mt={10}>
+          {t('DashboardNews.empty')}
+        </Text>
+      )}
 
-              {item.decision && (
-                <DecisionItem decision={item.decision} showCircle showIcon />
-              )}
-            </React.Fragment>
-          ))}
-        </Stack>
+      {news?.map((item, i) => (
+        // Cards Separator
+        <React.Fragment key={item.id}>
+          <Box
+            h={10}
+            // Card padding + avatar size / 2 - border width / 2
+            ml="calc(var(--chakra-sizes-5) + 18px - 1px)"
+            borderLeft="2px"
+            borderColor="gray.200"
+            _dark={{ borderColor: 'gray.700' }}
+          />
 
-        <Box ref={bottomRef} textAlign="center">
-          {loading && <Loading active />}
-        </Box>
+          {item.thread && <DashboardNewsThread thread={item.thread} />}
+          {item.meeting && <DashboardNewsMeeting meeting={item.meeting} />}
+          {item.decision && <DashboardNewsDecision decision={item.decision} />}
+        </React.Fragment>
+      ))}
 
-        <TextErrors errors={[error]} />
-      </CardBody>
-    </Card>
+      {loading && <Loading active size="sm" mt={10} />}
+    </Stack>
   )
 }

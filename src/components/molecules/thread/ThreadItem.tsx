@@ -27,6 +27,7 @@ interface Props extends LinkBoxProps {
   thread: ThreadFragment
   unread?: boolean
   showCircle?: boolean
+  showMember?: boolean
   isDragging?: boolean
   labelProps?: TypographyProps
 }
@@ -37,6 +38,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
       thread,
       unread,
       showCircle,
+      showMember,
       isDragging,
       labelProps,
       children,
@@ -103,7 +105,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
               {thread.title}
             </LinkOverlay>
 
-            {threadInitiator && (
+            {showMember && threadInitiator && (
               <MemberByIdAvatar
                 id={threadInitiator.id}
                 circleId={thread.circleId}

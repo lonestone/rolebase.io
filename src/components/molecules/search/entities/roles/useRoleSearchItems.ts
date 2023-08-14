@@ -1,6 +1,7 @@
 import { RoleFragment } from '@gql'
 import { SearchTypes } from '@shared/model/search'
 import { useStoreState } from '@store/hooks'
+import { truthy } from '@utils/truthy'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
@@ -13,7 +14,7 @@ export function useRoleSearchItems(
 
   return useMemo(
     () =>
-      ((roles || rolesInStore)
+      (roles || rolesInStore)
         ?.map((role): SearchItem | undefined => {
           // Exclude by id
           if (excludeIds?.includes(role.id)) return
@@ -33,7 +34,7 @@ export function useRoleSearchItems(
             title: role.name,
           }
         })
-        .filter(Boolean) as SearchItem[]) || [],
+        .filter(truthy) || [],
     [roles, rolesInStore, roles, excludeIds, singleMember]
   )
 }
