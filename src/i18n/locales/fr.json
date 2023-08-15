@@ -102,7 +102,8 @@
     "notes": "Notes",
     "notesPlaceholder": "Notes, liens...",
     "representCircle": "Représente le rôle <link />",
-    "representInCircle": "dans le rôle <link />"
+    "representInCircle": "dans le rôle <link />",
+    "generate": "Remplir automatiquement"
   },
   "CirclesPage": {
     "title": "Organigramme de {{org}}"
@@ -360,9 +361,18 @@
     "url": "URL iCal",
     "help": "La synchronisation entre votre calendrier Rolebase et votre agenda externe peut prendre quelques minutes."
   },
+  "MeetingItem": {
+    "title": "Réunion {{title}}"
+  },
   "MeetingOpenCurrent": {
     "heading": "Réunion en cours",
     "info": "Vous avez une réunion en cours, souhaitez-vous la rejoindre ?"
+  },
+  "MeetingPanelEnded": {
+    "headingWrite": "Rédigez le résumé de la réunion",
+    "headingRead": "Résumé de la réunion",
+    "info": "Il sera visible ici, dans les actualités et dans vos intégrations.",
+    "generate": "Générer automatiquement"
   },
   "MeetingPanelStarted": {
     "next": "Étape suivante",
@@ -917,7 +927,7 @@
     "title": "Note de réunion"
   },
   "ThreadActivityPoll": {
-    "heading": "Sondage",
+    "text": "a créé un sondage",
     "showResults": "Voir les résultats",
     "changeVote": "Modifier mon vote"
   },

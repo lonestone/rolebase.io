@@ -173,6 +173,12 @@ export const generateRole = fn<{ name: string; lang: string }, RoleAiFragment>(
   'generateRole'
 )
 
+// Generate a meeting summary with AI
+export const generateMeetingSummary = fn<
+  { meetingId: string; lang: string },
+  string
+>('generateMeetingSummary')
+
 // Helper to call a function
 function fn<Params, Result = void>(route: string) {
   return async (params: Params): Promise<Result> => {

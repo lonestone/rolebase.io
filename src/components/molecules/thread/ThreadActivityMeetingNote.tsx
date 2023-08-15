@@ -1,5 +1,5 @@
 import Markdown from '@atoms/Markdown'
-import { Box, Heading } from '@chakra-ui/react'
+import { Card, CardBody, CardHeader, Heading } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useUpdateThreadActivityMutation } from '@gql'
 import useCreateThreadMeetingNote from '@hooks/useCreateThreadMeetingNote'
@@ -53,43 +53,33 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
     [activity, meeting, userId]
   )
 
-  if (!isEditable && !activity.data.notes) return null
+  if (!meeting || (!isEditable && !activity.data.notes)) {
+    return null
+  }
 
   return (
-    <Box p={5}>
-      <Box
-        border="2px solid"
-        borderRadius="md"
-        borderColor="gray.100"
-        bg="gray.50"
-        _dark={{
-          borderColor: 'gray.550',
-          bg: 'whiteAlpha.50',
-        }}
-        p={5}
-      >
-        {meeting && (
-          <>
-            <Heading as="h3" fontSize="md" mb={2}>
-              {t(`ThreadActivityMeetingNote.title`, { title: meeting.title })}
-            </Heading>
-            <MeetingItem meeting={meeting} showDate showIcon mb={2} mx={-2} />
+    <Card m={5}>
+      <CardHeader>
+        <Heading as="h3" fontSize="md" mb={2}>
+          {t(`ThreadActivityMeetingNote.title`, { title: meeting.title })}
+        </Heading>
+      </CardHeader>
+      <CardBody pt={0}>
+        <MeetingItem meeting={meeting} showDate showIcon mb={2} mx={-2} />
 
-            {isEditable ? (
-              <CollabEditor
-                docId={`thread-${activity.threadId}-meeting-${meeting.id}`}
-                value={activity.data.notes}
-                placeholder={t('MeetingStepContent.notesPlaceholder')}
-                minH="80px"
-                saveEvery={10000}
-                onSave={handleNotesChange}
-              />
-            ) : (
-              <Markdown>{activity.data.notes}</Markdown>
-            )}
-          </>
+        {isEditable ? (
+          <CollabEditor
+            docId={`thread-${activity.threadId}-meeting-${meeting.id}`}
+            value={activity.data.notes}
+            placeholder={t('MeetingStepContent.notesPlaceholder')}
+            minH="80px"
+            saveEvery={10000}
+            onSave={handleNotesChange}
+          />
+        ) : (
+          <Markdown>{activity.data.notes}</Markdown>
         )}
-      </Box>
-    </Box>
+      </CardBody>
+    </Card>
   )
 }

@@ -4303,6 +4303,7 @@ export type Meeting = {
   stepsConfig: Array<Scalars['meeting_step_config']>;
   /** An aggregate relationship */
   steps_aggregate: Meeting_Step_Aggregate;
+  summary: Scalars['String'];
   title: Scalars['String'];
   videoConf?: Maybe<Scalars['videoconf']>;
 };
@@ -4439,6 +4440,7 @@ export type Meeting_Bool_Exp = {
   steps?: InputMaybe<Meeting_Step_Bool_Exp>;
   stepsConfig?: InputMaybe<Json_Comparison_Exp>;
   steps_aggregate?: InputMaybe<Meeting_Step_Aggregate_Bool_Exp>;
+  summary?: InputMaybe<String_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
   videoConf?: InputMaybe<Json_Comparison_Exp>;
 };
@@ -4470,6 +4472,7 @@ export type Meeting_Insert_Input = {
   startDate?: InputMaybe<Scalars['timestamptz']>;
   steps?: InputMaybe<Meeting_Step_Arr_Rel_Insert_Input>;
   stepsConfig?: InputMaybe<Scalars['json']>;
+  summary?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   videoConf?: InputMaybe<Scalars['json']>;
 };
@@ -4486,6 +4489,7 @@ export type Meeting_Max_Fields = {
   recurringDate?: Maybe<Scalars['timestamptz']>;
   recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
+  summary?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -4500,6 +4504,7 @@ export type Meeting_Max_Order_By = {
   recurringDate?: InputMaybe<Order_By>;
   recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
+  summary?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
 
@@ -4515,6 +4520,7 @@ export type Meeting_Min_Fields = {
   recurringDate?: Maybe<Scalars['timestamptz']>;
   recurringId?: Maybe<Scalars['uuid']>;
   startDate?: Maybe<Scalars['timestamptz']>;
+  summary?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -4529,6 +4535,7 @@ export type Meeting_Min_Order_By = {
   recurringDate?: InputMaybe<Order_By>;
   recurringId?: InputMaybe<Order_By>;
   startDate?: InputMaybe<Order_By>;
+  summary?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
 
@@ -4576,6 +4583,7 @@ export type Meeting_Order_By = {
   startDate?: InputMaybe<Order_By>;
   stepsConfig?: InputMaybe<Order_By>;
   steps_aggregate?: InputMaybe<Meeting_Step_Aggregate_Order_By>;
+  summary?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   videoConf?: InputMaybe<Order_By>;
 };
@@ -5062,6 +5070,8 @@ export enum Meeting_Select_Column {
   /** column name */
   StepsConfig = 'stepsConfig',
   /** column name */
+  Summary = 'summary',
+  /** column name */
   Title = 'title',
   /** column name */
   VideoConf = 'videoConf'
@@ -5100,6 +5110,7 @@ export type Meeting_Set_Input = {
   recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   stepsConfig?: InputMaybe<Scalars['json']>;
+  summary?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   videoConf?: InputMaybe<Scalars['json']>;
 };
@@ -5654,6 +5665,7 @@ export type Meeting_Stream_Cursor_Value_Input = {
   recurringId?: InputMaybe<Scalars['uuid']>;
   startDate?: InputMaybe<Scalars['timestamptz']>;
   stepsConfig?: InputMaybe<Scalars['json']>;
+  summary?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   videoConf?: InputMaybe<Scalars['json']>;
 };
@@ -5903,6 +5915,8 @@ export enum Meeting_Update_Column {
   StartDate = 'startDate',
   /** column name */
   StepsConfig = 'stepsConfig',
+  /** column name */
+  Summary = 'summary',
   /** column name */
   Title = 'title',
   /** column name */
@@ -17347,7 +17361,7 @@ export type DecisionFragment = { __typename?: 'decision', id: string, orgId: str
 
 export type LogFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null };
 
-export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null };
+export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null };
 
 export type MeetingSummaryFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null };
 
@@ -17359,7 +17373,7 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
-export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null };
+export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null };
 
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean };
 
@@ -17545,7 +17559,7 @@ export type MeetingSubscriptionVariables = Exact<{
 }>;
 
 
-export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> } | null };
+export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> } | null };
 
 export type MeetingsByDatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid'];
@@ -17575,7 +17589,7 @@ export type CreateMeetingMutationVariables = Exact<{
 }>;
 
 
-export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
 
 export type UpdateMeetingMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -17583,7 +17597,7 @@ export type UpdateMeetingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
 
 export type ArchiveMeetingMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -17735,7 +17749,7 @@ export type LastNewsQueryVariables = Exact<{
 }>;
 
 
-export type LastNewsQuery = { __typename?: 'query_root', news: Array<{ __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null }>, news_aggregate: { __typename?: 'news_aggregate', aggregate?: { __typename?: 'news_aggregate_fields', count: number } | null } };
+export type LastNewsQuery = { __typename?: 'query_root', news: Array<{ __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null }>, news_aggregate: { __typename?: 'news_aggregate', aggregate?: { __typename?: 'news_aggregate_fields', count: number } | null } };
 
 export type GetOrgQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -18071,27 +18085,6 @@ export const LogFragmentDoc = gql`
   taskId
 }
     `;
-export const MeetingFragmentDoc = gql`
-    fragment Meeting on meeting {
-  id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  createdAt
-  startDate
-  endDate
-  ended
-  title
-  attendees
-  stepsConfig
-  currentStepId
-  archived
-  videoConf
-  recurringId
-  recurringDate
-}
-    `;
 export const MeetingRecurringFragmentDoc = gql`
     fragment MeetingRecurring on meeting_recurring {
   id
@@ -18138,18 +18131,26 @@ export const DecisionFragmentDoc = gql`
   createdAt
 }
     `;
-export const MeetingSummaryFragmentDoc = gql`
-    fragment MeetingSummary on meeting {
+export const MeetingFragmentDoc = gql`
+    fragment Meeting on meeting {
   id
   orgId
   circleId
   participantsScope
   participantsMembersIds
+  createdAt
   startDate
   endDate
   ended
   title
+  attendees
+  stepsConfig
   currentStepId
+  summary
+  archived
+  videoConf
+  recurringId
+  recurringDate
 }
     `;
 export const ThreadFragmentDoc = gql`
@@ -18164,6 +18165,20 @@ export const ThreadFragmentDoc = gql`
   createdAt
   archived
   status
+}
+    `;
+export const MeetingSummaryFragmentDoc = gql`
+    fragment MeetingSummary on meeting {
+  id
+  orgId
+  circleId
+  participantsScope
+  participantsMembersIds
+  startDate
+  endDate
+  ended
+  title
+  currentStepId
 }
     `;
 export const TaskFragmentDoc = gql`
@@ -18222,14 +18237,14 @@ export const NewsFragmentDoc = gql`
     ...Decision
   }
   meeting {
-    ...MeetingSummary
+    ...Meeting
   }
   thread {
     ...ThreadWithFirstActivity
   }
 }
     ${DecisionFragmentDoc}
-${MeetingSummaryFragmentDoc}
+${MeetingFragmentDoc}
 ${ThreadWithFirstActivityFragmentDoc}`;
 export const OrgFragmentDoc = gql`
     fragment Org on org {

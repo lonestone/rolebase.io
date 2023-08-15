@@ -67,6 +67,7 @@ select_permissions:
         - recurringId
         - startDate
         - stepsConfig
+        - summary
         - title
         - videoConf
       filter:
@@ -89,6 +90,7 @@ update_permissions:
         - participantsScope
         - startDate
         - stepsConfig
+        - summary
         - title
         - videoConf
       filter:

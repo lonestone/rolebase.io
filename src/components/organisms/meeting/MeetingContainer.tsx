@@ -5,7 +5,8 @@ import { MeetingContext } from '@contexts/MeetingContext'
 import useMeetingState from '@hooks/useMeetingState'
 import ScrollableLayout from '@molecules/ScrollableLayout'
 import MeetingHeader from '@molecules/meeting/MeetingHeader'
-import MeetingPanel from '@molecules/meeting/MeetingPanel'
+import MeetingPanelEnded from '@molecules/meeting/MeetingPanelEnded'
+import MeetingPanelStarted from '@molecules/meeting/MeetingPanelStarted'
 import Page404 from '@pages/Page404'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +29,7 @@ export default function MeetingContainer({
   // Load meeting and steps
   const meetingState = useMeetingState(id)
 
-  const { meeting, loading, error, circle, canEdit, isStarted } = meetingState
+  const { meeting, loading, error, circle, isStarted, isEnded } = meetingState
 
   if (error) {
     console.error(error)
@@ -52,7 +53,13 @@ export default function MeetingContainer({
         content={
           loading ? <Loading active size="md" mt={10} /> : <MeetingContent />
         }
-        footer={canEdit && isStarted ? <MeetingPanel /> : undefined}
+        footer={
+          isStarted ? (
+            <MeetingPanelStarted />
+          ) : isEnded ? (
+            <MeetingPanelEnded />
+          ) : undefined
+        }
       />
     </MeetingContext.Provider>
   )

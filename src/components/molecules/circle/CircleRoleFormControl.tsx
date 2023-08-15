@@ -111,7 +111,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
             colorScheme="blue"
             onClick={generatorModal.onOpen}
           >
-            Remplir automatiquement
+            {t('CircleRoleFormControl.generate')}
           </Button>
         )}
 

@@ -18,6 +18,7 @@ import MeetingModal from '@organisms/meeting/MeetingModal'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiCalendar } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
 
@@ -42,6 +43,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
     },
     ref
   ) => {
+    const { t } = useTranslation()
     const path = usePathInOrg(`meetings/${meeting.id}`)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleOpen = useNormalClickHandler(onOpen)
@@ -86,7 +88,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
             )}
 
             <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
-              {meeting.title}
+              {t('MeetingItem.title', { title: meeting.title })}
             </LinkOverlay>
 
             {showCircle && <CircleByIdButton id={meeting.circleId} size="xs" />}

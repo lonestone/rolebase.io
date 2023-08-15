@@ -102,7 +102,8 @@
     "notes": "Notes",
     "notesPlaceholder": "Notes, links...",
     "representCircle": "Represent role <link />",
-    "representInCircle": "in role <link />"
+    "representInCircle": "in role <link />",
+    "generate": "Fill automatically"
   },
   "CirclesPage": {
     "title": "{{org}}'s org chart"
@@ -326,9 +327,18 @@
     "url": "iCal URL",
     "help": "Synchronization between your Rolebase calendar and your external calendar may take up to few minutes."
   },
+  "MeetingItem": {
+    "title": "Meeting {{title}}"
+  },
   "MeetingOpenCurrent": {
     "heading": "Meeting in progress",
     "info": "You have a meeting in progress, would you like to join it?"
+  },
+  "MeetingPanelEnded": {
+    "headingWrite": "Write the meeting summary",
+    "headingRead": "Meeting summary",
+    "info": "It will be visible here, in the news and in your integrations.",
+    "generate": "Generate automatically"
   },
   "MeetingPanelStarted": {
     "next": "Next step",
@@ -881,7 +891,7 @@
     "title": "Meeting notes"
   },
   "ThreadActivityPoll": {
-    "heading": "Poll",
+    "text": "has created a poll",
     "showResults": "Show results",
     "changeVote": "Change my vote"
   },

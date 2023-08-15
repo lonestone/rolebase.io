@@ -18,15 +18,15 @@ export default function getActivitiesEditorTextByType(
     switch (type) {
       case Thread_Activity_Type_Enum.Message: {
         const { message } = data as ThreadActivityDataMessage
-        return getTextFromJSONEditor(JSON.parse(message).root)
+        return getTextFromJSONEditor(message)
       }
       case Thread_Activity_Type_Enum.Poll: {
         const { question } = data as ThreadActivityDataPoll
-        return getTextFromJSONEditor(JSON.parse(question).root)
+        return getTextFromJSONEditor(question)
       }
       case Thread_Activity_Type_Enum.MeetingNote: {
         const { notes } = data as ThreadActivityDataMeetingNote
-        return getTextFromJSONEditor(JSON.parse(notes).root)
+        return getTextFromJSONEditor(notes)
       }
     }
   } catch (error) {

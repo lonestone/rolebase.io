@@ -14,7 +14,8 @@ export default function TextError({ error }: Props) {
   return (
     <Text color="red" fontWeight="bold">
       {t(`TextError.${(error as any).code}` as any, {
-        defaultValue: error.message,
+        defaultValue:
+          error.message || `Error ${(error as ErrorPayload).status}`,
       })}
     </Text>
   )

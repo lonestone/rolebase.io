@@ -64,7 +64,7 @@ export default function ThreadActivityLayout({
 
       <Box flex="1">
         <ActionsMenu
-          variant="solid"
+          variant="outline"
           float="right"
           opacity={0}
           _groupHover={{ opacity: 1 }}

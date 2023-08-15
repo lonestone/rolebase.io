@@ -2,12 +2,11 @@ import Loading from '@atoms/Loading'
 import Markdown from '@atoms/Markdown'
 import TextErrors from '@atoms/TextErrors'
 import {
-  Box,
-  HStack,
+  Card,
+  CardBody,
   Link,
-  Spacer,
   Text,
-  useColorMode,
+  VStack,
   useDisclosure,
 } from '@chakra-ui/react'
 import {
@@ -34,8 +33,6 @@ export default function ThreadActivityPoll({ activity }: Props) {
   const { t } = useTranslation()
   const userId = useUserId()
   const isMember = useOrgMember()
-  const { colorMode } = useColorMode()
-  const bgColor = colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100'
 
   // Edit modal
   const isUserOwner = userId === activity.userId
@@ -96,67 +93,48 @@ export default function ThreadActivityPoll({ activity }: Props) {
       allowDelete
       onEdit={isUserOwner ? onEditOpen : undefined}
     >
-      <Box
-        mt={3}
-        border="1px solid"
-        borderColor={bgColor}
-        borderRadius="lg"
-        role="group"
-      >
-        <HStack
-          background={bgColor}
-          borderTopRadius="lg"
-          h="40px"
-          pl={3}
-          pr={1}
-        >
-          <Text fontWeight="bold" mr={6}>
-            {t(`ThreadActivityPoll.heading`)}
-          </Text>
-          <Spacer />
-        </HStack>
-        <Box
-          p={3}
-          display="flex"
-          alignItems="flex-start"
-          flexDirection="column"
-        >
-          <Box fontSize="1.2rem" fontWeight={500}>
+      <Text color="gray.500" _dark={{ color: 'gray.300' }}>
+        {t(`ThreadActivityPoll.text`)}
+      </Text>
+
+      <Card mt={5}>
+        <CardBody>
+          <VStack spacing={2} alignItems="start" role="group">
             <Markdown>{activity.data.question}</Markdown>
-          </Box>
 
-          {loading && <Loading active size="md" />}
-          <TextErrors errors={[error]} />
+            {loading && <Loading active size="md" />}
+            <TextErrors errors={[error]} />
 
-          {answers &&
-            (editing ? (
-              <>
-                <ThreadActivityPollVote
-                  activity={activity}
-                  answers={answers}
-                  onVote={handleVote}
-                />
-                {(ended || !activity.data.hideUntilEnd) && (
-                  <Link mt={2} onClick={() => setEditing(false)}>
-                    {t(`ThreadActivityPoll.showResults`)}
-                  </Link>
-                )}
-              </>
-            ) : (
-              <>
-                <ThreadActivityPollResult
-                  activity={activity}
-                  answers={answers}
-                />
-                {!ended && isMember && (
-                  <Link mt={2} onClick={() => setEditing(true)}>
-                    {t(`ThreadActivityPoll.changeVote`)}
-                  </Link>
-                )}
-              </>
-            ))}
-        </Box>
-      </Box>
+            {answers &&
+              (editing ? (
+                <>
+                  <ThreadActivityPollVote
+                    activity={activity}
+                    answers={answers}
+                    onVote={handleVote}
+                  />
+                  {(ended || !activity.data.hideUntilEnd) && (
+                    <Link onClick={() => setEditing(false)}>
+                      {t(`ThreadActivityPoll.showResults`)}
+                    </Link>
+                  )}
+                </>
+              ) : (
+                <>
+                  <ThreadActivityPollResult
+                    activity={activity}
+                    answers={answers}
+                  />
+                  {!ended && isMember && (
+                    <Link onClick={() => setEditing(true)}>
+                      {t(`ThreadActivityPoll.changeVote`)}
+                    </Link>
+                  )}
+                </>
+              ))}
+          </VStack>
+        </CardBody>
+      </Card>
 
       {isEditOpen && (
         <ActivityPollModal

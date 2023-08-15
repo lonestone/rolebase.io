@@ -1,6 +1,7 @@
 import { RoleAiFragment, gql } from '@gql'
 import { nameSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
+import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { route } from '@utils/route'
 import settings from '@utils/settings'
@@ -71,10 +72,11 @@ const yupSchema = yup.object().shape({
 })
 
 export default route(async (context): Promise<RoleAiFragment> => {
+  guardAuth(context)
   const { name, lang } = guardBodyParams(context, yupSchema)
 
   const existingRole = (await adminRequest(GET_ROLE_AI, { name, lang }))
-    ?.role_ai[0]
+    .role_ai[0]
   if (existingRole) {
     return existingRole
   }

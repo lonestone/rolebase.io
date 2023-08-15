@@ -71,7 +71,7 @@ interface Values {
 }
 
 const defaultValues: Values = {
-  question: '',
+  question: '#### ', // Prepare with a h4 heading
   choices: [{ title: '' }, { title: '' }],
   multiple: false,
   minAnswers: null,
