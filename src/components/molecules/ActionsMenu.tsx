@@ -5,6 +5,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Portal,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -54,54 +55,56 @@ export default function ActionsMenu({
         {...props}
       />
 
-      <MenuList
-        fontFamily="body"
-        fontSize="1rem"
-        fontWeight="normal"
-        shadow="lg"
-        zIndex={1000}
-      >
-        {onEdit && (
-          <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
-            {t('common.edit')}
-          </MenuItem>
-        )}
-        {onMove && (
-          <MenuItem icon={<FiMove />} onClick={onMove}>
-            {t('common.move')}
-          </MenuItem>
-        )}
-        {onDuplicate && (
-          <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
-            {t('common.duplicate')}
-          </MenuItem>
-        )}
-        {onExport && (
-          <MenuItem icon={<FiDownload />} onClick={onExport}>
-            {t('common.export')}
-          </MenuItem>
-        )}
-        {onMarkUnread && (
-          <MenuItem icon={<FiEyeOff />} onClick={onMarkUnread}>
-            {t('common.markUnread')}
-          </MenuItem>
-        )}
-        {onArchive && (
-          <MenuItem icon={<FiArchive />} onClick={onArchive}>
-            {t('common.archive')}
-          </MenuItem>
-        )}
-        {onUnarchive && (
-          <MenuItem icon={<FiArchive />} onClick={onUnarchive}>
-            {t('common.unarchive')}
-          </MenuItem>
-        )}
-        {onDelete && (
-          <MenuItem icon={<FiTrash2 />} onClick={onDelete}>
-            {t('common.delete')}
-          </MenuItem>
-        )}
-      </MenuList>
+      <Portal>
+        <MenuList
+          fontFamily="body"
+          fontSize="1rem"
+          fontWeight="normal"
+          shadow="lg"
+          zIndex={2000}
+        >
+          {onEdit && (
+            <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
+              {t('common.edit')}
+            </MenuItem>
+          )}
+          {onMove && (
+            <MenuItem icon={<FiMove />} onClick={onMove}>
+              {t('common.move')}
+            </MenuItem>
+          )}
+          {onDuplicate && (
+            <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
+              {t('common.duplicate')}
+            </MenuItem>
+          )}
+          {onExport && (
+            <MenuItem icon={<FiDownload />} onClick={onExport}>
+              {t('common.export')}
+            </MenuItem>
+          )}
+          {onMarkUnread && (
+            <MenuItem icon={<FiEyeOff />} onClick={onMarkUnread}>
+              {t('common.markUnread')}
+            </MenuItem>
+          )}
+          {onArchive && (
+            <MenuItem icon={<FiArchive />} onClick={onArchive}>
+              {t('common.archive')}
+            </MenuItem>
+          )}
+          {onUnarchive && (
+            <MenuItem icon={<FiArchive />} onClick={onUnarchive}>
+              {t('common.unarchive')}
+            </MenuItem>
+          )}
+          {onDelete && (
+            <MenuItem icon={<FiTrash2 />} onClick={onDelete}>
+              {t('common.delete')}
+            </MenuItem>
+          )}
+        </MenuList>
+      </Portal>
     </Menu>
   )
 }
