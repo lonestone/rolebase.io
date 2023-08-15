@@ -56,6 +56,7 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
           size={size}
           variant="ghost"
           w="100%"
+          borderRadius={0}
           member={
             member || {
               name: user?.displayName || '?',
@@ -63,6 +64,21 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
             }
           }
           maxNameLength={15}
+          _before={
+            // Hover zone to avoid closing menu when we move the mouse towards it
+            menu.isOpen
+              ? {
+                  // bg: 'red', // To show hover zone (debug)
+                  content: '""',
+                  position: 'absolute',
+                  right: 0,
+                  bottom: '-6px',
+                  w: '73px',
+                  h: '150px',
+                  transform: 'rotate(67deg)',
+                }
+              : undefined
+          }
           onMouseEnter={menu.onOpen}
           onMouseLeave={menu.onClose}
         />

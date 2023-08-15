@@ -226,6 +226,8 @@ export default function Sidebar() {
           flexDirection="column"
           alignItems="stretch"
           overflowY="auto"
+          // No X scrollbar, required because UserMenu uses a invisible placeholder that can go beyond the frame
+          overflowX="clip"
         >
           {orgId ? (
             <>
