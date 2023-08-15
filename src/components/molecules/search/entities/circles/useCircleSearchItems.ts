@@ -23,25 +23,22 @@ export function useCircleSearchItems(
 
           // Get roles and ancestors
           const circleFull = getCircleAndParents(circlesInStore, circle.id)
+          const role = circleFull[circleFull.length - 1]?.role
 
           // Exclude by singleMember property
           if (
-            singleMember !== undefined &&
-            (circleFull[circleFull.length - 1].role.singleMember || false) !==
-              singleMember
+            !role ||
+            (singleMember !== undefined &&
+              (role.singleMember || false) !== singleMember)
           ) {
             return
           }
 
           return {
             id: circle.id,
-            text: circleFull
-              .map((cr) => cr.role.name)
-              .join(' ')
-              .toLowerCase(),
+            text: role.name.toLowerCase(),
             type: SearchTypes.Circle,
             title: circleFull
-              .slice(circleFull.length === 1 ? 0 : 1)
               .map((cr) => cr.role.name)
               .join(searchItemTitleSeparator),
           }

@@ -131,7 +131,7 @@ export default function SearchInput({
       >
         <Tooltip
           label={
-            (valueItem?.text.length || 0) > 10 ? valueItem?.title : undefined
+            (valueItem?.title.length || 0) > 10 ? valueItem?.title : undefined
           }
           placement="top"
           hasArrow

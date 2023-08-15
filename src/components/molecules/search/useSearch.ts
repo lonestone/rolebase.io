@@ -23,8 +23,8 @@ export function useSearch(
           : items
         : incrementalSearch(items, searchText)
 
-    // Sort by text
-    searchItems.sort((a, b) => a.text.localeCompare(b.text))
+    // Sort by title
+    searchItems.sort((a, b) => a.title.localeCompare(b.title))
 
     // Add Create item
     if (createItem && searchText.length >= 1) {
