@@ -12,13 +12,17 @@ import { store } from '../store'
 import theme from '../theme'
 import AppRoute from './routes/AppRoute'
 
+const apolloHeaders = {
+  'x-hasura-role': 'user',
+}
+
 export default function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <NhostProvider nhost={nhost}>
-          <NhostApolloProvider nhost={nhost}>
+          <NhostApolloProvider nhost={nhost} headers={apolloHeaders}>
             <SidebarProvider>
               <StoreProvider store={store}>
                 <Router>
