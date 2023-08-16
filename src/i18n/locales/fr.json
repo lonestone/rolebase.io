@@ -912,7 +912,7 @@
     "emptyDescription": "Vous pouvez envoyer un premier message 👇"
   },
   "ThreadActivityCreate": {
-    "archived": "Ce sujet est archivé. Vous pouvez la restaurer avec le menu en haut à droite.",
+    "archived": "Ce sujet est archivé. Vous pouvez le restaurer avec le menu en haut à droite.",
     "placeholder": "Message...",
     "poll": "Sondage",
     "defaultEntityDescription": "Sujet : {{thread}}"
