@@ -3,7 +3,6 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import React, {
   Suspense,
   forwardRef,
-  lazy,
   memo,
   useCallback,
   useEffect,
@@ -12,12 +11,10 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import RichEditor from './lib/RichEditor'
 import { EditorHandle } from './lib/plugins/EditorRefPlugin'
 import useFileUpload from './useFileUpload'
 import useMentionables from './useMentionables'
-
-// Lazy loading
-const RichEditor = lazy(() => import('./lib/RichEditor'))
 
 // Collaborative Markdown editor
 
