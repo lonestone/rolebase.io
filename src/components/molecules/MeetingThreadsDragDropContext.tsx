@@ -83,7 +83,6 @@ export default function MeetingThreadsDragDropContext({
     loading,
   } = useThreadsWithMeetingNoteSubscription({
     skip: !meeting || stepThreadsIds.length === 0,
-    fetchPolicy: 'cache-first',
     variables: {
       threadsIds: stepThreadsIds,
       meetingId: meeting?.id || '',
@@ -108,7 +107,9 @@ export default function MeetingThreadsDragDropContext({
   const [availableThreads, setAvailableThreads] = useState<ThreadFragment[]>([])
 
   useEffect(() => {
-    if (!threadSteps || !selectedThreadsData) return
+    if (!threadSteps || (stepThreadsIds.length !== 0 && !selectedThreadsData)) {
+      return
+    }
     const ids: string[] = []
 
     setThreadsByStep(
@@ -121,7 +122,7 @@ export default function MeetingThreadsDragDropContext({
               ids.push(threadId)
 
               // Try getting thread with note first
-              const threadWithNotes = selectedThreadsData.thread.find(
+              const threadWithNotes = selectedThreadsData?.thread.find(
                 (t) => t.id === threadId
               )
               if (threadWithNotes) {
