@@ -46,7 +46,11 @@ export default function MeetingContent() {
   const createMissingMeetingSteps = useCreateMissingMeetingSteps()
   useEffect(() => {
     if (!meeting || !circle || !steps) return
-    createMissingMeetingSteps()
+    // We want to create missing steps only if there is already some steps defined,
+    // because MeetingContentEmpty is in charge of creating steps of a new meeting
+    if (steps.length > 0) {
+      createMissingMeetingSteps()
+    }
   }, [meeting, circle, steps])
 
   // Meeting edition modal
