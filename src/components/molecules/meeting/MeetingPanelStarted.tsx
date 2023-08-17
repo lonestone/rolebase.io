@@ -100,6 +100,7 @@ export default function MeetingPanelStarted() {
   return (
     <Container
       maxW="3xl"
+      py={5}
       display="flex"
       justifyContent="space-between"
       flexDirection={{ base: 'column', lg: 'row' }}

@@ -11,6 +11,8 @@ interface Props extends BoxProps {
   footer?: React.ReactElement
 }
 
+const scrollbarWidth = '12px'
+
 export default function ScrollableLayout({
   header,
   content,
@@ -49,6 +51,10 @@ export default function ScrollableLayout({
           bottom={0}
           my="5px"
           overflowY="scroll"
+          sx={{
+            scrollbarWidth: 'auto',
+            '&::-webkit-scrollbar': { w: scrollbarWidth },
+          }}
           onScroll={handleScroll}
         >
           <Box h={`${(topSize?.height || 0) - 5}px`} />
@@ -63,7 +69,7 @@ export default function ScrollableLayout({
           aria-label="Scroll to top"
           position="absolute"
           top={`${(topSize?.height || 0) + 10}px`}
-          right="30px"
+          right={scrollbarWidth}
           icon={<FiArrowUp />}
           onClick={() => {
             containerRef.current?.scrollTo({
@@ -78,7 +84,7 @@ export default function ScrollableLayout({
           aria-label="Scroll to bottom"
           position="absolute"
           bottom={`${(bottomSize?.height || 0) + 10}px`}
-          right="30px"
+          right={scrollbarWidth}
           icon={<FiArrowDown />}
           onClick={() => {
             containerRef.current?.scrollTo({
@@ -109,7 +115,7 @@ export default function ScrollableLayout({
         ref={bottomRef}
         visibility={footer ? 'visible' : 'hidden'}
         zIndex={10}
-        p={5}
+        pr={scrollbarWidth}
         borderBottomRadius="lg"
         borderTopWidth={
           isScrollable && scrollPosition !== ScrollPosition.Bottom ? 3 : 1

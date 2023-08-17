@@ -91,7 +91,7 @@ export default function MeetingPanelEnded() {
   }
 
   return (
-    <Container maxW="3xl">
+    <Container maxW="3xl" py={5}>
       <IconTextButton
         aria-label={
           showPanel.isOpen

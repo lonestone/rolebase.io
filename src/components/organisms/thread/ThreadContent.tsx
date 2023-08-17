@@ -155,6 +155,7 @@ export default function ThreadContent({
             <ThreadActivityCreate
               thread={thread}
               w="100%"
+              p={5}
               className="userflow-thread-create"
             />
           ) : undefined
