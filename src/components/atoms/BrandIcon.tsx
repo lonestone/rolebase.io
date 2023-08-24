@@ -1,13 +1,13 @@
 import React from 'react'
 import Logo from 'src/images/logo.svg'
 
-const logoWidth = 430
-const logoHeight = 79
+const logoWidth = 334 // 430
+const logoHeight = 56 // 79
 
 const sizes = {
-  sm: 0.22,
-  md: 0.4,
-  lg: 0.7,
+  sm: 0.35,
+  md: 0.51,
+  lg: 0.9,
 }
 
 interface Props {
