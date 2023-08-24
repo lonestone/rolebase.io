@@ -118,7 +118,7 @@ export default function SearchButton({
           type="text"
           placeholder={children}
           display={isOpen ? '' : 'none'}
-          w={buttonWidth || 'auto'}
+          w={buttonWidth ? `${buttonWidth}px` : 'auto'}
           borderRadius={buttonProps.borderRadius}
           {...inputProps}
         />
