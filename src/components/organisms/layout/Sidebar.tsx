@@ -11,26 +11,25 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Link,
   Spacer,
   Tooltip,
   useDisclosure,
   useMediaQuery,
 } from '@chakra-ui/react'
 import {
+  SidebarContext,
   defaultSidebarHeight,
   defaultSidebarWidth,
-  SidebarContext,
 } from '@contexts/SidebarContext'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgOwner from '@hooks/useOrgOwner'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import useSuperAdmin from '@hooks/useSuperAdmin'
-import Notifications from '@molecules/notification/Notifications'
 import OrgSwitch from '@molecules/OrgSwitch'
-import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
 import UserMenu from '@molecules/UserMenu'
+import Notifications from '@molecules/notification/Notifications'
+import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
 import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
 import { cmdOrCtrlKey } from '@utils/env'
@@ -43,7 +42,6 @@ import {
   FiCalendar,
   FiCheckSquare,
   FiDisc,
-  FiExternalLink,
   FiHelpCircle,
   FiMenu,
   FiMessageSquare,
@@ -51,7 +49,7 @@ import {
   FiStar,
   FiUsers,
 } from 'react-icons/fi'
-import settings from 'src/settings'
+import { Link as ReachLink } from 'react-router-dom'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -142,13 +140,13 @@ export default function Sidebar() {
         color="white"
         align="center"
       >
-        {isMobile ? (
-          /* Mobile: bar with logo and icons */
-          <>
-            <Link onClick={context.expand.onToggle}>
-              <BrandIcon size="sm" />
-            </Link>
+        <ReachLink to={rootPath} tabIndex={-1}>
+          <BrandIcon size="sm" />
+        </ReachLink>
 
+        {isMobile && (
+          /* Mobile: top bar with logo and icons */
+          <>
             <Spacer />
 
             {!context.expand.isOpen && orgId && (
@@ -201,20 +199,6 @@ export default function Sidebar() {
             <SidebarTopIcon icon={<FiMenu />} onClick={context.expand.onToggle}>
               {t('Sidebar.menu')}
             </SidebarTopIcon>
-          </>
-        ) : (
-          /* Desktop: Logo and link to website */
-          <>
-            <BrandIcon size="sm" />
-            <Spacer />
-            <Link
-              href={settings.websiteUrl}
-              target="_blank"
-              rel="noreferrer"
-              tabIndex={-1}
-            >
-              <FiExternalLink opacity={0.5} />
-            </Link>
           </>
         )}
       </Flex>
