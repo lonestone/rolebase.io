@@ -167,7 +167,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
 
       {data.anonymous && <Text>{t('ThreadActivityPollVote.anonymous')}</Text>}
 
-      <Stack spacing={1} mt={3} align="stretch">
+      <Stack spacing={1} align="stretch">
         {displayOrder.map((index) => {
           const choice = data.choices[index]
           const points = choicesFields[index]?.points || 0

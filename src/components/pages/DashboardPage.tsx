@@ -26,7 +26,8 @@ const DashboardPage = () => {
 
       <Flex
         w="100%"
-        p={{ base: 3, md: margin }}
+        px={{ base: 3, md: margin }}
+        py={margin}
         flexDirection={{ base: 'column-reverse', lg: 'row' }}
       >
         <Flex
@@ -44,7 +45,7 @@ const DashboardPage = () => {
           align="stretch"
           maxW={{ lg: 'calc(min(45%, 500px))' }}
         >
-          <DashboardOrgChart />
+          <DashboardOrgChart display={{ base: 'none', lg: 'flex' }} />
           <DashboardMyMeetings />
           <DashboardMyTasks />
           <DashboardMyThreads />

@@ -36,6 +36,7 @@ export default function ScrollableLayout({
     <Box
       bg="gray.50"
       _dark={{ bg: 'gray.800' }}
+      borderRadius="lg"
       position="relative"
       display="flex"
       flexDirection="column"

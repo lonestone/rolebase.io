@@ -1,4 +1,4 @@
-import { Box, useColorMode } from '@chakra-ui/react'
+import { Box, BoxProps, useColorMode } from '@chakra-ui/react'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import useCirclesEvents from '@hooks/useGraphEvents'
@@ -7,7 +7,7 @@ import { useStoreState } from '@store/hooks'
 import React, { useMemo, useRef } from 'react'
 import { GraphViews } from 'src/circles-viz/types'
 
-export default function DashboardOrgChart() {
+export default function DashboardOrgChart(boxProps: BoxProps) {
   const org = useCurrentOrg()
 
   // Content size
@@ -24,7 +24,7 @@ export default function DashboardOrgChart() {
   const { colorMode } = useColorMode()
 
   return (
-    <Box ref={boxRef} h={size}>
+    <Box ref={boxRef} h={size} {...boxProps}>
       {org && circles && size && (
         <CirclesGraph
           key={colorMode}

@@ -60,7 +60,7 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
   return (
     <Card m={5}>
       <CardHeader>
-        <Heading as="h3" fontSize="md" mb={2}>
+        <Heading as="h3" fontSize="md">
           {t(`ThreadActivityMeetingNote.title`, { title: meeting.title })}
         </Heading>
       </CardHeader>

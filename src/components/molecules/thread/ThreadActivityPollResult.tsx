@@ -48,7 +48,7 @@ function ThreadActivityPollResult({ activity, answers }: Props) {
   )
 
   return (
-    <Stack spacing={1} mt={3} align="stretch">
+    <Stack spacing={1} align="stretch">
       {results.map(({ title, points, voters }, index) => {
         const widthRatio = Math.round((points / maxPoints) * 1000) / 10
         return (
