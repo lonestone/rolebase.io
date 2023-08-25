@@ -701,6 +701,7 @@
   },
   "SearchGlobalModal": {
     "placeholder": "Rechercher dans {{org}}...",
+    "in": "Dans :",
     "noResults": "Aucun résultat trouvé."
   },
   "SearchResultsList": {
@@ -717,7 +718,7 @@
     "members": "Membres",
     "superAdmin": "Admin",
     "subscription": "Abonnement",
-    "search": "Rechercher...",
+    "search": "Rechercher",
     "help": "Aide"
   },
   "SignupForm": {
@@ -1058,8 +1059,7 @@
     "searchTypes": {
       "All": "Tout",
       "Member": "Membres",
-      "Role": "Rôles",
-      "Circle": "Cercles",
+      "Circle": "Rôles",
       "Thread": "Sujets",
       "Meeting": "Réunions",
       "Task": "Tâches",

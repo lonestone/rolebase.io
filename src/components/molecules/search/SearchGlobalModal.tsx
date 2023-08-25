@@ -16,14 +16,15 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
-  useColorMode,
+  Text,
   UseModalProps,
+  useColorMode,
 } from '@chakra-ui/react'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useIdleCallback } from '@hooks/useIdleCallback'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { SearchTypes } from '@shared/model/search'
-import { useCombobox, UseComboboxStateChange } from 'downshift'
+import { UseComboboxStateChange, useCombobox } from 'downshift'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
@@ -133,6 +134,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
         </Box>
 
         <HStack py={2} px={5}>
+          <Text>{t('SearchGlobalModal.in')}</Text>
           <Menu>
             <MenuButton
               as={Button}
