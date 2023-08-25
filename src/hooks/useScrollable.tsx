@@ -8,11 +8,19 @@ export enum ScrollPosition {
 }
 
 export default function useScrollable() {
-  // Scroll handling
+  // Scroll state
   const [isScrollable, setIsScrollable] = useState(false)
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>(
     ScrollPosition.Top
   )
+
+  // Ref to keep following functions deps empty
+  const scrollPositionRef = useRef(scrollPosition)
+
+  const setPosition = (position: ScrollPosition) => {
+    setScrollPosition(position)
+    scrollPositionRef.current = position
+  }
 
   // Elements should be there at first render for their refs to be available
   const containerRef = useRef<HTMLDivElement>(null)
@@ -22,19 +30,19 @@ export default function useScrollable() {
     (event) => {
       const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
       if (scrollTop === 0) {
-        setScrollPosition(ScrollPosition.Top)
+        setPosition(ScrollPosition.Top)
       } else if (scrollTop + clientHeight + 1 < scrollHeight) {
-        if (scrollPosition !== ScrollPosition.Middle) {
-          setScrollPosition(ScrollPosition.Middle)
+        if (scrollPositionRef.current !== ScrollPosition.Middle) {
+          setPosition(ScrollPosition.Middle)
         }
       } else {
-        setScrollPosition(ScrollPosition.Bottom)
+        setPosition(ScrollPosition.Bottom)
       }
     },
-    [scrollPosition]
+    []
   )
 
-  // Scroll to end when activities change and scroll position in set to bottom
+  // Scroll to bottom when content size changes and scroll position in set to bottom
   useEffect(() => {
     const content = contentRef?.current
     const container = containerRef?.current
@@ -47,14 +55,10 @@ export default function useScrollable() {
       // Wait for layout to be done
       setTimeout(() => {
         // Keep scroll position at bottom
-        if (container && scrollPosition === ScrollPosition.Bottom) {
-          if (container.scrollHeight === container.clientHeight) {
-            setIsScrollable(false)
-          } else {
-            setIsScrollable(true)
-            container.scrollTop =
-              container.scrollHeight - container.clientHeight
-          }
+        const scrollable = container.scrollHeight !== container.clientHeight
+        setIsScrollable(scrollable)
+        if (scrollable && scrollPositionRef.current === ScrollPosition.Bottom) {
+          container.scrollTop = container.scrollHeight - container.clientHeight
         }
       }, 0)
 
@@ -62,7 +66,7 @@ export default function useScrollable() {
     const observer = new ResizeObserver(onResize)
     observer.observe(content)
     return () => observer.disconnect()
-  }, [scrollPosition])
+  }, [])
 
   return {
     containerRef,

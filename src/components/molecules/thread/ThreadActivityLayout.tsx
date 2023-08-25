@@ -12,6 +12,7 @@ import { useStoreState } from '@store/hooks'
 import { format } from 'date-fns'
 import React, { ReactNode, useContext, useMemo } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
+import ThreadActivityAnchor from './ThreadActivityAnchor'
 
 interface Props {
   activity: ThreadActivityFragment | ThreadActivityChangeStatusFragment
@@ -28,7 +29,6 @@ export default function ThreadActivityLayout({
 }: Props) {
   const hover = useHoverItemStyle()
   const { path, handleMarkUnread } = useContext(ThreadContext)!
-  const anchor = `activity-${activity.id}`
 
   // Retrieve author member
   const members = useStoreState((state) => state.org.members)
@@ -52,8 +52,7 @@ export default function ThreadActivityLayout({
 
   return (
     <Flex p={3} pl={6} _hover={hover} role="group">
-      {/* Anchor */}
-      <Box id={anchor} transform="translateY(-100px)" />
+      <ThreadActivityAnchor activityId={activity.id} />
 
       <Avatar
         name={member?.name || '?'}
@@ -77,7 +76,7 @@ export default function ThreadActivityLayout({
           {member && <MemberLink id={member.id} name={member.name} />}
           <Link
             as={ReachLink}
-            to={`${path}#${anchor}`}
+            to={`${path}#activity-${activity.id}`}
             fontSize="sm"
             fontWeight="normal"
             ml={2}

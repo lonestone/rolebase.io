@@ -10,6 +10,7 @@ import { activityMeetingNoteTmpId } from '@organisms/thread/ThreadActivities'
 import { ThreadActivityMeetingNoteFragment } from '@shared/model/thread_activity'
 import React, { useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import ThreadActivityAnchor from './ThreadActivityAnchor'
 
 interface Props {
   activity: ThreadActivityMeetingNoteFragment
@@ -54,11 +55,13 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
   )
 
   if (!meeting || (!isEditable && !activity.data.notes)) {
-    return null
+    return <ThreadActivityAnchor activityId={activity.id} />
   }
 
   return (
     <Card m={5}>
+      <ThreadActivityAnchor activityId={activity.id} />
+
       <CardHeader>
         <Heading as="h3" fontSize="md">
           {t(`ThreadActivityMeetingNote.title`, { title: meeting.title })}
