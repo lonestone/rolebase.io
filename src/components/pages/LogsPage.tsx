@@ -4,6 +4,7 @@ import { Title } from '@atoms/Title'
 import { Box, Container, Flex, Heading } from '@chakra-ui/react'
 import { useLastLogsQuery } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
+import ScrollableLayout from '@molecules/ScrollableLayout'
 import LogsList from '@molecules/log/LogsList'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -64,16 +65,17 @@ export default function LogsPage() {
   }, [logs, loading])
 
   return (
-    <Box p={5}>
+    <ScrollableLayout
+      header={
+        <Flex ml={5} my={2} w="100%" alignItems="center" flexWrap="wrap">
+          <Heading as="h1" size="lg">
+            {t('LogsPage.heading')}
+          </Heading>
+        </Flex>
+      }
+    >
       <Title>{t('LogsPage.heading')}</Title>
-
-      <Flex mb={16} alignItems="center" flexWrap="wrap">
-        <Heading as="h1" size="md">
-          {t('LogsPage.heading')}
-        </Heading>
-      </Flex>
-
-      <Container maxW="xl" p={0} pb={16}>
+      <Container maxW="xl" my={10}>
         {logs && <LogsList logs={logs} />}
 
         <Box ref={bottomRef} mt={3} textAlign="center">
@@ -82,6 +84,6 @@ export default function LogsPage() {
 
         <TextErrors errors={[error]} />
       </Container>
-    </Box>
+    </ScrollableLayout>
   )
 }

@@ -52,9 +52,25 @@ export default function OrgSwitch(props: MenuButtonProps) {
         px={5}
         textAlign="left"
         whiteSpace="normal"
-        borderRadius="none"
+        borderRadius="xl"
         opacity={showName ? 1 : 0}
         rightIcon={<UpDownIcon pt={1} opacity={0.6} />}
+        _hover={{
+          bg: 'whiteAlpha.600',
+        }}
+        _active={{
+          bg: 'white',
+        }}
+        _dark={{
+          color: 'whiteAlpha.800',
+          _hover: {
+            bg: 'whiteAlpha.50',
+          },
+          _active: {
+            color: 'white',
+            bg: 'whiteAlpha.100',
+          },
+        }}
         {...props}
       >
         {showName ? org.name : ''}

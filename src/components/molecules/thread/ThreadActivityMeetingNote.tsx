@@ -59,7 +59,7 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
   }
 
   return (
-    <Card m={5}>
+    <Card m={5} bg="gray.50" _dark={{ bg: 'gray.800' }}>
       <ThreadActivityAnchor activityId={activity.id} />
 
       <CardHeader>

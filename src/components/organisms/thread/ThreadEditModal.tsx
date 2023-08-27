@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Collapse,
   FormControl,
   FormLabel,
   Input,
@@ -163,7 +164,9 @@ export default function ThreadEditModal({
 
                 <CircleFormController />
 
-                {circleId && <ParticipantsFormControl />}
+                <Collapse in={!!circleId}>
+                  <ParticipantsFormControl />
+                </Collapse>
 
                 {!thread && (
                   <FormControl>

@@ -89,7 +89,7 @@ export default function MeetingStepContentTasks({ step }: Props) {
   if (!meeting || !circle) return null
 
   return (
-    <Box mb={5}>
+    <Box my={5}>
       {!isEnded && (
         <TasksModule
           view={cachedData.viewType || TasksViewTypes.Kanban}
@@ -103,8 +103,6 @@ export default function MeetingStepContentTasks({ step }: Props) {
           onViewChange={handleViewChange}
           onMemberChange={handleMemberChange}
           onStatusChange={handleStatusChange}
-          mt={5}
-          mb={10}
         />
       )}
 
@@ -113,6 +111,7 @@ export default function MeetingStepContentTasks({ step }: Props) {
         title={t('MeetingStepContentTasks.logs')}
         includeTypes={taskLogTypes}
         hideEmpty
+        mt={10}
       />
     </Box>
   )

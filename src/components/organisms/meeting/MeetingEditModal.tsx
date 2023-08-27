@@ -4,6 +4,7 @@ import {
   AlertIcon,
   Box,
   Button,
+  Collapse,
   Flex,
   FormControl,
   FormLabel,
@@ -340,9 +341,9 @@ export default function MeetingEditModal({
 
                 <CircleFormController singleMember={false} />
 
-                {(!meeting?.attendees || duplicate) && circleId && (
+                <Collapse in={(!meeting?.attendees || duplicate) && !!circleId}>
                   <ParticipantsFormControl />
-                )}
+                </Collapse>
 
                 <FormControl>
                   <FormLabel>{t('MeetingEditModal.steps')}</FormLabel>

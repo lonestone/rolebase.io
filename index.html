@@ -44,7 +44,9 @@
       if (mode) {
         const css = `
           body {
-            background-color: ${mode === 'dark' ? '#1F1F29' : '#FBF7FC'};
+            background-color: ${
+              mode === 'dark' ? 'hsl(31.3, 12.7%, 9%)' : 'white'
+            };
           }
         `
         const style = document.createElement('style')

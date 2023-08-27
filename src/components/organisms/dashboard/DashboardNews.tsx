@@ -110,6 +110,7 @@ export default function DashboardNews(boxProps: BoxProps) {
               <CircleSearchButton
                 className="userflow-tasks-role"
                 rightIcon={<FiChevronDown />}
+                fontWeight="normal"
                 onSelect={setCircleId}
               >
                 {t('DashboardNews.circle')}

@@ -56,7 +56,9 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
           size={size}
           variant="ghost"
           w="100%"
-          borderRadius={0}
+          pl={5}
+          justifyContent="start"
+          borderRadius="xl"
           member={
             member || {
               name: user?.displayName || '?',
@@ -64,6 +66,14 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
             }
           }
           maxNameLength={15}
+          _active={{ bg: 'white' }}
+          _dark={{
+            color: 'whiteAlpha.800',
+            _active: {
+              color: 'white',
+              bg: 'whiteAlpha.100',
+            },
+          }}
           _before={
             // Hover zone to avoid closing menu when we move the mouse towards it
             menu.isOpen

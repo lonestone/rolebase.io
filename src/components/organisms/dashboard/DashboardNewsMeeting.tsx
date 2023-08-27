@@ -22,7 +22,7 @@ export default function DashboardNewsMeeting({ meeting }: Props) {
         meeting={meeting}
         showCircle
         showIcon
-        fontWeight="bold"
+        fontWeight="medium"
         my={3}
       />
 

@@ -1,12 +1,16 @@
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { useElementSize } from '@hooks/useElementSize'
 import useWindowSize from '@hooks/useWindowSize'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 
-export interface OverflowContainerProps extends BoxProps {
+export interface OverflowContainerParams {
   expandRight?: boolean
   expandLeft?: boolean
   expandBottom?: boolean
+}
+
+interface Props extends OverflowContainerParams {
+  children: ReactNode
 }
 
 interface Position {
@@ -20,8 +24,7 @@ export default function OverflowContainer({
   expandLeft,
   expandBottom,
   children,
-  ...boxProps
-}: OverflowContainerProps) {
+}: Props) {
   const placeholderRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const contentSize = useElementSize(contentRef)
@@ -44,13 +47,16 @@ export default function OverflowContainer({
     windowSize.height,
   ])
 
+  if (!expandRight && !expandLeft && !expandBottom) {
+    return <>{children}</>
+  }
+
   return (
     <Box
       ref={placeholderRef}
       h={expandBottom ? undefined : contentSize?.height}
     >
       <Box
-        {...boxProps}
         overflowX="auto"
         overflowY={expandBottom ? 'auto' : 'hidden'}
         position="absolute"

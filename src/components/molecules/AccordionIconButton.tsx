@@ -10,9 +10,10 @@ export default function AccordionIconButton({ icon, children }: Props) {
   return (
     <AccordionButton
       px={6}
-      bg="rgba(246, 246, 249, 0.5)"
+      bg="menulight"
       fontSize="sm"
-      _dark={{ bg: 'whiteAlpha.50' }}
+      _focus={{ bg: 'menulight' }}
+      _dark={{ bg: 'menudark', _focus: { bg: 'menudark' } }}
       _expanded={{ fontWeight: 'bold' }}
     >
       {icon}

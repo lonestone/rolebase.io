@@ -46,8 +46,8 @@
 .chakra-ui-dark {
   --fc-neutral-bg-color: var(--chakra-colors-gray-700);
   --fc-neutral-text-color: var(--chakra-colors-gray-500);
-  --fc-border-color: var(--chakra-colors-gray-550);
-  --fc-border-subtle-color: var(--chakra-colors-gray-700);
+  --fc-border-color: var(--chakra-colors-gray-700);
+  --fc-border-subtle-color: var(--chakra-colors-gray-800);
   --fc-event-text-color: var(--chakra-colors-gray-100);
   --fc-event-border-color: var(--chakra-colors-gray-800);
 
@@ -102,8 +102,6 @@ a.fc-daygrid-event:hover {
   padding: 4px 12px;
   font-size: var(--chakra-fontSizes-sm);
   border-radius: var(--chakra-radii-md);
-  font-weight: bold;
-  /* border-color: var(--chakra-colors-gray-200); */
 }
 .fc .fc-next-button,
 .fc .fc-prev-button {

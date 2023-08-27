@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, useMediaQuery } from '@chakra-ui/react'
+import { Box, Flex, Heading } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import React, { useContext } from 'react'
@@ -23,7 +23,6 @@ export default function MeetingStepLayout({
 }: Props) {
   const { handleScrollToStep, path } = useContext(MeetingContext)!
   const anchor = `step-${stepId}`
-  const [isSmallScreen] = useMediaQuery('(max-width: 1000px)')
 
   const handleStepLinkClick = useNormalClickHandler(() =>
     handleScrollToStep(stepId)
@@ -39,7 +38,7 @@ export default function MeetingStepLayout({
           index={index}
           current={current}
           mr={4}
-          position={isSmallScreen ? undefined : 'absolute'}
+          position={{ base: 'static', lg: 'absolute' }}
           left="-45px"
           onStepClick={onStepClick}
         />

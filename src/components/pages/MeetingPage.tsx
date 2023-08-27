@@ -12,5 +12,5 @@ export default function MeetingPage() {
 
   if (!meetingId) return <Page404 />
 
-  return <MeetingContainer id={meetingId} changeTitle h="100%" />
+  return <MeetingContainer id={meetingId} changeTitle />
 }

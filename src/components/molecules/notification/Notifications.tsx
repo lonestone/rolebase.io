@@ -47,7 +47,7 @@ export default function Notifications({ isMobile }: Props) {
   if (!userId || !config) return null
 
   const bg = colorMode === 'light' ? colors.white : colors.gray[800]
-  const headerBg = colorMode === 'light' ? colors.gray[50] : colors.gray[700]
+  const headerBg = colorMode === 'light' ? colors.menulight : colors.menudark
   const textColor = colorMode === 'light' ? colors.black : colors.white
   const borderColor =
     colorMode === 'light' ? colors.gray[200] : colors.gray[550]
@@ -158,6 +158,14 @@ export default function Notifications({ isMobile }: Props) {
         fontFamily: fonts.body,
         fontSize: fontSizes.md,
         color: textColor,
+        backgroundColor:
+          colorMode === 'light' ? colors.gray[50] : colors.gray[700],
+      },
+      control: {
+        '&:hover': {
+          backgroundColor:
+            colorMode === 'light' ? colors.gray[100] : colors.gray[600],
+        },
       },
       content: {
         fontFamily: fonts.body,
@@ -166,6 +174,9 @@ export default function Notifications({ isMobile }: Props) {
       },
     },
     popover: {
+      dropdown: {
+        zIndex: '2000 !important',
+      },
       arrow: {
         display: 'none',
       },

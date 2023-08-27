@@ -1,13 +1,10 @@
 import { extendTheme, StyleProps } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
-import '@fontsource/montserrat/600.css'
-import '@fontsource/montserrat/700.css'
-import '@fontsource/nunito/400.css'
-import '@fontsource/nunito/500.css'
-import '@fontsource/nunito/600.css'
-import '@fontsource/nunito/700.css'
 import { Task_Status_Enum, Thread_Status_Enum } from '@gql'
 import 'focus-visible/dist/focus-visible'
+import './fonts/Basier-Circle-medium-webfont/stylesheet.css'
+import './fonts/Basier-Circle-regular-webfont/stylesheet.css'
+import './fonts/Basier-Circle-semibold-webfont/stylesheet.css'
 import './theme.css'
 
 export const defaultCircleColorHue = 200
@@ -60,38 +57,28 @@ export const threadStatusColors: Record<Thread_Status_Enum, string> = {
 
 const theme = extendTheme({
   config: {
-    initialColorMode: 'system',
-    useSystemColorMode: true,
+    initialColorMode: 'light',
+    useSystemColorMode: false,
   },
   colors: {
-    gray: {
-      50: '#FBF7FC',
-      100: '#ECECF2',
-      200: '#D6D6E1',
-      300: '#B2B3C7',
-      400: '#8788A9',
-      500: '#696C8E', // Readable gray on light and dark background
-      550: '#535476',
-      600: '#444460',
-      700: '#3B3B51',
-      800: '#1F1F29',
-      900: '#0e0e12',
-    },
-    purple: {
-      50: '#f1ebf1',
-      100: '#e2d7e2',
-      200: '#c5b0c5',
-      300: '#a988a8',
-      400: '#8c618b',
-      500: '#6f396e',
-      600: '#592e58',
-      700: '#432242',
-      800: '#2c172c',
-      900: '#160b16',
-    },
     black: '#111111',
     outline: 'hsl(35 97% 50%)',
     brand: 'hsla(262, 89%, 68%, 1)',
+    menulight: 'hsl(31.3, 32.4%, 96.5%)',
+    menudark: 'hsl(31.3, 13.8%, 14.2%)',
+    gray: {
+      50: 'hsl(31.3, 44.2%, 97.9%)',
+      100: 'hsl(31.3, 19%, 91%)',
+      200: 'hsl(31.3, 15.4%, 86.1%)',
+      300: 'hsl(31.3, 15.7%, 73.9%)',
+      400: 'hsl(31.3, 16.6%, 59.6%)',
+      500: 'hsl(31.3, 15%, 48.4%)', // Readable gray on light and dark background
+      550: 'hsl(31.3, 17.5%, 39.4%)',
+      600: 'hsl(31.3, 17%, 32.2%)',
+      700: 'hsl(31.3, 15.8%, 18%)',
+      800: 'hsl(31.3, 13.8%, 14.2%)',
+      900: 'hsl(31.3, 12.7%, 9%)',
+    },
   },
   styles: {
     global: (props: any) => ({
@@ -104,7 +91,7 @@ const theme = extendTheme({
           // Useful for iframe integration (org chart share)
           /(\?|&)transparent(&|$)/.test(window.location.search)
             ? 'transparent'
-            : mode('gray.50', 'gray.800')(props),
+            : mode('white', 'gray.900')(props),
       },
       '*::placeholder': {
         color: 'gray.500',
@@ -115,13 +102,9 @@ const theme = extendTheme({
     }),
   },
   fonts: {
-    body: 'Nunito, sans-serif',
-    heading: 'Montserrat, sans-serif',
-    circles: 'Nunito, sans-serif',
-  },
-  fontWeights: {
-    medium: 600,
-    semibold: 700,
+    body: 'basier_circle, sans-serif',
+    heading: 'basier_circle, sans-serif',
+    circles: 'basier_circle, sans-serif',
   },
   shadows: {
     outline: `0 0 0 3px hsl(35 97% 50%)`,
@@ -140,6 +123,11 @@ const theme = extendTheme({
         fontSize: '1em',
         fontFamily: 'inherit',
         fontWeight: 'normal',
+      },
+    },
+    Button: {
+      baseStyle: {
+        fontWeight: 'medium',
       },
     },
     Modal: {

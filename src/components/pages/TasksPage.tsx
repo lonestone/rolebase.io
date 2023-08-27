@@ -2,7 +2,9 @@ import { Title } from '@atoms/Title'
 import { Box, Heading } from '@chakra-ui/react'
 import { Task_Status_Enum } from '@gql'
 import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
-import TasksModule from '@organisms/task/TasksModule'
+import ScrollableLayout from '@molecules/ScrollableLayout'
+import TasksContent from '@molecules/task/TasksContent'
+import TasksHeader from '@molecules/task/TasksHeader'
 import { TasksViewTypes } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -45,31 +47,35 @@ export default function TasksPage() {
   const handleStatusChange = (status: Task_Status_Enum | undefined) =>
     changeParams({ status })
 
+  const paramsProps = {
+    view,
+    circleId,
+    memberId,
+    status,
+    onViewChange: handleViewChange,
+    onCircleChange: handleCircleChange,
+    onMemberChange: handleMemberChange,
+    onStatusChange: handleStatusChange,
+  }
+
   return (
-    <Box p={5}>
+    <ScrollableLayout
+      header={
+        <TasksHeader
+          {...paramsProps}
+          title={
+            <Heading as="h1" size="lg" ml={5} mr={7}>
+              {t('TasksPage.heading')}
+            </Heading>
+          }
+        />
+      }
+    >
       <Title>{t('TasksPage.heading')}</Title>
 
-      <TasksModule
-        view={view}
-        circleId={circleId}
-        memberId={memberId}
-        status={status}
-        header={
-          <Heading as="h1" size="md" mr={5} mb={3}>
-            {t('TasksPage.heading')}
-          </Heading>
-        }
-        headerPaddingBottom={16}
-        overflowContainer={{
-          expandLeft: true,
-          expandRight: true,
-          expandBottom: true,
-        }}
-        onViewChange={handleViewChange}
-        onCircleChange={handleCircleChange}
-        onMemberChange={handleMemberChange}
-        onStatusChange={handleStatusChange}
-      />
-    </Box>
+      <Box h="100%" px={7} py={10} overflowX="auto">
+        <TasksContent {...paramsProps} />
+      </Box>
+    </ScrollableLayout>
   )
 }

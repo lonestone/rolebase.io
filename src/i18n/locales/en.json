@@ -854,7 +854,7 @@
   "TasksList": {
     "empty": "No task 🎉"
   },
-  "TasksModule": {
+  "TasksHeader": {
     "kanban": "Kanban",
     "list": "List",
     "filterCircle": "Role",

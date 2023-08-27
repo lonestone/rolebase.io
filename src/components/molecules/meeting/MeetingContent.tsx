@@ -122,14 +122,13 @@ export default function MeetingContent() {
       </MeetingThreadsDragDropContext>
 
       {!isNotStarted && (
-        <Box mt={10}>
-          <MeetingLogs
-            meetingId={meeting.id}
-            title={t('MeetingContent.logs')}
-            excludeTypes={taskLogTypes}
-            hideEmpty
-          />
-        </Box>
+        <MeetingLogs
+          meetingId={meeting.id}
+          title={t('MeetingContent.logs')}
+          excludeTypes={taskLogTypes}
+          hideEmpty
+          mt={10}
+        />
       )}
 
       <Box h="100px" />

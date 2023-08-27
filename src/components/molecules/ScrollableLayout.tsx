@@ -1,29 +1,24 @@
-import GlassBox from '@atoms/GlassBox'
-import { Box, BoxProps, IconButton } from '@chakra-ui/react'
-import { useElementSize } from '@hooks/useElementSize'
+import { Box, BoxProps, Flex } from '@chakra-ui/react'
 import useScrollable, { ScrollPosition } from '@hooks/useScrollable'
-import React, { useRef } from 'react'
-import { FiArrowDown, FiArrowUp } from 'react-icons/fi'
+import React, { ReactNode, useRef } from 'react'
 
 interface Props extends BoxProps {
-  header?: React.ReactElement
-  content: React.ReactElement
-  footer?: React.ReactElement
+  header?: ReactNode
+  children?: ReactNode
+  footer?: ReactNode
 }
 
 const scrollbarWidth = '12px'
 
 export default function ScrollableLayout({
   header,
-  content,
+  children,
   footer,
   ...boxProps
 }: Props) {
   // Scrollable content
   const topRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const topSize = useElementSize(topRef)
-  const bottomSize = useElementSize(bottomRef)
   const {
     containerRef,
     contentRef,
@@ -32,98 +27,78 @@ export default function ScrollableLayout({
     handleScroll,
   } = useScrollable()
 
+  const showTopbar = isScrollable && scrollPosition !== ScrollPosition.Top
+  const showBottombar = isScrollable && scrollPosition !== ScrollPosition.Bottom
+
   return (
     <Box
-      bg="gray.50"
-      _dark={{ bg: 'gray.800' }}
       borderRadius="lg"
-      position="relative"
       display="flex"
       flexDirection="column"
+      h="100%"
+      bg="menulight"
+      _dark={{ bg: 'menudark' }}
       {...boxProps}
     >
-      {content && (
-        <Box
-          ref={containerRef}
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          my="5px"
-          overflowY="scroll"
-          sx={{
-            scrollbarWidth: 'auto',
-            '&::-webkit-scrollbar': { w: scrollbarWidth },
-          }}
-          onScroll={handleScroll}
-        >
-          <Box h={`${(topSize?.height || 0) - 5}px`} />
-          <Box ref={contentRef}>{content}</Box>
-          <Box h={`${(bottomSize?.height || 0) - 5}px`} />
-        </Box>
-      )}
-
-      {/* Buttons to scroll to top/bottom */}
-      {isScrollable && scrollPosition !== ScrollPosition.Top && (
-        <IconButton
-          aria-label="Scroll to top"
-          position="absolute"
-          top={`${(topSize?.height || 0) + 10}px`}
-          right={scrollbarWidth}
-          icon={<FiArrowUp />}
-          onClick={() => {
-            containerRef.current?.scrollTo({
-              top: 0,
-              behavior: 'smooth',
-            })
-          }}
-        />
-      )}
-      {isScrollable && scrollPosition !== ScrollPosition.Bottom && (
-        <IconButton
-          aria-label="Scroll to bottom"
-          position="absolute"
-          bottom={`${(bottomSize?.height || 0) + 10}px`}
-          right={scrollbarWidth}
-          icon={<FiArrowDown />}
-          onClick={() => {
-            containerRef.current?.scrollTo({
-              top: containerRef.current?.scrollHeight,
-              behavior: 'smooth',
-            })
-          }}
-        />
-      )}
-
-      <GlassBox
+      <Box
         ref={topRef}
-        visibility={header ? 'visible' : 'hidden'}
+        position="relative"
         zIndex={10}
+        minH={scrollbarWidth}
+        px={scrollbarWidth}
         display="flex"
         w="100%"
-        px={5}
         py={2}
         borderTopRadius="lg"
-        borderBottomWidth={1}
+        borderBottomWidth={2}
+        borderBottomColor={showTopbar ? 'gray.200' : 'transparent'}
+        bg="menulight"
+        _dark={{
+          bg: 'menudark',
+          borderBottomColor: showTopbar ? 'gray.600' : 'transparent',
+        }}
       >
         {header}
-      </GlassBox>
+      </Box>
 
-      <Box flex={1} />
+      <Flex
+        flex={1}
+        ref={containerRef}
+        flexDirection="column"
+        overflowY="auto"
+        onScroll={handleScroll}
+      >
+        <Box
+          ref={contentRef}
+          flex={1}
+          position="relative"
+          borderTopRadius={showTopbar ? 0 : '32px'}
+          borderBottomRadius={showBottombar ? 0 : '32px'}
+          transition="border-radius 0.1s ease-out"
+          bg="white"
+          _dark={{ bg: 'gray.900' }}
+        >
+          {children}
+        </Box>
+      </Flex>
 
-      <GlassBox
+      <Box
         ref={bottomRef}
-        visibility={footer ? 'visible' : 'hidden'}
+        position="relative"
         zIndex={10}
-        pr={scrollbarWidth}
+        minH={scrollbarWidth}
+        px={{ base: 0, md: scrollbarWidth }}
         borderBottomRadius="lg"
-        borderTopWidth={
-          isScrollable && scrollPosition !== ScrollPosition.Bottom ? 3 : 1
-        }
+        borderTopWidth={2}
+        borderTopColor={showBottombar ? 'gray.200' : 'transparent'}
+        bg="menulight"
+        _dark={{
+          bg: 'menudark',
+          borderTopColor: showBottombar ? 'gray.600' : 'transparent',
+        }}
       >
         {footer}
-      </GlassBox>
+      </Box>
     </Box>
   )
 }

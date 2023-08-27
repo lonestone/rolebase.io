@@ -29,6 +29,7 @@ import useFilterEntities from '@hooks/useFilterEntities'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import useUserMetadata from '@hooks/useUserMetadata'
+import ScrollableLayout from '@molecules/ScrollableLayout'
 import Calendar from '@molecules/meeting/Calendar'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import MeetingExportModal from '@organisms/meeting/MeetingExportModal'
@@ -287,113 +288,125 @@ export default function MeetingsPage() {
     <Flex h="100%" flexDirection="column">
       <Title>{t('MeetingsPage.heading')}</Title>
 
-      {loading && <Loading active center />}
-      <TextErrors errors={[error]} />
+      <ScrollableLayout
+        header={
+          <Flex ml={5} w="100%" alignItems="center" flexWrap="wrap">
+            <Heading as="h1" size="lg">
+              {t('MeetingsPage.heading')}
+            </Heading>
 
-      <Flex p={5} alignItems="center" flexWrap="wrap">
-        <Heading as="h1" size="md">
-          {t('MeetingsPage.heading')}
-        </Heading>
+            <Menu closeOnSelect={false}>
+              <MenuButton
+                as={Button}
+                className="userflow-meetings-filter"
+                size="sm"
+                variant="outline"
+                fontWeight="normal"
+                rightIcon={<FiChevronDown />}
+                my={2}
+                ml={7}
+              >
+                {t(`MeetingsPage.participation.${filter}` as any)}
+              </MenuButton>
+              <MenuList zIndex={2}>
+                <MenuOptionGroup
+                  title={t('MeetingsPage.participation.title')}
+                  type="checkbox"
+                  value={filterValue}
+                  onChange={handleFilterChange}
+                >
+                  <MenuItemOption value={EntityFilters.Invited}>
+                    {t('MeetingsPage.participation.Invited')}
+                  </MenuItemOption>
+                  <MenuItemOption value={EntityFilters.NotInvited}>
+                    {t('MeetingsPage.participation.NotInvited')}
+                  </MenuItemOption>
+                </MenuOptionGroup>
+              </MenuList>
+            </Menu>
 
-        <Spacer />
+            <Spacer />
 
-        <Menu closeOnSelect={false}>
-          <MenuButton
-            as={Button}
-            className="userflow-meetings-filter"
-            size="sm"
-            variant="outline"
-            rightIcon={<FiChevronDown />}
-          >
-            {t(`MeetingsPage.participation.${filter}` as any)}
-          </MenuButton>
-          <MenuList zIndex={2}>
-            <MenuOptionGroup
-              title={t('MeetingsPage.participation.title')}
-              type="checkbox"
-              value={filterValue}
-              onChange={handleFilterChange}
-            >
-              <MenuItemOption value={EntityFilters.Invited}>
-                {t('MeetingsPage.participation.Invited')}
-              </MenuItemOption>
-              <MenuItemOption value={EntityFilters.NotInvited}>
-                {t('MeetingsPage.participation.NotInvited')}
-              </MenuItemOption>
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu>
+            <Menu>
+              <MenuButton
+                as={Button}
+                className="userflow-meetings-actions"
+                size="sm"
+                variant="outline"
+                fontWeight="normal"
+                leftIcon={<FiSettings />}
+                my={2}
+              >
+                {t('MeetingsPage.settings')}
+              </MenuButton>
+              <MenuList
+                fontFamily="body"
+                fontSize="1rem"
+                fontWeight="normal"
+                zIndex={1000}
+              >
+                <MenuItem icon={<FiCopy />} onClick={templatesModal.onOpen}>
+                  {t('MeetingsPage.templates')}
+                </MenuItem>
+                <MenuItem
+                  icon={<FiRepeat />}
+                  onClick={recurringListModal.onOpen}
+                >
+                  {t('MeetingsPage.recurring')}
+                </MenuItem>
+                <MenuItem
+                  icon={weekend ? <FiEyeOff /> : <FiEye />}
+                  onClick={() => setMetadata('calendarShowWeekend', !weekend)}
+                >
+                  {weekend
+                    ? t('MeetingsPage.hideWeekend')
+                    : t('MeetingsPage.showWeekend')}
+                </MenuItem>
+                <MenuItem
+                  className="userflow-meetings-export"
+                  icon={<FiUpload />}
+                  onClick={exportModal.onOpen}
+                >
+                  {t('MeetingsPage.export')}
+                </MenuItem>
+              </MenuList>
+            </Menu>
 
-        <Menu>
-          <MenuButton
-            as={Button}
-            className="userflow-meetings-actions"
-            size="sm"
-            variant="outline"
-            leftIcon={<FiSettings />}
-            ml={2}
-          >
-            {t('MeetingsPage.settings')}
-          </MenuButton>
-          <MenuList
-            fontFamily="body"
-            fontSize="1rem"
-            fontWeight="normal"
-            zIndex={1000}
-          >
-            <MenuItem icon={<FiCopy />} onClick={templatesModal.onOpen}>
-              {t('MeetingsPage.templates')}
-            </MenuItem>
-            <MenuItem icon={<FiRepeat />} onClick={recurringListModal.onOpen}>
-              {t('MeetingsPage.recurring')}
-            </MenuItem>
-            <MenuItem
-              icon={weekend ? <FiEyeOff /> : <FiEye />}
-              onClick={() => setMetadata('calendarShowWeekend', !weekend)}
-            >
-              {weekend
-                ? t('MeetingsPage.hideWeekend')
-                : t('MeetingsPage.showWeekend')}
-            </MenuItem>
-            <MenuItem
-              className="userflow-meetings-export"
-              icon={<FiUpload />}
-              onClick={exportModal.onOpen}
-            >
-              {t('MeetingsPage.export')}
-            </MenuItem>
-          </MenuList>
-        </Menu>
+            {isMember && (
+              <Button
+                className="userflow-meetings-create"
+                size="sm"
+                colorScheme="blue"
+                ml={5}
+                my={2}
+                leftIcon={<FiPlus />}
+                onClick={handleCreate}
+              >
+                {t('MeetingsPage.create')}
+              </Button>
+            )}
+          </Flex>
+        }
+      >
+        <Box py={5} h="100%">
+          {loading && <Loading active center />}
+          <TextErrors errors={[error]} />
 
-        {isMember && (
-          <Button
-            className="userflow-meetings-create"
-            size="sm"
-            colorScheme="blue"
-            ml={5}
-            leftIcon={<FiPlus />}
-            onClick={handleCreate}
-          >
-            {t('MeetingsPage.create')}
-          </Button>
-        )}
-      </Flex>
-
-      <Box flex={1}>
-        <Calendar
-          events={events}
-          weekends={weekend}
-          editable={isMember}
-          selectable={isMember}
-          eventAllow={() => isMember}
-          selectAllow={() => isMember}
-          dateClick={isMember ? handleDateClick : undefined}
-          select={handleSelect}
-          eventClick={handleEventClick}
-          eventChange={handleEventChange}
-          datesSet={handleDatesChange}
-        />
-      </Box>
+          <Calendar
+            events={events}
+            weekends={weekend}
+            editable={isMember}
+            selectable={isMember}
+            eventAllow={() => isMember}
+            selectAllow={() => isMember}
+            dateClick={isMember ? handleDateClick : undefined}
+            select={handleSelect}
+            eventClick={handleEventClick}
+            eventChange={handleEventChange}
+            datesSet={handleDatesChange}
+          />
+        </Box>
+      </ScrollableLayout>
 
       {meetingModal.isOpen && meetingId && (
         <MeetingModal id={meetingId} isOpen onClose={meetingModal.onClose} />

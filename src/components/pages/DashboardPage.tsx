@@ -26,9 +26,12 @@ const DashboardPage = () => {
 
       <Flex
         w="100%"
+        minH="100%"
         px={{ base: 3, md: margin }}
         py={margin}
         flexDirection={{ base: 'column-reverse', lg: 'row' }}
+        bg="menulight"
+        _dark={{ bg: 'menudark' }}
       >
         <Flex
           flex={1}

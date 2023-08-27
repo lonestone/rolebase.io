@@ -3,7 +3,6 @@ import MemberLinkOverlay from '@atoms/MemberLinkOverlay'
 import { Title } from '@atoms/Title'
 import { SearchIcon } from '@chakra-ui/icons'
 import {
-  Box,
   Button,
   CloseButton,
   Container,
@@ -23,6 +22,7 @@ import {
 import { Member_Role_Enum } from '@gql'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import useOrgAdmin from '@hooks/useOrgAdmin'
+import ScrollableLayout from '@molecules/ScrollableLayout'
 import { useAlgoliaSearch } from '@molecules/search/useAlgoliaSearch'
 import MemberCreateModal from '@organisms/member/MemberCreateModal'
 import MemberEditModal from '@organisms/member/MemberEditModal'
@@ -89,124 +89,129 @@ export default function MembersPage() {
   }, [members, searchText, items])
 
   return (
-    <Box p={5}>
+    <>
       <Title>{t('MembersPage.heading')}</Title>
 
-      <Flex mb={16} alignItems="center" flexWrap="wrap">
-        <Heading as="h1" size="md">
-          {t('MembersPage.heading')}
-        </Heading>
-        <Spacer />
+      <ScrollableLayout
+        header={
+          <Flex ml={5} w="100%" alignItems="center" flexWrap="wrap">
+            <Heading as="h1" size="lg">
+              {t('MembersPage.heading')}
+            </Heading>
+            <Spacer />
 
-        <InputGroup size="sm" w="auto">
-          <InputLeftElement pointerEvents="none">
-            <SearchIcon color="gray.500" />
-          </InputLeftElement>
-          <Input
-            type="text"
-            placeholder={t('MembersPage.searchPlaceholder')}
-            borderRadius="md"
-            transition="width 0.2s"
-            w={isSearchFocused ? '200px' : '130px'}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onFocus={() => setIsSearchFocused(true)}
-            onBlur={() => setIsSearchFocused(false)}
-          />
-          <InputRightElement
-            display={searchText ? undefined : 'none'}
-            _groupFocus={{ display: 'block' }}
-          >
-            <CloseButton
-              colorScheme="gray"
-              size="sm"
-              onClick={() => setSearchText('')}
-            />
-          </InputRightElement>
-        </InputGroup>
-
-        {isAdmin && (
-          <>
-            <Button
-              size="sm"
-              leftIcon={<FiMail />}
-              ml={3}
-              onClick={onInviteOpen}
-            >
-              {t('MembersPage.invite')}
-            </Button>
-
-            <Button
-              size="sm"
-              colorScheme="blue"
-              leftIcon={<FiPlus />}
-              ml={2}
-              onClick={onCreateOpen}
-            >
-              {t('common.create')}
-            </Button>
-          </>
-        )}
-      </Flex>
-
-      <Container maxW="2xl" p={0}>
-        {filteredMembers?.map((member) => (
-          <LinkBox key={member.id} px={2} py={1} _hover={hover}>
-            <HStack>
-              <MemberLinkOverlay member={member} />
-
-              {member.userId ? (
-                <>
-                  {member.role === Member_Role_Enum.Readonly && (
-                    <Tag colorScheme="gray">
-                      {t('MembersPage.tags.readonly')}
-                    </Tag>
-                  )}
-                  {member.role === Member_Role_Enum.Member && (
-                    <Tag colorScheme="blue">{t('MembersPage.tags.member')}</Tag>
-                  )}
-                  {member.role === Member_Role_Enum.Admin && (
-                    <Tag colorScheme="red">{t('MembersPage.tags.admin')}</Tag>
-                  )}
-                  {member.role === Member_Role_Enum.Owner && (
-                    <Tag colorScheme="purple">
-                      {t('MembersPage.tags.owner')}
-                    </Tag>
-                  )}
-                </>
-              ) : (
-                <>
-                  {member.inviteDate ? (
-                    <Tag colorScheme="transparent">
-                      {t('MembersPage.tags.invited')}
-                    </Tag>
-                  ) : (
-                    <Tag
-                      colorScheme="transparent"
-                      color="gray.500"
-                      _dark={{ color: 'gray.300' }}
-                    >
-                      {t('MembersPage.tags.notInvited')}
-                    </Tag>
-                  )}
-                </>
+            <InputGroup size="sm" w="auto" my={2}>
+              <InputLeftElement pointerEvents="none">
+                <SearchIcon color="gray.500" />
+              </InputLeftElement>
+              <Input
+                type="text"
+                placeholder={t('MembersPage.searchPlaceholder')}
+                borderRadius="md"
+                transition="width 0.2s"
+                w={isSearchFocused ? '200px' : '130px'}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
+              />
+              {searchText && (
+                <InputRightElement _groupFocus={{ display: 'block' }}>
+                  <CloseButton
+                    colorScheme="gray"
+                    size="sm"
+                    onClick={() => setSearchText('')}
+                  />
+                </InputRightElement>
               )}
+            </InputGroup>
 
-              {isAdmin && (
-                <IconButton
-                  aria-label={t('common.edit')}
+            {isAdmin && (
+              <>
+                <Button
                   size="sm"
-                  icon={<FiEdit3 />}
-                  zIndex={2}
-                  onClick={() => handleOpenEdit(member.id)}
-                />
-              )}
-            </HStack>
-          </LinkBox>
-        ))}
-      </Container>
+                  leftIcon={<FiMail />}
+                  ml={3}
+                  onClick={onInviteOpen}
+                >
+                  {t('MembersPage.invite')}
+                </Button>
 
-      <Loading active={loading} size="md" />
+                <Button
+                  size="sm"
+                  colorScheme="blue"
+                  leftIcon={<FiPlus />}
+                  ml={2}
+                  onClick={onCreateOpen}
+                >
+                  {t('common.create')}
+                </Button>
+              </>
+            )}
+          </Flex>
+        }
+      >
+        <Container maxW="2xl" my={10}>
+          {filteredMembers?.map((member) => (
+            <LinkBox key={member.id} px={2} py={1} _hover={hover}>
+              <HStack>
+                <MemberLinkOverlay member={member} />
+
+                {member.userId ? (
+                  <>
+                    {member.role === Member_Role_Enum.Readonly && (
+                      <Tag colorScheme="gray">
+                        {t('MembersPage.tags.readonly')}
+                      </Tag>
+                    )}
+                    {member.role === Member_Role_Enum.Member && (
+                      <Tag colorScheme="blue">
+                        {t('MembersPage.tags.member')}
+                      </Tag>
+                    )}
+                    {member.role === Member_Role_Enum.Admin && (
+                      <Tag colorScheme="red">{t('MembersPage.tags.admin')}</Tag>
+                    )}
+                    {member.role === Member_Role_Enum.Owner && (
+                      <Tag colorScheme="purple">
+                        {t('MembersPage.tags.owner')}
+                      </Tag>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {member.inviteDate ? (
+                      <Tag colorScheme="transparent">
+                        {t('MembersPage.tags.invited')}
+                      </Tag>
+                    ) : (
+                      <Tag
+                        colorScheme="transparent"
+                        color="gray.500"
+                        _dark={{ color: 'gray.300' }}
+                      >
+                        {t('MembersPage.tags.notInvited')}
+                      </Tag>
+                    )}
+                  </>
+                )}
+
+                {isAdmin && (
+                  <IconButton
+                    aria-label={t('common.edit')}
+                    size="sm"
+                    icon={<FiEdit3 />}
+                    zIndex={2}
+                    onClick={() => handleOpenEdit(member.id)}
+                  />
+                )}
+              </HStack>
+            </LinkBox>
+          ))}
+        </Container>
+
+        <Loading active={loading} size="md" />
+      </ScrollableLayout>
 
       {isCreateOpen && (
         <MemberCreateModal
@@ -223,6 +228,6 @@ export default function MembersPage() {
         members?.some((m) => m.id === editMemberId) && (
           <MemberEditModal id={editMemberId} isOpen onClose={onEditClose} />
         )}
-    </Box>
+    </>
   )
 }

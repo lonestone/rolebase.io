@@ -42,7 +42,8 @@ export default function NotificationsCenter({ isMobile }: Props) {
     <PopoverNotificationCenter
       colorScheme={colorMode}
       onNotificationClick={onNotificationClick}
-      position={isMobile ? 'top' : 'right-start'}
+      position={isMobile ? 'top-start' : 'right-start'}
+      offset={isMobile ? 0 : 20}
     >
       {({ unseenCount }) => (
         <SidebarItem

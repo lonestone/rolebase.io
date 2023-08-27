@@ -1,15 +1,10 @@
 import { stripePromise } from '@api/stripe'
+import Loading from '@atoms/Loading'
 import { Title } from '@atoms/Title'
-import {
-  Container,
-  Flex,
-  Heading,
-  Spinner,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Box, Heading, Text, useDisclosure } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgOwner from '@hooks/useOrgOwner'
+import ScrollableLayout from '@molecules/ScrollableLayout'
 import SubscriptionConfirmationModal from '@organisms/subscription/SubscriptionConfirmationModal'
 import SubscriptionTabs from '@organisms/subscription/SubscriptionTabs'
 import { Elements } from '@stripe/react-stripe-js'
@@ -33,14 +28,16 @@ export default function SubscriptionPage() {
   }, [])
 
   return (
-    <Container w="100%" maxW="100%" p="0">
-      <Title>{t('SubscriptionPage.heading')}</Title>
-
-      <Flex flexDir="column" gap="10">
-        <Heading as="h1" size="md" px="10" pt="10">
+    <ScrollableLayout
+      header={
+        <Heading as="h1" size="lg" ml={5} my={2}>
           {t('SubscriptionPage.heading')}
         </Heading>
+      }
+    >
+      <Title>{t('SubscriptionPage.heading')}</Title>
 
+      <Box>
         {isOwner && !isLoading && <SubscriptionTabs w="100%" />}
 
         {!isOwner && !isLoading && (
@@ -49,7 +46,8 @@ export default function SubscriptionPage() {
           </Text>
         )}
 
-        {isLoading && <Spinner m="auto" />}
+        {isLoading && <Loading center active />}
+
         {clientSecret && (
           <Elements stripe={stripePromise}>
             <SubscriptionConfirmationModal
@@ -59,7 +57,7 @@ export default function SubscriptionPage() {
             />
           </Elements>
         )}
-      </Flex>
-    </Container>
+      </Box>
+    </ScrollableLayout>
   )
 }

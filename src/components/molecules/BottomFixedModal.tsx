@@ -1,4 +1,3 @@
-import GlassBox from '@atoms/GlassBox'
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 
@@ -23,7 +22,7 @@ export const BottomFixedModal = ({ children }: Props) => {
         pointerEvents="none"
       />
 
-      <GlassBox
+      <Box
         position="fixed"
         zIndex="2000"
         w="340px"
@@ -35,9 +34,11 @@ export const BottomFixedModal = ({ children }: Props) => {
         borderWidth="1px"
         display="flex"
         flexDirection="column"
+        bg="menulight"
+        _dark={{ bg: 'menudark' }}
       >
         {children}
-      </GlassBox>
+      </Box>
     </>
   )
 }

@@ -84,13 +84,13 @@ export default function ThreadContent({
 
   return (
     <ThreadContext.Provider value={threadState}>
+      {changeTitle && <Title>{title}</Title>}
+
       <ScrollableLayout
         {...boxProps}
         header={
           <>
-            {changeTitle && <Title>{title}</Title>}
-
-            <Wrap spacing={4} flex={1} align="center">
+            <Wrap spacing={4} flex={1} ml={3} align="center">
               <HStack spacing={2} align="center">
                 <ThreadStatusCircle
                   value={threadStatus}
@@ -144,12 +144,6 @@ export default function ThreadContent({
             </Flex>
           </>
         }
-        content={
-          <>
-            {loading && <Loading active center />}
-            <ThreadActivities memberStatus={memberStatus} />
-          </>
-        }
         footer={
           thread && canParticipate ? (
             <ThreadActivityCreate
@@ -160,7 +154,11 @@ export default function ThreadContent({
             />
           ) : undefined
         }
-      />
+      >
+        {loading && <Loading active center />}
+        <ThreadActivities memberStatus={memberStatus} />
+      </ScrollableLayout>
+
       {editModal.isOpen && (
         <ThreadEditModal isOpen thread={thread} onClose={editModal.onClose} />
       )}

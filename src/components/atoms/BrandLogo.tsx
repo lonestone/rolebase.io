@@ -14,7 +14,7 @@ interface Props {
   size?: keyof typeof sizes
 }
 
-export default function BrandIcon({ size = 'md' }: Props) {
+export default function BrandLogo({ size = 'md' }: Props) {
   const ratio = sizes[size]
   return (
     <Logo width={`${logoWidth * ratio}px`} height={`${logoHeight * ratio}px`} />

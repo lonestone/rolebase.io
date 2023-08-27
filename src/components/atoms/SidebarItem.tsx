@@ -18,24 +18,20 @@ export default forwardRef(function SidebarItem(
       w="100%"
       h="auto"
       py={3}
-      fontWeight={700}
+      fontWeight="normal"
       display="flex"
       justifyContent="start"
       textAlign="left"
-      borderRadius="none"
-      color="gray.400"
-      _hover={{
-        color: 'brand',
-        opacity: 0.7,
-      }}
+      borderRadius="xl"
+      _hover={{ bg: 'whiteAlpha.600' }}
       _active={{
-        color: 'brand',
-        opacity: 1,
+        fontWeight: 'semibold',
+        bg: 'white',
       }}
       _dark={{
-        color: 'whiteAlpha.600',
+        color: 'whiteAlpha.800',
         _hover: {
-          color: 'whiteAlpha.800',
+          bg: 'whiteAlpha.50',
         },
         _active: {
           color: 'white',

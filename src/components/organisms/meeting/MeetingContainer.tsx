@@ -50,9 +50,6 @@ export default function MeetingContainer({
       <ScrollableLayout
         {...boxProps}
         header={<MeetingHeader headerIcons={headerIcons} />}
-        content={
-          loading ? <Loading active size="md" mt={10} /> : <MeetingContent />
-        }
         footer={
           isStarted ? (
             <MeetingPanelStarted />
@@ -60,7 +57,9 @@ export default function MeetingContainer({
             <MeetingPanelEnded />
           ) : undefined
         }
-      />
+      >
+        {loading ? <Loading active size="md" mt={10} /> : <MeetingContent />}
+      </ScrollableLayout>
     </MeetingContext.Provider>
   )
 }

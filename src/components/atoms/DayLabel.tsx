@@ -27,7 +27,7 @@ export default function DayLabel({
 
   return (
     <Text pl={2} fontSize="sm" {...boxProps}>
-      <chakra.span fontWeight="bold" textTransform="uppercase" mr={2}>
+      <chakra.span fontWeight="medium" textTransform="uppercase" mr={2}>
         {isToday(date)
           ? t('common.dates.today')
           : isTomorrow(date)

@@ -21,7 +21,7 @@ export default function DashboardNewsDecision({ decision }: Props) {
         decision={decision}
         showCircle
         showIcon
-        fontWeight="bold"
+        fontWeight="medium"
         my={3}
       />
 

@@ -1,6 +1,7 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import {
+  Box,
   BoxProps,
   Button,
   Collapse,
@@ -56,7 +57,7 @@ export default function MeetingLogs({
   if (hideEmpty && logs?.length === 0) return null
 
   return (
-    <>
+    <Box {...boxProps}>
       {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
@@ -76,10 +77,10 @@ export default function MeetingLogs({
             )}
           </Button>
           <Collapse in={showLogs.isOpen} animateOpacity>
-            <LogsList logs={logs} {...boxProps} />
+            <LogsList logs={logs} />
           </Collapse>
         </>
       )}
-    </>
+    </Box>
   )
 }

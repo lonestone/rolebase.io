@@ -51,7 +51,7 @@ export default function MeetingHeader({ headerIcons }: Props) {
   }
 
   return (
-    <Box w="100%">
+    <Box w="100%" ml={3}>
       <Flex w="100%">
         <Wrap spacing={2} flex={1} align="center">
           <HStack spacing={2}>
@@ -91,7 +91,7 @@ export default function MeetingHeader({ headerIcons }: Props) {
 
       {meeting && (
         <Wrap spacing={5} align="center" fontSize="sm" ml={6}>
-          <Link href={path} onClick={handleEdit}>
+          <Link href={path} fontWeight="normal" onClick={handleEdit}>
             <MeetingDate meeting={meeting} />
           </Link>
 

@@ -2,6 +2,7 @@ import NumberInputController from '@atoms/NumberInputController'
 import {
   Box,
   Button,
+  Collapse,
   FormControl,
   FormLabel,
   InputGroup,
@@ -107,8 +108,11 @@ export default function MeetingRecurringEditModal({
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = formMethods
+
+  const circleId = watch('circleId')
 
   // Submit
   const onSubmit = handleSubmit(
@@ -230,7 +234,9 @@ export default function MeetingRecurringEditModal({
 
                 <CircleFormController singleMember={false} />
 
-                <ParticipantsFormControl />
+                <Collapse in={!!circleId}>
+                  <ParticipantsFormControl />
+                </Collapse>
 
                 <VideoConfFormControl />
               </VStack>

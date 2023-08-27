@@ -21,16 +21,9 @@ export default forwardRef(function SidebarTopIcon(
       variant="unstyled"
       display="flex"
       align="center"
-      color="gray.400"
       isActive={isActive}
-      _hover={{
-        color: 'brand',
-        opacity: 0.7,
-      }}
-      _active={{
-        color: 'brand',
-        opacity: 1,
-      }}
+      _hover={{ bg: 'whiteAlpha.600' }}
+      _active={{ bg: 'white' }}
       _dark={{
         color: 'whiteAlpha.600',
         _hover: {

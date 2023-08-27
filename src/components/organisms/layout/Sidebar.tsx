@@ -1,16 +1,11 @@
-import BrandIcon from '@atoms/BrandIcon'
-import GlassBox from '@atoms/GlassBox'
+import BrandLogo from '@atoms/BrandLogo'
 import SidebarItem from '@atoms/SidebarItem'
 import SidebarItemLink from '@atoms/SidebarItemLink'
 import SidebarTopIcon from '@atoms/SidebarTopIcon'
 import SidebarTopIconLink from '@atoms/SidebarTopIconLink'
-import { SearchIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Spacer,
   Tooltip,
   useDisclosure,
@@ -45,16 +40,18 @@ import {
   FiHelpCircle,
   FiMenu,
   FiMessageSquare,
+  FiSearch,
   FiSettings,
   FiStar,
   FiUsers,
 } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
+import BrandIcon from 'src/images/icon.svg'
 
 // Force reset with fast refresh
 // @refresh reset
 
-const logoContainerWidth = 65
+const logoContainerHeight = 65
 
 export default function Sidebar() {
   const { t } = useTranslation()
@@ -86,7 +83,7 @@ export default function Sidebar() {
 
   // Show different layout for small screens
   // Options are then hidden by default
-  const [isMobile] = useMediaQuery('(max-width: 730px)')
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
 
   // Switch between small/large screen
   useEffect(() => {
@@ -120,7 +117,7 @@ export default function Sidebar() {
   if (!isAuthenticated) return null
 
   return (
-    <GlassBox
+    <Box
       position="fixed"
       display="flex"
       flexDirection="column"
@@ -130,23 +127,20 @@ export default function Sidebar() {
       zIndex={1000}
       w={isMobile ? '100%' : `${context.width}px`}
       h={isMobile && !context.expand.isOpen ? context.height + 1 : '100vh'}
-      borderRightWidth={isMobile ? 0 : '1px'}
-      borderBottomWidth={isMobile ? '1px' : 0}
+      bg="menulight"
+      _dark={{ bg: 'menudark' }}
     >
       <Flex
-        h={`${context.height || logoContainerWidth}px`}
+        h={`${context.height || logoContainerHeight}px`}
         px={isMobile ? 3 : 5}
-        bg="gray.800"
-        color="white"
         align="center"
       >
-        <ReachLink to={rootPath} tabIndex={-1}>
-          <BrandIcon size="sm" />
-        </ReachLink>
-
-        {isMobile && (
+        {isMobile ? (
           /* Mobile: top bar with logo and icons */
           <>
+            <BrandIcon width={26} height={26} />
+            <OrgSwitch />
+
             <Spacer />
 
             {!context.expand.isOpen && orgId && (
@@ -200,6 +194,12 @@ export default function Sidebar() {
               {t('Sidebar.menu')}
             </SidebarTopIcon>
           </>
+        ) : (
+          <Box ml={3}>
+            <ReachLink to={rootPath} tabIndex={-1}>
+              <BrandLogo size="sm" />
+            </ReachLink>
+          </Box>
         )}
       </Flex>
 
@@ -207,6 +207,9 @@ export default function Sidebar() {
         /* Desktop: Sidebar content */
         <Flex
           flex={1}
+          px={5}
+          pt={isMobile ? 5 : 0}
+          align="stretch"
           flexDirection="column"
           alignItems="stretch"
           overflowY="auto"
@@ -215,47 +218,7 @@ export default function Sidebar() {
         >
           {orgId ? (
             <>
-              <OrgSwitch mb={3} />
-
-              <Notifications isMobile={isMobile} />
-
-              <Box
-                px={4}
-                mt={3}
-                mb={5}
-                transition="opacity 200ms"
-                opacity={searchModal.isOpen ? 0 : 1}
-              >
-                <Tooltip
-                  label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
-                  placement="right"
-                  hasArrow
-                >
-                  <InputGroup size="sm">
-                    <InputLeftElement pointerEvents="none">
-                      <SearchIcon
-                        color="gray.400"
-                        _dark={{
-                          color: 'whiteAlpha.600',
-                        }}
-                      />
-                    </InputLeftElement>
-                    <Input
-                      value={t('Sidebar.search')}
-                      borderRadius="md"
-                      isReadOnly
-                      color="gray.400"
-                      _dark={{
-                        color: 'whiteAlpha.600',
-                      }}
-                      onFocus={function (e) {
-                        e.target.blur()
-                      }}
-                      onClick={searchModal.onOpen}
-                    />
-                  </InputGroup>
-                </Tooltip>
-              </Box>
+              {!isMobile && <OrgSwitch mt={3} mb={7} />}
 
               <SidebarItemLink
                 className="userflow-sidebar-dashboard"
@@ -313,6 +276,22 @@ export default function Sidebar() {
 
           {orgId && (
             <>
+              <Notifications isMobile={isMobile} />
+
+              <Tooltip
+                label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
+                placement="right"
+                hasArrow
+              >
+                <SidebarItem
+                  className="userflow-sidebar-search"
+                  icon={<FiSearch />}
+                  onClick={searchModal.onOpen}
+                >
+                  {t('Sidebar.search')}
+                </SidebarItem>
+              </Tooltip>
+
               <SidebarItemLink
                 className="userflow-sidebar-members"
                 to={`${rootPath}members`}
@@ -365,6 +344,6 @@ export default function Sidebar() {
           }}
         />
       )}
-    </GlassBox>
+    </Box>
   )
 }

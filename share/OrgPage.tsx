@@ -1,4 +1,4 @@
-import BrandIcon from '@atoms/BrandIcon'
+import BrandLogo from '@atoms/BrandLogo'
 import Loading from '@atoms/Loading'
 import { Box } from '@chakra-ui/react'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
@@ -129,7 +129,7 @@ export default function OrgPage() {
       >
         <Box position="absolute" zIndex={1} top={5} left={5}>
           <a href={settings.websiteUrl} target="_blank" rel="noreferrer">
-            <BrandIcon size="sm" />
+            <BrandLogo size="sm" />
           </a>
         </Box>
 

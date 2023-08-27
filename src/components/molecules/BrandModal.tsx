@@ -1,4 +1,4 @@
-import BrandIcon from '@atoms/BrandIcon'
+import BrandLogo from '@atoms/BrandLogo'
 import ModalBackButton from '@atoms/ModalBackButton'
 import {
   Center,
@@ -25,13 +25,13 @@ export default function BrandModal({
 }: Props) {
   return (
     <Modal size={size} closeOnOverlayClick={false} {...modalProps}>
-      <ModalOverlay bg="gray.100" _dark={{ bg: 'gray.800' }} />
+      <ModalOverlay bg="menulight" _dark={{ bg: 'menudark' }} />
 
       <ModalContent my="115px">
         <ModalBackButton />
 
         <Center w="100%" textAlign="center" position="absolute" top="-70px">
-          <BrandIcon size="md" />
+          <BrandLogo size="md" />
         </Center>
 
         <ModalBody mx={5} my={10} {...bodyProps}>

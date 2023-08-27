@@ -1,7 +1,6 @@
-import { Modal, ModalProps } from '@chakra-ui/react'
+import { Box, Modal, ModalProps } from '@chakra-ui/react'
 import { SidebarContext } from '@contexts/SidebarContext'
 import React, { useContext } from 'react'
-import GlassBox from './GlassBox'
 
 export const modalPanelWidth = 450
 
@@ -11,7 +10,7 @@ export default function ModalPanel({ isOpen, children, ...props }: ModalProps) {
 
   return (
     <Modal isOpen={isOpen} {...props}>
-      <GlassBox
+      <Box
         position="absolute"
         top={top ? undefined : 0}
         bottom={0}
@@ -24,9 +23,11 @@ export default function ModalPanel({ isOpen, children, ...props }: ModalProps) {
         zIndex={1}
         borderLeftWidth={top ? 0 : '1px'}
         borderTopWidth={top ? '1px' : 0}
+        bg="white"
+        _dark={{ bg: 'gray.900' }}
       >
         {children}
-      </GlassBox>
+      </Box>
     </Modal>
   )
 }

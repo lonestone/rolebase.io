@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { GraphProvider } from '@contexts/GraphContext'
 import { useOrgId } from '@hooks/useOrgId'
+import ScrollableLayout from '@molecules/ScrollableLayout'
 import GraphViewsSelect from '@molecules/circle/GraphViewsSelect'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import { getCircleChildren } from '@shared/helpers/getCircleChildren'
@@ -84,38 +85,40 @@ export default function CircleExportPage() {
 
   return (
     <GraphProvider>
-      <Box p={5}>
+      <ScrollableLayout
+        header={
+          <Flex ml={5} my={2} w="100%" alignItems="center" flexWrap="wrap">
+            <Heading as="h1" size="md">
+              {t('CircleExportPage.heading')}
+            </Heading>
+            {circleId && <CircleByIdButton id={circleId} size="md" ml={2} />}
+            <Spacer />
+            <NumberInput
+              value={width}
+              step={50}
+              min={100}
+              size="sm"
+              w="80px"
+              textAlign="center"
+              mr={1}
+              onChange={setWidth}
+            />
+            px
+            <Button
+              colorScheme="blue"
+              leftIcon={<FiDownload />}
+              isLoading={downloading}
+              ml={5}
+              onClick={handleDownload}
+            >
+              {t('CircleExportPage.download')}
+            </Button>
+          </Flex>
+        }
+      >
         <Title>{t('CircleExportPage.heading')}</Title>
 
-        <Flex mb={12} alignItems="center" flexWrap="wrap">
-          <Heading as="h1" size="md">
-            {t('CircleExportPage.heading')}
-          </Heading>
-          {circleId && <CircleByIdButton id={circleId} size="md" ml={2} />}
-          <Spacer />
-          <NumberInput
-            value={width}
-            step={50}
-            min={100}
-            size="sm"
-            w="80px"
-            textAlign="center"
-            mr={1}
-            onChange={setWidth}
-          />
-          px
-          <Button
-            colorScheme="blue"
-            leftIcon={<FiDownload />}
-            isLoading={downloading}
-            ml={5}
-            onClick={handleDownload}
-          >
-            {t('CircleExportPage.download')}
-          </Button>
-        </Flex>
-
-        <Container maxW={`${defaultWidth}px`} display="flex" mb={3} p={0}>
+        <Container maxW={`${defaultWidth}px`} display="flex" my={10}>
           <GraphViewsSelect
             variant="outline"
             size="sm"
@@ -162,7 +165,7 @@ export default function CircleExportPage() {
             />
           )}
         </Box>
-      </Box>
+      </ScrollableLayout>
     </GraphProvider>
   )
 }
