@@ -4,19 +4,10 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "/src/images/icon.svg",
+      "src": "/src/images/app_icon.svg",
       "type": "image/svg+xml",
-      "sizes": "256x256"
-    },
-    {
-      "src": "/src/images/icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "/src/images/icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512",
+      "purpose": "any"
     }
   ]
 }
