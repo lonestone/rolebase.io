@@ -274,10 +274,6 @@ i.user {
   background-image: url(images/icons/user.svg);
 }
 
-i.equation {
-  background-image: url(images/icons/plus-slash-minus.svg);
-}
-
 i.copy {
   background-image: url(images/icons/copy.svg);
 }
@@ -478,15 +474,6 @@ span.editor-image {
 
 .spacer {
   letter-spacing: -2px;
-}
-
-.editor-equation {
-  cursor: default;
-  user-select: none;
-}
-
-.editor-equation.focused {
-  outline: 2px solid rgb(60, 132, 244);
 }
 
 hr {

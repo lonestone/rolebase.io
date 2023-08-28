@@ -12,9 +12,9 @@ import {
   $convertToMarkdownString,
   CHECK_LIST,
   ElementTransformer,
+  TRANSFORMERS,
   TextMatchTransformer,
   Transformer,
-  TRANSFORMERS,
 } from '@lexical/markdown'
 import {
   $createHorizontalRuleNode,
@@ -40,11 +40,6 @@ import {
   $isTextNode,
   LexicalNode,
 } from 'lexical'
-import {
-  $createEquationNode,
-  $isEquationNode,
-  EquationNode,
-} from '../../nodes/EquationNode'
 import {
   $createImageNode,
   $isImageNode,
@@ -146,26 +141,6 @@ const IMAGE: TextMatchTransformer = {
     textNode.replace(imageNode)
   },
   trigger: ')',
-  type: 'text-match',
-}
-
-const EQUATION: TextMatchTransformer = {
-  dependencies: [EquationNode],
-  export: (node) => {
-    if (!$isEquationNode(node)) {
-      return null
-    }
-
-    return `$${node.getEquation()}$`
-  },
-  importRegExp: /\$([^$]+?)\$/,
-  regExp: /\$([^$]+?)\$$/,
-  replace: (textNode, match) => {
-    const [, equation] = match
-    const equationNode = $createEquationNode(equation, true)
-    textNode.replace(equationNode)
-  },
-  trigger: '$',
   type: 'text-match',
 }
 
@@ -348,7 +323,6 @@ export const markdownTransformers: Array<Transformer> = [
   EMOJI,
   HR,
   IMAGE,
-  EQUATION,
   TWEET,
   CHECK_LIST,
   ...TRANSFORMERS,

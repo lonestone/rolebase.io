@@ -56,7 +56,6 @@ import DraggableBlockPlugin from './plugins/DraggableBlockPlugin'
 import EditablePlugin from './plugins/EditablePlugin'
 import EditorRefPlugin, { EditorHandle } from './plugins/EditorRefPlugin'
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin'
-import EquationsPlugin from './plugins/EquationsPlugin'
 import FigmaPlugin from './plugins/FigmaPlugin'
 import FilePlugin from './plugins/FilePlugin'
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin'
@@ -276,7 +275,6 @@ export default forwardRef<EditorHandle, RichEditorProps>(function RichEditor(
           <FigmaPlugin />
           <ClickableLinkPlugin />
           <HorizontalRulePlugin />
-          <EquationsPlugin />
           <TabFocusPlugin />
           <CollapsiblePlugin />
 

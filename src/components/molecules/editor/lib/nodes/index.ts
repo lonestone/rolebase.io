@@ -21,7 +21,6 @@ import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { CollapsibleContainerNode } from '../plugins/CollapsiblePlugin/CollapsibleContainerNode'
 import { CollapsibleContentNode } from '../plugins/CollapsiblePlugin/CollapsibleContentNode'
 import { CollapsibleTitleNode } from '../plugins/CollapsiblePlugin/CollapsibleTitleNode'
-import { EquationNode } from './EquationNode'
 import { FigmaNode } from './FigmaNode'
 import { FileNode } from './FileNode'
 import { ImageNode } from './ImageNode'
@@ -47,7 +46,6 @@ const nodes: Array<Klass<LexicalNode>> = [
   ImageNode,
   FileNode,
   MentionNode,
-  EquationNode,
   KeywordNode,
   HorizontalRuleNode,
   TweetNode,
