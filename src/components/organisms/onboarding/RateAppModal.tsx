@@ -1,4 +1,12 @@
-import { Button, Collapse, Flex, Heading, Spacer, Text } from '@chakra-ui/react'
+import {
+  Button,
+  CloseButton,
+  Collapse,
+  Flex,
+  Heading,
+  Spacer,
+  Text,
+} from '@chakra-ui/react'
 import useUserMetadata from '@hooks/useUserMetadata'
 import { BottomFixedModal } from '@molecules/BottomFixedModal'
 import { StarsRating } from '@molecules/StarsRating'
@@ -43,6 +51,15 @@ export default function RateAppModal() {
 
   return (
     <BottomFixedModal>
+      {rating === 0 && (
+        <CloseButton
+          position="absolute"
+          top={2}
+          right={2}
+          onClick={handleClose}
+        />
+      )}
+
       <Collapse in={rating === 0}>
         <Heading as="h2" fontSize="lg" mb={3}>
           {t('RateAppModal.question')}
