@@ -11,7 +11,7 @@ import { UpcomingInvoice } from '@shared/model/subscription'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiHelpCircle } from 'react-icons/fi'
+import { InfoTooltipIcon } from 'src/icons'
 import SubscriptionInvoiceCalculationDetails from './SubscriptionInvoiceCalculationDetails'
 
 type SubscriptionUpcomingInvoiceCardProps = {
@@ -84,7 +84,7 @@ export default function SubscriptionUpcomingInvoiceCard({
           flexDir="row"
           onClick={onOpen}
         >
-          <FiHelpCircle size="24" />
+          <InfoTooltipIcon size="24" />
           <Text fontSize={14} fontWeight={700}>
             {t('SubscriptionPlans.upcomingInvoiceHelp')}
           </Text>

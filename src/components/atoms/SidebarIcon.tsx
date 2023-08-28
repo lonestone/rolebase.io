@@ -1,13 +1,16 @@
 import { Box, BoxProps, Circle } from '@chakra-ui/react'
-import React, { ReactElement } from 'react'
+import { Icon } from 'iconsax-react'
+import React from 'react'
 
 export interface SidebarIconProps extends BoxProps {
-  icon: ReactElement
+  icon: Icon
+  isActive?: boolean
   alert?: boolean
 }
 
 export default function SidebarIcon({
-  icon,
+  icon: IconComponent,
+  isActive,
   alert,
   ...boxProps
 }: SidebarIconProps) {
@@ -23,7 +26,7 @@ export default function SidebarIcon({
           _dark={{ bg: 'red.600' }}
         />
       )}
-      {icon}
+      <IconComponent variant={isActive ? 'Bold' : 'Linear'} />
     </Box>
   )
 }

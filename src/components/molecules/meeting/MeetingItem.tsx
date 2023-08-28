@@ -19,8 +19,8 @@ import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCalendar } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
+import { MeetingIcon } from 'src/icons'
 
 interface Props extends LinkBoxProps {
   meeting: MeetingSummaryFragment
@@ -66,8 +66,8 @@ const MeetingItem = forwardRef<Props, 'div'>(
         >
           <Flex align="center">
             {showIcon && (
-              <Center w={6} h={6} mr={2}>
-                <FiCalendar />
+              <Center mr={2}>
+                <MeetingIcon />
               </Center>
             )}
 

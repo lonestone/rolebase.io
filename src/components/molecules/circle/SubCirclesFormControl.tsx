@@ -15,7 +15,7 @@ import { useStoreState } from '@store/hooks'
 import { omit } from '@utils/omit'
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 import RoleSearchButton from '../search/entities/roles/RoleSearchButton'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 
@@ -161,7 +161,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
               size="sm"
               variant="outline"
               borderRadius="full"
-              leftIcon={<FiPlus />}
+              leftIcon={<CreateIcon size={20} />}
               onSelect={handleAddRole}
               onCreate={handleCreateCircle}
             >

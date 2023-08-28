@@ -2,7 +2,7 @@ import { Box, BoxProps, Button } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCheck } from 'react-icons/fi'
+import { CheckIcon } from 'src/icons'
 
 export default function MeetingAlertForceEdit(boxProps: BoxProps) {
   const { t } = useTranslation()
@@ -12,7 +12,7 @@ export default function MeetingAlertForceEdit(boxProps: BoxProps) {
   return (
     <Box {...boxProps}>
       <Button
-        leftIcon={<FiCheck />}
+        leftIcon={<CheckIcon />}
         onClick={() => handleChangeForceEdit(false)}
       >
         {t('MeetingAlertEnded.stop')}

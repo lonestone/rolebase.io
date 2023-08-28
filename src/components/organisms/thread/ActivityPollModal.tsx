@@ -47,7 +47,8 @@ import { getDateTimeLocal } from '@utils/dates'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiHelpCircle, FiPlus, FiX } from 'react-icons/fi'
+import { FiX } from 'react-icons/fi'
+import { CreateIcon, InfoTooltipIcon } from 'src/icons'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -229,7 +230,7 @@ export default function ActivityPollModal({
             {!activity && (
               <Tooltip hasArrow p={3} label={t('ActivityPollModal.help')}>
                 <Box ml={3}>
-                  <FiHelpCircle />
+                  <InfoTooltipIcon />
                 </Box>
               </Tooltip>
             )}
@@ -296,7 +297,7 @@ export default function ActivityPollModal({
                     </FormControl>
                   ))}
                   <Button
-                    leftIcon={<FiPlus />}
+                    leftIcon={<CreateIcon size={20} />}
                     onClick={() => appendChoice({ title: '' })}
                   >
                     {t('ActivityPollModal.addChoice')}

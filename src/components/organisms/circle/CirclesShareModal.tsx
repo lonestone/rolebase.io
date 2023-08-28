@@ -4,7 +4,6 @@ import {
   FormControl,
   FormHelperText,
   Heading,
-  Icon,
   Input,
   Modal,
   ModalBody,
@@ -23,8 +22,8 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import GraphViewsSelect from '@molecules/circle/GraphViewsSelect'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCopy, FiShare2 } from 'react-icons/fi'
 import { GraphViews } from 'src/circles-viz/types'
+import { CopyIcon } from 'src/icons'
 import settings from 'src/settings'
 
 export default function CirclesShareModal(modalProps: UseModalProps) {
@@ -67,10 +66,7 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
     <Modal size="xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader display="flex" alignItems="center">
-          <Icon as={FiShare2} mr={2} />
-          {t('CirclesShareModal.heading')}
-        </ModalHeader>
+        <ModalHeader>{t('CirclesShareModal.heading')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody py={6}>
@@ -148,7 +144,7 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
                     <Button
                       variant="solid"
                       colorScheme="blue"
-                      leftIcon={<FiCopy />}
+                      leftIcon={<CopyIcon size={20} />}
                       onClick={copyUrl}
                     >
                       {t('common.copy')}
@@ -165,7 +161,7 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
                     <Button
                       variant="solid"
                       colorScheme="blue"
-                      leftIcon={<FiCopy />}
+                      leftIcon={<CopyIcon size={20} />}
                       onClick={copyEmbed}
                     >
                       {t('common.copy')}

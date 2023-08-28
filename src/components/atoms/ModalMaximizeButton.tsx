@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiMaximize2 } from 'react-icons/fi'
 import { Link, LinkProps } from 'react-router-dom'
+import { MaximizeIcon } from 'src/icons'
 import IconTextButton from './IconTextButton'
 
 export default function ModalMaximizeButton(props: LinkProps) {
@@ -14,7 +14,7 @@ export default function ModalMaximizeButton(props: LinkProps) {
         variant="ghost"
         size="sm"
         tooltipPlacement="bottom"
-        icon={<FiMaximize2 />}
+        icon={<MaximizeIcon size={20} />}
       />
     </Link>
   )

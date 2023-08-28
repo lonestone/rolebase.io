@@ -21,7 +21,7 @@ import useThreadStatus from '@hooks/useThreadStatus'
 import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import ThreadStatusCircle from './ThreadStatusCircle'
+import ThreadStatusIcon from './ThreadStatusIcon'
 
 interface Props extends LinkBoxProps {
   thread: ThreadFragment
@@ -77,7 +77,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
         >
           <Flex align="center">
             <Center zIndex="2" mr={2} position="relative">
-              <ThreadStatusCircle
+              <ThreadStatusIcon
                 value={threadStatus}
                 readOnly={!isMember}
                 onChange={setStatus}

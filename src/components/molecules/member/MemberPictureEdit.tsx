@@ -14,7 +14,7 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiUpload } from 'react-icons/fi'
+import { UploadIcon } from 'src/icons'
 
 const MemberPictureCropModal = lazy(
   () => import('@organisms/member/MemberPictureCropModal')
@@ -66,7 +66,7 @@ export default function MemberPictureEdit({ id, name, src, size }: Props) {
           alignItems="center"
           justifyContent="center"
         >
-          <FiUpload color="white" />
+          <UploadIcon size={50} color="white" />
         </Box>
       </Tooltip>
 

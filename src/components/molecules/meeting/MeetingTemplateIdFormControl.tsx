@@ -13,7 +13,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown } from 'react-icons/fi'
+import { ChevronDownIcon } from 'src/icons'
 import MeetingTemplateMenuList from './MeetingTemplateMenuList'
 
 export default function MeetingTemplateIdFormControl() {
@@ -78,7 +78,7 @@ function MenuButton({ children }: MenuButtonProps) {
         bottom={0}
         alignItems="center"
       >
-        <FiChevronDown />
+        <ChevronDownIcon size="1em" />
       </Flex>
       <Input {...buttonProps} cursor="pointer" isReadOnly value={children} />
     </Box>

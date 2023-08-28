@@ -18,7 +18,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 import MeetingTemplateEditModal from './MeetingTemplateEditModal'
 
 export default function MeetingTemplateListModal(modalProps: UseModalProps) {
@@ -61,7 +61,10 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
             <TextErrors errors={[error]} />
 
             <Box textAlign="center" mb={7}>
-              <Button leftIcon={<FiPlus />} onClick={handleCreate}>
+              <Button
+                leftIcon={<CreateIcon size={20} />}
+                onClick={handleCreate}
+              >
                 {t('MeetingTemplateListModal.create')}
               </Button>
             </Box>

@@ -24,9 +24,9 @@ import { nameSchema, slugSchema } from '@shared/schemas'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiArrowRight } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import slugify from 'slugify'
+import { ChevronRightIcon } from 'src/icons'
 import settings from 'src/settings'
 import * as yup from 'yup'
 
@@ -132,7 +132,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
             {error && <TextError error={error} />}
 
             <Button
-              rightIcon={<FiArrowRight />}
+              rightIcon={<ChevronRightIcon size="1em" />}
               colorScheme="blue"
               type="submit"
               isLoading={loading}

@@ -29,7 +29,7 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiMail } from 'react-icons/fi'
+import { EmailIcon } from 'src/icons'
 import {
   getEmailFromName,
   guessEmailPattern,
@@ -229,7 +229,7 @@ export default function MembersInviteModal(modalProps: UseModalProps) {
                   colorScheme="blue"
                   isLoading={isInviting}
                   isDisabled={nbSelectedMembers === 0}
-                  leftIcon={<FiMail />}
+                  leftIcon={<EmailIcon />}
                   onClick={handleInvite}
                 >
                   {t('MembersInviteModal.invite', {

@@ -12,7 +12,7 @@ import { Draggable } from '@hello-pangea/dnd'
 import React from 'react'
 import { Control, FieldErrors } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiTrash2 } from 'react-icons/fi'
+import { DeleteIcon } from 'src/icons'
 import { StepsValues, fieldName } from './MeetingStepsConfigController'
 import { stepsAndIcons } from './stepTypes'
 
@@ -87,7 +87,7 @@ export default function MeetingStepSortableItem({
             <IconButton
               aria-label={t('common.delete')}
               variant="ghost"
-              icon={<FiTrash2 />}
+              icon={<DeleteIcon size={20} />}
               ml={1}
               mr={-2}
               onClick={() => onRemove?.(index)}

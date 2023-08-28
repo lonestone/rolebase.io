@@ -37,6 +37,26 @@ enum Panels {
   Member,
 }
 
+const buttonsStyleProps = {
+  variant: 'outline',
+  bg: 'white',
+  _hover: {
+    bg: 'gray.100',
+  },
+  _active: {
+    bg: 'gray.200',
+  },
+  _dark: {
+    bg: 'gray.700',
+    _hover: {
+      bg: 'gray.600',
+    },
+    _active: {
+      bg: 'gray.550',
+    },
+  },
+}
+
 export default function CirclesPage() {
   useOverflowHidden()
   const { t } = useTranslation()
@@ -160,31 +180,15 @@ export default function CirclesPage() {
             className="userflow-graph-views"
             value={view}
             onChange={setView}
-            bg="white"
-            variant="outline"
-            _hover={{
-              bg: 'gray.100',
-            }}
-            _active={{
-              bg: 'gray.200',
-            }}
-            _dark={{
-              bg: 'gray.700',
-              _hover: {
-                bg: 'gray.600',
-              },
-              _active: {
-                bg: 'gray.550',
-              },
-            }}
+            {...buttonsStyleProps}
           />
         </Box>
         <Box>
           <CirclesSettings
             className="userflow-settings"
             showText
-            variant="outline"
             size="sm"
+            {...buttonsStyleProps}
           />
         </Box>
       </HStack>

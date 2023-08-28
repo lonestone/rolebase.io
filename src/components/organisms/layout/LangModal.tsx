@@ -12,8 +12,8 @@ import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCheck } from 'react-icons/fi'
 import { langs, locales } from 'src/i18n'
+import { CheckIcon } from 'src/icons'
 import { nhost } from 'src/nhost'
 
 export default function LangModal(modalProps: UseModalProps) {
@@ -49,7 +49,7 @@ export default function LangModal(modalProps: UseModalProps) {
             return (
               <ListItemWithButtons
                 key={locale}
-                buttons={locale === language ? <FiCheck /> : null}
+                buttons={locale === language ? <CheckIcon /> : null}
                 onClick={() => handleClick(locale)}
               >
                 {emoji}&nbsp;&nbsp;&nbsp;{name}

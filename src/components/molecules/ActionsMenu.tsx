@@ -10,15 +10,16 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiArchive,
-  FiCopy,
-  FiDownload,
-  FiEdit3,
-  FiEyeOff,
-  FiMoreVertical,
-  FiMove,
-  FiTrash2,
-} from 'react-icons/fi'
+  ArchiveIcon,
+  CopyIcon,
+  DeleteIcon,
+  EditIcon,
+  ExportIcon,
+  MarkUnreadIcon,
+  MoreIcon,
+  MoveIcon,
+  RestoreIcon,
+} from 'src/icons'
 
 interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onEdit?(): void
@@ -49,7 +50,7 @@ export default function ActionsMenu({
       <MenuButton
         aria-label={t('ActionsMenu.label')}
         as={IconButton}
-        icon={<FiMoreVertical />}
+        icon={<MoreIcon size={20} />}
         variant="ghost"
         size="sm"
         {...props}
@@ -64,42 +65,45 @@ export default function ActionsMenu({
           zIndex={2000}
         >
           {onEdit && (
-            <MenuItem icon={<FiEdit3 />} onClick={onEdit}>
+            <MenuItem icon={<EditIcon size={20} />} onClick={onEdit}>
               {t('common.edit')}
             </MenuItem>
           )}
           {onMove && (
-            <MenuItem icon={<FiMove />} onClick={onMove}>
+            <MenuItem icon={<MoveIcon size={20} />} onClick={onMove}>
               {t('common.move')}
             </MenuItem>
           )}
           {onDuplicate && (
-            <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
+            <MenuItem icon={<CopyIcon size={20} />} onClick={onDuplicate}>
               {t('common.duplicate')}
             </MenuItem>
           )}
           {onExport && (
-            <MenuItem icon={<FiDownload />} onClick={onExport}>
+            <MenuItem icon={<ExportIcon size={20} />} onClick={onExport}>
               {t('common.export')}
             </MenuItem>
           )}
           {onMarkUnread && (
-            <MenuItem icon={<FiEyeOff />} onClick={onMarkUnread}>
+            <MenuItem
+              icon={<MarkUnreadIcon size={20} />}
+              onClick={onMarkUnread}
+            >
               {t('common.markUnread')}
             </MenuItem>
           )}
           {onArchive && (
-            <MenuItem icon={<FiArchive />} onClick={onArchive}>
+            <MenuItem icon={<ArchiveIcon size={20} />} onClick={onArchive}>
               {t('common.archive')}
             </MenuItem>
           )}
           {onUnarchive && (
-            <MenuItem icon={<FiArchive />} onClick={onUnarchive}>
+            <MenuItem icon={<RestoreIcon size={20} />} onClick={onUnarchive}>
               {t('common.unarchive')}
             </MenuItem>
           )}
           {onDelete && (
-            <MenuItem icon={<FiTrash2 />} onClick={onDelete}>
+            <MenuItem icon={<DeleteIcon size={20} />} onClick={onDelete}>
               {t('common.delete')}
             </MenuItem>
           )}

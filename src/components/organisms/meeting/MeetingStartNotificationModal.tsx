@@ -18,7 +18,7 @@ import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IoMdSend } from 'react-icons/io'
+import { SendIcon } from 'src/icons'
 
 export default function MeetingStartNotificationModal(
   modalProps: UseModalProps
@@ -73,7 +73,7 @@ export default function MeetingStartNotificationModal(
 
           <Button
             colorScheme="blue"
-            rightIcon={<IoMdSend />}
+            rightIcon={<SendIcon />}
             onClick={handleSend}
           >
             {t(`common.send`)}

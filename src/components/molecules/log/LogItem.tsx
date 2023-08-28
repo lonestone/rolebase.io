@@ -7,7 +7,7 @@ import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiRotateCcw } from 'react-icons/fi'
+import { LogIcon } from 'src/icons'
 import LogText from './LogText'
 
 interface Props {
@@ -47,7 +47,7 @@ export default function LogItem({ log, onCancel }: Props) {
           aria-label={t('LogItem.open')}
           size="sm"
           variant="ghost"
-          icon={<FiRotateCcw />}
+          icon={<LogIcon size={20} />}
           onClick={onCancel}
         />
       )}

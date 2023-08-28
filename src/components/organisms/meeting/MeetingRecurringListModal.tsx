@@ -22,9 +22,9 @@ import { useOrgId } from '@hooks/useOrgId'
 import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
 import { RRule } from 'rrule'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
+import { CreateIcon } from 'src/icons'
 
 interface Props extends UseModalProps {
   circleId?: string
@@ -91,7 +91,10 @@ export default function MeetingRecurringListModal({
             <TextErrors errors={[error]} />
 
             <Box textAlign="center" mb={7}>
-              <Button leftIcon={<FiPlus />} onClick={handleCreate}>
+              <Button
+                leftIcon={<CreateIcon size={20} />}
+                onClick={handleCreate}
+              >
                 {t('MeetingRecurringListModal.create')}
               </Button>
             </Box>

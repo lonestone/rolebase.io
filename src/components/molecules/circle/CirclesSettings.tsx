@@ -19,13 +19,14 @@ import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiCircle,
-  FiCommand,
-  FiDownload,
-  FiRotateCcw,
-  FiSettings,
-  FiShare2,
-} from 'react-icons/fi'
+  CircleIcon,
+  ExportCircleIcon,
+  LogsIcon,
+  SettingsIcon,
+  ShareIcon,
+  ShortcutsIcon,
+  VacantCircle,
+} from 'src/icons'
 
 export default function CirclesSettings(
   buttonProps: Omit<IconTextButtonProps, 'aria-label'>
@@ -54,8 +55,9 @@ export default function CirclesSettings(
     <Menu>
       <MenuButton
         as={IconTextButton}
-        icon={<FiSettings />}
+        icon={<SettingsIcon size={20} />}
         aria-label={t('CirclesSettings.label')}
+        fontWeight="normal"
         {...buttonProps}
       />
 
@@ -63,35 +65,50 @@ export default function CirclesSettings(
         {isMember && (
           <>
             {isAdmin && (
-              <MenuItem icon={<FiSettings />} onClick={orgEditModal.onOpen}>
+              <MenuItem
+                icon={<SettingsIcon size={20} />}
+                onClick={orgEditModal.onOpen}
+              >
                 {t('CirclesSettings.orgEdit')}
               </MenuItem>
             )}
-            <MenuItem icon={<FiCircle />} onClick={baseRolesModal.onOpen}>
+            <MenuItem
+              icon={<CircleIcon size={20} />}
+              onClick={baseRolesModal.onOpen}
+            >
               {t('CirclesSettings.baseRoles')}
             </MenuItem>
-            <MenuItem icon={<FiCircle />} onClick={vacantRolesModal.onOpen}>
+            <MenuItem
+              icon={<VacantCircle size={20} />}
+              onClick={vacantRolesModal.onOpen}
+            >
               {t('CirclesSettings.vacantRoles')}
             </MenuItem>
             <MenuItem
-              icon={<FiRotateCcw />}
+              icon={<LogsIcon size={20} />}
               onClick={() => navigateOrg('logs')}
             >
               {t('CirclesSettings.logs')}
             </MenuItem>
             {isMember && !isMobile && (
-              <MenuItem icon={<FiCommand />} onClick={shortcutsModal.onOpen}>
+              <MenuItem
+                icon={<ShortcutsIcon size={20} />}
+                onClick={shortcutsModal.onOpen}
+              >
                 {t('CirclesSettings.shortcuts')}
               </MenuItem>
             )}
             <MenuItem
-              icon={<FiDownload />}
+              icon={<ExportCircleIcon size={20} />}
               onClick={() => navigateOrg(`export-circle/${orgCircleId}`)}
             >
               {t('CirclesSettings.export')}
             </MenuItem>
             {isAdmin && (
-              <MenuItem icon={<FiShare2 />} onClick={shareModal.onOpen}>
+              <MenuItem
+                icon={<ShareIcon size={20} />}
+                onClick={shareModal.onOpen}
+              >
                 {t('CirclesSettings.share')}
               </MenuItem>
             )}

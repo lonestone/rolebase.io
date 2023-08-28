@@ -14,7 +14,7 @@ import useDateLocale from '@hooks/useDateLocale'
 import { format } from 'date-fns'
 import React, { useCallback, useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { FiEdit3, FiPlay } from 'react-icons/fi'
+import { EditIcon, PlayIcon } from 'src/icons'
 
 interface Props extends BoxProps {
   onStart: () => void
@@ -55,7 +55,11 @@ export default function MeetingAlertNotStarted({
 
   return isToday ? (
     <BounceAnimation active={isStartTimePassed} {...boxProps}>
-      <Button leftIcon={<FiPlay />} colorScheme="green" onClick={handleStart}>
+      <Button
+        leftIcon={<PlayIcon variant="Bold" />}
+        colorScheme="green"
+        onClick={handleStart}
+      >
         {t('MeetingAlertNotStarted.start')}
       </Button>
     </BounceAnimation>
@@ -90,7 +94,11 @@ export default function MeetingAlertNotStarted({
           >
             {t('common.archive')}
           </Button>
-          <Button leftIcon={<FiEdit3 />} colorScheme="blue" onClick={onEdit}>
+          <Button
+            leftIcon={<EditIcon size={18} />}
+            colorScheme="blue"
+            onClick={onEdit}
+          >
             {t('common.edit')}
           </Button>
         </>

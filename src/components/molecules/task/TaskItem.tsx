@@ -12,7 +12,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { TaskFragment, Task_Status_Enum } from '@gql'
+import { Task_Status_Enum, TaskFragment } from '@gql'
 import useDateLocale from '@hooks/useDateLocale'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
@@ -22,8 +22,8 @@ import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import TaskModal from '@organisms/task/TaskModal'
 import { formatRelative } from 'date-fns'
 import React from 'react'
-import { FiCheckSquare } from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
+import { TaskIcon } from 'src/icons'
 import TaskStatusInput from './TaskStatusInput'
 
 interface Props extends LinkBoxProps {
@@ -80,7 +80,7 @@ const TaskItem = forwardRef<Props, 'div'>(
           <Flex align="center">
             {showIcon && (
               <Center w={6} h={6} mr={2}>
-                <FiCheckSquare />
+                <TaskIcon />
               </Center>
             )}
 

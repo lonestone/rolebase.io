@@ -10,7 +10,7 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { MeetingAttendee } from '@shared/model/meeting'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 import MemberSearchButton from '../search/entities/members/MemberSearchButton'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 
@@ -108,7 +108,7 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
         <MemberSearchButton
           excludeIds={attendeesMemberIds}
           size="sm"
-          leftIcon={<FiPlus />}
+          leftIcon={<CreateIcon size={20} />}
           onSelect={handleAdd}
         >
           {t('MeetingAttendees.add')}

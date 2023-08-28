@@ -14,9 +14,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { useDecisionSubscription } from '@gql'
+import useDateLocale from '@hooks/useDateLocale'
 import useOrgMember from '@hooks/useOrgMember'
 import ActionsMenu from '@molecules/ActionsMenu'
-import DateInfo from '@molecules/DateInfo'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
+import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import DecisionDeleteModal from './DecisionDeleteModal '
@@ -37,6 +39,7 @@ export default function DecisionContent({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
+  const dateLocale = useDateLocale()
   const isMember = useOrgMember()
   const editModal = useDisclosure()
   const deleteModal = useDisclosure()
@@ -77,11 +80,19 @@ export default function DecisionContent({
       {id && loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      {decision && <DateInfo date={decision.createdAt} />}
-
-      <Text fontSize="lg" fontWeight="bold" mt={2} mb={5}>
+      <Text fontSize="lg" fontWeight="bold" mt={2} mb={1}>
         {decision?.title}
       </Text>
+
+      {decision && (
+        <Text fontSize="sm" fontWeight="normal" color="gray.400" mb={5}>
+          {capitalizeFirstLetter(
+            format(new Date(decision.createdAt), 'PPPP', {
+              locale: dateLocale,
+            })
+          )}
+        </Text>
+      )}
 
       <Markdown>{decision?.description || ''}</Markdown>
 

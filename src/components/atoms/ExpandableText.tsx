@@ -1,7 +1,7 @@
 import { Box, BoxProps, Button, Center, useDisclosure } from '@chakra-ui/react'
 import React, { forwardRef, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { ChevronDownIcon, ChevronUpIcon } from 'src/icons'
 
 interface Props extends BoxProps {
   children: React.ReactNode
@@ -38,7 +38,13 @@ export const ExpandableText = forwardRef<HTMLDivElement, Props>(
           <Center>
             <Button
               variant="link"
-              rightIcon={expanded.isOpen ? <FiChevronUp /> : <FiChevronDown />}
+              rightIcon={
+                expanded.isOpen ? (
+                  <ChevronUpIcon size="1em" />
+                ) : (
+                  <ChevronDownIcon size="1em" />
+                )
+              }
               mt={2}
               onClick={expanded.onToggle}
             >

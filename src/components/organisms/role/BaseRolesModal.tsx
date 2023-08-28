@@ -16,7 +16,7 @@ import ListItemWithButtons from '@molecules/ListItemWithButtons'
 import { useStoreState } from '@store/hooks'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus, FiTrash2 } from 'react-icons/fi'
+import { CreateIcon, DeleteIcon } from 'src/icons'
 import BaseRoleCreateModal from './BaseRoleCreateModal'
 import RoleDeleteModal from './RoleDeleteModal'
 import RoleEditModal from './RoleEditModal'
@@ -67,7 +67,7 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
                       variant="ghost"
                       zIndex={2}
                       onClick={() => handleDelete(role.id)}
-                      icon={<FiTrash2 />}
+                      icon={<DeleteIcon size={18} />}
                     />
                   }
                 >
@@ -78,7 +78,7 @@ export default function BaseRolesModal(modalProps: UseModalProps) {
           </ModalBody>
 
           <ModalFooter justifyContent="center">
-            <Button leftIcon={<FiPlus />} onClick={createModal.onOpen}>
+            <Button leftIcon={<CreateIcon />} onClick={createModal.onOpen}>
               {t('BaseRolesModal.create')}
             </Button>
           </ModalFooter>

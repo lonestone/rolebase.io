@@ -50,17 +50,17 @@ import { useStoreState } from '@store/hooks'
 import { truthy } from '@utils/truthy'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  FiChevronDown,
-  FiCopy,
-  FiEye,
-  FiEyeOff,
-  FiPlus,
-  FiRepeat,
-  FiSettings,
-  FiUpload,
-} from 'react-icons/fi'
 import { RRule } from 'rrule'
+import {
+  ChevronDownIcon,
+  CopyIcon,
+  CreateIcon,
+  ExportIcon,
+  HideIcon,
+  MeetingRecurringIcon,
+  SettingsIcon,
+  ShowIcon,
+} from 'src/icons'
 import { circleColor } from 'src/theme'
 
 export default function MeetingsPage() {
@@ -302,7 +302,7 @@ export default function MeetingsPage() {
                 size="sm"
                 variant="outline"
                 fontWeight="normal"
-                rightIcon={<FiChevronDown />}
+                rightIcon={<ChevronDownIcon size="1em" />}
                 my={2}
                 ml={7}
               >
@@ -334,7 +334,7 @@ export default function MeetingsPage() {
                 size="sm"
                 variant="outline"
                 fontWeight="normal"
-                leftIcon={<FiSettings />}
+                leftIcon={<SettingsIcon size={20} />}
                 my={2}
               >
                 {t('MeetingsPage.settings')}
@@ -345,17 +345,22 @@ export default function MeetingsPage() {
                 fontWeight="normal"
                 zIndex={1000}
               >
-                <MenuItem icon={<FiCopy />} onClick={templatesModal.onOpen}>
+                <MenuItem
+                  icon={<CopyIcon size={20} />}
+                  onClick={templatesModal.onOpen}
+                >
                   {t('MeetingsPage.templates')}
                 </MenuItem>
                 <MenuItem
-                  icon={<FiRepeat />}
+                  icon={<MeetingRecurringIcon size={20} />}
                   onClick={recurringListModal.onOpen}
                 >
                   {t('MeetingsPage.recurring')}
                 </MenuItem>
                 <MenuItem
-                  icon={weekend ? <FiEyeOff /> : <FiEye />}
+                  icon={
+                    weekend ? <HideIcon size={20} /> : <ShowIcon size={20} />
+                  }
                   onClick={() => setMetadata('calendarShowWeekend', !weekend)}
                 >
                   {weekend
@@ -364,7 +369,7 @@ export default function MeetingsPage() {
                 </MenuItem>
                 <MenuItem
                   className="userflow-meetings-export"
-                  icon={<FiUpload />}
+                  icon={<ExportIcon size={20} />}
                   onClick={exportModal.onOpen}
                 >
                   {t('MeetingsPage.export')}
@@ -379,7 +384,7 @@ export default function MeetingsPage() {
                 colorScheme="blue"
                 ml={5}
                 my={2}
-                leftIcon={<FiPlus />}
+                leftIcon={<CreateIcon size={20} />}
                 onClick={handleCreate}
               >
                 {t('MeetingsPage.create')}

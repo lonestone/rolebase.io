@@ -2,7 +2,7 @@ import { Title } from '@atoms/Title'
 import { Button, Container, Heading, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiArrowLeft } from 'react-icons/fi'
+import { ChevronLeftIcon } from 'src/icons'
 
 export default function Page404() {
   const { t } = useTranslation()
@@ -27,7 +27,9 @@ export default function Page404() {
         </Heading>
 
         <a href="/">
-          <Button leftIcon={<FiArrowLeft />}>{t('Page404.home')}</Button>
+          <Button leftIcon={<ChevronLeftIcon size="1em" />}>
+            {t('Page404.home')}
+          </Button>
         </a>
       </VStack>
     </Container>

@@ -9,7 +9,7 @@ import MeetingModal from '@organisms/meeting/MeetingModal'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus, FiRepeat } from 'react-icons/fi'
+import { CreateIcon, MeetingRecurringIcon } from 'src/icons'
 
 interface Props {
   circleId: string
@@ -41,7 +41,11 @@ export default function CircleMeetings({ circleId }: Props) {
     <>
       <Flex mb={4}>
         {isMember && (
-          <Button size="sm" leftIcon={<FiPlus />} onClick={createModal.onOpen}>
+          <Button
+            size="sm"
+            leftIcon={<CreateIcon size={20} />}
+            onClick={createModal.onOpen}
+          >
             {t('CircleMeetings.create')}
           </Button>
         )}
@@ -50,7 +54,7 @@ export default function CircleMeetings({ circleId }: Props) {
         <Button
           size="sm"
           variant="outline"
-          leftIcon={<FiRepeat />}
+          leftIcon={<MeetingRecurringIcon size={20} />}
           onClick={recurringModal.onOpen}
         >
           {t('CircleMeetings.recurring')}

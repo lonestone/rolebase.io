@@ -50,8 +50,8 @@ import { nanoid } from 'nanoid'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { ChevronDownIcon } from 'src/icons'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
@@ -315,7 +315,7 @@ export default function MeetingEditModal({
                           <Button
                             variant="link"
                             size="sm"
-                            rightIcon={<FiChevronDown />}
+                            rightIcon={<ChevronDownIcon size="1em" />}
                             onClick={onRecurring}
                           >
                             {t('MeetingEditModal.recurrence')}

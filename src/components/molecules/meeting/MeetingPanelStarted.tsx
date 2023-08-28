@@ -27,17 +27,16 @@ import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import React, { MouseEvent, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaStop } from 'react-icons/fa'
+import { FiArrowDown, FiArrowRight } from 'react-icons/fi'
 import {
-  FiArrowDown,
-  FiArrowRight,
-  FiCalendar,
-  FiCheckSquare,
-  FiMessageSquare,
-  FiPlus,
-  FiTriangle,
-  FiVideo,
-} from 'react-icons/fi'
+  CreateIcon,
+  DecisionIcon,
+  MeetingIcon,
+  StopIcon,
+  TaskIcon,
+  ThreadIcon,
+  VisioIcon,
+} from 'src/icons'
 import settings from 'src/settings'
 
 export default function MeetingPanelStarted() {
@@ -123,33 +122,38 @@ export default function MeetingPanelStarted() {
       <Flex alignItems="center" justifyContent="end" flexWrap="wrap">
         <Box mr={4}>
           <Menu isLazy>
-            <MenuButton as={Button} size="sm" my={2} leftIcon={<FiPlus />}>
+            <MenuButton
+              as={Button}
+              size="sm"
+              my={2}
+              leftIcon={<CreateIcon size={20} />}
+            >
               {t(`common.add`)}
             </MenuButton>
             <MenuList>
               <MenuItem
-                icon={<FiTriangle />}
+                icon={<DecisionIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Decision}
                 onClick={handleEntityOpen}
               >
                 {t(`common.createDecision`)}
               </MenuItem>
               <MenuItem
-                icon={<FiCheckSquare />}
+                icon={<TaskIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Task}
                 onClick={handleEntityOpen}
               >
                 {t(`common.createTask`)}
               </MenuItem>
               <MenuItem
-                icon={<FiCalendar />}
+                icon={<MeetingIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Meeting}
                 onClick={handleEntityOpen}
               >
                 {t(`common.createMeeting`)}
               </MenuItem>
               <MenuItem
-                icon={<FiMessageSquare />}
+                icon={<ThreadIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Thread}
                 onClick={handleEntityOpen}
               >
@@ -164,7 +168,7 @@ export default function MeetingPanelStarted() {
             <a href={videoConfUrl} target="_blank" rel="noreferrer">
               <IconTextButton
                 aria-label={t('MeetingPanelStarted.videoConf')}
-                icon={<FiVideo />}
+                icon={<VisioIcon variant="Bold" />}
                 colorScheme="blue"
               />
             </a>
@@ -183,7 +187,7 @@ export default function MeetingPanelStarted() {
           <BounceAnimation active={isEndTimePassed}>
             <IconTextButton
               aria-label={t('MeetingPanelStarted.end')}
-              icon={<FaStop />}
+              icon={<StopIcon variant="Bold" />}
               colorScheme="pink"
               showText={isEndTimePassed || isLastStep}
               onClick={handleEnd}

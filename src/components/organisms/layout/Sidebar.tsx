@@ -31,21 +31,21 @@ import { cmdOrCtrlKey } from '@utils/env'
 import { Crisp } from 'crisp-sdk-web'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  FiActivity,
-  FiArrowLeft,
-  FiCalendar,
-  FiCheckSquare,
-  FiDisc,
-  FiHelpCircle,
-  FiMenu,
-  FiMessageSquare,
-  FiSearch,
-  FiSettings,
-  FiStar,
-  FiUsers,
-} from 'react-icons/fi'
 import { Link as ReachLink } from 'react-router-dom'
+import {
+  BackIcon,
+  HelpIcon,
+  MeetingsIcon,
+  MembersIcon,
+  MenuIcon,
+  NewsIcon,
+  OrgChartIcon,
+  SearchIcon,
+  SettingsIcon,
+  SubscriptionIcon,
+  TasksIcon,
+  ThreadsIcon,
+} from 'src/icons'
 import BrandIcon from 'src/images/icon.svg'
 
 // Force reset with fast refresh
@@ -149,7 +149,7 @@ export default function Sidebar() {
                   className="userflow-sidebar-dashboard"
                   to={rootPath}
                   exact
-                  icon={<FiActivity />}
+                  icon={NewsIcon}
                 >
                   {t('Sidebar.dashboard')}
                 </SidebarTopIconLink>
@@ -158,7 +158,7 @@ export default function Sidebar() {
                   className="userflow-sidebar-roles"
                   to={`${rootPath}roles`}
                   exact
-                  icon={<FiDisc />}
+                  icon={OrgChartIcon}
                 >
                   {t('Sidebar.roles')}
                 </SidebarTopIconLink>
@@ -166,7 +166,7 @@ export default function Sidebar() {
                 <SidebarTopIconLink
                   className="userflow-sidebar-threads"
                   to={`${rootPath}threads`}
-                  icon={<FiMessageSquare />}
+                  icon={ThreadsIcon}
                 >
                   {t('Sidebar.threads')}
                 </SidebarTopIconLink>
@@ -174,7 +174,7 @@ export default function Sidebar() {
                 <SidebarTopIconLink
                   className="userflow-sidebar-meetings"
                   to={`${rootPath}meetings`}
-                  icon={<FiCalendar />}
+                  icon={MeetingsIcon}
                   alert={!!currentMember?.meetingId}
                 >
                   {t('Sidebar.meetings')}
@@ -183,14 +183,18 @@ export default function Sidebar() {
                 <SidebarTopIconLink
                   className="userflow-sidebar-tasks"
                   to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
-                  icon={<FiCheckSquare />}
+                  icon={TasksIcon}
                 >
                   {t('Sidebar.tasks')}
                 </SidebarTopIconLink>
               </>
             )}
 
-            <SidebarTopIcon icon={<FiMenu />} onClick={context.expand.onToggle}>
+            <SidebarTopIcon
+              icon={MenuIcon}
+              isActive={context.expand.isOpen}
+              onClick={context.expand.onToggle}
+            >
               {t('Sidebar.menu')}
             </SidebarTopIcon>
           </>
@@ -224,7 +228,7 @@ export default function Sidebar() {
                 className="userflow-sidebar-dashboard"
                 to={rootPath}
                 exact
-                icon={<FiActivity />}
+                icon={NewsIcon}
               >
                 {t('Sidebar.dashboard')}
               </SidebarItemLink>
@@ -233,7 +237,7 @@ export default function Sidebar() {
                 className="userflow-sidebar-roles"
                 to={`${rootPath}roles`}
                 exact
-                icon={<FiDisc />}
+                icon={OrgChartIcon}
               >
                 {t('Sidebar.roles')}
               </SidebarItemLink>
@@ -241,7 +245,7 @@ export default function Sidebar() {
               <SidebarItemLink
                 className="userflow-sidebar-threads"
                 to={`${rootPath}threads`}
-                icon={<FiMessageSquare />}
+                icon={ThreadsIcon}
               >
                 {t('Sidebar.threads')}
               </SidebarItemLink>
@@ -249,7 +253,7 @@ export default function Sidebar() {
               <SidebarItemLink
                 className="userflow-sidebar-meetings"
                 to={`${rootPath}meetings`}
-                icon={<FiCalendar />}
+                icon={MeetingsIcon}
                 alert={!!currentMember?.meetingId}
               >
                 {t('Sidebar.meetings')}
@@ -258,7 +262,7 @@ export default function Sidebar() {
               <SidebarItemLink
                 className="userflow-sidebar-tasks"
                 to={`${rootPath}tasks?member=${currentMember?.id || ''}`}
-                icon={<FiCheckSquare />}
+                icon={TasksIcon}
               >
                 {t('Sidebar.tasks')}
               </SidebarItemLink>
@@ -266,7 +270,7 @@ export default function Sidebar() {
           ) : (
             !orgLoading &&
             window.location.pathname !== '/' && (
-              <SidebarItemLink to="/" exact icon={<FiArrowLeft />}>
+              <SidebarItemLink to="/" exact icon={BackIcon}>
                 {t('Sidebar.orgs')}
               </SidebarItemLink>
             )
@@ -285,7 +289,7 @@ export default function Sidebar() {
               >
                 <SidebarItem
                   className="userflow-sidebar-search"
-                  icon={<FiSearch />}
+                  icon={SearchIcon}
                   onClick={searchModal.onOpen}
                 >
                   {t('Sidebar.search')}
@@ -295,7 +299,7 @@ export default function Sidebar() {
               <SidebarItemLink
                 className="userflow-sidebar-members"
                 to={`${rootPath}members`}
-                icon={<FiUsers />}
+                icon={MembersIcon}
               >
                 {t('Sidebar.members')}
               </SidebarItemLink>
@@ -304,14 +308,14 @@ export default function Sidebar() {
                 <SidebarItemLink
                   className="userflow-sidebar-subscription"
                   to={`${rootPath}subscription`}
-                  icon={<FiStar />}
+                  icon={SubscriptionIcon}
                 >
                   {t('Sidebar.subscription')}
                 </SidebarItemLink>
               )}
 
               {isSuperAdmin && (
-                <SidebarItemLink to={`admin`} icon={<FiSettings />}>
+                <SidebarItemLink to="admin" icon={SettingsIcon}>
                   {t('Sidebar.superAdmin')}
                 </SidebarItemLink>
               )}
@@ -320,7 +324,7 @@ export default function Sidebar() {
 
           <SidebarItem
             className="userflow-sidebar-help"
-            icon={<FiHelpCircle />}
+            icon={HelpIcon}
             onClick={handleOpenHelp}
           >
             {t('Sidebar.help')}

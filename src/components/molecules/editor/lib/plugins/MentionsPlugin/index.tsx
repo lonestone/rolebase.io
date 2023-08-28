@@ -18,7 +18,7 @@ import { TextNode } from 'lexical'
 import throttle from 'lodash.throttle'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom'
-import { FiUser } from 'react-icons/fi'
+import { MemberIcon } from 'src/icons'
 import { $createMentionNode, MentionEntities } from '../../nodes/MentionNode'
 
 export interface Mentionable {
@@ -140,7 +140,7 @@ function MentionsTypeaheadMenuItem({
     >
       {option.entity === MentionEntities.Member && (
         <Center mr={2}>
-          <FiUser />
+          <MemberIcon size={20} />
         </Center>
       )}
       <span className="text">{option.name}</span>

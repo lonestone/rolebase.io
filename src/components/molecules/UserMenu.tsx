@@ -19,14 +19,14 @@ import CurrentUserModal from '@organisms/user/CurrentUserModal'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiChevronRight,
-  FiEdit3,
-  FiLogOut,
-  FiMoon,
-  FiSun,
-  FiUser,
-} from 'react-icons/fi'
-import { IoLanguage } from 'react-icons/io5'
+  ChevronRightIcon,
+  CurrentMemberIcon,
+  DarkThemeIcon,
+  LanguageIcon,
+  LightThemeIcon,
+  LogoutIcon,
+  UserInfoIcon,
+} from 'src/icons'
 
 interface Props extends BoxProps {
   isMobile: boolean
@@ -52,7 +52,7 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
       <Menu isOpen={menu.isOpen} placement={isMobile ? 'auto' : 'right-end'}>
         <MenuButton
           as={MemberButton}
-          rightIcon={<FiChevronRight />}
+          rightIcon={<ChevronRightIcon size="1em" />}
           size={size}
           variant="ghost"
           w="100%"
@@ -102,26 +102,40 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
         >
           {member && (
             <CircleMemberLink memberId={member.id}>
-              <MenuItem icon={<FiUser />}>{t('UserMenu.member')}</MenuItem>
+              <MenuItem icon={<CurrentMemberIcon size={20} />}>
+                {t('UserMenu.member')}
+              </MenuItem>
             </CircleMemberLink>
           )}
 
-          <MenuItem icon={<FiEdit3 />} onClick={currentUserModal.onOpen}>
+          <MenuItem
+            icon={<UserInfoIcon size={20} />}
+            onClick={currentUserModal.onOpen}
+          >
             {t('UserMenu.user')}
           </MenuItem>
 
           <MenuItem
-            icon={colorMode === 'light' ? <FiSun /> : <FiMoon />}
+            icon={
+              colorMode === 'light' ? (
+                <LightThemeIcon size={20} />
+              ) : (
+                <DarkThemeIcon size={20} />
+              )
+            }
             onClick={toggleColorMode}
           >
             {t('UserMenu.theme')}
           </MenuItem>
 
-          <MenuItem icon={<IoLanguage />} onClick={langModal.onOpen}>
+          <MenuItem
+            icon={<LanguageIcon size={20} />}
+            onClick={langModal.onOpen}
+          >
             {t('UserMenu.lang')}
           </MenuItem>
 
-          <MenuItem icon={<FiLogOut />} onClick={signOut}>
+          <MenuItem icon={<LogoutIcon size={20} />} onClick={signOut}>
             {t('UserMenu.signout')}
           </MenuItem>
         </MenuList>

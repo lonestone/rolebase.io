@@ -22,7 +22,7 @@ import ActionsMenu from '@molecules/ActionsMenu'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import ScrollableLayout from '@molecules/ScrollableLayout'
 import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
-import ThreadStatusCircle from '@molecules/thread/ThreadStatusCircle'
+import ThreadStatusIcon from '@molecules/thread/ThreadStatusIcon'
 import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import ThreadActivities from '@organisms/thread/ThreadActivities'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
@@ -92,7 +92,7 @@ export default function ThreadContent({
           <>
             <Wrap spacing={4} flex={1} ml={3} align="center">
               <HStack spacing={2} align="center">
-                <ThreadStatusCircle
+                <ThreadStatusIcon
                   value={threadStatus}
                   readOnly={!isMember}
                   onChange={setStatus}

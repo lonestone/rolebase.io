@@ -28,7 +28,7 @@ import { nameSchema } from '@shared/schemas'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiCopy, FiEdit3 } from 'react-icons/fi'
+import { CopyIcon, EditIcon } from 'src/icons'
 import settings from 'src/settings'
 import * as yup from 'yup'
 import useCopyUrl from '../../../hooks/useCopyUrl'
@@ -120,14 +120,14 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
                       <InputRightElement>
                         <IconTextButton
                           aria-label={t('common.copy')}
-                          icon={<FiCopy />}
+                          icon={<CopyIcon size={20} />}
                           onClick={copyUrl}
                         />
                       </InputRightElement>
                     </InputGroup>
                     <Button
                       ml={1}
-                      leftIcon={<FiEdit3 />}
+                      leftIcon={<EditIcon size={20} />}
                       onClick={slugModal.onOpen}
                     >
                       {t('common.edit')}

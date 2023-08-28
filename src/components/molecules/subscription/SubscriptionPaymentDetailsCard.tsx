@@ -12,7 +12,7 @@ import UpdatePaymentMethodModal from '@organisms/subscription/UpdatePaymentMetho
 import { SubscriptionCard } from '@shared/model/subscription'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEdit2, FiMail } from 'react-icons/fi'
+import { EditIcon, EmailIcon } from 'src/icons'
 
 type SubscriptionPaymentDetailsCardProps = {
   card: SubscriptionCard
@@ -69,7 +69,7 @@ export default function SubscriptionPaymentDetailsCard({
             </Text>
             {email && (
               <Flex flexDir="row" alignItems="center" gap="2">
-                <FiMail color="gray.400" />
+                <EmailIcon color="gray.400" size={20} />
                 <Text fontWeight={600} color="gray.400">
                   {email}
                 </Text>
@@ -83,7 +83,7 @@ export default function SubscriptionPaymentDetailsCard({
           >
             <Button
               onClick={onOpen}
-              leftIcon={<FiEdit2 />}
+              leftIcon={<EditIcon size={18} />}
               size="sm"
               variant="outline"
             >

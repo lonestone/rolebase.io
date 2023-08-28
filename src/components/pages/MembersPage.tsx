@@ -32,7 +32,7 @@ import { useStoreState } from '@store/hooks'
 import { truthy } from '@utils/truthy'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEdit3, FiMail, FiPlus } from 'react-icons/fi'
+import { CreateIcon, EditIcon, EmailIcon } from 'src/icons'
 
 export default function MembersPage() {
   const { t } = useTranslation()
@@ -130,7 +130,7 @@ export default function MembersPage() {
               <>
                 <Button
                   size="sm"
-                  leftIcon={<FiMail />}
+                  leftIcon={<EmailIcon size={20} />}
                   ml={3}
                   onClick={onInviteOpen}
                 >
@@ -140,7 +140,7 @@ export default function MembersPage() {
                 <Button
                   size="sm"
                   colorScheme="blue"
-                  leftIcon={<FiPlus />}
+                  leftIcon={<CreateIcon size={20} />}
                   ml={2}
                   onClick={onCreateOpen}
                 >
@@ -200,7 +200,7 @@ export default function MembersPage() {
                   <IconButton
                     aria-label={t('common.edit')}
                     size="sm"
-                    icon={<FiEdit3 />}
+                    icon={<EditIcon size={18} />}
                     zIndex={2}
                     onClick={() => handleOpenEdit(member.id)}
                   />

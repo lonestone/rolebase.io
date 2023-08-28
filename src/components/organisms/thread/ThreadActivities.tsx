@@ -22,7 +22,7 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiMessageSquare } from 'react-icons/fi'
+import { ThreadIcon } from 'src/icons'
 
 interface Props extends StackProps {
   memberStatus?: ThreadMemberStatusFragment
@@ -122,7 +122,7 @@ const ThreadActivities = forwardRef<HTMLDivElement, Props>(
               textAlign="center"
               height="200px"
             >
-              <FiMessageSquare size={40} />
+              <ThreadIcon size={40} />
               <AlertTitle mt={4} mb={1} fontSize="lg">
                 {t('ThreadActivities.emptyTitle')}
               </AlertTitle>

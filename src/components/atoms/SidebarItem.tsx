@@ -1,14 +1,15 @@
 import { Button, ButtonProps, forwardRef } from '@chakra-ui/react'
-import React, { ReactElement } from 'react'
+import { Icon } from 'iconsax-react'
+import React from 'react'
 import SidebarIcon from './SidebarIcon'
 
 export interface SidebarItemProps extends ButtonProps {
-  icon: ReactElement
+  icon: Icon
   alert?: boolean
 }
 
 export default forwardRef(function SidebarItem(
-  { icon, alert, children, ...buttonProps }: SidebarItemProps,
+  { icon, alert, isActive, children, ...buttonProps }: SidebarItemProps,
   ref
 ) {
   return (
@@ -38,9 +39,16 @@ export default forwardRef(function SidebarItem(
           bg: 'whiteAlpha.100',
         },
       }}
+      isActive={isActive}
       {...buttonProps}
     >
-      <SidebarIcon icon={icon} alert={alert} ml={5} mr={3} />
+      <SidebarIcon
+        icon={icon}
+        isActive={isActive}
+        alert={alert}
+        ml={5}
+        mr={3}
+      />
       {children}
     </Button>
   )

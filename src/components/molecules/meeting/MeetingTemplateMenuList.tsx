@@ -9,7 +9,7 @@ import { MeetingTemplateFragment } from '@gql'
 import MeetingTemplateEditModal from '@organisms/meeting/MeetingTemplateEditModal'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEdit3, FiPlus } from 'react-icons/fi'
+import { CreateIcon, EditIcon } from 'src/icons'
 
 interface Props {
   meetingTemplates?: MeetingTemplateFragment[]
@@ -46,7 +46,7 @@ export default function MeetingTemplateMenuList({
             icon={
               <IconTextButton
                 aria-label={t('common.edit')}
-                icon={<FiEdit3 />}
+                icon={<EditIcon size={18} />}
                 size="sm"
                 variant="outline"
                 mr="-0.75rem"
@@ -64,7 +64,7 @@ export default function MeetingTemplateMenuList({
           </MenuItem>
         ))}
         <MenuDivider />
-        <MenuItem icon={<FiPlus />} onClick={handleCreate}>
+        <MenuItem icon={<CreateIcon size={20} />} onClick={handleCreate}>
           {t('MeetingTemplateMenuList.create')}
         </MenuItem>
       </MenuList>

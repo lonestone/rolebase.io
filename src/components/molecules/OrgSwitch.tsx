@@ -16,8 +16,8 @@ import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCircle, FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { CreateIcon } from 'src/icons'
 
 export default function OrgSwitch(props: MenuButtonProps) {
   const { t } = useTranslation()
@@ -83,10 +83,10 @@ export default function OrgSwitch(props: MenuButtonProps) {
             to={`${getOrgPath(org)}/`}
             onClick={handleCloseSidebar}
           >
-            <MenuItem icon={<FiCircle />}>{org.name}</MenuItem>
+            <MenuItem>{org.name}</MenuItem>
           </Link>
         ))}
-        <MenuItem icon={<FiPlus />} onClick={onCreateOpen}>
+        <MenuItem icon={<CreateIcon size={20} />} onClick={onCreateOpen}>
           {t('OrgSwitch.create')}
         </MenuItem>
       </MenuList>

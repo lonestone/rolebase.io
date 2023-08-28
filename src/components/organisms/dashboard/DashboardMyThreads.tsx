@@ -10,7 +10,7 @@ import ThreadsList from '@organisms/thread/ThreadsList'
 import { EntityFilters } from '@shared/model/participants'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 
 export default function DashboardMyThreads() {
   const { t } = useTranslation()
@@ -32,7 +32,7 @@ export default function DashboardMyThreads() {
           <Button
             size="sm"
             colorScheme="blue"
-            leftIcon={<FiPlus />}
+            leftIcon={<CreateIcon size={20} />}
             onClick={createModal.onOpen}
           >
             {t('DashboardMyThreads.add')}

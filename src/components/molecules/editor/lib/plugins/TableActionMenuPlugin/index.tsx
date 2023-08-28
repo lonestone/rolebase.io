@@ -29,10 +29,10 @@ import {
   $insertTableRow__EXPERIMENTAL,
   $isTableCellNode,
   $isTableRowNode,
-  getTableSelectionFromTableElement,
   HTMLTableElementWithWithTableSelectionState,
   TableCellHeaderStates,
   TableCellNode,
+  getTableSelectionFromTableElement,
 } from '@lexical/table'
 import {
   $getRoot,
@@ -46,7 +46,7 @@ import {
 import * as React from 'react'
 import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { FiChevronDown } from 'react-icons/fi'
+import { ChevronDownIcon } from 'src/icons'
 
 function computeSelectionCount(selection: GridSelection): {
   columns: number
@@ -354,7 +354,7 @@ function TableActionMenu({
           <MenuButton
             as={IconButton}
             aria-label="Options"
-            icon={<FiChevronDown />}
+            icon={<ChevronDownIcon size="1em" />}
             size="sm"
             variant="unstyled"
             w="auto"

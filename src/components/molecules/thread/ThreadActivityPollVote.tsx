@@ -8,7 +8,7 @@ import { format } from 'date-fns'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiCheck } from 'react-icons/fi'
+import { CheckIcon } from 'src/icons'
 
 interface Props {
   activity: ThreadActivityPollFragment
@@ -182,7 +182,7 @@ function ThreadActivityPollVote({ activity, answers, onVote }: Props) {
                 whiteSpace="break-spaces"
                 h="auto"
                 py="0.5em"
-                rightIcon={checked ? <FiCheck /> : undefined}
+                rightIcon={checked ? <CheckIcon /> : undefined}
                 onClick={() => handleToggleVote(index)}
               >
                 {choice.title}

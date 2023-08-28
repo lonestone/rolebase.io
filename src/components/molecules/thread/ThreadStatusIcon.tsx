@@ -1,7 +1,8 @@
-import { Circle, Menu, MenuButton, Portal, Tooltip } from '@chakra-ui/react'
+import { Menu, MenuButton, Portal, Tooltip } from '@chakra-ui/react'
 import { Thread_Status_Enum } from '@gql'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { ThreadIcon } from 'src/icons'
 import { threadStatusColors } from 'src/theme'
 import ThreadStatusMenuList from './ThreadStatusMenuList'
 
@@ -11,7 +12,7 @@ interface Props {
   onChange: (value: Thread_Status_Enum) => void
 }
 
-export default function ThreadStatusCircle({
+export default function ThreadStatusIcon({
   value = Thread_Status_Enum.Preparation,
   readOnly,
   onChange,
@@ -25,8 +26,11 @@ export default function ThreadStatusCircle({
         placement="left"
         label={t(`common.threadStatus.${value}`)}
       >
-        <MenuButton disabled={readOnly}>
-          <Circle size="18px" bg={`${threadStatusColors[value]}.400`} />
+        <MenuButton
+          disabled={readOnly}
+          color={`${threadStatusColors[value]}.400`}
+        >
+          <ThreadIcon variant="Bold" />
         </MenuButton>
       </Tooltip>
       <Portal>

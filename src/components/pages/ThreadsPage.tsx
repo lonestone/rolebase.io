@@ -27,7 +27,7 @@ import { EntityFilters } from '@shared/model/participants'
 import { threadStatusList } from '@shared/model/thread'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiPlus } from 'react-icons/fi'
+import { ChevronDownIcon, CreateIcon } from 'src/icons'
 
 const entityFiltersList = [EntityFilters.Invited, EntityFilters.NotInvited]
 
@@ -91,7 +91,7 @@ export default function ThreadsPage() {
                 <MenuButton
                   as={Button}
                   className="userflow-threads-filter"
-                  rightIcon={<FiChevronDown />}
+                  rightIcon={<ChevronDownIcon size="1em" />}
                   fontWeight="normal"
                 >
                   {t(`ThreadsFilterMenu.participation.${filter}` as any)}
@@ -114,7 +114,7 @@ export default function ThreadsPage() {
               <Menu>
                 <MenuButton
                   as={Button}
-                  rightIcon={<FiChevronDown />}
+                  rightIcon={<ChevronDownIcon size="1em" />}
                   className="userflow-threads-status-filter"
                   fontWeight="normal"
                 >
@@ -145,7 +145,7 @@ export default function ThreadsPage() {
                 colorScheme="blue"
                 ml={5}
                 my={2}
-                leftIcon={<FiPlus />}
+                leftIcon={<CreateIcon size={20} />}
                 onClick={onCreateOpen}
               >
                 {t('ThreadsPage.create')}

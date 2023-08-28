@@ -4,7 +4,7 @@ import { LinkBoxProps } from '@chakra-ui/react'
 import { MeetingFragment } from '@gql'
 import MeetingItem from '@molecules/meeting/MeetingItem'
 import React from 'react'
-import { PiUsersThreeFill } from 'react-icons/pi'
+import { MeetingAvatarIcon } from 'src/icons'
 import DashboardNewsItemLayout from './DashboardNewsItemLayout'
 
 interface Props extends LinkBoxProps {
@@ -16,7 +16,7 @@ export default function DashboardNewsMeeting({ meeting }: Props) {
     <DashboardNewsItemLayout
       i18nKey="DashboardNewsMeeting.action"
       date={meeting.endDate}
-      icon={PiUsersThreeFill}
+      icon={MeetingAvatarIcon}
     >
       <MeetingItem
         meeting={meeting}

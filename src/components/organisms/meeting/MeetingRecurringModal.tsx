@@ -9,7 +9,6 @@ import {
   FormLabel,
   Heading,
   HStack,
-  Icon,
   Modal,
   ModalBody,
   ModalContent,
@@ -35,8 +34,8 @@ import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCalendar, FiRepeat } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { MeetingRecurringIcon } from 'src/icons'
 import MeetingRecurringEditModal from './MeetingRecurringEditModal'
 
 interface Props extends UseModalProps {
@@ -133,8 +132,8 @@ export default function MeetingRecurringModal({
       <ModalContent>
         <ModalBody>
           <Wrap spacing={2} flex={1} align="center">
-            <HStack spacing={2}>
-              <Icon as={FiRepeat} />
+            <HStack spacing={2} alignItems="center">
+              <MeetingRecurringIcon />
               <Heading as="h1" size="md">
                 {t('MeetingHeader.heading', {
                   title: meetingRecurring?.template.title || '…',
@@ -185,7 +184,7 @@ export default function MeetingRecurringModal({
             <Loading active size="md" />
           ) : (
             <Button onClick={editModal.onOpen}>
-              {t(`MeetingRecurringModal.edit`)}
+              {t('MeetingRecurringModal.edit')}
             </Button>
           )}
 
@@ -193,11 +192,10 @@ export default function MeetingRecurringModal({
 
           <Button
             colorScheme="blue"
-            leftIcon={<FiCalendar />}
             isDisabled={loading}
             onClick={handleCreate}
           >
-            {t(`common.create`)}
+            {t('MeetingRecurringModal.create')}
           </Button>
         </ModalFooter>
       </ModalContent>

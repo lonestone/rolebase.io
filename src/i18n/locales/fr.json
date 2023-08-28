@@ -399,6 +399,7 @@
   "MeetingRecurringModal": {
     "info": "Cette réunion est récurrente. L'occurrence que vous avez sélectionnée n'existe pas encore, vous pouvez la créer ou attendre qu'elle soit créée automatiquement.",
     "createLabel": "Créer et modifier la réunion du",
+    "create": "Créer la réunion",
     "edit": "Modifier la récurrence"
   },
   "MeetingRecurringPage": {
@@ -516,6 +517,7 @@
   },
   "MemberPictureCropModal": {
     "heading": "Recadrez la photo",
+    "rotate": "Tourner à 90°",
     "toastSuccess": "Nouvelle photo enregistrée, vous êtes magnifique !"
   },
   "MemberPictureEdit": {

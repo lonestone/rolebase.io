@@ -17,8 +17,8 @@ import { useUserId } from '@nhost/react'
 import { Crisp } from 'crisp-sdk-web'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiArrowRight, FiUpload } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { ChevronRightIcon, UploadIcon } from 'src/icons'
 import { nhost } from 'src/nhost'
 
 enum ImportProviders {
@@ -231,7 +231,7 @@ export default function ImportPage() {
 
           <Button
             colorScheme="green"
-            leftIcon={<FiUpload />}
+            leftIcon={<UploadIcon />}
             mt={5}
             isDisabled={!terms}
             onClick={() => fileRef?.current?.click()}
@@ -252,7 +252,7 @@ export default function ImportPage() {
           <Button
             colorScheme="blue"
             mt={5}
-            rightIcon={<FiArrowRight />}
+            rightIcon={<ChevronRightIcon size="1em" />}
             onClick={() => navigate(`/orgs/${newOrgId}`)}
           >
             {t('ImportPage.success.button')}

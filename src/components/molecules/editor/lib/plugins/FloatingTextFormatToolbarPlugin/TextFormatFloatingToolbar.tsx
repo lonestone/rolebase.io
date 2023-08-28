@@ -18,8 +18,8 @@ import {
 import React, { useCallback, useEffect, useRef } from 'react'
 
 import { ButtonGroup, IconButton } from '@chakra-ui/react'
-import { FaStrikethrough } from 'react-icons/fa'
-import { FiBold, FiCode, FiItalic, FiLink, FiUnderline } from 'react-icons/fi'
+import { Link, TextBold, TextItalic, TextUnderline } from 'iconsax-react'
+import { FiCode } from 'react-icons/fi'
 import { getDOMRangeRect } from '../../utils/getDOMRangeRect'
 import { setFloatingElemPosition } from '../../utils/setFloatingElemPosition'
 import { defaultUrl } from '../FloatingLinkEditorPlugin'
@@ -172,7 +172,7 @@ export function TextFormatFloatingToolbar({
       <IconButton
         aria-label="Format text as bold"
         isActive={isBold}
-        icon={<FiBold />}
+        icon={<TextBold size={20} />}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
         }}
@@ -180,7 +180,7 @@ export function TextFormatFloatingToolbar({
       <IconButton
         aria-label="Format text as italics"
         isActive={isItalic}
-        icon={<FiItalic />}
+        icon={<TextItalic size={20} />}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
         }}
@@ -188,30 +188,30 @@ export function TextFormatFloatingToolbar({
       <IconButton
         aria-label="Format text to underlined"
         isActive={isUnderline}
-        icon={<FiUnderline />}
+        icon={<TextUnderline size={20} />}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
         }}
       />
-      <IconButton
+      {/* <IconButton
         aria-label="Format text with a strikethrough"
         isActive={isStrikethrough}
         icon={<FaStrikethrough />}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
         }}
-      />
+      /> */}
       <IconButton
         aria-label="Insert code block"
         isActive={isCode}
-        icon={<FiCode />}
+        icon={<FiCode size={20} />}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
         }}
       />
       <IconButton
         aria-label="Insert link"
-        icon={<FiLink />}
+        icon={<Link size={20} />}
         isActive={isLink}
         onClick={insertLink}
       />

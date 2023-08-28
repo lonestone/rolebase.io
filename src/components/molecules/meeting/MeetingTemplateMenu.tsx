@@ -3,7 +3,7 @@ import { MeetingTemplateFragment, useMeetingTemplatesSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown } from 'react-icons/fi'
+import { ChevronDownIcon } from 'src/icons'
 import MeetingTemplateMenuList from './MeetingTemplateMenuList'
 
 interface Props {
@@ -27,7 +27,7 @@ export default function MeetingTemplateMenu({ onSelect }: Props) {
         as={Button}
         size="sm"
         variant="link"
-        rightIcon={<FiChevronDown />}
+        rightIcon={<ChevronDownIcon size="1em" />}
       >
         {t('MeetingTemplateMenu.menu')}
       </MenuButton>

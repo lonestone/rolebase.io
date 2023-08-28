@@ -7,8 +7,8 @@ import {
 } from '@novu/notification-center'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiBell } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { NotificationIcon } from 'src/icons'
 
 interface Props {
   isMobile: boolean
@@ -48,7 +48,7 @@ export default function NotificationsCenter({ isMobile }: Props) {
       {({ unseenCount }) => (
         <SidebarItem
           className="userflow-sidebar-notifications"
-          icon={<FiBell />}
+          icon={NotificationIcon}
           alert={!!unseenCount}
         >
           {t('Notifications.tooltip')}

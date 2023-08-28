@@ -39,14 +39,14 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiBarChart2,
-  FiCalendar,
-  FiCheckSquare,
-  FiMessageSquare,
-  FiPlus,
-  FiTriangle,
-} from 'react-icons/fi'
-import { IoMdSend } from 'react-icons/io'
+  CreateIcon,
+  DecisionIcon,
+  MeetingIcon,
+  PollIcon,
+  SendIcon,
+  TaskIcon,
+  ThreadIcon,
+} from 'src/icons'
 import settings from 'src/settings'
 import { EditorHandle } from '../editor'
 import SimpleEditor from '../editor/SimpleEditor'
@@ -198,36 +198,43 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
       <HStack spacing={2} mt={2}>
         <Box>
           <Menu isLazy>
-            <MenuButton as={Button} size="sm" leftIcon={<FiPlus />}>
+            <MenuButton
+              as={Button}
+              size="sm"
+              leftIcon={<CreateIcon size={20} />}
+            >
               {t(`common.add`)}
             </MenuButton>
             <MenuList>
               <MenuItem
-                icon={<FiTriangle />}
+                icon={<DecisionIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Decision}
                 onClick={handleEntityOpen}
               >
                 {t(`common.createDecision`)}
               </MenuItem>
-              <MenuItem icon={<FiBarChart2 />} onClick={pollModal.onOpen}>
+              <MenuItem
+                icon={<PollIcon size={20} />}
+                onClick={pollModal.onOpen}
+              >
                 {t(`ThreadActivityCreate.poll`)}
               </MenuItem>
               <MenuItem
-                icon={<FiCheckSquare />}
+                icon={<TaskIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Task}
                 onClick={handleEntityOpen}
               >
                 {t(`common.createTask`)}
               </MenuItem>
               <MenuItem
-                icon={<FiCalendar />}
+                icon={<MeetingIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Meeting}
                 onClick={handleEntityOpen}
               >
                 {t(`common.createMeeting`)}
               </MenuItem>
               <MenuItem
-                icon={<FiMessageSquare />}
+                icon={<ThreadIcon size={20} />}
                 data-type={Thread_Activity_Type_Enum.Thread}
                 onClick={handleEntityOpen}
               >
@@ -249,7 +256,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
         <Button
           colorScheme="blue"
           size="sm"
-          rightIcon={<IoMdSend />}
+          rightIcon={<SendIcon variant="Bold" />}
           onClick={() => handleSubmit()}
         >
           {t(`common.send`)}

@@ -12,7 +12,7 @@ import { useMeetingLogsSubscription } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
 import { LogType } from '@shared/model/log'
 import React, { useMemo } from 'react'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { ChevronDownIcon, ChevronUpIcon } from 'src/icons'
 import LogsList from '../log/LogsList'
 
 interface Props extends BoxProps {
@@ -65,7 +65,13 @@ export default function MeetingLogs({
         <>
           <Button
             variant="link"
-            leftIcon={showLogs.isOpen ? <FiChevronUp /> : <FiChevronDown />}
+            leftIcon={
+              showLogs.isOpen ? (
+                <ChevronUpIcon size="1em" />
+              ) : (
+                <ChevronDownIcon size="1em" />
+              )
+            }
             onClick={showLogs.onToggle}
           >
             {showLogs.isOpen ? (

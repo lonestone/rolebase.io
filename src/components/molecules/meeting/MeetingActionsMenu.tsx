@@ -11,13 +11,14 @@ import { useUpdateMeetingMutation } from '@gql'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiCopy,
-  FiEdit3,
-  FiMoreVertical,
-  FiPlay,
-  FiSettings,
-  FiTrash2,
-} from 'react-icons/fi'
+  ArchiveIcon,
+  CopyIcon,
+  EditIcon,
+  MoreIcon,
+  PlayIcon,
+  RestoreIcon,
+  SettingsIcon,
+} from 'src/icons'
 
 interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onEdit(): void
@@ -59,7 +60,7 @@ export default function MeetingActionsMenu({
       <MenuButton
         aria-label={t('ActionsMenu.label')}
         as={IconButton}
-        icon={<FiMoreVertical />}
+        icon={<MoreIcon size={20} />}
         variant="ghost"
         size="sm"
         {...buttonProps}
@@ -72,13 +73,13 @@ export default function MeetingActionsMenu({
         shadow="lg"
         zIndex={1000}
       >
-        <MenuItem icon={<FiSettings />} onClick={onEdit}>
+        <MenuItem icon={<SettingsIcon size={20} />} onClick={onEdit}>
           {t('MeetingActionsMenu.edit')}
         </MenuItem>
 
         {isEnded && !forceEdit && (
           <MenuItem
-            icon={<FiEdit3 />}
+            icon={<EditIcon size={20} />}
             onClick={() => handleChangeForceEdit(true)}
           >
             {t('MeetingActionsMenu.forceEdit')}
@@ -86,22 +87,22 @@ export default function MeetingActionsMenu({
         )}
 
         {isEnded && (
-          <MenuItem icon={<FiPlay />} onClick={handleNextStep}>
+          <MenuItem icon={<PlayIcon size={20} />} onClick={handleNextStep}>
             {t('MeetingActionsMenu.restart')}
           </MenuItem>
         )}
 
-        <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
+        <MenuItem icon={<CopyIcon size={20} />} onClick={onDuplicate}>
           {t('common.duplicate')}
         </MenuItem>
 
         {!meeting?.archived && !isStarted && (
-          <MenuItem icon={<FiTrash2 />} onClick={handleArchive}>
+          <MenuItem icon={<ArchiveIcon size={20} />} onClick={handleArchive}>
             {t('common.archive')}
           </MenuItem>
         )}
         {meeting?.archived && (
-          <MenuItem icon={<FiTrash2 />} onClick={handleUnarchive}>
+          <MenuItem icon={<RestoreIcon size={20} />} onClick={handleUnarchive}>
             {t('common.unarchive')}
           </MenuItem>
         )}

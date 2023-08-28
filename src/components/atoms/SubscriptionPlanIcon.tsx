@@ -1,6 +1,10 @@
 import { Subscription_Plan_Type_Enum } from '@gql'
 import React, { useMemo } from 'react'
-import { FiBriefcase, FiCoffee, FiGift } from 'react-icons/fi'
+import {
+  SubscriptionPlanBusiness,
+  SubscriptionPlanFree,
+  SubscriptionPlanStartup,
+} from 'src/icons'
 
 type SubscriptionPlanIconProps = {
   type: Subscription_Plan_Type_Enum | null
@@ -14,11 +18,11 @@ export default function SubscriptionPlanIcon({
   const Icon = useMemo(() => {
     switch (type) {
       case Subscription_Plan_Type_Enum.Startup:
-        return FiCoffee
+        return SubscriptionPlanStartup
       case Subscription_Plan_Type_Enum.Business:
-        return FiBriefcase
+        return SubscriptionPlanBusiness
       default:
-        return FiGift
+        return SubscriptionPlanFree
     }
   }, [type])
 

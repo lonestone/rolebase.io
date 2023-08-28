@@ -13,18 +13,23 @@ import {
 } from '@chakra-ui/react'
 import { Invoice } from '@shared/model/subscription'
 import {
+  Row,
+  SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  Row,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiArrowDown, FiArrowUp, FiDownload, FiFileText } from 'react-icons/fi'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DownloadIcon,
+  FileIcon,
+} from 'src/icons'
 
 type InvoiceTableProps = {
   invoices: Invoice[]
@@ -37,11 +42,6 @@ export default function InvoiceTable({
   const { t } = useTranslation()
   const [sorting, setSorting] = useState<SortingState>([])
   const columnHelper = createColumnHelper<Invoice>()
-  const textStyle = {
-    fontWeight: 600,
-    color: 'gray.500',
-    _dark: { color: 'gray.300' },
-  }
 
   const sortDates = (
     row1: Row<Invoice>,
@@ -72,8 +72,8 @@ export default function InvoiceTable({
           `${t('SubscriptionTabs.invoiceTab.invoice')} (${invoices.length})`,
         cell: (info) => (
           <HStack>
-            <FiFileText />
-            <Text {...textStyle} ml="2">
+            <FileIcon />
+            <Text ml="2">
               {`${t('SubscriptionTabs.invoiceTab.invoice')} ${getFormattedDate(
                 info.getValue()
               )}`}
@@ -88,24 +88,20 @@ export default function InvoiceTable({
         header: () => t('SubscriptionTabs.invoiceTab.invoiceDate'),
         enableSorting: true,
         sortingFn: sortDates,
-        cell: (info) => (
-          <Text {...textStyle}>{getFormattedDate(info.getValue())}</Text>
-        ),
+        cell: (info) => <Text>{getFormattedDate(info.getValue())}</Text>,
         footer: (props) => props.column.id,
       }),
       columnHelper.accessor('totalInCents', {
         header: () => t('SubscriptionTabs.invoiceTab.amount'),
         enableSorting: true,
-        cell: (info) => (
-          <Text {...textStyle}>€{(info.getValue() / 100).toFixed(2)}</Text>
-        ),
+        cell: (info) => <Text>€{(info.getValue() / 100).toFixed(2)}</Text>,
         footer: (props) => props.column.id,
       }),
       columnHelper.accessor('status', {
         header: () => t('SubscriptionTabs.invoiceTab.status'),
         enableSorting: true,
         cell: (info) => (
-          <Text {...textStyle}>
+          <Text>
             {t(`SubscriptionTabs.invoiceTab.paymentStatus.${info.getValue()}`)}
           </Text>
         ),
@@ -123,7 +119,7 @@ export default function InvoiceTable({
               isDisabled={!link}
               href={link ?? undefined}
               target="_blank"
-              leftIcon={<FiDownload />}
+              leftIcon={<DownloadIcon />}
             >
               {t('SubscriptionTabs.invoiceTab.download')}
             </Button>
@@ -171,8 +167,8 @@ export default function InvoiceTable({
                           header.getContext()
                         )}
                         {{
-                          asc: <FiArrowUp />,
-                          desc: <FiArrowDown />,
+                          asc: <ChevronUpIcon size="1em" />,
+                          desc: <ChevronDownIcon size="1em" />,
                         }[header.column.getIsSorted() as string] ?? null}
                       </HStack>
                     )}

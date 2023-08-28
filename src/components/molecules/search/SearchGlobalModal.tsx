@@ -27,7 +27,6 @@ import { SearchTypes } from '@shared/model/search'
 import { UseComboboxStateChange, useCombobox } from 'downshift'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiX } from 'react-icons/fi'
 import { searchIcons } from './SearchResultIcon'
 import SearchResultItem from './SearchResultItem'
 import { SearchItem } from './searchTypes'
@@ -140,17 +139,13 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
               as={Button}
               variant="outline"
               size="sm"
-              leftIcon={TypeIcon ? <TypeIcon /> : undefined}
+              leftIcon={TypeIcon ? <TypeIcon size={20} /> : undefined}
               rightIcon={<ChevronDownIcon />}
             >
               {t(`common.searchTypes.${type || 'All'}`)}
             </MenuButton>
             <MenuList>
-              <MenuItem
-                key="All"
-                icon={<FiX />}
-                onClick={() => setType(undefined)}
-              >
+              <MenuItem key="All" onClick={() => setType(undefined)}>
                 {t(`common.searchTypes.All`)}
               </MenuItem>
               {searchTypes.map((buttonType) => {
@@ -158,7 +153,7 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
                 return (
                   <MenuItem
                     key={buttonType}
-                    icon={<Icon />}
+                    icon={<Icon size={20} />}
                     onClick={() => setType(buttonType)}
                   >
                     {t(`common.searchTypes.${buttonType}`)}

@@ -6,7 +6,7 @@ import SubscriptionPlanCard from '@molecules/subscription/SubscriptionPlanCard'
 import { SubscriptionPlanCardData } from '@utils/subscriptionPlansTypes'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiArrowRight } from 'react-icons/fi'
+import { ChevronRightIcon, EmailIcon } from 'src/icons'
 import SubscriptionPaymentModal from './SubscriptionPaymentModal'
 
 export default function SubscriptionTabFreeLayout(flexProps: FlexProps) {
@@ -35,7 +35,7 @@ export default function SubscriptionTabFreeLayout(flexProps: FlexProps) {
       footer: (
         <Flex w="100%" justifyContent="end">
           <Button
-            rightIcon={<FiArrowRight />}
+            rightIcon={<ChevronRightIcon size="1em" />}
             onClick={subscribe(Subscription_Plan_Type_Enum.Startup)}
             colorScheme="green"
           >
@@ -52,7 +52,7 @@ export default function SubscriptionTabFreeLayout(flexProps: FlexProps) {
             as="a"
             href="https://www.rolebase.io/contact"
             target="_blank"
-            rightIcon={<FiArrowRight />}
+            leftIcon={<EmailIcon />}
             colorScheme="gray"
           >
             {t('SubscriptionPlans.contactUs')}

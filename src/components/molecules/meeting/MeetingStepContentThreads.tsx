@@ -9,8 +9,7 @@ import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import { MeetingStepThreadsFragment } from '@shared/model/meeting_step'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaRandom } from 'react-icons/fa'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon, RandomIcon } from 'src/icons'
 import ThreadSearchButton from '../search/entities/threads/ThreadSearchButton'
 import MeetingStepContentThreadItem from './MeetingStepContentThreadItem'
 
@@ -86,8 +85,9 @@ export default function MeetingStepContentThreads({ step }: Props) {
           {selectedThreads && selectedThreads.length > 2 && (
             <IconTextButton
               size="sm"
+              variant="outline"
               aria-label={t('MeetingStepContentThreads.randomize')}
-              icon={<FaRandom />}
+              icon={<RandomIcon size={20} />}
               onClick={() => randomize(step.id)}
             />
           )}
@@ -113,7 +113,7 @@ export default function MeetingStepContentThreads({ step }: Props) {
           <Button
             size="sm"
             colorScheme="blue"
-            leftIcon={<FiPlus />}
+            leftIcon={<CreateIcon size={20} />}
             onClick={createModal.onOpen}
           >
             {t('MeetingStepContentThreads.create')}

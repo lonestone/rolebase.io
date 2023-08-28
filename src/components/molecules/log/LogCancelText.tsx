@@ -1,8 +1,9 @@
 import MemberLink from '@atoms/MemberLink'
+import { Icon } from '@chakra-ui/react'
 import { LogFragment } from '@gql'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCornerDownRight } from 'react-icons/fi'
+import { LogIcon } from 'src/icons'
 
 interface Props {
   log: LogFragment
@@ -16,9 +17,7 @@ export default function LogCancelText({ log }: Props) {
       <MemberLink id={log.memberId} name={log.memberName} />{' '}
       {t('LogCancelText.canceled')}
       <br />
-      <FiCornerDownRight
-        style={{ display: 'inline', margin: '3px 5px 0 7px' }}
-      />
+      <Icon as={LogIcon} mt={1} mr={2} ml={3} />
     </>
   ) : null
 }

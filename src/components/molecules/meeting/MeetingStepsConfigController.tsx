@@ -18,7 +18,7 @@ import { nanoid } from 'nanoid'
 import React from 'react'
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiHelpCircle, FiPlus } from 'react-icons/fi'
+import { ChevronDownIcon, CreateIcon, InfoTooltipIcon } from 'src/icons'
 import SortableList from '../SortableList'
 import MeetingStepSortableItem from './MeetingStepSortableItem'
 import { stepsAndIcons } from './stepTypes'
@@ -89,8 +89,8 @@ export default function MeetingStepsConfigController({
         <MenuButton
           as={Button}
           size="sm"
-          leftIcon={<FiPlus />}
-          rightIcon={<FiChevronDown />}
+          leftIcon={<CreateIcon size={20} />}
+          rightIcon={<ChevronDownIcon size="1em" />}
           mt={2}
         >
           {t(`MeetingStepsConfigController.addStep`)}
@@ -113,7 +113,7 @@ export default function MeetingStepsConfigController({
                   p={3}
                 >
                   <Box ml={3}>
-                    <FiHelpCircle />
+                    <InfoTooltipIcon />
                   </Box>
                 </Tooltip>
               </Flex>

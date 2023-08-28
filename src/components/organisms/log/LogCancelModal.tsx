@@ -25,7 +25,7 @@ import LogText from '@molecules/log/LogText'
 import { EntitiesChanges, EntityChange } from '@shared/model/log'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { ChevronDownIcon, ChevronUpIcon } from 'src/icons'
 
 interface Props extends UseModalProps {
   log: LogFragment
@@ -92,7 +92,13 @@ export default function LogCancelModal({ log, ...modalProps }: Props) {
 
             <Button
               variant="link"
-              rightIcon={showDetails ? <FiChevronUp /> : <FiChevronDown />}
+              rightIcon={
+                showDetails ? (
+                  <ChevronUpIcon size="1em" />
+                ) : (
+                  <ChevronDownIcon size="1em" />
+                )
+              }
               onClick={() => setShowDetails((s) => !s)}
             >
               {t('LogCancelModal.showChanges')}

@@ -5,7 +5,8 @@ import { MemberFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus, FiX } from 'react-icons/fi'
+import { FiX } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 import MemberSearchButton from '../search/entities/members/MemberSearchButton'
 
 interface Props extends BoxProps {
@@ -76,7 +77,7 @@ export default function MembersMultiSelect({
           className="userflow-add-member-btn"
           size="sm"
           variant="outline"
-          leftIcon={<FiPlus />}
+          leftIcon={<CreateIcon size={20} />}
           onSelect={onAdd}
         >
           {max === 1

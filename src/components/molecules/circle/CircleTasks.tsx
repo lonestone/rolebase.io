@@ -8,7 +8,7 @@ import TaskModal from '@organisms/task/TaskModal'
 import { TasksViewTypes } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus, FiTrello } from 'react-icons/fi'
+import { CreateIcon, KanbanIcon } from 'src/icons'
 import TasksList from '../task/TasksList'
 
 interface Props {
@@ -36,7 +36,11 @@ export default function CircleTasks({ circleId }: Props) {
     <>
       <Flex mb={4}>
         {isMember && (
-          <Button size="sm" leftIcon={<FiPlus />} onClick={onCreateOpen}>
+          <Button
+            size="sm"
+            leftIcon={<CreateIcon size={20} />}
+            onClick={onCreateOpen}
+          >
             {t('CircleTasks.create')}
           </Button>
         )}
@@ -45,7 +49,7 @@ export default function CircleTasks({ circleId }: Props) {
         <Button
           size="sm"
           variant="outline"
-          leftIcon={<FiTrello />}
+          leftIcon={<KanbanIcon size={18} />}
           onClick={() => navigateOrg(`tasks?circle=${circleId}&view=Kanban`)}
         >
           Kanban

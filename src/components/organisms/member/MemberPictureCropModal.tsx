@@ -1,9 +1,9 @@
+import IconTextButton from '@atoms/IconTextButton'
 import Loading from '@atoms/Loading'
 import {
   Box,
   Button,
   HStack,
-  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -27,7 +27,7 @@ import React, { useCallback, useState } from 'react'
 import Cropper from 'react-easy-crop'
 import { Area } from 'react-easy-crop/types'
 import { useTranslation } from 'react-i18next'
-import { FiRotateCw } from 'react-icons/fi'
+import { RotateLeftIcon, RotateRightIcon } from 'src/icons'
 import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 
@@ -150,14 +150,28 @@ export default function MemberPictureCropModal({
                   onChange={setZoom}
                 >
                   <SliderTrack>
-                    <SliderFilledTrack />
+                    <SliderFilledTrack
+                      bg="gray.400"
+                      _dark={{ bg: 'gray.400' }}
+                    />
                   </SliderTrack>
-                  <SliderThumb />
+                  <SliderThumb
+                    boxSize="1.8rem"
+                    bg="gray.600"
+                    _dark={{ bg: 'gray.300' }}
+                  />
                 </Slider>
 
-                <IconButton
-                  aria-label="Tourner à 90°"
-                  icon={<FiRotateCw />}
+                <IconTextButton
+                  aria-label={t('MemberPictureCropModal.rotate')}
+                  icon={<RotateLeftIcon />}
+                  variant="ghost"
+                  onClick={() => setRotation((r) => (r - 90) % 360)}
+                />
+                <IconTextButton
+                  aria-label={t('MemberPictureCropModal.rotate')}
+                  icon={<RotateRightIcon />}
+                  variant="ghost"
                   onClick={() => setRotation((r) => (r + 90) % 360)}
                 />
               </HStack>

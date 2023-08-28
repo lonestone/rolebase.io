@@ -7,7 +7,7 @@ import DecisionEditModal from '@organisms/decision/DecisionEditModal'
 import DecisionModal from '@organisms/decision/DecisionModal'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 import DecisionItem from '../DecisionItem'
 
 interface Props {
@@ -40,7 +40,7 @@ export default function CircleDecisions({ circleId }: Props) {
         <Button
           size="sm"
           mb={4}
-          leftIcon={<FiPlus />}
+          leftIcon={<CreateIcon size={20} />}
           onClick={editModal.onOpen}
         >
           {t('CircleDecisions.create')}

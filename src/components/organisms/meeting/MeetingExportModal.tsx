@@ -25,7 +25,7 @@ import { useOrgId } from '@hooks/useOrgId'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCopy } from 'react-icons/fi'
+import { CopyIcon } from 'src/icons'
 import useCopyUrl from '../../../hooks/useCopyUrl'
 
 enum ExportType {
@@ -137,7 +137,7 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                     <IconTextButton
                       className="userflow-copy-url"
                       aria-label={t('common.copy')}
-                      icon={<FiCopy />}
+                      icon={<CopyIcon size={20} />}
                       onClick={copyUrl}
                     />
                   </InputRightElement>

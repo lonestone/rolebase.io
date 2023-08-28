@@ -18,8 +18,8 @@ import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
 import { Link as ReachLink, useNavigate } from 'react-router-dom'
+import { CreateIcon } from 'src/icons'
 
 export default function OrgsPage() {
   const { t } = useTranslation()
@@ -54,7 +54,7 @@ export default function OrgsPage() {
           <Spacer />
           <Button
             colorScheme="blue"
-            leftIcon={<FiPlus />}
+            leftIcon={<CreateIcon size={20} />}
             my={2}
             size="sm"
             onClick={createModal.onOpen}

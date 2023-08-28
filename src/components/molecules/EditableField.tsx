@@ -1,18 +1,11 @@
-import {
-  Box,
-  BoxProps,
-  Button,
-  Collapse,
-  Heading,
-  Icon,
-} from '@chakra-ui/react'
+import { Box, BoxProps, Button, Collapse, Heading } from '@chakra-ui/react'
 import useEscKey from '@hooks/useEscKey'
 import { useHoverItemStyle } from '@hooks/useHoverItemStyle'
 import { EditorHandle } from '@molecules/editor'
 import SimpleEditor from '@molecules/editor/SimpleEditor'
 import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEdit3 } from 'react-icons/fi'
+import { EditIcon } from 'src/icons'
 import { fieldsGap } from './circle/CircleRoleFormControl'
 
 interface Props extends Omit<BoxProps, 'value'> {
@@ -79,7 +72,7 @@ export function EditableField({
         <Button
           variant="outline"
           size="sm"
-          leftIcon={<FiEdit3 />}
+          leftIcon={<EditIcon size={18} />}
           onClick={() => setIsEditing(true)}
         >
           {label}
@@ -124,17 +117,6 @@ export function EditableField({
               autoFocus={isEditing}
               onSubmit={handleSubmit}
             />
-
-            {canOpenEdit && (
-              <Icon
-                as={FiEdit3}
-                position="absolute"
-                top="2px"
-                right="-2px"
-                display="none"
-                _groupHover={{ display: 'block' }}
-              />
-            )}
           </Box>
         </>
       )}

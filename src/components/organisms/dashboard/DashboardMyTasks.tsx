@@ -10,7 +10,7 @@ import TaskModal from '@organisms/task/TaskModal'
 import { TasksViewTypes } from '@shared/model/task'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 
 export default function DashboardMyTasks() {
   const { t } = useTranslation()
@@ -32,7 +32,7 @@ export default function DashboardMyTasks() {
           <Button
             size="sm"
             colorScheme="blue"
-            leftIcon={<FiPlus />}
+            leftIcon={<CreateIcon size={20} />}
             onClick={createModal.onOpen}
           >
             {t('DashboardMyTasks.add')}

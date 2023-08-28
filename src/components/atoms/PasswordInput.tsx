@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiEye, FiEyeOff } from 'react-icons/fi'
+import { HideIcon, ShowIcon } from 'src/icons'
 
 const PasswordInput = forwardRef<Omit<InputProps, 'type'>, 'input'>(
   ({ onChange, ...props }, ref) => {
@@ -42,7 +42,7 @@ const PasswordInput = forwardRef<Omit<InputProps, 'type'>, 'input'>(
             <InputRightElement>
               <IconButton
                 aria-label={t(show ? 'common.hide' : 'common.show')}
-                icon={show ? <FiEyeOff /> : <FiEye />}
+                icon={show ? <HideIcon size={18} /> : <ShowIcon size={18} />}
                 size="sm"
                 onClick={() => setShow((s) => !s)}
               />

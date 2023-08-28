@@ -11,7 +11,7 @@ import { Task_Status_Enum } from '@gql'
 import { taskStatusList } from '@shared/model/task'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown } from 'react-icons/fi'
+import { ChevronDownIcon } from 'src/icons'
 
 interface Props extends Omit<ButtonProps, 'value' | 'onChange'> {
   value: Task_Status_Enum | undefined
@@ -44,7 +44,11 @@ export default function TasksFilterStatus({
 
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<FiChevronDown />} {...boxProps}>
+      <MenuButton
+        as={Button}
+        rightIcon={<ChevronDownIcon size="1em" />}
+        {...boxProps}
+      >
         {t(`common.taskStatus.${statusFilter}`)}
       </MenuButton>
       <MenuList zIndex={2000}>

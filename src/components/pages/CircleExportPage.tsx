@@ -20,10 +20,10 @@ import { useStoreState } from '@store/hooks'
 import { downloadSvgAsPng } from '@utils/downloadSvgAsPng'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiDownload, FiTarget } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
 import { Graph } from 'src/circles-viz/Graph'
 import { GraphViews } from 'src/circles-viz/types'
+import { CenterIcon, DownloadIcon } from 'src/icons'
 
 type CircleExportParams = {
   circleId: string
@@ -106,7 +106,7 @@ export default function CircleExportPage() {
             px
             <Button
               colorScheme="blue"
-              leftIcon={<FiDownload />}
+              leftIcon={<DownloadIcon />}
               isLoading={downloading}
               ml={5}
               onClick={handleDownload}
@@ -126,7 +126,11 @@ export default function CircleExportPage() {
             onChange={setView}
           />
           <Spacer />
-          <Button size="sm" leftIcon={<FiTarget />} onClick={handleCenter}>
+          <Button
+            size="sm"
+            leftIcon={<CenterIcon size={20} />}
+            onClick={handleCenter}
+          >
             {t('CircleExportPage.center')}
           </Button>
         </Container>

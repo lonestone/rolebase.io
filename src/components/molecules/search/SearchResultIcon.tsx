@@ -2,14 +2,14 @@ import { Avatar, AvatarProps } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
 import React from 'react'
 import {
-  FiCalendar,
-  FiCheckSquare,
-  FiCircle,
-  FiDisc,
-  FiMessageSquare,
-  FiTriangle,
-  FiUser,
-} from 'react-icons/fi'
+  CircleIcon,
+  DecisionIcon,
+  MeetingIcon,
+  MemberIcon,
+  RoleIcon,
+  TaskIcon,
+  ThreadIcon,
+} from 'src/icons'
 import { SearchItem } from './searchTypes'
 
 interface Props {
@@ -18,13 +18,13 @@ interface Props {
 }
 
 export const searchIcons = {
-  Member: FiUser,
-  Role: FiCircle,
-  Circle: FiDisc,
-  Thread: FiMessageSquare,
-  Meeting: FiCalendar,
-  Task: FiCheckSquare,
-  Decision: FiTriangle,
+  Member: MemberIcon,
+  Role: RoleIcon,
+  Circle: CircleIcon,
+  Thread: ThreadIcon,
+  Meeting: MeetingIcon,
+  Task: TaskIcon,
+  Decision: DecisionIcon,
 }
 
 export default function SearchResultIcon({ item, size }: Props) {
@@ -43,5 +43,7 @@ export default function SearchResultIcon({ item, size }: Props) {
   }
 
   const Icon = searchIcons[item.type]
-  return <Icon />
+  const iconSize = size === 'sm' ? 20 : 24
+
+  return <Icon size={iconSize} />
 }

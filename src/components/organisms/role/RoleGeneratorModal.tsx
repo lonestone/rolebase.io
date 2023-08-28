@@ -29,7 +29,7 @@ import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FaMagic } from 'react-icons/fa'
+import { MagicIcon } from 'src/icons'
 
 interface Props extends UseModalProps {
   role: RoleFragment
@@ -119,7 +119,7 @@ export default function RoleGeneratorModal({ id, role, ...modalProps }: Props) {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader display="flex" alignItems="center">
-          <Icon as={FaMagic} mr={3} />
+          <Icon as={MagicIcon} mr={3} />
           {t('RoleGeneratorModal.heading', { role: role.name })}
         </ModalHeader>
         <ModalCloseButton />

@@ -9,7 +9,7 @@ import { ParticipantMember } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { FaMagic } from 'react-icons/fa'
+import { MagicIcon } from 'src/icons'
 import CircleMemberFormControl from './CircleMemberFormControl'
 import { RoleEditableField } from './RoleEditableField'
 
@@ -106,7 +106,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
         isMember &&
         editableFields.every(({ field }) => role[field] === '') && (
           <Button
-            leftIcon={<FaMagic />}
+            leftIcon={<MagicIcon />}
             variant="outline"
             colorScheme="blue"
             onClick={generatorModal.onOpen}

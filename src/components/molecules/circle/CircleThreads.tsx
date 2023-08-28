@@ -7,7 +7,7 @@ import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import ThreadsList from '@organisms/thread/ThreadsList'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 
 interface Props {
   circleId: string
@@ -30,7 +30,12 @@ export default function CircleThreads({ circleId }: Props) {
   return (
     <>
       {isMember && (
-        <Button size="sm" mb={4} leftIcon={<FiPlus />} onClick={onCreateOpen}>
+        <Button
+          size="sm"
+          mb={4}
+          leftIcon={<CreateIcon size={20} />}
+          onClick={onCreateOpen}
+        >
           {t('CircleThreads.create')}
         </Button>
       )}

@@ -19,8 +19,7 @@ import { EditorHandle } from '@molecules/editor'
 import CollabEditor from '@molecules/editor/CollabEditor'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaMagic } from 'react-icons/fa'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { ChevronDownIcon, ChevronUpIcon, MagicIcon } from 'src/icons'
 
 export default function MeetingPanelEnded() {
   const {
@@ -98,7 +97,13 @@ export default function MeetingPanelEnded() {
             ? t('common.hide')
             : t('MeetingPanelEnded.headingRead')
         }
-        icon={showPanel.isOpen ? <FiChevronDown /> : <FiChevronUp />}
+        icon={
+          showPanel.isOpen ? (
+            <ChevronDownIcon size="1em" />
+          ) : (
+            <ChevronUpIcon size="1em" />
+          )
+        }
         showText={!showPanel.isOpen}
         variant="ghost"
         position="absolute"
@@ -151,7 +156,7 @@ export default function MeetingPanelEnded() {
                   </Button>
                 )}
                 <Button
-                  leftIcon={<FaMagic />}
+                  leftIcon={<MagicIcon />}
                   isDisabled={saving}
                   isLoading={generating}
                   onClick={handleGenerate}

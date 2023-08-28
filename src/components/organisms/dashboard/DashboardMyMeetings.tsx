@@ -13,7 +13,7 @@ import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListMo
 import { EntityFilters } from '@shared/model/participants'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 
 // Max number of meetings to display
 const max = 5
@@ -53,7 +53,7 @@ export default function DashboardMyMeetings() {
           <Button
             size="sm"
             colorScheme="blue"
-            leftIcon={<FiPlus />}
+            leftIcon={<CreateIcon size={20} />}
             onClick={createModal.onOpen}
           >
             {t('DashboardMyMeetings.add')}

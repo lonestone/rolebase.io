@@ -29,12 +29,12 @@ import CircleThreads from '@molecules/circle/CircleThreads'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  FiCalendar,
-  FiCheckSquare,
-  FiDisc,
-  FiMessageSquare,
-  FiTriangle,
-} from 'react-icons/fi'
+  DecisionsIcon,
+  MeetingsIcon,
+  RoleIcon,
+  TasksIcon,
+  ThreadsIcon,
+} from 'src/icons'
 import RoleEditModal from '../role/RoleEditModal'
 import CircleCopyModal from './CircleCopyModal'
 import CircleDeleteModal from './CircleDeleteModal'
@@ -136,7 +136,7 @@ export default function CircleContent({
       <Box ref={accordionContainer}>
         <Accordion allowToggle defaultIndex={isFirstTabOpen ? [0] : []}>
           <AccordionLazyItem
-            icon={<FiDisc />}
+            icon={<RoleIcon />}
             label={t('CircleContent.tabRole')}
             h={accordionHeight}
           >
@@ -147,7 +147,7 @@ export default function CircleContent({
           </AccordionLazyItem>
 
           <AccordionLazyItem
-            icon={<FiMessageSquare />}
+            icon={<ThreadsIcon />}
             label={t('CircleContent.tabThreads')}
             h={accordionHeight}
           >
@@ -155,7 +155,7 @@ export default function CircleContent({
           </AccordionLazyItem>
 
           <AccordionLazyItem
-            icon={<FiCalendar />}
+            icon={<MeetingsIcon />}
             label={t('CircleContent.tabMeetings')}
             h={accordionHeight}
           >
@@ -163,7 +163,7 @@ export default function CircleContent({
           </AccordionLazyItem>
 
           <AccordionLazyItem
-            icon={<FiCheckSquare />}
+            icon={<TasksIcon />}
             label={t('CircleContent.tabTasks')}
             h={accordionHeight}
           >
@@ -171,7 +171,7 @@ export default function CircleContent({
           </AccordionLazyItem>
 
           <AccordionLazyItem
-            icon={<FiTriangle />}
+            icon={<DecisionsIcon />}
             label={t('CircleContent.tabDecisions')}
             h={accordionHeight}
           >

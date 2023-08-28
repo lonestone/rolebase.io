@@ -17,7 +17,7 @@ import CircleSearchButton from '@molecules/search/entities/circles/CircleSearchB
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown } from 'react-icons/fi'
+import { ChevronDownIcon } from 'src/icons'
 import DashboardNewsDecision from './DashboardNewsDecision'
 import DashboardNewsMeeting from './DashboardNewsMeeting'
 import DashboardNewsThread from './DashboardNewsThread'
@@ -109,7 +109,7 @@ export default function DashboardNews(boxProps: BoxProps) {
             ) : (
               <CircleSearchButton
                 className="userflow-tasks-role"
-                rightIcon={<FiChevronDown />}
+                rightIcon={<ChevronDownIcon size="1em" />}
                 fontWeight="normal"
                 onSelect={setCircleId}
               >

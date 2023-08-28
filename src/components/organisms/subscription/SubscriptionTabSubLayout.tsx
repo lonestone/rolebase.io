@@ -16,7 +16,7 @@ import {
 } from '@utils/subscriptionPlansTypes'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiArrowRight } from 'react-icons/fi'
+import { ChevronRightIcon, EmailIcon } from 'src/icons'
 import CancelSubscriptionModal from './CancelSubscriptionModal'
 import CurrentSubscriptionDetails from './CurrentSubscriptionDetails'
 
@@ -76,7 +76,11 @@ export default function SubscriptionTabSubLayout({
         <Flex w="100%" justifyContent="end">
           <Button
             variant="outline"
-            rightIcon={subscription.expiresAt ? undefined : <FiArrowRight />}
+            rightIcon={
+              subscription.expiresAt ? undefined : (
+                <ChevronRightIcon size="1em" />
+              )
+            }
             onClick={onUnsubscribeOpen}
             isDisabled={!!subscription.expiresAt}
           >
@@ -94,7 +98,7 @@ export default function SubscriptionTabSubLayout({
         footer: (
           <Flex w="100%" justifyContent="end">
             <Button
-              rightIcon={<FiArrowRight />}
+              rightIcon={<ChevronRightIcon size="1em" />}
               variant="outline"
               onClick={subscribe(Subscription_Plan_Type_Enum.Startup)}
               colorScheme="gray"
@@ -118,7 +122,7 @@ export default function SubscriptionTabSubLayout({
               variant="outline"
               href="https://www.rolebase.io/contact"
               target="_blank"
-              rightIcon={<FiArrowRight />}
+              leftIcon={<EmailIcon />}
             >
               {t('SubscriptionPlans.contactUs')}
             </Button>

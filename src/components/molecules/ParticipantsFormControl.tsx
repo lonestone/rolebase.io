@@ -7,7 +7,7 @@ import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { FiPlus } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
 import MembersMultiSelect from './member/MembersMultiSelect'
 
 interface Values {
@@ -66,8 +66,9 @@ export default function ParticipantsFormControl() {
               <Button
                 variant="solid"
                 colorScheme="yellow"
-                leftIcon={<FiPlus />}
-                ml={5}
+                leftIcon={<CreateIcon />}
+                ml={3}
+                minW="25%"
                 onClick={() => append({ memberId: currentMember.id })}
               >
                 {t('ParticipantsFormControl.inviteButton')}

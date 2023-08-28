@@ -19,7 +19,12 @@ import TaskModal from '@organisms/task/TaskModal'
 import { TasksViewTypes } from '@shared/model/task'
 import React, { ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiChevronDown, FiList, FiPlus, FiTrello } from 'react-icons/fi'
+import {
+  ChevronDownIcon,
+  CreateIcon,
+  KanbanIcon,
+  TasksListIcon,
+} from 'src/icons'
 
 export interface TasksParams {
   view: TasksViewTypes
@@ -70,7 +75,7 @@ export default function TasksHeader({
           className="userflow-tasks-kanban"
           aria-label={t('TasksHeader.kanban')}
           showText
-          icon={<FiTrello />}
+          icon={<KanbanIcon size={18} />}
           fontWeight={view === TasksViewTypes.Kanban ? 'bold' : 'normal'}
           onClick={() => onViewChange(TasksViewTypes.Kanban)}
         />
@@ -78,7 +83,7 @@ export default function TasksHeader({
           className="userflow-tasks-list"
           aria-label={t('TasksHeader.list')}
           showText
-          icon={<FiList />}
+          icon={<TasksListIcon size={18} />}
           fontWeight={view === TasksViewTypes.List ? 'bold' : 'normal'}
           onClick={() => onViewChange(TasksViewTypes.List)}
         />
@@ -101,7 +106,7 @@ export default function TasksHeader({
           ) : (
             <CircleSearchButton
               className="userflow-tasks-role"
-              rightIcon={<FiChevronDown />}
+              rightIcon={<ChevronDownIcon size="1em" />}
               fontWeight="normal"
               onSelect={onCircleChange}
             >
@@ -122,7 +127,7 @@ export default function TasksHeader({
           ) : (
             <MemberSearchButton
               className="userflow-tasks-member"
-              rightIcon={<FiChevronDown />}
+              rightIcon={<ChevronDownIcon size="1em" />}
               fontWeight="normal"
               onSelect={onMemberChange}
             >
@@ -139,7 +144,7 @@ export default function TasksHeader({
           size="sm"
           colorScheme="blue"
           my={2}
-          leftIcon={<FiPlus />}
+          leftIcon={<CreateIcon size={20} />}
           onClick={modal.onOpen}
         >
           {t('TasksPage.create')}

@@ -1,10 +1,10 @@
 import CircleButton from '@atoms/CircleButton'
 import {
   Box,
+  Center,
   Flex,
   Heading,
   HStack,
-  Icon,
   Link,
   Spacer,
   Tag,
@@ -19,7 +19,7 @@ import MeetingDate from '@molecules/meeting/MeetingDate'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FiCalendar } from 'react-icons/fi'
+import { MeetingIcon } from 'src/icons'
 import MeetingEditModal from '../../organisms/meeting/MeetingEditModal'
 
 interface Props {
@@ -55,7 +55,9 @@ export default function MeetingHeader({ headerIcons }: Props) {
       <Flex w="100%">
         <Wrap spacing={2} flex={1} align="center">
           <HStack spacing={2}>
-            <Icon as={FiCalendar} />
+            <Center mr={1}>
+              <MeetingIcon />
+            </Center>
             <Heading as="h1" size="md">
               <Link href={path} onClick={handleEdit}>
                 {t('MeetingHeader.heading', {
@@ -90,7 +92,7 @@ export default function MeetingHeader({ headerIcons }: Props) {
       </Flex>
 
       {meeting && (
-        <Wrap spacing={5} align="center" fontSize="sm" ml={6}>
+        <Wrap spacing={5} align="center" fontSize="sm" ml={10}>
           <Link href={path} fontWeight="normal" onClick={handleEdit}>
             <MeetingDate meeting={meeting} />
           </Link>
