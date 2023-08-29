@@ -73,7 +73,7 @@ export default function MeetingStartNotificationModal(
 
           <Button
             colorScheme="blue"
-            rightIcon={<SendIcon />}
+            rightIcon={<SendIcon variant="Bold" />}
             onClick={handleSend}
           >
             {t(`common.send`)}
