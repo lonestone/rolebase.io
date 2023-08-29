@@ -6,6 +6,7 @@ import { useOrgsSubscription } from '@gql'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useUserId, useUserLocale } from '@nhost/react'
 import Onboarding from '@organisms/onboarding/Onboarding'
+import VerifyEmailModal from '@organisms/user/VerifiyEmailModal'
 import ImportPage from '@pages/ImportPage'
 import MemberInvitationPage from '@pages/MemberInvitationPage'
 import OrgsPage from '@pages/OrgsPage'
@@ -18,9 +19,7 @@ import { useTranslation } from 'react-i18next'
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { langs, locales } from 'src/i18n'
 import LoggedLayout from '../molecules/LoggedLayout'
-import OrgIdRoute from './OrgIdRoute'
-import OrgSlugRoute from './OrgSlugRoute'
-import VerifyEmailModal from '@organisms/user/VerifiyEmailModal'
+import OrgRoute from './OrgRoute'
 
 export default function PrivateRoute() {
   const superAdmin = useSuperAdmin()
@@ -84,8 +83,8 @@ export default function PrivateRoute() {
         <Route path="signup" element={<Navigate to="/" />} />
         <Route path="import" element={<ImportPage />} />
 
-        <Route path="orgs/:orgId/*" element={<OrgIdRoute />} />
-        <Route path=":slug/*" element={<OrgSlugRoute />} />
+        <Route path="orgs/:orgId/*" element={<OrgRoute />} />
+        <Route path=":slug/*" element={<OrgRoute />} />
 
         {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}
 

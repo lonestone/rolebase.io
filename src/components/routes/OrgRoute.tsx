@@ -1,6 +1,6 @@
 import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
-import { useOrgSubscription } from '@gql'
+import { useOrgBySlugSubscription, useOrgSubscription } from '@gql'
 import CirclesPage from '@pages/CirclesPage'
 import DashboardPage from '@pages/DashboardPage'
 import DecisionPage from '@pages/DecisionPage '
@@ -14,33 +14,61 @@ import TasksPage from '@pages/TasksPage'
 import ThreadPage from '@pages/ThreadPage'
 import ThreadsPage from '@pages/ThreadsPage'
 import { useStoreActions } from '@store/hooks'
-import React, { lazy, Suspense, useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React, { Suspense, lazy, useEffect } from 'react'
+import { Route, Routes, useParams } from 'react-router-dom'
 
 // Lazy pages
 const MeetingsPage = lazy(() => import('@pages/MeetingsPage'))
 const SubscriptionPage = lazy(() => import('@pages/SubscriptionPage'))
 const CircleExportPage = lazy(() => import('@pages/CircleExportPage'))
 
-interface Props {
+type Params = {
   orgId: string
+  slug: string
 }
 
-export default function OrgRoute({ orgId }: Props) {
+export default function OrgRoute() {
+  const { orgId, slug } = useParams<Params>()
+
   // Subscribe to org structure
-  const { data, error, loading } = useOrgSubscription({
-    variables: { id: orgId },
+  // either by id or slug
+  const {
+    data: dataId,
+    error: errorId,
+    loading: loadingId,
+  } = useOrgSubscription({
+    skip: !orgId,
+    variables: { id: orgId! },
   })
+  const {
+    data: dataSlug,
+    error: errorSlug,
+    loading: loadingSlug,
+  } = useOrgBySlugSubscription({
+    skip: !slug,
+    variables: { slug: slug! },
+  })
+
+  const data = dataId?.org_by_pk ?? dataSlug?.org[0]
+  const error = errorId ?? errorSlug
+  const loading = loadingId || loadingSlug
 
   const actions = useStoreActions((actions) => ({
     setCurrentId: actions.org.setCurrentId,
     setSubscriptionResult: actions.org.setSubscriptionResult,
   }))
 
-  // Set current id in store, instantly from URL params
+  // Set current id in store instantly from URL params
   useEffect(() => {
+    if (!orgId) return
     actions.setCurrentId(orgId)
   }, [orgId])
+
+  // Set current id in store when using a slug and org is loaded
+  useEffect(() => {
+    if (!slug && data?.id) return
+    actions.setCurrentId(data?.id)
+  }, [slug, data?.id])
 
   // Reset current id on unmount
   useEffect(() => {
@@ -50,7 +78,7 @@ export default function OrgRoute({ orgId }: Props) {
   // Set current state in store
   useEffect(() => {
     actions.setSubscriptionResult({
-      result: data?.org_by_pk ?? undefined,
+      result: data ?? undefined,
       loading,
       error,
     })
@@ -61,7 +89,7 @@ export default function OrgRoute({ orgId }: Props) {
       <Loading center active={loading} />
       {error && <TextError error={error} />}
 
-      {data?.org_by_pk === null ? (
+      {!data && !loading ? (
         <Page404 />
       ) : (
         <Routes>

@@ -17772,6 +17772,13 @@ export type OrgSubscriptionVariables = Exact<{
 
 export type OrgSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> } | null };
 
+export type OrgBySlugSubscriptionVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type OrgBySlugSubscription = { __typename?: 'subscription_root', org: Array<{ __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, memberId: string, avgMinPerWeek?: number | null }> }>, roles: Array<{ __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null }>, members: Array<{ __typename?: 'member', id: string, orgId: string, archived: boolean, name: string, description: string, pictureFileId?: string | null, picture?: string | null, userId?: string | null, inviteEmail?: string | null, inviteDate?: string | null, workedMinPerWeek?: number | null, role?: Member_Role_Enum | null, meetingId?: string | null }> }> };
+
 export type UpdateOrgMutationVariables = Exact<{
   id: Scalars['uuid'];
   values: Org_Set_Input;
@@ -20231,6 +20238,36 @@ export function useOrgSubscription(baseOptions: Apollo.SubscriptionHookOptions<O
       }
 export type OrgSubscriptionHookResult = ReturnType<typeof useOrgSubscription>;
 export type OrgSubscriptionResult = Apollo.SubscriptionResult<OrgSubscription>;
+export const OrgBySlugDocument = gql`
+    subscription orgBySlug($slug: String!) {
+  org(where: {slug: {_eq: $slug}}) {
+    ...OrgFullLight
+  }
+}
+    ${OrgFullLightFragmentDoc}`;
+
+/**
+ * __useOrgBySlugSubscription__
+ *
+ * To run a query within a React component, call `useOrgBySlugSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOrgBySlugSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrgBySlugSubscription({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useOrgBySlugSubscription(baseOptions: Apollo.SubscriptionHookOptions<OrgBySlugSubscription, OrgBySlugSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OrgBySlugSubscription, OrgBySlugSubscriptionVariables>(OrgBySlugDocument, options);
+      }
+export type OrgBySlugSubscriptionHookResult = ReturnType<typeof useOrgBySlugSubscription>;
+export type OrgBySlugSubscriptionResult = Apollo.SubscriptionResult<OrgBySlugSubscription>;
 export const UpdateOrgDocument = gql`
     mutation updateOrg($id: uuid!, $values: org_set_input!) {
   update_org_by_pk(pk_columns: {id: $id}, _set: $values) {

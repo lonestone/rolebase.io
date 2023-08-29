@@ -1,6 +1,5 @@
 import { Title } from '@atoms/Title'
 import { Flex, VStack } from '@chakra-ui/react'
-import useCurrentMember from '@hooks/useCurrentMember'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import DashboardMyMeetings from '@organisms/dashboard/DashboardMyMeetings'
 import DashboardMyRoles from '@organisms/dashboard/DashboardMyRoles'
@@ -16,9 +15,8 @@ const margin = 10
 const DashboardPage = () => {
   const { t } = useTranslation()
   const org = useCurrentOrg()
-  const currentMember = useCurrentMember()
 
-  if (!currentMember || !org) return null
+  if (!org) return null
 
   return (
     <>

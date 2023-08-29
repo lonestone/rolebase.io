@@ -13,7 +13,10 @@ import theme from '../theme'
 import AppRoute from './routes/AppRoute'
 
 const apolloHeaders = {
-  'x-hasura-role': 'user',
+  // User admin role id "admin" is in URL query params
+  'x-hasura-role': /[?&]admin(&|$)/.test(window.location.search)
+    ? 'admin'
+    : 'user',
 }
 
 export default function App() {

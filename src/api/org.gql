@@ -24,6 +24,12 @@ subscription org($id: uuid!) {
   }
 }
 
+subscription orgBySlug($slug: String!) {
+  org(where: { slug: { _eq: $slug }, limit: 1 }) {
+    ...OrgFullLight
+  }
+}
+
 mutation updateOrg($id: uuid!, $values: org_set_input!) {
   update_org_by_pk(pk_columns: { id: $id }, _set: $values) {
     id
