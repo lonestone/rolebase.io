@@ -139,8 +139,6 @@ export default function Sidebar() {
           /* Mobile: top bar with logo and icons */
           <>
             <BrandIcon width={26} height={26} />
-            <OrgSwitch />
-
             <Spacer />
 
             {!context.expand.isOpen && orgId && (
@@ -222,7 +220,7 @@ export default function Sidebar() {
         >
           {orgId ? (
             <>
-              {!isMobile && <OrgSwitch mt={3} mb={7} />}
+              <OrgSwitch mt={3} mb={7} />
 
               <SidebarItemLink
                 className="userflow-sidebar-dashboard"
