@@ -1,7 +1,7 @@
 import ModalCloseStaticButton from '@atoms/ModalCloseStaticButton'
+import Tab from '@atoms/Tab'
 import { Title } from '@atoms/Title'
 import {
-  Accordion,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -9,6 +9,10 @@ import {
   Flex,
   ModalCloseButton,
   Spacer,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   useDisclosure,
 } from '@chakra-ui/react'
 import { Member_Scope_Enum } from '@gql'
@@ -16,8 +20,6 @@ import useCircle from '@hooks/useCircle'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
-import useWindowSize from '@hooks/useWindowSize'
-import AccordionLazyItem from '@molecules/AccordionLazyItem'
 import ActionsMenu from '@molecules/ActionsMenu'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
@@ -26,12 +28,12 @@ import CircleMeetings from '@molecules/circle/CircleMeetings'
 import CircleRoleFormControl from '@molecules/circle/CircleRoleFormControl'
 import CircleTasks from '@molecules/circle/CircleTasks'
 import CircleThreads from '@molecules/circle/CircleThreads'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  CircleIcon,
   DecisionsIcon,
   MeetingsIcon,
-  RoleIcon,
   TasksIcon,
   ThreadsIcon,
 } from 'src/icons'
@@ -43,7 +45,6 @@ import CircleMoveModal from './CircleMoveModal'
 interface Props {
   id: string
   changeTitle?: boolean
-  extendBottom?: boolean
   isFirstTabOpen?: boolean
   headerIcons?: React.ReactNode
 }
@@ -51,7 +52,6 @@ interface Props {
 export default function CircleContent({
   id,
   changeTitle,
-  extendBottom,
   isFirstTabOpen,
   headerIcons,
 }: Props) {
@@ -74,26 +74,6 @@ export default function CircleContent({
   const duplicateModal = useDisclosure()
   const moveModal = useDisclosure()
 
-  // Adapt accordion height to window height
-  const accordionContainer = useRef<HTMLDivElement>(null)
-  const accordionButtonsHeight = useRef<number>(0)
-  const windowSize = useWindowSize()
-  const [accordionHeight, setAccordionHeight] = useState<number | undefined>()
-
-  useEffect(() => {
-    const box = accordionContainer.current
-    if (!box) return
-    const { top, height } = box.getBoundingClientRect()
-    if (accordionButtonsHeight.current === 0) {
-      accordionButtonsHeight.current = height
-    }
-    setAccordionHeight(
-      extendBottom
-        ? windowSize.height - top - accordionButtonsHeight.current - 1
-        : undefined
-    )
-  }, [windowSize, extendBottom])
-
   if (!role) {
     return (
       <>
@@ -110,7 +90,7 @@ export default function CircleContent({
     <>
       {changeTitle && <Title>{role.name}</Title>}
 
-      <Flex p={2} pl={6}>
+      <Flex p={2} pl={6} bg="menulight" _dark={{ bg: 'menudark' }}>
         <CircleAndParentsLinks circle={circle} size="md" />
         <Spacer />
 
@@ -133,52 +113,50 @@ export default function CircleContent({
         <ModalCloseStaticButton />
       </Flex>
 
-      <Box ref={accordionContainer}>
-        <Accordion allowToggle defaultIndex={isFirstTabOpen ? [0] : []}>
-          <AccordionLazyItem
-            icon={<RoleIcon />}
-            label={t('CircleContent.tabRole')}
-            h={accordionHeight}
-          >
+      <Tabs isLazy defaultIndex={isFirstTabOpen ? 0 : -1}>
+        <TabList
+          borderBottomWidth={0}
+          bg="menulight"
+          _dark={{ bg: 'menudark' }}
+        >
+          <Tab icon={CircleIcon} minimize borderTopLeftRadius={0}>
+            {t('CircleContent.tabRole')}
+          </Tab>
+          <Tab icon={ThreadsIcon} minimize>
+            {t('CircleContent.tabThreads')}
+          </Tab>
+          <Tab icon={MeetingsIcon} minimize>
+            {t('CircleContent.tabMeetings')}
+          </Tab>
+          <Tab icon={TasksIcon} minimize>
+            {t('CircleContent.tabTasks')}
+          </Tab>
+          <Tab icon={DecisionsIcon} minimize>
+            {t('CircleContent.tabDecisions')}
+          </Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel px={6} py={10}>
             <CircleRoleFormControl
               circle={circle}
               participants={participants}
             />
-          </AccordionLazyItem>
-
-          <AccordionLazyItem
-            icon={<ThreadsIcon />}
-            label={t('CircleContent.tabThreads')}
-            h={accordionHeight}
-          >
+          </TabPanel>
+          <TabPanel px={6} py={10}>
             <CircleThreads circleId={id} />
-          </AccordionLazyItem>
-
-          <AccordionLazyItem
-            icon={<MeetingsIcon />}
-            label={t('CircleContent.tabMeetings')}
-            h={accordionHeight}
-          >
+          </TabPanel>
+          <TabPanel px={6} py={10}>
             <CircleMeetings circleId={id} />
-          </AccordionLazyItem>
-
-          <AccordionLazyItem
-            icon={<TasksIcon />}
-            label={t('CircleContent.tabTasks')}
-            h={accordionHeight}
-          >
+          </TabPanel>
+          <TabPanel px={6} py={10}>
             <CircleTasks circleId={id} />
-          </AccordionLazyItem>
-
-          <AccordionLazyItem
-            icon={<DecisionsIcon />}
-            label={t('CircleContent.tabDecisions')}
-            h={accordionHeight}
-          >
+          </TabPanel>
+          <TabPanel px={6} py={10}>
             <CircleDecisions circleId={id} />
-          </AccordionLazyItem>
-        </Accordion>
-      </Box>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
 
       {editRoleModal.isOpen && role && (
         <RoleEditModal role={role} isOpen onClose={editRoleModal.onClose} />

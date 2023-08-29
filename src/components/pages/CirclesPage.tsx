@@ -154,7 +154,6 @@ export default function CirclesPage() {
           <CircleContent
             id={circleId}
             changeTitle
-            extendBottom={!isSmallScreen}
             isFirstTabOpen={!isSmallScreen}
           />
         </ModalPanel>
