@@ -49,7 +49,6 @@ export default function ScrollableLayout({
         display="flex"
         w="100%"
         py={2}
-        borderTopRadius="lg"
         borderBottomWidth={2}
         borderBottomColor={showTopbar ? 'gray.200' : 'transparent'}
         bg="menulight"
@@ -88,7 +87,6 @@ export default function ScrollableLayout({
         zIndex={10}
         minH={scrollbarWidth}
         px={{ base: 0, md: scrollbarWidth }}
-        borderBottomRadius="lg"
         borderTopWidth={2}
         borderTopColor={showBottombar ? 'gray.200' : 'transparent'}
         bg="menulight"

@@ -23,8 +23,8 @@ export default function ThreadModal({ id, ...modalProps }: Props) {
     <Modal size="3xl" isCentered autoFocus={false} {...modalProps}>
       <ModalOverlay />
       <ModalContent
-        margin={0}
         borderRadius="lg"
+        overflow="hidden"
         _dark={{
           bg: 'gray.800',
         }}
