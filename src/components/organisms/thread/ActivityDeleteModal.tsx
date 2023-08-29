@@ -53,11 +53,9 @@ export default function ActivityDeleteModal({
 
             <Box
               mt={5}
-              maxH="300px"
               border="1px solid"
               borderColor="gray.500"
               borderRadius="md"
-              overflow="auto"
             >
               <ThreadActivity activity={activity} />
             </Box>
