@@ -66,7 +66,7 @@ export default function OrgRoute() {
 
   // Set current id in store when using a slug and org is loaded
   useEffect(() => {
-    if (!slug && data?.id) return
+    if (!slug && !data?.id) return
     actions.setCurrentId(data?.id)
   }, [slug, data?.id])
 
