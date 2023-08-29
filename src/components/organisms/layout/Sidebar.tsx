@@ -20,7 +20,6 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgOwner from '@hooks/useOrgOwner'
 import { usePathInOrg } from '@hooks/usePathInOrg'
-import useSuperAdmin from '@hooks/useSuperAdmin'
 import OrgSwitch from '@molecules/OrgSwitch'
 import UserMenu from '@molecules/UserMenu'
 import Notifications from '@molecules/notification/Notifications'
@@ -41,7 +40,6 @@ import {
   NewsIcon,
   OrgChartIcon,
   SearchIcon,
-  SettingsIcon,
   SubscriptionIcon,
   TasksIcon,
   ThreadsIcon,
@@ -59,7 +57,6 @@ export default function Sidebar() {
   const orgId = useOrgId()
   const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()
-  const isSuperAdmin = useSuperAdmin()
   const isOwner = useOrgOwner()
 
   // Get Sidebar context
@@ -309,12 +306,6 @@ export default function Sidebar() {
                   icon={SubscriptionIcon}
                 >
                   {t('Sidebar.subscription')}
-                </SidebarItemLink>
-              )}
-
-              {isSuperAdmin && (
-                <SidebarItemLink to="admin" icon={SettingsIcon}>
-                  {t('Sidebar.superAdmin')}
                 </SidebarItemLink>
               )}
             </>

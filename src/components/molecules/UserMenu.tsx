@@ -12,12 +12,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useSuperAdmin from '@hooks/useSuperAdmin'
 import useUserSignOut from '@hooks/useUserSignOut'
 import { useUserData } from '@nhost/react'
 import LangModal from '@organisms/layout/LangModal'
 import CurrentUserModal from '@organisms/user/CurrentUserModal'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import {
   ChevronRightIcon,
   CurrentMemberIcon,
@@ -25,6 +27,7 @@ import {
   LanguageIcon,
   LightThemeIcon,
   LogoutIcon,
+  SuperAdminIcon,
   UserInfoIcon,
 } from 'src/icons'
 
@@ -36,6 +39,7 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
   const { t } = useTranslation()
   const user = useUserData()
   const member = useCurrentMember()
+  const isSuperAdmin = useSuperAdmin()
   const signOut = useUserSignOut()
   const { colorMode, toggleColorMode } = useColorMode()
 
@@ -134,6 +138,14 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
           >
             {t('UserMenu.lang')}
           </MenuItem>
+
+          {isSuperAdmin && (
+            <Link to="admin">
+              <MenuItem icon={<SuperAdminIcon size={20} />}>
+                {t('Sidebar.superAdmin')}
+              </MenuItem>
+            </Link>
+          )}
 
           <MenuItem icon={<LogoutIcon size={20} />} onClick={signOut}>
             {t('UserMenu.signout')}

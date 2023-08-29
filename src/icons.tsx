@@ -40,6 +40,7 @@ import {
   Magicpen,
   Maximize1,
   Maximize3,
+  MedalStar,
   Menu,
   MessageQuestion,
   MessageText1,
@@ -156,3 +157,4 @@ export const UploadIcon = ExportCurve
 export const UserInfoIcon = UserEdit
 export const VacantCircle = InfoCircle
 export const VisioIcon = Video
+export const SuperAdminIcon = MedalStar
