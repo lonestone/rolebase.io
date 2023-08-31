@@ -1,6 +1,6 @@
 import IconTextButton from '@atoms/IconTextButton'
 import { CloseIcon } from '@chakra-ui/icons'
-import { Box, Button } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import {
   ThreadActivityFragment,
@@ -12,13 +12,7 @@ import useCreateThreadMeetingNote from '@hooks/useCreateThreadMeetingNote'
 import { EditorHandle } from '@molecules/editor'
 import CollabEditor from '@molecules/editor/CollabEditor'
 import { ThreadActivityDataMeetingNote } from '@shared/model/thread_activity'
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import ThreadItem from '../thread/ThreadItem'
 
@@ -41,7 +35,6 @@ export default function MeetingStepContentThreadItem({
   const editorRef = useRef<EditorHandle>(null)
   const meetingState = useContext(MeetingContext)!
   const { meeting, editable } = meetingState
-  const [forceEdit, setForceEdit] = useState(false)
 
   const createThreadMeetingNote = useCreateThreadMeetingNote()
   const [updateThreadActivity] = useUpdateThreadActivityMutation()
@@ -51,23 +44,7 @@ export default function MeetingStepContentThreadItem({
   const activityData = activity?.data as
     | ThreadActivityDataMeetingNote
     | undefined
-
-  // Edit mode?
-  const editMode = !!activityData?.notes || forceEdit
-
-  // Disable force edit after having saved some notes
-  useEffect(() => {
-    if (forceEdit && activityData?.notes) {
-      setForceEdit(false)
-    }
-  }, [forceEdit, activityData?.notes])
-
-  // Disable force edit on blur if editor is empty
-  const handleNotesBlur = useCallback(() => {
-    if (editorRef.current?.isEmpty()) {
-      setForceEdit(false)
-    }
-  }, [])
+  const hasNotes = !!activityData?.notes
 
   // Update notes
   const handleNotesChange = useCallback(
@@ -92,33 +69,20 @@ export default function MeetingStepContentThreadItem({
   return (
     <Draggable draggableId={thread.id} index={index}>
       {(provided, snapshot) => (
-        <Box
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          pb={editMode ? 9 : 2}
-        >
+        <Box ref={provided.innerRef} {...provided.draggableProps} pb={10}>
           <ThreadItem
             thread={thread}
             showMember
             isDragging={snapshot.isDragging}
-            mb={editMode ? 2 : 0}
+            mb={2}
             mx={-2}
             labelProps={{
               fontSize: 'md',
               fontFamily: 'heading',
+              fontWeight: 'medium',
             }}
             {...provided.dragHandleProps}
           >
-            {editable && !editMode && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setForceEdit(true)}
-              >
-                {t('MeetingStepContent.addNotes')}
-              </Button>
-            )}
-
             {onRemove && (
               <IconTextButton
                 aria-label={t('common.remove')}
@@ -132,17 +96,15 @@ export default function MeetingStepContentThreadItem({
             )}
           </ThreadItem>
 
-          {editMode && (
+          {(editable || hasNotes) && (
             <CollabEditor
               ref={editorRef}
               docId={`thread-${thread.id}-meeting-${meeting.id}`}
               value={activityData?.notes || ''}
               placeholder={t('MeetingStepContent.notesPlaceholder')}
               readOnly={!editable}
-              autoFocus={forceEdit}
               saveEvery={10000}
               onSave={handleNotesChange}
-              onBlur={handleNotesBlur}
             />
           )}
         </Box>

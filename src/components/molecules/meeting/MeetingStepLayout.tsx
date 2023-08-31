@@ -48,7 +48,7 @@ export default function MeetingStepLayout({
           </a>
         </Heading>
       </Flex>
-      <Box pt={7} pb={20}>
+      <Box pt={7} pb={32}>
         {children}
       </Box>
     </>

@@ -48,7 +48,7 @@ export default function MeetingStepContentThreads({ step }: Props) {
   if (!circle) return null
 
   return (
-    <Box mb={5}>
+    <Box mt={5} mb={5}>
       <TextErrors errors={[error]} />
 
       <Box position="relative">
@@ -79,7 +79,7 @@ export default function MeetingStepContentThreads({ step }: Props) {
       </Box>
 
       {editable && (
-        <HStack mt={5} justifyContent="end">
+        <HStack justifyContent="end">
           {loading && <Loading active size="sm" />}
 
           {selectedThreads && selectedThreads.length > 2 && (

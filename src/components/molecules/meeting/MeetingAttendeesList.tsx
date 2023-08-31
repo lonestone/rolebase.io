@@ -108,6 +108,7 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
         <MemberSearchButton
           excludeIds={attendeesMemberIds}
           size="sm"
+          variant="outline"
           leftIcon={<CreateIcon size={20} />}
           onSelect={handleAdd}
         >

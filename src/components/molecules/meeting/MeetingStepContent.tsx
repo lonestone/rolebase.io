@@ -13,6 +13,7 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { EditIcon } from 'src/icons'
 import { EditorHandle } from '../editor'
 import CollabEditor from '../editor/CollabEditor'
 import MeetingStepContentTasks from './MeetingStepContentTasks'
@@ -85,6 +86,7 @@ export default function MeetingStepContent({ step }: Props) {
           <Button
             variant="outline"
             size="sm"
+            leftIcon={<EditIcon size={18} />}
             onClick={() => setForceEdit(true)}
           >
             {t('MeetingStepContent.addNotes')}
