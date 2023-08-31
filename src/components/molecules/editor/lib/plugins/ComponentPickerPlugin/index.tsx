@@ -322,6 +322,8 @@ export default function ComponentPickerMenuPlugin() {
     [editor]
   )
 
+  if (!editor.isEditable()) return null
+
   return (
     <>
       {modal}
