@@ -2,40 +2,35 @@
   "meetingsIcal": {
     "meetingTitle": "{{role}} - {{title}}"
   },
-  "notifications": {
-    "common": {
-      "action": {
-        "openMeeting": "Open meeting",
-        "openTask": "Open task",
-        "openThread": "Open topic"
+  "emails": {
+    "MemberActivity": {
+      "OrgInvitation": {
+        "subject": "Invitation to {{org}}'s organization",
+        "title": "Invitation to {{org}}'s organization",
+        "activity": "<b>{{member}}</b> invites you to join <b>{{org}}</b> on Rolebase.",
+        "cta": "Accept the invitation"
       },
-      "email": {
-        "notificationReceived": "You have received a notification :",
-        "automaticEmail": "This is an automatic email, please do not reply to it.",
-        "unsubscribe": "You can adjust your notification settings on"
+      "MeetingStart": {
+        "subject": "{{member}} has started the meeting {{title}} - {{role}}",
+        "title": "Meeting {{title}} - {{role}}",
+        "activity": "<b>{{member}}</b> started the meeting!",
+        "cta": "Open the meeting"
       }
     },
-    "sendMeetingInvitedNotification": {
-      "title": "Meeting {{title}} - {{role}}",
-      "content": "Invitation by {{sender}}."
-    },
-    "sendMeetingStartedNotification": {
-      "title": "Meeting {{title}} - {{role}}",
-      "content": "{{sender}} started the meeting!"
-    },
-    "sendTaskAssignedNotification": {
-      "title": "Task assigned to you - {{role}}",
-      "content": "{{title}}"
-    },
-    "sendThreadNotification": {
-      "title": "New topic for you - {{role}}",
-      "content": "{{title}}"
-    },
-    "sendThreadActivityNotification": {
-      "title": "New activity in a topic - {{role}}",
-      "content": "{{title}}",
-      "digestContentSingular": "new message for this topic : {{title}}",
-      "digestContentPlural": "new messages for this topic : {{title}}."
+    "Digest": {
+      "subject": "Last activities on Rolebase",
+      "threads": {
+        "heading": "Topics",
+        "description": "News in the topics you follow:",
+        "activities_zero": "New topic!",
+        "activities_one": "{{count}} new message",
+        "activities_other": "{{count}} new messages"
+      },
+      "meetings": {
+        "heading": "Meetings",
+        "description": "These meetings took place:",
+        "title": "Meeting {{title}}"
+      }
     }
   }
 }

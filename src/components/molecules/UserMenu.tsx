@@ -17,6 +17,7 @@ import useUserSignOut from '@hooks/useUserSignOut'
 import { useUserData } from '@nhost/react'
 import LangModal from '@organisms/layout/LangModal'
 import CurrentUserModal from '@organisms/user/CurrentUserModal'
+import NotificationsSettingsModal from '@organisms/user/NotificationsSettingsModal'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -27,6 +28,7 @@ import {
   LanguageIcon,
   LightThemeIcon,
   LogoutIcon,
+  NotificationIcon,
   SuperAdminIcon,
   UserInfoIcon,
 } from 'src/icons'
@@ -45,6 +47,7 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
 
   const menu = useDisclosure()
   const currentUserModal = useDisclosure()
+  const notificationsModal = useDisclosure()
   const langModal = useDisclosure()
   const buttonGroup = useButtonGroup()
   const size = buttonGroup?.size
@@ -120,6 +123,13 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
           </MenuItem>
 
           <MenuItem
+            icon={<NotificationIcon size={20} />}
+            onClick={notificationsModal.onOpen}
+          >
+            {t('UserMenu.notifications')}
+          </MenuItem>
+
+          <MenuItem
             icon={
               colorMode === 'light' ? (
                 <LightThemeIcon size={20} />
@@ -154,6 +164,13 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
 
         {currentUserModal.isOpen && (
           <CurrentUserModal isOpen onClose={currentUserModal.onClose} />
+        )}
+
+        {notificationsModal.isOpen && (
+          <NotificationsSettingsModal
+            isOpen
+            onClose={notificationsModal.onClose}
+          />
         )}
 
         {langModal.isOpen && <LangModal isOpen onClose={langModal.onClose} />}

@@ -10,11 +10,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [
     svgr({ exportAsDefault: true }),
-    react({
-      // Required to prevent error "pragma and pragmaFrag cannot be set when runtime is automatic"
-      // with @magicbell/magicbell-react
-      jsxRuntime: 'classic',
-    }),
+    react(),
     tsconfigPaths(),
     // visualizer({
     //   template: 'network',

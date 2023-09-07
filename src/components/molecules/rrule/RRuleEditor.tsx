@@ -12,6 +12,7 @@ import RRuleYearly from './RRuleYearly'
 
 export interface RRuleEditorProps {
   value?: string
+  hideStartDate?: boolean
   onChange: (value: string) => void
 }
 
@@ -33,7 +34,11 @@ const rruleParams: Array<keyof ParsedOptions> = [
   'byweekday',
 ]
 
-export default function RRuleEditor({ value, onChange }: RRuleEditorProps) {
+export default function RRuleEditor({
+  value,
+  hideStartDate,
+  onChange,
+}: RRuleEditorProps) {
   const tzid = useMemo(() => getTimeZone(), [])
 
   // Build RRule options from value
@@ -77,7 +82,7 @@ export default function RRuleEditor({ value, onChange }: RRuleEditorProps) {
 
   return (
     <VStack align="stretch">
-      <RRuleStartDate {...bind} />
+      {!hideStartDate && <RRuleStartDate {...bind} />}
       <RRuleRepeat {...bind} />
 
       {options.freq === Frequency.YEARLY && <RRuleYearly {...bind} />}

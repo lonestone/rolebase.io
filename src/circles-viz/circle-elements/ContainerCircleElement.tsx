@@ -1,4 +1,4 @@
-import { defaultCircleColorHue } from 'src/theme'
+import { defaultCircleColorHue } from '@shared/helpers/circleColor'
 import { MoveTransition } from '../helpers/createTransition'
 import { NodeData, NodesSelection, NodeType } from '../types'
 import { AbstractCircleElement } from './AbstractCircleElement'

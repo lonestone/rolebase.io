@@ -22,13 +22,7 @@ export default function MeetingModal({ id, ...modalProps }: Props) {
   return (
     <Modal size="4xl" autoFocus={false} {...modalProps}>
       <ModalOverlay />
-      <ModalContent
-        borderRadius="lg"
-        overflow="hidden"
-        _dark={{
-          bg: 'gray.800',
-        }}
-      >
+      <ModalContent borderRadius="lg" overflow="hidden">
         <MeetingContainer
           id={id}
           headerIcons={

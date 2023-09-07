@@ -1,3 +1,4 @@
+import Switch from '@atoms/Switch'
 import {
   Button,
   Flex,
@@ -11,7 +12,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Switch,
   Textarea,
   UseModalProps,
   VStack,
@@ -77,12 +77,7 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
               </Heading>
 
               <FormControl>
-                <Switch
-                  display="flex"
-                  alignItems="center"
-                  isChecked={shareOrg}
-                  onChange={handleShareOrg}
-                >
+                <Switch isChecked={shareOrg} onChange={handleShareOrg}>
                   {t('CirclesShareModal.shareOrg')}
                 </Switch>
                 <FormHelperText ml="40px">
@@ -92,8 +87,6 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
 
               <FormControl>
                 <Switch
-                  display="flex"
-                  alignItems="center"
                   isChecked={shareMembers}
                   isDisabled={!shareOrg}
                   onChange={handleShareMembers}
@@ -117,17 +110,10 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
                     value={view}
                     onChange={setView}
                   />
-                  <Switch
-                    display="flex"
-                    alignItems="center"
-                    isChecked={zoom}
-                    onChange={() => setZoom((z) => !z)}
-                  >
+                  <Switch isChecked={zoom} onChange={() => setZoom((z) => !z)}>
                     {t('CirclesShareModal.zoom')}
                   </Switch>
                   <Switch
-                    display="flex"
-                    alignItems="center"
                     isChecked={transparent}
                     onChange={() => setTransparent((z) => !z)}
                   >

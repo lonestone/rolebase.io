@@ -575,8 +575,11 @@
   "ModalMaximizeButton": {
     "label": "Ouvrir en pleine page"
   },
-  "Notifications": {
-    "tooltip": "Notifications"
+  "NotificationsSettingsModal": {
+    "heading": "Notifications",
+    "digest": "Résumé des activités par email",
+    "disabledInfo": "En activant le résumé, vous pourrez régler la fréquence des emails. Nous vous recommandons de l'activer pour suivre les sujets importants de votre organisation.",
+    "toastSuccess": "Configuration des notifications enregistrée !"
   },
   "OrgCreateModal": {
     "join": {
@@ -673,7 +676,7 @@
     "waitInfo": "Cela peut prendre quelques dizaines de secondes."
   },
   "RRuleEditor": {
-    "repeat": "Répéter tous les",
+    "repeat": "Tous les",
     "freqs": {
       "YEARLY_one": "année",
       "YEARLY_other": "années",
@@ -991,9 +994,9 @@
     }
   },
   "UserMenu": {
-    "tooltip": "Mes paramètres",
     "member": "Ma fiche membre",
     "user": "Informations personnelles",
+    "notifications": "Notifications",
     "theme": "Thème clair/sombre",
     "lang": "Langue",
     "signout": "Déconnexion"

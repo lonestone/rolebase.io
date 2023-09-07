@@ -22,7 +22,6 @@ import useOrgOwner from '@hooks/useOrgOwner'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import OrgSwitch from '@molecules/OrgSwitch'
 import UserMenu from '@molecules/UserMenu'
-import Notifications from '@molecules/notification/Notifications'
 import SearchGlobalModal from '@molecules/search/SearchGlobalModal'
 import { useAuthenticated } from '@nhost/react'
 import { useStoreState } from '@store/hooks'
@@ -275,8 +274,6 @@ export default function Sidebar() {
 
           {orgId && (
             <>
-              <Notifications isMobile={isMobile} />
-
               <Tooltip
                 label={isMobile ? '' : `${cmdOrCtrlKey} + P`}
                 placement="right"

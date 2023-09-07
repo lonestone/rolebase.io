@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "strictNullChecks": true,
     "downlevelIteration": true,
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
       "@shared/*": ["./_shared/*"],

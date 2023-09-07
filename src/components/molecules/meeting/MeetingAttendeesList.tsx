@@ -1,12 +1,7 @@
-import {
-  sendMeetingStartedNotification,
-  startMembersMeeting,
-  stopMembersMeeting,
-} from '@api/functions'
+import { startMembersMeeting, stopMembersMeeting } from '@api/functions'
 import { BoxProps, VStack } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useUpdateMeetingMutation } from '@gql'
-import useCurrentMember from '@hooks/useCurrentMember'
 import { MeetingAttendee } from '@shared/model/meeting'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,9 +10,8 @@ import MemberSearchButton from '../search/entities/members/MemberSearchButton'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 
 export default function MeetingAttendeesList(boxProps: BoxProps) {
-  const { meeting, circle, editable, isStarted } = useContext(MeetingContext)!
+  const { meeting, editable, isStarted } = useContext(MeetingContext)!
   const { t } = useTranslation()
-  const currentMember = useCurrentMember()
   const [updateMeeting] = useUpdateMeetingMutation()
 
   // Attendees state for optimistic UI
@@ -66,14 +60,6 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
     if (isStarted) {
       startMembersMeeting({
         membersIds: [memberId],
-        meetingId: meeting.id,
-      })
-    }
-
-    // Send notification
-    if (isStarted && circle && currentMember && currentMember.id !== memberId) {
-      sendMeetingStartedNotification({
-        recipientMemberIds: [memberId],
         meetingId: meeting.id,
       })
     }

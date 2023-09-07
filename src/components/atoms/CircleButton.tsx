@@ -1,8 +1,8 @@
 import { Button, ButtonProps } from '@chakra-ui/react'
 import { CircleWithRoleFragment } from '@gql'
+import { circleColor } from '@shared/helpers/circleColor'
 import { textEllipsis } from '@utils/textEllipsis'
 import React from 'react'
-import { circleColor } from 'src/theme'
 import CircleMemberLink from './CircleMemberLink'
 
 interface Props extends ButtonProps {

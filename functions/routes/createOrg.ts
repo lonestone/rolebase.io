@@ -14,7 +14,7 @@ const yupSchema = yup.object().shape({
 })
 
 export default route(async (context): Promise<string> => {
-  guardAuth(context)
+  const userId = guardAuth(context)
   const { name, slug } = guardBodyParams(context, yupSchema)
 
   // Check forbidden slugs
@@ -23,14 +23,14 @@ export default route(async (context): Promise<string> => {
   }
 
   // Get user
-  const userResult = await adminRequest(GET_USER, { id: context.userId! })
+  const userResult = await adminRequest(GET_USER, { id: userId })
 
   // Create org
   try {
     const orgResult = await adminRequest(CREATE_ORG, {
       name,
       slug,
-      userId: context.userId!,
+      userId,
       memberName: userResult.user!.displayName,
     })
     const orgId = orgResult.insert_org_one!.id

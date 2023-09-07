@@ -1,8 +1,17 @@
 - name: recurring-meetings
-  webhook: '{{NHOST_FUNCTIONS_URL}}/routes/createNextRecurringMeetings'
+  webhook: '{{NHOST_FUNCTIONS_URL}}/routes/cron/createNextRecurringMeetings'
   schedule: 0 * * * *
   include_in_metadata: true
   payload: {}
   headers:
     - name: x-nhost-webhook-secret
       value_from_env: NHOST_WEBHOOK_SECRET
+- name: send-digest-emails
+  webhook: '{{NHOST_FUNCTIONS_URL}}/routes/cron/sendDigestEmails'
+  schedule: 30 * * * *
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: x-nhost-webhook-secret
+      value_from_env: NHOST_WEBHOOK_SECRET
+  comment: ""

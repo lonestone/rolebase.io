@@ -17,7 +17,7 @@ const yupSchema = yup.object().shape({
 })
 
 export default route(async (context): Promise<void> => {
-  guardAuth(context)
+  const userId = guardAuth(context)
   const { memberId, token } = guardBodyParams(context, yupSchema)
 
   // Get member
@@ -26,7 +26,7 @@ export default route(async (context): Promise<void> => {
   // Check if user is already a member of the org
   const checkUserResult = await adminRequest(CHECK_ORG_USER, {
     orgId: member.orgId,
-    userId: context.userId,
+    userId,
   })
   if (checkUserResult.org_by_pk?.members[0]) {
     throw new RouteError(409, 'User is already a member of the org')
@@ -63,7 +63,7 @@ export default route(async (context): Promise<void> => {
   }
 
   // Update member
-  await updateMember(memberId, { userId: context.userId })
+  await updateMember(memberId, { userId })
 })
 
 const CHECK_ORG_USER = gql(`

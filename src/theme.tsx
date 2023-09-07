@@ -7,13 +7,6 @@ import './fonts/Basier-Circle-regular-webfont/stylesheet.css'
 import './fonts/Basier-Circle-semibold-webfont/stylesheet.css'
 import './theme.css'
 
-export const defaultCircleColorHue = 200
-
-export const circleColor = (lightness: string, hue?: number | string) =>
-  `hsl(${
-    hue ?? defaultCircleColorHue
-  } calc(${lightness} / 2 + 25%) ${lightness})`
-
 export const bgForBlurLight =
   'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1))'
 export const bgForBlurDark =
@@ -134,6 +127,11 @@ const theme = extendTheme({
       baseStyle: {
         header: {
           fontFamily: 'heading',
+        },
+        dialog: {
+          _dark: {
+            bg: 'gray.900',
+          },
         },
       },
     },

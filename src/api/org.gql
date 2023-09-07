@@ -25,7 +25,7 @@ subscription org($id: uuid!) {
 }
 
 subscription orgBySlug($slug: String!) {
-  org(where: { slug: { _eq: $slug }, limit: 1 }) {
+  org(where: { slug: { _eq: $slug } }, limit: 1) {
     ...OrgFullLight
   }
 }

@@ -24,14 +24,6 @@ name = 'ALGOLIA_ADMIN_API_KEY'
 value = '{{ secrets.ALGOLIA_ADMIN_API_KEY }}'
 
 [[global.environment]]
-name = 'NOVU_APP_ID'
-value = '{{ secrets.NOVU_APP_ID }}'
-
-[[global.environment]]
-name = 'NOVU_API_KEY'
-value = '{{ secrets.NOVU_API_KEY }}'
-
-[[global.environment]]
 name = 'STRIPE_STARTUP_PLAN_PRICE_ID'
 value = '{{ secrets.STRIPE_STARTUP_PLAN_PRICE_ID }}'
 

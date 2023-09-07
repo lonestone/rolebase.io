@@ -2,40 +2,35 @@
   "meetingsIcal": {
     "meetingTitle": "{{role}} - {{title}}"
   },
-  "notifications": {
-    "common": {
-      "action": {
-        "openMeeting": "Ouvrir la réunion",
-        "openTask": "Ouvrir la tâche",
-        "openThread": "Ouvrir le sujet"
+  "emails": {
+    "MemberActivity": {
+      "OrgInvitation": {
+        "subject": "Invitation dans l'organisation {{org}}",
+        "title": "Invitation dans l'organisation {{org}}",
+        "activity": "<b>{{member}}</b> vous invite à rejoindre <b>{{org}}</b> sur Rolebase.",
+        "cta": "Accepter l'invitation"
       },
-      "email": {
-        "notificationReceived": "Vous avez reçu une notification :",
-        "automaticEmail": "Ceci est un email automatique, merci de ne pas y répondre.",
-        "unsubscribe": "Vous pouvez régler vos paramètres de notification sur"
+      "MeetingStart": {
+        "subject": "{{member}} a démarré la réunion {{title}} - {{role}}",
+        "title": "Réunion {{title}} - {{role}}",
+        "activity": "<b>{{member}}</b> a démarré la réunion !",
+        "cta": "Ouvrir la réunion"
       }
     },
-    "sendMeetingInvitedNotification": {
-      "title": "Réunion {{title}} - {{role}}",
-      "content": "Invitation par {{sender}}."
-    },
-    "sendMeetingStartedNotification": {
-      "title": "Réunion {{title}} - {{role}}",
-      "content": "{{sender}} a démarré la réunion !"
-    },
-    "sendTaskAssignedNotification": {
-      "title": "Une tâche vous a été assignée - {{role}}",
-      "content": "{{title}}"
-    },
-    "sendThreadNotification": {
-      "title": "Nouveau sujet pour vous - {{role}}",
-      "content": "{{title}}"
-    },
-    "sendThreadActivityNotification": {
-      "title": "Nouvelle activité sur un sujet - {{role}}",
-      "content": "{{title}}",
-      "digestContentSingular": "nouveau message sur le sujet : {{title}}",
-      "digestContentPlural": "nouveaux messages sur le sujet : {{title}}."
+    "Digest": {
+      "subject": "Dernières activités sur Rolebase",
+      "threads": {
+        "heading": "Sujets",
+        "description": "Nouveautés dans les sujets que vous suivez :",
+        "activities_zero": "Nouveau sujet !",
+        "activities_one": "{{count}} nouveau message",
+        "activities_other": "{{count}} nouveaux messages"
+      },
+      "meetings": {
+        "heading": "Réunions",
+        "description": "Ces réunions ont eu lieu :",
+        "title": "Réunion {{title}}"
+      }
     }
   }
 }

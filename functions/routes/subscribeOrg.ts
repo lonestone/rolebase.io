@@ -23,7 +23,8 @@ const yupSchema = yup.object().shape({
 })
 
 export default route(async (context): Promise<SubscriptionIntentResponse> => {
-  guardAuth(context)
+  const userId = guardAuth(context)
+
   const { orgId, planType, promotionCode, address } = guardBodyParams(
     context,
     yupSchema
@@ -37,7 +38,7 @@ export default route(async (context): Promise<SubscriptionIntentResponse> => {
 
   await guardOrg(orgId, Member_Role_Enum.Owner, context)
 
-  const user = (await adminRequest(GET_USER_EMAIL, { id: context.userId })).user
+  const user = (await adminRequest(GET_USER_EMAIL, { id: userId })).user
 
   if (!user || !user.email) {
     console.error('[SUBSCRIPTION ERROR]: could not retrieve user email')

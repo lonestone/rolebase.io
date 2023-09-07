@@ -12,10 +12,10 @@ import {
   SliderThumb,
   SliderTrack,
 } from '@chakra-ui/react'
+import { defaultCircleColorHue } from '@shared/helpers/circleColor'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
-import { defaultCircleColorHue } from 'src/theme'
 
 interface Props<Values extends FieldValues> {
   name: Path<Values>

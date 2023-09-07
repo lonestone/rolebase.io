@@ -31,7 +31,7 @@ export default function CircleMemberModal({
     <Modal size="lg" autoFocus={false} {...modalProps}>
       <ModalOverlay />
 
-      <ModalContent>
+      <ModalContent borderRadius="lg" overflow="hidden">
         {memberId ? (
           <MemberContent
             id={memberId}

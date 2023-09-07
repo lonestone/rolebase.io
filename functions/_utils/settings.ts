@@ -1,7 +1,9 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const isLocal = process.env.NHOST_ADMIN_SECRET === 'nhost-admin-secret'
+const isLocal =
+  !process.env.NHOST_ADMIN_SECRET ||
+  process.env.NHOST_ADMIN_SECRET === 'nhost-admin-secret'
 
 export default {
   isLocal,
@@ -54,12 +56,6 @@ export default {
     searchApiKey: process.env.ALGOLIA_SEARCH_API_KEY || '',
     adminApiKey: process.env.ALGOLIA_ADMIN_API_KEY || '',
     indexName: 'docs',
-  },
-
-  // Notification with Novu
-  novu: {
-    appId: process.env.NOVU_APP_ID || '',
-    apiKey: process.env.NOVU_API_KEY || '',
   },
 
   openai: {

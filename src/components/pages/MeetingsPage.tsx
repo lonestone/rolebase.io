@@ -39,6 +39,7 @@ import MeetingRecurringEditModal from '@organisms/meeting/MeetingRecurringEditMo
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
 import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
+import { circleColor } from '@shared/helpers/circleColor'
 import {
   dateFromTimeZone,
   excludeMeetingsFromRRule,
@@ -61,7 +62,6 @@ import {
   SettingsIcon,
   ShowIcon,
 } from 'src/icons'
-import { circleColor } from 'src/theme'
 
 export default function MeetingsPage() {
   const { t } = useTranslation()

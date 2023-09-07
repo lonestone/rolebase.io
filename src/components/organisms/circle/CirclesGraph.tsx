@@ -2,6 +2,7 @@ import { useColorMode } from '@chakra-ui/react'
 import { GraphContext } from '@contexts/GraphContext'
 import styled from '@emotion/styled'
 import { CircleFullFragment } from '@gql'
+import { circleColor } from '@shared/helpers/circleColor'
 import { ColorModeProps, mode } from '@utils/colorMode'
 import React, {
   forwardRef,
@@ -19,7 +20,6 @@ import {
   Position,
   ZoomFocusCircleScale,
 } from 'src/circles-viz/types'
-import { circleColor } from 'src/theme'
 
 interface Props {
   id: string

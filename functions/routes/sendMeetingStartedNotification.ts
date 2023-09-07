@@ -1,61 +1,99 @@
-import { Member_Role_Enum } from '@gql'
-import { defaultLang, resources } from '@i18n'
+import { Member_Role_Enum, gql } from '@gql'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
+import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
-import { getNotificationSenderAndRecipients } from '@utils/notification/getNotificationSenderAndRecipients'
-import { getNotificationMeetingData } from '@utils/notification/meeting/getNotificationMeetingData'
-import { MeetingStartedNotification } from '@utils/notification/meeting/meetingStartedNotification'
-import { route } from '@utils/route'
+import { RouteError, route } from '@utils/route'
+import sendMemberActivityEmail from '@utils/sendMemberActivityEmail'
+import settings from '@utils/settings'
 import * as yup from 'yup'
 
 const yupSchema = yup.object({
-  recipientMemberIds: yup.array().of(yup.string().required()),
   meetingId: yup.string().required(),
+  recipientMemberIds: yup.array().of(yup.string().required()).required(),
 })
 
 export default route(async (context): Promise<void> => {
-  guardAuth(context)
+  const userId = guardAuth(context)
 
   const { meetingId, recipientMemberIds } = guardBodyParams(context, yupSchema)
 
-  // Get meeting data
-  const meeting_by_pk = await getNotificationMeetingData(
+  const result = await adminRequest(GET_MEETING_INVITED_NOTIFICATION_DATA, {
+    userId,
     meetingId,
-    context?.userId!
-  )
-
-  const { org, id, title, circle, attendees } = meeting_by_pk
-
-  // Check if user can access org data
-  const orgId = org.id
-  await guardOrg(orgId, Member_Role_Enum.Member, context)
-
-  // If recipientMemberIds provided : send only to those recipients
-  // Else send to all attendees
-  const allRecipientIds =
-    recipientMemberIds ?? attendees?.map((a) => a.memberId) ?? []
-
-  if (!allRecipientIds || allRecipientIds.length === 0) return
-  // Get sender and recipients
-  const { sender, recipients } = await getNotificationSenderAndRecipients(
-    context?.userId!,
-    [...new Set([...allRecipientIds])],
-    orgId
-  )
-  if (recipients.length === 0) return
-
-  const locale = (sender?.locale as keyof typeof resources) || defaultLang
-
-  // Build MeetingStartedNotification instance for each recipient depending on its locale
-  const notification = new MeetingStartedNotification(locale, {
-    org,
-    orgId,
-    meetingId: id,
-    title,
-    role: circle.role.name,
-    sender: sender?.name || '',
+    recipientMemberIds,
   })
-  // Send notification "meetingstarted"
-  await notification.send(recipients)
+  const meeting = result?.meeting_by_pk
+  const org = meeting?.org
+  const recipients = org?.members
+    .filter((member) => member.user?.email)
+    .map((member) => ({
+      Email: member.user!.email!,
+      Name: member.name,
+    }))
+  const sender = org?.sender[0]
+
+  if (!meeting || !org || !recipients || !sender || !sender.user) {
+    throw new RouteError(404, 'Meeting or sender not found')
+  }
+
+  await guardOrg(org.id, Member_Role_Enum.Member, context)
+
+  if (recipients.length === 0) {
+    throw new RouteError(404, 'No recipient found')
+  }
+
+  // Prepare meeting url
+  const ctaUrl = `${settings.url}${getOrgPath(org)}/meetings/${meetingId}`
+
+  // Send email
+  await sendMemberActivityEmail({
+    recipients,
+    type: 'MeetingStart',
+    lang: sender.user.locale,
+    replace: {
+      title: meeting.title,
+      role: meeting.circle.role.name,
+      member: sender.name,
+    },
+    picture: sender.picture || '',
+    ctaUrl,
+  })
 })
+
+const GET_MEETING_INVITED_NOTIFICATION_DATA = gql(`
+  query getMeetingInvitedNotificationData(
+    $userId: uuid!
+    $meetingId: uuid!
+    $recipientMemberIds: [uuid!]!
+  ) {
+    meeting_by_pk(id: $meetingId) {
+      id
+      title
+      circle {
+        role {
+          name
+        }
+      }
+      org {
+        id
+        slug
+        members(where: { id: { _in: $recipientMemberIds } }) {
+          name
+          user {
+            email
+          }
+        }
+        sender: members(where: { user: { id: { _eq: $userId } } }) {
+          name
+          picture
+          user {
+            locale
+          }
+        }
+      }
+    }
+  }
+
+`)

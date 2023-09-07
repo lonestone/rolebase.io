@@ -56,7 +56,7 @@ export interface MeetingState {
   handleEnd(): void
   handleNextStep(): void
   handleChangeForceEdit(forceEdit: boolean): void
-  handleSendStartNotification(): void
+  handleSendStartNotification(recipientMemberIds: string[]): void
 }
 
 export default function useMeetingState(meetingId: string): MeetingState {
@@ -314,14 +314,18 @@ export default function useMeetingState(meetingId: string): MeetingState {
   }, [meeting, steps, participants, handleEnd])
 
   // Next step
-  const handleSendStartNotification = useCallback(async () => {
-    if (!meeting || !meeting.attendees || !circle || !currentMember) return
+  const handleSendStartNotification = useCallback(
+    async (recipientMemberIds: string[]) => {
+      if (!meeting || !meeting.attendees || !circle || !currentMember) return
 
-    // Send notification
-    sendMeetingStartedNotification({
-      meetingId: meeting.id,
-    })
-  }, [meeting, path])
+      // Send notification
+      sendMeetingStartedNotification({
+        meetingId: meeting.id,
+        recipientMemberIds,
+      })
+    },
+    [meeting, path]
+  )
 
   // Video conference URL
   const videoConfUrl = useMemo(() => {

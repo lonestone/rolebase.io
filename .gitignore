@@ -10,7 +10,9 @@ node_modules
 
 # Builds
 dist
+public/emails/icons
 storybook-static
+functions/.react-email
 
 # Rollup visualizer
 stats.html

@@ -3,10 +3,6 @@ import {
   RoleAiFragment,
   Subscription_Plan_Type_Enum,
 } from '@gql'
-import {
-  MeetingStartedNotificationBodyParams,
-  NovuConfig,
-} from '@shared/model/notification'
 import { AlgoliaConfig } from '@shared/model/search'
 import {
   CustomerBillingDetails,
@@ -48,14 +44,14 @@ export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
 
 export const searchReindexAll = fn('searchReindexAll')
 
-export const getNovuConfig = fn<{}, NovuConfig>('getNovuConfig')
-
 export const getMeetingsToken = fn<{ orgId: string }, string>(
   'getMeetingsToken'
 )
 
-export const sendMeetingStartedNotification =
-  fn<MeetingStartedNotificationBodyParams>('sendMeetingStartedNotification')
+export const sendMeetingStartedNotification = fn<{
+  meetingId: string
+  recipientMemberIds: string[]
+}>('sendMeetingStartedNotification')
 
 export const startMembersMeeting = fn<{
   membersIds: string[]

@@ -1,4 +1,5 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
+import path from 'path'
 
 export function getAddPlugin() {
   return {
@@ -15,7 +16,8 @@ import { LogDisplay, EntitiesChanges } from '@shared/model/log'
 export function getConfig() {
   return {
     // Required for merge-and-override of schemas
-    ignoreFieldConflicts: true,
+    //ignoreFieldConflicts: true,
+    onFieldTypeConflict: (left, right) => left,
     // Set scalars to avoid "any" type
     scalars: {
       uuid: 'string',
@@ -44,7 +46,7 @@ const config: CodegenConfig = {
         },
       },
     },
-    '_shared/schema-overrides.gql',
+    path.join(__dirname, '_shared/schema-overrides.gql'),
   ],
   documents: [
     'routes/*.ts',

@@ -37,13 +37,16 @@ export default function MeetingStartNotificationModal(
         member: members.find((m) => m.id === memberId),
         circlesIds: [],
       }))
-      .filter((p) => p.member && p.member.id !== currentMember.id) as
+      .filter((p) => p.member?.userId && p.member.id !== currentMember.id) as
       | ParticipantMember[]
       | undefined)
 
   // Send notification to all participants
   const handleSend = () => {
-    handleSendStartNotification()
+    if (participants) {
+      handleSendStartNotification(participants.map((p) => p.member.id))
+    }
+
     modalProps.onClose()
 
     // Toast
@@ -53,6 +56,11 @@ export default function MeetingStartNotificationModal(
       duration: 3000,
       isClosable: true,
     })
+  }
+
+  // Don't show modal until we have participants
+  if (participants?.length === 0) {
+    return null
   }
 
   return (

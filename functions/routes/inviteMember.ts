@@ -8,7 +8,7 @@ import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { guardSubscriptionAvailableSeat } from '@utils/guardSubscriptionAvailableSeat'
 import { route, RouteError } from '@utils/route'
-import { sendMailjetEmail } from '@utils/sendMailjetEmail'
+import sendMemberActivityEmail from '@utils/sendMemberActivityEmail'
 import settings from '@utils/settings'
 import { updateMember } from '@utils/updateMember'
 import * as yup from 'yup'
@@ -20,7 +20,7 @@ const yupSchema = yup.object().shape({
 })
 
 export default route(async (context) => {
-  guardAuth(context)
+  const userId = guardAuth(context)
   const { memberId, email, role } = guardBodyParams(context, yupSchema)
 
   // Get member
@@ -36,11 +36,11 @@ export default route(async (context) => {
   // Get inviter member
   const orgAndMemberResult = await adminRequest(GET_ORG_AND_MEMBER, {
     orgId: member.orgId,
-    userId: context.userId,
+    userId,
   })
   const org = orgAndMemberResult.org_by_pk
   const inviterMember = org?.members[0]
-  if (!inviterMember) {
+  if (!inviterMember || !inviterMember.user) {
     throw new RouteError(404, 'Inviter member not found')
   }
 
@@ -58,31 +58,22 @@ export default route(async (context) => {
   const token = generateInviteToken(memberId, inviteDate)
   const invitationUrl = `${settings.url}/orgs/${org.id}/invitation?memberId=${memberId}&token=${token}`
 
-  try {
-    // https://app.mailjet.com/template/3285393/build
-    await sendMailjetEmail({
-      From: {
-        Email: settings.mail.sender.email,
-        Name: settings.mail.sender.name,
+  await sendMemberActivityEmail({
+    recipients: [
+      {
+        Email: email,
+        Name: member.name,
       },
-      To: [
-        {
-          Email: email,
-          Name: member.name,
-        },
-      ],
-      TemplateID: 3285393,
-      TemplateLanguage: true,
-      Subject: `Invitation dans l'organisation ${org.name}`,
-      Variables: {
-        orgName: org.name,
-        inviterName: inviterMember.name,
-        invitationUrl,
-      },
-    })
-  } catch (error) {
-    console.error('Error sending invitation email', error)
-  }
+    ],
+    type: 'OrgInvitation',
+    lang: inviterMember.user.locale,
+    replace: {
+      member: inviterMember.name,
+      org: org.name,
+    },
+    picture: inviterMember.picture || '',
+    ctaUrl: invitationUrl,
+  })
 })
 
 const GET_ORG_AND_MEMBER = gql(`
@@ -93,6 +84,10 @@ const GET_ORG_AND_MEMBER = gql(`
       members(where: { userId: { _eq: $userId } }) {
         id
         name
+        picture
+        user {
+          locale
+        }
       }
     }
   }

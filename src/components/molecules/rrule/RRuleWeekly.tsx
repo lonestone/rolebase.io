@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react'
+import { Button, Flex, Tooltip } from '@chakra-ui/react'
 import React, { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormRow } from './FormRow'
@@ -24,17 +24,22 @@ export default function RRuleWeekly({ options, onChange }: FormPartProps) {
   return (
     <FormRow label={t('RRuleEditor.byweekday')}>
       <Flex>
-        {i18nDays.map((day, index) => (
-          <Button
-            key={index}
-            value={index}
-            variant={options.byweekday?.includes(index) ? 'solid' : 'ghost'}
-            borderRadius="full"
-            onClick={toggleByWeekDay}
-          >
-            {day.substring(0, 2)}
-          </Button>
-        ))}
+        {i18nDays.map((day, index) => {
+          const active = options.byweekday?.includes(index)
+          return (
+            <Tooltip key={index} label={day} placement="top" hasArrow>
+              <Button
+                value={index}
+                variant={active ? 'outline' : 'ghost'}
+                fontWeight={active ? 'semibold' : 'normal'}
+                borderRadius="full"
+                onClick={toggleByWeekDay}
+              >
+                {day.substring(0, 2)}
+              </Button>
+            </Tooltip>
+          )
+        })}
       </Flex>
     </FormRow>
   )
