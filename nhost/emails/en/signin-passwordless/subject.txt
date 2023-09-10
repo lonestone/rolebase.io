@@ -1,1 +1,1 @@
-Secure sign-in link
+Secure login link

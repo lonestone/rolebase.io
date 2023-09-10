@@ -59,7 +59,7 @@ nhost dev
 2.  Run webapp with Vite + Codegen watcher:
 
 ```
-npm run dev
+npm run up
 ```
 
 3.  Open in browser: http://localhost:3000
@@ -70,22 +70,6 @@ You can preview and test some components in Storybook.
 
 ```
 npm run storybook
-```
-
-### Stop local server
-
-Some nhost processes keep running in background after the first run. If you need to stop them, follow those steps:
-
-1. Stop all dockers containers
-
-```
-docker stop $(docker ps -a -q)
-```
-
-2. Stop nhost
-
-```
-nhost down
 ```
 
 ## External services
@@ -99,20 +83,6 @@ Rolebase uses [Mailjet](https://www.mailjet.com/) to send some of its mail.
 
    - `MAILJET_PUBIC_KEY` : API Key displayed by Mailjet upon account creation or when resetting secret tokens
    - `MAILJET_PRIVATE_KEY` : Secret Key displayed by Mailjet upon account creation or when resetting secret tokens
-
-3. Create needed templates :
-
-| Name         | Template                                                                             | TemplateID          | Variables                                 |
-| ------------ | ------------------------------------------------------------------------------------ | ------------------- | ----------------------------------------- |
-| InviteMember | `docs/email-templates/InviteMember.mjml` or `docs/email-templates/InviteMember.html` | Provided by Mailjet | _orgName_, _inviterName_, _invitationUrl_ |
-
-4. Use the correct TemplateID provided to you by Mailjet when using `sendMailjetEmail` function :
-
-   - `functions/routes/inviteMember.ts`
-
-_FYI : Templates offered here are only simple examples to allow faster integration. You can freely and easily do ones of your own in Mailjet's emails editor. Just beware to use correct variables in it._
-
-To learn more on Mailjet usage, check their [documentation](https://dev.mailjet.com/).
 
 ### Algolia
 
@@ -191,28 +161,53 @@ The server config is localized in `functions/_utils/settings.ts`. You can edit i
 
 ## Email templates
 
+### Preview
+
+All email templates are React components using `react-emails` in the folder `functions/_emails`
+
+To preview emails:
+
+```
+cd functions
+npm run emails
+```
+
+Then open `http://localhost:8090/`
+
 ### Nhost emails
 
 Email templates for Nhost are defined in `nhost/emails` folder.
 
-They must be translated in french and english.
-
-We're using MJML templates to generate HTML templates.
-
 Check the [documentation](https://docs.nhost.io/authentication/email-templates) to learn more about it.
 
-VSCode extension "MJML" is useful to get syntax highlighting and export to HTML:
-https://marketplace.visualstudio.com/items?itemName=attilabuti.vscode-mjml
+We generate them with the template `functions/_emails/NhostEmail.tsx`
 
-### Mailjet templates
+Translations are in `functions/_i18n/locales`
 
-All other templates are defined in the Mailjet interface.
+To build `body.html` and `subject.txt` files, run:
+
+```
+cd functions
+npm run buildNhostEmails
+```
+
+### Fonts
+
+Fonts used in emails are included here as static files to be loaded in emails by `functions/_emails/components/Layout.tsx`
+
+### Icons
+
+Icons we're using in emails are compiled in PNG at build time by `src/buildEmailsIcons.js` script.
+
+This script contains the list of icons to include.
+
+To test in dev mode, you can update icons with:
+
+```
+npm run prebuild
+```
 
 ## Production env
-
-[OVH](https://www.ovh.com/manager/#/web/domain/rolebase.io/zone)
-
-- DNS
 
 [Render.com](https://render.com)
 

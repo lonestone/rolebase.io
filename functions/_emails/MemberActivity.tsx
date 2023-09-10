@@ -1,15 +1,9 @@
-import {
-  Button,
-  Column,
-  Img,
-  Row,
-  Section,
-  Text,
-} from '@react-email/components'
+import { Column, Img, Row, Section, Text } from '@react-email/components'
 import React from 'react'
 import i18n from '../_i18n'
 import settings from '../_utils/settings'
 import Card from './components/Card'
+import CtaButton from './components/CtaButton'
 import Layout from './components/Layout'
 
 interface Props {
@@ -53,14 +47,7 @@ export default function MemberActivity({
           </Row>
         </Section>
         <Section className="text-center mt-8">
-          <Button
-            pX={20}
-            pY={12}
-            className="bg-[#faa68c] text-[#29241f] rounded-lg font-semibold no-underline text-center"
-            href={ctaUrl}
-          >
-            {t('cta')}
-          </Button>
+          <CtaButton href={ctaUrl}>{t('cta')}</CtaButton>
         </Section>
       </Card>
     </Layout>

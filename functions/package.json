@@ -2,7 +2,8 @@
   "name": "functions",
   "scripts": {
     "codegen": "graphql-codegen --config _codegen.ts",
-    "emails": "email dev --dir ./_emails --port 8090"
+    "emails": "email dev --dir ./_emails --port 8090",
+    "buildNhostEmails": "ts-node ./_emails/buildNhostEmails.ts"
   },
   "dependencies": {
     "@nhost/nhost-js": "^2.2.16",
@@ -51,6 +52,7 @@
     "eslint": "^7.6.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.22.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
 }

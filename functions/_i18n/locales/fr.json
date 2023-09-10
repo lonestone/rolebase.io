@@ -3,6 +3,32 @@
     "meetingTitle": "{{role}} - {{title}}"
   },
   "emails": {
+    "NhostEmail": {
+      "email-confirm-change": {
+        "subject": "Confirmez votre changement d'email",
+        "title": "Changement d'adresse email",
+        "description": "Vous avez fait une demande de changement d'adresse email pour votre compte Rolebase. Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.",
+        "cta": "Confirmer le changement d'email"
+      },
+      "email-verify": {
+        "subject": "Confirmez votre adresse email",
+        "title": "Bienvenue sur Rolebase !",
+        "description": "Pour valider votre compte, merci de bien vouloir confirmer en cliquant sur le bouton ci-dessous.",
+        "cta": "Confirmer mon adresse email"
+      },
+      "password-reset": {
+        "subject": "Réinitialiser votre mot de passe",
+        "title": "Changement de mot de passe",
+        "description": "Vous avez fait une demande réinitialisation de votre mot de passe. Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.",
+        "cta": "Changer mon mot de passe"
+      },
+      "signin-passwordless": {
+        "subject": "Lien de connexion sécurisé",
+        "title": "Connexion à Rolebase",
+        "description": "Cliquez sur ce lien à usage unique pour vous connecter à votre compte Rolebase.",
+        "cta": "Connexion"
+      }
+    },
     "MemberActivity": {
       "OrgInvitation": {
         "subject": "Invitation dans l'organisation {{org}}",
