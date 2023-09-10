@@ -253,7 +253,11 @@ const GET_USER_DIGEST_DATA = gql(`
 
         # Meetings to include in the digest
         meetings(
-          where: { endDate: { _gt: $date }, archived: { _eq: false } }
+          where: {
+            endDate: { _gt: $date }
+            ended: { _eq: true }
+            archived: { _eq: false }
+          }
           order_by: { endDate: desc }
         ) {
           ...MeetingSummary
