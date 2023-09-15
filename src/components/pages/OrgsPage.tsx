@@ -2,23 +2,26 @@ import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
+  Box,
   Button,
   Container,
   Flex,
   Heading,
-  LinkBox,
-  LinkOverlay,
-  SimpleGrid,
   Spacer,
+  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
+import { CircleFullFragment } from '@gql'
+import { useElementSize } from '@hooks/useElementSize'
 import ScrollableLayout from '@molecules/ScrollableLayout'
+import CirclesGraph from '@organisms/circle/CirclesGraph'
 import OrgCreateModal from '@organisms/org/OrgCreateModal'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { useStoreState } from '@store/hooks'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link as ReachLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { GraphEvents, GraphViews } from 'src/circles-viz/types'
 import { CreateIcon } from 'src/icons'
 
 export default function OrgsPage() {
@@ -27,6 +30,33 @@ export default function OrgsPage() {
   const loading = useStoreState((state) => state.orgs.loading)
   const error = useStoreState((state) => state.orgs.error)
   const navigate = useNavigate()
+  const { colorMode } = useColorMode()
+
+  // Content size
+  const boxRef = useRef<HTMLDivElement>(null)
+  const boxSize = useElementSize(boxRef)
+
+  // Circles of orgs
+  const circles = useMemo(
+    () =>
+      orgs?.map(
+        (org): CircleFullFragment => ({ ...org.circles[0], members: [] })
+      ),
+    [orgs]
+  )
+
+  // Graph events
+  const events: GraphEvents = useMemo(
+    () => ({
+      onCircleClick: (circleId) => {
+        const org = orgs?.find((org) => org.circles[0]?.id === circleId)
+        if (!org) return
+        navigate(`${getOrgPath(org)}/`)
+      },
+      onMemberClick: () => {},
+    }),
+    [orgs]
+  )
 
   // Create modal
   const createModal = useDisclosure()
@@ -70,34 +100,27 @@ export default function OrgsPage() {
         <Loading center active={loading} />
         <TextErrors errors={[error]} />
 
-        <SimpleGrid columns={2} spacing={5}>
-          {orgs?.map((org) => (
-            <LinkBox
-              key={org.id}
-              px={5}
-              py={7}
-              borderWidth="1px"
-              rounded="md"
-              role="group"
-              bg="white"
-              _dark={{
-                bg: 'gray.700',
-              }}
-              _hover={{
-                boxShadow: '0 1px 10px 0 rgba(0, 0, 0, 0.1)',
-                _dark: {
-                  boxShadow: '0 1px 10px 0 rgba(255, 255, 255, 0.3)',
-                },
-              }}
-            >
-              <Heading size="md" my="2">
-                <LinkOverlay flex={1} as={ReachLink} to={`${getOrgPath(org)}/`}>
-                  {org.name}
-                </LinkOverlay>
-              </Heading>
-            </LinkBox>
-          ))}
-        </SimpleGrid>
+        <Box
+          ref={boxRef}
+          position="absolute"
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          overflow="hidden"
+        >
+          {circles && boxSize && (
+            <CirclesGraph
+              key={colorMode}
+              view={GraphViews.AllCircles}
+              id="graph-orgs"
+              circles={circles}
+              events={events}
+              width={boxSize.width}
+              height={boxSize.height}
+            />
+          )}
+        </Box>
 
         {createModal.isOpen && (
           <OrgCreateModal isOpen onClose={createModal.onClose} />

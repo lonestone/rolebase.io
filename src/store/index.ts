@@ -1,10 +1,9 @@
-import { OrgFragment } from '@gql'
 import { createStore } from 'easy-peasy'
-import { createModel } from './generic'
 import org from './org'
+import orgs from './orgs'
 
 const model = {
-  orgs: createModel<OrgFragment>(),
+  orgs,
   org,
 }
 

@@ -1,7 +1,7 @@
 import { RoleFragment } from '@gql'
 import { RoleLink } from '../model/role'
 
-const roleBase = {
+export const defaultSeedRole = {
   archived: false,
   base: true,
   purpose: '',
@@ -23,7 +23,7 @@ export const getSeedRoles = (orgId: string): Omit<RoleFragment, 'id'>[] =>
     { name: 'Secrétaire', colorHue: 283 },
     { name: 'Facilitateur', colorHue: 111 },
   ].map((partialRole) => ({
-    ...roleBase,
+    ...defaultSeedRole,
     orgId,
     ...partialRole,
   }))

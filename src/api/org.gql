@@ -14,6 +14,12 @@ subscription orgs($userId: uuid!) {
   ) {
     org {
       ...Org
+      circles(
+        where: { parentId: { _is_null: true }, archived: { _eq: false } }
+        limit: 1
+      ) {
+        ...CircleFull
+      }
     }
   }
 }

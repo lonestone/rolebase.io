@@ -17762,7 +17762,7 @@ export type OrgsSubscriptionVariables = Exact<{
 }>;
 
 
-export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean } }> };
+export type OrgsSubscription = { __typename?: 'subscription_root', member: Array<{ __typename?: 'member', org: { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, role: { __typename?: 'role', id: string, orgId: string, archived: boolean, base: boolean, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string, singleMember: boolean, link: string, defaultMinPerWeek?: number | null, colorHue?: number | null } }> } }> };
 
 export type OrgSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -20180,10 +20180,14 @@ export const OrgsDocument = gql`
   ) {
     org {
       ...Org
+      circles(where: {parentId: {_is_null: true}, archived: {_eq: false}}, limit: 1) {
+        ...CircleFull
+      }
     }
   }
 }
-    ${OrgFragmentDoc}`;
+    ${OrgFragmentDoc}
+${CircleFullFragmentDoc}`;
 
 /**
  * __useOrgsSubscription__

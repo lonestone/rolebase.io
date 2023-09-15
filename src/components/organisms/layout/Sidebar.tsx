@@ -194,7 +194,7 @@ export default function Sidebar() {
           </>
         ) : (
           <Box ml={3}>
-            <ReachLink to={rootPath} tabIndex={-1}>
+            <ReachLink to="/" tabIndex={-1}>
               <BrandLogo size="sm" />
             </ReachLink>
           </Box>
