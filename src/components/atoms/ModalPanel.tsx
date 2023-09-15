@@ -6,23 +6,20 @@ export const modalPanelWidth = 450
 
 export default function ModalPanel({ isOpen, children, ...props }: ModalProps) {
   const sidebarContext = useContext(SidebarContext)
-  const top = sidebarContext?.height || 0
+  const left = sidebarContext?.width || 0
 
   return (
     <Modal isOpen={isOpen} {...props}>
       <Box
         position="absolute"
-        top={top ? undefined : 0}
+        top={{ base: 0, md: '50%', lg: 0 }}
         bottom={0}
+        left={{ base: `${left}px`, lg: 'auto' }}
         right={0}
-        w={`${modalPanelWidth}px`}
-        maxW="100vw"
-        h={top ? undefined : '100vh'}
-        maxH={`calc(100vh - ${top}px)`}
+        w={{ lg: `${modalPanelWidth}px` }}
         overflowY="auto"
         zIndex={1}
-        borderLeftWidth={top ? 0 : '1px'}
-        borderTopWidth={top ? '1px' : 0}
+        borderLeftWidth={{ lg: '1px' }}
         bg="white"
         _dark={{ bg: 'gray.900' }}
       >

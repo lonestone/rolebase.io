@@ -45,6 +45,7 @@ export default forwardRef<Props, 'button'>(function Tab(
       <Button
         leftIcon={Icon && <Icon variant={isSelected ? 'Bold' : 'Linear'} />}
         display="flex"
+        py={3}
         alignItems="center"
         iconSpacing={0}
         color="inherit"

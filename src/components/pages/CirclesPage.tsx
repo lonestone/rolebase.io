@@ -1,8 +1,7 @@
 import ModalPanel, { modalPanelWidth } from '@atoms/ModalPanel'
 import { Title } from '@atoms/Title'
-import { Box, HStack, useColorMode, useMediaQuery } from '@chakra-ui/react'
+import { Box, HStack, useBreakpointValue, useColorMode } from '@chakra-ui/react'
 import { GraphProvider } from '@contexts/GraphContext'
-import { SidebarContext } from '@contexts/SidebarContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
 import useCirclesEvents from '@hooks/useGraphEvents'
@@ -15,14 +14,7 @@ import CircleContent from '@organisms/circle/CircleContent'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import MemberContent from '@organisms/member/MemberContent'
 import { useStoreState } from '@store/hooks'
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GraphViews } from 'src/circles-viz/types'
 
@@ -64,13 +56,11 @@ export default function CirclesPage() {
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
-  const sidebarContext = useContext(SidebarContext)
   const [ready, setReady] = useState(false)
 
   // Content size
   const boxRef = useRef<HTMLDivElement>(null)
   const boxSize = useElementSize(boxRef)
-  const [isSmallScreen] = useMediaQuery('(max-width: 450px)')
 
   // Panels
   const [panel, setPanel] = useState<Panels>(Panels.None)
@@ -85,20 +75,25 @@ export default function CirclesPage() {
   const handleClosePanel = useCallback(() => navigateOrg('roles'), [])
 
   // Zoom offsets when focusing
+  const focusCropRight =
+    useBreakpointValue({
+      base: 0,
+      lg: panel === Panels.None ? 0 : modalPanelWidth,
+    }) || 0
+  const focusCropBottom =
+    useBreakpointValue({
+      base: 0,
+      md: panel === Panels.None ? 0 : (boxSize?.height || 0) / 2,
+      lg: 0,
+    }) || 0
   const focusCrop = useMemo(
-    () =>
-      sidebarContext
-        ? {
-            top: 0,
-            left: sidebarContext.width,
-            right:
-              sidebarContext.height || panel === Panels.None
-                ? 0
-                : modalPanelWidth,
-            bottom: 0,
-          }
-        : undefined,
-    [sidebarContext?.width, sidebarContext?.height, panel]
+    () => ({
+      top: 0,
+      left: 0,
+      right: focusCropRight,
+      bottom: focusCropBottom,
+    }),
+    [focusCropRight, focusCropBottom]
   )
 
   // URL params
@@ -128,7 +123,7 @@ export default function CirclesPage() {
         ref={boxRef}
         position="absolute"
         top={0}
-        left={`-${sidebarContext?.width || 0}px`}
+        left={0}
         bottom={0}
         right={0}
         overflow="hidden"
@@ -151,11 +146,7 @@ export default function CirclesPage() {
 
       {panel === Panels.Circle && circleId && (
         <ModalPanel isOpen onClose={handleClosePanel}>
-          <CircleContent
-            id={circleId}
-            changeTitle
-            isFirstTabOpen={!isSmallScreen}
-          />
+          <CircleContent id={circleId} changeTitle />
         </ModalPanel>
       )}
 

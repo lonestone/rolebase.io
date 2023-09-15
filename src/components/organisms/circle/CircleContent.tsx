@@ -45,16 +45,10 @@ import CircleMoveModal from './CircleMoveModal'
 interface Props {
   id: string
   changeTitle?: boolean
-  isFirstTabOpen?: boolean
   headerIcons?: React.ReactNode
 }
 
-export default function CircleContent({
-  id,
-  changeTitle,
-  isFirstTabOpen,
-  headerIcons,
-}: Props) {
+export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
   const circle = useCircle(id)
@@ -90,30 +84,30 @@ export default function CircleContent({
     <>
       {changeTitle && <Title>{role.name}</Title>}
 
-      <Flex p={2} pl={6} bg="menulight" _dark={{ bg: 'menudark' }}>
-        <CircleAndParentsLinks circle={circle} size="md" />
-        <Spacer />
+      <Tabs isLazy display="flex" flexDirection="column" h="100%">
+        <Flex p={2} pl={6} bg="menulight" _dark={{ bg: 'menudark' }}>
+          <CircleAndParentsLinks circle={circle} size="md" />
+          <Spacer />
 
-        <Box>
-          <ParticipantsNumber participants={participants} />
-        </Box>
+          <Box>
+            <ParticipantsNumber participants={participants} />
+          </Box>
 
-        {isMember && (
-          <ActionsMenu
-            className="userflow-circle-actions"
-            onEdit={editRoleModal.onOpen}
-            onDelete={circle.parentId ? deleteModal.onOpen : undefined}
-            onMove={circle.parentId ? moveModal.onOpen : undefined}
-            onDuplicate={circle.parentId ? duplicateModal.onOpen : undefined}
-            onExport={() => navigateOrg(`export-circle/${id}`)}
-          />
-        )}
+          {isMember && (
+            <ActionsMenu
+              className="userflow-circle-actions"
+              onEdit={editRoleModal.onOpen}
+              onDelete={circle.parentId ? deleteModal.onOpen : undefined}
+              onMove={circle.parentId ? moveModal.onOpen : undefined}
+              onDuplicate={circle.parentId ? duplicateModal.onOpen : undefined}
+              onExport={() => navigateOrg(`export-circle/${id}`)}
+            />
+          )}
 
-        {headerIcons}
-        <ModalCloseStaticButton />
-      </Flex>
+          {headerIcons}
+          <ModalCloseStaticButton />
+        </Flex>
 
-      <Tabs isLazy defaultIndex={isFirstTabOpen ? 0 : -1}>
         <TabList
           borderBottomWidth={0}
           bg="menulight"
@@ -136,7 +130,7 @@ export default function CircleContent({
           </Tab>
         </TabList>
 
-        <TabPanels>
+        <TabPanels flex={1} overflowY="auto">
           <TabPanel px={6} py={10}>
             <CircleRoleFormControl
               circle={circle}
