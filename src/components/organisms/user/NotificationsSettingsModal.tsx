@@ -26,7 +26,7 @@ export default function NotificationsSettingsModal(modalProps: UseModalProps) {
   const userData = useUserData()
   const { metadata, setMetadata } = useUserMetadata()
 
-  const [enabled, setEnabled] = useState(!!metadata?.digestRrule)
+  const [enabled, setEnabled] = useState(metadata?.digestRrule !== false)
   const [saving, setSaving] = useState(false)
 
   const [rrule, setRrule] = useState(
