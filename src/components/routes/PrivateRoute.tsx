@@ -3,6 +3,7 @@ import CrispSetUser from '@atoms/CrispSetUser'
 import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
 import { useOrgsSubscription } from '@gql'
+import useInitUserflow from '@hooks/useInitUserflow'
 import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useUserId, useUserLocale } from '@nhost/react'
 import Onboarding from '@organisms/onboarding/Onboarding'
@@ -28,6 +29,9 @@ export default function PrivateRoute() {
   const {
     i18n: { changeLanguage },
   } = useTranslation()
+
+  // Init Userflow
+  useInitUserflow()
 
   // Update translation language with user's locale in DB
   const userLocale = useUserLocale()

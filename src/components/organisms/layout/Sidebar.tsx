@@ -44,6 +44,7 @@ import {
   ThreadsIcon,
 } from 'src/icons'
 import BrandIcon from 'src/images/icon.svg'
+import userflow from 'userflow.js'
 
 // Force reset with fast refresh
 // @refresh reset
@@ -67,13 +68,17 @@ export default function Sidebar() {
   // Links
   const rootPath = usePathInOrg('')
 
-  // Open help chatbox
-  const handleOpenHelp = () => {
-    if (Crisp.chat.isVisible()) {
+  // Open/close Userflow and Crisp
+  const handleHelp = () => {
+    if (userflow.getResourceCenterState()?.isOpen) {
+      // Close Userflow if open
+      userflow.closeResourceCenter()
+    } else if (Crisp.chat.isVisible()) {
+      // Hide Crisp if open
       Crisp.chat.hide()
     } else {
-      Crisp.chat.show()
-      Crisp.chat.open()
+      // Open Userflow
+      userflow.openResourceCenter()
     }
   }
 
@@ -311,7 +316,7 @@ export default function Sidebar() {
           <SidebarItem
             className="userflow-sidebar-help"
             icon={HelpIcon}
-            onClick={handleOpenHelp}
+            onClick={handleHelp}
           >
             {t('Sidebar.help')}
           </SidebarItem>
