@@ -16,27 +16,29 @@ import { nhost } from 'src/nhost'
 import settings from 'src/settings'
 import Stripe from 'stripe'
 
-export const createOrg = fn<{ name: string; slug: string }, string>('createOrg')
+export const createOrg = fn<{ name: string; slug: string }, string>(
+  'orgs/createOrg'
+)
 
 export const updateOrgSlug = fn<{ orgId: string; slug: string }>(
-  'updateOrgSlug'
+  'orgs/updateOrgSlug'
 )
 
 export const inviteMember = fn<{
   memberId: string
   role: Member_Role_Enum
   email: string
-}>('inviteMember')
+}>('members/inviteMember')
 
 export const acceptMemberInvitation = fn<{
   memberId: string
   token: string
-}>('acceptMemberInvitation')
+}>('members/acceptMemberInvitation')
 
 export const updateMemberRole = fn<{
   memberId: string
   role?: Member_Role_Enum
-}>('updateMemberRole')
+}>('members/updateMemberRole')
 
 export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
   'getAlgoliaConfig'
@@ -45,21 +47,21 @@ export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
 export const searchReindexAll = fn('searchReindexAll')
 
 export const getMeetingsToken = fn<{ orgId: string }, string>(
-  'getMeetingsToken'
+  'meetings/getMeetingsToken'
 )
 
 export const sendMeetingStartedNotification = fn<{
   meetingId: string
   recipientMemberIds: string[]
-}>('sendMeetingStartedNotification')
+}>('meetings/sendMeetingStartedNotification')
 
 export const startMembersMeeting = fn<{
   membersIds: string[]
   meetingId: string
-}>('startMembersMeeting')
+}>('members/startMembersMeeting')
 
 export const stopMembersMeeting = fn<{ meetingId: string }>(
-  'stopMembersMeeting'
+  'members/stopMembersMeeting'
 )
 
 export const subscribeOrg = fn<
@@ -70,28 +72,28 @@ export const subscribeOrg = fn<
     promotionCode?: string
   },
   SubscriptionIntentResponse
->('subscribeOrg')
+>('subscriptions/subscribeOrg')
 
 export const unsubscribeOrg = fn<
   {
     orgId: string
   },
   { cancelAt: string }
->('unsubscribeOrg')
+>('subscriptions/unsubscribeOrg')
 
 export const getSubscriptionInvoices = fn<
   {
     orgId: string
   },
   Invoice[]
->('getSubscriptionInvoices')
+>('subscriptions/getSubscriptionInvoices')
 
 export const getSubscription = fn<
   {
     orgId: string
   },
   Subscription
->('getSubscription')
+>('subscriptions/getSubscription')
 
 export const updateSubscriptionBillingEmail = fn<
   {
@@ -99,7 +101,7 @@ export const updateSubscriptionBillingEmail = fn<
     email: string
   },
   string
->('updateSubscriptionBillingEmail')
+>('subscriptions/updateSubscriptionBillingEmail')
 
 export const updateSubscriptionBillingDetails = fn<
   {
@@ -107,22 +109,22 @@ export const updateSubscriptionBillingDetails = fn<
     billingDetails: CustomerBillingDetails
   },
   string
->('updateSubscriptionBillingDetails')
+>('subscriptions/updateSubscriptionBillingDetails')
 
 export const updateSubscriptionPaymentMethodIntent = fn<
   {
     orgId: string
   },
   { clientSecret: string }
->('updateSubscriptionPaymentMethodIntent')
+>('subscriptions/updateSubscriptionPaymentMethodIntent')
 
 export const resumeSubscription = fn<{
   orgId: string
-}>('resumeSubscription')
+}>('subscriptions/resumeSubscription')
 
 export const archiveOrg = fn<{
   orgId: string
-}>('archiveOrg')
+}>('orgs/archiveOrg')
 
 export const retrieveCouponToSubscription = fn<
   {
@@ -130,7 +132,7 @@ export const retrieveCouponToSubscription = fn<
     promotionCode: string
   },
   PromotionCode
->('retrieveCouponToSubscription')
+>('subscriptions/retrieveCouponToSubscription')
 
 export const getPricePreview = fn<
   {
@@ -140,7 +142,7 @@ export const getPricePreview = fn<
     planType: Subscription_Plan_Type_Enum
   },
   PricePreview
->('getPricePreview')
+>('subscriptions/getPricePreview')
 
 export function getMeetingsIcalUrl(
   orgId: string | undefined,
@@ -156,12 +158,12 @@ export function getMeetingsIcalUrl(
   }`
 }
 
-export const archiveMember = fn<{ memberId: string }>('archiveMember')
+export const archiveMember = fn<{ memberId: string }>('members/archiveMember')
 
 export const replaceOldIds = fn<{ text: string }, string>('replaceOldIds')
 
 export const importOrg = fn<{ provider: string; fileId: string }, string>(
-  'importOrg'
+  'orgs/importOrg'
 )
 
 // Generate properties for a role with AI
@@ -173,7 +175,7 @@ export const generateRole = fn<{ name: string; lang: string }, RoleAiFragment>(
 export const generateMeetingSummary = fn<
   { meetingId: string; lang: string },
   string
->('generateMeetingSummary')
+>('meetings/generateMeetingSummary')
 
 // Helper to call a function
 function fn<Params, Result = void>(route: string) {
