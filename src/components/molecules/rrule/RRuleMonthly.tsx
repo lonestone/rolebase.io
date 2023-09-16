@@ -16,7 +16,7 @@ export default function RRuleMonthly({ options, onChange }: FormPartProps) {
   const i18nDays = useI18nDays()
 
   const startDateWeekday = useMemo(
-    () => (options.dtstart ? options.dtstart.getDay() - 1 : undefined),
+    () => (options.dtstart ? options.dtstart.getDay() : undefined),
     [options.dtstart]
   )
 
