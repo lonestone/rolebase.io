@@ -12,8 +12,6 @@ Install npm dependencies in webapp and functions
 
 ```
 npm i
-cd functions
-npm i
 ```
 
 ### Nhost
@@ -53,13 +51,13 @@ nhost login
 1.  Launch Nhost:
 
 ```
-nhost dev
+nhost up
 ```
 
 2.  Run webapp with Vite + Codegen watcher:
 
 ```
-npm run up
+npm run dev
 ```
 
 3.  Open in browser: http://localhost:3000
@@ -69,6 +67,7 @@ npm run up
 You can preview and test some components in Storybook.
 
 ```
+cd packages/webapp
 npm run storybook
 ```
 
@@ -152,7 +151,7 @@ Webapp configuration can be written in `settings.ts`:
 
 ### Server config
 
-The server config is localized in `functions/_utils/settings.ts`. You can edit in it:
+The server config is localized in `functions/_src/utils/settings.ts`. You can edit in it:
 
 - url: URL of the webapp
 - mail.sender: Name and address to use in send mail
@@ -163,13 +162,13 @@ The server config is localized in `functions/_utils/settings.ts`. You can edit i
 
 ### Preview
 
-All email templates are React components using `react-emails` in the folder `functions/_emails`
+All email templates are React components using `react-emails` in the folder `functions/_src/emails`
 
 To preview emails:
 
 ```
 cd functions
-npm run emails
+npm run emails:preview
 ```
 
 Then open `http://localhost:8090/`
@@ -180,31 +179,32 @@ Email templates for Nhost are defined in `nhost/emails` folder.
 
 Check the [documentation](https://docs.nhost.io/authentication/email-templates) to learn more about it.
 
-We generate them with the template `functions/_emails/NhostEmail.tsx`
+We generate them with the template `functions/_src/emails/templates/NhostEmail.tsx`
 
-Translations are in `functions/_i18n/locales`
+Translations are in `functions/_src/i18n/locales`
 
 To build `body.html` and `subject.txt` files, run:
 
 ```
 cd functions
-npm run buildNhostEmails
+npm run emails:build
 ```
 
 ### Fonts
 
-Fonts used in emails are included here as static files to be loaded in emails by `functions/_emails/components/Layout.tsx`
+Fonts used in emails are included here as static files to be loaded in emails by `functions/_src/emails/common/Layout.tsx`
 
 ### Icons
 
-Icons we're using in emails are compiled in PNG at build time by `src/buildEmailsIcons.js` script.
+Icons we're using in emails are compiled in PNG at build time by `packages/webapp/src/buildEmailsIcons.js` script.
 
 This script contains the list of icons to include.
 
 To test in dev mode, you can update icons with:
 
 ```
-npm run prebuild
+cd packages/webapp
+npm run build-emails-icons
 ```
 
 ## Production env

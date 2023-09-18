@@ -1,37 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "noEmit": true,
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "noImplicitAny": true,
-    "jsx": "react",
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["functions/_shared/*"],
-      "@api/*": ["src/api/*"],
-      "@gql": ["src/graphql.generated.ts"],
-      "@atoms/*": ["src/components/atoms/*"],
-      "@molecules/*": ["src/components/molecules/*"],
-      "@organisms/*": ["src/components/organisms/*"],
-      "@pages/*": ["src/components/pages/*"],
-      "@contexts/*": ["src/contexts/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@store/*": ["src/store/*"],
-      "@images/*": ["src/images/*"],
-      "@utils/*": ["src/utils/*"]
-    }
-  },
-  "include": ["./src", "./shared", "./share"]
+    "strictNullChecks": false
+  }
 }

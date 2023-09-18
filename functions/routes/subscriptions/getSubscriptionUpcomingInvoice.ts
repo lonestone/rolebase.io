@@ -31,9 +31,8 @@ export default route(async (context): Promise<UpcomingInvoice | null> => {
   }
 
   // Get stripe invoices
-  const stripeUpcomingInvoice = await getStripeUpcomingInvoice(
-    stripeSubscriptionId
-  )
+  const stripeUpcomingInvoice =
+    await getStripeUpcomingInvoice(stripeSubscriptionId)
 
   if (!stripeUpcomingInvoice) return null
 

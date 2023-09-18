@@ -6,7 +6,7 @@ import { getPlanTypePriceId } from '@utils/getPlanTypePriceId'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
-import { route, RouteError } from '@utils/route'
+import { RouteError, route } from '@utils/route'
 import { getPricePreview } from '@utils/stripe'
 import * as yup from 'yup'
 

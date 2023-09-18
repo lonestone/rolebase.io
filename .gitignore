@@ -12,7 +12,7 @@ node_modules
 dist
 public/emails/icons
 storybook-static
-functions/.react-email
+.react-email
 
 # Rollup visualizer
 stats.html

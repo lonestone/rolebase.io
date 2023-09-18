@@ -1,0 +1,23 @@
+diff --git a/node_modules/@nhost/apollo/dist/index.esm.js b/node_modules/@nhost/apollo/dist/index.esm.js
+index d347e31..65b39d7 100644
+--- a/node_modules/@nhost/apollo/dist/index.esm.js
++++ b/node_modules/@nhost/apollo/dist/index.esm.js
+@@ -75,13 +75,11 @@ const O = typeof window != "undefined", J = ({
+   }, s = O ? R({
+     url: h.startsWith("https") ? h.replace(/^https/, "wss") : h.replace(/^http/, "ws"),
+     shouldRetry: () => !0,
+-    retryAttempts: 100,
+-    retryWait: async (i) => new Promise(
+-      (y) => setTimeout(
+-        y,
+-        1e3 * Math.pow(2, i) + Math.floor(Math.random() * 3e3)
+-      )
+-    ),
++    retryAttempts: 1000,
++    retryWait: async function randomisedExponentialBackoff(retries2) {
++      if (retries2 === 0) return
++      await new Promise((resolve) => setTimeout(resolve, 5000));
++    },
+     connectionParams: async () => ({
+       headers: {
+         ...l,

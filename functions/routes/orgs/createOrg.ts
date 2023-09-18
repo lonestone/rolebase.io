@@ -1,11 +1,11 @@
 import { gql } from '@gql'
+import settings from '@settings'
 import { nameSchema } from '@shared/schemas'
 import { getSeedRoles } from '@shared/seeds/roles'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { route, RouteError } from '@utils/route'
-import settings from '@utils/settings'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({

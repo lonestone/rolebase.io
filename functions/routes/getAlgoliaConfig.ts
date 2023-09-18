@@ -1,10 +1,10 @@
 import { Member_Role_Enum } from '@gql'
+import settings from '@settings'
 import { AlgoliaConfig } from '@shared/model/search'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route } from '@utils/route'
-import settings from '@utils/settings'
 import algoliasearch from 'algoliasearch'
 import * as yup from 'yup'
 

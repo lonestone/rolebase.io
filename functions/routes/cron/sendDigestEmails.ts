@@ -1,4 +1,7 @@
+import sendDigestEmail from '@emails/sendDigestEmail'
+import { OrgDigest } from '@emails/templates/Digest'
 import { ThreadActivityFragment, ThreadFragment, gql } from '@gql'
+import settings from '@settings'
 import { defaultCircleColorHue } from '@shared/helpers/circleColor'
 import filterEntities from '@shared/helpers/filterEntities'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
@@ -14,9 +17,6 @@ import { UserMetadata } from '@shared/model/user'
 import { adminRequest } from '@utils/adminRequest'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
 import { route } from '@utils/route'
-import sendDigestEmail from '@utils/sendDigestEmail'
-import settings from '@utils/settings'
-import { OrgDigest } from '_emails/Digest'
 import { RRule } from 'rrule'
 
 export default route(async (context): Promise<void> => {

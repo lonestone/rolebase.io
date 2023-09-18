@@ -1,11 +1,11 @@
 import { gql, Member_Role_Enum } from '@gql'
+import settings from '@settings'
 import { slugSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { route, RouteError } from '@utils/route'
-import settings from '@utils/settings'
 import * as yup from 'yup'
 
 const yupSchema = yup.object().shape({

@@ -1,0 +1,13 @@
+diff --git a/node_modules/@fullcalendar/rrule/index.js b/node_modules/@fullcalendar/rrule/index.js
+index d301b06..662b04b 100644
+--- a/node_modules/@fullcalendar/rrule/index.js
++++ b/node_modules/@fullcalendar/rrule/index.js
+@@ -99,7 +99,7 @@ function analyzeRRuleString(str) {
+         isTimeSpecified = isTimeSpecified || !result.isTimeUnspecified;
+         isTimeZoneSpecified = isTimeZoneSpecified || result.timeZoneOffset !== null;
+     }
+-    str.replace(/\b(DTSTART:)([^\n]*)/, processMatch);
++    str.replace(/\b(DTSTART(?:;TZID=[^:]+)?:)([^\n]*)/, processMatch);
+     str.replace(/\b(EXDATE:)([^\n]*)/, processMatch);
+     str.replace(/\b(UNTIL=)([^;\n]*)/, processMatch);
+     return { isTimeSpecified, isTimeZoneSpecified };

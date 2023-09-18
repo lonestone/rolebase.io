@@ -30,9 +30,8 @@ export default route(async (context): Promise<void> => {
     throw new RouteError(400, 'Invalid request')
   }
 
-  const stripeSubscription = await getStripeSubscriptionFromSubscriptionId(
-    stripeSubscriptionId
-  )
+  const stripeSubscription =
+    await getStripeSubscriptionFromSubscriptionId(stripeSubscriptionId)
 
   if (!stripeSubscription.cancel_at) {
     throw new RouteError(400, 'Subscription was not canceled')

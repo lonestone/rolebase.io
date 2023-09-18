@@ -1,12 +1,12 @@
+import sendMemberActivityEmail from '@emails/sendMemberActivityEmail'
 import { Member_Role_Enum, gql } from '@gql'
+import settings from '@settings'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { RouteError, route } from '@utils/route'
-import sendMemberActivityEmail from '@utils/sendMemberActivityEmail'
-import settings from '@utils/settings'
 import * as yup from 'yup'
 
 const yupSchema = yup.object({

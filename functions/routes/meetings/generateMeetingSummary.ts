@@ -1,4 +1,5 @@
 import { Meeting_Step_Type_Enum, Member_Role_Enum, gql } from '@gql'
+import settings from '@settings'
 import { MeetingStepDataThreads } from '@shared/model/meeting_step'
 import { nameSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
@@ -8,7 +9,6 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { guardOrg } from '@utils/guardOrg'
 import { RouteError, route } from '@utils/route'
-import settings from '@utils/settings'
 import { Configuration, OpenAIApi } from 'openai'
 import * as yup from 'yup'
 

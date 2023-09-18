@@ -1,10 +1,10 @@
 import { RoleAiFragment, gql } from '@gql'
+import settings from '@settings'
 import { nameSchema } from '@shared/schemas'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { route } from '@utils/route'
-import settings from '@utils/settings'
 import { Configuration, OpenAIApi } from 'openai'
 import * as yup from 'yup'
 
