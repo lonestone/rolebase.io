@@ -35,7 +35,6 @@ import {
   StopIcon,
   TaskIcon,
   ThreadIcon,
-  VisioIcon,
 } from 'src/icons'
 import settings from 'src/settings'
 
@@ -50,7 +49,6 @@ export default function MeetingPanelStarted() {
     currentStepConfig,
     isEndTimePassed,
     isLastStep,
-    videoConfUrl,
     canEdit,
     isStarted,
     handleScrollToStep,
@@ -164,16 +162,6 @@ export default function MeetingPanelStarted() {
         </Box>
 
         <HStack spacing={2}>
-          {videoConfUrl && (
-            <a href={videoConfUrl} target="_blank" rel="noreferrer">
-              <IconTextButton
-                aria-label={t('MeetingPanelStarted.videoConf')}
-                icon={<VisioIcon variant="Bold" />}
-                colorScheme="blue"
-              />
-            </a>
-          )}
-
           {!isLastStep && (
             <IconTextButton
               aria-label={t('MeetingPanelStarted.next')}

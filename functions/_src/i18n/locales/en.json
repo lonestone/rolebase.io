@@ -1,6 +1,8 @@
 {
   "meetingsIcal": {
-    "meetingTitle": "{{role}} - {{title}}"
+    "title": "{{role}} - {{title}}",
+    "description": "Notes: {{url}}",
+    "description_videoConf": "Notes: {{url}}\nVideoconf: {{videoConf}}"
   },
   "emails": {
     "NhostEmail": {

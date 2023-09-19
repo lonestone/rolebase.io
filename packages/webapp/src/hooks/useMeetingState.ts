@@ -15,8 +15,8 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import useParticipants from '@hooks/useParticipants'
-import generateVideoConfUrl from '@shared/helpers/generateVideoConfUrl'
-import { MeetingStepConfig, VideoConfTypes } from '@shared/model/meeting'
+import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
+import { MeetingStepConfig } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { isSameDay } from 'date-fns'
@@ -328,15 +328,11 @@ export default function useMeetingState(meetingId: string): MeetingState {
   )
 
   // Video conference URL
-  const videoConfUrl = useMemo(() => {
-    if (!meeting?.videoConf || !circle || !currentMember) return
-    if (meeting.videoConf.type === VideoConfTypes.Jitsi) {
-      return generateVideoConfUrl(meeting, circle, currentMember.name)
-    }
-    if (meeting.videoConf.type === VideoConfTypes.Url) {
-      return meeting.videoConf.url
-    }
-  }, [meeting, circle, currentMember])
+  const videoConfUrl = useMemo(
+    () =>
+      getMeetingVideoConfUrl(meeting, circle?.role.name, currentMember?.name),
+    [meeting, circle, currentMember]
+  )
 
   return {
     meeting,

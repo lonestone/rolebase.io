@@ -288,6 +288,7 @@
     "title": "Meeting {{title}} - {{circle}}"
   },
   "MeetingContent": {
+    "videoConf": "Join the videoconf",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
     "archived": "This meeting is archived. You can restore it with the menu at the top right.",
     "logs": "Actions during the meeting"
@@ -343,7 +344,6 @@
   "MeetingPanelStarted": {
     "next": "Next step",
     "end": "End meeting",
-    "videoConf": "Join the videoconf",
     "defaultEntityDescription": "Meeting: {{meeting}}"
   },
   "MeetingRecurringDeleteModal": {

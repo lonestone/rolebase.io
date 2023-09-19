@@ -3,6 +3,7 @@ import {
   AlertDescription,
   AlertIcon,
   Box,
+  Button,
   Collapse,
   Container,
   useDisclosure,
@@ -20,6 +21,7 @@ import { taskLogTypes } from '@molecules/meeting/MeetingStepContentTasks'
 import MeetingStepLayout from '@molecules/meeting/MeetingStepLayout'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { VisioIcon } from 'src/icons'
 import MeetingEditModal from '../../organisms/meeting/MeetingEditModal'
 import MeetingStartNotificationModal from '../../organisms/meeting/MeetingStartNotificationModal'
 import MeetingContentEmpty from './MeetingContentEmpty'
@@ -39,6 +41,7 @@ export default function MeetingContent() {
     isEnded,
     isNotStarted,
     isStarted,
+    videoConfUrl,
     handleGoToStep,
   } = useContext(MeetingContext)!
 
@@ -93,6 +96,19 @@ export default function MeetingContent() {
         ) : (
           isEnded && forceEdit && <MeetingAlertForceEdit mb={16} />
         ))}
+
+      <Collapse
+        in={!!videoConfUrl && isStarted && isParticipant}
+        animateOpacity
+      >
+        <Box mb={16}>
+          <a href={videoConfUrl} target="_blank" rel="noreferrer">
+            <Button leftIcon={<VisioIcon variant="Bold" />} colorScheme="blue">
+              {t('MeetingContent.videoConf')}
+            </Button>
+          </a>
+        </Box>
+      </Collapse>
 
       <Collapse in={!!meeting.attendees} animateOpacity>
         {meeting.attendees && circle && <MeetingAttendeesList mb={16} />}

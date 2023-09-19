@@ -322,6 +322,7 @@
     "title": "Réunion {{title}} - {{circle}}"
   },
   "MeetingContent": {
+    "videoConf": "Rejoindre la visio",
     "notInvited": "Vous n'êtes pas invité(e) à cette réunion. Demandez à un(e) participant(e) de vous inviter si vous souhaitez la rejoindre.",
     "archived": "Cette réunion est archivée. Vous pouvez la restaurer avec le menu en haut à droite.",
     "logs": "Actions pendant la réunion"
@@ -377,7 +378,6 @@
   "MeetingPanelStarted": {
     "next": "Étape suivante",
     "end": "Terminer",
-    "videoConf": "Rejoindre la visio",
     "defaultEntityDescription": "Réunion : {{meeting}}"
   },
   "MeetingRecurringDeleteModal": {

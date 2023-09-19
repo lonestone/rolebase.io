@@ -2,6 +2,7 @@ import { CircleFullFragment, gql } from '@gql'
 import i18n from '@i18n'
 import settings from '@settings'
 import filterEntities from '@shared/helpers/filterEntities'
+import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import {
   dateFromTimeZone,
@@ -71,21 +72,37 @@ export default route(async (context) => {
   for (const meeting of meetings) {
     const url = `${orgUrl}/meetings/${meeting.id}`
 
+    // Event title
+    const summary = i18n.t('meetingsIcal.title', {
+      lng: lang,
+      replace: {
+        title: meeting.title,
+        role: meeting.circle.role.name,
+      },
+    })
+
+    // Event description
+    const videoConf = getMeetingVideoConfUrl(meeting, meeting.circle.role.name)
+    const description = i18n.t(
+      videoConf
+        ? 'meetingsIcal.description_videoConf'
+        : 'meetingsIcal.description',
+      {
+        lng: lang,
+        replace: {
+          url,
+          videoConf,
+        },
+      }
+    )
+
+    // Add event
     cal.createEvent({
       id: meeting.id,
       start: new Date(meeting.startDate),
       end: new Date(meeting.endDate),
-      summary: i18n.t('meetingsIcal.meetingTitle', {
-        lng: lang,
-        interpolation: {
-          escapeValue: false,
-        },
-        replace: {
-          title: meeting.title,
-          role: meeting.circle.role.name,
-        },
-      }),
-      description: url,
+      summary,
+      description,
     })
   }
 
@@ -125,22 +142,23 @@ export default route(async (context) => {
       start.getTime() + recurringMeeting.duration * 60 * 1000
     )
 
+    // Event title
+    const summary = i18n.t('meetingsIcal.title', {
+      lng: lang,
+      replace: {
+        title: recurringMeeting.template.title,
+        role: recurringMeeting.circle.role.name,
+      },
+    })
+
+    // Add event
     cal.createEvent({
       id: recurringMeeting.id,
       timezone: rruleOptions.tzid,
       start,
       end,
       repeating,
-      summary: i18n.t('meetingsIcal.meetingTitle', {
-        lng: lang,
-        interpolation: {
-          escapeValue: false,
-        },
-        replace: {
-          title: recurringMeeting.template.title,
-          role: recurringMeeting.circle.role.name,
-        },
-      }),
+      summary,
       description: url,
     })
   }

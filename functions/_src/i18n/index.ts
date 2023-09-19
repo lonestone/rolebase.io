@@ -23,6 +23,9 @@ declare module 'i18next' {
 i18next.init({
   lng: defaultLang,
   resources,
+  interpolation: {
+    escapeValue: false,
+  },
 })
 
 export default i18next
