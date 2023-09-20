@@ -1,5 +1,4 @@
 import { gql } from '@gql'
-import { FileResponse } from '@nhost/nhost-js'
 import { adminRequest } from '@utils/adminRequest'
 import { nhost } from '@utils/nhost'
 import FormData from 'form-data'
@@ -34,10 +33,9 @@ export async function saveFile(
   fd.append('file', Readable.from(buffer), name)
   const { error, fileMetadata } = await nhost.storage.upload({
     formData: fd,
-    name,
   })
   if (error) throw error
-  const fileId = (fileMetadata as FileResponse).id
+  const fileId = fileMetadata.processedFiles[0].id
   const url = nhost.storage.getPublicUrl({ fileId })
 
   console.log(`Imported file ${fileId}: ${name}`)
