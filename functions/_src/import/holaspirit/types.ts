@@ -19,7 +19,7 @@ export const holaspiritSheetsNames: Array<keyof HolaspiritSheets> = [
   'Policies',
   'Actions',
   'Projects',
-  'Projects To-do lists',
+  // 'Projects To-do lists', // Optional (see export of Actinvision org)
   'Publications',
   'Checklists',
   'Metrics',

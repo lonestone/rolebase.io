@@ -446,7 +446,7 @@ export class HolaspiritImporter extends Importer {
 
       // Get Todo lists
       const todos = new Map<string, Array<{ item: string; checked: boolean }>>()
-      for (const todoRow of this.data['Projects To-do lists']) {
+      for (const todoRow of this.data['Projects To-do lists'] || []) {
         if (
           todoRow.Project !== row.Title ||
           todoRow['Circle ID'] !== row['Circle ID']
@@ -475,7 +475,7 @@ export class HolaspiritImporter extends Importer {
             (todoItem) => (todoItem.checked ? '[x] ' : '[ ] ') + todoItem.item
           )
           .join('\n')
-        description += `\n### ${todoTitle}\n${todoItemsText}`
+        description += `\n### ${todoTitle}\n\n${todoItemsText}`
       }
 
       tasks.push({
