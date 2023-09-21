@@ -35,12 +35,14 @@
       "OrgInvitation": {
         "subject": "Invitation to {{org}}'s organization",
         "title": "Invitation to {{org}}'s organization",
+        "preview": "{{member}} invites you to join {{org}} on Rolebase.",
         "activity": "<b>{{member}}</b> invites you to join <b>{{org}}</b> on Rolebase.",
         "cta": "Accept the invitation"
       },
       "MeetingStart": {
         "subject": "{{member}} has started the meeting {{title}} - {{role}}",
         "title": "Meeting {{title}} - {{role}}",
+        "preview": "{{member}} started the meeting!",
         "activity": "<b>{{member}}</b> started the meeting!",
         "cta": "Open the meeting"
       }

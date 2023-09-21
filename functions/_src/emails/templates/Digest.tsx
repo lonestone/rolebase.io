@@ -57,7 +57,7 @@ const testOrgDigests: OrgDigest[] = [
         },
       },
       {
-        title: 'Topic <b>2</b>',
+        title: 'Topic 2',
         url: settings.url,
         activities: 1,
         circle: {
@@ -94,7 +94,7 @@ const testOrgDigests: OrgDigest[] = [
     name: 'OrgaTest2',
     threads: [
       {
-        title: 'Topic 3',
+        title: 'Topic 3 &@" <b>2</b> very very very very very very long title',
         url: settings.url,
         activities: 0,
         circle: {
@@ -108,7 +108,17 @@ const testOrgDigests: OrgDigest[] = [
         url: settings.url,
         activities: 1,
         circle: {
-          name: 'Circle 4',
+          name: 'Circle with a very very very very very long title',
+          colorHue: 0,
+          url: '',
+        },
+      },
+      {
+        title: 'Topic 4 very very very very very very long title',
+        url: settings.url,
+        activities: 1,
+        circle: {
+          name: 'Circle with a very very very very very long title',
           colorHue: 0,
           url: '',
         },
@@ -153,7 +163,7 @@ export default function Digest({
                       />
                     </Column>
                     <Column>
-                      <Text className="m-0 h-5 leading-5 font-medium">
+                      <Text className="m-0 min-h-5 leading-5 font-medium">
                         <a href={thread.url} className="text-inherit">
                           {thread.title}
                         </a>
@@ -192,7 +202,7 @@ export default function Digest({
                       />
                     </Column>
                     <Column>
-                      <Text className="m-0 h-5 leading-5 font-medium">
+                      <Text className="m-0 min-h-5 leading-5 font-medium">
                         <a href={meeting.url} className="text-inherit">
                           {t('meetings.title', { title: meeting.title })}
                         </a>

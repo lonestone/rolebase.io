@@ -26,10 +26,9 @@ export default function MemberActivity({
 }: Props) {
   const t = (key: string) =>
     i18n.t(`emails.MemberActivity.${type}.${key}`, { lng: lang, replace })
-  const activity = t('activity')
 
   return (
-    <Layout preview={activity}>
+    <Layout preview={t('preview')}>
       <Card title={t('title')}>
         <Section>
           <Row>
@@ -42,7 +41,7 @@ export default function MemberActivity({
               />
             </Column>
             <Column>
-              <Text dangerouslySetInnerHTML={{ __html: activity }} />
+              <Text dangerouslySetInnerHTML={{ __html: t('activity') }} />
             </Column>
           </Row>
         </Section>
