@@ -92,7 +92,7 @@ export default function MeetingAlertNotStarted({
             onClick={handleArchive}
             mr={2}
           >
-            {t('common.archive')}
+            {t('common.delete')}
           </Button>
           <Button
             leftIcon={<EditIcon size={18} />}

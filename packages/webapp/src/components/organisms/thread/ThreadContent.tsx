@@ -135,7 +135,7 @@ export default function ThreadContent({
               {canEdit && (
                 <ActionsMenu
                   onEdit={editModal.onOpen}
-                  onArchive={!thread?.archived ? handleArchive : undefined}
+                  onDelete={!thread?.archived ? handleArchive : undefined}
                   onUnarchive={thread?.archived ? handleUnarchive : undefined}
                   ml={2}
                 />

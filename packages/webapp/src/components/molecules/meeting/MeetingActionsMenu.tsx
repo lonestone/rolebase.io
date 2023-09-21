@@ -11,8 +11,8 @@ import { useUpdateMeetingMutation } from '@gql'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  ArchiveIcon,
   CopyIcon,
+  DeleteIcon,
   EditIcon,
   MoreIcon,
   PlayIcon,
@@ -97,8 +97,8 @@ export default function MeetingActionsMenu({
         </MenuItem>
 
         {!meeting?.archived && !isStarted && (
-          <MenuItem icon={<ArchiveIcon size={20} />} onClick={handleArchive}>
-            {t('common.archive')}
+          <MenuItem icon={<DeleteIcon size={20} />} onClick={handleArchive}>
+            {t('common.delete')}
           </MenuItem>
         )}
         {meeting?.archived && (

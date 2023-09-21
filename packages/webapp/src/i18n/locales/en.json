@@ -290,7 +290,7 @@
   "MeetingContent": {
     "videoConf": "Join the videoconf",
     "notInvited": "You are not invited to this meeting. Ask a participant to invite you if you want to join.",
-    "archived": "This meeting is archived. You can restore it with the menu at the top right.",
+    "archived": "This meeting has been deleted. You can restore it with the menu at the top right.",
     "logs": "Actions during the meeting"
   },
   "MeetingContentEmpty": {
@@ -882,7 +882,7 @@
     "emptyDescription": "You can send a first message 👇"
   },
   "ThreadActivityCreate": {
-    "archived": "This topic is archived. You can restore it with the menu at the top right.",
+    "archived": "This topic has been deleted. You can restore it with the menu at the top right.",
     "placeholder": "Message...",
     "poll": "Poll",
     "defaultEntityDescription": "Topic: {{thread}}"
