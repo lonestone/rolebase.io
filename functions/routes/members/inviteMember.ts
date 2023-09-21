@@ -23,6 +23,10 @@ export default route(async (context) => {
   const userId = guardAuth(context)
   const { memberId, email, role } = guardBodyParams(context, yupSchema)
 
+  if (!(role in Member_Role_Enum)) {
+    throw new RouteError(400, 'Invalid role')
+  }
+
   // Get member
   const member = await getMemberById(memberId)
 
@@ -51,8 +55,8 @@ export default route(async (context) => {
   const inviteDate = new Date()
   await updateMember(member.id, {
     inviteEmail: email,
-    inviteDate,
-    role,
+    inviteDate: inviteDate.toISOString(),
+    role: role as Member_Role_Enum,
   })
 
   const token = generateInviteToken(memberId, inviteDate)

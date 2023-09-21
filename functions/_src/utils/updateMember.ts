@@ -1,7 +1,7 @@
-import { gql } from '@gql'
+import { Member_Set_Input, gql } from '@gql'
 import { adminRequest } from './adminRequest'
 
-export async function updateMember(id: string, values: any) {
+export async function updateMember(id: string, values: Member_Set_Input) {
   await adminRequest(UPDATE_MEMBER, { id, values })
 }
 

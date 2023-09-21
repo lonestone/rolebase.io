@@ -48,7 +48,7 @@ export default route(async (context): Promise<void> => {
     })
   } else if (role in Member_Role_Enum) {
     // Update role
-    await updateMember(memberId, { role })
+    await updateMember(memberId, { role: role as Member_Role_Enum })
   } else {
     throw new RouteError(400, 'Invalid role')
   }

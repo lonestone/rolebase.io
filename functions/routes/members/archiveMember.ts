@@ -45,5 +45,10 @@ export default route(async (context): Promise<void> => {
     await updateOrgSubscriptionAfterArchive(context, memberToArchive.orgId)
   }
 
-  return updateMember(memberId, { userId: null, archived: true })
+  return updateMember(memberId, {
+    userId: null,
+    archived: true,
+    inviteDate: null,
+    inviteEmail: null,
+  })
 })
