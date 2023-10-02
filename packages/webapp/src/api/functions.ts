@@ -178,7 +178,7 @@ export const generateMeetingSummary = fn<
 >('meetings/generateMeetingSummary')
 
 // Helper to call a function
-function fn<Params, Result = void>(route: string) {
+export function fn<Params, Result = void>(route: string) {
   return async (params: Params): Promise<Result> => {
     const { error, res } = await nhost.functions.call<Result>(
       `routes/${route}`,

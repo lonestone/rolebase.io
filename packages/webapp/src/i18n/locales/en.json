@@ -30,6 +30,29 @@
     "endWhenAllVoted": "Close when all participants have voted",
     "endDate": "Closing date"
   },
+  "AppCalendarOrgSelect": {
+    "placeholder": "Synchronize meetings",
+    "remove": "Stop syncing"
+  },
+  "AppCard": {
+    "install": "Connect",
+    "uninstall": "Disconnect",
+    "readonly": "Read only",
+    "apps": {
+      "Office365": {
+        "title": "Outlook Calendar",
+        "description": "Sync your Rolebase calendar with Outlook / Office 365 / Teams Calendar.",
+        "descriptionInstalled": "Select which calendars to use to check your availability, as well as which calendar to sync your meetings with."
+      }
+    }
+  },
+  "AppOffice365AuthRedirectPage": {
+    "error": "An error occurred, please try again 🙏",
+    "back": "Integrations"
+  },
+  "AppsPage": {
+    "heading": "Integrations"
+  },
   "BaseRoleCreateModal": {
     "heading": "Create a basic role"
   },
@@ -438,6 +461,7 @@
     "templates": "Meeting templates",
     "recurring": "Recurring meetings",
     "export": "Export (iCal)",
+    "sync": "Synchronization",
     "showWeekend": "Show weekend",
     "hideWeekend": "Hide weekend",
     "create": "New meeting"

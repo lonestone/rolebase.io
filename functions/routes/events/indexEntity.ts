@@ -16,5 +16,5 @@ export default route(async (context): Promise<void> => {
   }
 
   // Apply event with specific table config
-  new IndexTable().applyEvent(event)
+  await new IndexTable().applyEvent(event)
 })

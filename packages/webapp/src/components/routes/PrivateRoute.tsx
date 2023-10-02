@@ -8,6 +8,8 @@ import useSuperAdmin from '@hooks/useSuperAdmin'
 import { useUserId, useUserLocale } from '@nhost/react'
 import Onboarding from '@organisms/onboarding/Onboarding'
 import VerifyEmailModal from '@organisms/user/VerifiyEmailModal'
+import AppOffice365AuthRedirectPage from '@pages/AppOffice365AuthRedirectPage'
+import AppsPage from '@pages/AppsPage'
 import ImportPage from '@pages/ImportPage'
 import MemberInvitationPage from '@pages/MemberInvitationPage'
 import OrgsPage from '@pages/OrgsPage'
@@ -88,6 +90,11 @@ export default function PrivateRoute() {
         <Route path="import" element={<ImportPage />} />
 
         <Route path="orgs/:orgId/*" element={<OrgRoute />} />
+        <Route path="apps" element={<AppsPage />} />
+        <Route
+          path="apps/office365-auth-redirect"
+          element={<AppOffice365AuthRedirectPage />}
+        />
         <Route path=":slug/*" element={<OrgRoute />} />
 
         {superAdmin && <Route path="admin" element={<SuperAdminPage />} />}

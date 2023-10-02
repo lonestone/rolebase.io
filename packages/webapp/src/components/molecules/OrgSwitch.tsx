@@ -76,7 +76,7 @@ export default function OrgSwitch(props: MenuButtonProps) {
         {showName ? org.name : ''}
       </MenuButton>
 
-      <MenuList zIndex={10} shadow="lg" ml={2}>
+      <MenuList zIndex={10} shadow="lg">
         {sortedOrgs?.map((org) => (
           <Link
             key={org.id}

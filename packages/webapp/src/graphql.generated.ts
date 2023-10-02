@@ -24,6 +24,7 @@ export type Scalars = {
   bigint: { input: number; output: number; }
   bytea: { input: any; output: any; }
   citext: { input: string; output: string; }
+  date: { input: any; output: any; }
   json: { input: any; output: any; }
   jsonb: { input: any; output: any; }
   log_changes: { input: EntitiesChanges; output: EntitiesChanges; }
@@ -93,6 +94,153 @@ export type String_Comparison_Exp = {
   _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
   _similar?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** columns and relationships of "app_type" */
+export type App_Type = {
+  __typename?: 'app_type';
+  comment?: Maybe<Scalars['String']['output']>;
+  value: Scalars['String']['output'];
+};
+
+/** aggregated selection of "app_type" */
+export type App_Type_Aggregate = {
+  __typename?: 'app_type_aggregate';
+  aggregate?: Maybe<App_Type_Aggregate_Fields>;
+  nodes: Array<App_Type>;
+};
+
+/** aggregate fields of "app_type" */
+export type App_Type_Aggregate_Fields = {
+  __typename?: 'app_type_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<App_Type_Max_Fields>;
+  min?: Maybe<App_Type_Min_Fields>;
+};
+
+
+/** aggregate fields of "app_type" */
+export type App_Type_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<App_Type_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "app_type". All fields are combined with a logical 'AND'. */
+export type App_Type_Bool_Exp = {
+  _and?: InputMaybe<Array<App_Type_Bool_Exp>>;
+  _not?: InputMaybe<App_Type_Bool_Exp>;
+  _or?: InputMaybe<Array<App_Type_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "app_type" */
+export enum App_Type_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  AppTypePkey = 'app_type_pkey'
+}
+
+export enum App_Type_Enum {
+  Office365 = 'Office365'
+}
+
+/** Boolean expression to compare columns of type "app_type_enum". All fields are combined with logical 'AND'. */
+export type App_Type_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<App_Type_Enum>;
+  _in?: InputMaybe<Array<App_Type_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<App_Type_Enum>;
+  _nin?: InputMaybe<Array<App_Type_Enum>>;
+};
+
+/** input type for inserting data into table "app_type" */
+export type App_Type_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type App_Type_Max_Fields = {
+  __typename?: 'app_type_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type App_Type_Min_Fields = {
+  __typename?: 'app_type_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "app_type" */
+export type App_Type_Mutation_Response = {
+  __typename?: 'app_type_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<App_Type>;
+};
+
+/** on_conflict condition type for table "app_type" */
+export type App_Type_On_Conflict = {
+  constraint: App_Type_Constraint;
+  update_columns?: Array<App_Type_Update_Column>;
+  where?: InputMaybe<App_Type_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "app_type". */
+export type App_Type_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: app_type */
+export type App_Type_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "app_type" */
+export enum App_Type_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "app_type" */
+export type App_Type_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "app_type" */
+export type App_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: App_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type App_Type_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "app_type" */
+export enum App_Type_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+export type App_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<App_Type_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: App_Type_Bool_Exp;
 };
 
 /** Oauth requests, inserted before redirecting to the provider's site. Don't modify its structure as Hasura Auth relies on it to function properly. */
@@ -2975,6 +3123,19 @@ export enum Cursor_Ordering {
   /** descending ordering of the cursor */
   Desc = 'DESC'
 }
+
+/** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+export type Date_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['date']['input']>;
+  _gt?: InputMaybe<Scalars['date']['input']>;
+  _gte?: InputMaybe<Scalars['date']['input']>;
+  _in?: InputMaybe<Array<Scalars['date']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['date']['input']>;
+  _lte?: InputMaybe<Scalars['date']['input']>;
+  _neq?: InputMaybe<Scalars['date']['input']>;
+  _nin?: InputMaybe<Array<Scalars['date']['input']>>;
+};
 
 /** columns and relationships of "decision" */
 export type Decision = {
@@ -6793,6 +6954,10 @@ export type Mutation_Root = {
   deleteUser?: Maybe<Users>;
   /** delete data from the table: "auth.users" */
   deleteUsers?: Maybe<Users_Mutation_Response>;
+  /** delete data from the table: "app_type" */
+  delete_app_type?: Maybe<App_Type_Mutation_Response>;
+  /** delete single row from the table: "app_type" */
+  delete_app_type_by_pk?: Maybe<App_Type>;
   /** delete data from the table: "circle" */
   delete_circle?: Maybe<Circle_Mutation_Response>;
   /** delete single row from the table: "circle" */
@@ -6909,6 +7074,10 @@ export type Mutation_Root = {
   delete_thread_status?: Maybe<Thread_Status_Mutation_Response>;
   /** delete single row from the table: "thread_status" */
   delete_thread_status_by_pk?: Maybe<Thread_Status>;
+  /** delete data from the table: "user_app" */
+  delete_user_app?: Maybe<User_App_Mutation_Response>;
+  /** delete single row from the table: "user_app" */
+  delete_user_app_by_pk?: Maybe<User_App>;
   /** insert a single row into the table: "auth.providers" */
   insertAuthProvider?: Maybe<AuthProviders>;
   /** insert a single row into the table: "auth.provider_requests" */
@@ -6953,6 +7122,10 @@ export type Mutation_Root = {
   insertUser?: Maybe<Users>;
   /** insert data into the table: "auth.users" */
   insertUsers?: Maybe<Users_Mutation_Response>;
+  /** insert data into the table: "app_type" */
+  insert_app_type?: Maybe<App_Type_Mutation_Response>;
+  /** insert a single row into the table: "app_type" */
+  insert_app_type_one?: Maybe<App_Type>;
   /** insert data into the table: "circle" */
   insert_circle?: Maybe<Circle_Mutation_Response>;
   /** insert data into the table: "circle_member" */
@@ -7069,6 +7242,10 @@ export type Mutation_Root = {
   insert_thread_status?: Maybe<Thread_Status_Mutation_Response>;
   /** insert a single row into the table: "thread_status" */
   insert_thread_status_one?: Maybe<Thread_Status>;
+  /** insert data into the table: "user_app" */
+  insert_user_app?: Maybe<User_App_Mutation_Response>;
+  /** insert a single row into the table: "user_app" */
+  insert_user_app_one?: Maybe<User_App>;
   /** update single row of the table: "auth.providers" */
   updateAuthProvider?: Maybe<AuthProviders>;
   /** update single row of the table: "auth.provider_requests" */
@@ -7113,6 +7290,12 @@ export type Mutation_Root = {
   updateUser?: Maybe<Users>;
   /** update data of the table: "auth.users" */
   updateUsers?: Maybe<Users_Mutation_Response>;
+  /** update data of the table: "app_type" */
+  update_app_type?: Maybe<App_Type_Mutation_Response>;
+  /** update single row of the table: "app_type" */
+  update_app_type_by_pk?: Maybe<App_Type>;
+  /** update multiples rows of table: "app_type" */
+  update_app_type_many?: Maybe<Array<Maybe<App_Type_Mutation_Response>>>;
   /** update multiples rows of table: "auth.provider_requests" */
   update_authProviderRequests_many?: Maybe<Array<Maybe<AuthProviderRequests_Mutation_Response>>>;
   /** update multiples rows of table: "auth.providers" */
@@ -7307,6 +7490,12 @@ export type Mutation_Root = {
   update_thread_status_by_pk?: Maybe<Thread_Status>;
   /** update multiples rows of table: "thread_status" */
   update_thread_status_many?: Maybe<Array<Maybe<Thread_Status_Mutation_Response>>>;
+  /** update data of the table: "user_app" */
+  update_user_app?: Maybe<User_App_Mutation_Response>;
+  /** update single row of the table: "user_app" */
+  update_user_app_by_pk?: Maybe<User_App>;
+  /** update multiples rows of table: "user_app" */
+  update_user_app_many?: Maybe<Array<Maybe<User_App_Mutation_Response>>>;
   /** update multiples rows of table: "auth.users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
 };
@@ -7441,6 +7630,18 @@ export type Mutation_RootDeleteUserArgs = {
 /** mutation root */
 export type Mutation_RootDeleteUsersArgs = {
   where: Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_App_TypeArgs = {
+  where: App_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_App_Type_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 
@@ -7793,6 +7994,18 @@ export type Mutation_RootDelete_Thread_Status_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_User_AppArgs = {
+  where: User_App_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_User_App_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootInsertAuthProviderArgs = {
   object: AuthProviders_Insert_Input;
   on_conflict?: InputMaybe<AuthProviders_On_Conflict>;
@@ -7943,6 +8156,20 @@ export type Mutation_RootInsertUserArgs = {
 export type Mutation_RootInsertUsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_App_TypeArgs = {
+  objects: Array<App_Type_Insert_Input>;
+  on_conflict?: InputMaybe<App_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_App_Type_OneArgs = {
+  object: App_Type_Insert_Input;
+  on_conflict?: InputMaybe<App_Type_On_Conflict>;
 };
 
 
@@ -8353,6 +8580,20 @@ export type Mutation_RootInsert_Thread_Status_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_User_AppArgs = {
+  objects: Array<User_App_Insert_Input>;
+  on_conflict?: InputMaybe<User_App_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_App_OneArgs = {
+  object: User_App_Insert_Input;
+  on_conflict?: InputMaybe<User_App_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdateAuthProviderArgs = {
   _set?: InputMaybe<AuthProviders_Set_Input>;
   pk_columns: AuthProviders_Pk_Columns_Input;
@@ -8539,6 +8780,26 @@ export type Mutation_RootUpdateUsersArgs = {
   _prepend?: InputMaybe<Users_Prepend_Input>;
   _set?: InputMaybe<Users_Set_Input>;
   where: Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_App_TypeArgs = {
+  _set?: InputMaybe<App_Type_Set_Input>;
+  where: App_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_App_Type_By_PkArgs = {
+  _set?: InputMaybe<App_Type_Set_Input>;
+  pk_columns: App_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_App_Type_ManyArgs = {
+  updates: Array<App_Type_Updates>;
 };
 
 
@@ -9189,6 +9450,26 @@ export type Mutation_RootUpdate_Thread_Status_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Thread_Status_ManyArgs = {
   updates: Array<Thread_Status_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_AppArgs = {
+  _set?: InputMaybe<User_App_Set_Input>;
+  where: User_App_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_App_By_PkArgs = {
+  _set?: InputMaybe<User_App_Set_Input>;
+  pk_columns: User_App_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_App_ManyArgs = {
+  updates: Array<User_App_Updates>;
 };
 
 
@@ -10608,6 +10889,12 @@ export type Org_Variance_Fields = {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "app_type" */
+  app_type: Array<App_Type>;
+  /** fetch aggregated fields from the table: "app_type" */
+  app_type_aggregate: App_Type_Aggregate;
+  /** fetch data from the table: "app_type" using primary key columns */
+  app_type_by_pk?: Maybe<App_Type>;
   /** fetch data from the table: "auth.providers" using primary key columns */
   authProvider?: Maybe<AuthProviders>;
   /** fetch data from the table: "auth.provider_requests" using primary key columns */
@@ -10852,10 +11139,39 @@ export type Query_Root = {
   thread_status_by_pk?: Maybe<Thread_Status>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
+  /** fetch data from the table: "user_app" */
+  user_app: Array<User_App>;
+  /** fetch aggregated fields from the table: "user_app" */
+  user_app_aggregate: User_App_Aggregate;
+  /** fetch data from the table: "user_app" using primary key columns */
+  user_app_by_pk?: Maybe<User_App>;
   /** fetch data from the table: "auth.users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   usersAggregate: Users_Aggregate;
+};
+
+
+export type Query_RootApp_TypeArgs = {
+  distinct_on?: InputMaybe<Array<App_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<App_Type_Order_By>>;
+  where?: InputMaybe<App_Type_Bool_Exp>;
+};
+
+
+export type Query_RootApp_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<App_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<App_Type_Order_By>>;
+  where?: InputMaybe<App_Type_Bool_Exp>;
+};
+
+
+export type Query_RootApp_Type_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 
@@ -11793,6 +12109,29 @@ export type Query_RootThread_Status_By_PkArgs = {
 
 
 export type Query_RootUserArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootUser_AppArgs = {
+  distinct_on?: InputMaybe<Array<User_App_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_App_Order_By>>;
+  where?: InputMaybe<User_App_Bool_Exp>;
+};
+
+
+export type Query_RootUser_App_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_App_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_App_Order_By>>;
+  where?: InputMaybe<User_App_Bool_Exp>;
+};
+
+
+export type Query_RootUser_App_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -12879,6 +13218,14 @@ export type Subscription_Plan_Type_Updates = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "app_type" */
+  app_type: Array<App_Type>;
+  /** fetch aggregated fields from the table: "app_type" */
+  app_type_aggregate: App_Type_Aggregate;
+  /** fetch data from the table: "app_type" using primary key columns */
+  app_type_by_pk?: Maybe<App_Type>;
+  /** fetch data from the table in a streaming manner: "app_type" */
+  app_type_stream: Array<App_Type>;
   /** fetch data from the table: "auth.providers" using primary key columns */
   authProvider?: Maybe<AuthProviders>;
   /** fetch data from the table: "auth.provider_requests" using primary key columns */
@@ -13205,12 +13552,50 @@ export type Subscription_Root = {
   thread_stream: Array<Thread>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
+  /** fetch data from the table: "user_app" */
+  user_app: Array<User_App>;
+  /** fetch aggregated fields from the table: "user_app" */
+  user_app_aggregate: User_App_Aggregate;
+  /** fetch data from the table: "user_app" using primary key columns */
+  user_app_by_pk?: Maybe<User_App>;
+  /** fetch data from the table in a streaming manner: "user_app" */
+  user_app_stream: Array<User_App>;
   /** fetch data from the table: "auth.users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   usersAggregate: Users_Aggregate;
   /** fetch data from the table in a streaming manner: "auth.users" */
   users_stream: Array<Users>;
+};
+
+
+export type Subscription_RootApp_TypeArgs = {
+  distinct_on?: InputMaybe<Array<App_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<App_Type_Order_By>>;
+  where?: InputMaybe<App_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootApp_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<App_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<App_Type_Order_By>>;
+  where?: InputMaybe<App_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootApp_Type_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootApp_Type_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<App_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<App_Type_Bool_Exp>;
 };
 
 
@@ -14436,6 +14821,36 @@ export type Subscription_RootThread_StreamArgs = {
 
 export type Subscription_RootUserArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootUser_AppArgs = {
+  distinct_on?: InputMaybe<Array<User_App_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_App_Order_By>>;
+  where?: InputMaybe<User_App_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_App_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_App_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_App_Order_By>>;
+  where?: InputMaybe<User_App_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_App_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootUser_App_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<User_App_Stream_Cursor_Input>>;
+  where?: InputMaybe<User_App_Bool_Exp>;
 };
 
 
@@ -16625,10 +17040,243 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
 };
 
+/** columns and relationships of "user_app" */
+export type User_App = {
+  __typename?: 'user_app';
+  config: Scalars['json']['output'];
+  createdAt: Scalars['date']['output'];
+  id: Scalars['uuid']['output'];
+  secretConfig: Scalars['json']['output'];
+  type: App_Type_Enum;
+  userId: Scalars['uuid']['output'];
+};
+
+
+/** columns and relationships of "user_app" */
+export type User_AppConfigArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** columns and relationships of "user_app" */
+export type User_AppSecretConfigArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregated selection of "user_app" */
+export type User_App_Aggregate = {
+  __typename?: 'user_app_aggregate';
+  aggregate?: Maybe<User_App_Aggregate_Fields>;
+  nodes: Array<User_App>;
+};
+
+export type User_App_Aggregate_Bool_Exp = {
+  count?: InputMaybe<User_App_Aggregate_Bool_Exp_Count>;
+};
+
+export type User_App_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<User_App_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<User_App_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "user_app" */
+export type User_App_Aggregate_Fields = {
+  __typename?: 'user_app_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<User_App_Max_Fields>;
+  min?: Maybe<User_App_Min_Fields>;
+};
+
+
+/** aggregate fields of "user_app" */
+export type User_App_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_App_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "user_app" */
+export type User_App_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<User_App_Max_Order_By>;
+  min?: InputMaybe<User_App_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "user_app" */
+export type User_App_Arr_Rel_Insert_Input = {
+  data: Array<User_App_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<User_App_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "user_app". All fields are combined with a logical 'AND'. */
+export type User_App_Bool_Exp = {
+  _and?: InputMaybe<Array<User_App_Bool_Exp>>;
+  _not?: InputMaybe<User_App_Bool_Exp>;
+  _or?: InputMaybe<Array<User_App_Bool_Exp>>;
+  config?: InputMaybe<Json_Comparison_Exp>;
+  createdAt?: InputMaybe<Date_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  secretConfig?: InputMaybe<Json_Comparison_Exp>;
+  type?: InputMaybe<App_Type_Enum_Comparison_Exp>;
+  userId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "user_app" */
+export enum User_App_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  UserAppPkey = 'user_app_pkey',
+  /** unique or primary key constraint on columns "type", "userId" */
+  UserAppUserIdTypeKey = 'user_app_userId_type_key'
+}
+
+/** input type for inserting data into table "user_app" */
+export type User_App_Insert_Input = {
+  config?: InputMaybe<Scalars['json']['input']>;
+  createdAt?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  secretConfig?: InputMaybe<Scalars['json']['input']>;
+  type?: InputMaybe<App_Type_Enum>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type User_App_Max_Fields = {
+  __typename?: 'user_app_max_fields';
+  createdAt?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "user_app" */
+export type User_App_Max_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type User_App_Min_Fields = {
+  __typename?: 'user_app_min_fields';
+  createdAt?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "user_app" */
+export type User_App_Min_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "user_app" */
+export type User_App_Mutation_Response = {
+  __typename?: 'user_app_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_App>;
+};
+
+/** on_conflict condition type for table "user_app" */
+export type User_App_On_Conflict = {
+  constraint: User_App_Constraint;
+  update_columns?: Array<User_App_Update_Column>;
+  where?: InputMaybe<User_App_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_app". */
+export type User_App_Order_By = {
+  config?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  secretConfig?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: user_app */
+export type User_App_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "user_app" */
+export enum User_App_Select_Column {
+  /** column name */
+  Config = 'config',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  SecretConfig = 'secretConfig',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "user_app" */
+export type User_App_Set_Input = {
+  config?: InputMaybe<Scalars['json']['input']>;
+  createdAt?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  secretConfig?: InputMaybe<Scalars['json']['input']>;
+  type?: InputMaybe<App_Type_Enum>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** Streaming cursor of the table "user_app" */
+export type User_App_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_App_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_App_Stream_Cursor_Value_Input = {
+  config?: InputMaybe<Scalars['json']['input']>;
+  createdAt?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  secretConfig?: InputMaybe<Scalars['json']['input']>;
+  type?: InputMaybe<App_Type_Enum>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "user_app" */
+export enum User_App_Update_Column {
+  /** column name */
+  Config = 'config',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  SecretConfig = 'secretConfig',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  UserId = 'userId'
+}
+
+export type User_App_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_App_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: User_App_Bool_Exp;
+};
+
 /** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type Users = {
   __typename?: 'users';
   activeMfaType?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  apps: Array<User_App>;
+  /** An aggregate relationship */
+  apps_aggregate: User_App_Aggregate;
   avatarUrl: Scalars['String']['output'];
   createdAt: Scalars['timestamptz']['output'];
   currentChallenge?: Maybe<Scalars['String']['output']>;
@@ -16675,6 +17323,26 @@ export type Users = {
   userProviders: Array<AuthUserProviders>;
   /** An aggregate relationship */
   userProviders_aggregate: AuthUserProviders_Aggregate;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersAppsArgs = {
+  distinct_on?: InputMaybe<Array<User_App_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_App_Order_By>>;
+  where?: InputMaybe<User_App_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersApps_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_App_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_App_Order_By>>;
+  where?: InputMaybe<User_App_Bool_Exp>;
 };
 
 
@@ -16857,6 +17525,8 @@ export type Users_Bool_Exp = {
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
   activeMfaType?: InputMaybe<String_Comparison_Exp>;
+  apps?: InputMaybe<User_App_Bool_Exp>;
+  apps_aggregate?: InputMaybe<User_App_Aggregate_Bool_Exp>;
   avatarUrl?: InputMaybe<String_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   currentChallenge?: InputMaybe<String_Comparison_Exp>;
@@ -16922,6 +17592,7 @@ export type Users_Delete_Key_Input = {
 /** input type for inserting data into table "auth.users" */
 export type Users_Insert_Input = {
   activeMfaType?: InputMaybe<Scalars['String']['input']>;
+  apps?: InputMaybe<User_App_Arr_Rel_Insert_Input>;
   avatarUrl?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   currentChallenge?: InputMaybe<Scalars['String']['input']>;
@@ -17078,6 +17749,7 @@ export type Users_On_Conflict = {
 /** Ordering options when selecting data from "auth.users". */
 export type Users_Order_By = {
   activeMfaType?: InputMaybe<Order_By>;
+  apps_aggregate?: InputMaybe<User_App_Aggregate_Order_By>;
   avatarUrl?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   currentChallenge?: InputMaybe<Order_By>;
@@ -17393,6 +18065,10 @@ export type ThreadMemberStatusFragment = { __typename?: 'thread_member_status', 
 export type ThreadWithFirstActivityFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
 
 export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+
+export type UserAppFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any };
+
+export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, createdAt: any };
 
 export type GetCircleQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -18062,6 +18738,20 @@ export type ChangeMetadataMutationVariables = Exact<{
 
 export type ChangeMetadataMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, metadata?: any | null } | null };
 
+export type UserAppsSubscriptionVariables = Exact<{
+  userId: Scalars['uuid']['input'];
+}>;
+
+
+export type UserAppsSubscription = { __typename?: 'subscription_root', user_app: Array<{ __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any }> };
+
+export type DeleteUserAppMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteUserAppMutation = { __typename?: 'mutation_root', delete_user_app_by_pk?: { __typename?: 'user_app', id: string } | null };
+
 export const CircleMemberFragmentDoc = gql`
     fragment CircleMember on circle_member {
   id
@@ -18394,6 +19084,24 @@ export const ThreadMemberStatusFragmentDoc = gql`
     fragment ThreadMemberStatus on thread_member_status {
   lastReadActivityId
   lastReadDate
+}
+    `;
+export const UserAppFragmentDoc = gql`
+    fragment UserApp on user_app {
+  id
+  userId
+  type
+  config
+}
+    `;
+export const UserAppFullFragmentDoc = gql`
+    fragment UserAppFull on user_app {
+  id
+  userId
+  type
+  secretConfig
+  config
+  createdAt
 }
     `;
 export const MeetingTemplateFragmentDoc = gql`
@@ -21568,3 +22276,66 @@ export function useChangeMetadataMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangeMetadataMutationHookResult = ReturnType<typeof useChangeMetadataMutation>;
 export type ChangeMetadataMutationResult = Apollo.MutationResult<ChangeMetadataMutation>;
 export type ChangeMetadataMutationOptions = Apollo.BaseMutationOptions<ChangeMetadataMutation, ChangeMetadataMutationVariables>;
+export const UserAppsDocument = gql`
+    subscription userApps($userId: uuid!) {
+  user_app(where: {userId: {_eq: $userId}}) {
+    ...UserApp
+  }
+}
+    ${UserAppFragmentDoc}`;
+
+/**
+ * __useUserAppsSubscription__
+ *
+ * To run a query within a React component, call `useUserAppsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserAppsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserAppsSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUserAppsSubscription(baseOptions: Apollo.SubscriptionHookOptions<UserAppsSubscription, UserAppsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UserAppsSubscription, UserAppsSubscriptionVariables>(UserAppsDocument, options);
+      }
+export type UserAppsSubscriptionHookResult = ReturnType<typeof useUserAppsSubscription>;
+export type UserAppsSubscriptionResult = Apollo.SubscriptionResult<UserAppsSubscription>;
+export const DeleteUserAppDocument = gql`
+    mutation deleteUserApp($id: uuid!) {
+  delete_user_app_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteUserAppMutationFn = Apollo.MutationFunction<DeleteUserAppMutation, DeleteUserAppMutationVariables>;
+
+/**
+ * __useDeleteUserAppMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserAppMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserAppMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserAppMutation, { data, loading, error }] = useDeleteUserAppMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteUserAppMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserAppMutation, DeleteUserAppMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserAppMutation, DeleteUserAppMutationVariables>(DeleteUserAppDocument, options);
+      }
+export type DeleteUserAppMutationHookResult = ReturnType<typeof useDeleteUserAppMutation>;
+export type DeleteUserAppMutationResult = Apollo.MutationResult<DeleteUserAppMutation>;
+export type DeleteUserAppMutationOptions = Apollo.BaseMutationOptions<DeleteUserAppMutation, DeleteUserAppMutationVariables>;

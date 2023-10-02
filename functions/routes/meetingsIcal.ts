@@ -1,8 +1,9 @@
-import { CircleFullFragment, gql } from '@gql'
+import { gql } from '@gql'
 import i18n from '@i18n'
 import settings from '@settings'
 import filterEntities from '@shared/helpers/filterEntities'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import {
   dateFromTimeZone,
@@ -46,9 +47,11 @@ export default route(async (context) => {
   }
 
   // Get member's circles
-  let memberCircles: CircleFullFragment[] | undefined
+  let memberCirclesIds: string[] | undefined
   if (memberId) {
-    memberCircles = getParticipantCircles(memberId, org.circles)
+    memberCirclesIds = getParticipantCircles(memberId, org.circles)?.map(
+      (c) => c.id
+    )
   }
 
   // Filter meetings
@@ -59,14 +62,14 @@ export default route(async (context) => {
     org.meetings,
     circleId,
     memberId,
-    memberCircles?.map((c) => c.id)
+    memberCirclesIds
   ) as typeof org.meetings
 
   // Setup calendar
   const cal = new ICalCalendar()
   cal.name(`Réunions ${org.name}`)
 
-  const orgUrl = `${settings.url}/${org.slug || `orgs/${orgId}`}`
+  const orgUrl = `${settings.url}${getOrgPath(org)}`
 
   // Add events
   for (const meeting of meetings) {
@@ -112,7 +115,7 @@ export default route(async (context) => {
     org.meetings_recurring,
     circleId,
     memberId,
-    memberCircles?.map((c) => c.id)
+    memberCirclesIds
   ) as typeof org.meetings_recurring
 
   // Add recurring events
@@ -175,8 +178,9 @@ function inferFilter(memberId?: string, circleId?: string) {
 }
 
 const GET_MEETINGS = gql(`
-  query getOrgAndCircles($orgId: uuid!) {
+  query getOrgMeetingsForIcal($orgId: uuid!) {
     org_by_pk(id: $orgId) {
+      id
       name
       slug
       circles(where: { archived: { _eq: false } }) {
@@ -194,21 +198,7 @@ const GET_MEETINGS = gql(`
         }
       }
       meetings_recurring {
-        id
-        orgId
-        circleId
-        circle {
-          role {
-            name
-          }
-        }
-        participantsScope
-        participantsMembersIds
-        template {
-          title
-        }
-        rrule
-        duration
+        ...MeetingRecurring
       }
     }
   }

@@ -39,6 +39,14 @@ value = '{{ secrets.STRIPE_PRIVATE_KEY }}'
 name = 'OPENAI_API_KEY'
 value = '{{ secrets.OPENAI_API_KEY }}'
 
+[[global.environment]]
+name = 'APPS_OFFICE365_CLIENT_ID'
+value = '{{ secrets.APPS_OFFICE365_CLIENT_ID }}'
+
+[[global.environment]]
+name = 'APPS_OFFICE365_CLIENT_SECRET'
+value = '{{ secrets.APPS_OFFICE365_CLIENT_SECRET }}'
+
 [hasura]
 version = 'v2.27.0-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'

@@ -5,7 +5,7 @@ import { decorators } from '../../stories'
 import BrandLogo from './BrandLogo'
 
 export default {
-  title: 'BrandIcon',
+  title: 'BrandLogo',
   component: BrandLogo,
   decorators,
 } as Meta<typeof BrandLogo>

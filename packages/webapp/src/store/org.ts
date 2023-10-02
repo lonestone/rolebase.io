@@ -7,8 +7,8 @@ import {
 } from '@gql'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { fixLostCircles } from '@shared/helpers/fixLostCircles'
+import { truthy } from '@shared/helpers/truthy'
 import { omit } from '@utils/omit'
-import { truthy } from '@utils/truthy'
 import { Action, action } from 'easy-peasy'
 
 interface OrgModel {

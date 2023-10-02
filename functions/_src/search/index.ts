@@ -2,6 +2,7 @@ import getAlgoliaIndex from '@utils/getAlgoliaClient'
 import { IndexCircle, IndexRole } from './circle'
 import { IndexDecision } from './decision'
 import { IndexMeeting, IndexMeetingStep } from './meeting'
+import { IndexMeetingRecurring } from './meeting_recurring'
 import { IndexMember } from './member'
 import { IndexTask } from './task'
 import { IndexThread, IndexThreadActivity } from './thread'
@@ -10,6 +11,7 @@ export const indexTables = [
   IndexCircle,
   IndexDecision,
   IndexMeeting,
+  IndexMeetingRecurring,
   IndexMeetingStep,
   IndexMember,
   IndexRole,

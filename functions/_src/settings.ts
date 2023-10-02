@@ -61,4 +61,11 @@ export default {
   openai: {
     apiKey: process.env.OPENAI_API_KEY || '',
   },
+
+  apps: {
+    office365: {
+      clientId: process.env.APPS_OFFICE365_CLIENT_ID || '',
+      clientSecret: process.env.APPS_OFFICE365_CLIENT_SECRET || '',
+    },
+  },
 }

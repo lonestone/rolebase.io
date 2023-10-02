@@ -1,7 +1,12 @@
 import { DocumentType, gql, MeetingFragment, MeetingStepFragment } from '@gql'
+import settings from '@settings'
+import { getMeetingParticipants } from '@shared/helpers/getMeetingParticipants'
+import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { HasuraEvent } from '@utils/nhost'
+import { appFactory } from 'routes/apps'
+import AbstractCalendarApp from 'routes/apps/_AbstractCalendarApp'
 import { IndexEntity } from './IndexEntity'
 
 const Fragment = gql(`
@@ -33,6 +38,15 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   boost: 0,
 })
 
+// Notify calendar apps of users when one of those props changes
+const appNotifyProps: Array<keyof MeetingFragment> = [
+  'startDate',
+  'endDate',
+  'title',
+  'archived',
+  'videoConf',
+]
+
 export class IndexMeeting extends IndexEntity<MeetingFragment> {
   static table = 'public.meeting'
 
@@ -62,6 +76,112 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
       `)
     )
     return meeting.map(transform)
+  }
+
+  async applyEvent(event: HasuraEvent<MeetingFragment>) {
+    super.applyEvent(event)
+
+    // Compute participants to notify calendars apps of corresponding users
+    const { data } = event.event
+    const meetingId = data.new?.id
+    const orgId = data.new?.orgId
+    if (!orgId) return
+
+    const result = await adminRequest(
+      gql(`
+        query GetMeetingDataForSearch($meetingId: uuid!, $orgId: uuid!) {
+          meeting_by_pk(id: $meetingId) {
+            circle {
+              role {
+                name
+              }
+            }
+          }
+          org_by_pk(id: $orgId) {
+            id
+            slug
+            circles(where: { archived: { _eq: false } }) {
+              ...CircleFull
+            }
+            members(where: { archived: { _eq: false } }) {
+              ...Member
+              user {
+                apps {
+                  ...UserAppFull
+                }
+              }
+            }
+          }
+        }
+      `),
+      { meetingId, orgId }
+    )
+
+    const roleName = result.meeting_by_pk?.circle.role.name
+    const org = result.org_by_pk
+    const circles = org?.circles
+    const members = org?.members
+    if (!roleName || !org || !circles || !members) {
+      console.error(
+        `Could not find meeting data for notification: ${meetingId} -> ${JSON.stringify(
+          result
+        )}`
+      )
+      return
+    }
+
+    const prevParticipants = data.old?.archived
+      ? []
+      : getMeetingParticipants(data.old, circles, members)
+    const nextParticipants = data.new?.archived
+      ? []
+      : getMeetingParticipants(data.new, circles, members)
+    const orgUrl = `${settings.url}${getOrgPath(org)}`
+
+    for (const nextParticipant of nextParticipants) {
+      const prevParticipant = prevParticipants.find(
+        (prev) => prev.member.id === nextParticipant.member.id
+      )
+      // Don't upsert if nothing has changed
+      if (prevParticipant) {
+        const hasChanged = appNotifyProps.some(
+          (prop) => data.new?.[prop] !== data.old?.[prop]
+        )
+        if (!hasChanged) continue
+      }
+      // Create/Update event
+      const member = members.find((m) => m.id === nextParticipant.member.id)
+      if (!member) continue
+      const apps = member.user?.apps.map((userApp) => appFactory(userApp)) || []
+      for (const app of apps) {
+        await app.upsertMeeting(
+          AbstractCalendarApp.transformMeetingToEvent(
+            data.new!,
+            orgUrl,
+            roleName,
+            member.name
+          ),
+          data.old?.startDate
+        )
+      }
+    }
+    for (const prevParticipant of prevParticipants) {
+      const nextParticipant = nextParticipants.find(
+        (next) => next.member.id === prevParticipant.member.id
+      )
+      if (!nextParticipant) {
+        // Delete event
+        const member = members.find((m) => m.id === prevParticipant.member.id)
+        if (!member) continue
+        const apps =
+          member.user?.apps.map((userApp) => appFactory(userApp)) || []
+        for (const app of apps) {
+          const meeting = data.old!
+          await app.deleteMeeting(meeting.id, meeting.orgId, meeting.startDate)
+        }
+        continue
+      }
+    }
   }
 }
 

@@ -6,6 +6,8 @@ import { route } from '@utils/route'
 import { add } from 'date-fns'
 import { RRule } from 'rrule'
 
+const maxAheadTime = 14 * 24 * 60 * 60 * 1000 // 2 weeks
+
 export default route(async (context): Promise<void> => {
   guardWebhookSecret(context)
 
@@ -17,6 +19,9 @@ export default route(async (context): Promise<void> => {
     const nextDateUTC = rrule.after(nowDate, true)
     if (!nextDateUTC) continue
     const nextDate = getDateFromUTCDate(nextDateUTC)
+
+    // Don't create meetings too far in the future
+    if (nextDate.getTime() > nowDate.getTime() + maxAheadTime) continue
 
     // Check if next meeting already exists
     const nextDateStr = nextDate.toISOString().substring(0, 10)

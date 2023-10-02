@@ -46,11 +46,12 @@ import {
   getDateFromUTCDate,
   getUTCDateFromDate,
 } from '@shared/helpers/rrule'
+import { truthy } from '@shared/helpers/truthy'
 import { EntityFilters } from '@shared/model/participants'
 import { useStoreState } from '@store/hooks'
-import { truthy } from '@utils/truthy'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { RRule } from 'rrule'
 import {
   ChevronDownIcon,
@@ -61,6 +62,7 @@ import {
   MeetingRecurringIcon,
   SettingsIcon,
   ShowIcon,
+  SyncIcon,
 } from 'src/icons'
 
 export default function MeetingsPage() {
@@ -374,6 +376,14 @@ export default function MeetingsPage() {
                 >
                   {t('MeetingsPage.export')}
                 </MenuItem>
+                <Link to="/apps">
+                  <MenuItem
+                    className="userflow-meetings-sync"
+                    icon={<SyncIcon size={20} />}
+                  >
+                    {t('MeetingsPage.sync')}
+                  </MenuItem>
+                </Link>
               </MenuList>
             </Menu>
 

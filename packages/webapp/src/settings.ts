@@ -54,4 +54,10 @@ export default {
   userflow: {
     token: 'ct_ovu2v2gngffrrphuz7fyk57h4y',
   },
+
+  apps: {
+    office365: {
+      clientId: 'b92369ce-3fc5-4873-987a-335f0917672b',
+    },
+  },
 }

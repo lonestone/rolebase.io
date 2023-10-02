@@ -1,0 +1,14 @@
+table:
+  name: user_app
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - config
+        - id
+        - type
+        - userId
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id

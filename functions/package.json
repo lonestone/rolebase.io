@@ -6,10 +6,12 @@
     "codegen": "graphql-codegen --config _src/codegen.ts",
     "collab": "cross-env HOST=localhost PORT=1234 npx y-websocket",
     "tsc": "tsc",
+    "test": "vitest",
     "emails:preview": "email dev --dir ./_src/emails/templates --port 8090",
     "emails:build": "ts-node ./_src/emails/build.ts"
   },
   "dependencies": {
+    "@microsoft/microsoft-graph-types-beta": "^0.40.0-preview",
     "@nhost/nhost-js": "^2.2.16",
     "@react-email/button": "^0.0.10",
     "@react-email/components": "^0.0.7",
@@ -46,6 +48,7 @@
     "@types/node": "^18.8.3",
     "@types/react": "^18.2.21",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
   }
 }

@@ -30,6 +30,29 @@
     "endWhenAllVoted": "Clôturer quand tous les participants ont voté",
     "endDate": "Date de clôture"
   },
+  "AppCalendarOrgSelect": {
+    "placeholder": "Synchroniser les réunions",
+    "remove": "Arrêter de synchroniser"
+  },
+  "AppCard": {
+    "install": "Connecter",
+    "uninstall": "Déconnecter",
+    "readonly": "Lecture seule",
+    "apps": {
+      "Office365": {
+        "title": "Outlook Calendar",
+        "description": "Synchronisez votre calendrier Rolebase avec Outlook / Office 365 / Teams Calendar.",
+        "descriptionInstalled": "Sélectionnez les calendriers à prendre en compte pour vérifier votre disponibilité, ainsi que le calendrier avec lequel synchroniser vos réunions."
+      }
+    }
+  },
+  "AppOffice365AuthRedirectPage": {
+    "error": "Une erreur s'est produite, veuillez recommencer 🙏",
+    "back": "Intégrations"
+  },
+  "AppsPage": {
+    "heading": "Intégrations"
+  },
   "BaseRoleCreateModal": {
     "heading": "Créer un rôle de base"
   },
@@ -472,6 +495,7 @@
     "templates": "Modèles de réunion",
     "recurring": "Réunions récurrentes",
     "export": "Exporter (iCal)",
+    "sync": "Synchronisation",
     "showWeekend": "Afficher le week-end",
     "hideWeekend": "Masquer le week-end",
     "create": "Nouvelle réunion"

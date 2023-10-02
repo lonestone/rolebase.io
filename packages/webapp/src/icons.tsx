@@ -54,6 +54,7 @@ import {
   Profile2User,
   Record,
   RecordCircle,
+  Refresh,
   RepeateMusic,
   Send,
   Setting2,
@@ -148,6 +149,7 @@ export const SubscriptionIcon = Star
 export const SubscriptionPlanBusiness = Briefcase
 export const SubscriptionPlanFree = Gift
 export const SubscriptionPlanStartup = Coffee
+export const SyncIcon = Refresh
 export const TaskIcon = TaskSquare
 export const TasksIcon = TaskSquare
 export const TasksListIcon = Task
