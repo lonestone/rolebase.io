@@ -79,7 +79,7 @@ memory = 1536
 
 [functions]
 [functions.node]
-version = 16
+version = 18
 
 [auth]
 version = '0.20.1'
@@ -230,6 +230,3 @@ memory = 256
 [observability]
 [observability.grafana]
 adminPassword = '{{ secrets.GRAFANA_ADMIN_PASSWORD }}'
-
-[functions.node]
-version = 18
