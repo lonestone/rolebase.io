@@ -230,3 +230,6 @@ memory = 256
 [observability]
 [observability.grafana]
 adminPassword = '{{ secrets.GRAFANA_ADMIN_PASSWORD }}'
+
+[functions.node]
+version = 18
