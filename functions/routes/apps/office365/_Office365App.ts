@@ -135,12 +135,13 @@ export default class Office365App
     if (!orgCalendar) return
 
     // Get event if it exists
-    const existingEvent = await this.retrieveMeetingEvent(
-      meetingEvent.id,
-      orgCalendar.orgId,
-      prevDate || meetingEvent.startDate,
-      !!meetingEvent.rrule
-    )
+    const existingEvent = await (meetingEvent.rrule
+      ? this.retrieveRecurringMeetingEvent(meetingEvent.id, orgCalendar.orgId)
+      : this.retrieveMeetingEvent(
+          meetingEvent.id,
+          orgCalendar.orgId,
+          prevDate || meetingEvent.startDate
+        ))
 
     // Update/Create event
     const event = await this.apiFetch<OfficeEvent>(
@@ -175,12 +176,9 @@ export default class Office365App
     if (!orgCalendar) return
 
     // Get event if it exists
-    const event = await this.retrieveMeetingEvent(
-      meetingId,
-      orgId,
-      date,
-      recurrence
-    )
+    const event = await (recurrence
+      ? this.retrieveRecurringMeetingEvent(meetingId, orgId)
+      : this.retrieveMeetingEvent(meetingId, orgId, date))
     if (event) {
       // Delete event
       await this.apiFetch(
@@ -190,6 +188,22 @@ export default class Office365App
         }
       )
     }
+  }
+
+  // Delete an occurrence of a recurring meeting
+  public async deleteRecurringMeetingOccurrence(
+    meetingId: string,
+    orgId: string,
+    date: string
+  ) {
+    const event = await this.retrieveRecurringMeetingEvent(meetingId, orgId)
+    if (!event?.id) return
+    await this.deleteRecurringEventExdates([
+      {
+        eventId: event.id,
+        exdates: [date],
+      },
+    ])
   }
 
   private async connectOrgCalendar(orgCalendar: OrgCalendarConfig) {
@@ -260,23 +274,41 @@ export default class Office365App
   private async retrieveMeetingEvent(
     meetingId: string,
     orgId: string,
-    date: string,
-    recurrence?: boolean
+    date: string
   ): Promise<OfficeEvent | undefined> {
     const orgCalendar = this.config.orgsCalendars.find((c) => c.orgId === orgId)
     if (!orgCalendar) return
 
-    // Get event if it exists
-    // Search Rolebase events 1 day before and after
+    // Search events 1 day before and after
     const searchStartDate = new Date(date)
     searchStartDate.setDate(searchStartDate.getDate() - 1)
     const searchEndDate = new Date(date)
     searchEndDate.setDate(searchEndDate.getDate() + 1)
 
     const events = await this.apiGetAllPages<OfficeEvent>(
-      `/me/calendars/${orgCalendar.calendarId}/events?$filter=type eq '${
-        recurrence ? 'seriesMaster' : 'singleInstance'
-      }' and start/dateTime gt '${searchStartDate.toISOString()}' and start/dateTime lt '${searchEndDate.toISOString()}' and contains(subject, '${encodeURIComponent(
+      `/me/calendars/${
+        orgCalendar.calendarId
+      }/events?$filter=type eq 'singleInstance' and start/dateTime gt '${searchStartDate.toISOString()}' and start/dateTime lt '${searchEndDate.toISOString()}' and contains(subject, '${encodeURIComponent(
+        identifier
+      )}')`
+    )
+
+    // Find event with meeting id
+    return events.find((event) => event.body?.content?.includes(meetingId))
+  }
+
+  // Get event of a meeting if it exists
+  private async retrieveRecurringMeetingEvent(
+    meetingId: string,
+    orgId: string
+  ): Promise<OfficeEvent | undefined> {
+    const orgCalendar = this.config.orgsCalendars.find((c) => c.orgId === orgId)
+    if (!orgCalendar) return
+
+    const events = await this.apiGetAllPages<OfficeEvent>(
+      `/me/calendars/${
+        orgCalendar.calendarId
+      }/events?$filter=type eq 'seriesMaster' and contains(subject, '${encodeURIComponent(
         identifier
       )}')`
     )
@@ -297,14 +329,11 @@ export default class Office365App
     // Fetch instances that need to be deleted
     const instancesResponses = await this.apiBatch(
       eventsExdates.flatMap(({ eventId, exdates }) =>
-        exdates.map((date, i) => {
-          const isoDate = new Date(date).toISOString()
-          return {
-            id: `${eventId}${i}`,
-            method: 'GET',
-            url: `/me/events/${eventId}/instances?startDateTime=${isoDate}&endDateTime=${isoDate}&$select=id`,
-          }
-        })
+        exdates.map((date, i) => ({
+          id: `${eventId}${i}`,
+          method: 'GET',
+          url: `/me/events/${eventId}/instances?startDateTime=${date}&endDateTime=${date}&$select=id`,
+        }))
       )
     )
 

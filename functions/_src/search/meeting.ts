@@ -152,17 +152,29 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
       // Create/Update event
       const member = members.find((m) => m.id === nextParticipant.member.id)
       if (!member) continue
-      const apps = member.user?.apps.map((userApp) => appFactory(userApp)) || []
-      for (const app of apps) {
+      const userApps = member.user?.apps || []
+      const meeting = data.new!
+      for (const userApp of userApps) {
+        const app = appFactory(userApp)
         await app.upsertMeeting(
           AbstractCalendarApp.transformMeetingToEvent(
-            data.new!,
+            meeting,
             orgUrl,
             roleName,
             member.name
           ),
           data.old?.startDate
         )
+
+        // Newly created occurrence of a recurring meeting?
+        // Delete event occurrence
+        if (!data.old && meeting.recurringId && meeting.recurringDate) {
+          await app.deleteRecurringMeetingOccurrence(
+            meeting.recurringId,
+            meeting.orgId,
+            new Date(meeting.recurringDate).toISOString()
+          )
+        }
       }
     }
     for (const prevParticipant of prevParticipants) {
@@ -173,11 +185,15 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
         // Delete event
         const member = members.find((m) => m.id === prevParticipant.member.id)
         if (!member) continue
-        const apps =
-          member.user?.apps.map((userApp) => appFactory(userApp)) || []
-        for (const app of apps) {
+        const userApps = member.user?.apps || []
+        for (const userApp of userApps) {
+          const app = appFactory(userApp)
           const meeting = data.old!
-          await app.deleteMeeting(meeting.id, meeting.orgId, meeting.startDate)
+          await app.deleteMeeting(
+            meeting.id,
+            meeting.orgId,
+            new Date(meeting.startDate).toISOString()
+          )
         }
         continue
       }

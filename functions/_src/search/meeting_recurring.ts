@@ -93,8 +93,8 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
       : []
 
     const orgUrl = `${settings.url}${getOrgPath(org)}`
-    const rrule = RRule.fromString(data.new?.rrule || data.old?.rrule || '')
-    const startDate = rrule.options.dtstart
+    const exRrule = RRule.fromString(data.old?.rrule || data.new?.rrule || '')
+    const exStartDate = exRrule.options.dtstart
 
     for (const nextParticipant of nextParticipants) {
       const prevParticipant = prevParticipants.find(
@@ -111,15 +111,16 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
       // Create/Update event
       const member = members.find((m) => m.id === nextParticipant.member.id)
       if (!member || !meetingRecurring) continue
-      const apps = member.user?.apps.map((userApp) => appFactory(userApp)) || []
-      for (const app of apps) {
+      const userApps = member.user?.apps || []
+      for (const userApp of userApps) {
+        const app = appFactory(userApp)
         await app.upsertMeeting(
           AbstractCalendarApp.transformMeetingRecurringToEvent(
             meetingRecurring,
             exdates,
             orgUrl
           ),
-          startDate.toISOString()
+          exStartDate.toISOString()
         )
       }
     }
@@ -131,14 +132,14 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
         // Delete event
         const member = members.find((m) => m.id === prevParticipant.member.id)
         if (!member) continue
-        const apps =
-          member.user?.apps.map((userApp) => appFactory(userApp)) || []
-        for (const app of apps) {
+        const userApps = member.user?.apps || []
+        for (const userApp of userApps) {
+          const app = appFactory(userApp)
           const meeting = data.old!
           await app.deleteMeeting(
             meeting.id,
             meeting.orgId,
-            startDate.toISOString(),
+            exStartDate.toISOString(),
             true
           )
         }

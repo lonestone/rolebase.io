@@ -4,6 +4,7 @@ import filterEntities from '@shared/helpers/filterEntities'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
+import { dateFromTimeZone, getDateFromUTCDate } from '@shared/helpers/rrule'
 import { EntityFilters } from '@shared/model/participants'
 import { adminRequest } from '@utils/adminRequest'
 import { RRule } from 'rrule'
@@ -14,11 +15,11 @@ export interface MeetingEvent {
   orgId: string
   title: string
   role: string
-  startDate: string
-  endDate: string
+  startDate: string // ISO date string
+  endDate: string // ISO date string
   timezone?: string
   rrule?: RRule
-  exdates?: string[]
+  exdates?: string[] // ISO date strings
   url: string
   videoConf?: string
 }
@@ -132,9 +133,21 @@ export default class AbstractCalendarApp<
     const url = `${orgUrl}/meetings-recurring/${meeting.id}`
 
     const rrule = RRule.fromString(meeting.rrule)
-    const timezone = rrule.options.tzid || undefined
-    const startDate = rrule.options.dtstart
+    const timezone = rrule.options.tzid || 'UTC'
+
+    // Start date is set to next occurrence date
+    // to avoid showing past occurrences
+    const nextDate = rrule.after(new Date(), true)
+    if (!nextDate) {
+      throw new Error('Could not find next date for recurring meeting')
+    }
+    const startDate = dateFromTimeZone(getDateFromUTCDate(nextDate), timezone)
+    const newRrule = new RRule({
+      ...rrule.origOptions,
+      dtstart: startDate,
+    })
     const endDate = new Date(startDate.getTime() + meeting.duration * 60 * 1000)
+    const now = new Date().toISOString()
 
     return {
       id: meeting.id,
@@ -144,8 +157,10 @@ export default class AbstractCalendarApp<
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
       timezone,
-      rrule,
-      exdates,
+      rrule: newRrule,
+      exdates: exdates
+        .map((date) => new Date(date).toISOString())
+        .filter((date) => date > now),
       url,
     }
   }
