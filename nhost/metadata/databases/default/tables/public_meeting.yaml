@@ -116,7 +116,23 @@ event_triggers:
       insert:
         columns: '*'
       update:
-        columns: '*'
+        columns:
+          - id
+          - orgId
+          - createdAt
+          - startDate
+          - endDate
+          - ended
+          - attendees
+          - archived
+          - circleId
+          - participantsMembersIds
+          - videoConf
+          - recurringId
+          - recurringDate
+          - title
+          - participantsScope
+          - summary
     retry_conf:
       interval_sec: 10
       num_retries: 3

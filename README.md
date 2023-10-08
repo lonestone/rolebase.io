@@ -158,6 +158,22 @@ The server config is localized in `functions/_src/utils/settings.ts`. You can ed
 
 **Note:** Like previous configuration, do avoid editing values for local environment. You should also not edit configurations using environment variables those are to be configured in `.env`).
 
+## Export functions to test webhooks
+
+Expose functions on a port:
+
+```
+nhost up --functions-port=8123
+```
+
+Then you can forward the port with VSCode or ngrok.
+
+With VSCode:
+
+- Open "Port" panel (next to "Terminal")
+- Add 8123 port
+- Click right, "Port visibility" > "Public"
+
 ## Email templates
 
 ### Preview
@@ -234,7 +250,7 @@ nhost down
 2.  Upgrade Nhost CLI:
 
 ```
-sudo nhost upgrade
+sudo nhost sw upgrade
 ```
 
 3.  Upgrade package `@nhost/nhost-js`.

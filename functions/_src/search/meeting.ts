@@ -87,6 +87,12 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
     const orgId = data.new?.orgId
     if (!orgId) return
 
+    // Skip if lastUpdateSource is true
+    const lastUpdateSource = (data.new as any)?.lastUpdateSource
+    if (lastUpdateSource) {
+      await resetLastUpdateSource(meetingId)
+    }
+
     const result = await adminRequest(
       gql(`
         query GetMeetingDataForSearch($meetingId: uuid!, $orgId: uuid!) {
@@ -155,8 +161,9 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
       const userApps = member.user?.apps || []
       const meeting = data.new!
       for (const userApp of userApps) {
+        if (lastUpdateSource === userApp.id) continue
         const app = appFactory(userApp)
-        await app.upsertMeeting(
+        await app.upsertMeetingEvent(
           AbstractCalendarApp.transformMeetingToEvent(
             meeting,
             orgUrl,
@@ -187,9 +194,10 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
         if (!member) continue
         const userApps = member.user?.apps || []
         for (const userApp of userApps) {
+          if (lastUpdateSource === userApp.id) continue
           const app = appFactory(userApp)
           const meeting = data.old!
-          await app.deleteMeeting(
+          await app.deleteMeetingEvent(
             meeting.id,
             meeting.orgId,
             new Date(meeting.startDate).toISOString()
@@ -216,4 +224,19 @@ export class IndexMeetingStep extends IndexEntity<MeetingStepFragment> {
       await this.index.saveObject(searchDoc).catch(console.error)
     }
   }
+}
+async function resetLastUpdateSource(meetingId: string | undefined) {
+  await adminRequest(
+    gql(`
+      mutation ResetLastUpdateSource($id: uuid!) {
+        update_meeting_by_pk(
+          pk_columns: { id: $id }
+          _set: { lastUpdateSource: null }
+        ) {
+          id
+        }
+      }
+    `),
+    { id: meetingId }
+  )
 }

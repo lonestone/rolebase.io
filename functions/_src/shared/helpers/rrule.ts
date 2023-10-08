@@ -35,14 +35,18 @@ function dateTZtoISO8601(date: Date, timeZone: string) {
 }
 
 // Inspired by dateInTimeZone from rrule.js
-export function dateFromTimeZone(date: Date, timeZone: string) {
+export function dateFromTimeZone(
+  date: Date,
+  timeZone: string,
+  inverse: boolean = false
+) {
   const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
   // Date constructor can only reliably parse dates in ISO8601 format
   const dateInLocalTZ = new Date(dateTZtoISO8601(date, localTimeZone))
   const dateInTargetTZ = new Date(dateTZtoISO8601(date, timeZone ?? 'UTC'))
   const tzOffset = dateInTargetTZ.getTime() - dateInLocalTZ.getTime()
 
-  return new Date(date.getTime() + tzOffset)
+  return new Date(date.getTime() + tzOffset * (inverse ? -1 : 1))
 }
 
 export function excludeMeetingsFromRRule(

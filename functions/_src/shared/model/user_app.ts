@@ -26,10 +26,16 @@ export interface Office365SecretConfig {
   refreshToken: string
   expiryDate: number // Unix timestamp
   scope: string
+  subscriptions: Office365Subscription[]
 }
 
 export interface Office365Config {
   email: string
   availabilityCalendars: string[]
   orgsCalendars: OrgCalendarConfig[]
+}
+
+export interface Office365Subscription {
+  id: string
+  calendarId: string
 }

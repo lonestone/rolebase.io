@@ -134,7 +134,7 @@ export default route(async (context) => {
         // Change start date to next occurrence
         dtstart: getUTCDateFromDate(dateFromTimeZone(nextDate, timezone)),
       }),
-      meetings.filter((m) => m.recurringId === recurringMeeting.id)
+      recurringMeeting.meetings
     )
 
     // Separate DTSTART from RRULE
@@ -199,6 +199,9 @@ const GET_MEETINGS = gql(`
       }
       meetings_recurring {
         ...MeetingRecurring
+        meetings {
+          recurringDate
+        }
       }
     }
   }

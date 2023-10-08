@@ -16,21 +16,18 @@ export default route(async (context) => {
   const userId = guardAuth(context)
   const { id, action, args } = guardBodyParams(context, yupSchema)
 
-  // Get user app
-  const { user_app_by_pk: userApp } = await adminRequest(GET_USER_APP, { id })
-  if (!userApp) {
-    throw new RouteError(404, 'User app not found')
-  }
+  // Instanciate app
+  const app = await loadAppById(id).catch((e) => {
+    console.warn(e)
+    throw new RouteError(400, 'App not found')
+  })
 
   // Check app ownership
-  if (userId !== userApp.userId) {
+  if (userId !== app.userApp.userId) {
     throw new RouteError(403, 'Forbidden')
   }
 
-  // Instanciate app
-  const app = appFactory(userApp)
-
-  // Security: check if action is allowed
+  // Check if action is allowed
   if (!app.actions.includes(action as any)) {
     throw new RouteError(400, 'Invalid action')
   }
@@ -44,12 +41,20 @@ export default route(async (context) => {
   }
 })
 
+export async function loadAppById(id: string) {
+  const { user_app_by_pk: userApp } = await adminRequest(GET_USER_APP, { id })
+  if (!userApp) {
+    throw new Error('User app not found')
+  }
+  return appFactory(userApp)
+}
+
 export function appFactory(userApp: UserAppFullFragment) {
   switch (userApp.type) {
     case App_Type_Enum.Office365:
       return new Office365App(userApp)
     default:
-      throw new RouteError(400, 'Invalid app type')
+      throw new Error('Invalid app type')
   }
 }
 

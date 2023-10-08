@@ -58,6 +58,7 @@ export default route(async (context) => {
     refreshToken: responseBody.refresh_token,
     expiryDate: Math.round(+new Date() / 1000 + responseBody.expires_in),
     scope: responseBody.scope,
+    subscriptions: [],
   }
 
   // Prepare general config for storage

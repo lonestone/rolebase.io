@@ -4,7 +4,10 @@ import { FunctionContext, getContext } from './getContext'
 export type RouteFn = (context: FunctionContext) => any
 
 export class RouteError extends Error {
-  constructor(public status: number, message: string) {
+  constructor(
+    public status: number,
+    message: string
+  ) {
     super(message)
   }
 }

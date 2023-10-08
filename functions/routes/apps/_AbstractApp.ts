@@ -2,7 +2,7 @@ import { UserAppFullFragment, gql } from '@gql'
 import { adminRequest } from '@utils/adminRequest'
 
 export default class AbstractApp<SecretConfig, Config> {
-  constructor(protected userApp: UserAppFullFragment) {}
+  constructor(public userApp: UserAppFullFragment) {}
 
   protected get secretConfig(): SecretConfig {
     return this.userApp.secretConfig

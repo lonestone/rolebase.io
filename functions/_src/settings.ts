@@ -8,6 +8,7 @@ const isLocal =
 export default {
   isLocal,
   url: isLocal ? 'http://localhost:3000' : 'https://rolebase.io',
+  functionsUrl: process.env.NHOST_FUNCTIONS_URL,
 
   forbiddenSlugs: [
     'admin',

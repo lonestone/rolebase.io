@@ -114,7 +114,7 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
       const userApps = member.user?.apps || []
       for (const userApp of userApps) {
         const app = appFactory(userApp)
-        await app.upsertMeeting(
+        await app.upsertMeetingEvent(
           AbstractCalendarApp.transformMeetingRecurringToEvent(
             meetingRecurring,
             exdates,
@@ -136,7 +136,7 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
         for (const userApp of userApps) {
           const app = appFactory(userApp)
           const meeting = data.old!
-          await app.deleteMeeting(
+          await app.deleteMeetingEvent(
             meeting.id,
             meeting.orgId,
             exStartDate.toISOString(),

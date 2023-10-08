@@ -37,3 +37,10 @@ Remove/change selected calendar for sync:
 - Stop sync subscription
 - Delete Rolebase events from calendar
 - Delete Rolebase recurring events from calendar
+
+### Office365
+
+To create the application:
+
+- Go to https://entra.microsoft.com/
+- Menu "Applications" > "Inscription des applications"
