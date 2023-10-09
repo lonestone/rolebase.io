@@ -495,7 +495,7 @@
     "templates": "Modèles de réunion",
     "recurring": "Réunions récurrentes",
     "export": "Exporter (iCal)",
-    "sync": "Synchronisation",
+    "apps": "Connecter une app de calendrier",
     "showWeekend": "Afficher le week-end",
     "hideWeekend": "Masquer le week-end",
     "create": "Nouvelle réunion"
@@ -1021,6 +1021,7 @@
     "member": "Ma fiche membre",
     "user": "Informations personnelles",
     "notifications": "Notifications",
+    "apps": "Intégrations",
     "theme": "Thème clair/sombre",
     "lang": "Langue",
     "signout": "Déconnexion"

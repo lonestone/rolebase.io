@@ -22,6 +22,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import {
+  AppsIcon,
   ChevronRightIcon,
   CurrentMemberIcon,
   DarkThemeIcon,
@@ -128,6 +129,12 @@ export default function UserMenu({ isMobile, ...boxProps }: Props) {
           >
             {t('UserMenu.notifications')}
           </MenuItem>
+
+          <Link to="apps">
+            <MenuItem icon={<AppsIcon size={20} />}>
+              {t('UserMenu.apps')}
+            </MenuItem>
+          </Link>
 
           <MenuItem
             icon={

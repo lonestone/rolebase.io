@@ -461,7 +461,7 @@
     "templates": "Meeting templates",
     "recurring": "Recurring meetings",
     "export": "Export (iCal)",
-    "sync": "Synchronization",
+    "apps": "Connect a calendar app",
     "showWeekend": "Show weekend",
     "hideWeekend": "Hide weekend",
     "create": "New meeting"
@@ -1003,6 +1003,7 @@
     "member": "My member record",
     "user": "Personal information",
     "notifications": "Notifications",
+    "apps": "Integrations",
     "theme": "Light/dark theme",
     "lang": "Language",
     "signout": "Logout"

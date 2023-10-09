@@ -54,6 +54,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { RRule } from 'rrule'
 import {
+  AppsIcon,
   ChevronDownIcon,
   CopyIcon,
   CreateIcon,
@@ -62,7 +63,6 @@ import {
   MeetingRecurringIcon,
   SettingsIcon,
   ShowIcon,
-  SyncIcon,
 } from 'src/icons'
 
 export default function MeetingsPage() {
@@ -329,7 +329,7 @@ export default function MeetingsPage() {
 
             <Spacer />
 
-            <Menu>
+            <Menu placement="bottom-end">
               <MenuButton
                 as={Button}
                 className="userflow-meetings-actions"
@@ -378,10 +378,10 @@ export default function MeetingsPage() {
                 </MenuItem>
                 <Link to="/apps">
                   <MenuItem
-                    className="userflow-meetings-sync"
-                    icon={<SyncIcon size={20} />}
+                    className="userflow-meetings-apps"
+                    icon={<AppsIcon size={20} />}
                   >
-                    {t('MeetingsPage.sync')}
+                    {t('MeetingsPage.apps')}
                   </MenuItem>
                 </Link>
               </MenuList>

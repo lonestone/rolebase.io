@@ -32,7 +32,7 @@ export default function AppsPage() {
 
       <ScrollableLayout
         header={
-          <Flex ml={5} w="100%" alignItems="center" flexWrap="wrap">
+          <Flex ml={5} my={2} w="100%" alignItems="center" flexWrap="wrap">
             <Heading as="h1" size="lg">
               {t('AppsPage.heading')}
             </Heading>

@@ -6,6 +6,7 @@ import {
   Activity,
   AddSquare,
   ArchiveBox,
+  ArrangeHorizontalSquare,
   ArrowDown2,
   ArrowLeft2,
   ArrowRight,
@@ -54,7 +55,6 @@ import {
   Profile2User,
   Record,
   RecordCircle,
-  Refresh,
   RepeateMusic,
   Send,
   Setting2,
@@ -78,6 +78,7 @@ import { FiCheck, FiHelpCircle } from 'react-icons/fi'
 import { IoSearchOutline } from 'react-icons/io5'
 
 export const ArchiveIcon = ArchiveBox
+export const AppsIcon = ArrangeHorizontalSquare
 export const BackIcon = ArrowSquareLeft
 export const CancelIcon = ArrowRotateLeft
 export const CenterIcon = Maximize1
@@ -149,7 +150,6 @@ export const SubscriptionIcon = Star
 export const SubscriptionPlanBusiness = Briefcase
 export const SubscriptionPlanFree = Gift
 export const SubscriptionPlanStartup = Coffee
-export const SyncIcon = Refresh
 export const TaskIcon = TaskSquare
 export const TasksIcon = TaskSquare
 export const TasksListIcon = Task
