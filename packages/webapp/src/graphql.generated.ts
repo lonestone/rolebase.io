@@ -4449,6 +4449,7 @@ export type Meeting = {
   endDate: Scalars['timestamptz']['output'];
   ended: Scalars['Boolean']['output'];
   id: Scalars['uuid']['output'];
+  lastUpdateSource?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid']['output'];
@@ -4590,6 +4591,7 @@ export type Meeting_Bool_Exp = {
   endDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   ended?: InputMaybe<Boolean_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  lastUpdateSource?: InputMaybe<String_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
@@ -4623,6 +4625,7 @@ export type Meeting_Insert_Input = {
   endDate?: InputMaybe<Scalars['timestamptz']['input']>;
   ended?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  lastUpdateSource?: InputMaybe<Scalars['String']['input']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
@@ -4646,6 +4649,7 @@ export type Meeting_Max_Fields = {
   currentStepId?: Maybe<Scalars['uuid']['output']>;
   endDate?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  lastUpdateSource?: Maybe<Scalars['String']['output']>;
   orgId?: Maybe<Scalars['uuid']['output']>;
   recurringDate?: Maybe<Scalars['timestamptz']['output']>;
   recurringId?: Maybe<Scalars['uuid']['output']>;
@@ -4661,6 +4665,7 @@ export type Meeting_Max_Order_By = {
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  lastUpdateSource?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   recurringDate?: InputMaybe<Order_By>;
   recurringId?: InputMaybe<Order_By>;
@@ -4677,6 +4682,7 @@ export type Meeting_Min_Fields = {
   currentStepId?: Maybe<Scalars['uuid']['output']>;
   endDate?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  lastUpdateSource?: Maybe<Scalars['String']['output']>;
   orgId?: Maybe<Scalars['uuid']['output']>;
   recurringDate?: Maybe<Scalars['timestamptz']['output']>;
   recurringId?: Maybe<Scalars['uuid']['output']>;
@@ -4692,6 +4698,7 @@ export type Meeting_Min_Order_By = {
   currentStepId?: InputMaybe<Order_By>;
   endDate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  lastUpdateSource?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
   recurringDate?: InputMaybe<Order_By>;
   recurringId?: InputMaybe<Order_By>;
@@ -4734,6 +4741,7 @@ export type Meeting_Order_By = {
   endDate?: InputMaybe<Order_By>;
   ended?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  lastUpdateSource?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
@@ -5217,6 +5225,8 @@ export enum Meeting_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  LastUpdateSource = 'lastUpdateSource',
+  /** column name */
   OrgId = 'orgId',
   /** column name */
   ParticipantsMembersIds = 'participantsMembersIds',
@@ -5264,6 +5274,7 @@ export type Meeting_Set_Input = {
   endDate?: InputMaybe<Scalars['timestamptz']['input']>;
   ended?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  lastUpdateSource?: InputMaybe<Scalars['String']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
@@ -5819,6 +5830,7 @@ export type Meeting_Stream_Cursor_Value_Input = {
   endDate?: InputMaybe<Scalars['timestamptz']['input']>;
   ended?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  lastUpdateSource?: InputMaybe<Scalars['String']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
@@ -6062,6 +6074,8 @@ export enum Meeting_Update_Column {
   Ended = 'ended',
   /** column name */
   Id = 'id',
+  /** column name */
+  LastUpdateSource = 'lastUpdateSource',
   /** column name */
   OrgId = 'orgId',
   /** column name */

@@ -33,9 +33,15 @@ export default class AbstractCalendarApp<
 
   // Get all meetings of an organization
   protected async getOrgMeetings(orgId: string): Promise<MeetingEvent[]> {
+    // Search meetings with start date after 30 days ago
+    const afterDate = new Date(
+      Date.now() - 30 * 24 * 60 * 60 * 1000
+    ).toISOString()
+
     const orgResult = await adminRequest(GET_MEETINGS, {
       orgId,
       userId: this.userApp.userId,
+      afterDate,
     })
 
     const org = orgResult.org_by_pk
@@ -293,7 +299,7 @@ export default class AbstractCalendarApp<
 }
 
 const GET_MEETINGS = gql(`
-  query getOrgMeetingsForCalendarApp($orgId: uuid!, $userId: uuid!) {
+  query getOrgMeetingsForCalendarApp($orgId: uuid!, $userId: uuid!, $afterDate: timestamptz!) {
     org_by_pk(id: $orgId) {
       id
       name
@@ -309,7 +315,10 @@ const GET_MEETINGS = gql(`
         name
       }
       meetings(
-        where: { archived: { _eq: false } }
+        where: {
+          startDate: { _gt: $afterDate }
+          archived: { _eq: false }
+        }
         order_by: { startDate: asc }
       ) {
         ...Meeting
