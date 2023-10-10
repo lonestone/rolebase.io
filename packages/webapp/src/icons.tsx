@@ -37,6 +37,7 @@ import {
   Kanban,
   LanguageSquare,
   Link2,
+  Link21,
   LogoutCurve,
   Magicpen,
   Maximize1,
@@ -111,6 +112,7 @@ export const InfoTooltipIcon = FiHelpCircle
 export const KanbanIcon = Kanban
 export const LanguageIcon = LanguageSquare
 export const LightThemeIcon = Sun1
+export const LinkIcon = Link21
 export const LogIcon = ArrowRotateLeft
 export const LogoutIcon = LogoutCurve
 export const LogsIcon = ArrowRotateLeft

@@ -1043,6 +1043,7 @@
     "error": "Error",
     "name": "Name",
     "copy": "Copy",
+    "copyLink": "Copy link",
     "toastCopied": "URL copied",
     "none": "None",
     "errorOccurred": "An error occurred.",

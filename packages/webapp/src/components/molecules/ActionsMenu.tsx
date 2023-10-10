@@ -7,6 +7,7 @@ import {
   MenuList,
   Portal,
 } from '@chakra-ui/react'
+import useCopyUrl from '@hooks/useCopyUrl'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -15,6 +16,7 @@ import {
   DeleteIcon,
   EditIcon,
   ExportIcon,
+  LinkIcon,
   MarkUnreadIcon,
   MoreIcon,
   MoveIcon,
@@ -22,6 +24,7 @@ import {
 } from 'src/icons'
 
 interface Props extends Omit<IconButtonProps, 'aria-label'> {
+  copyLinkUrl?: string
   onEdit?(): void
   onMove?(): void
   onDuplicate?(): void
@@ -33,6 +36,7 @@ interface Props extends Omit<IconButtonProps, 'aria-label'> {
 }
 
 export default function ActionsMenu({
+  copyLinkUrl,
   onEdit,
   onMove,
   onDuplicate,
@@ -44,6 +48,8 @@ export default function ActionsMenu({
   ...props
 }: Props) {
   const { t } = useTranslation()
+
+  const handleCopyLink = useCopyUrl(copyLinkUrl)
 
   return (
     <Menu isLazy>
@@ -90,6 +96,11 @@ export default function ActionsMenu({
               onClick={onMarkUnread}
             >
               {t('common.markUnread')}
+            </MenuItem>
+          )}
+          {copyLinkUrl && (
+            <MenuItem icon={<LinkIcon size={20} />} onClick={handleCopyLink}>
+              {t('common.copyLink')}
             </MenuItem>
           )}
           {onArchive && (

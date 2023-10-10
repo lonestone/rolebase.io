@@ -1075,6 +1075,7 @@
     "error": "Erreur",
     "name": "Nom",
     "copy": "Copier",
+    "copyLink": "Copier le lien",
     "toastCopied": "URL copiée",
     "none": "Aucun",
     "errorOccurred": "Une erreur s'est produite.",

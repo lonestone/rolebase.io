@@ -31,6 +31,7 @@ import useCreateTask from '@hooks/useCreateTask'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
+import { usePathInOrg } from '@hooks/usePathInOrg'
 import { usePreventClose } from '@hooks/usePreventClose'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import ActionsMenu from '@molecules/ActionsMenu'
@@ -45,6 +46,7 @@ import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import settings from 'src/settings'
 import * as yup from 'yup'
 import TaskDeleteModal from './TaskDeleteModal'
 
@@ -104,6 +106,7 @@ export default function TaskContent({
     },
   })
   const task = data?.task_by_pk
+  const path = usePathInOrg(`tasks/${id}`)
 
   const {
     handleSubmit,
@@ -233,7 +236,13 @@ export default function TaskContent({
         <Spacer />
 
         <Flex mr={headerIcons ? -3 : 0}>
-          {id && isMember && <ActionsMenu ml={3} onDelete={onDeleteOpen} />}
+          {id && isMember && (
+            <ActionsMenu
+              ml={3}
+              copyLinkUrl={`${settings.url}${path}`}
+              onDelete={onDeleteOpen}
+            />
+          )}
 
           {headerIcons}
         </Flex>

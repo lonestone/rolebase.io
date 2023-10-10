@@ -8,17 +8,20 @@ import {
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useUpdateMeetingMutation } from '@gql'
+import useCopyUrl from '@hooks/useCopyUrl'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CopyIcon,
   DeleteIcon,
   EditIcon,
+  LinkIcon,
   MoreIcon,
   PlayIcon,
   RestoreIcon,
   SettingsIcon,
 } from 'src/icons'
+import settings from 'src/settings'
 
 interface Props extends Omit<IconButtonProps, 'aria-label'> {
   onEdit(): void
@@ -35,6 +38,7 @@ export default function MeetingActionsMenu({
 
   const {
     meeting,
+    path,
     canEdit,
     forceEdit,
     isStarted,
@@ -50,6 +54,7 @@ export default function MeetingActionsMenu({
       variables: { id: meeting.id, values: { archived } },
     })
   }
+  const handleCopyLink = useCopyUrl(`${settings.url}${path}`)
   const handleArchive = () => setArchive(true)
   const handleUnarchive = () => setArchive(false)
 
@@ -94,6 +99,10 @@ export default function MeetingActionsMenu({
 
         <MenuItem icon={<CopyIcon size={20} />} onClick={onDuplicate}>
           {t('common.duplicate')}
+        </MenuItem>
+
+        <MenuItem icon={<LinkIcon size={20} />} onClick={handleCopyLink}>
+          {t('common.copyLink')}
         </MenuItem>
 
         {!meeting?.archived && !isStarted && (

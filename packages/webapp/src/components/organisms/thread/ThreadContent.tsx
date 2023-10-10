@@ -29,6 +29,7 @@ import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import Page404 from '@pages/Page404'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import settings from 'src/settings'
 
 interface Props extends BoxProps {
   id: string
@@ -52,6 +53,7 @@ export default function ThreadContent({
   const {
     thread,
     memberStatus,
+    path,
     loading,
     error,
     circle,
@@ -134,6 +136,7 @@ export default function ThreadContent({
             <Flex mr={headerIcons ? -2 : 0}>
               {canEdit && (
                 <ActionsMenu
+                  copyLinkUrl={`${settings.url}${path}`}
                   onEdit={editModal.onOpen}
                   onDelete={!thread?.archived ? handleArchive : undefined}
                   onUnarchive={thread?.archived ? handleUnarchive : undefined}
