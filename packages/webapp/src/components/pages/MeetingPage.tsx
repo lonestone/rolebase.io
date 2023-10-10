@@ -1,3 +1,4 @@
+import useOverflowHidden from '@hooks/useOverflowHidden'
 import MeetingContainer from '@organisms/meeting/MeetingContainer'
 import React from 'react'
 import { useParams } from 'react-router-dom'
@@ -9,6 +10,9 @@ type Params = {
 
 export default function MeetingPage() {
   const meetingId = useParams<Params>().meetingId
+
+  // Hide overflow to avoid editor cursor to overflow
+  useOverflowHidden()
 
   if (!meetingId) return <Page404 />
 
