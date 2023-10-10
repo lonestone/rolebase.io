@@ -48,7 +48,7 @@ export default function MeetingContentEmpty() {
 
   if (!canEdit) return null
 
-  if (!prevMeetingSteps || creating) {
+  if (!prevMeetingSteps || loading || creating) {
     return <Loading active size="md" />
   }
 
