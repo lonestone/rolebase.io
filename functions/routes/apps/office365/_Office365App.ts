@@ -104,13 +104,13 @@ export default class Office365App
     })
 
     // Enable/disable connections between calendars and orgs meetings
-    for (const orgsCalendar of orgsCalendars) {
+    for (const orgCalendar of orgsCalendars) {
       const prevOrgCalendar = prevOrgsCalendars.find(
-        (c) => c.calendarId === orgsCalendar.calendarId
+        (c) => c.calendarId === orgCalendar.calendarId
       )
       if (prevOrgCalendar) {
         // Calendar already connected
-        if (prevOrgCalendar.orgId === orgsCalendar.orgId) {
+        if (prevOrgCalendar.orgId === orgCalendar.orgId) {
           // Same org, do nothing
           continue
         }
@@ -118,13 +118,13 @@ export default class Office365App
         // Different org, delete previous events
         await this.disconnectOrgCalendar(prevOrgCalendar)
       }
-      await this.connectOrgCalendar(orgsCalendar)
+      await this.connectOrgCalendar(orgCalendar)
     }
     for (const prevOrgCalendar of prevOrgsCalendars) {
-      const orgsCalendar = orgsCalendars.find(
+      const orgCalendar = orgsCalendars.find(
         (c) => c.calendarId === prevOrgCalendar.calendarId
       )
-      if (!orgsCalendar) {
+      if (!orgCalendar) {
         // Calendar not connected anymore, delete events
         await this.disconnectOrgCalendar(prevOrgCalendar)
       }
@@ -140,6 +140,11 @@ export default class Office365App
       (c) => c.orgId === meetingEvent.orgId
     )
     if (!orgCalendar) return
+
+    // Fix subscription if missing
+    // We call this function here because it's cheap
+    // and it happens at a user interaction
+    await this.fixMissingSubscription(orgCalendar.calendarId)
 
     // Get event if it exists
     const existingEvent = await (meetingEvent.rrule
@@ -245,8 +250,9 @@ export default class Office365App
   }
 
   public async onEventUpdated(eventId: string, subscriptionId: string) {
-    const { calendarId, orgId } =
-      this.getCalendarAndOrgIdFromSubscriptionId(subscriptionId)
+    const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
+    if (!orgCalendar) return
+    const { calendarId, orgId } = orgCalendar
 
     // Get event
     const event = await this.apiFetch<OfficeEvent>(`/me/events/${eventId}`)
@@ -365,8 +371,7 @@ export default class Office365App
   // When some notifications are missed
   // The simplest way to fix the calendar is to disconnect and reconnect it
   public async onSubscriptionMissed(subscriptionId: string) {
-    const orgCalendar =
-      this.getCalendarAndOrgIdFromSubscriptionId(subscriptionId)
+    const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
     if (!orgCalendar) return
     await this.disconnectOrgCalendar(orgCalendar)
     await this.connectOrgCalendar(orgCalendar)
@@ -404,23 +409,11 @@ export default class Office365App
     await this.createCalendarEvents(orgCalendar)
 
     // Start new subscription
-    const subscription = await this.apiFetch<Subscription>('/subscriptions', {
-      method: 'POST',
-      body: JSON.stringify({
-        changeType: 'created,updated',
-        notificationUrl: `${settings.functionsUrl}/routes/apps/office365/notify`,
-        lifecycleNotificationUrl: `${settings.functionsUrl}/routes/apps/office365/notify`,
-        resource: `/me/calendars/${orgCalendar.calendarId}/events`,
-        expirationDateTime: new Date(
-          Date.now() + 2 * 24 * 60 * 60 * 1000
-        ).toISOString(),
-        clientState: this.userApp.id,
-      } as Subscription),
-    })
+    const subscription = await this.createSubscription(orgCalendar.calendarId)
 
     if (subscription.id) {
       // Update secret config
-      this.updateSecretConfig({
+      await this.updateSecretConfig({
         subscriptions: this.secretConfig.subscriptions
           .filter((s) => s.calendarId !== orgCalendar.calendarId)
           .concat({
@@ -439,7 +432,7 @@ export default class Office365App
     }
 
     // Update secret config
-    this.updateSecretConfig({
+    await this.updateSecretConfig({
       subscriptions: this.secretConfig.subscriptions.filter(
         (s) => s.calendarId !== orgCalendar.calendarId
       ),
@@ -676,32 +669,59 @@ export default class Office365App
     }
   }
 
+  private async createSubscription(calendarId: string): Promise<Subscription> {
+    return this.apiFetch<Subscription>('/subscriptions', {
+      method: 'POST',
+      body: JSON.stringify({
+        changeType: 'created,updated',
+        notificationUrl: `${settings.functionsUrl}/routes/apps/office365/notify`,
+        lifecycleNotificationUrl: `${settings.functionsUrl}/routes/apps/office365/notify`,
+        resource: `/me/calendars/${calendarId}/events`,
+        expirationDateTime: new Date(
+          Date.now() + 2 * 24 * 60 * 60 * 1000
+        ).toISOString(),
+        clientState: this.userApp.id,
+      } as Subscription),
+    })
+  }
+
   private async deleteSubscription(subscriptionId: string) {
     await this.apiFetch(`/subscriptions/${subscriptionId}`, {
       method: 'DELETE',
     })
   }
 
-  private getCalendarAndOrgIdFromSubscriptionId(
+  // If subscription is missing, create it
+  // It shouldn't happen, but we observed it can happen when a timeout occurs
+  private async fixMissingSubscription(calendarId: string) {
+    if (
+      this.secretConfig.subscriptions.some((s) => s.calendarId === calendarId)
+    ) {
+      return
+    }
+    const subscription = await this.createSubscription(calendarId)
+    if (subscription.id) {
+      // Update secret config
+      await this.updateSecretConfig({
+        subscriptions: this.secretConfig.subscriptions.concat({
+          id: subscription.id,
+          calendarId,
+        }),
+      })
+    }
+  }
+
+  private getOrgCalendarBySubscriptionId(
     subscriptionId: string
-  ): OrgCalendarConfig {
+  ): OrgCalendarConfig | undefined {
     // Get calendar id from subscription id
     const calendarId = this.secretConfig.subscriptions.find(
       (s) => s.id === subscriptionId
     )?.calendarId
-    if (!calendarId) {
-      throw new Error(`No calendar id found for subscription ${subscriptionId}`)
-    }
+    if (!calendarId) return
 
-    // Get org id from calendar id
-    const orgCalendar = this.config.orgsCalendars.find(
-      (c) => c.calendarId === calendarId
-    )
-    if (!orgCalendar) {
-      throw new Error(`No org found for calendar ${calendarId}`)
-    }
-
-    return orgCalendar
+    // Get config from calendar id
+    return this.config.orgsCalendars.find((c) => c.calendarId === calendarId)
   }
 
   // Get access token, refresh it if needed
@@ -739,7 +759,7 @@ export default class Office365App
       refreshToken: responseJson.refresh_token,
       expiryDate: Math.round(+new Date() / 1000 + responseJson.expires_in),
     }
-    this.updateSecretConfig(secretConfigChanges)
+    await this.updateSecretConfig(secretConfigChanges)
   }
 
   private async apiFetch<T>(

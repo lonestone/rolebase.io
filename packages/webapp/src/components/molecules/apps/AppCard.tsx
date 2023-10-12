@@ -88,13 +88,19 @@ export default function AppCard({ type, userApp }: Props) {
           orgsCalendars: OrgCalendarConfig[]
         ) => {
           await calendarApp?.selectCalendars(
-            availabilityCalendars,
-            orgsCalendars
+            // Filter calendars that are not available anymore
+            availabilityCalendars.filter(
+              (id) => calendars?.find((calendar) => calendar.id === id)
+            ),
+            orgsCalendars.filter(
+              ({ calendarId }) =>
+                calendars?.find((calendar) => calendar.id === calendarId)
+            )
           )
         },
         2000
       ),
-    [calendarApp]
+    [calendarApp, calendars]
   )
 
   const handleToggleAvailabilityCalendar = (calendarId: string) => {

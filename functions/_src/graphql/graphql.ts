@@ -5510,6 +5510,8 @@ export type Meeting_Step_Bool_Exp = {
 
 /** unique or primary key constraints on table "meeting_step" */
 export enum Meeting_Step_Constraint {
+  /** unique or primary key constraint on columns "meetingId", "stepConfigId" */
+  MeetingStepMeetingIdStepConfigIdKey = 'meeting_step_meetingId_stepConfigId_key',
   /** unique or primary key constraint on columns "id" */
   MeetingStepPkey = 'meeting_step_pkey'
 }
