@@ -67,15 +67,14 @@ export default class Office365App
       '/me/calendars?$select=id,name,isDefaultCalendar,canEdit'
     )
 
-    return officeCalendars.map((cal) => {
-      const calendar: Calendar = {
+    return officeCalendars.map(
+      (cal): Calendar => ({
         id: cal.id ?? 'No Id',
         name: cal.name ?? 'No calendar name',
         isDefault: cal.isDefaultCalendar ?? false,
         canEdit: cal.canEdit ?? false,
-      }
-      return calendar
-    })
+      })
+    )
   }
 
   // Select calendars for availability and meetings
@@ -397,12 +396,12 @@ export default class Office365App
   }
 
   private async connectOrgCalendar(orgCalendar: OrgCalendarConfig) {
+    // TMP TEST
+    console.log(`Connecting calendar ${orgCalendar.calendarId}`)
     // Delete existing subscription
-    const existingSubscription = this.secretConfig.subscriptions.find(
-      (s) => s.calendarId === orgCalendar.calendarId
-    )
-    if (existingSubscription) {
-      await this.deleteSubscription(existingSubscription.id)
+    for (const { id, calendarId } of this.secretConfig.subscriptions) {
+      if (calendarId !== orgCalendar.calendarId) continue
+      await this.deleteSubscription(id)
     }
 
     // Create all events
@@ -425,6 +424,8 @@ export default class Office365App
   }
 
   private async disconnectOrgCalendar(orgCalendar: OrgCalendarConfig) {
+    // TMP TEST
+    console.log(`Disconnecting calendar ${orgCalendar.calendarId}`)
     // Stop subscription (there shouldn't be more than one, but hey, who knows)
     for (const { id, calendarId } of this.secretConfig.subscriptions) {
       if (calendarId !== orgCalendar.calendarId) continue

@@ -4,13 +4,16 @@ import { loadAppById } from '..'
 
 export default route(async (context) => {
   // Validate request on subscription creation
-  if (context.req.query.validationToken) {
+  if (context.req.query?.validationToken) {
     return context.req.query.validationToken
   }
 
   const notifications = context.req.body?.value as ChangeNotification[]
   if (!Array.isArray(notifications)) {
-    throw new Error('body.value is not an array', context.req.body)
+    throw new RouteError(
+      400,
+      `body.value is not an array. body=${JSON.stringify(context.req.body)}`
+    )
   }
 
   for (const notification of notifications) {
