@@ -1,6 +1,4 @@
-import { FunctionContext } from '@utils/getContext'
-
 export abstract class Importer {
-  constructor(protected context: FunctionContext) {}
+  constructor(protected userId: string) {}
   abstract importFile(fileData: Buffer): Promise<string>
 }

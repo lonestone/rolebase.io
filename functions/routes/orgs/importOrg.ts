@@ -14,7 +14,7 @@ const yupSchema = yup.object().shape({
 })
 
 export default route(async (context): Promise<string> => {
-  guardAuth(context)
+  const userId = guardAuth(context)
   const { provider, fileId } = guardBodyParams(context, yupSchema)
 
   // Get file from storage
@@ -31,7 +31,7 @@ export default route(async (context): Promise<string> => {
   if (!importerFactory) {
     throw new RouteError(400, 'Unknown provider')
   }
-  const importer = importerFactory(context)
+  const importer = importerFactory(userId)
   const orgId = await importer.importFile(fileData)
 
   return orgId

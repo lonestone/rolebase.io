@@ -99,11 +99,8 @@ export class HolaspiritImporter extends Importer {
   }
 
   private async importMembers() {
-    const { userId } = this.context
-    if (!userId) return
-
     // Get user
-    const { user } = await adminRequest(GET_USER, { id: userId })
+    const { user } = await adminRequest(GET_USER, { id: this.userId })
 
     if (!user) throw new RouteError(400, 'User not found')
 
@@ -140,7 +137,7 @@ export class HolaspiritImporter extends Importer {
 
       if (member.Email === user.email) {
         includedUser = true
-        newMember.userId = userId
+        newMember.userId = this.userId
         newMember.role = Member_Role_Enum.Owner
       }
 
@@ -151,7 +148,7 @@ export class HolaspiritImporter extends Importer {
       newMembers.push({
         orgId: this.orgId,
         name: user.displayName,
-        userId,
+        userId: this.userId,
         inviteEmail: user.email,
         role: Member_Role_Enum.Owner,
       })
