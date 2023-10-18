@@ -19,6 +19,7 @@ export default route(async (context): Promise<string> => {
 
   // Get file from storage
   const fileUrl = nhost.storage.getPublicUrl({ fileId })
+  return fileUrl
   const result = await axios
     .get(fileUrl, { responseType: 'arraybuffer' })
     .catch(() => {
