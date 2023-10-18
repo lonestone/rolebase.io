@@ -19,10 +19,11 @@ export default route(async (context): Promise<string> => {
 
   // Get file from storage
   const fileUrl = nhost.storage.getPublicUrl({ fileId })
-  const result = await axios.get(fileUrl, { responseType: 'arraybuffer' })
-  if (result.status !== 200) {
-    throw new RouteError(400, 'Error downloading file')
-  }
+  const result = await axios
+    .get(fileUrl, { responseType: 'arraybuffer' })
+    .catch(() => {
+      throw new RouteError(400, `Error downloading file ${fileUrl}`)
+    })
   const fileData = result.data
 
   // Run importer
