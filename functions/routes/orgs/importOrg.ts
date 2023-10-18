@@ -16,10 +16,10 @@ const yupSchema = yup.object().shape({
 export default route(async (context): Promise<string> => {
   const userId = guardAuth(context)
   const { provider, fileId } = guardBodyParams(context, yupSchema)
+  return fileId
 
   // Get file from storage
   const fileUrl = nhost.storage.getPublicUrl({ fileId })
-  return fileUrl
   const result = await axios
     .get(fileUrl, { responseType: 'arraybuffer' })
     .catch(() => {
