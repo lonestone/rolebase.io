@@ -251,7 +251,7 @@ export default class Office365App
   public async onEventUpdated(eventId: string, subscriptionId: string) {
     const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
     if (!orgCalendar) return
-    const { calendarId, orgId } = orgCalendar
+    const { orgId } = orgCalendar
 
     // Get event
     const event = await this.apiFetch<OfficeEvent>(`/me/events/${eventId}`)
@@ -307,7 +307,7 @@ export default class Office365App
         // Exceptions are reset when recurrence changes
       } else {
         // Fix event
-        await this.fixRecurringEvent(eventId, meetingRecurring, calendarId)
+        await this.fixRecurringEvent(eventId, meetingRecurring)
         // Don't apply any other change
         return
       }
@@ -370,8 +370,11 @@ export default class Office365App
   // When some notifications are missed
   // The simplest way to fix the calendar is to disconnect and reconnect it
   public async onSubscriptionMissed(subscriptionId: string) {
+    // TMP TEST
+    console.log(`Subscription ${subscriptionId} missed`)
     const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
     if (!orgCalendar) return
+
     await this.disconnectOrgCalendar(orgCalendar)
     await this.connectOrgCalendar(orgCalendar)
   }
@@ -379,6 +382,11 @@ export default class Office365App
   // When subscription is about to expire
   // We extend the subscription
   public async onSubscriptionReauthorizationRequired(subscriptionId: string) {
+    // TMP TEST
+    console.log(`Subscription ${subscriptionId} reauthorization required`)
+    const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
+    if (!orgCalendar) return
+
     await this.apiFetch(`/subscriptions/${subscriptionId}`, {
       method: 'PATCH',
       body: JSON.stringify({
@@ -392,6 +400,8 @@ export default class Office365App
   // When subscription is deleted
   // We recreate it
   public async onSubscriptionRemoved(subscriptionId: string) {
+    // TMP TEST
+    console.log(`Subscription ${subscriptionId} removed`)
     await this.onSubscriptionMissed(subscriptionId)
   }
 
@@ -582,11 +592,7 @@ export default class Office365App
   }
 
   // Fix occurrences and exceptions in a recurring event
-  private async fixRecurringEvent(
-    eventId: string,
-    meetingEvent: MeetingEvent,
-    calendarId: string
-  ) {
+  private async fixRecurringEvent(eventId: string, meetingEvent: MeetingEvent) {
     if (!meetingEvent.rrule) return
 
     // Range of dates to fix
@@ -695,6 +701,8 @@ export default class Office365App
   // If subscription is missing, create it
   // It shouldn't happen, but we observed it can happen when a timeout occurs
   private async fixMissingSubscription(calendarId: string) {
+    // TMP TEST
+    console.log(`Fixing missing subscription for calendar ${calendarId}`)
     if (
       this.secretConfig.subscriptions.some((s) => s.calendarId === calendarId)
     ) {

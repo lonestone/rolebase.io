@@ -40,21 +40,19 @@ export default route(async (context) => {
       if (lifecycleEvent === 'missed') {
         // Reset subscription and stop here
         await app.onSubscriptionMissed(subscriptionId)
-        throw new Error()
+        break
       } else if (lifecycleEvent === 'reauthorizationRequired') {
         await app.onSubscriptionReauthorizationRequired(subscriptionId)
       } else if (lifecycleEvent === 'subscriptionRemoved') {
         // Reset subscription and stop here
         await app.onSubscriptionRemoved(subscriptionId)
-        throw new Error()
-      }
-
-      // Event notification
-      if (subscriptionId && changeType && resourceData) {
+        break
+      } else if (subscriptionId && changeType && resourceData) {
+        // Event notification
         const { id, '@odata.type': type } = resourceData as any
 
         if (type !== '#Microsoft.Graph.Event') {
-          throw new Error('Invalid resourceData type')
+          continue
         }
 
         if (changeType === 'created') {
