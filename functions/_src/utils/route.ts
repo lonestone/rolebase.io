@@ -55,7 +55,9 @@ export function route<F extends RouteFn>(routeFn: F) {
       }
 
       console.log(
-        `=> ${status} ${error?.message || error} (${getDuration()}ms)`
+        `=> ${status} ${
+          error?.message || JSON.stringify(error)
+        } (${getDuration()}ms)`
       )
       res.status(status).send(message)
     }

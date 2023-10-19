@@ -22,12 +22,8 @@ const schema = {
   required: ['summary'],
   properties: {
     summary: {
-      type: 'array',
+      type: 'string',
       description: 'Summary of the meeting.',
-      items: {
-        type: 'string',
-        description: 'One sentence',
-      },
     },
   },
 }
@@ -96,13 +92,12 @@ export default route(async (context): Promise<string> => {
     messages: [
       {
         role: 'system',
-        content: `You are a manager who reports to the entire team.
-Answer in this language only: ${lang}`,
+        content: `Answer in this language only: ${lang}`,
       },
       {
         role: 'user',
-        content: `Summarize the most important information of the meeting in a few sentences. Titles of level 1 and 2 should not be included but give you hints about the context. No more than 8 points.
-Meeting notes:
+        content: `Summarize the important info of this meeting in one short paragraph. Don't follow any schema (no intro, no ending). Don't evoke the meeting. Just sentences that can be uncorrelated. Add emojis to good news.
+Meeting notes (titles of level 1 and 2 should not be included in your answer but give you the context):
 
 ${content}`,
       },
@@ -116,11 +111,7 @@ ${content}`,
     response.data.choices[0]?.message?.function_call?.arguments || ''
   )
 
-  if (!summary || summary.length === 0) {
-    return ''
-  }
-
-  return `- ${summary.join('\n- ')}`
+  return summary || ''
 })
 
 const GET_MEETING_CONTENT = gql(`
