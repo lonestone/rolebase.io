@@ -5,6 +5,7 @@ import {
   AlertIcon,
   BoxProps,
   Button,
+  HStack,
   Link,
   Spacer,
 } from '@chakra-ui/react'
@@ -14,7 +15,7 @@ import useDateLocale from '@hooks/useDateLocale'
 import { format } from 'date-fns'
 import React, { useCallback, useContext } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { EditIcon, PlayIcon } from 'src/icons'
+import { EditIcon, PlayIcon, VisioIcon } from 'src/icons'
 
 interface Props extends BoxProps {
   onStart: () => void
@@ -29,7 +30,7 @@ export default function MeetingAlertNotStarted({
   const { t } = useTranslation()
   const dateLocale = useDateLocale()
 
-  const { meeting, isToday, isStartTimePassed, handleNextStep } =
+  const { meeting, isToday, isStartTimePassed, videoConfUrl, handleNextStep } =
     useContext(MeetingContext)!
 
   // Meeting archiving
@@ -54,15 +55,27 @@ export default function MeetingAlertNotStarted({
   })
 
   return isToday ? (
-    <BounceAnimation active={isStartTimePassed} {...boxProps}>
-      <Button
-        leftIcon={<PlayIcon variant="Bold" />}
-        colorScheme="green"
-        onClick={handleStart}
-      >
-        {t('MeetingAlertNotStarted.start')}
-      </Button>
-    </BounceAnimation>
+    <HStack spacing={5} {...boxProps}>
+      <BounceAnimation active={isStartTimePassed}>
+        <Button
+          leftIcon={<PlayIcon variant="Bold" />}
+          colorScheme="green"
+          onClick={handleStart}
+        >
+          {t('MeetingAlertNotStarted.start')}
+        </Button>
+      </BounceAnimation>
+
+      <a href={videoConfUrl} target="_blank" rel="noreferrer">
+        <Button
+          leftIcon={<VisioIcon variant="Bold" />}
+          variant="ghost"
+          colorScheme="blue"
+        >
+          {t('MeetingContent.videoConf')}
+        </Button>
+      </a>
+    </HStack>
   ) : (
     <Alert status="info" {...boxProps}>
       <AlertIcon />
