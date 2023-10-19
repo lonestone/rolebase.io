@@ -66,15 +66,17 @@ export default function MeetingAlertNotStarted({
         </Button>
       </BounceAnimation>
 
-      <a href={videoConfUrl} target="_blank" rel="noreferrer">
-        <Button
-          leftIcon={<VisioIcon variant="Bold" />}
-          variant="ghost"
-          colorScheme="blue"
-        >
-          {t('MeetingContent.videoConf')}
-        </Button>
-      </a>
+      {videoConfUrl && (
+        <a href={videoConfUrl} target="_blank" rel="noreferrer">
+          <Button
+            leftIcon={<VisioIcon variant="Bold" />}
+            variant="ghost"
+            colorScheme="blue"
+          >
+            {t('MeetingContent.videoConf')}
+          </Button>
+        </a>
+      )}
     </HStack>
   ) : (
     <Alert status="info" {...boxProps}>
