@@ -80,6 +80,7 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
 
   async applyEvent(event: HasuraEvent<MeetingFragment>) {
     super.applyEvent(event)
+    return
 
     // Compute participants to notify calendars apps of corresponding users
     const { data } = event.event
