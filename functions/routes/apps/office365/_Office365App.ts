@@ -701,6 +701,7 @@ export default class Office365App
   // If subscription is missing, create it
   // It shouldn't happen, but we observed it can happen when a timeout occurs
   private async fixMissingSubscription(calendarId: string) {
+    return
     // TMP TEST
     console.log(`Fixing missing subscription for calendar ${calendarId}`)
     if (
