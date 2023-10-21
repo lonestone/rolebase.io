@@ -1,4 +1,3 @@
-import settings from '@settings'
 import { Request, Response } from 'express'
 import { FunctionContext, getContext } from './getContext'
 
@@ -30,21 +29,11 @@ export function route<F extends RouteFn>(routeFn: F) {
       return
     }
 
-    // Log routes in production
-    // (in dev, we already have logs)
-    if (!settings.isLocal) {
-      console.log(`<= ${req.method} ${req.url}`)
-    }
-
     const context = getContext(req, res)
 
     try {
       const result = await routeFn(context)
       res.status(200).send(result)
-
-      if (!settings.isLocal) {
-        console.log(`=> 200 OK (${getDuration()}ms)`)
-      }
     } catch (error) {
       let status = 500
       let message = 'Internal Server Error'
@@ -55,7 +44,7 @@ export function route<F extends RouteFn>(routeFn: F) {
       }
 
       console.log(
-        `=> ${status} ${
+        `Error ${status}: ${
           error?.message || JSON.stringify(error)
         } (${getDuration()}ms)`
       )

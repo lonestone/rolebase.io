@@ -80,7 +80,6 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
 
   async applyEvent(event: HasuraEvent<MeetingFragment>) {
     super.applyEvent(event)
-    return
 
     // Compute participants to notify calendars apps of corresponding users
     const { data } = event.event
@@ -88,7 +87,7 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
     const orgId = data.new?.orgId
     if (!orgId) return
 
-    // Skip if lastUpdateSource is true
+    // Skip if there is a lastUpdateSource
     const lastUpdateSource = (data.new as any)?.lastUpdateSource
     if (lastUpdateSource) {
       await resetLastUpdateSource(meetingId)
@@ -162,7 +161,9 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
       const userApps = member.user?.apps || []
       const meeting = data.new!
       for (const userApp of userApps) {
+        // Skip if last modif comes from this app
         if (lastUpdateSource === userApp.id) continue
+
         const app = appFactory(userApp)
         await app.upsertMeetingEvent(
           AbstractCalendarApp.transformMeetingToEvent(
@@ -195,7 +196,9 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
         if (!member) continue
         const userApps = member.user?.apps || []
         for (const userApp of userApps) {
+          // Skip if last modif comes from this app
           if (lastUpdateSource === userApp.id) continue
+
           const app = appFactory(userApp)
           const meeting = data.old!
           await app.deleteMeetingEvent(

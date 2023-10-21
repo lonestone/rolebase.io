@@ -20,7 +20,9 @@ import { transformRRuleToRecurrence } from '@utils/msgraph/transformRRuleToRecur
 import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
 
 const graphApiUrl = 'https://graph.microsoft.com/v1.0'
+const debug = true
 
+// Types
 interface APIRequest {
   id: string
   method: string
@@ -370,8 +372,11 @@ export default class Office365App
   // When some notifications are missed
   // The simplest way to fix the calendar is to disconnect and reconnect it
   public async onSubscriptionMissed(subscriptionId: string) {
-    // TMP TEST
-    console.log(`Subscription ${subscriptionId} missed`)
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] Subscription ${subscriptionId} missed`
+      )
+    }
     const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
     if (!orgCalendar) return
 
@@ -382,8 +387,11 @@ export default class Office365App
   // When subscription is about to expire
   // We extend the subscription
   public async onSubscriptionReauthorizationRequired(subscriptionId: string) {
-    // TMP TEST
-    console.log(`Subscription ${subscriptionId} reauthorization required`)
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] Subscription ${subscriptionId} reauthorization required`
+      )
+    }
     const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
     if (!orgCalendar) return
 
@@ -400,14 +408,20 @@ export default class Office365App
   // When subscription is deleted
   // We recreate it
   public async onSubscriptionRemoved(subscriptionId: string) {
-    // TMP TEST
-    console.log(`Subscription ${subscriptionId} removed`)
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] Subscription ${subscriptionId} removed`
+      )
+    }
     await this.onSubscriptionMissed(subscriptionId)
   }
 
   private async connectOrgCalendar(orgCalendar: OrgCalendarConfig) {
-    // TMP TEST
-    console.log(`Connecting calendar ${orgCalendar.calendarId}`)
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] Connecting calendar ${orgCalendar.calendarId}`
+      )
+    }
     // Delete existing subscription
     for (const { id, calendarId } of this.secretConfig.subscriptions) {
       if (calendarId !== orgCalendar.calendarId) continue
@@ -434,8 +448,11 @@ export default class Office365App
   }
 
   private async disconnectOrgCalendar(orgCalendar: OrgCalendarConfig) {
-    // TMP TEST
-    console.log(`Disconnecting calendar ${orgCalendar.calendarId}`)
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] Disconnecting calendar ${orgCalendar.calendarId}`
+      )
+    }
     // Stop subscription (there shouldn't be more than one, but hey, who knows)
     for (const { id, calendarId } of this.secretConfig.subscriptions) {
       if (calendarId !== orgCalendar.calendarId) continue
@@ -701,14 +718,17 @@ export default class Office365App
   // If subscription is missing, create it
   // It shouldn't happen, but we observed it can happen when a timeout occurs
   private async fixMissingSubscription(calendarId: string) {
-    return
-    // TMP TEST
-    console.log(`Fixing missing subscription for calendar ${calendarId}`)
     if (
       this.secretConfig.subscriptions.some((s) => s.calendarId === calendarId)
     ) {
       return
     }
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] Fix missing subscription for calendar ${calendarId}`
+      )
+    }
+
     const subscription = await this.createSubscription(calendarId)
     if (subscription.id) {
       // Update secret config
@@ -776,9 +796,18 @@ export default class Office365App
     path: string,
     init?: Record<string, any>
   ): Promise<T> {
-    // console.log(`${init?.method || 'GET'} ${path}`, JSON.stringify(init))
+    if (debug) {
+      console.log(
+        `[App ${this.userApp.id}] API ${
+          init?.method || 'GET'
+        } ${path} ${JSON.stringify(init)}`
+      )
+    }
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     let tries = 0
     const maxTries = 5
+
     while (tries < maxTries) {
       const accessToken = await this.getAccessToken()
       const response = await fetch(`${graphApiUrl}${path}`, {
