@@ -75,7 +75,7 @@ const documents = {
     "\n  mutation deleteMeetingForCalendarApp($meetingId: uuid!) {\n    delete_meeting_by_pk(id: $meetingId) {\n      id\n    }\n  }\n": types.DeleteMeetingForCalendarAppDocument,
     "\n  query getUserApp($id: uuid!) {\n    user_app_by_pk(id: $id) {\n      ...UserAppFull\n    }\n  }\n": types.GetUserAppDocument,
     "\n  mutation createUserApp($values: user_app_insert_input!) {\n    insert_user_app_one(object: $values) {\n      id\n    }\n  }\n": types.CreateUserAppDocument,
-    "\n      query getUserApps {\n        user_app {\n          ...UserAppFull\n        }\n      }\n    ": types.GetUserAppsDocument,
+    "\n      query getUserApps($id: uuid!) {\n        user_app_by_pk(id: $id) {\n          ...UserAppFull\n        }\n      }\n    ": types.GetUserAppsDocument,
     "\n  query GetRecurringMeetings {\n    meeting_recurring {\n      id\n      orgId\n      circleId\n      circle {\n        role {\n          name\n        }\n      }\n      participantsScope\n      participantsMembersIds\n      templateId\n      template {\n        title\n        stepsConfig\n      }\n      rrule\n      duration\n      videoConf\n      meetings(where: { recurringDate: { _gt: \"now()\" } }) {\n        recurringDate\n      }\n    }\n  }\n": types.GetRecurringMeetingsDocument,
     "\n  mutation CreateMeeting($meeting: meeting_insert_input!) {\n    insert_meeting_one(object: $meeting) {\n      id\n    }\n  }\n": types.CreateMeetingDocument,
     "\n  query getUsersForDigest {\n    users(where: { disabled: { _eq: false }}) {\n      id\n      createdAt\n      displayName\n      email\n      locale\n      metadata\n    }\n  }\n": types.GetUsersForDigestDocument,
@@ -379,7 +379,7 @@ export function gql(source: "\n  mutation createUserApp($values: user_app_insert
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n      query getUserApps {\n        user_app {\n          ...UserAppFull\n        }\n      }\n    "): (typeof documents)["\n      query getUserApps {\n        user_app {\n          ...UserAppFull\n        }\n      }\n    "];
+export function gql(source: "\n      query getUserApps($id: uuid!) {\n        user_app_by_pk(id: $id) {\n          ...UserAppFull\n        }\n      }\n    "): (typeof documents)["\n      query getUserApps($id: uuid!) {\n        user_app_by_pk(id: $id) {\n          ...UserAppFull\n        }\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
