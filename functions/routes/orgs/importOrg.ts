@@ -2,9 +2,9 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { nhost } from '@utils/nhost'
 import { RouteError, route } from '@utils/route'
-import { importers } from '_src/import'
 import axios from 'axios'
 import * as yup from 'yup'
+import { importers } from '../../_src/import'
 
 /* Import a new organization from a file */
 
