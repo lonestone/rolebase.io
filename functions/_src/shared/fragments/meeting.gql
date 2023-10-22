@@ -29,5 +29,6 @@ fragment MeetingSummary on meeting {
   endDate
   ended
   title
+  attendees
   currentStepId
 }
