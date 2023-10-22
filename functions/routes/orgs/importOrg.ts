@@ -18,12 +18,15 @@ export default route(async (context): Promise<string> => {
   const { provider, fileId } = guardBodyParams(context, yupSchema)
 
   // Get file from storage
+  console.log('DEBUG: fileId', fileId)
   const fileUrl = nhost.storage.getPublicUrl({ fileId })
+  console.log('DEBUG: fileUrl', fileUrl)
   const result = await axios
     .get(fileUrl, { responseType: 'arraybuffer' })
     .catch(() => {
       throw new RouteError(400, `Error downloading file ${fileUrl}`)
     })
+  console.log('DEBUG: file loaded')
   const fileData = result.data
 
   // Run importer
