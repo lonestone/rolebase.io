@@ -552,8 +552,8 @@ export default class Office365App
 
     // Delete Rolebase events
     await this.apiBatch(
-      events.map(({ id }) => ({
-        id: id!,
+      events.map(({ id }, i) => ({
+        id: i.toString(), // Ensure unicity (id is not always unique)
         method: 'DELETE',
         url: `/me/events/${id!}`,
       }))
