@@ -17,7 +17,7 @@ import {
 import { isDateTimeEqual } from '@utils/msgraph/isDateTimeEqual'
 import { isRecurrenceEqual } from '@utils/msgraph/isRecurrenceEqual'
 import { transformRRuleToRecurrence } from '@utils/msgraph/transformRRuleToRecurrence'
-import { sha1 } from 'crypto-hash'
+import { sha1 } from '@utils/sha1'
 import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
 
 const graphApiUrl = 'https://graph.microsoft.com/v1.0'
