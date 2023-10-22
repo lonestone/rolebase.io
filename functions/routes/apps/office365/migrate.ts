@@ -17,7 +17,12 @@ export default route(async (context) => {
   )
 
   for (const userApp of user_app) {
-    await new Office365App(userApp).migrateLegacyCalendars()
+    try {
+      await new Office365App(userApp).migrateLegacyCalendars()
+      console.log(`Migrated user app ${userApp.id}`)
+    } catch (e) {
+      console.log(`Error migrating user app ${userApp.id}`, e)
+    }
   }
 
   return 'Migration OK'
