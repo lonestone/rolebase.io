@@ -43,11 +43,14 @@ export function route<F extends RouteFn>(routeFn: F) {
         message = error.message
       }
 
-      console.log(
-        `Error ${status}: ${
-          error?.message || JSON.stringify(error)
-        } (${getDuration()}ms)`
-      )
+      if (status === 500) {
+        console.log(
+          `Error: ${
+            error?.message || JSON.stringify(error)
+          } (${getDuration()}ms)`
+        )
+      }
+
       res.status(status).send(message)
     }
   }

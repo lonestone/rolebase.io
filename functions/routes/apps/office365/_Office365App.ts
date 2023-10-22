@@ -17,10 +17,25 @@ import {
 import { isDateTimeEqual } from '@utils/msgraph/isDateTimeEqual'
 import { isRecurrenceEqual } from '@utils/msgraph/isRecurrenceEqual'
 import { transformRRuleToRecurrence } from '@utils/msgraph/transformRRuleToRecurrence'
+import { sha1 } from 'crypto-hash'
 import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
 
 const graphApiUrl = 'https://graph.microsoft.com/v1.0'
 const debug = true
+
+// Extended properties
+const orgIdProp =
+  'String {40c4556b-332e-4207-abcc-ef975c3c5da7} Name RolebaseOrgId'
+const meetingIdProp =
+  'String {802bbf56-1de9-40ee-83dd-685d727d051d} Name RolebaseMeetingId'
+const hashProp =
+  'String {53052a96-5ee8-4b27-8a9d-f851fa988ba2} Name RolebaseHash'
+
+// Filters query parts
+const filterOrgId = (orgId: string) =>
+  `singleValueExtendedProperties/Any(ep: ep/id eq '${orgIdProp}' and ep/value eq '${orgId}')`
+const filterMeetingId = (meetingId: string) =>
+  `singleValueExtendedProperties/Any(ep: ep/id eq '${meetingIdProp}' and ep/value eq '${meetingId}')`
 
 // Types
 interface APIRequest {
@@ -133,10 +148,7 @@ export default class Office365App
   }
 
   // Update/create a meeting (for Hasura trigger event)
-  public async upsertMeetingEvent(
-    meetingEvent: MeetingEvent,
-    prevDate?: string
-  ) {
+  public async upsertMeetingEvent(meetingEvent: MeetingEvent) {
     const orgCalendar = this.config.orgsCalendars.find(
       (c) => c.orgId === meetingEvent.orgId
     )
@@ -148,19 +160,13 @@ export default class Office365App
     await this.fixMissingSubscription(orgCalendar.calendarId)
 
     // Get event if it exists
-    const existingEvent = await (meetingEvent.rrule
-      ? this.retrieveRecurringMeetingEvent(meetingEvent.id, orgCalendar.orgId)
-      : this.retrieveMeetingEvent(
-          meetingEvent.id,
-          orgCalendar.orgId,
-          prevDate || meetingEvent.startDate
-        ))
+    const existingEvent = await this.fetchMeetingEvent(
+      meetingEvent.id,
+      orgCalendar.calendarId
+    )
 
     // Update/Create event
-    const eventPayload = this.transformMeetingEvent(meetingEvent)
-    if (!existingEvent) {
-      eventPayload.transactionId = `rolebase-${meetingEvent.id}`
-    }
+    const eventPayload = await this.transformMeetingEvent(meetingEvent)
 
     const event = await this.apiFetch<OfficeEvent>(
       `/me/calendars/${orgCalendar.calendarId}/events${
@@ -184,19 +190,15 @@ export default class Office365App
   }
 
   // Delete a meeting (for Hasura trigger event)
-  public async deleteMeetingEvent(
-    meetingId: string,
-    orgId: string,
-    date: string,
-    recurrence?: boolean
-  ) {
+  public async deleteMeetingEvent(meetingId: string, orgId: string) {
     const orgCalendar = this.config.orgsCalendars.find((c) => c.orgId === orgId)
     if (!orgCalendar) return
 
     // Get event if it exists
-    const event = await (recurrence
-      ? this.retrieveRecurringMeetingEvent(meetingId, orgId)
-      : this.retrieveMeetingEvent(meetingId, orgId, date))
+    const event = await this.fetchMeetingEvent(
+      meetingId,
+      orgCalendar.calendarId
+    )
     if (event) {
       // Delete event
       await this.apiFetch(
@@ -214,8 +216,15 @@ export default class Office365App
     orgId: string,
     date: string
   ) {
-    const event = await this.retrieveRecurringMeetingEvent(meetingId, orgId)
-    if (!event?.id) return
+    const orgCalendar = this.config.orgsCalendars.find((c) => c.orgId === orgId)
+    if (!orgCalendar) return
+
+    const event = await this.fetchMeetingEvent(
+      meetingId,
+      orgCalendar.calendarId
+    )
+    if (!event?.id || !event.recurrence) return
+
     await this.deleteRecurringEventExdates([
       {
         eventId: event.id,
@@ -225,29 +234,7 @@ export default class Office365App
   }
 
   public async onEventCreated(eventId: string, subscriptionId: string) {
-    //   const { orgId } = this.getCalendarAndOrgIdFromSubscriptionId(subscriptionId)
-    //   // Get event
-    //   const event = await this.apiFetch<OfficeEvent>(`/me/events/${eventId}`)
-    //   // Skip if last modification was from Rolebase
-    //   if (/rolebase-/.test(event.transactionId || '')) {
-    //     console.log(`Event from Rolebase ${event.id}`)
-    //     return
-    //   }
-    //   if (event.recurrence) {
-    //     // Ignore recurring events
-    //     return
-    //   }
-    //   if (!event.subject || !event.start?.dateTime || !event.end?.dateTime) {
-    //     return
-    //   }
-    //   // Try to create meeting from event
-    //   await this.tryCreateMeeting({
-    //     orgId,
-    //     subject: event.subject,
-    //     startDate: event.start?.dateTime,
-    //     endDate: event.end?.dateTime,
-    //     timezone: event.start?.timeZone ?? undefined,
-    //   })
+    // No action on creation
   }
 
   public async onEventUpdated(eventId: string, subscriptionId: string) {
@@ -256,7 +243,9 @@ export default class Office365App
     const { orgId } = orgCalendar
 
     // Get event
-    const event = await this.apiFetch<OfficeEvent>(`/me/events/${eventId}`)
+    const event = await this.apiFetch<OfficeEvent>(
+      `/me/events/${eventId}?$expand=singleValueExtendedProperties($filter=id eq '${hashProp}' or id eq '${meetingIdProp}')`
+    )
     if (!event?.body?.content) {
       // No event body content
       return
@@ -265,19 +254,23 @@ export default class Office365App
     const meetingChanges: Partial<MeetingFragment> = {}
     const resetChanges: Partial<OfficeEvent> = {}
 
+    // Get meeting (or recurring meeting) id from extended properties of event
+    const meetingId = event.singleValueExtendedProperties?.find(
+      (prop) => prop.id === meetingIdProp
+    )?.value
+    const hash = event.singleValueExtendedProperties?.find(
+      (prop) => prop.id === hashProp
+    )?.value
+
+    if (!meetingId) {
+      // Event is not linked to a Rolebase meeting or recurring meeting
+      return
+    }
+
     if (event.type === 'seriesMaster' && event.recurrence) {
-      // Get meeting id from event body content
-      const meetingRecurringId = this.findMeetingRecurringIdInContent(
-        event.body.content
-      )
-
-      if (!meetingRecurringId) {
-        // No meeting id found in event body content
-        return
-      }
-
+      // Get recurring meeting from database
       const meetingRecurring = await this.getMeetingRecurringById(
-        meetingRecurringId,
+        meetingId,
         orgId
       )
       if (!meetingRecurring) {
@@ -285,7 +278,8 @@ export default class Office365App
         return
       }
 
-      const recurringMeetingEvent = this.transformMeetingEvent(meetingRecurring)
+      const recurringMeetingEvent =
+        await this.transformMeetingEvent(meetingRecurring)
 
       // We can't edit a recurring event, we reset the changed props
       if (recurringMeetingEvent.subject !== event.subject) {
@@ -314,21 +308,18 @@ export default class Office365App
         return
       }
     } else if (event.type === 'singleInstance') {
-      // Get meeting id from event body content
-      const meetingId = this.findMeetingIdInContent(event.body.content)
+      // Skip if hash is right (event was updated by this app)
+      const newHash = await this.generateHash(event)
+      if (hash === newHash) return
 
-      if (!meetingId) {
-        // No meeting id found in event body content
-        return
-      }
-
+      // Get meeting from database
       const meeting = await this.getMeetingById(meetingId, orgId)
       if (!meeting) {
         // No meeting found
         return
       }
 
-      const meetingEvent = this.transformMeetingEvent(meeting)
+      const meetingEvent = await this.transformMeetingEvent(meeting)
 
       if (meetingEvent.subject !== event.subject) {
         resetChanges.subject = meetingEvent.subject
@@ -351,13 +342,18 @@ export default class Office365App
         Object.keys(resetChanges).length === 0 &&
         !event.recurrence
       ) {
+        // Update meeting in database
         await this.updateMeeting(meetingId, meetingChanges)
+
+        // Update hash in event to skip next notification
+        resetChanges.singleValueExtendedProperties = [
+          { id: hashProp, value: newHash },
+        ]
       }
     }
 
     if (Object.keys(resetChanges).length > 0) {
       // Reset some props of event
-      // Those props must be updated in Rolebase
       await this.apiFetch(`/me/events/${eventId}`, {
         method: 'PATCH',
         body: JSON.stringify(resetChanges),
@@ -369,19 +365,8 @@ export default class Office365App
     // No action on delete
   }
 
-  // When some notifications are missed
-  // The simplest way to fix the calendar is to disconnect and reconnect it
   public async onSubscriptionMissed(subscriptionId: string) {
-    if (debug) {
-      console.log(
-        `[App ${this.userApp.id}] Subscription ${subscriptionId} missed`
-      )
-    }
-    const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
-    if (!orgCalendar) return
-
-    await this.disconnectOrgCalendar(orgCalendar)
-    await this.connectOrgCalendar(orgCalendar)
+    // No action on subscription missed
   }
 
   // When subscription is about to expire
@@ -405,17 +390,36 @@ export default class Office365App
     })
   }
 
-  // When subscription is deleted
-  // We recreate it
+  // When subscription is deleted, we recreate it
+  // We may lose some notifications and the solution would be to delete all events and recreate them
+  // but it's cheaper like that.
   public async onSubscriptionRemoved(subscriptionId: string) {
     if (debug) {
       console.log(
         `[App ${this.userApp.id}] Subscription ${subscriptionId} removed`
       )
     }
-    await this.onSubscriptionMissed(subscriptionId)
+    const orgCalendar = this.getOrgCalendarBySubscriptionId(subscriptionId)
+    if (!orgCalendar) return
+
+    // Delete then recreate subscription
+    await this.deleteSubscription(subscriptionId)
+    const subscription = await this.createSubscription(orgCalendar.calendarId)
+
+    // Update secret config
+    if (subscription?.id) {
+      await this.updateSecretConfig({
+        subscriptions: this.secretConfig.subscriptions
+          .filter((s) => s.id !== subscriptionId)
+          .concat({
+            id: subscription.id,
+            calendarId: orgCalendar.calendarId,
+          }),
+      })
+    }
   }
 
+  // Create events and subscription for a calendar
   private async connectOrgCalendar(orgCalendar: OrgCalendarConfig) {
     if (debug) {
       console.log(
@@ -447,6 +451,7 @@ export default class Office365App
     }
   }
 
+  // Delete events and subscription for a calendar
   private async disconnectOrgCalendar(orgCalendar: OrgCalendarConfig) {
     if (debug) {
       console.log(
@@ -467,7 +472,7 @@ export default class Office365App
     })
 
     // Delete all Rolebase events from calendar
-    await this.deleteCalendarEvents(orgCalendar.calendarId)
+    await this.deleteCalendarEvents(orgCalendar)
   }
 
   // Create events from Rolebase meetings
@@ -477,15 +482,14 @@ export default class Office365App
 
     // Create single and recurring events
     const eventsResponses = await this.apiBatch(
-      meetingsEvents.map((meeting) => ({
-        id: meeting.id,
-        method: 'POST',
-        url: `/me/calendars/${orgCalendar.calendarId}/events`,
-        body: {
-          ...this.transformMeetingEvent(meeting),
-          transactionId: `rolebase-${meeting.id}`,
-        },
-      }))
+      await Promise.all(
+        meetingsEvents.map(async (meeting) => ({
+          id: meeting.id,
+          method: 'POST',
+          url: `/me/calendars/${orgCalendar.calendarId}/events`,
+          body: await this.transformMeetingEvent(meeting),
+        }))
+      )
     )
 
     // Fetch instances that need to be deleted
@@ -508,11 +512,40 @@ export default class Office365App
   }
 
   // Delete all Rolebase events from a calendar
-  private async deleteCalendarEvents(calendarId: string) {
+  private async deleteCalendarEvents(orgCalendar: OrgCalendarConfig) {
+    // Get Rolebase events from calendar
+    const events = await this.apiGetAllPages<OfficeEvent>(
+      `/me/calendars/${orgCalendar.calendarId}/events?$filter=${filterOrgId(
+        orgCalendar.orgId
+      )}&$select=id`
+    )
+    if (!events.length) return
+
+    // Delete Rolebase events
+    await this.apiBatch(
+      events.map(({ id }, i) => ({
+        id: i.toString(), // Ensure unicity (id is not always unique)
+        method: 'DELETE',
+        url: `/me/events/${id!}`,
+      }))
+    )
+  }
+
+  // Migrate legacy calendars
+  // (remove this function after execution)
+  public async migrateLegacyCalendars() {
+    for (const orgCalendar of this.config.orgsCalendars) {
+      await this.deleteLegacyCalendarEvents(orgCalendar.calendarId)
+      await this.deleteCalendarEvents(orgCalendar)
+      await this.createCalendarEvents(orgCalendar)
+    }
+  }
+
+  private async deleteLegacyCalendarEvents(calendarId: string) {
     // Get Rolebase events from calendar
     const events = await this.apiGetAllPages<OfficeEvent>(
       `/me/calendars/${calendarId}/events?$filter=contains(subject, '${encodeURIComponent(
-        this.identifier
+        '#rolebase'
       )}')&$select=id`
     )
     if (!events.length) return
@@ -528,50 +561,14 @@ export default class Office365App
   }
 
   // Get event of a meeting if it exists
-  private async retrieveMeetingEvent(
+  private async fetchMeetingEvent(
     meetingId: string,
-    orgId: string,
-    date: string
+    calendarId: string
   ): Promise<OfficeEvent | undefined> {
-    const orgCalendar = this.config.orgsCalendars.find((c) => c.orgId === orgId)
-    if (!orgCalendar) return
-
-    // Search events 1 day before and after
-    const searchStartDate = new Date(date)
-    searchStartDate.setDate(searchStartDate.getDate() - 1)
-    const searchEndDate = new Date(date)
-    searchEndDate.setDate(searchEndDate.getDate() + 1)
-
-    const events = await this.apiGetAllPages<OfficeEvent>(
-      `/me/calendars/${
-        orgCalendar.calendarId
-      }/events?$filter=type eq 'singleInstance' and start/dateTime gt '${searchStartDate.toISOString()}' and start/dateTime lt '${searchEndDate.toISOString()}' and contains(subject, '${encodeURIComponent(
-        this.identifier
-      )}')`
+    const { value: events } = await this.apiFetch<{ value: OfficeEvent[] }>(
+      `/me/calendars/${calendarId}/events?$filter=${filterMeetingId(meetingId)}`
     )
-
-    // Find event with meeting id
-    return events.find((event) => event.body?.content?.includes(meetingId))
-  }
-
-  // Get event of a meeting if it exists
-  private async retrieveRecurringMeetingEvent(
-    meetingId: string,
-    orgId: string
-  ): Promise<OfficeEvent | undefined> {
-    const orgCalendar = this.config.orgsCalendars.find((c) => c.orgId === orgId)
-    if (!orgCalendar) return
-
-    const events = await this.apiGetAllPages<OfficeEvent>(
-      `/me/calendars/${
-        orgCalendar.calendarId
-      }/events?$filter=type eq 'seriesMaster' and contains(subject, '${encodeURIComponent(
-        this.identifier
-      )}')`
-    )
-
-    // Find event with meeting id
-    return events.find((event) => event.body?.content?.includes(meetingId))
+    return events?.[0]
   }
 
   // Delete occurrences of recurring events at exdates
@@ -670,9 +667,11 @@ export default class Office365App
   }
 
   // Create events from Rolebase meetings
-  private transformMeetingEvent(event: MeetingEvent): OfficeEvent {
-    return {
-      subject: `${event.role} - ${event.title} ${this.identifier}`,
+  private async transformMeetingEvent(
+    event: MeetingEvent
+  ): Promise<OfficeEvent> {
+    const officeEvent: OfficeEvent = {
+      subject: `${event.role} - ${event.title}`,
       body: {
         contentType: 'html',
         content:
@@ -690,7 +689,28 @@ export default class Office365App
         timeZone: event.timezone || 'UTC',
       },
       recurrence: transformRRuleToRecurrence(event.rrule),
+      // Set meetingId and orgId in extended properties
+      singleValueExtendedProperties: [
+        { id: orgIdProp, value: event.orgId },
+        { id: meetingIdProp, value: event.id },
+      ],
     }
+
+    // Add hash in extended properties
+    officeEvent.singleValueExtendedProperties?.push({
+      id: hashProp,
+      value: await this.generateHash(event),
+    })
+
+    return officeEvent
+  }
+
+  // Compute hash of synchronized properties
+  // Useful to skip notifications that have a correct hash
+  private async generateHash(event: OfficeEvent): Promise<string> {
+    return sha1(
+      `${event.subject}${event.start?.dateTime}${event.end?.dateTime}`
+    )
   }
 
   private async createSubscription(calendarId: string): Promise<Subscription> {
@@ -803,7 +823,6 @@ export default class Office365App
         } ${path} ${JSON.stringify(init)}`
       )
     }
-    await new Promise((resolve) => setTimeout(resolve, 5000))
 
     let tries = 0
     const maxTries = 5
@@ -812,11 +831,12 @@ export default class Office365App
       const accessToken = await this.getAccessToken()
       const response = await fetch(`${graphApiUrl}${path}`, {
         method: 'GET',
+        ...init,
         headers: {
+          ...init?.headers,
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        ...init,
       })
 
       if (response.status === 204 || response.status === 404) {

@@ -7,7 +7,6 @@ import { adminRequest } from '@utils/adminRequest'
 import { HasuraEvent } from '@utils/nhost'
 import { appFactory } from 'routes/apps'
 import AbstractCalendarApp from 'routes/apps/_AbstractCalendarApp'
-import { RRule } from 'rrule'
 import { IndexEntity } from './IndexEntity'
 
 // Notify calendar apps of users when one of those props changes
@@ -93,8 +92,6 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
       : []
 
     const orgUrl = `${settings.url}${getOrgPath(org)}`
-    const exRrule = RRule.fromString(data.old?.rrule || data.new?.rrule || '')
-    const exStartDate = exRrule.options.dtstart
 
     for (const nextParticipant of nextParticipants) {
       const prevParticipant = prevParticipants.find(
@@ -119,8 +116,7 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
             meetingRecurring,
             exdates,
             orgUrl
-          ),
-          exStartDate.toISOString()
+          )
         )
       }
     }
@@ -136,12 +132,7 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
         for (const userApp of userApps) {
           const app = appFactory(userApp)
           const meeting = data.old!
-          await app.deleteMeetingEvent(
-            meeting.id,
-            meeting.orgId,
-            exStartDate.toISOString(),
-            true
-          )
+          await app.deleteMeetingEvent(meeting.id, meeting.orgId)
         }
         continue
       }

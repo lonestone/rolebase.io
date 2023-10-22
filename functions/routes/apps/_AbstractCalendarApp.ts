@@ -29,8 +29,6 @@ export default class AbstractCalendarApp<
   SecretConfig,
   Config,
 > extends AbstractApp<SecretConfig, Config> {
-  protected identifier = '#rolebase'
-
   // Get all meetings of an organization
   protected async getOrgMeetings(orgId: string): Promise<MeetingEvent[]> {
     // Search meetings with start date after 30 days ago
@@ -185,30 +183,6 @@ export default class AbstractCalendarApp<
       meetingId,
     })
   }
-
-  // Try to create a meeting from an event's params
-  // protected async tryCreateMeeting(params: {
-  //   orgId: string
-  //   subject: string
-  //   startDate: string
-  //   endDate: string
-  //   timezone?: string
-  // }) {
-  //   const { orgId, subject, startDate, endDate, timezone } = params
-
-  //   // Create meeting
-  //   await this.createMeeting({
-  //     orgId,
-  //     circleId,
-  //     participantsScope: Member_Scope_Enum.CircleLeaders,
-  //     participantsMembersIds: [],
-  //     startDate,
-  //     endDate,
-  //     title,
-  //     stepsConfig,
-  //     timezone,
-  //   })
-  // }
 
   public static transformMeetingToEvent(
     meeting: MeetingFragment,

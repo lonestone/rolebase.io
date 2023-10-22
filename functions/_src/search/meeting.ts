@@ -171,8 +171,7 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
             orgUrl,
             roleName,
             member.name
-          ),
-          data.old?.startDate
+          )
         )
 
         // Newly created occurrence of a recurring meeting?
@@ -201,11 +200,7 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
 
           const app = appFactory(userApp)
           const meeting = data.old!
-          await app.deleteMeetingEvent(
-            meeting.id,
-            meeting.orgId,
-            new Date(meeting.startDate).toISOString()
-          )
+          await app.deleteMeetingEvent(meeting.id, meeting.orgId)
         }
         continue
       }
