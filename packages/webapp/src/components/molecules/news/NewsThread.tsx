@@ -4,17 +4,17 @@ import { LinkBoxProps } from '@chakra-ui/react'
 import { ThreadWithFirstActivityFragment } from '@gql'
 import ThreadItem from '@molecules/thread/ThreadItem'
 import React from 'react'
-import DashboardNewsItemLayout from './DashboardNewsItemLayout'
+import NewsItemLayout from './NewsItemLayout'
 
 interface Props extends LinkBoxProps {
   thread: ThreadWithFirstActivityFragment
 }
 
-export default function DashboardNewsThread({ thread }: Props) {
+export default function NewsThread({ thread }: Props) {
   const firstMessage = thread?.activities[0]?.data?.message
 
   return (
-    <DashboardNewsItemLayout
+    <NewsItemLayout
       i18nKey="DashboardNewsThread.action"
       date={thread.createdAt}
       memberId={thread.initiatorMemberId}
@@ -26,6 +26,6 @@ export default function DashboardNewsThread({ thread }: Props) {
           <Markdown>{firstMessage}</Markdown>
         </ExpandableText>
       )}
-    </DashboardNewsItemLayout>
+    </NewsItemLayout>
   )
 }

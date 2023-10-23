@@ -106,7 +106,7 @@ export default function MeetingRecurringListModal({
             </Box>
 
             {!groupedByCircle?.length ? (
-              <Text fontStyle="italic">
+              <Text fontStyle="italic" textAlign="center">
                 {t('MeetingRecurringListModal.empty')}
               </Text>
             ) : (

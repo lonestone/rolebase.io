@@ -16,7 +16,9 @@ export default function MeetingsList({ meetings, showCircle }: Props) {
   return (
     <>
       {meetings.length === 0 && (
-        <Text fontStyle="italic">{t('MeetingsList.empty')}</Text>
+        <Text fontStyle="italic" textAlign="center">
+          {t('MeetingsList.empty')}
+        </Text>
       )}
 
       {meetings.map((meeting, i) => (

@@ -3,8 +3,8 @@ import { TaskFragment } from '@gql'
 import {
   DragDropContext,
   Draggable,
-  Droppable,
   DropResult,
+  Droppable,
 } from '@hello-pangea/dnd'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -54,7 +54,9 @@ export default function TasksList({
       onDragEnd={handleDragEnd}
     >
       {tasks.length === 0 && (
-        <Text fontStyle="italic">{t('TasksList.empty')}</Text>
+        <Text fontStyle="italic" textAlign="center">
+          {t('TasksList.empty')}
+        </Text>
       )}
 
       <Droppable droppableId="TasksList">

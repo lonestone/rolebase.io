@@ -15,7 +15,9 @@ export default function ThreadsList({ threads, showCircle }: Props) {
   return (
     <VStack spacing={0} align="stretch">
       {threads.length === 0 && (
-        <Text fontStyle="italic">{t('ThreadsList.empty')}</Text>
+        <Text fontStyle="italic" textAlign="center">
+          {t('ThreadsList.empty')}
+        </Text>
       )}
 
       {threads.map((thread, i) => (

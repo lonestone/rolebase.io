@@ -4,15 +4,15 @@ import { LinkBoxProps } from '@chakra-ui/react'
 import { DecisionFragment } from '@gql'
 import DecisionItem from '@molecules/DecisionItem'
 import React from 'react'
-import DashboardNewsItemLayout from './DashboardNewsItemLayout'
+import NewsItemLayout from './NewsItemLayout'
 
 interface Props extends LinkBoxProps {
   decision: DecisionFragment
 }
 
-export default function DashboardNewsDecision({ decision }: Props) {
+export default function NewsDecision({ decision }: Props) {
   return (
-    <DashboardNewsItemLayout
+    <NewsItemLayout
       i18nKey="DashboardNewsDecision.action"
       date={decision.createdAt}
       memberId={decision.memberId}
@@ -30,6 +30,6 @@ export default function DashboardNewsDecision({ decision }: Props) {
           <Markdown>{decision?.description || ''}</Markdown>
         </ExpandableText>
       )}
-    </DashboardNewsItemLayout>
+    </NewsItemLayout>
   )
 }

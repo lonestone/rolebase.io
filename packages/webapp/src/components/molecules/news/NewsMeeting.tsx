@@ -5,15 +5,15 @@ import { MeetingFragment } from '@gql'
 import MeetingItem from '@molecules/meeting/MeetingItem'
 import React from 'react'
 import { MeetingAvatarIcon } from 'src/icons'
-import DashboardNewsItemLayout from './DashboardNewsItemLayout'
+import NewsItemLayout from './NewsItemLayout'
 
 interface Props extends LinkBoxProps {
   meeting: MeetingFragment
 }
 
-export default function DashboardNewsMeeting({ meeting }: Props) {
+export default function NewsMeeting({ meeting }: Props) {
   return (
-    <DashboardNewsItemLayout
+    <NewsItemLayout
       i18nKey="DashboardNewsMeeting.action"
       date={meeting.endDate}
       icon={MeetingAvatarIcon}
@@ -31,6 +31,6 @@ export default function DashboardNewsMeeting({ meeting }: Props) {
           <Markdown>{meeting.summary}</Markdown>
         </ExpandableText>
       )}
-    </DashboardNewsItemLayout>
+    </NewsItemLayout>
   )
 }

@@ -70,7 +70,7 @@ export default function MeetingTemplateListModal(modalProps: UseModalProps) {
             </Box>
 
             {!loading && !meetingTemplates?.length ? (
-              <Text fontStyle="italic">
+              <Text fontStyle="italic" textAlign="center">
                 {t('MeetingTemplateListModal.empty')}
               </Text>
             ) : (

@@ -25,7 +25,7 @@ interface Props extends LinkBoxProps {
   children: ReactNode
 }
 
-export default function DashboardNewsItemLayout({
+export default function NewsItemLayout({
   i18nKey,
   date: dateStr,
   memberId,

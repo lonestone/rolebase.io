@@ -25,6 +25,7 @@ import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
 import CircleDecisions from '@molecules/circle/CircleDecisions'
 import CircleMeetings from '@molecules/circle/CircleMeetings'
+import CircleNews from '@molecules/circle/CircleNews'
 import CircleRoleFormControl from '@molecules/circle/CircleRoleFormControl'
 import CircleTasks from '@molecules/circle/CircleTasks'
 import CircleThreads from '@molecules/circle/CircleThreads'
@@ -34,6 +35,7 @@ import {
   CircleIcon,
   DecisionsIcon,
   MeetingsIcon,
+  NewsIcon,
   TasksIcon,
   ThreadsIcon,
 } from 'src/icons'
@@ -116,6 +118,9 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <Tab icon={CircleIcon} minimize borderTopLeftRadius={0}>
             {t('CircleContent.tabRole')}
           </Tab>
+          <Tab icon={NewsIcon} minimize>
+            {t('CircleContent.tabNews')}
+          </Tab>
           <Tab icon={ThreadsIcon} minimize>
             {t('CircleContent.tabThreads')}
           </Tab>
@@ -136,6 +141,9 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
               circle={circle}
               participants={participants}
             />
+          </TabPanel>
+          <TabPanel px={6} py={10}>
+            <CircleNews circleId={id} />
           </TabPanel>
           <TabPanel px={6} py={10}>
             <CircleThreads circleId={id} />

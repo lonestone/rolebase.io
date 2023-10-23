@@ -64,6 +64,7 @@
   "CircleContent": {
     "notFound": "Role not found",
     "tabRole": "Role",
+    "tabNews": "News",
     "tabThreads": "Topics",
     "tabMeetings": "Meetings",
     "tabTasks": "Tasks",
