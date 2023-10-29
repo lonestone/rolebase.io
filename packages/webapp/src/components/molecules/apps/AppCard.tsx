@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { App_Type_Enum, UserAppFragment } from '@gql'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
+import useConfirmModal from '@hooks/useConfirmModal'
 import Office365Icon from '@images/apps/office365.svg'
 import { Office365Config, OrgCalendarConfig } from '@shared/model/user_app'
 import debounce from 'lodash.debounce'
@@ -38,6 +39,8 @@ interface Props {
 export default function AppCard({ type, userApp }: Props) {
   const { t } = useTranslation()
   const config: Office365Config | undefined = userApp?.config
+
+  const { confirm, confirmElement } = useConfirmModal()
 
   // Instanciate calendar app
   const calendarApp = useMemo(
@@ -112,6 +115,29 @@ export default function AppCard({ type, userApp }: Props) {
   }
 
   const handleSetOrgCalendar = (
+    calendarId: string,
+    orgId: string | null = null
+  ) => {
+    const modalProps = orgId
+      ? {
+          heading: t('AppCalendarOrgSelect.confirmSyncHeading'),
+          info: t('AppCalendarOrgSelect.confirmSyncInfo'),
+          buttonLabel: t('AppCalendarOrgSelect.confirmSyncButton'),
+          buttonColor: 'green',
+        }
+      : {
+          heading: t('AppCalendarOrgSelect.confirmStopHeading'),
+          info: t('AppCalendarOrgSelect.confirmStopInfo'),
+          buttonLabel: t('AppCalendarOrgSelect.confirmStopButton'),
+          buttonColor: 'red',
+        }
+    confirm({
+      ...modalProps,
+      onConfirm: () => handleSetOrgCalendarConfirmed(calendarId, orgId),
+    })
+  }
+
+  const handleSetOrgCalendarConfirmed = (
     calendarId: string,
     orgId: string | null = null
   ) => {
@@ -198,6 +224,8 @@ export default function AppCard({ type, userApp }: Props) {
           <Text>{t(`AppCard.apps.${type}.description`)}</Text>
         )}
       </CardBody>
+
+      {confirmElement}
     </Card>
   )
 }

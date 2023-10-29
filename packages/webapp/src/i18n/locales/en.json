@@ -32,7 +32,13 @@
   },
   "AppCalendarOrgSelect": {
     "placeholder": "Synchronize meetings",
-    "remove": "Stop syncing"
+    "remove": "Stop syncing",
+    "confirmSyncHeading": "Synchronize meetings",
+    "confirmSyncInfo": "Are you sure you want start synchronizing meetings with your calendar?",
+    "confirmSyncButton": "Synchronize",
+    "confirmStopHeading": "Stop syncing meetings",
+    "confirmStopInfo": "Are you sure you want to stop syncing meetings with your calendar?",
+    "confirmStopButton": "Stop syncing"
   },
   "AppCard": {
     "install": "Connect",

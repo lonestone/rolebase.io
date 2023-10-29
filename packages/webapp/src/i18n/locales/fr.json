@@ -32,7 +32,13 @@
   },
   "AppCalendarOrgSelect": {
     "placeholder": "Synchroniser les réunions",
-    "remove": "Arrêter de synchroniser"
+    "remove": "Arrêter de synchroniser",
+    "confirmSyncHeading": "Synchroniser les réunions",
+    "confirmSyncInfo": "Êtes-vous sûr(e) de vouloir synchroniser les réunions avec votre calendrier ?",
+    "confirmSyncButton": "Synchroniser",
+    "confirmStopHeading": "Arrêter la synchronisation des réunions",
+    "confirmStopInfo": "Êtes-vous sûr(e) de vouloir arrêter la synchronisation des réunions avec votre calendrier ?",
+    "confirmStopButton": "Arrêter la synchronisation"
   },
   "AppCard": {
     "install": "Connecter",
