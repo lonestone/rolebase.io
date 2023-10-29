@@ -6,7 +6,6 @@ import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { HasuraEvent } from '@utils/nhost'
 import { appFactory } from 'routes/apps'
-import AbstractCalendarApp from 'routes/apps/_AbstractCalendarApp'
 import { IndexEntity } from './IndexEntity'
 
 const Fragment = gql(`
@@ -166,12 +165,7 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
 
         const app = appFactory(userApp)
         await app.upsertMeetingEvent(
-          AbstractCalendarApp.transformMeetingToEvent(
-            meeting,
-            orgUrl,
-            roleName,
-            member.name
-          )
+          app.transformMeetingToEvent(meeting, orgUrl, roleName, member.name)
         )
 
         // Newly created occurrence of a recurring meeting?

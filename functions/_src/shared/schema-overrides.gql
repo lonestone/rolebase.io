@@ -1,9 +1,18 @@
+scalar user_metadata
 scalar attendee
 scalar meeting_step_config
 scalar meeting_step_data
 scalar videoconf
 scalar log_display
 scalar log_changes
+
+type users {
+  metadata: user_metadata!
+}
+
+type auth_refresh_tokens {
+  metadata: user_metadata!
+}
 
 type meeting {
   participantsMembersIds: [uuid!]!

@@ -9,18 +9,22 @@ import Digest, { OrgDigest } from './templates/Digest'
 interface Params {
   recipient: SendEmailV3_1.IEmailAddressTo
   lang: string
+  timezone: string
   orgDigests: OrgDigest[]
 }
 
 export default async function sendDigestEmail({
   recipient,
   lang,
+  timezone,
   orgDigests,
 }: Params) {
   const subject = i18n.t('emails.Digest.subject', { lng: lang })
 
   // Render email to HTML
-  const emailHTML = render(<Digest lang={lang} orgDigests={orgDigests} />)
+  const emailHTML = render(
+    <Digest lang={lang} timezone={timezone} orgDigests={orgDigests} />
+  )
 
   try {
     await sendMailjetEmail({

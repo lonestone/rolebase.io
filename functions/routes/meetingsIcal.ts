@@ -6,7 +6,7 @@ import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import {
-  dateFromTimeZone,
+  dateToTimeZone,
   excludeMeetingsFromRRule,
   getUTCDateFromDate,
 } from '@shared/helpers/rrule'
@@ -132,7 +132,7 @@ export default route(async (context) => {
       new RRule({
         ...rruleOrig.origOptions,
         // Change start date to next occurrence
-        dtstart: getUTCDateFromDate(dateFromTimeZone(nextDate, timezone)),
+        dtstart: getUTCDateFromDate(dateToTimeZone(nextDate, timezone)),
       }),
       recurringMeeting.meetings
     )

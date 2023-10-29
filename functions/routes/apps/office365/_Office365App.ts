@@ -5,7 +5,7 @@ import type {
   Subscription,
 } from '@microsoft/microsoft-graph-types-beta'
 import settings from '@settings'
-import { getDateFromUTCDate } from '@shared/helpers/rrule'
+import { dateToTimeZone } from '@shared/helpers/rrule'
 import { truthy } from '@shared/helpers/truthy'
 import {
   Calendar,
@@ -21,7 +21,7 @@ import { sha1 } from '@utils/sha1'
 import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
 
 const graphApiUrl = 'https://graph.microsoft.com/v1.0'
-const debug = true
+const debug = false
 
 // Extended properties
 const orgIdProp =
@@ -324,23 +324,35 @@ export default class Office365App
       if (meetingEvent.subject !== event.subject) {
         resetChanges.subject = meetingEvent.subject
       }
-
       if (
-        meetingEvent.start?.dateTime !== event.start?.dateTime?.substring(0, 19)
+        event.start?.dateTime &&
+        meetingEvent.start?.dateTime !== event.start.dateTime.substring(0, 19)
       ) {
-        meetingChanges.startDate = event.start?.dateTime
+        meetingChanges.startDate = event.start.timeZone
+          ? dateToTimeZone(
+              new Date(event.start.dateTime),
+              event.start.timeZone,
+              true
+            ).toISOString()
+          : event.start.dateTime
       }
       if (
+        event.end?.dateTime &&
         meetingEvent.end?.dateTime !== event.end?.dateTime?.substring(0, 19)
       ) {
-        meetingChanges.endDate = event.end?.dateTime
+        meetingChanges.endDate = event.end.timeZone
+          ? dateToTimeZone(
+              new Date(event.end.dateTime),
+              event.end.timeZone,
+              true
+            ).toISOString()
+          : event.end.dateTime
       }
 
       if (
         Object.keys(meetingChanges).length > 0 &&
         // If we reset some props, there will be a new notification
-        Object.keys(resetChanges).length === 0 &&
-        !event.recurrence
+        Object.keys(resetChanges).length === 0
       ) {
         // Update meeting in database
         await this.updateMeeting(meetingId, meetingChanges)
@@ -620,14 +632,20 @@ export default class Office365App
       `/me/events/${eventId}/instances?$filter=type eq 'occurrence' or type eq 'exception'&startDateTime=${startDate.toISOString()}&endDateTime=${endDate.toISOString()}&$select=id,type,start`
     )
 
-    const occurrences = meetingEvent.rrule
-      .between(startDate, endDate, true)
-      .map((date) => getDateFromUTCDate(date).toISOString())
     const requests: APIRequest[] = []
 
     for (const event of events) {
       if (!event.id || !event.start?.dateTime) continue
-      const date = new Date(event.start.dateTime).toISOString()
+      const date = dateToTimeZone(
+        dateToTimeZone(
+          new Date(event.start.dateTime),
+          event.start.timeZone || 'UTC',
+          true
+        ),
+        meetingEvent.timezone
+      )
+        .toISOString()
+        .substring(0, 19)
 
       // Delete occurrences at exdates and all exceptions
       if (
@@ -639,31 +657,11 @@ export default class Office365App
           method: 'DELETE',
           url: `/me/events/${event.id}`,
         })
-      } else {
-        const occurrenceIndex = occurrences.indexOf(date)
-        if (occurrenceIndex !== -1) {
-          // Remove occurrence from list
-          occurrences.splice(occurrenceIndex, 1)
-        }
       }
     }
 
-    // Create missing occurrences
-    const hasMissingOccurrences = occurrences.some(
-      (occurrence) => !meetingEvent.exdates?.includes(occurrence)
-    )
-
-    if (hasMissingOccurrences) {
-      // We can't create occurrences, so we delete the event
-      // and we recreate it
-      await this.apiFetch(`/me/events/${eventId}`, {
-        method: 'DELETE',
-      })
-      await this.upsertMeetingEvent(meetingEvent)
-    } else {
-      // Fix occurrences and exceptions
-      await this.apiBatch(requests)
-    }
+    // Fix occurrences and exceptions
+    await this.apiBatch(requests)
   }
 
   // Create events from Rolebase meetings
@@ -681,12 +679,12 @@ export default class Office365App
             : ''),
       },
       start: {
-        dateTime: event.startDate.substring(0, 19),
-        timeZone: event.timezone || 'UTC',
+        dateTime: event.startDate,
+        timeZone: event.timezone,
       },
       end: {
-        dateTime: event.endDate.substring(0, 19),
-        timeZone: event.timezone || 'UTC',
+        dateTime: event.endDate,
+        timeZone: event.timezone,
       },
       recurrence: transformRRuleToRecurrence(event.rrule),
       // Set meetingId and orgId in extended properties
@@ -836,6 +834,7 @@ export default class Office365App
           ...init?.headers,
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
+          Prefer: `outlook.timezone="${this.timezone}"`,
         },
       })
 

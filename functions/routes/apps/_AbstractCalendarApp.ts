@@ -4,7 +4,7 @@ import filterEntities from '@shared/helpers/filterEntities'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
-import { dateFromTimeZone, getDateFromUTCDate } from '@shared/helpers/rrule'
+import { dateToTimeZone, getDateFromUTCDate } from '@shared/helpers/rrule'
 import { truthy } from '@shared/helpers/truthy'
 import { EntityFilters } from '@shared/model/participants'
 import { adminRequest } from '@utils/adminRequest'
@@ -18,7 +18,7 @@ export interface MeetingEvent {
   role: string
   startDate: string // ISO date string
   endDate: string // ISO date string
-  timezone?: string
+  timezone: string
   rrule?: RRule
   exdates?: string[] // ISO date strings
   url: string
@@ -69,7 +69,7 @@ export default class AbstractCalendarApp<
     // Add events
     for (const meeting of meetings) {
       events.push(
-        AbstractCalendarApp.transformMeetingToEvent(
+        this.transformMeetingToEvent(
           meeting,
           orgUrl,
           meeting.circle.role.name,
@@ -124,7 +124,7 @@ export default class AbstractCalendarApp<
     const orgUrl = `${settings.url}${getOrgPath(meeting.org)}`
 
     // Add event
-    return AbstractCalendarApp.transformMeetingToEvent(
+    return this.transformMeetingToEvent(
       meeting,
       orgUrl,
       meeting.circle.role.name,
@@ -184,13 +184,21 @@ export default class AbstractCalendarApp<
     })
   }
 
-  public static transformMeetingToEvent(
+  public transformMeetingToEvent(
     meeting: MeetingFragment,
     orgUrl: string,
     roleName: string,
     memberName: string
   ): MeetingEvent {
     const url = `${orgUrl}/meetings/${meeting.id}`
+
+    // Convert dates to user timezone
+    const startDate = dateToTimeZone(new Date(meeting.startDate), this.timezone)
+      .toISOString()
+      .substring(0, 19)
+    const endDate = dateToTimeZone(new Date(meeting.endDate), this.timezone)
+      .toISOString()
+      .substring(0, 19)
 
     // Event description
     const videoConf = getMeetingVideoConfUrl(meeting, roleName, memberName)
@@ -200,8 +208,9 @@ export default class AbstractCalendarApp<
       orgId: meeting.orgId,
       title: meeting.title,
       role: roleName,
-      startDate: meeting.startDate,
-      endDate: meeting.endDate,
+      startDate,
+      endDate,
+      timezone: this.timezone,
       url,
       videoConf,
     }
@@ -223,25 +232,29 @@ export default class AbstractCalendarApp<
     if (!nextDate) {
       throw new Error('Could not find next date for recurring meeting')
     }
-    const startDate = dateFromTimeZone(getDateFromUTCDate(nextDate), timezone)
+    const startDate = dateToTimeZone(getDateFromUTCDate(nextDate), timezone)
     const newRrule = new RRule({
       ...rrule.origOptions,
       dtstart: startDate,
     })
     const endDate = new Date(startDate.getTime() + meeting.duration * 60 * 1000)
-    const now = new Date().toISOString()
+    const now = new Date().toISOString().substring(0, 19)
 
     return {
       id: meeting.id,
       orgId: meeting.orgId,
       title: meeting.template.title,
       role: meeting.circle.role.name,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
+      startDate: startDate.toISOString().substring(0, 19),
+      endDate: endDate.toISOString().substring(0, 19),
       timezone,
       rrule: newRrule,
       exdates: exdates
-        .map((date) => new Date(date).toISOString())
+        .map((date) =>
+          dateToTimeZone(new Date(date), timezone)
+            .toISOString()
+            .substring(0, 19)
+        )
         .filter((date) => date > now),
       url,
     }

@@ -35,7 +35,7 @@ function dateTZtoISO8601(date: Date, timeZone: string) {
 }
 
 // Inspired by dateInTimeZone from rrule.js
-export function dateFromTimeZone(
+export function dateToTimeZone(
   date: Date,
   timeZone: string,
   inverse: boolean = false
@@ -64,7 +64,7 @@ export function excludeMeetingsFromRRule(
     if (!timezone) continue
     rruleSet.exdate(
       getUTCDateFromDate(
-        dateFromTimeZone(new Date(meeting.recurringDate), timezone)
+        dateToTimeZone(new Date(meeting.recurringDate), timezone)
       )
     )
   }

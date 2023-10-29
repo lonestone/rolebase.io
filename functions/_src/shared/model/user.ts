@@ -1,4 +1,5 @@
 export interface UserMetadata {
+  timezone?: string
   calendarShowWeekend?: boolean
   ratedApp?: boolean
   // RRULE of digsst or false if disabled

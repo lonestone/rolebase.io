@@ -10,6 +10,7 @@ import { format } from 'date-fns'
 import React, { Fragment } from 'react'
 import i18n from '../../i18n'
 import settings from '../../settings'
+import { dateToTimeZone } from '../../shared/helpers/rrule'
 import { getDateLocale } from '../../utils/getDateLocale'
 import Card from '../common/Card'
 import CircleButton from '../common/CircleButton'
@@ -17,6 +18,7 @@ import Layout from '../common/Layout'
 
 interface Props {
   lang: string
+  timezone: string
   orgDigests: OrgDigest[]
 }
 
@@ -130,6 +132,7 @@ const testOrgDigests: OrgDigest[] = [
 
 export default function Digest({
   lang = 'en',
+  timezone = 'Europe/London',
   orgDigests = testOrgDigests,
 }: Props) {
   const t = (key: string, replace?: Record<string, string | number>) =>
@@ -208,9 +211,13 @@ export default function Digest({
                         </a>
                       </Text>
                       <Text className="text-sm text-gray-400 m-0">
-                        {format(new Date(meeting.date), 'PPPP, HH:mm', {
-                          locale: dateLocale,
-                        })}
+                        {format(
+                          dateToTimeZone(new Date(meeting.date), timezone),
+                          'PPPP, HH:mm',
+                          {
+                            locale: dateLocale,
+                          }
+                        )}
                       </Text>
                     </Column>
                     <Column align="right" className="align-top">

@@ -1,5 +1,5 @@
 import { DateTimeTimeZone } from '@microsoft/microsoft-graph-types-beta'
-import { dateFromTimeZone } from '@shared/helpers/rrule'
+import { dateToTimeZone } from '@shared/helpers/rrule'
 
 export function isDateTimeEqual(
   date1?: DateTimeTimeZone | null,
@@ -10,12 +10,12 @@ export function isDateTimeEqual(
     date1?.timeZone &&
     date2?.dateTime &&
     date2?.timeZone &&
-    dateFromTimeZone(
+    dateToTimeZone(
       new Date(date1?.dateTime),
       date1?.timeZone,
       true
     ).toISOString() ===
-      dateFromTimeZone(
+      dateToTimeZone(
         new Date(date2?.dateTime),
         date2?.timeZone,
         true

@@ -111,6 +111,7 @@ async function sendDigest(
     date: date.toISOString(),
   })
 
+  const timezone = result.user?.metadata.timezone || settings.defaultTimezone
   const orgDigests: OrgDigest[] = []
 
   for (const member of result.member) {
@@ -183,6 +184,7 @@ async function sendDigest(
       Name: userName,
     },
     lang,
+    timezone,
     orgDigests,
   })
 }
@@ -210,6 +212,9 @@ function getThreadLastDate(thread: ThreadWithActivities) {
 
 const GET_USER_DIGEST_DATA = gql(`
   query getUserDigestData($userId: uuid!, $date: timestamptz!) {
+    user(id: $userId) {
+      metadata
+    }
     member(
       where: {
         userId: { _eq: $userId }

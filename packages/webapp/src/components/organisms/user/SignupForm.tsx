@@ -13,6 +13,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNhostClient, useSignUpEmailPassword } from '@nhost/react'
 import { emailSchema, nameSchema } from '@shared/schemas'
+import { getTimeZone } from '@utils/dates'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -61,6 +62,9 @@ export default function SignupForm({ defaultEmail }: Props) {
     const { isSuccess, user } = await signUpEmailPassword(email, password, {
       displayName: name,
       locale: language.substring(0, 2),
+      metadata: {
+        timezone: getTimeZone(),
+      },
     })
     if (user && user.email && !user.emailVerified) {
       await sendVerifyEmail(user.email)

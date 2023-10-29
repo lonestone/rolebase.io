@@ -12,4 +12,7 @@ fragment UserAppFull on user_app {
   secretConfig
   config
   createdAt
+  user {
+    metadata
+  }
 }

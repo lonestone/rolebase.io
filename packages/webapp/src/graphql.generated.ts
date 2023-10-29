@@ -11,6 +11,7 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
 import { LogDisplay, EntitiesChanges } from '@shared/model/log'
+import { UserMetadata } from '@shared/model/user'
 
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -33,6 +34,7 @@ export type Scalars = {
   meeting_step_data: { input: MeetingStepData; output: MeetingStepData; }
   smallint: { input: number; output: number; }
   timestamptz: { input: string; output: string; }
+  user_metadata: { input: UserMetadata; output: UserMetadata; }
   uuid: { input: string; output: string; }
   videoconf: { input: VideoConf; output: VideoConf; }
 };
@@ -2048,6 +2050,11 @@ export type AuthUserSecurityKeys_Variance_Fields = {
 /** order by variance() on columns of table "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Variance_Order_By = {
   counter?: InputMaybe<Order_By>;
+};
+
+export type Auth_Refresh_Tokens = {
+  __typename?: 'auth_refresh_tokens';
+  metadata: Scalars['user_metadata']['output'];
 };
 
 /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -17064,6 +17071,8 @@ export type User_App = {
   id: Scalars['uuid']['output'];
   secretConfig: Scalars['json']['output'];
   type: App_Type_Enum;
+  /** An object relationship */
+  user?: Maybe<Users>;
   userId: Scalars['uuid']['output'];
 };
 
@@ -17136,6 +17145,7 @@ export type User_App_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   secretConfig?: InputMaybe<Json_Comparison_Exp>;
   type?: InputMaybe<App_Type_Enum_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -17154,6 +17164,7 @@ export type User_App_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   secretConfig?: InputMaybe<Scalars['json']['input']>;
   type?: InputMaybe<App_Type_Enum>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -17210,6 +17221,7 @@ export type User_App_Order_By = {
   id?: InputMaybe<Order_By>;
   secretConfig?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -17311,7 +17323,7 @@ export type Users = {
   members: Array<Member>;
   /** An aggregate relationship */
   members_aggregate: Member_Aggregate;
-  metadata?: Maybe<Scalars['jsonb']['output']>;
+  metadata: Scalars['user_metadata']['output'];
   newEmail?: Maybe<Scalars['citext']['output']>;
   otpHash?: Maybe<Scalars['String']['output']>;
   otpHashExpiresAt: Scalars['timestamptz']['output'];
@@ -18084,7 +18096,7 @@ export type ThreadActivityFragment = { __typename?: 'thread_activity', id: strin
 
 export type UserAppFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any };
 
-export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, createdAt: any };
+export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, createdAt: any, user?: { __typename?: 'users', metadata: UserMetadata } | null };
 
 export type GetCircleQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -18752,7 +18764,7 @@ export type ChangeMetadataMutationVariables = Exact<{
 }>;
 
 
-export type ChangeMetadataMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, metadata?: any | null } | null };
+export type ChangeMetadataMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, metadata: UserMetadata } | null };
 
 export type UserAppsSubscriptionVariables = Exact<{
   userId: Scalars['uuid']['input'];
@@ -19119,6 +19131,9 @@ export const UserAppFullFragmentDoc = gql`
   secretConfig
   config
   createdAt
+  user {
+    metadata
+  }
 }
     `;
 export const MeetingTemplateFragmentDoc = gql`

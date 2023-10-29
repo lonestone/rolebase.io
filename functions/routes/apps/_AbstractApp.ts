@@ -1,4 +1,5 @@
 import { UserAppFullFragment, gql } from '@gql'
+import settings from '@settings'
 import { adminRequest } from '@utils/adminRequest'
 
 export default class AbstractApp<SecretConfig, Config> {
@@ -10,6 +11,10 @@ export default class AbstractApp<SecretConfig, Config> {
 
   protected get config(): Config {
     return this.userApp.config
+  }
+
+  protected get timezone(): string {
+    return this.userApp.user?.metadata.timezone || settings.defaultTimezone
   }
 
   public async uninstall() {

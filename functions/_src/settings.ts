@@ -10,6 +10,8 @@ export default {
   url: isLocal ? 'http://localhost:3000' : 'https://rolebase.io',
   functionsUrl: process.env.NHOST_FUNCTIONS_URL,
 
+  defaultTimezone: 'Europe/Paris',
+
   forbiddenSlugs: [
     'admin',
     'signup',

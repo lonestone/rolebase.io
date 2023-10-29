@@ -41,7 +41,7 @@ import MeetingRecurringModal from '@organisms/meeting/MeetingRecurringModal'
 import MeetingTemplateListModal from '@organisms/meeting/MeetingTemplateListModal'
 import { circleColor } from '@shared/helpers/circleColor'
 import {
-  dateFromTimeZone,
+  dateToTimeZone,
   excludeMeetingsFromRRule,
   getDateFromUTCDate,
   getUTCDateFromDate,
@@ -165,7 +165,7 @@ export default function MeetingsPage() {
                   ...rruleOrig.origOptions,
                   // Change start date to next occurrence
                   dtstart: getUTCDateFromDate(
-                    dateFromTimeZone(getDateFromUTCDate(nextDate), timezone)
+                    dateToTimeZone(getDateFromUTCDate(nextDate), timezone)
                   ),
                 }),
                 mr.meetings
