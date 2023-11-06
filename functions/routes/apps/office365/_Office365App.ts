@@ -1,5 +1,6 @@
 import { MeetingFragment } from '@gql'
 import type {
+  DateTimeTimeZone,
   Calendar as OfficeCalendar,
   Event as OfficeEvent,
   Subscription,
@@ -13,7 +14,6 @@ import {
   Office365SecretConfig,
   OrgCalendarConfig,
 } from '@shared/model/user_app'
-import { isDateTimeEqual } from '@utils/msgraph/isDateTimeEqual'
 import { isRecurrenceEqual } from '@utils/msgraph/isRecurrenceEqual'
 import { transformRRuleToRecurrence } from '@utils/msgraph/transformRRuleToRecurrence'
 import { sha1 } from '@utils/sha1'
@@ -233,10 +233,10 @@ export default class Office365App
       ) {
         resetChanges.recurrence = recurringMeetingEvent.recurrence
       }
-      if (!isDateTimeEqual(recurringMeetingEvent.start, event.start)) {
+      if (!this.isDateTimeEqual(recurringMeetingEvent.start, event.start)) {
         resetChanges.start = recurringMeetingEvent.start
       }
-      if (!isDateTimeEqual(recurringMeetingEvent.end, event.end)) {
+      if (!this.isDateTimeEqual(recurringMeetingEvent.end, event.end)) {
         resetChanges.end = recurringMeetingEvent.end
       }
 
@@ -267,29 +267,13 @@ export default class Office365App
       if (meetingEvent.subject !== event.subject) {
         resetChanges.subject = meetingEvent.subject
       }
-      if (
-        event.start?.dateTime &&
-        meetingEvent.start?.dateTime !== event.start.dateTime.substring(0, 19)
-      ) {
-        meetingChanges.startDate = event.start.timeZone
-          ? dateToTimeZone(
-              new Date(event.start.dateTime),
-              event.start.timeZone,
-              true
-            ).toISOString()
-          : event.start.dateTime
+      if (!this.isDateTimeEqual(meetingEvent.start, event.start)) {
+        meetingChanges.startDate = this.dateTimeToDate(
+          event.start
+        )?.toISOString()
       }
-      if (
-        event.end?.dateTime &&
-        meetingEvent.end?.dateTime !== event.end?.dateTime?.substring(0, 19)
-      ) {
-        meetingChanges.endDate = event.end.timeZone
-          ? dateToTimeZone(
-              new Date(event.end.dateTime),
-              event.end.timeZone,
-              true
-            ).toISOString()
-          : event.end.dateTime
+      if (!this.isDateTimeEqual(meetingEvent.end, event.end)) {
+        meetingChanges.endDate = this.dateTimeToDate(event.end)?.toISOString()
       }
 
       if (
@@ -652,7 +636,9 @@ export default class Office365App
   // Useful to skip notifications that have a correct hash
   private async generateHash(event: OfficeEvent): Promise<string> {
     return sha1(
-      `${event.subject}${event.start?.dateTime}${event.end?.dateTime}`
+      `${event.subject}${this.dateTimeToDate(
+        event.start
+      )?.getTime()}${this.dateTimeToDate(event.end)?.getTime()}`
     )
   }
 
@@ -861,5 +847,22 @@ export default class Office365App
     }
 
     return responses
+  }
+
+  private dateTimeToDate(dateTime: DateTimeTimeZone | null | undefined) {
+    if (!dateTime?.dateTime) return undefined
+    return dateTime.timeZone
+      ? dateToTimeZone(new Date(dateTime.dateTime), dateTime.timeZone, true)
+      : new Date(dateTime.dateTime)
+  }
+
+  private isDateTimeEqual(
+    dateTime1?: DateTimeTimeZone | null | undefined,
+    dateTime2?: DateTimeTimeZone | null | undefined
+  ) {
+    return (
+      this.dateTimeToDate(dateTime1)?.getTime() ===
+      this.dateTimeToDate(dateTime2)?.getTime()
+    )
   }
 }

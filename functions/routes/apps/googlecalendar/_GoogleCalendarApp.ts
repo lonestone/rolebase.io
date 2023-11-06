@@ -649,7 +649,9 @@ export default class GoogleCalendarApp
   // Useful to skip notifications that have a correct hash
   private async generateHash(event: GoogleEvent): Promise<string> {
     return sha1(
-      `${event.summary}${event.start?.dateTime}${event.end?.dateTime}`
+      `${event.summary}${this.dateTimeToDate(
+        event.start
+      )?.getTime()}${this.dateTimeToDate(event.end)?.getTime()}`
     )
   }
 
@@ -796,8 +798,8 @@ export default class GoogleCalendarApp
     dateTime2?: calendar_v3.Schema$EventDateTime | null | undefined
   ) {
     return (
-      this.dateTimeToDate(dateTime1)?.toISOString() ===
-      this.dateTimeToDate(dateTime2)?.toISOString()
+      this.dateTimeToDate(dateTime1)?.getTime() ===
+      this.dateTimeToDate(dateTime2)?.getTime()
     )
   }
 
