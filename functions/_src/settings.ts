@@ -70,5 +70,9 @@ export default {
       clientId: process.env.APPS_OFFICE365_CLIENT_ID || '',
       clientSecret: process.env.APPS_OFFICE365_CLIENT_SECRET || '',
     },
+    googlecalendar: {
+      clientId: process.env.APPS_GOOGLECALENDAR_CLIENT_ID || '',
+      clientSecret: process.env.APPS_GOOGLECALENDAR_CLIENT_SECRET || '',
+    },
   },
 }
