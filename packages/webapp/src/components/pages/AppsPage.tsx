@@ -13,6 +13,9 @@ const apps = [
   {
     type: App_Type_Enum.Office365,
   },
+  {
+    type: App_Type_Enum.GoogleCalendar,
+  },
 ]
 
 export default function AppsPage() {
@@ -43,7 +46,7 @@ export default function AppsPage() {
           {loading && <Loading active center />}
           <TextErrors errors={[error]} />
 
-          <VStack spacing={3}>
+          <VStack spacing={10} align="stretch">
             {apps.map(({ type }) => (
               <AppCard
                 key={type}

@@ -24,7 +24,3 @@ export function calendarAppFactory(id: string) {
     },
   })
 }
-
-export const appsOffice365AuthRedirect = fn<{ code: string }>(
-  'apps/office365/auth-redirect'
-)

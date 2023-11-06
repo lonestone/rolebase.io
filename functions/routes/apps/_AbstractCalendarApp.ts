@@ -7,6 +7,7 @@ import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { dateToTimeZone, getDateFromUTCDate } from '@shared/helpers/rrule'
 import { truthy } from '@shared/helpers/truthy'
 import { EntityFilters } from '@shared/model/participants'
+import { AppCalendarConfig, OrgCalendarConfig } from '@shared/model/user_app'
 import { adminRequest } from '@utils/adminRequest'
 import { RRule } from 'rrule'
 import AbstractApp from './_AbstractApp'
@@ -25,10 +26,70 @@ export interface MeetingEvent {
   videoConf?: string
 }
 
-export default class AbstractCalendarApp<
+export default abstract class AbstractCalendarApp<
   SecretConfig,
-  Config,
-> extends AbstractApp<SecretConfig, Config> {
+> extends AbstractApp<SecretConfig, AppCalendarConfig> {
+  // Abstract methods to implement
+  protected abstract connectOrgCalendar(
+    orgCalendar: OrgCalendarConfig
+  ): Promise<void>
+  protected abstract disconnectOrgCalendar(
+    orgCalendar: OrgCalendarConfig
+  ): Promise<void>
+
+  // Select calendars for availability and meetings
+  public async selectCalendars(
+    availabilityCalendars: string[],
+    orgsCalendars: OrgCalendarConfig[]
+  ) {
+    if (
+      orgsCalendars.some(
+        (c) =>
+          !availabilityCalendars.find(
+            (calendarId) => calendarId === c.calendarId
+          )
+      )
+    ) {
+      throw new Error(
+        'Orgs calendars must be included in availability calendars'
+      )
+    }
+
+    const prevOrgsCalendars = this.config.orgsCalendars
+
+    await this.updateConfig({
+      availabilityCalendars,
+      orgsCalendars,
+    })
+
+    // Enable/disable connections between calendars and orgs meetings
+    for (const orgCalendar of orgsCalendars) {
+      const prevOrgCalendar = prevOrgsCalendars.find(
+        (c) => c.calendarId === orgCalendar.calendarId
+      )
+      if (prevOrgCalendar) {
+        // Calendar already connected
+        if (prevOrgCalendar.orgId === orgCalendar.orgId) {
+          // Same org, do nothing
+          continue
+        }
+
+        // Different org, delete previous events
+        await this.disconnectOrgCalendar(prevOrgCalendar)
+      }
+      await this.connectOrgCalendar(orgCalendar)
+    }
+    for (const prevOrgCalendar of prevOrgsCalendars) {
+      const orgCalendar = orgsCalendars.find(
+        (c) => c.calendarId === prevOrgCalendar.calendarId
+      )
+      if (!orgCalendar) {
+        // Calendar not connected anymore, delete events
+        await this.disconnectOrgCalendar(prevOrgCalendar)
+      }
+    }
+  }
+
   // Get all meetings of an organization
   protected async getOrgMeetings(orgId: string): Promise<MeetingEvent[]> {
     // Search meetings with start date after 30 days ago

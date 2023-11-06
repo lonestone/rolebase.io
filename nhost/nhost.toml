@@ -47,6 +47,14 @@ value = '{{ secrets.APPS_OFFICE365_CLIENT_ID }}'
 name = 'APPS_OFFICE365_CLIENT_SECRET'
 value = '{{ secrets.APPS_OFFICE365_CLIENT_SECRET }}'
 
+[[global.environment]]
+name = 'APPS_GOOGLECALENDAR_CLIENT_ID'
+value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_ID }}'
+
+[[global.environment]]
+name = 'APPS_GOOGLECALENDAR_CLIENT_SECRET'
+value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_SECRET }}'
+
 [hasura]
 version = 'v2.27.0-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'

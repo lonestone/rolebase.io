@@ -49,12 +49,13 @@
         "title": "Outlook Calendar",
         "description": "Sync your Rolebase calendar with Outlook / Office 365 / Teams Calendar.",
         "descriptionInstalled": "Select which calendars to use to check your availability, as well as which calendar to sync your meetings with."
+      },
+      "GoogleCalendar": {
+        "title": "Google Calendar",
+        "description": "Sync your Rolebase calendar with Google Calendar.",
+        "descriptionInstalled": "Select which calendars to use to check your availability, as well as which calendar to sync your meetings with."
       }
     }
-  },
-  "AppOffice365AuthRedirectPage": {
-    "error": "An error occurred, please try again 🙏",
-    "back": "Integrations"
   },
   "AppsPage": {
     "heading": "Integrations"
@@ -577,6 +578,16 @@
     "digest": "Email summary of activities",
     "disabledInfo": "By enabling the summary, you can adjust the frequency of emails. We recommend enabling it to track important topics in your organization.",
     "toastSuccess": "Notifications settings saved!"
+  },
+  "OAuthRedirectPage": {
+    "Office365": {
+      "success": "Your Outlook / Office 365 account is connected! You can close this page and select the calendar to sync."
+    },
+    "GoogleCalendar": {
+      "success": "Your Google Calendar account is connected! You can close this page and select the calendar to sync."
+    },
+    "error": "An error occurred, please try again 🙏",
+    "back": "Integrations"
   },
   "OrgCreateModal": {
     "join": {

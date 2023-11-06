@@ -10,7 +10,6 @@ import { truthy } from '@shared/helpers/truthy'
 import {
   Calendar,
   CalendarApp,
-  Office365Config,
   Office365SecretConfig,
   OrgCalendarConfig,
 } from '@shared/model/user_app'
@@ -60,10 +59,10 @@ interface APIBatchResponse {
 }
 
 export default class Office365App
-  extends AbstractCalendarApp<Office365SecretConfig, Office365Config>
+  extends AbstractCalendarApp<Office365SecretConfig>
   implements CalendarApp
 {
-  public actions: Array<keyof Office365App> = [
+  public actions: Array<keyof this> = [
     'uninstall',
     'listCalendars',
     'selectCalendars',
@@ -94,59 +93,6 @@ export default class Office365App
     )
   }
 
-  // Select calendars for availability and meetings
-  public async selectCalendars(
-    availabilityCalendars: string[],
-    orgsCalendars: OrgCalendarConfig[]
-  ) {
-    if (
-      orgsCalendars.some(
-        (c) =>
-          !availabilityCalendars.find(
-            (calendarId) => calendarId === c.calendarId
-          )
-      )
-    ) {
-      throw new Error(
-        'Orgs calendars must be included in availability calendars'
-      )
-    }
-
-    const prevOrgsCalendars = this.config.orgsCalendars
-
-    await this.updateConfig({
-      availabilityCalendars,
-      orgsCalendars,
-    })
-
-    // Enable/disable connections between calendars and orgs meetings
-    for (const orgCalendar of orgsCalendars) {
-      const prevOrgCalendar = prevOrgsCalendars.find(
-        (c) => c.calendarId === orgCalendar.calendarId
-      )
-      if (prevOrgCalendar) {
-        // Calendar already connected
-        if (prevOrgCalendar.orgId === orgCalendar.orgId) {
-          // Same org, do nothing
-          continue
-        }
-
-        // Different org, delete previous events
-        await this.disconnectOrgCalendar(prevOrgCalendar)
-      }
-      await this.connectOrgCalendar(orgCalendar)
-    }
-    for (const prevOrgCalendar of prevOrgsCalendars) {
-      const orgCalendar = orgsCalendars.find(
-        (c) => c.calendarId === prevOrgCalendar.calendarId
-      )
-      if (!orgCalendar) {
-        // Calendar not connected anymore, delete events
-        await this.disconnectOrgCalendar(prevOrgCalendar)
-      }
-    }
-  }
-
   // Update/create a meeting (for Hasura trigger event)
   public async upsertMeetingEvent(meetingEvent: MeetingEvent) {
     const orgCalendar = this.config.orgsCalendars.find(
@@ -166,7 +112,7 @@ export default class Office365App
     )
 
     // Update/Create event
-    const eventPayload = await this.transformMeetingEvent(meetingEvent)
+    const newEvent = await this.transformMeetingEvent(meetingEvent)
 
     const event = await this.apiFetch<OfficeEvent>(
       `/me/calendars/${orgCalendar.calendarId}/events${
@@ -174,7 +120,7 @@ export default class Office365App
       }`,
       {
         method: existingEvent ? 'PATCH' : 'POST',
-        body: JSON.stringify(eventPayload),
+        body: JSON.stringify(newEvent),
       }
     )
 
@@ -214,7 +160,7 @@ export default class Office365App
   public async deleteRecurringMeetingOccurrence(
     meetingId: string,
     orgId: string,
-    date: string
+    date: Date
   ) {
     const orgCalendar = this.config.orgsCalendars.find((c) => c.orgId === orgId)
     if (!orgCalendar) return
@@ -228,7 +174,11 @@ export default class Office365App
     await this.deleteRecurringEventExdates([
       {
         eventId: event.id,
-        exdates: [date],
+        exdates: [
+          dateToTimeZone(date, event.start?.timeZone || 'UTC')
+            .toISOString()
+            .substring(0, 19),
+        ],
       },
     ])
   }
@@ -246,10 +196,6 @@ export default class Office365App
     const event = await this.apiFetch<OfficeEvent>(
       `/me/events/${eventId}?$expand=singleValueExtendedProperties($filter=id eq '${hashProp}' or id eq '${meetingIdProp}')`
     )
-    if (!event?.body?.content) {
-      // No event body content
-      return
-    }
 
     const meetingChanges: Partial<MeetingFragment> = {}
     const resetChanges: Partial<OfficeEvent> = {}
@@ -273,10 +219,7 @@ export default class Office365App
         meetingId,
         orgId
       )
-      if (!meetingRecurring) {
-        // No recurring meeting found
-        return
-      }
+      if (!meetingRecurring) return
 
       const recurringMeetingEvent =
         await this.transformMeetingEvent(meetingRecurring)
@@ -419,20 +362,21 @@ export default class Office365App
     const subscription = await this.createSubscription(orgCalendar.calendarId)
 
     // Update secret config
-    if (subscription?.id) {
+    if (subscription.id && subscription.expirationDateTime) {
       await this.updateSecretConfig({
         subscriptions: this.secretConfig.subscriptions
           .filter((s) => s.id !== subscriptionId)
           .concat({
             id: subscription.id,
             calendarId: orgCalendar.calendarId,
+            expiryDate: +new Date(subscription.expirationDateTime),
           }),
       })
     }
   }
 
   // Create events and subscription for a calendar
-  private async connectOrgCalendar(orgCalendar: OrgCalendarConfig) {
+  protected async connectOrgCalendar(orgCalendar: OrgCalendarConfig) {
     if (debug) {
       console.log(
         `[App ${this.userApp.id}] Connecting calendar ${orgCalendar.calendarId}`
@@ -450,7 +394,7 @@ export default class Office365App
     // Start new subscription
     const subscription = await this.createSubscription(orgCalendar.calendarId)
 
-    if (subscription.id) {
+    if (subscription.id && subscription.expirationDateTime) {
       // Update secret config
       await this.updateSecretConfig({
         subscriptions: this.secretConfig.subscriptions
@@ -458,13 +402,14 @@ export default class Office365App
           .concat({
             id: subscription.id,
             calendarId: orgCalendar.calendarId,
+            expiryDate: +new Date(subscription.expirationDateTime),
           }),
       })
     }
   }
 
   // Delete events and subscription for a calendar
-  private async disconnectOrgCalendar(orgCalendar: OrgCalendarConfig) {
+  protected async disconnectOrgCalendar(orgCalendar: OrgCalendarConfig) {
     if (debug) {
       console.log(
         `[App ${this.userApp.id}] Disconnecting calendar ${orgCalendar.calendarId}`
@@ -660,7 +605,7 @@ export default class Office365App
       }
     }
 
-    // Fix occurrences and exceptions
+    // Delete occurrences
     await this.apiBatch(requests)
   }
 
@@ -748,12 +693,13 @@ export default class Office365App
     }
 
     const subscription = await this.createSubscription(calendarId)
-    if (subscription.id) {
+    if (subscription.id && subscription.expirationDateTime) {
       // Update secret config
       await this.updateSecretConfig({
         subscriptions: this.secretConfig.subscriptions.concat({
           id: subscription.id,
           calendarId,
+          expiryDate: +new Date(subscription.expirationDateTime),
         }),
       })
     }
@@ -774,8 +720,7 @@ export default class Office365App
 
   // Get access token, refresh it if needed
   private async getAccessToken(): Promise<string> {
-    const isExpired =
-      this.secretConfig.expiryDate < Math.round(+new Date() / 1000)
+    const isExpired = this.secretConfig.expiryDate < +new Date()
     if (isExpired) await this.refreshAccessToken()
 
     return this.secretConfig.accessToken

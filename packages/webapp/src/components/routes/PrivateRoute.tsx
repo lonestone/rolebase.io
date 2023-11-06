@@ -2,13 +2,13 @@ import { replaceOldIds } from '@api/functions'
 import CrispSetUser from '@atoms/CrispSetUser'
 import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
-import { useOrgsSubscription } from '@gql'
+import { App_Type_Enum, useOrgsSubscription } from '@gql'
 import useInitUserflow from '@hooks/useInitUserflow'
 import useSuperAdmin from '@hooks/useSuperAdmin'
+import OAuthRedirectPage from '@molecules/apps/OAuthRedirectPage'
 import { useUserId, useUserLocale } from '@nhost/react'
 import Onboarding from '@organisms/onboarding/Onboarding'
 import VerifyEmailModal from '@organisms/user/VerifiyEmailModal'
-import AppOffice365AuthRedirectPage from '@pages/AppOffice365AuthRedirectPage'
 import AppsPage from '@pages/AppsPage'
 import ImportPage from '@pages/ImportPage'
 import MemberInvitationPage from '@pages/MemberInvitationPage'
@@ -93,7 +93,11 @@ export default function PrivateRoute() {
         <Route path="apps" element={<AppsPage />} />
         <Route
           path="apps/office365-auth-redirect"
-          element={<AppOffice365AuthRedirectPage />}
+          element={<OAuthRedirectPage type={App_Type_Enum.Office365} />}
+        />
+        <Route
+          path="apps/googlecalendar-auth-redirect"
+          element={<OAuthRedirectPage type={App_Type_Enum.GoogleCalendar} />}
         />
         <Route path=":slug/*" element={<OrgRoute />} />
 

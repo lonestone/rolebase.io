@@ -174,7 +174,7 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
           await app.deleteRecurringMeetingOccurrence(
             meeting.recurringId,
             meeting.orgId,
-            new Date(meeting.recurringDate).toISOString()
+            new Date(meeting.recurringDate)
           )
         }
       }

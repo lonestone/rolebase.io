@@ -16,11 +16,19 @@ export interface CalendarApp {
   ): Promise<void>
 }
 
+// App config available on the frontend
+export interface AppCalendarConfig {
+  email: string
+  availabilityCalendars: string[]
+  orgsCalendars: OrgCalendarConfig[]
+}
+
 export interface OrgCalendarConfig {
   orgId: string
   calendarId: string
 }
 
+// Office 365 secret config
 export interface Office365SecretConfig {
   accessToken: string
   refreshToken: string
@@ -29,13 +37,18 @@ export interface Office365SecretConfig {
   subscriptions: Office365Subscription[]
 }
 
-export interface Office365Config {
-  email: string
-  availabilityCalendars: string[]
-  orgsCalendars: OrgCalendarConfig[]
-}
-
 export interface Office365Subscription {
   id: string
   calendarId: string
+  expiryDate: number // Unix timestamp
+}
+
+// Google Calendar secret config
+export interface GoogleCalendarSecretConfig extends Office365SecretConfig {
+  subscriptions: GoogleCalendarSubscription[]
+}
+
+export interface GoogleCalendarSubscription extends Office365Subscription {
+  resourceId: string
+  syncToken: string | null
 }

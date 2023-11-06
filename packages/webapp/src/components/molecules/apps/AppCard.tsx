@@ -16,20 +16,12 @@ import {
 import { App_Type_Enum, UserAppFragment } from '@gql'
 import { useAsyncMemo } from '@hooks/useAsyncMemo'
 import useConfirmModal from '@hooks/useConfirmModal'
-import Office365Icon from '@images/apps/office365.svg'
-import { Office365Config, OrgCalendarConfig } from '@shared/model/user_app'
+import { AppCalendarConfig, OrgCalendarConfig } from '@shared/model/user_app'
 import debounce from 'lodash.debounce'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import settings from 'src/settings'
 import AppCalendarOrgSelect from './AppCalendarOrgSelect'
-
-const scopes = [
-  'User.Read',
-  'Calendars.Read',
-  'Calendars.ReadWrite',
-  'offline_access',
-]
+import appsParams from './appsParams'
 
 interface Props {
   type: App_Type_Enum
@@ -38,7 +30,8 @@ interface Props {
 
 export default function AppCard({ type, userApp }: Props) {
   const { t } = useTranslation()
-  const config: Office365Config | undefined = userApp?.config
+  const appParams = appsParams[type]
+  const config: AppCalendarConfig | undefined = userApp?.config
 
   const { confirm, confirmElement } = useConfirmModal()
 
@@ -57,14 +50,8 @@ export default function AppCard({ type, userApp }: Props) {
 
   // Install app
   const handleInstall = () => {
-    const redirectUrl = `${settings.url}/apps/office365-auth-redirect`
-
-    // Redirect to Microsoft login
-    window.location.href = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=code&scope=${scopes.join(
-      ' '
-    )}&client_id=${
-      settings.apps.office365.clientId
-    }&redirect_uri=${redirectUrl}`
+    // Open auth page in a new tab
+    window.open(appParams.authUrl, '_blank')
   }
 
   // Uninstall app
@@ -156,7 +143,7 @@ export default function AppCard({ type, userApp }: Props) {
     <Card>
       <CardHeader>
         <Flex alignItems="center" flexWrap="wrap">
-          <Icon as={Office365Icon} boxSize={8} mr={3} />
+          <Icon as={appParams.icon} boxSize={8} mr={3} />
           <Heading as="h2" size="md">
             {t(`AppCard.apps.${type}.title`)}
           </Heading>

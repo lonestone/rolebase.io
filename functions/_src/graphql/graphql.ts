@@ -140,6 +140,7 @@ export enum App_Type_Constraint {
 }
 
 export enum App_Type_Enum {
+  GoogleCalendar = 'GoogleCalendar',
   Office365 = 'Office365'
 }
 

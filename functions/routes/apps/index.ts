@@ -4,6 +4,7 @@ import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { RouteError, route } from '@utils/route'
 import * as yup from 'yup'
+import GoogleCalendarApp from './googlecalendar/_GoogleCalendarApp'
 import Office365App from './office365/_Office365App'
 
 const yupSchema = yup.object().shape({
@@ -53,6 +54,8 @@ export function appFactory(userApp: UserAppFullFragment) {
   switch (userApp.type) {
     case App_Type_Enum.Office365:
       return new Office365App(userApp)
+    case App_Type_Enum.GoogleCalendar:
+      return new GoogleCalendarApp(userApp)
     default:
       throw new Error('Invalid app type')
   }
@@ -62,6 +65,14 @@ const GET_USER_APP = gql(`
   query getUserApp($id: uuid!) {
     user_app_by_pk(id: $id) {
       ...UserAppFull
+    }
+  }
+`)
+
+export const CREATE_USER_APP = gql(`
+  mutation createUserApp($values: user_app_insert_input!) {
+    insert_user_app_one(object: $values) {
+      id
     }
   }
 `)

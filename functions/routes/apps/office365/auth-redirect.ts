@@ -1,11 +1,15 @@
-import { App_Type_Enum, gql } from '@gql'
+import { App_Type_Enum } from '@gql'
 import settings from '@settings'
-import { Office365Config, Office365SecretConfig } from '@shared/model/user_app'
+import {
+  AppCalendarConfig,
+  Office365SecretConfig,
+} from '@shared/model/user_app'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
 import { guardBodyParams } from '@utils/guardBodyParams'
 import { RouteError, route } from '@utils/route'
 import * as yup from 'yup'
+import { CREATE_USER_APP } from '..'
 
 const scopes = ['offline_access', 'Calendars.Read', 'Calendars.ReadWrite']
 
@@ -56,13 +60,13 @@ export default route(async (context) => {
   const secretConfig: Office365SecretConfig = {
     accessToken: responseBody.access_token,
     refreshToken: responseBody.refresh_token,
-    expiryDate: Math.round(+new Date() / 1000 + responseBody.expires_in),
+    expiryDate: +new Date() + responseBody.expires_in * 1000,
     scope: responseBody.scope,
     subscriptions: [],
   }
 
   // Prepare general config for storage
-  const config: Office365Config = {
+  const config: AppCalendarConfig = {
     email: whoami.mail ?? whoami.userPrincipalName,
     availabilityCalendars: [],
     orgsCalendars: [],
@@ -77,11 +81,3 @@ export default route(async (context) => {
     },
   })
 })
-
-const CREATE_USER_APP = gql(`
-  mutation createUserApp($values: user_app_insert_input!) {
-    insert_user_app_one(object: $values) {
-      id
-    }
-  }
-`)

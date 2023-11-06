@@ -59,5 +59,9 @@ export default {
     office365: {
       clientId: 'b92369ce-3fc5-4873-987a-335f0917672b',
     },
+    googlecalendar: {
+      clientId:
+        '749917420406-vpf503tb2pnvvcm6v16jh6oe1js7n155.apps.googleusercontent.com',
+    },
   },
 }

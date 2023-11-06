@@ -1,6 +1,7 @@
 import { ChangeNotification } from '@microsoft/microsoft-graph-types-beta'
 import { RouteError, route } from '@utils/route'
 import { loadAppById } from '..'
+import Office365App from './_Office365App'
 
 export default route(async (context) => {
   // Validate request on subscription creation
@@ -35,6 +36,9 @@ export default route(async (context) => {
 
       // Load user app
       const app = await loadAppById(userAppId)
+      if (!(app instanceof Office365App)) {
+        return
+      }
 
       // Lifecycle notification
       if (lifecycleEvent === 'missed') {

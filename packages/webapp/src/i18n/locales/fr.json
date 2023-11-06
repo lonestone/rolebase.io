@@ -49,12 +49,13 @@
         "title": "Outlook Calendar",
         "description": "Synchronisez votre calendrier Rolebase avec Outlook / Office 365 / Teams Calendar.",
         "descriptionInstalled": "Sélectionnez les calendriers à prendre en compte pour vérifier votre disponibilité, ainsi que le calendrier avec lequel synchroniser vos réunions."
+      },
+      "GoogleCalendar": {
+        "title": "Google Calendar",
+        "description": "Synchronisez votre calendrier Rolebase avec Google Calendar.",
+        "descriptionInstalled": "Sélectionnez les calendriers à prendre en compte pour vérifier votre disponibilité, ainsi que le calendrier avec lequel synchroniser vos réunions."
       }
     }
-  },
-  "AppOffice365AuthRedirectPage": {
-    "error": "Une erreur s'est produite, veuillez recommencer 🙏",
-    "back": "Intégrations"
   },
   "AppsPage": {
     "heading": "Intégrations"
@@ -611,6 +612,16 @@
     "digest": "Résumé des activités par email",
     "disabledInfo": "En activant le résumé, vous pourrez régler la fréquence des emails. Nous vous recommandons de l'activer pour suivre les sujets importants de votre organisation.",
     "toastSuccess": "Configuration des notifications enregistrée !"
+  },
+  "OAuthRedirectPage": {
+    "Office365": {
+      "success": "Votre compte Outlook / Office 365 est connecté ! Vous pouvez fermer cette page et sélectionner le calendrier à synchroniser."
+    },
+    "GoogleCalendar": {
+      "success": "Votre compte Google Calendar est connecté ! Vous pouvez fermer cette page et sélectionner le calendrier à synchroniser."
+    },
+    "error": "Une erreur s'est produite, veuillez recommencer 🙏",
+    "back": "Intégrations"
   },
   "OrgCreateModal": {
     "join": {
