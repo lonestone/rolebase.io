@@ -178,7 +178,7 @@ export default abstract class AbstractCalendarApp<
     })
 
     const meeting = orgResult.meeting_by_pk
-    if (!meeting || meeting.orgId !== orgId) return
+    if (!meeting || meeting.orgId !== orgId || meeting.archived) return
     const member = meeting.org.members[0]
     if (!member) return
 
