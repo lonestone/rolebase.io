@@ -19,7 +19,7 @@ import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
 
 type GoogleEvent = calendar_v3.Schema$Event
 
-const debug = true
+const debug = false
 
 // Extended properties
 interface ExtendedProperties {
@@ -676,7 +676,11 @@ export default class GoogleCalendarApp
       !subscription.resourceId ||
       !subscription.expiration
     ) {
-      return
+      throw new Error(
+        `Unable to create subscription for calendar ${calendarId}: ${JSON.stringify(
+          subscription
+        )}`
+      )
     }
 
     // Get nextSyncToken
