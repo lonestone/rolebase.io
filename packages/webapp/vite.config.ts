@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -12,6 +13,10 @@ export default defineConfig({
     svgr({ exportAsDefault: true }),
     react(),
     tsconfigPaths(),
+    sentryVitePlugin({
+      org: 'lone-stone',
+      project: 'rolebase-webapp',
+    }),
     // visualizer({
     //   template: 'network',
     // }),

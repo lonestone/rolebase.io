@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { FunctionContext, getContext } from './getContext'
+import { captureError, startErrorHandling } from './sentry'
 
 export type RouteFn = (context: FunctionContext) => any
 
@@ -16,6 +17,9 @@ export function route<F extends RouteFn>(routeFn: F) {
   return async (req: Request, res: Response): Promise<void> => {
     const startTime = Date.now()
     const getDuration = () => Date.now() - startTime
+
+    // Error handling
+    const errorTransaction = startErrorHandling(req.url)
 
     // Set default headers
     res.setHeader('Access-Control-Allow-Credentials', 'true')
@@ -49,9 +53,12 @@ export function route<F extends RouteFn>(routeFn: F) {
             error?.message || JSON.stringify(error)
           } (${getDuration()}ms)`
         )
+        captureError(error)
       }
 
       res.status(status).send(message)
+    } finally {
+      errorTransaction.finish()
     }
   }
 }

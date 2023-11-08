@@ -44,6 +44,10 @@ export default {
     },
   },
 
+  sentry: {
+    dsn: 'https://96be3fef7522c1fed3e9f8b76b03c306@o297372.ingest.sentry.io/4506192581427200',
+  },
+
   mailjet: {
     public: process.env.MAILJET_PUBIC_KEY || '',
     private: process.env.MAILJET_PRIVATE_KEY || '',

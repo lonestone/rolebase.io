@@ -1,7 +1,8 @@
 import { Crisp } from 'crisp-sdk-web'
+import settings from 'src/settings'
 
 export function configureCrisp() {
-  Crisp.configure('652544cd-14f6-4c8c-9a04-2a56676dd4a0', {
+  Crisp.configure(settings.crisp.websiteId, {
     // safeMode: true
   })
 

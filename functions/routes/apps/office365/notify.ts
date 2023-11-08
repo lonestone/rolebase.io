@@ -1,5 +1,6 @@
 import { ChangeNotification } from '@microsoft/microsoft-graph-types-beta'
 import { RouteError, route } from '@utils/route'
+import { captureError } from '@utils/sentry'
 import { loadAppById } from '..'
 import Office365App from './_Office365App'
 
@@ -71,6 +72,7 @@ export default route(async (context) => {
       }
     } catch (error) {
       console.error(error)
+      captureError(error)
     }
   }
 

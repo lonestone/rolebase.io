@@ -55,6 +55,14 @@ export default {
     token: 'ct_ovu2v2gngffrrphuz7fyk57h4y',
   },
 
+  crisp: {
+    websiteId: '652544cd-14f6-4c8c-9a04-2a56676dd4a0',
+  },
+
+  sentry: {
+    dsn: 'https://6dd0edde4d43a94558390034e243bd19@o297372.ingest.sentry.io/4506192457105408',
+  },
+
   apps: {
     office365: {
       clientId: 'b92369ce-3fc5-4873-987a-335f0917672b',
