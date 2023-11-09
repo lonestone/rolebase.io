@@ -400,6 +400,7 @@ export default class GoogleCalendarApp
 
       const meetingEvent = await this.transformMeetingEvent(meeting)
 
+      // Reset props that have changed
       if (meetingEvent.summary !== event.summary) {
         resetChanges.summary = meetingEvent.summary
       }
@@ -412,15 +413,13 @@ export default class GoogleCalendarApp
         meetingChanges.endDate = this.dateTimeToDate(event.end)?.toISOString()
       }
 
-      if (
-        Object.keys(meetingChanges).length > 0 &&
-        // If we reset some props, there will be a new notification
-        Object.keys(resetChanges).length === 0
-      ) {
-        // Update meeting in database
+      // Update meeting in database
+      if (Object.keys(meetingChanges).length > 0) {
         await this.updateMeeting(meetingId, meetingChanges)
+      }
 
-        // Update hash in event to skip next notification
+      // Update hash in event to skip next notification
+      if (Object.keys(resetChanges).length > 0) {
         resetChanges.extendedProperties = {
           private: {
             hash: newHash,

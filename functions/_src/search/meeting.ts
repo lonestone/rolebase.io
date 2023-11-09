@@ -5,6 +5,7 @@ import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { SearchDoc, SearchTypes } from '@shared/model/search'
 import { adminRequest } from '@utils/adminRequest'
 import { HasuraEvent } from '@utils/nhost'
+import { captureError } from '@utils/sentry'
 import { appFactory } from 'routes/apps'
 import { IndexEntity } from './IndexEntity'
 
@@ -78,7 +79,12 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
   }
 
   async applyEvent(event: HasuraEvent<MeetingFragment>) {
-    super.applyEvent(event)
+    try {
+      super.applyEvent(event)
+    } catch (error) {
+      console.log(error)
+      captureError(error)
+    }
 
     // Compute participants to notify calendars apps of corresponding users
     const { data } = event.event
@@ -163,19 +169,24 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
         // Skip if last modif comes from this app
         if (lastUpdateSource === userApp.id) continue
 
-        const app = appFactory(userApp)
-        await app.upsertMeetingEvent(
-          app.transformMeetingToEvent(meeting, orgUrl, roleName, member.name)
-        )
-
-        // Newly created occurrence of a recurring meeting?
-        // Delete event occurrence
-        if (!data.old && meeting.recurringId && meeting.recurringDate) {
-          await app.deleteRecurringMeetingOccurrence(
-            meeting.recurringId,
-            meeting.orgId,
-            new Date(meeting.recurringDate)
+        try {
+          const app = appFactory(userApp)
+          await app.upsertMeetingEvent(
+            app.transformMeetingToEvent(meeting, orgUrl, roleName, member.name)
           )
+
+          // Newly created occurrence of a recurring meeting?
+          // Delete event occurrence
+          if (!data.old && meeting.recurringId && meeting.recurringDate) {
+            await app.deleteRecurringMeetingOccurrence(
+              meeting.recurringId,
+              meeting.orgId,
+              new Date(meeting.recurringDate)
+            )
+          }
+        } catch (error) {
+          console.log(error)
+          captureError(error)
         }
       }
     }
@@ -192,9 +203,14 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
           // Skip if last modif comes from this app
           if (lastUpdateSource === userApp.id) continue
 
-          const app = appFactory(userApp)
-          const meeting = data.old!
-          await app.deleteMeetingEvent(meeting.id, meeting.orgId)
+          try {
+            const app = appFactory(userApp)
+            const meeting = data.old!
+            await app.deleteMeetingEvent(meeting.id, meeting.orgId)
+          } catch (error) {
+            console.log(error)
+            captureError(error)
+          }
         }
         continue
       }
