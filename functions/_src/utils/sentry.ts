@@ -1,10 +1,10 @@
 import * as Sentry from '@sentry/node'
-import { ProfilingIntegration } from '@sentry/profiling-node'
+// import { ProfilingIntegration } from '@sentry/profiling-node'
 import settings from '@settings'
 
 Sentry.init({
   dsn: settings.sentry.dsn,
-  integrations: [new ProfilingIntegration()],
+  // integrations: [new ProfilingIntegration()],
   // Performance Monitoring
   tracesSampleRate: 1.0,
   // Set sampling rate for profiling - this is relative to tracesSampleRate
