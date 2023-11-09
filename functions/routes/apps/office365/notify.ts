@@ -5,6 +5,7 @@ import { loadAppById } from '..'
 import Office365App from './_Office365App'
 
 export default route(async (context) => {
+  throw new RouteError(202, 'Accepted')
   // Validate request on subscription creation
   if (context.req.query?.validationToken) {
     return context.req.query.validationToken

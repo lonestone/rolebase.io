@@ -3,6 +3,7 @@ import { loadAppById } from '..'
 import GoogleCalendarApp from './_GoogleCalendarApp'
 
 export default route(async (context) => {
+  throw new RouteError(202, 'Accepted')
   // Get params from headers
   const subscriptionState = context.req.headers['x-goog-resource-state']
   const userAppId = context.req.headers['x-goog-channel-token']
