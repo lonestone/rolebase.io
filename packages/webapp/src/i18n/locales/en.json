@@ -711,7 +711,8 @@
       "4": "Fourth",
       "-1": "Last"
     },
-    "bymonth": "In"
+    "bymonth": "In",
+    "nextDates": "See next dates"
   },
   "SearchGlobalModal": {
     "placeholder": "Search {{org}}...",

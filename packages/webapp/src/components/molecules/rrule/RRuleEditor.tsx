@@ -4,6 +4,7 @@ import { pick } from '@utils/pick'
 import React, { useCallback, useMemo } from 'react'
 import { RRule } from 'rrule'
 import { Frequency, ParsedOptions } from 'rrule/dist/esm/types'
+import RRuleEditorNextDates from './RRuleEditorNextDates'
 import RRuleMonthly from './RRuleMonthly'
 import RRuleRepeat from './RRuleRepeat'
 import RRuleStartDate from './RRuleStartDate'
@@ -41,9 +42,15 @@ export default function RRuleEditor({
 }: RRuleEditorProps) {
   const tzid = useMemo(() => getTimeZone(), [])
 
-  // Build RRule options from value
+  // Build RRule from value
+  const rrule = useMemo(
+    () => (typeof value === 'string' ? RRule.fromString(value) : undefined),
+    [value]
+  )
+
+  // Build options from RRule
   const options: Partial<ParsedOptions> = useMemo(() => {
-    if (!value) {
+    if (!rrule) {
       // Default options
       return {
         freq: 1,
@@ -51,9 +58,8 @@ export default function RRuleEditor({
         tzid,
       }
     }
-    const rrule = RRule.fromString(value)
     return pick(rrule.options, ...rruleParams)
-  }, [value])
+  }, [rrule])
 
   // Change some options on trigger onChange
   const changeOptions = useCallback(
@@ -92,6 +98,8 @@ export default function RRuleEditor({
       {/* Disabled because we don't need it and it can cause bugs
         <RRuleEnd {...bind} />
       */}
+
+      {rrule && <RRuleEditorNextDates rrule={rrule} />}
     </VStack>
   )
 }

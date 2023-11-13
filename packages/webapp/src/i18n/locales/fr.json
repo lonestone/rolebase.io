@@ -744,7 +744,8 @@
       "4": "Quatrième",
       "-1": "Dernier"
     },
-    "bymonth": "En"
+    "bymonth": "En",
+    "nextDates": "Voir les prochaines dates"
   },
   "SearchGlobalModal": {
     "placeholder": "Rechercher dans {{org}}...",
