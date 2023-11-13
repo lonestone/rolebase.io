@@ -158,7 +158,7 @@ export function TextFormatFloatingToolbar({
       _dark={{
         bg: 'gray.600',
       }}
-      size="sm"
+      size="xs"
       variant="ghost"
       spacing={1}
       position="absolute"
