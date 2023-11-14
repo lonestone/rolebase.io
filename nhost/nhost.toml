@@ -56,7 +56,7 @@ name = 'APPS_GOOGLECALENDAR_CLIENT_SECRET'
 value = '{{ secrets.APPS_GOOGLECALENDAR_CLIENT_SECRET }}'
 
 [hasura]
-version = 'v2.27.0-ce'
+version = 'v2.33.4-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
 webhookSecret = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
 
@@ -206,7 +206,7 @@ enabled = false
 issuer = 'nhost'
 
 [postgres]
-version = '14.5-20221009-1'
+version = '14.6-20231031-1'
 
 [postgres.resources]
 replicas = 1
@@ -226,7 +226,7 @@ secure = true
 method = 'LOGIN'
 
 [storage]
-version = '0.3.5'
+version = '0.4.0'
 
 [storage.resources]
 replicas = 1
