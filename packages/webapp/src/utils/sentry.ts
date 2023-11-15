@@ -13,7 +13,7 @@ export function configureSentry() {
         // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
         tracePropagationTargets: [
           // Functions and Hasura urls of the Nhost project
-          settings.nhost.subdomain,
+          settings.functionsUrl,
         ],
       }),
       new Sentry.Replay(),
