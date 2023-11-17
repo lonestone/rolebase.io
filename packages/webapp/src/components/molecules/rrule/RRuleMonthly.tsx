@@ -1,4 +1,5 @@
 import { HStack, Radio, RadioGroup, Select, Text } from '@chakra-ui/react'
+import { getDateFromUTCDate } from '@shared/helpers/rrule'
 import { range } from '@utils/range'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,17 +14,23 @@ enum Choices {
 
 export default function RRuleMonthly({ options, onChange }: FormPartProps) {
   const { t } = useTranslation()
-  const i18nDays = useI18nDays()
 
-  const startDateWeekday = useMemo(
-    () => (options.dtstart ? options.dtstart.getDay() : undefined),
+  const startDate = useMemo(
+    () => (options.dtstart ? getDateFromUTCDate(options.dtstart) : new Date()),
     [options.dtstart]
   )
 
-  const startDateMonthday = useMemo(
-    () => (options.dtstart ? options.dtstart.getDate() : undefined),
-    [options.dtstart]
+  const defaultMonthday = useMemo(() => startDate.getDate(), [startDate])
+
+  const defaultWeekday = useMemo(
+    () => (startDate.getDay() + 6) % 7,
+    [startDate]
   )
+
+  const defaultSetpos = useMemo(() => {
+    const setpos = Math.floor((defaultMonthday - 1) / 7) + 1
+    return setpos === 5 ? -1 : setpos
+  }, [defaultMonthday])
 
   const isMonthday = !!options.bymonthday?.length
   const isWeekday = !!(options.byweekday?.length || options.bysetpos?.length)
@@ -35,15 +42,15 @@ export default function RRuleMonthly({ options, onChange }: FormPartProps) {
         onChange={(mode) => {
           if (mode === Choices.monthday) {
             onChange({
-              bymonthday: [startDateMonthday ?? 1],
+              bymonthday: [defaultMonthday],
               bysetpos: [],
               byweekday: [],
             })
           } else {
             onChange({
               bymonthday: [],
-              bysetpos: [1],
-              byweekday: [startDateWeekday ?? 0],
+              bysetpos: [defaultSetpos],
+              byweekday: [defaultWeekday],
             })
           }
         }}
@@ -72,33 +79,8 @@ export default function RRuleMonthly({ options, onChange }: FormPartProps) {
 
         <HStack>
           <Radio value={Choices.weekday} />
-
-          {startDateWeekday !== undefined ? (
-            <>
-              <SelectBysetpos options={options} onChange={onChange} />
-              <Text>{i18nDays[startDateWeekday]}</Text>
-            </>
-          ) : (
-            <>
-              <SelectBysetpos options={options} onChange={onChange} />
-              <Select
-                value={options.byweekday?.[0] || 0}
-                onChange={(e) =>
-                  onChange({
-                    bymonthday: [],
-                    bysetpos: options.bysetpos || [1],
-                    byweekday: [+e.target.value],
-                  })
-                }
-              >
-                {i18nDays.map((day, index) => (
-                  <option key={index} value={index}>
-                    {day}
-                  </option>
-                ))}
-              </Select>
-            </>
-          )}
+          <SelectBysetpos options={options} onChange={onChange} />
+          <SelectByweekday options={options} onChange={onChange} />
         </HStack>
       </RadioGroup>
     </FormRow>
@@ -121,6 +103,29 @@ function SelectBysetpos({ options, onChange }: FormPartProps) {
       {[1, 2, 3, 4, -1].map((pos) => (
         <option key={pos} value={pos}>
           {t(`RRuleEditor.bysetpos.${pos}` as any)}
+        </option>
+      ))}
+    </Select>
+  )
+}
+
+function SelectByweekday({ options, onChange }: FormPartProps) {
+  const i18nDays = useI18nDays()
+
+  return (
+    <Select
+      value={options.byweekday?.[0] || 0}
+      onChange={(e) =>
+        onChange({
+          bymonthday: [],
+          bysetpos: options.bysetpos || [1],
+          byweekday: [+e.target.value],
+        })
+      }
+    >
+      {i18nDays.map((day, index) => (
+        <option key={index} value={index}>
+          {day}
         </option>
       ))}
     </Select>
