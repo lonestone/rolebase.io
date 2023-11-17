@@ -630,7 +630,8 @@
     },
     "create": {
       "heading": "Créer une organisation",
-      "slug": "URL"
+      "name": "Nom de l'organisation",
+      "slug": "URL personnalisée"
     },
     "import": {
       "heading": "Importer une organisation",

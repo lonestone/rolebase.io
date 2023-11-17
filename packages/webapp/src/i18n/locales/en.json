@@ -596,7 +596,8 @@
     },
     "create": {
       "heading": "Create an organization",
-      "slug": "URL"
+      "name": "Organization name",
+      "slug": "Custom URL"
     },
     "import": {
       "heading": "Import an organization",
