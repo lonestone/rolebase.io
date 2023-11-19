@@ -4,7 +4,6 @@ import settings from '@settings'
 import filterEntities from '@shared/helpers/filterEntities'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import {
   dateToTimeZone,
   excludeMeetingsFromRRule,
@@ -46,23 +45,15 @@ export default route(async (context) => {
     throw new RouteError(404, 'Org not found')
   }
 
-  // Get member's circles
-  let memberCirclesIds: string[] | undefined
-  if (memberId) {
-    memberCirclesIds = getParticipantCircles(memberId, org.circles)?.map(
-      (c) => c.id
-    )
-  }
-
   // Filter meetings
   const filter = inferFilter(memberId, circleId)
 
   const meetings = filterEntities(
     filter,
     org.meetings,
+    org.circles,
     circleId,
-    memberId,
-    memberCirclesIds
+    memberId
   ) as typeof org.meetings
 
   // Setup calendar
@@ -113,9 +104,9 @@ export default route(async (context) => {
   const recurringMeetings = filterEntities(
     filter,
     org.meetings_recurring,
+    org.circles,
     circleId,
-    memberId,
-    memberCirclesIds
+    memberId
   ) as typeof org.meetings_recurring
 
   // Add recurring events

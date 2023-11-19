@@ -1,12 +1,14 @@
-import { Member_Scope_Enum } from '@gql'
+import { CircleFullFragment, Member_Scope_Enum } from '@gql'
 import { EntityFilters, EntityWithParticipants } from '../model/participants'
+import { getCircleParents } from './getCircleParents'
+import { getParticipantCircles } from './getParticipantCircles'
 
 export default function filterEntities<Entity extends EntityWithParticipants>(
   filter: EntityFilters,
   data: Entity[],
+  circles?: CircleFullFragment[],
   circleId?: string,
-  currentMemberId?: string,
-  currentMemberCirclesIds?: string[]
+  currentMemberId?: string
 ): Entity[] {
   if (!data) return []
 
@@ -24,10 +26,28 @@ export default function filterEntities<Entity extends EntityWithParticipants>(
   if (filter === EntityFilters.Invited || filter === EntityFilters.NotInvited) {
     if (!currentMemberId) return []
     const expectInvited = filter === EntityFilters.Invited
+
+    // Circles where current member participate
+    const currentMemberCircles =
+      circles && getParticipantCircles(currentMemberId, circles)
+    const currentMemberCirclesIds = currentMemberCircles?.map((c) => c.id)
+
+    // Parent circles of those circles
+    const currentMemberParentCircleIds =
+      circles &&
+      currentMemberCircles?.flatMap((circleId) =>
+        getCircleParents(circles, circleId).map((c) => c.id)
+      )
+
     return data.filter(
       (entry) =>
         expectInvited ===
-        isInvitedToEntity(entry, currentMemberId, currentMemberCirclesIds)
+        isInvitedToEntity(
+          entry,
+          currentMemberId,
+          currentMemberCirclesIds,
+          currentMemberParentCircleIds
+        )
     )
   }
 
@@ -37,7 +57,8 @@ export default function filterEntities<Entity extends EntityWithParticipants>(
 function isInvitedToEntity<Entity extends EntityWithParticipants>(
   entity: Entity,
   currentMemberId: string,
-  currentMemberCirclesIds?: string[]
+  currentMemberCirclesIds?: string[],
+  currentMemberParentCircleIds?: string[]
 ): boolean {
   // Check attendees if there is one
   if (entity.attendees) {
@@ -67,7 +88,8 @@ function isInvitedToEntity<Entity extends EntityWithParticipants>(
   // All circle members scope
   if (
     entity.participantsScope === Member_Scope_Enum.CircleMembers &&
-    currentMemberCirclesIds?.includes(entity.circleId) // FIX: Should be all circle members
+    (currentMemberCirclesIds?.includes(entity.circleId) ||
+      currentMemberParentCircleIds?.includes(entity.circleId))
   ) {
     return true
   }

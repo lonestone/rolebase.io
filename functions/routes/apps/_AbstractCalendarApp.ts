@@ -3,7 +3,6 @@ import settings from '@settings'
 import filterEntities from '@shared/helpers/filterEntities'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { dateToTimeZone, getDateFromUTCDate } from '@shared/helpers/rrule'
 import { truthy } from '@shared/helpers/truthy'
 import { EntityFilters } from '@shared/model/participants'
@@ -109,17 +108,12 @@ export default abstract class AbstractCalendarApp<
     const member = org.members[0]
     if (!member) return []
 
-    // Get member's circles
-    const memberCirclesIds = getParticipantCircles(member.id, org.circles)?.map(
-      (c) => c.id
-    )
-
     const meetings = filterEntities(
       EntityFilters.Invited,
       org.meetings,
+      org.circles,
       undefined,
-      member.id,
-      memberCirclesIds
+      member.id
     ) as typeof org.meetings
 
     // Setup calendar
@@ -143,9 +137,9 @@ export default abstract class AbstractCalendarApp<
     const recurringMeetings = filterEntities(
       EntityFilters.Invited,
       org.meetings_recurring,
+      org.circles,
       undefined,
-      member.id,
-      memberCirclesIds
+      member.id
     ) as typeof org.meetings_recurring
 
     // Add recurring events

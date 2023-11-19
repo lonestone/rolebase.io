@@ -6,7 +6,6 @@ import { defaultCircleColorHue } from '@shared/helpers/circleColor'
 import filterEntities from '@shared/helpers/filterEntities'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { getParticipantCircles } from '@shared/helpers/getParticipantCircles'
 import { getDateFromUTCDate } from '@shared/helpers/rrule'
 import { getDefaultDigestRRule } from '@shared/model/notifications'
 import {
@@ -119,11 +118,6 @@ async function sendDigest(
     const circles = fixCirclesHue(org.circles)
     const orgUrl = `${settings.url}${getOrgPath(org)}`
 
-    // Get circles where the member is participating
-    const participantCircles = getParticipantCircles(member.id, circles).map(
-      (c) => c.id
-    )
-
     // Filter entities where the member is participating
     const filterParticipating = <T extends EntityWithParticipants>(
       entities: T[]
@@ -131,9 +125,9 @@ async function sendDigest(
       filterEntities(
         EntityFilters.Invited,
         entities,
+        circles,
         undefined,
-        member.id,
-        participantCircles
+        member.id
       )
 
     // Threads
