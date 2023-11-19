@@ -79,7 +79,7 @@
   },
   "CircleCopyModal": {
     "heading": "Dupliquer un rôle",
-    "action1": "Ouvrez le graphique des Rôles.",
+    "action1": "Ouvrez l'Organigramme",
     "action2": "Appuyez sur les touches",
     "action3": "Faites glisser le rôle avec la souris (clic sans relâcher) en maintenant les touches enfoncées.",
     "action4": "Déposez-le dans le rôle souhaité."
@@ -114,7 +114,7 @@
   },
   "CircleMoveModal": {
     "heading": "Déplacer un rôle",
-    "action1": "Ouvrez le graphique des Rôles.",
+    "action1": "Ouvrez l'Organigramme.",
     "action2": "Appuyez sur la touche",
     "action3": "Faites glisser le rôle avec la souris (clic sans relâcher) en maintenant la touche enfoncée.",
     "action4": "Déposez-le dans le rôle souhaité."

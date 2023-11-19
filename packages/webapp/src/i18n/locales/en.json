@@ -79,7 +79,7 @@
   },
   "CircleCopyModal": {
     "heading": "Duplicate a role",
-    "action1": "Open the Roles graph.",
+    "action1": "Open the Org chart.",
     "action2": "Press the keys",
     "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
     "action4": "Drop it in the desired role."
@@ -114,7 +114,7 @@
   },
   "CircleMoveModal": {
     "heading": "Move a role",
-    "action1": "Open the Roles graph.",
+    "action1": "Open the Org chart.",
     "action2": "Press the key",
     "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
     "action4": "Drop it in the desired role."
