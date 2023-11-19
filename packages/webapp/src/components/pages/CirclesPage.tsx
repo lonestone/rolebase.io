@@ -178,6 +178,7 @@ export default function CirclesPage() {
             className="userflow-settings"
             showText
             size="sm"
+            border={0}
             {...buttonsStyleProps}
           />
         </Box>

@@ -77,15 +77,17 @@ export default function MemberRoleItem({ memberId, circle }: Props) {
     <AccordionItem border="none">
       {({ isExpanded }) => (
         <Box
-          boxShadow={isExpanded ? 'xl' : 'sm'}
+          borderWidth="1px"
+          borderColor={isExpanded ? undefined : 'transparent'}
+          borderRadius="md"
+          boxShadow={isExpanded ? 'md' : undefined}
           bg={isExpanded ? 'whiteAlpha.500' : 'transparent'}
           _dark={{ bg: isExpanded ? 'whiteAlpha.100' : 'transparent' }}
         >
           <AccordionButton
             as={Box}
             cursor="pointer"
-            pr={1}
-            _hover={{ bg: 'whiteAlpha.500' }}
+            _hover={{ bg: 'blackAlpha.50' }}
             _dark={{ _hover: { bg: 'whiteAlpha.100' } }}
           >
             <CircleAndParentsLinks circle={circle} flex={1} />

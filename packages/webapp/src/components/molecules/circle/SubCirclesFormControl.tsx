@@ -34,8 +34,8 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   const [createRole] = useCreateRoleMutation()
   const createLog = useCreateLog()
 
-  // Get direct circles children and their roles
-  const childrenAndRoles = useMemo(
+  // Get direct circles children
+  const subCircles = useMemo(
     () =>
       circles &&
       circles
@@ -60,9 +60,9 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
     [circles, circle]
   )
 
-  const childrenRolesIds = useMemo(
-    () => childrenAndRoles?.map((c) => c.role.id),
-    [childrenAndRoles]
+  const subRolesIds = useMemo(
+    () => subCircles?.map((c) => c.role.id),
+    [subCircles]
   )
 
   // Create circle and open it
@@ -136,7 +136,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   )
 
   // Hide if read only and empty
-  if (!isMember && !childrenAndRoles?.length) return null
+  if (!isMember && !subCircles?.length) return null
 
   return (
     <Box>
@@ -144,11 +144,12 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         {t('SubCirclesFormControl.roles')}
       </Heading>
       <VStack spacing={2} align="start">
-        {childrenAndRoles?.map((circle, i) => (
+        {subCircles?.map((subCircle, i) => (
           <CircleWithLeaderItem
-            key={circle.id}
+            key={subCircle.id}
             className={`userflow-circle-${i}`}
-            circle={circle}
+            circle={subCircle}
+            parentCircle={circle}
             participants={participants}
           />
         ))}
@@ -157,7 +158,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
           <StackItem>
             <RoleSearchButton
               className="userflow-add-role-btn"
-              excludeIds={childrenRolesIds}
+              excludeIds={subRolesIds}
               size="sm"
               variant="outline"
               borderRadius="full"

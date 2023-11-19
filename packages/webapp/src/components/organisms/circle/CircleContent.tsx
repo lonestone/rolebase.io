@@ -92,7 +92,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <Spacer />
 
           <Box>
-            <ParticipantsNumber participants={participants} />
+            <ParticipantsNumber participants={participants} mr={1} />
           </Box>
 
           {isMember && (

@@ -1303,9 +1303,9 @@ export type AuthUserProviders_Bool_Exp = {
 export enum AuthUserProviders_Constraint {
   /** unique or primary key constraint on columns "id" */
   UserProvidersPkey = 'user_providers_pkey',
-  /** unique or primary key constraint on columns "provider_id", "provider_user_id" */
+  /** unique or primary key constraint on columns "provider_user_id", "provider_id" */
   UserProvidersProviderIdProviderUserIdKey = 'user_providers_provider_id_provider_user_id_key',
-  /** unique or primary key constraint on columns "provider_id", "user_id" */
+  /** unique or primary key constraint on columns "user_id", "provider_id" */
   UserProvidersUserIdProviderIdKey = 'user_providers_user_id_provider_id_key'
 }
 
@@ -3460,6 +3460,7 @@ export type Files = {
   members: Array<Member>;
   /** An aggregate relationship */
   members_aggregate: Member_Aggregate;
+  metadata?: Maybe<Scalars['jsonb']['output']>;
   mimeType?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
@@ -3489,6 +3490,12 @@ export type FilesMembers_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Member_Order_By>>;
   where?: InputMaybe<Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "storage.files" */
+export type FilesMetadataArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -3583,6 +3590,11 @@ export type Files_Aggregate_Order_By = {
   variance?: InputMaybe<Files_Variance_Order_By>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Files_Append_Input = {
+  metadata?: InputMaybe<Scalars['jsonb']['input']>;
+};
+
 /** input type for inserting array relation for remote table "storage.files" */
 export type Files_Arr_Rel_Insert_Input = {
   data: Array<Files_Insert_Input>;
@@ -3614,6 +3626,7 @@ export type Files_Bool_Exp = {
   isUploaded?: InputMaybe<Boolean_Comparison_Exp>;
   members?: InputMaybe<Member_Bool_Exp>;
   members_aggregate?: InputMaybe<Member_Aggregate_Bool_Exp>;
+  metadata?: InputMaybe<Jsonb_Comparison_Exp>;
   mimeType?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   orgs?: InputMaybe<Org_File_Bool_Exp>;
@@ -3629,6 +3642,21 @@ export enum Files_Constraint {
   FilesPkey = 'files_pkey'
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Files_Delete_At_Path_Input = {
+  metadata?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Files_Delete_Elem_Input = {
+  metadata?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Files_Delete_Key_Input = {
+  metadata?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** input type for incrementing numeric columns in table "storage.files" */
 export type Files_Inc_Input = {
   size?: InputMaybe<Scalars['Int']['input']>;
@@ -3643,6 +3671,7 @@ export type Files_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   isUploaded?: InputMaybe<Scalars['Boolean']['input']>;
   members?: InputMaybe<Member_Arr_Rel_Insert_Input>;
+  metadata?: InputMaybe<Scalars['jsonb']['input']>;
   mimeType?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   orgs?: InputMaybe<Org_File_Arr_Rel_Insert_Input>;
@@ -3737,6 +3766,7 @@ export type Files_Order_By = {
   id?: InputMaybe<Order_By>;
   isUploaded?: InputMaybe<Order_By>;
   members_aggregate?: InputMaybe<Member_Aggregate_Order_By>;
+  metadata?: InputMaybe<Order_By>;
   mimeType?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   orgs_aggregate?: InputMaybe<Org_File_Aggregate_Order_By>;
@@ -3748,6 +3778,11 @@ export type Files_Order_By = {
 /** primary key columns input for table: storage.files */
 export type Files_Pk_Columns_Input = {
   id: Scalars['uuid']['input'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Files_Prepend_Input = {
+  metadata?: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "storage.files" */
@@ -3762,6 +3797,8 @@ export enum Files_Select_Column {
   Id = 'id',
   /** column name */
   IsUploaded = 'isUploaded',
+  /** column name */
+  Metadata = 'metadata',
   /** column name */
   MimeType = 'mimeType',
   /** column name */
@@ -3793,6 +3830,7 @@ export type Files_Set_Input = {
   etag?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   isUploaded?: InputMaybe<Scalars['Boolean']['input']>;
+  metadata?: InputMaybe<Scalars['jsonb']['input']>;
   mimeType?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Scalars['Int']['input']>;
@@ -3848,6 +3886,7 @@ export type Files_Stream_Cursor_Value_Input = {
   etag?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   isUploaded?: InputMaybe<Scalars['Boolean']['input']>;
+  metadata?: InputMaybe<Scalars['jsonb']['input']>;
   mimeType?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Scalars['Int']['input']>;
@@ -3879,6 +3918,8 @@ export enum Files_Update_Column {
   /** column name */
   IsUploaded = 'isUploaded',
   /** column name */
+  Metadata = 'metadata',
+  /** column name */
   MimeType = 'mimeType',
   /** column name */
   Name = 'name',
@@ -3891,8 +3932,18 @@ export enum Files_Update_Column {
 }
 
 export type Files_Updates = {
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  _append?: InputMaybe<Files_Append_Input>;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  _delete_at_path?: InputMaybe<Files_Delete_At_Path_Input>;
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  _delete_elem?: InputMaybe<Files_Delete_Elem_Input>;
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  _delete_key?: InputMaybe<Files_Delete_Key_Input>;
   /** increments the numeric columns with given value of the filtered values */
   _inc?: InputMaybe<Files_Inc_Input>;
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  _prepend?: InputMaybe<Files_Prepend_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Files_Set_Input>;
   /** filter the rows which have to be updated */
@@ -5521,7 +5572,7 @@ export type Meeting_Step_Bool_Exp = {
 
 /** unique or primary key constraints on table "meeting_step" */
 export enum Meeting_Step_Constraint {
-  /** unique or primary key constraint on columns "meetingId", "stepConfigId" */
+  /** unique or primary key constraint on columns "stepConfigId", "meetingId" */
   MeetingStepMeetingIdStepConfigIdKey = 'meeting_step_meetingId_stepConfigId_key',
   /** unique or primary key constraint on columns "id" */
   MeetingStepPkey = 'meeting_step_pkey'
@@ -6280,7 +6331,7 @@ export type Member_Bool_Exp = {
 
 /** unique or primary key constraints on table "member" */
 export enum Member_Constraint {
-  /** unique or primary key constraint on columns "orgId", "userId" */
+  /** unique or primary key constraint on columns "userId", "orgId" */
   MemberOrgIdUserIdKey = 'member_orgId_userId_key',
   /** unique or primary key constraint on columns "id" */
   MemberPkey = 'member_pkey'
@@ -6978,6 +7029,10 @@ export type Mutation_Root = {
   deleteUser?: Maybe<Users>;
   /** delete data from the table: "auth.users" */
   deleteUsers?: Maybe<Users_Mutation_Response>;
+  /** delete single row from the table: "storage.virus" */
+  deleteVirus?: Maybe<Virus>;
+  /** delete data from the table: "storage.virus" */
+  deleteViruses?: Maybe<Virus_Mutation_Response>;
   /** delete data from the table: "app_type" */
   delete_app_type?: Maybe<App_Type_Mutation_Response>;
   /** delete single row from the table: "app_type" */
@@ -7146,6 +7201,10 @@ export type Mutation_Root = {
   insertUser?: Maybe<Users>;
   /** insert data into the table: "auth.users" */
   insertUsers?: Maybe<Users_Mutation_Response>;
+  /** insert a single row into the table: "storage.virus" */
+  insertVirus?: Maybe<Virus>;
+  /** insert data into the table: "storage.virus" */
+  insertViruses?: Maybe<Virus_Mutation_Response>;
   /** insert data into the table: "app_type" */
   insert_app_type?: Maybe<App_Type_Mutation_Response>;
   /** insert a single row into the table: "app_type" */
@@ -7314,6 +7373,10 @@ export type Mutation_Root = {
   updateUser?: Maybe<Users>;
   /** update data of the table: "auth.users" */
   updateUsers?: Maybe<Users_Mutation_Response>;
+  /** update single row of the table: "storage.virus" */
+  updateVirus?: Maybe<Virus>;
+  /** update data of the table: "storage.virus" */
+  updateViruses?: Maybe<Virus_Mutation_Response>;
   /** update data of the table: "app_type" */
   update_app_type?: Maybe<App_Type_Mutation_Response>;
   /** update single row of the table: "app_type" */
@@ -7522,6 +7585,8 @@ export type Mutation_Root = {
   update_user_app_many?: Maybe<Array<Maybe<User_App_Mutation_Response>>>;
   /** update multiples rows of table: "auth.users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
+  /** update multiples rows of table: "storage.virus" */
+  update_virus_many?: Maybe<Array<Maybe<Virus_Mutation_Response>>>;
 };
 
 
@@ -7654,6 +7719,18 @@ export type Mutation_RootDeleteUserArgs = {
 /** mutation root */
 export type Mutation_RootDeleteUsersArgs = {
   where: Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteVirusArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteVirusesArgs = {
+  where: Virus_Bool_Exp;
 };
 
 
@@ -8180,6 +8257,20 @@ export type Mutation_RootInsertUserArgs = {
 export type Mutation_RootInsertUsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertVirusArgs = {
+  object: Virus_Insert_Input;
+  on_conflict?: InputMaybe<Virus_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertVirusesArgs = {
+  objects: Array<Virus_Insert_Input>;
+  on_conflict?: InputMaybe<Virus_On_Conflict>;
 };
 
 
@@ -8769,7 +8860,12 @@ export type Mutation_RootUpdateBucketsArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdateFileArgs = {
+  _append?: InputMaybe<Files_Append_Input>;
+  _delete_at_path?: InputMaybe<Files_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Files_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Files_Delete_Key_Input>;
   _inc?: InputMaybe<Files_Inc_Input>;
+  _prepend?: InputMaybe<Files_Prepend_Input>;
   _set?: InputMaybe<Files_Set_Input>;
   pk_columns: Files_Pk_Columns_Input;
 };
@@ -8777,7 +8873,12 @@ export type Mutation_RootUpdateFileArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdateFilesArgs = {
+  _append?: InputMaybe<Files_Append_Input>;
+  _delete_at_path?: InputMaybe<Files_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Files_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Files_Delete_Key_Input>;
   _inc?: InputMaybe<Files_Inc_Input>;
+  _prepend?: InputMaybe<Files_Prepend_Input>;
   _set?: InputMaybe<Files_Set_Input>;
   where: Files_Bool_Exp;
 };
@@ -8804,6 +8905,30 @@ export type Mutation_RootUpdateUsersArgs = {
   _prepend?: InputMaybe<Users_Prepend_Input>;
   _set?: InputMaybe<Users_Set_Input>;
   where: Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateVirusArgs = {
+  _append?: InputMaybe<Virus_Append_Input>;
+  _delete_at_path?: InputMaybe<Virus_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Virus_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Virus_Delete_Key_Input>;
+  _prepend?: InputMaybe<Virus_Prepend_Input>;
+  _set?: InputMaybe<Virus_Set_Input>;
+  pk_columns: Virus_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateVirusesArgs = {
+  _append?: InputMaybe<Virus_Append_Input>;
+  _delete_at_path?: InputMaybe<Virus_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Virus_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Virus_Delete_Key_Input>;
+  _prepend?: InputMaybe<Virus_Prepend_Input>;
+  _set?: InputMaybe<Virus_Set_Input>;
+  where: Virus_Bool_Exp;
 };
 
 
@@ -9500,6 +9625,12 @@ export type Mutation_RootUpdate_User_App_ManyArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Users_ManyArgs = {
   updates: Array<Users_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Virus_ManyArgs = {
+  updates: Array<Virus_Updates>;
 };
 
 /** columns and relationships of "news" */
@@ -11173,6 +11304,12 @@ export type Query_Root = {
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   usersAggregate: Users_Aggregate;
+  /** fetch data from the table: "storage.virus" using primary key columns */
+  virus?: Maybe<Virus>;
+  /** fetch data from the table: "storage.virus" */
+  viruses: Array<Virus>;
+  /** fetch aggregated fields from the table: "storage.virus" */
+  virusesAggregate: Virus_Aggregate;
 };
 
 
@@ -12177,6 +12314,29 @@ export type Query_RootUsersAggregateArgs = {
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
+export type Query_RootVirusArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootVirusesArgs = {
+  distinct_on?: InputMaybe<Array<Virus_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Virus_Order_By>>;
+  where?: InputMaybe<Virus_Bool_Exp>;
+};
+
+
+export type Query_RootVirusesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Virus_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Virus_Order_By>>;
+  where?: InputMaybe<Virus_Bool_Exp>;
+};
+
 /** columns and relationships of "role" */
 export type Role = {
   __typename?: 'role';
@@ -12350,7 +12510,7 @@ export type Role_Ai_Bool_Exp = {
 
 /** unique or primary key constraints on table "role_ai" */
 export enum Role_Ai_Constraint {
-  /** unique or primary key constraint on columns "name", "lang" */
+  /** unique or primary key constraint on columns "lang", "name" */
   RoleAiNameLangKey = 'role_ai_name_lang_key',
   /** unique or primary key constraint on columns "id" */
   RoleAiPkey = 'role_ai_pkey'
@@ -13590,6 +13750,14 @@ export type Subscription_Root = {
   usersAggregate: Users_Aggregate;
   /** fetch data from the table in a streaming manner: "auth.users" */
   users_stream: Array<Users>;
+  /** fetch data from the table: "storage.virus" using primary key columns */
+  virus?: Maybe<Virus>;
+  /** fetch data from the table in a streaming manner: "storage.virus" */
+  virus_stream: Array<Virus>;
+  /** fetch data from the table: "storage.virus" */
+  viruses: Array<Virus>;
+  /** fetch aggregated fields from the table: "storage.virus" */
+  virusesAggregate: Virus_Aggregate;
 };
 
 
@@ -14902,6 +15070,36 @@ export type Subscription_RootUsers_StreamArgs = {
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
+export type Subscription_RootVirusArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootVirus_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Virus_Stream_Cursor_Input>>;
+  where?: InputMaybe<Virus_Bool_Exp>;
+};
+
+
+export type Subscription_RootVirusesArgs = {
+  distinct_on?: InputMaybe<Array<Virus_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Virus_Order_By>>;
+  where?: InputMaybe<Virus_Bool_Exp>;
+};
+
+
+export type Subscription_RootVirusesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Virus_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Virus_Order_By>>;
+  where?: InputMaybe<Virus_Bool_Exp>;
+};
+
 /** columns and relationships of "task" */
 export type Task = {
   __typename?: 'task';
@@ -15820,7 +16018,7 @@ export type Thread_Activity_Bool_Exp = {
 export enum Thread_Activity_Constraint {
   /** unique or primary key constraint on columns "id" */
   ThreadActivityPkey = 'thread_activity_pkey',
-  /** unique or primary key constraint on columns "type", "threadId", "refMeetingId" */
+  /** unique or primary key constraint on columns "refMeetingId", "type", "threadId" */
   ThreadActivityThreadIdRefMeetingIdTypeKey = 'thread_activity_threadId_refMeetingId_type_key'
 }
 
@@ -16672,7 +16870,7 @@ export type Thread_Poll_Answer_Bool_Exp = {
 
 /** unique or primary key constraints on table "thread_poll_answer" */
 export enum Thread_Poll_Answer_Constraint {
-  /** unique or primary key constraint on columns "userId", "activityId" */
+  /** unique or primary key constraint on columns "activityId", "userId" */
   ThreadPollAnswerActivityIdUserIdKey = 'thread_poll_answer_activityId_userId_key',
   /** unique or primary key constraint on columns "id" */
   ThreadPollAnswerPkey = 'thread_poll_answer_pkey'
@@ -17154,7 +17352,7 @@ export type User_App_Bool_Exp = {
 export enum User_App_Constraint {
   /** unique or primary key constraint on columns "id" */
   UserAppPkey = 'user_app_pkey',
-  /** unique or primary key constraint on columns "type", "userId" */
+  /** unique or primary key constraint on columns "userId", "type" */
   UserAppUserIdTypeKey = 'user_app_userId_type_key'
 }
 
@@ -18047,6 +18245,244 @@ export type Uuid_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['uuid']['input']>;
   _neq?: InputMaybe<Scalars['uuid']['input']>;
   _nin?: InputMaybe<Array<Scalars['uuid']['input']>>;
+};
+
+/** columns and relationships of "storage.virus" */
+export type Virus = {
+  __typename?: 'virus';
+  createdAt: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  file: Files;
+  fileId: Scalars['uuid']['output'];
+  filename: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  updatedAt: Scalars['timestamptz']['output'];
+  userSession: Scalars['jsonb']['output'];
+  virus: Scalars['String']['output'];
+};
+
+
+/** columns and relationships of "storage.virus" */
+export type VirusUserSessionArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregated selection of "storage.virus" */
+export type Virus_Aggregate = {
+  __typename?: 'virus_aggregate';
+  aggregate?: Maybe<Virus_Aggregate_Fields>;
+  nodes: Array<Virus>;
+};
+
+/** aggregate fields of "storage.virus" */
+export type Virus_Aggregate_Fields = {
+  __typename?: 'virus_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Virus_Max_Fields>;
+  min?: Maybe<Virus_Min_Fields>;
+};
+
+
+/** aggregate fields of "storage.virus" */
+export type Virus_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Virus_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Virus_Append_Input = {
+  userSession?: InputMaybe<Scalars['jsonb']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "storage.virus". All fields are combined with a logical 'AND'. */
+export type Virus_Bool_Exp = {
+  _and?: InputMaybe<Array<Virus_Bool_Exp>>;
+  _not?: InputMaybe<Virus_Bool_Exp>;
+  _or?: InputMaybe<Array<Virus_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  file?: InputMaybe<Files_Bool_Exp>;
+  fileId?: InputMaybe<Uuid_Comparison_Exp>;
+  filename?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  userSession?: InputMaybe<Jsonb_Comparison_Exp>;
+  virus?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "storage.virus" */
+export enum Virus_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  VirusPkey = 'virus_pkey'
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Virus_Delete_At_Path_Input = {
+  userSession?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Virus_Delete_Elem_Input = {
+  userSession?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Virus_Delete_Key_Input = {
+  userSession?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** input type for inserting data into table "storage.virus" */
+export type Virus_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  file?: InputMaybe<Files_Obj_Rel_Insert_Input>;
+  fileId?: InputMaybe<Scalars['uuid']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  userSession?: InputMaybe<Scalars['jsonb']['input']>;
+  virus?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Virus_Max_Fields = {
+  __typename?: 'virus_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  fileId?: Maybe<Scalars['uuid']['output']>;
+  filename?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+  virus?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Virus_Min_Fields = {
+  __typename?: 'virus_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  fileId?: Maybe<Scalars['uuid']['output']>;
+  filename?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+  virus?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "storage.virus" */
+export type Virus_Mutation_Response = {
+  __typename?: 'virus_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Virus>;
+};
+
+/** on_conflict condition type for table "storage.virus" */
+export type Virus_On_Conflict = {
+  constraint: Virus_Constraint;
+  update_columns?: Array<Virus_Update_Column>;
+  where?: InputMaybe<Virus_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "storage.virus". */
+export type Virus_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  file?: InputMaybe<Files_Order_By>;
+  fileId?: InputMaybe<Order_By>;
+  filename?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+  userSession?: InputMaybe<Order_By>;
+  virus?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: storage.virus */
+export type Virus_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Virus_Prepend_Input = {
+  userSession?: InputMaybe<Scalars['jsonb']['input']>;
+};
+
+/** select columns of table "storage.virus" */
+export enum Virus_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  FileId = 'fileId',
+  /** column name */
+  Filename = 'filename',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  UserSession = 'userSession',
+  /** column name */
+  Virus = 'virus'
+}
+
+/** input type for updating data in table "storage.virus" */
+export type Virus_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  fileId?: InputMaybe<Scalars['uuid']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  userSession?: InputMaybe<Scalars['jsonb']['input']>;
+  virus?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "virus" */
+export type Virus_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Virus_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Virus_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  fileId?: InputMaybe<Scalars['uuid']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  userSession?: InputMaybe<Scalars['jsonb']['input']>;
+  virus?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "storage.virus" */
+export enum Virus_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  FileId = 'fileId',
+  /** column name */
+  Filename = 'filename',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  UserSession = 'userSession',
+  /** column name */
+  Virus = 'virus'
+}
+
+export type Virus_Updates = {
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  _append?: InputMaybe<Virus_Append_Input>;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  _delete_at_path?: InputMaybe<Virus_Delete_At_Path_Input>;
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  _delete_elem?: InputMaybe<Virus_Delete_Elem_Input>;
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  _delete_key?: InputMaybe<Virus_Delete_Key_Input>;
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  _prepend?: InputMaybe<Virus_Prepend_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Virus_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Virus_Bool_Exp;
 };
 
 export type CircleFragment = { __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean };

@@ -174,6 +174,9 @@
     "export": "Exporter (PNG)",
     "share": "Partager (lien & embed)"
   },
+  "CircleWithLeaderItem": {
+    "linkTooltip": "Représente le rôle {{role}}"
+  },
   "CurrentUserModal": {
     "heading": "Mes informations personnelles",
     "email": "Email",
@@ -779,7 +782,7 @@
     "submit": "Je crée mon compte"
   },
   "SubCirclesFormControl": {
-    "roles": "Rôles",
+    "roles": "Sous-Rôles",
     "addRole": "Ajouter un rôle"
   },
   "SubscriptionPage": {
