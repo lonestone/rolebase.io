@@ -34,6 +34,7 @@ import {
   Import,
   ImportSquare,
   InfoCircle,
+  Judge,
   Kanban,
   LanguageSquare,
   Link2,
@@ -68,7 +69,6 @@ import {
   Task,
   TaskSquare,
   Trash,
-  Triangle,
   UserEdit,
   UserSquare,
   Video,
@@ -95,8 +95,8 @@ export const CopyIcon = Copy
 export const CreateIcon = AddSquare
 export const CurrentMemberIcon = UserSquare
 export const DarkThemeIcon = Moon
-export const DecisionIcon = Triangle
-export const DecisionsIcon = Triangle
+export const DecisionIcon = Judge
+export const DecisionsIcon = Judge
 export const DeleteIcon = Trash
 export const DownloadIcon = Import
 export const EditIcon = Edit2
