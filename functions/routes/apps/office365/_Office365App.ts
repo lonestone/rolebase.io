@@ -505,10 +505,26 @@ export default class Office365App
     meetingId: string,
     calendarId: string
   ): Promise<OfficeEvent | undefined> {
-    const { value: events } = await this.apiFetch<{ value: OfficeEvent[] }>(
+    const events = await this.apiGetAllPages<OfficeEvent>(
       `/me/calendars/${calendarId}/events?$filter=${filterMeetingId(meetingId)}`
     )
-    return events?.[0]
+
+    const [event, ...eventsToDelete] = events
+
+    // Delete Rolebase events
+    if (eventsToDelete.length > 0) {
+      await this.apiBatch(
+        events
+          .filter((e) => e.id !== event.id) // In case event is in double
+          .map(({ id }, i) => ({
+            id: i.toString(), // Ensure unicity (id is not always unique)
+            method: 'DELETE',
+            url: `/me/events/${id!}`,
+          }))
+      )
+    }
+
+    return event
   }
 
   // Delete occurrences of recurring events at exdates
