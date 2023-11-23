@@ -667,8 +667,11 @@ export default class Office365App
   // It shouldn't happen, but we observed it can happen when a timeout occurs
   private async fixMissingSubscription(calendarId: string) {
     if (
-      this.secretConfig.subscriptions.some((s) => s.calendarId === calendarId)
+      this.secretConfig.subscriptions.find((s) => s.calendarId === calendarId)
+        ?.expiryDate ||
+      0 > Date.now()
     ) {
+      // Subscription exists and is not expired
       return
     }
     if (debug) {
@@ -677,15 +680,19 @@ export default class Office365App
       )
     }
 
+    // Create new subscription
     const subscription = await this.createSubscription(calendarId)
+
+    // Update secret config
     if (subscription.id && subscription.expirationDateTime) {
-      // Update secret config
       await this.updateSecretConfig({
-        subscriptions: this.secretConfig.subscriptions.concat({
-          id: subscription.id,
-          calendarId,
-          expiryDate: +new Date(subscription.expirationDateTime),
-        }),
+        subscriptions: this.secretConfig.subscriptions
+          .filter((s) => s.calendarId !== calendarId)
+          .concat({
+            id: subscription.id,
+            calendarId,
+            expiryDate: +new Date(subscription.expirationDateTime),
+          }),
       })
     }
   }
