@@ -112,10 +112,12 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
 
         <TabList
           borderBottomWidth={0}
+          pb={2}
+          pl={6}
           bg="menulight"
           _dark={{ bg: 'menudark' }}
         >
-          <Tab icon={CircleIcon} minimize borderTopLeftRadius={0}>
+          <Tab icon={CircleIcon} minimize>
             {t('CircleContent.tabRole')}
           </Tab>
           <Tab icon={NewsIcon} minimize>

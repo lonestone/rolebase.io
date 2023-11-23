@@ -96,7 +96,7 @@ export default function SubscriptionTabs(props: FlexProps) {
     <Flex {...props}>
       <Tabs w="100%" colorScheme="gray">
         <Box overflowX="auto" bg="menulight" _dark={{ bg: 'menudark' }}>
-          <TabList px="10">
+          <TabList pl={7} pb={3}>
             <Tab icon={SubscriptionIcon}>
               {t('SubscriptionTabs.subscriptionTabTitle')}
             </Tab>

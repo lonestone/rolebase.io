@@ -45,14 +45,14 @@ export default forwardRef<Props, 'button'>(function Tab(
       <Button
         leftIcon={Icon && <Icon variant={isSelected ? 'Bold' : 'Linear'} />}
         display="flex"
-        py={3}
+        py={2}
+        px={3}
         alignItems="center"
-        iconSpacing={0}
+        iconSpacing={2}
         color="inherit"
         fontWeight="semibold"
         border={0}
-        borderTopLeftRadius="2xl"
-        borderTopRightRadius="2xl"
+        borderRadius="full"
         _hover={{ bg: 'whiteAlpha.600' }}
         _selected={{
           bg: 'white',
@@ -72,10 +72,13 @@ export default forwardRef<Props, 'button'>(function Tab(
       >
         <motion.div
           initial={false}
-          animate={{ width: isOpen ? 'fit-content' : 0 }}
+          animate={{
+            width: isOpen ? 'fit-content' : 0,
+            opacity: isOpen ? 1 : 0,
+          }}
           style={{ overflow: 'hidden' }}
         >
-          <Box whiteSpace="nowrap" textAlign="left" pl={3} pr={1}>
+          <Box whiteSpace="nowrap" textAlign="left" pr={1}>
             {children}
           </Box>
         </motion.div>
