@@ -1,6 +1,8 @@
 import CircleButton from '@atoms/CircleButton'
+import Loading from '@atoms/Loading'
+import TextError from '@atoms/TextError'
 import { Button, Text, VStack, useDisclosure } from '@chakra-ui/react'
-import { CircleWithRoleFragment, RoleFragment } from '@gql'
+import { CircleSummaryFragment, RoleFragment, useGetRoleQuery } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useOrgMember from '@hooks/useOrgMember'
 import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
@@ -14,7 +16,7 @@ import CircleMemberFormControl from './CircleMemberFormControl'
 import { RoleEditableField } from './RoleEditableField'
 
 interface Props {
-  circle: CircleWithRoleFragment
+  circle: CircleSummaryFragment
   participants: ParticipantMember[]
 }
 
@@ -31,10 +33,14 @@ const editableFields = [
 
 export const fieldsGap = 10
 
-export default function CircleRoleFormControl({ circle, participants }: Props) {
+export default function CircleRole({ circle, participants }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const role = circle.role
+
+  const { data, loading, error } = useGetRoleQuery({
+    variables: { id: circle.roleId },
+  })
+  const role = data?.role_by_pk
 
   // Parent circles and linked circle
   const parentCircle = useCircle(circle.parentId || undefined)
@@ -54,11 +60,18 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
 
   const generatorModal = useDisclosure()
 
+  if (loading) {
+    return <Loading active size="md" />
+  }
+  if (error || !role) {
+    return <TextError error={error || new Error('Role not found')} />
+  }
+
   return (
     <>
       <RoleEditableField
-        label={t('CircleRoleFormControl.purpose')}
-        placeholder={t('CircleRoleFormControl.purposePlaceholder')}
+        label={t('CircleRole.purpose')}
+        placeholder={t('CircleRole.purposePlaceholder')}
         role={role}
         field="purpose"
         mt={0}
@@ -75,14 +88,14 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
         {parentCircle && linkedCircle && (
           <Text>
             <Trans
-              i18nKey="CircleRoleFormControl.representCircle"
+              i18nKey="CircleRole.representCircle"
               components={{
                 link: <CircleButton circle={parentCircle} />,
               }}
             />
             <br />
             <Trans
-              i18nKey="CircleRoleFormControl.representInCircle"
+              i18nKey="CircleRole.representInCircle"
               components={{
                 link: <CircleButton circle={linkedCircle} />,
               }}
@@ -94,8 +107,8 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
       {sortedFields.map(({ field, initValue }) => (
         <RoleEditableField
           key={field}
-          label={t(`CircleRoleFormControl.${field}`)}
-          placeholder={t(`CircleRoleFormControl.${field}Placeholder`)}
+          label={t(`CircleRole.${field}`)}
+          placeholder={t(`CircleRole.${field}Placeholder`)}
           role={role}
           field={field}
           initValue={initValue}
@@ -111,7 +124,7 @@ export default function CircleRoleFormControl({ circle, participants }: Props) {
             colorScheme="blue"
             onClick={generatorModal.onOpen}
           >
-            {t('CircleRoleFormControl.generate')}
+            {t('CircleRole.generate')}
           </Button>
         )}
 

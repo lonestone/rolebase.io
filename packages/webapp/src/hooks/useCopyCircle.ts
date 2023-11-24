@@ -27,14 +27,7 @@ function getCircleAndChildren(
     input.role = {
       data: pick(
         circle.role,
-        'orgId',
         'name',
-        'purpose',
-        'domain',
-        'accountabilities',
-        'checklist',
-        'indicators',
-        'notes',
         'singleMember',
         'link',
         'defaultMinPerWeek',

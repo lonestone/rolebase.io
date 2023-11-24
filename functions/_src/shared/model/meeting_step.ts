@@ -1,7 +1,7 @@
 import {
-  CircleFullFragment,
   MeetingStepFragment,
   Meeting_Step_Type_Enum,
+  RoleFragment,
   Task_Status_Enum,
 } from '@gql'
 import { MeetingStepConfig } from './meeting'
@@ -71,7 +71,7 @@ export type MeetingStepData =
 export function getDefaultMeetingStep(
   meetingId: string,
   stepConfig: MeetingStepConfig,
-  circle: CircleFullFragment
+  role: RoleFragment
 ): Omit<MeetingStepFragment, 'id'> {
   const type = stepConfig.type
   const step = {
@@ -110,14 +110,14 @@ export function getDefaultMeetingStep(
       return {
         ...step,
         type,
-        notes: circle.role.checklist || '',
+        notes: role.checklist || '',
       }
 
     case Meeting_Step_Type_Enum.Indicators:
       return {
         ...step,
         type,
-        notes: circle.role.indicators || '',
+        notes: role.indicators || '',
       }
   }
 }

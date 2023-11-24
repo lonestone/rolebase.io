@@ -1,5 +1,5 @@
 import {
-  CircleWithRoleFragment,
+  CircleSummaryFragment,
   ThreadActivityFragment,
   ThreadFragment,
   ThreadMemberStatusFragment,
@@ -31,7 +31,7 @@ export interface ThreadState {
   loading: boolean
   error: Error | undefined
   path: string
-  circle: CircleWithRoleFragment | undefined
+  circle: CircleSummaryFragment | undefined
   participants: ParticipantMember[]
   canEdit: boolean
   canParticipate: boolean

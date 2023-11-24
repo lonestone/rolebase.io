@@ -26,7 +26,7 @@ import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
 import CircleDecisions from '@molecules/circle/CircleDecisions'
 import CircleMeetings from '@molecules/circle/CircleMeetings'
 import CircleNews from '@molecules/circle/CircleNews'
-import CircleRoleFormControl from '@molecules/circle/CircleRoleFormControl'
+import CircleRole from '@molecules/circle/CircleRole'
 import CircleTasks from '@molecules/circle/CircleTasks'
 import CircleThreads from '@molecules/circle/CircleThreads'
 import React from 'react'
@@ -139,10 +139,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
 
         <TabPanels flex={1} overflowY="auto">
           <TabPanel px={6} py={10}>
-            <CircleRoleFormControl
-              circle={circle}
-              participants={participants}
-            />
+            <CircleRole circle={circle} participants={participants} />
           </TabPanel>
           <TabPanel px={6} py={10}>
             <CircleNews circleId={id} />

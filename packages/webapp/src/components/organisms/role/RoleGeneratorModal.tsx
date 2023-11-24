@@ -149,11 +149,11 @@ export default function RoleGeneratorModal({ id, role, ...modalProps }: Props) {
 
               {fields.map((field) => (
                 <FormControl key={field} isInvalid={!!errors.purpose}>
-                  <FormLabel>{t(`CircleRoleFormControl.${field}`)}</FormLabel>
+                  <FormLabel>{t(`CircleRole.${field}`)}</FormLabel>
                   <EditorController
                     control={control}
                     name={field}
-                    placeholder={t(`CircleRoleFormControl.${field}Placeholder`)}
+                    placeholder={t(`CircleRole.${field}Placeholder`)}
                   />
                 </FormControl>
               ))}

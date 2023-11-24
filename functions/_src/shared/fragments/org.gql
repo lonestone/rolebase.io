@@ -18,7 +18,7 @@ fragment OrgFull on org {
     ...CircleFull
   }
   roles(where: { archived: { _eq: false }, base: { _eq: true } }) {
-    ...Role
+    ...RoleSummary
   }
   members(where: { archived: { _eq: false } }) {
     ...Member
@@ -36,7 +36,7 @@ fragment OrgFullLight on org {
     }
   }
   roles(where: { archived: { _eq: false } }) {
-    ...Role
+    ...RoleSummary
   }
   members(where: { archived: { _eq: false } }) {
     ...Member

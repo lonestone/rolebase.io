@@ -3,7 +3,7 @@ import {
   MemberFragment,
   OrgFragment,
   OrgFullLightFragment,
-  RoleFragment,
+  RoleSummaryFragment,
 } from '@gql'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { fixLostCircles } from '@shared/helpers/fixLostCircles'
@@ -15,7 +15,7 @@ interface OrgModel {
   currentId: string | undefined
   current: OrgFragment | undefined
   circles: CircleFullFragment[] | undefined
-  baseRoles: RoleFragment[] | undefined
+  baseRoles: RoleSummaryFragment[] | undefined
   members: MemberFragment[] | undefined
   loading: boolean
   error: Error | undefined

@@ -9,7 +9,7 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react'
-import { RoleFragment, useArchiveRoleMutation } from '@gql'
+import { RoleSummaryFragment, useArchiveRoleMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import React, { useRef } from 'react'
@@ -17,7 +17,7 @@ import { Trans, useTranslation } from 'react-i18next'
 
 interface Props
   extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
-  role: RoleFragment
+  role: RoleSummaryFragment
   onDelete?(): void
 }
 

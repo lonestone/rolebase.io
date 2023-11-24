@@ -119,7 +119,7 @@
     "action3": "Faites glisser le rôle avec la souris (clic sans relâcher) en maintenant la touche enfoncée.",
     "action4": "Déposez-le dans le rôle souhaité."
   },
-  "CircleRoleFormControl": {
+  "CircleRole": {
     "purpose": "Raison d'être",
     "purposePlaceholder": "But qu'il poursuit...",
     "domain": "Domaine",
@@ -559,7 +559,6 @@
     "editPicture": "Modifier la photo"
   },
   "MemberRoleItem": {
-    "purpose": "Raison d'être",
     "workingTime": "Temps de travail"
   },
   "MemberRoles": {

@@ -3,7 +3,7 @@ import { Member_Scope_Enum } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useParticipants from '@hooks/useParticipants'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
-import CircleRoleFormControl from '@molecules/circle/CircleRoleFormControl'
+import CircleRole from '@molecules/circle/CircleRole'
 import React from 'react'
 
 interface Props {
@@ -25,7 +25,7 @@ export default function CircleCard({ id }: Props) {
     <Box p={5}>
       <ModalCloseButton />
       <CircleAndParentsLinks circle={circle} size="md" mb={5} />
-      <CircleRoleFormControl circle={circle} participants={participants} />
+      <CircleRole circle={circle} participants={participants} />
     </Box>
   )
 }

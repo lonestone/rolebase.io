@@ -6,7 +6,7 @@ import SimpleEditor from '@molecules/editor/SimpleEditor'
 import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EditIcon } from 'src/icons'
-import { fieldsGap } from './circle/CircleRoleFormControl'
+import { fieldsGap } from './circle/CircleRole'
 
 interface Props extends Omit<BoxProps, 'value'> {
   label: string

@@ -1,7 +1,8 @@
 import { Box, Heading, StackItem, VStack } from '@chakra-ui/react'
 import {
-  CircleWithRoleFragment,
+  CircleSummaryFragment,
   RoleFragment,
+  RoleSummaryFragment,
   useCreateCircleMutation,
   useCreateRoleMutation,
 } from '@gql'
@@ -20,7 +21,7 @@ import RoleSearchButton from '../search/entities/roles/RoleSearchButton'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 
 interface Props {
-  circle: CircleWithRoleFragment
+  circle: CircleSummaryFragment
   participants: ParticipantMember[]
 }
 
@@ -67,11 +68,11 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
 
   // Create circle and open it
   const handleCreateCircle = useCallback(
-    async (roleOrName: RoleFragment | string) => {
+    async (roleOrName: RoleSummaryFragment | string) => {
       if (!orgId) return
 
       // Create role
-      let role: RoleFragment
+      let role: RoleFragment | RoleSummaryFragment
       if (typeof roleOrName === 'string') {
         const { data } = await createRole({
           variables: {
@@ -109,7 +110,11 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
       // Log changes
       if (typeof roleOrName === 'string') {
         changes.roles = [
-          { type: EntityChangeType.Create, id: role.id, data: role },
+          {
+            type: EntityChangeType.Create,
+            id: role.id,
+            data: role as RoleFragment,
+          },
         ]
       }
       createLog({
@@ -127,7 +132,7 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   )
 
   const handleAddRole = useCallback(
-    (roleId: string) => {
+    async (roleId: string) => {
       const role = roles?.find((r) => r.id === roleId)
       if (!role) return
       handleCreateCircle(role)

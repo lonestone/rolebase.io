@@ -1,5 +1,9 @@
 import { MeetingContext } from '@contexts/MeetingContext'
-import { MeetingStepFragment, useCreateMeetingStepMutation } from '@gql'
+import {
+  MeetingStepFragment,
+  useCreateMeetingStepMutation,
+  useGetRoleLazyQuery,
+} from '@gql'
 import { getDefaultMeetingStep } from '@shared/model/meeting_step'
 import { useCallback, useContext } from 'react'
 import useOrgMember from './useOrgMember'
@@ -11,10 +15,18 @@ export default function useCreateMissingMeetingSteps() {
   const isMember = useOrgMember()
   const { meeting, circle, steps } = useContext(MeetingContext)!
   const [createMeetingStep] = useCreateMeetingStepMutation()
+  const [getRole] = useGetRoleLazyQuery()
 
   return useCallback(
     async (stepsToCopy?: MeetingStepFragment[]) => {
       if (!isMember || !meeting || !circle || !steps) return
+
+      // Get full role
+      const { data: roleData } = await getRole({
+        variables: { id: circle.roleId },
+      })
+      const role = roleData?.role_by_pk
+      if (!role) return
 
       // Create all missing steps
       for (const stepConfig of meeting.stepsConfig) {
@@ -22,7 +34,7 @@ export default function useCreateMissingMeetingSteps() {
           continue
         }
 
-        const newSteps = getDefaultMeetingStep(meeting.id, stepConfig, circle)
+        const newSteps = getDefaultMeetingStep(meeting.id, stepConfig, role)
 
         // Copy step content?
         const stepToCopy = stepsToCopy?.find(

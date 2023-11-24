@@ -119,7 +119,7 @@
     "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
     "action4": "Drop it in the desired role."
   },
-  "CircleRoleFormControl": {
+  "CircleRole": {
     "purpose": "Purpose",
     "purposePlaceholder": "Purpose it pursues...",
     "domain": "Domain",
@@ -525,7 +525,6 @@
     "editPicture": "Edit Picture"
   },
   "MemberRoleItem": {
-    "purpose": "Purpose",
     "workingTime": "Working time"
   },
   "MemberRoles": {

@@ -1,7 +1,7 @@
 import CircleButton from '@atoms/CircleButton'
 import MemberAvatar from '@atoms/MemberAvatar'
 import { Box, BoxProps, Flex, Icon, Tooltip } from '@chakra-ui/react'
-import { CircleWithRoleFragment } from '@gql'
+import { CircleSummaryFragment } from '@gql'
 import { ParticipantMember } from '@shared/model/member'
 import { RoleLink } from '@shared/model/role'
 import React, { useMemo } from 'react'
@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next'
 import { CircleLinkIcon } from 'src/icons'
 
 interface Props extends BoxProps {
-  circle: CircleWithRoleFragment
-  parentCircle: CircleWithRoleFragment
+  circle: CircleSummaryFragment
+  parentCircle: CircleSummaryFragment
   participants: ParticipantMember[]
 }
 

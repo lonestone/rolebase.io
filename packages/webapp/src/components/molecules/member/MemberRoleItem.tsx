@@ -1,5 +1,4 @@
 import DurationSelect from '@atoms/DurationSelect'
-import Markdown from '@atoms/Markdown'
 import {
   AccordionButton,
   AccordionIcon,
@@ -97,16 +96,10 @@ export default function MemberRoleItem({ memberId, circle }: Props) {
             pt={3}
             pb={5}
             pl={10}
-            display={!isMember && !role?.purpose ? 'none' : undefined}
+            display={!isMember ? 'none' : undefined}
           >
             <form onSubmit={onSubmit}>
               <VStack spacing={3} align="stretch">
-                {role?.purpose && (
-                  <FormControl>
-                    <FormLabel>{t(`MemberRoleItem.purpose`)}</FormLabel>
-                    <Markdown>{role?.purpose}</Markdown>
-                  </FormControl>
-                )}
                 {isMember && (
                   <>
                     <FormControl>

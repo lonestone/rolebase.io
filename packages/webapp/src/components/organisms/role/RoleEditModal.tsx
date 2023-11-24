@@ -26,7 +26,11 @@ import {
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
-import { RoleFragment, useGetRoleQuery, useUpdateRoleMutation } from '@gql'
+import {
+  RoleSummaryFragment,
+  useGetRoleQuery,
+  useUpdateRoleMutation,
+} from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
@@ -41,7 +45,7 @@ import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   id?: string
-  role?: RoleFragment
+  role?: RoleSummaryFragment
 }
 
 interface Values {
@@ -65,7 +69,7 @@ enum LinkType {
 }
 const tmpCircleId = 'tmpCircleId'
 
-function getDefaultValues(role: RoleFragment): Values {
+function getDefaultValues(role: RoleSummaryFragment): Values {
   return {
     name: role.name,
     defaultMinPerWeek: role.defaultMinPerWeek ?? null,
