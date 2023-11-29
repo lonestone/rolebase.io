@@ -70,16 +70,7 @@ export default function OrgPage() {
                 avgMinPerWeek: 0,
               })),
             })),
-            roles: data.role.map((r) => ({
-              ...r,
-              archived: false,
-              accountabilities: '',
-              domain: '',
-              indicators: '',
-              checklist: '',
-              notes: '',
-              defaultMinPerWeek: 0,
-            })),
+            roles: data.role,
             members: data.member.map((m) => ({
               ...m,
               archived: false,

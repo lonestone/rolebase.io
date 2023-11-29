@@ -1,13 +1,13 @@
 import ColorController from '@atoms/ColorController'
 import DurationSelect from '@atoms/DurationSelect'
 import Loading from '@atoms/Loading'
+import Switch from '@atoms/Switch'
 import TextError from '@atoms/TextError'
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   Button,
-  Checkbox,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -19,10 +19,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Radio,
-  RadioGroup,
   Stack,
-  StackItem,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
@@ -33,10 +30,8 @@ import {
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
-import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import { RoleLink } from '@shared/model/role'
 import { nameSchema } from '@shared/schemas'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -51,7 +46,7 @@ interface Props extends UseModalProps {
 interface Values {
   name: string
   singleMember: boolean
-  link: string
+  parentLink: boolean
   defaultMinPerWeek: number | null
   colorHue: number | null
 }
@@ -63,18 +58,12 @@ const resolver = yupResolver(
   })
 )
 
-enum LinkType {
-  parent = 'parent',
-  other = 'other',
-}
-const tmpCircleId = 'tmpCircleId'
-
 function getDefaultValues(role: RoleSummaryFragment): Values {
   return {
     name: role.name,
     defaultMinPerWeek: role.defaultMinPerWeek ?? null,
     singleMember: role.singleMember,
-    link: role.link,
+    parentLink: role.parentLink,
     colorHue: role.colorHue ?? null,
   }
 }
@@ -88,8 +77,6 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
     handleSubmit,
     register,
     control,
-    watch,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<Values>({
@@ -110,12 +97,6 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
     if (!fetchedRole) return
     reset(fetchedRole && getDefaultValues(fetchedRole))
   }, [fetchedRole])
-
-  // Register some fields
-  const link = watch('link')
-  useEffect(() => {
-    register('link')
-  }, [register])
 
   const onSubmit = handleSubmit(async (values) => {
     if (!role) return
@@ -175,55 +156,13 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
 
               <FormControl>
                 <Stack spacing={1}>
-                  <Checkbox {...register('singleMember')}>
+                  <Switch {...register('singleMember')}>
                     {t('RoleEditModal.singleMember')}
-                  </Checkbox>
+                  </Switch>
 
-                  <Checkbox
-                    name="link"
-                    isChecked={link !== RoleLink.No}
-                    onChange={() =>
-                      setValue(
-                        'link',
-                        link === RoleLink.No ? RoleLink.Parent : RoleLink.No
-                      )
-                    }
-                  >
-                    {t('RoleEditModal.linkParent')}
-                  </Checkbox>
-                  <RadioGroup
-                    display={link !== RoleLink.No ? '' : 'none'}
-                    value={
-                      link === RoleLink.Parent
-                        ? LinkType.parent
-                        : LinkType.other
-                    }
-                    onChange={(value) =>
-                      setValue(
-                        'link',
-                        value === LinkType.parent
-                          ? RoleLink.Parent
-                          : tmpCircleId
-                      )
-                    }
-                  >
-                    <Stack pl={6} mt={1} spacing={1} direction="column">
-                      <Radio value={LinkType.parent}>
-                        {t('RoleEditModal.linkToParent')}
-                      </Radio>
-                      <Radio value={LinkType.other} isDisabled={role.base}>
-                        {t('RoleEditModal.linkToCircle')}
-                      </Radio>
-                      {typeof link === 'string' && (
-                        <StackItem pl={6}>
-                          <CircleSearchInput
-                            value={link !== tmpCircleId ? link : undefined}
-                            onChange={(value) => setValue('link', value)}
-                          />
-                        </StackItem>
-                      )}
-                    </Stack>
-                  </RadioGroup>
+                  <Switch {...register('parentLink')}>
+                    {t('RoleEditModal.parentLink')}{' '}
+                  </Switch>
                 </Stack>
               </FormControl>
 

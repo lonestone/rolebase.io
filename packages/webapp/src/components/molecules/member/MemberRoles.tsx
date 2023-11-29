@@ -1,7 +1,6 @@
 import { Accordion, BoxProps, Text } from '@chakra-ui/react'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import { MemberFragment } from '@gql'
-import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,16 +27,10 @@ export default function MemberRoles({
       .filter((circle) => circle.members.some((m) => m.member.id === member.id))
       .sort((a, b) => {
         // Put leaders at the top
-        if (
-          a.role.link === RoleLink.Parent &&
-          b.role.link !== RoleLink.Parent
-        ) {
+        if (a.role.parentLink && !b.role.parentLink) {
           return -1
         }
-        if (
-          a.role.link !== RoleLink.Parent &&
-          b.role.link === RoleLink.Parent
-        ) {
+        if (!a.role.parentLink && b.role.parentLink) {
           return 1
         }
         // Sort by name

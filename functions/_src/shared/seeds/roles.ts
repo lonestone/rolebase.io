@@ -1,5 +1,4 @@
 import { RoleFragment } from '@gql'
-import { RoleLink } from '../model/role'
 
 export const defaultSeedRole = {
   archived: false,
@@ -11,15 +10,15 @@ export const defaultSeedRole = {
   indicators: '',
   notes: '',
   singleMember: true,
-  link: RoleLink.No,
+  parentLink: false,
   defaultMinPerWeek: null,
   colorHue: null,
 }
 
 export const getSeedRoles = (orgId: string): Omit<RoleFragment, 'id'>[] =>
   [
-    { name: 'Leader', link: RoleLink.Parent, colorHue: 0 },
-    { name: 'Représentant', link: RoleLink.Parent, colorHue: 18 },
+    { name: 'Leader', parentLink: true, colorHue: 0 },
+    { name: 'Représentant', parentLink: true, colorHue: 18 },
     { name: 'Secrétaire', colorHue: 283 },
     { name: 'Facilitateur', colorHue: 111 },
   ].map((partialRole) => ({

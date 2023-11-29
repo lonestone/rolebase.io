@@ -1,5 +1,4 @@
 import { CircleFullFragment, MemberFragment, RoleFragment } from '@gql'
-import { RoleLink } from '@shared/model/role'
 import settings from 'src/settings'
 
 import angela from './pictures/angela.jpg'
@@ -104,7 +103,7 @@ const roleBase = {
   indicators: '',
   notes: '',
   singleMember: false,
-  link: RoleLink.No,
+  parentLink: false,
   defaultMinPerWeek: null,
   colorHue: null,
 }
@@ -146,7 +145,7 @@ const rolesMaps = {
     ...roleBase,
     base: true,
     singleMember: true,
-    link: RoleLink.Parent,
+    parentLink: true,
     colorHue: 0,
   },
   facilitator: {
@@ -183,6 +182,7 @@ function buildCircleFull(
         archived: false,
         member,
       })) ?? [],
+    invitedCircleLinks: [],
   }
 }
 

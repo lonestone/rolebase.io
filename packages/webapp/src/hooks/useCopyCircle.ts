@@ -29,7 +29,7 @@ function getCircleAndChildren(
         circle.role,
         'name',
         'singleMember',
-        'link',
+        'parentLink',
         'defaultMinPerWeek',
         'colorHue'
       ),

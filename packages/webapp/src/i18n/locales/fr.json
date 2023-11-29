@@ -707,9 +707,7 @@
     "baseInfo": "Ce rôle est un Rôle de Base potentiellement utilisé à plusieurs endroits.",
     "name": "Nom du rôle",
     "singleMember": "Ne peut être occupé que par un seul membre",
-    "linkParent": "Représente son rôle parent (lien)",
-    "linkToParent": "Dans le rôle parent",
-    "linkToCircle": "Dans un autre rôle",
+    "parentLink": "Représente son rôle parent (lien)",
     "defaultWorkingTime": "Temps par défaut",
     "defaultWorkingTimeHelp": "Temps alloué par défaut à chaque membre ayant ce rôle.",
     "color": "Personnaliser la couleur"
@@ -782,7 +780,8 @@
   },
   "SubCirclesFormControl": {
     "roles": "Sous-Rôles",
-    "addRole": "Ajouter un rôle"
+    "addRole": "Créer un rôle",
+    "inviteRole": "Inviter un rôle"
   },
   "SubscriptionPage": {
     "heading": "Abonnement"

@@ -1,5 +1,4 @@
 import { RoleFragment } from '@gql'
-import { RoleLink } from '../model/role'
 
 const roleBase = {
   archived: false,
@@ -11,7 +10,7 @@ const roleBase = {
   indicators: '',
   notes: '',
   singleMember: false,
-  link: RoleLink.No,
+  parentLink: false,
   defaultMinPerWeek: null,
   colorHue: null,
 }
@@ -54,7 +53,7 @@ export const roles: RoleFragment[] = [
     ...roleBase,
     base: true,
     singleMember: true,
-    link: RoleLink.Parent,
+    parentLink: true,
     colorHue: 0,
   },
   {

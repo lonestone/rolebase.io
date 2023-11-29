@@ -38,10 +38,10 @@ insert_permissions:
         - defaultMinPerWeek
         - domain
         - indicators
-        - link
         - name
         - notes
         - orgId
+        - parentLink
         - purpose
         - singleMember
 select_permissions:
@@ -52,9 +52,9 @@ select_permissions:
         - base
         - colorHue
         - id
-        - link
         - name
         - orgId
+        - parentLink
         - purpose
         - singleMember
       filter:
@@ -76,10 +76,10 @@ select_permissions:
         - domain
         - id
         - indicators
-        - link
         - name
         - notes
         - orgId
+        - parentLink
         - purpose
         - singleMember
       filter:
@@ -100,9 +100,9 @@ update_permissions:
         - defaultMinPerWeek
         - domain
         - indicators
-        - link
         - name
         - notes
+        - parentLink
         - purpose
         - singleMember
       filter:

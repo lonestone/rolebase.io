@@ -4,6 +4,7 @@ export interface Participant {
   circleId: string
   member: MemberSummaryFragment
   leader?: boolean
+  invited?: boolean
 }
 
 // Member with its represented circles in a specific context (eg: a meeting)

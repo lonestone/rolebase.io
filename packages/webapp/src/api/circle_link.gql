@@ -1,0 +1,15 @@
+mutation createCircleLink($parentId: uuid!, $circleId: uuid!) {
+  insert_circle_link_one(object: { circleId: $circleId, parentId: $parentId }) {
+    ...CircleLink
+  }
+}
+
+mutation deleteCircleLink($parentId: uuid!, $circleId: uuid!) {
+  delete_circle_link(
+    where: { parentId: { _eq: $parentId }, circleId: { _eq: $circleId } }
+  ) {
+    returning {
+      ...CircleLink
+    }
+  }
+}

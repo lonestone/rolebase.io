@@ -19,6 +19,20 @@ array_relationships:
         table:
           name: circle
           schema: public
+  - name: hostCircleLinks
+    using:
+      foreign_key_constraint_on:
+        column: circleId
+        table:
+          name: circle_link
+          schema: public
+  - name: invitedCircleLinks
+    using:
+      foreign_key_constraint_on:
+        column: parentId
+        table:
+          name: circle_link
+          schema: public
   - name: members
     using:
       foreign_key_constraint_on:
@@ -93,7 +107,19 @@ update_permissions:
                       _eq: Admin
                   - role:
                       _eq: Owner
-      check: {}
+      check:
+        org:
+          members:
+            _and:
+              - userId:
+                  _eq: X-Hasura-User-Id
+              - _or:
+                  - role:
+                      _eq: Member
+                  - role:
+                      _eq: Admin
+                  - role:
+                      _eq: Owner
 event_triggers:
   - name: index-circle
     definition:

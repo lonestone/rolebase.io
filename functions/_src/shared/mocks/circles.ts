@@ -109,5 +109,6 @@ export const circlesFull: CircleFullFragment[] = circles.map((circle) => {
     ...circle,
     role,
     members: circleMembers,
+    invitedCircleLinks: [],
   }
 })

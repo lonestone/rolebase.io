@@ -24,4 +24,9 @@ fragment CircleFull on circle {
       ...MemberSummary
     }
   }
+  invitedCircleLinks {
+    invitedCircle {
+      id
+    }
+  }
 }

@@ -1,5 +1,4 @@
 import { CircleFullFragment } from '@gql'
-import { RoleLink } from '../model/role'
 
 export function getParticipantCircles(
   memberId: string,
@@ -10,39 +9,45 @@ export function getParticipantCircles(
     circle.members.some((member) => member.member.id === memberId)
   )
 
+  const leaderCircles: CircleFullFragment[] = []
+
   // Circles where the member is a representant
-  const representedCircles = directMemberCircles.reduce<CircleFullFragment[]>(
-    (acc, { id, parentId, role: { link } }) => {
-      // Find Leader
-      const leader = circles.find(
+  const participantCircles = directMemberCircles.reduce<CircleFullFragment[]>(
+    (acc, { id, parentId, role: { parentLink } }) => {
+      const parent = circles.find((c) => c.id === parentId)
+      if (!parent) return acc
+
+      // Find if there is a leader
+      const hasLeader = circles.some(
         (circle) =>
-          circle.parentId === id && circle.role.link === RoleLink.Parent
+          circle.parentId === id &&
+          circle.role.parentLink &&
+          circle.members.length > 0
       )
-      if (!leader) {
-        const parent = circles.find((c) => c.id === parentId)
-        if (!parent) return acc
+      if (hasLeader) return acc
 
-        // Member represents its role in its parent if there is no leader
-        acc.push(parent)
+      // Member represents its role in its parent if there is no leader
+      acc.push(parent)
 
-        if (link === RoleLink.Parent) {
-          // It represents its parent in grandparent
-          const grandParent = circles.find((c) => c.id === parent.parentId)
-          if (grandParent) {
-            acc.push(grandParent)
-          }
-        } else if (typeof link === 'string') {
-          // It represents its parent in another circle
-          const circle = circles.find((c) => c.id === link)
-          if (circle) {
-            acc.push(circle)
-          }
+      if (parentLink) {
+        // It represents its parent in grandparent
+        const grandParent = circles.find((c) => c.id === parent.parentId)
+        if (grandParent) {
+          acc.push(grandParent)
         }
+        leaderCircles.push(parent)
       }
       return acc
     },
     []
   )
 
-  return [...directMemberCircles, ...representedCircles]
+  // Circles where the member is a representant of an invited circle
+  const invitedCircles = circles.filter((circle) =>
+    circle.invitedCircleLinks.some(({ invitedCircle }) =>
+      leaderCircles.some((c) => invitedCircle.id === c.id)
+    )
+  )
+
+  return [...directMemberCircles, ...participantCircles, ...invitedCircles]
 }

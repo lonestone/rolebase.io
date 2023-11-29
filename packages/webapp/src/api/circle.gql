@@ -14,6 +14,11 @@ query getPublicCircles($orgId: uuid!) {
       id
       memberId
     }
+    invitedCircleLinks {
+      invitedCircle {
+        id
+      }
+    }
   }
   role(where: { orgId: { _eq: $orgId }, archived: { _eq: false } }) {
     id
@@ -22,7 +27,7 @@ query getPublicCircles($orgId: uuid!) {
     name
     purpose
     singleMember
-    link
+    parentLink
     colorHue
   }
   member(where: { orgId: { _eq: $orgId }, archived: { _eq: false } }) {

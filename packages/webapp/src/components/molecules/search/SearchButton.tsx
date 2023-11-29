@@ -110,7 +110,7 @@ export default function SearchButton({
           </Button>
         )}
         {isOpen && buttonProps.leftIcon && (
-          <InputLeftElement pointerEvents="none">
+          <InputLeftElement pointerEvents="none" pl={3}>
             {buttonProps.leftIcon}
           </InputLeftElement>
         )}
@@ -119,6 +119,7 @@ export default function SearchButton({
           placeholder={children}
           display={isOpen ? '' : 'none'}
           w={buttonWidth ? `${buttonWidth}px` : 'auto'}
+          pl={buttonProps.leftIcon ? 10 : undefined}
           borderRadius={buttonProps.borderRadius}
           {...inputProps}
         />

@@ -9,6 +9,7 @@
 - "!include auth_users.yaml"
 - "!include public_app_type.yaml"
 - "!include public_circle.yaml"
+- "!include public_circle_link.yaml"
 - "!include public_circle_member.yaml"
 - "!include public_decision.yaml"
 - "!include public_log.yaml"

@@ -1,27 +1,39 @@
-import { Box, Heading, StackItem, VStack } from '@chakra-ui/react'
 import {
-  CircleSummaryFragment,
+  Box,
+  Flex,
+  HStack,
+  Heading,
+  IconButton,
+  Tooltip,
+  VStack,
+} from '@chakra-ui/react'
+import {
+  CircleFullFragment,
   RoleFragment,
   RoleSummaryFragment,
+  useCreateCircleLinkMutation,
   useCreateCircleMutation,
   useCreateRoleMutation,
+  useDeleteCircleLinkMutation,
 } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
+import CircleSearchButton from '@molecules/search/entities/circles/CircleSearchButton'
+import { truthy } from '@shared/helpers/truthy'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
 import { ParticipantMember } from '@shared/model/member'
-import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import { omit } from '@utils/omit'
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CreateIcon } from 'src/icons'
+import { FiX } from 'react-icons/fi'
+import { CreateIcon, LinkIcon } from 'src/icons'
 import RoleSearchButton from '../search/entities/roles/RoleSearchButton'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 
 interface Props {
-  circle: CircleSummaryFragment
+  circle: CircleFullFragment
   participants: ParticipantMember[]
 }
 
@@ -33,26 +45,21 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   const orgId = useOrgId()
   const [createCircle] = useCreateCircleMutation()
   const [createRole] = useCreateRoleMutation()
+  const [createCircleLink] = useCreateCircleLinkMutation()
+  const [deleteCircleLink] = useDeleteCircleLinkMutation()
   const createLog = useCreateLog()
 
   // Get direct circles children
   const subCircles = useMemo(
     () =>
-      circles &&
       circles
-        .filter((c) => c.parentId === circle.id)
+        ?.filter((c) => c.parentId === circle.id)
         .sort((a, b) => {
           // Put leaders at the top
-          if (
-            a.role.link === RoleLink.Parent &&
-            b.role.link !== RoleLink.Parent
-          ) {
+          if (a.role.parentLink && !b.role.parentLink) {
             return -1
           }
-          if (
-            a.role.link !== RoleLink.Parent &&
-            b.role.link === RoleLink.Parent
-          ) {
+          if (!a.role.parentLink && b.role.parentLink) {
             return 1
           }
           // Sort by name
@@ -140,6 +147,44 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
     [handleCreateCircle, roles]
   )
 
+  // Get invited circles (links)
+  const invitedCircles = useMemo(
+    () =>
+      circle.invitedCircleLinks
+        .map((link) => circles?.find((c) => c.id === link.invitedCircle.id))
+        .filter(truthy)
+        .sort((a, b) => a.role.name.localeCompare(b.role.name)),
+    [circles, circle]
+  )
+
+  // List of circles ids to exclude from circle search when adding a link
+  const excludedCirclesIds = useMemo(() => {
+    // Exclude current circle
+    const ids = [circle.id]
+    // Exclude parent circle
+    if (circle.parentId) ids.push(circle.parentId)
+    // Exclude already invited circle
+    if (invitedCircles) ids.push(...invitedCircles.map((c) => c.id))
+    // Exclude children circles
+    const children = circles?.filter((c) => c.parentId === circle.id)
+    if (children) ids.push(...children.map((c) => c.id))
+    return ids
+  }, [circle, invitedCircles])
+
+  const handleAddLink = useCallback(
+    async (circleId: string) => {
+      createCircleLink({ variables: { parentId: circle.id, circleId } })
+    },
+    [circle]
+  )
+
+  const handleDeleteLink = useCallback(
+    async (circleId: string) => {
+      deleteCircleLink({ variables: { parentId: circle.id, circleId } })
+    },
+    [circle]
+  )
+
   // Hide if read only and empty
   if (!isMember && !subCircles?.length) return null
 
@@ -159,8 +204,32 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
           />
         ))}
 
+        {invitedCircles?.map((invitedCircle, i) => (
+          <Flex key={invitedCircle.id}>
+            <CircleWithLeaderItem
+              className={`userflow-invited-circle-${i}`}
+              circle={invitedCircle}
+              parentCircle={circle}
+              participants={participants}
+            />
+            {isMember && (
+              <IconButton
+                aria-label={t('common.remove')}
+                icon={<FiX />}
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  handleDeleteLink(invitedCircle.id)
+                }}
+              />
+            )}
+          </Flex>
+        ))}
+
         {isMember && (
-          <StackItem>
+          <HStack>
             <RoleSearchButton
               className="userflow-add-role-btn"
               excludeIds={subRolesIds}
@@ -173,7 +242,25 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
             >
               {t('SubCirclesFormControl.addRole')}
             </RoleSearchButton>
-          </StackItem>
+
+            <Tooltip
+              label={t('SubCirclesFormControl.inviteRole')}
+              placement="top"
+              hasArrow
+            >
+              <CircleSearchButton
+                className="userflow-invite-circle-btn"
+                excludeIds={excludedCirclesIds}
+                size="sm"
+                variant="ghost"
+                borderRadius="full"
+                leftIcon={<LinkIcon size={20} />}
+                onSelect={handleAddLink}
+              >
+                {t('SubCirclesFormControl.inviteRole')}
+              </CircleSearchButton>
+            </Tooltip>
+          </HStack>
         )}
       </VStack>
     </Box>

@@ -1,6 +1,5 @@
 import { CircleFullFragment } from '@gql'
 import { Participant } from '../model/member'
-import { RoleLink } from '../model/role'
 import { getCircleParticipants } from './getCircleParticipants'
 
 export function getAllCircleMembersParticipants(
@@ -16,7 +15,7 @@ export function getAllCircleMembersParticipants(
       (c) =>
         c.parentId === circleId &&
         // Skip Leaders because they are already in participants
-        c.role.link !== RoleLink.Parent
+        !c.role.parentLink
     )
     .flatMap((c) => getAllCircleMembersParticipants(c.id, circles))
 

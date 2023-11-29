@@ -5,7 +5,6 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, BoxProps, chakra, HStack, Text } from '@chakra-ui/react'
 import { CircleFullFragment } from '@gql'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
-import { RoleLink } from '@shared/model/role'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { CircleLinkIcon } from 'src/icons'
@@ -21,13 +20,6 @@ export default function CircleAndParentsLinks({
   ...boxProps
 }: Props) {
   const circles = useStoreState((state) => state.org.circles)
-
-  // Represented circle?
-  const representedCircleId = useMemo(() => {
-    if (circle.role.link === RoleLink.No) return
-    if (circle.role.link === RoleLink.Parent) return circle.parentId
-    if (typeof circle.role.link === 'string') return circle.role.link
-  }, [circle])
 
   // Get circle parents
   const circleAndParents = useMemo(() => {
@@ -74,12 +66,12 @@ export default function CircleAndParentsLinks({
       </Text>
       <HStack alignItems="center">
         <CircleButton circle={circle} size={size} noEllipsis />
-        {representedCircleId && (
+        {circle.role.parentLink && circle.parentId && (
           <>
             <Box color="gray.500" _dark={{ color: 'gray.300' }}>
               <CircleLinkIcon size="1.5em" />
             </Box>
-            <CircleByIdButton id={representedCircleId} size={size} />
+            <CircleByIdButton id={circle.parentId} size={size} />
           </>
         )}
       </HStack>

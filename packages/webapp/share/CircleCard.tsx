@@ -25,7 +25,7 @@ export default function CircleCard({ id }: Props) {
     <Box p={5}>
       <ModalCloseButton />
       <CircleAndParentsLinks circle={circle} size="md" mb={5} />
-      <CircleRole circle={circle} participants={participants} />
+      <CircleRole circle={circle} participants={participants} skipFetchRole />
     </Box>
   )
 }

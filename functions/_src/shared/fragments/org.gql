@@ -34,6 +34,11 @@ fragment OrgFullLight on org {
       memberId
       avgMinPerWeek
     }
+    invitedCircleLinks {
+      invitedCircle {
+        id
+      }
+    }
   }
   roles(where: { archived: { _eq: false } }) {
     ...RoleSummary

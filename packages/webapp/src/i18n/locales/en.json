@@ -673,9 +673,7 @@
     "baseInfo": "This role is a Basic Role potentially used in multiple locations.",
     "name": "Role Name",
     "singleMember": "Can only be occupied by a single member",
-    "linkParent": "Represents its parent rôle (link)",
-    "linkToParent": "In parent rôle",
-    "linkToCircle": "In another rôle",
+    "parentLink": "Represents its parent rôle (link)",
     "defaultWorkingTime": "Default Time",
     "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
     "color": "Customize color"
@@ -748,8 +746,9 @@
     "submit": "Create my account"
   },
   "SubCirclesFormControl": {
-    "roles": "Sub-Roles",
-    "addRole": "Add a role"
+    "roles": "Roles",
+    "addRole": "Create a role",
+    "inviteRole": "Invite a role"
   },
   "SubscriptionPage": {
     "heading": "Subscription"

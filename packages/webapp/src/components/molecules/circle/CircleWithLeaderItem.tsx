@@ -3,7 +3,6 @@ import MemberAvatar from '@atoms/MemberAvatar'
 import { Box, BoxProps, Flex, Icon, Tooltip } from '@chakra-ui/react'
 import { CircleSummaryFragment } from '@gql'
 import { ParticipantMember } from '@shared/model/member'
-import { RoleLink } from '@shared/model/role'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleLinkIcon } from 'src/icons'
@@ -46,7 +45,7 @@ export default function CircleWithLeaderItem({
             />
           ))}
 
-          {circle.role.link === RoleLink.Parent && (
+          {circle.role.parentLink && (
             <Tooltip
               label={t('CircleWithLeaderItem.linkTooltip', {
                 role: parentCircle.role.name,
