@@ -112,7 +112,7 @@ export default function OrgCreateModal(modalProps: UseModalProps) {
           <VStack spacing={7}>
             <FormControl isInvalid={!!errors.name}>
               <FormLabel>{t('OrgCreateModal.create.name')}</FormLabel>
-              <Input {...register('name')} autoFocus />
+              <Input {...register('name')} autoFocus autoComplete="off" />
             </FormControl>
 
             <FormControl isInvalid={!!errors.slug}>

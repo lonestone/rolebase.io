@@ -1,6 +1,6 @@
 import { TriangleDownIcon } from '@chakra-ui/icons'
 import {
-  Checkbox,
+  Collapse,
   Flex,
   Grid,
   IconButton,
@@ -11,11 +11,14 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Tooltip,
 } from '@chakra-ui/react'
 import { defaultCircleColorHue } from '@shared/helpers/circleColor'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import Switch from './Switch'
 
 interface Props<Values extends FieldValues> {
   name: Path<Values>
@@ -30,6 +33,7 @@ export default function ColorController<Values extends FieldValues>({
   control,
   children,
 }: Props<Values>) {
+  const { t } = useTranslation()
   const circles = useStoreState((state) => state.org.circles)
 
   // Determines colors palette from circles colors
@@ -52,23 +56,23 @@ export default function ColorController<Values extends FieldValues>({
       control={control}
       render={({ field }) => (
         <>
-          <Checkbox
+          <Switch
             isChecked={typeof field.value === 'number'}
             onChange={() =>
               field.onChange(field.value ? null : defaultCircleColorHue)
             }
           >
             {children}
-          </Checkbox>
-          {typeof field.value === 'number' && (
-            <Flex alignItems="center">
+          </Switch>
+          <Collapse in={typeof field.value === 'number'} animateOpacity>
+            <Flex alignItems="center" h="50px">
               <Slider
                 aria-label=""
                 min={0}
                 max={360}
                 step={1}
                 defaultValue={defaultCircleColorHue}
-                value={field.value as number}
+                value={field.value || 0}
                 my={3}
                 onChange={(value) => field.onChange(value)}
               >
@@ -80,14 +84,20 @@ export default function ColorController<Values extends FieldValues>({
 
               {palette && palette.length !== 0 && (
                 <Menu placement="bottom-end">
-                  <MenuButton
-                    as={IconButton}
-                    aria-label="Palette"
-                    variant="ghost"
-                    size="sm"
-                    icon={<TriangleDownIcon />}
-                    ml={2}
-                  />
+                  <Tooltip
+                    label={t('ColorController.paletteTooltip')}
+                    placement="top"
+                    hasArrow
+                  >
+                    <MenuButton
+                      as={IconButton}
+                      aria-label="Palette"
+                      variant="ghost"
+                      size="sm"
+                      icon={<TriangleDownIcon />}
+                      ml={2}
+                    />
+                  </Tooltip>
                   <MenuList px={2}>
                     <Grid
                       gap={2}
@@ -111,7 +121,7 @@ export default function ColorController<Values extends FieldValues>({
                 </Menu>
               )}
             </Flex>
-          )}
+          </Collapse>
         </>
       )}
     />

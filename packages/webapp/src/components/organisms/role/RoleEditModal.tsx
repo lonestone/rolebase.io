@@ -151,11 +151,11 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
 
               <FormControl isInvalid={!!errors.name}>
                 <FormLabel>{t('RoleEditModal.name')}</FormLabel>
-                <Input {...register('name')} autoFocus />
+                <Input {...register('name')} autoFocus autoComplete="off" />
               </FormControl>
 
               <FormControl>
-                <Stack spacing={1}>
+                <Stack spacing={4}>
                   <Switch {...register('singleMember')}>
                     {t('RoleEditModal.singleMember')}
                   </Switch>

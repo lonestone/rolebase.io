@@ -177,6 +177,9 @@
   "CircleWithLeaderItem": {
     "linkTooltip": "Represent the role {{role}}"
   },
+  "ColorController": {
+    "paletteTooltip": "Frequently used colors"
+  },
   "CurrentUserModal": {
     "heading": "My personal information",
     "email": "Email",

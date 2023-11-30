@@ -109,7 +109,7 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
               <VStack spacing={5}>
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel>{t('common.name')}</FormLabel>
-                  <Input {...register('name')} autoFocus />
+                  <Input {...register('name')} autoFocus autoComplete="off" />
                 </FormControl>
 
                 <FormControl>

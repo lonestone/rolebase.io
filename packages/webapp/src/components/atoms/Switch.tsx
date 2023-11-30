@@ -7,6 +7,12 @@ import React from 'react'
 
 export default forwardRef<SwitchProps, 'input'>(function Switch(props, ref) {
   return (
-    <ChakraSwitch ref={ref} display="flex" alignItems="center" {...props} />
+    <ChakraSwitch
+      ref={ref}
+      display="flex"
+      alignItems="start"
+      lineHeight="normal"
+      {...props}
+    />
   )
 })

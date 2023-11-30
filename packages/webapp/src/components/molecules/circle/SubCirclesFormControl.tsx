@@ -4,7 +4,6 @@ import {
   HStack,
   Heading,
   IconButton,
-  Tooltip,
   VStack,
 } from '@chakra-ui/react'
 import {
@@ -243,23 +242,17 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
               {t('SubCirclesFormControl.addRole')}
             </RoleSearchButton>
 
-            <Tooltip
-              label={t('SubCirclesFormControl.inviteRole')}
-              placement="top"
-              hasArrow
+            <CircleSearchButton
+              className="userflow-invite-circle-btn"
+              excludeIds={excludedCirclesIds}
+              size="sm"
+              variant="outline"
+              borderRadius="full"
+              leftIcon={<LinkIcon size={20} />}
+              onSelect={handleAddLink}
             >
-              <CircleSearchButton
-                className="userflow-invite-circle-btn"
-                excludeIds={excludedCirclesIds}
-                size="sm"
-                variant="ghost"
-                borderRadius="full"
-                leftIcon={<LinkIcon size={20} />}
-                onSelect={handleAddLink}
-              >
-                {t('SubCirclesFormControl.inviteRole')}
-              </CircleSearchButton>
-            </Tooltip>
+              {t('SubCirclesFormControl.inviteRole')}
+            </CircleSearchButton>
           </HStack>
         )}
       </VStack>
