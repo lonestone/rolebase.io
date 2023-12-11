@@ -1,6 +1,7 @@
 import ModalPanel, { modalPanelWidth } from '@atoms/ModalPanel'
 import { Title } from '@atoms/Title'
 import { Box, HStack, useBreakpointValue, useColorMode } from '@chakra-ui/react'
+import { CircleProvider } from '@contexts/CIrcleContext'
 import { GraphProvider } from '@contexts/GraphContext'
 import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useElementSize } from '@hooks/useElementSize'
@@ -8,9 +9,9 @@ import useCirclesEvents from '@hooks/useGraphEvents'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOverflowHidden from '@hooks/useOverflowHidden'
 import useQueryParams from '@hooks/useQueryParams'
+import CircleContent from '@molecules/circle/CircleContent'
 import CirclesSettings from '@molecules/circle/CirclesSettings'
 import GraphViewsSelect from '@molecules/circle/GraphViewsSelect'
-import CircleContent from '@organisms/circle/CircleContent'
 import CirclesGraph from '@organisms/circle/CirclesGraph'
 import MemberContent from '@organisms/member/MemberContent'
 import { useStoreState } from '@store/hooks'
@@ -146,7 +147,9 @@ export default function CirclesPage() {
 
       {panel === Panels.Circle && circleId && (
         <ModalPanel isOpen onClose={handleClosePanel}>
-          <CircleContent id={circleId} changeTitle />
+          <CircleProvider circleId={circleId}>
+            <CircleContent changeTitle />
+          </CircleProvider>
         </ModalPanel>
       )}
 

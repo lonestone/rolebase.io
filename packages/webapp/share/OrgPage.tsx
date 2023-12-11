@@ -1,6 +1,7 @@
 import BrandLogo from '@atoms/BrandLogo'
 import Loading from '@atoms/Loading'
 import { Box } from '@chakra-ui/react'
+import { CircleProvider } from '@contexts/CIrcleContext'
 import { CircleMemberContext } from '@contexts/CircleMemberContext'
 import { GraphProvider } from '@contexts/GraphContext'
 import { useGetPublicCirclesQuery } from '@gql'
@@ -61,6 +62,7 @@ export default function OrgPage() {
             defaultWorkedMinPerWeek: 0,
             shareMembers: true,
             shareOrg: true,
+            protectGovernance: false,
             circles: data.circle.map((c) => ({
               ...c,
               archived: false,
@@ -146,7 +148,9 @@ export default function OrgPage() {
         ) : (
           circleId && (
             <ModalPanel isOpen onClose={goTo}>
-              <CircleCard id={circleId} />
+              <CircleProvider circleId={circleId}>
+                <CircleCard id={circleId} />
+              </CircleProvider>
             </ModalPanel>
           )
         )}

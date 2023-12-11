@@ -1,8 +1,8 @@
 import ParticipantsScopeSelect from '@atoms/ParticipantsScopeSelect'
 import { Alert, Box, Button, FormControl, FormLabel } from '@chakra-ui/react'
 import { Member_Scope_Enum } from '@gql'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCurrentMember from '@hooks/useCurrentMember'
-import useParticipants from '@hooks/useParticipants'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
@@ -32,7 +32,7 @@ export default function ParticipantsFormControl() {
   const participantsScope = watch('participantsScope')
 
   // Participants
-  const participants = useParticipants(
+  const participants = useCircleParticipants(
     circleId,
     participantsScope,
     participantsMembersIds

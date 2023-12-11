@@ -10,6 +10,7 @@ import {
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
+import useOrgOwner from '@hooks/useOrgOwner'
 import CirclesKeyboardShortcutsModal from '@organisms/circle/CirclesKeyboardShortcutsModal'
 import CirclesShareModal from '@organisms/circle/CirclesShareModal'
 import OrgEditModal from '@organisms/org/OrgEditModal'
@@ -35,6 +36,7 @@ export default function CirclesSettings(
   const navigateOrg = useNavigateOrg()
   const isMember = useOrgMember()
   const isAdmin = useOrgAdmin()
+  const isOwner = useOrgOwner()
   const [isMobile] = useMediaQuery('(max-width: 600px)')
 
   // Get org circle id
@@ -72,12 +74,14 @@ export default function CirclesSettings(
                 {t('CirclesSettings.orgEdit')}
               </MenuItem>
             )}
-            <MenuItem
-              icon={<CircleIcon size={20} />}
-              onClick={baseRolesModal.onOpen}
-            >
-              {t('CirclesSettings.baseRoles')}
-            </MenuItem>
+            {isOwner && (
+              <MenuItem
+                icon={<CircleIcon size={20} />}
+                onClick={baseRolesModal.onOpen}
+              >
+                {t('CirclesSettings.baseRoles')}
+              </MenuItem>
+            )}
             <MenuItem
               icon={<VacantCircle size={20} />}
               onClick={vacantRolesModal.onOpen}

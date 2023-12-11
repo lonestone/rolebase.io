@@ -41,7 +41,7 @@ export interface GraphParams {
 
 export interface GraphEvents {
   onCircleClick?(circleId: string): void
-  onCircleMove?(circleId: string, targetCircleId: string | null): void
+  onCircleMove?(circleId: string, targetCircleId: string | null): Promise<void>
   onCircleCopy?(
     circleId: string,
     targetCircleId: string | null
@@ -51,9 +51,8 @@ export interface GraphEvents {
     memberId: string,
     parentCircleId: string,
     targetCircleId: string | null
-  ): void
-  onCircleAdd?(targetCircleId: string | null): void
-  onMemberAdd?(memberId: string, targetCircleId: string): void
+  ): Promise<void>
+  onMemberAdd?(memberId: string, targetCircleId: string): Promise<void>
   onClickOutside?(): void
 }
 

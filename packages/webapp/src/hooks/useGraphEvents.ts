@@ -33,10 +33,10 @@ export default function useGraphEvents(): GraphEvents {
       parentCircleId: string,
       targetCircleId: string | null
     ) => {
-      await removeCircleMember(parentCircleId, memberId)
       if (targetCircleId) {
         await addCircleMember(targetCircleId, memberId)
       }
+      await removeCircleMember(parentCircleId, memberId)
     },
     []
   )

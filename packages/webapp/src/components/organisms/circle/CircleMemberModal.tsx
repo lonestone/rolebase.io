@@ -5,11 +5,12 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import { CircleProvider } from '@contexts/CIrcleContext'
 import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import { usePathInOrg } from '@hooks/usePathInOrg'
 import React from 'react'
+import CircleContent from '../../molecules/circle/CircleContent'
 import MemberContent from '../member/MemberContent'
-import CircleContent from './CircleContent'
 
 interface Props extends UseModalProps {
   circleId?: string
@@ -47,15 +48,16 @@ export default function CircleMemberModal({
           />
         ) : (
           circleId && (
-            <CircleContent
-              id={circleId}
-              headerIcons={
-                <ModalMaximizeButton
-                  to={`${path}?circleId=${circleId}`}
-                  onClick={handleClose}
-                />
-              }
-            />
+            <CircleProvider circleId={circleId}>
+              <CircleContent
+                headerIcons={
+                  <ModalMaximizeButton
+                    to={`${path}?circleId=${circleId}`}
+                    onClick={handleClose}
+                  />
+                }
+              />
+            </CircleProvider>
           )
         )}
       </ModalContent>

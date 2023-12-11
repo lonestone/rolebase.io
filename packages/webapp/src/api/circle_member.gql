@@ -38,7 +38,11 @@ mutation updateCircleMember($id: uuid!, $values: circle_member_set_input!) {
 
 mutation archiveCircleMember($circleId: uuid!, $memberId: uuid!) {
   update_circle_member(
-    where: { circleId: { _eq: $circleId }, memberId: { _eq: $memberId } }
+    where: {
+      circleId: { _eq: $circleId }
+      memberId: { _eq: $memberId }
+      archived: { _eq: false }
+    }
     _set: { archived: true }
   ) {
     returning {

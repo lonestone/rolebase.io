@@ -5,7 +5,7 @@ import { CircleSummaryFragment } from '@gql'
 import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CircleLinkIcon } from 'src/icons'
+import { CircleParentLinkIcon } from 'src/icons'
 
 interface Props extends BoxProps {
   circle: CircleSummaryFragment
@@ -53,7 +53,7 @@ export default function CircleWithLeaderItem({
               placement="top"
               hasArrow
             >
-              <Icon as={CircleLinkIcon} ml={2} />
+              <Icon as={CircleParentLinkIcon} ml={2} />
             </Tooltip>
           )}
         </>

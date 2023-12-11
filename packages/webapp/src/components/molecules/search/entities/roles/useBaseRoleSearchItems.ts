@@ -5,10 +5,10 @@ import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 import { SearchItem } from '../../searchTypes'
 
-export function useRoleSearchItems(
+export function useBaseRoleSearchItems(
   roles?: RoleFragment[],
   excludeIds?: string[],
-  singleMember?: boolean
+  parentLink?: boolean
 ): SearchItem[] {
   const rolesInStore = useStoreState((state) => state.org.baseRoles)
 
@@ -19,11 +19,8 @@ export function useRoleSearchItems(
           // Exclude by id
           if (excludeIds?.includes(role.id)) return
 
-          // Exclude by singleMember property
-          if (
-            singleMember !== undefined &&
-            (role.singleMember || false) !== singleMember
-          ) {
+          // Exclude by parentLink property
+          if (parentLink !== undefined && role.parentLink !== parentLink) {
             return
           }
 
@@ -35,6 +32,6 @@ export function useRoleSearchItems(
           }
         })
         .filter(truthy) || [],
-    [roles, rolesInStore, roles, excludeIds, singleMember]
+    [roles, rolesInStore, roles, excludeIds, parentLink]
   )
 }

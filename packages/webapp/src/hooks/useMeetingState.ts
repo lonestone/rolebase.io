@@ -11,10 +11,10 @@ import {
   useUpdateMeetingMutation,
 } from '@gql'
 import useCircle from '@hooks/useCircle'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
-import useParticipants from '@hooks/useParticipants'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
@@ -132,7 +132,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
   }, [isStarted, meeting?.endDate])
 
   // Participants
-  const initialParticipants = useParticipants(
+  const initialParticipants = useCircleParticipants(
     meeting?.circleId,
     meeting?.participantsScope,
     meeting?.participantsMembersIds

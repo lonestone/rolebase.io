@@ -1,9 +1,14 @@
 import DurationSelect from '@atoms/DurationSelect'
 import IconTextButton from '@atoms/IconTextButton'
+import Switch from '@atoms/Switch'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Button,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   InputGroup,
@@ -42,6 +47,7 @@ interface Props extends UseModalProps {
 interface Values {
   name: string
   defaultWorkedMinPerWeek: number
+  protectGovernance: boolean
 }
 
 const resolver = yupResolver(
@@ -80,6 +86,7 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
     reset({
       name: org.name,
       defaultWorkedMinPerWeek: org.defaultWorkedMinPerWeek,
+      protectGovernance: org.protectGovernance,
     })
   }, [org])
 
@@ -106,7 +113,7 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
             <ModalCloseButton />
 
             <ModalBody>
-              <VStack spacing={5}>
+              <VStack spacing={7} align="start">
                 <FormControl isInvalid={!!errors.name}>
                   <FormLabel>{t('common.name')}</FormLabel>
                   <Input {...register('name')} autoFocus autoComplete="off" />
@@ -148,6 +155,23 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
                     )}
                   />
                 </FormControl>
+
+                <FormControl>
+                  <FormLabel>{t('OrgEditModal.privacy')}</FormLabel>
+                  <Switch {...register('protectGovernance')} mt={5}>
+                    {t('OrgEditModal.protectGovernance')}
+                  </Switch>
+                  <FormHelperText ml="40px">
+                    {t('OrgEditModal.protectGovernanceHelp')}
+                  </FormHelperText>
+                </FormControl>
+
+                <Alert status="info">
+                  <AlertIcon />
+                  <AlertDescription>
+                    {t('OrgEditModal.protectGovernanceInfo')}
+                  </AlertDescription>
+                </Alert>
               </VStack>
             </ModalBody>
 

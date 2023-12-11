@@ -25,14 +25,17 @@ function getCircleAndChildren(
   } else {
     // New role
     input.role = {
-      data: pick(
-        circle.role,
-        'name',
-        'singleMember',
-        'parentLink',
-        'defaultMinPerWeek',
-        'colorHue'
-      ),
+      data: {
+        ...pick(
+          circle.role,
+          'name',
+          'singleMember',
+          'parentLink',
+          'defaultMinPerWeek',
+          'colorHue'
+        ),
+        orgId: circle.orgId,
+      },
     }
   }
 
@@ -105,8 +108,6 @@ export default function useCopyCircle() {
           })
         }
       }
-
-      // FIXME: Circles and roles children are not included in changes
 
       createLog({
         display: {

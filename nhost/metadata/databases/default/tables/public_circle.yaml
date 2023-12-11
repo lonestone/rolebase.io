@@ -2,12 +2,30 @@ table:
   name: circle
   schema: public
 object_relationships:
+  - name: leaders
+    using:
+      manual_configuration:
+        column_mapping:
+          id: circleId
+        insertion_order: null
+        remote_table:
+          name: circle_leader
+          schema: public
   - name: org
     using:
       foreign_key_constraint_on: orgId
   - name: parent
     using:
       foreign_key_constraint_on: parentId
+  - name: participants
+    using:
+      manual_configuration:
+        column_mapping:
+          id: circleId
+        insertion_order: null
+        remote_table:
+          name: circle_participant
+          schema: public
   - name: role
     using:
       foreign_key_constraint_on: roleId
@@ -44,18 +62,58 @@ insert_permissions:
   - role: user
     permission:
       check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
+        _and:
+          - _not:
+              _exists:
+                _table:
+                  schema: public
+                  name: circle
+                _where:
+                  _and:
+                    - id:
+                        _cne: id
+                    - roleId:
+                        _ceq: roleId
+          - _or:
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - role:
+                          _eq: Owner
+              - org:
+                  _and:
+                    - protectGovernance:
+                        _eq: false
+                    - members:
+                        _and:
+                          - userId:
+                              _eq: X-Hasura-User-Id
+                          - _or:
+                              - role:
+                                  _eq: Admin
+                              - role:
+                                  _eq: Member
+              - _and:
                   - role:
-                      _eq: Member
+                      parentLink:
+                        _eq: false
+                  - parent:
+                      leaders:
+                        member:
+                          userId:
+                            _eq: X-Hasura-User-Id
+              - _and:
                   - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+                      parentLink:
+                        _eq: true
+                  - parent:
+                      parent:
+                        leaders:
+                          member:
+                            userId:
+                              _eq: X-Hasura-User-Id
       columns:
         - archived
         - orgId
@@ -93,33 +151,88 @@ update_permissions:
       columns:
         - archived
         - parentId
-        - roleId
       filter:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
+        _or:
+          - org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
                   - role:
                       _eq: Owner
+          - org:
+              _and:
+                - protectGovernance:
+                    _eq: false
+                - members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Member
+          - _and:
+              - role:
+                  parentLink:
+                    _eq: false
+              - parent:
+                  leaders:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
+          - _and:
+              - role:
+                  parentLink:
+                    _eq: true
+              - parent:
+                  parent:
+                    leaders:
+                      member:
+                        userId:
+                          _eq: X-Hasura-User-Id
       check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
+        _or:
+          - org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
                   - role:
                       _eq: Owner
+          - org:
+              _and:
+                - protectGovernance:
+                    _eq: false
+                - members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Member
+          - _and:
+              - role:
+                  parentLink:
+                    _eq: false
+              - parent:
+                  leaders:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
+          - _and:
+              - role:
+                  parentLink:
+                    _eq: true
+              - parent:
+                  parent:
+                    leaders:
+                      member:
+                        userId:
+                          _eq: X-Hasura-User-Id
 event_triggers:
   - name: index-circle
     definition:

@@ -3,21 +3,17 @@ import CircleByIdButton from '@atoms/CircleByIdButton'
 import Loading from '@atoms/Loading'
 import TextError from '@atoms/TextError'
 import { Button, Text, VStack, useDisclosure } from '@chakra-ui/react'
-import { CircleFullFragment, RoleFragment, useGetRoleQuery } from '@gql'
-import useCircle from '@hooks/useCircle'
-import useOrgMember from '@hooks/useOrgMember'
-import SubCirclesFormControl from '@molecules/circle/SubCirclesFormControl'
+import { CircleContext } from '@contexts/CIrcleContext'
+import { RoleFragment, useRoleSubscription } from '@gql'
+import CircleRoleSubCircles from '@molecules/circle/CircleRoleSubCircles'
 import RoleGeneratorModal from '@organisms/role/RoleGeneratorModal'
-import { ParticipantMember } from '@shared/model/member'
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { MagicIcon } from 'src/icons'
-import CircleMemberFormControl from './CircleMemberFormControl'
+import CircleRoleMembers from './CircleRoleMembers'
 import { RoleEditableField } from './RoleEditableField'
 
 interface Props {
-  circle: CircleFullFragment
-  participants: ParticipantMember[]
   skipFetchRole?: boolean
 }
 
@@ -34,15 +30,15 @@ const editableFields = [
 
 export const fieldsGap = 10
 
-export default function CircleRole({
-  circle,
-  participants,
-  skipFetchRole,
-}: Props) {
+export default function CircleRole({ skipFetchRole }: Props) {
   const { t } = useTranslation()
-  const isMember = useOrgMember()
 
-  const { data, loading, error } = useGetRoleQuery({
+  // Get circle context
+  const circleContext = useContext(CircleContext)
+  if (!circleContext) return null
+  const { circle, parentCircle, canEditRole } = circleContext
+
+  const { data, loading, error } = useRoleSubscription({
     skip: skipFetchRole,
     variables: { id: circle.roleId },
   })
@@ -61,9 +57,6 @@ export default function CircleRole({
       },
     [data, circle]
   )
-
-  // Parent circle
-  const parentCircle = useCircle(circle.parentId || undefined)
 
   const sortedFields = useMemo(() => {
     if (!role) return editableFields
@@ -94,12 +87,13 @@ export default function CircleRole({
         mb={fieldsGap}
       />
 
-      <VStack spacing={fieldsGap} align="stretch" mb={isMember ? fieldsGap : 0}>
-        {!role.singleMember ? (
-          <SubCirclesFormControl circle={circle} participants={participants} />
-        ) : null}
-
-        <CircleMemberFormControl circleId={circle.id} />
+      <VStack
+        spacing={fieldsGap}
+        align="stretch"
+        mb={canEditRole ? fieldsGap : 0}
+      >
+        <CircleRoleSubCircles />
+        <CircleRoleMembers />
 
         {circle.role.parentLink && parentCircle && parentCircle.parentId && (
           <Text>
@@ -132,7 +126,7 @@ export default function CircleRole({
       ))}
 
       {role.purpose === '' &&
-        isMember &&
+        canEditRole &&
         editableFields.every(({ field }) => role[field] === '') && (
           <Button
             leftIcon={<MagicIcon />}

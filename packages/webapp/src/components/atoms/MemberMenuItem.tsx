@@ -7,11 +7,13 @@ import React, { useMemo } from 'react'
 interface Props extends MenuItemProps {
   member: MemberSummaryFragment
   circlesIds?: string[]
+  description?: string
 }
 
 export default function MemberMenuItem({
   member,
   circlesIds,
+  description,
   ...menuItemProps
 }: Props) {
   const circles = useStoreState((state) => state.org.circles)
@@ -38,7 +40,14 @@ export default function MemberMenuItem({
       <Stack spacing={0}>
         <Text fontSize="sm">{member.name}</Text>
         {circlesNames.length !== 0 && (
-          <Text fontSize="xs">{textEllipsis(circlesNames.join(', '), 40)}</Text>
+          <Text fontSize="xs" color="gray.500">
+            {textEllipsis(circlesNames.join(', '), 40)}
+          </Text>
+        )}
+        {description && (
+          <Text fontSize="xs" color="gray.500">
+            {description}
+          </Text>
         )}
       </Stack>
     </MenuItem>

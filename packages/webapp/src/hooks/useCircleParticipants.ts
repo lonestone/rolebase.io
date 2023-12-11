@@ -4,7 +4,7 @@ import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { useMemo } from 'react'
 
-export default function useParticipants(
+export default function useCircleParticipants(
   circleId?: string,
   scope?: Member_Scope_Enum,
   extraMembersIds?: string[]

@@ -49,7 +49,10 @@ export function useCancelLog(log: LogFragment) {
         return data?.member_by_pk || undefined
       },
       async update(id, values) {
-        await updateMember({ variables: { id, values } })
+        const { data } = await updateMember({ variables: { id, values } })
+        if (!data?.update_member_by_pk) {
+          throw new Error('Unauthorized')
+        }
       },
     },
     circles: {
@@ -58,7 +61,10 @@ export function useCancelLog(log: LogFragment) {
         return data?.circle_by_pk || undefined
       },
       async update(id, values) {
-        await updateCircle({ variables: { id, values } })
+        const { data } = await updateCircle({ variables: { id, values } })
+        if (!data?.update_circle_by_pk) {
+          throw new Error('Unauthorized')
+        }
       },
     },
     circlesMembers: {
@@ -67,7 +73,12 @@ export function useCancelLog(log: LogFragment) {
         return data?.circle_member_by_pk || undefined
       },
       async update(id, values) {
-        await updateCircleMember({ variables: { id, values } })
+        const { data } = await updateCircleMember({
+          variables: { id, values },
+        })
+        if (!data?.update_circle_member_by_pk) {
+          throw new Error('Unauthorized')
+        }
       },
     },
     roles: {
@@ -76,7 +87,10 @@ export function useCancelLog(log: LogFragment) {
         return data?.role_by_pk || undefined
       },
       async update(id, values) {
-        await updateRole({ variables: { id, values } })
+        const { data } = await updateRole({ variables: { id, values } })
+        if (!data?.update_role_by_pk) {
+          throw new Error('Unauthorized')
+        }
       },
     },
     tasks: {
@@ -85,7 +99,10 @@ export function useCancelLog(log: LogFragment) {
         return data?.task_by_pk || undefined
       },
       async update(id, values) {
-        await updateTask({ variables: { id, values } })
+        const { data } = await updateTask({ variables: { id, values } })
+        if (!data?.update_task_by_pk) {
+          throw new Error('Unauthorized')
+        }
       },
     },
     decisions: {
@@ -94,7 +111,10 @@ export function useCancelLog(log: LogFragment) {
         return data?.decision_by_pk || undefined
       },
       async update(id, values) {
-        await updateDecision({ variables: { id, values } })
+        const { data } = await updateDecision({ variables: { id, values } })
+        if (!data?.update_decision_by_pk) {
+          throw new Error('Unauthorized')
+        }
       },
     },
     thread: {
@@ -103,7 +123,10 @@ export function useCancelLog(log: LogFragment) {
         return data?.thread_by_pk || undefined
       },
       async update(id, values) {
-        await updateThread({ variables: { id, values } })
+        const { data } = await updateThread({ variables: { id, values } })
+        if (!data?.update_thread_by_pk) {
+          throw new Error('Unauthorized')
+        }
       },
     },
   }
@@ -119,6 +142,11 @@ export function useCancelLog(log: LogFragment) {
   const cancel = useCallback(async () => {
     // Revert changes
     const changes = await cancelLogChanges(log, methods)
+
+    // No changes, don't cancel log
+    console.log('cancelLog', changes)
+    if (Object.values(changes).every((c) => c.length === 0)) return
+
     await cancelLog({ variables: { id: log.id } })
 
     // Log cancelation

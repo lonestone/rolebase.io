@@ -19,12 +19,24 @@ export function getCircleParticipants(
     // Children of Circle
     .filter((c) => c.parentId === circle.id)
     .flatMap((c) => {
-      const leaders = getCircleLeaders(c, circles)
-      if (c.role.parentLink && leaders.length > 0) {
-        hasLeader = true
-        return leaders.map((p) => ({ ...p, leader: true }))
+      if (c.role.parentLink) {
+        // Parent link members
+        if (c.members.length > 0) {
+          hasLeader = true
+        }
+        return c.members.map(
+          ({ member }): Participant => ({
+            circleId: c.id,
+            member,
+            leader: true,
+          })
+        )
       } else {
-        return leaders
+        // Leaders of sub-Circle
+        return getCircleLeaders(c, circles).map((p) => ({
+          ...p,
+          circleId: c.id,
+        }))
       }
     })
 
@@ -40,7 +52,12 @@ export function getCircleParticipants(
 
   // Links to other circles
   const links = circle.invitedCircleLinks
-    .flatMap((link) => getCircleLeaders(link.invitedCircle.id, circles))
+    .flatMap((link) =>
+      getCircleLeaders(link.invitedCircle.id, circles).map((p) => ({
+        ...p,
+        circleId: link.invitedCircle.id,
+      }))
+    )
     .map((p) => ({ ...p, invited: true }))
 
   return [...leaders, ...directParticipants, ...links]

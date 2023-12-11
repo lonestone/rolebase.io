@@ -1,7 +1,7 @@
 import CircleMemberLink from '@atoms/CircleMemberLink'
 import MemberButton from '@atoms/MemberButton'
 import { BoxProps, ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
-import { MemberFragment } from '@gql'
+import { truthy } from '@shared/helpers/truthy'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -40,7 +40,9 @@ export default function MembersMultiSelect({
     () =>
       membersIds
         .map((id) => members?.find((m) => m.id === id))
-        .filter(Boolean) as MemberFragment[],
+        .filter(truthy)
+        // Sort by name
+        .sort((a, b) => a.name.localeCompare(b.name)),
     [membersIds, members]
   )
 

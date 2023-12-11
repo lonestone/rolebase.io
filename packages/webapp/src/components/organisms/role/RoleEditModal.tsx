@@ -7,6 +7,7 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -20,6 +21,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
+  Tooltip,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
@@ -30,10 +32,14 @@ import {
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCreateLog from '@hooks/useCreateLog'
+import useCurrentMember from '@hooks/useCurrentMember'
+import useOrgOwner from '@hooks/useOrgOwner'
+import { getCircleLeaders } from '@shared/helpers/getCircleLeaders'
 import { getEntityChanges } from '@shared/helpers/log/getEntityChanges'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
-import React, { useEffect } from 'react'
+import { useStoreState } from '@store/hooks'
+import React, { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
@@ -72,6 +78,9 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
   const { t } = useTranslation()
   const [updateRole] = useUpdateRoleMutation()
   const createLog = useCreateLog()
+  const currentMember = useCurrentMember()
+  const isOrgOwner = useOrgOwner()
+  const circles = useStoreState((state) => state.org.circles)
 
   const {
     handleSubmit,
@@ -97,6 +106,29 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
     if (!fetchedRole) return
     reset(fetchedRole && getDefaultValues(fetchedRole))
   }, [fetchedRole])
+
+  // Can change parent link?
+  const canChangeParentLink = useMemo(() => {
+    if (isOrgOwner) return true
+    if (!role || !circles || !currentMember) return false
+    // Get parent circle and grand parent circle
+    const roleId = role.id
+    const circle = circles.find((c) => c.roleId === roleId)
+    if (!circle) return false
+    const parentCircle = circles.find((c) => c.id === circle.parentId)
+    const grandParentCircleId = parentCircle?.parentId
+    if (!grandParentCircleId) return false
+
+    // Get leaders of parent circle and grand parent circle
+    const parentLeaders = getCircleLeaders(parentCircle, circles)
+    const grandParentLeaders = getCircleLeaders(grandParentCircleId, circles)
+
+    // Can change parent link if leader of parent circle and grand parent circle
+    return (
+      parentLeaders.some((p) => p.member.id === currentMember.id) &&
+      grandParentLeaders.some((p) => p.member.id === currentMember.id)
+    )
+  }, [isOrgOwner, role, circles, currentMember])
 
   const onSubmit = handleSubmit(async (values) => {
     if (!role) return
@@ -160,9 +192,23 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
                     {t('RoleEditModal.singleMember')}
                   </Switch>
 
-                  <Switch {...register('parentLink')}>
-                    {t('RoleEditModal.parentLink')}{' '}
-                  </Switch>
+                  <Tooltip
+                    label={
+                      canChangeParentLink || role.base
+                        ? ''
+                        : t('RoleEditModal.parentLinkHelp')
+                    }
+                    hasArrow
+                  >
+                    <Box>
+                      <Switch
+                        {...register('parentLink')}
+                        isDisabled={!canChangeParentLink}
+                      >
+                        {t('RoleEditModal.parentLink')}
+                      </Switch>
+                    </Box>
+                  </Tooltip>
                 </Stack>
               </FormControl>
 

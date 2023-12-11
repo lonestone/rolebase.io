@@ -112,6 +112,7 @@ select_permissions:
         - defaultWorkedMinPerWeek
         - id
         - name
+        - protectGovernance
         - shareMembers
         - shareOrg
         - slug
@@ -126,6 +127,7 @@ update_permissions:
       columns:
         - defaultWorkedMinPerWeek
         - name
+        - protectGovernance
         - shareMembers
         - shareOrg
       filter:

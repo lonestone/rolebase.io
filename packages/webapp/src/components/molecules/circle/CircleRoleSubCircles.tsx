@@ -3,11 +3,13 @@ import {
   Flex,
   HStack,
   Heading,
+  Icon,
   IconButton,
+  Tooltip,
   VStack,
 } from '@chakra-ui/react'
+import { CircleContext } from '@contexts/CIrcleContext'
 import {
-  CircleFullFragment,
   RoleFragment,
   RoleSummaryFragment,
   useCreateCircleLinkMutation,
@@ -17,28 +19,31 @@ import {
 } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
 import { useOrgId } from '@hooks/useOrgId'
-import useOrgMember from '@hooks/useOrgMember'
 import CircleSearchButton from '@molecules/search/entities/circles/CircleSearchButton'
 import { truthy } from '@shared/helpers/truthy'
 import { EntitiesChanges, EntityChangeType, LogType } from '@shared/model/log'
-import { ParticipantMember } from '@shared/model/member'
 import { useStoreState } from '@store/hooks'
 import { omit } from '@utils/omit'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiX } from 'react-icons/fi'
-import { CreateIcon, LinkIcon } from 'src/icons'
-import RoleSearchButton from '../search/entities/roles/RoleSearchButton'
+import { CircleLinkIcon, CreateIcon } from 'src/icons'
+import BaseRoleSearchButton from '../search/entities/roles/BaseRoleSearchButton'
 import CircleWithLeaderItem from './CircleWithLeaderItem'
 
-interface Props {
-  circle: CircleFullFragment
-  participants: ParticipantMember[]
-}
-
-export default function SubCirclesFormControl({ circle, participants }: Props) {
+export default function CircleRoleSubCircles() {
   const { t } = useTranslation()
-  const isMember = useOrgMember()
+
+  // Get circle context
+  const circleContext = useContext(CircleContext)
+  if (!circleContext) return null
+  const {
+    circle,
+    participants,
+    canEditSubCircles,
+    canEditSubCirclesParentLinks,
+  } = circleContext
+
   const circles = useStoreState((state) => state.org.circles)
   const roles = useStoreState((state) => state.org.baseRoles)
   const orgId = useOrgId()
@@ -185,12 +190,18 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
   )
 
   // Hide if read only and empty
-  if (!isMember && !subCircles?.length) return null
+  if (
+    !canEditSubCircles &&
+    !canEditSubCirclesParentLinks &&
+    !subCircles?.length
+  ) {
+    return null
+  }
 
   return (
     <Box>
       <Heading as="h3" size="sm" mb={3}>
-        {t('SubCirclesFormControl.roles')}
+        {t('CircleRoleSubCircles.roles')}
       </Heading>
       <VStack spacing={2} align="start">
         {subCircles?.map((subCircle, i) => (
@@ -204,57 +215,79 @@ export default function SubCirclesFormControl({ circle, participants }: Props) {
         ))}
 
         {invitedCircles?.map((invitedCircle, i) => (
-          <Flex key={invitedCircle.id}>
+          <Flex key={invitedCircle.id} alignItems="center">
             <CircleWithLeaderItem
               className={`userflow-invited-circle-${i}`}
               circle={invitedCircle}
               parentCircle={circle}
               participants={participants}
             />
-            {isMember && (
-              <IconButton
-                aria-label={t('common.remove')}
-                icon={<FiX />}
-                variant="ghost"
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  handleDeleteLink(invitedCircle.id)
-                }}
-              />
+            <Tooltip
+              label={t('CircleRoleSubCircles.linkTooltip')}
+              placement="top"
+              hasArrow
+            >
+              <Icon as={CircleLinkIcon} ml={2} />
+            </Tooltip>
+            {canEditSubCircles && (
+              <Tooltip
+                label={t('CircleRoleSubCircles.removeLink')}
+                placement="top"
+                hasArrow
+              >
+                <IconButton
+                  aria-label={t('common.remove')}
+                  icon={<FiX />}
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleDeleteLink(invitedCircle.id)
+                  }}
+                />
+              </Tooltip>
             )}
           </Flex>
         ))}
 
-        {isMember && (
-          <HStack>
-            <RoleSearchButton
+        <HStack>
+          {(canEditSubCircles || canEditSubCirclesParentLinks) && (
+            <BaseRoleSearchButton
               className="userflow-add-role-btn"
               excludeIds={subRolesIds}
               size="sm"
               variant="outline"
               borderRadius="full"
+              parentLink={
+                canEditSubCirclesParentLinks && !canEditSubCircles
+                  ? true
+                  : !canEditSubCirclesParentLinks && canEditSubCircles
+                  ? false
+                  : undefined
+              }
               leftIcon={<CreateIcon size={20} />}
               onSelect={handleAddRole}
-              onCreate={handleCreateCircle}
+              onCreate={canEditSubCircles ? handleCreateCircle : undefined}
             >
-              {t('SubCirclesFormControl.addRole')}
-            </RoleSearchButton>
+              {t('CircleRoleSubCircles.addRole')}
+            </BaseRoleSearchButton>
+          )}
 
+          {canEditSubCircles && (
             <CircleSearchButton
               className="userflow-invite-circle-btn"
               excludeIds={excludedCirclesIds}
               size="sm"
               variant="outline"
               borderRadius="full"
-              leftIcon={<LinkIcon size={20} />}
+              leftIcon={<CircleLinkIcon size={20} />}
               onSelect={handleAddLink}
             >
-              {t('SubCirclesFormControl.inviteRole')}
+              {t('CircleRoleSubCircles.inviteRole')}
             </CircleSearchButton>
-          </HStack>
-        )}
+          )}
+        </HStack>
       </VStack>
     </Box>
   )

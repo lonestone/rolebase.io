@@ -1,0 +1,22 @@
+table:
+  name: circle_leader
+  schema: public
+object_relationships:
+  - name: circle
+    using:
+      manual_configuration:
+        column_mapping:
+          circleId: id
+        insertion_order: null
+        remote_table:
+          name: circle
+          schema: public
+  - name: member
+    using:
+      manual_configuration:
+        column_mapping:
+          memberId: id
+        insertion_order: null
+        remote_table:
+          name: member
+          schema: public

@@ -7,7 +7,7 @@ import { CircleFullFragment } from '@gql'
 import { getCircleAndParents } from '@shared/helpers/getCircleAndParents'
 import { useStoreState } from '@store/hooks'
 import React, { useMemo } from 'react'
-import { CircleLinkIcon } from 'src/icons'
+import { CircleParentLinkIcon } from 'src/icons'
 
 interface Props extends BoxProps {
   circle: CircleFullFragment
@@ -69,7 +69,7 @@ export default function CircleAndParentsLinks({
         {circle.role.parentLink && circle.parentId && (
           <>
             <Box color="gray.500" _dark={{ color: 'gray.300' }}>
-              <CircleLinkIcon size="1.5em" />
+              <CircleParentLinkIcon size="1.5em" />
             </Box>
             <CircleByIdButton id={circle.parentId} size={size} />
           </>

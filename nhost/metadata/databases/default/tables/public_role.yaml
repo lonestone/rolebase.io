@@ -17,18 +17,27 @@ insert_permissions:
   - role: user
     permission:
       check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
+        _or:
+          - org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
                   - role:
                       _eq: Owner
+          - _and:
+              - base:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Member
       columns:
         - accountabilities
         - archived
@@ -106,19 +115,95 @@ update_permissions:
         - purpose
         - singleMember
       filter:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
+        _or:
+          - org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
                   - role:
                       _eq: Owner
-      check: {}
+          - _and:
+              - base:
+                  _eq: false
+              - _or:
+                  - org:
+                      _and:
+                        - protectGovernance:
+                            _eq: false
+                        - members:
+                            _and:
+                              - userId:
+                                  _eq: X-Hasura-User-Id
+                              - _or:
+                                  - role:
+                                      _eq: Admin
+                                  - role:
+                                      _eq: Member
+                  - _and:
+                      - parentLink:
+                          _eq: false
+                      - circles:
+                          parent:
+                            leaders:
+                              member:
+                                userId:
+                                  _eq: X-Hasura-User-Id
+                  - _and:
+                      - parentLink:
+                          _eq: true
+                      - circles:
+                          parent:
+                            parent:
+                              leaders:
+                                member:
+                                  userId:
+                                    _eq: X-Hasura-User-Id
+      check:
+        _or:
+          - org:
+              members:
+                _and:
+                  - userId:
+                      _eq: X-Hasura-User-Id
+                  - role:
+                      _eq: Owner
+          - _and:
+              - base:
+                  _eq: false
+              - _or:
+                  - org:
+                      _and:
+                        - protectGovernance:
+                            _eq: false
+                        - members:
+                            _and:
+                              - userId:
+                                  _eq: X-Hasura-User-Id
+                              - _or:
+                                  - role:
+                                      _eq: Admin
+                                  - role:
+                                      _eq: Member
+                  - _and:
+                      - parentLink:
+                          _eq: false
+                      - circles:
+                          parent:
+                            leaders:
+                              member:
+                                userId:
+                                  _eq: X-Hasura-User-Id
+                  - _and:
+                      - parentLink:
+                          _eq: true
+                      - circles:
+                          parent:
+                            parent:
+                              leaders:
+                                member:
+                                  userId:
+                                    _eq: X-Hasura-User-Id
 event_triggers:
   - name: index-role
     definition:

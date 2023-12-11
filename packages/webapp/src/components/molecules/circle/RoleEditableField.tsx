@@ -1,10 +1,10 @@
 import { Alert, AlertDescription, AlertIcon, BoxProps } from '@chakra-ui/react'
+import { CircleContext } from '@contexts/CIrcleContext'
 import { RoleFragment, useUpdateRoleMutation } from '@gql'
 import useCreateLog from '@hooks/useCreateLog'
-import useOrgMember from '@hooks/useOrgMember'
 import { EditableField } from '@molecules/EditableField'
 import { EntityChangeType, LogType } from '@shared/model/log'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface Props extends Omit<BoxProps, 'role'> {
@@ -24,9 +24,13 @@ export function RoleEditableField({
   ...boxProps
 }: Props) {
   const { t } = useTranslation()
-  const isMember = useOrgMember()
   const [updateRole] = useUpdateRoleMutation()
   const createLog = useCreateLog()
+
+  // Get circle context
+  const circleContext = useContext(CircleContext)
+  if (!circleContext) return null
+  const { canEditRole } = circleContext
 
   // Value
   const rawValue = role[field]
@@ -72,7 +76,7 @@ export function RoleEditableField({
       key={role.id}
       label={label}
       placeholder={placeholder}
-      editable={isMember}
+      editable={canEditRole}
       value={value}
       initValue={initValue}
       info={

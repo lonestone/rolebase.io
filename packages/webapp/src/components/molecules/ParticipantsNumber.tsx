@@ -7,9 +7,11 @@ import {
   MenuButtonProps,
   MenuList,
   Portal,
+  Tooltip,
 } from '@chakra-ui/react'
 import { ParticipantMember } from '@shared/model/member'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import CircleMemberLink from '../atoms/CircleMemberLink'
 import MemberMenuItem from '../atoms/MemberMenuItem'
 
@@ -21,6 +23,8 @@ export default function ParticipantsNumber({
   participants,
   ...buttonProps
 }: Props) {
+  const { t } = useTranslation()
+
   const someParticipants = useMemo(
     () => participants.slice(0, 3).reverse(),
     [participants]
@@ -31,34 +35,41 @@ export default function ParticipantsNumber({
 
   return (
     <Menu isLazy autoSelect={false}>
-      <MenuButton
-        as={Button}
-        p={1}
-        borderRadius="full"
-        size="sm"
-        rightIcon={<Box mr={2}>{participants.length}</Box>}
-        disabled={participants.length === 0}
-        {...buttonProps}
-      >
-        <Box
-          h={6}
-          w={n ? 6 : 0}
-          mr={`calc((${n} - 1) * var(--chakra-sizes-6) / 2.4)`}
-          position="relative"
+      <Tooltip label={t('ParticipantsNumber.tooltip')} hasArrow>
+        <MenuButton
+          as={Button}
+          p={1}
+          borderRadius="full"
+          size="sm"
+          rightIcon={<Box mr={2}>{participants.length}</Box>}
+          disabled={participants.length === 0}
+          {...buttonProps}
         >
-          {someParticipants.map(({ member }, i) => (
-            <Avatar
-              key={i}
-              name={member.name}
-              src={member.picture || undefined}
-              size="xs"
-              position="absolute"
-              top={0}
-              left={`calc(${n - i - 1} * var(--chakra-sizes-6) / 2.4)`}
-            />
-          ))}
-        </Box>
-      </MenuButton>
+          <Box
+            h={6}
+            w={n ? 6 : 0}
+            mr={`calc((${n} - 1) * var(--chakra-sizes-6) / 2.4)`}
+            position="relative"
+          >
+            {someParticipants.map(({ member }, i) => (
+              <Avatar
+                key={i}
+                name={member.name}
+                src={member.picture || undefined}
+                size="xs"
+                position="absolute"
+                top={0}
+                left={`calc(${n - i - 1} * var(--chakra-sizes-6) / 2.4)`}
+                borderWidth="1px"
+                borderColor="gray.100"
+                _dark={{
+                  borderColor: 'gray.700',
+                }}
+              />
+            ))}
+          </Box>
+        </MenuButton>
+      </Tooltip>
 
       <Portal>
         <MenuList shadow="lg" zIndex={2000} maxH="390px" overflow="auto">

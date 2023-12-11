@@ -108,16 +108,22 @@
     "heading": "Supprimer le rôle d'un membre",
     "info": "Êtes-vous sûr(e) de vouloir retirer le rôle <b>{{role}}</b> du membre <b>{{member}}</b> ?"
   },
-  "CircleMemberFormControl": {
-    "labelSingleMember": "Occupé par",
-    "labelMultiMembers": "Membres"
-  },
   "CircleMoveModal": {
     "heading": "Déplacer un rôle",
     "action1": "Ouvrez l'Organigramme.",
     "action2": "Appuyez sur la touche",
     "action3": "Faites glisser le rôle avec la souris (clic sans relâcher) en maintenant la touche enfoncée.",
     "action4": "Déposez-le dans le rôle souhaité."
+  },
+  "CirclePrivacy": {
+    "tooltip": "Securité",
+    "role": "Qui peut modifier le rôle {{role}} :",
+    "role_members": "Qui peut modifier le rôle {{role}} et ses membres :",
+    "subRoles": "Qui peut modifier les sous-rôles :",
+    "subRoles_members": "Qui peut modifier les sous-rôles et les membres :",
+    "ownersShowMore": "+{{count}} propriétaires",
+    "ownersShowMore_one": "+ {{count}} propriétaire",
+    "roleOwner": "Propriétaire"
   },
   "CircleRole": {
     "purpose": "Raison d'être",
@@ -135,6 +141,17 @@
     "representCircle": "Représente le rôle <link />",
     "representInCircle": "dans le rôle <link />",
     "generate": "Remplir automatiquement"
+  },
+  "CircleRoleMembers": {
+    "labelSingleMember": "Occupé par",
+    "labelMultiMembers": "Membres"
+  },
+  "CircleRoleSubCircles": {
+    "roles": "Rôles",
+    "addRole": "Créer un rôle",
+    "inviteRole": "Inviter un rôle",
+    "linkTooltip": "Rôle invité",
+    "removeLink": "Retirer le rôle invité"
   },
   "CirclesPage": {
     "title": "Organigramme de {{org}}"
@@ -652,7 +669,11 @@
   "OrgEditModal": {
     "heading": "Modifier l'organisation {{org}}",
     "slug": "URL",
-    "workingTime": "Temps de travail par défaut"
+    "workingTime": "Temps de travail par défaut",
+    "privacy": "Paramètres de confidentialité",
+    "protectGovernance": "Protéger la gouvernance",
+    "protectGovernanceHelp": "Seuls les propriétaires et les représentants d'un rôle peuvent modifier ses sous-rôles directs et leurs membres.",
+    "protectGovernanceInfo": "Pour protéger l'accès aux réunions, sujets, tâches et décisions, éditez les paramètres du chaque rôle concerné."
   },
   "OrgSlugModal": {
     "heading": "URL de l'organisation {{org}}",
@@ -674,6 +695,9 @@
     "invite": "Inviter",
     "inviteButton": "M'ajouter",
     "inviteWarning": "Vous ne faites pas partie des participants, souhaitez-vous vous ajouter ?"
+  },
+  "ParticipantsNumber": {
+    "tooltip": "Participants"
   },
   "ParticipantsScopeSelect": {
     "Organization": "Tous les membres de l'Organisation",
@@ -711,6 +735,7 @@
     "name": "Nom du rôle",
     "singleMember": "Ne peut être occupé que par un seul membre",
     "parentLink": "Représente son rôle parent (lien)",
+    "parentLinkHelp": "Seuls les propriétaires de l'organisation et les membres à la fois représentant des rôles parent et grand parent peuvent modifier ce rôle.",
     "defaultWorkingTime": "Temps par défaut",
     "defaultWorkingTimeHelp": "Temps alloué par défaut à chaque membre ayant ce rôle.",
     "color": "Personnaliser la couleur"
@@ -780,11 +805,6 @@
     "password": "Mot de passe",
     "terms": "J'accepte les <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Conditions Générales de Vente</a> et la <a href=\"https://www.rolebase.io/privacy\">Politique de Confidentialité</a>",
     "submit": "Je crée mon compte"
-  },
-  "SubCirclesFormControl": {
-    "roles": "Sous-Rôles",
-    "addRole": "Créer un rôle",
-    "inviteRole": "Inviter un rôle"
   },
   "SubscriptionPage": {
     "heading": "Abonnement"

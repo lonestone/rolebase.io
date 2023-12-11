@@ -4,6 +4,12 @@ query getRole($id: uuid!) {
   }
 }
 
+subscription role($id: uuid!) {
+  role_by_pk(id: $id) {
+    ...Role
+  }
+}
+
 subscription roles($orgId: uuid!, $archived: Boolean!) {
   role(
     where: { orgId: { _eq: $orgId }, archived: { _eq: $archived } }

@@ -13,22 +13,35 @@ insert_permissions:
     permission:
       check:
         hostCircle:
-          org:
-            members:
-              _and:
-                - userId:
-                    _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
+          _or:
+            - org:
+                members:
+                  _and:
+                    - userId:
+                        _eq: X-Hasura-User-Id
                     - role:
                         _eq: Owner
+            - org:
+                _and:
+                  - protectGovernance:
+                      _eq: false
+                  - members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Member
+            - leaders:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
       columns:
         - circleId
         - parentId
-    comment: ""
+    comment: ''
 select_permissions:
   - role: public
     permission:
@@ -40,7 +53,7 @@ select_permissions:
           org:
             shareMembers:
               _eq: true
-    comment: ""
+    comment: ''
   - role: user
     permission:
       columns:
@@ -49,22 +62,35 @@ select_permissions:
         - id
         - parentId
       filter: {}
-    comment: ""
+    comment: ''
 delete_permissions:
   - role: user
     permission:
       filter:
         hostCircle:
-          org:
-            members:
-              _and:
-                - userId:
-                    _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
+          _or:
+            - org:
+                members:
+                  _and:
+                    - userId:
+                        _eq: X-Hasura-User-Id
                     - role:
                         _eq: Owner
-    comment: ""
+            - org:
+                _and:
+                  - protectGovernance:
+                      _eq: false
+                  - members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Member
+            - leaders:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+    comment: ''

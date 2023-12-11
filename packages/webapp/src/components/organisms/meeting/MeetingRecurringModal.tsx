@@ -22,9 +22,9 @@ import {
 } from '@chakra-ui/react'
 import { useMeetingRecurringSubscription } from '@gql'
 import useCircle from '@hooks/useCircle'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useDateLocale from '@hooks/useDateLocale'
-import useParticipants from '@hooks/useParticipants'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import {
   excludeMeetingsFromRRule,
@@ -64,7 +64,7 @@ export default function MeetingRecurringModal({
   const circle = useCircle(meetingRecurring?.circleId)
 
   // Participants
-  const participants = useParticipants(
+  const participants = useCircleParticipants(
     meetingRecurring?.circleId,
     meetingRecurring?.participantsScope,
     meetingRecurring?.participantsMembersIds

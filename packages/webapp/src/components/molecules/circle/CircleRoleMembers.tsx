@@ -1,50 +1,35 @@
 import { Box, Heading, useDisclosure } from '@chakra-ui/react'
+import { CircleContext } from '@contexts/CIrcleContext'
 import { GraphContext } from '@contexts/GraphContext'
-import { MemberFragment } from '@gql'
 import useAddCircleMember from '@hooks/useAddCircleMember'
-import useCircle from '@hooks/useCircle'
-import useOrgMember from '@hooks/useOrgMember'
 import CircleMemberDeleteModal from '@organisms/circle/CircleMemberDeleteModal'
-import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import MembersMultiSelect from '../member/MembersMultiSelect'
 
-interface Props {
-  circleId: string
-}
-
-export default function CircleMemberFormControl({ circleId }: Props) {
+export default function CircleRoleMembers() {
   const { t } = useTranslation()
-  const isMember = useOrgMember()
   const graphContext = useContext(GraphContext)
-  const circle = useCircle(circleId)
-  const members = useStoreState((state) => state.org.members)
-  const role = circle?.role
 
+  // Get circle context
+  const circleContext = useContext(CircleContext)
+  if (!circleContext) return null
+  const { circle, role, canEditMembers } = circleContext
+
+  // Direct circle members ids
   const membersIds = useMemo(
-    () =>
-      // Retrieve members
-      (
-        circle?.members
-          .map((cm) => members?.find((m) => m.id === cm.member.id))
-          .filter(Boolean) as MemberFragment[] | undefined
-      )
-        // Sort by name
-        ?.sort((a, b) => a.name.localeCompare(b.name))
-        // Keep ids
-        .map((m) => m.id),
-    [circle, members]
+    () => circle?.members.map((cm) => cm.member.id),
+    [circle]
   )
 
   const addCircleMember = useAddCircleMember()
   const handleAddMember = useCallback(
     async (memberId: string) => {
-      await addCircleMember(circleId, memberId)
+      await addCircleMember(circle.id, memberId)
       // Focus circle in graph
-      graphContext?.graph?.focusNodeIdAfterDraw(circleId, true)
+      graphContext?.graph?.focusNodeIdAfterDraw(circle.id, true)
     },
-    [circleId, circle]
+    [circle.id, circle]
   )
 
   const handleRemoveMember = useCallback((memberId: string) => {
@@ -61,30 +46,30 @@ export default function CircleMemberFormControl({ circleId }: Props) {
   } = useDisclosure()
 
   // Hide if read only and empty
-  if (!isMember && !membersIds?.length) return null
+  if (!canEditMembers && !membersIds?.length) return null
 
   return (
     <Box>
       <Heading as="h3" size="sm" mb={3}>
         {role?.singleMember
-          ? t('CircleMemberFormControl.labelSingleMember')
-          : t('CircleMemberFormControl.labelMultiMembers')}
+          ? t('CircleRoleMembers.labelSingleMember')
+          : t('CircleRoleMembers.labelMultiMembers')}
       </Heading>
 
       {circle && membersIds && (
         <MembersMultiSelect
-          circleId={circleId}
+          circleId={circle.id}
           membersIds={membersIds}
           max={role?.singleMember ? 1 : undefined}
-          onAdd={isMember ? handleAddMember : undefined}
-          onRemove={isMember ? handleRemoveMember : undefined}
+          onAdd={canEditMembers ? handleAddMember : undefined}
+          onRemove={canEditMembers ? handleRemoveMember : undefined}
         />
       )}
 
       {isDeleteOpen && memberId && (
         <CircleMemberDeleteModal
           memberId={memberId}
-          circleId={circleId}
+          circleId={circle.id}
           isOpen
           onClose={onDeleteClose}
         />

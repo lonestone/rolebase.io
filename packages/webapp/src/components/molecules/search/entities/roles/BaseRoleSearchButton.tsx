@@ -1,21 +1,20 @@
 import { RoleFragment } from '@gql'
 import React from 'react'
 import SearchButton, { SearchButtonProps } from '../../SearchButton'
-import { useRoleSearchItems } from './useRoleSearchItems'
+import { useBaseRoleSearchItems } from './useBaseRoleSearchItems'
 
 interface Props extends Omit<SearchButtonProps, 'items'> {
   roles?: RoleFragment[] // If not provided, use store
-  base?: boolean // If provided, filter by base
-  singleMember?: boolean // If provided, filter by singleMember
+  parentLink?: boolean // If provided, filter by base
   excludeIds?: string[]
 }
 
-export default function RoleSearchButton({
+export default function BaseRoleSearchButton({
   roles,
-  singleMember,
+  parentLink,
   excludeIds,
   ...props
 }: Props) {
-  const items = useRoleSearchItems(roles, excludeIds, singleMember)
+  const items = useBaseRoleSearchItems(roles, excludeIds, parentLink)
   return <SearchButton {...props} items={items} />
 }

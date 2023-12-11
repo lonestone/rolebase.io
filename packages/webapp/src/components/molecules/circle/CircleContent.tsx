@@ -15,11 +15,9 @@ import {
   Tabs,
   useDisclosure,
 } from '@chakra-ui/react'
-import { Member_Scope_Enum } from '@gql'
-import useCircle from '@hooks/useCircle'
+import { CircleContext } from '@contexts/CIrcleContext'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import useOrgMember from '@hooks/useOrgMember'
-import useParticipants from '@hooks/useParticipants'
 import ActionsMenu from '@molecules/ActionsMenu'
 import ParticipantsNumber from '@molecules/ParticipantsNumber'
 import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
@@ -29,7 +27,7 @@ import CircleNews from '@molecules/circle/CircleNews'
 import CircleRole from '@molecules/circle/CircleRole'
 import CircleTasks from '@molecules/circle/CircleTasks'
 import CircleThreads from '@molecules/circle/CircleThreads'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CircleIcon,
@@ -39,30 +37,22 @@ import {
   TasksIcon,
   ThreadsIcon,
 } from 'src/icons'
-import RoleEditModal from '../role/RoleEditModal'
-import CircleCopyModal from './CircleCopyModal'
-import CircleDeleteModal from './CircleDeleteModal'
-import CircleMoveModal from './CircleMoveModal'
+import CircleCopyModal from '../../organisms/circle/CircleCopyModal'
+import CircleDeleteModal from '../../organisms/circle/CircleDeleteModal'
+import CircleMoveModal from '../../organisms/circle/CircleMoveModal'
+import RoleEditModal from '../../organisms/role/RoleEditModal'
+import CirclePrivacy from './CirclePrivacy'
 
 interface Props {
-  id: string
   changeTitle?: boolean
   headerIcons?: React.ReactNode
 }
 
-export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
+export default function CircleContent({ changeTitle, headerIcons }: Props) {
   const { t } = useTranslation()
   const isMember = useOrgMember()
-  const circle = useCircle(id)
+  const circleContext = useContext(CircleContext)
   const navigateOrg = useNavigateOrg()
-  const role = circle?.role
-
-  // Participants
-  const participants = useParticipants(
-    id,
-    Member_Scope_Enum.CircleLeaders,
-    circle?.members.map((member) => member.id)
-  )
 
   // Modals
   const editRoleModal = useDisclosure()
@@ -70,7 +60,7 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
   const duplicateModal = useDisclosure()
   const moveModal = useDisclosure()
 
-  if (!role) {
+  if (!circleContext) {
     return (
       <>
         <Alert status="error">
@@ -82,6 +72,9 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
     )
   }
 
+  const { circle, role, participants, canEditCircle, canEditRole } =
+    circleContext
+
   return (
     <>
       {changeTitle && <Title>{role.name}</Title>}
@@ -91,18 +84,32 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
           <CircleAndParentsLinks circle={circle} size="md" />
           <Spacer />
 
+          <Box mr={1}>
+            <ParticipantsNumber participants={participants} />
+          </Box>
+
           <Box>
-            <ParticipantsNumber participants={participants} mr={1} />
+            <CirclePrivacy />
           </Box>
 
           {isMember && (
             <ActionsMenu
               className="userflow-circle-actions"
-              onEdit={editRoleModal.onOpen}
-              onDelete={circle.parentId ? deleteModal.onOpen : undefined}
-              onMove={circle.parentId ? moveModal.onOpen : undefined}
-              onDuplicate={circle.parentId ? duplicateModal.onOpen : undefined}
-              onExport={() => navigateOrg(`export-circle/${id}`)}
+              onEdit={canEditRole ? editRoleModal.onOpen : undefined}
+              onDelete={
+                canEditCircle && circle.parentId
+                  ? deleteModal.onOpen
+                  : undefined
+              }
+              onMove={
+                canEditCircle && circle.parentId ? moveModal.onOpen : undefined
+              }
+              onDuplicate={
+                canEditCircle && circle.parentId
+                  ? duplicateModal.onOpen
+                  : undefined
+              }
+              onExport={() => navigateOrg(`export-circle/${circle.id}`)}
             />
           )}
 
@@ -139,22 +146,22 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
 
         <TabPanels flex={1} overflowY="auto">
           <TabPanel px={6} py={10}>
-            <CircleRole circle={circle} participants={participants} />
+            <CircleRole />
           </TabPanel>
           <TabPanel px={6} py={10}>
-            <CircleNews circleId={id} />
+            <CircleNews circleId={circle.id} />
           </TabPanel>
           <TabPanel px={6} py={10}>
-            <CircleThreads circleId={id} />
+            <CircleThreads circleId={circle.id} />
           </TabPanel>
           <TabPanel px={6} py={10}>
-            <CircleMeetings circleId={id} />
+            <CircleMeetings circleId={circle.id} />
           </TabPanel>
           <TabPanel px={6} py={10}>
-            <CircleTasks circleId={id} />
+            <CircleTasks circleId={circle.id} />
           </TabPanel>
           <TabPanel px={6} py={10}>
-            <CircleDecisions circleId={id} />
+            <CircleDecisions circleId={circle.id} />
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -164,7 +171,11 @@ export default function CircleContent({ id, changeTitle, headerIcons }: Props) {
       )}
 
       {deleteModal.isOpen && (
-        <CircleDeleteModal id={id} isOpen onClose={deleteModal.onClose} />
+        <CircleDeleteModal
+          id={circle.id}
+          isOpen
+          onClose={deleteModal.onClose}
+        />
       )}
 
       {moveModal.isOpen && (

@@ -108,16 +108,22 @@
     "heading": "Remove a member's role",
     "info": "Are you sure you want to remove remove role <b>{{role}}</b> from member <b>{{member}}</b>?"
   },
-  "CircleMemberFormControl": {
-    "labelSingleMember": "Occupied by",
-    "labelMultiMembers": "Members"
-  },
   "CircleMoveModal": {
     "heading": "Move a role",
     "action1": "Open the Org chart.",
     "action2": "Press the key",
     "action3": "Drag the role with your mouse (click without releasing) while holding down the key.",
     "action4": "Drop it in the desired role."
+  },
+  "CirclePrivacy": {
+    "tooltip": "Security",
+    "role": "Who can modify the role {{role}}:",
+    "role_members": "Who can modify the role {{role}} and its members:",
+    "subRoles": "Who can modify sub-roles:",
+    "subRoles_members": "Who can modify sub-roles and members:",
+    "ownersShowMore": "+{{count}} owners",
+    "ownersShowMore_one": "+{{count}} owner",
+    "roleOwner": "Owner"
   },
   "CircleRole": {
     "purpose": "Purpose",
@@ -135,6 +141,17 @@
     "representCircle": "Represent role <link />",
     "representInCircle": "in role <link />",
     "generate": "Fill automatically"
+  },
+  "CircleRoleMembers": {
+    "labelSingleMember": "Occupied by",
+    "labelMultiMembers": "Members"
+  },
+  "CircleRoleSubCircles": {
+    "roles": "Roles",
+    "addRole": "Create a role",
+    "inviteRole": "Invite a role",
+    "linkTooltip": "Invited role",
+    "removeLink": "Remove invited role"
   },
   "CirclesPage": {
     "title": "{{org}}'s org chart"
@@ -618,7 +635,11 @@
   "OrgEditModal": {
     "heading": "Edit Organization {{org}}",
     "slug": "URL",
-    "workingTime": "Default working time"
+    "workingTime": "Default working time",
+    "privacy": "Privacy settings",
+    "protectGovernance": "Protect governance",
+    "protectGovernanceHelp": "Only owners and representatives of a role can modify its direct sub-roles and their members.",
+    "protectGovernanceInfo": "To protect access to meetings, topics, tasks and decisions, edit the settings of each role concerned."
   },
   "OrgSlugModal": {
     "heading": "URL of organization {{org}}",
@@ -640,6 +661,9 @@
     "invite": "Invite",
     "inviteButton": "Add me",
     "inviteWarning": "You are not part of the participants, do you want to add yourself?"
+  },
+  "ParticipantsNumber": {
+    "tooltip": "Participants"
   },
   "ParticipantsScopeSelect": {
     "Organization": "All members of the Organization",
@@ -676,7 +700,8 @@
     "baseInfo": "This role is a Basic Role potentially used in multiple locations.",
     "name": "Role Name",
     "singleMember": "Can only be occupied by a single member",
-    "parentLink": "Represents its parent rôle (link)",
+    "parentLink": "Represents its parent role (link)",
+    "parentLinkHelp": "Only owners of the organization and members who are both representing parent and grandparent roles can modify this role.",
     "defaultWorkingTime": "Default Time",
     "defaultWorkingTimeHelp": "Default time allocated to each member with this role.",
     "color": "Customize color"
@@ -747,11 +772,6 @@
     "password": "Password",
     "terms": "I accept the <a href=\"https://www.rolebase.io/conditions-generales-de-vente\">Terms and Conditions</term> and the <a href=\"https://www.rolebase.io/privacy\">Privacy Policy</policy>",
     "submit": "Create my account"
-  },
-  "SubCirclesFormControl": {
-    "roles": "Roles",
-    "addRole": "Create a role",
-    "inviteRole": "Invite a role"
   },
   "SubscriptionPage": {
     "heading": "Subscription"

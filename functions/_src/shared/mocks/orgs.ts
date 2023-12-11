@@ -8,4 +8,5 @@ export const org: OrgFragment = {
   defaultWorkedMinPerWeek: 35 * 60,
   shareOrg: false,
   shareMembers: false,
+  protectGovernance: false,
 }

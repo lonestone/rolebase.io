@@ -37,8 +37,10 @@ import {
   Judge,
   Kanban,
   LanguageSquare,
+  Link,
   Link2,
   Link21,
+  Lock1,
   LogoutCurve,
   Magicpen,
   Maximize1,
@@ -91,6 +93,8 @@ export const ChevronRightIcon = ArrowRight2
 export const ChevronUpIcon = ArrowUp2
 export const CircleIcon = RecordCircle
 export const CircleLinkIcon = Link2
+export const CircleParentLinkIcon = Link
+export const CirclePrivacyIcon = Lock1
 export const CopyIcon = Copy
 export const CreateIcon = AddSquare
 export const CurrentMemberIcon = UserSquare

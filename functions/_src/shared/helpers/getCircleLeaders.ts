@@ -17,7 +17,7 @@ export function getCircleLeaders(
     .flatMap((c) =>
       c.members.map(
         ({ member }): Participant => ({
-          circleId: circle.id,
+          circleId: c.id,
           member,
         })
       )

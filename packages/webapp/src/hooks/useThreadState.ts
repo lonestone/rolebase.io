@@ -9,10 +9,10 @@ import {
   useUpsertThreadMemberStatusMutation,
 } from '@gql'
 import useCircle from '@hooks/useCircle'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
-import useParticipants from '@hooks/useParticipants'
 import { ParticipantMember } from '@shared/model/member'
 import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 import { useCallback, useEffect, useMemo } from 'react'
@@ -75,7 +75,7 @@ export default function useThreadState(threadId: string): ThreadState {
   const circle = useCircle(thread?.circleId)
 
   // Participants
-  const participants = useParticipants(
+  const participants = useCircleParticipants(
     thread?.circleId,
     thread?.participantsScope,
     thread?.participantsMembersIds
