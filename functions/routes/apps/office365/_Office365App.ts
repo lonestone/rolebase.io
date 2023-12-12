@@ -1,3 +1,4 @@
+import { sendMailjetEmail } from '@emails/sendMailjetEmail'
 import { MeetingFragment } from '@gql'
 import type {
   DateTimeTimeZone,
@@ -56,6 +57,15 @@ interface APISettledResponse {
 
 interface APIBatchResponse {
   responses: APISettledResponse[]
+}
+
+export interface TmpDataNotifyLog {
+  timestamp: number
+  hash: string
+  event: Event
+  dbMeetingEvent: MeetingEvent
+  dbEvent: Event
+  meetingChanges: Partial<MeetingFragment>
 }
 
 export default class Office365App
@@ -279,6 +289,43 @@ export default class Office365App
 
       // Update meeting in database
       if (Object.keys(meetingChanges).length > 0) {
+        // Tmp hack to avoid infinite loop
+        // Add data to logs and skip if the same update has been made multiple times
+        const now = Date.now()
+        const logs: TmpDataNotifyLog[] = this.tmpData?.notifyLogs || []
+        if (logs.filter((log) => log.hash === newHash).length >= 3) {
+          await sendMailjetEmail({
+            From: {
+              Email: settings.mail.sender.email,
+              Name: settings.mail.sender.name,
+            },
+            To: [
+              {
+                Email: settings.mail.sender.email,
+                Name: settings.mail.sender.name,
+              },
+            ],
+            Subject: 'Office 365 infinite loop',
+            TextPart: `Meeting ${meetingId} has been updated too many times.\n\nHash:${newHash}\n${JSON.stringify(
+              logs
+            )}`,
+          })
+          return
+        }
+        await this.updateTmpData({
+          notifyLogs: logs
+            .filter((log) => log.timestamp > now - 10 * 60 * 1000)
+            .concat({
+              timestamp: now,
+              hash: newHash,
+              event,
+              dbMeetingEvent: meeting,
+              dbEvent: meetingEvent,
+              meetingChanges,
+            } as TmpDataNotifyLog)
+            .slice(-10),
+        })
+
         await this.updateMeeting(meetingId, meetingChanges)
       }
 

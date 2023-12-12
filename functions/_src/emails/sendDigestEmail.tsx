@@ -33,7 +33,6 @@ export default async function sendDigestEmail({
         Name: settings.mail.sender.name,
       },
       To: [recipient],
-      TemplateLanguage: true,
       Subject: subject,
       HTMLPart: emailHTML,
     })

@@ -18023,6 +18023,7 @@ export type User_App = {
   createdAt: Scalars['date']['output'];
   id: Scalars['uuid']['output'];
   secretConfig: Scalars['json']['output'];
+  tmpData?: Maybe<Scalars['json']['output']>;
   type: App_Type_Enum;
   /** An object relationship */
   user?: Maybe<Users>;
@@ -18038,6 +18039,12 @@ export type User_AppConfigArgs = {
 
 /** columns and relationships of "user_app" */
 export type User_AppSecretConfigArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** columns and relationships of "user_app" */
+export type User_AppTmpDataArgs = {
   path?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -18097,6 +18104,7 @@ export type User_App_Bool_Exp = {
   createdAt?: InputMaybe<Date_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   secretConfig?: InputMaybe<Json_Comparison_Exp>;
+  tmpData?: InputMaybe<Json_Comparison_Exp>;
   type?: InputMaybe<App_Type_Enum_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -18116,6 +18124,7 @@ export type User_App_Insert_Input = {
   createdAt?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   secretConfig?: InputMaybe<Scalars['json']['input']>;
+  tmpData?: InputMaybe<Scalars['json']['input']>;
   type?: InputMaybe<App_Type_Enum>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
@@ -18173,6 +18182,7 @@ export type User_App_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   secretConfig?: InputMaybe<Order_By>;
+  tmpData?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
@@ -18194,6 +18204,8 @@ export enum User_App_Select_Column {
   /** column name */
   SecretConfig = 'secretConfig',
   /** column name */
+  TmpData = 'tmpData',
+  /** column name */
   Type = 'type',
   /** column name */
   UserId = 'userId'
@@ -18205,6 +18217,7 @@ export type User_App_Set_Input = {
   createdAt?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   secretConfig?: InputMaybe<Scalars['json']['input']>;
+  tmpData?: InputMaybe<Scalars['json']['input']>;
   type?: InputMaybe<App_Type_Enum>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -18223,6 +18236,7 @@ export type User_App_Stream_Cursor_Value_Input = {
   createdAt?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   secretConfig?: InputMaybe<Scalars['json']['input']>;
+  tmpData?: InputMaybe<Scalars['json']['input']>;
   type?: InputMaybe<App_Type_Enum>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -18237,6 +18251,8 @@ export enum User_App_Update_Column {
   Id = 'id',
   /** column name */
   SecretConfig = 'secretConfig',
+  /** column name */
+  TmpData = 'tmpData',
   /** column name */
   Type = 'type',
   /** column name */
@@ -19291,7 +19307,7 @@ export type ThreadActivityFragment = { __typename?: 'thread_activity', id: strin
 
 export type UserAppFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any };
 
-export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, createdAt: any, user?: { __typename?: 'users', metadata: UserMetadata } | null };
+export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, tmpData?: any | null, createdAt: any, user?: { __typename?: 'users', metadata: UserMetadata } | null };
 
 export type GetCircleQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -20378,6 +20394,7 @@ export const UserAppFullFragmentDoc = gql`
   type
   secretConfig
   config
+  tmpData
   createdAt
   user {
     metadata

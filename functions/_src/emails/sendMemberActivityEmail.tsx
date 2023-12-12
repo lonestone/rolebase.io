@@ -46,7 +46,6 @@ export default async function sendMemberActivityEmail({
         Name: settings.mail.sender.name,
       },
       To: recipients,
-      TemplateLanguage: true,
       Subject: subject,
       HTMLPart: emailHTML,
     })

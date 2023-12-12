@@ -66,8 +66,8 @@ insert_permissions:
           - _not:
               _exists:
                 _table:
-                  schema: public
                   name: circle
+                  schema: public
                 _where:
                   _and:
                     - id:

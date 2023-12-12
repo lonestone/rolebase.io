@@ -13,6 +13,10 @@ export default class AbstractApp<SecretConfig, Config> {
     return this.userApp.config
   }
 
+  protected get tmpData(): any {
+    return this.userApp.tmpData
+  }
+
   protected get timezone(): string {
     return this.userApp.user?.metadata.timezone || settings.defaultTimezone
   }
@@ -34,6 +38,14 @@ export default class AbstractApp<SecretConfig, Config> {
     await adminRequest(UPDATE_USER_APP, {
       id: this.userApp.id,
       values: { config: this.userApp.config },
+    })
+  }
+
+  protected async updateTmpData(values: any) {
+    this.userApp.tmpData = { ...this.tmpData, ...values }
+    await adminRequest(UPDATE_USER_APP, {
+      id: this.userApp.id,
+      values: { tmpData: this.userApp.tmpData },
     })
   }
 }
