@@ -21,7 +21,7 @@ import { sha1 } from '@utils/sha1'
 import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
 
 const graphApiUrl = 'https://graph.microsoft.com/v1.0'
-const debug = false
+const debug = true
 
 // Extended properties
 const orgIdProp =
