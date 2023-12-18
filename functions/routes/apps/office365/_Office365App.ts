@@ -805,7 +805,7 @@ export default class Office365App
     const secretConfigChanges = {
       accessToken: responseJson.access_token,
       refreshToken: responseJson.refresh_token,
-      expiryDate: Math.round(+new Date() / 1000 + responseJson.expires_in),
+      expiryDate: +new Date() + responseJson.expires_in * 1000,
     }
     await this.updateSecretConfig(secretConfigChanges)
   }
