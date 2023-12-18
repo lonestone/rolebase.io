@@ -32,8 +32,8 @@ export default {
   functionsUrl: isLocal
     ? 'https://local.functions.nhost.run/v1/'
     : isStaging
-    ? 'https://jjvdhpoooerochuiusam.nhost.run/v1/functions/'
-    : 'https://fsudktxishllphxeibqs.nhost.run/v1/functions/',
+    ? 'https://jjvdhpoooerochuiusam.functions.eu-central-1.nhost.run/v1/'
+    : 'https://fsudktxishllphxeibqs.functions.eu-central-1.nhost.run/v1/',
 
   yjsCollab: {
     url: isLocal ? 'ws://localhost:1234' : 'wss://collab.rolebase.io',
