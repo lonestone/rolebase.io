@@ -1081,8 +1081,9 @@
   },
   "VideoConfFormControl": {
     "enable": "Vidéo-conférence",
-    "jitsi": "Générer une URL Jitsi",
-    "url": "URL personnalisée (Zoom, Teams, etc)"
+    "jitsi": "Jitsi",
+    "url": "URL (Meet, Zoom, Teams, etc)",
+    "urlError": "URL invalide"
   },
   "common": {
     "save": "Enregistrer",

@@ -30,13 +30,17 @@ import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MeetingTemplateIdFormControl from '@molecules/meeting/MeetingTemplateIdFormControl'
-import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
+import VideoConfFormControl, {
+  videoConfSchema,
+  VideoConfValues,
+} from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import RRuleEditorController from '@molecules/rrule/RRuleEditorController'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import React, { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { RRule } from 'rrule'
 import * as yup from 'yup'
 import MeetingRecurringDeleteModal from './MeetingRecurringDeleteModal'
 
@@ -46,26 +50,32 @@ interface Props extends UseModalProps {
   onCreate?(meetingRecurringId: string): void
 }
 
-interface Values {
+interface Values extends VideoConfValues {
   circleId: string
   participantsScope: Member_Scope_Enum
   participantsMembersIds: Array<{ memberId: string }>
   templateId: string
   rrule: string
   duration: number // In minutes
-  videoConfType: VideoConfTypes | null
-  videoConfUrl: string
 }
 
 const resolver = yupResolver(
-  yup.object().shape({
-    circleId: yup.string().required(),
-    templateId: yup.string().required(),
-    rrule: yup.string().required(),
-    duration: yup.number().required(),
-    videoConf: yup.string().nullable(),
-  })
+  yup
+    .object()
+    .shape({
+      circleId: yup.string().required(),
+      templateId: yup.string().required(),
+      rrule: yup.string().required(),
+      duration: yup.number().required(),
+    })
+    .concat(videoConfSchema)
 )
+
+export const getDefaultRRule = () =>
+  new RRule({
+    dtstart: new Date(),
+    freq: RRule.MONTHLY,
+  })
 
 export default function MeetingRecurringEditModal({
   meetingRecurring,
@@ -90,7 +100,7 @@ export default function MeetingRecurringEditModal({
           memberId: id,
         })) ?? [],
       templateId: meetingRecurring?.templateId ?? '',
-      rrule: meetingRecurring?.rrule ?? '',
+      rrule: meetingRecurring?.rrule ?? getDefaultRRule().toString(),
       duration: meetingRecurring?.duration ?? 30,
       videoConfType: meetingRecurring?.videoConf?.type ?? null,
       videoConfUrl:

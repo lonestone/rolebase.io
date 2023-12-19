@@ -1,15 +1,26 @@
+import Switch from '@atoms/Switch'
 import {
-  Checkbox,
   FormControl,
+  FormErrorMessage,
   Input,
   Radio,
   RadioGroup,
   Stack,
 } from '@chakra-ui/react'
 import { VideoConfTypes } from '@shared/model/meeting'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import * as yup from 'yup'
+
+export interface VideoConfValues {
+  videoConfType: VideoConfTypes | null
+  videoConfUrl: string
+}
+
+export const videoConfSchema = yup.object().shape({
+  videoConfUrl: yup.string().url(),
+})
 
 export default function VideoConfFormControl() {
   const { t } = useTranslation()
@@ -18,14 +29,22 @@ export default function VideoConfFormControl() {
     watch,
     setValue,
     formState: { errors },
-  } = useFormContext()
+    clearErrors,
+  } = useFormContext<VideoConfValues>()
 
   const videoConfType = watch('videoConfType')
+
+  // Reset url when disabling url option
+  useEffect(() => {
+    if (videoConfType === VideoConfTypes.Url) return
+    setValue('videoConfUrl', '')
+    clearErrors()
+  }, [videoConfType])
 
   return (
     <FormControl isInvalid={!!errors.videoConfType || !!errors.videoConfUrl}>
       <Stack spacing={1}>
-        <Checkbox
+        <Switch
           isChecked={!!videoConfType}
           onChange={() =>
             setValue(
@@ -35,7 +54,7 @@ export default function VideoConfFormControl() {
           }
         >
           {t('VideoConfFormControl.enable')}
-        </Checkbox>
+        </Switch>
 
         <RadioGroup
           display={videoConfType ? '' : 'none'}
@@ -44,7 +63,7 @@ export default function VideoConfFormControl() {
             setValue('videoConfType', value as VideoConfTypes)
           }
         >
-          <Stack pl={6} mt={1} spacing={1} direction="column">
+          <Stack pl={6} mt={3} spacing={1} direction="column">
             <Radio value={VideoConfTypes.Jitsi}>
               {t('VideoConfFormControl.jitsi')}
             </Radio>
@@ -52,7 +71,16 @@ export default function VideoConfFormControl() {
               {t('VideoConfFormControl.url')}
             </Radio>
             {videoConfType === VideoConfTypes.Url && (
-              <Input pl={6} {...register('videoConfUrl')} />
+              <Input
+                pl={6}
+                placeholder="https://"
+                {...register('videoConfUrl')}
+              />
+            )}
+            {errors.videoConfUrl && (
+              <FormErrorMessage>
+                {t('VideoConfFormControl.urlError')}
+              </FormErrorMessage>
             )}
           </Stack>
         </RadioGroup>

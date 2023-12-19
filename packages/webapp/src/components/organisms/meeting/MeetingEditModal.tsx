@@ -41,7 +41,10 @@ import MeetingStepsConfigController, {
   StepsValues,
 } from '@molecules/meeting/MeetingStepsConfigController'
 import MeetingTemplateMenu from '@molecules/meeting/MeetingTemplateMenu'
-import VideoConfFormControl from '@molecules/meeting/VideoConfFormControl'
+import VideoConfFormControl, {
+  videoConfSchema,
+  VideoConfValues,
+} from '@molecules/meeting/VideoConfFormControl'
 import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
 import { nameSchema, stepsConfigSchema } from '@shared/schemas'
@@ -64,26 +67,26 @@ interface Props extends UseModalProps {
   onRecurring?(): void
 }
 
-interface Values extends StepsValues {
+interface Values extends StepsValues, VideoConfValues {
   title: string
   circleId: string
   participantsScope: Member_Scope_Enum
   participantsMembersIds: Array<{ memberId: string }>
   startDate: string
   duration: number // In minutes
-  videoConfType: VideoConfTypes | null
-  videoConfUrl: string
 }
 
 const resolver = yupResolver(
-  yup.object().shape({
-    title: nameSchema.required(),
-    circleId: yup.string().required(),
-    startDate: yup.string().required(),
-    duration: yup.number().required(),
-    stepsConfig: stepsConfigSchema,
-    videoConf: yup.string().nullable(),
-  })
+  yup
+    .object()
+    .shape({
+      title: nameSchema.required(),
+      circleId: yup.string().required(),
+      startDate: yup.string().required(),
+      duration: yup.number().required(),
+      stepsConfig: stepsConfigSchema,
+    })
+    .concat(videoConfSchema)
 )
 
 export default function MeetingEditModal({
@@ -135,7 +138,7 @@ export default function MeetingEditModal({
       videoConfUrl:
         meeting?.videoConf?.type === VideoConfTypes.Url
           ? meeting.videoConf.url
-          : 'https://',
+          : '',
     }),
     [defaultCircleId, defaultStartDate, meeting]
   )
