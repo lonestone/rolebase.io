@@ -39,6 +39,7 @@ export abstract class Graph {
   protected focusCrop: Position
   protected focusOffsetX: number
   protected focusOffsetY: number
+  protected rootRadius: number
 
   private drawHandlers: Array<DrawEventHandler> = []
 
@@ -64,6 +65,7 @@ export abstract class Graph {
     this.focusCrop = focusCrop || defaultFocusCrop
     this.focusOffsetX = getFocusOffsetX(width, focusCrop || defaultFocusCrop)
     this.focusOffsetY = getFocusOffsetY(height, focusCrop || defaultFocusCrop)
+    this.rootRadius = 0
 
     this.svgD3 = d3.select<SVGSVGElement, NodeData>(this.svg)
     const svgId = this.svgD3.attr('id')
@@ -85,11 +87,22 @@ export abstract class Graph {
       .filter(() => !this.zoomDisabled) // Listen also to mouse wheel
       .scaleExtent(settings.zoom.scaleExtent as [number, number])
       .on('zoom', (event) => {
-        this.zoomX = event.transform.x
-        this.zoomY = event.transform.y
-        this.zoomScale = event.transform.k
-        zoomG.attr('transform', event.transform)
-        this.updateCSSVariablesDebounced()
+        const hasMoved =
+          this.zoomX !== event.transform.x || this.zoomY !== event.transform.y
+        const hasZoomed = this.zoomScale !== event.transform.k
+
+        if (hasMoved || hasZoomed) {
+          zoomG.attr('transform', event.transform)
+        }
+        if (hasMoved) {
+          this.zoomX = event.transform.x
+          this.zoomY = event.transform.y
+        }
+        if (hasZoomed) {
+          this.zoomScale = event.transform.k
+          this.updateCSSVariablesDebounced()
+          this.updatePanExtentDebounced()
+        }
       })
     this.svgD3.call(this.zoomBehaviour)
   }
@@ -123,13 +136,35 @@ export abstract class Graph {
     }
   }
 
-  // Change extent to which we can zoom
-  changeExtent(width: number, height: number) {
+  updateRootRadius(radius: number) {
+    this.rootRadius = radius
+    this.updatePanExtent()
+  }
+
+  // Change extent to which we can pan
+  updatePanExtent() {
+    const extentX =
+      this.rootRadius * 2 * this.zoomScale < this.width / 2
+        ? this.width / this.zoomScale - this.rootRadius
+        : this.width / this.zoomScale / 2 + this.rootRadius
+    const extentY =
+      this.rootRadius * 2 * this.zoomScale < this.height / 2
+        ? this.height / this.zoomScale - this.rootRadius
+        : this.height / this.zoomScale / 2 + this.rootRadius
+
     this.zoomBehaviour.translateExtent([
-      [-2 * width, -2 * height],
-      [2 * width, 2 * height],
+      [
+        -extentX + this.focusCrop.right / this.zoomScale,
+        -extentY + this.focusCrop.bottom / this.zoomScale,
+      ],
+      [
+        extentX - this.focusCrop.left / this.zoomScale,
+        extentY - this.focusCrop.top / this.zoomScale,
+      ],
     ])
   }
+
+  updatePanExtentDebounced = debounce(this.updatePanExtent, 50)
 
   getDragEventPosition(event: d3.D3DragEvent<SVGGElement, Data, Element>) {
     return {
