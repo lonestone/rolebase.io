@@ -7,7 +7,7 @@
     "searchableAttributes": ["unordered(title)", "unordered(description)"],
     "numericAttributesToIndex": null,
     "attributesToRetrieve": null,
-    "unretrievableAttributes": null,
+    "unretrievableAttributes": ["boost", "description", "title"],
     "optionalWords": null,
     "attributesForFaceting": ["filterOnly(orgId)", "filterOnly(type)"],
     "attributesToSnippet": null,

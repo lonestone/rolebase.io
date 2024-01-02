@@ -19,6 +19,7 @@ import MeetingStepContent from '@molecules/meeting/MeetingStepContent'
 import { taskLogTypes } from '@molecules/meeting/MeetingStepContentTasks'
 import MeetingStepLayout from '@molecules/meeting/MeetingStepLayout'
 import MeetingThreadsDragDropContext from '@molecules/meeting/MeetingThreadsDragDropContext'
+import Page404 from '@pages/Page404'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { VisioIcon } from 'src/icons'
@@ -32,6 +33,7 @@ export default function MeetingContent() {
 
   const {
     meeting,
+    error,
     steps,
     circle,
     isParticipant,
@@ -62,9 +64,9 @@ export default function MeetingContent() {
   // Start notification modal
   const startNotifModal = useDisclosure()
 
-  if (!meeting) {
-    console.error('Meeting not found')
-    return null
+  if (error || !meeting) {
+    console.error(error)
+    return <Page404 />
   }
 
   return (

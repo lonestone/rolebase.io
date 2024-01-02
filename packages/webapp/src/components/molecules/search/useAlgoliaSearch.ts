@@ -1,11 +1,10 @@
 import { getAlgoliaConfig } from '@api/functions'
-import useDateLocale from '@hooks/useDateLocale'
+import { GetSearchResultsQuery, useGetSearchResultsLazyQuery } from '@gql'
 import { useOrgId } from '@hooks/useOrgId'
+import { truthy } from '@shared/helpers/truthy'
 import { AlgoliaConfig, SearchDoc, SearchTypes } from '@shared/model/search'
-import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { UserLocalStorageKeys } from '@utils/localStorage'
 import algoliasearch from 'algoliasearch'
-import { format } from 'date-fns'
 import debounce from 'lodash.debounce'
 import { useMemo, useState } from 'react'
 import { SearchItem } from './searchTypes'
@@ -26,8 +25,8 @@ async function getConfig(orgId: string): Promise<AlgoliaConfig> {
 }
 
 export function useAlgoliaSearch() {
-  const dateLocale = useDateLocale()
   const orgId = useOrgId()
+  const [getSearchResults] = useGetSearchResultsLazyQuery()
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<SearchItem[]>([])
 
@@ -65,25 +64,28 @@ export function useAlgoliaSearch() {
           type ? { facetFilters: `type:${type}` } : undefined
         )
 
-        setItems(
-          hits.map((hit) => {
-            const title = hit.startDate
-              ? `${hit.title}, ${capitalizeFirstLetter(
-                  format(new Date(hit.startDate), 'PPPP', {
-                    locale: dateLocale,
-                  })
-                )}`
-              : hit.title
+        // Get results data from database
+        const { data, error } = await getSearchResults({
+          variables: {
+            membersIds: getHitsIds(hits, SearchTypes.Member),
+            circlesIds: getHitsIds(hits, SearchTypes.Circle),
+            threadsIds: getHitsIds(hits, SearchTypes.Thread),
+            meetingsIds: getHitsIds(hits, SearchTypes.Meeting),
+            tasksIds: getHitsIds(hits, SearchTypes.Task),
+            decisionsIds: getHitsIds(hits, SearchTypes.Decision),
+          },
+        })
 
-            return {
-              id: hit.objectID,
-              type: hit.type,
-              text: '',
-              title,
-              picture: hit.picture,
-            }
-          })
-        )
+        if (!data) {
+          throw error || new Error('No data')
+        }
+
+        // Build search items data with hots order
+        const resultsItems = hits
+          .map((hit) => getResultByHit(hit, data))
+          .filter(truthy)
+
+        setItems(resultsItems)
       } catch (e) {
         console.error(e)
       } finally {
@@ -96,5 +98,99 @@ export function useAlgoliaSearch() {
     loading,
     items,
     search,
+  }
+}
+
+function getHitsIds(hits: SearchDoc[], type: SearchTypes) {
+  return hits.filter((hit) => hit.type === type).map((hit) => hit.objectID)
+}
+
+function getResultByHit(
+  hit: SearchDoc,
+  data: GetSearchResultsQuery
+): SearchItem | undefined {
+  switch (hit.type) {
+    case SearchTypes.Circle: {
+      const circle = data.circle.find((circle) => circle.id === hit.objectID)
+      return (
+        circle && {
+          id: hit.objectID,
+          type: hit.type,
+          text: circle.role.name,
+          title: circle.role.name,
+        }
+      )
+    }
+
+    case SearchTypes.Member: {
+      const member = data.member.find((member) => member.id === hit.objectID)
+      return (
+        member && {
+          id: hit.objectID,
+          type: hit.type,
+          text: member.name,
+          title: member.name,
+          picture: member.picture || undefined,
+        }
+      )
+    }
+
+    case SearchTypes.Thread: {
+      const thread = data.thread.find((thread) => thread.id === hit.objectID)
+      return (
+        thread && {
+          id: hit.objectID,
+          type: hit.type,
+          text: thread.title,
+          title: thread.title,
+          circleId: thread.circleId,
+          date: thread.createdAt,
+        }
+      )
+    }
+
+    case SearchTypes.Meeting: {
+      const meeting = data.meeting.find(
+        (meeting) => meeting.id === hit.objectID
+      )
+      return (
+        meeting && {
+          id: hit.objectID,
+          type: hit.type,
+          text: meeting.title,
+          title: meeting.title,
+          circleId: meeting.circleId,
+          date: meeting.startDate,
+        }
+      )
+    }
+
+    case SearchTypes.Task: {
+      const task = data.task.find((task) => task.id === hit.objectID)
+      return (
+        task && {
+          id: hit.objectID,
+          type: hit.type,
+          text: task.title,
+          title: task.title,
+          circleId: task.circleId,
+          date: task.dueDate || undefined,
+        }
+      )
+    }
+    case SearchTypes.Decision: {
+      const decision = data.decision.find(
+        (decision) => decision.id === hit.objectID
+      )
+      return (
+        decision && {
+          id: hit.objectID,
+          type: hit.type,
+          text: decision.title,
+          title: decision.title,
+          date: decision.createdAt,
+        }
+      )
+    }
   }
 }

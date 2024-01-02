@@ -2,12 +2,11 @@ import CircleByIdButton from '@atoms/CircleByIdButton'
 import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 import {
   Avatar,
-  Flex,
   forwardRef,
+  HStack,
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
-  Spacer,
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -19,6 +18,7 @@ import TaskModal from '@organisms/task/TaskModal'
 import { formatRelative } from 'date-fns'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
+import { PrivacyIcon } from 'src/icons'
 
 interface Props extends LinkBoxProps {
   task: TaskFragment
@@ -66,15 +66,12 @@ const TaskCard = forwardRef<Props, 'div'>(
             {task.title}
           </LinkOverlay>
 
-          <Flex align="center" mt={1}>
-            <Spacer />
-
+          <HStack align="center" justifyContent="end" mt={1}>
             {task.dueDate && (
               <Text
                 fontSize="sm"
                 color="gray.500"
                 _dark={{ color: 'gray.300' }}
-                ml={2}
               >
                 {formatRelative(new Date(task.dueDate), new Date(), {
                   locale: dateLocale,
@@ -82,19 +79,19 @@ const TaskCard = forwardRef<Props, 'div'>(
               </Text>
             )}
 
-            {showCircle && (
-              <CircleByIdButton id={task.circleId} ml={2} size="xs" />
-            )}
+            {task?.private && <PrivacyIcon size={20} />}
+
+            {showCircle && <CircleByIdButton id={task.circleId} size="xs" />}
 
             {showMember &&
               (task.memberId ? (
-                <MemberByIdAvatar id={task.memberId} size="xs" ml={2} />
+                <MemberByIdAvatar id={task.memberId} size="xs" />
               ) : (
-                <Avatar name="?" size="xs" ml={2} />
+                <Avatar name="?" size="xs" />
               ))}
 
             {children}
-          </Flex>
+          </HStack>
         </LinkBox>
 
         {isOpen && <TaskModal id={task.id} isOpen onClose={onClose} />}

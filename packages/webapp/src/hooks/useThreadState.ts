@@ -69,6 +69,13 @@ export default function useThreadState(threadId: string): ThreadState {
       .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1)) || undefined
   const threadLogs = activitiesLogsResult.data?.thread_by_pk?.logs || undefined
 
+  // Error and loading
+  const loading = threadResult.loading || activitiesLogsResult.loading
+  const error =
+    threadResult.error ||
+    activitiesLogsResult.error ||
+    (thread || loading ? undefined : new Error('Thread not found'))
+
   // Meeting page path
   const path = usePathInOrg(`threads/${thread?.id}`)
 
@@ -190,8 +197,8 @@ export default function useThreadState(threadId: string): ThreadState {
     thread,
     memberStatus,
     activities: concatThreadLogsActivities,
-    loading: threadResult.loading || activitiesLogsResult.loading,
-    error: threadResult.error || activitiesLogsResult.error,
+    loading,
+    error,
     path,
     circle,
     participants,

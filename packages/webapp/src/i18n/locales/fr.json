@@ -1009,7 +1009,8 @@
     "notAllowed": "Vous n'avez pas accès à cette décision."
   },
   "ThreadActivityMeeting": {
-    "text": "a créé une réunion :"
+    "text": "a créé une réunion :",
+    "notAllowed": "Vous n'avez pas accès à cette réunion."
   },
   "ThreadActivityMeetingNote": {
     "title": "Note de réunion"

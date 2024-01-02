@@ -1,0 +1,44 @@
+query getSearchResults(
+  $membersIds: [uuid!]!
+  $circlesIds: [uuid!]!
+  $threadsIds: [uuid!]!
+  $meetingsIds: [uuid!]!
+  $tasksIds: [uuid!]!
+  $decisionsIds: [uuid!]!
+) {
+  member(where: { id: { _in: $membersIds } }) {
+    id
+    name
+    picture
+  }
+  circle(where: { id: { _in: $circlesIds } }) {
+    id
+    role {
+      name
+    }
+  }
+  thread(where: { id: { _in: $threadsIds } }) {
+    id
+    circleId
+    title
+    createdAt
+  }
+  meeting(where: { id: { _in: $meetingsIds } }) {
+    id
+    circleId
+    title
+    startDate
+  }
+  task(where: { id: { _in: $tasksIds } }) {
+    id
+    circleId
+    title
+    dueDate
+  }
+  decision(where: { id: { _in: $decisionsIds } }) {
+    id
+    circleId
+    title
+    createdAt
+  }
+}

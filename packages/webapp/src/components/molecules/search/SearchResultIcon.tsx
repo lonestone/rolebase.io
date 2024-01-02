@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps } from '@chakra-ui/react'
+import { Avatar, AvatarProps, Center } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
 import React from 'react'
 import {
@@ -43,7 +43,11 @@ export default function SearchResultIcon({ item, size }: Props) {
   }
 
   const Icon = searchIcons[item.type]
-  const iconSize = size === 'sm' ? 20 : 24
+  const iconSize = size === 'sm' ? '20px' : '24px'
 
-  return <Icon size={iconSize} />
+  return (
+    <Center w={iconSize} h={iconSize}>
+      <Icon size={iconSize} />
+    </Center>
+  )
 }

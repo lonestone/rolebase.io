@@ -12,9 +12,6 @@ export interface SearchDoc {
   type: SearchTypes
   title: string
   description: string
-  picture?: string
-  createdAt?: number
-  startDate?: number
 }
 
 export enum SearchTypes {

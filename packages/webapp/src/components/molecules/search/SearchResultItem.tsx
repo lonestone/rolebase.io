@@ -1,4 +1,8 @@
-import { Box, Button, ButtonProps } from '@chakra-ui/react'
+import CircleByIdButton from '@atoms/CircleByIdButton'
+import { Box, Button, ButtonProps, Spacer, Text } from '@chakra-ui/react'
+import useDateLocale from '@hooks/useDateLocale'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
+import { format } from 'date-fns'
 import React, { useMemo } from 'react'
 import SearchResultIcon from './SearchResultIcon'
 import { SearchItem } from './searchTypes'
@@ -17,6 +21,8 @@ export default React.forwardRef<HTMLButtonElement, Props>(
     { item, prevItem, standalone, highlighted, ...buttonProps },
     ref
   ) {
+    const dateLocale = useDateLocale()
+
     const { title, depth } = useMemo(() => {
       let depth = 0
       let title = item?.title || ''
@@ -56,13 +62,41 @@ export default React.forwardRef<HTMLButtonElement, Props>(
         pointerEvents="auto"
         justifyContent="start"
         variant="solid"
+        h="auto"
+        py={2}
         pl={`calc(var(--chakra-sizes-3) + ${depth * 20}px)`}
         {...buttonProps}
       >
         {item && (
           <>
             <SearchResultIcon item={item} size={buttonProps?.size} />
-            <Box ml={2}>{title}</Box>
+            <Box ml={2} whiteSpace="break-spaces" textAlign="left">
+              {title}
+            </Box>
+
+            <Spacer />
+
+            {item.date && (
+              <Text
+                fontSize="xs"
+                color="gray.500"
+                _dark={{ color: 'gray.300' }}
+              >
+                {capitalizeFirstLetter(
+                  format(new Date(item.date), 'PPPP', {
+                    locale: dateLocale,
+                  })
+                )}
+              </Text>
+            )}
+
+            {item.circleId && (
+              <CircleByIdButton
+                id={item.circleId}
+                ml={2}
+                size={buttonProps?.size === 'sm' ? 'xs' : 'sm'}
+              />
+            )}
           </>
         )}
       </Button>

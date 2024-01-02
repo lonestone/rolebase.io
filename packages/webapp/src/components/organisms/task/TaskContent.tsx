@@ -6,7 +6,6 @@ import MemberByIdButton from '@atoms/MemberByIdButton'
 import Switch from '@atoms/Switch'
 import SwitchController from '@atoms/SwitchController'
 import TaskStatusTag from '@atoms/TaskStatusTag'
-import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
   Alert,
@@ -52,6 +51,7 @@ import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchIn
 import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
 import { TaskLogs } from '@molecules/task/TaskLogs'
 import TaskStatusInput from '@molecules/task/TaskStatusInput'
+import Page404 from '@pages/Page404'
 import { nameSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
 import debounce from 'lodash.debounce'
@@ -237,6 +237,11 @@ export default function TaskContent({
     onClose: onDeleteClose,
   } = useDisclosure()
 
+  if (error || (!task && !loading)) {
+    console.error(error || new Error('Task not found'))
+    return <Page404 />
+  }
+
   return (
     <Box {...boxProps}>
       {changeTitle && <Title>{task?.title || '…'}</Title>}
@@ -290,7 +295,6 @@ export default function TaskContent({
       </Flex>
 
       {id && loading && <Loading active size="md" />}
-      <TextErrors errors={[error]} />
 
       <VStack spacing={10} alignItems="start" mb={3}>
         <FormControl isInvalid={!!errors.title}>
@@ -433,7 +437,7 @@ export default function TaskContent({
           <Box w="100%" textAlign="right">
             <Button
               colorScheme="blue"
-              isDisabled={isPrivateAllowed}
+              isDisabled={!isPrivateAllowed}
               onClick={onSubmit}
             >
               {t('common.create')}

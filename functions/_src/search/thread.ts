@@ -28,7 +28,6 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
       getActivitiesEditorTextByType(activity.data, activity.type)
     )
     .join('\n'),
-  createdAt: new Date(fragment.createdAt).getTime(),
   boost: 0,
 })
 

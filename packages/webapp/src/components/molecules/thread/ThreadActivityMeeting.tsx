@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react'
+import { Alert, AlertIcon, Text } from '@chakra-ui/react'
 import { ThreadActivityMeetingFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,8 +17,13 @@ export default function ThreadActivityMeeting({ activity }: Props) {
       <Text color="gray.500" _dark={{ color: 'gray.300' }}>
         {t(`ThreadActivityMeeting.text`)}
       </Text>
-      {activity.refMeeting && (
+      {activity.refMeeting ? (
         <MeetingItem meeting={activity.refMeeting} showDate showIcon />
+      ) : (
+        <Alert status="warning">
+          <AlertIcon />
+          {t('ThreadActivityMeeting.notAllowed')}
+        </Alert>
       )}
     </ThreadActivityLayout>
   )

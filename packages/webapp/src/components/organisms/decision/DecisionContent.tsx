@@ -1,7 +1,6 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
 import Loading from '@atoms/Loading'
 import Markdown from '@atoms/Markdown'
-import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
   Box,
@@ -19,6 +18,7 @@ import useCircle from '@hooks/useCircle'
 import useDateLocale from '@hooks/useDateLocale'
 import useOrgMember from '@hooks/useOrgMember'
 import ActionsMenu from '@molecules/ActionsMenu'
+import Page404 from '@pages/Page404'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
@@ -54,6 +54,11 @@ export default function DecisionContent({
   const decision = data?.decision_by_pk || undefined
 
   const circle = useCircle(decision?.circleId)
+
+  if (error || (!decision && !loading)) {
+    console.error(error || new Error('Decision not found'))
+    return <Page404 />
+  }
 
   return (
     <Box mb={3} {...boxProps}>
@@ -95,7 +100,6 @@ export default function DecisionContent({
       </Flex>
 
       {id && loading && <Loading active size="md" />}
-      <TextErrors errors={[error]} />
 
       <Text fontSize="lg" fontWeight="bold" mt={2} mb={1}>
         {decision?.title}

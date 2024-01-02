@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react'
+import { Alert, AlertIcon, Text } from '@chakra-ui/react'
 import { ThreadActivityDecisionFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -20,7 +20,10 @@ export default function ThreadActivityDecision({ activity }: Props) {
       {activity.refDecision ? (
         <DecisionItem decision={activity.refDecision} showIcon />
       ) : (
-        <Text fontStyle="italic">{t('ThreadActivityDecision.notAllowed')}</Text>
+        <Alert status="warning">
+          <AlertIcon />
+          {t('ThreadActivityDecision.notAllowed')}
+        </Alert>
       )}
     </ThreadActivityLayout>
   )

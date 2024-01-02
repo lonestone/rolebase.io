@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react'
+import { Alert, AlertIcon, Text } from '@chakra-ui/react'
 import { ThreadActivityTaskFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,14 +18,12 @@ export default function ThreadActivityTask({ activity }: Props) {
         {t(`ThreadActivityTask.text`)}
       </Text>
       {activity.refTask ? (
-        <TaskItem
-          task={activity.refTask}
-          showMember
-          showIcon
-          width="fit-content"
-        />
+        <TaskItem task={activity.refTask} showMember showIcon />
       ) : (
-        <Text fontStyle="italic">{t('ThreadActivityTask.notAllowed')}</Text>
+        <Alert status="warning">
+          <AlertIcon />
+          {t('ThreadActivityTask.notAllowed')}
+        </Alert>
       )}
     </ThreadActivityLayout>
   )

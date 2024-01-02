@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react'
+import { Alert, AlertIcon, Text } from '@chakra-ui/react'
 import { ThreadActivityThreadFragment } from '@shared/model/thread_activity'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -20,7 +20,10 @@ export default function ThreadActivityThread({ activity }: Props) {
       {activity.refThread ? (
         <ThreadItem thread={activity.refThread} />
       ) : (
-        <Text fontStyle="italic">{t('ThreadActivityThread.notAllowed')}</Text>
+        <Alert status="warning">
+          <AlertIcon />
+          {t('ThreadActivityThread.notAllowed')}
+        </Alert>
       )}
     </ThreadActivityLayout>
   )

@@ -3,8 +3,6 @@ import { OrgDigest } from '@emails/templates/Digest'
 import { ThreadActivityFragment, ThreadFragment, gql } from '@gql'
 import settings from '@settings'
 import { defaultCircleColorHue } from '@shared/helpers/circleColor'
-import filterThreadsByMember from '@shared/helpers/filterThreadsByMember'
-import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { getDateFromUTCDate } from '@shared/helpers/rrule'
 import { getDefaultDigestRRule } from '@shared/model/notifications'
@@ -111,13 +109,10 @@ async function sendDigest(
 
   for (const member of result.member) {
     const org = member.org
-    const circles = fixCirclesHue(org.circles)
     const orgUrl = `${settings.url}${getOrgPath(org)}`
 
     // Threads
-    const threads = filterThreadsByMember(org.threads, member.id, circles).sort(
-      sortThreads
-    )
+    const threads = org.threads.sort(sortThreads)
 
     // Meetings
     const meetings = org.meetings
@@ -206,21 +201,28 @@ const GET_USER_DIGEST_DATA = gql(`
       org {
         ...Org
 
-        # Circles to compute participations
-        circles(where: { archived: { _eq: false } }) {
-          ...CircleFull
-        }
-
         # Threads to include in the digest
         threads(
           where: {
-            _or: [
-              # New threads
-              { createdAt: { _gt: $date } }
-              # New activities in threads
-              { activities: { createdAt: { _gt: $date } } }
+            _and: [
+              {
+                _or: [
+                  # New threads
+                  { createdAt: { _gt: $date } }
+                  # New activities in threads
+                  { activities: { createdAt: { _gt: $date } } }
+                ]
+              }
+              {
+                _or: [
+                  {
+                    circle: { participants: { member: { id: { _eq: $userId } } } }
+                  }
+                  { extra_members: { member: { id: { _eq: $userId } } } }
+                ]
+              }
+              { archived: { _eq: false } }
             ]
-            archived: { _eq: false }
           }
         ) {
           ...Thread
@@ -241,6 +243,11 @@ const GET_USER_DIGEST_DATA = gql(`
           where: {
             endDate: { _gt: $date }
             ended: { _eq: true }
+            _or: [
+              { private: { _eq: false } }
+              { circle: { participants: { member: { id: { _eq: $userId } } } } }
+              { meeting_attendees: { member: { id: { _eq: $userId } } } }
+            ]
             archived: { _eq: false }
           }
           order_by: { endDate: desc }

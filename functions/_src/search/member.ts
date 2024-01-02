@@ -19,7 +19,6 @@ const transform = (fragment: DocumentType<typeof Fragment>): SearchDoc => ({
   type: SearchTypes.Member,
   title: fragment.name,
   description: fragment.description,
-  picture: fragment.picture || undefined,
   boost: 1,
 })
 

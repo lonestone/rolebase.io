@@ -5,5 +5,7 @@ export type SearchItem = {
   type: SearchTypes
   text: string
   title: string
+  circleId?: string
   picture?: string
+  date?: string
 }

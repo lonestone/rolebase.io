@@ -20768,6 +20768,18 @@ export type ArchiveRoleMutationVariables = Exact<{
 
 export type ArchiveRoleMutation = { __typename?: 'mutation_root', update_role_by_pk?: { __typename?: 'role', id: string } | null };
 
+export type GetSearchResultsQueryVariables = Exact<{
+  membersIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
+  circlesIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
+  threadsIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
+  meetingsIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
+  tasksIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
+  decisionsIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
+}>;
+
+
+export type GetSearchResultsQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, name: string, picture?: string | null }>, circle: Array<{ __typename?: 'circle', id: string, role: { __typename?: 'role', name: string } }>, thread: Array<{ __typename?: 'thread', id: string, circleId: string, title: string, createdAt: string }>, meeting: Array<{ __typename?: 'meeting', id: string, circleId: string, title: string, startDate: string }>, task: Array<{ __typename?: 'task', id: string, circleId: string, title: string, dueDate?: string | null }>, decision: Array<{ __typename?: 'decision', id: string, circleId: string, title: string, createdAt: string }> };
+
 export type GetTaskQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
@@ -23760,6 +23772,81 @@ export function useArchiveRoleMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ArchiveRoleMutationHookResult = ReturnType<typeof useArchiveRoleMutation>;
 export type ArchiveRoleMutationResult = Apollo.MutationResult<ArchiveRoleMutation>;
 export type ArchiveRoleMutationOptions = Apollo.BaseMutationOptions<ArchiveRoleMutation, ArchiveRoleMutationVariables>;
+export const GetSearchResultsDocument = gql`
+    query getSearchResults($membersIds: [uuid!]!, $circlesIds: [uuid!]!, $threadsIds: [uuid!]!, $meetingsIds: [uuid!]!, $tasksIds: [uuid!]!, $decisionsIds: [uuid!]!) {
+  member(where: {id: {_in: $membersIds}}) {
+    id
+    name
+    picture
+  }
+  circle(where: {id: {_in: $circlesIds}}) {
+    id
+    role {
+      name
+    }
+  }
+  thread(where: {id: {_in: $threadsIds}}) {
+    id
+    circleId
+    title
+    createdAt
+  }
+  meeting(where: {id: {_in: $meetingsIds}}) {
+    id
+    circleId
+    title
+    startDate
+  }
+  task(where: {id: {_in: $tasksIds}}) {
+    id
+    circleId
+    title
+    dueDate
+  }
+  decision(where: {id: {_in: $decisionsIds}}) {
+    id
+    circleId
+    title
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetSearchResultsQuery__
+ *
+ * To run a query within a React component, call `useGetSearchResultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSearchResultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSearchResultsQuery({
+ *   variables: {
+ *      membersIds: // value for 'membersIds'
+ *      circlesIds: // value for 'circlesIds'
+ *      threadsIds: // value for 'threadsIds'
+ *      meetingsIds: // value for 'meetingsIds'
+ *      tasksIds: // value for 'tasksIds'
+ *      decisionsIds: // value for 'decisionsIds'
+ *   },
+ * });
+ */
+export function useGetSearchResultsQuery(baseOptions: Apollo.QueryHookOptions<GetSearchResultsQuery, GetSearchResultsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSearchResultsQuery, GetSearchResultsQueryVariables>(GetSearchResultsDocument, options);
+      }
+export function useGetSearchResultsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSearchResultsQuery, GetSearchResultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSearchResultsQuery, GetSearchResultsQueryVariables>(GetSearchResultsDocument, options);
+        }
+export type GetSearchResultsQueryHookResult = ReturnType<typeof useGetSearchResultsQuery>;
+export type GetSearchResultsLazyQueryHookResult = ReturnType<typeof useGetSearchResultsLazyQuery>;
+export type GetSearchResultsQueryResult = Apollo.QueryResult<GetSearchResultsQuery, GetSearchResultsQueryVariables>;
+export function refetchGetSearchResultsQuery(variables: GetSearchResultsQueryVariables) {
+      return { query: GetSearchResultsDocument, variables: variables }
+    }
 export const GetTaskDocument = gql`
     query getTask($id: uuid!) {
   task_by_pk(id: $id) {
