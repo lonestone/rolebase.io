@@ -66,19 +66,20 @@ const TaskCard = forwardRef<Props, 'div'>(
             {task.title}
           </LinkOverlay>
 
-          <HStack align="center" justifyContent="end" mt={1}>
-            {task.dueDate && (
-              <Text
-                fontSize="sm"
-                color="gray.500"
-                _dark={{ color: 'gray.300' }}
-              >
-                {formatRelative(new Date(task.dueDate), new Date(), {
-                  locale: dateLocale,
-                })}
-              </Text>
-            )}
+          {task.dueDate && (
+            <Text
+              fontSize="sm"
+              textAlign="right"
+              color="gray.500"
+              _dark={{ color: 'gray.300' }}
+            >
+              {formatRelative(new Date(task.dueDate), new Date(), {
+                locale: dateLocale,
+              })}
+            </Text>
+          )}
 
+          <HStack align="center" justifyContent="end" mt={1}>
             {task?.private && <PrivacyIcon size={20} />}
 
             {showCircle && <CircleByIdButton id={task.circleId} size="xs" />}
