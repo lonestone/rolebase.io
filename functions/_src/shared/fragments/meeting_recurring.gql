@@ -8,8 +8,7 @@ fragment MeetingRecurring on meeting_recurring {
       colorHue
     }
   }
-  participantsScope
-  participantsMembersIds
+  scope
   templateId
   template {
     title

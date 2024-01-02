@@ -2,7 +2,7 @@ import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Button, useDisclosure } from '@chakra-ui/react'
 import { useNextMeetingsSubscription } from '@gql'
-import useFilterEntities from '@hooks/useFilterEntities'
+import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
@@ -10,7 +10,6 @@ import MeetingsList from '@molecules/meeting/MeetingsList'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import MeetingModal from '@organisms/meeting/MeetingModal'
 import MeetingRecurringListModal from '@organisms/meeting/MeetingRecurringListModal'
-import { EntityFilters } from '@shared/model/participants'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon } from 'src/icons'
@@ -21,17 +20,17 @@ const max = 5
 export default function DashboardMyMeetings() {
   const { t } = useTranslation()
   const orgId = useOrgId()
+  const currentMember = useCurrentMember()
   const isMember = useOrgMember()
 
   const { data, error, loading } = useNextMeetingsSubscription({
-    skip: !orgId,
+    skip: !orgId || !currentMember,
     variables: {
       orgId: orgId!,
+      memberId: currentMember?.id!,
     },
   })
-
-  // Filter meetings
-  const meetings = useFilterEntities(EntityFilters.Invited, data?.meeting)
+  const meetings = data?.meeting
 
   // Modals
   const [meetingId, setMeetingId] = useState<string | undefined>()
@@ -47,7 +46,7 @@ export default function DashboardMyMeetings() {
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyMeetings.title')}
-      path="meetings"
+      path={`meetings?member=${currentMember?.id}`}
       actions={
         isMember && (
           <Button

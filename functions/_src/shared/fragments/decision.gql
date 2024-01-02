@@ -7,4 +7,5 @@ fragment Decision on decision {
   description
   archived
   createdAt
+  private
 }

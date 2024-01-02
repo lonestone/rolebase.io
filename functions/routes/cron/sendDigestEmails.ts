@@ -3,15 +3,11 @@ import { OrgDigest } from '@emails/templates/Digest'
 import { ThreadActivityFragment, ThreadFragment, gql } from '@gql'
 import settings from '@settings'
 import { defaultCircleColorHue } from '@shared/helpers/circleColor'
-import filterEntities from '@shared/helpers/filterEntities'
+import filterThreadsByMember from '@shared/helpers/filterThreadsByMember'
 import { fixCirclesHue } from '@shared/helpers/fixCirclesHue'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { getDateFromUTCDate } from '@shared/helpers/rrule'
 import { getDefaultDigestRRule } from '@shared/model/notifications'
-import {
-  EntityFilters,
-  EntityWithParticipants,
-} from '@shared/model/participants'
 import { UserMetadata } from '@shared/model/user'
 import { adminRequest } from '@utils/adminRequest'
 import { guardWebhookSecret } from '@utils/guardWebhookSecret'
@@ -118,20 +114,10 @@ async function sendDigest(
     const circles = fixCirclesHue(org.circles)
     const orgUrl = `${settings.url}${getOrgPath(org)}`
 
-    // Filter entities where the member is participating
-    const filterParticipating = <T extends EntityWithParticipants>(
-      entities: T[]
-    ) =>
-      filterEntities(
-        EntityFilters.Invited,
-        entities,
-        circles,
-        undefined,
-        member.id
-      )
-
     // Threads
-    const threads = filterParticipating(org.threads).sort(sortThreads)
+    const threads = filterThreadsByMember(org.threads, member.id, circles).sort(
+      sortThreads
+    )
 
     // Meetings
     const meetings = org.meetings

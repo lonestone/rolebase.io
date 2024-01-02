@@ -3,8 +3,8 @@ import MemberByIdAvatar from '@atoms/MemberByIdAvatar'
 import {
   Center,
   Circle,
-  Flex,
   forwardRef,
+  HStack,
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
@@ -21,6 +21,7 @@ import useThreadStatus from '@hooks/useThreadStatus'
 import ThreadModal from '@organisms/thread/ThreadModal'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
+import { PrivacyIcon } from 'src/icons'
 import ThreadStatusIcon from './ThreadStatusIcon'
 
 interface Props extends LinkBoxProps {
@@ -75,8 +76,8 @@ const ThreadItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex align="center">
-            <Center zIndex="2" mr={2} position="relative">
+          <HStack align="center">
+            <Center zIndex="2" position="relative">
               <ThreadStatusIcon
                 value={threadStatus}
                 readOnly={!isMember}
@@ -105,13 +106,14 @@ const ThreadItem = forwardRef<Props, 'div'>(
               {thread.title}
             </LinkOverlay>
 
+            {thread?.private && <PrivacyIcon size={20} />}
+
             {showMember && threadInitiator && (
               <MemberByIdAvatar
                 id={threadInitiator.id}
                 circleId={thread.circleId}
                 w={6}
                 h={6}
-                mr={2}
                 size="xs"
               />
             )}
@@ -119,7 +121,7 @@ const ThreadItem = forwardRef<Props, 'div'>(
             {showCircle && <CircleByIdButton id={thread.circleId} size="xs" />}
 
             {children}
-          </Flex>
+          </HStack>
         </LinkBox>
 
         {isOpen && <ThreadModal id={thread.id} isOpen onClose={onClose} />}

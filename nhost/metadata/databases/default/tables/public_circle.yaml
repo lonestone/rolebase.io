@@ -2,30 +2,12 @@ table:
   name: circle
   schema: public
 object_relationships:
-  - name: leaders
-    using:
-      manual_configuration:
-        column_mapping:
-          id: circleId
-        insertion_order: null
-        remote_table:
-          name: circle_leader
-          schema: public
   - name: org
     using:
       foreign_key_constraint_on: orgId
   - name: parent
     using:
       foreign_key_constraint_on: parentId
-  - name: participants
-    using:
-      manual_configuration:
-        column_mapping:
-          id: circleId
-        insertion_order: null
-        remote_table:
-          name: circle_participant
-          schema: public
   - name: role
     using:
       foreign_key_constraint_on: roleId
@@ -51,12 +33,30 @@ array_relationships:
         table:
           name: circle_link
           schema: public
+  - name: leaders
+    using:
+      manual_configuration:
+        column_mapping:
+          id: circleId
+        insertion_order: null
+        remote_table:
+          name: circle_leader
+          schema: public
   - name: members
     using:
       foreign_key_constraint_on:
         column: circleId
         table:
           name: circle_member
+          schema: public
+  - name: participants
+    using:
+      manual_configuration:
+        column_mapping:
+          id: circleId
+        insertion_order: null
+        remote_table:
+          name: circle_participant
           schema: public
 insert_permissions:
   - role: user

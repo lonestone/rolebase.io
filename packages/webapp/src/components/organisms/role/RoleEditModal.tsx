@@ -1,7 +1,7 @@
 import ColorController from '@atoms/ColorController'
 import DurationSelect from '@atoms/DurationSelect'
 import Loading from '@atoms/Loading'
-import Switch from '@atoms/Switch'
+import SwitchController from '@atoms/SwitchController'
 import TextError from '@atoms/TextError'
 import {
   Alert,
@@ -188,9 +188,9 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
 
               <FormControl>
                 <Stack spacing={4}>
-                  <Switch {...register('singleMember')}>
+                  <SwitchController name="singleMember" control={control}>
                     {t('RoleEditModal.singleMember')}
-                  </Switch>
+                  </SwitchController>
 
                   <Tooltip
                     label={
@@ -201,12 +201,13 @@ export default function RoleEditModal({ id, role, ...modalProps }: Props) {
                     hasArrow
                   >
                     <Box>
-                      <Switch
-                        {...register('parentLink')}
+                      <SwitchController
+                        name="parentLink"
+                        control={control}
                         isDisabled={!canChangeParentLink}
                       >
                         {t('RoleEditModal.parentLink')}
-                      </Switch>
+                      </SwitchController>
                     </Box>
                   </Tooltip>
                 </Stack>

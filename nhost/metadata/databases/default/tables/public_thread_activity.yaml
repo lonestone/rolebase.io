@@ -49,18 +49,31 @@ insert_permissions:
     permission:
       check:
         thread:
-          org:
-            members:
-              _and:
-                - userId:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - extra_members:
+                member:
+                  userId:
                     _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
-                    - role:
-                        _eq: Owner
+            - _and:
+                - private:
+                    _eq: false
+                - org:
+                    members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Member
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Owner
       set:
         userId: x-hasura-User-Id
       columns:
@@ -87,10 +100,23 @@ select_permissions:
         - userId
       filter:
         thread:
-          org:
-            members:
-              userId:
-                _eq: X-Hasura-User-Id
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - extra_members:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - org:
+                    members:
+                      userId:
+                        _eq: X-Hasura-User-Id
       allow_aggregations: true
 update_permissions:
   - role: user
@@ -105,22 +131,39 @@ update_permissions:
               - type:
                   _eq: MeetingNote
               - thread:
-                  org:
-                    members:
-                      _and:
-                        - userId:
+                  _or:
+                    - circle:
+                        participants:
+                          member:
+                            userId:
+                              _eq: X-Hasura-User-Id
+                    - extra_members:
+                        member:
+                          userId:
                             _eq: X-Hasura-User-Id
-                        - _or:
-                            - role:
-                                _eq: Member
-                            - role:
-                                _eq: Admin
+                    - _and:
+                        - private:
+                            _eq: false
+                        - org:
+                            members:
+                              _and:
+                                - userId:
+                                    _eq: X-Hasura-User-Id
+                                - _or:
+                                    - role:
+                                        _eq: Member
+                                    - role:
+                                        _eq: Admin
+                                    - role:
+                                        _eq: Owner
       check: {}
 delete_permissions:
   - role: user
     permission:
       filter:
         _or:
+          - userId:
+              _eq: X-Hasura-User-Id
           - thread:
               org:
                 members:
@@ -129,11 +172,9 @@ delete_permissions:
                         _eq: X-Hasura-User-Id
                     - _or:
                         - role:
-                            _eq: Member
-                        - role:
                             _eq: Admin
-          - userId:
-              _eq: X-Hasura-User-Id
+                        - role:
+                            _eq: Owner
 event_triggers:
   - name: index-thread-activity
     definition:

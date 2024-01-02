@@ -10,6 +10,7 @@ import {
   Link,
   Spacer,
   Tag,
+  Tooltip,
   useDisclosure,
   Wrap,
 } from '@chakra-ui/react'
@@ -19,7 +20,7 @@ import useOrgMember from '@hooks/useOrgMember'
 import useThreadState from '@hooks/useThreadState'
 import useThreadStatus from '@hooks/useThreadStatus'
 import ActionsMenu from '@molecules/ActionsMenu'
-import ParticipantsNumber from '@molecules/ParticipantsNumber'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
 import ScrollableLayout from '@molecules/ScrollableLayout'
 import ThreadActivityCreate from '@molecules/thread/ThreadActivityCreate'
 import ThreadStatusIcon from '@molecules/thread/ThreadStatusIcon'
@@ -29,6 +30,7 @@ import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import Page404 from '@pages/Page404'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { PrivacyIcon } from 'src/icons'
 import settings from 'src/settings'
 
 interface Props extends BoxProps {
@@ -114,6 +116,17 @@ export default function ThreadContent({
               <Spacer />
 
               <HStack spacing={2}>
+                {thread?.private && (
+                  <Tooltip
+                    label={t('ThreadContent.private', {
+                      role: circle?.role.name,
+                    })}
+                    hasArrow
+                  >
+                    <PrivacyIcon size={20} />
+                  </Tooltip>
+                )}
+
                 <Box>
                   {isMember && threadStatus && !thread?.archived && (
                     <ThreadStatusMenu

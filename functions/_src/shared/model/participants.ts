@@ -1,20 +1,19 @@
-import { Member_Scope_Enum } from '@gql'
-import { MeetingAttendee } from './meeting'
-
-export interface EntityWithParticipants {
-  circleId: string
-  participantsScope: Member_Scope_Enum
-  participantsMembersIds: string[]
-  attendees?: MeetingAttendee[] | null
+export interface EntityWithScope {
+  scope: ParticipantsScope
 }
 
-export enum EntityFilters {
-  All = 'All',
-  Circle = 'Circle',
-  Invited = 'Invited',
-  NotInvited = 'NotInvited',
+export interface ParticipantsScope {
+  members: string[]
+  circles: ParticipantsCircleScope[]
 }
 
-export type EntityWithParticipantsAndOrgId = EntityWithParticipants & {
-  orgId: string
+export interface ParticipantsCircleScope {
+  id: string
+  children: boolean
+  excludeMembers: string[]
+}
+
+export const defaultParticipantsScope: ParticipantsScope = {
+  members: [],
+  circles: [],
 }

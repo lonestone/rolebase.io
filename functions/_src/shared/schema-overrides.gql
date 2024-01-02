@@ -1,7 +1,7 @@
 scalar user_metadata
-scalar attendee
 scalar meeting_step_config
 scalar meeting_step_data
+scalar participants_scope
 scalar videoconf
 scalar log_display
 scalar log_changes
@@ -15,8 +15,6 @@ type auth_refresh_tokens {
 }
 
 type meeting {
-  participantsMembersIds: [uuid!]!
-  attendees: [attendee!]
   stepsConfig: [meeting_step_config!]!
   videoConf: videoconf
 }
@@ -30,15 +28,11 @@ type meeting_step {
 }
 
 type meeting_recurring {
-  participantsMembersIds: [uuid!]!
+  scope: participants_scope!
 }
 
 type task_view {
   tasksIds: [uuid!]!
-}
-
-type thread {
-  participantsMembersIds: [uuid!]!
 }
 
 type thread_poll_answer {

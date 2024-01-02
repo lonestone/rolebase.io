@@ -1,13 +1,13 @@
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import { Button, useDisclosure } from '@chakra-ui/react'
-import useFilterEntities from '@hooks/useFilterEntities'
+import useCurrentMember from '@hooks/useCurrentMember'
+import useFilterThreadsByMember from '@hooks/useFilterThreadsByMember'
 import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
 import DashboardMyInfosItem from '@molecules/dashboard/DashboardMyInfosItem'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import ThreadsList from '@organisms/thread/ThreadsList'
-import { EntityFilters } from '@shared/model/participants'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon } from 'src/icons'
@@ -16,17 +16,18 @@ export default function DashboardMyThreads() {
   const { t } = useTranslation()
   const createModal = useDisclosure()
   const isMember = useOrgMember()
+  const currentMember = useCurrentMember()
 
   // Subscribe to threads
   const { threads, error, loading } = useThreads()
 
   // Filter threads
-  const filteredThreads = useFilterEntities(EntityFilters.Invited, threads)
+  const filteredThreads = useFilterThreadsByMember(threads, currentMember?.id)
 
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyThreads.title')}
-      path="threads"
+      path={`threads?member=${currentMember?.id}`}
       actions={
         isMember && (
           <Button

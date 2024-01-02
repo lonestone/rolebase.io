@@ -9,7 +9,7 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react'
-import ParticipantsGroup from '@molecules/ParticipantsGroup'
+import ParticipantsGroup from '@molecules/participants/ParticipantsGroup'
 import SubscriptionFeatures from '@molecules/subscription/SubscriptionFeatures'
 import { useStoreState } from '@store/hooks'
 import { SubscriptionPlan } from '@utils/subscriptionPlansTypes'

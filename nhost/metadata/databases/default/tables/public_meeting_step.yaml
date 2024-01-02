@@ -10,18 +10,19 @@ insert_permissions:
     permission:
       check:
         meeting:
-          org:
-            members:
-              _and:
-                - userId:
-                    _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
-                    - role:
-                        _eq: Owner
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - _and:
+                - invitedReadonly:
+                    _eq: false
+                - meeting_attendees:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
       columns:
         - data
         - meetingId
@@ -40,10 +41,23 @@ select_permissions:
         - type
       filter:
         meeting:
-          org:
-            members:
-              userId:
-                _eq: X-Hasura-User-Id
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - meeting_attendees:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - org:
+                    members:
+                      userId:
+                        _eq: X-Hasura-User-Id
 update_permissions:
   - role: user
     permission:
@@ -52,36 +66,38 @@ update_permissions:
         - notes
       filter:
         meeting:
-          org:
-            members:
-              _and:
-                - userId:
-                    _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
-                    - role:
-                        _eq: Owner
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - _and:
+                - invitedReadonly:
+                    _eq: false
+                - meeting_attendees:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
       check: {}
 delete_permissions:
   - role: user
     permission:
       filter:
         meeting:
-          org:
-            members:
-              _and:
-                - userId:
-                    _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
-                    - role:
-                        _eq: Owner
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - _and:
+                - invitedReadonly:
+                    _eq: false
+                - meeting_attendees:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
 event_triggers:
   - name: index-meeting-step
     definition:

@@ -1,8 +1,7 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
 import {
-  Center,
-  Flex,
   forwardRef,
+  HStack,
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
@@ -15,7 +14,7 @@ import { usePathInOrg } from '@hooks/usePathInOrg'
 import DecisionModal from '@organisms/decision/DecisionModal'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { DecisionIcon } from 'src/icons'
+import { DecisionIcon, PrivacyIcon } from 'src/icons'
 
 interface Props extends LinkBoxProps {
   decision: DecisionFragment
@@ -42,23 +41,21 @@ const DecisionItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex align="center">
-            {showIcon && (
-              <Center mr={2}>
-                <DecisionIcon />
-              </Center>
-            )}
+          <HStack align="center">
+            {showIcon && <DecisionIcon />}
 
             <LinkOverlay as={ReachLink} flex={1} to={path} onClick={handleOpen}>
               {decision.title}
             </LinkOverlay>
+
+            {decision?.private && <PrivacyIcon size={20} />}
 
             {showCircle && (
               <CircleByIdButton id={decision.circleId} size="xs" />
             )}
 
             {children}
-          </Flex>
+          </HStack>
         </LinkBox>
 
         {isOpen && <DecisionModal id={decision.id} isOpen onClose={onClose} />}

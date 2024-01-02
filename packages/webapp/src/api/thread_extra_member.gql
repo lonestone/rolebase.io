@@ -1,0 +1,20 @@
+mutation createThreadExtraMember($values: thread_extra_member_insert_input!) {
+  insert_thread_extra_member_one(object: $values) {
+    ...ThreadExtraMember
+  }
+}
+
+mutation updateThreadExtraMember(
+  $id: uuid!
+  $values: thread_extra_member_set_input!
+) {
+  update_thread_extra_member_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...ThreadExtraMember
+  }
+}
+
+mutation deleteThreadExtraMember($id: uuid!) {
+  delete_thread_extra_member_by_pk(id: $id) {
+    id
+  }
+}

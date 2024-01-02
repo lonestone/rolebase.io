@@ -1,12 +1,15 @@
 import NumberInputController from '@atoms/NumberInputController'
+import SwitchController from '@atoms/SwitchController'
 import {
   Alert,
+  AlertDescription,
   AlertIcon,
   Box,
   Button,
   Collapse,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   InputGroup,
@@ -28,13 +31,14 @@ import {
   Meeting_Step_Type_Enum,
   MeetingFragment,
   MeetingTemplateFragment,
-  Member_Scope_Enum,
   useUpdateMeetingMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useCircle from '@hooks/useCircle'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useExtraParticipants from '@hooks/useExtraParticipants'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import MeetingStepsConfigController, {
@@ -45,12 +49,17 @@ import VideoConfFormControl, {
   videoConfSchema,
   VideoConfValues,
 } from '@molecules/meeting/VideoConfFormControl'
-import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
+import ParticipantScopeInput from '@molecules/participants/ParticipantScopeInput'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
+import {
+  defaultParticipantsScope,
+  ParticipantsScope,
+} from '@shared/model/participants'
 import { nameSchema, stepsConfigSchema } from '@shared/schemas'
 import { getDateTimeLocal } from '@utils/dates'
 import { nanoid } from 'nanoid'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -63,6 +72,7 @@ interface Props extends UseModalProps {
   defaultCircleId?: string
   defaultStartDate?: Date
   defaultDuration?: number
+  defaultPrivate?: boolean
   onCreate?(meetingId: string): void
   onRecurring?(): void
 }
@@ -70,10 +80,10 @@ interface Props extends UseModalProps {
 interface Values extends StepsValues, VideoConfValues {
   title: string
   circleId: string
-  participantsScope: Member_Scope_Enum
-  participantsMembersIds: Array<{ memberId: string }>
   startDate: string
   duration: number // In minutes
+  private: boolean
+  invitedReadonly: boolean
 }
 
 const resolver = yupResolver(
@@ -95,6 +105,7 @@ export default function MeetingEditModal({
   defaultCircleId,
   defaultStartDate,
   defaultDuration,
+  defaultPrivate,
   onCreate,
   onRecurring,
   ...modalProps
@@ -111,10 +122,6 @@ export default function MeetingEditModal({
     () => ({
       title: meeting?.title ?? '',
       circleId: meeting?.circleId ?? (defaultCircleId || ''),
-      participantsScope:
-        meeting?.participantsScope ?? Member_Scope_Enum.CircleLeaders,
-      participantsMembersIds:
-        meeting?.participantsMembersIds.map((id) => ({ memberId: id })) ?? [],
       startDate: getDateTimeLocal(
         duplicate || !meeting
           ? defaultStartDate || getRoundedDate()
@@ -127,6 +134,8 @@ export default function MeetingEditModal({
               60000
           )
         : defaultDuration || 30,
+      private: meeting ? meeting.private : defaultPrivate || false,
+      invitedReadonly: meeting?.invitedReadonly ?? false,
       stepsConfig: meeting?.stepsConfig ?? [
         {
           id: nanoid(8),
@@ -160,6 +169,10 @@ export default function MeetingEditModal({
   const circleId = watch('circleId')
   const circle = useCircle(circleId)
 
+  // Watch privacy fields
+  const isPrivate = watch('private')
+  const invitedReadonly = watch('invitedReadonly')
+
   // Template change
   const handleTemplateSelect = (template: MeetingTemplateFragment) => {
     setValue('title', template.title)
@@ -168,14 +181,7 @@ export default function MeetingEditModal({
 
   // Submit
   const onSubmit = handleSubmit(
-    async ({
-      participantsMembersIds,
-      startDate,
-      duration,
-      videoConfType,
-      videoConfUrl,
-      ...data
-    }) => {
+    async ({ startDate, duration, videoConfType, videoConfUrl, ...data }) => {
       if (!orgId || !currentMember || !circle) return
       const startDateDate = new Date(startDate)
 
@@ -197,7 +203,6 @@ export default function MeetingEditModal({
         endDate: new Date(
           startDateDate.getTime() + duration * 60 * 1000
         ).toISOString(),
-        participantsMembersIds: participantsMembersIds.map((m) => m.memberId),
         videoConf,
       }
 
@@ -206,7 +211,6 @@ export default function MeetingEditModal({
         if (startDateDate > new Date()) {
           meetingUpdate.ended = false
           meetingUpdate.currentStepId = null
-          meetingUpdate.attendees = null
         }
 
         // Update meeting
@@ -229,6 +233,10 @@ export default function MeetingEditModal({
           {
             orgId,
             ...meetingUpdate,
+            // Create attendees
+            meeting_attendees: {
+              data: invitedMembersIds.map((memberId) => ({ memberId })),
+            },
           },
           meeting && duplicate ? meeting.id : undefined
         )
@@ -252,6 +260,45 @@ export default function MeetingEditModal({
     }
   )
 
+  // Invited members
+  const [participantsScope, setParticipantsScope] = useState<ParticipantsScope>(
+    defaultParticipantsScope
+  )
+  const [invitedMembersIds, setInvitedMembersIds] = useState<string[]>(
+    () => meeting?.meeting_attendees.map((a) => a.memberId) || []
+  )
+  const circleParticipants = useCircleParticipants(circle)
+  const allParticipants = useExtraParticipants(
+    circleParticipants,
+    invitedMembersIds
+  )
+  const extraParticipants = useMemo(
+    () => allParticipants.filter((p) => !circleParticipants.includes(p)),
+    [allParticipants, circleParticipants]
+  )
+  const canEditParticipantsScope = (!meeting || duplicate) && !!circleId
+  const isPrivateAllowed =
+    !isPrivate || allParticipants.some((p) => p.member.id === currentMember?.id)
+
+  // Update participants scope when circleId changes
+  useEffect(() => {
+    if (!participantsScope.circles.some((c) => c.id === circleId)) {
+      setParticipantsScope((scope) => ({
+        ...scope,
+        circles: [
+          ...scope.circles,
+          { id: circleId, children: false, excludeMembers: [] },
+        ],
+      }))
+    }
+    return () => {
+      setParticipantsScope((scope) => ({
+        ...scope,
+        circles: scope.circles.filter((c) => c.id !== circleId),
+      }))
+    }
+  }, [circleId])
+
   return (
     <FormProvider {...formMethods}>
       <Modal size="xl" blockScrollOnMount={false} {...modalProps}>
@@ -268,7 +315,7 @@ export default function MeetingEditModal({
             <ModalCloseButton />
 
             <ModalBody>
-              <VStack spacing={7} align="stretch">
+              <VStack spacing={10} align="stretch">
                 {duplicate && (
                   <Alert status="info">
                     <AlertIcon />
@@ -344,8 +391,19 @@ export default function MeetingEditModal({
 
                 <CircleFormController singleMember={false} />
 
-                <Collapse in={(!meeting?.attendees || duplicate) && !!circleId}>
-                  <ParticipantsFormControl />
+                <Collapse in={canEditParticipantsScope}>
+                  <FormControl>
+                    <FormLabel>{t('MeetingEditModal.participants')}</FormLabel>
+                    <ParticipantScopeInput
+                      participantsScope={participantsScope}
+                      onParticipantsScopeChange={setParticipantsScope}
+                      onInvitedMembersChange={
+                        canEditParticipantsScope
+                          ? setInvitedMembersIds
+                          : undefined
+                      }
+                    />
+                  </FormControl>
                 </Collapse>
 
                 <FormControl>
@@ -356,10 +414,70 @@ export default function MeetingEditModal({
                   />
                 </FormControl>
 
-                <VideoConfFormControl />
+                <VStack spacing={2} align="start">
+                  <FormControl>
+                    <SwitchController name="private" control={control}>
+                      {t('MeetingEditModal.private')}
+                      <ParticipantsNumber
+                        participants={allParticipants}
+                        opacity={isPrivate ? 1 : 0.4}
+                        ml={2}
+                      />
+                    </SwitchController>
+                    <Collapse in={isPrivate}>
+                      <FormHelperText ml="40px" mb={2}>
+                        {t('MeetingEditModal.privateHelp', {
+                          role: circle?.role.name,
+                        })}
+                      </FormHelperText>
+                    </Collapse>
+                  </FormControl>
+
+                  <Collapse in={!isPrivate || extraParticipants.length !== 0}>
+                    <FormControl>
+                      <SwitchController
+                        name="invitedReadonly"
+                        control={control}
+                      >
+                        {t('MeetingEditModal.invitedReadonly')}
+                        {isPrivate && (
+                          <ParticipantsNumber
+                            participants={extraParticipants}
+                            opacity={invitedReadonly ? 1 : 0.4}
+                            ml={2}
+                          />
+                        )}
+                      </SwitchController>
+                      <Collapse in={invitedReadonly}>
+                        <FormHelperText ml="40px" mb={2}>
+                          {t('MeetingEditModal.invitedReadonlyHelp', {
+                            role: circle?.role.name,
+                          })}
+                        </FormHelperText>
+                      </Collapse>
+                    </FormControl>
+                  </Collapse>
+
+                  <VideoConfFormControl mt={1} />
+                </VStack>
+
+                <Collapse in={!isPrivateAllowed}>
+                  <Alert status="warning">
+                    <AlertIcon />
+                    <AlertDescription>
+                      {t('MeetingEditModal.privateNotAllowed', {
+                        role: circle?.role.name,
+                      })}
+                    </AlertDescription>
+                  </Alert>
+                </Collapse>
 
                 <Box textAlign="right" mt={2}>
-                  <Button colorScheme="blue" onClick={onSubmit}>
+                  <Button
+                    colorScheme="blue"
+                    isDisabled={!isPrivateAllowed}
+                    onClick={onSubmit}
+                  >
                     {t(meeting ? 'common.save' : 'common.create')}
                   </Button>
                 </Box>

@@ -2,13 +2,15 @@ fragment Thread on thread {
   id
   orgId
   circleId
-  participantsScope
-  participantsMembersIds
   initiatorMemberId
   title
   createdAt
   archived
   status
+  private
+  extra_members {
+    ...ThreadExtraMember
+  }
 }
 
 fragment ThreadMemberStatus on thread_member_status {

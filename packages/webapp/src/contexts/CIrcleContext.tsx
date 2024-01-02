@@ -1,8 +1,4 @@
-import {
-  CircleFullFragment,
-  Member_Scope_Enum,
-  RoleSummaryFragment,
-} from '@gql'
+import { CircleFullFragment, RoleSummaryFragment } from '@gql'
 import useCircle from '@hooks/useCircle'
 import useCircleLeaders from '@hooks/useCircleLeaders'
 import useCircleParticipants from '@hooks/useCircleParticipants'
@@ -50,11 +46,7 @@ export function CircleProvider({ circleId, children }: Props) {
   const isOrgOwner = useOrgOwner()
 
   // Participants
-  const participants = useCircleParticipants(
-    circleId,
-    Member_Scope_Enum.CircleLeaders,
-    circle?.members.map((member) => member.id)
-  )
+  const participants = useCircleParticipants(circle)
   const isParticipant = participants.some(
     (p) => p.member.id === currentMember?.id
   )

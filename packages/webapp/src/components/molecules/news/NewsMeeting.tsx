@@ -1,14 +1,14 @@
 import { ExpandableText } from '@atoms/ExpandableText'
 import Markdown from '@atoms/Markdown'
 import { LinkBoxProps } from '@chakra-ui/react'
-import { MeetingFragment } from '@gql'
+import { MeetingSummaryFragment } from '@gql'
 import MeetingItem from '@molecules/meeting/MeetingItem'
 import React from 'react'
 import { MeetingAvatarIcon } from 'src/icons'
 import NewsItemLayout from './NewsItemLayout'
 
 interface Props extends LinkBoxProps {
-  meeting: MeetingFragment
+  meeting: MeetingSummaryFragment
 }
 
 export default function NewsMeeting({ meeting }: Props) {

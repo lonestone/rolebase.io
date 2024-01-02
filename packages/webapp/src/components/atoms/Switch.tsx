@@ -10,8 +10,14 @@ export default forwardRef<SwitchProps, 'input'>(function Switch(props, ref) {
     <ChakraSwitch
       ref={ref}
       display="flex"
-      alignItems="start"
+      alignItems="center"
       lineHeight="normal"
+      sx={{
+        '.chakra-switch__label': {
+          display: 'flex',
+          alignItems: 'center',
+        },
+      }}
       {...props}
     />
   )

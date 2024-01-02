@@ -12,19 +12,9 @@ insert_permissions:
   - role: user
     permission:
       check:
-        thread:
-          org:
-            members:
-              _and:
-                - userId:
-                    _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
-                    - role:
-                        _eq: Owner
+        member:
+          userId:
+            _eq: X-Hasura-User-Id
       columns:
         - lastReadActivityId
         - lastReadDate
@@ -47,17 +37,7 @@ update_permissions:
         - lastReadActivityId
         - lastReadDate
       filter:
-        thread:
-          org:
-            members:
-              _and:
-                - userId:
-                    _eq: X-Hasura-User-Id
-                - _or:
-                    - role:
-                        _eq: Member
-                    - role:
-                        _eq: Admin
-                    - role:
-                        _eq: Owner
+        member:
+          userId:
+            _eq: X-Hasura-User-Id
       check: {}

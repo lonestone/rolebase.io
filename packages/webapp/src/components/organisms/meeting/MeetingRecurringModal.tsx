@@ -22,14 +22,17 @@ import {
 } from '@chakra-ui/react'
 import { useMeetingRecurringSubscription } from '@gql'
 import useCircle from '@hooks/useCircle'
-import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCreateMeeting from '@hooks/useCreateMeeting'
 import useDateLocale from '@hooks/useDateLocale'
-import ParticipantsNumber from '@molecules/ParticipantsNumber'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
+import { getScopeMemberIds } from '@shared/helpers/getScopeMemberIds'
 import {
   excludeMeetingsFromRRule,
   getDateFromUTCDate,
 } from '@shared/helpers/rrule'
+import { truthy } from '@shared/helpers/truthy'
+import { ParticipantMember } from '@shared/model/member'
+import { useStoreState } from '@store/hooks'
 import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { add, format } from 'date-fns'
 import React, { useMemo } from 'react'
@@ -57,6 +60,7 @@ export default function MeetingRecurringModal({
   const { data, loading, error } = useMeetingRecurringSubscription({
     variables: { id },
   })
+  console.log({ data, loading, error })
 
   const meetingRecurring = data?.meeting_recurring_by_pk
 
@@ -64,10 +68,21 @@ export default function MeetingRecurringModal({
   const circle = useCircle(meetingRecurring?.circleId)
 
   // Participants
-  const participants = useCircleParticipants(
-    meetingRecurring?.circleId,
-    meetingRecurring?.participantsScope,
-    meetingRecurring?.participantsMembersIds
+  const circles = useStoreState((state) => state.org.circles)
+  const members = useStoreState((state) => state.org.members)
+  const participants = useMemo(
+    () =>
+      meetingRecurring?.scope &&
+      circles &&
+      members &&
+      getScopeMemberIds(meetingRecurring?.scope, circles)
+        .map((id): ParticipantMember | undefined => {
+          const member = members.find((m) => m.id === id)
+          if (!member) return
+          return { member, circlesIds: [] }
+        })
+        .filter(truthy),
+    [meetingRecurring, circles]
   )
 
   // Next dates
@@ -106,12 +121,10 @@ export default function MeetingRecurringModal({
 
   // Create meeting occurrence
   const handleCreate = async () => {
-    if (!meetingRecurring || !nextDate) return
+    if (!meetingRecurring || !nextDate || !participants) return
     const result = await createMeeting({
       orgId: meetingRecurring.orgId,
       circleId: meetingRecurring.circleId,
-      participantsScope: meetingRecurring.participantsScope,
-      participantsMembersIds: meetingRecurring.participantsMembersIds,
       startDate: nextDate,
       endDate: add(new Date(nextDate), {
         minutes: meetingRecurring.duration,
@@ -121,7 +134,11 @@ export default function MeetingRecurringModal({
       videoConf: meetingRecurring.videoConf,
       recurringDate: nextDate,
       recurringId: meetingRecurring.id,
+      meeting_attendees: {
+        data: participants.map(({ member }) => ({ memberId: member.id })),
+      },
     })
+
     if (!result) return
     navigate(result.path)
   }

@@ -17,8 +17,10 @@ export default function ThreadActivityDecision({ activity }: Props) {
       <Text color="gray.500" _dark={{ color: 'gray.300' }}>
         {t(`ThreadActivityDecision.text`)}
       </Text>
-      {activity.refDecision && (
+      {activity.refDecision ? (
         <DecisionItem decision={activity.refDecision} showIcon />
+      ) : (
+        <Text fontStyle="italic">{t('ThreadActivityDecision.notAllowed')}</Text>
       )}
     </ThreadActivityLayout>
   )

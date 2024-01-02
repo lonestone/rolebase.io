@@ -1,0 +1,102 @@
+table:
+  name: thread_extra_member
+  schema: public
+object_relationships:
+  - name: member
+    using:
+      foreign_key_constraint_on: memberId
+  - name: thread
+    using:
+      foreign_key_constraint_on: threadId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        thread:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - extra_members:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - org:
+                    members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Member
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Owner
+      columns:
+        - memberId
+        - threadId
+    comment: ''
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - memberId
+        - threadId
+      filter:
+        thread:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - extra_members:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - org:
+                    members:
+                      userId:
+                        _eq: X-Hasura-User-Id
+    comment: ''
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        thread:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - extra_members:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - org:
+                    members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Member
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Owner
+    comment: ''

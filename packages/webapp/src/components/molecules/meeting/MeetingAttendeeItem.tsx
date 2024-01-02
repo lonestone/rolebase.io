@@ -1,21 +1,15 @@
 import CircleMemberLink from '@atoms/CircleMemberLink'
 import IconTextButton from '@atoms/IconTextButton'
 import MemberButton from '@atoms/MemberButton'
-import {
-  BoxProps,
-  ButtonGroup,
-  Flex,
-  IconButton,
-  useColorMode,
-} from '@chakra-ui/react'
-import useMember from '@hooks/useMember'
-import { MeetingAttendee } from '@shared/model/meeting'
+import { BoxProps, ButtonGroup, Flex, IconButton } from '@chakra-ui/react'
+import { MeetingAttendeeFragment, MemberSummaryFragment } from '@gql'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiCheck, FiX } from 'react-icons/fi'
 
 interface Props extends BoxProps {
-  attendee: MeetingAttendee
+  attendee: MeetingAttendeeFragment
+  member: MemberSummaryFragment
   editable?: boolean
   onPresentChange?(present: boolean | null): void
   onRemove?(): void
@@ -23,13 +17,12 @@ interface Props extends BoxProps {
 
 export default function MeetingAttendeeItem({
   attendee,
+  member,
   editable,
   onPresentChange,
   onRemove,
   ...boxProps
 }: Props) {
-  const member = useMember(attendee.memberId)
-  const { colorMode } = useColorMode()
   const { t } = useTranslation()
 
   if (!member) return null
@@ -43,8 +36,9 @@ export default function MeetingAttendeeItem({
         isDisabled={!editable}
         mr={3}
         border="1px solid"
-        borderColor={colorMode === 'light' ? 'gray.200' : 'whiteAlpha.400'}
         borderRadius="md"
+        borderColor="gray.200"
+        _dark={{ borderColor: 'whiteAlpha.400' }}
       >
         <IconTextButton
           aria-label={t('MeetingAttendees.maybe')}
@@ -80,7 +74,6 @@ export default function MeetingAttendeeItem({
 
       <CircleMemberLink
         memberId={member.id}
-        circleId={attendee.circlesIds[0]}
         style={{ display: 'flex' }}
         tabIndex={-1}
       >

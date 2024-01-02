@@ -11,7 +11,6 @@ import {
 import { MeetingContext } from '@contexts/MeetingContext'
 import useCreateMissingMeetingSteps from '@hooks/useCreateMissingMeetingSteps'
 import useOrgMember from '@hooks/useOrgMember'
-import MeetingThreadsDragDropContext from '@molecules/MeetingThreadsDragDropContext'
 import MeetingAlertForceEdit from '@molecules/meeting/MeetingAlertForceEdit'
 import MeetingAlertNotStarted from '@molecules/meeting/MeetingAlertNotStarted'
 import MeetingAttendeesList from '@molecules/meeting/MeetingAttendeesList'
@@ -19,6 +18,7 @@ import MeetingLogs from '@molecules/meeting/MeetingLogs'
 import MeetingStepContent from '@molecules/meeting/MeetingStepContent'
 import { taskLogTypes } from '@molecules/meeting/MeetingStepContentTasks'
 import MeetingStepLayout from '@molecules/meeting/MeetingStepLayout'
+import MeetingThreadsDragDropContext from '@molecules/meeting/MeetingThreadsDragDropContext'
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { VisioIcon } from 'src/icons'
@@ -83,7 +83,7 @@ export default function MeetingContent() {
         </Alert>
       )}
 
-      {canEdit &&
+      {isParticipant &&
         !meeting.archived &&
         (steps?.length === 0 && meeting.stepsConfig.length !== 0 ? (
           <MeetingContentEmpty />
@@ -110,9 +110,7 @@ export default function MeetingContent() {
         </Box>
       </Collapse>
 
-      <Collapse in={!!meeting.attendees} animateOpacity>
-        {meeting.attendees && circle && <MeetingAttendeesList mb={16} />}
-      </Collapse>
+      <MeetingAttendeesList mb={16} />
 
       <MeetingThreadsDragDropContext disabled={!editable}>
         {meeting.stepsConfig.map((stepConfig, index) => {

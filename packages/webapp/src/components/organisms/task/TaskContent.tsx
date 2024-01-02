@@ -1,23 +1,31 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
+import CircleMemberLink from '@atoms/CircleMemberLink'
 import Loading from '@atoms/Loading'
 import Markdown from '@atoms/Markdown'
 import MemberByIdButton from '@atoms/MemberByIdButton'
+import Switch from '@atoms/Switch'
+import SwitchController from '@atoms/SwitchController'
 import TaskStatusTag from '@atoms/TaskStatusTag'
 import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   BoxProps,
   Button,
-  Checkbox,
+  Collapse,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Heading,
   Input,
   Spacer,
   Spinner,
   Tag,
+  Tooltip,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -27,8 +35,11 @@ import {
   useUpdateTaskMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCircle from '@hooks/useCircle'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCreateTask from '@hooks/useCreateTask'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useExtraParticipants from '@hooks/useExtraParticipants'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
 import { usePathInOrg } from '@hooks/usePathInOrg'
@@ -36,6 +47,7 @@ import { usePreventClose } from '@hooks/usePreventClose'
 import useUpdateTaskStatus from '@hooks/useUpdateTaskStatus'
 import ActionsMenu from '@molecules/ActionsMenu'
 import EditorController from '@molecules/editor/EditorController'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
 import { TaskLogs } from '@molecules/task/TaskLogs'
@@ -46,6 +58,7 @@ import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { PrivacyIcon } from 'src/icons'
 import settings from 'src/settings'
 import * as yup from 'yup'
 import TaskDeleteModal from './TaskDeleteModal'
@@ -57,6 +70,7 @@ interface Props extends BoxProps {
   defaultMemberId?: string
   defaultTitle?: string
   defaultDescription?: string
+  defaultPrivate?: boolean
   headerIcons?: React.ReactNode
   onClose(): void
   onCreate?(taskId: string): void
@@ -68,6 +82,7 @@ interface Values {
   title: string
   description: string
   dueDate: string | null
+  private: boolean
 }
 
 const resolver = yupResolver(
@@ -85,6 +100,7 @@ export default function TaskContent({
   defaultMemberId,
   defaultTitle,
   defaultDescription,
+  defaultPrivate,
   headerIcons,
   onClose,
   onCreate,
@@ -124,6 +140,7 @@ export default function TaskContent({
       title: defaultTitle || '',
       description: defaultDescription || '',
       dueDate: null,
+      private: defaultPrivate || false,
     },
   })
 
@@ -136,6 +153,7 @@ export default function TaskContent({
       title: task.title,
       description: task.description,
       dueDate: task.dueDate ? getDateTimeLocal(new Date(task.dueDate)) : null,
+      private: task.private,
     })
   }, [task])
 
@@ -175,10 +193,21 @@ export default function TaskContent({
     [id, orgId, currentMember]
   )
   useEffect(() => {
-    if (!id || !isDirty) return
+    if (!id || !isDirty || !isPrivateAllowed) return
     preventClose()
     onSubmitDebounced()
   }, [id, isDirty, ...Object.values(watchedData)])
+
+  // Get circle and participants
+  const circle = useCircle(watchedData.circleId)
+  const circleParticipants = useCircleParticipants(circle)
+  const allParticipants = useExtraParticipants(
+    circleParticipants,
+    watchedData.memberId ? [watchedData.memberId] : []
+  )
+  const isPrivateAllowed =
+    !watchedData.private ||
+    allParticipants.some((p) => p.member.id === currentMember?.id)
 
   // Toggle due date
   const handleToggleDueDate = useCallback(() => {
@@ -231,9 +260,21 @@ export default function TaskContent({
 
         {task?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
 
-        {id && isDirty && <Spinner size="xs" color="gray" ml={5} />}
+        {id && isDirty && isPrivateAllowed && (
+          <Spinner size="xs" color="gray" ml={5} />
+        )}
 
         <Spacer />
+
+        {task?.private && (
+          <Tooltip
+            label={t('TaskContent.privateTooltip', { role: circle?.role.name })}
+            hasArrow
+            mr={2}
+          >
+            <PrivacyIcon size={20} />
+          </Tooltip>
+        )}
 
         <Flex mr={headerIcons ? -3 : 0}>
           {id && isMember && (
@@ -251,7 +292,7 @@ export default function TaskContent({
       {id && loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
-      <VStack spacing={5} alignItems="start" mb={3}>
+      <VStack spacing={10} alignItems="start" mb={3}>
         <FormControl isInvalid={!!errors.title}>
           <Input
             {...register('title')}
@@ -311,7 +352,9 @@ export default function TaskContent({
                     onClear={() => field.onChange(null)}
                   />
                 ) : field.value ? (
-                  <MemberByIdButton id={field.value} size="sm" />
+                  <CircleMemberLink memberId={field.value}>
+                    <MemberByIdButton id={field.value} size="sm" />
+                  </CircleMemberLink>
                 ) : (
                   <></>
                 )
@@ -320,26 +363,61 @@ export default function TaskContent({
           </FormControl>
         </Flex>
 
-        <FormControl>
-          <Checkbox
-            isChecked={!!dueDate}
-            readOnly={!isMember}
-            onChange={handleToggleDueDate}
-          >
-            {t('TaskContent.dueDate')}
-          </Checkbox>
-          {dueDate ? (
-            <Box pl={6}>
-              <Input
-                {...register('dueDate')}
-                type="datetime-local"
-                size="sm"
-                maxW="250px"
-                readOnly={!isMember}
+        <VStack spacing={3} align="start">
+          <FormControl>
+            <Switch
+              isChecked={!!dueDate}
+              isReadOnly={!isMember}
+              onChange={handleToggleDueDate}
+            >
+              {t('TaskContent.dueDate')}
+            </Switch>
+            <Collapse in={!!dueDate}>
+              <Box mt={5} pl={10}>
+                <Input
+                  {...register('dueDate')}
+                  type="datetime-local"
+                  size="sm"
+                  w="250px"
+                  readOnly={!isMember}
+                />
+              </Box>
+            </Collapse>
+          </FormControl>
+
+          <FormControl>
+            <SwitchController
+              name="private"
+              control={control}
+              isReadOnly={!isMember}
+            >
+              {t('TaskContent.private')}
+              <ParticipantsNumber
+                participants={allParticipants}
+                opacity={watchedData.private ? 1 : 0.4}
+                ml={2}
               />
-            </Box>
-          ) : null}
-        </FormControl>
+            </SwitchController>
+            <Collapse in={watchedData.private}>
+              <FormHelperText ml="40px" mb={2}>
+                {t('TaskContent.privateHelp', {
+                  role: circle?.role.name,
+                })}
+              </FormHelperText>
+            </Collapse>
+          </FormControl>
+        </VStack>
+
+        <Collapse in={!isPrivateAllowed}>
+          <Alert status="warning">
+            <AlertIcon />
+            <AlertDescription>
+              {t('TaskContent.privateNotAllowed', {
+                role: circle?.role.name,
+              })}
+            </AlertDescription>
+          </Alert>
+        </Collapse>
 
         {id && (
           <TaskLogs
@@ -353,7 +431,11 @@ export default function TaskContent({
         )}
         {!id && isMember && (
           <Box w="100%" textAlign="right">
-            <Button colorScheme="blue" onClick={onSubmit}>
+            <Button
+              colorScheme="blue"
+              isDisabled={isPrivateAllowed}
+              onClick={onSubmit}
+            >
               {t('common.create')}
             </Button>
           </Box>

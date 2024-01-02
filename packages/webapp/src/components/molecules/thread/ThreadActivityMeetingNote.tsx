@@ -1,5 +1,5 @@
 import Markdown from '@atoms/Markdown'
-import { Card, CardBody, CardHeader, Heading } from '@chakra-ui/react'
+import { Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useUpdateThreadActivityMutation } from '@gql'
 import useCreateThreadMeetingNote from '@hooks/useCreateThreadMeetingNote'
@@ -22,15 +22,10 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
 
   // Meeting state, defined if thread has been opened from a meeting
   const meetingState = useContext(MeetingContext)
+  const meeting = activity.refMeeting
 
   const createThreadMeetingNote = useCreateThreadMeetingNote()
   const [updateThreadActivity] = useUpdateThreadActivityMutation()
-
-  if (!activity.refMeeting) {
-    console.error('No activity.refMeeting')
-    return null
-  }
-  const meeting = activity.refMeeting
 
   const isEditable =
     meetingState?.editable &&
@@ -54,7 +49,7 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
     [activity, meeting, userId]
   )
 
-  if (!meeting || (!isEditable && !activity.data.notes)) {
+  if (!isEditable && !activity.data.notes) {
     return <ThreadActivityAnchor activityId={activity.id} />
   }
 
@@ -64,23 +59,29 @@ export default function ThreadActivityMeetingNote({ activity }: Props) {
 
       <CardHeader>
         <Heading as="h3" fontSize="md">
-          {t(`ThreadActivityMeetingNote.title`, { title: meeting.title })}
+          {t(`ThreadActivityMeetingNote.title`)}
         </Heading>
       </CardHeader>
       <CardBody pt={0}>
-        <MeetingItem meeting={meeting} showDate showIcon mb={2} mx={-2} />
+        {meeting ? (
+          <>
+            <MeetingItem meeting={meeting} showDate showIcon mb={2} mx={-2} />
 
-        {isEditable ? (
-          <CollabEditor
-            docId={`thread-${activity.threadId}-meeting-${meeting.id}`}
-            value={activity.data.notes}
-            placeholder={t('MeetingStepContent.notesPlaceholder')}
-            minH="80px"
-            saveEvery={10000}
-            onSave={handleNotesChange}
-          />
+            {isEditable ? (
+              <CollabEditor
+                docId={`thread-${activity.threadId}-meeting-${meeting.id}`}
+                value={activity.data.notes}
+                placeholder={t('MeetingStepContent.notesPlaceholder')}
+                minH="80px"
+                saveEvery={10000}
+                onSave={handleNotesChange}
+              />
+            ) : (
+              <Markdown>{activity.data.notes}</Markdown>
+            )}
+          </>
         ) : (
-          <Markdown>{activity.data.notes}</Markdown>
+          <Text fontStyle="italic">{t('MeetingStepContent.notAllowed')}</Text>
         )}
       </CardBody>
     </Card>

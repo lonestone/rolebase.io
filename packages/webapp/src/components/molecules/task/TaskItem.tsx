@@ -4,8 +4,8 @@ import TaskStatusTag from '@atoms/TaskStatusTag'
 import {
   Avatar,
   Center,
-  Flex,
   forwardRef,
+  HStack,
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
@@ -23,7 +23,7 @@ import TaskModal from '@organisms/task/TaskModal'
 import { formatRelative } from 'date-fns'
 import React from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { TaskIcon } from 'src/icons'
+import { PrivacyIcon, TaskIcon } from 'src/icons'
 import TaskStatusInput from './TaskStatusInput'
 
 interface Props extends LinkBoxProps {
@@ -77,9 +77,9 @@ const TaskItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex align="center">
+          <HStack align="center">
             {showIcon && (
-              <Center w={6} h={6} mr={2}>
+              <Center w={6} h={6}>
                 <TaskIcon />
               </Center>
             )}
@@ -93,7 +93,6 @@ const TaskItem = forwardRef<Props, 'div'>(
                 fontSize="sm"
                 color="gray.500"
                 _dark={{ color: 'gray.300' }}
-                ml={2}
               >
                 {formatRelative(new Date(task.dueDate), new Date(), {
                   locale: dateLocale,
@@ -101,15 +100,15 @@ const TaskItem = forwardRef<Props, 'div'>(
               </Text>
             )}
 
-            {showCircle && (
-              <CircleByIdButton id={task.circleId} size="xs" ml={2} />
-            )}
+            {task?.private && <PrivacyIcon size={20} />}
+
+            {showCircle && <CircleByIdButton id={task.circleId} size="xs" />}
 
             {showMember &&
               (task.memberId ? (
-                <MemberByIdAvatar id={task.memberId} size="xs" ml={2} />
+                <MemberByIdAvatar id={task.memberId} size="xs" />
               ) : (
-                <Avatar name="?" size="xs" ml={2} />
+                <Avatar name="?" size="xs" />
               ))}
 
             {isMember ? (
@@ -117,14 +116,13 @@ const TaskItem = forwardRef<Props, 'div'>(
                 value={task.status}
                 onChange={handleChangeStatus}
                 zIndex={2}
-                ml={2}
               />
             ) : (
-              <TaskStatusTag status={task.status} ml={2} />
+              <TaskStatusTag status={task.status} />
             )}
 
             {children}
-          </Flex>
+          </HStack>
         </LinkBox>
 
         {isOpen && <TaskModal id={task.id} isOpen onClose={onClose} />}

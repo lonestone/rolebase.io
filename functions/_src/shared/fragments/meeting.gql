@@ -1,34 +1,26 @@
-fragment Meeting on meeting {
-  id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  createdAt
-  startDate
-  endDate
-  ended
-  title
-  attendees
-  stepsConfig
-  currentStepId
-  summary
-  archived
-  videoConf
-  recurringId
-  recurringDate
-}
-
 fragment MeetingSummary on meeting {
   id
   orgId
   circleId
-  participantsScope
-  participantsMembersIds
   startDate
   endDate
   ended
   title
-  attendees
   currentStepId
+  summary
+  private
+  meeting_attendees {
+    ...MeetingAttendee
+  }
+}
+
+fragment Meeting on meeting {
+  ...MeetingSummary
+  createdAt
+  stepsConfig
+  archived
+  videoConf
+  recurringId
+  recurringDate
+  invitedReadonly
 }

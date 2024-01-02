@@ -164,7 +164,7 @@ export default function Sidebar() {
 
                 <SidebarTopIconLink
                   className="userflow-sidebar-threads"
-                  to={`${rootPath}threads`}
+                  to={`${rootPath}threads?member=${currentMember?.id || ''}`}
                   icon={ThreadsIcon}
                 >
                   {t('Sidebar.threads')}
@@ -172,7 +172,7 @@ export default function Sidebar() {
 
                 <SidebarTopIconLink
                   className="userflow-sidebar-meetings"
-                  to={`${rootPath}meetings`}
+                  to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                   icon={MeetingsIcon}
                   alert={!!currentMember?.meetingId}
                 >
@@ -243,7 +243,7 @@ export default function Sidebar() {
 
               <SidebarItemLink
                 className="userflow-sidebar-threads"
-                to={`${rootPath}threads`}
+                to={`${rootPath}threads?member=${currentMember?.id || ''}`}
                 icon={ThreadsIcon}
               >
                 {t('Sidebar.threads')}
@@ -251,7 +251,7 @@ export default function Sidebar() {
 
               <SidebarItemLink
                 className="userflow-sidebar-meetings"
-                to={`${rootPath}meetings`}
+                to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                 icon={MeetingsIcon}
                 alert={!!currentMember?.meetingId}
               >

@@ -1,0 +1,5 @@
+fragment ThreadExtraMember on thread_extra_member {
+  id
+  threadId
+  memberId
+}

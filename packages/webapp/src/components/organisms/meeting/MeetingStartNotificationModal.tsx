@@ -13,9 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import useCurrentMember from '@hooks/useCurrentMember'
-import ParticipantsNumber from '@molecules/ParticipantsNumber'
-import { ParticipantMember } from '@shared/model/member'
-import { useStoreState } from '@store/hooks'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SendIcon } from 'src/icons'
@@ -26,24 +24,16 @@ export default function MeetingStartNotificationModal(
   const { t } = useTranslation()
   const currentMember = useCurrentMember()
   const toast = useToast()
-  const members = useStoreState((state) => state.org.members)
-  const { meeting, handleSendStartNotification } = useContext(MeetingContext)!
+  const { participants, handleSendStartNotification } =
+    useContext(MeetingContext)!
 
-  const participants =
-    currentMember &&
-    members &&
-    (meeting?.attendees
-      ?.map(({ memberId }) => ({
-        member: members.find((m) => m.id === memberId),
-        circlesIds: [],
-      }))
-      .filter((p) => p.member?.userId && p.member.id !== currentMember.id) as
-      | ParticipantMember[]
-      | undefined)
+  const memberToNotify = participants?.filter(
+    (p) => p.member?.userId && p.member.id !== currentMember?.id
+  )
 
   // Send notification to all participants
   const handleSend = () => {
-    if (participants) {
+    if (memberToNotify) {
       handleSendStartNotification(participants.map((p) => p.member.id))
     }
 
@@ -59,7 +49,7 @@ export default function MeetingStartNotificationModal(
   }
 
   // Don't show modal until we have participants
-  if (participants?.length === 0) {
+  if (memberToNotify?.length === 0) {
     return null
   }
 
@@ -75,8 +65,8 @@ export default function MeetingStartNotificationModal(
         <ModalFooter>
           <Spacer />
 
-          {participants && (
-            <ParticipantsNumber participants={participants} mr={2} />
+          {memberToNotify && (
+            <ParticipantsNumber participants={memberToNotify} mr={2} />
           )}
 
           <Button

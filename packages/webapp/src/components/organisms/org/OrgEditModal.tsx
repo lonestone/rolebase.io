@@ -1,10 +1,6 @@
 import DurationSelect from '@atoms/DurationSelect'
 import IconTextButton from '@atoms/IconTextButton'
-import Switch from '@atoms/Switch'
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
   Button,
   Flex,
   FormControl,
@@ -39,6 +35,7 @@ import * as yup from 'yup'
 import useCopyUrl from '../../../hooks/useCopyUrl'
 import OrgDeleteModal from './OrgDeleteModal'
 import OrgSlugModal from './OrgSlugModal '
+import SwitchController from '@atoms/SwitchController'
 
 interface Props extends UseModalProps {
   id?: string
@@ -157,21 +154,14 @@ export default function OrgEditModal({ id: maybeId, ...modalProps }: Props) {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>{t('OrgEditModal.privacy')}</FormLabel>
-                  <Switch {...register('protectGovernance')} mt={5}>
+                  <FormLabel>{t('OrgEditModal.security')}</FormLabel>
+                  <SwitchController name="protectGovernance" control={control}>
                     {t('OrgEditModal.protectGovernance')}
-                  </Switch>
+                  </SwitchController>
                   <FormHelperText ml="40px">
                     {t('OrgEditModal.protectGovernanceHelp')}
                   </FormHelperText>
                 </FormControl>
-
-                <Alert status="info">
-                  <AlertIcon />
-                  <AlertDescription>
-                    {t('OrgEditModal.protectGovernanceInfo')}
-                  </AlertDescription>
-                </Alert>
               </VStack>
             </ModalBody>
 

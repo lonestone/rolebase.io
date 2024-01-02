@@ -3,7 +3,6 @@ import TextErrors from '@atoms/TextErrors'
 import { Title } from '@atoms/Title'
 import {
   Button,
-  ButtonGroup,
   Container,
   Flex,
   Heading,
@@ -16,20 +15,24 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { Thread_Status_Enum } from '@gql'
-import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
-import useFilterEntities from '@hooks/useFilterEntities'
+import useFilterEntitiesByCircle from '@hooks/useFilterEntitiesByCircle'
+import useFilterThreadsByMember from '@hooks/useFilterThreadsByMember'
 import useOrgMember from '@hooks/useOrgMember'
 import useThreads from '@hooks/useThreads'
+import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
+import CircleAndMemberFilters from '@molecules/CircleAndMemberFilters'
 import ScrollableLayout from '@molecules/ScrollableLayout'
 import ThreadEditModal from '@organisms/thread/ThreadEditModal'
 import ThreadsList from '@organisms/thread/ThreadsList'
-import { EntityFilters } from '@shared/model/participants'
 import { threadStatusList } from '@shared/model/thread'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon, CreateIcon } from 'src/icons'
 
-const entityFiltersList = [EntityFilters.Invited, EntityFilters.NotInvited]
+type Params = {
+  member: string
+  circle: string
+}
 
 // Thread Status filter
 const threadStatusNotClosed = 'NotClosed'
@@ -42,22 +45,37 @@ const threadStatusFiltersList: ThreadStatusFilter[] = [
 
 export default function ThreadsPage() {
   const { t } = useTranslation()
+  const { params, changeParams } = useUpdatableQueryParams<Params>()
   const isMember = useOrgMember()
 
-  // Circles filter menu
-  const {
-    filter,
-    value: filterValue,
-    handleChange: handleFilterChange,
-  } = useEntitiesFilterMenu()
+  // Member param
+  const memberId =
+    params.member && typeof params.member === 'string'
+      ? params.member
+      : undefined
+  const handleMemberChange = (member: string | undefined) =>
+    changeParams({ member })
 
+  // Circle param
+  const circleId =
+    params.circle && typeof params.circle === 'string'
+      ? params.circle
+      : undefined
+  const handleCircleChange = (circle: string | undefined) =>
+    changeParams({ circle })
+
+  // Status filter
   const [status, setStatus] = useState<Thread_Status_Enum | undefined>()
 
   // Subscribe to threads
   const { threads, error, loading } = useThreads({ status })
 
   // Filter threads
-  const filteredThreads = useFilterEntities(filter, threads)
+  const filteredByCircleThreads = useFilterEntitiesByCircle(threads, circleId)
+  const filteredThreads = useFilterThreadsByMember(
+    filteredByCircleThreads,
+    memberId
+  )
 
   // Create modal
   const {
@@ -86,31 +104,14 @@ export default function ThreadsPage() {
               {t('ThreadsPage.heading')}
             </Heading>
 
-            <ButtonGroup size="sm" variant="outline" spacing={2} my={2} ml={7}>
-              <Menu closeOnSelect={false}>
-                <MenuButton
-                  as={Button}
-                  className="userflow-threads-filter"
-                  rightIcon={<ChevronDownIcon size="1em" />}
-                  fontWeight="normal"
-                >
-                  {t(`ThreadsFilterMenu.participation.${filter}` as any)}
-                </MenuButton>
-                <MenuList zIndex={2}>
-                  <MenuOptionGroup
-                    type="checkbox"
-                    value={filterValue}
-                    onChange={(value) => handleFilterChange(value)}
-                  >
-                    {entityFiltersList.map((filter) => (
-                      <MenuItemOption key={filter} value={filter}>
-                        {t(`ThreadsFilterMenu.participation.${filter}` as any)}
-                      </MenuItemOption>
-                    ))}
-                  </MenuOptionGroup>
-                </MenuList>
-              </Menu>
-
+            <CircleAndMemberFilters
+              circleId={circleId}
+              memberId={memberId}
+              ml={5}
+              my={2}
+              onCircleChange={handleCircleChange}
+              onMemberChange={handleMemberChange}
+            >
               <Menu>
                 <MenuButton
                   as={Button}
@@ -134,7 +135,7 @@ export default function ThreadsPage() {
                   </MenuOptionGroup>
                 </MenuList>
               </Menu>
-            </ButtonGroup>
+            </CircleAndMemberFilters>
 
             <Spacer />
 

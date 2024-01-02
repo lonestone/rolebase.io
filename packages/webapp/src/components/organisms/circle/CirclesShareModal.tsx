@@ -70,7 +70,7 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
         <ModalCloseButton />
 
         <ModalBody py={6}>
-          <VStack spacing={8} align="stretch">
+          <VStack spacing={10} align="stretch">
             <VStack spacing={4} align="start">
               <Heading as="h2" size="sm">
                 {t('CirclesShareModal.headingEnable')}

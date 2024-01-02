@@ -1,7 +1,7 @@
 import { gql } from '@gql'
 import i18n from '@i18n'
 import settings from '@settings'
-import filterEntities from '@shared/helpers/filterEntities'
+import filterScopedEntitiesByMember from '@shared/helpers/filterScopedEntitiesByMember'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import {
@@ -9,7 +9,6 @@ import {
   excludeMeetingsFromRRule,
   getUTCDateFromDate,
 } from '@shared/helpers/rrule'
-import { EntityFilters } from '@shared/model/participants'
 import { adminRequest } from '@utils/adminRequest'
 import { generateMeetingToken } from '@utils/generateMeetingToken'
 import { guardQueryParams } from '@utils/guardQueryParams'
@@ -21,16 +20,12 @@ import * as yup from 'yup'
 const yupSchema = yup.object().shape({
   orgId: yup.string().required(),
   token: yup.string().required(),
-  memberId: yup.string(),
-  circleId: yup.string(),
+  memberId: yup.string().required(),
   lang: yup.string().required(),
 })
 
 export default route(async (context) => {
-  const { orgId, token, memberId, circleId, lang } = guardQueryParams(
-    context,
-    yupSchema
-  )
+  const { orgId, token, memberId, lang } = guardQueryParams(context, yupSchema)
 
   // Validate token
   if (token !== generateMeetingToken(orgId)) {
@@ -38,23 +33,12 @@ export default route(async (context) => {
   }
 
   // Get org and circles
-  const orgResult = await adminRequest(GET_MEETINGS, { orgId })
+  const orgResult = await adminRequest(GET_MEETINGS, { orgId, memberId })
   const org = orgResult.org_by_pk
 
   if (!org) {
     throw new RouteError(404, 'Org not found')
   }
-
-  // Filter meetings
-  const filter = inferFilter(memberId, circleId)
-
-  const meetings = filterEntities(
-    filter,
-    org.meetings,
-    org.circles,
-    circleId,
-    memberId
-  ) as typeof org.meetings
 
   // Setup calendar
   const cal = new ICalCalendar()
@@ -63,7 +47,7 @@ export default route(async (context) => {
   const orgUrl = `${settings.url}${getOrgPath(org)}`
 
   // Add events
-  for (const meeting of meetings) {
+  for (const meeting of org.meetings) {
     const url = `${orgUrl}/meetings/${meeting.id}`
 
     // Event title
@@ -101,13 +85,11 @@ export default route(async (context) => {
   }
 
   // Filter recurring meetings
-  const recurringMeetings = filterEntities(
-    filter,
+  const recurringMeetings = filterScopedEntitiesByMember(
     org.meetings_recurring,
-    org.circles,
-    circleId,
-    memberId
-  ) as typeof org.meetings_recurring
+    memberId,
+    org.circles
+  )
 
   // Add recurring events
   for (const recurringMeeting of recurringMeetings) {
@@ -162,14 +144,8 @@ export default route(async (context) => {
   return cal.toString()
 })
 
-function inferFilter(memberId?: string, circleId?: string) {
-  if (memberId) return EntityFilters.Invited
-  if (circleId) return EntityFilters.Circle
-  return EntityFilters.All
-}
-
 const GET_MEETINGS = gql(`
-  query getOrgMeetingsForIcal($orgId: uuid!) {
+  query getOrgMeetingsForIcal($orgId: uuid!, $memberId: uuid) {
     org_by_pk(id: $orgId) {
       id
       name
@@ -178,7 +154,10 @@ const GET_MEETINGS = gql(`
         ...CircleFull
       }
       meetings(
-        where: { archived: { _eq: false } }
+        where: {
+          archived: { _eq: false }
+          meeting_attendees: { memberId: { _eq: $memberId } }
+        }
         order_by: { startDate: asc }
       ) {
         ...Meeting

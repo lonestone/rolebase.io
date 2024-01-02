@@ -16,7 +16,7 @@ import useCurrentOrg from '@hooks/useCurrentOrg'
 import { useStoreState } from '@store/hooks'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDownIcon, ChevronUpIcon, CirclePrivacyIcon } from 'src/icons'
+import { ChevronDownIcon, ChevronUpIcon, PrivacyIcon } from 'src/icons'
 import CircleMemberLink from '../../atoms/CircleMemberLink'
 import MemberMenuItem from '../../atoms/MemberMenuItem'
 import { ParticipantMember } from '/Users/godefroy/Projets/rolebase/functions/_src/shared/model/member'
@@ -44,7 +44,7 @@ export default function CirclePrivacy() {
       <Tooltip label={t('CirclePrivacy.tooltip')} hasArrow>
         <MenuButton
           as={IconButton}
-          icon={<CirclePrivacyIcon size={20} />}
+          icon={<PrivacyIcon size={20} />}
           variant="ghost"
           size="sm"
           p={1}

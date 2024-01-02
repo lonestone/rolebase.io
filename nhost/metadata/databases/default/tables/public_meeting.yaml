@@ -12,6 +12,13 @@ object_relationships:
     using:
       foreign_key_constraint_on: recurringId
 array_relationships:
+  - name: meeting_attendees
+    using:
+      foreign_key_constraint_on:
+        column: meetingId
+        table:
+          name: meeting_attendee
+          schema: public
   - name: steps
     using:
       foreign_key_constraint_on:
@@ -23,25 +30,42 @@ insert_permissions:
   - role: user
     permission:
       check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - invitedReadonly:
+                  _eq: false
+              - meeting_attendees:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - invitedReadonly:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
       columns:
-        - attendees
         - circleId
         - endDate
+        - invitedReadonly
         - orgId
-        - participantsMembersIds
-        - participantsScope
+        - private
         - recurringDate
         - recurringId
         - startDate
@@ -53,16 +77,15 @@ select_permissions:
     permission:
       columns:
         - archived
-        - attendees
         - circleId
         - createdAt
         - currentStepId
         - endDate
         - ended
         - id
+        - invitedReadonly
         - orgId
-        - participantsMembersIds
-        - participantsScope
+        - private
         - recurringDate
         - recurringId
         - startDate
@@ -71,42 +94,102 @@ select_permissions:
         - title
         - videoConf
       filter:
-        org:
-          members:
-            userId:
-              _eq: X-Hasura-User-Id
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - meeting_attendees:
+              member:
+                userId:
+                  _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    userId:
+                      _eq: X-Hasura-User-Id
       allow_aggregations: true
 update_permissions:
   - role: user
     permission:
       columns:
         - archived
-        - attendees
         - circleId
         - currentStepId
         - endDate
         - ended
-        - participantsMembersIds
-        - participantsScope
+        - invitedReadonly
+        - private
         - startDate
         - stepsConfig
         - summary
         - title
         - videoConf
       filter:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
-      check: {}
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - invitedReadonly:
+                  _eq: false
+              - meeting_attendees:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - invitedReadonly:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
+      check:
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - invitedReadonly:
+                  _eq: false
+              - meeting_attendees:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - invitedReadonly:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
 event_triggers:
   - name: index-meeting
     definition:

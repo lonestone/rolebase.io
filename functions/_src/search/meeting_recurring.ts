@@ -1,7 +1,7 @@
 import { gql, MeetingRecurringFragment } from '@gql'
 import settings from '@settings'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
-import { getParticipantsByScope } from '@shared/helpers/getParticipantsByScope'
+import { getScopeMemberIds } from '@shared/helpers/getScopeMemberIds'
 import { truthy } from '@shared/helpers/truthy'
 import { adminRequest } from '@utils/adminRequest'
 import { HasuraEvent } from '@utils/nhost'
@@ -73,32 +73,17 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
     }
 
     const prevParticipants = data.old
-      ? getParticipantsByScope(
-          members,
-          data.old.circleId,
-          circles,
-          data.old.participantsScope,
-          data.old.participantsMembersIds
-        )
+      ? getScopeMemberIds(data.old.scope, circles)
       : []
     const nextParticipants = data.new
-      ? getParticipantsByScope(
-          members,
-          data.new.circleId,
-          circles,
-          data.new.participantsScope,
-          data.new.participantsMembersIds
-        )
+      ? getScopeMemberIds(data.new.scope, circles)
       : []
 
     const orgUrl = `${settings.url}${getOrgPath(org)}`
 
     for (const nextParticipant of nextParticipants) {
-      const prevParticipant = prevParticipants.find(
-        (prev) => prev.member.id === nextParticipant.member.id
-      )
       // Don't upsert if nothing has changed
-      if (prevParticipant) {
+      if (prevParticipants.includes(nextParticipant)) {
         const hasChanged = appNotifyProps.some(
           (prop) => data.new?.[prop] !== data.old?.[prop]
         )
@@ -106,7 +91,7 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
       }
 
       // Create/Update event
-      const member = members.find((m) => m.id === nextParticipant.member.id)
+      const member = members.find((m) => m.id === nextParticipant)
       if (!member || !meetingRecurring) continue
       const userApps = member.user?.apps || []
       for (const userApp of userApps) {
@@ -121,12 +106,9 @@ export class IndexMeetingRecurring extends IndexEntity<MeetingRecurringFragment>
       }
     }
     for (const prevParticipant of prevParticipants) {
-      const nextParticipant = nextParticipants.find(
-        (next) => next.member.id === prevParticipant.member.id
-      )
-      if (!nextParticipant) {
+      if (!nextParticipants.includes(prevParticipant)) {
         // Delete event
-        const member = members.find((m) => m.id === prevParticipant.member.id)
+        const member = members.find((m) => m.id === prevParticipant)
         if (!member) continue
         const userApps = member.user?.apps || []
         for (const userApp of userApps) {

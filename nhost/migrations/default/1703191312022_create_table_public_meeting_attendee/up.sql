@@ -1,0 +1,2 @@
+CREATE TABLE "public"."meeting_attendee" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "meetingId" uuid NOT NULL, "memberId" uuid NOT NULL, "present" boolean, PRIMARY KEY ("id") , FOREIGN KEY ("meetingId") REFERENCES "public"."meeting"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("memberId") REFERENCES "public"."member"("id") ON UPDATE restrict ON DELETE cascade, UNIQUE ("meetingId", "memberId"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

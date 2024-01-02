@@ -21,6 +21,13 @@ array_relationships:
         remote_table:
           name: thread_activity
           schema: public
+  - name: extra_members
+    using:
+      foreign_key_constraint_on:
+        column: threadId
+        table:
+          name: thread_extra_member
+          schema: public
   - name: logs
     using:
       foreign_key_constraint_on:
@@ -39,25 +46,37 @@ insert_permissions:
   - role: user
     permission:
       check:
-        org:
-          members:
-            _and:
-              - userId:
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - extra_members:
+              member:
+                userId:
                   _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
       columns:
         - archived
         - circleId
         - initiatorMemberId
         - orgId
-        - participantsMembersIds
-        - participantsScope
+        - private
         - status
         - title
 select_permissions:
@@ -70,15 +89,27 @@ select_permissions:
         - id
         - initiatorMemberId
         - orgId
-        - participantsMembersIds
-        - participantsScope
+        - private
         - status
         - title
       filter:
-        org:
-          members:
-            userId:
-              _eq: X-Hasura-User-Id
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - extra_members:
+              member:
+                userId:
+                  _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    userId:
+                      _eq: X-Hasura-User-Id
       allow_aggregations: true
 update_permissions:
   - role: user
@@ -86,24 +117,61 @@ update_permissions:
       columns:
         - archived
         - circleId
-        - participantsMembersIds
-        - participantsScope
+        - private
         - status
         - title
       filter:
-        org:
-          members:
-            _and:
-              - userId:
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - extra_members:
+              member:
+                userId:
                   _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
-      check: {}
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
+      check:
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - extra_members:
+              member:
+                userId:
+                  _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
 event_triggers:
   - name: index-thread
     definition:

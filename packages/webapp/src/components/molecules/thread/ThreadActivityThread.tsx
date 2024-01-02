@@ -17,7 +17,11 @@ export default function ThreadActivityThread({ activity }: Props) {
       <Text color="gray.500" _dark={{ color: 'gray.300' }}>
         {t(`ThreadActivityThread.text`)}
       </Text>
-      {activity.refThread && <ThreadItem thread={activity.refThread} />}
+      {activity.refThread ? (
+        <ThreadItem thread={activity.refThread} />
+      ) : (
+        <Text fontStyle="italic">{t('ThreadActivityThread.notAllowed')}</Text>
+      )}
     </ThreadActivityLayout>
   )
 }

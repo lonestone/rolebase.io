@@ -1,0 +1,20 @@
+mutation createMeetingAttendee($values: meeting_attendee_insert_input!) {
+  insert_meeting_attendee_one(object: $values) {
+    ...MeetingAttendee
+  }
+}
+
+mutation updateMeetingAttendee(
+  $id: uuid!
+  $values: meeting_attendee_set_input!
+) {
+  update_meeting_attendee_by_pk(pk_columns: { id: $id }, _set: $values) {
+    ...MeetingAttendee
+  }
+}
+
+mutation deleteMeetingAttendee($id: uuid!) {
+  delete_meeting_attendee_by_pk(id: $id) {
+    id
+  }
+}

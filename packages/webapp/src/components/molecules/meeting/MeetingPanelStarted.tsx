@@ -188,6 +188,7 @@ export default function MeetingPanelStarted() {
             {entityType === Thread_Activity_Type_Enum.Thread && (
               <ThreadEditModal
                 defaultCircleId={meeting.circleId}
+                defaultPrivate={meeting.private}
                 isOpen
                 onClose={entityModal.onClose}
               />
@@ -196,6 +197,7 @@ export default function MeetingPanelStarted() {
             {entityType === Thread_Activity_Type_Enum.Meeting && (
               <MeetingEditModal
                 defaultCircleId={meeting.circleId}
+                defaultPrivate={meeting.private}
                 isOpen
                 onClose={entityModal.onClose}
               />
@@ -206,6 +208,7 @@ export default function MeetingPanelStarted() {
                 defaultCircleId={meeting.circleId}
                 defaultMemberId={currentMember?.id}
                 defaultDescription={defaultEntityDescription}
+                defaultPrivate={meeting.private}
                 isOpen
                 onClose={entityModal.onClose}
               />
@@ -215,6 +218,7 @@ export default function MeetingPanelStarted() {
               <DecisionEditModal
                 defaultCircleId={meeting.circleId}
                 defaultDescription={defaultEntityDescription}
+                defaultPrivate={meeting.private}
                 isOpen
                 onClose={entityModal.onClose}
               />

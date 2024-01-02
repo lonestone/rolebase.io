@@ -5,7 +5,7 @@ fragment News on news {
     ...Decision
   }
   meeting {
-    ...Meeting
+    ...MeetingSummary
   }
   thread {
     ...ThreadWithFirstActivity

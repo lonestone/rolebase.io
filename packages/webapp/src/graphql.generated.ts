@@ -8,8 +8,9 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 
-import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
+import { MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
+import { ParticipantsScope } from '@shared/model/participants'
 import { LogDisplay, EntitiesChanges } from '@shared/model/log'
 import { UserMetadata } from '@shared/model/user'
 
@@ -21,7 +22,6 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  attendee: { input: MeetingAttendee; output: MeetingAttendee; }
   bigint: { input: number; output: number; }
   bytea: { input: any; output: any; }
   citext: { input: string; output: string; }
@@ -32,6 +32,7 @@ export type Scalars = {
   log_display: { input: LogDisplay; output: LogDisplay; }
   meeting_step_config: { input: MeetingStepConfig; output: MeetingStepConfig; }
   meeting_step_data: { input: MeetingStepData; output: MeetingStepData; }
+  participants_scope: { input: ParticipantsScope; output: ParticipantsScope; }
   smallint: { input: number; output: number; }
   timestamptz: { input: string; output: string; }
   user_metadata: { input: UserMetadata; output: UserMetadata; }
@@ -2421,8 +2422,10 @@ export type Circle = {
   invitedCircleLinks: Array<Circle_Link>;
   /** An aggregate relationship */
   invitedCircleLinks_aggregate: Circle_Link_Aggregate;
-  /** An object relationship */
-  leaders?: Maybe<Circle_Leader>;
+  /** An array relationship */
+  leaders: Array<Circle_Leader>;
+  /** An aggregate relationship */
+  leaders_aggregate: Circle_Leader_Aggregate;
   /** An array relationship */
   members: Array<Circle_Member>;
   /** An aggregate relationship */
@@ -2433,8 +2436,10 @@ export type Circle = {
   /** An object relationship */
   parent?: Maybe<Circle>;
   parentId?: Maybe<Scalars['uuid']['output']>;
-  /** An object relationship */
-  participants?: Maybe<Circle_Participant>;
+  /** An array relationship */
+  participants: Array<Circle_Participant>;
+  /** An aggregate relationship */
+  participants_aggregate: Circle_Participant_Aggregate;
   /** An object relationship */
   role: Role;
   roleId: Scalars['uuid']['output'];
@@ -2502,6 +2507,26 @@ export type CircleInvitedCircleLinks_AggregateArgs = {
 
 
 /** columns and relationships of "circle" */
+export type CircleLeadersArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Leader_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Leader_Order_By>>;
+  where?: InputMaybe<Circle_Leader_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleLeaders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Leader_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Leader_Order_By>>;
+  where?: InputMaybe<Circle_Leader_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
 export type CircleMembersArgs = {
   distinct_on?: InputMaybe<Array<Circle_Member_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -2518,6 +2543,26 @@ export type CircleMembers_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Circle_Member_Order_By>>;
   where?: InputMaybe<Circle_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleParticipantsArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Bool_Exp>;
+};
+
+
+/** columns and relationships of "circle" */
+export type CircleParticipants_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Bool_Exp>;
 };
 
 /** aggregated selection of "circle" */
@@ -2597,6 +2642,7 @@ export type Circle_Bool_Exp = {
   invitedCircleLinks?: InputMaybe<Circle_Link_Bool_Exp>;
   invitedCircleLinks_aggregate?: InputMaybe<Circle_Link_Aggregate_Bool_Exp>;
   leaders?: InputMaybe<Circle_Leader_Bool_Exp>;
+  leaders_aggregate?: InputMaybe<Circle_Leader_Aggregate_Bool_Exp>;
   members?: InputMaybe<Circle_Member_Bool_Exp>;
   members_aggregate?: InputMaybe<Circle_Member_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
@@ -2604,6 +2650,7 @@ export type Circle_Bool_Exp = {
   parent?: InputMaybe<Circle_Bool_Exp>;
   parentId?: InputMaybe<Uuid_Comparison_Exp>;
   participants?: InputMaybe<Circle_Participant_Bool_Exp>;
+  participants_aggregate?: InputMaybe<Circle_Participant_Aggregate_Bool_Exp>;
   role?: InputMaybe<Role_Bool_Exp>;
   roleId?: InputMaybe<Uuid_Comparison_Exp>;
 };
@@ -2621,13 +2668,13 @@ export type Circle_Insert_Input = {
   hostCircleLinks?: InputMaybe<Circle_Link_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   invitedCircleLinks?: InputMaybe<Circle_Link_Arr_Rel_Insert_Input>;
-  leaders?: InputMaybe<Circle_Leader_Obj_Rel_Insert_Input>;
+  leaders?: InputMaybe<Circle_Leader_Arr_Rel_Insert_Input>;
   members?: InputMaybe<Circle_Member_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   parent?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   parentId?: InputMaybe<Scalars['uuid']['input']>;
-  participants?: InputMaybe<Circle_Participant_Obj_Rel_Insert_Input>;
+  participants?: InputMaybe<Circle_Participant_Arr_Rel_Insert_Input>;
   role?: InputMaybe<Role_Obj_Rel_Insert_Input>;
   roleId?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -2651,6 +2698,17 @@ export type Circle_Leader_Aggregate = {
   nodes: Array<Circle_Leader>;
 };
 
+export type Circle_Leader_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Circle_Leader_Aggregate_Bool_Exp_Count>;
+};
+
+export type Circle_Leader_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Circle_Leader_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Circle_Leader_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "circle_leader" */
 export type Circle_Leader_Aggregate_Fields = {
   __typename?: 'circle_leader_aggregate_fields';
@@ -2664,6 +2722,18 @@ export type Circle_Leader_Aggregate_Fields = {
 export type Circle_Leader_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Circle_Leader_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "circle_leader" */
+export type Circle_Leader_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Circle_Leader_Max_Order_By>;
+  min?: InputMaybe<Circle_Leader_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "circle_leader" */
+export type Circle_Leader_Arr_Rel_Insert_Input = {
+  data: Array<Circle_Leader_Insert_Input>;
 };
 
 /** Boolean expression to filter rows from the table "circle_leader". All fields are combined with a logical 'AND'. */
@@ -2695,6 +2765,13 @@ export type Circle_Leader_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']['output']>;
 };
 
+/** order by max() on columns of table "circle_leader" */
+export type Circle_Leader_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Circle_Leader_Min_Fields = {
   __typename?: 'circle_leader_min_fields';
@@ -2703,9 +2780,11 @@ export type Circle_Leader_Min_Fields = {
   orgId?: Maybe<Scalars['uuid']['output']>;
 };
 
-/** input type for inserting object relation for remote table "circle_leader" */
-export type Circle_Leader_Obj_Rel_Insert_Input = {
-  data: Circle_Leader_Insert_Input;
+/** order by min() on columns of table "circle_leader" */
+export type Circle_Leader_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "circle_leader". */
@@ -3389,13 +3468,13 @@ export type Circle_Order_By = {
   hostCircleLinks_aggregate?: InputMaybe<Circle_Link_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   invitedCircleLinks_aggregate?: InputMaybe<Circle_Link_Aggregate_Order_By>;
-  leaders?: InputMaybe<Circle_Leader_Order_By>;
+  leaders_aggregate?: InputMaybe<Circle_Leader_Aggregate_Order_By>;
   members_aggregate?: InputMaybe<Circle_Member_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   parent?: InputMaybe<Circle_Order_By>;
   parentId?: InputMaybe<Order_By>;
-  participants?: InputMaybe<Circle_Participant_Order_By>;
+  participants_aggregate?: InputMaybe<Circle_Participant_Aggregate_Order_By>;
   role?: InputMaybe<Role_Order_By>;
   roleId?: InputMaybe<Order_By>;
 };
@@ -3419,6 +3498,17 @@ export type Circle_Participant_Aggregate = {
   nodes: Array<Circle_Participant>;
 };
 
+export type Circle_Participant_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Circle_Participant_Aggregate_Bool_Exp_Count>;
+};
+
+export type Circle_Participant_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Circle_Participant_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Circle_Participant_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "circle_participant" */
 export type Circle_Participant_Aggregate_Fields = {
   __typename?: 'circle_participant_aggregate_fields';
@@ -3432,6 +3522,18 @@ export type Circle_Participant_Aggregate_Fields = {
 export type Circle_Participant_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Circle_Participant_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "circle_participant" */
+export type Circle_Participant_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Circle_Participant_Max_Order_By>;
+  min?: InputMaybe<Circle_Participant_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "circle_participant" */
+export type Circle_Participant_Arr_Rel_Insert_Input = {
+  data: Array<Circle_Participant_Insert_Input>;
 };
 
 /** Boolean expression to filter rows from the table "circle_participant". All fields are combined with a logical 'AND'. */
@@ -3463,6 +3565,13 @@ export type Circle_Participant_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']['output']>;
 };
 
+/** order by max() on columns of table "circle_participant" */
+export type Circle_Participant_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Circle_Participant_Min_Fields = {
   __typename?: 'circle_participant_min_fields';
@@ -3471,9 +3580,11 @@ export type Circle_Participant_Min_Fields = {
   orgId?: Maybe<Scalars['uuid']['output']>;
 };
 
-/** input type for inserting object relation for remote table "circle_participant" */
-export type Circle_Participant_Obj_Rel_Insert_Input = {
-  data: Circle_Participant_Insert_Input;
+/** order by min() on columns of table "circle_participant" */
+export type Circle_Participant_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  orgId?: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "circle_participant". */
@@ -3658,6 +3769,7 @@ export type Decision = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid']['output'];
+  private: Scalars['Boolean']['output'];
   title: Scalars['String']['output'];
 };
 
@@ -3739,6 +3851,7 @@ export type Decision_Bool_Exp = {
   memberId?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  private?: InputMaybe<Boolean_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -3760,6 +3873,7 @@ export type Decision_Insert_Input = {
   memberId?: InputMaybe<Scalars['uuid']['input']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -3844,6 +3958,7 @@ export type Decision_Order_By = {
   memberId?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
+  private?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
 
@@ -3869,19 +3984,25 @@ export enum Decision_Select_Column {
   /** column name */
   OrgId = 'orgId',
   /** column name */
+  Private = 'private',
+  /** column name */
   Title = 'title'
 }
 
 /** select "decision_aggregate_bool_exp_bool_and_arguments_columns" columns of table "decision" */
 export enum Decision_Select_Column_Decision_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  Archived = 'archived'
+  Archived = 'archived',
+  /** column name */
+  Private = 'private'
 }
 
 /** select "decision_aggregate_bool_exp_bool_or_arguments_columns" columns of table "decision" */
 export enum Decision_Select_Column_Decision_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  Archived = 'archived'
+  Archived = 'archived',
+  /** column name */
+  Private = 'private'
 }
 
 /** input type for updating data in table "decision" */
@@ -3893,6 +4014,7 @@ export type Decision_Set_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -3913,6 +4035,7 @@ export type Decision_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -3932,6 +4055,8 @@ export enum Decision_Update_Column {
   MemberId = 'memberId',
   /** column name */
   OrgId = 'orgId',
+  /** column name */
+  Private = 'private',
   /** column name */
   Title = 'title'
 }
@@ -4996,7 +5121,7 @@ export type Log_Updates = {
 export type Meeting = {
   __typename?: 'meeting';
   archived: Scalars['Boolean']['output'];
-  attendees?: Maybe<Array<Scalars['attendee']['output']>>;
+  attendees?: Maybe<Scalars['json']['output']>;
   /** An object relationship */
   circle: Circle;
   circleId: Scalars['uuid']['output'];
@@ -5005,12 +5130,18 @@ export type Meeting = {
   endDate: Scalars['timestamptz']['output'];
   ended: Scalars['Boolean']['output'];
   id: Scalars['uuid']['output'];
+  invitedReadonly: Scalars['Boolean']['output'];
   lastUpdateSource?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  meeting_attendees: Array<Meeting_Attendee>;
+  /** An aggregate relationship */
+  meeting_attendees_aggregate: Meeting_Attendee_Aggregate;
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid']['output'];
-  participantsMembersIds: Array<Scalars['uuid']['output']>;
-  participantsScope: Member_Scope_Enum;
+  participantsMembersIds?: Maybe<Scalars['json']['output']>;
+  participantsScope?: Maybe<Member_Scope_Enum>;
+  private: Scalars['Boolean']['output'];
   /** An object relationship */
   recurring?: Maybe<Meeting_Recurring>;
   recurringDate?: Maybe<Scalars['timestamptz']['output']>;
@@ -5030,6 +5161,26 @@ export type Meeting = {
 /** columns and relationships of "meeting" */
 export type MeetingAttendeesArgs = {
   path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** columns and relationships of "meeting" */
+export type MeetingMeeting_AttendeesArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Attendee_Order_By>>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+};
+
+
+/** columns and relationships of "meeting" */
+export type MeetingMeeting_Attendees_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Attendee_Order_By>>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
 };
 
 
@@ -5133,6 +5284,241 @@ export type Meeting_Arr_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Meeting_On_Conflict>;
 };
 
+/** columns and relationships of "meeting_attendee" */
+export type Meeting_Attendee = {
+  __typename?: 'meeting_attendee';
+  id: Scalars['uuid']['output'];
+  /** An object relationship */
+  meeting: Meeting;
+  meetingId: Scalars['uuid']['output'];
+  /** An object relationship */
+  member: Member;
+  memberId: Scalars['uuid']['output'];
+  present?: Maybe<Scalars['Boolean']['output']>;
+};
+
+/** aggregated selection of "meeting_attendee" */
+export type Meeting_Attendee_Aggregate = {
+  __typename?: 'meeting_attendee_aggregate';
+  aggregate?: Maybe<Meeting_Attendee_Aggregate_Fields>;
+  nodes: Array<Meeting_Attendee>;
+};
+
+export type Meeting_Attendee_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Meeting_Attendee_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Meeting_Attendee_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Meeting_Attendee_Aggregate_Bool_Exp_Count>;
+};
+
+export type Meeting_Attendee_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Meeting_Attendee_Select_Column_Meeting_Attendee_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Meeting_Attendee_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Meeting_Attendee_Select_Column_Meeting_Attendee_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Meeting_Attendee_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "meeting_attendee" */
+export type Meeting_Attendee_Aggregate_Fields = {
+  __typename?: 'meeting_attendee_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Meeting_Attendee_Max_Fields>;
+  min?: Maybe<Meeting_Attendee_Min_Fields>;
+};
+
+
+/** aggregate fields of "meeting_attendee" */
+export type Meeting_Attendee_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "meeting_attendee" */
+export type Meeting_Attendee_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Meeting_Attendee_Max_Order_By>;
+  min?: InputMaybe<Meeting_Attendee_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "meeting_attendee" */
+export type Meeting_Attendee_Arr_Rel_Insert_Input = {
+  data: Array<Meeting_Attendee_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Meeting_Attendee_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "meeting_attendee". All fields are combined with a logical 'AND'. */
+export type Meeting_Attendee_Bool_Exp = {
+  _and?: InputMaybe<Array<Meeting_Attendee_Bool_Exp>>;
+  _not?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+  _or?: InputMaybe<Array<Meeting_Attendee_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  meeting?: InputMaybe<Meeting_Bool_Exp>;
+  meetingId?: InputMaybe<Uuid_Comparison_Exp>;
+  member?: InputMaybe<Member_Bool_Exp>;
+  memberId?: InputMaybe<Uuid_Comparison_Exp>;
+  present?: InputMaybe<Boolean_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "meeting_attendee" */
+export enum Meeting_Attendee_Constraint {
+  /** unique or primary key constraint on columns "memberId", "meetingId" */
+  MeetingAttendeeMeetingIdMemberIdKey = 'meeting_attendee_meetingId_memberId_key',
+  /** unique or primary key constraint on columns "id" */
+  MeetingAttendeePkey = 'meeting_attendee_pkey'
+}
+
+/** input type for inserting data into table "meeting_attendee" */
+export type Meeting_Attendee_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  meeting?: InputMaybe<Meeting_Obj_Rel_Insert_Input>;
+  meetingId?: InputMaybe<Scalars['uuid']['input']>;
+  member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+  present?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate max on columns */
+export type Meeting_Attendee_Max_Fields = {
+  __typename?: 'meeting_attendee_max_fields';
+  id?: Maybe<Scalars['uuid']['output']>;
+  meetingId?: Maybe<Scalars['uuid']['output']>;
+  memberId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "meeting_attendee" */
+export type Meeting_Attendee_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Meeting_Attendee_Min_Fields = {
+  __typename?: 'meeting_attendee_min_fields';
+  id?: Maybe<Scalars['uuid']['output']>;
+  meetingId?: Maybe<Scalars['uuid']['output']>;
+  memberId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "meeting_attendee" */
+export type Meeting_Attendee_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "meeting_attendee" */
+export type Meeting_Attendee_Mutation_Response = {
+  __typename?: 'meeting_attendee_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Meeting_Attendee>;
+};
+
+/** on_conflict condition type for table "meeting_attendee" */
+export type Meeting_Attendee_On_Conflict = {
+  constraint: Meeting_Attendee_Constraint;
+  update_columns?: Array<Meeting_Attendee_Update_Column>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "meeting_attendee". */
+export type Meeting_Attendee_Order_By = {
+  id?: InputMaybe<Order_By>;
+  meeting?: InputMaybe<Meeting_Order_By>;
+  meetingId?: InputMaybe<Order_By>;
+  member?: InputMaybe<Member_Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  present?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: meeting_attendee */
+export type Meeting_Attendee_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "meeting_attendee" */
+export enum Meeting_Attendee_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MeetingId = 'meetingId',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  Present = 'present'
+}
+
+/** select "meeting_attendee_aggregate_bool_exp_bool_and_arguments_columns" columns of table "meeting_attendee" */
+export enum Meeting_Attendee_Select_Column_Meeting_Attendee_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Present = 'present'
+}
+
+/** select "meeting_attendee_aggregate_bool_exp_bool_or_arguments_columns" columns of table "meeting_attendee" */
+export enum Meeting_Attendee_Select_Column_Meeting_Attendee_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Present = 'present'
+}
+
+/** input type for updating data in table "meeting_attendee" */
+export type Meeting_Attendee_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  meetingId?: InputMaybe<Scalars['uuid']['input']>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+  present?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Streaming cursor of the table "meeting_attendee" */
+export type Meeting_Attendee_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Meeting_Attendee_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Meeting_Attendee_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  meetingId?: InputMaybe<Scalars['uuid']['input']>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+  present?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** update columns of table "meeting_attendee" */
+export enum Meeting_Attendee_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MeetingId = 'meetingId',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  Present = 'present'
+}
+
+export type Meeting_Attendee_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Meeting_Attendee_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Meeting_Attendee_Bool_Exp;
+};
+
 /** Boolean expression to filter rows from the table "meeting". All fields are combined with a logical 'AND'. */
 export type Meeting_Bool_Exp = {
   _and?: InputMaybe<Array<Meeting_Bool_Exp>>;
@@ -5147,11 +5533,15 @@ export type Meeting_Bool_Exp = {
   endDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   ended?: InputMaybe<Boolean_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  invitedReadonly?: InputMaybe<Boolean_Comparison_Exp>;
   lastUpdateSource?: InputMaybe<String_Comparison_Exp>;
+  meeting_attendees?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+  meeting_attendees_aggregate?: InputMaybe<Meeting_Attendee_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
   participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
+  private?: InputMaybe<Boolean_Comparison_Exp>;
   recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
   recurringDate?: InputMaybe<Timestamptz_Comparison_Exp>;
   recurringId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -5181,11 +5571,14 @@ export type Meeting_Insert_Input = {
   endDate?: InputMaybe<Scalars['timestamptz']['input']>;
   ended?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  invitedReadonly?: InputMaybe<Scalars['Boolean']['input']>;
   lastUpdateSource?: InputMaybe<Scalars['String']['input']>;
+  meeting_attendees?: InputMaybe<Meeting_Attendee_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   recurring?: InputMaybe<Meeting_Recurring_Obj_Rel_Insert_Input>;
   recurringDate?: InputMaybe<Scalars['timestamptz']['input']>;
   recurringId?: InputMaybe<Scalars['uuid']['input']>;
@@ -5297,11 +5690,14 @@ export type Meeting_Order_By = {
   endDate?: InputMaybe<Order_By>;
   ended?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  invitedReadonly?: InputMaybe<Order_By>;
   lastUpdateSource?: InputMaybe<Order_By>;
+  meeting_attendees_aggregate?: InputMaybe<Meeting_Attendee_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  private?: InputMaybe<Order_By>;
   recurring?: InputMaybe<Meeting_Recurring_Order_By>;
   recurringDate?: InputMaybe<Order_By>;
   recurringId?: InputMaybe<Order_By>;
@@ -5327,6 +5723,7 @@ export type Meeting_Recurring = {
   createdAt: Scalars['timestamptz']['output'];
   duration: Scalars['smallint']['output'];
   id: Scalars['uuid']['output'];
+  invitedReadonly: Scalars['Boolean']['output'];
   /** An array relationship */
   meetings: Array<Meeting>;
   /** An aggregate relationship */
@@ -5334,9 +5731,11 @@ export type Meeting_Recurring = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid']['output'];
-  participantsMembersIds: Array<Scalars['uuid']['output']>;
-  participantsScope: Member_Scope_Enum;
+  participantsMembersIds?: Maybe<Scalars['json']['output']>;
+  participantsScope?: Maybe<Member_Scope_Enum>;
+  private: Scalars['Boolean']['output'];
   rrule: Scalars['String']['output'];
+  scope: Scalars['participants_scope']['output'];
   /** An object relationship */
   template: Meeting_Template;
   templateId: Scalars['uuid']['output'];
@@ -5371,6 +5770,12 @@ export type Meeting_RecurringParticipantsMembersIdsArgs = {
 
 
 /** columns and relationships of "meeting_recurring" */
+export type Meeting_RecurringScopeArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** columns and relationships of "meeting_recurring" */
 export type Meeting_RecurringVideoConfArgs = {
   path?: InputMaybe<Scalars['String']['input']>;
 };
@@ -5383,7 +5788,23 @@ export type Meeting_Recurring_Aggregate = {
 };
 
 export type Meeting_Recurring_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Meeting_Recurring_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Meeting_Recurring_Aggregate_Bool_Exp_Bool_Or>;
   count?: InputMaybe<Meeting_Recurring_Aggregate_Bool_Exp_Count>;
+};
+
+export type Meeting_Recurring_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Meeting_Recurring_Select_Column_Meeting_Recurring_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Meeting_Recurring_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Meeting_Recurring_Select_Column_Meeting_Recurring_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Meeting_Recurring_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
 };
 
 export type Meeting_Recurring_Aggregate_Bool_Exp_Count = {
@@ -5459,13 +5880,16 @@ export type Meeting_Recurring_Bool_Exp = {
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   duration?: InputMaybe<Smallint_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  invitedReadonly?: InputMaybe<Boolean_Comparison_Exp>;
   meetings?: InputMaybe<Meeting_Bool_Exp>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
   participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
+  private?: InputMaybe<Boolean_Comparison_Exp>;
   rrule?: InputMaybe<String_Comparison_Exp>;
+  scope?: InputMaybe<Json_Comparison_Exp>;
   template?: InputMaybe<Meeting_Template_Bool_Exp>;
   templateId?: InputMaybe<Uuid_Comparison_Exp>;
   videoConf?: InputMaybe<Json_Comparison_Exp>;
@@ -5489,12 +5913,15 @@ export type Meeting_Recurring_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   duration?: InputMaybe<Scalars['smallint']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  invitedReadonly?: InputMaybe<Scalars['Boolean']['input']>;
   meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   rrule?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['json']['input']>;
   template?: InputMaybe<Meeting_Template_Obj_Rel_Insert_Input>;
   templateId?: InputMaybe<Scalars['uuid']['input']>;
   videoConf?: InputMaybe<Scalars['json']['input']>;
@@ -5576,12 +6003,15 @@ export type Meeting_Recurring_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   duration?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  invitedReadonly?: InputMaybe<Order_By>;
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  private?: InputMaybe<Order_By>;
   rrule?: InputMaybe<Order_By>;
+  scope?: InputMaybe<Order_By>;
   template?: InputMaybe<Meeting_Template_Order_By>;
   templateId?: InputMaybe<Order_By>;
   videoConf?: InputMaybe<Order_By>;
@@ -5603,17 +6033,39 @@ export enum Meeting_Recurring_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
   OrgId = 'orgId',
   /** column name */
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
   /** column name */
+  Private = 'private',
+  /** column name */
   Rrule = 'rrule',
+  /** column name */
+  Scope = 'scope',
   /** column name */
   TemplateId = 'templateId',
   /** column name */
   VideoConf = 'videoConf'
+}
+
+/** select "meeting_recurring_aggregate_bool_exp_bool_and_arguments_columns" columns of table "meeting_recurring" */
+export enum Meeting_Recurring_Select_Column_Meeting_Recurring_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
+  Private = 'private'
+}
+
+/** select "meeting_recurring_aggregate_bool_exp_bool_or_arguments_columns" columns of table "meeting_recurring" */
+export enum Meeting_Recurring_Select_Column_Meeting_Recurring_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
+  Private = 'private'
 }
 
 /** input type for updating data in table "meeting_recurring" */
@@ -5622,10 +6074,13 @@ export type Meeting_Recurring_Set_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   duration?: InputMaybe<Scalars['smallint']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  invitedReadonly?: InputMaybe<Scalars['Boolean']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   rrule?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['json']['input']>;
   templateId?: InputMaybe<Scalars['uuid']['input']>;
   videoConf?: InputMaybe<Scalars['json']['input']>;
 };
@@ -5677,10 +6132,13 @@ export type Meeting_Recurring_Stream_Cursor_Value_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   duration?: InputMaybe<Scalars['smallint']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  invitedReadonly?: InputMaybe<Scalars['Boolean']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   rrule?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['json']['input']>;
   templateId?: InputMaybe<Scalars['uuid']['input']>;
   videoConf?: InputMaybe<Scalars['json']['input']>;
 };
@@ -5707,13 +6165,19 @@ export enum Meeting_Recurring_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
   OrgId = 'orgId',
   /** column name */
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
   /** column name */
+  Private = 'private',
+  /** column name */
   Rrule = 'rrule',
+  /** column name */
+  Scope = 'scope',
   /** column name */
   TemplateId = 'templateId',
   /** column name */
@@ -5781,6 +6245,8 @@ export enum Meeting_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
   LastUpdateSource = 'lastUpdateSource',
   /** column name */
   OrgId = 'orgId',
@@ -5788,6 +6254,8 @@ export enum Meeting_Select_Column {
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  Private = 'private',
   /** column name */
   RecurringDate = 'recurringDate',
   /** column name */
@@ -5809,7 +6277,11 @@ export enum Meeting_Select_Column_Meeting_Aggregate_Bool_Exp_Bool_And_Arguments_
   /** column name */
   Archived = 'archived',
   /** column name */
-  Ended = 'ended'
+  Ended = 'ended',
+  /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
+  Private = 'private'
 }
 
 /** select "meeting_aggregate_bool_exp_bool_or_arguments_columns" columns of table "meeting" */
@@ -5817,7 +6289,11 @@ export enum Meeting_Select_Column_Meeting_Aggregate_Bool_Exp_Bool_Or_Arguments_C
   /** column name */
   Archived = 'archived',
   /** column name */
-  Ended = 'ended'
+  Ended = 'ended',
+  /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
+  Private = 'private'
 }
 
 /** input type for updating data in table "meeting" */
@@ -5830,10 +6306,12 @@ export type Meeting_Set_Input = {
   endDate?: InputMaybe<Scalars['timestamptz']['input']>;
   ended?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  invitedReadonly?: InputMaybe<Scalars['Boolean']['input']>;
   lastUpdateSource?: InputMaybe<Scalars['String']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   recurringDate?: InputMaybe<Scalars['timestamptz']['input']>;
   recurringId?: InputMaybe<Scalars['uuid']['input']>;
   startDate?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6388,10 +6866,12 @@ export type Meeting_Stream_Cursor_Value_Input = {
   endDate?: InputMaybe<Scalars['timestamptz']['input']>;
   ended?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  invitedReadonly?: InputMaybe<Scalars['Boolean']['input']>;
   lastUpdateSource?: InputMaybe<Scalars['String']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   recurringDate?: InputMaybe<Scalars['timestamptz']['input']>;
   recurringId?: InputMaybe<Scalars['uuid']['input']>;
   startDate?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6633,6 +7113,8 @@ export enum Meeting_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  InvitedReadonly = 'invitedReadonly',
+  /** column name */
   LastUpdateSource = 'lastUpdateSource',
   /** column name */
   OrgId = 'orgId',
@@ -6640,6 +7122,8 @@ export enum Meeting_Update_Column {
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  Private = 'private',
   /** column name */
   RecurringDate = 'recurringDate',
   /** column name */
@@ -7556,6 +8040,10 @@ export type Mutation_Root = {
   delete_log_by_pk?: Maybe<Log>;
   /** delete data from the table: "meeting" */
   delete_meeting?: Maybe<Meeting_Mutation_Response>;
+  /** delete data from the table: "meeting_attendee" */
+  delete_meeting_attendee?: Maybe<Meeting_Attendee_Mutation_Response>;
+  /** delete single row from the table: "meeting_attendee" */
+  delete_meeting_attendee_by_pk?: Maybe<Meeting_Attendee>;
   /** delete single row from the table: "meeting" */
   delete_meeting_by_pk?: Maybe<Meeting>;
   /** delete data from the table: "meeting_recurring" */
@@ -7642,6 +8130,10 @@ export type Mutation_Root = {
   delete_thread_activity_type_by_pk?: Maybe<Thread_Activity_Type>;
   /** delete single row from the table: "thread" */
   delete_thread_by_pk?: Maybe<Thread>;
+  /** delete data from the table: "thread_extra_member" */
+  delete_thread_extra_member?: Maybe<Thread_Extra_Member_Mutation_Response>;
+  /** delete single row from the table: "thread_extra_member" */
+  delete_thread_extra_member_by_pk?: Maybe<Thread_Extra_Member>;
   /** delete data from the table: "thread_member_status" */
   delete_thread_member_status?: Maybe<Thread_Member_Status_Mutation_Response>;
   /** delete single row from the table: "thread_member_status" */
@@ -7732,6 +8224,10 @@ export type Mutation_Root = {
   insert_log_one?: Maybe<Log>;
   /** insert data into the table: "meeting" */
   insert_meeting?: Maybe<Meeting_Mutation_Response>;
+  /** insert data into the table: "meeting_attendee" */
+  insert_meeting_attendee?: Maybe<Meeting_Attendee_Mutation_Response>;
+  /** insert a single row into the table: "meeting_attendee" */
+  insert_meeting_attendee_one?: Maybe<Meeting_Attendee>;
   /** insert a single row into the table: "meeting" */
   insert_meeting_one?: Maybe<Meeting>;
   /** insert data into the table: "meeting_recurring" */
@@ -7816,6 +8312,10 @@ export type Mutation_Root = {
   insert_thread_activity_type?: Maybe<Thread_Activity_Type_Mutation_Response>;
   /** insert a single row into the table: "thread_activity_type" */
   insert_thread_activity_type_one?: Maybe<Thread_Activity_Type>;
+  /** insert data into the table: "thread_extra_member" */
+  insert_thread_extra_member?: Maybe<Thread_Extra_Member_Mutation_Response>;
+  /** insert a single row into the table: "thread_extra_member" */
+  insert_thread_extra_member_one?: Maybe<Thread_Extra_Member>;
   /** insert data into the table: "thread_member_status" */
   insert_thread_member_status?: Maybe<Thread_Member_Status_Mutation_Response>;
   /** insert a single row into the table: "thread_member_status" */
@@ -7940,6 +8440,12 @@ export type Mutation_Root = {
   update_log_many?: Maybe<Array<Maybe<Log_Mutation_Response>>>;
   /** update data of the table: "meeting" */
   update_meeting?: Maybe<Meeting_Mutation_Response>;
+  /** update data of the table: "meeting_attendee" */
+  update_meeting_attendee?: Maybe<Meeting_Attendee_Mutation_Response>;
+  /** update single row of the table: "meeting_attendee" */
+  update_meeting_attendee_by_pk?: Maybe<Meeting_Attendee>;
+  /** update multiples rows of table: "meeting_attendee" */
+  update_meeting_attendee_many?: Maybe<Array<Maybe<Meeting_Attendee_Mutation_Response>>>;
   /** update single row of the table: "meeting" */
   update_meeting_by_pk?: Maybe<Meeting>;
   /** update multiples rows of table: "meeting" */
@@ -8068,6 +8574,12 @@ export type Mutation_Root = {
   update_thread_activity_type_many?: Maybe<Array<Maybe<Thread_Activity_Type_Mutation_Response>>>;
   /** update single row of the table: "thread" */
   update_thread_by_pk?: Maybe<Thread>;
+  /** update data of the table: "thread_extra_member" */
+  update_thread_extra_member?: Maybe<Thread_Extra_Member_Mutation_Response>;
+  /** update single row of the table: "thread_extra_member" */
+  update_thread_extra_member_by_pk?: Maybe<Thread_Extra_Member>;
+  /** update multiples rows of table: "thread_extra_member" */
+  update_thread_extra_member_many?: Maybe<Array<Maybe<Thread_Extra_Member_Mutation_Response>>>;
   /** update multiples rows of table: "thread" */
   update_thread_many?: Maybe<Array<Maybe<Thread_Mutation_Response>>>;
   /** update data of the table: "thread_member_status" */
@@ -8320,6 +8832,18 @@ export type Mutation_RootDelete_Log_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootDelete_MeetingArgs = {
   where: Meeting_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Meeting_AttendeeArgs = {
+  where: Meeting_Attendee_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Meeting_Attendee_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -8577,6 +9101,18 @@ export type Mutation_RootDelete_Thread_Activity_Type_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Thread_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_Extra_MemberArgs = {
+  where: Thread_Extra_Member_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Thread_Extra_Member_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -8889,6 +9425,20 @@ export type Mutation_RootInsert_MeetingArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Meeting_AttendeeArgs = {
+  objects: Array<Meeting_Attendee_Insert_Input>;
+  on_conflict?: InputMaybe<Meeting_Attendee_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Meeting_Attendee_OneArgs = {
+  object: Meeting_Attendee_Insert_Input;
+  on_conflict?: InputMaybe<Meeting_Attendee_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Meeting_OneArgs = {
   object: Meeting_Insert_Input;
   on_conflict?: InputMaybe<Meeting_On_Conflict>;
@@ -9179,6 +9729,20 @@ export type Mutation_RootInsert_Thread_Activity_TypeArgs = {
 export type Mutation_RootInsert_Thread_Activity_Type_OneArgs = {
   object: Thread_Activity_Type_Insert_Input;
   on_conflict?: InputMaybe<Thread_Activity_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_Extra_MemberArgs = {
+  objects: Array<Thread_Extra_Member_Insert_Input>;
+  on_conflict?: InputMaybe<Thread_Extra_Member_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Thread_Extra_Member_OneArgs = {
+  object: Thread_Extra_Member_Insert_Input;
+  on_conflict?: InputMaybe<Thread_Extra_Member_On_Conflict>;
 };
 
 
@@ -9659,6 +10223,26 @@ export type Mutation_RootUpdate_MeetingArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Meeting_AttendeeArgs = {
+  _set?: InputMaybe<Meeting_Attendee_Set_Input>;
+  where: Meeting_Attendee_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Meeting_Attendee_By_PkArgs = {
+  _set?: InputMaybe<Meeting_Attendee_Set_Input>;
+  pk_columns: Meeting_Attendee_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Meeting_Attendee_ManyArgs = {
+  updates: Array<Meeting_Attendee_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Meeting_By_PkArgs = {
   _set?: InputMaybe<Meeting_Set_Input>;
   pk_columns: Meeting_Pk_Columns_Input;
@@ -10090,6 +10674,26 @@ export type Mutation_RootUpdate_Thread_Activity_Type_ManyArgs = {
 export type Mutation_RootUpdate_Thread_By_PkArgs = {
   _set?: InputMaybe<Thread_Set_Input>;
   pk_columns: Thread_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Extra_MemberArgs = {
+  _set?: InputMaybe<Thread_Extra_Member_Set_Input>;
+  where: Thread_Extra_Member_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Extra_Member_By_PkArgs = {
+  _set?: InputMaybe<Thread_Extra_Member_Set_Input>;
+  pk_columns: Thread_Extra_Member_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Thread_Extra_Member_ManyArgs = {
+  updates: Array<Thread_Extra_Member_Updates>;
 };
 
 
@@ -11719,6 +12323,12 @@ export type Query_Root = {
   meeting: Array<Meeting>;
   /** fetch aggregated fields from the table: "meeting" */
   meeting_aggregate: Meeting_Aggregate;
+  /** fetch data from the table: "meeting_attendee" */
+  meeting_attendee: Array<Meeting_Attendee>;
+  /** fetch aggregated fields from the table: "meeting_attendee" */
+  meeting_attendee_aggregate: Meeting_Attendee_Aggregate;
+  /** fetch data from the table: "meeting_attendee" using primary key columns */
+  meeting_attendee_by_pk?: Maybe<Meeting_Attendee>;
   /** fetch data from the table: "meeting" using primary key columns */
   meeting_by_pk?: Maybe<Meeting>;
   /** fetch data from the table: "meeting_recurring" */
@@ -11855,6 +12465,12 @@ export type Query_Root = {
   thread_aggregate: Thread_Aggregate;
   /** fetch data from the table: "thread" using primary key columns */
   thread_by_pk?: Maybe<Thread>;
+  /** fetch data from the table: "thread_extra_member" */
+  thread_extra_member: Array<Thread_Extra_Member>;
+  /** fetch aggregated fields from the table: "thread_extra_member" */
+  thread_extra_member_aggregate: Thread_Extra_Member_Aggregate;
+  /** fetch data from the table: "thread_extra_member" using primary key columns */
+  thread_extra_member_by_pk?: Maybe<Thread_Extra_Member>;
   /** fetch data from the table: "thread_member_status" */
   thread_member_status: Array<Thread_Member_Status>;
   /** fetch aggregated fields from the table: "thread_member_status" */
@@ -12313,6 +12929,29 @@ export type Query_RootMeeting_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Meeting_Order_By>>;
   where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_AttendeeArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Attendee_Order_By>>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_Attendee_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Attendee_Order_By>>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+};
+
+
+export type Query_RootMeeting_Attendee_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -12840,6 +13479,29 @@ export type Query_RootThread_By_PkArgs = {
 };
 
 
+export type Query_RootThread_Extra_MemberArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Extra_Member_Order_By>>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Extra_Member_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Extra_Member_Order_By>>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+};
+
+
+export type Query_RootThread_Extra_Member_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
 export type Query_RootThread_Member_StatusArgs = {
   distinct_on?: InputMaybe<Array<Thread_Member_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12993,8 +13655,6 @@ export type Role = {
   domain: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
   indicators: Scalars['String']['output'];
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link: Scalars['String']['output'];
   name: Scalars['String']['output'];
   notes: Scalars['String']['output'];
   /** An object relationship */
@@ -13353,7 +14013,6 @@ export type Role_Bool_Exp = {
   domain?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   indicators?: InputMaybe<String_Comparison_Exp>;
-  link?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   notes?: InputMaybe<String_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
@@ -13387,8 +14046,6 @@ export type Role_Insert_Input = {
   domain?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   indicators?: InputMaybe<Scalars['String']['input']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
@@ -13408,8 +14065,6 @@ export type Role_Max_Fields = {
   domain?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   indicators?: Maybe<Scalars['String']['output']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   notes?: Maybe<Scalars['String']['output']>;
   orgId?: Maybe<Scalars['uuid']['output']>;
@@ -13425,8 +14080,6 @@ export type Role_Max_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
@@ -13443,8 +14096,6 @@ export type Role_Min_Fields = {
   domain?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   indicators?: Maybe<Scalars['String']['output']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   notes?: Maybe<Scalars['String']['output']>;
   orgId?: Maybe<Scalars['uuid']['output']>;
@@ -13460,8 +14111,6 @@ export type Role_Min_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
   orgId?: InputMaybe<Order_By>;
@@ -13503,7 +14152,6 @@ export type Role_Order_By = {
   domain?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   indicators?: InputMaybe<Order_By>;
-  link?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   notes?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
@@ -13538,8 +14186,6 @@ export enum Role_Select_Column {
   Id = 'id',
   /** column name */
   Indicators = 'indicators',
-  /** column name */
-  Link = 'link',
   /** column name */
   Name = 'name',
   /** column name */
@@ -13589,8 +14235,6 @@ export type Role_Set_Input = {
   domain?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   indicators?: InputMaybe<Scalars['String']['input']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
@@ -13657,8 +14301,6 @@ export type Role_Stream_Cursor_Value_Input = {
   domain?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   indicators?: InputMaybe<Scalars['String']['input']>;
-  /** Link to another circle (parent or other) to represent parent circle's purpose in this other circle.  If string, circleId.  If "Parent" = grand parent circle. If "No", not a link. */
-  link?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
@@ -13700,8 +14342,6 @@ export enum Role_Update_Column {
   Id = 'id',
   /** column name */
   Indicators = 'indicators',
-  /** column name */
-  Link = 'link',
   /** column name */
   Name = 'name',
   /** column name */
@@ -14200,6 +14840,14 @@ export type Subscription_Root = {
   meeting: Array<Meeting>;
   /** fetch aggregated fields from the table: "meeting" */
   meeting_aggregate: Meeting_Aggregate;
+  /** fetch data from the table: "meeting_attendee" */
+  meeting_attendee: Array<Meeting_Attendee>;
+  /** fetch aggregated fields from the table: "meeting_attendee" */
+  meeting_attendee_aggregate: Meeting_Attendee_Aggregate;
+  /** fetch data from the table: "meeting_attendee" using primary key columns */
+  meeting_attendee_by_pk?: Maybe<Meeting_Attendee>;
+  /** fetch data from the table in a streaming manner: "meeting_attendee" */
+  meeting_attendee_stream: Array<Meeting_Attendee>;
   /** fetch data from the table: "meeting" using primary key columns */
   meeting_by_pk?: Maybe<Meeting>;
   /** fetch data from the table: "meeting_recurring" */
@@ -14382,6 +15030,14 @@ export type Subscription_Root = {
   thread_aggregate: Thread_Aggregate;
   /** fetch data from the table: "thread" using primary key columns */
   thread_by_pk?: Maybe<Thread>;
+  /** fetch data from the table: "thread_extra_member" */
+  thread_extra_member: Array<Thread_Extra_Member>;
+  /** fetch aggregated fields from the table: "thread_extra_member" */
+  thread_extra_member_aggregate: Thread_Extra_Member_Aggregate;
+  /** fetch data from the table: "thread_extra_member" using primary key columns */
+  thread_extra_member_by_pk?: Maybe<Thread_Extra_Member>;
+  /** fetch data from the table in a streaming manner: "thread_extra_member" */
+  thread_extra_member_stream: Array<Thread_Extra_Member>;
   /** fetch data from the table: "thread_member_status" */
   thread_member_status: Array<Thread_Member_Status>;
   /** fetch aggregated fields from the table: "thread_member_status" */
@@ -14980,6 +15636,36 @@ export type Subscription_RootMeeting_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Meeting_Order_By>>;
   where?: InputMaybe<Meeting_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_AttendeeArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Attendee_Order_By>>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Attendee_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Meeting_Attendee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Meeting_Attendee_Order_By>>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
+};
+
+
+export type Subscription_RootMeeting_Attendee_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootMeeting_Attendee_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Meeting_Attendee_Stream_Cursor_Input>>;
+  where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
 };
 
 
@@ -15668,6 +16354,36 @@ export type Subscription_RootThread_By_PkArgs = {
 };
 
 
+export type Subscription_RootThread_Extra_MemberArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Extra_Member_Order_By>>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Extra_Member_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Extra_Member_Order_By>>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+};
+
+
+export type Subscription_RootThread_Extra_Member_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootThread_Extra_Member_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Thread_Extra_Member_Stream_Cursor_Input>>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+};
+
+
 export type Subscription_RootThread_Member_StatusArgs = {
   distinct_on?: InputMaybe<Array<Thread_Member_Status_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -15875,6 +16591,7 @@ export type Task = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid']['output'];
+  private: Scalars['Boolean']['output'];
   status: Task_Status_Enum;
   title: Scalars['String']['output'];
 };
@@ -15980,6 +16697,7 @@ export type Task_Bool_Exp = {
   memberId?: InputMaybe<Uuid_Comparison_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
+  private?: InputMaybe<Boolean_Comparison_Exp>;
   status?: InputMaybe<Task_Status_Enum_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
 };
@@ -16004,6 +16722,7 @@ export type Task_Insert_Input = {
   memberId?: InputMaybe<Scalars['uuid']['input']>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Task_Status_Enum>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -16095,6 +16814,7 @@ export type Task_Order_By = {
   memberId?: InputMaybe<Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
+  private?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
@@ -16123,6 +16843,8 @@ export enum Task_Select_Column {
   /** column name */
   OrgId = 'orgId',
   /** column name */
+  Private = 'private',
+  /** column name */
   Status = 'status',
   /** column name */
   Title = 'title'
@@ -16131,13 +16853,17 @@ export enum Task_Select_Column {
 /** select "task_aggregate_bool_exp_bool_and_arguments_columns" columns of table "task" */
 export enum Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  Archived = 'archived'
+  Archived = 'archived',
+  /** column name */
+  Private = 'private'
 }
 
 /** select "task_aggregate_bool_exp_bool_or_arguments_columns" columns of table "task" */
 export enum Task_Select_Column_Task_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  Archived = 'archived'
+  Archived = 'archived',
+  /** column name */
+  Private = 'private'
 }
 
 /** input type for updating data in table "task" */
@@ -16150,6 +16876,7 @@ export type Task_Set_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Task_Status_Enum>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -16323,6 +17050,7 @@ export type Task_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
   orgId?: InputMaybe<Scalars['uuid']['input']>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Task_Status_Enum>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -16345,6 +17073,8 @@ export enum Task_Update_Column {
   MemberId = 'memberId',
   /** column name */
   OrgId = 'orgId',
+  /** column name */
+  Private = 'private',
   /** column name */
   Status = 'status',
   /** column name */
@@ -16578,6 +17308,10 @@ export type Thread = {
   circle: Circle;
   circleId: Scalars['uuid']['output'];
   createdAt: Scalars['timestamptz']['output'];
+  /** An array relationship */
+  extra_members: Array<Thread_Extra_Member>;
+  /** An aggregate relationship */
+  extra_members_aggregate: Thread_Extra_Member_Aggregate;
   id: Scalars['uuid']['output'];
   /** An object relationship */
   initiatorMember: Member;
@@ -16593,8 +17327,9 @@ export type Thread = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid']['output'];
-  participantsMembersIds: Array<Scalars['uuid']['output']>;
-  participantsScope: Member_Scope_Enum;
+  participantsMembersIds?: Maybe<Scalars['json']['output']>;
+  participantsScope?: Maybe<Member_Scope_Enum>;
+  private: Scalars['Boolean']['output'];
   status: Thread_Status_Enum;
   title: Scalars['String']['output'];
 };
@@ -16617,6 +17352,26 @@ export type ThreadActivities_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Thread_Activity_Order_By>>;
   where?: InputMaybe<Thread_Activity_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadExtra_MembersArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Extra_Member_Order_By>>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "thread" */
+export type ThreadExtra_Members_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Thread_Extra_Member_Order_By>>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
 };
 
 
@@ -17213,6 +17968,8 @@ export type Thread_Bool_Exp = {
   circle?: InputMaybe<Circle_Bool_Exp>;
   circleId?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  extra_members?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+  extra_members_aggregate?: InputMaybe<Thread_Extra_Member_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   initiatorMember?: InputMaybe<Member_Bool_Exp>;
   initiatorMemberId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -17224,6 +17981,7 @@ export type Thread_Bool_Exp = {
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
   participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
+  private?: InputMaybe<Boolean_Comparison_Exp>;
   status?: InputMaybe<Thread_Status_Enum_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
 };
@@ -17234,6 +17992,203 @@ export enum Thread_Constraint {
   ThreadPkey = 'thread_pkey'
 }
 
+/** columns and relationships of "thread_extra_member" */
+export type Thread_Extra_Member = {
+  __typename?: 'thread_extra_member';
+  id: Scalars['uuid']['output'];
+  /** An object relationship */
+  member: Member;
+  memberId: Scalars['uuid']['output'];
+  /** An object relationship */
+  thread: Thread;
+  threadId: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "thread_extra_member" */
+export type Thread_Extra_Member_Aggregate = {
+  __typename?: 'thread_extra_member_aggregate';
+  aggregate?: Maybe<Thread_Extra_Member_Aggregate_Fields>;
+  nodes: Array<Thread_Extra_Member>;
+};
+
+export type Thread_Extra_Member_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Thread_Extra_Member_Aggregate_Bool_Exp_Count>;
+};
+
+export type Thread_Extra_Member_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "thread_extra_member" */
+export type Thread_Extra_Member_Aggregate_Fields = {
+  __typename?: 'thread_extra_member_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Thread_Extra_Member_Max_Fields>;
+  min?: Maybe<Thread_Extra_Member_Min_Fields>;
+};
+
+
+/** aggregate fields of "thread_extra_member" */
+export type Thread_Extra_Member_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Thread_Extra_Member_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "thread_extra_member" */
+export type Thread_Extra_Member_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Thread_Extra_Member_Max_Order_By>;
+  min?: InputMaybe<Thread_Extra_Member_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "thread_extra_member" */
+export type Thread_Extra_Member_Arr_Rel_Insert_Input = {
+  data: Array<Thread_Extra_Member_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Thread_Extra_Member_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "thread_extra_member". All fields are combined with a logical 'AND'. */
+export type Thread_Extra_Member_Bool_Exp = {
+  _and?: InputMaybe<Array<Thread_Extra_Member_Bool_Exp>>;
+  _not?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+  _or?: InputMaybe<Array<Thread_Extra_Member_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  member?: InputMaybe<Member_Bool_Exp>;
+  memberId?: InputMaybe<Uuid_Comparison_Exp>;
+  thread?: InputMaybe<Thread_Bool_Exp>;
+  threadId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "thread_extra_member" */
+export enum Thread_Extra_Member_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ThreadExtraMemberPkey = 'thread_extra_member_pkey',
+  /** unique or primary key constraint on columns "memberId", "threadId" */
+  ThreadExtraMemberThreadIdMemberIdKey = 'thread_extra_member_threadId_memberId_key'
+}
+
+/** input type for inserting data into table "thread_extra_member" */
+export type Thread_Extra_Member_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+  thread?: InputMaybe<Thread_Obj_Rel_Insert_Input>;
+  threadId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Thread_Extra_Member_Max_Fields = {
+  __typename?: 'thread_extra_member_max_fields';
+  id?: Maybe<Scalars['uuid']['output']>;
+  memberId?: Maybe<Scalars['uuid']['output']>;
+  threadId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "thread_extra_member" */
+export type Thread_Extra_Member_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  threadId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Thread_Extra_Member_Min_Fields = {
+  __typename?: 'thread_extra_member_min_fields';
+  id?: Maybe<Scalars['uuid']['output']>;
+  memberId?: Maybe<Scalars['uuid']['output']>;
+  threadId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "thread_extra_member" */
+export type Thread_Extra_Member_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  threadId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "thread_extra_member" */
+export type Thread_Extra_Member_Mutation_Response = {
+  __typename?: 'thread_extra_member_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Thread_Extra_Member>;
+};
+
+/** on_conflict condition type for table "thread_extra_member" */
+export type Thread_Extra_Member_On_Conflict = {
+  constraint: Thread_Extra_Member_Constraint;
+  update_columns?: Array<Thread_Extra_Member_Update_Column>;
+  where?: InputMaybe<Thread_Extra_Member_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "thread_extra_member". */
+export type Thread_Extra_Member_Order_By = {
+  id?: InputMaybe<Order_By>;
+  member?: InputMaybe<Member_Order_By>;
+  memberId?: InputMaybe<Order_By>;
+  thread?: InputMaybe<Thread_Order_By>;
+  threadId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: thread_extra_member */
+export type Thread_Extra_Member_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "thread_extra_member" */
+export enum Thread_Extra_Member_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  ThreadId = 'threadId'
+}
+
+/** input type for updating data in table "thread_extra_member" */
+export type Thread_Extra_Member_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+  threadId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** Streaming cursor of the table "thread_extra_member" */
+export type Thread_Extra_Member_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Thread_Extra_Member_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Thread_Extra_Member_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+  threadId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "thread_extra_member" */
+export enum Thread_Extra_Member_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId',
+  /** column name */
+  ThreadId = 'threadId'
+}
+
+export type Thread_Extra_Member_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Thread_Extra_Member_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Thread_Extra_Member_Bool_Exp;
+};
+
 /** input type for inserting data into table "thread" */
 export type Thread_Insert_Input = {
   activities?: InputMaybe<Thread_Activity_Arr_Rel_Insert_Input>;
@@ -17241,6 +18196,7 @@ export type Thread_Insert_Input = {
   circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   circleId?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  extra_members?: InputMaybe<Thread_Extra_Member_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   initiatorMember?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   initiatorMemberId?: InputMaybe<Scalars['uuid']['input']>;
@@ -17250,6 +18206,7 @@ export type Thread_Insert_Input = {
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -17551,6 +18508,7 @@ export type Thread_Order_By = {
   circle?: InputMaybe<Circle_Order_By>;
   circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
+  extra_members_aggregate?: InputMaybe<Thread_Extra_Member_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   initiatorMember?: InputMaybe<Member_Order_By>;
   initiatorMemberId?: InputMaybe<Order_By>;
@@ -17560,6 +18518,7 @@ export type Thread_Order_By = {
   orgId?: InputMaybe<Order_By>;
   participantsMembersIds?: InputMaybe<Order_By>;
   participantsScope?: InputMaybe<Order_By>;
+  private?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
 };
@@ -17769,6 +18728,8 @@ export enum Thread_Select_Column {
   /** column name */
   ParticipantsScope = 'participantsScope',
   /** column name */
+  Private = 'private',
+  /** column name */
   Status = 'status',
   /** column name */
   Title = 'title'
@@ -17777,13 +18738,17 @@ export enum Thread_Select_Column {
 /** select "thread_aggregate_bool_exp_bool_and_arguments_columns" columns of table "thread" */
 export enum Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  Archived = 'archived'
+  Archived = 'archived',
+  /** column name */
+  Private = 'private'
 }
 
 /** select "thread_aggregate_bool_exp_bool_or_arguments_columns" columns of table "thread" */
 export enum Thread_Select_Column_Thread_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  Archived = 'archived'
+  Archived = 'archived',
+  /** column name */
+  Private = 'private'
 }
 
 /** input type for updating data in table "thread" */
@@ -17796,6 +18761,7 @@ export type Thread_Set_Input = {
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -17968,6 +18934,7 @@ export type Thread_Stream_Cursor_Value_Input = {
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   participantsMembersIds?: InputMaybe<Scalars['json']['input']>;
   participantsScope?: InputMaybe<Member_Scope_Enum>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -17990,6 +18957,8 @@ export enum Thread_Update_Column {
   ParticipantsMembersIds = 'participantsMembersIds',
   /** column name */
   ParticipantsScope = 'participantsScope',
+  /** column name */
+  Private = 'private',
   /** column name */
   Status = 'status',
   /** column name */
@@ -19265,15 +20234,17 @@ export type CircleLinkFragment = { __typename?: 'circle_link', id: string, paren
 
 export type CircleMemberFragment = { __typename?: 'circle_member', id: string, circleId: string, memberId: string, avgMinPerWeek?: number | null, createdAt: string, archived: boolean };
 
-export type DecisionFragment = { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string };
+export type DecisionFragment = { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean };
 
 export type LogFragment = { __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null };
 
-export type MeetingFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null };
+export type MeetingSummaryFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> };
 
-export type MeetingSummaryFragment = { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null };
+export type MeetingFragment = { __typename?: 'meeting', createdAt: string, stepsConfig: Array<MeetingStepConfig>, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, invitedReadonly: boolean, id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> };
 
-export type MeetingRecurringFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } };
+export type MeetingAttendeeFragment = { __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null };
+
+export type MeetingRecurringFragment = { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, scope: ParticipantsScope, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } };
 
 export type MeetingStepFragment = { __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData };
 
@@ -19281,7 +20252,7 @@ export type MemberFragment = { __typename?: 'member', id: string, orgId: string,
 
 export type MemberSummaryFragment = { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null };
 
-export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null };
+export type NewsFragment = { __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null }>, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null };
 
 export type OrgFragment = { __typename?: 'org', id: string, name: string, archived: boolean, createdAt: string, defaultWorkedMinPerWeek: number, slug?: string | null, shareOrg: boolean, shareMembers: boolean, protectGovernance: boolean };
 
@@ -19295,15 +20266,17 @@ export type RoleSummaryFragment = { __typename?: 'role', id: string, base: boole
 
 export type RoleAiFragment = { __typename?: 'role_ai', id: string, name: string, purpose: string, domain: string, accountabilities: string, checklist: string, indicators: string, notes: string };
 
-export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum };
+export type TaskFragment = { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean };
 
-export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum };
+export type ThreadFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> };
 
 export type ThreadMemberStatusFragment = { __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string };
 
-export type ThreadWithFirstActivityFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
+export type ThreadWithFirstActivityFragment = { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null }>, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> };
 
-export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type ThreadActivityFragment = { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null };
+
+export type ThreadExtraMemberFragment = { __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string };
 
 export type UserAppFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any };
 
@@ -19408,14 +20381,14 @@ export type GetDecisionQueryVariables = Exact<{
 }>;
 
 
-export type GetDecisionQuery = { __typename?: 'query_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type GetDecisionQuery = { __typename?: 'query_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null };
 
 export type DecisionSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type DecisionSubscription = { __typename?: 'subscription_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type DecisionSubscription = { __typename?: 'subscription_root', decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null };
 
 export type CircleDecisionsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid']['input'];
@@ -19423,14 +20396,14 @@ export type CircleDecisionsSubscriptionVariables = Exact<{
 }>;
 
 
-export type CircleDecisionsSubscription = { __typename?: 'subscription_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string }> };
+export type CircleDecisionsSubscription = { __typename?: 'subscription_root', decision: Array<{ __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean }> };
 
 export type CreateDecisionMutationVariables = Exact<{
   values: Decision_Insert_Input;
 }>;
 
 
-export type CreateDecisionMutation = { __typename?: 'mutation_root', insert_decision_one?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type CreateDecisionMutation = { __typename?: 'mutation_root', insert_decision_one?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null };
 
 export type UpdateDecisionMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19438,7 +20411,7 @@ export type UpdateDecisionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateDecisionMutation = { __typename?: 'mutation_root', update_decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null };
+export type UpdateDecisionMutation = { __typename?: 'mutation_root', update_decision_by_pk?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null };
 
 export type ArchiveDecisionMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19489,37 +20462,40 @@ export type MeetingSubscriptionVariables = Exact<{
 }>;
 
 
-export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, steps: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }> } | null };
+export type MeetingSubscription = { __typename?: 'subscription_root', meeting_by_pk?: { __typename?: 'meeting', createdAt: string, stepsConfig: Array<MeetingStepConfig>, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, invitedReadonly: boolean, id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, steps: Array<{ __typename?: 'meeting_step', id: string, meetingId: string, stepConfigId: string, notes: string, type: Meeting_Step_Type_Enum, data: MeetingStepData }>, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null };
 
 export type MeetingsByDatesSubscriptionVariables = Exact<{
   orgId: Scalars['uuid']['input'];
   fromDate: Scalars['timestamptz']['input'];
   toDate: Scalars['timestamptz']['input'];
+  filters: Array<Meeting_Bool_Exp> | Meeting_Bool_Exp;
+  recurringFilters: Array<Meeting_Bool_Exp> | Meeting_Bool_Exp;
 }>;
 
 
-export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
+export type MeetingsByDatesSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', meetings: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> }>, meetings_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, scope: ParticipantsScope, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> } | null };
 
 export type NextMeetingsSubscriptionVariables = Exact<{
   orgId: Scalars['uuid']['input'];
+  memberId: Scalars['uuid']['input'];
 }>;
 
 
-export type NextMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null }> };
+export type NextMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> }> };
 
 export type CircleMeetingsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid']['input'];
 }>;
 
 
-export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null }> };
+export type CircleMeetingsSubscription = { __typename?: 'subscription_root', meeting: Array<{ __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> }> };
 
 export type CreateMeetingMutationVariables = Exact<{
   values: Meeting_Insert_Input;
 }>;
 
 
-export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type CreateMeetingMutation = { __typename?: 'mutation_root', insert_meeting_one?: { __typename?: 'meeting', createdAt: string, stepsConfig: Array<MeetingStepConfig>, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, invitedReadonly: boolean, id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null };
 
 export type UpdateMeetingMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19527,7 +20503,7 @@ export type UpdateMeetingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null };
+export type UpdateMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', createdAt: string, stepsConfig: Array<MeetingStepConfig>, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null, invitedReadonly: boolean, id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null };
 
 export type ArchiveMeetingMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19536,26 +20512,48 @@ export type ArchiveMeetingMutationVariables = Exact<{
 
 export type ArchiveMeetingMutation = { __typename?: 'mutation_root', update_meeting_by_pk?: { __typename?: 'meeting', id: string } | null };
 
+export type CreateMeetingAttendeeMutationVariables = Exact<{
+  values: Meeting_Attendee_Insert_Input;
+}>;
+
+
+export type CreateMeetingAttendeeMutation = { __typename?: 'mutation_root', insert_meeting_attendee_one?: { __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null } | null };
+
+export type UpdateMeetingAttendeeMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  values: Meeting_Attendee_Set_Input;
+}>;
+
+
+export type UpdateMeetingAttendeeMutation = { __typename?: 'mutation_root', update_meeting_attendee_by_pk?: { __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null } | null };
+
+export type DeleteMeetingAttendeeMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteMeetingAttendeeMutation = { __typename?: 'mutation_root', delete_meeting_attendee_by_pk?: { __typename?: 'meeting_attendee', id: string } | null };
+
 export type MeetingRecurringSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type MeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
+export type MeetingRecurringSubscription = { __typename?: 'subscription_root', meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, scope: ParticipantsScope, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, meetings: Array<{ __typename?: 'meeting', id: string, recurringDate?: string | null }>, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
 export type MeetingRecurringsSubscriptionVariables = Exact<{
   where: Meeting_Recurring_Bool_Exp;
 }>;
 
 
-export type MeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
+export type MeetingRecurringsSubscription = { __typename?: 'subscription_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, scope: ParticipantsScope, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } }> };
 
 export type CreateMeetingRecurringMutationVariables = Exact<{
   values: Meeting_Recurring_Insert_Input;
 }>;
 
 
-export type CreateMeetingRecurringMutation = { __typename?: 'mutation_root', insert_meeting_recurring_one?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
+export type CreateMeetingRecurringMutation = { __typename?: 'mutation_root', insert_meeting_recurring_one?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, scope: ParticipantsScope, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
 export type UpdateMeetingRecurringMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19563,7 +20561,7 @@ export type UpdateMeetingRecurringMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMeetingRecurringMutation = { __typename?: 'mutation_root', update_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
+export type UpdateMeetingRecurringMutation = { __typename?: 'mutation_root', update_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string, orgId: string, circleId: string, scope: ParticipantsScope, templateId: string, rrule: string, duration: number, videoConf?: any | null, createdAt: string, circle: { __typename?: 'circle', role: { __typename?: 'role', name: string, colorHue?: number | null } }, template: { __typename?: 'meeting_template', title: string, stepsConfig: Array<MeetingStepConfig> } } | null };
 
 export type DeleteMeetingRecurringMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19679,7 +20677,7 @@ export type LastNewsQueryVariables = Exact<{
 }>;
 
 
-export type LastNewsQuery = { __typename?: 'query_root', news: Array<{ __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, createdAt: string, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, stepsConfig: Array<MeetingStepConfig>, currentStepId?: string | null, summary: string, archived: boolean, videoConf?: VideoConf | null, recurringId?: string | null, recurringDate?: string | null } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> } | null }>, news_aggregate: { __typename?: 'news_aggregate', aggregate?: { __typename?: 'news_aggregate_fields', count: number } | null } };
+export type LastNewsQuery = { __typename?: 'query_root', news: Array<{ __typename?: 'news', id?: string | null, createdAt?: string | null, decision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null, meeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, thread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null }>, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null }>, news_aggregate: { __typename?: 'news_aggregate', aggregate?: { __typename?: 'news_aggregate_fields', count: number } | null } };
 
 export type GetOrgQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19775,14 +20773,14 @@ export type GetTaskQueryVariables = Exact<{
 }>;
 
 
-export type GetTaskQuery = { __typename?: 'query_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
+export type GetTaskQuery = { __typename?: 'query_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null };
 
 export type TaskSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
+export type TaskSubscription = { __typename?: 'subscription_root', task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null };
 
 export type TasksSubscriptionVariables = Exact<{
   orgId: Scalars['uuid']['input'];
@@ -19791,14 +20789,14 @@ export type TasksSubscriptionVariables = Exact<{
 }>;
 
 
-export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: Array<string> }> } | null };
+export type TasksSubscription = { __typename?: 'subscription_root', org_by_pk?: { __typename?: 'org', tasks: Array<{ __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean }>, task_views: Array<{ __typename?: 'task_view', id: string, orgId: string, key: string, tasksIds: Array<string> }> } | null };
 
 export type CreateTaskMutationVariables = Exact<{
   values: Task_Insert_Input;
 }>;
 
 
-export type CreateTaskMutation = { __typename?: 'mutation_root', insert_task_one?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
+export type CreateTaskMutation = { __typename?: 'mutation_root', insert_task_one?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null };
 
 export type UpdateTaskMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19806,7 +20804,7 @@ export type UpdateTaskMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'mutation_root', update_task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null };
+export type UpdateTaskMutation = { __typename?: 'mutation_root', update_task_by_pk?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null };
 
 export type ArchiveTaskMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19847,7 +20845,7 @@ export type GetThreadQueryVariables = Exact<{
 }>;
 
 
-export type GetThreadQuery = { __typename?: 'query_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
+export type GetThreadQuery = { __typename?: 'query_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null };
 
 export type ThreadSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19855,7 +20853,7 @@ export type ThreadSubscriptionVariables = Exact<{
 }>;
 
 
-export type ThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> } | null };
+export type ThreadSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }>, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null };
 
 export type ThreadsSubscriptionVariables = Exact<{
   filters?: InputMaybe<Array<Thread_Bool_Exp> | Thread_Bool_Exp>;
@@ -19863,14 +20861,14 @@ export type ThreadsSubscriptionVariables = Exact<{
 }>;
 
 
-export type ThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, lastActivity: Array<{ __typename?: 'thread_activity', id: string, createdAt: string }>, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }> }> };
+export type ThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, lastActivity: Array<{ __typename?: 'thread_activity', id: string, createdAt: string }>, member_status: Array<{ __typename?: 'thread_member_status', lastReadActivityId?: string | null, lastReadDate: string }>, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> }> };
 
 export type CircleThreadsSubscriptionVariables = Exact<{
   circleId: Scalars['uuid']['input'];
 }>;
 
 
-export type CircleThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum }> };
+export type CircleThreadsSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> }> };
 
 export type ThreadsWithMeetingNoteSubscriptionVariables = Exact<{
   threadsIds: Array<Scalars['uuid']['input']> | Scalars['uuid']['input'];
@@ -19878,14 +20876,14 @@ export type ThreadsWithMeetingNoteSubscriptionVariables = Exact<{
 }>;
 
 
-export type ThreadsWithMeetingNoteSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> }> };
+export type ThreadsWithMeetingNoteSubscription = { __typename?: 'subscription_root', thread: Array<{ __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null }>, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> }> };
 
 export type CreateThreadMutationVariables = Exact<{
   values: Thread_Insert_Input;
 }>;
 
 
-export type CreateThreadMutation = { __typename?: 'mutation_root', insert_thread_one?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
+export type CreateThreadMutation = { __typename?: 'mutation_root', insert_thread_one?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null };
 
 export type UpdateThreadMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19893,7 +20891,7 @@ export type UpdateThreadMutationVariables = Exact<{
 }>;
 
 
-export type UpdateThreadMutation = { __typename?: 'mutation_root', update_thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null };
+export type UpdateThreadMutation = { __typename?: 'mutation_root', update_thread_by_pk?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null };
 
 export type ArchiveThreadMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19907,21 +20905,21 @@ export type GetLastThreadActivityQueryVariables = Exact<{
 }>;
 
 
-export type GetLastThreadActivityQuery = { __typename?: 'query_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }> };
+export type GetLastThreadActivityQuery = { __typename?: 'query_root', thread_activity: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null }> };
 
 export type ThreadActivitiesLogsSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type ThreadActivitiesLogsSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null }>, logs: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null }> } | null };
+export type ThreadActivitiesLogsSubscription = { __typename?: 'subscription_root', thread_by_pk?: { __typename?: 'thread', activities: Array<{ __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null }>, logs: Array<{ __typename?: 'log', id: string, orgId: string, userId: string, memberId: string, memberName: string, meetingId?: string | null, createdAt: string, display: LogDisplay, changes: EntitiesChanges, cancelLogId?: string | null, cancelMemberId?: string | null, cancelMemberName?: string | null, canceled: boolean, threadId?: string | null, taskId?: string | null }> } | null };
 
 export type CreateThreadActivityMutationVariables = Exact<{
   values: Thread_Activity_Insert_Input;
 }>;
 
 
-export type CreateThreadActivityMutation = { __typename?: 'mutation_root', insert_thread_activity_one?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null } | null };
+export type CreateThreadActivityMutation = { __typename?: 'mutation_root', insert_thread_activity_one?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null } | null };
 
 export type UpdateThreadActivityMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19929,7 +20927,7 @@ export type UpdateThreadActivityMutationVariables = Exact<{
 }>;
 
 
-export type UpdateThreadActivityMutation = { __typename?: 'mutation_root', update_thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, participantsScope: Member_Scope_Enum, participantsMembersIds: Array<string>, startDate: string, endDate: string, ended: boolean, title: string, attendees?: Array<MeetingAttendee> | null, currentStepId?: string | null } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string } | null } | null };
+export type UpdateThreadActivityMutation = { __typename?: 'mutation_root', update_thread_activity_by_pk?: { __typename?: 'thread_activity', id: string, threadId: string, userId: string, createdAt: string, type: Thread_Activity_Type_Enum, data: any, refThread?: { __typename?: 'thread', id: string, orgId: string, circleId: string, initiatorMemberId: string, title: string, createdAt: string, archived: boolean, status: Thread_Status_Enum, private: boolean, extra_members: Array<{ __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string }> } | null, refMeeting?: { __typename?: 'meeting', id: string, orgId: string, circleId: string, startDate: string, endDate: string, ended: boolean, title: string, currentStepId?: string | null, summary: string, private: boolean, meeting_attendees: Array<{ __typename?: 'meeting_attendee', id: string, meetingId: string, memberId: string, present?: boolean | null }> } | null, refTask?: { __typename?: 'task', id: string, orgId: string, circleId: string, memberId?: string | null, title: string, description: string, archived: boolean, createdAt: string, dueDate?: string | null, status: Task_Status_Enum, private: boolean } | null, refDecision?: { __typename?: 'decision', id: string, orgId: string, circleId: string, memberId: string, title: string, description: string, archived: boolean, createdAt: string, private: boolean } | null } | null };
 
 export type DeleteThreadActivityMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -19937,6 +20935,28 @@ export type DeleteThreadActivityMutationVariables = Exact<{
 
 
 export type DeleteThreadActivityMutation = { __typename?: 'mutation_root', delete_thread_activity_by_pk?: { __typename?: 'thread_activity', id: string } | null };
+
+export type CreateThreadExtraMemberMutationVariables = Exact<{
+  values: Thread_Extra_Member_Insert_Input;
+}>;
+
+
+export type CreateThreadExtraMemberMutation = { __typename?: 'mutation_root', insert_thread_extra_member_one?: { __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string } | null };
+
+export type UpdateThreadExtraMemberMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  values: Thread_Extra_Member_Set_Input;
+}>;
+
+
+export type UpdateThreadExtraMemberMutation = { __typename?: 'mutation_root', update_thread_extra_member_by_pk?: { __typename?: 'thread_extra_member', id: string, threadId: string, memberId: string } | null };
+
+export type DeleteThreadExtraMemberMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteThreadExtraMemberMutation = { __typename?: 'mutation_root', delete_thread_extra_member_by_pk?: { __typename?: 'thread_extra_member', id: string } | null };
 
 export type UpsertThreadMemberStatusMutationVariables = Exact<{
   values: Thread_Member_Status_Insert_Input;
@@ -20051,6 +21071,43 @@ export const LogFragmentDoc = gql`
   taskId
 }
     `;
+export const MeetingAttendeeFragmentDoc = gql`
+    fragment MeetingAttendee on meeting_attendee {
+  id
+  meetingId
+  memberId
+  present
+}
+    `;
+export const MeetingSummaryFragmentDoc = gql`
+    fragment MeetingSummary on meeting {
+  id
+  orgId
+  circleId
+  startDate
+  endDate
+  ended
+  title
+  currentStepId
+  summary
+  private
+  meeting_attendees {
+    ...MeetingAttendee
+  }
+}
+    ${MeetingAttendeeFragmentDoc}`;
+export const MeetingFragmentDoc = gql`
+    fragment Meeting on meeting {
+  ...MeetingSummary
+  createdAt
+  stepsConfig
+  archived
+  videoConf
+  recurringId
+  recurringDate
+  invitedReadonly
+}
+    ${MeetingSummaryFragmentDoc}`;
 export const MeetingRecurringFragmentDoc = gql`
     fragment MeetingRecurring on meeting_recurring {
   id
@@ -20062,8 +21119,7 @@ export const MeetingRecurringFragmentDoc = gql`
       colorHue
     }
   }
-  participantsScope
-  participantsMembersIds
+  scope
   templateId
   template {
     title
@@ -20095,28 +21151,14 @@ export const DecisionFragmentDoc = gql`
   description
   archived
   createdAt
+  private
 }
     `;
-export const MeetingFragmentDoc = gql`
-    fragment Meeting on meeting {
+export const ThreadExtraMemberFragmentDoc = gql`
+    fragment ThreadExtraMember on thread_extra_member {
   id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  createdAt
-  startDate
-  endDate
-  ended
-  title
-  attendees
-  stepsConfig
-  currentStepId
-  summary
-  archived
-  videoConf
-  recurringId
-  recurringDate
+  threadId
+  memberId
 }
     `;
 export const ThreadFragmentDoc = gql`
@@ -20124,30 +21166,17 @@ export const ThreadFragmentDoc = gql`
   id
   orgId
   circleId
-  participantsScope
-  participantsMembersIds
   initiatorMemberId
   title
   createdAt
   archived
   status
+  private
+  extra_members {
+    ...ThreadExtraMember
+  }
 }
-    `;
-export const MeetingSummaryFragmentDoc = gql`
-    fragment MeetingSummary on meeting {
-  id
-  orgId
-  circleId
-  participantsScope
-  participantsMembersIds
-  startDate
-  endDate
-  ended
-  title
-  attendees
-  currentStepId
-}
-    `;
+    ${ThreadExtraMemberFragmentDoc}`;
 export const TaskFragmentDoc = gql`
     fragment Task on task {
   id
@@ -20160,6 +21189,7 @@ export const TaskFragmentDoc = gql`
   createdAt
   dueDate
   status
+  private
 }
     `;
 export const ThreadActivityFragmentDoc = gql`
@@ -20204,14 +21234,14 @@ export const NewsFragmentDoc = gql`
     ...Decision
   }
   meeting {
-    ...Meeting
+    ...MeetingSummary
   }
   thread {
     ...ThreadWithFirstActivity
   }
 }
     ${DecisionFragmentDoc}
-${MeetingFragmentDoc}
+${MeetingSummaryFragmentDoc}
 ${ThreadWithFirstActivityFragmentDoc}`;
 export const OrgFragmentDoc = gql`
     fragment Org on org {
@@ -21345,16 +22375,16 @@ export function useMeetingSubscription(baseOptions: Apollo.SubscriptionHookOptio
 export type MeetingSubscriptionHookResult = ReturnType<typeof useMeetingSubscription>;
 export type MeetingSubscriptionResult = Apollo.SubscriptionResult<MeetingSubscription>;
 export const MeetingsByDatesDocument = gql`
-    subscription meetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!) {
+    subscription meetingsByDates($orgId: uuid!, $fromDate: timestamptz!, $toDate: timestamptz!, $filters: [meeting_bool_exp!]!, $recurringFilters: [meeting_bool_exp!]!) {
   org_by_pk(id: $orgId) {
-    meetings(
-      where: {startDate: {_gte: $fromDate, _lt: $toDate}, archived: {_eq: false}}
-    ) {
+    meetings(where: {startDate: {_gte: $fromDate, _lt: $toDate}, _and: $filters}) {
       ...MeetingSummary
     }
     meetings_recurring {
       ...MeetingRecurring
-      meetings(where: {recurringDate: {_gte: $fromDate, _lt: $toDate}}) {
+      meetings(
+        where: {recurringDate: {_gte: $fromDate, _lt: $toDate}, _and: $recurringFilters}
+      ) {
         id
         recurringDate
       }
@@ -21379,6 +22409,8 @@ ${MeetingRecurringFragmentDoc}`;
  *      orgId: // value for 'orgId'
  *      fromDate: // value for 'fromDate'
  *      toDate: // value for 'toDate'
+ *      filters: // value for 'filters'
+ *      recurringFilters: // value for 'recurringFilters'
  *   },
  * });
  */
@@ -21389,9 +22421,9 @@ export function useMeetingsByDatesSubscription(baseOptions: Apollo.SubscriptionH
 export type MeetingsByDatesSubscriptionHookResult = ReturnType<typeof useMeetingsByDatesSubscription>;
 export type MeetingsByDatesSubscriptionResult = Apollo.SubscriptionResult<MeetingsByDatesSubscription>;
 export const NextMeetingsDocument = gql`
-    subscription nextMeetings($orgId: uuid!) {
+    subscription nextMeetings($orgId: uuid!, $memberId: uuid!) {
   meeting(
-    where: {orgId: {_eq: $orgId}, archived: {_eq: false}, endDate: {_gt: "now()"}}
+    where: {orgId: {_eq: $orgId}, archived: {_eq: false}, endDate: {_gt: "now()"}, meeting_attendees: {memberId: {_eq: $memberId}}}
     order_by: {startDate: asc}
   ) {
     ...MeetingSummary
@@ -21412,6 +22444,7 @@ export const NextMeetingsDocument = gql`
  * const { data, loading, error } = useNextMeetingsSubscription({
  *   variables: {
  *      orgId: // value for 'orgId'
+ *      memberId: // value for 'memberId'
  *   },
  * });
  */
@@ -21554,6 +22587,106 @@ export function useArchiveMeetingMutation(baseOptions?: Apollo.MutationHookOptio
 export type ArchiveMeetingMutationHookResult = ReturnType<typeof useArchiveMeetingMutation>;
 export type ArchiveMeetingMutationResult = Apollo.MutationResult<ArchiveMeetingMutation>;
 export type ArchiveMeetingMutationOptions = Apollo.BaseMutationOptions<ArchiveMeetingMutation, ArchiveMeetingMutationVariables>;
+export const CreateMeetingAttendeeDocument = gql`
+    mutation createMeetingAttendee($values: meeting_attendee_insert_input!) {
+  insert_meeting_attendee_one(object: $values) {
+    ...MeetingAttendee
+  }
+}
+    ${MeetingAttendeeFragmentDoc}`;
+export type CreateMeetingAttendeeMutationFn = Apollo.MutationFunction<CreateMeetingAttendeeMutation, CreateMeetingAttendeeMutationVariables>;
+
+/**
+ * __useCreateMeetingAttendeeMutation__
+ *
+ * To run a mutation, you first call `useCreateMeetingAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMeetingAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMeetingAttendeeMutation, { data, loading, error }] = useCreateMeetingAttendeeMutation({
+ *   variables: {
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useCreateMeetingAttendeeMutation(baseOptions?: Apollo.MutationHookOptions<CreateMeetingAttendeeMutation, CreateMeetingAttendeeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMeetingAttendeeMutation, CreateMeetingAttendeeMutationVariables>(CreateMeetingAttendeeDocument, options);
+      }
+export type CreateMeetingAttendeeMutationHookResult = ReturnType<typeof useCreateMeetingAttendeeMutation>;
+export type CreateMeetingAttendeeMutationResult = Apollo.MutationResult<CreateMeetingAttendeeMutation>;
+export type CreateMeetingAttendeeMutationOptions = Apollo.BaseMutationOptions<CreateMeetingAttendeeMutation, CreateMeetingAttendeeMutationVariables>;
+export const UpdateMeetingAttendeeDocument = gql`
+    mutation updateMeetingAttendee($id: uuid!, $values: meeting_attendee_set_input!) {
+  update_meeting_attendee_by_pk(pk_columns: {id: $id}, _set: $values) {
+    ...MeetingAttendee
+  }
+}
+    ${MeetingAttendeeFragmentDoc}`;
+export type UpdateMeetingAttendeeMutationFn = Apollo.MutationFunction<UpdateMeetingAttendeeMutation, UpdateMeetingAttendeeMutationVariables>;
+
+/**
+ * __useUpdateMeetingAttendeeMutation__
+ *
+ * To run a mutation, you first call `useUpdateMeetingAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMeetingAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMeetingAttendeeMutation, { data, loading, error }] = useUpdateMeetingAttendeeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useUpdateMeetingAttendeeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMeetingAttendeeMutation, UpdateMeetingAttendeeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMeetingAttendeeMutation, UpdateMeetingAttendeeMutationVariables>(UpdateMeetingAttendeeDocument, options);
+      }
+export type UpdateMeetingAttendeeMutationHookResult = ReturnType<typeof useUpdateMeetingAttendeeMutation>;
+export type UpdateMeetingAttendeeMutationResult = Apollo.MutationResult<UpdateMeetingAttendeeMutation>;
+export type UpdateMeetingAttendeeMutationOptions = Apollo.BaseMutationOptions<UpdateMeetingAttendeeMutation, UpdateMeetingAttendeeMutationVariables>;
+export const DeleteMeetingAttendeeDocument = gql`
+    mutation deleteMeetingAttendee($id: uuid!) {
+  delete_meeting_attendee_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteMeetingAttendeeMutationFn = Apollo.MutationFunction<DeleteMeetingAttendeeMutation, DeleteMeetingAttendeeMutationVariables>;
+
+/**
+ * __useDeleteMeetingAttendeeMutation__
+ *
+ * To run a mutation, you first call `useDeleteMeetingAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMeetingAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMeetingAttendeeMutation, { data, loading, error }] = useDeleteMeetingAttendeeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteMeetingAttendeeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMeetingAttendeeMutation, DeleteMeetingAttendeeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMeetingAttendeeMutation, DeleteMeetingAttendeeMutationVariables>(DeleteMeetingAttendeeDocument, options);
+      }
+export type DeleteMeetingAttendeeMutationHookResult = ReturnType<typeof useDeleteMeetingAttendeeMutation>;
+export type DeleteMeetingAttendeeMutationResult = Apollo.MutationResult<DeleteMeetingAttendeeMutation>;
+export type DeleteMeetingAttendeeMutationOptions = Apollo.BaseMutationOptions<DeleteMeetingAttendeeMutation, DeleteMeetingAttendeeMutationVariables>;
 export const MeetingRecurringDocument = gql`
     subscription meetingRecurring($id: uuid!) {
   meeting_recurring_by_pk(id: $id) {
@@ -23407,6 +24540,106 @@ export function useDeleteThreadActivityMutation(baseOptions?: Apollo.MutationHoo
 export type DeleteThreadActivityMutationHookResult = ReturnType<typeof useDeleteThreadActivityMutation>;
 export type DeleteThreadActivityMutationResult = Apollo.MutationResult<DeleteThreadActivityMutation>;
 export type DeleteThreadActivityMutationOptions = Apollo.BaseMutationOptions<DeleteThreadActivityMutation, DeleteThreadActivityMutationVariables>;
+export const CreateThreadExtraMemberDocument = gql`
+    mutation createThreadExtraMember($values: thread_extra_member_insert_input!) {
+  insert_thread_extra_member_one(object: $values) {
+    ...ThreadExtraMember
+  }
+}
+    ${ThreadExtraMemberFragmentDoc}`;
+export type CreateThreadExtraMemberMutationFn = Apollo.MutationFunction<CreateThreadExtraMemberMutation, CreateThreadExtraMemberMutationVariables>;
+
+/**
+ * __useCreateThreadExtraMemberMutation__
+ *
+ * To run a mutation, you first call `useCreateThreadExtraMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateThreadExtraMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createThreadExtraMemberMutation, { data, loading, error }] = useCreateThreadExtraMemberMutation({
+ *   variables: {
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useCreateThreadExtraMemberMutation(baseOptions?: Apollo.MutationHookOptions<CreateThreadExtraMemberMutation, CreateThreadExtraMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateThreadExtraMemberMutation, CreateThreadExtraMemberMutationVariables>(CreateThreadExtraMemberDocument, options);
+      }
+export type CreateThreadExtraMemberMutationHookResult = ReturnType<typeof useCreateThreadExtraMemberMutation>;
+export type CreateThreadExtraMemberMutationResult = Apollo.MutationResult<CreateThreadExtraMemberMutation>;
+export type CreateThreadExtraMemberMutationOptions = Apollo.BaseMutationOptions<CreateThreadExtraMemberMutation, CreateThreadExtraMemberMutationVariables>;
+export const UpdateThreadExtraMemberDocument = gql`
+    mutation updateThreadExtraMember($id: uuid!, $values: thread_extra_member_set_input!) {
+  update_thread_extra_member_by_pk(pk_columns: {id: $id}, _set: $values) {
+    ...ThreadExtraMember
+  }
+}
+    ${ThreadExtraMemberFragmentDoc}`;
+export type UpdateThreadExtraMemberMutationFn = Apollo.MutationFunction<UpdateThreadExtraMemberMutation, UpdateThreadExtraMemberMutationVariables>;
+
+/**
+ * __useUpdateThreadExtraMemberMutation__
+ *
+ * To run a mutation, you first call `useUpdateThreadExtraMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateThreadExtraMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateThreadExtraMemberMutation, { data, loading, error }] = useUpdateThreadExtraMemberMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useUpdateThreadExtraMemberMutation(baseOptions?: Apollo.MutationHookOptions<UpdateThreadExtraMemberMutation, UpdateThreadExtraMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateThreadExtraMemberMutation, UpdateThreadExtraMemberMutationVariables>(UpdateThreadExtraMemberDocument, options);
+      }
+export type UpdateThreadExtraMemberMutationHookResult = ReturnType<typeof useUpdateThreadExtraMemberMutation>;
+export type UpdateThreadExtraMemberMutationResult = Apollo.MutationResult<UpdateThreadExtraMemberMutation>;
+export type UpdateThreadExtraMemberMutationOptions = Apollo.BaseMutationOptions<UpdateThreadExtraMemberMutation, UpdateThreadExtraMemberMutationVariables>;
+export const DeleteThreadExtraMemberDocument = gql`
+    mutation deleteThreadExtraMember($id: uuid!) {
+  delete_thread_extra_member_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteThreadExtraMemberMutationFn = Apollo.MutationFunction<DeleteThreadExtraMemberMutation, DeleteThreadExtraMemberMutationVariables>;
+
+/**
+ * __useDeleteThreadExtraMemberMutation__
+ *
+ * To run a mutation, you first call `useDeleteThreadExtraMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteThreadExtraMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteThreadExtraMemberMutation, { data, loading, error }] = useDeleteThreadExtraMemberMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteThreadExtraMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteThreadExtraMemberMutation, DeleteThreadExtraMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteThreadExtraMemberMutation, DeleteThreadExtraMemberMutationVariables>(DeleteThreadExtraMemberDocument, options);
+      }
+export type DeleteThreadExtraMemberMutationHookResult = ReturnType<typeof useDeleteThreadExtraMemberMutation>;
+export type DeleteThreadExtraMemberMutationResult = Apollo.MutationResult<DeleteThreadExtraMemberMutation>;
+export type DeleteThreadExtraMemberMutationOptions = Apollo.BaseMutationOptions<DeleteThreadExtraMemberMutation, DeleteThreadExtraMemberMutationVariables>;
 export const UpsertThreadMemberStatusDocument = gql`
     mutation upsertThreadMemberStatus($values: thread_member_status_insert_input!) {
   insert_thread_member_status_one(

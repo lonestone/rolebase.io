@@ -8,6 +8,7 @@ import {
   Link,
   Spacer,
   Tag,
+  Tooltip,
   useDisclosure,
   Wrap,
 } from '@chakra-ui/react'
@@ -16,10 +17,10 @@ import { useNormalClickHandler } from '@hooks/useNormalClickHandler'
 import useOrgMember from '@hooks/useOrgMember'
 import MeetingActionsMenu from '@molecules/meeting/MeetingActionsMenu'
 import MeetingDate from '@molecules/meeting/MeetingDate'
-import ParticipantsNumber from '@molecules/ParticipantsNumber'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MeetingIcon } from 'src/icons'
+import { MeetingIcon, PrivacyIcon } from 'src/icons'
 import MeetingEditModal from '../../organisms/meeting/MeetingEditModal'
 
 interface Props {
@@ -70,7 +71,14 @@ export default function MeetingHeader({ headerIcons }: Props) {
           <Spacer />
 
           <HStack spacing={2}>
-            {meeting?.archived && <Tag>{t('common.archived')}</Tag>}
+            {meeting?.private && (
+              <Tooltip
+                label={t('MeetingHeader.private', { role: circle?.role.name })}
+                hasArrow
+              >
+                <PrivacyIcon size={20} />
+              </Tooltip>
+            )}
 
             {circle && <CircleButton circle={circle} />}
 

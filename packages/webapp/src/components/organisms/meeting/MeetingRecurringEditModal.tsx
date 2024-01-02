@@ -21,7 +21,6 @@ import {
 } from '@chakra-ui/react'
 import {
   MeetingRecurringFragment,
-  Member_Scope_Enum,
   useCreateMeetingRecurringMutation,
   useUpdateMeetingRecurringMutation,
 } from '@gql'
@@ -34,10 +33,14 @@ import VideoConfFormControl, {
   videoConfSchema,
   VideoConfValues,
 } from '@molecules/meeting/VideoConfFormControl'
-import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
+import ParticipantScopeInput from '@molecules/participants/ParticipantScopeInput'
 import RRuleEditorController from '@molecules/rrule/RRuleEditorController'
 import { VideoConf, VideoConfTypes } from '@shared/model/meeting'
-import React, { useMemo } from 'react'
+import {
+  defaultParticipantsScope,
+  ParticipantsScope,
+} from '@shared/model/participants'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RRule } from 'rrule'
@@ -52,8 +55,6 @@ interface Props extends UseModalProps {
 
 interface Values extends VideoConfValues {
   circleId: string
-  participantsScope: Member_Scope_Enum
-  participantsMembersIds: Array<{ memberId: string }>
   templateId: string
   rrule: string
   duration: number // In minutes
@@ -90,15 +91,13 @@ export default function MeetingRecurringEditModal({
   const [createMeetingRecurring] = useCreateMeetingRecurringMutation()
   const [updateMeetingRecurring] = useUpdateMeetingRecurringMutation()
 
+  const [participantsScope, setParticipantsScope] = useState<ParticipantsScope>(
+    meetingRecurring?.scope || defaultParticipantsScope
+  )
   const defaultValues: Values = useMemo(
     () => ({
       circleId: meetingRecurring?.circleId ?? (defaultCircleId || ''),
-      participantsScope:
-        meetingRecurring?.participantsScope ?? Member_Scope_Enum.CircleLeaders,
-      participantsMembersIds:
-        meetingRecurring?.participantsMembersIds.map((id) => ({
-          memberId: id,
-        })) ?? [],
+      scope: meetingRecurring?.scope ?? defaultParticipantsScope,
       templateId: meetingRecurring?.templateId ?? '',
       rrule: meetingRecurring?.rrule ?? getDefaultRRule().toString(),
       duration: meetingRecurring?.duration ?? 30,
@@ -126,12 +125,7 @@ export default function MeetingRecurringEditModal({
 
   // Submit
   const onSubmit = handleSubmit(
-    async ({
-      participantsMembersIds,
-      videoConfType,
-      videoConfUrl,
-      ...data
-    }) => {
+    async ({ videoConfType, videoConfUrl, ...data }) => {
       if (!orgId || !currentMember) return
 
       const videoConf: VideoConf | null =
@@ -148,7 +142,7 @@ export default function MeetingRecurringEditModal({
 
       const meetingUpdate = {
         ...data,
-        participantsMembersIds: participantsMembersIds.map((m) => m.memberId),
+        scope: participantsScope,
         videoConf,
       }
 
@@ -194,6 +188,25 @@ export default function MeetingRecurringEditModal({
     }
   )
 
+  // Update participants scope when circleId changes
+  useEffect(() => {
+    if (!participantsScope.circles.some((c) => c.id === circleId)) {
+      setParticipantsScope((scope) => ({
+        ...scope,
+        circles: [
+          ...scope.circles,
+          { id: circleId, children: false, excludeMembers: [] },
+        ],
+      }))
+    }
+    return () => {
+      setParticipantsScope((scope) => ({
+        ...scope,
+        circles: scope.circles.filter((c) => c.id !== circleId),
+      }))
+    }
+  }, [circleId])
+
   // Delete modal
   const deleteModal = useDisclosure()
 
@@ -213,7 +226,7 @@ export default function MeetingRecurringEditModal({
             <ModalCloseButton />
 
             <ModalBody>
-              <VStack spacing={7} align="stretch">
+              <VStack spacing={10} align="stretch">
                 <MeetingTemplateIdFormControl />
 
                 <FormControl isInvalid={!!errors.rrule}>
@@ -245,7 +258,13 @@ export default function MeetingRecurringEditModal({
                 <CircleFormController singleMember={false} />
 
                 <Collapse in={!!circleId}>
-                  <ParticipantsFormControl />
+                  <FormControl>
+                    <FormLabel>{t('MeetingEditModal.participants')}</FormLabel>
+                    <ParticipantScopeInput
+                      participantsScope={participantsScope}
+                      onParticipantsScopeChange={setParticipantsScope}
+                    />
+                  </FormControl>
                 </Collapse>
 
                 <VideoConfFormControl />

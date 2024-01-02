@@ -11,19 +11,23 @@ subscription meetingsByDates(
   $orgId: uuid!
   $fromDate: timestamptz!
   $toDate: timestamptz!
+  $filters: [meeting_bool_exp!]!
+  $recurringFilters: [meeting_bool_exp!]!
 ) {
   org_by_pk(id: $orgId) {
     meetings(
-      where: {
-        startDate: { _gte: $fromDate, _lt: $toDate }
-        archived: { _eq: false }
-      }
+      where: { startDate: { _gte: $fromDate, _lt: $toDate }, _and: $filters }
     ) {
       ...MeetingSummary
     }
     meetings_recurring {
       ...MeetingRecurring
-      meetings(where: { recurringDate: { _gte: $fromDate, _lt: $toDate } }) {
+      meetings(
+        where: {
+          recurringDate: { _gte: $fromDate, _lt: $toDate }
+          _and: $recurringFilters
+        }
+      ) {
         id
         recurringDate
       }
@@ -31,12 +35,13 @@ subscription meetingsByDates(
   }
 }
 
-subscription nextMeetings($orgId: uuid!) {
+subscription nextMeetings($orgId: uuid!, $memberId: uuid!) {
   meeting(
     where: {
       orgId: { _eq: $orgId }
       archived: { _eq: false }
       endDate: { _gt: "now()" } # Include meetings that are still in progress
+      meeting_attendees: { memberId: { _eq: $memberId } }
     }
     order_by: { startDate: asc }
   ) {

@@ -10,21 +10,12 @@ import {
 import { Task_Status_Enum } from '@gql'
 import useCurrentMember from '@hooks/useCurrentMember'
 import useOrgMember from '@hooks/useOrgMember'
-import CircleSearchButton from '@molecules/search/entities/circles/CircleSearchButton'
-import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
-import MemberSearchButton from '@molecules/search/entities/members/MemberSearchButton'
-import MemberSearchInput from '@molecules/search/entities/members/MemberSearchInput'
-import TasksFilterStatus from '@molecules/task/TasksFilterStatus'
+import CircleAndMemberFilters from '@molecules/CircleAndMemberFilters'
 import TaskModal from '@organisms/task/TaskModal'
 import { TasksViewTypes } from '@shared/model/task'
 import React, { ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  ChevronDownIcon,
-  CreateIcon,
-  KanbanIcon,
-  TasksListIcon,
-} from 'src/icons'
+import { CreateIcon, KanbanIcon, TasksListIcon } from 'src/icons'
 
 export interface TasksParams {
   view: TasksViewTypes
@@ -89,52 +80,14 @@ export default function TasksHeader({
         />
       </ButtonGroup>
 
-      <ButtonGroup size="sm" variant="outline" spacing={2} ml={5} my={2}>
-        {view === TasksViewTypes.List && onStatusChange && (
-          <TasksFilterStatus value={status} onChange={onStatusChange} />
-        )}
-        {onCircleChange &&
-          (circleId ? (
-            <CircleSearchInput
-              className="userflow-tasks-role"
-              value={circleId}
-              placeholder={t('TasksHeader.filterCircle')}
-              maxW="170px"
-              onChange={onCircleChange}
-              onClear={() => onCircleChange(undefined)}
-            />
-          ) : (
-            <CircleSearchButton
-              className="userflow-tasks-role"
-              rightIcon={<ChevronDownIcon size="1em" />}
-              fontWeight="normal"
-              onSelect={onCircleChange}
-            >
-              {t('TasksHeader.filterCircle')}
-            </CircleSearchButton>
-          ))}
-
-        {onMemberChange &&
-          (memberId ? (
-            <MemberSearchInput
-              className="userflow-tasks-member"
-              value={memberId}
-              placeholder={t('TasksHeader.filterMember')}
-              maxW="170px"
-              onChange={onMemberChange}
-              onClear={() => onMemberChange(undefined)}
-            />
-          ) : (
-            <MemberSearchButton
-              className="userflow-tasks-member"
-              rightIcon={<ChevronDownIcon size="1em" />}
-              fontWeight="normal"
-              onSelect={onMemberChange}
-            >
-              {t('TasksHeader.filterMember')}
-            </MemberSearchButton>
-          ))}
-      </ButtonGroup>
+      <CircleAndMemberFilters
+        circleId={circleId}
+        memberId={memberId}
+        ml={5}
+        my={2}
+        onCircleChange={onCircleChange}
+        onMemberChange={onMemberChange}
+      />
 
       <Spacer />
 

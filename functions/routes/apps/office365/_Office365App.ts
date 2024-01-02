@@ -1,5 +1,5 @@
 import { sendMailjetEmail } from '@emails/sendMailjetEmail'
-import { MeetingFragment } from '@gql'
+import { Meeting_Set_Input } from '@gql'
 import type {
   DateTimeTimeZone,
   Calendar as OfficeCalendar,
@@ -65,7 +65,7 @@ export interface TmpDataNotifyLog {
   event: Event
   dbMeetingEvent: MeetingEvent
   dbEvent: Event
-  meetingChanges: Partial<MeetingFragment>
+  meetingChanges: Partial<Meeting_Set_Input>
 }
 
 export default class Office365App
@@ -207,7 +207,7 @@ export default class Office365App
       `/me/events/${eventId}?$expand=singleValueExtendedProperties($filter=id eq '${hashProp}' or id eq '${meetingIdProp}')`
     )
 
-    const meetingChanges: Partial<MeetingFragment> = {}
+    const meetingChanges: Partial<Meeting_Set_Input> = {}
     const resetChanges: Partial<OfficeEvent> = {}
 
     // Get meeting (or recurring meeting) id from extended properties of event

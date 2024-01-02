@@ -16,6 +16,7 @@ interface Props extends UseModalProps {
   defaultMemberId?: string
   defaultTitle?: string
   defaultDescription?: string
+  defaultPrivate?: boolean
   onCreate?(taskId: string): void
 }
 
@@ -25,6 +26,7 @@ export default function TaskModal({
   defaultMemberId,
   defaultTitle,
   defaultDescription,
+  defaultPrivate,
   onCreate,
   ...modalProps
 }: Props) {
@@ -40,6 +42,7 @@ export default function TaskModal({
           defaultMemberId={defaultMemberId}
           defaultTitle={defaultTitle}
           defaultDescription={defaultDescription}
+          defaultPrivate={defaultPrivate}
           onCreate={onCreate}
           headerIcons={
             id && (

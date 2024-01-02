@@ -8,7 +8,7 @@ const isLocal =
 export default {
   isLocal,
   url: isLocal ? 'http://localhost:3000' : 'https://rolebase.io',
-  functionsUrl: process.env.NHOST_FUNCTIONS_URL,
+  functionsUrl: 'https://m0t914c1-8123.uks1.devtunnels.ms', // process.env.NHOST_FUNCTIONS_URL,
 
   defaultTimezone: 'Europe/Paris',
 

@@ -1,7 +1,13 @@
+import SwitchController from '@atoms/SwitchController'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   Button,
+  Collapse,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -19,11 +25,14 @@ import {
   useUpdateDecisionMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCircle from '@hooks/useCircle'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCreateLog from '@hooks/useCreateLog'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
 import EditorController from '@molecules/editor/EditorController'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
 import { EntityChangeType, LogType } from '@shared/model/log'
 import { nameSchema } from '@shared/schemas'
 import React from 'react'
@@ -35,6 +44,7 @@ interface Props extends UseModalProps {
   defaultCircleId?: string
   defaultTitle?: string
   defaultDescription?: string
+  defaultPrivate?: boolean
   decision?: DecisionFragment
   onCreate?(id: string): void
 }
@@ -43,6 +53,7 @@ interface Values {
   title: string
   description: string
   circleId: string
+  private: boolean
 }
 
 const resolver = yupResolver(
@@ -56,6 +67,7 @@ export default function DecisionEditModal({
   defaultCircleId,
   defaultTitle,
   defaultDescription,
+  defaultPrivate,
   decision,
   onCreate,
   ...modalProps
@@ -72,11 +84,13 @@ export default function DecisionEditModal({
         title: decision.title,
         description: decision.description,
         circleId: decision.circleId,
+        private: decision.private,
       }
     : {
         title: defaultTitle || '',
         description: defaultDescription || '',
         circleId: defaultCircleId || '',
+        private: defaultPrivate || false,
       }
 
   const formMethods = useForm<Values>({
@@ -87,8 +101,19 @@ export default function DecisionEditModal({
     handleSubmit,
     register,
     control,
+    watch,
     formState: { errors },
   } = formMethods
+
+  // Watch selected circle
+  const circleId = watch('circleId')
+  const circle = useCircle(circleId)
+  const participants = useCircleParticipants(circle)
+
+  // Watch privacy field
+  const isPrivate = watch('private')
+  const isPrivateAllowed =
+    !isPrivate || participants.some((p) => p.member.id === currentMember?.id)
 
   const onSubmit = handleSubmit(async (values) => {
     if (!orgId || !currentMember) return
@@ -188,8 +213,41 @@ export default function DecisionEditModal({
                   />
                 </FormControl>
 
+                <FormControl>
+                  <SwitchController name="private" control={control}>
+                    {t('DecisionEditModal.private')}
+                    <ParticipantsNumber
+                      participants={participants}
+                      opacity={isPrivate ? 1 : 0.4}
+                      ml={2}
+                    />
+                  </SwitchController>
+                  <Collapse in={isPrivate}>
+                    <FormHelperText ml="40px" mb={2}>
+                      {t('DecisionEditModal.privateHelp', {
+                        role: circle?.role.name,
+                      })}
+                    </FormHelperText>
+                  </Collapse>
+                </FormControl>
+
+                <Collapse in={!isPrivateAllowed}>
+                  <Alert status="warning">
+                    <AlertIcon />
+                    <AlertDescription>
+                      {t('DecisionEditModal.privateNotAllowed', {
+                        role: circle?.role.name,
+                      })}
+                    </AlertDescription>
+                  </Alert>
+                </Collapse>
+
                 <Box textAlign="right" mt={2}>
-                  <Button colorScheme="blue" type="submit">
+                  <Button
+                    colorScheme="blue"
+                    type="submit"
+                    isDisabled={!isPrivateAllowed}
+                  >
                     {t(decision ? 'common.save' : 'common.create')}
                   </Button>
                 </Box>

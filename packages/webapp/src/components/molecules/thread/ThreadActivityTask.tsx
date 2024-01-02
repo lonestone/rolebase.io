@@ -17,13 +17,15 @@ export default function ThreadActivityTask({ activity }: Props) {
       <Text color="gray.500" _dark={{ color: 'gray.300' }}>
         {t(`ThreadActivityTask.text`)}
       </Text>
-      {activity.refTask && (
+      {activity.refTask ? (
         <TaskItem
           task={activity.refTask}
           showMember
           showIcon
           width="fit-content"
         />
+      ) : (
+        <Text fontStyle="italic">{t('ThreadActivityTask.notAllowed')}</Text>
       )}
     </ThreadActivityLayout>
   )

@@ -7,7 +7,7 @@ export interface Participant {
   invited?: boolean
 }
 
-// Member with its represented circles in a specific context (eg: a meeting)
+// Unique participant member with one or more circles
 export interface ParticipantMember {
   member: MemberSummaryFragment
   // Represented circles

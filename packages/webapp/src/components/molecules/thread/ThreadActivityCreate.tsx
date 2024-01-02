@@ -276,6 +276,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           {entityType === Thread_Activity_Type_Enum.Thread && (
             <ThreadEditModal
               defaultCircleId={thread.circleId}
+              defaultPrivate={thread.private}
               isOpen
               onCreate={handleEntityCreated}
               onClose={entityModal.onClose}
@@ -285,6 +286,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
           {entityType === Thread_Activity_Type_Enum.Meeting && (
             <MeetingEditModal
               defaultCircleId={thread.circleId}
+              defaultPrivate={thread.private}
               isOpen
               onCreate={handleEntityCreated}
               onClose={entityModal.onClose}
@@ -297,6 +299,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
               defaultMemberId={currentMember?.id}
               defaultTitle={thread.title}
               defaultDescription={defaultEntityDescription}
+              defaultPrivate={thread.private}
               isOpen
               onCreate={handleEntityCreated}
               onClose={entityModal.onClose}
@@ -308,6 +311,7 @@ export default function ThreadActivityCreate({ thread, ...boxProps }: Props) {
               defaultCircleId={thread.circleId}
               defaultTitle={thread.title}
               defaultDescription={defaultEntityDescription}
+              defaultPrivate={thread.private}
               isOpen
               onCreate={handleEntityCreated}
               onClose={entityModal.onClose}

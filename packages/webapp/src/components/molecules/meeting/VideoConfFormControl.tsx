@@ -1,5 +1,7 @@
 import Switch from '@atoms/Switch'
 import {
+  BoxProps,
+  Collapse,
   FormControl,
   FormErrorMessage,
   Input,
@@ -22,7 +24,7 @@ export const videoConfSchema = yup.object().shape({
   videoConfUrl: yup.string().url(),
 })
 
-export default function VideoConfFormControl() {
+export default function VideoConfFormControl(boxProps: BoxProps) {
   const { t } = useTranslation()
   const {
     register,
@@ -42,7 +44,10 @@ export default function VideoConfFormControl() {
   }, [videoConfType])
 
   return (
-    <FormControl isInvalid={!!errors.videoConfType || !!errors.videoConfUrl}>
+    <FormControl
+      isInvalid={!!errors.videoConfType || !!errors.videoConfUrl}
+      {...boxProps}
+    >
       <Stack spacing={1}>
         <Switch
           isChecked={!!videoConfType}
@@ -56,34 +61,35 @@ export default function VideoConfFormControl() {
           {t('VideoConfFormControl.enable')}
         </Switch>
 
-        <RadioGroup
-          display={videoConfType ? '' : 'none'}
-          value={videoConfType || VideoConfTypes.Jitsi}
-          onChange={(value) =>
-            setValue('videoConfType', value as VideoConfTypes)
-          }
-        >
-          <Stack pl={6} mt={3} spacing={1} direction="column">
-            <Radio value={VideoConfTypes.Jitsi}>
-              {t('VideoConfFormControl.jitsi')}
-            </Radio>
-            <Radio value={VideoConfTypes.Url}>
-              {t('VideoConfFormControl.url')}
-            </Radio>
-            {videoConfType === VideoConfTypes.Url && (
-              <Input
-                pl={6}
-                placeholder="https://"
-                {...register('videoConfUrl')}
-              />
-            )}
-            {errors.videoConfUrl && (
-              <FormErrorMessage>
-                {t('VideoConfFormControl.urlError')}
-              </FormErrorMessage>
-            )}
-          </Stack>
-        </RadioGroup>
+        <Collapse in={!!videoConfType}>
+          <RadioGroup
+            value={videoConfType || VideoConfTypes.Jitsi}
+            onChange={(value) =>
+              setValue('videoConfType', value as VideoConfTypes)
+            }
+          >
+            <Stack pl={6} mt={3} spacing={1} direction="column">
+              <Radio value={VideoConfTypes.Jitsi}>
+                {t('VideoConfFormControl.jitsi')}
+              </Radio>
+              <Radio value={VideoConfTypes.Url}>
+                {t('VideoConfFormControl.url')}
+              </Radio>
+              {videoConfType === VideoConfTypes.Url && (
+                <Input
+                  pl={6}
+                  placeholder="https://"
+                  {...register('videoConfUrl')}
+                />
+              )}
+              {errors.videoConfUrl && (
+                <FormErrorMessage>
+                  {t('VideoConfFormControl.urlError')}
+                </FormErrorMessage>
+              )}
+            </Stack>
+          </RadioGroup>
+        </Collapse>
       </Stack>
     </FormControl>
   )

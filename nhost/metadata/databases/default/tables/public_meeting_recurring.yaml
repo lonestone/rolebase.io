@@ -23,25 +23,35 @@ insert_permissions:
   - role: user
     permission:
       check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
       columns:
         - circleId
         - duration
+        - invitedReadonly
         - orgId
-        - participantsMembersIds
-        - participantsScope
+        - private
         - rrule
+        - scope
         - templateId
         - videoConf
 select_permissions:
@@ -52,58 +62,108 @@ select_permissions:
         - createdAt
         - duration
         - id
+        - invitedReadonly
         - orgId
-        - participantsMembersIds
-        - participantsScope
+        - private
         - rrule
+        - scope
         - templateId
         - videoConf
       filter:
-        org:
-          members:
-            userId:
-              _eq: X-Hasura-User-Id
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    userId:
+                      _eq: X-Hasura-User-Id
 update_permissions:
   - role: user
     permission:
       columns:
         - circleId
         - duration
-        - participantsMembersIds
-        - participantsScope
+        - invitedReadonly
+        - private
         - rrule
+        - scope
         - templateId
         - videoConf
       filter:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
-      check: {}
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
+      check:
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
 delete_permissions:
   - role: user
     permission:
       filter:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
 event_triggers:
   - name: index-meeting-recurring
     definition:

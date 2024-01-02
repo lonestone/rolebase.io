@@ -1,8 +1,13 @@
+import SwitchController from '@atoms/SwitchController'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   Button,
   Collapse,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -15,27 +20,33 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import {
-  Member_Scope_Enum,
-  Thread_Status_Enum,
   ThreadFragment,
+  Thread_Status_Enum,
+  useCreateThreadExtraMemberMutation,
   useCreateThreadMutation,
+  useDeleteThreadExtraMemberMutation,
   useUpdateThreadMutation,
 } from '@gql'
 import { yupResolver } from '@hookform/resolvers/yup'
+import useCircle from '@hooks/useCircle'
+import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCurrentMember from '@hooks/useCurrentMember'
+import useExtraParticipants from '@hooks/useExtraParticipants'
 import { useNavigateOrg } from '@hooks/useNavigateOrg'
 import { useOrgId } from '@hooks/useOrgId'
 import CircleFormController from '@molecules/circle/CircleFormController'
-import ParticipantsFormControl from '@molecules/ParticipantsFormControl'
+import ParticipantsCircleExtraMembers from '@molecules/participants/ParticipantsCircleExtraMembers'
+import ParticipantsNumber from '@molecules/participants/ParticipantsNumber'
 import { ThreadStatusMenu } from '@molecules/thread/ThreadStatusMenu'
 import { nameSchema } from '@shared/schemas'
-import React from 'react'
+import React, { useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 interface Props extends UseModalProps {
   defaultCircleId?: string
+  defaultPrivate?: boolean
   thread?: ThreadFragment
   onCreate?(threadId: string): void
 }
@@ -43,9 +54,8 @@ interface Props extends UseModalProps {
 interface Values {
   title: string
   circleId: string
-  participantsScope: Member_Scope_Enum
-  participantsMembersIds: Array<{ memberId: string }>
   status: Thread_Status_Enum
+  private: boolean
 }
 
 const resolver = yupResolver(
@@ -57,6 +67,7 @@ const resolver = yupResolver(
 
 export default function ThreadEditModal({
   defaultCircleId,
+  defaultPrivate,
   thread,
   onCreate,
   ...modalProps
@@ -67,6 +78,8 @@ export default function ThreadEditModal({
   const currentMember = useCurrentMember()
   const [updateThread] = useUpdateThreadMutation()
   const [createThread] = useCreateThreadMutation()
+  const [createThreadExtraMember] = useCreateThreadExtraMemberMutation()
+  const [deleteThreadExtraMember] = useDeleteThreadExtraMemberMutation()
 
   const formMethods = useForm<Values>({
     resolver,
@@ -74,18 +87,14 @@ export default function ThreadEditModal({
       ? {
           title: thread.title,
           circleId: thread.circleId,
-          participantsScope: thread.participantsScope,
-          participantsMembersIds: thread.participantsMembersIds.map((id) => ({
-            memberId: id,
-          })),
           status: thread.status,
+          private: thread.private,
         }
       : {
           title: '',
           circleId: defaultCircleId || '',
-          participantsScope: Member_Scope_Enum.CircleLeaders,
-          participantsMembersIds: [],
           status: Thread_Status_Enum.Active,
+          private: defaultPrivate || false,
         },
   })
 
@@ -97,44 +106,81 @@ export default function ThreadEditModal({
     formState: { errors },
   } = formMethods
 
+  // Watch selected circle
   const circleId = watch('circleId')
+  const circle = useCircle(circleId)
 
-  const onSubmit = handleSubmit(
-    async ({ participantsMembersIds, ...values }) => {
-      if (!orgId || !currentMember) return
-      const threadUpdate = {
-        ...values,
-        participantsMembersIds: participantsMembersIds.map((m) => m.memberId),
-      }
-      if (thread) {
-        // Update thread
-        await updateThread({
-          variables: { id: thread.id, values: threadUpdate },
-        })
-      } else {
-        // Create thread
-        const { data } = await createThread({
+  // Extra members ids
+  const [extraMembersIds, setExtraMembersIds] = useState<string[]>(
+    () => thread?.extra_members.map((em) => em.memberId) || []
+  )
+
+  // Participants
+  const circleParticipants = useCircleParticipants(circle)
+  const allParticipants = useExtraParticipants(
+    circleParticipants,
+    extraMembersIds
+  )
+
+  // Privacy
+  const isPrivate = watch('private')
+  const isPrivateAllowed =
+    !isPrivate || allParticipants.some((p) => p.member.id === currentMember?.id)
+
+  const onSubmit = handleSubmit(async (values) => {
+    if (!orgId || !currentMember) return
+    if (thread) {
+      // Update thread
+      await updateThread({
+        variables: { id: thread.id, values: values },
+      })
+
+      // Update extra members
+      for (const memberId of extraMembersIds) {
+        if (thread.extra_members.some((m) => m.memberId === memberId)) continue
+        // Create extra member if added
+        await createThreadExtraMember({
           variables: {
-            values: {
-              orgId,
-              initiatorMemberId: currentMember.id,
-              ...threadUpdate,
-            },
+            values: { threadId: thread.id, memberId },
           },
         })
-        const createdThreadId = data?.insert_thread_one?.id
-        if (!createdThreadId) return
-
-        if (onCreate) {
-          onCreate(createdThreadId)
-        } else {
-          // Go to thread page
-          navigateOrg(`threads/${createdThreadId}`)
-        }
       }
-      modalProps.onClose()
+      for (const member of thread.extra_members) {
+        if (extraMembersIds.includes(member.memberId)) continue
+        // Delete extra member if removed
+        await deleteThreadExtraMember({
+          variables: { id: member.id },
+        })
+      }
+    } else {
+      // Create thread
+      const { data } = await createThread({
+        variables: {
+          values: {
+            orgId,
+            initiatorMemberId: currentMember.id,
+            ...values,
+            // Add extra members
+            extra_members: {
+              data: extraMembersIds.map((id) => ({
+                memberId: id,
+              })),
+            },
+          },
+        },
+      })
+      const createdThreadId = data?.insert_thread_one?.id
+      if (!createdThreadId) return
+
+      if (onCreate) {
+        onCreate(createdThreadId)
+      } else {
+        // Go to thread page
+        navigateOrg(`threads/${createdThreadId}`)
+      }
     }
-  )
+    modalProps.onClose()
+  })
 
   return (
     <FormProvider {...formMethods}>
@@ -152,7 +198,7 @@ export default function ThreadEditModal({
             <ModalCloseButton />
 
             <ModalBody>
-              <VStack spacing={5} align="stretch">
+              <VStack spacing={10} align="stretch">
                 <FormControl isInvalid={!!errors.title}>
                   <FormLabel>{t('ThreadEditModal.title')}</FormLabel>
                   <Input
@@ -165,7 +211,11 @@ export default function ThreadEditModal({
                 <CircleFormController />
 
                 <Collapse in={!!circleId}>
-                  <ParticipantsFormControl />
+                  <ParticipantsCircleExtraMembers
+                    circleId={circleId}
+                    membersIds={extraMembersIds}
+                    onMembersIdsChange={setExtraMembersIds}
+                  />
                 </Collapse>
 
                 {!thread && (
@@ -185,8 +235,41 @@ export default function ThreadEditModal({
                   </FormControl>
                 )}
 
+                <FormControl>
+                  <SwitchController name="private" control={control}>
+                    {t('ThreadEditModal.private')}
+                    <ParticipantsNumber
+                      participants={allParticipants}
+                      opacity={isPrivate ? 1 : 0.4}
+                      ml={2}
+                    />
+                  </SwitchController>
+                  <Collapse in={isPrivate}>
+                    <FormHelperText ml="40px" mb={2}>
+                      {t('ThreadEditModal.privateHelp', {
+                        role: circle?.role.name,
+                      })}
+                    </FormHelperText>
+                  </Collapse>
+                </FormControl>
+
+                <Collapse in={!isPrivateAllowed}>
+                  <Alert status="warning">
+                    <AlertIcon />
+                    <AlertDescription>
+                      {t('ThreadEditModal.privateNotAllowed', {
+                        role: circle?.role.name,
+                      })}
+                    </AlertDescription>
+                  </Alert>
+                </Collapse>
+
                 <Box textAlign="right" mt={2}>
-                  <Button colorScheme="blue" type="submit">
+                  <Button
+                    colorScheme="blue"
+                    type="submit"
+                    isDisabled={!isPrivateAllowed}
+                  >
                     {t(thread ? 'common.save' : 'common.create')}
                   </Button>
                 </Box>

@@ -1,5 +1,5 @@
 import Loading from '@atoms/Loading'
-import { Button, Container, HStack, Text } from '@chakra-ui/react'
+import { Button, HStack, Text } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
 import { useGetPrevMeetingStepsQuery } from '@gql'
 import useCreateMissingMeetingSteps from '@hooks/useCreateMissingMeetingSteps'
@@ -53,16 +53,14 @@ export default function MeetingContentEmpty() {
   }
 
   return (
-    <Container maxW="3xl" py={10}>
-      <HStack spacing={5} align="center">
-        <Button colorScheme="blue" onClick={handleNew}>
-          {t('MeetingContentEmpty.new')}
-        </Button>
-        <Text>{t('MeetingContentEmpty.or')}</Text>
-        <Button colorScheme="gray" onClick={handleCopy}>
-          {t('MeetingContentEmpty.copy')}
-        </Button>
-      </HStack>
-    </Container>
+    <HStack spacing={5} align="center" py={10}>
+      <Button colorScheme="blue" onClick={handleNew}>
+        {t('MeetingContentEmpty.new')}
+      </Button>
+      <Text>{t('MeetingContentEmpty.or')}</Text>
+      <Button colorScheme="gray" onClick={handleCopy}>
+        {t('MeetingContentEmpty.copy')}
+      </Button>
+    </HStack>
   )
 }

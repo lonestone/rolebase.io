@@ -11,14 +11,13 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import NewsItem from '@molecules/news/NewsItem'
+import NewsList from '@molecules/news/NewsList'
 import CircleSearchButton from '@molecules/search/entities/circles/CircleSearchButton'
 import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon } from 'src/icons'
 import { useNewsFeed } from '../../../hooks/useNewsFeed'
-import { NewsSeparator } from '../../molecules/news/NewsSeparator'
 
 export default function DashboardNews(boxProps: BoxProps) {
   const { t } = useTranslation()
@@ -75,13 +74,7 @@ export default function DashboardNews(boxProps: BoxProps) {
         </Text>
       )}
 
-      {news?.map((item, i) => (
-        // Cards Separator
-        <React.Fragment key={item.id}>
-          <NewsSeparator />
-          <NewsItem item={item} />
-        </React.Fragment>
-      ))}
+      {news && <NewsList items={news} showSeparatorTop />}
 
       <Box ref={bottomRef} textAlign="center">
         {loading && <Loading active size="sm" mt={10} />}

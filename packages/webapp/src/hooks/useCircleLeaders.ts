@@ -11,18 +11,9 @@ export default function useCircleLeaders(
   const circles = useStoreState((state) => state.org.circles)
 
   return useMemo(() => {
-    if (!circles) return []
-
-    // Get circle
-    const circle =
-      typeof circleOrId === 'string'
-        ? circles.find((c) => c.id === circleOrId)
-        : circleOrId
-    if (!circle) return []
+    if (!circleOrId || !circles) return []
 
     // Compute leaders and group by member
-    return groupParticipantsByMember(
-      circleOrId ? getCircleLeaders(circleOrId, circles) : []
-    )
+    return groupParticipantsByMember(getCircleLeaders(circleOrId, circles))
   }, [circleOrId, circles])
 }

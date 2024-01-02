@@ -3,11 +3,13 @@ import { Participant } from '../model/member'
 import { getCircleParticipants } from './getCircleParticipants'
 
 export function getAllCircleMembersParticipants(
-  circleId: string,
+  circleOrId: CircleFullFragment | string,
   circles: CircleFullFragment[]
 ): Participant[] {
+  const circleId = typeof circleOrId === 'string' ? circleOrId : circleOrId.id
+
   // Circle participants
-  const participants = getCircleParticipants(circleId, circles)
+  const participants = getCircleParticipants(circleOrId, circles)
 
   // Add sub-Circles
   const subCirclesParticipants = circles

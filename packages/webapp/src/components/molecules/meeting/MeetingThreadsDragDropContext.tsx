@@ -18,7 +18,7 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { CircleThreadWithMeetingNote } from './meeting/MeetingStepContentThreadItem'
+import { CircleThreadWithMeetingNote } from './MeetingStepContentThreadItem'
 
 const emptyArray: any[] = []
 
@@ -27,9 +27,16 @@ interface Props {
   disabled?: boolean
 }
 
+export interface NotAllowedThread {
+  id: string
+  notAllowed: true
+}
+
+type ThreadMaybeAllowed = CircleThreadWithMeetingNote | NotAllowedThread
+
 export interface MeetingThreadsContextValue {
   // Selected threads by step, with meeting activity note
-  threadsByStep: Record<string, CircleThreadWithMeetingNote[]>
+  threadsByStep: Record<string, ThreadMaybeAllowed[]>
   // Threads that are not selected in any step
   availableThreads: ThreadFragment[]
   loading: boolean
@@ -91,7 +98,7 @@ export default function MeetingThreadsDragDropContext({
 
   // Threads ids by step id
   const [threadsByStep, setThreadsByStep] = useState<
-    Record<string, CircleThreadWithMeetingNote[]>
+    Record<string, ThreadMaybeAllowed[]>
   >({})
 
   // Subscribe to all threads of circle
@@ -117,7 +124,7 @@ export default function MeetingThreadsDragDropContext({
         (acc, step) => {
           acc[step.id] =
             (step as MeetingStepThreadsFragment).data.threadsIds
-              .map((threadId) => {
+              ?.map((threadId) => {
                 // Prevent duplicates
                 if (ids.includes(threadId)) return
                 ids.push(threadId)
@@ -132,16 +139,17 @@ export default function MeetingThreadsDragDropContext({
 
                 // Or get thread without note if it's loading
                 const thread = threads.find((t) => t.id === threadId)
-                if (!thread) return
-                return {
-                  ...thread,
-                  activities: [],
-                }
+                return thread
+                  ? {
+                      ...thread,
+                      activities: [],
+                    }
+                  : ({ id: threadId, notAllowed: true } as const)
               })
               .filter(truthy) || []
           return acc
         },
-        {} as Record<string, CircleThreadWithMeetingNote[]>
+        {} as Record<string, ThreadMaybeAllowed[]>
       )
     )
 
@@ -160,7 +168,7 @@ export default function MeetingThreadsDragDropContext({
   }, [])
 
   const change = useCallback(
-    (stepId: string, selectedThreads: CircleThreadWithMeetingNote[]) => {
+    (stepId: string, selectedThreads: ThreadMaybeAllowed[]) => {
       setThreadsByStep((threadsByStep) => ({
         ...threadsByStep,
         [stepId]: selectedThreads,

@@ -9,4 +9,5 @@ fragment Task on task {
   createdAt
   dueDate
   status
+  private
 }

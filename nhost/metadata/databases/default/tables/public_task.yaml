@@ -23,18 +23,30 @@ insert_permissions:
   - role: user
     permission:
       check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - member:
+              userId:
+                _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
       columns:
         - archived
         - circleId
@@ -42,6 +54,7 @@ insert_permissions:
         - dueDate
         - memberId
         - orgId
+        - private
         - status
         - title
 select_permissions:
@@ -49,20 +62,33 @@ select_permissions:
     permission:
       columns:
         - archived
-        - description
-        - status
-        - title
-        - createdAt
-        - dueDate
         - circleId
+        - createdAt
+        - description
+        - dueDate
         - id
         - memberId
         - orgId
+        - private
+        - status
+        - title
       filter:
-        org:
-          members:
-            userId:
-              _eq: X-Hasura-User-Id
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - member:
+              userId:
+                _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    userId:
+                      _eq: X-Hasura-User-Id
       allow_aggregations: true
 update_permissions:
   - role: user
@@ -73,22 +99,59 @@ update_permissions:
         - description
         - dueDate
         - memberId
+        - private
         - status
         - title
       filter:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
-      check: {}
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - member:
+              userId:
+                _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
+      check:
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - member:
+              userId:
+                _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
 event_triggers:
   - name: index-task
     definition:

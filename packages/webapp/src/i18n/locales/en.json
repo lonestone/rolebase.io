@@ -68,6 +68,10 @@
     "empty": "No basic roles",
     "create": "Create a basic role"
   },
+  "CircleAndMemberFilters": {
+    "circle": "Role",
+    "member": "Member"
+  },
   "CircleContent": {
     "notFound": "Role not found",
     "tabRole": "Role",
@@ -237,7 +241,8 @@
     "title": "Home"
   },
   "DecisionContent": {
-    "heading": "Decision"
+    "heading": "Decision",
+    "private": "Private decision: Only participants of {{role}} can see the decision."
   },
   "DecisionDeleteModal": {
     "heading": "Delete decision",
@@ -249,7 +254,10 @@
     "title": "Decision",
     "titlePlaceholder": "What did you decide?",
     "description": "Descriptions",
-    "descriptionPlaceholder": "Why did you make this decision?"
+    "descriptionPlaceholder": "Why did you make this decision?",
+    "private": "Private decision",
+    "privateHelp": "Only participants of {{role}} can see the decision.",
+    "privateNotAllowed": "You must be a participant of {{role}} to make the decision private."
   },
   "DurationSelect": {
     "min": "Min / week",
@@ -335,7 +343,7 @@
     "maybe": "Maybe",
     "absent": "Absent",
     "present": "Present",
-    "add": "Add an attendee",
+    "add": "Invite a member",
     "confirmRemove": "Are you sure you want to remove this attendee from the meeting?"
   },
   "MeetingContainer": {
@@ -355,7 +363,8 @@
   "MeetingHeader": {
     "heading": "Meeting {{title}}",
     "started": "Started",
-    "ended": "Ended"
+    "ended": "Ended",
+    "private": "Private meeting: Only participants of {{role}} and additional guests can see the meeting."
   },
   "MeetingEditModal": {
     "headingEdit": "Meeting settings",
@@ -368,19 +377,20 @@
     "duration": "Duration",
     "durationSuffix": "minutes",
     "recurrence": "Recurrence",
+    "participants": "Participants",
     "steps": "Steps",
+    "private": "Private meeting",
+    "privateHelp": "Only participants of {{role}} and additional guests can see the meeting.",
+    "privateNotAllowed": "You must be a participant of {{role}} or be invited to the meeting to make it private.",
+    "invitedReadonly": "Read only",
+    "invitedReadonlyHelp": "Only participants of {{role}} can modify the meeting report.",
     "toastCreated": "Meeting created!",
     "toastUpdated": "Meeting updated!"
   },
   "MeetingExportModal": {
     "heading": "Export Meetings agenda",
-    "scope": "Include",
-    "scopeOrg": "All meetings in the organization",
-    "scopeMine": "All my meetings",
-    "scopeCircle": "All meetings in a role",
-    "circle": "Role",
     "url": "iCal URL",
-    "help": "Synchronization between your Rolebase calendar and your external calendar may take up to few minutes."
+    "help": "Synchronization is one-way and may take a few minutes. For fast and two-way synchronization, connect a calendar (see <apps>Integrations</apps>)"
   },
   "MeetingItem": {
     "title": "Meeting {{title}}"
@@ -430,10 +440,17 @@
   },
   "MeetingStepContent": {
     "addNotes": "Write notes",
-    "notesPlaceholder": "Notes..."
+    "notesPlaceholder": "Notes...",
+    "notAllowed": "You do not have access to this meeting."
   },
   "MeetingStepContentTasks": {
     "logs": "Tasks modified during the meeting"
+  },
+  "MeetingStepContentThreadItem": {
+    "notAllowed": "Private topic",
+    "privateWarning": "This topic is not private while the meeting is private. Everyone will be able to see the notes. You can make the topic private by going to its settings.",
+    "notAllowedParticipantsWarning": "{{count}} participants do not have access to this private topic: {{participants}}",
+    "notAllowedParticipantsWarning_one": "{{count}} participant do not have access to this private topic: {{participants}}"
   },
   "MeetingStepContentThreads": {
     "add": "Attach a topic",
@@ -482,12 +499,6 @@
   },
   "MeetingsPage": {
     "heading": "Meetings",
-    "participation": {
-      "title": "Participation",
-      "Invited": "My meetings",
-      "NotInvited": "Other meetings",
-      "All": "All meetings"
-    },
     "settings": "Settings",
     "templates": "Meeting templates",
     "recurring": "Recurring meetings",
@@ -636,10 +647,9 @@
     "heading": "Edit Organization {{org}}",
     "slug": "URL",
     "workingTime": "Default working time",
-    "privacy": "Privacy settings",
+    "security": "Security settings",
     "protectGovernance": "Protect governance",
-    "protectGovernanceHelp": "Only owners and representatives of a role can modify its direct sub-roles and their members.",
-    "protectGovernanceInfo": "To protect access to meetings, topics, tasks and decisions, edit the settings of each role concerned."
+    "protectGovernanceHelp": "Only owners and representatives of a role can modify its direct sub-roles and their members."
   },
   "OrgSlugModal": {
     "heading": "URL of organization {{org}}",
@@ -657,19 +667,20 @@
     "heading": "Page not found",
     "home": "Back to home"
   },
-  "ParticipantsFormControl": {
+  "ParticipantsCircleExtraMembers": {
     "invite": "Invite",
+    "circleParticipants": "Participants of {{role}}",
     "inviteButton": "Add me",
     "inviteWarning": "You are not part of the participants, do you want to add yourself?"
   },
   "ParticipantsNumber": {
     "tooltip": "Participants"
   },
-  "ParticipantsScopeSelect": {
-    "Organization": "All members of the Organization",
-    "CircleLeaders": "Members of the Role",
-    "CircleMembers": "Members of the Role and sub-Roles",
-    "None": "Only some invited members"
+  "ParticipantScopeInput": {
+    "addMember": "Add a member",
+    "addCircle": "Add a role",
+    "includeChildren": "Include sub-roles",
+    "noParticipant": "No participant in this role"
   },
   "RateAppModal": {
     "question": "How would you rate your experience with Rolebase?",
@@ -915,6 +926,10 @@
     "dueDate": "Deadline",
     "description": "Description",
     "notes": "Notes, links...",
+    "privateTooltip": "Private task: Only participants of {{role}} and the assigned member can see and modify the task.",
+    "private": "Private task",
+    "privateHelp": "Only participants of {{role}} and the assigned member can see and modify the task.",
+    "privateNotAllowed": "You must be a participant of {{role}} or be assigned to the task to make it private.",
     "logs": "History"
   },
   "TaskDeleteModal": {
@@ -929,9 +944,7 @@
   },
   "TasksHeader": {
     "kanban": "Kanban",
-    "list": "List",
-    "filterCircle": "Role",
-    "filterMember": "Member"
+    "list": "List"
   },
   "TasksPage": {
     "heading": "Tasks",
@@ -956,7 +969,8 @@
     "defaultEntityDescription": "Topic: {{thread}}"
   },
   "ThreadActivityDecision": {
-    "text": "has created a decision:"
+    "text": "has created a decision:",
+    "notAllowed": "You do not have access to this decision."
   },
   "ThreadActivityMeeting": {
     "text": "has created a meeting:"
@@ -994,20 +1008,28 @@
     "revealDateOrAllVoted": "Results will be revealed {{date}} or when all participants have voted."
   },
   "ThreadActivityTask": {
-    "text": "has created a task:"
+    "text": "has created a task:",
+    "notAllowed": "You do not have access to this task."
   },
   "ThreadActivityThread": {
-    "text": "has created a topic:"
+    "text": "has created a topic:",
+    "notAllowed": "You do not have access to this topic."
   },
   "ThreadActivityChangeStatus": {
     "text": "has changed status topic : <status />"
+  },
+  "ThreadContent": {
+    "private": "Private topic: Only participants of {{role}} and additional guests can see the topic."
   },
   "ThreadEditModal": {
     "headingEdit": "Topic settings",
     "headingCreate": "New topic",
     "title": "Title",
     "titlePlaceholder": "What are we discussing?...",
-    "status": "Status"
+    "status": "Status",
+    "private": "Private topic",
+    "privateHelp": "Only participants of {{role}} and additional guests can see the topic.",
+    "privateNotAllowed": "You must be a participant of {{role}} or be invited to the topic to make it private."
   },
   "ThreadsList": {
     "empty": "No topic."
@@ -1015,18 +1037,6 @@
   "ThreadsPage": {
     "heading": "Topics",
     "create": "New topic"
-  },
-  "ThreadsFilterMenu": {
-    "participation": {
-      "title": "Participation",
-      "Invited": "My topics",
-      "NotInvited": "Other topics",
-      "All": "All topics"
-    },
-    "archives": {
-      "title": "Archive",
-      "show": "Show Archive"
-    }
   },
   "VacantRolesModal": {
     "heading": "Vacant roles",

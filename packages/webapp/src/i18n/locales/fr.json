@@ -68,6 +68,10 @@
     "empty": "Aucun rôle de base",
     "create": "Créer un rôle de base"
   },
+  "CircleAndMemberFilters": {
+    "circle": "Rôle",
+    "member": "Membre"
+  },
   "CircleContent": {
     "notFound": "Rôle introuvable",
     "tabRole": "Rôle",
@@ -238,7 +242,8 @@
     "heading": "Bonjour {{firstName}}"
   },
   "DecisionContent": {
-    "heading": "Décision"
+    "heading": "Décision",
+    "private": "Décision privée : Seuls les participants de {{role}} peuvent voir la décision."
   },
   "DecisionDeleteModal": {
     "heading": "Supprimer une décision",
@@ -250,7 +255,10 @@
     "title": "Décision",
     "titlePlaceholder": "Qu'avez-vous décidé ?",
     "description": "Description",
-    "descriptionPlaceholder": "Pourquoi avez-vous pris cette décision ?"
+    "descriptionPlaceholder": "Pourquoi avez-vous pris cette décision ?",
+    "private": "Décision privée",
+    "privateHelp": "Seuls les participants de {{role}} peuvent voir la décision.",
+    "privateNotAllowed": "Vous devez être participant de {{role}} pour pouvoir rendre privée la décision privée."
   },
   "DurationSelect": {
     "min": "Min / semaine",
@@ -369,7 +377,7 @@
     "maybe": "Peut-être",
     "absent": "Absent(e)",
     "present": "Présent(e)",
-    "add": "Ajouter un(e) participant(e)",
+    "add": "Inviter un membre",
     "confirmRemove": "Êtes-vous sûr(e) de vouloir retirer ce(tte) participant(e) ?"
   },
   "MeetingContainer": {
@@ -389,7 +397,8 @@
   "MeetingHeader": {
     "heading": "Réunion {{title}}",
     "started": "En cours",
-    "ended": "Terminée"
+    "ended": "Terminée",
+    "private": "Réunion privée : Seuls les participants de {{role}} et les invités supplémentaires peuvent voir la réunion."
   },
   "MeetingEditModal": {
     "headingEdit": "Paramètres de la réunion",
@@ -402,19 +411,20 @@
     "duration": "Durée",
     "durationSuffix": "minutes",
     "recurrence": "Récurrence",
+    "participants": "Participants",
     "steps": "Déroulé",
+    "private": "Réunion privée",
+    "privateHelp": "Seuls les participants de {{role}} et les invités supplémentaires peuvent voir la réunion.",
+    "privateNotAllowed": "Vous devez être participant de {{role}} ou être invité à la réunion pour pouvoir la rendre privée.",
+    "invitedReadonly": "Lecture seule",
+    "invitedReadonlyHelp": "Seuls les participants de {{role}} peuvent modifier le compte rendu de la réunion.",
     "toastCreated": "Réunion créée !",
     "toastUpdated": "Réunion mise à jour !"
   },
   "MeetingExportModal": {
-    "heading": "Exporter l'agenda des Réunions",
-    "scope": "Inclure",
-    "scopeOrg": "Toutes les réunions de l'organisation",
-    "scopeMine": "Toutes mes réunions",
-    "scopeCircle": "Toutes les réunions d'un rôle",
-    "circle": "Rôle",
+    "heading": "Exporter l'agenda de vos réunions",
     "url": "URL iCal",
-    "help": "La synchronisation entre votre calendrier Rolebase et votre agenda externe peut prendre quelques minutes."
+    "help": "La synchronisation est à sens unique et peut prendre quelques minutes. Pour une synchronisation rapide et dans les deux sens, connectez un agenda (voir <apps>Intégrations</apps>)"
   },
   "MeetingItem": {
     "title": "Réunion {{title}}"
@@ -464,10 +474,17 @@
   },
   "MeetingStepContent": {
     "addNotes": "Écrire des notes",
-    "notesPlaceholder": "Notes..."
+    "notesPlaceholder": "Notes...",
+    "notAllowed": "Vous n'avez pas accès à cette réunion."
   },
   "MeetingStepContentTasks": {
     "logs": "Tâches modifiées pendant la réunion"
+  },
+  "MeetingStepContentThreadItem": {
+    "notAllowed": "Sujet privé",
+    "privateWarning": "Ce sujet n'est pas privé alors que la réunion est privée. Tout le monde pourra voir les notes. Vous pouvez rendre le sujet privé en allant dans ses paramètres.",
+    "notAllowedParticipantsWarning": "{{count}} participants n'ont pas accès à ce sujet privé : {{participants}}",
+    "notAllowedParticipantsWarning_one": "{{count}} participant n'a pas accès à ce sujet privé : {{participants}}"
   },
   "MeetingStepContentThreads": {
     "add": "Rattacher un sujet",
@@ -516,12 +533,6 @@
   },
   "MeetingsPage": {
     "heading": "Réunions",
-    "participation": {
-      "title": "Participation",
-      "Invited": "Mes réunions",
-      "NotInvited": "Autres réunions",
-      "All": "Toutes les réunions"
-    },
     "settings": "Paramètres",
     "templates": "Modèles de réunion",
     "recurring": "Réunions récurrentes",
@@ -670,10 +681,9 @@
     "heading": "Modifier l'organisation {{org}}",
     "slug": "URL",
     "workingTime": "Temps de travail par défaut",
-    "privacy": "Paramètres de confidentialité",
+    "security": "Paramètres de sécurité",
     "protectGovernance": "Protéger la gouvernance",
-    "protectGovernanceHelp": "Seuls les propriétaires et les représentants d'un rôle peuvent modifier ses sous-rôles directs et leurs membres.",
-    "protectGovernanceInfo": "Pour protéger l'accès aux réunions, sujets, tâches et décisions, éditez les paramètres du chaque rôle concerné."
+    "protectGovernanceHelp": "Seuls les propriétaires et les représentants d'un rôle peuvent modifier ses sous-rôles directs et leurs membres."
   },
   "OrgSlugModal": {
     "heading": "URL de l'organisation {{org}}",
@@ -691,19 +701,20 @@
     "heading": "Page introuvable",
     "home": "Retour à l'accueil"
   },
-  "ParticipantsFormControl": {
+  "ParticipantsCircleExtraMembers": {
     "invite": "Inviter",
+    "circleParticipants": "Participants de {{role}}",
     "inviteButton": "M'ajouter",
     "inviteWarning": "Vous ne faites pas partie des participants, souhaitez-vous vous ajouter ?"
   },
   "ParticipantsNumber": {
     "tooltip": "Participants"
   },
-  "ParticipantsScopeSelect": {
-    "Organization": "Tous les membres de l'Organisation",
-    "CircleLeaders": "Les membres du Rôle",
-    "CircleMembers": "Les membres du Rôle et des sous-Rôles",
-    "None": "Seulement certains membres invités"
+  "ParticipantScopeInput": {
+    "addMember": "Ajouter un membre",
+    "addCircle": "Ajouter un rôle",
+    "includeChildren": "Inclure les sous-rôles",
+    "noParticipant": "Aucun participant dans ce rôle"
   },
   "RateAppModal": {
     "question": "Comment noteriez-vous votre expérience avec Rolebase ?",
@@ -951,6 +962,10 @@
     "dueDate": "Date limite",
     "description": "Description",
     "notes": "Notes, liens...",
+    "privateTooltip": "Tâche privée : Seuls les participants de {{role}} et le membre assigné peuvent voir et modifier la tâche.",
+    "private": "Tâche privée",
+    "privateHelp": "Seuls les participants de {{role}} et le membre assigné peuvent voir et modifier la tâche.",
+    "privateNotAllowed": "Vous devez être participant de {{role}} ou être assigné à la tâche pour pouvoir la rendre privée.",
     "logs": "Historique"
   },
   "TaskDeleteModal": {
@@ -965,9 +980,7 @@
   },
   "TasksHeader": {
     "kanban": "Kanban",
-    "list": "Liste",
-    "filterCircle": "Rôle",
-    "filterMember": "Membre"
+    "list": "Liste"
   },
   "TasksPage": {
     "heading": "Tâches",
@@ -992,7 +1005,8 @@
     "defaultEntityDescription": "Sujet : {{thread}}"
   },
   "ThreadActivityDecision": {
-    "text": "a créé une décision :"
+    "text": "a créé une décision :",
+    "notAllowed": "Vous n'avez pas accès à cette décision."
   },
   "ThreadActivityMeeting": {
     "text": "a créé une réunion :"
@@ -1027,20 +1041,28 @@
     "revealDateOrAllVoted": "Les résultats seront dévoilés {{date}} ou quand tous les participants auront voté."
   },
   "ThreadActivityTask": {
-    "text": "a créé une tâche :"
+    "text": "a créé une tâche :",
+    "notAllowed": "Vous n'avez pas accès à cette tâche."
   },
   "ThreadActivityThread": {
-    "text": "a créé un sujet :"
+    "text": "a créé un sujet :",
+    "notAllowed": "Vous n'avez pas accès à ce sujet."
   },
   "ThreadActivityChangeStatus": {
     "text": "a changé le statut du sujet : <status />"
+  },
+  "ThreadContent": {
+    "private": "Sujet privé : Seuls les participants de {{role}} et les invités supplémentaires peuvent voir la décision."
   },
   "ThreadEditModal": {
     "headingEdit": "Paramètres du sujet",
     "headingCreate": "Nouveau sujet",
     "title": "Titre",
     "titlePlaceholder": "On discute de quoi ?...",
-    "status": "Statut"
+    "status": "Statut",
+    "private": "Sujet privé",
+    "privateHelp": "Seuls les participants de {{role}} et les invités supplémentaires peuvent voir le sujet.",
+    "privateNotAllowed": "Vous devez être participant de {{role}} ou être invité dans le sujet pour pouvoir le rendre privé."
   },
   "ThreadsList": {
     "empty": "Aucun sujet."
@@ -1048,18 +1070,6 @@
   "ThreadsPage": {
     "heading": "Sujets",
     "create": "Nouveau sujet"
-  },
-  "ThreadsFilterMenu": {
-    "participation": {
-      "title": "Participation",
-      "Invited": "Mes sujets",
-      "NotInvited": "Autres sujets",
-      "All": "Tous les sujets"
-    },
-    "archives": {
-      "title": "Archives",
-      "show": "Afficher les archives"
-    }
   },
   "UserMenu": {
     "member": "Ma fiche membre",

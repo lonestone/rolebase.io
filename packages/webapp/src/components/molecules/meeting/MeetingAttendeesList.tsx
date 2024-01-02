@@ -1,60 +1,62 @@
 import { startMembersMeeting, stopMembersMeeting } from '@api/functions'
 import { BoxProps, VStack } from '@chakra-ui/react'
 import { MeetingContext } from '@contexts/MeetingContext'
-import { useUpdateMeetingMutation } from '@gql'
-import { MeetingAttendee } from '@shared/model/meeting'
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import {
+  useCreateMeetingAttendeeMutation,
+  useDeleteMeetingAttendeeMutation,
+  useUpdateMeetingAttendeeMutation,
+} from '@gql'
+import { truthy } from '@shared/helpers/truthy'
+import { useStoreState } from '@store/hooks'
+import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreateIcon } from 'src/icons'
 import MemberSearchButton from '../search/entities/members/MemberSearchButton'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 
 export default function MeetingAttendeesList(boxProps: BoxProps) {
-  const { meeting, editable, isStarted } = useContext(MeetingContext)!
+  const { meeting, canEdit, isStarted } = useContext(MeetingContext)!
+  const members = useStoreState((state) => state.org.members)
   const { t } = useTranslation()
-  const [updateMeeting] = useUpdateMeetingMutation()
+  const [createAttendee] = useCreateMeetingAttendeeMutation()
+  const [updateAttendee] = useUpdateMeetingAttendeeMutation()
+  const [deleteAttendee] = useDeleteMeetingAttendeeMutation()
 
-  // Attendees state for optimistic UI
-  // and to handle multiple updates in a short time
-  const [attendees, setAttendees] = useState(meeting?.attendees)
-  useEffect(() => {
-    setAttendees(meeting?.attendees)
-  }, [meeting?.attendees])
+  // Enrich attendees with members
+  const attendees = useMemo(
+    () =>
+      meeting?.meeting_attendees
+        .map((attendee) => {
+          const member = members?.find((m) => m.id === attendee.memberId)
+          if (!member) return
+          return { ...attendee, member }
+        })
+        .filter(truthy)
+        .sort((a, b) => a.member.name.localeCompare(b.member.name)) || [],
+    [meeting, members]
+  )
 
   const attendeesMemberIds = useMemo(
     () => attendees?.map((a) => a.memberId) || [],
     [attendees]
   )
 
-  const updateAttendees = (attendees: MeetingAttendee[]) => {
-    if (!meeting) return
-    setAttendees(attendees)
-    return updateMeeting({
-      variables: {
-        id: meeting.id,
-        values: {
-          attendees,
-        },
-      },
+  const handlePresentChange = (id: string, present: boolean | null) => {
+    updateAttendee({
+      variables: { id, values: { present } },
     })
   }
 
-  const handlePresentChange = (memberId: string, present: boolean | null) => {
-    if (!meeting || !attendees) return
-    updateAttendees(
-      attendees.map((a) => (a.memberId === memberId ? { ...a, present } : a))
-    )
-  }
-
   const handleAdd = (memberId: string) => {
-    if (!meeting || !attendees) return
-    updateAttendees(
-      attendees.concat({
-        memberId,
-        circlesIds: [],
-        present: null,
-      })
-    )
+    if (!meeting) return
+    createAttendee({
+      variables: {
+        values: {
+          meetingId: meeting.id,
+          memberId,
+        },
+      },
+    })
 
     // Set user's current meeting
     if (isStarted) {
@@ -65,10 +67,10 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
     }
   }
 
-  const handleRemove = (memberId: string) => {
-    if (!meeting || !attendees) return
+  const handleRemove = (id: string) => {
+    if (!meeting) return
     if (!confirm(t('MeetingAttendees.confirmRemove'))) return
-    updateAttendees(attendees.filter((a) => a.memberId !== memberId))
+    deleteAttendee({ variables: { id } })
 
     // Reset user's current meeting
     stopMembersMeeting({ meetingId: meeting.id })
@@ -82,15 +84,16 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
         <MeetingAttendeeItem
           key={attendee.memberId}
           attendee={attendee}
-          editable={editable}
+          member={attendee.member}
+          editable={canEdit}
           onPresentChange={(present) =>
-            handlePresentChange(attendee.memberId, present)
+            handlePresentChange(attendee.id, present)
           }
-          onRemove={() => handleRemove(attendee.memberId)}
+          onRemove={() => handleRemove(attendee.id)}
         />
       ))}
 
-      {editable && (
+      {canEdit && (
         <MemberSearchButton
           excludeIds={attendeesMemberIds}
           size="sm"

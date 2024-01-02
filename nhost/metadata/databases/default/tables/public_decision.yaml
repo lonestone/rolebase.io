@@ -15,18 +15,27 @@ insert_permissions:
   - role: user
     permission:
       check:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
+        _or:
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
       columns:
         - archived
         - circleId
@@ -34,24 +43,35 @@ insert_permissions:
         - description
         - memberId
         - orgId
+        - private
         - title
 select_permissions:
   - role: user
     permission:
       columns:
-        - id
-        - orgId
-        - circleId
-        - memberId
-        - title
-        - description
         - archived
+        - circleId
         - createdAt
+        - description
+        - id
+        - memberId
+        - orgId
+        - private
+        - title
       filter:
-        org:
-          members:
-            userId:
-              _eq: X-Hasura-User-Id
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    userId:
+                      _eq: X-Hasura-User-Id
       allow_aggregations: true
 update_permissions:
   - role: user
@@ -61,21 +81,52 @@ update_permissions:
         - circleId
         - description
         - memberId
+        - private
         - title
       filter:
-        org:
-          members:
-            _and:
-              - userId:
-                  _eq: X-Hasura-User-Id
-              - _or:
-                  - role:
-                      _eq: Member
-                  - role:
-                      _eq: Admin
-                  - role:
-                      _eq: Owner
-      check: {}
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
+      check:
+        _or:
+          - circle:
+              participants:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+          - _and:
+              - private:
+                  _eq: false
+              - org:
+                  members:
+                    _and:
+                      - userId:
+                          _eq: X-Hasura-User-Id
+                      - _or:
+                          - role:
+                              _eq: Member
+                          - role:
+                              _eq: Admin
+                          - role:
+                              _eq: Owner
 event_triggers:
   - name: index-decision
     definition:

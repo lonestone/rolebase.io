@@ -1,5 +1,4 @@
 import {
-  Member_Scope_Enum,
   ThreadFragment,
   Thread_Status_Enum,
   useCreateThreadMutation,
@@ -40,8 +39,6 @@ export default function ThreadSearchButton({
             orgId,
             title,
             circleId: createCircleId,
-            participantsScope: Member_Scope_Enum.CircleLeaders,
-            participantsMembersIds: [],
             initiatorMemberId: currentMember.id,
             status: Thread_Status_Enum.Active,
           },

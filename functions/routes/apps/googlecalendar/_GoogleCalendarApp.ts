@@ -1,4 +1,4 @@
-import { MeetingFragment, UserAppFullFragment } from '@gql'
+import { Meeting_Set_Input, UserAppFullFragment } from '@gql'
 import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher'
 import settings from '@settings'
 import { dateToTimeZone } from '@shared/helpers/rrule'
@@ -293,7 +293,7 @@ export default class GoogleCalendarApp
     }
 
     const { orgId, calendarId } = orgCalendar
-    const meetingChanges: Partial<MeetingFragment> = {}
+    const meetingChanges: Partial<Meeting_Set_Input> = {}
     const resetChanges: Partial<GoogleEvent> = {}
 
     // Get meeting (or recurring meeting) id from extended properties of event

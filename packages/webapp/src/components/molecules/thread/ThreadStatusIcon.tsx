@@ -9,7 +9,7 @@ import ThreadStatusMenuList from './ThreadStatusMenuList'
 interface Props {
   value?: Thread_Status_Enum
   readOnly?: boolean
-  onChange: (value: Thread_Status_Enum) => void
+  onChange?: (value: Thread_Status_Enum) => void
 }
 
 export default function ThreadStatusIcon({
@@ -34,7 +34,9 @@ export default function ThreadStatusIcon({
         </MenuButton>
       </Tooltip>
       <Portal>
-        <ThreadStatusMenuList value={value} onChange={onChange} />
+        {!readOnly && onChange && (
+          <ThreadStatusMenuList value={value} onChange={onChange} />
+        )}
       </Portal>
     </Menu>
   )

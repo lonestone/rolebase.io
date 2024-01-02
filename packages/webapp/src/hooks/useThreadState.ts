@@ -16,6 +16,7 @@ import useOrgMember from '@hooks/useOrgMember'
 import { ParticipantMember } from '@shared/model/member'
 import { ThreadActivityChangeStatusFragment } from '@shared/model/thread_activity'
 import { useCallback, useEffect, useMemo } from 'react'
+import useExtraParticipants from './useExtraParticipants'
 import { usePathInOrg } from './usePathInOrg'
 
 /***
@@ -75,10 +76,10 @@ export default function useThreadState(threadId: string): ThreadState {
   const circle = useCircle(thread?.circleId)
 
   // Participants
-  const participants = useCircleParticipants(
-    thread?.circleId,
-    thread?.participantsScope,
-    thread?.participantsMembersIds
+  const circleParticipants = useCircleParticipants(circle)
+  const participants = useExtraParticipants(
+    circleParticipants,
+    thread?.extra_members
   )
 
   // Is current member participant?

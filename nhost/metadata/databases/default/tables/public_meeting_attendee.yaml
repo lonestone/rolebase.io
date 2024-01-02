@@ -1,0 +1,171 @@
+table:
+  name: meeting_attendee
+  schema: public
+object_relationships:
+  - name: meeting
+    using:
+      foreign_key_constraint_on: meetingId
+  - name: member
+    using:
+      foreign_key_constraint_on: memberId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        meeting:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - _and:
+                - invitedReadonly:
+                    _eq: false
+                - meeting_attendees:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - invitedReadonly:
+                    _eq: false
+                - org:
+                    members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Member
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Owner
+      columns:
+        - meetingId
+        - memberId
+        - present
+    comment: ''
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - meetingId
+        - memberId
+        - present
+      filter:
+        meeting:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - meeting_attendees:
+                member:
+                  userId:
+                    _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - org:
+                    members:
+                      userId:
+                        _eq: X-Hasura-User-Id
+    comment: ''
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - present
+      filter:
+        meeting:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - _and:
+                - invitedReadonly:
+                    _eq: false
+                - meeting_attendees:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - invitedReadonly:
+                    _eq: false
+                - org:
+                    members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Member
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Owner
+      check: {}
+    comment: ''
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        meeting:
+          _or:
+            - circle:
+                participants:
+                  member:
+                    userId:
+                      _eq: X-Hasura-User-Id
+            - _and:
+                - invitedReadonly:
+                    _eq: false
+                - meeting_attendees:
+                    member:
+                      userId:
+                        _eq: X-Hasura-User-Id
+            - _and:
+                - private:
+                    _eq: false
+                - invitedReadonly:
+                    _eq: false
+                - org:
+                    members:
+                      _and:
+                        - userId:
+                            _eq: X-Hasura-User-Id
+                        - _or:
+                            - role:
+                                _eq: Member
+                            - role:
+                                _eq: Admin
+                            - role:
+                                _eq: Owner
+    comment: ''
+event_triggers:
+  - name: index-meeting-attendee
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 3
+      timeout_sec: 60
+    webhook: '{{NHOST_FUNCTIONS_URL}}/routes/events/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

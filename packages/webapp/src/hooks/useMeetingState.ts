@@ -11,16 +11,15 @@ import {
   useUpdateMeetingMutation,
 } from '@gql'
 import useCircle from '@hooks/useCircle'
-import useCircleParticipants from '@hooks/useCircleParticipants'
 import useCurrentMember from '@hooks/useCurrentMember'
-import useOrgAdmin from '@hooks/useOrgAdmin'
 import useOrgMember from '@hooks/useOrgMember'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { MeetingStepConfig } from '@shared/model/meeting'
 import { ParticipantMember } from '@shared/model/member'
-import { useStoreState } from '@store/hooks'
 import { isSameDay } from 'date-fns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import useCircleParticipants from './useCircleParticipants'
+import useExtraParticipants from './useExtraParticipants'
 import { usePathInOrg } from './usePathInOrg'
 
 /***
@@ -40,6 +39,7 @@ export interface MeetingState {
   currentStep: MeetingStepFragment | undefined
   currentStepConfig: MeetingStepConfig | undefined
   canEdit: boolean
+  canEditSteps: boolean
   forceEdit: boolean
   editable: boolean
   isParticipant: boolean
@@ -62,8 +62,6 @@ export interface MeetingState {
 export default function useMeetingState(meetingId: string): MeetingState {
   const currentMember = useCurrentMember()
   const isMember = useOrgMember()
-  const isAdmin = useOrgAdmin()
-  const members = useStoreState((state) => state.org.members)
   const [updateMeeting] = useUpdateMeetingMutation()
 
   // Subscribe meeting
@@ -132,40 +130,33 @@ export default function useMeetingState(meetingId: string): MeetingState {
   }, [isStarted, meeting?.endDate])
 
   // Participants
-  const initialParticipants = useCircleParticipants(
-    meeting?.circleId,
-    meeting?.participantsScope,
-    meeting?.participantsMembersIds
-  )
-
-  const attendeesParticipants: ParticipantMember[] = useMemo(
-    () =>
-      (meeting?.attendees
-        ?.map(({ memberId, circlesIds }) => {
-          const member = members?.find((m) => m.id === memberId)
-          if (!member) return
-          return { member, circlesIds }
-        })
-        .filter(Boolean) as ParticipantMember[]) || [],
-    [meeting, members]
-  )
-
-  // If attendees are set, take them instead of initial participants
-  const participants = meeting?.attendees
-    ? attendeesParticipants
-    : initialParticipants
+  const circleParticipants = useCircleParticipants(circle)
+  const participants = useExtraParticipants([], meeting?.meeting_attendees)
 
   // Is current member participant? initiator?
   const isParticipant = currentMember
     ? participants.some((p) => p.member.id === currentMember.id)
     : false
-  const canEdit = isMember && (isParticipant || isAdmin)
+  const isCirclePartcipant = currentMember
+    ? circleParticipants.some((p) => p.member.id === currentMember.id)
+    : false
 
-  // Edit mode when meeting is ended
+  // Current member can edit meeting steps?
+  const canEditSteps =
+    isCirclePartcipant || (meeting?.invitedReadonly === false && isParticipant)
+
+  // Current member can edit meeting?
+  const canEdit =
+    canEditSteps ||
+    (meeting?.private === false &&
+      meeting?.invitedReadonly === false &&
+      isMember)
+
+  // Force edit mode event if meeting is ended
   const [forceEdit, setForceEdit] = useState(false)
 
-  // Data is editable
-  const editable = canEdit && (!isEnded || forceEdit) && !meeting?.archived
+  // Edit mode? (steps)
+  const editable = canEditSteps && (!isEnded || forceEdit) && !meeting?.archived
 
   // Reset forced edition when meeting is not ended anymore
   useEffect(() => {
@@ -264,15 +255,6 @@ export default function useMeetingState(meetingId: string): MeetingState {
         ended: false,
       }
 
-      if (!meeting.attendees) {
-        // Set attendees list
-        changedFields.attendees = participants.map((participant) => ({
-          memberId: participant.member.id,
-          circlesIds: participant.circlesIds,
-          present: null,
-        }))
-      }
-
       await updateMeeting({
         variables: { id: meeting.id, values: changedFields },
       })
@@ -316,7 +298,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
   // Next step
   const handleSendStartNotification = useCallback(
     async (recipientMemberIds: string[]) => {
-      if (!meeting || !meeting.attendees || !circle || !currentMember) return
+      if (!meeting) return
 
       // Send notification
       sendMeetingStartedNotification({
@@ -345,6 +327,7 @@ export default function useMeetingState(meetingId: string): MeetingState {
     currentStep,
     currentStepConfig,
     canEdit,
+    canEditSteps,
     forceEdit,
     editable,
     isParticipant,

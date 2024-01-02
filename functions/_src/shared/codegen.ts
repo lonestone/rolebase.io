@@ -2,8 +2,9 @@ export function getAddPlugin() {
   return {
     add: {
       content: `
-import { MeetingAttendee, MeetingStepConfig, VideoConf } from '@shared/model/meeting'
+import { MeetingStepConfig, VideoConf } from '@shared/model/meeting'
 import { MeetingStepData } from '@shared/model/meeting_step'
+import { ParticipantsScope } from '@shared/model/participants'
 import { LogDisplay, EntitiesChanges } from '@shared/model/log'
 import { UserMetadata } from '@shared/model/user'
 `,
@@ -24,7 +25,7 @@ export function getConfig() {
       timestamptz: 'string',
       citext: 'string',
       user_metadata: 'UserMetadata',
-      attendee: 'MeetingAttendee',
+      participants_scope: 'ParticipantsScope',
       meeting_step_config: 'MeetingStepConfig',
       meeting_step_data: 'MeetingStepData',
       videoconf: 'VideoConf',

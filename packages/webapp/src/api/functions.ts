@@ -148,14 +148,9 @@ export function getMeetingsIcalUrl(
   orgId: string | undefined,
   token: string,
   lang: string,
-  memberId?: string,
-  circleId?: string
+  memberId: string
 ): string {
-  return `${
-    settings.functionsUrl
-  }routes/meetingsIcal?token=${token}&lang=${lang}&orgId=${orgId}${
-    memberId ? `&memberId=${memberId}` : circleId ? `&circleId=${circleId}` : ''
-  }`
+  return `${settings.functionsUrl}routes/meetingsIcal?token=${token}&lang=${lang}&orgId=${orgId}&memberId=${memberId}`
 }
 
 export const archiveMember = fn<{ memberId: string }>('members/archiveMember')

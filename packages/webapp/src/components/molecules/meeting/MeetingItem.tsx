@@ -1,8 +1,7 @@
 import CircleByIdButton from '@atoms/CircleByIdButton'
 import {
-  Center,
-  Flex,
   forwardRef,
+  HStack,
   LinkBox,
   LinkBoxProps,
   LinkOverlay,
@@ -20,7 +19,7 @@ import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as ReachLink } from 'react-router-dom'
-import { MeetingIcon } from 'src/icons'
+import { MeetingIcon, PrivacyIcon } from 'src/icons'
 
 interface Props extends LinkBoxProps {
   meeting: MeetingSummaryFragment
@@ -64,15 +63,11 @@ const MeetingItem = forwardRef<Props, 'div'>(
             undefined
           }
         >
-          <Flex align="center">
-            {showIcon && (
-              <Center mr={2}>
-                <MeetingIcon />
-              </Center>
-            )}
+          <HStack align="center">
+            {showIcon && <MeetingIcon />}
 
             {showDate && (
-              <Text mr={3} color="gray.500" _dark={{ color: 'gray.300' }}>
+              <Text pr={1} color="gray.500" _dark={{ color: 'gray.300' }}>
                 {capitalizeFirstLetter(
                   format(startDate, 'eeee P', { locale: dateLocale })
                 )}
@@ -80,7 +75,7 @@ const MeetingItem = forwardRef<Props, 'div'>(
             )}
 
             {showTime && (
-              <Text mr={3} color="gray.500" _dark={{ color: 'gray.300' }}>
+              <Text pr={1} color="gray.500" _dark={{ color: 'gray.300' }}>
                 {format(startDate, 'p', { locale: dateLocale })}
                 {' - '}
                 {format(endDate, 'p', { locale: dateLocale })}
@@ -91,10 +86,12 @@ const MeetingItem = forwardRef<Props, 'div'>(
               {t('MeetingItem.title', { title: meeting.title })}
             </LinkOverlay>
 
+            {meeting?.private && <PrivacyIcon size={20} />}
+
             {showCircle && <CircleByIdButton id={meeting.circleId} size="xs" />}
 
             {children}
-          </Flex>
+          </HStack>
         </LinkBox>
 
         {isOpen && <MeetingModal id={meeting.id} isOpen onClose={onClose} />}

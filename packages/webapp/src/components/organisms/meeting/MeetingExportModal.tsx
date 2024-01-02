@@ -3,36 +3,32 @@ import IconTextButton from '@atoms/IconTextButton'
 import Loading from '@atoms/Loading'
 import TextErrors from '@atoms/TextErrors'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   FormControl,
   FormLabel,
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
-  Text,
   UseModalProps,
   VStack,
 } from '@chakra-ui/react'
 import useCallbackState from '@hooks/useCallbackState'
 import useCurrentMember from '@hooks/useCurrentMember'
 import { useOrgId } from '@hooks/useOrgId'
-import CircleSearchInput from '@molecules/search/entities/circles/CircleSearchInput'
-import React, { useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useEffect, useMemo } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { Link as ReachLink } from 'react-router-dom'
 import { CopyIcon } from 'src/icons'
 import useCopyUrl from '../../../hooks/useCopyUrl'
-
-enum ExportType {
-  Org = 'Org',
-  CurrentMember = 'CurrentMember',
-  Circle = 'Circle',
-}
 
 export default function MeetingExportModal(modalProps: UseModalProps) {
   const {
@@ -41,11 +37,6 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
   } = useTranslation()
   const orgId = useOrgId()
   const member = useCurrentMember()
-
-  const [exportType, setExportType] = useState<ExportType>(
-    ExportType.CurrentMember
-  )
-  const [circleId, setCircleId] = useState<string | undefined>()
 
   // Get token
   const {
@@ -64,24 +55,15 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
 
   // Get URL
   const url = useMemo(() => {
-    if (!orgId || !token) return
-    switch (exportType) {
-      case ExportType.Org:
-        return getMeetingsIcalUrl(orgId, token, language)
-      case ExportType.CurrentMember:
-        return getMeetingsIcalUrl(orgId, token, language, member?.id)
-      case ExportType.Circle:
-        if (circleId) {
-          return getMeetingsIcalUrl(orgId, token, language, undefined, circleId)
-        }
-    }
-  }, [orgId, token, language, member, circleId, exportType])
+    if (!orgId || !member || !token) return
+    return getMeetingsIcalUrl(orgId, token, language, member.id)
+  }, [orgId, token, language, member])
 
   // Copy URL
   const copyUrl = useCopyUrl(url)
 
   return (
-    <Modal {...modalProps}>
+    <Modal size="xl" {...modalProps}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{t('MeetingExportModal.heading')}</ModalHeader>
@@ -89,35 +71,6 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
 
         <ModalBody pb={10}>
           <VStack spacing={5} align="stretch">
-            <FormControl>
-              <FormLabel>{t('MeetingExportModal.scope')}</FormLabel>
-              <Select
-                value={exportType}
-                onChange={(e) => setExportType(e.target.value as ExportType)}
-              >
-                <option value={ExportType.Org}>
-                  {t('MeetingExportModal.scopeOrg')}
-                </option>
-                <option value={ExportType.CurrentMember}>
-                  {t('MeetingExportModal.scopeMine')}
-                </option>
-                <option value={ExportType.Circle}>
-                  {t('MeetingExportModal.scopeCircle')}
-                </option>
-              </Select>
-            </FormControl>
-
-            {exportType === ExportType.Circle && (
-              <FormControl>
-                <FormLabel>{t('MeetingExportModal.circle')}</FormLabel>
-                <CircleSearchInput
-                  singleMember={false}
-                  value={circleId}
-                  onChange={setCircleId}
-                />
-              </FormControl>
-            )}
-
             <Loading size="sm" active={loading} />
             <TextErrors errors={[error]} />
 
@@ -144,7 +97,24 @@ export default function MeetingExportModal(modalProps: UseModalProps) {
                 </InputGroup>
               </FormControl>
             )}
-            <Text>{t('MeetingExportModal.help')}</Text>
+
+            <Alert status="info">
+              <AlertIcon />
+              <AlertDescription>
+                <Trans
+                  i18nKey="MeetingExportModal.help"
+                  components={{
+                    apps: (
+                      <Link
+                        as={ReachLink}
+                        to="/apps"
+                        textDecoration="underline"
+                      />
+                    ),
+                  }}
+                />
+              </AlertDescription>
+            </Alert>
           </VStack>
         </ModalBody>
       </ModalContent>

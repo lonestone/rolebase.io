@@ -11,9 +11,11 @@ import {
   Spacer,
   Tag,
   Text,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
 import { useDecisionSubscription } from '@gql'
+import useCircle from '@hooks/useCircle'
 import useDateLocale from '@hooks/useDateLocale'
 import useOrgMember from '@hooks/useOrgMember'
 import ActionsMenu from '@molecules/ActionsMenu'
@@ -21,6 +23,7 @@ import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
 import { format } from 'date-fns'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { PrivacyIcon } from 'src/icons'
 import DecisionDeleteModal from './DecisionDeleteModal '
 import DecisionEditModal from './DecisionEditModal'
 
@@ -50,6 +53,8 @@ export default function DecisionContent({
   })
   const decision = data?.decision_by_pk || undefined
 
+  const circle = useCircle(decision?.circleId)
+
   return (
     <Box mb={3} {...boxProps}>
       {changeTitle && <Title>{decision?.title || '…'}</Title>}
@@ -64,6 +69,18 @@ export default function DecisionContent({
         {decision?.archived && <Tag ml={2}>{t('common.archived')}</Tag>}
 
         <Spacer />
+
+        {decision?.private && (
+          <Tooltip
+            label={t('DecisionContent.private', {
+              role: circle?.role.name,
+            })}
+            hasArrow
+            mr={2}
+          >
+            <PrivacyIcon size={20} />
+          </Tooltip>
+        )}
 
         {isMember && (
           <Flex mr={headerIcons ? -3 : 0}>

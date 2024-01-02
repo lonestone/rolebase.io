@@ -1,11 +1,16 @@
-import { MeetingFragment, MeetingRecurringFragment, gql } from '@gql'
+import {
+  MeetingFragment,
+  MeetingRecurringFragment,
+  Meeting_Insert_Input,
+  Meeting_Set_Input,
+  gql,
+} from '@gql'
 import settings from '@settings'
-import filterEntities from '@shared/helpers/filterEntities'
+import filterScopedEntitiesByMember from '@shared/helpers/filterScopedEntitiesByMember'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import { dateToTimeZone, getDateFromUTCDate } from '@shared/helpers/rrule'
 import { truthy } from '@shared/helpers/truthy'
-import { EntityFilters } from '@shared/model/participants'
 import { AppCalendarConfig, OrgCalendarConfig } from '@shared/model/user_app'
 import { adminRequest } from '@utils/adminRequest'
 import { RRule } from 'rrule'
@@ -107,14 +112,7 @@ export default abstract class AbstractCalendarApp<
 
     const member = org.members[0]
     if (!member) return []
-
-    const meetings = filterEntities(
-      EntityFilters.Invited,
-      org.meetings,
-      org.circles,
-      undefined,
-      member.id
-    ) as typeof org.meetings
+    const meetings = org.meetings
 
     // Setup calendar
     const events: MeetingEvent[] = []
@@ -134,13 +132,11 @@ export default abstract class AbstractCalendarApp<
     }
 
     // Filter recurring meetings
-    const recurringMeetings = filterEntities(
-      EntityFilters.Invited,
+    const recurringMeetings = filterScopedEntitiesByMember(
       org.meetings_recurring,
-      org.circles,
-      undefined,
-      member.id
-    ) as typeof org.meetings_recurring
+      member.id,
+      org.circles
+    )
 
     // Add recurring events
     for (const recurringMeeting of recurringMeetings) {
@@ -214,7 +210,7 @@ export default abstract class AbstractCalendarApp<
 
   // Create a meeting
   protected async createMeeting(
-    meeting: Partial<MeetingFragment>
+    meeting: Partial<Meeting_Insert_Input>
   ): Promise<void> {
     await adminRequest(CREATE_MEETING, {
       meeting: { ...meeting, lastUpdateSource: this.userApp.id },
@@ -224,7 +220,7 @@ export default abstract class AbstractCalendarApp<
   // Update a meeting
   protected async updateMeeting(
     meetingId: string,
-    values: Partial<MeetingFragment>
+    values: Partial<Meeting_Set_Input>
   ): Promise<void> {
     await adminRequest(UPDATE_MEETING, {
       meetingId,
@@ -341,7 +337,11 @@ export default abstract class AbstractCalendarApp<
 }
 
 const GET_MEETINGS = gql(`
-  query getOrgMeetingsForCalendarApp($orgId: uuid!, $userId: uuid!, $afterDate: timestamptz!) {
+  query getOrgMeetingsForCalendarApp(
+    $orgId: uuid!
+    $userId: uuid!
+    $afterDate: timestamptz!
+  ) {
     org_by_pk(id: $orgId) {
       id
       name
@@ -349,10 +349,7 @@ const GET_MEETINGS = gql(`
       circles(where: { archived: { _eq: false } }) {
         ...CircleFull
       }
-      members(where: {
-        userId: { _eq: $userId }
-        archived: { _eq: false }
-      }) {
+      members(where: { userId: { _eq: $userId }, archived: { _eq: false } }) {
         id
         name
       }
@@ -360,6 +357,7 @@ const GET_MEETINGS = gql(`
         where: {
           startDate: { _gt: $afterDate }
           archived: { _eq: false }
+          meeting_attendees: { member: { userId: { _eq: $userId } } }
         }
         order_by: { startDate: asc }
       ) {
@@ -378,6 +376,7 @@ const GET_MEETINGS = gql(`
       }
     }
   }
+
 `)
 
 const GET_MEETING = gql(`

@@ -9,9 +9,7 @@ import {
   Menu,
   MenuButton,
   MenuItem,
-  MenuItemOption,
   MenuList,
-  MenuOptionGroup,
   Spacer,
   useColorMode,
   useDisclosure,
@@ -24,13 +22,15 @@ import {
   EventInput,
 } from '@fullcalendar/core'
 import { useMeetingsByDatesSubscription, useUpdateMeetingMutation } from '@gql'
-import useEntitiesFilterMenu from '@hooks/useEntitiesFilterMenu'
-import useFilterEntities from '@hooks/useFilterEntities'
+import useFilterEntitiesByCircle from '@hooks/useFilterEntitiesByCircle'
+import useFilterScopedEntitiesByMember from '@hooks/useFilterScopedEntitiesByMember'
 import { useOrgId } from '@hooks/useOrgId'
 import useOrgMember from '@hooks/useOrgMember'
+import useUpdatableQueryParams from '@hooks/useUpdatableQueryParams'
 import useUserMetadata from '@hooks/useUserMetadata'
+import Calendar from '@molecules/Calendar'
+import CircleAndMemberFilters from '@molecules/CircleAndMemberFilters'
 import ScrollableLayout from '@molecules/ScrollableLayout'
-import Calendar from '@molecules/meeting/Calendar'
 import MeetingEditModal from '@organisms/meeting/MeetingEditModal'
 import MeetingExportModal from '@organisms/meeting/MeetingExportModal'
 import MeetingModal from '@organisms/meeting/MeetingModal'
@@ -47,7 +47,6 @@ import {
   getUTCDateFromDate,
 } from '@shared/helpers/rrule'
 import { truthy } from '@shared/helpers/truthy'
-import { EntityFilters } from '@shared/model/participants'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -55,7 +54,6 @@ import { Link } from 'react-router-dom'
 import { RRule } from 'rrule'
 import {
   AppsIcon,
-  ChevronDownIcon,
   CopyIcon,
   CreateIcon,
   ExportIcon,
@@ -65,21 +63,36 @@ import {
   ShowIcon,
 } from 'src/icons'
 
+type Params = {
+  member: string
+  circle: string
+}
+
 export default function MeetingsPage() {
   const { t } = useTranslation()
+  const { params, changeParams } = useUpdatableQueryParams<Params>()
   const isMember = useOrgMember()
   const circles = useStoreState((state) => state.org.circles)
+
+  // Member param
+  const memberId =
+    params.member && typeof params.member === 'string'
+      ? params.member
+      : undefined
+  const handleMemberChange = (member: string | undefined) =>
+    changeParams({ member })
+
+  // Circle param
+  const circleId =
+    params.circle && typeof params.circle === 'string'
+      ? params.circle
+      : undefined
+  const handleCircleChange = (circle: string | undefined) =>
+    changeParams({ circle })
 
   // Colors
   const { colorMode } = useColorMode()
   const colorLightness = colorMode === 'light' ? '92%' : '25%'
-
-  // Circles filter menu
-  const {
-    filter,
-    value: filterValue,
-    handleChange: handleFilterChange,
-  } = useEntitiesFilterMenu()
 
   // Dates range
   const [datesRange, setDatesRange] = useState<[Date, Date] | undefined>(
@@ -96,16 +109,30 @@ export default function MeetingsPage() {
       orgId: orgId!,
       fromDate: datesRange?.[0].toISOString()!,
       toDate: datesRange?.[1].toISOString()!,
+      filters: [
+        {
+          archived: { _eq: false },
+        },
+        ...(circleId ? [{ circleId: { _eq: circleId } }] : []),
+        ...(memberId
+          ? [{ meeting_attendees: { memberId: { _eq: memberId } } }]
+          : []),
+      ],
+      recurringFilters: circleId ? [{ circleId: { _eq: circleId } }] : [],
     },
   })
 
   // Filter meetings
-  const meetings = useFilterEntities(filter, data?.org_by_pk?.meetings)
+  const meetings = data?.org_by_pk?.meetings
 
   // Filter recurring meetings
-  const meetingsRecurring = useFilterEntities(
-    filter,
-    data?.org_by_pk?.meetings_recurring
+  const meetingsRecurringByScope = useFilterScopedEntitiesByMember(
+    data?.org_by_pk?.meetings_recurring,
+    memberId
+  )
+  const meetingsRecurring = useFilterEntitiesByCircle(
+    meetingsRecurringByScope,
+    circleId
   )
 
   // Prepare events for Fullcalendar
@@ -297,35 +324,14 @@ export default function MeetingsPage() {
               {t('MeetingsPage.heading')}
             </Heading>
 
-            <Menu closeOnSelect={false}>
-              <MenuButton
-                as={Button}
-                className="userflow-meetings-filter"
-                size="sm"
-                variant="outline"
-                fontWeight="normal"
-                rightIcon={<ChevronDownIcon size="1em" />}
-                my={2}
-                ml={7}
-              >
-                {t(`MeetingsPage.participation.${filter}` as any)}
-              </MenuButton>
-              <MenuList zIndex={2}>
-                <MenuOptionGroup
-                  title={t('MeetingsPage.participation.title')}
-                  type="checkbox"
-                  value={filterValue}
-                  onChange={handleFilterChange}
-                >
-                  <MenuItemOption value={EntityFilters.Invited}>
-                    {t('MeetingsPage.participation.Invited')}
-                  </MenuItemOption>
-                  <MenuItemOption value={EntityFilters.NotInvited}>
-                    {t('MeetingsPage.participation.NotInvited')}
-                  </MenuItemOption>
-                </MenuOptionGroup>
-              </MenuList>
-            </Menu>
+            <CircleAndMemberFilters
+              circleId={circleId}
+              memberId={memberId}
+              ml={5}
+              my={2}
+              onCircleChange={handleCircleChange}
+              onMemberChange={handleMemberChange}
+            />
 
             <Spacer />
 
