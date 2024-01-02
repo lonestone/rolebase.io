@@ -124,6 +124,8 @@ export default function SearchResultsList({
               highlighted={index === highlightedIndex}
               size="sm"
               w="100%"
+              h="auto"
+              whiteSpace="break-spaces"
               borderRadius="none"
               bg="transparent"
               _hover={{ bg: 'transparent' }}

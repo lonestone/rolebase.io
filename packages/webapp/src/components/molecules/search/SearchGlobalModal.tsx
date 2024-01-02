@@ -180,6 +180,8 @@ export default function SearchGlobalModal(modalProps: UseModalProps) {
                   highlighted={index === highlightedIndex}
                   size="sm"
                   w="100%"
+                  h="auto"
+                  whiteSpace="break-spaces"
                   py={2}
                   px={5}
                   bg="transparent"

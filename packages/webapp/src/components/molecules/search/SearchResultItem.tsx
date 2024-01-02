@@ -62,7 +62,6 @@ export default React.forwardRef<HTMLButtonElement, Props>(
         pointerEvents="auto"
         justifyContent="start"
         variant="solid"
-        h="auto"
         py={2}
         pl={`calc(var(--chakra-sizes-3) + ${depth * 20}px)`}
         {...buttonProps}
@@ -70,7 +69,7 @@ export default React.forwardRef<HTMLButtonElement, Props>(
         {item && (
           <>
             <SearchResultIcon item={item} size={buttonProps?.size} />
-            <Box ml={2} whiteSpace="break-spaces" textAlign="left">
+            <Box ml={2} textAlign="left">
               {title}
             </Box>
 
