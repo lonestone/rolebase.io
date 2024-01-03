@@ -41,7 +41,7 @@ insert_permissions:
       columns:
         - memberId
         - threadId
-    comment: ''
+    comment: ""
 select_permissions:
   - role: user
     permission:
@@ -68,7 +68,7 @@ select_permissions:
                     members:
                       userId:
                         _eq: X-Hasura-User-Id
-    comment: ''
+    comment: ""
 delete_permissions:
   - role: user
     permission:
@@ -99,4 +99,4 @@ delete_permissions:
                                 _eq: Admin
                             - role:
                                 _eq: Owner
-    comment: ''
+    comment: ""
