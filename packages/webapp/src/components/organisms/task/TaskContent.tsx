@@ -237,7 +237,7 @@ export default function TaskContent({
     onClose: onDeleteClose,
   } = useDisclosure()
 
-  if (error || (!task && !loading)) {
+  if (error || (id && !task && !loading)) {
     console.error(error || new Error('Task not found'))
     return <Page404 />
   }
