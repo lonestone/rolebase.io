@@ -1,0 +1,25 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- CREATE OR REPLACE VIEW "public"."circle_leader" AS
+--  WITH sub_circle_leader AS (
+--          SELECT sub_circle."parentId" AS "circleId",
+--             cm."memberId",
+--             sub_circle."orgId"
+--            FROM ((circle sub_circle
+--              JOIN role r ON ((sub_circle."roleId" = r.id)))
+--              JOIN circle_member cm ON ((sub_circle.id = cm."circleId")))
+--           WHERE ((r."parentLink" = true) AND (sub_circle.archived = false) AND (cm.archived = false))
+--         )
+--  SELECT c.id AS "circleId",
+--     cm."memberId",
+--     c."orgId"
+--    FROM (circle c
+--      LEFT JOIN circle_member cm ON ((c.id = cm."circleId")))
+--   WHERE ((NOT (EXISTS ( SELECT 1
+--            FROM sub_circle_leader scl
+--           WHERE (scl."circleId" = c.id)))) AND (cm.archived = false))
+-- UNION
+--  SELECT scl."circleId",
+--     scl."memberId",
+--     scl."orgId"
+--    FROM sub_circle_leader scl;
