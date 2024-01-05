@@ -1,0 +1,10 @@
+table:
+  name: circle_participant_cache
+  schema: public
+object_relationships:
+  - name: circle
+    using:
+      foreign_key_constraint_on: circleId
+  - name: member
+    using:
+      foreign_key_constraint_on: memberId

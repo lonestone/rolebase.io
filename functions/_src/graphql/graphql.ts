@@ -2434,9 +2434,9 @@ export type Circle = {
   parent?: Maybe<Circle>;
   parentId?: Maybe<Scalars['uuid']>;
   /** An array relationship */
-  participants: Array<Circle_Participant>;
+  participants: Array<Circle_Participant_Cache>;
   /** An aggregate relationship */
-  participants_aggregate: Circle_Participant_Aggregate;
+  participants_aggregate: Circle_Participant_Cache_Aggregate;
   /** An object relationship */
   role: Role;
   roleId: Scalars['uuid'];
@@ -2545,21 +2545,21 @@ export type CircleMembers_AggregateArgs = {
 
 /** columns and relationships of "circle" */
 export type CircleParticipantsArgs = {
-  distinct_on?: InputMaybe<Array<Circle_Participant_Select_Column>>;
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
-  where?: InputMaybe<Circle_Participant_Bool_Exp>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
 };
 
 
 /** columns and relationships of "circle" */
 export type CircleParticipants_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Circle_Participant_Select_Column>>;
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
-  where?: InputMaybe<Circle_Participant_Bool_Exp>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
 };
 
 /** aggregated selection of "circle" */
@@ -2646,8 +2646,8 @@ export type Circle_Bool_Exp = {
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   parent?: InputMaybe<Circle_Bool_Exp>;
   parentId?: InputMaybe<Uuid_Comparison_Exp>;
-  participants?: InputMaybe<Circle_Participant_Bool_Exp>;
-  participants_aggregate?: InputMaybe<Circle_Participant_Aggregate_Bool_Exp>;
+  participants?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+  participants_aggregate?: InputMaybe<Circle_Participant_Cache_Aggregate_Bool_Exp>;
   role?: InputMaybe<Role_Bool_Exp>;
   roleId?: InputMaybe<Uuid_Comparison_Exp>;
 };
@@ -2671,7 +2671,7 @@ export type Circle_Insert_Input = {
   orgId?: InputMaybe<Scalars['uuid']>;
   parent?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   parentId?: InputMaybe<Scalars['uuid']>;
-  participants?: InputMaybe<Circle_Participant_Arr_Rel_Insert_Input>;
+  participants?: InputMaybe<Circle_Participant_Cache_Arr_Rel_Insert_Input>;
   role?: InputMaybe<Role_Obj_Rel_Insert_Input>;
   roleId?: InputMaybe<Scalars['uuid']>;
 };
@@ -3471,7 +3471,7 @@ export type Circle_Order_By = {
   orgId?: InputMaybe<Order_By>;
   parent?: InputMaybe<Circle_Order_By>;
   parentId?: InputMaybe<Order_By>;
-  participants_aggregate?: InputMaybe<Circle_Participant_Aggregate_Order_By>;
+  participants_aggregate?: InputMaybe<Circle_Participant_Cache_Aggregate_Order_By>;
   role?: InputMaybe<Role_Order_By>;
   roleId?: InputMaybe<Order_By>;
 };
@@ -3495,17 +3495,6 @@ export type Circle_Participant_Aggregate = {
   nodes: Array<Circle_Participant>;
 };
 
-export type Circle_Participant_Aggregate_Bool_Exp = {
-  count?: InputMaybe<Circle_Participant_Aggregate_Bool_Exp_Count>;
-};
-
-export type Circle_Participant_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Circle_Participant_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Circle_Participant_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
-};
-
 /** aggregate fields of "circle_participant" */
 export type Circle_Participant_Aggregate_Fields = {
   __typename?: 'circle_participant_aggregate_fields';
@@ -3521,18 +3510,6 @@ export type Circle_Participant_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
-/** order by aggregate values of table "circle_participant" */
-export type Circle_Participant_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Circle_Participant_Max_Order_By>;
-  min?: InputMaybe<Circle_Participant_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "circle_participant" */
-export type Circle_Participant_Arr_Rel_Insert_Input = {
-  data: Array<Circle_Participant_Insert_Input>;
-};
-
 /** Boolean expression to filter rows from the table "circle_participant". All fields are combined with a logical 'AND'. */
 export type Circle_Participant_Bool_Exp = {
   _and?: InputMaybe<Array<Circle_Participant_Bool_Exp>>;
@@ -3545,13 +3522,199 @@ export type Circle_Participant_Bool_Exp = {
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
-/** input type for inserting data into table "circle_participant" */
-export type Circle_Participant_Insert_Input = {
+/** Cache of circle_participant for permissions optimization, updated by triggers */
+export type Circle_Participant_Cache = {
+  __typename?: 'circle_participant_cache';
+  /** An object relationship */
+  circle: Circle;
+  circleId: Scalars['uuid'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  member: Member;
+  memberId: Scalars['uuid'];
+};
+
+/** aggregated selection of "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate = {
+  __typename?: 'circle_participant_cache_aggregate';
+  aggregate?: Maybe<Circle_Participant_Cache_Aggregate_Fields>;
+  nodes: Array<Circle_Participant_Cache>;
+};
+
+export type Circle_Participant_Cache_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Circle_Participant_Cache_Aggregate_Bool_Exp_Count>;
+};
+
+export type Circle_Participant_Cache_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate_Fields = {
+  __typename?: 'circle_participant_cache_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Circle_Participant_Cache_Max_Fields>;
+  min?: Maybe<Circle_Participant_Cache_Min_Fields>;
+};
+
+
+/** aggregate fields of "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Circle_Participant_Cache_Max_Order_By>;
+  min?: InputMaybe<Circle_Participant_Cache_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "circle_participant_cache" */
+export type Circle_Participant_Cache_Arr_Rel_Insert_Input = {
+  data: Array<Circle_Participant_Cache_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Circle_Participant_Cache_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "circle_participant_cache". All fields are combined with a logical 'AND'. */
+export type Circle_Participant_Cache_Bool_Exp = {
+  _and?: InputMaybe<Array<Circle_Participant_Cache_Bool_Exp>>;
+  _not?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+  _or?: InputMaybe<Array<Circle_Participant_Cache_Bool_Exp>>;
+  circle?: InputMaybe<Circle_Bool_Exp>;
+  circleId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  member?: InputMaybe<Member_Bool_Exp>;
+  memberId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "circle_participant_cache" */
+export enum Circle_Participant_Cache_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  CircleParticipantCachePkey = 'circle_participant_cache_pkey'
+}
+
+/** input type for inserting data into table "circle_participant_cache" */
+export type Circle_Participant_Cache_Insert_Input = {
   circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   circleId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
   member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']>;
-  orgId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Circle_Participant_Cache_Max_Fields = {
+  __typename?: 'circle_participant_cache_max_fields';
+  circleId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  memberId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "circle_participant_cache" */
+export type Circle_Participant_Cache_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Circle_Participant_Cache_Min_Fields = {
+  __typename?: 'circle_participant_cache_min_fields';
+  circleId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  memberId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "circle_participant_cache" */
+export type Circle_Participant_Cache_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "circle_participant_cache" */
+export type Circle_Participant_Cache_Mutation_Response = {
+  __typename?: 'circle_participant_cache_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Circle_Participant_Cache>;
+};
+
+/** on_conflict condition type for table "circle_participant_cache" */
+export type Circle_Participant_Cache_On_Conflict = {
+  constraint: Circle_Participant_Cache_Constraint;
+  update_columns?: Array<Circle_Participant_Cache_Update_Column>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "circle_participant_cache". */
+export type Circle_Participant_Cache_Order_By = {
+  circle?: InputMaybe<Circle_Order_By>;
+  circleId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  member?: InputMaybe<Member_Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: circle_participant_cache */
+export type Circle_Participant_Cache_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "circle_participant_cache" */
+export enum Circle_Participant_Cache_Select_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId'
+}
+
+/** input type for updating data in table "circle_participant_cache" */
+export type Circle_Participant_Cache_Set_Input = {
+  circleId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "circle_participant_cache" */
+export type Circle_Participant_Cache_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Circle_Participant_Cache_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Circle_Participant_Cache_Stream_Cursor_Value_Input = {
+  circleId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  memberId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "circle_participant_cache" */
+export enum Circle_Participant_Cache_Update_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId'
+}
+
+export type Circle_Participant_Cache_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Circle_Participant_Cache_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Circle_Participant_Cache_Bool_Exp;
 };
 
 /** aggregate max on columns */
@@ -3562,26 +3725,12 @@ export type Circle_Participant_Max_Fields = {
   orgId?: Maybe<Scalars['uuid']>;
 };
 
-/** order by max() on columns of table "circle_participant" */
-export type Circle_Participant_Max_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
-};
-
 /** aggregate min on columns */
 export type Circle_Participant_Min_Fields = {
   __typename?: 'circle_participant_min_fields';
   circleId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
   orgId?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "circle_participant" */
-export type Circle_Participant_Min_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "circle_participant". */
@@ -8027,6 +8176,10 @@ export type Mutation_Root = {
   delete_circle_member?: Maybe<Circle_Member_Mutation_Response>;
   /** delete single row from the table: "circle_member" */
   delete_circle_member_by_pk?: Maybe<Circle_Member>;
+  /** delete data from the table: "circle_participant_cache" */
+  delete_circle_participant_cache?: Maybe<Circle_Participant_Cache_Mutation_Response>;
+  /** delete single row from the table: "circle_participant_cache" */
+  delete_circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
   /** delete data from the table: "decision" */
   delete_decision?: Maybe<Decision_Mutation_Response>;
   /** delete single row from the table: "decision" */
@@ -8211,6 +8364,10 @@ export type Mutation_Root = {
   insert_circle_member_one?: Maybe<Circle_Member>;
   /** insert a single row into the table: "circle" */
   insert_circle_one?: Maybe<Circle>;
+  /** insert data into the table: "circle_participant_cache" */
+  insert_circle_participant_cache?: Maybe<Circle_Participant_Cache_Mutation_Response>;
+  /** insert a single row into the table: "circle_participant_cache" */
+  insert_circle_participant_cache_one?: Maybe<Circle_Participant_Cache>;
   /** insert data into the table: "decision" */
   insert_decision?: Maybe<Decision_Mutation_Response>;
   /** insert a single row into the table: "decision" */
@@ -8421,6 +8578,12 @@ export type Mutation_Root = {
   update_circle_member_by_pk?: Maybe<Circle_Member>;
   /** update multiples rows of table: "circle_member" */
   update_circle_member_many?: Maybe<Array<Maybe<Circle_Member_Mutation_Response>>>;
+  /** update data of the table: "circle_participant_cache" */
+  update_circle_participant_cache?: Maybe<Circle_Participant_Cache_Mutation_Response>;
+  /** update single row of the table: "circle_participant_cache" */
+  update_circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
+  /** update multiples rows of table: "circle_participant_cache" */
+  update_circle_participant_cache_many?: Maybe<Array<Maybe<Circle_Participant_Cache_Mutation_Response>>>;
   /** update data of the table: "decision" */
   update_decision?: Maybe<Decision_Mutation_Response>;
   /** update single row of the table: "decision" */
@@ -8798,6 +8961,18 @@ export type Mutation_RootDelete_Circle_MemberArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Circle_Member_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Circle_Participant_CacheArgs = {
+  where: Circle_Participant_Cache_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Circle_Participant_Cache_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -9383,6 +9558,20 @@ export type Mutation_RootInsert_Circle_Member_OneArgs = {
 export type Mutation_RootInsert_Circle_OneArgs = {
   object: Circle_Insert_Input;
   on_conflict?: InputMaybe<Circle_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Circle_Participant_CacheArgs = {
+  objects: Array<Circle_Participant_Cache_Insert_Input>;
+  on_conflict?: InputMaybe<Circle_Participant_Cache_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Circle_Participant_Cache_OneArgs = {
+  object: Circle_Participant_Cache_Insert_Input;
+  on_conflict?: InputMaybe<Circle_Participant_Cache_On_Conflict>;
 };
 
 
@@ -10163,6 +10352,26 @@ export type Mutation_RootUpdate_Circle_Member_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Circle_Member_ManyArgs = {
   updates: Array<Circle_Member_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Circle_Participant_CacheArgs = {
+  _set?: InputMaybe<Circle_Participant_Cache_Set_Input>;
+  where: Circle_Participant_Cache_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Circle_Participant_Cache_By_PkArgs = {
+  _set?: InputMaybe<Circle_Participant_Cache_Set_Input>;
+  pk_columns: Circle_Participant_Cache_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Circle_Participant_Cache_ManyArgs = {
+  updates: Array<Circle_Participant_Cache_Updates>;
 };
 
 
@@ -12298,6 +12507,12 @@ export type Query_Root = {
   circle_participant: Array<Circle_Participant>;
   /** fetch aggregated fields from the table: "circle_participant" */
   circle_participant_aggregate: Circle_Participant_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" */
+  circle_participant_cache: Array<Circle_Participant_Cache>;
+  /** fetch aggregated fields from the table: "circle_participant_cache" */
+  circle_participant_cache_aggregate: Circle_Participant_Cache_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" using primary key columns */
+  circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
   /** fetch data from the table: "decision" */
   decision: Array<Decision>;
   /** fetch aggregated fields from the table: "decision" */
@@ -12839,6 +13054,29 @@ export type Query_RootCircle_Participant_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
   where?: InputMaybe<Circle_Participant_Bool_Exp>;
+};
+
+
+export type Query_RootCircle_Participant_CacheArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Query_RootCircle_Participant_Cache_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Query_RootCircle_Participant_Cache_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -14805,6 +15043,14 @@ export type Subscription_Root = {
   circle_participant: Array<Circle_Participant>;
   /** fetch aggregated fields from the table: "circle_participant" */
   circle_participant_aggregate: Circle_Participant_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" */
+  circle_participant_cache: Array<Circle_Participant_Cache>;
+  /** fetch aggregated fields from the table: "circle_participant_cache" */
+  circle_participant_cache_aggregate: Circle_Participant_Cache_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" using primary key columns */
+  circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
+  /** fetch data from the table in a streaming manner: "circle_participant_cache" */
+  circle_participant_cache_stream: Array<Circle_Participant_Cache>;
   /** fetch data from the table in a streaming manner: "circle_participant" */
   circle_participant_stream: Array<Circle_Participant>;
   /** fetch data from the table in a streaming manner: "circle" */
@@ -15511,6 +15757,36 @@ export type Subscription_RootCircle_Participant_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
   where?: InputMaybe<Circle_Participant_Bool_Exp>;
+};
+
+
+export type Subscription_RootCircle_Participant_CacheArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Subscription_RootCircle_Participant_Cache_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Subscription_RootCircle_Participant_Cache_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootCircle_Participant_Cache_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Circle_Participant_Cache_Stream_Cursor_Input>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
 };
 
 
@@ -20298,13 +20574,6 @@ export type GetCirclesForSearchQueryVariables = Exact<{ [key: string]: never; }>
 
 export type GetCirclesForSearchQuery = { __typename?: 'query_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string } } | null } | null } | null }> };
 
-export type GetRoleCirclesForSearchQueryVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type GetRoleCirclesForSearchQuery = { __typename?: 'query_root', role: Array<{ __typename?: 'role', circles: Array<{ __typename?: 'circle', id: string, orgId: string, role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string } } | null } | null } | null }> }> };
-
 export type DecisionSearchFragment = { __typename?: 'decision', id: string, orgId: string, title: string, createdAt: string };
 
 export type GetDecisionForSearchQueryVariables = Exact<{
@@ -20376,6 +20645,13 @@ export type GetMembersForSearchQueryVariables = Exact<{ [key: string]: never; }>
 
 
 export type GetMembersForSearchQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, orgId: string, name: string, description: string, picture?: string | null }> };
+
+export type GetRoleCirclesForSearchQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GetRoleCirclesForSearchQuery = { __typename?: 'query_root', circle: Array<{ __typename?: 'circle', id: string, orgId: string, role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string }, parent?: { __typename?: 'circle', role: { __typename?: 'role', name: string } } | null } | null } | null }> };
 
 export type TaskSearchFragment = { __typename?: 'task', id: string, orgId: string, title: string, createdAt: string };
 
@@ -20462,6 +20738,33 @@ export type ThreadExtraMemberFragment = { __typename?: 'thread_extra_member', id
 export type UserAppFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any };
 
 export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, tmpData?: any | null, createdAt: any, user?: { __typename?: 'users', metadata: UserMetadata } | null };
+
+export type GetAllParticipantsForRecomputeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllParticipantsForRecomputeQuery = { __typename?: 'query_root', circle_participant: Array<{ __typename?: 'circle_participant', circleId?: string | null, memberId?: string | null }> };
+
+export type GetOrgParticipantsForRecomputeQueryVariables = Exact<{
+  orgId: Scalars['uuid'];
+}>;
+
+
+export type GetOrgParticipantsForRecomputeQuery = { __typename?: 'query_root', circle_participant: Array<{ __typename?: 'circle_participant', circleId?: string | null, memberId?: string | null }> };
+
+export type GetOrgIdForRecomputeQueryVariables = Exact<{
+  circleId: Scalars['uuid'];
+}>;
+
+
+export type GetOrgIdForRecomputeQuery = { __typename?: 'query_root', circle_by_pk?: { __typename?: 'circle', orgId: string } | null };
+
+export type ReplaceParticipantsForRecomputeMutationVariables = Exact<{
+  participants: Array<Circle_Participant_Cache_Insert_Input> | Circle_Participant_Cache_Insert_Input;
+  deleteWhere: Circle_Participant_Cache_Bool_Exp;
+}>;
+
+
+export type ReplaceParticipantsForRecomputeMutation = { __typename?: 'mutation_root', delete_circle_participant_cache?: { __typename?: 'circle_participant_cache_mutation_response', returning: Array<{ __typename?: 'circle_participant_cache', id: string }> } | null, insert_circle_participant_cache?: { __typename?: 'circle_participant_cache_mutation_response', returning: Array<{ __typename?: 'circle_participant_cache', id: string }> } | null };
 
 export type GetMemberQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -20948,7 +21251,6 @@ export const CreateTasksImportDocument = {"kind":"Document","definitions":[{"kin
 export const GetFileByNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetFileByName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"files"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetFileByNameQuery, GetFileByNameQueryVariables>;
 export const GetCircleForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCircleForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circle_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetCircleForSearchQuery, GetCircleForSearchQueryVariables>;
 export const GetCirclesForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCirclesForSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetCirclesForSearchQuery, GetCirclesForSearchQueryVariables>;
-export const GetRoleCirclesForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRoleCirclesForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleSearch"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetRoleCirclesForSearchQuery, GetRoleCirclesForSearchQueryVariables>;
 export const GetDecisionForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetDecisionForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"decision_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DecisionSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DecisionSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"decision"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<GetDecisionForSearchQuery, GetDecisionForSearchQueryVariables>;
 export const GetDecisionsForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetDecisionsForSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"decision"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DecisionSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DecisionSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"decision"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<GetDecisionsForSearchQuery, GetDecisionsForSearchQueryVariables>;
 export const GetMeetingForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMeetingForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meeting_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeetingSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"steps"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notes"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}}]}}]} as unknown as DocumentNode<GetMeetingForSearchQuery, GetMeetingForSearchQueryVariables>;
@@ -20959,10 +21261,15 @@ export const GetMeetingAttendeeForSearchDocument = {"kind":"Document","definitio
 export const GetMeetingRecurringDataForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMeetingRecurringDataForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"meetingId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meeting_recurring_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"meetingId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeetingRecurring"}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"apps"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserAppFull"}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Circle"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"parentLink"}},{"kind":"Field","name":{"kind":"Name","value":"defaultMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleSummary"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingRecurring"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_recurring"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"scope"}},{"kind":"Field","name":{"kind":"Name","value":"templateId"}},{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rrule"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleSummary"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"member"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSummary"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"invitedCircleLinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"invitedCircle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"pictureFileId"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"inviteEmail"}},{"kind":"Field","name":{"kind":"Name","value":"inviteDate"}},{"kind":"Field","name":{"kind":"Name","value":"workedMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserAppFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"user_app"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"secretConfig"}},{"kind":"Field","name":{"kind":"Name","value":"config"}},{"kind":"Field","name":{"kind":"Name","value":"tmpData"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metadata"}}]}}]}}]} as unknown as DocumentNode<GetMeetingRecurringDataForSearchQuery, GetMeetingRecurringDataForSearchQueryVariables>;
 export const GetMemberForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMemberForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"member_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}}]} as unknown as DocumentNode<GetMemberForSearchQuery, GetMemberForSearchQueryVariables>;
 export const GetMembersForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMembersForSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"member"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}}]} as unknown as DocumentNode<GetMembersForSearchQuery, GetMembersForSearchQueryVariables>;
+export const GetRoleCirclesForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRoleCirclesForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"roleId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetRoleCirclesForSearchQuery, GetRoleCirclesForSearchQueryVariables>;
 export const GetTaskForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTaskForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"task_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaskSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaskSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<GetTaskForSearchQuery, GetTaskForSearchQueryVariables>;
 export const GetTasksForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTasksForSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"task"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TaskSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TaskSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"task"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<GetTasksForSearchQuery, GetTasksForSearchQueryVariables>;
 export const GetThreadForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetThreadForSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thread_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThreadSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"activities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]}}]} as unknown as DocumentNode<GetThreadForSearchQuery, GetThreadForSearchQueryVariables>;
 export const GetThreadsForSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetThreadsForSearch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thread"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ThreadSearch"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ThreadSearch"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"thread"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"activities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]}}]} as unknown as DocumentNode<GetThreadsForSearchQuery, GetThreadsForSearchQueryVariables>;
+export const GetAllParticipantsForRecomputeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllParticipantsForRecompute"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circle_participant"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"circle"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}}]}}]}}]} as unknown as DocumentNode<GetAllParticipantsForRecomputeQuery, GetAllParticipantsForRecomputeQueryVariables>;
+export const GetOrgParticipantsForRecomputeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgParticipantsForRecompute"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circle_participant"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"circle"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}}]}}]}}]} as unknown as DocumentNode<GetOrgParticipantsForRecomputeQuery, GetOrgParticipantsForRecomputeQueryVariables>;
+export const GetOrgIdForRecomputeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgIdForRecompute"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"circleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circle_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"circleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orgId"}}]}}]}}]} as unknown as DocumentNode<GetOrgIdForRecomputeQuery, GetOrgIdForRecomputeQueryVariables>;
+export const ReplaceParticipantsForRecomputeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"replaceParticipantsForRecompute"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"participants"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"circle_participant_cache_insert_input"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"deleteWhere"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"circle_participant_cache_bool_exp"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_circle_participant_cache"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"deleteWhere"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"insert_circle_participant_cache"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"participants"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<ReplaceParticipantsForRecomputeMutation, ReplaceParticipantsForRecomputeMutationVariables>;
 export const GetMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"member_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"inviteDate"}}]}}]}}]} as unknown as DocumentNode<GetMemberQuery, GetMemberQueryVariables>;
 export const GetOrgSubscriptionAndActiveMembersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgSubscriptionAndActiveMembers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_subscription"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"stripeSubscriptionId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members_aggregate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_is_null"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgSubscriptionAndActiveMembersQuery, GetOrgSubscriptionAndActiveMembersQueryVariables>;
 export const GetOrgMembersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgMembers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"role"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"EnumValue","value":"Owner"}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgMembersQuery, GetOrgMembersQueryVariables>;

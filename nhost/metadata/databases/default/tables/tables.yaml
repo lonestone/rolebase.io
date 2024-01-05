@@ -13,6 +13,7 @@
 - "!include public_circle_link.yaml"
 - "!include public_circle_member.yaml"
 - "!include public_circle_participant.yaml"
+- "!include public_circle_participant_cache.yaml"
 - "!include public_decision.yaml"
 - "!include public_log.yaml"
 - "!include public_meeting.yaml"

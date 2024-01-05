@@ -94,3 +94,21 @@ delete_permissions:
                   userId:
                     _eq: X-Hasura-User-Id
     comment: ""
+event_triggers:
+  - name: index-circle-link
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 3
+      timeout_sec: 60
+    webhook: '{{NHOST_FUNCTIONS_URL}}/routes/events/indexEntity'
+    headers:
+      - name: x-nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

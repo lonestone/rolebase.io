@@ -45,6 +45,9 @@ export const getAlgoliaConfig = fn<{ orgId: string }, AlgoliaConfig>(
 )
 
 export const searchReindexAll = fn('searchReindexAll')
+export const recomputeCircleParticipantCache = fn(
+  'recomputeCircleParticipantCache'
+)
 
 export const getMeetingsToken = fn<{ orgId: string }, string>(
   'meetings/getMeetingsToken'

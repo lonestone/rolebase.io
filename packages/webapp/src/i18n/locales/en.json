@@ -915,7 +915,8 @@
   },
   "SuperAdminPage": {
     "heading": "Admin dashboard",
-    "searchReindex": "Reindex search engine"
+    "searchReindex": "Reindex search engine",
+    "recomputeCircleParticipantCache": "Recompute circle_participant_cache"
   },
   "TaskContent": {
     "headingEdit": "Task",

@@ -2437,9 +2437,9 @@ export type Circle = {
   parent?: Maybe<Circle>;
   parentId?: Maybe<Scalars['uuid']['output']>;
   /** An array relationship */
-  participants: Array<Circle_Participant>;
+  participants: Array<Circle_Participant_Cache>;
   /** An aggregate relationship */
-  participants_aggregate: Circle_Participant_Aggregate;
+  participants_aggregate: Circle_Participant_Cache_Aggregate;
   /** An object relationship */
   role: Role;
   roleId: Scalars['uuid']['output'];
@@ -2548,21 +2548,21 @@ export type CircleMembers_AggregateArgs = {
 
 /** columns and relationships of "circle" */
 export type CircleParticipantsArgs = {
-  distinct_on?: InputMaybe<Array<Circle_Participant_Select_Column>>;
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
-  where?: InputMaybe<Circle_Participant_Bool_Exp>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
 };
 
 
 /** columns and relationships of "circle" */
 export type CircleParticipants_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Circle_Participant_Select_Column>>;
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
-  where?: InputMaybe<Circle_Participant_Bool_Exp>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
 };
 
 /** aggregated selection of "circle" */
@@ -2649,8 +2649,8 @@ export type Circle_Bool_Exp = {
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
   parent?: InputMaybe<Circle_Bool_Exp>;
   parentId?: InputMaybe<Uuid_Comparison_Exp>;
-  participants?: InputMaybe<Circle_Participant_Bool_Exp>;
-  participants_aggregate?: InputMaybe<Circle_Participant_Aggregate_Bool_Exp>;
+  participants?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+  participants_aggregate?: InputMaybe<Circle_Participant_Cache_Aggregate_Bool_Exp>;
   role?: InputMaybe<Role_Bool_Exp>;
   roleId?: InputMaybe<Uuid_Comparison_Exp>;
 };
@@ -2674,7 +2674,7 @@ export type Circle_Insert_Input = {
   orgId?: InputMaybe<Scalars['uuid']['input']>;
   parent?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   parentId?: InputMaybe<Scalars['uuid']['input']>;
-  participants?: InputMaybe<Circle_Participant_Arr_Rel_Insert_Input>;
+  participants?: InputMaybe<Circle_Participant_Cache_Arr_Rel_Insert_Input>;
   role?: InputMaybe<Role_Obj_Rel_Insert_Input>;
   roleId?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -3474,7 +3474,7 @@ export type Circle_Order_By = {
   orgId?: InputMaybe<Order_By>;
   parent?: InputMaybe<Circle_Order_By>;
   parentId?: InputMaybe<Order_By>;
-  participants_aggregate?: InputMaybe<Circle_Participant_Aggregate_Order_By>;
+  participants_aggregate?: InputMaybe<Circle_Participant_Cache_Aggregate_Order_By>;
   role?: InputMaybe<Role_Order_By>;
   roleId?: InputMaybe<Order_By>;
 };
@@ -3488,7 +3488,6 @@ export type Circle_Participant = {
   /** An object relationship */
   member?: Maybe<Member>;
   memberId?: Maybe<Scalars['uuid']['output']>;
-  orgId?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregated selection of "circle_participant" */
@@ -3496,17 +3495,6 @@ export type Circle_Participant_Aggregate = {
   __typename?: 'circle_participant_aggregate';
   aggregate?: Maybe<Circle_Participant_Aggregate_Fields>;
   nodes: Array<Circle_Participant>;
-};
-
-export type Circle_Participant_Aggregate_Bool_Exp = {
-  count?: InputMaybe<Circle_Participant_Aggregate_Bool_Exp_Count>;
-};
-
-export type Circle_Participant_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<Circle_Participant_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-  filter?: InputMaybe<Circle_Participant_Bool_Exp>;
-  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "circle_participant" */
@@ -3524,18 +3512,6 @@ export type Circle_Participant_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** order by aggregate values of table "circle_participant" */
-export type Circle_Participant_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Circle_Participant_Max_Order_By>;
-  min?: InputMaybe<Circle_Participant_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "circle_participant" */
-export type Circle_Participant_Arr_Rel_Insert_Input = {
-  data: Array<Circle_Participant_Insert_Input>;
-};
-
 /** Boolean expression to filter rows from the table "circle_participant". All fields are combined with a logical 'AND'. */
 export type Circle_Participant_Bool_Exp = {
   _and?: InputMaybe<Array<Circle_Participant_Bool_Exp>>;
@@ -3545,16 +3521,201 @@ export type Circle_Participant_Bool_Exp = {
   circleId?: InputMaybe<Uuid_Comparison_Exp>;
   member?: InputMaybe<Member_Bool_Exp>;
   memberId?: InputMaybe<Uuid_Comparison_Exp>;
-  orgId?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
-/** input type for inserting data into table "circle_participant" */
-export type Circle_Participant_Insert_Input = {
+/** Cache of circle_participant for permissions optimization, updated by triggers */
+export type Circle_Participant_Cache = {
+  __typename?: 'circle_participant_cache';
+  /** An object relationship */
+  circle: Circle;
+  circleId: Scalars['uuid']['output'];
+  id: Scalars['uuid']['output'];
+  /** An object relationship */
+  member: Member;
+  memberId: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate = {
+  __typename?: 'circle_participant_cache_aggregate';
+  aggregate?: Maybe<Circle_Participant_Cache_Aggregate_Fields>;
+  nodes: Array<Circle_Participant_Cache>;
+};
+
+export type Circle_Participant_Cache_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Circle_Participant_Cache_Aggregate_Bool_Exp_Count>;
+};
+
+export type Circle_Participant_Cache_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate_Fields = {
+  __typename?: 'circle_participant_cache_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Circle_Participant_Cache_Max_Fields>;
+  min?: Maybe<Circle_Participant_Cache_Min_Fields>;
+};
+
+
+/** aggregate fields of "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "circle_participant_cache" */
+export type Circle_Participant_Cache_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Circle_Participant_Cache_Max_Order_By>;
+  min?: InputMaybe<Circle_Participant_Cache_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "circle_participant_cache" */
+export type Circle_Participant_Cache_Arr_Rel_Insert_Input = {
+  data: Array<Circle_Participant_Cache_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Circle_Participant_Cache_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "circle_participant_cache". All fields are combined with a logical 'AND'. */
+export type Circle_Participant_Cache_Bool_Exp = {
+  _and?: InputMaybe<Array<Circle_Participant_Cache_Bool_Exp>>;
+  _not?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+  _or?: InputMaybe<Array<Circle_Participant_Cache_Bool_Exp>>;
+  circle?: InputMaybe<Circle_Bool_Exp>;
+  circleId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  member?: InputMaybe<Member_Bool_Exp>;
+  memberId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "circle_participant_cache" */
+export enum Circle_Participant_Cache_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  CircleParticipantCachePkey = 'circle_participant_cache_pkey'
+}
+
+/** input type for inserting data into table "circle_participant_cache" */
+export type Circle_Participant_Cache_Insert_Input = {
   circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   circleId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
   member?: InputMaybe<Member_Obj_Rel_Insert_Input>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
-  orgId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Circle_Participant_Cache_Max_Fields = {
+  __typename?: 'circle_participant_cache_max_fields';
+  circleId?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  memberId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "circle_participant_cache" */
+export type Circle_Participant_Cache_Max_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Circle_Participant_Cache_Min_Fields = {
+  __typename?: 'circle_participant_cache_min_fields';
+  circleId?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  memberId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "circle_participant_cache" */
+export type Circle_Participant_Cache_Min_Order_By = {
+  circleId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "circle_participant_cache" */
+export type Circle_Participant_Cache_Mutation_Response = {
+  __typename?: 'circle_participant_cache_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Circle_Participant_Cache>;
+};
+
+/** on_conflict condition type for table "circle_participant_cache" */
+export type Circle_Participant_Cache_On_Conflict = {
+  constraint: Circle_Participant_Cache_Constraint;
+  update_columns?: Array<Circle_Participant_Cache_Update_Column>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "circle_participant_cache". */
+export type Circle_Participant_Cache_Order_By = {
+  circle?: InputMaybe<Circle_Order_By>;
+  circleId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  member?: InputMaybe<Member_Order_By>;
+  memberId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: circle_participant_cache */
+export type Circle_Participant_Cache_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "circle_participant_cache" */
+export enum Circle_Participant_Cache_Select_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId'
+}
+
+/** input type for updating data in table "circle_participant_cache" */
+export type Circle_Participant_Cache_Set_Input = {
+  circleId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** Streaming cursor of the table "circle_participant_cache" */
+export type Circle_Participant_Cache_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Circle_Participant_Cache_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Circle_Participant_Cache_Stream_Cursor_Value_Input = {
+  circleId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  memberId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "circle_participant_cache" */
+export enum Circle_Participant_Cache_Update_Column {
+  /** column name */
+  CircleId = 'circleId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MemberId = 'memberId'
+}
+
+export type Circle_Participant_Cache_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Circle_Participant_Cache_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Circle_Participant_Cache_Bool_Exp;
 };
 
 /** aggregate max on columns */
@@ -3562,14 +3723,6 @@ export type Circle_Participant_Max_Fields = {
   __typename?: 'circle_participant_max_fields';
   circleId?: Maybe<Scalars['uuid']['output']>;
   memberId?: Maybe<Scalars['uuid']['output']>;
-  orgId?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** order by max() on columns of table "circle_participant" */
-export type Circle_Participant_Max_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -3577,14 +3730,6 @@ export type Circle_Participant_Min_Fields = {
   __typename?: 'circle_participant_min_fields';
   circleId?: Maybe<Scalars['uuid']['output']>;
   memberId?: Maybe<Scalars['uuid']['output']>;
-  orgId?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** order by min() on columns of table "circle_participant" */
-export type Circle_Participant_Min_Order_By = {
-  circleId?: InputMaybe<Order_By>;
-  memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "circle_participant". */
@@ -3593,7 +3738,6 @@ export type Circle_Participant_Order_By = {
   circleId?: InputMaybe<Order_By>;
   member?: InputMaybe<Member_Order_By>;
   memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "circle_participant" */
@@ -3601,9 +3745,7 @@ export enum Circle_Participant_Select_Column {
   /** column name */
   CircleId = 'circleId',
   /** column name */
-  MemberId = 'memberId',
-  /** column name */
-  OrgId = 'orgId'
+  MemberId = 'memberId'
 }
 
 /** Streaming cursor of the table "circle_participant" */
@@ -3618,7 +3760,6 @@ export type Circle_Participant_Stream_Cursor_Input = {
 export type Circle_Participant_Stream_Cursor_Value_Input = {
   circleId?: InputMaybe<Scalars['uuid']['input']>;
   memberId?: InputMaybe<Scalars['uuid']['input']>;
-  orgId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** primary key columns input for table: circle */
@@ -8030,6 +8171,10 @@ export type Mutation_Root = {
   delete_circle_member?: Maybe<Circle_Member_Mutation_Response>;
   /** delete single row from the table: "circle_member" */
   delete_circle_member_by_pk?: Maybe<Circle_Member>;
+  /** delete data from the table: "circle_participant_cache" */
+  delete_circle_participant_cache?: Maybe<Circle_Participant_Cache_Mutation_Response>;
+  /** delete single row from the table: "circle_participant_cache" */
+  delete_circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
   /** delete data from the table: "decision" */
   delete_decision?: Maybe<Decision_Mutation_Response>;
   /** delete single row from the table: "decision" */
@@ -8214,6 +8359,10 @@ export type Mutation_Root = {
   insert_circle_member_one?: Maybe<Circle_Member>;
   /** insert a single row into the table: "circle" */
   insert_circle_one?: Maybe<Circle>;
+  /** insert data into the table: "circle_participant_cache" */
+  insert_circle_participant_cache?: Maybe<Circle_Participant_Cache_Mutation_Response>;
+  /** insert a single row into the table: "circle_participant_cache" */
+  insert_circle_participant_cache_one?: Maybe<Circle_Participant_Cache>;
   /** insert data into the table: "decision" */
   insert_decision?: Maybe<Decision_Mutation_Response>;
   /** insert a single row into the table: "decision" */
@@ -8424,6 +8573,12 @@ export type Mutation_Root = {
   update_circle_member_by_pk?: Maybe<Circle_Member>;
   /** update multiples rows of table: "circle_member" */
   update_circle_member_many?: Maybe<Array<Maybe<Circle_Member_Mutation_Response>>>;
+  /** update data of the table: "circle_participant_cache" */
+  update_circle_participant_cache?: Maybe<Circle_Participant_Cache_Mutation_Response>;
+  /** update single row of the table: "circle_participant_cache" */
+  update_circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
+  /** update multiples rows of table: "circle_participant_cache" */
+  update_circle_participant_cache_many?: Maybe<Array<Maybe<Circle_Participant_Cache_Mutation_Response>>>;
   /** update data of the table: "decision" */
   update_decision?: Maybe<Decision_Mutation_Response>;
   /** update single row of the table: "decision" */
@@ -8801,6 +8956,18 @@ export type Mutation_RootDelete_Circle_MemberArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Circle_Member_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Circle_Participant_CacheArgs = {
+  where: Circle_Participant_Cache_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Circle_Participant_Cache_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -9386,6 +9553,20 @@ export type Mutation_RootInsert_Circle_Member_OneArgs = {
 export type Mutation_RootInsert_Circle_OneArgs = {
   object: Circle_Insert_Input;
   on_conflict?: InputMaybe<Circle_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Circle_Participant_CacheArgs = {
+  objects: Array<Circle_Participant_Cache_Insert_Input>;
+  on_conflict?: InputMaybe<Circle_Participant_Cache_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Circle_Participant_Cache_OneArgs = {
+  object: Circle_Participant_Cache_Insert_Input;
+  on_conflict?: InputMaybe<Circle_Participant_Cache_On_Conflict>;
 };
 
 
@@ -10166,6 +10347,26 @@ export type Mutation_RootUpdate_Circle_Member_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Circle_Member_ManyArgs = {
   updates: Array<Circle_Member_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Circle_Participant_CacheArgs = {
+  _set?: InputMaybe<Circle_Participant_Cache_Set_Input>;
+  where: Circle_Participant_Cache_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Circle_Participant_Cache_By_PkArgs = {
+  _set?: InputMaybe<Circle_Participant_Cache_Set_Input>;
+  pk_columns: Circle_Participant_Cache_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Circle_Participant_Cache_ManyArgs = {
+  updates: Array<Circle_Participant_Cache_Updates>;
 };
 
 
@@ -12301,6 +12502,12 @@ export type Query_Root = {
   circle_participant: Array<Circle_Participant>;
   /** fetch aggregated fields from the table: "circle_participant" */
   circle_participant_aggregate: Circle_Participant_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" */
+  circle_participant_cache: Array<Circle_Participant_Cache>;
+  /** fetch aggregated fields from the table: "circle_participant_cache" */
+  circle_participant_cache_aggregate: Circle_Participant_Cache_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" using primary key columns */
+  circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
   /** fetch data from the table: "decision" */
   decision: Array<Decision>;
   /** fetch aggregated fields from the table: "decision" */
@@ -12842,6 +13049,29 @@ export type Query_RootCircle_Participant_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
   where?: InputMaybe<Circle_Participant_Bool_Exp>;
+};
+
+
+export type Query_RootCircle_Participant_CacheArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Query_RootCircle_Participant_Cache_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Query_RootCircle_Participant_Cache_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -14808,6 +15038,14 @@ export type Subscription_Root = {
   circle_participant: Array<Circle_Participant>;
   /** fetch aggregated fields from the table: "circle_participant" */
   circle_participant_aggregate: Circle_Participant_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" */
+  circle_participant_cache: Array<Circle_Participant_Cache>;
+  /** fetch aggregated fields from the table: "circle_participant_cache" */
+  circle_participant_cache_aggregate: Circle_Participant_Cache_Aggregate;
+  /** fetch data from the table: "circle_participant_cache" using primary key columns */
+  circle_participant_cache_by_pk?: Maybe<Circle_Participant_Cache>;
+  /** fetch data from the table in a streaming manner: "circle_participant_cache" */
+  circle_participant_cache_stream: Array<Circle_Participant_Cache>;
   /** fetch data from the table in a streaming manner: "circle_participant" */
   circle_participant_stream: Array<Circle_Participant>;
   /** fetch data from the table in a streaming manner: "circle" */
@@ -15514,6 +15752,36 @@ export type Subscription_RootCircle_Participant_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Circle_Participant_Order_By>>;
   where?: InputMaybe<Circle_Participant_Bool_Exp>;
+};
+
+
+export type Subscription_RootCircle_Participant_CacheArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Subscription_RootCircle_Participant_Cache_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Circle_Participant_Cache_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Circle_Participant_Cache_Order_By>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
+};
+
+
+export type Subscription_RootCircle_Participant_Cache_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCircle_Participant_Cache_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Circle_Participant_Cache_Stream_Cursor_Input>>;
+  where?: InputMaybe<Circle_Participant_Cache_Bool_Exp>;
 };
 
 

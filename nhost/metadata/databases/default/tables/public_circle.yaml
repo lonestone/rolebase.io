@@ -56,7 +56,7 @@ array_relationships:
           id: circleId
         insertion_order: null
         remote_table:
-          name: circle_participant
+          name: circle_participant_cache
           schema: public
 insert_permissions:
   - role: user

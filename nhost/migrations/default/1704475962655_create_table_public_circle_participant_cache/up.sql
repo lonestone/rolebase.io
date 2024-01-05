@@ -1,0 +1,2 @@
+CREATE TABLE "public"."circle_participant_cache" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "circleId" uuid NOT NULL, "memberId" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("circleId") REFERENCES "public"."circle"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("memberId") REFERENCES "public"."member"("id") ON UPDATE restrict ON DELETE cascade);COMMENT ON TABLE "public"."circle_participant_cache" IS E'Cache of circle_participant for permissions optimization, updated by triggers';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

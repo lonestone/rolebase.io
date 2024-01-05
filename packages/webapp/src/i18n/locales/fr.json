@@ -951,7 +951,8 @@
   },
   "SuperAdminPage": {
     "heading": "Administration",
-    "searchReindex": "Réindexer le moteur de recherche"
+    "searchReindex": "Réindexer le moteur de recherche",
+    "recomputeCircleParticipantCache": "Recalculer circle_participant_cache"
   },
   "TaskContent": {
     "headingEdit": "Tâche",

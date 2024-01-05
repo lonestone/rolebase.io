@@ -1,36 +1,57 @@
-import { searchReindexAll } from '@api/functions'
-import { WarningIcon } from '@chakra-ui/icons'
-import { Box, Button, Container, Heading } from '@chakra-ui/react'
+import {
+  recomputeCircleParticipantCache,
+  searchReindexAll,
+} from '@api/functions'
+import Loading from '@atoms/Loading'
+import { Button, Container, Heading, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function SuperAdminPage() {
   const { t } = useTranslation()
+  const [loading, setLoading] = useState(false)
 
   // Reindex all entities in search engine
-  const [searchReindexLoading, setSearchReindexLoading] = useState(false)
   const handleSearchReindex = async () => {
-    setSearchReindexLoading(true)
+    setLoading(true)
     await searchReindexAll({})
-    setSearchReindexLoading(false)
+    setLoading(false)
+  }
+
+  // Recompute circle_participant_cache
+  const handleRecomputeCircleParticipantCache = async () => {
+    setLoading(true)
+    await recomputeCircleParticipantCache({})
+    setLoading(false)
   }
 
   return (
     <Container maxW="md" mt="60px">
+      {loading && <Loading active center />}
+
       <Heading size="md" mb={10}>
         {t('SuperAdminPage.heading')}
       </Heading>
 
-      <Box mb={10}>
+      <VStack mb={10} align="start">
         <Button
           size="sm"
-          leftIcon={<WarningIcon />}
-          isLoading={searchReindexLoading}
+          colorScheme="orange"
+          isDisabled={loading}
           onClick={handleSearchReindex}
         >
           {t('SuperAdminPage.searchReindex')}
         </Button>
-      </Box>
+
+        <Button
+          size="sm"
+          colorScheme="orange"
+          isDisabled={loading}
+          onClick={handleRecomputeCircleParticipantCache}
+        >
+          {t('SuperAdminPage.recomputeCircleParticipantCache')}
+        </Button>
+      </VStack>
     </Container>
   )
 }

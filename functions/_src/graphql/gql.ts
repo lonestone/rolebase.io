@@ -25,7 +25,6 @@ const documents = {
     "\n  fragment CircleSearch on circle {\n    id\n    orgId\n    role {\n      name\n    }\n    parent {\n      role {\n        name\n      }\n      parent {\n        role {\n          name\n        }\n        parent {\n          role {\n            name\n          }\n        }\n      }\n    }\n  }\n": types.CircleSearchFragmentDoc,
     "\n        query GetCircleForSearch($id: uuid!) {\n          circle_by_pk(id: $id) {\n            ...CircleSearch\n          }\n        }\n      ": types.GetCircleForSearchDocument,
     "\n        query GetCirclesForSearch {\n          circle(where: { archived: { _eq: false } }) {\n            ...CircleSearch\n          }\n        }\n      ": types.GetCirclesForSearchDocument,
-    "\n          query GetRoleCirclesForSearch($id: uuid!) {\n            role(where: { id: { _eq: $id } }) {\n              circles(where: { archived: { _eq: false } }) {\n                ...CircleSearch\n              }\n            }\n          }\n        ": types.GetRoleCirclesForSearchDocument,
     "\n  fragment DecisionSearch on decision {\n    id\n    orgId\n    title\n    createdAt\n  }\n": types.DecisionSearchFragmentDoc,
     "\n        query GetDecisionForSearch($id: uuid!) {\n          decision_by_pk(id: $id) {\n            ...DecisionSearch\n          }\n        }\n      ": types.GetDecisionForSearchDocument,
     "\n        query GetDecisionsForSearch {\n          decision(where: { archived: { _eq: false } }) {\n            ...DecisionSearch\n          }\n        }\n      ": types.GetDecisionsForSearchDocument,
@@ -39,6 +38,7 @@ const documents = {
     "\n  fragment MemberSearch on member {\n    id\n    orgId\n    name\n    description\n    picture\n  }\n": types.MemberSearchFragmentDoc,
     "\n        query GetMemberForSearch($id: uuid!) {\n          member_by_pk(id: $id) {\n            ...MemberSearch\n          }\n        }\n      ": types.GetMemberForSearchDocument,
     "\n        query GetMembersForSearch {\n          member(where: { archived: { _eq: false } }) {\n            ...MemberSearch\n          }\n        }\n      ": types.GetMembersForSearchDocument,
+    "\n          query GetRoleCirclesForSearch($id: uuid!) {\n            circle(where: {\n              roleId: { _eq: $id },\n              archived: { _eq: false }\n            }) {\n              ...CircleSearch\n            }\n          }\n        ": types.GetRoleCirclesForSearchDocument,
     "\n  fragment TaskSearch on task {\n    id\n    orgId\n    title\n    createdAt\n  }\n": types.TaskSearchFragmentDoc,
     "\n        query GetTaskForSearch($id: uuid!) {\n          task_by_pk(id: $id) {\n            ...TaskSearch\n          }\n        }\n      ": types.GetTaskForSearchDocument,
     "\n        query GetTasksForSearch {\n          task(where: { archived: { _eq: false } }) {\n            ...TaskSearch\n          }\n        }\n      ": types.GetTasksForSearchDocument,
@@ -64,6 +64,10 @@ const documents = {
     "fragment ThreadActivity on thread_activity {\n  id\n  threadId\n  userId\n  createdAt\n  type\n  data\n  refThread {\n    ...Thread\n  }\n  refMeeting {\n    ...MeetingSummary\n  }\n  refTask {\n    ...Task\n  }\n  refDecision {\n    ...Decision\n  }\n}": types.ThreadActivityFragmentDoc,
     "fragment ThreadExtraMember on thread_extra_member {\n  id\n  threadId\n  memberId\n}": types.ThreadExtraMemberFragmentDoc,
     "fragment UserApp on user_app {\n  id\n  userId\n  type\n  config\n}\n\nfragment UserAppFull on user_app {\n  id\n  userId\n  type\n  secretConfig\n  config\n  tmpData\n  createdAt\n  user {\n    metadata\n  }\n}": types.UserAppFragmentDoc,
+    "\n        query getAllParticipantsForRecompute {\n          circle_participant(where: {\n            circle: {\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n    ": types.GetAllParticipantsForRecomputeDocument,
+    "\n        query getOrgParticipantsForRecompute($orgId: uuid!) {\n          circle_participant(where: {\n            circle: {\n              orgId: { _eq: $orgId },\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n      ": types.GetOrgParticipantsForRecomputeDocument,
+    "\n        query getOrgIdForRecompute($circleId: uuid!) {\n          circle_by_pk(id: $circleId) {\n            orgId\n          }\n        }\n      ": types.GetOrgIdForRecomputeDocument,
+    "\n        mutation replaceParticipantsForRecompute(\n          $participants: [circle_participant_cache_insert_input!]!\n          $deleteWhere: circle_participant_cache_bool_exp!\n        ) {\n          delete_circle_participant_cache(where: $deleteWhere) {\n            returning {\n              id\n            }\n          }\n          insert_circle_participant_cache(objects: $participants) {\n            returning {\n              id\n            }\n          }\n        }\n    ": types.ReplaceParticipantsForRecomputeDocument,
     "\n  query getMember($id: uuid!) {\n    member_by_pk(id: $id) {\n      id\n      orgId\n      userId\n      name\n      role\n      inviteDate\n    }\n  }\n": types.GetMemberDocument,
     "\n  query getOrgSubscriptionAndActiveMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      org_subscription {\n        id\n        stripeSubscriptionId\n        status\n        type\n      }\n      members_aggregate(where: {\n        archived: { _eq: false },\n        userId: { _is_null: false }\n      }) {\n        aggregate {\n          count\n        }\n      }\n    }\n  }\n": types.GetOrgSubscriptionAndActiveMembersDocument,
     "\n  query getOrgMembers($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n    id\n    members(where: {role: {_eq: Owner}}) {\n      id\n    }\n  }\n}": types.GetOrgMembersDocument,
@@ -191,10 +195,6 @@ export function gql(source: "\n        query GetCirclesForSearch {\n          ci
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n          query GetRoleCirclesForSearch($id: uuid!) {\n            role(where: { id: { _eq: $id } }) {\n              circles(where: { archived: { _eq: false } }) {\n                ...CircleSearch\n              }\n            }\n          }\n        "): (typeof documents)["\n          query GetRoleCirclesForSearch($id: uuid!) {\n            role(where: { id: { _eq: $id } }) {\n              circles(where: { archived: { _eq: false } }) {\n                ...CircleSearch\n              }\n            }\n          }\n        "];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function gql(source: "\n  fragment DecisionSearch on decision {\n    id\n    orgId\n    title\n    createdAt\n  }\n"): (typeof documents)["\n  fragment DecisionSearch on decision {\n    id\n    orgId\n    title\n    createdAt\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -244,6 +244,10 @@ export function gql(source: "\n        query GetMemberForSearch($id: uuid!) {\n 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n        query GetMembersForSearch {\n          member(where: { archived: { _eq: false } }) {\n            ...MemberSearch\n          }\n        }\n      "): (typeof documents)["\n        query GetMembersForSearch {\n          member(where: { archived: { _eq: false } }) {\n            ...MemberSearch\n          }\n        }\n      "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n          query GetRoleCirclesForSearch($id: uuid!) {\n            circle(where: {\n              roleId: { _eq: $id },\n              archived: { _eq: false }\n            }) {\n              ...CircleSearch\n            }\n          }\n        "): (typeof documents)["\n          query GetRoleCirclesForSearch($id: uuid!) {\n            circle(where: {\n              roleId: { _eq: $id },\n              archived: { _eq: false }\n            }) {\n              ...CircleSearch\n            }\n          }\n        "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -344,6 +348,22 @@ export function gql(source: "fragment ThreadExtraMember on thread_extra_member {
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "fragment UserApp on user_app {\n  id\n  userId\n  type\n  config\n}\n\nfragment UserAppFull on user_app {\n  id\n  userId\n  type\n  secretConfig\n  config\n  tmpData\n  createdAt\n  user {\n    metadata\n  }\n}"): (typeof documents)["fragment UserApp on user_app {\n  id\n  userId\n  type\n  config\n}\n\nfragment UserAppFull on user_app {\n  id\n  userId\n  type\n  secretConfig\n  config\n  tmpData\n  createdAt\n  user {\n    metadata\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n        query getAllParticipantsForRecompute {\n          circle_participant(where: {\n            circle: {\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n    "): (typeof documents)["\n        query getAllParticipantsForRecompute {\n          circle_participant(where: {\n            circle: {\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n        query getOrgParticipantsForRecompute($orgId: uuid!) {\n          circle_participant(where: {\n            circle: {\n              orgId: { _eq: $orgId },\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n      "): (typeof documents)["\n        query getOrgParticipantsForRecompute($orgId: uuid!) {\n          circle_participant(where: {\n            circle: {\n              orgId: { _eq: $orgId },\n              archived: { _eq: false }\n            }\n          }) {\n            circleId\n            memberId\n          }\n        }\n      "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n        query getOrgIdForRecompute($circleId: uuid!) {\n          circle_by_pk(id: $circleId) {\n            orgId\n          }\n        }\n      "): (typeof documents)["\n        query getOrgIdForRecompute($circleId: uuid!) {\n          circle_by_pk(id: $circleId) {\n            orgId\n          }\n        }\n      "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n        mutation replaceParticipantsForRecompute(\n          $participants: [circle_participant_cache_insert_input!]!\n          $deleteWhere: circle_participant_cache_bool_exp!\n        ) {\n          delete_circle_participant_cache(where: $deleteWhere) {\n            returning {\n              id\n            }\n          }\n          insert_circle_participant_cache(objects: $participants) {\n            returning {\n              id\n            }\n          }\n        }\n    "): (typeof documents)["\n        mutation replaceParticipantsForRecompute(\n          $participants: [circle_participant_cache_insert_input!]!\n          $deleteWhere: circle_participant_cache_bool_exp!\n        ) {\n          delete_circle_participant_cache(where: $deleteWhere) {\n            returning {\n              id\n            }\n          }\n          insert_circle_participant_cache(objects: $participants) {\n            returning {\n              id\n            }\n          }\n        }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
