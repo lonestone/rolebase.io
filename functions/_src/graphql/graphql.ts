@@ -3485,7 +3485,6 @@ export type Circle_Participant = {
   /** An object relationship */
   member?: Maybe<Member>;
   memberId?: Maybe<Scalars['uuid']>;
-  orgId?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregated selection of "circle_participant" */
@@ -3519,7 +3518,6 @@ export type Circle_Participant_Bool_Exp = {
   circleId?: InputMaybe<Uuid_Comparison_Exp>;
   member?: InputMaybe<Member_Bool_Exp>;
   memberId?: InputMaybe<Uuid_Comparison_Exp>;
-  orgId?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** Cache of circle_participant for permissions optimization, updated by triggers */
@@ -3722,7 +3720,6 @@ export type Circle_Participant_Max_Fields = {
   __typename?: 'circle_participant_max_fields';
   circleId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
-  orgId?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate min on columns */
@@ -3730,7 +3727,6 @@ export type Circle_Participant_Min_Fields = {
   __typename?: 'circle_participant_min_fields';
   circleId?: Maybe<Scalars['uuid']>;
   memberId?: Maybe<Scalars['uuid']>;
-  orgId?: Maybe<Scalars['uuid']>;
 };
 
 /** Ordering options when selecting data from "circle_participant". */
@@ -3739,7 +3735,6 @@ export type Circle_Participant_Order_By = {
   circleId?: InputMaybe<Order_By>;
   member?: InputMaybe<Member_Order_By>;
   memberId?: InputMaybe<Order_By>;
-  orgId?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "circle_participant" */
@@ -3747,9 +3742,7 @@ export enum Circle_Participant_Select_Column {
   /** column name */
   CircleId = 'circleId',
   /** column name */
-  MemberId = 'memberId',
-  /** column name */
-  OrgId = 'orgId'
+  MemberId = 'memberId'
 }
 
 /** Streaming cursor of the table "circle_participant" */
@@ -3764,7 +3757,6 @@ export type Circle_Participant_Stream_Cursor_Input = {
 export type Circle_Participant_Stream_Cursor_Value_Input = {
   circleId?: InputMaybe<Scalars['uuid']>;
   memberId?: InputMaybe<Scalars['uuid']>;
-  orgId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** primary key columns input for table: circle */

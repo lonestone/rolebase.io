@@ -157,7 +157,7 @@ export abstract class AbstractCirclesGraph extends Graph {
     }
 
     // Update root radius
-    this.updateRootRadius(nodesMap[1].r)
+    this.updateRootRadius(nodesMap[1]?.r || nodesMap[0]?.r || 0)
 
     // Zoom on root circle at first draw
     if (firstDraw) {
