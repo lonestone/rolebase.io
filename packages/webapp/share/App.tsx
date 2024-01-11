@@ -1,6 +1,6 @@
+import { CircleMemberStateProvider } from '@/circle/contexts/CircleMemberStateProvider'
+import { SidebarProvider } from '@/layout/contexts/SidebarContext'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import { CircleMemberStateProvider } from '@contexts/CircleMemberStateProvider'
-import { SidebarProvider } from '@contexts/SidebarContext'
 import { NhostProvider } from '@nhost/react'
 import { NhostApolloProvider } from '@nhost/react-apollo'
 import { StoreProvider } from 'easy-peasy'

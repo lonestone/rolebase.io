@@ -1,0 +1,33 @@
+import { useNormalClickHandler } from '@/common/hooks/useNormalClickHandler'
+import { usePathInOrg } from '@/org/hooks/usePathInOrg'
+import { Link, LinkProps, useDisclosure } from '@chakra-ui/react'
+import React from 'react'
+import { Link as ReachLink } from 'react-router-dom'
+import DecisionModal from '../modals/DecisionModal'
+
+interface Props extends LinkProps {
+  name: string
+  id: string
+}
+
+export default function DecisionLink({ id, name, ...linkProps }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const handleOpen = useNormalClickHandler(onOpen)
+  const path = usePathInOrg(`decisions/${id}`)
+
+  return (
+    <>
+      <Link
+        as={ReachLink}
+        to={path}
+        tabIndex={-1}
+        onClick={handleOpen}
+        {...linkProps}
+      >
+        {name}
+      </Link>
+
+      {isOpen && <DecisionModal id={id} isOpen onClose={onClose} />}
+    </>
+  )
+}

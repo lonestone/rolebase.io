@@ -1,4 +1,4 @@
-import GlassBox from '@atoms/GlassBox'
+import GlassBox from '@/common/atoms/GlassBox'
 import { Modal, ModalProps } from '@chakra-ui/react'
 import React from 'react'
 

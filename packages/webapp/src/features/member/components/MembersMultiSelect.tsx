@@ -1,0 +1,92 @@
+import CircleMemberLink from '@/circle/components/CircleMemberLink'
+import { BoxProps, ButtonGroup, IconButton, VStack } from '@chakra-ui/react'
+import { truthy } from '@shared/helpers/truthy'
+import { useStoreState } from '@store/hooks'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiX } from 'react-icons/fi'
+import { CreateIcon } from 'src/icons'
+import MemberSearchButton from '../../search/components/MemberSearchButton'
+import MemberButton from './MemberButton'
+
+interface Props extends BoxProps {
+  circleId?: string // Used for member link
+  membersIds: string[]
+  excludeMembersIds?: string[]
+  max?: number
+  onAdd?(memberId: string): void
+  onRemove?(memberId: string): void
+}
+
+export default function MembersMultiSelect({
+  circleId,
+  membersIds,
+  excludeMembersIds,
+  max,
+  onAdd,
+  onRemove,
+  ...boxProps
+}: Props) {
+  const { t } = useTranslation()
+  const members = useStoreState((state) => state.org.members)
+  const excludeMembersIdsMemo = useMemo(
+    () =>
+      excludeMembersIds ? membersIds.concat(excludeMembersIds) : membersIds,
+    [membersIds, excludeMembersIds]
+  )
+
+  // Get selected members
+  const selectedMembers = useMemo(
+    () =>
+      membersIds
+        .map((id) => members?.find((m) => m.id === id))
+        .filter(truthy)
+        // Sort by name
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    [membersIds, members]
+  )
+
+  return (
+    <VStack spacing={2} alignItems="start" {...boxProps}>
+      {selectedMembers.map((m, i) => (
+        <CircleMemberLink
+          key={m.id}
+          className={`userflow-member-${i}`}
+          memberId={m.id}
+          circleId={circleId}
+          tabIndex={-1}
+        >
+          <ButtonGroup variant="ghost" size="sm" isAttached>
+            <MemberButton member={m} pr={1} />
+            {onRemove && (
+              <IconButton
+                aria-label={t('common.remove')}
+                icon={<FiX />}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onRemove(m.id)
+                }}
+              />
+            )}
+          </ButtonGroup>
+        </CircleMemberLink>
+      ))}
+
+      {onAdd && (!max || selectedMembers.length < max) ? (
+        <MemberSearchButton
+          excludeIds={excludeMembersIdsMemo}
+          className="userflow-add-member-btn"
+          size="sm"
+          variant="outline"
+          leftIcon={<CreateIcon size={20} />}
+          onSelect={onAdd}
+        >
+          {max === 1
+            ? t(`MembersMultiSelect.choose`)
+            : t(`MembersMultiSelect.add`)}
+        </MemberSearchButton>
+      ) : null}
+    </VStack>
+  )
+}

@@ -16,9 +16,6 @@ services:
   #       source: /*
   #       destination: /index.html
   #   headers:
-  #     - path: /src/demos/*
-  #       name: Access-Control-Allow-Origin
-  #       value: '*'
   #     - path: /assets/*
   #       name: Access-Control-Allow-Origin
   #       value: '*'

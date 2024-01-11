@@ -1,0 +1,229 @@
+import CircleButton from '@/circle/components/CircleButton'
+import useCircle from '@/circle/hooks/useCircle'
+import Loading from '@/common/atoms/Loading'
+import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
+import TextErrors from '@/common/atoms/TextErrors'
+import useDateLocale from '@/common/hooks/useDateLocale'
+import ParticipantsNumber from '@/participants/components/ParticipantsNumber'
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  FormLabel,
+  Heading,
+  HStack,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalOverlay,
+  Select,
+  Spacer,
+  useDisclosure,
+  UseModalProps,
+  Wrap,
+} from '@chakra-ui/react'
+import { useMeetingRecurringSubscription } from '@gql'
+import { getScopeMemberIds } from '@shared/helpers/getScopeMemberIds'
+import {
+  excludeMeetingsFromRRule,
+  getDateFromUTCDate,
+} from '@shared/helpers/rrule'
+import { truthy } from '@shared/helpers/truthy'
+import { ParticipantMember } from '@shared/model/member'
+import { useStoreState } from '@store/hooks'
+import { capitalizeFirstLetter } from '@utils/capitalizeFirstLetter'
+import { add, format } from 'date-fns'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { MeetingRecurringIcon } from 'src/icons'
+import useCreateMeeting from '../hooks/useCreateMeeting'
+import MeetingRecurringEditModal from './MeetingRecurringEditModal'
+
+interface Props extends UseModalProps {
+  id: string
+  defaultDate?: Date
+}
+
+export default function MeetingRecurringModal({
+  id,
+  defaultDate,
+  ...modalProps
+}: Props) {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const dateLocale = useDateLocale()
+  const createMeeting = useCreateMeeting()
+
+  // Get recurring meeting
+  const { data, loading, error } = useMeetingRecurringSubscription({
+    variables: { id },
+  })
+  console.log({ data, loading, error })
+
+  const meetingRecurring = data?.meeting_recurring_by_pk
+
+  // Circle
+  const circle = useCircle(meetingRecurring?.circleId)
+
+  // Participants
+  const circles = useStoreState((state) => state.org.circles)
+  const members = useStoreState((state) => state.org.members)
+  const participants = useMemo(
+    () =>
+      meetingRecurring?.scope &&
+      circles &&
+      members &&
+      getScopeMemberIds(meetingRecurring?.scope, circles)
+        .map((id): ParticipantMember | undefined => {
+          const member = members.find((m) => m.id === id)
+          if (!member) return
+          return { member, circlesIds: [] }
+        })
+        .filter(truthy),
+    [meetingRecurring, circles]
+  )
+
+  // Next dates
+  const nextDates = useMemo(() => {
+    if (!meetingRecurring) return
+
+    // Exclude meetings from rrule
+    const rrule = excludeMeetingsFromRRule(
+      meetingRecurring.rrule,
+      meetingRecurring.meetings
+    )
+
+    // After and before dates
+    const after = new Date()
+    const before = new Date()
+    before.setFullYear(before.getFullYear() + 1)
+
+    return rrule
+      .between(after, before, true, (date, i) => i < 10)
+      .map((date) => getDateFromUTCDate(date).toISOString())
+  }, [meetingRecurring])
+
+  // Additional date
+  const additionalDate = useMemo(() => {
+    const dateStr = defaultDate?.toISOString()
+    if (!dateStr || nextDates?.includes(dateStr)) return
+    return dateStr
+  }, [defaultDate, nextDates])
+
+  // Next date select
+  const [nextDate, setNextDate] = React.useState<string | undefined>(
+    defaultDate?.toISOString()
+  )
+
+  const editModal = useDisclosure()
+
+  // Create meeting occurrence
+  const handleCreate = async () => {
+    if (!meetingRecurring || !nextDate || !participants) return
+    const result = await createMeeting({
+      orgId: meetingRecurring.orgId,
+      circleId: meetingRecurring.circleId,
+      startDate: nextDate,
+      endDate: add(new Date(nextDate), {
+        minutes: meetingRecurring.duration,
+      }).toISOString(),
+      title: meetingRecurring.template.title,
+      stepsConfig: meetingRecurring.template.stepsConfig,
+      videoConf: meetingRecurring.videoConf,
+      recurringDate: nextDate,
+      recurringId: meetingRecurring.id,
+      meeting_attendees: {
+        data: participants.map(({ member }) => ({ memberId: member.id })),
+      },
+    })
+
+    if (!result) return
+    navigate(result.path)
+  }
+
+  return (
+    <Modal size="xl" blockScrollOnMount={false} {...modalProps}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalBody>
+          <Wrap spacing={2} flex={1} align="center">
+            <HStack spacing={2} alignItems="center">
+              <MeetingRecurringIcon />
+              <Heading as="h1" size="md">
+                {t('MeetingHeader.heading', {
+                  title: meetingRecurring?.template.title || '…',
+                })}
+              </Heading>
+            </HStack>
+
+            <Spacer />
+
+            <HStack spacing={2}>
+              {circle && <CircleButton circle={circle} />}
+
+              {participants && (
+                <ParticipantsNumber participants={participants} />
+              )}
+
+              <ModalCloseStaticButton />
+            </HStack>
+          </Wrap>
+
+          <TextErrors errors={[error]} />
+
+          <Alert status="info" my={10}>
+            <AlertIcon />
+            {t('MeetingRecurringModal.info')}
+          </Alert>
+
+          <FormLabel>{t('MeetingRecurringModal.createLabel')}</FormLabel>
+          <Select
+            value={nextDate}
+            onChange={(e) => setNextDate(e.target.value)}
+          >
+            {(additionalDate
+              ? nextDates?.concat(additionalDate)
+              : nextDates
+            )?.map((date) => (
+              <option key={date} value={date}>
+                {capitalizeFirstLetter(
+                  format(new Date(date), 'PPPP, HH:mm', { locale: dateLocale })
+                )}
+              </option>
+            ))}
+          </Select>
+        </ModalBody>
+
+        <ModalFooter>
+          {loading ? (
+            <Loading active size="md" />
+          ) : (
+            <Button onClick={editModal.onOpen}>
+              {t('MeetingRecurringModal.edit')}
+            </Button>
+          )}
+
+          <Spacer />
+
+          <Button
+            colorScheme="blue"
+            isDisabled={loading}
+            onClick={handleCreate}
+          >
+            {t('MeetingRecurringModal.create')}
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+
+      {editModal.isOpen && (
+        <MeetingRecurringEditModal
+          isOpen
+          meetingRecurring={meetingRecurring ?? undefined}
+          onClose={editModal.onClose}
+        />
+      )}
+    </Modal>
+  )
+}

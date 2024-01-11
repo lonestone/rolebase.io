@@ -20,16 +20,11 @@
     "baseUrl": ".",
     "paths": {
       "@api/*": ["src/api/*"],
+      "@/*": ["src/features/*"],
       "@gql": ["src/graphql.generated.ts"],
-      "@atoms/*": ["src/components/atoms/*"],
-      "@molecules/*": ["src/components/molecules/*"],
-      "@organisms/*": ["src/components/organisms/*"],
-      "@pages/*": ["src/components/pages/*"],
-      "@contexts/*": ["src/contexts/*"],
-      "@hooks/*": ["src/hooks/*"],
+      "@images/*": ["src/images/*"],
       "@shared/*": ["../../functions/_src/shared/*"],
       "@store/*": ["src/store/*"],
-      "@images/*": ["src/images/*"],
       "@utils/*": ["src/utils/*"]
     }
   }

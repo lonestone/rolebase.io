@@ -1,6 +1,6 @@
+import MemberRoles from '@/member/components/MemberRoles'
+import useMember from '@/member/hooks/useMember'
 import { Avatar, Flex, Heading, ModalCloseButton } from '@chakra-ui/react'
-import useMember from '@hooks/useMember'
-import MemberRoles from '@molecules/member/MemberRoles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 

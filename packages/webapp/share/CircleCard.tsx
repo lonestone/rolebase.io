@@ -1,7 +1,7 @@
+import CircleAndParentsLinks from '@/circle/components/CircleAndParentsLinks'
+import CircleRole from '@/circle/components/CircleRole'
+import { CircleContext } from '@/circle/contexts/CIrcleContext'
 import { Box, ModalCloseButton } from '@chakra-ui/react'
-import { CircleContext } from '@contexts/CIrcleContext'
-import CircleAndParentsLinks from '@molecules/circle/CircleAndParentsLinks'
-import CircleRole from '@molecules/circle/CircleRole'
 import React, { useContext } from 'react'
 
 interface Props {
