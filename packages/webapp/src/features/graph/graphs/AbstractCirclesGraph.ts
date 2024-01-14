@@ -1,3 +1,7 @@
+import {
+  AVATAR_GRAPH_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import { CircleFullFragment } from '@gql'
 import { Participant } from '@shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
@@ -99,7 +103,7 @@ export abstract class AbstractCirclesGraph extends Graph {
           memberId: entry.member.id,
           parentId: circle.id,
           name: textEllipsis(entry.member.name, 20),
-          picture: entry.member.picture,
+          picture: getResizedImageUrl(entry.member.picture, AVATAR_GRAPH_WIDTH),
           value: settings.memberValue,
           type: NodeType.Member,
           colorHue,

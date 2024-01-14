@@ -1,3 +1,7 @@
+import {
+  AVATAR_HEADING_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import MemberRoles from '@/member/components/MemberRoles'
 import useMember from '@/member/hooks/useMember'
 import { Avatar, Flex, Heading, ModalCloseButton } from '@chakra-ui/react'
@@ -22,7 +26,10 @@ export default function MemberCard({ id, selectedCircleId }: Props) {
       <Flex flexDirection="column" alignItems="center" mt={5} mb={8}>
         <Avatar
           name={member.name}
-          src={member.picture || undefined}
+          src={
+            getResizedImageUrl(member.picture, AVATAR_HEADING_WIDTH) ||
+            undefined
+          }
           size="2xl"
         />
 

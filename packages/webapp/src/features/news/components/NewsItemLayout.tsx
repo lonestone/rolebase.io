@@ -1,8 +1,8 @@
 import useDateLocale from '@/common/hooks/useDateLocale'
+import MemberAvatar from '@/member/components/MemberAvatar'
 import MemberLink from '@/member/components/MemberLink'
 import useMember from '@/member/hooks/useMember'
 import {
-  Avatar,
   Box,
   Card,
   CardBody,
@@ -43,14 +43,7 @@ export default function NewsItemLayout({
         {icon ? (
           <Icon as={icon} w="2em" h="2em" />
         ) : (
-          member && (
-            <Avatar
-              name={member.name || '?'}
-              src={member.picture || undefined}
-              w="2em"
-              h="2em"
-            />
-          )
+          member && <MemberAvatar member={member} noTooltip w="2em" h="2em" />
         )}
 
         <Box flex="1" ml={3}>

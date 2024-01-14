@@ -1,4 +1,8 @@
 import CircleMemberLink from '@/circle/components/CircleMemberLink'
+import {
+  AVATAR_SM_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import MemberMenuItem from '@/member/components/MemberMenuItem'
 import {
   Avatar,
@@ -55,7 +59,10 @@ export default function ParticipantsNumber({
               <Avatar
                 key={i}
                 name={member.name}
-                src={member.picture || undefined}
+                src={
+                  getResizedImageUrl(member.picture, AVATAR_SM_WIDTH) ||
+                  undefined
+                }
                 size="xs"
                 position="absolute"
                 top={0}

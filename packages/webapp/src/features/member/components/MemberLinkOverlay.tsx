@@ -1,3 +1,7 @@
+import {
+  AVATAR_SM_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import useCircleMemberLink from '@/participants/hooks/useCircleMemberLink'
 import { Avatar, LinkOverlay, LinkOverlayProps } from '@chakra-ui/react'
 import { MemberFragment } from '@gql'
@@ -26,8 +30,8 @@ export default function MemberLinkOverlay({
       >
         <Avatar
           name={member.name}
-          src={member.picture || undefined}
-          size={'sm'}
+          src={getResizedImageUrl(member.picture, AVATAR_SM_WIDTH) || undefined}
+          size="sm"
           mr={3}
         />
         {member.name}

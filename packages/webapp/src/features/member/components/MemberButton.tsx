@@ -1,4 +1,8 @@
 import {
+  AVATAR_SM_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
+import {
   Avatar,
   Button,
   ButtonProps,
@@ -26,7 +30,7 @@ export default forwardRef(function MemberButton(
     <Button ref={ref} {...buttonProps}>
       <Avatar
         name={member.name}
-        src={member.picture || undefined}
+        src={getResizedImageUrl(member.picture, AVATAR_SM_WIDTH) || undefined}
         size={avatarSize}
         ml="-10px"
         mr={2}

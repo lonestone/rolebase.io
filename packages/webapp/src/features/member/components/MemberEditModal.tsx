@@ -1,3 +1,7 @@
+import {
+  AVATAR_HEADING_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import ActionsMenu from '@/common/atoms/ActionsMenu'
 import DurationSelect from '@/common/atoms/DurationSelect'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
@@ -243,7 +247,10 @@ export default function MemberEditModal({ id, ...modalProps }: Props) {
                 <MemberPictureEdit
                   id={id}
                   name={member.name}
-                  src={member.picture || undefined}
+                  src={
+                    getResizedImageUrl(member.picture, AVATAR_HEADING_WIDTH) ||
+                    undefined
+                  }
                   size="lg"
                 />
 

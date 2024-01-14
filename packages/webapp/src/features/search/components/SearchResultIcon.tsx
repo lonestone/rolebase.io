@@ -1,3 +1,7 @@
+import {
+  AVATAR_SM_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import { Avatar, AvatarProps, Center } from '@chakra-ui/react'
 import { SearchTypes } from '@shared/model/search'
 import React from 'react'
@@ -32,7 +36,7 @@ export default function SearchResultIcon({ item, size }: Props) {
     return (
       <Avatar
         name={item.title}
-        src={item.picture || undefined}
+        src={getResizedImageUrl(item.picture, AVATAR_SM_WIDTH) || undefined}
         size={size === 'sm' ? 'xs' : 'sm'}
         ml="-8px"
       />

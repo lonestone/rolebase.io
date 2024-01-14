@@ -1,3 +1,7 @@
+import {
+  AVATAR_HEADING_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import ActionsMenu from '@/common/atoms/ActionsMenu'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import { Title } from '@/common/atoms/Title'
@@ -10,16 +14,16 @@ import {
   Flex,
   Heading,
   ModalCloseButton,
-  useDisclosure,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { useUserId } from '@nhost/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import useMember from '../hooks/useMember'
 import useOrgAdmin from '../hooks/useOrgAdmin'
-import { MemberEditableField } from './MemberEditableField'
 import MemberEditModal from './MemberEditModal'
+import { MemberEditableField } from './MemberEditableField'
 import MemberPictureEdit from './MemberPictureEdit'
 import MemberRoles from './MemberRoles'
 import MemberWorkingTime from './MemberWorkingTime'
@@ -78,13 +82,19 @@ export default function MemberContent({
             <MemberPictureEdit
               id={id}
               name={member.name}
-              src={member.picture || undefined}
+              src={
+                getResizedImageUrl(member.picture, AVATAR_HEADING_WIDTH) ||
+                undefined
+              }
               size="2xl"
             />
           ) : (
             <Avatar
               name={member.name}
-              src={member.picture || undefined}
+              src={
+                getResizedImageUrl(member.picture, AVATAR_HEADING_WIDTH) ||
+                undefined
+              }
               size="2xl"
             />
           )}

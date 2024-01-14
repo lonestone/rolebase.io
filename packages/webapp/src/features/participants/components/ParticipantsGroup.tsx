@@ -1,3 +1,7 @@
+import {
+  AVATAR_SM_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import { Avatar, AvatarGroup, AvatarGroupProps } from '@chakra-ui/react'
 import { MemberFragment } from '@gql'
 import React from 'react'
@@ -26,7 +30,9 @@ export default function ParticipantsGroup({
               key={i}
               border="1px solid"
               name={member.name}
-              src={member.picture || undefined}
+              src={
+                getResizedImageUrl(member.picture, AVATAR_SM_WIDTH) || undefined
+              }
             />
           )
       )}

@@ -1,3 +1,7 @@
+import {
+  AVATAR_SM_WIDTH,
+  getResizedImageUrl,
+} from '@/common/api/storage_images'
 import { Avatar, MenuItem, MenuItemProps, Stack, Text } from '@chakra-ui/react'
 import { MemberSummaryFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
@@ -33,7 +37,7 @@ export default function MemberMenuItem({
     <MenuItem {...menuItemProps}>
       <Avatar
         name={member.name}
-        src={member.picture || undefined}
+        src={getResizedImageUrl(member.picture, AVATAR_SM_WIDTH) || undefined}
         size="sm"
         mr={2}
       />

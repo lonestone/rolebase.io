@@ -3,6 +3,7 @@ import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { useUserData } from '@nhost/react'
 import { Crisp } from 'crisp-sdk-web'
 import { useEffect } from 'react'
+import { AVATAR_SM_WIDTH, getResizedImageUrl } from '../api/storage_images'
 
 export default function CrispSetUser() {
   const user = useUserData()
@@ -11,7 +12,8 @@ export default function CrispSetUser() {
 
   const email = user?.email
   const nickname = member?.name || user?.displayName
-  const avatar = member?.picture || user?.avatarUrl
+  const avatar =
+    getResizedImageUrl(member?.picture, AVATAR_SM_WIDTH) || user?.avatarUrl
 
   useEffect(() => {
     if (!email) return

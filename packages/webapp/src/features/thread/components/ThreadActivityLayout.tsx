@@ -1,5 +1,6 @@
 import ActionsMenu from '@/common/atoms/ActionsMenu'
 import { useHoverItemStyle } from '@/common/hooks/useHoverItemStyle'
+import MemberAvatar from '@/member/components/MemberAvatar'
 import MemberLink from '@/member/components/MemberLink'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import useOrgAdmin from '@/member/hooks/useOrgAdmin'
@@ -54,12 +55,11 @@ export default function ThreadActivityLayout({
     <Flex p={3} pl={6} _hover={hover} role="group">
       <ThreadActivityAnchor activityId={activity.id} />
 
-      <Avatar
-        name={member?.name || '?'}
-        src={member?.picture || undefined}
-        size="md"
-        mr={3}
-      />
+      {member ? (
+        <MemberAvatar member={member} noTooltip size="md" mr={3} />
+      ) : (
+        <Avatar name="?" size="md" mr={3} />
+      )}
 
       <Box flex="1">
         <ActionsMenu
