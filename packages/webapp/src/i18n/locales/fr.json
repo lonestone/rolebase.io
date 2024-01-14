@@ -225,7 +225,7 @@
   "DashboardMyTasks": { "title": "Mes Tâches", "add": "Nouvelle tâche" },
   "DashboardNews": {
     "heading": "Actualités",
-    "empty": "Aucune actualité.",
+    "empty": "Les dernières activités de {{org}} apparaitront ici : nouveau sujets, réunions terminées, décisions prises, etc.",
     "circle": "Rôle"
   },
   "DashboardNewsDecision": {
@@ -593,7 +593,14 @@
     "workingTime": "Temps de travail"
   },
   "MemberRoles": {
-    "empty": "Aucun rôle."
+    "empty": {
+      "noRole": "{{name}} n'a aucun rôle pour le moment.",
+      "canEdit": "Vous pouvez l'ajouter à un rôle dans l'Organigramme."
+    },
+    "emptyCurrentMember": {
+      "noRole": "Vous n'avez aucun rôle pour le moment.",
+      "canEdit": "Vous pouvez vous ajouter à un rôle dans l'Organigramme."
+    }
   },
   "MemberWorkingTime": {
     "totalAllocatedTime": "Temps total alloué :",

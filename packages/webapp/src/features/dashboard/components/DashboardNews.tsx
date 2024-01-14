@@ -1,9 +1,13 @@
 import Loading from '@/common/atoms/Loading'
 import TextErrors from '@/common/atoms/TextErrors'
 import NewsList from '@/news/components/NewsList'
+import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import CircleSearchButton from '@/search/components/CircleSearchButton'
 import CircleSearchInput from '@/search/components/CircleSearchInput'
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   BoxProps,
   ButtonGroup,
@@ -12,7 +16,6 @@ import {
   CardHeader,
   Heading,
   Stack,
-  Text,
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,6 +24,7 @@ import { useNewsFeed } from '../../news/hooks/useNewsFeed'
 
 export default function DashboardNews(boxProps: BoxProps) {
   const { t } = useTranslation()
+  const org = useCurrentOrg()
   const [circleId, setCircleId] = useState<string | undefined>()
 
   // Subscribe to news
@@ -28,7 +32,7 @@ export default function DashboardNews(boxProps: BoxProps) {
 
   return (
     <Stack spacing={0} {...boxProps}>
-      <Card>
+      <Card boxShadow="none">
         <CardHeader
           display="flex"
           justifyContent="space-between"
@@ -69,9 +73,12 @@ export default function DashboardNews(boxProps: BoxProps) {
       </Card>
 
       {news?.length === 0 && (
-        <Text fontStyle="italic" textAlign="center" mt={10}>
-          {t('DashboardNews.empty')}
-        </Text>
+        <Alert status="info" mt={10}>
+          <AlertIcon />
+          <AlertDescription>
+            {t('DashboardNews.empty', { org: org?.name })}
+          </AlertDescription>
+        </Alert>
       )}
 
       {news && <NewsList items={news} showSeparatorTop />}

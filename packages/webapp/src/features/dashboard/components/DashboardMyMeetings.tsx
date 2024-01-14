@@ -1,4 +1,3 @@
-import Loading from '@/common/atoms/Loading'
 import TextErrors from '@/common/atoms/TextErrors'
 import DashboardMyInfosItem from '@/dashboard/components/DashboardMyInfosItem'
 import MeetingsList from '@/meeting/components/MeetingsList'
@@ -43,6 +42,9 @@ export default function DashboardMyMeetings() {
     meetingModal.onOpen()
   }, [])
 
+  // Don't show card if empty or loading
+  if (meetings?.length === 0 || loading || !orgId || !currentMember) return null
+
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyMeetings.title')}
@@ -60,7 +62,6 @@ export default function DashboardMyMeetings() {
         )
       }
     >
-      {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       {meetings && (

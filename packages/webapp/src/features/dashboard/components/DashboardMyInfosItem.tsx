@@ -18,7 +18,7 @@ export default function DashboardMyInfosItem({
   const pathInOrg = usePathInOrg(path)
 
   return (
-    <Card>
+    <Card boxShadow="none">
       <CardHeader
         display="flex"
         justifyContent="space-between"

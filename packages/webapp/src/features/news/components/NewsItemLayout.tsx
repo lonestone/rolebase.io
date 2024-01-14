@@ -38,7 +38,7 @@ export default function NewsItemLayout({
   const member = useMember(memberId)
 
   return (
-    <Card>
+    <Card boxShadow="none">
       <CardHeader display="flex" alignItems="center" pb={0}>
         {icon ? (
           <Icon as={icon} w="2em" h="2em" />
@@ -52,7 +52,11 @@ export default function NewsItemLayout({
               i18nKey={i18nKey as any}
               components={{
                 author: member ? (
-                  <MemberLink id={member.id} name={member.name} />
+                  <MemberLink
+                    id={member.id}
+                    name={member.name}
+                    fontWeight="500"
+                  />
                 ) : (
                   <>…</>
                 ),

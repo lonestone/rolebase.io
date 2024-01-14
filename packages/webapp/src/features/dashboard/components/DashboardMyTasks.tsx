@@ -1,4 +1,3 @@
-import Loading from '@/common/atoms/Loading'
 import TextErrors from '@/common/atoms/TextErrors'
 import DashboardMyInfosItem from '@/dashboard/components/DashboardMyInfosItem'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
@@ -23,6 +22,9 @@ export default function DashboardMyTasks() {
 
   const createModal = useDisclosure()
 
+  // Don't show card if empty or loading
+  if (tasks?.length === 0 || loading) return null
+
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyTasks.title')}
@@ -40,7 +42,6 @@ export default function DashboardMyTasks() {
         )
       }
     >
-      {loading && <Loading active size="md" />}
       <TextErrors errors={[error]} />
 
       <TasksList tasks={tasks} onOrderChange={changeOrder} showCircle />

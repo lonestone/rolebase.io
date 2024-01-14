@@ -225,7 +225,7 @@
   "DashboardMyTasks": { "title": "My Tasks", "add": "New task" },
   "DashboardNews": {
     "heading": "News",
-    "empty": "No news for now.",
+    "empty": "The latest activities of {{org}} will appear here: new topics, completed meetings, decisions made, etc.",
     "circle": "Role"
   },
   "DashboardNewsDecision": {
@@ -559,7 +559,14 @@
     "workingTime": "Working time"
   },
   "MemberRoles": {
-    "empty": "No role."
+    "empty": {
+      "noRole": "{{name}} has no role at the moment.",
+      "canEdit": "You can add him/her to a role in the Org chart."
+    },
+    "emptyCurrentMember": {
+      "noRole": "You have no role at the moment.",
+      "canEdit": "You can add yourself to a role in the Org chart."
+    }
   },
   "MemberWorkingTime": {
     "totalAllocatedTime": "Total allocated time:",

@@ -117,7 +117,7 @@ export function useTasks(
 
   return {
     tasks: sortedTasks,
-    loading,
+    loading: loading || !orgId,
     error,
     changeOrder,
   }

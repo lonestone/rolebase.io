@@ -1,4 +1,3 @@
-import Loading from '@/common/atoms/Loading'
 import TextErrors from '@/common/atoms/TextErrors'
 import DashboardMyInfosItem from '@/dashboard/components/DashboardMyInfosItem'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
@@ -24,6 +23,9 @@ export default function DashboardMyThreads() {
   // Filter threads
   const filteredThreads = useFilterThreadsByMember(threads, currentMember?.id)
 
+  // Don't show card if empty or loading
+  if (threads?.length === 0 || loading) return null
+
   return (
     <DashboardMyInfosItem
       title={t('DashboardMyThreads.title')}
@@ -41,7 +43,6 @@ export default function DashboardMyThreads() {
         )
       }
     >
-      {loading && <Loading active center />}
       <TextErrors errors={[error]} />
 
       {filteredThreads && <ThreadsList threads={filteredThreads} showCircle />}

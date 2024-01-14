@@ -1,9 +1,18 @@
 import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
-import { Accordion, BoxProps, Text } from '@chakra-ui/react'
+import {
+  Accordion,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  BoxProps,
+  Text,
+} from '@chakra-ui/react'
 import { MemberFragment } from '@gql'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import useCurrentMember from '../hooks/useCurrentMember'
+import useOrgOwner from '../hooks/useOrgOwner'
 import MemberRoleItem from './MemberRoleItem'
 
 interface Props extends BoxProps {
@@ -19,6 +28,9 @@ export default function MemberRoles({
   const { t } = useTranslation()
   const circles = useStoreState((state) => state.org.circles)
   const circleMemberContext = useContext(CircleMemberContext)
+  const currentMember = useCurrentMember()
+  const isCurrentMember = currentMember?.id === member.id
+  const isOwner = useOrgOwner()
 
   // Get all circles and roles of member
   const memberCircles = useMemo(() => {
@@ -61,9 +73,28 @@ export default function MemberRoles({
 
   return (
     <>
-      {memberCircles.length === 0 && (
-        <Text fontStyle="italic">{t('MemberRoles.empty')}</Text>
-      )}
+      {memberCircles.length === 0 &&
+        (isCurrentMember ? (
+          <Alert status="warning">
+            <AlertIcon />
+            <AlertDescription>
+              <Text>{t('MemberRoles.emptyCurrentMember.noRole')}</Text>
+              {isOwner && (
+                <Text>{t('MemberRoles.emptyCurrentMember.canEdit')}</Text>
+              )}
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <Alert status="warning">
+            <AlertIcon />
+            <AlertDescription>
+              <Text>
+                {t('MemberRoles.empty.noRole', { name: member.name })}
+              </Text>
+              {isOwner && <Text>{t('MemberRoles.empty.canEdit')}</Text>}
+            </AlertDescription>
+          </Alert>
+        ))}
 
       <Accordion
         index={selectedCircleIndex}

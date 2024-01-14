@@ -148,7 +148,7 @@ export default function CircleContent({ changeTitle, headerIcons }: Props) {
           <TabPanel px={6} py={10}>
             <CircleRole />
           </TabPanel>
-          <TabPanel px={6} py={10}>
+          <TabPanel px={6} py={10} bg="menulight" _dark={{ bg: 'menudark' }}>
             <CircleNews circleId={circle.id} />
           </TabPanel>
           <TabPanel px={6} py={10}>

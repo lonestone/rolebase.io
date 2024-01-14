@@ -4,7 +4,6 @@ import DashboardMyRoles from '@/dashboard/components/DashboardMyRoles'
 import DashboardMyTasks from '@/dashboard/components/DashboardMyTasks'
 import DashboardMyThreads from '@/dashboard/components/DashboardMyThreads'
 import DashboardNews from '@/dashboard/components/DashboardNews'
-import DashboardOrgChart from '@/dashboard/components/DashboardOrgChart'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { Flex, VStack } from '@chakra-ui/react'
 import React from 'react'
@@ -28,25 +27,17 @@ const DashboardPage = () => {
         px={{ base: 3, md: margin }}
         py={margin}
         flexDirection={{ base: 'column-reverse', lg: 'row' }}
+        justifyContent="center"
         bg="menulight"
         _dark={{ bg: 'menudark' }}
       >
-        <Flex
-          flex={1}
+        <DashboardNews
+          w={{ lg: '600px' }}
           mr={{ base: 0, lg: margin }}
           mt={{ base: margin, lg: 0 }}
-          flexDirection="column"
-          alignItems="center"
-        >
-          <DashboardNews maxW={{ lg: '600px' }} w="100%" />
-        </Flex>
+        />
 
-        <VStack
-          spacing={margin}
-          align="stretch"
-          maxW={{ lg: 'calc(min(45%, 500px))' }}
-        >
-          <DashboardOrgChart display={{ base: 'none', lg: 'flex' }} />
+        <VStack spacing={margin} align="stretch" w={{ lg: '500px' }}>
           <DashboardMyMeetings />
           <DashboardMyTasks />
           <DashboardMyThreads />

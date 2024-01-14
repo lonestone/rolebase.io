@@ -90,5 +90,9 @@ export default function useThreads(filters?: {
     )
   }, [threads])
 
-  return { threads: sortedThreads, loading, error }
+  return {
+    threads: sortedThreads,
+    loading: loading || !orgId || !currentMember,
+    error,
+  }
 }
