@@ -3,9 +3,9 @@ import DurationSelect from '@/common/atoms/DurationSelect'
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import EditorController from '@/editor/components/EditorController'
 import useCreateLog from '@/log/hooks/useCreateLog'
+import { inviteMember, updateMemberRole } from '@/member/api/member_functions'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import SubscriptionReachedMemberLimitModal from '@/subscription/modals/SubscriptionReachedMemberLimitModal'
-import { inviteMember, updateMemberRole } from '@api/functions'
 import {
   Alert,
   AlertIcon,

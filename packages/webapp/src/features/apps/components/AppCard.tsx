@@ -1,8 +1,8 @@
+import { calendarAppFactory } from '@/apps/api/user_app_functions'
 import Loading from '@/common/atoms/Loading'
 import Switch from '@/common/atoms/Switch'
 import { useAsyncMemo } from '@/common/hooks/useAsyncMemo'
 import useConfirmModal from '@/common/hooks/useConfirmModal'
-import { calendarAppFactory } from '@api/apps'
 import {
   Button,
   Card,

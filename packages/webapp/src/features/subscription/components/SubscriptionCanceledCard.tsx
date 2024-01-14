@@ -1,5 +1,5 @@
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { resumeSubscription } from '@api/functions'
+import { resumeSubscription } from '@/subscription/api/subscription_functions'
 import { Button, Card, CardProps, Flex, Text, useToast } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import React, { useState } from 'react'

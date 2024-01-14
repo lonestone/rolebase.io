@@ -1,7 +1,7 @@
 import BrandModal from '@/common/atoms/BrandModal'
 import Loading from '@/common/atoms/Loading'
 import { Title } from '@/common/atoms/Title'
-import { importOrg } from '@api/functions'
+import { importOrg } from '@/org/api/org_functions'
 import {
   Box,
   Button,

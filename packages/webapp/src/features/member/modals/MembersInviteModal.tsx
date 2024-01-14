@@ -1,4 +1,4 @@
-import { inviteMember } from '@api/functions'
+import { inviteMember } from '@/member/api/member_functions'
 import {
   Box,
   Button,

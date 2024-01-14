@@ -1,6 +1,6 @@
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { updateSubscriptionBillingEmail } from '@api/functions'
+import { updateSubscriptionBillingEmail } from '@/subscription/api/subscription_functions'
 import {
   Button,
   FormControl,

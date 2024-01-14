@@ -1,4 +1,4 @@
-import { archiveOrg } from '@api/functions'
+import { archiveOrg } from '@/org/api/org_functions'
 import {
   AlertDialog,
   AlertDialogBody,

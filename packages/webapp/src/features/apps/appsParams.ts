@@ -1,4 +1,4 @@
-import { fn } from '@api/functions'
+import { fn } from '@/common/api/functions'
 import { App_Type_Enum } from '@gql'
 import React from 'react'
 import settings from 'src/settings'

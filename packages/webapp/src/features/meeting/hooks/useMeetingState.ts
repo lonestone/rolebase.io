@@ -1,11 +1,11 @@
 import useCircle from '@/circle/hooks/useCircle'
-import useCurrentMember from '@/member/hooks/useCurrentMember'
-import useOrgMember from '@/member/hooks/useOrgMember'
+import { sendMeetingStartedNotification } from '@/meeting/api/meeting_functions'
 import {
-  sendMeetingStartedNotification,
   startMembersMeeting,
   stopMembersMeeting,
-} from '@api/functions'
+} from '@/member/api/member_functions'
+import useCurrentMember from '@/member/hooks/useCurrentMember'
+import useOrgMember from '@/member/hooks/useOrgMember'
 import {
   CircleFullFragment,
   MeetingFragment,

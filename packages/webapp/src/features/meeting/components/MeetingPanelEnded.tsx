@@ -2,7 +2,7 @@ import IconTextButton from '@/common/atoms/IconTextButton'
 import Markdown from '@/common/atoms/Markdown'
 import { EditorHandle } from '@/editor'
 import CollabEditor from '@/editor/components/CollabEditor'
-import { generateMeetingSummary } from '@api/functions'
+import { generateMeetingSummary } from '@/meeting/api/meeting_functions'
 import {
   Box,
   Button,

@@ -1,4 +1,7 @@
-import { startMembersMeeting, stopMembersMeeting } from '@api/functions'
+import {
+  startMembersMeeting,
+  stopMembersMeeting,
+} from '@/member/api/member_functions'
 import { BoxProps, VStack } from '@chakra-ui/react'
 import {
   useCreateMeetingAttendeeMutation,

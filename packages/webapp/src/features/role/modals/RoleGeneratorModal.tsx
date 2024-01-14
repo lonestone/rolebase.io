@@ -2,7 +2,7 @@ import Loading from '@/common/atoms/Loading'
 import TextError from '@/common/atoms/TextError'
 import EditorController from '@/editor/components/EditorController'
 import useCreateLog from '@/log/hooks/useCreateLog'
-import { generateRole } from '@api/functions'
+import { generateRole } from '@/role/api/role_functions'
 import {
   Alert,
   AlertDescription,

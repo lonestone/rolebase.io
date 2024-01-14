@@ -1,5 +1,5 @@
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { getPricePreview } from '@api/functions'
+import { getPricePreview } from '@/subscription/api/subscription_functions'
 import {
   Box,
   Button,

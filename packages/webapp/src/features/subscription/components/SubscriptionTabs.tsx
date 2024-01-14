@@ -1,7 +1,10 @@
 import Tab from '@/common/atoms/Tab'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { getSubscription, getSubscriptionInvoices } from '@api/functions'
+import {
+  getSubscription,
+  getSubscriptionInvoices,
+} from '@/subscription/api/subscription_functions'
 import {
   Box,
   Flex,

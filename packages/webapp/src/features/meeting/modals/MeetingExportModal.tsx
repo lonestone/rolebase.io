@@ -2,9 +2,12 @@ import IconTextButton from '@/common/atoms/IconTextButton'
 import Loading from '@/common/atoms/Loading'
 import TextErrors from '@/common/atoms/TextErrors'
 import useCallbackState from '@/common/hooks/useCallbackState'
+import {
+  getMeetingsIcalUrl,
+  getMeetingsToken,
+} from '@/meeting/api/meeting_functions'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { getMeetingsIcalUrl, getMeetingsToken } from '@api/functions'
 import {
   Alert,
   AlertDescription,

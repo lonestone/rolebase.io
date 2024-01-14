@@ -1,5 +1,5 @@
 import { nhost } from 'src/nhost'
-import { getFileSHA1 } from '../utils/getFileSHA1'
+import { getFileSHA1 } from '../../../utils/getFileSHA1'
 
 // Upload file and return URL
 export async function uploadFile(orgId: string, file: File): Promise<string> {

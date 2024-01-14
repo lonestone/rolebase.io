@@ -1,5 +1,5 @@
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { getAlgoliaConfig } from '@api/functions'
+import { getAlgoliaConfig } from '@/search/api/search_functions'
 import { GetSearchResultsQuery, useGetSearchResultsLazyQuery } from '@gql'
 import { truthy } from '@shared/helpers/truthy'
 import { AlgoliaConfig, SearchDoc, SearchTypes } from '@shared/model/search'

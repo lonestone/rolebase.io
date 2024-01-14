@@ -1,10 +1,10 @@
-import {
-  recomputeCircleParticipantCache,
-  searchReindexAll,
-} from '@api/functions'
 import { Button, Container, Heading, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  recomputeCircleParticipantCache,
+  searchReindexAll,
+} from '../../user/api/user_functions'
 import Loading from '../atoms/Loading'
 
 export default function SuperAdminPage() {

@@ -1,5 +1,5 @@
 import useCreateLog from '@/log/hooks/useCreateLog'
-import { archiveMember } from '@api/functions'
+import { archiveMember } from '@/member/api/member_functions'
 import {
   AlertDialog,
   AlertDialogBody,

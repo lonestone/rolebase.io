@@ -1,5 +1,5 @@
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { unsubscribeOrg } from '@api/functions'
+import { unsubscribeOrg } from '@/subscription/api/subscription_functions'
 import {
   Button,
   Flex,

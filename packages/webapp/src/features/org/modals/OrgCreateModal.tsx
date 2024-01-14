@@ -1,6 +1,6 @@
 import BrandModal from '@/common/atoms/BrandModal'
 import TextError from '@/common/atoms/TextError'
-import { createOrg } from '@api/functions'
+import { createOrg } from '@/org/api/org_functions'
 import {
   Box,
   Button,

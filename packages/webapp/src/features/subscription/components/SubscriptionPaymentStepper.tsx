@@ -1,7 +1,10 @@
 import useOrg from '@/org/hooks/useOrg'
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { subscribeOrg, updateSubscriptionBillingDetails } from '@api/functions'
-import { stripePromise } from '@api/stripe'
+import { stripePromise } from '@/subscription/api/stripe'
+import {
+  subscribeOrg,
+  updateSubscriptionBillingDetails,
+} from '@/subscription/api/subscription_functions'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import {
   Box,

@@ -1,4 +1,4 @@
-import { updateOrgSlug } from '@api/functions'
+import { updateOrgSlug } from '@/org/api/org_functions'
 import {
   Button,
   FormControl,

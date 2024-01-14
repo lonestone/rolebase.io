@@ -1,5 +1,5 @@
+import { uploadFile } from '@/common/api/uploads'
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { uploadFile } from '@api/uploads'
 import { useCallback } from 'react'
 
 export default function useFileUpload() {

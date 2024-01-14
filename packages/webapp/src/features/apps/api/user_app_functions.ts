@@ -1,11 +1,10 @@
 import { CalendarApp } from '@shared/model/user_app'
-import { fn } from './functions'
+import { fn } from '../../common/api/functions'
 
 // Invoke a function from an app
-export const appsAction = fn<
-  { id: string; action: string; args?: Array<any> },
-  any
->('apps')
+const appsAction = fn<{ id: string; action: string; args?: Array<any> }, any>(
+  'apps'
+)
 
 // App proxy to serve as an interface to the API
 export function calendarAppFactory(id: string) {

@@ -1,6 +1,6 @@
 import Loading from '@/common/atoms/Loading'
 import useQueryParams from '@/common/hooks/useQueryParams'
-import { acceptMemberInvitation } from '@api/functions'
+import { acceptMemberInvitation } from '@/member/api/member_functions'
 import { useToast } from '@chakra-ui/react'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
 import React, { useEffect, useState } from 'react'

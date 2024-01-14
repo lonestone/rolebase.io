@@ -1,7 +1,7 @@
 import ModalCloseStaticButton from '@/common/atoms/ModalCloseStaticButton'
 import { useOrgId } from '@/org/hooks/useOrgId'
-import { updateSubscriptionPaymentMethodIntent } from '@api/functions'
-import { stripePromise } from '@api/stripe'
+import { stripePromise } from '@/subscription/api/stripe'
+import { updateSubscriptionPaymentMethodIntent } from '@/subscription/api/subscription_functions'
 import {
   HStack,
   Modal,

@@ -20550,6 +20550,20 @@ export type UserAppFragment = { __typename?: 'user_app', id: string, userId: str
 
 export type UserAppFullFragment = { __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, secretConfig: any, config: any, tmpData?: any | null, createdAt: any, user?: { __typename?: 'users', metadata: UserMetadata } | null };
 
+export type UserAppsSubscriptionVariables = Exact<{
+  userId: Scalars['uuid']['input'];
+}>;
+
+
+export type UserAppsSubscription = { __typename?: 'subscription_root', user_app: Array<{ __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any }> };
+
+export type DeleteUserAppMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteUserAppMutation = { __typename?: 'mutation_root', delete_user_app_by_pk?: { __typename?: 'user_app', id: string } | null };
+
 export type GetCircleQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
@@ -20983,15 +20997,6 @@ export type UpdateOrgMutationVariables = Exact<{
 
 export type UpdateOrgMutation = { __typename?: 'mutation_root', update_org_by_pk?: { __typename?: 'org', id: string } | null };
 
-export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
-
-export type GetOrgSubscriptionQueryVariables = Exact<{
-  orgId: Scalars['uuid']['input'];
-}>;
-
-
-export type GetOrgSubscriptionQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string }> };
-
 export type GetRoleQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
@@ -21047,6 +21052,15 @@ export type GetSearchResultsQueryVariables = Exact<{
 
 
 export type GetSearchResultsQuery = { __typename?: 'query_root', member: Array<{ __typename?: 'member', id: string, name: string, picture?: string | null }>, circle: Array<{ __typename?: 'circle', id: string, role: { __typename?: 'role', name: string } }>, thread: Array<{ __typename?: 'thread', id: string, circleId: string, title: string, createdAt: string }>, meeting: Array<{ __typename?: 'meeting', id: string, circleId: string, title: string, startDate: string }>, task: Array<{ __typename?: 'task', id: string, circleId: string, title: string, dueDate?: string | null }>, decision: Array<{ __typename?: 'decision', id: string, circleId: string, title: string, createdAt: string }> };
+
+export type OrgSubscriptionFieldsFragment = { __typename?: 'org_subscription', id: string };
+
+export type GetOrgSubscriptionQueryVariables = Exact<{
+  orgId: Scalars['uuid']['input'];
+}>;
+
+
+export type GetOrgSubscriptionQuery = { __typename?: 'query_root', org_subscription: Array<{ __typename?: 'org_subscription', id: string }> };
 
 export type GetTaskQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21299,20 +21313,6 @@ export type ChangeMetadataMutationVariables = Exact<{
 
 
 export type ChangeMetadataMutation = { __typename?: 'mutation_root', updateUser?: { __typename?: 'users', id: string, metadata: UserMetadata } | null };
-
-export type UserAppsSubscriptionVariables = Exact<{
-  userId: Scalars['uuid']['input'];
-}>;
-
-
-export type UserAppsSubscription = { __typename?: 'subscription_root', user_app: Array<{ __typename?: 'user_app', id: string, userId: string, type: App_Type_Enum, config: any }> };
-
-export type DeleteUserAppMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteUserAppMutation = { __typename?: 'mutation_root', delete_user_app_by_pk?: { __typename?: 'user_app', id: string } | null };
 
 export const CircleLinkFragmentDoc = gql`
     fragment CircleLink on circle_link {
@@ -21741,6 +21741,69 @@ export const ThreadPollAnswerFragmentDoc = gql`
   createdAt
 }
     `;
+export const UserAppsDocument = gql`
+    subscription userApps($userId: uuid!) {
+  user_app(where: {userId: {_eq: $userId}}) {
+    ...UserApp
+  }
+}
+    ${UserAppFragmentDoc}`;
+
+/**
+ * __useUserAppsSubscription__
+ *
+ * To run a query within a React component, call `useUserAppsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserAppsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserAppsSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUserAppsSubscription(baseOptions: Apollo.SubscriptionHookOptions<UserAppsSubscription, UserAppsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UserAppsSubscription, UserAppsSubscriptionVariables>(UserAppsDocument, options);
+      }
+export type UserAppsSubscriptionHookResult = ReturnType<typeof useUserAppsSubscription>;
+export type UserAppsSubscriptionResult = Apollo.SubscriptionResult<UserAppsSubscription>;
+export const DeleteUserAppDocument = gql`
+    mutation deleteUserApp($id: uuid!) {
+  delete_user_app_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteUserAppMutationFn = Apollo.MutationFunction<DeleteUserAppMutation, DeleteUserAppMutationVariables>;
+
+/**
+ * __useDeleteUserAppMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserAppMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserAppMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserAppMutation, { data, loading, error }] = useDeleteUserAppMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteUserAppMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserAppMutation, DeleteUserAppMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserAppMutation, DeleteUserAppMutationVariables>(DeleteUserAppDocument, options);
+      }
+export type DeleteUserAppMutationHookResult = ReturnType<typeof useDeleteUserAppMutation>;
+export type DeleteUserAppMutationResult = Apollo.MutationResult<DeleteUserAppMutation>;
+export type DeleteUserAppMutationOptions = Apollo.BaseMutationOptions<DeleteUserAppMutation, DeleteUserAppMutationVariables>;
 export const GetCircleDocument = gql`
     query getCircle($id: uuid!) {
   circle_by_pk(id: $id) {
@@ -23800,44 +23863,6 @@ export function useUpdateOrgMutation(baseOptions?: Apollo.MutationHookOptions<Up
 export type UpdateOrgMutationHookResult = ReturnType<typeof useUpdateOrgMutation>;
 export type UpdateOrgMutationResult = Apollo.MutationResult<UpdateOrgMutation>;
 export type UpdateOrgMutationOptions = Apollo.BaseMutationOptions<UpdateOrgMutation, UpdateOrgMutationVariables>;
-export const GetOrgSubscriptionDocument = gql`
-    query getOrgSubscription($orgId: uuid!) {
-  org_subscription(where: {orgId: {_eq: $orgId}}) {
-    ...OrgSubscriptionFields
-  }
-}
-    ${OrgSubscriptionFieldsFragmentDoc}`;
-
-/**
- * __useGetOrgSubscriptionQuery__
- *
- * To run a query within a React component, call `useGetOrgSubscriptionQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrgSubscriptionQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOrgSubscriptionQuery({
- *   variables: {
- *      orgId: // value for 'orgId'
- *   },
- * });
- */
-export function useGetOrgSubscriptionQuery(baseOptions: Apollo.QueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
-      }
-export function useGetOrgSubscriptionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
-        }
-export type GetOrgSubscriptionQueryHookResult = ReturnType<typeof useGetOrgSubscriptionQuery>;
-export type GetOrgSubscriptionLazyQueryHookResult = ReturnType<typeof useGetOrgSubscriptionLazyQuery>;
-export type GetOrgSubscriptionQueryResult = Apollo.QueryResult<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>;
-export function refetchGetOrgSubscriptionQuery(variables: GetOrgSubscriptionQueryVariables) {
-      return { query: GetOrgSubscriptionDocument, variables: variables }
-    }
 export const GetRoleDocument = gql`
     query getRole($id: uuid!) {
   role_by_pk(id: $id) {
@@ -24114,6 +24139,44 @@ export type GetSearchResultsLazyQueryHookResult = ReturnType<typeof useGetSearch
 export type GetSearchResultsQueryResult = Apollo.QueryResult<GetSearchResultsQuery, GetSearchResultsQueryVariables>;
 export function refetchGetSearchResultsQuery(variables: GetSearchResultsQueryVariables) {
       return { query: GetSearchResultsDocument, variables: variables }
+    }
+export const GetOrgSubscriptionDocument = gql`
+    query getOrgSubscription($orgId: uuid!) {
+  org_subscription(where: {orgId: {_eq: $orgId}}) {
+    ...OrgSubscriptionFields
+  }
+}
+    ${OrgSubscriptionFieldsFragmentDoc}`;
+
+/**
+ * __useGetOrgSubscriptionQuery__
+ *
+ * To run a query within a React component, call `useGetOrgSubscriptionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrgSubscriptionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrgSubscriptionQuery({
+ *   variables: {
+ *      orgId: // value for 'orgId'
+ *   },
+ * });
+ */
+export function useGetOrgSubscriptionQuery(baseOptions: Apollo.QueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
+      }
+export function useGetOrgSubscriptionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>(GetOrgSubscriptionDocument, options);
+        }
+export type GetOrgSubscriptionQueryHookResult = ReturnType<typeof useGetOrgSubscriptionQuery>;
+export type GetOrgSubscriptionLazyQueryHookResult = ReturnType<typeof useGetOrgSubscriptionLazyQuery>;
+export type GetOrgSubscriptionQueryResult = Apollo.QueryResult<GetOrgSubscriptionQuery, GetOrgSubscriptionQueryVariables>;
+export function refetchGetOrgSubscriptionQuery(variables: GetOrgSubscriptionQueryVariables) {
+      return { query: GetOrgSubscriptionDocument, variables: variables }
     }
 export const GetTaskDocument = gql`
     query getTask($id: uuid!) {
@@ -25268,66 +25331,3 @@ export function useChangeMetadataMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangeMetadataMutationHookResult = ReturnType<typeof useChangeMetadataMutation>;
 export type ChangeMetadataMutationResult = Apollo.MutationResult<ChangeMetadataMutation>;
 export type ChangeMetadataMutationOptions = Apollo.BaseMutationOptions<ChangeMetadataMutation, ChangeMetadataMutationVariables>;
-export const UserAppsDocument = gql`
-    subscription userApps($userId: uuid!) {
-  user_app(where: {userId: {_eq: $userId}}) {
-    ...UserApp
-  }
-}
-    ${UserAppFragmentDoc}`;
-
-/**
- * __useUserAppsSubscription__
- *
- * To run a query within a React component, call `useUserAppsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useUserAppsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserAppsSubscription({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useUserAppsSubscription(baseOptions: Apollo.SubscriptionHookOptions<UserAppsSubscription, UserAppsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<UserAppsSubscription, UserAppsSubscriptionVariables>(UserAppsDocument, options);
-      }
-export type UserAppsSubscriptionHookResult = ReturnType<typeof useUserAppsSubscription>;
-export type UserAppsSubscriptionResult = Apollo.SubscriptionResult<UserAppsSubscription>;
-export const DeleteUserAppDocument = gql`
-    mutation deleteUserApp($id: uuid!) {
-  delete_user_app_by_pk(id: $id) {
-    id
-  }
-}
-    `;
-export type DeleteUserAppMutationFn = Apollo.MutationFunction<DeleteUserAppMutation, DeleteUserAppMutationVariables>;
-
-/**
- * __useDeleteUserAppMutation__
- *
- * To run a mutation, you first call `useDeleteUserAppMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteUserAppMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteUserAppMutation, { data, loading, error }] = useDeleteUserAppMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteUserAppMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserAppMutation, DeleteUserAppMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteUserAppMutation, DeleteUserAppMutationVariables>(DeleteUserAppDocument, options);
-      }
-export type DeleteUserAppMutationHookResult = ReturnType<typeof useDeleteUserAppMutation>;
-export type DeleteUserAppMutationResult = Apollo.MutationResult<DeleteUserAppMutation>;
-export type DeleteUserAppMutationOptions = Apollo.BaseMutationOptions<DeleteUserAppMutation, DeleteUserAppMutationVariables>;
