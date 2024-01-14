@@ -144,7 +144,6 @@ export function useCancelLog(log: LogFragment) {
     const changes = await cancelLogChanges(log, methods)
 
     // No changes, don't cancel log
-    console.log('cancelLog', changes)
     if (Object.values(changes).every((c) => c.length === 0)) return
 
     await cancelLog({ variables: { id: log.id } })

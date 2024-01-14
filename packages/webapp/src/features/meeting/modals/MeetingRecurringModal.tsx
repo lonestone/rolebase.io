@@ -60,7 +60,6 @@ export default function MeetingRecurringModal({
   const { data, loading, error } = useMeetingRecurringSubscription({
     variables: { id },
   })
-  console.log({ data, loading, error })
 
   const meetingRecurring = data?.meeting_recurring_by_pk
 
