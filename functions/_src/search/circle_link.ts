@@ -12,6 +12,6 @@ export class IndexCircleLink extends IndexEntity<CircleLinkFragment> {
     if (!circleId) return
 
     // Update circles participants cache
-    CircleParticipantsCache.recomputeCircle(circleId)
+    await CircleParticipantsCache.recomputeCircle(circleId)
   }
 }

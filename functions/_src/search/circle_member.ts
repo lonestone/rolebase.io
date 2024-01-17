@@ -16,6 +16,6 @@ export class IndexCircleMember extends IndexEntity<CircleMemberFragment> {
     }
 
     // Update circles participants cache
-    CircleParticipantsCache.recomputeCircle(circleId)
+    await CircleParticipantsCache.recomputeCircle(circleId)
   }
 }
