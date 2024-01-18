@@ -750,11 +750,10 @@ export default class GoogleCalendarApp
   // If subscription is missing, create it
   // It shouldn't happen, but we observed it can happen when a timeout occurs
   private async fixMissingSubscription(calendarId: string) {
-    if (
+    const expiryDate =
       this.secretConfig.subscriptions.find((s) => s.calendarId === calendarId)
-        ?.expiryDate ||
-      0 > Date.now()
-    ) {
+        ?.expiryDate || 0
+    if (expiryDate > Date.now()) {
       // Subscription exists and is not expired
       return
     }
