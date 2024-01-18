@@ -248,6 +248,7 @@ export default function MeetingsPage() {
 
   const handleCreate = useCallback(() => {
     setStartDate(undefined)
+    setDuration(30)
     createModal.onOpen()
   }, [])
 

@@ -100,7 +100,10 @@ export default function Calendar(props: CalendarOptions) {
       slotLabelContent={({ date }) => '  ' + (date.getHours() || '')}
       dayHeaderContent={dayHeaderContent}
       initialView={isSmallScreen ? 'listWeek' : 'timeGridWeek'}
-      scrollTime="08:00:00"
+      scrollTime="07:00:00"
+      contentHeight="1800px"
+      expandRows
+      snapDuration={{ minutes: 15 }}
       weekends={false}
       allDaySlot={false}
       nowIndicator

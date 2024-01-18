@@ -154,9 +154,9 @@ a.fc-daygrid-event:hover {
 }
 
 /* Hour label */
-.fc .fc-timegrid-slot-label-frame {
+.fc .fc-timegrid-slot-label {
   color: var(--chakra-colors-gray-500);
-  margin-top: -1.5em;
+  transform: translateY(-0.75em);
 }
 
 /* Change toolbar layout on small screens */
@@ -165,5 +165,15 @@ a.fc-daygrid-event:hover {
     flex-direction: column-reverse;
     gap: 0.7em;
     margin-bottom: 1em;
+  }
+}
+
+/* Increse rows height on big screens */
+@media (min-height: 1024px) {
+  .fc .fc-timegrid-slot {
+    height: 2em;
+  }
+  .fc .fc-timegrid-slot-label {
+    transform: translateY(-1em);
   }
 }
