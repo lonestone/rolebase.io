@@ -5259,7 +5259,6 @@ export type Log_Updates = {
 export type Meeting = {
   __typename?: 'meeting';
   archived: Scalars['Boolean'];
-  attendees?: Maybe<Scalars['json']>;
   /** An object relationship */
   circle: Circle;
   circleId: Scalars['uuid'];
@@ -5277,8 +5276,6 @@ export type Meeting = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
-  participantsMembersIds?: Maybe<Scalars['json']>;
-  participantsScope?: Maybe<Member_Scope_Enum>;
   private: Scalars['Boolean'];
   /** An object relationship */
   recurring?: Maybe<Meeting_Recurring>;
@@ -5293,12 +5290,6 @@ export type Meeting = {
   summary: Scalars['String'];
   title: Scalars['String'];
   videoConf?: Maybe<Scalars['videoconf']>;
-};
-
-
-/** columns and relationships of "meeting" */
-export type MeetingAttendeesArgs = {
-  path?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -5319,12 +5310,6 @@ export type MeetingMeeting_Attendees_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Meeting_Attendee_Order_By>>;
   where?: InputMaybe<Meeting_Attendee_Bool_Exp>;
-};
-
-
-/** columns and relationships of "meeting" */
-export type MeetingParticipantsMembersIdsArgs = {
-  path?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -5677,7 +5662,6 @@ export type Meeting_Bool_Exp = {
   _not?: InputMaybe<Meeting_Bool_Exp>;
   _or?: InputMaybe<Array<Meeting_Bool_Exp>>;
   archived?: InputMaybe<Boolean_Comparison_Exp>;
-  attendees?: InputMaybe<Json_Comparison_Exp>;
   circle?: InputMaybe<Circle_Bool_Exp>;
   circleId?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -5691,8 +5675,6 @@ export type Meeting_Bool_Exp = {
   meeting_attendees_aggregate?: InputMaybe<Meeting_Attendee_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
-  participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
-  participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
   private?: InputMaybe<Boolean_Comparison_Exp>;
   recurring?: InputMaybe<Meeting_Recurring_Bool_Exp>;
   recurringDate?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -5715,7 +5697,6 @@ export enum Meeting_Constraint {
 /** input type for inserting data into table "meeting" */
 export type Meeting_Insert_Input = {
   archived?: InputMaybe<Scalars['Boolean']>;
-  attendees?: InputMaybe<Scalars['json']>;
   circle?: InputMaybe<Circle_Obj_Rel_Insert_Input>;
   circleId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -5728,8 +5709,6 @@ export type Meeting_Insert_Input = {
   meeting_attendees?: InputMaybe<Meeting_Attendee_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   recurring?: InputMaybe<Meeting_Recurring_Obj_Rel_Insert_Input>;
   recurringDate?: InputMaybe<Scalars['timestamptz']>;
@@ -5834,7 +5813,6 @@ export type Meeting_On_Conflict = {
 /** Ordering options when selecting data from "meeting". */
 export type Meeting_Order_By = {
   archived?: InputMaybe<Order_By>;
-  attendees?: InputMaybe<Order_By>;
   circle?: InputMaybe<Circle_Order_By>;
   circleId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
@@ -5847,8 +5825,6 @@ export type Meeting_Order_By = {
   meeting_attendees_aggregate?: InputMaybe<Meeting_Attendee_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
-  participantsMembersIds?: InputMaybe<Order_By>;
-  participantsScope?: InputMaybe<Order_By>;
   private?: InputMaybe<Order_By>;
   recurring?: InputMaybe<Meeting_Recurring_Order_By>;
   recurringDate?: InputMaybe<Order_By>;
@@ -5883,8 +5859,6 @@ export type Meeting_Recurring = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
-  participantsMembersIds?: Maybe<Scalars['json']>;
-  participantsScope?: Maybe<Member_Scope_Enum>;
   private: Scalars['Boolean'];
   rrule: Scalars['String'];
   scope: Scalars['participants_scope'];
@@ -5912,12 +5886,6 @@ export type Meeting_RecurringMeetings_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Meeting_Order_By>>;
   where?: InputMaybe<Meeting_Bool_Exp>;
-};
-
-
-/** columns and relationships of "meeting_recurring" */
-export type Meeting_RecurringParticipantsMembersIdsArgs = {
-  path?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -6037,8 +6005,6 @@ export type Meeting_Recurring_Bool_Exp = {
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
-  participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
-  participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
   private?: InputMaybe<Boolean_Comparison_Exp>;
   rrule?: InputMaybe<String_Comparison_Exp>;
   scope?: InputMaybe<Json_Comparison_Exp>;
@@ -6069,8 +6035,6 @@ export type Meeting_Recurring_Insert_Input = {
   meetings?: InputMaybe<Meeting_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   rrule?: InputMaybe<Scalars['String']>;
   scope?: InputMaybe<Scalars['json']>;
@@ -6159,8 +6123,6 @@ export type Meeting_Recurring_Order_By = {
   meetings_aggregate?: InputMaybe<Meeting_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
-  participantsMembersIds?: InputMaybe<Order_By>;
-  participantsScope?: InputMaybe<Order_By>;
   private?: InputMaybe<Order_By>;
   rrule?: InputMaybe<Order_By>;
   scope?: InputMaybe<Order_By>;
@@ -6188,10 +6150,6 @@ export enum Meeting_Recurring_Select_Column {
   InvitedReadonly = 'invitedReadonly',
   /** column name */
   OrgId = 'orgId',
-  /** column name */
-  ParticipantsMembersIds = 'participantsMembersIds',
-  /** column name */
-  ParticipantsScope = 'participantsScope',
   /** column name */
   Private = 'private',
   /** column name */
@@ -6228,8 +6186,6 @@ export type Meeting_Recurring_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   invitedReadonly?: InputMaybe<Scalars['Boolean']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   rrule?: InputMaybe<Scalars['String']>;
   scope?: InputMaybe<Scalars['json']>;
@@ -6286,8 +6242,6 @@ export type Meeting_Recurring_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   invitedReadonly?: InputMaybe<Scalars['Boolean']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   rrule?: InputMaybe<Scalars['String']>;
   scope?: InputMaybe<Scalars['json']>;
@@ -6320,10 +6274,6 @@ export enum Meeting_Recurring_Update_Column {
   InvitedReadonly = 'invitedReadonly',
   /** column name */
   OrgId = 'orgId',
-  /** column name */
-  ParticipantsMembersIds = 'participantsMembersIds',
-  /** column name */
-  ParticipantsScope = 'participantsScope',
   /** column name */
   Private = 'private',
   /** column name */
@@ -6383,8 +6333,6 @@ export enum Meeting_Select_Column {
   /** column name */
   Archived = 'archived',
   /** column name */
-  Attendees = 'attendees',
-  /** column name */
   CircleId = 'circleId',
   /** column name */
   CreatedAt = 'createdAt',
@@ -6402,10 +6350,6 @@ export enum Meeting_Select_Column {
   LastUpdateSource = 'lastUpdateSource',
   /** column name */
   OrgId = 'orgId',
-  /** column name */
-  ParticipantsMembersIds = 'participantsMembersIds',
-  /** column name */
-  ParticipantsScope = 'participantsScope',
   /** column name */
   Private = 'private',
   /** column name */
@@ -6451,7 +6395,6 @@ export enum Meeting_Select_Column_Meeting_Aggregate_Bool_Exp_Bool_Or_Arguments_C
 /** input type for updating data in table "meeting" */
 export type Meeting_Set_Input = {
   archived?: InputMaybe<Scalars['Boolean']>;
-  attendees?: InputMaybe<Scalars['json']>;
   circleId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   currentStepId?: InputMaybe<Scalars['uuid']>;
@@ -6461,8 +6404,6 @@ export type Meeting_Set_Input = {
   invitedReadonly?: InputMaybe<Scalars['Boolean']>;
   lastUpdateSource?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   recurringDate?: InputMaybe<Scalars['timestamptz']>;
   recurringId?: InputMaybe<Scalars['uuid']>;
@@ -7011,7 +6952,6 @@ export type Meeting_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Meeting_Stream_Cursor_Value_Input = {
   archived?: InputMaybe<Scalars['Boolean']>;
-  attendees?: InputMaybe<Scalars['json']>;
   circleId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   currentStepId?: InputMaybe<Scalars['uuid']>;
@@ -7021,8 +6961,6 @@ export type Meeting_Stream_Cursor_Value_Input = {
   invitedReadonly?: InputMaybe<Scalars['Boolean']>;
   lastUpdateSource?: InputMaybe<Scalars['String']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   recurringDate?: InputMaybe<Scalars['timestamptz']>;
   recurringId?: InputMaybe<Scalars['uuid']>;
@@ -7251,8 +7189,6 @@ export enum Meeting_Update_Column {
   /** column name */
   Archived = 'archived',
   /** column name */
-  Attendees = 'attendees',
-  /** column name */
   CircleId = 'circleId',
   /** column name */
   CreatedAt = 'createdAt',
@@ -7270,10 +7206,6 @@ export enum Meeting_Update_Column {
   LastUpdateSource = 'lastUpdateSource',
   /** column name */
   OrgId = 'orgId',
-  /** column name */
-  ParticipantsMembersIds = 'participantsMembersIds',
-  /** column name */
-  ParticipantsScope = 'participantsScope',
   /** column name */
   Private = 'private',
   /** column name */
@@ -7781,160 +7713,6 @@ export type Member_Role_Updates = {
   where: Member_Role_Bool_Exp;
 };
 
-/** columns and relationships of "member_scope" */
-export type Member_Scope = {
-  __typename?: 'member_scope';
-  comment?: Maybe<Scalars['String']>;
-  value: Scalars['String'];
-};
-
-/** aggregated selection of "member_scope" */
-export type Member_Scope_Aggregate = {
-  __typename?: 'member_scope_aggregate';
-  aggregate?: Maybe<Member_Scope_Aggregate_Fields>;
-  nodes: Array<Member_Scope>;
-};
-
-/** aggregate fields of "member_scope" */
-export type Member_Scope_Aggregate_Fields = {
-  __typename?: 'member_scope_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Member_Scope_Max_Fields>;
-  min?: Maybe<Member_Scope_Min_Fields>;
-};
-
-
-/** aggregate fields of "member_scope" */
-export type Member_Scope_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Member_Scope_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** Boolean expression to filter rows from the table "member_scope". All fields are combined with a logical 'AND'. */
-export type Member_Scope_Bool_Exp = {
-  _and?: InputMaybe<Array<Member_Scope_Bool_Exp>>;
-  _not?: InputMaybe<Member_Scope_Bool_Exp>;
-  _or?: InputMaybe<Array<Member_Scope_Bool_Exp>>;
-  comment?: InputMaybe<String_Comparison_Exp>;
-  value?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "member_scope" */
-export enum Member_Scope_Constraint {
-  /** unique or primary key constraint on columns "value" */
-  MemberScopePkey = 'member_scope_pkey'
-}
-
-export enum Member_Scope_Enum {
-  /** All Leaders of Roles and sub-Circles in Circle */
-  CircleLeaders = 'CircleLeaders',
-  /** All members in Circle and sub-Circles */
-  CircleMembers = 'CircleMembers',
-  /** None (select members manually) */
-  None = 'None',
-  /** All members of the organization */
-  Organization = 'Organization'
-}
-
-/** Boolean expression to compare columns of type "member_scope_enum". All fields are combined with logical 'AND'. */
-export type Member_Scope_Enum_Comparison_Exp = {
-  _eq?: InputMaybe<Member_Scope_Enum>;
-  _in?: InputMaybe<Array<Member_Scope_Enum>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _neq?: InputMaybe<Member_Scope_Enum>;
-  _nin?: InputMaybe<Array<Member_Scope_Enum>>;
-};
-
-/** input type for inserting data into table "member_scope" */
-export type Member_Scope_Insert_Input = {
-  comment?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate max on columns */
-export type Member_Scope_Max_Fields = {
-  __typename?: 'member_scope_max_fields';
-  comment?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
-};
-
-/** aggregate min on columns */
-export type Member_Scope_Min_Fields = {
-  __typename?: 'member_scope_min_fields';
-  comment?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
-};
-
-/** response of any mutation on the table "member_scope" */
-export type Member_Scope_Mutation_Response = {
-  __typename?: 'member_scope_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Member_Scope>;
-};
-
-/** on_conflict condition type for table "member_scope" */
-export type Member_Scope_On_Conflict = {
-  constraint: Member_Scope_Constraint;
-  update_columns?: Array<Member_Scope_Update_Column>;
-  where?: InputMaybe<Member_Scope_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "member_scope". */
-export type Member_Scope_Order_By = {
-  comment?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: member_scope */
-export type Member_Scope_Pk_Columns_Input = {
-  value: Scalars['String'];
-};
-
-/** select columns of table "member_scope" */
-export enum Member_Scope_Select_Column {
-  /** column name */
-  Comment = 'comment',
-  /** column name */
-  Value = 'value'
-}
-
-/** input type for updating data in table "member_scope" */
-export type Member_Scope_Set_Input = {
-  comment?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
-};
-
-/** Streaming cursor of the table "member_scope" */
-export type Member_Scope_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Member_Scope_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Member_Scope_Stream_Cursor_Value_Input = {
-  comment?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
-};
-
-/** update columns of table "member_scope" */
-export enum Member_Scope_Update_Column {
-  /** column name */
-  Comment = 'comment',
-  /** column name */
-  Value = 'value'
-}
-
-export type Member_Scope_Updates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Member_Scope_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Member_Scope_Bool_Exp;
-};
-
 /** select columns of table "member" */
 export enum Member_Select_Column {
   /** column name */
@@ -8240,10 +8018,6 @@ export type Mutation_Root = {
   delete_member_role?: Maybe<Member_Role_Mutation_Response>;
   /** delete single row from the table: "member_role" */
   delete_member_role_by_pk?: Maybe<Member_Role>;
-  /** delete data from the table: "member_scope" */
-  delete_member_scope?: Maybe<Member_Scope_Mutation_Response>;
-  /** delete single row from the table: "member_scope" */
-  delete_member_scope_by_pk?: Maybe<Member_Scope>;
   /** delete data from the table: "old_id" */
   delete_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** delete single row from the table: "old_id" */
@@ -8428,10 +8202,6 @@ export type Mutation_Root = {
   insert_member_role?: Maybe<Member_Role_Mutation_Response>;
   /** insert a single row into the table: "member_role" */
   insert_member_role_one?: Maybe<Member_Role>;
-  /** insert data into the table: "member_scope" */
-  insert_member_scope?: Maybe<Member_Scope_Mutation_Response>;
-  /** insert a single row into the table: "member_scope" */
-  insert_member_scope_one?: Maybe<Member_Scope>;
   /** insert data into the table: "old_id" */
   insert_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** insert a single row into the table: "old_id" */
@@ -8666,12 +8436,6 @@ export type Mutation_Root = {
   update_member_role_by_pk?: Maybe<Member_Role>;
   /** update multiples rows of table: "member_role" */
   update_member_role_many?: Maybe<Array<Maybe<Member_Role_Mutation_Response>>>;
-  /** update data of the table: "member_scope" */
-  update_member_scope?: Maybe<Member_Scope_Mutation_Response>;
-  /** update single row of the table: "member_scope" */
-  update_member_scope_by_pk?: Maybe<Member_Scope>;
-  /** update multiples rows of table: "member_scope" */
-  update_member_scope_many?: Maybe<Array<Maybe<Member_Scope_Mutation_Response>>>;
   /** update data of the table: "old_id" */
   update_old_id?: Maybe<Old_Id_Mutation_Response>;
   /** update single row of the table: "old_id" */
@@ -9113,18 +8877,6 @@ export type Mutation_RootDelete_Member_RoleArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Member_Role_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Member_ScopeArgs = {
-  where: Member_Scope_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Member_Scope_By_PkArgs = {
   value: Scalars['String'];
 };
 
@@ -9732,20 +9484,6 @@ export type Mutation_RootInsert_Member_RoleArgs = {
 export type Mutation_RootInsert_Member_Role_OneArgs = {
   object: Member_Role_Insert_Input;
   on_conflict?: InputMaybe<Member_Role_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Member_ScopeArgs = {
-  objects: Array<Member_Scope_Insert_Input>;
-  on_conflict?: InputMaybe<Member_Scope_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Member_Scope_OneArgs = {
-  object: Member_Scope_Insert_Input;
-  on_conflict?: InputMaybe<Member_Scope_On_Conflict>;
 };
 
 
@@ -10602,26 +10340,6 @@ export type Mutation_RootUpdate_Member_Role_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Member_Role_ManyArgs = {
   updates: Array<Member_Role_Updates>;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Member_ScopeArgs = {
-  _set?: InputMaybe<Member_Scope_Set_Input>;
-  where: Member_Scope_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Member_Scope_By_PkArgs = {
-  _set?: InputMaybe<Member_Scope_Set_Input>;
-  pk_columns: Member_Scope_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Member_Scope_ManyArgs = {
-  updates: Array<Member_Scope_Updates>;
 };
 
 
@@ -12603,12 +12321,6 @@ export type Query_Root = {
   member_role_aggregate: Member_Role_Aggregate;
   /** fetch data from the table: "member_role" using primary key columns */
   member_role_by_pk?: Maybe<Member_Role>;
-  /** fetch data from the table: "member_scope" */
-  member_scope: Array<Member_Scope>;
-  /** fetch aggregated fields from the table: "member_scope" */
-  member_scope_aggregate: Member_Scope_Aggregate;
-  /** fetch data from the table: "member_scope" using primary key columns */
-  member_scope_by_pk?: Maybe<Member_Scope>;
   /** An array relationship */
   news: Array<News>;
   /** An aggregate relationship */
@@ -13367,29 +13079,6 @@ export type Query_RootMember_Role_AggregateArgs = {
 
 
 export type Query_RootMember_Role_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
-export type Query_RootMember_ScopeArgs = {
-  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
-  where?: InputMaybe<Member_Scope_Bool_Exp>;
-};
-
-
-export type Query_RootMember_Scope_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
-  where?: InputMaybe<Member_Scope_Bool_Exp>;
-};
-
-
-export type Query_RootMember_Scope_By_PkArgs = {
   value: Scalars['String'];
 };
 
@@ -15167,14 +14856,6 @@ export type Subscription_Root = {
   member_role_by_pk?: Maybe<Member_Role>;
   /** fetch data from the table in a streaming manner: "member_role" */
   member_role_stream: Array<Member_Role>;
-  /** fetch data from the table: "member_scope" */
-  member_scope: Array<Member_Scope>;
-  /** fetch aggregated fields from the table: "member_scope" */
-  member_scope_aggregate: Member_Scope_Aggregate;
-  /** fetch data from the table: "member_scope" using primary key columns */
-  member_scope_by_pk?: Maybe<Member_Scope>;
-  /** fetch data from the table in a streaming manner: "member_scope" */
-  member_scope_stream: Array<Member_Scope>;
   /** fetch data from the table in a streaming manner: "member" */
   member_stream: Array<Member>;
   /** An array relationship */
@@ -16169,36 +15850,6 @@ export type Subscription_RootMember_Role_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Member_Role_Stream_Cursor_Input>>;
   where?: InputMaybe<Member_Role_Bool_Exp>;
-};
-
-
-export type Subscription_RootMember_ScopeArgs = {
-  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
-  where?: InputMaybe<Member_Scope_Bool_Exp>;
-};
-
-
-export type Subscription_RootMember_Scope_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Member_Scope_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Member_Scope_Order_By>>;
-  where?: InputMaybe<Member_Scope_Bool_Exp>;
-};
-
-
-export type Subscription_RootMember_Scope_By_PkArgs = {
-  value: Scalars['String'];
-};
-
-
-export type Subscription_RootMember_Scope_StreamArgs = {
-  batch_size: Scalars['Int'];
-  cursor: Array<InputMaybe<Member_Scope_Stream_Cursor_Input>>;
-  where?: InputMaybe<Member_Scope_Bool_Exp>;
 };
 
 
@@ -17620,8 +17271,6 @@ export type Thread = {
   /** An object relationship */
   org: Org;
   orgId: Scalars['uuid'];
-  participantsMembersIds?: Maybe<Scalars['json']>;
-  participantsScope?: Maybe<Member_Scope_Enum>;
   private: Scalars['Boolean'];
   status: Thread_Status_Enum;
   title: Scalars['String'];
@@ -17705,12 +17354,6 @@ export type ThreadMember_Status_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Thread_Member_Status_Order_By>>;
   where?: InputMaybe<Thread_Member_Status_Bool_Exp>;
-};
-
-
-/** columns and relationships of "thread" */
-export type ThreadParticipantsMembersIdsArgs = {
-  path?: InputMaybe<Scalars['String']>;
 };
 
 /** columns and relationships of "thread_activity" */
@@ -18272,8 +17915,6 @@ export type Thread_Bool_Exp = {
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Bool_Exp>;
   org?: InputMaybe<Org_Bool_Exp>;
   orgId?: InputMaybe<Uuid_Comparison_Exp>;
-  participantsMembersIds?: InputMaybe<Json_Comparison_Exp>;
-  participantsScope?: InputMaybe<Member_Scope_Enum_Comparison_Exp>;
   private?: InputMaybe<Boolean_Comparison_Exp>;
   status?: InputMaybe<Thread_Status_Enum_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
@@ -18497,8 +18138,6 @@ export type Thread_Insert_Input = {
   member_status?: InputMaybe<Thread_Member_Status_Arr_Rel_Insert_Input>;
   org?: InputMaybe<Org_Obj_Rel_Insert_Input>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
@@ -18809,8 +18448,6 @@ export type Thread_Order_By = {
   member_status_aggregate?: InputMaybe<Thread_Member_Status_Aggregate_Order_By>;
   org?: InputMaybe<Org_Order_By>;
   orgId?: InputMaybe<Order_By>;
-  participantsMembersIds?: InputMaybe<Order_By>;
-  participantsScope?: InputMaybe<Order_By>;
   private?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
@@ -19017,10 +18654,6 @@ export enum Thread_Select_Column {
   /** column name */
   OrgId = 'orgId',
   /** column name */
-  ParticipantsMembersIds = 'participantsMembersIds',
-  /** column name */
-  ParticipantsScope = 'participantsScope',
-  /** column name */
   Private = 'private',
   /** column name */
   Status = 'status',
@@ -19052,8 +18685,6 @@ export type Thread_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
@@ -19225,8 +18856,6 @@ export type Thread_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   initiatorMemberId?: InputMaybe<Scalars['uuid']>;
   orgId?: InputMaybe<Scalars['uuid']>;
-  participantsMembersIds?: InputMaybe<Scalars['json']>;
-  participantsScope?: InputMaybe<Member_Scope_Enum>;
   private?: InputMaybe<Scalars['Boolean']>;
   status?: InputMaybe<Thread_Status_Enum>;
   title?: InputMaybe<Scalars['String']>;
@@ -19246,10 +18875,6 @@ export enum Thread_Update_Column {
   InitiatorMemberId = 'initiatorMemberId',
   /** column name */
   OrgId = 'orgId',
-  /** column name */
-  ParticipantsMembersIds = 'participantsMembersIds',
-  /** column name */
-  ParticipantsScope = 'participantsScope',
   /** column name */
   Private = 'private',
   /** column name */
@@ -21021,50 +20646,6 @@ export type GetOrgAndMemberQueryVariables = Exact<{
 
 export type GetOrgAndMemberQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', id: string, name: string, members: Array<{ __typename?: 'member', id: string, name: string, picture?: string | null, user?: { __typename?: 'users', locale: string } | null }> } | null };
 
-export type GetOrgsForMigrationQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetOrgsForMigrationQuery = { __typename?: 'query_root', org: Array<{ __typename?: 'org', id: string }> };
-
-export type GetOrgMeetingsForMigrationQueryVariables = Exact<{
-  orgId: Scalars['uuid'];
-}>;
-
-
-export type GetOrgMeetingsForMigrationQuery = { __typename?: 'query_root', org_by_pk?: { __typename?: 'org', circles: Array<{ __typename?: 'circle', id: string, orgId: string, roleId: string, parentId?: string | null, archived: boolean, members: Array<{ __typename?: 'circle_member', id: string, avgMinPerWeek?: number | null, member: { __typename?: 'member', id: string, userId?: string | null, name: string, picture?: string | null } }>, invitedCircleLinks: Array<{ __typename?: 'circle_link', invitedCircle: { __typename?: 'circle', id: string } }>, role: { __typename?: 'role', id: string, base: boolean, name: string, singleMember: boolean, parentLink: boolean, defaultMinPerWeek?: number | null, colorHue?: number | null } }>, members: Array<{ __typename?: 'member', id: string }>, meetings: Array<{ __typename?: 'meeting', id: string, attendees?: any | null, circleId: string, participantsScope?: Member_Scope_Enum | null, participantsMembersIds?: any | null }> } | null };
-
-export type InsertMeetingAttendeesMutationVariables = Exact<{
-  attendees: Array<Meeting_Attendee_Insert_Input> | Meeting_Attendee_Insert_Input;
-}>;
-
-
-export type InsertMeetingAttendeesMutation = { __typename?: 'mutation_root', insert_meeting_attendee?: { __typename?: 'meeting_attendee_mutation_response', returning: Array<{ __typename?: 'meeting_attendee', id: string }> } | null };
-
-export type GetOrgRecurringMeetingsForMigrationQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetOrgRecurringMeetingsForMigrationQuery = { __typename?: 'query_root', meeting_recurring: Array<{ __typename?: 'meeting_recurring', id: string, circleId: string, participantsScope?: Member_Scope_Enum | null, participantsMembersIds?: any | null }> };
-
-export type MigrateRecurringMeetingMutationVariables = Exact<{
-  id: Scalars['uuid'];
-  scope: Scalars['json'];
-}>;
-
-
-export type MigrateRecurringMeetingMutation = { __typename?: 'mutation_root', update_meeting_recurring_by_pk?: { __typename?: 'meeting_recurring', id: string } | null };
-
-export type GetThreadsForMigrationQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetThreadsForMigrationQuery = { __typename?: 'query_root', thread: Array<{ __typename?: 'thread', id: string, participantsMembersIds?: any | null }> };
-
-export type InsertThreadExtraMembersMutationVariables = Exact<{
-  extra_members: Array<Thread_Extra_Member_Insert_Input> | Thread_Extra_Member_Insert_Input;
-}>;
-
-
-export type InsertThreadExtraMembersMutation = { __typename?: 'mutation_root', insert_thread_extra_member?: { __typename?: 'thread_extra_member_mutation_response', returning: Array<{ __typename?: 'thread_extra_member', id: string }> } | null };
-
 export type GetOrgSubscriptionStripeStatusQueryVariables = Exact<{
   orgId: Scalars['uuid'];
 }>;
@@ -21319,13 +20900,6 @@ export const GetThreadsWithMeetingNotesDocument = {"kind":"Document","definition
 export const GetOrgMeetingsForIcalDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgMeetingsForIcal"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memberId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"meeting_attendees"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"memberId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memberId"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"startDate"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Meeting"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings_recurring"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeetingRecurring"}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Circle"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"parentLink"}},{"kind":"Field","name":{"kind":"Name","value":"defaultMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleSummary"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingAttendee"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_attendee"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"meetingId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"present"}},{"kind":"Field","name":{"kind":"Name","value":"startNotified"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"ended"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"currentStepId"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"private"}},{"kind":"Field","name":{"kind":"Name","value":"meeting_attendees"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeetingAttendee"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleSummary"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"member"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSummary"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"invitedCircleLinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"invitedCircle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Meeting"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeetingSummary"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"recurringDate"}},{"kind":"Field","name":{"kind":"Name","value":"invitedReadonly"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeetingRecurring"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_recurring"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"circle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"scope"}},{"kind":"Field","name":{"kind":"Name","value":"templateId"}},{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"stepsConfig"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rrule"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"videoConf"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]} as unknown as DocumentNode<GetOrgMeetingsForIcalQuery, GetOrgMeetingsForIcalQueryVariables>;
 export const CheckOrgUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"checkOrgUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CheckOrgUserQuery, CheckOrgUserQueryVariables>;
 export const GetOrgAndMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgAndMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locale"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgAndMemberQuery, GetOrgAndMemberQueryVariables>;
-export const GetOrgsForMigrationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgsForMigration"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetOrgsForMigrationQuery, GetOrgsForMigrationQueryVariables>;
-export const GetOrgMeetingsForMigrationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgMeetingsForMigration"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleFull"}}]}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meetings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"attendees"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Circle"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"parentId"}},{"kind":"Field","name":{"kind":"Name","value":"archived"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"role"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"singleMember"}},{"kind":"Field","name":{"kind":"Name","value":"parentLink"}},{"kind":"Field","name":{"kind":"Name","value":"defaultMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"colorHue"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Circle"}},{"kind":"Field","name":{"kind":"Name","value":"role"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoleSummary"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MemberSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"picture"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CircleFull"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"circle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CircleSummary"}},{"kind":"Field","name":{"kind":"Name","value":"members"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"member"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"BooleanValue","value":false}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"avgMinPerWeek"}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MemberSummary"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"invitedCircleLinks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"invitedCircle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrgMeetingsForMigrationQuery, GetOrgMeetingsForMigrationQueryVariables>;
-export const InsertMeetingAttendeesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"insertMeetingAttendees"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"attendees"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"meeting_attendee_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_meeting_attendee"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"attendees"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<InsertMeetingAttendeesMutation, InsertMeetingAttendeesMutationVariables>;
-export const GetOrgRecurringMeetingsForMigrationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgRecurringMeetingsForMigration"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meeting_recurring"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"circleId"}},{"kind":"Field","name":{"kind":"Name","value":"participantsScope"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}}]}}]}}]} as unknown as DocumentNode<GetOrgRecurringMeetingsForMigrationQuery, GetOrgRecurringMeetingsForMigrationQueryVariables>;
-export const MigrateRecurringMeetingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"migrateRecurringMeeting"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"scope"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"json"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_meeting_recurring_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"scope"},"value":{"kind":"Variable","name":{"kind":"Name","value":"scope"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<MigrateRecurringMeetingMutation, MigrateRecurringMeetingMutationVariables>;
-export const GetThreadsForMigrationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getThreadsForMigration"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"thread"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"participantsMembersIds"}}]}}]}}]} as unknown as DocumentNode<GetThreadsForMigrationQuery, GetThreadsForMigrationQueryVariables>;
-export const InsertThreadExtraMembersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"insertThreadExtraMembers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"extra_members"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"thread_extra_member_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_thread_extra_member"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"extra_members"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<InsertThreadExtraMembersMutation, InsertThreadExtraMembersMutationVariables>;
 export const GetOrgSubscriptionStripeStatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOrgSubscriptionStripeStatus"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"org_subscription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"orgId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"stripeSubscriptionId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<GetOrgSubscriptionStripeStatusQuery, GetOrgSubscriptionStripeStatusQueryVariables>;
 export const ArchiveOrgDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"archiveOrg"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_org_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"archived"},"value":{"kind":"BooleanValue","value":true}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<ArchiveOrgMutation, ArchiveOrgMutationVariables>;
 export const GetUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;

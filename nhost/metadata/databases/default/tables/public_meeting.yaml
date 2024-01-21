@@ -206,15 +206,12 @@ event_triggers:
           - startDate
           - endDate
           - ended
-          - attendees
           - currentStepId
           - archived
           - circleId
-          - participantsMembersIds
           - videoConf
           - recurringId
           - recurringDate
-          - participantsScope
           - summary
           - title
     retry_conf:

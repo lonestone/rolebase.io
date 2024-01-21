@@ -100,13 +100,6 @@ const documents = {
     "\n  query getOrgMeetingsForIcal($orgId: uuid!, $memberId: uuid) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      slug\n      circles(where: { archived: { _eq: false } }) {\n        ...CircleFull\n      }\n      meetings(\n        where: {\n          archived: { _eq: false }\n          meeting_attendees: { memberId: { _eq: $memberId } }\n        }\n        order_by: { startDate: asc }\n      ) {\n        ...Meeting\n        circle {\n          role {\n            name\n          }\n        }\n      }\n      meetings_recurring {\n        ...MeetingRecurring\n        meetings {\n          recurringDate\n        }\n      }\n    }\n  }\n": types.GetOrgMeetingsForIcalDocument,
     "\n  query checkOrgUser($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      members(where: { userId: { _eq: $userId } }) {\n        id\n      }\n    }\n  }\n": types.CheckOrgUserDocument,
     "\n  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members(where: { userId: { _eq: $userId } }) {\n        id\n        name\n        picture\n        user {\n          locale\n        }\n      }\n    }\n  }\n": types.GetOrgAndMemberDocument,
-    "\n  query getOrgsForMigration {\n    org {\n      id\n    }\n  }\n": types.GetOrgsForMigrationDocument,
-    "\n  query getOrgMeetingsForMigration($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      circles(where: { archived: { _eq: false } }) {\n        ...CircleFull\n      }\n      members(where: { archived: { _eq: false } }) {\n        id\n      }\n      meetings {\n        id\n        attendees\n        circleId\n        participantsScope\n        participantsMembersIds\n      }\n    }\n  }\n": types.GetOrgMeetingsForMigrationDocument,
-    "\n  mutation insertMeetingAttendees($attendees: [meeting_attendee_insert_input!]!) {\n    insert_meeting_attendee(objects: $attendees) {\n      returning {\n        id\n      }\n    }\n  }\n": types.InsertMeetingAttendeesDocument,
-    "\n  query getOrgRecurringMeetingsForMigration {\n    meeting_recurring {\n      id\n      circleId\n      participantsScope\n      participantsMembersIds\n    }\n  }\n": types.GetOrgRecurringMeetingsForMigrationDocument,
-    "\n  mutation migrateRecurringMeeting($id: uuid!, $scope: json!) {\n    update_meeting_recurring_by_pk(\n      pk_columns: { id: $id }\n      _set: { scope: $scope }\n    ) {\n      id\n    }\n  }\n": types.MigrateRecurringMeetingDocument,
-    "\n  query getThreadsForMigration {\n    thread {\n      id\n      participantsMembersIds\n    }\n  }\n": types.GetThreadsForMigrationDocument,
-    "\n  mutation insertThreadExtraMembers($extra_members: [thread_extra_member_insert_input!]!) {\n    insert_thread_extra_member(objects: $extra_members) {\n      returning {\n        id\n      }\n    }\n  }\n": types.InsertThreadExtraMembersDocument,
     "\n    query getOrgSubscriptionStripeStatus($orgId: uuid!) {\n      org_subscription(where: {orgId: {_eq: $orgId}}) {\n        id\n        stripeSubscriptionId\n        status\n      }\n    }": types.GetOrgSubscriptionStripeStatusDocument,
     "\n  mutation archiveOrg($orgId: uuid!) {\n    update_org_by_pk(pk_columns: {id: $orgId}, _set: {archived: true}) {\n      id\n    }\n  }": types.ArchiveOrgDocument,
     "\n  query getUser($id: uuid!) {\n    user(id: $id) {\n      id\n      displayName\n    }\n  }": types.GetUserDocument,
@@ -492,34 +485,6 @@ export function gql(source: "\n  query checkOrgUser($orgId: uuid!, $userId: uuid
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members(where: { userId: { _eq: $userId } }) {\n        id\n        name\n        picture\n        user {\n          locale\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query getOrgAndMember($orgId: uuid!, $userId: uuid!) {\n    org_by_pk(id: $orgId) {\n      id\n      name\n      members(where: { userId: { _eq: $userId } }) {\n        id\n        name\n        picture\n        user {\n          locale\n        }\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query getOrgsForMigration {\n    org {\n      id\n    }\n  }\n"): (typeof documents)["\n  query getOrgsForMigration {\n    org {\n      id\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query getOrgMeetingsForMigration($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      circles(where: { archived: { _eq: false } }) {\n        ...CircleFull\n      }\n      members(where: { archived: { _eq: false } }) {\n        id\n      }\n      meetings {\n        id\n        attendees\n        circleId\n        participantsScope\n        participantsMembersIds\n      }\n    }\n  }\n"): (typeof documents)["\n  query getOrgMeetingsForMigration($orgId: uuid!) {\n    org_by_pk(id: $orgId) {\n      circles(where: { archived: { _eq: false } }) {\n        ...CircleFull\n      }\n      members(where: { archived: { _eq: false } }) {\n        id\n      }\n      meetings {\n        id\n        attendees\n        circleId\n        participantsScope\n        participantsMembersIds\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  mutation insertMeetingAttendees($attendees: [meeting_attendee_insert_input!]!) {\n    insert_meeting_attendee(objects: $attendees) {\n      returning {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation insertMeetingAttendees($attendees: [meeting_attendee_insert_input!]!) {\n    insert_meeting_attendee(objects: $attendees) {\n      returning {\n        id\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query getOrgRecurringMeetingsForMigration {\n    meeting_recurring {\n      id\n      circleId\n      participantsScope\n      participantsMembersIds\n    }\n  }\n"): (typeof documents)["\n  query getOrgRecurringMeetingsForMigration {\n    meeting_recurring {\n      id\n      circleId\n      participantsScope\n      participantsMembersIds\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  mutation migrateRecurringMeeting($id: uuid!, $scope: json!) {\n    update_meeting_recurring_by_pk(\n      pk_columns: { id: $id }\n      _set: { scope: $scope }\n    ) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation migrateRecurringMeeting($id: uuid!, $scope: json!) {\n    update_meeting_recurring_by_pk(\n      pk_columns: { id: $id }\n      _set: { scope: $scope }\n    ) {\n      id\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query getThreadsForMigration {\n    thread {\n      id\n      participantsMembersIds\n    }\n  }\n"): (typeof documents)["\n  query getThreadsForMigration {\n    thread {\n      id\n      participantsMembersIds\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  mutation insertThreadExtraMembers($extra_members: [thread_extra_member_insert_input!]!) {\n    insert_thread_extra_member(objects: $extra_members) {\n      returning {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation insertThreadExtraMembers($extra_members: [thread_extra_member_insert_input!]!) {\n    insert_thread_extra_member(objects: $extra_members) {\n      returning {\n        id\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
