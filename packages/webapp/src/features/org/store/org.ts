@@ -32,7 +32,7 @@ interface OrgModel {
   >
 }
 
-const extendedModel: OrgModel = {
+const model: OrgModel = {
   currentId: undefined,
   current: undefined,
   circles: undefined,
@@ -101,4 +101,4 @@ const extendedModel: OrgModel = {
   }),
 }
 
-export default extendedModel
+export default model

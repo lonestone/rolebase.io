@@ -58,6 +58,9 @@ export default function Sidebar() {
   const orgLoading = useStoreState((state) => state.orgs.loading)
   const currentMember = useCurrentMember()
   const isOwner = useOrgOwner()
+  const currentMeetingId = useStoreState(
+    (state) => state.memberStatus.currentMeetingId
+  )
 
   // Get Sidebar context
   const context = useContext(SidebarContext)
@@ -174,7 +177,7 @@ export default function Sidebar() {
                   className="userflow-sidebar-meetings"
                   to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                   icon={MeetingsIcon}
-                  alert={!!currentMember?.meetingId}
+                  alert={!!currentMeetingId}
                 >
                   {t('Sidebar.meetings')}
                 </SidebarTopIconLink>
@@ -253,7 +256,7 @@ export default function Sidebar() {
                 className="userflow-sidebar-meetings"
                 to={`${rootPath}meetings?member=${currentMember?.id || ''}`}
                 icon={MeetingsIcon}
-                alert={!!currentMember?.meetingId}
+                alert={!!currentMeetingId}
               >
                 {t('Sidebar.meetings')}
               </SidebarItemLink>

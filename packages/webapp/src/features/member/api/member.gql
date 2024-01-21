@@ -13,6 +13,23 @@ subscription members($orgId: uuid!, $archived: Boolean!) {
   }
 }
 
+subscription currentMeetings($memberId: uuid!) {
+  member_by_pk(id: $memberId) {
+    org {
+      meetings(
+        where: {
+          currentStepId: { _is_null: false }
+          ended: { _eq: false }
+          archived: { _eq: false }
+          meeting_attendees: { memberId: { _eq: $memberId } }
+        }
+      ) {
+        id
+      }
+    }
+  }
+}
+
 mutation createMember($orgId: uuid!, $name: String!) {
   insert_member_one(object: { orgId: $orgId, name: $name }) {
     ...Member

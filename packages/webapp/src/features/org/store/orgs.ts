@@ -1,5 +1,5 @@
 import { CircleFullFragment, OrgFragment } from '@gql'
-import { createModel } from './generic'
+import { createModel } from '../../../store/generic'
 
 export type OrgWithCircle = OrgFragment & {
   circles: CircleFullFragment[]

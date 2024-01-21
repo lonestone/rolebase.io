@@ -11,6 +11,7 @@ import { useUpdateMeetingMutation } from '@gql'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  CancelIcon,
   CopyIcon,
   DeleteIcon,
   EditIcon,
@@ -44,6 +45,7 @@ export default function MeetingActionsMenu({
     isStarted,
     isEnded,
     handleNextStep,
+    handleCancelStart,
     handleChangeForceEdit,
   } = useContext(MeetingContext)!
 
@@ -57,8 +59,6 @@ export default function MeetingActionsMenu({
   const handleCopyLink = useCopyUrl(`${settings.url}${path}`)
   const handleArchive = () => setArchive(true)
   const handleUnarchive = () => setArchive(false)
-
-  if (!canEdit) return null
 
   return (
     <Menu isLazy>
@@ -78,23 +78,36 @@ export default function MeetingActionsMenu({
         shadow="lg"
         zIndex={1000}
       >
-        <MenuItem icon={<SettingsIcon size={20} />} onClick={onEdit}>
-          {t('MeetingActionsMenu.edit')}
-        </MenuItem>
+        {canEdit && (
+          <>
+            <MenuItem icon={<SettingsIcon size={20} />} onClick={onEdit}>
+              {t('MeetingActionsMenu.edit')}
+            </MenuItem>
 
-        {isEnded && !forceEdit && (
-          <MenuItem
-            icon={<EditIcon size={20} />}
-            onClick={() => handleChangeForceEdit(true)}
-          >
-            {t('MeetingActionsMenu.forceEdit')}
-          </MenuItem>
-        )}
+            {isEnded && !forceEdit && (
+              <MenuItem
+                icon={<EditIcon size={20} />}
+                onClick={() => handleChangeForceEdit(true)}
+              >
+                {t('MeetingActionsMenu.forceEdit')}
+              </MenuItem>
+            )}
 
-        {isEnded && (
-          <MenuItem icon={<PlayIcon size={20} />} onClick={handleNextStep}>
-            {t('MeetingActionsMenu.restart')}
-          </MenuItem>
+            {isStarted && (
+              <MenuItem
+                icon={<CancelIcon size={20} />}
+                onClick={handleCancelStart}
+              >
+                {t('MeetingActionsMenu.cancelStart')}
+              </MenuItem>
+            )}
+
+            {isEnded && (
+              <MenuItem icon={<PlayIcon size={20} />} onClick={handleNextStep}>
+                {t('MeetingActionsMenu.restart')}
+              </MenuItem>
+            )}
+          </>
         )}
 
         <MenuItem icon={<CopyIcon size={20} />} onClick={onDuplicate}>
@@ -105,15 +118,23 @@ export default function MeetingActionsMenu({
           {t('common.copyLink')}
         </MenuItem>
 
-        {!meeting?.archived && !isStarted && (
-          <MenuItem icon={<DeleteIcon size={20} />} onClick={handleArchive}>
-            {t('common.delete')}
-          </MenuItem>
-        )}
-        {meeting?.archived && (
-          <MenuItem icon={<RestoreIcon size={20} />} onClick={handleUnarchive}>
-            {t('common.unarchive')}
-          </MenuItem>
+        {canEdit && (
+          <>
+            {!meeting?.archived && !isStarted && (
+              <MenuItem icon={<DeleteIcon size={20} />} onClick={handleArchive}>
+                {t('common.delete')}
+              </MenuItem>
+            )}
+
+            {meeting?.archived && (
+              <MenuItem
+                icon={<RestoreIcon size={20} />}
+                onClick={handleUnarchive}
+              >
+                {t('common.unarchive')}
+              </MenuItem>
+            )}
+          </>
         )}
       </MenuList>
     </Menu>

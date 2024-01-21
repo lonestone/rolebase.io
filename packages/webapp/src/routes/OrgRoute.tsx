@@ -7,6 +7,7 @@ import DecisionPage from '@/decision/pages/DecisionPage '
 import LogsPage from '@/log/pages/LogsPage'
 import MeetingPage from '@/meeting/pages/MeetingPage'
 import MeetingRecurringPage from '@/meeting/pages/MeetingRecurringPage'
+import { useSubscribeCurrentMeeting } from '@/member/hooks/useSubscribeCurrentMeeting'
 import MembersPage from '@/member/pages/MembersPage'
 import TaskPage from '@/task/pages/TaskPage'
 import TasksPage from '@/task/pages/TasksPage'
@@ -85,6 +86,9 @@ export default function OrgRoute() {
       error,
     })
   }, [data, error, loading])
+
+  // Update current meeting in store
+  useSubscribeCurrentMeeting()
 
   return (
     <Suspense fallback={<Loading active center />}>

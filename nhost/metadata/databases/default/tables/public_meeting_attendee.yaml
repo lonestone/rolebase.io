@@ -47,6 +47,7 @@ insert_permissions:
         - meetingId
         - memberId
         - present
+        - startNotified
     comment: ""
 select_permissions:
   - role: user
@@ -56,6 +57,7 @@ select_permissions:
         - meetingId
         - memberId
         - present
+        - startNotified
       filter:
         meeting:
           _or:
@@ -81,6 +83,7 @@ update_permissions:
     permission:
       columns:
         - present
+        - startNotified
       filter:
         meeting:
           _or:

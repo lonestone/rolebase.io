@@ -71,7 +71,10 @@ mutation updateMeeting($id: uuid!, $values: meeting_set_input!) {
 }
 
 mutation archiveMeeting($id: uuid!) {
-  update_meeting_by_pk(pk_columns: { id: $id }, _set: { archived: true }) {
+  update_meeting_by_pk(
+    pk_columns: { id: $id }
+    _set: { archived: true, currentStepId: null }
+  ) {
     id
   }
 }

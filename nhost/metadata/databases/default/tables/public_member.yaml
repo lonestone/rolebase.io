@@ -25,6 +25,13 @@ array_relationships:
         table:
           name: circle_member
           schema: public
+  - name: meeting_attendees
+    using:
+      foreign_key_constraint_on:
+        column: memberId
+        table:
+          name: meeting_attendee
+          schema: public
 insert_permissions:
   - role: user
     permission:
@@ -71,7 +78,6 @@ select_permissions:
         - id
         - inviteDate
         - inviteEmail
-        - meetingId
         - name
         - orgId
         - picture
@@ -90,7 +96,6 @@ update_permissions:
     permission:
       columns:
         - description
-        - meetingId
         - name
         - picture
         - pictureFileId
@@ -119,7 +124,11 @@ event_triggers:
       insert:
         columns: '*'
       update:
-        columns: '*'
+        columns:
+          - orgId
+          - archived
+          - name
+          - description
     retry_conf:
       interval_sec: 10
       num_retries: 3

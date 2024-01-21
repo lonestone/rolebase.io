@@ -1,6 +1,7 @@
 import { LogFragment, useCreateLogMutation } from '@gql'
 import { useUserId } from '@nhost/react'
 import { Optional } from '@shared/model/types'
+import { useStoreState } from '@store/hooks'
 import { store } from '@store/index'
 import { useCallback } from 'react'
 import useSuperAdmin from '../../user/hooks/useSuperAdmin'
@@ -8,6 +9,9 @@ import useSuperAdmin from '../../user/hooks/useSuperAdmin'
 export default function useCreateLog() {
   const userId = useUserId()
   const isSuperAdmin = useSuperAdmin()
+  const currentMeetingId = useStoreState(
+    (state) => state.memberStatus.currentMeetingId
+  )
   const [createLog] = useCreateLogMutation()
 
   return useCallback(
@@ -42,12 +46,12 @@ export default function useCreateLog() {
             orgId,
             memberId: currentMember.id,
             memberName: currentMember.name,
-            meetingId: currentMember.meetingId || null,
+            meetingId: currentMeetingId || null,
             ...log,
           },
         },
       })
     },
-    [isSuperAdmin, userId]
+    [isSuperAdmin, userId, currentMeetingId]
   )
 }

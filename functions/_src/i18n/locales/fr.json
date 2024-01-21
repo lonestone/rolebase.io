@@ -31,6 +31,13 @@
         "cta": "Connexion"
       }
     },
+    "Meeting": {
+      "subject": "Réunion démarrée : {{title}} - {{role}}",
+      "title": "Réunion {{title}} - {{role}}",
+      "preview": "La réunion commence maintenant 🙌",
+      "activity": "La réunion comment maintenant 🙌",
+      "cta": "Ouvrir la réunion"
+    },
     "MemberActivity": {
       "OrgInvitation": {
         "subject": "Invitation dans l'organisation {{org}}",
@@ -38,13 +45,6 @@
         "preview": "{{member}} vous invite à rejoindre {{org}} sur Rolebase.",
         "activity": "<b>{{member}}</b> vous invite à rejoindre <b>{{org}}</b> sur Rolebase.",
         "cta": "Accepter l'invitation"
-      },
-      "MeetingStart": {
-        "subject": "{{member}} a démarré la réunion {{title}} - {{role}}",
-        "title": "Réunion {{title}} - {{role}}",
-        "preview": "{{member}} a démarré la réunion !",
-        "activity": "<b>{{member}}</b> a démarré la réunion !",
-        "cta": "Ouvrir la réunion"
       }
     },
     "Digest": {

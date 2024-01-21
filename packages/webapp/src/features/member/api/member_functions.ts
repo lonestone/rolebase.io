@@ -17,13 +17,4 @@ export const updateMemberRole = fn<{
   role?: Member_Role_Enum
 }>('members/updateMemberRole')
 
-export const startMembersMeeting = fn<{
-  membersIds: string[]
-  meetingId: string
-}>('members/startMembersMeeting')
-
-export const stopMembersMeeting = fn<{ meetingId: string }>(
-  'members/stopMembersMeeting'
-)
-
 export const archiveMember = fn<{ memberId: string }>('members/archiveMember')

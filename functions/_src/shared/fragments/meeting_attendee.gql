@@ -3,4 +3,5 @@ fragment MeetingAttendee on meeting_attendee {
   meetingId
   memberId
   present
+  startNotified
 }

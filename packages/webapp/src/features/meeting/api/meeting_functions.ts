@@ -5,11 +5,6 @@ export const getMeetingsToken = fn<{ orgId: string }, string>(
   'meetings/getMeetingsToken'
 )
 
-export const sendMeetingStartedNotification = fn<{
-  meetingId: string
-  recipientMemberIds: string[]
-}>('meetings/sendMeetingStartedNotification')
-
 // Generate a meeting summary with AI
 export const generateMeetingSummary = fn<
   { meetingId: string; lang: string },

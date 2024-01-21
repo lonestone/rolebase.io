@@ -1,7 +1,3 @@
-import {
-  startMembersMeeting,
-  stopMembersMeeting,
-} from '@/member/api/member_functions'
 import { BoxProps, VStack } from '@chakra-ui/react'
 import {
   useCreateMeetingAttendeeMutation,
@@ -18,7 +14,7 @@ import { MeetingContext } from '../contexts/MeetingContext'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 
 export default function MeetingAttendeesList(boxProps: BoxProps) {
-  const { meeting, canEdit, isStarted } = useContext(MeetingContext)!
+  const { meeting, canEdit } = useContext(MeetingContext)!
   const members = useStoreState((state) => state.org.members)
   const { t } = useTranslation()
   const [createAttendee] = useCreateMeetingAttendeeMutation()
@@ -60,23 +56,12 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
         },
       },
     })
-
-    // Set user's current meeting
-    if (isStarted) {
-      startMembersMeeting({
-        membersIds: [memberId],
-        meetingId: meeting.id,
-      })
-    }
   }
 
   const handleRemove = (id: string) => {
     if (!meeting) return
     if (!confirm(t('MeetingAttendees.confirmRemove'))) return
     deleteAttendee({ variables: { id } })
-
-    // Reset user's current meeting
-    stopMembersMeeting({ meetingId: meeting.id })
   }
 
   if (!attendees) return null

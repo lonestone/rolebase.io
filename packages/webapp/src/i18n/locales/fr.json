@@ -363,6 +363,7 @@
   "MeetingActionsMenu": {
     "edit": "Paramètres",
     "forceEdit": "Modifier le compte rendu",
+    "cancelStart": "Annuler le démarrage",
     "restart": "Démarrer à nouveau"
   },
   "MeetingAlertEnded": {
@@ -370,6 +371,7 @@
   },
   "MeetingAlertNotStarted": {
     "start": "Démarrer",
+    "toastStarted": "Réunion démarrée !",
     "future": "La réunion pourra être démarrée le <date>{{date}}</date>",
     "past": "La réunion aurait du être démarrée le <date>{{date}}</date>"
   },
@@ -497,11 +499,6 @@
   "MeetingStepsConfigController": {
     "addStep": "Ajouter une étape",
     "empty": "Vous devez ajouter au moins une étape au déroulé."
-  },
-  "MeetingStartNotificationModal": {
-    "heading": "Envoyer une notification ?",
-    "info": "Souhaitez-vous envoyer une notification aux participant(e)s pour leur signaler le début de la réunion ?",
-    "toastSent": "Notification envoyée !"
   },
   "MeetingTemplateDeleteModal": {
     "heading": "Supprimer un modèle de réunion",

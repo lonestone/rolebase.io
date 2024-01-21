@@ -28,7 +28,7 @@ export default function CircleNews({ circleId }: Props) {
         </Text>
       )}
 
-      {news && <NewsList items={news} outline />}
+      {news && <NewsList items={news} />}
 
       <Box ref={bottomRef} textAlign="center">
         {loading && <Loading active size="sm" mt={10} />}

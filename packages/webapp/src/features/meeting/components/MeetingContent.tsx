@@ -16,7 +16,6 @@ import { VisioIcon } from 'src/icons'
 import { MeetingContext } from '../contexts/MeetingContext'
 import useCreateMissingMeetingSteps from '../hooks/useCreateMissingMeetingSteps'
 import MeetingEditModal from '../modals/MeetingEditModal'
-import MeetingStartNotificationModal from '../modals/MeetingStartNotificationModal'
 import MeetingAlertForceEdit from './MeetingAlertForceEdit'
 import MeetingAlertNotStarted from './MeetingAlertNotStarted'
 import MeetingAttendeesList from './MeetingAttendeesList'
@@ -61,9 +60,6 @@ export default function MeetingContent() {
   // Meeting edition modal
   const editModal = useDisclosure()
 
-  // Start notification modal
-  const startNotifModal = useDisclosure()
-
   if (error || !meeting) {
     console.error(error)
     return <Page404 />
@@ -90,11 +86,7 @@ export default function MeetingContent() {
         (steps?.length === 0 && meeting.stepsConfig.length !== 0 ? (
           <MeetingContentEmpty />
         ) : isNotStarted ? (
-          <MeetingAlertNotStarted
-            mb={16}
-            onStart={startNotifModal.onOpen}
-            onEdit={editModal.onOpen}
-          />
+          <MeetingAlertNotStarted mb={16} onEdit={editModal.onOpen} />
         ) : (
           isEnded && forceEdit && <MeetingAlertForceEdit mb={16} />
         ))}
@@ -154,13 +146,6 @@ export default function MeetingContent() {
           meeting={meeting}
           isOpen
           onClose={editModal.onClose}
-        />
-      )}
-
-      {startNotifModal.isOpen && (
-        <MeetingStartNotificationModal
-          isOpen
-          onClose={startNotifModal.onClose}
         />
       )}
     </Container>

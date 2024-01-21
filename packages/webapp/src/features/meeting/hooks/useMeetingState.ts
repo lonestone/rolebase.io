@@ -1,9 +1,4 @@
 import useCircle from '@/circle/hooks/useCircle'
-import { sendMeetingStartedNotification } from '@/meeting/api/meeting_functions'
-import {
-  startMembersMeeting,
-  stopMembersMeeting,
-} from '@/member/api/member_functions'
 import useCurrentMember from '@/member/hooks/useCurrentMember'
 import useOrgMember from '@/member/hooks/useOrgMember'
 import {
@@ -11,6 +6,7 @@ import {
   MeetingFragment,
   MeetingStepFragment,
   useMeetingSubscription,
+  useUpdateMeetingAttendeeMutation,
   useUpdateMeetingMutation,
 } from '@gql'
 import getMeetingVideoConfUrl from '@shared/helpers/getMeetingVideoConfUrl'
@@ -52,11 +48,11 @@ export interface MeetingState {
   isLastStep: boolean
   videoConfUrl: string | undefined
   handleScrollToStep(stepId: string): void
-  handleGoToStep(stepId: string): void
-  handleEnd(): void
-  handleNextStep(): void
+  handleGoToStep(stepId: string): Promise<void>
+  handleEnd(): Promise<void>
+  handleCancelStart(): Promise<void>
+  handleNextStep(): Promise<void>
   handleChangeForceEdit(forceEdit: boolean): void
-  handleSendStartNotification(recipientMemberIds: string[]): void
 }
 
 export default function useMeetingState(meetingId: string): MeetingState {
@@ -237,7 +233,20 @@ export default function useMeetingState(meetingId: string): MeetingState {
         },
       },
     })
-    stopMembersMeeting({ meetingId: meeting.id })
+  }, [meeting, participants])
+
+  // Cancel start of meeting
+  const handleCancelStart = useCallback(async () => {
+    if (!meeting) return
+    await updateMeeting({
+      variables: {
+        id: meetingId,
+        values: {
+          currentStepId: null,
+          ended: false,
+        },
+      },
+    })
   }, [meeting, participants])
 
   // Next step
@@ -258,17 +267,14 @@ export default function useMeetingState(meetingId: string): MeetingState {
       }
 
       // Go to first step
-      const changedFields: Partial<Omit<MeetingFragment, 'id'>> = {
-        currentStepId: firstStep.id,
-        ended: false,
-      }
-
       await updateMeeting({
-        variables: { id: meeting.id, values: changedFields },
-      })
-      startMembersMeeting({
-        membersIds: participants.map((p) => p.member.id),
-        meetingId: meeting.id,
+        variables: {
+          id: meeting.id,
+          values: {
+            currentStepId: firstStep.id,
+            ended: false,
+          },
+        },
       })
       return
     }
@@ -303,26 +309,44 @@ export default function useMeetingState(meetingId: string): MeetingState {
     })
   }, [meeting, steps, participants, handleEnd])
 
-  // Next step
-  const handleSendStartNotification = useCallback(
-    async (recipientMemberIds: string[]) => {
-      if (!meeting) return
-
-      // Send notification
-      sendMeetingStartedNotification({
-        meetingId: meeting.id,
-        recipientMemberIds,
-      })
-    },
-    [meeting, path]
-  )
-
   // Video conference URL
   const videoConfUrl = useMemo(
     () =>
       getMeetingVideoConfUrl(meeting, circle?.role.name, currentMember?.name),
     [meeting, circle, currentMember]
   )
+
+  // Set startNotified to true just before meeting start
+  // to prevent sending start notification when meeting page is already open
+  const [updateAttendee] = useUpdateMeetingAttendeeMutation()
+  useEffect(() => {
+    if (
+      !meeting ||
+      // Meeting is not started
+      meeting.currentStepId !== null ||
+      // Meeting is ended
+      meeting.ended ||
+      // Meetinig will start in more than 30 minutes
+      Date.now() < +new Date(meeting.startDate) - 30 * 60 * 1000 ||
+      !currentMember
+    ) {
+      return
+    }
+
+    const attendee = meeting.meeting_attendees.find(
+      (attendee) => attendee.memberId === currentMember.id
+    )
+    if (attendee?.startNotified === false) {
+      updateAttendee({
+        variables: {
+          id: attendee.id,
+          values: {
+            startNotified: true,
+          },
+        },
+      })
+    }
+  }, [meeting, currentMember])
 
   return {
     meeting,
@@ -350,8 +374,8 @@ export default function useMeetingState(meetingId: string): MeetingState {
     handleScrollToStep,
     handleGoToStep,
     handleEnd,
+    handleCancelStart,
     handleNextStep,
     handleChangeForceEdit: setForceEdit,
-    handleSendStartNotification,
   }
 }

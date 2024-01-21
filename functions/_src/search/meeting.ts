@@ -1,3 +1,4 @@
+import sendMeetingEmail from '@emails/sendMeetingEmail'
 import { DocumentType, gql, MeetingFragment } from '@gql'
 import settings from '@settings'
 import { getOrgPath } from '@shared/helpers/getOrgPath'
@@ -94,12 +95,6 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
       await resetLastUpdateSource(meeting.id)
     }
 
-    // Don't notify if nothing has changed
-    const hasChanged = appNotifyProps.some(
-      (prop) => data.new?.[prop] !== data.old?.[prop]
-    )
-    if (!hasChanged) return
-
     const result = await adminRequest(
       gql(`
         query GetMeetingDataForSearch($meetingId: uuid!) {
@@ -114,11 +109,17 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
               }
             }
             meeting_attendees {
+              id
+              present
+              startNotified
               member {
                 id
                 name
                 archived
                 user {
+                  email
+                  locale
+                  metadata
                   apps {
                     ...UserAppFull
                   }
@@ -143,6 +144,67 @@ export class IndexMeeting extends IndexEntity<MeetingFragment> {
       return
     }
 
+    try {
+      // Meeting has just been started
+      if (
+        data.old?.currentStepId === null &&
+        meeting.currentStepId !== null &&
+        meeting.ended === false
+      ) {
+        // Send start notification to new attendee if meeting is started
+        const attendeesToNotify = attendees.filter(
+          (attendee) =>
+            attendee.member.archived === false &&
+            // Attendee is present and have not been notified
+            attendee.startNotified === false &&
+            attendee.present !== false &&
+            // Member has email
+            attendee.member.user?.email
+        )
+        if (attendeesToNotify.length > 0) {
+          // Send emails
+          for (const attendee of attendeesToNotify) {
+            const member = attendee.member!
+            const user = member.user!
+            await sendMeetingEmail(
+              {
+                lang: user.locale,
+                timezone: user.metadata.timezone || settings.defaultTimezone,
+                title: meeting.title,
+                role: roleName,
+                startDate: meeting.startDate,
+                endDate: meeting.endDate,
+                ctaUrl: `${settings.url}${getOrgPath(org)}/meetings/${
+                  meeting.id
+                }`,
+              },
+              [
+                {
+                  Email: user.email!,
+                  Name: member.name,
+                },
+              ]
+            )
+          }
+
+          // Update attendees startNotified
+          await adminRequest(UPDATE_ATTENDEES_START_NOTIFIED, {
+            ids: attendeesToNotify.map(({ id }) => id),
+          })
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      captureError(error)
+    }
+
+    // Don't update calendar apps if nothing has changed
+    const hasChanged = appNotifyProps.some(
+      (prop) => data.new?.[prop] !== data.old?.[prop]
+    )
+    if (!hasChanged) return
+
+    // Update calendars apps
     const orgUrl = `${settings.url}${getOrgPath(org)}`
 
     for (const { member } of attendees) {
@@ -206,3 +268,15 @@ async function resetLastUpdateSource(meetingId: string | undefined) {
     { id: meetingId }
   )
 }
+
+const UPDATE_ATTENDEES_START_NOTIFIED = gql(`
+  mutation updateAttendeesStartNotified($ids: [uuid!]!) {
+    update_meeting_attendee(
+      where: { id: { _in: $ids } }
+      _set: { startNotified: true }
+    ) {
+      returning {
+        id
+      }
+    }
+  }`)

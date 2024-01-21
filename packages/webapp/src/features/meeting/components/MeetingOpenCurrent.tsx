@@ -1,4 +1,3 @@
-import useCurrentMember from '@/member/hooks/useCurrentMember'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
 import {
   Button,
@@ -11,28 +10,32 @@ import {
   ModalOverlay,
   UseModalProps,
 } from '@chakra-ui/react'
+import { useStoreState } from '@store/hooks'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function MeetingOpenCurrent(modalProps: UseModalProps) {
   const { t } = useTranslation()
-  const currentMember = useCurrentMember()
+  const currentMeetingId = useStoreState(
+    (state) => state.memberStatus.currentMeetingId
+  )
   const navigate = useNavigateOrg()
 
-  // Auto-close modal if current member doesn't have a meeting in progress
+  // Close modal if current member doesn't have a meeting in progress
+  // so that it doesn't show up again
   useEffect(() => {
-    if (modalProps.isOpen && currentMember && !currentMember.meetingId) {
+    if (modalProps.isOpen && currentMeetingId === null) {
       modalProps.onClose()
     }
-  }, [currentMember])
+  }, [currentMeetingId])
 
-  // Send notification to all participants
+  // Open meeting
   const handleOpen = () => {
-    navigate(`meetings/${currentMember?.meetingId}`)
+    navigate(`meetings/${currentMeetingId}`)
   }
 
   // Display nothing if there is no meeting in progress
-  if (!currentMember?.meetingId) {
+  if (!currentMeetingId) {
     return null
   }
 

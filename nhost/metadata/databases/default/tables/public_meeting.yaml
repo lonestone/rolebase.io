@@ -207,15 +207,16 @@ event_triggers:
           - endDate
           - ended
           - attendees
+          - currentStepId
           - archived
           - circleId
           - participantsMembersIds
           - videoConf
           - recurringId
           - recurringDate
-          - title
           - participantsScope
           - summary
+          - title
     retry_conf:
       interval_sec: 10
       num_retries: 3

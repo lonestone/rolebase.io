@@ -9,26 +9,23 @@ import {
   HStack,
   Link,
   Spacer,
+  useToast,
 } from '@chakra-ui/react'
 import { useUpdateMeetingMutation } from '@gql'
 import { format } from 'date-fns'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { EditIcon, PlayIcon, VisioIcon } from 'src/icons'
 import { MeetingContext } from '../contexts/MeetingContext'
 
 interface Props extends BoxProps {
-  onStart: () => void
   onEdit: () => void
 }
 
-export default function MeetingAlertNotStarted({
-  onStart,
-  onEdit,
-  ...boxProps
-}: Props) {
+export default function MeetingAlertNotStarted({ onEdit, ...boxProps }: Props) {
   const { t } = useTranslation()
   const dateLocale = useDateLocale()
+  const toast = useToast()
 
   const { meeting, isToday, isStartTimePassed, videoConfUrl, handleNextStep } =
     useContext(MeetingContext)!
@@ -43,9 +40,28 @@ export default function MeetingAlertNotStarted({
   }
 
   // Start meeting
-  const handleStart = useCallback(() => {
-    handleNextStep()
-    onStart()
+  const [starting, setStarting] = useState(false)
+  const handleStart = useCallback(async () => {
+    setStarting(true)
+    try {
+      await handleNextStep()
+      toast({
+        title: t('MeetingAlertNotStarted.toastStarted'),
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: t('common.error'),
+        description: JSON.stringify(error),
+        status: 'error',
+        duration: 10000,
+        isClosable: true,
+      })
+      setStarting(false)
+    }
   }, [meeting, handleNextStep])
 
   if (!meeting) return null
@@ -60,6 +76,7 @@ export default function MeetingAlertNotStarted({
         <Button
           leftIcon={<PlayIcon variant="Bold" />}
           colorScheme="green"
+          isDisabled={starting}
           onClick={handleStart}
         >
           {t('MeetingAlertNotStarted.start')}

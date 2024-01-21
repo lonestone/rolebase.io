@@ -329,6 +329,7 @@
   "MeetingActionsMenu": {
     "edit": "Settings",
     "forceEdit": "Edit report",
+    "cancelStart": "Cancel start",
     "restart": "Restart"
   },
   "MeetingAlertEnded": {
@@ -336,6 +337,7 @@
   },
   "MeetingAlertNotStarted": {
     "start": "Start",
+    "toastStarted": "Meeting started!",
     "future": "The meeting can be started on <date>{{date}}</date>",
     "past": "The meeting should have started on <date>{{date}}</date>"
   },
@@ -463,11 +465,6 @@
   "MeetingStepsConfigController": {
     "addStep": "Add a step",
     "empty": "You must add at least one step to the agenda."
-  },
-  "MeetingStartNotificationModal": {
-    "heading": "Send a notification?",
-    "info": "Would you like to send a notification to participants to let them know when the meeting has started?",
-    "toastSent": "Notification sent!"
   },
   "MeetingTemplateDeleteModal": {
     "heading": "Delete meeting template",
