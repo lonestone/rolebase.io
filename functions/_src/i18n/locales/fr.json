@@ -35,7 +35,7 @@
       "subject": "Réunion démarrée : {{title}} - {{role}}",
       "title": "Réunion {{title}} - {{role}}",
       "preview": "La réunion commence maintenant 🙌",
-      "activity": "La réunion comment maintenant 🙌",
+      "activity": "La réunion commence maintenant 🙌",
       "cta": "Ouvrir la réunion"
     },
     "MemberActivity": {
