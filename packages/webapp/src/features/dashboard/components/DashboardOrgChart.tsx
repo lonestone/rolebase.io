@@ -1,5 +1,5 @@
-import CirclesGraph from '@/circle/components/CirclesGraph'
 import { useElementSize } from '@/common/hooks/useElementSize'
+import CirclesGraph from '@/graph/CirclesGraph'
 import useCirclesEvents from '@/graph/hooks/useGraphEvents'
 import { GraphViews } from '@/graph/types'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
@@ -29,7 +29,6 @@ export default function DashboardOrgChart(boxProps: BoxProps) {
         <CirclesGraph
           key={colorMode}
           view={GraphViews.AllCircles}
-          id={`dashboard-graph-${org.id}`}
           circles={circles}
           events={events}
           width={size}

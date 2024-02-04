@@ -1,8 +1,9 @@
 import NumberInput from '@/common/atoms/NumberInput'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import { Title } from '@/common/atoms/Title'
-import { Graph } from '@/graph/Graph'
+import CirclesGraph from '@/graph/CirclesGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
+import { Graph } from '@/graph/graphs/Graph'
 import { GraphViews } from '@/graph/types'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import {
@@ -22,7 +23,6 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { CenterIcon, DownloadIcon } from 'src/icons'
 import CircleByIdButton from '../components/CircleByIdButton'
-import CirclesGraph from '../components/CirclesGraph'
 import GraphViewsSelect from '../components/GraphViewsSelect'
 
 type CircleExportParams = {
@@ -160,7 +160,6 @@ export default function CircleExportPage() {
               ref={graphRef}
               key={view + colorMode}
               view={view}
-              id={`graph-${orgId}`}
               circles={selectedCircles}
               width={width}
               height={width}

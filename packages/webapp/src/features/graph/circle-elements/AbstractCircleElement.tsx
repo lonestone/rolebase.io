@@ -1,4 +1,4 @@
-import { Graph } from '../Graph'
+import { Graph } from '../graphs/Graph'
 import { MoveTransition } from '../helpers/createTransition'
 import { NodesSelection } from '../types'
 

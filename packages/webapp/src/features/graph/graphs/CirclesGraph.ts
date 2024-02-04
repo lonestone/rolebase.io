@@ -7,7 +7,6 @@ import { Participant } from '@shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
 import * as d3 from 'd3'
 import { HierarchyNode } from 'd3'
-import { Graph } from '../Graph'
 import { ContainerCircleElement } from '../circle-elements/ContainerCircleElement'
 import { MemberCircleElement } from '../circle-elements/MemberCircleElement'
 import { MouseCircleElement } from '../circle-elements/MouseCircleElement'
@@ -17,12 +16,13 @@ import { createMoveTransition } from '../helpers/createTransition'
 import selectAppend from '../helpers/selectAppend'
 import settings from '../settings'
 import { Data, NodeData, NodeType } from '../types'
+import { Graph } from './Graph'
 
 export interface CircleData extends CircleFullFragment {
   participants?: Participant[]
 }
 
-export abstract class AbstractCirclesGraph extends Graph {
+export abstract class CirclesGraph extends Graph {
   private circleElements = [
     new ContainerCircleElement(this),
     new TitleCircleElement(this),
@@ -167,7 +167,8 @@ export abstract class AbstractCirclesGraph extends Graph {
     if (firstDraw) {
       setTimeout(
         () => this.zoomTo(root.x, root.y, this.focusCircleScale(root)),
-        0
+        0,
+        true
       )
     }
 

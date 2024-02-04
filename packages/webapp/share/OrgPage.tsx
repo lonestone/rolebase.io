@@ -1,4 +1,3 @@
-import CirclesGraph from '@/circle/components/CirclesGraph'
 import { CircleProvider } from '@/circle/contexts/CIrcleContext'
 import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 import BrandLogo from '@/common/atoms/BrandLogo'
@@ -7,6 +6,7 @@ import { useElementSize } from '@/common/hooks/useElementSize'
 import useOverflowHidden from '@/common/hooks/useOverflowHidden'
 import useQueryParams from '@/common/hooks/useQueryParams'
 import Page404 from '@/common/pages/Page404'
+import CirclesGraph from '@/graph/CirclesGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
 import { GraphEvents, GraphViews } from '@/graph/types'
 import { Box } from '@chakra-ui/react'
@@ -131,7 +131,6 @@ export default function OrgPage() {
         {circles && boxSize && (
           <CirclesGraph
             view={view}
-            id="graph"
             circles={circles}
             events={events}
             width={boxSize.width}

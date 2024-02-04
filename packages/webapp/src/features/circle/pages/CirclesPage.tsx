@@ -3,6 +3,7 @@ import { Title } from '@/common/atoms/Title'
 import { useElementSize } from '@/common/hooks/useElementSize'
 import useOverflowHidden from '@/common/hooks/useOverflowHidden'
 import useQueryParams from '@/common/hooks/useQueryParams'
+import CirclesGraph from '@/graph/CirclesGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
 import useCirclesEvents from '@/graph/hooks/useGraphEvents'
 import { GraphViews } from '@/graph/types'
@@ -14,7 +15,6 @@ import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import CircleContent from '../components/CircleContent'
-import CirclesGraph from '../components/CirclesGraph'
 import CirclesSettings from '../components/CirclesSettings'
 import GraphViewsSelect from '../components/GraphViewsSelect'
 import { CircleProvider } from '../contexts/CIrcleContext'
@@ -122,6 +122,7 @@ export default function CirclesPage() {
     <GraphProvider>
       <Box
         ref={boxRef}
+        id="circles-graph"
         position="absolute"
         top={0}
         left={0}
@@ -133,7 +134,6 @@ export default function CirclesPage() {
           <CirclesGraph
             key={view + colorMode}
             view={view}
-            id={`graph-${org.id}`}
             circles={circles}
             events={events}
             width={boxSize.width}

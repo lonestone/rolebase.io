@@ -1,9 +1,9 @@
-import CirclesGraph from '@/circle/components/CirclesGraph'
 import Loading from '@/common/atoms/Loading'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import { useElementSize } from '@/common/hooks/useElementSize'
+import CirclesGraph from '@/graph/CirclesGraph'
 import { GraphEvents, GraphViews } from '@/graph/types'
 import {
   Box,
@@ -113,7 +113,6 @@ export default function OrgsPage() {
             <CirclesGraph
               key={colorMode}
               view={GraphViews.AllCircles}
-              id="graph-orgs"
               circles={circles}
               events={events}
               width={boxSize.width}

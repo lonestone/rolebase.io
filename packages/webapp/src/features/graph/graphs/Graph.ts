@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 import { ZoomTransform } from 'd3'
 import debounce from 'lodash.debounce'
 import throttle from 'lodash.throttle'
-import settings from './settings'
+import settings from '../settings'
 import {
   Data,
   DrawEventHandler,
@@ -12,7 +12,7 @@ import {
   NodeData,
   Position,
   ZoomFocusCircleScale,
-} from './types'
+} from '../types'
 
 const defaultFocusCrop: Position = {
   top: 0,
@@ -109,6 +109,8 @@ export abstract class Graph {
 
   protected abstract prepareData(circles: CircleFullFragment[]): Data
   protected abstract draw(data: Data): void
+
+  unmount() {}
 
   updateData(circles: CircleFullFragment[]) {
     // Prepare data

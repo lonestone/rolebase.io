@@ -6,14 +6,14 @@ import { Data, GraphParams } from '../types'
 import { CircleData, CirclesGraph } from './CirclesGraph'
 
 export class MembersGraph extends CirclesGraph {
-  constructor(svg: SVGSVGElement, params: GraphParams) {
+  constructor(canvas: HTMLCanvasElement, params: GraphParams) {
     // Remove copy and move events in this view
     const newParams = {
       ...params,
       events: omit(params.events, 'onCircleCopy', 'onCircleMove'),
     }
 
-    super(svg, newParams)
+    super(canvas, newParams)
   }
 
   protected packSorting(

@@ -1,19 +1,19 @@
 import { CircleFullFragment } from '@gql'
+import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
 import { omit } from '@utils/omit'
 import { HierarchyNode } from 'd3-hierarchy'
-import uniqBy from 'lodash.uniqby'
 import { Data, GraphParams } from '../types'
 import { CircleData, CirclesGraph } from './CirclesGraph'
 
-export class MembersGraph extends CirclesGraph {
-  constructor(svg: SVGSVGElement, params: GraphParams) {
+export class FlatCircleGraph extends CirclesGraph {
+  constructor(canvas: HTMLCanvasElement, params: GraphParams) {
     // Remove copy and move events in this view
     const newParams = {
       ...params,
       events: omit(params.events, 'onCircleCopy', 'onCircleMove'),
     }
 
-    super(svg, newParams)
+    super(canvas, newParams)
   }
 
   protected packSorting(
@@ -28,20 +28,13 @@ export class MembersGraph extends CirclesGraph {
 
   // Get all circles in a flat array, with leaders
   protected getCircles(circles: CircleFullFragment[]): CircleData[] {
-    const rootCircle = circles.find((c) => c.parentId === null)
-    if (!rootCircle) return []
-
-    // Find all unique members from circles
-    const members = uniqBy(
-      circles.flatMap((circle) => circle.members),
-      'member.id'
-    )
-
-    return [
-      {
-        ...rootCircle,
-        members,
-      },
-    ]
+    return circles
+      .filter((circle) => !circle.role.base)
+      .map((circle) => ({
+        ...circle,
+        parentId: null,
+        members: [],
+        participants: getCircleParticipants(circle.id, circles),
+      }))
   }
 }

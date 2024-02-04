@@ -1,12 +1,3 @@
-import { getGraphInstance } from '@/graph'
-import { Graph } from '@/graph/Graph'
-import { GraphContext } from '@/graph/contexts/GraphContext'
-import {
-  GraphEvents,
-  GraphViews,
-  Position,
-  ZoomFocusCircleScale,
-} from '@/graph/types'
 import { useColorMode } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import { CircleFullFragment } from '@gql'
@@ -20,9 +11,17 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { getGraphInstance } from '.'
+import { GraphContext } from './contexts/GraphContext'
+import { Graph } from './graphs/Graph'
+import {
+  GraphEvents,
+  GraphViews,
+  Position,
+  ZoomFocusCircleScale,
+} from './types'
 
 interface Props {
-  id: string
   view: GraphViews
   circles: CircleFullFragment[]
   events?: GraphEvents
@@ -121,7 +120,6 @@ const StyledSVG = styled.svg<SVGProps>`
 
 export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   {
-    id,
     view,
     circles,
     events,
@@ -249,7 +247,6 @@ export default forwardRef<Graph | undefined, Props>(function CirclesGraph(
   return (
     <StyledSVG
       ref={svgRef}
-      id={id}
       view={view}
       width={width}
       height={height}

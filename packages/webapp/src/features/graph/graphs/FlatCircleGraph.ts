@@ -3,9 +3,9 @@ import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
 import { omit } from '@utils/omit'
 import { HierarchyNode } from 'd3-hierarchy'
 import { Data, GraphParams } from '../types'
-import { AbstractCirclesGraph, CircleData } from './AbstractCirclesGraph'
+import { CircleData, CirclesGraph } from './CirclesGraph'
 
-export class FlatCircleGraph extends AbstractCirclesGraph {
+export class FlatCircleGraph extends CirclesGraph {
   constructor(svg: SVGSVGElement, params: GraphParams) {
     // Remove copy and move events in this view
     const newParams = {
