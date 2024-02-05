@@ -1,4 +1,3 @@
-import CirclesGraph from '@/circle/components/CirclesGraph'
 import { CircleProvider } from '@/circle/contexts/CIrcleContext'
 import { CircleMemberContext } from '@/circle/contexts/CircleMemberContext'
 import BrandLogo from '@/common/atoms/BrandLogo'
@@ -7,8 +6,9 @@ import { useElementSize } from '@/common/hooks/useElementSize'
 import useOverflowHidden from '@/common/hooks/useOverflowHidden'
 import useQueryParams from '@/common/hooks/useQueryParams'
 import Page404 from '@/common/pages/Page404'
+import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
-import { GraphEvents, GraphViews } from '@/graph/types'
+import { CirclesGraphViews, GraphEvents } from '@/graph/types'
 import { Box } from '@chakra-ui/react'
 import { useGetPublicCirclesQuery } from '@gql'
 import { useStoreActions, useStoreState } from '@store/hooks'
@@ -20,7 +20,7 @@ import ModalPanel from './ModalPanel'
 
 type Params = {
   orgId: string
-  view: GraphViews
+  view: CirclesGraphViews
   zoom: string
 }
 
@@ -87,9 +87,9 @@ export default function OrgPage() {
 
   // Graph view
   const view =
-    queryParams.view && GraphViews[queryParams.view]
+    queryParams.view && CirclesGraphViews[queryParams.view]
       ? queryParams.view
-      : GraphViews.AllCircles
+      : CirclesGraphViews.AllCircles
 
   // Selected circle & member
   const { circleId, memberId, goTo } = useContext(CircleMemberContext)!
@@ -129,9 +129,8 @@ export default function OrgPage() {
         {loading ? <Loading center active /> : !data?.circle[0] && <Page404 />}
 
         {circles && boxSize && (
-          <CirclesGraph
+          <CirclesSVGGraph
             view={view}
-            id="graph"
             circles={circles}
             events={events}
             width={boxSize.width}

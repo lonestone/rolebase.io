@@ -1,5 +1,5 @@
-import { MoveTransition } from '../helpers/createTransition'
-import { NodeData, NodesSelection, NodeType } from '../types'
+import { MoveTransition } from '../../../helpers/createTransition'
+import { NodeData, NodesSelection, NodeType } from '../../../types'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
 export class TitleCircleElement extends AbstractCircleElement {

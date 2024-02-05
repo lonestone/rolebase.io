@@ -1,9 +1,10 @@
 import NumberInput from '@/common/atoms/NumberInput'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import { Title } from '@/common/atoms/Title'
-import { Graph } from '@/graph/Graph'
+import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
-import { GraphViews } from '@/graph/types'
+import { CirclesGraph } from '@/graph/graphs/CirclesGraph'
+import { CirclesGraphViews } from '@/graph/types'
 import { useOrgId } from '@/org/hooks/useOrgId'
 import {
   Box,
@@ -22,7 +23,6 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { CenterIcon, DownloadIcon } from 'src/icons'
 import CircleByIdButton from '../components/CircleByIdButton'
-import CirclesGraph from '../components/CirclesGraph'
 import GraphViewsSelect from '../components/GraphViewsSelect'
 
 type CircleExportParams = {
@@ -39,10 +39,10 @@ export default function CircleExportPage() {
   const orgId = useOrgId()
   const [downloading, setDownloading] = useState(false)
   const [ready, setReady] = useState(false)
-  const graphRef = useRef<Graph>(null)
+  const graphRef = useRef<CirclesGraph>(null)
 
   // Settings
-  const [view, setView] = useState(GraphViews.AllCircles)
+  const [view, setView] = useState(CirclesGraphViews.AllCircles)
   const [width, setWidth] = useState(defaultWidth)
 
   // Data
@@ -74,11 +74,11 @@ export default function CircleExportPage() {
 
   // Download as PNG
   const handleDownload = () => {
-    const svgElement = graphRef.current?.svg
+    const svgElement = graphRef.current?.element
     if (!orgId || !svgElement) return
     setDownloading(true)
     setTimeout(async () => {
-      await downloadSvgAsPng(svgElement)
+      await downloadSvgAsPng(svgElement as SVGSVGElement)
       setDownloading(false)
     }, 0)
   }
@@ -156,11 +156,10 @@ export default function CircleExportPage() {
           }}
         >
           {orgId && selectedCircles && (
-            <CirclesGraph
+            <CirclesSVGGraph
               ref={graphRef}
               key={view + colorMode}
               view={view}
-              id={`graph-${orgId}`}
               circles={selectedCircles}
               width={width}
               height={width}

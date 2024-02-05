@@ -43,7 +43,7 @@ export default function CircleMemberDeleteModal({
     alertProps.onClose()
 
     // Focus circle in graph
-    graphContext?.graph?.focusNodeIdAfterDraw(circleId, true)
+    graphContext?.graph?.focusNodeIdAfterData(circleId, true)
   }
 
   return (

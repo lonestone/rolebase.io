@@ -1,5 +1,23 @@
+import { ColorMode } from '@chakra-ui/react'
 import { Participant } from '@shared/model/member'
 import { BaseType, HierarchyCircularNode, Selection } from 'd3'
+
+export interface GraphParams {
+  width: number
+  height: number
+  colorMode: ColorMode
+  zoomDisabled?: boolean
+  focusCircleScale?: (node: NodeData) => number
+  focusCrop?: Position
+  events: GraphEvents
+}
+
+export enum GraphRenderer {
+  SVG = 'SVG',
+  Canvas = 'Canvas',
+}
+
+export type RootElement = HTMLCanvasElement | SVGSVGElement
 
 export enum NodeType {
   Circle = 'Circle',
@@ -23,20 +41,11 @@ export interface Data {
   participants?: Participant[]
 }
 
-export enum GraphViews {
+export enum CirclesGraphViews {
   AllCircles = 'AllCircles',
   SimpleCircles = 'SimpleCircles',
   FlatCircle = 'FlatCircle',
   Members = 'Members',
-}
-
-export interface GraphParams {
-  width: number
-  height: number
-  zoomDisabled?: boolean
-  focusCircleScale?: (node: NodeData) => number
-  focusCrop?: Position
-  events: GraphEvents
 }
 
 export interface GraphEvents {

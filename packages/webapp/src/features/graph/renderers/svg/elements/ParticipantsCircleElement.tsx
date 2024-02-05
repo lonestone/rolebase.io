@@ -1,7 +1,7 @@
 import { Participant } from '@shared/model/member'
 import * as d3 from 'd3'
-import { MoveTransition } from '../helpers/createTransition'
-import { NodeData, NodesSelection, NodeType } from '../types'
+import { MoveTransition } from '../../../helpers/createTransition'
+import { NodeData, NodesSelection, NodeType } from '../../../types'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
 const radiusRatio = 0.3

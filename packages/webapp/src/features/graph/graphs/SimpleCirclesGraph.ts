@@ -2,23 +2,15 @@ import { CircleFullFragment } from '@gql'
 import { getCircleParticipants } from '@shared/helpers/getCircleParticipants'
 import { HierarchyNode } from 'd3-hierarchy'
 import { Data } from '../types'
-import { AbstractCirclesGraph, CircleData } from './AbstractCirclesGraph'
+import { CircleData, CirclesGraph } from './CirclesGraph'
 
-export class SimpleCirclesGraph extends AbstractCirclesGraph {
-  private circlesCache: CircleFullFragment[] | undefined
-
+export class SimpleCirclesGraph extends CirclesGraph {
   selectCircle(id: string | undefined) {
     super.selectCircle(id)
     // Redraw graph
-    if (this.circlesCache) {
-      const data = this.prepareData(this.circlesCache)
-      this.draw(data)
+    if (this.inputData) {
+      this.updateData(this.inputData)
     }
-  }
-
-  protected prepareData(circles: CircleFullFragment[]) {
-    this.circlesCache = circles
-    return super.prepareData(circles)
   }
 
   protected packSorting(

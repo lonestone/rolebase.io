@@ -52,7 +52,7 @@ export function CircleMemberProvider({ stateOnly, children }: Props) {
     const hasModal = !!document.getElementsByClassName(
       'chakra-modal__content'
     )[0]
-    const hasGraph = !!document.querySelector('svg .panzoom')
+    const hasGraph = !!document.querySelector('#circles-graph') // FIXME
     if (hasModal || !hasGraph) {
       // Open modal
       onOpen()

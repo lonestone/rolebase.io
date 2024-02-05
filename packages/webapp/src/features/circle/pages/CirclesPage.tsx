@@ -3,18 +3,25 @@ import { Title } from '@/common/atoms/Title'
 import { useElementSize } from '@/common/hooks/useElementSize'
 import useOverflowHidden from '@/common/hooks/useOverflowHidden'
 import useQueryParams from '@/common/hooks/useQueryParams'
+import CirclesCanvasGraph from '@/graph/CirclesCanvasGraph'
+import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
 import { GraphProvider } from '@/graph/contexts/GraphContext'
 import useCirclesEvents from '@/graph/hooks/useGraphEvents'
-import { GraphViews } from '@/graph/types'
+import { CirclesGraphViews } from '@/graph/types'
 import MemberContent from '@/member/components/MemberContent'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import { useNavigateOrg } from '@/org/hooks/useNavigateOrg'
-import { Box, HStack, useBreakpointValue, useColorMode } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  HStack,
+  useBreakpointValue,
+  useColorMode,
+} from '@chakra-ui/react'
 import { useStoreState } from '@store/hooks'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import CircleContent from '../components/CircleContent'
-import CirclesGraph from '../components/CirclesGraph'
 import CirclesSettings from '../components/CirclesSettings'
 import GraphViewsSelect from '../components/GraphViewsSelect'
 import { CircleProvider } from '../contexts/CIrcleContext'
@@ -57,6 +64,7 @@ export default function CirclesPage() {
   const queryParams = useQueryParams<CirclesPageParams>()
   const navigateOrg = useNavigateOrg()
   const org = useCurrentOrg()
+  const [beta, setBeta] = useState(false)
   const [ready, setReady] = useState(false)
 
   // Content size
@@ -65,7 +73,7 @@ export default function CirclesPage() {
 
   // Panels
   const [panel, setPanel] = useState<Panels>(Panels.None)
-  const [view, setView] = useState(GraphViews.AllCircles)
+  const [view, setView] = useState(CirclesGraphViews.AllCircles)
   const [circleId, setCircleId] = useState<string | undefined>()
   const [memberId, setMemberId] = useState<string | null | undefined>()
 
@@ -122,6 +130,7 @@ export default function CirclesPage() {
     <GraphProvider>
       <Box
         ref={boxRef}
+        id="circles-graph"
         position="absolute"
         top={0}
         left={0}
@@ -129,20 +138,34 @@ export default function CirclesPage() {
         right={0}
         overflow="hidden"
       >
-        {org && circles && boxSize && (
-          <CirclesGraph
-            key={view + colorMode}
-            view={view}
-            id={`graph-${org.id}`}
-            circles={circles}
-            events={events}
-            width={boxSize.width}
-            height={boxSize.height}
-            focusCrop={focusCrop}
-            selectedCircleId={circleId}
-            onReady={() => setReady(true)}
-          />
-        )}
+        {org &&
+          circles &&
+          boxSize &&
+          (beta ? (
+            <CirclesCanvasGraph
+              key={view + colorMode}
+              view={view}
+              circles={circles}
+              events={events}
+              width={boxSize.width}
+              height={boxSize.height}
+              focusCrop={focusCrop}
+              selectedCircleId={circleId}
+              onReady={() => setReady(true)}
+            />
+          ) : (
+            <CirclesSVGGraph
+              key={view + colorMode}
+              view={view}
+              circles={circles}
+              events={events}
+              width={boxSize.width}
+              height={boxSize.height}
+              focusCrop={focusCrop}
+              selectedCircleId={circleId}
+              onReady={() => setReady(true)}
+            />
+          ))}
       </Box>
 
       {panel === Panels.Circle && circleId && (
@@ -185,6 +208,14 @@ export default function CirclesPage() {
             {...buttonsStyleProps}
           />
         </Box>
+        <Button
+          size="sm"
+          border={0}
+          onClick={() => setBeta((v) => !v)}
+          {...buttonsStyleProps}
+        >
+          {beta ? 'Disable beta' : 'Try beta'}
+        </Button>
       </HStack>
     </GraphProvider>
   )

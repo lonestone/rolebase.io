@@ -1,10 +1,10 @@
-import CirclesGraph from '@/circle/components/CirclesGraph'
 import Loading from '@/common/atoms/Loading'
 import ScrollableLayout from '@/common/atoms/ScrollableLayout'
 import TextErrors from '@/common/atoms/TextErrors'
 import { Title } from '@/common/atoms/Title'
 import { useElementSize } from '@/common/hooks/useElementSize'
-import { GraphEvents, GraphViews } from '@/graph/types'
+import CirclesSVGGraph from '@/graph/CirclesSVGGraph'
+import { CirclesGraphViews, GraphEvents } from '@/graph/types'
 import {
   Box,
   Button,
@@ -110,10 +110,9 @@ export default function OrgsPage() {
           overflow="hidden"
         >
           {circles && boxSize && (
-            <CirclesGraph
+            <CirclesSVGGraph
               key={colorMode}
-              view={GraphViews.AllCircles}
-              id="graph-orgs"
+              view={CirclesGraphViews.AllCircles}
               circles={circles}
               events={events}
               width={boxSize.width}

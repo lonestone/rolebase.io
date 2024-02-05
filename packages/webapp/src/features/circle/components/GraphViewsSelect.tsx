@@ -1,4 +1,4 @@
-import { GraphViews } from '@/graph/types'
+import { CirclesGraphViews } from '@/graph/types'
 import {
   Button,
   ButtonProps,
@@ -15,15 +15,15 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDownIcon } from 'src/icons'
 
 interface Props extends Omit<ButtonProps, 'value' | 'onChange'> {
-  value: GraphViews
-  onChange: (view: GraphViews) => void
+  value: CirclesGraphViews
+  onChange: (view: CirclesGraphViews) => void
 }
 
 export const viewsList = [
-  GraphViews.AllCircles,
-  GraphViews.SimpleCircles,
-  GraphViews.FlatCircle,
-  GraphViews.Members,
+  CirclesGraphViews.AllCircles,
+  CirclesGraphViews.SimpleCircles,
+  CirclesGraphViews.FlatCircle,
+  CirclesGraphViews.Members,
 ]
 
 export default function GraphViewsSelect({

@@ -9,7 +9,7 @@ export default {
     membersCircle: 0.5,
   },
   zoom: {
-    scaleExtent: [0.1, 5],
+    scaleExtent: [0.05, 5],
     transition: d3.easeCubicOut,
     duration: 500,
   },
@@ -27,5 +27,8 @@ export default {
     padding: 10,
     spacing: 5,
     placeholderRadius: 25,
+  },
+  style: {
+    fontFamily: 'basier_circle',
   },
 }

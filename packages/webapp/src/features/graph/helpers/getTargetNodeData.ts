@@ -1,5 +1,5 @@
 import { D3DragEvent } from 'd3'
-import { Graph } from '../Graph'
+import { Graph } from '../graphs/Graph'
 import { Data, NodeData, NodesSelection, NodeType } from '../types'
 import { isPointInsideCircle } from './isPointInsideCircle'
 

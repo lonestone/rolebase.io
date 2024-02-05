@@ -2,18 +2,18 @@ import { CircleFullFragment } from '@gql'
 import { omit } from '@utils/omit'
 import { HierarchyNode } from 'd3-hierarchy'
 import uniqBy from 'lodash.uniqby'
-import { Data, GraphParams } from '../types'
-import { AbstractCirclesGraph, CircleData } from './AbstractCirclesGraph'
+import { Data, GraphParams, RootElement } from '../types'
+import { CircleData, CirclesGraph } from './CirclesGraph'
 
-export class MembersGraph extends AbstractCirclesGraph {
-  constructor(svg: SVGSVGElement, params: GraphParams) {
+export class MembersGraph extends CirclesGraph {
+  constructor(element: RootElement, params: GraphParams) {
     // Remove copy and move events in this view
     const newParams = {
       ...params,
       events: omit(params.events, 'onCircleCopy', 'onCircleMove'),
     }
 
-    super(svg, newParams)
+    super(element, newParams)
   }
 
   protected packSorting(

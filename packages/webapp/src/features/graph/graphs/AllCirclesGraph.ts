@@ -1,9 +1,9 @@
 import { CircleFullFragment } from '@gql'
 import { HierarchyNode } from 'd3-hierarchy'
 import { Data } from '../types'
-import { AbstractCirclesGraph, CircleData } from './AbstractCirclesGraph'
+import { CircleData, CirclesGraph } from './CirclesGraph'
 
-export class AllCirclesGraph extends AbstractCirclesGraph {
+export class AllCirclesGraph extends CirclesGraph {
   protected getCircles(circles: CircleFullFragment[]): CircleData[] {
     return circles
   }
