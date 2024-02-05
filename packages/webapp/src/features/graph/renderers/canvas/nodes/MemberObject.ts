@@ -6,11 +6,13 @@ import { NodeObject } from './NodeObject'
 
 const memberTextStyle: Partial<PIXI.ITextStyle> = {
   fontFamily: settings.style.fontFamily,
-  fontSize: 40,
+  fontSize: 30,
   fill: 0xffffff,
   stroke: 0x000000,
   strokeThickness: 4,
 }
+
+const scaleToShowName = 1.3
 
 export class MemberObject extends NodeObject {
   private nameText: PIXI.Text
@@ -40,13 +42,13 @@ export class MemberObject extends NodeObject {
       this.getName(),
       memberTextStyle
     ))
-    text.scale.set(0.2)
+    text.scale.set(0.3)
     text.anchor.set(0.5)
     text.position.set(0, this.d.r - 10)
     this.container.addChild(text)
     this.graph.on('zoomScale', (scale) => {
       if (!this.nameText) return
-      this.nameText.visible = scale > 2
+      this.nameText.visible = scale > scaleToShowName
     })
   }
 
@@ -92,7 +94,7 @@ export class MemberObject extends NodeObject {
       })
       // Image not loaded
       // Fall back to circle shape
-      .catch(() => {
+      .catch((e) => {
         this.avatarSprite.texture = this.renderer.getCircleTexture()
         this.avatarSprite.tint = this.getBackgroundColor()
       })

@@ -80,8 +80,14 @@ export abstract class NodeObject {
       )
     )
       // Destroy container
-      .queue(Actions.runFunc(() => this.container.destroy()))
+      .queue(Actions.runFunc(() => this.destroy()))
       .play()
+  }
+
+  destroy() {
+    this.container.destroy()
+    // @ts-ignore
+    this.renderer = undefined
   }
 
   private initContainer(): PIXI.Container {

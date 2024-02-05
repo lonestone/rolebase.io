@@ -25,7 +25,7 @@ export class CanvasRenderer extends Renderer {
   private circleTexture: PIXI.RenderTexture | undefined
 
   constructor(public graph: CirclesGraph) {
-    super()
+    super(graph)
     const { element, width, height, params } = graph
 
     // Init PIXI
@@ -67,15 +67,19 @@ export class CanvasRenderer extends Renderer {
 
   destroy() {
     // Remove listeners
+    this.graph.off('nodesData', this.onNodesData)
     this.graph.off('zoom', this.onZoom)
     this.graph.off('zoomScale', this.onZoomScale)
     this.graph.off('zoomPosition', this.onZoomPosition)
     this.graph.off('resize', this.onResize)
 
     // Destroy PIXI
+    this.nodeObjects.forEach((nodeObject) => nodeObject.destroy())
     this.avatarsTextures.forEach((texture) => texture.destroy())
     this.circleTexture?.destroy()
     this.pixiApp.destroy()
+
+    super.destroy()
   }
 
   private onZoom = () => {

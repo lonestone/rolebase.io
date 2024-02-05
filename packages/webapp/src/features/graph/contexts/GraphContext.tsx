@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 import { Graph } from '../graphs/Graph'
 
 interface GraphContextValue {
@@ -16,14 +16,18 @@ interface GraphProviderProps {
 
 export function GraphProvider({ children }: GraphProviderProps) {
   const [graph, setGraph] = useState<Graph<any> | undefined>()
+  const value = useRef({
+    graph,
+    setGraph,
+  })
 
-  const value = useMemo(
-    () => ({
-      graph,
-      setGraph,
-    }),
-    [graph, setGraph]
+  useEffect(() => {
+    value.current.graph = graph
+  }, [graph])
+
+  return (
+    <GraphContext.Provider value={value.current}>
+      {children}
+    </GraphContext.Provider>
   )
-
-  return <GraphContext.Provider value={value}>{children}</GraphContext.Provider>
 }

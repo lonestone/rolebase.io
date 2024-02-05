@@ -92,6 +92,15 @@ export abstract class Graph<InputData = any> extends EventEmitter {
 
   destroy() {
     this.unmounted = true
+    this.d3Root.on('.zoom', null)
+    // @ts-ignore
+    this.d3Root = undefined
+    // @ts-ignore
+    this.zoomBehaviour = undefined
+    // @ts-ignore
+    this.focusCircleScale = undefined
+    // Remove listeners
+    this.removeAllListeners()
   }
 
   updateData(data: InputData) {

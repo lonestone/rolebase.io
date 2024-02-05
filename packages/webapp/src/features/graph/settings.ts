@@ -9,7 +9,7 @@ export default {
     membersCircle: 0.5,
   },
   zoom: {
-    scaleExtent: [0.05, 5],
+    scaleExtent: [0.05, 3],
     transition: d3.easeCubicOut,
     duration: 500,
   },

@@ -41,8 +41,14 @@ export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
   }
 
   destroy() {
-    super.destroy()
     this.renderer.destroy()
+
+    // @ts-ignore
+    this.element = undefined
+    // @ts-ignore
+    this.params = undefined
+
+    super.destroy()
   }
 
   protected abstract getCircles(circles: CircleFullFragment[]): CircleData[]

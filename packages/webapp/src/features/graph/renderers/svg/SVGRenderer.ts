@@ -15,23 +15,16 @@ import { TitleCircleElement } from './elements/TitleCircleElement'
 
 export class SVGRenderer extends Renderer {
   private cursor = 'pointer'
-  private zoomG: Selection<SVGGElement, NodeData, null, undefined>
+  private container: Selection<SVGGElement, NodeData, null, undefined>
 
   private circleElements: AbstractCircleElement[]
 
   constructor(public graph: CirclesGraph) {
-    super()
+    super(graph)
     this.updateCSSVariables()
 
     const { element, d3Root } = graph
     const svgId = d3Root.attr('id')
-
-    // Handle outside click
-    element.addEventListener('click', (event) => {
-      if (event.target === element) {
-        graph.params.events.onClickOutside?.()
-      }
-    })
 
     // Shadow filter
     d3Root
@@ -43,7 +36,7 @@ export class SVGRenderer extends Renderer {
       .attr('dy', 3)
 
     // Zoom
-    this.zoomG = d3Root.append('g').attr('class', 'panzoom')
+    this.container = d3Root.append('g').attr('class', 'panzoom')
     graph.on('zoom', this.onZoom)
     graph.on('zoomScale', this.onZoomScale)
 
@@ -60,6 +53,9 @@ export class SVGRenderer extends Renderer {
       new MouseCircleElement(this.graph),
     ]
 
+    // Handle outside click
+    element.addEventListener('click', this.onClickOutside)
+
     // Listen to data updates
     this.graph.on('nodesData', this.onNodesData)
   }
@@ -71,10 +67,18 @@ export class SVGRenderer extends Renderer {
     this.graph.off('zoomScale', this.onZoomScale)
     document.body.removeEventListener('keydown', this.onKeyDown)
     document.body.removeEventListener('keyup', this.onKeyUp)
+    this.graph.element.removeEventListener('click', this.onClickOutside)
+
+    // @ts-ignore
+    this.circleElements = undefined
+    // @ts-ignore
+    this.container = undefined
+
+    super.destroy()
   }
 
   private onZoom = (transform: ZoomTransform) => {
-    this.zoomG.attr('transform', transform.toString())
+    this.container.attr('transform', transform.toString())
   }
 
   private onZoomScale = () => {
@@ -94,9 +98,15 @@ export class SVGRenderer extends Renderer {
     this.drawCircleNames(nodesData)
   }
 
+  private onClickOutside = (event: Event) => {
+    if (event.target === this.graph.element) {
+      this.graph.params.events.onClickOutside?.()
+    }
+  }
+
   protected drawCircles(nodesData: NodeData[]) {
     // Add circle groups
-    selectAppend(this.zoomG, 'g', 'circles')
+    selectAppend(this.container, 'g', 'circles')
       .selectAll('.circle')
       .data(nodesData, (d: any) => d.data.id)
       .join(
@@ -155,7 +165,7 @@ export class SVGRenderer extends Renderer {
 
   private drawCircleNames(nodesData: NodeData[]) {
     // Circles Names
-    selectAppend(this.zoomG, 'g', 'circles-names')
+    selectAppend(this.container, 'g', 'circles-names')
       .selectAll('.circle-name')
       .data(nodesData, (d: any) => d.data.id)
       .join(
