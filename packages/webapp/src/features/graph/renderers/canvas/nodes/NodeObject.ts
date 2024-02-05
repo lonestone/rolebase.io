@@ -1,9 +1,9 @@
 import { defaultCircleColorHue } from '@shared/helpers/circleColor'
 import { Actions } from 'pixi-actions'
 import * as PIXI from 'pixi.js'
-import { CirclesGraph } from '../graphs/CirclesGraph'
-import settings from '../settings'
-import { NodeData, NodeType } from '../types'
+import settings from '../../../settings'
+import { NodeData, NodeType } from '../../../types'
+import { CanvasRenderer } from '../CanvasRenderer'
 
 const clickMaxMove = 9
 const depthColorVariation = 5
@@ -16,7 +16,7 @@ export abstract class NodeObject {
   protected clickingPosition: PIXI.Point | undefined
 
   constructor(
-    protected graph: CirclesGraph,
+    protected renderer: CanvasRenderer,
     d: NodeData
   ) {
     this.d = d
@@ -26,6 +26,10 @@ export abstract class NodeObject {
 
     // Events
     this.initEvents()
+  }
+
+  get graph() {
+    return this.renderer.graph
   }
 
   update(d: NodeData) {
@@ -84,7 +88,7 @@ export abstract class NodeObject {
     const d = this.d
     const container = new PIXI.Container()
     container.zIndex = d.depth
-    this.graph.container.addChild(container)
+    this.renderer.container.addChild(container)
 
     // Animate position and scale
     container.position.copyFrom(this.getParentPosition())
@@ -130,16 +134,16 @@ export abstract class NodeObject {
     })
 
     // Enter/leave
-    obj.on('pointerover', this.onPointerOver.bind(this))
-    obj.on('pointerout', this.onPointerOut.bind(this))
+    obj.on('pointerover', this.onPointerOver)
+    obj.on('pointerout', this.onPointerOut)
 
     // Zoom scale
-    this.graph.on('scaled', this.onZoomScale.bind(this))
+    this.graph.on('zoomScale', this.onZoomScale)
   }
 
   protected abstract onClick(): void
 
-  protected onPointerOver() {
+  protected onPointerOver = () => {
     if (this.borderShape) return
     this.borderShape = new PIXI.Graphics()
       .lineStyle(hoverBorderWidth / this.graph.zoomScale, this.getBorderColor())
@@ -147,12 +151,12 @@ export abstract class NodeObject {
     this.container.addChild(this.borderShape)
   }
 
-  protected onPointerOut() {
+  protected onPointerOut = () => {
     this.borderShape?.destroy()
     this.borderShape = undefined
   }
 
-  protected onZoomScale(scale: number) {
+  protected onZoomScale = (scale: number) => {
     this.borderShape
       ?.clear()
       .lineStyle(hoverBorderWidth / scale, this.getBorderColor())
@@ -160,9 +164,6 @@ export abstract class NodeObject {
   }
 
   protected getParentPosition() {
-    if (this.d.data.type === NodeType.Member) {
-      console.log(this.d.parent?.data.type)
-    }
     return (
       (this.d.data.type === NodeType.Member && this.d.parent?.parent) ||
       this.d.parent ||

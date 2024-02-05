@@ -1,18 +1,18 @@
 import { Action, Actions } from 'pixi-actions'
 import * as PIXI from 'pixi.js'
-import { CirclesGraph } from '../graphs/CirclesGraph'
-import settings from '../settings'
-import { NodeData, NodeType } from '../types'
+import settings from '../../../settings'
+import { NodeData, NodeType } from '../../../types'
+import { CanvasRenderer } from '../CanvasRenderer'
 import { NodeObject } from './NodeObject'
 
 export class CircleObject extends NodeObject {
   private circleSprite: PIXI.Sprite
 
   constructor(
-    protected graph: CirclesGraph,
+    protected renderer: CanvasRenderer,
     d: NodeData
   ) {
-    super(graph, d)
+    super(renderer, d)
 
     if (d.data.type !== NodeType.Circle) {
       throw new Error(
@@ -22,7 +22,7 @@ export class CircleObject extends NodeObject {
 
     // Display circle
     const sprite = (this.circleSprite = new PIXI.Sprite(
-      this.graph.getCircleTexture()
+      this.renderer.getCircleTexture()
     ))
     sprite.width = sprite.height = this.d.r * 2
     sprite.anchor.set(0.5)

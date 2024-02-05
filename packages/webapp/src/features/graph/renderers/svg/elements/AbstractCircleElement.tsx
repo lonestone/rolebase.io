@@ -1,6 +1,6 @@
-import { Graph } from '../graphs/Graph'
-import { MoveTransition } from '../helpers/createTransition'
-import { NodesSelection } from '../types'
+import { Graph } from '../../../graphs/Graph'
+import { MoveTransition } from '../../../helpers/createTransition'
+import { NodesSelection } from '../../../types'
 
 export abstract class AbstractCircleElement {
   constructor(protected graph: Graph) {}

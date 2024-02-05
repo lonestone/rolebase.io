@@ -1,6 +1,6 @@
 import Switch from '@/common/atoms/Switch'
 import useCopyUrl from '@/common/hooks/useCopyUrl'
-import { GraphViews } from '@/graph/types'
+import { CirclesGraphViews } from '@/graph/types'
 import useCurrentOrg from '@/org/hooks/useCurrentOrg'
 import {
   Button,
@@ -34,7 +34,7 @@ export default function CirclesShareModal(modalProps: UseModalProps) {
   // State
   const [shareOrg, setShareOrg] = useState(org?.shareOrg)
   const [shareMembers, setShareMembers] = useState(org?.shareMembers)
-  const [view, setView] = useState(GraphViews.AllCircles)
+  const [view, setView] = useState(CirclesGraphViews.AllCircles)
   const [zoom, setZoom] = useState(true)
   const [transparent, setTransparent] = useState(false)
 

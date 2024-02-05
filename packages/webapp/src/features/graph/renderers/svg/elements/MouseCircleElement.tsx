@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
-import { MoveTransition } from '../helpers/createTransition'
-import { getTargetNodeData } from '../helpers/getTargetNodeData'
-import settings from '../settings'
-import { NodeData, NodesSelection, NodeType } from '../types'
+import { MoveTransition } from '../../../helpers/createTransition'
+import { getTargetNodeData } from '../../../helpers/getTargetNodeData'
+import settings from '../../../settings'
+import { NodeData, NodesSelection, NodeType } from '../../../types'
 import { AbstractCircleElement } from './AbstractCircleElement'
 
 const dragOrigin = { x: 0, y: 0 }
@@ -82,7 +82,7 @@ export class MouseCircleElement extends AbstractCircleElement {
 
             // Register selection of circles and its descendants
             const descendants = dragNode.descendants()
-            const circles = graph.svgD3.selectAll<SVGGElement, NodeData>(
+            const circles = graph.d3Root.selectAll<SVGGElement, NodeData>(
               '.circle'
             )
             that.dragNodes = circles
@@ -106,7 +106,7 @@ export class MouseCircleElement extends AbstractCircleElement {
               )
               // Move circles names
               that.dragNodes.data().forEach((d) => {
-                graph.svgD3
+                graph.d3Root
                   .select(`#circle-name-${d.data.id}`)
                   .attr(
                     'transform',
@@ -144,7 +144,7 @@ export class MouseCircleElement extends AbstractCircleElement {
               const targetCircleId = that.dragTarget.data.id
 
               const focusTargetCircle = () => {
-                that.graph.focusNodeIdAfterDraw(targetCircleId, true)
+                that.graph.focusNodeIdAfterData(targetCircleId, true)
               }
               const catchDragError = () =>
                 dragNodes && that.resetDragNodes(dragNodes)
@@ -234,7 +234,7 @@ export class MouseCircleElement extends AbstractCircleElement {
 
     // Reset circles names
     dragNodes.data().forEach((d) => {
-      this.graph.svgD3
+      this.graph.d3Root
         .select(`#circle-name-${d.data.id}`)
         .transition(transition)
         .attr('transform', (d) => `translate(${d.x},${d.y})`)

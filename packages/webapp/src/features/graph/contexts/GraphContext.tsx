@@ -2,8 +2,8 @@ import React, { createContext, useMemo, useState } from 'react'
 import { Graph } from '../graphs/Graph'
 
 interface GraphContextValue {
-  graph: Graph | undefined
-  setGraph(graph: Graph | undefined): void
+  graph: Graph<any> | undefined
+  setGraph(graph: Graph<any> | undefined): void
 }
 
 export const GraphContext = createContext<GraphContextValue | undefined>(
@@ -15,7 +15,7 @@ interface GraphProviderProps {
 }
 
 export function GraphProvider({ children }: GraphProviderProps) {
-  const [graph, setGraph] = useState<Graph | undefined>()
+  const [graph, setGraph] = useState<Graph<any> | undefined>()
 
   const value = useMemo(
     () => ({

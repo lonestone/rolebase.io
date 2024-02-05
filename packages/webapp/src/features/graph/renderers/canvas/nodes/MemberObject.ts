@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
-import { CirclesGraph } from '../graphs/CirclesGraph'
-import settings from '../settings'
-import { NodeData, NodeType } from '../types'
+import settings from '../../../settings'
+import { NodeData, NodeType } from '../../../types'
+import { CanvasRenderer } from '../CanvasRenderer'
 import { NodeObject } from './NodeObject'
 
 const memberTextStyle: Partial<PIXI.ITextStyle> = {
@@ -17,10 +17,10 @@ export class MemberObject extends NodeObject {
   private avatarSprite: PIXI.Sprite
 
   constructor(
-    protected graph: CirclesGraph,
+    protected renderer: CanvasRenderer,
     d: NodeData
   ) {
-    super(graph, d)
+    super(renderer, d)
 
     if (d.data.type !== NodeType.Member) {
       throw new Error(
@@ -44,7 +44,7 @@ export class MemberObject extends NodeObject {
     text.anchor.set(0.5)
     text.position.set(0, this.d.r - 10)
     this.container.addChild(text)
-    this.graph.on('scaled', (scale) => {
+    this.graph.on('zoomScale', (scale) => {
       if (!this.nameText) return
       this.nameText.visible = scale > 2
     })
@@ -93,7 +93,7 @@ export class MemberObject extends NodeObject {
       // Image not loaded
       // Fall back to circle shape
       .catch(() => {
-        this.avatarSprite.texture = this.graph.getCircleTexture()
+        this.avatarSprite.texture = this.renderer.getCircleTexture()
         this.avatarSprite.tint = this.getBackgroundColor()
       })
   }
@@ -103,7 +103,7 @@ export class MemberObject extends NodeObject {
   ): Promise<PIXI.RenderTexture> {
     if (!pictureUrl) throw new Error('No picture url')
 
-    const cachedTexture = this.graph.avatarsTextures.get(pictureUrl)
+    const cachedTexture = this.renderer.avatarsTextures.get(pictureUrl)
     if (cachedTexture) return cachedTexture
 
     // Load avatar texture
@@ -118,10 +118,11 @@ export class MemberObject extends NodeObject {
       .drawCircle(radius, radius, radius)
 
     // Generate texture
-    const roundedTexture = this.graph.pixiApp.renderer.generateTexture(sprite)
+    const roundedTexture =
+      this.renderer.pixiApp.renderer.generateTexture(sprite)
     sprite.destroy()
 
-    this.graph.avatarsTextures.set(pictureUrl, roundedTexture)
+    this.renderer.avatarsTextures.set(pictureUrl, roundedTexture)
     return roundedTexture
   }
 

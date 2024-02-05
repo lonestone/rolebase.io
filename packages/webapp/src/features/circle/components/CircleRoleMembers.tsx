@@ -27,7 +27,7 @@ export default function CircleRoleMembers() {
     async (memberId: string) => {
       await addCircleMember(circle.id, memberId)
       // Focus circle in graph
-      graphContext?.graph?.focusNodeIdAfterDraw(circle.id, true)
+      graphContext?.graph?.focusNodeIdAfterData(circle.id, true)
     },
     [circle.id, circle]
   )

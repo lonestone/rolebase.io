@@ -1,16 +1,15 @@
-import { CircleFullFragment } from '@gql'
-import { isSafari } from '@utils/env'
 import * as d3 from 'd3'
 import { ZoomTransform } from 'd3'
+import EventEmitter from 'eventemitter3'
 import debounce from 'lodash.debounce'
 import throttle from 'lodash.throttle'
 import settings from '../settings'
 import {
   Data,
-  DrawEventHandler,
   GraphParams,
   NodeData,
   Position,
+  RootElement,
   ZoomFocusCircleScale,
 } from '../types'
 
@@ -24,39 +23,32 @@ const defaultFocusCrop: Position = {
 const defaultFocusCircleScale: ZoomFocusCircleScale = (node) =>
   Math.max(200, node.r * 1.05)
 
-export abstract class Graph {
-  public svgD3: d3.Selection<SVGSVGElement, NodeData, null, undefined>
+export abstract class Graph<InputData = any> extends EventEmitter {
+  public d3Root: d3.Selection<RootElement, NodeData, null, undefined>
   public zoomDisabled = false
+  public inputData: InputData | undefined
 
   protected selectedCircleId?: string
-  protected width: number
-  protected height: number
-  protected zoomX = 0
-  protected zoomY = 0
-  protected zoomScale = 1
-  protected zoomBehaviour: d3.ZoomBehavior<SVGSVGElement, any>
+  public width: number
+  public height: number
+  public zoomX = 0
+  public zoomY = 0
+  public zoomScale = 1
+  protected zoomBehaviour: d3.ZoomBehavior<RootElement, any>
   protected focusCircleScale: ZoomFocusCircleScale
-  protected focusCrop: Position
+  public focusCrop: Position
   protected focusOffsetX: number
   protected focusOffsetY: number
   protected rootRadius: number
-
-  private drawHandlers: Array<DrawEventHandler> = []
+  private unmounted = false
 
   constructor(
-    public svg: SVGSVGElement,
+    public element: RootElement,
     public params: GraphParams
   ) {
-    this.updateCSSVariables()
+    super()
 
-    // Handle outside click
-    svg.addEventListener('click', (event) => {
-      if (event.target === svg) {
-        params.events.onClickOutside?.()
-      }
-    })
-
-    // Zoom
+    // Params
     const { width, height, focusCrop, focusCircleScale } = this.params
     this.width = width
     this.height = height
@@ -67,67 +59,43 @@ export abstract class Graph {
     this.focusOffsetY = getFocusOffsetY(height, focusCrop || defaultFocusCrop)
     this.rootRadius = 0
 
-    this.svgD3 = d3.select<SVGSVGElement, NodeData>(this.svg)
-    const svgId = this.svgD3.attr('id')
-
-    // Shadow filter
-    this.svgD3
-      .append('filter')
-      .attr('id', `${svgId}-shadow`)
-      .append('feDropShadow')
-      .attr('flood-opacity', 0.3)
-      .attr('dx', 0)
-      .attr('dy', 3)
+    // D3 root selection
+    this.d3Root = d3.select<RootElement, NodeData>(this.element)
 
     // Zoom
-    const zoomG = this.svgD3.append('g').attr('class', 'panzoom')
-
     this.zoomBehaviour = d3
-      .zoom<SVGSVGElement, any>()
+      .zoom<RootElement, any>()
       .filter(() => !this.zoomDisabled) // Listen also to mouse wheel
       .scaleExtent(settings.zoom.scaleExtent as [number, number])
       .on('zoom', (event) => {
+        if (this.unmounted) return
         const hasMoved =
           this.zoomX !== event.transform.x || this.zoomY !== event.transform.y
-        const hasZoomed = this.zoomScale !== event.transform.k
+        const hasScaled = this.zoomScale !== event.transform.k
 
-        if (hasMoved || hasZoomed) {
-          zoomG.attr('transform', event.transform)
-        }
         if (hasMoved) {
           this.zoomX = event.transform.x
           this.zoomY = event.transform.y
+          this.emit('zoomPosition', event.transform)
         }
-        if (hasZoomed) {
+        if (hasScaled) {
           this.zoomScale = event.transform.k
-          this.updateCSSVariablesDebounced()
+          this.emit('zoomScale', event.transform.k)
           this.updatePanExtentDebounced()
         }
+        if (hasMoved || hasScaled) {
+          this.emit('zoom', event.transform)
+        }
       })
-    this.svgD3.call(this.zoomBehaviour)
+    this.d3Root.call(this.zoomBehaviour)
   }
 
-  protected abstract prepareData(circles: CircleFullFragment[]): Data
-  protected abstract draw(data: Data): void
-
-  unmount() {}
-
-  updateData(circles: CircleFullFragment[]) {
-    // Prepare data
-    const data = this.prepareData(circles)
-    // Draw graph
-    this.draw(data)
-
-    // Trigger draw events
-    for (let i = this.drawHandlers.length - 1; i >= 0; i--) {
-      const { once, handler } = this.drawHandlers[i]
-      handler()
-      if (once) this.drawHandlers.splice(i, 1)
-    }
+  destroy() {
+    this.unmounted = true
   }
 
-  addDrawListener(handler: () => void, once = false) {
-    this.drawHandlers.push({ once, handler })
+  updateData(data: InputData) {
+    this.inputData = data
   }
 
   selectCircle(id: string | undefined) {
@@ -145,23 +113,24 @@ export abstract class Graph {
 
   // Change extent to which we can pan
   updatePanExtent() {
+    const { width, height, rootRadius, zoomScale, focusCrop } = this
     const extentX =
-      this.rootRadius * 2 * this.zoomScale < this.width / 2
-        ? this.width / this.zoomScale - this.rootRadius
-        : this.width / this.zoomScale / 2 + this.rootRadius
+      rootRadius * 2 * zoomScale < width / 2
+        ? width / zoomScale - rootRadius
+        : width / zoomScale / 2 + rootRadius
     const extentY =
-      this.rootRadius * 2 * this.zoomScale < this.height / 2
-        ? this.height / this.zoomScale - this.rootRadius
-        : this.height / this.zoomScale / 2 + this.rootRadius
+      rootRadius * 2 * zoomScale < height / 2
+        ? height / zoomScale - rootRadius
+        : height / zoomScale / 2 + rootRadius
 
     this.zoomBehaviour.translateExtent([
       [
-        -extentX + this.focusCrop.right / this.zoomScale,
-        -extentY + this.focusCrop.bottom / this.zoomScale,
+        -extentX + focusCrop.right / zoomScale,
+        -extentY + focusCrop.bottom / zoomScale,
       ],
       [
-        extentX - this.focusCrop.left / this.zoomScale,
-        extentY - this.focusCrop.top / this.zoomScale,
+        extentX - focusCrop.left / zoomScale,
+        extentY - focusCrop.top / zoomScale,
       ],
     ])
   }
@@ -193,7 +162,7 @@ export abstract class Graph {
       scale = 0.8
     }
 
-    this.svgD3
+    this.d3Root
       .transition()
       .duration(instant ? 0 : settings.zoom.duration)
       .ease(settings.zoom.transition)
@@ -208,46 +177,45 @@ export abstract class Graph {
   }
 
   // Conserve center on window resize
-  changeDimensions = throttle(
-    (width: number, height: number, focusCrop?: Position) => {
-      focusCrop = focusCrop || defaultFocusCrop
+  resize = throttle((width: number, height: number, focusCrop?: Position) => {
+    if (this.unmounted) return
+    focusCrop = focusCrop || defaultFocusCrop
 
-      const focusOffsetX = getFocusOffsetX(width, focusCrop)
-      const focusOffsetY = getFocusOffsetY(height, focusCrop)
+    const focusOffsetX = getFocusOffsetX(width, focusCrop)
+    const focusOffsetY = getFocusOffsetY(height, focusCrop)
 
-      // Compute scale change ratio
-      const prevCropWidth =
-        this.width - this.focusCrop.left - this.focusCrop.right
-      const prevCropHeight =
-        this.height - this.focusCrop.top - this.focusCrop.bottom
-      const cropWidth = width - focusCrop.left - focusCrop.right
-      const cropHeight = height - focusCrop.top - focusCrop.bottom
-      const scaleRatio =
-        Math.min(cropWidth, cropHeight) /
-        Math.min(prevCropWidth, prevCropHeight)
+    // Compute scale change ratio
+    const prevCropWidth =
+      this.width - this.focusCrop.left - this.focusCrop.right
+    const prevCropHeight =
+      this.height - this.focusCrop.top - this.focusCrop.bottom
+    const cropWidth = width - focusCrop.left - focusCrop.right
+    const cropHeight = height - focusCrop.top - focusCrop.bottom
+    const scaleRatio =
+      Math.min(cropWidth, cropHeight) / Math.min(prevCropWidth, prevCropHeight)
 
-      const transform = new ZoomTransform(
-        // Change scale to keep framing
-        this.zoomScale * scaleRatio,
-        // Reposition
-        (this.zoomX - this.focusOffsetX) * scaleRatio + focusOffsetX,
-        (this.zoomY - this.focusOffsetY) * scaleRatio + focusOffsetY
-      )
+    const transform = new ZoomTransform(
+      // Change scale to keep framing
+      this.zoomScale * scaleRatio,
+      // Reposition
+      (this.zoomX - this.focusOffsetX) * scaleRatio + focusOffsetX,
+      (this.zoomY - this.focusOffsetY) * scaleRatio + focusOffsetY
+    )
 
-      this.width = width
-      this.height = height
-      this.focusCrop = focusCrop
-      this.focusOffsetX = focusOffsetX
-      this.focusOffsetY = focusOffsetY
+    this.width = width
+    this.height = height
+    this.focusCrop = focusCrop
+    this.focusOffsetX = focusOffsetX
+    this.focusOffsetY = focusOffsetY
 
-      this.svgD3
-        .transition()
-        .duration(settings.zoom.duration)
-        .ease(settings.zoom.transition)
-        .call(this.zoomBehaviour.transform, transform)
-    },
-    500
-  )
+    this.d3Root
+      .transition()
+      .duration(settings.zoom.duration)
+      .ease(settings.zoom.transition)
+      .call(this.zoomBehaviour.transform, transform)
+
+    this.emit('resize')
+  }, 500)
 
   // Zoom on a node
   focusNode(node: NodeData, adaptScale?: boolean, instant?: boolean) {
@@ -263,7 +231,7 @@ export abstract class Graph {
   // Zoom on a node
   focusNodeId(nodeId?: string, adaptScale?: boolean, instant?: boolean) {
     // Get descendants nodes data from svg
-    const nodesMap = this.svgD3
+    const nodesMap = this.d3Root
       .selectAll<SVGGElement, NodeData>('.circle')
       .data()
     if (nodesMap.length === 0) return
@@ -281,33 +249,13 @@ export abstract class Graph {
     this.focusNode(node, adaptScale, instant)
   }
 
-  focusNodeIdAfterDraw(
+  focusNodeIdAfterData(
     nodeId?: string,
     adaptScale?: boolean,
     instant?: boolean
   ) {
-    this.addDrawListener(
-      // () => setTimeout(() => this.focusNodeId(nodeId, adaptScale, instant), 500),
-      () => this.focusNodeId(nodeId, adaptScale, instant),
-      true
-    )
+    this.once('data', () => this.focusNodeId(nodeId, adaptScale, instant))
   }
-
-  // Update CSS variables according to zoom
-  updateCSSVariables() {
-    this.svg.style.setProperty('--zoom-scale', this.zoomScale.toString())
-
-    // Prevent from interacting with members when zoom < 1
-    this.svg.style.setProperty(
-      '--member-pointer-events',
-      this.zoomScale > 1 ? 'auto' : 'none'
-    )
-  }
-
-  // Debounce CSS variables updates for Safari because it's slow
-  updateCSSVariablesDebounced = isSafari
-    ? debounce(this.updateCSSVariables, 50)
-    : this.updateCSSVariables
 }
 
 const getFocusOffsetX = (width: number, focusCrop: Position) =>

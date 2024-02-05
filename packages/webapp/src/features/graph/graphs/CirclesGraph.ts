@@ -7,29 +7,43 @@ import { Participant } from '@shared/model/member'
 import { textEllipsis } from '@utils/textEllipsis'
 import * as d3 from 'd3'
 import { HierarchyNode } from 'd3'
-import { ContainerCircleElement } from '../circle-elements/ContainerCircleElement'
-import { MemberCircleElement } from '../circle-elements/MemberCircleElement'
-import { MouseCircleElement } from '../circle-elements/MouseCircleElement'
-import { ParticipantsCircleElement } from '../circle-elements/ParticipantsCircleElement'
-import { TitleCircleElement } from '../circle-elements/TitleCircleElement'
-import { createMoveTransition } from '../helpers/createTransition'
-import selectAppend from '../helpers/selectAppend'
+import Renderer from '../renderers/Renderer'
+import { CanvasRenderer } from '../renderers/canvas/CanvasRenderer'
+import { SVGRenderer } from '../renderers/svg/SVGRenderer'
 import settings from '../settings'
-import { Data, NodeData, NodeType } from '../types'
+import { Data, GraphParams, NodeType, RootElement } from '../types'
 import { Graph } from './Graph'
 
 export interface CircleData extends CircleFullFragment {
   participants?: Participant[]
 }
 
-export abstract class CirclesGraph extends Graph {
-  private circleElements = [
-    new ContainerCircleElement(this),
-    new TitleCircleElement(this),
-    new ParticipantsCircleElement(this),
-    new MemberCircleElement(this),
-    new MouseCircleElement(this),
-  ]
+export abstract class CirclesGraph extends Graph<CircleFullFragment[]> {
+  public renderer: Renderer
+
+  constructor(
+    public element: RootElement,
+    public params: GraphParams
+  ) {
+    super(element, params)
+
+    // Instanciate renderer
+    const tagName = element.tagName.toLowerCase()
+    if (tagName === 'canvas') {
+      this.renderer = new CanvasRenderer(this)
+    } else if (tagName === 'svg') {
+      this.renderer = new SVGRenderer(this)
+    } else {
+      throw new Error(
+        `Graph: Element tag name must be "canvas" or "svg", got "${element.tagName}"`
+      )
+    }
+  }
+
+  destroy() {
+    super.destroy()
+    this.renderer.destroy()
+  }
 
   protected abstract getCircles(circles: CircleFullFragment[]): CircleData[]
   protected abstract packSorting(
@@ -70,6 +84,38 @@ export abstract class CirclesGraph extends Graph {
         if (circle.members.length !== 0 || children.length === 0) {
           children.push(this.memberstoD3Data(circle, data.colorHue))
         }
+
+        // Add circle links
+        // if (circle.invitedCircleLinks.length !== 0) {
+        //   children.push(
+        //     ...circle.invitedCircleLinks
+        //       .map(({ invitedCircle: { id } }) => {
+        //         const invitedCircle = circles.find((c) => c.id === id)
+        //         if (!invitedCircle) return
+        //         return {
+        //           id: `${circle.id}_${id}`,
+        //           parentId: circle.id,
+        //           name: invitedCircle.role.name,
+        //           type: NodeType.Circle,
+        //           colorHue: invitedCircle.role.colorHue ?? undefined,
+        //           children: invitedCircle.participants?.map((p) => ({
+        //             id: `${circle.id}_${id}_${p.memberId}`,
+        //             parentId: `${circle.id}_${id}`,
+        //             name: p.member.name,
+        //             type: NodeType.Member,
+        //             memberId: p.memberId,
+        //             picture: getResizedImageUrl(
+        //               p.member.picture,
+        //               AVATAR_GRAPH_WIDTH
+        //             ),
+        //             value: settings.memberValue,
+        //             colorHue: invitedCircle.role.colorHue ?? undefined,
+        //           })),
+        //         }
+        //       })
+        //       .filter(truthy)
+        //   )
+        // }
 
         // Set children if there is at least one
         if (children.length !== 0) {
@@ -141,11 +187,13 @@ export abstract class CirclesGraph extends Graph {
       })(hierarchyNode)
   }
 
-  protected draw(data: Data) {
+  updateData(circles: CircleFullFragment[]) {
+    super.updateData(circles)
+    const data = this.prepareData(circles)
+
     // Pack data with d3.pack
     const root = this.packData(data)
-    const svg = d3.select<SVGSVGElement, NodeData>(this.svg)
-    const firstDraw = !svg.select('.circles').node()
+    const firstDraw = !this.d3Root.select('.circle').node()
 
     // Get all nodes under root and rescale them
     const nodesMap = root.descendants()
@@ -172,173 +220,6 @@ export abstract class CirclesGraph extends Graph {
       )
     }
 
-    this.drawCircles(svg, nodesMap)
-    this.drawCircleNames(svg, nodesMap)
-  }
-
-  protected drawCircles(
-    svg: d3.Selection<SVGSVGElement, NodeData, null, undefined>,
-    nodesMap: NodeData[]
-  ) {
-    // Add circle groups
-    selectAppend(svg.select('.panzoom'), 'g', 'circles')
-      .selectAll('.circle')
-      .data(nodesMap.slice(1), (d: any) => d.data.id)
-      .join(
-        // Create Circle
-        (nodeEnter) => {
-          const transition = createMoveTransition()
-
-          const nodeGroup = nodeEnter
-            .append('g')
-            .attr(
-              'class',
-              (d) => `circle circle-${d.data.id} type-${d.data.type}`
-            )
-
-          // Add circle elements
-          for (const circleElement of this.circleElements) {
-            circleElement.enter(nodeGroup, transition)
-          }
-
-          return nodeGroup
-        },
-
-        // Update Circle
-        (nodeUpdate) => {
-          const transition = createMoveTransition()
-
-          // Update circle elements
-          for (const circleElement of this.circleElements) {
-            circleElement.update(nodeUpdate as any, transition)
-          }
-
-          return nodeUpdate
-        },
-
-        // Remove Circle
-        (nodeExit) => {
-          const transition = createMoveTransition()
-
-          // Exit circle elements
-          for (const circleElement of this.circleElements) {
-            circleElement.exit(nodeExit as any, transition)
-          }
-
-          setTimeout(() => nodeExit.raise(), 0)
-
-          return nodeExit
-        }
-      )
-
-      // Sort by depth and Y, then raise
-      .sort((a, b) =>
-        a.depth === b.depth ? a.y - b.y : a.depth < b.depth ? -1 : 1
-      )
-      .raise()
-  }
-
-  private drawCircleNames(
-    svg: d3.Selection<SVGSVGElement, NodeData, null, undefined>,
-    nodesMap: NodeData[]
-  ) {
-    // Circles Names
-    selectAppend(svg.select('.panzoom'), 'g', 'circles-names')
-      .selectAll('.circle-name')
-      .data(nodesMap.slice(1), (d: any) => d.data.id)
-      .join(
-        (nodeEnter) => {
-          const transition = createMoveTransition()
-
-          const nodeGroup = nodeEnter
-            .filter((d) => d.data.type === NodeType.Circle)
-            .append('g')
-            .attr('id', (d) => `circle-name-${d.data.id}`)
-            .attr('class', 'circle-name')
-
-          // Position name with transition
-          nodeGroup
-            // Start scale above 0 to enable getCenterFontSize to function properly
-            .attr(
-              'transform',
-              (d) => `scale(0.1), translate(${d.parent?.x},${d.parent?.y})`
-            )
-            .transition(transition)
-            .attr('transform', (d) => `scale(1), translate(${d.x},${d.y})`)
-
-          // Add circle name centered
-          nodeGroup
-            .append('text')
-            .text((d) => d.data.name)
-            .attr('pointer-events', 'none')
-            .attr('dominant-baseline', 'central')
-            .attr('y', 0)
-            .attr('font-size', this.getFontSize)
-            .attr('font-size', this.getFontSize) // Repeated to fix bug on Safari
-            .attr('opacity', this.getNameOpacity)
-
-          return nodeGroup
-        },
-        (nodeUpdate) => {
-          const transition = createMoveTransition()
-
-          // Update position
-          nodeUpdate
-            .transition(transition)
-            .attr('transform', (d) => `translate(${d.x},${d.y})`)
-
-          // Update circle name
-          nodeUpdate
-            .select<SVGTextElement>('text')
-            .text((d) => d.data.name)
-            .attr('font-size', this.getFontSize)
-            .attr('opacity', this.getNameOpacity)
-          return nodeUpdate
-        },
-        (nodeExit) => nodeExit.remove()
-      )
-  }
-
-  // Opacity depends on zoom scale, circle size and graph size
-  // Visible when:
-  // - zoom less than 1
-  // - circle is smaller than 2/3 of graph size
-  // - parent is not visible
-  private getNameOpacity(data: NodeData) {
-    const gap = 0.01
-    const rate = 20
-    const threshold = 2 / 3
-    return `clamp(0, min(
-      (1 - var(--zoom-scale) - ${gap}) * ${rate},
-      1 - (var(--zoom-scale) * ${
-        data.r * 2
-      } / var(--graph-min-size) - ${threshold} + ${gap}) * ${rate},
-      ${
-        data.parent && data.parent.data.id !== 'root'
-          ? `(var(--zoom-scale) * ${
-              data.parent.r * 2
-            } / var(--graph-min-size) - ${threshold}) * ${rate}`
-          : '1'
-      }
-    ), 1)`
-  }
-
-  private getFontSize(
-    data: NodeData,
-    index: number,
-    nodes: SVGTextElement[] | ArrayLike<SVGTextElement>
-  ) {
-    const node = nodes[index]
-    // Get current font size
-    const fontSize = window.getComputedStyle(node).fontSize
-    // Replace font size with new value
-    return fontSize.replace(
-      /^([0-9.]+)(.+)$/,
-      ($0, $1, $2) =>
-        `${
-          // Scale font size to fit circle
-          (parseFloat($1) * (data.r * 2 * 0.9)) / node.getBBox().width
-        }${$2}`
-    )
+    this.emit('nodesData', nodesMap.slice(1))
   }
 }

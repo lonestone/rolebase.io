@@ -5,20 +5,12 @@ import { Data } from '../types'
 import { CircleData, CirclesGraph } from './CirclesGraph'
 
 export class SimpleCirclesGraph extends CirclesGraph {
-  private circlesCache: CircleFullFragment[] | undefined
-
   selectCircle(id: string | undefined) {
     super.selectCircle(id)
     // Redraw graph
-    if (this.circlesCache) {
-      const data = this.prepareData(this.circlesCache)
-      this.draw(data)
+    if (this.inputData) {
+      this.updateData(this.inputData)
     }
-  }
-
-  protected prepareData(circles: CircleFullFragment[]) {
-    this.circlesCache = circles
-    return super.prepareData(circles)
   }
 
   protected packSorting(
