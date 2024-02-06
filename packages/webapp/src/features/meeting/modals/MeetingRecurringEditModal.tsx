@@ -190,15 +190,17 @@ export default function MeetingRecurringEditModal({
 
   // Update participants scope when circleId changes
   useEffect(() => {
-    if (!participantsScope.circles.some((c) => c.id === circleId)) {
-      setParticipantsScope((scope) => ({
-        ...scope,
-        circles: [
-          ...scope.circles,
-          { id: circleId, children: false, excludeMembers: [] },
-        ],
-      }))
-    }
+    setParticipantsScope((scope) =>
+      scope.circles.some((c) => c.id === circleId)
+        ? scope
+        : {
+            ...scope,
+            circles: [
+              ...scope.circles,
+              { id: circleId, children: false, excludeMembers: [] },
+            ],
+          }
+    )
     return () => {
       setParticipantsScope((scope) => ({
         ...scope,

@@ -182,7 +182,9 @@ export default function MeetingEditModal({
   // Submit
   const onSubmit = handleSubmit(
     async ({ startDate, duration, videoConfType, videoConfUrl, ...data }) => {
+      console.log('1')
       if (!orgId || !currentMember || !circle) return
+      console.log('2')
       const startDateDate = new Date(startDate)
 
       const videoConf: VideoConf | null =
@@ -205,6 +207,7 @@ export default function MeetingEditModal({
         ).toISOString(),
         videoConf,
       }
+      console.log('3')
 
       if (meeting && !duplicate) {
         // Reset meeting when date is in the future
@@ -278,19 +281,22 @@ export default function MeetingEditModal({
   )
   const canEditParticipantsScope = (!meeting || duplicate) && !!circleId
   const isPrivateAllowed =
-    !isPrivate || allParticipants.some((p) => p.member.id === currentMember?.id)
+    !isPrivate ||
+    circleParticipants.some((p) => p.member.id === currentMember?.id)
 
   // Update participants scope when circleId changes
   useEffect(() => {
-    if (!participantsScope.circles.some((c) => c.id === circleId)) {
-      setParticipantsScope((scope) => ({
-        ...scope,
-        circles: [
-          ...scope.circles,
-          { id: circleId, children: false, excludeMembers: [] },
-        ],
-      }))
-    }
+    setParticipantsScope((scope) =>
+      scope.circles.some((c) => c.id === circleId)
+        ? scope
+        : {
+            ...scope,
+            circles: [
+              ...scope.circles,
+              { id: circleId, children: false, excludeMembers: [] },
+            ],
+          }
+    )
     return () => {
       setParticipantsScope((scope) => ({
         ...scope,
