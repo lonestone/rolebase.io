@@ -14,7 +14,8 @@ import { MeetingContext } from '../contexts/MeetingContext'
 import MeetingAttendeeItem from './MeetingAttendeeItem'
 
 export default function MeetingAttendeesList(boxProps: BoxProps) {
-  const { meeting, canEdit } = useContext(MeetingContext)!
+  const { meeting, isEnded, canEdit } = useContext(MeetingContext)!
+  const editable = canEdit && !isEnded
   const members = useStoreState((state) => state.org.members)
   const { t } = useTranslation()
   const [createAttendee] = useCreateMeetingAttendeeMutation()
@@ -73,7 +74,7 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
           key={attendee.memberId}
           attendee={attendee}
           member={attendee.member}
-          editable={canEdit}
+          editable={editable}
           onPresentChange={(present) =>
             handlePresentChange(attendee.id, present)
           }
@@ -81,7 +82,7 @@ export default function MeetingAttendeesList(boxProps: BoxProps) {
         />
       ))}
 
-      {canEdit && (
+      {editable && (
         <MemberSearchButton
           excludeIds={attendeesMemberIds}
           size="sm"

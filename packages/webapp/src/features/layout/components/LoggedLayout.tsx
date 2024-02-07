@@ -22,6 +22,12 @@ export default function LoggedLayout({ children }: Props) {
         minH={`${windowSize.height - (sidebarContext?.height || 0)}px`}
         ml={sidebarContext?.width ? `${sidebarContext?.width}px` : 0}
         mt={sidebarContext?.height ? `${sidebarContext?.height}px` : 0}
+        sx={{
+          '@media print': {
+            ml: 0,
+            mt: 0,
+          },
+        }}
       >
         {children}
       </Box>

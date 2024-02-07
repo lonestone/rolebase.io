@@ -133,6 +133,11 @@ export default function Sidebar() {
       h={isMobile && !context.expand.isOpen ? context.height + 1 : '100vh'}
       bg="menulight"
       _dark={{ bg: 'menudark' }}
+      sx={{
+        '@media print': {
+          display: 'none',
+        },
+      }}
     >
       <Flex
         h={`${context.height || logoContainerHeight}px`}

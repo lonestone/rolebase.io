@@ -38,6 +38,12 @@ export default function ScrollableLayout({
       h="100%"
       bg="menulight"
       _dark={{ bg: 'menudark' }}
+      sx={{
+        '@media print': {
+          display: 'block',
+          height: 'auto',
+        },
+      }}
       {...boxProps}
     >
       <Box
@@ -65,6 +71,11 @@ export default function ScrollableLayout({
         ref={containerRef}
         flexDirection="column"
         overflowY="auto"
+        sx={{
+          '@media print': {
+            overflowY: 'visible',
+          },
+        }}
         onScroll={handleScroll}
       >
         <Box
