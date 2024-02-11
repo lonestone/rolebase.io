@@ -16,5 +16,6 @@ export function startErrorHandling(name: string) {
 }
 
 export function captureError(error: Error) {
-  Sentry.captureException(error)
+  // DISABLED: This is not working in the cloud function environment, because source maps are not available
+  // Sentry.captureException(error)
 }
