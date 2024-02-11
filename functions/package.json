@@ -7,7 +7,7 @@
     "codegen": "graphql-codegen --config _src/codegen.ts",
     "collab": "cross-env HOST=localhost PORT=1234 npx y-websocket",
     "tsc": "tsc",
-    "test": "vitest",
+    "test": "vitest --config _vitest.config.ts",
     "emails:preview": "email dev --dir ./_src/emails/templates --port 8090",
     "emails:build": "ts-node ./_src/emails/build.ts"
   },
