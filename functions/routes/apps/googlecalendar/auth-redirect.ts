@@ -2,7 +2,7 @@ import { App_Type_Enum } from '@gql'
 import settings from '@settings'
 import {
   AppCalendarConfig,
-  Office365SecretConfig,
+  GoogleCalendarSecretConfig,
 } from '@shared/model/user_app'
 import { adminRequest } from '@utils/adminRequest'
 import { guardAuth } from '@utils/guardAuth'
@@ -34,7 +34,7 @@ export default route(async (context) => {
   const whoami = await oAuth2Client.getTokenInfo(accessToken)
 
   // Prepare secret config for storage
-  const secretConfig: Office365SecretConfig = {
+  const secretConfig: GoogleCalendarSecretConfig = {
     accessToken,
     refreshToken: tokenReponse.tokens.refresh_token || '',
     expiryDate: tokenReponse.tokens.expiry_date || 0,

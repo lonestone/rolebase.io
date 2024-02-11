@@ -13,9 +13,9 @@ import {
 import { sha1 } from '@utils/sha1'
 import { randomUUID } from 'crypto'
 import { Auth, calendar_v3, google } from 'googleapis'
-import isEqual from 'lodash.isequal'
-import { RRule } from 'rrule'
+
 import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
+import { dateTimeToDate, isDateTimeEqual, isRecurrenceEqual } from './_dates'
 
 type GoogleEvent = calendar_v3.Schema$Event
 
@@ -162,11 +162,17 @@ export default class GoogleCalendarApp
       orgCalendar.calendarId
     )
     if (event?.id) {
-      // Delete event
-      await this.calendar.events.delete({
-        calendarId: orgCalendar.calendarId,
-        eventId: event.id,
-      })
+      try {
+        // Delete event
+        await this.calendar.events.delete({
+          calendarId: orgCalendar.calendarId,
+          eventId: event.id,
+        })
+      } catch (error) {
+        if (error.code !== 404) {
+          throw error
+        }
+      }
     }
   }
 
@@ -195,7 +201,9 @@ export default class GoogleCalendarApp
           .replace(/[:-]/g, '')}Z`,
       })
     } catch (error) {
-      // Ignore error if event doesn't exist
+      if (error.code !== 404) {
+        throw error
+      }
     }
   }
 
@@ -339,17 +347,14 @@ export default class GoogleCalendarApp
         resetChanges.summary = recurringMeetingEvent.summary
       }
       if (
-        !this.isRecurrenceEqual(
-          recurringMeetingEvent.recurrence,
-          event.recurrence
-        )
+        !isRecurrenceEqual(recurringMeetingEvent.recurrence, event.recurrence)
       ) {
         resetChanges.recurrence = recurringMeetingEvent.recurrence
       }
-      if (!this.isDateTimeEqual(recurringMeetingEvent.start, event.start)) {
+      if (!isDateTimeEqual(recurringMeetingEvent.start, event.start)) {
         resetChanges.start = recurringMeetingEvent.start
       }
-      if (!this.isDateTimeEqual(recurringMeetingEvent.end, event.end)) {
+      if (!isDateTimeEqual(recurringMeetingEvent.end, event.end)) {
         resetChanges.end = recurringMeetingEvent.end
       }
     } else if (event.recurringEventId) {
@@ -368,15 +373,15 @@ export default class GoogleCalendarApp
         resetChanges.summary = recurringMeetingEvent.summary
       }
       if (event.originalStartTime) {
-        if (!this.isDateTimeEqual(event.start, event.originalStartTime)) {
+        if (!isDateTimeEqual(event.start, event.originalStartTime)) {
           resetChanges.start = event.originalStartTime
         }
         const duration =
           new Date(meetingRecurring.endDate).getTime() -
           new Date(meetingRecurring.startDate).getTime()
         const originalEndTime =
-          this.dateTimeToDate(event.originalStartTime)!.getTime() + duration
-        if (this.dateTimeToDate(event.end)?.getTime() !== originalEndTime) {
+          dateTimeToDate(event.originalStartTime)!.getTime() + duration
+        if (dateTimeToDate(event.end)?.getTime() !== originalEndTime) {
           const timeZone = event.originalStartTime.timeZone || 'UTC'
           resetChanges.end = {
             dateTime: dateToTimeZone(new Date(originalEndTime), timeZone)
@@ -400,31 +405,27 @@ export default class GoogleCalendarApp
 
       const meetingEvent = await this.transformMeetingEvent(meeting)
 
+      // Update hash in event to skip next notification
+      resetChanges.extendedProperties = {
+        private: {
+          hash: newHash,
+        },
+      }
+
       // Reset props that have changed
       if (meetingEvent.summary !== event.summary) {
         resetChanges.summary = meetingEvent.summary
       }
-      if (!this.isDateTimeEqual(meetingEvent.start, event.start)) {
-        meetingChanges.startDate = this.dateTimeToDate(
-          event.start
-        )?.toISOString()
+      if (!isDateTimeEqual(meetingEvent.start, event.start)) {
+        meetingChanges.startDate = dateTimeToDate(event.start)?.toISOString()
       }
-      if (!this.isDateTimeEqual(meetingEvent.end, event.end)) {
-        meetingChanges.endDate = this.dateTimeToDate(event.end)?.toISOString()
+      if (!isDateTimeEqual(meetingEvent.end, event.end)) {
+        meetingChanges.endDate = dateTimeToDate(event.end)?.toISOString()
       }
 
       // Update meeting in database
       if (Object.keys(meetingChanges).length > 0) {
         await this.updateMeeting(meetingId, meetingChanges)
-      }
-
-      // Update hash in event to skip next notification
-      if (Object.keys(resetChanges).length > 0) {
-        resetChanges.extendedProperties = {
-          private: {
-            hash: newHash,
-          },
-        }
       }
     }
 
@@ -638,7 +639,7 @@ export default class GoogleCalendarApp
     // Add hash in extended properties
     const privateExtendedProperty = googleEvent.extendedProperties?.private
     if (privateExtendedProperty) {
-      privateExtendedProperty.hash = await this.generateHash(event)
+      privateExtendedProperty.hash = await this.generateHash(googleEvent)
     }
 
     return googleEvent
@@ -648,9 +649,9 @@ export default class GoogleCalendarApp
   // Useful to skip notifications that have a correct hash
   private async generateHash(event: GoogleEvent): Promise<string> {
     return sha1(
-      `${event.summary}${this.dateTimeToDate(
+      `${event.summary}${dateTimeToDate(
         event.start
-      )?.getTime()}${this.dateTimeToDate(event.end)?.getTime()}`
+      )?.getTime()}${dateTimeToDate(event.end)?.getTime()}`
     )
   }
 
@@ -739,12 +740,18 @@ export default class GoogleCalendarApp
   private async deleteSubscription(
     subscriptionConfig: GoogleCalendarSubscription
   ) {
-    await this.calendar.channels.stop({
-      requestBody: {
-        id: subscriptionConfig.id,
-        resourceId: subscriptionConfig.resourceId,
-      },
-    })
+    try {
+      await this.calendar.channels.stop({
+        requestBody: {
+          id: subscriptionConfig.id,
+          resourceId: subscriptionConfig.resourceId,
+        },
+      })
+    } catch (error) {
+      if (error.code !== 404) {
+        throw error
+      }
+    }
   }
 
   // If subscription is missing, create it
@@ -790,39 +797,5 @@ export default class GoogleCalendarApp
       )
 
     return { orgCalendar, subscriptionConfig }
-  }
-
-  private dateTimeToDate(
-    dateTime: calendar_v3.Schema$EventDateTime | null | undefined
-  ) {
-    if (!dateTime?.dateTime) return undefined
-    return dateTime.dateTime.length === 19 && dateTime.timeZone
-      ? dateToTimeZone(new Date(dateTime.dateTime), dateTime.timeZone, true)
-      : new Date(dateTime.dateTime)
-  }
-
-  private isDateTimeEqual(
-    dateTime1?: calendar_v3.Schema$EventDateTime | null | undefined,
-    dateTime2?: calendar_v3.Schema$EventDateTime | null | undefined
-  ) {
-    return (
-      this.dateTimeToDate(dateTime1)?.getTime() ===
-      this.dateTimeToDate(dateTime2)?.getTime()
-    )
-  }
-
-  private isRecurrenceEqual(
-    rruleArray1: string[] | null | undefined,
-    rruleArray2: string[] | null | undefined
-  ) {
-    const rrule1 = rruleArray1?.find((str) => str.startsWith('RRULE:'))
-    const rrule2 = rruleArray2?.find((str) => str.startsWith('RRULE:'))
-    if (!rrule1 && !rrule2) return true
-    if (!rrule1 || !rrule2) return false
-
-    return isEqual(
-      RRule.fromString(rrule1).options,
-      RRule.fromString(rrule2).options
-    )
   }
 }

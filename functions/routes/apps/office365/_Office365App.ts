@@ -1,7 +1,6 @@
 import { sendMailjetEmail } from '@emails/sendMailjetEmail'
 import { Meeting_Set_Input } from '@gql'
 import type {
-  DateTimeTimeZone,
   Calendar as OfficeCalendar,
   Event as OfficeEvent,
   Subscription,
@@ -19,6 +18,7 @@ import { isRecurrenceEqual } from '@utils/msgraph/isRecurrenceEqual'
 import { transformRRuleToRecurrence } from '@utils/msgraph/transformRRuleToRecurrence'
 import { sha1 } from '@utils/sha1'
 import AbstractCalendarApp, { MeetingEvent } from '../_AbstractCalendarApp'
+import { dateTimeToDate, isDateTimeEqual } from './_dates'
 
 const graphApiUrl = 'https://graph.microsoft.com/v1.0'
 const debug = false
@@ -243,10 +243,10 @@ export default class Office365App
       ) {
         resetChanges.recurrence = recurringMeetingEvent.recurrence
       }
-      if (!this.isDateTimeEqual(recurringMeetingEvent.start, event.start)) {
+      if (!isDateTimeEqual(recurringMeetingEvent.start, event.start)) {
         resetChanges.start = recurringMeetingEvent.start
       }
-      if (!this.isDateTimeEqual(recurringMeetingEvent.end, event.end)) {
+      if (!isDateTimeEqual(recurringMeetingEvent.end, event.end)) {
         resetChanges.end = recurringMeetingEvent.end
       }
 
@@ -274,17 +274,20 @@ export default class Office365App
 
       const meetingEvent = await this.transformMeetingEvent(meeting)
 
+      // Update hash in event to skip next notification
+      resetChanges.singleValueExtendedProperties = [
+        { id: hashProp, value: newHash },
+      ]
+
       // Reset props that have changed
       if (meetingEvent.subject !== event.subject) {
         resetChanges.subject = meetingEvent.subject
       }
-      if (!this.isDateTimeEqual(meetingEvent.start, event.start)) {
-        meetingChanges.startDate = this.dateTimeToDate(
-          event.start
-        )?.toISOString()
+      if (!isDateTimeEqual(meetingEvent.start, event.start)) {
+        meetingChanges.startDate = dateTimeToDate(event.start)?.toISOString()
       }
-      if (!this.isDateTimeEqual(meetingEvent.end, event.end)) {
-        meetingChanges.endDate = this.dateTimeToDate(event.end)?.toISOString()
+      if (!isDateTimeEqual(meetingEvent.end, event.end)) {
+        meetingChanges.endDate = dateTimeToDate(event.end)?.toISOString()
       }
 
       // Update meeting in database
@@ -327,13 +330,6 @@ export default class Office365App
         })
 
         await this.updateMeeting(meetingId, meetingChanges)
-      }
-
-      // Update hash in event to skip next notification
-      if (Object.keys(resetChanges).length > 0) {
-        resetChanges.singleValueExtendedProperties = [
-          { id: hashProp, value: newHash },
-        ]
       }
     }
 
@@ -518,35 +514,6 @@ export default class Office365App
     )
   }
 
-  // Migrate legacy calendars
-  // (remove this function after execution)
-  public async migrateLegacyCalendars() {
-    for (const orgCalendar of this.config.orgsCalendars) {
-      await this.deleteLegacyCalendarEvents(orgCalendar.calendarId)
-      await this.deleteCalendarEvents(orgCalendar)
-      await this.createCalendarEvents(orgCalendar)
-    }
-  }
-
-  private async deleteLegacyCalendarEvents(calendarId: string) {
-    // Get Rolebase events from calendar
-    const events = await this.apiGetAllPages<OfficeEvent>(
-      `/me/calendars/${calendarId}/events?$filter=contains(subject, '${encodeURIComponent(
-        '#rolebase'
-      )}')&$select=id`
-    )
-    if (!events.length) return
-
-    // Delete Rolebase events
-    await this.apiBatch(
-      events.map(({ id }, i) => ({
-        id: i.toString(), // Ensure unicity (id is not always unique)
-        method: 'DELETE',
-        url: `/me/events/${id!}`,
-      }))
-    )
-  }
-
   // Get event of a meeting if it exists
   private async fetchMeetingEvent(
     meetingId: string,
@@ -688,7 +655,7 @@ export default class Office365App
     // Add hash in extended properties
     officeEvent.singleValueExtendedProperties?.push({
       id: hashProp,
-      value: await this.generateHash(event),
+      value: await this.generateHash(officeEvent),
     })
 
     return officeEvent
@@ -698,9 +665,9 @@ export default class Office365App
   // Useful to skip notifications that have a correct hash
   private async generateHash(event: OfficeEvent): Promise<string> {
     return sha1(
-      `${event.subject}${this.dateTimeToDate(
+      `${event.subject}${dateTimeToDate(
         event.start
-      )?.getTime()}${this.dateTimeToDate(event.end)?.getTime()}`
+      )?.getTime()}${dateTimeToDate(event.end)?.getTime()}`
     )
   }
 
@@ -915,22 +882,5 @@ export default class Office365App
     }
 
     return responses
-  }
-
-  private dateTimeToDate(dateTime: DateTimeTimeZone | null | undefined) {
-    if (!dateTime?.dateTime) return undefined
-    return dateTime.timeZone
-      ? dateToTimeZone(new Date(dateTime.dateTime), dateTime.timeZone, true)
-      : new Date(dateTime.dateTime)
-  }
-
-  private isDateTimeEqual(
-    dateTime1?: DateTimeTimeZone | null | undefined,
-    dateTime2?: DateTimeTimeZone | null | undefined
-  ) {
-    return (
-      this.dateTimeToDate(dateTime1)?.getTime() ===
-      this.dateTimeToDate(dateTime2)?.getTime()
-    )
   }
 }
