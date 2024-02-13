@@ -79,12 +79,12 @@ export default class Office365App
   ]
 
   public async uninstall() {
-    await super.uninstall()
-
     // Disconnect all synchronized calendars
     for (const calendar of this.config.orgsCalendars) {
       await this.disconnectOrgCalendar(calendar)
     }
+
+    await super.uninstall()
   }
 
   // List all user's calendars
